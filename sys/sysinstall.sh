@@ -10,6 +10,8 @@ fi
   
 }
 
+chown -R fab .
+
 if test -f sys/install.Rproj ; then
 
    echo "Raffraichissement des paramètres éditeur"
@@ -65,7 +67,6 @@ fi
 # il faut effacer les résidus qui posent problème
 
 
-
 if test -f sys/install.data; then
   git checkout FETCH_HEAD -- data
   cp -rf data /home/jf/Dev/altair
@@ -74,18 +75,121 @@ if test -f sys/install.data; then
   rm -f altair/data/*
 fi  
 
-
-
 # obsolète
 # sed -i 's/ALL ALL=(ALL) ALL/#ALL ALL=(ALL) ALL/' /etc/sudoers
+
+if test -f /usr/local/lib64/R/bin/R; then
+ R_version=$(/usr/local/lib64/R/bin/R --version | grep "R version" | cut -f 3 -d' ') 
+else
+ R_version=""
+fi
+
+mkdir -p /usr/local/lib64/R/library/
+
+cd /home/fab/Dev/altair/sys
+chmod -R +rwx *sh
+
+# recompilation de la bibliothèque altair
+if test -f install.Rlibrary; then
+
+  cp -rf Rlibrary/*  /usr/local/lib64/R/library/ 
+  echo "*************************************"
+  echo "*                                   *"
+  echo "* Nouvelle bibliothèque R installée *"
+  echo "*                                   *"
+  echo "*************************************"
+  sleep 2
+fi  
+
+cd ..
+
+if test -f sys/install.R; then
+
+  
+   if test -f sys/install.R.force -o x$R_version != x$(cat sys/R_VERSION) ; then
+
+     echo "Actualisation de R par compilation..."
+       
+     if test -d sys/build; then
+
+         emerge --unmerge dev-lang/R  
+         cd sys/build
+         tar xJf R.tar.xz
+         ./configure --enable-R-shlib --prefix=/usr/local
+	 make uninstall
+         make -j8
+         make install
+      
+       if test $? = 0; then
+     
+         echo "*****************************"
+         echo "* Compilation de R terminée *"
+         echo "*****************************"
+
+         R_version=$(/usr/local/lib64/R/bin/R --version | grep "R version" | cut -f 3 -d' ') 
+         echo $R_version > /home/fab/Dev/altair/sys/R_VERSION
+         git commit -am "installed R version $R_version"
+                
+       else
+     
+         echo "************************************************"
+         echo "* La compilation de R version $R_version a échoué *"
+         echo "************************************************"
+        
+       fi
+      
+       cd /home/fab/Dev/altair     
+      
+     else
+   
+       echo "Pas de répertoire de compilation build !"
+      
+     fi 
+   fi  
+
+else
+  
+  echo "pas d'actualisation de R par compilation..."
+  echo "R : **$R_version**"
+  echo "fichier de version :  **$(cat sys/R_VERSION)**"
+  
+  sleep 2
+fi  
+
+
+if test -f sys/install.packages -a ! -f sys/packages.installed; then
+
+   echo "Actualisation des paquets..."
+  
+   export PKGDIR="$PWD/sys/packages"
+   
+   if test -d sys/packages; then
+   
+      echo "Installation des paquets..."
+      emerge -K --nodeps  $(find $PKGDIR -name '*tbz2')
+      echo "Installation des paquets terminée..."
+      eix-update
+      touch sys/packages.installed
+      git add -f sys/packages.installed
+      git commit -am "packages.installed"
+
+   else
+   
+      echo "Echec de l'actualisation des paquets."
+      
+   fi 
+
+  sleep 2
+fi  
+
 
 # recompilation de la bibliothèque altair
 if test -f sys/build.altair; then
   rm -rf altair.linux
-  rm -rf /usr/lib64/R/library/altair
+  rm -rf /usr/local/lib64/R/library/altair
   git checkout FETCH_HEAD -- altair.linux
-
-  R CMD INSTALL --byte-compile  -l  /usr/lib64/R/library/ altair.linux
+  
+  R CMD INSTALL --byte-compile  -l  /usr/local/lib64/R/library/ altair.linux
   echo "*************************************"
   echo "*                                   *"
   echo "* Nouvelle bibliothèque altair      *"
@@ -95,21 +199,15 @@ if test -f sys/build.altair; then
 fi  
 
 cd sys
-chmod -R +rwx *sh
 
-# recompilation de la bibliothèque altair
-if test -f install.Rlibrary; then
-  rm -rf /usr/lib64/R/library/*
-  cp -rf Rlibrary/*  /usr/lib64/R/library/ 
-  echo "*************************************"
-  echo "*                                   *"
-  echo "* Nouvelle bibliothèque R installée *"
-  echo "*                                   *"
-  echo "*************************************"
-  sleep 2
-fi  
-
-
+if test -f install.lib64; then
+  echo "********************************************"
+  echo "*                                          *"
+  echo "* Nouvelles bibliothèques lib64 installées *"
+  echo "*                                          *"
+  echo "********************************************"
+  cp -rfd  lib64/*  /opt/lib64
+fi
 
 if test -f install.kernel -a "$(uname -r)" != "4.10.8-ck"; then
 
@@ -147,32 +245,7 @@ if test -f install.kernel -a "$(uname -r)" != "4.10.8-ck"; then
   sleep 2
 fi  
 
-if test -f install.packages -a ! -f packages.installed; then
 
-   echo "Actualisation des paquets..."
-   emerge --unmerge perl
-  
-   export PKGDIR=$PWD/packages
-   
-   if test -d packages; then
-   
-      echo "Installation des paquets..."
-      emerge -K $(find $PKGDIR -name '*tbz2')
-      echo "Installation des paquets terminée..."
-      eix-update
-      touch packages.installed
-      git add -f packages.installed
-      git commit -am "packages.installed"
-
-   else
-   
-      echo "Echec de l'actualisation des paquets."
-      
-   fi 
-
-
-  sleep 2
-fi  
 
 # patch temporaire
 
@@ -285,7 +358,91 @@ chmod -R 0777 /home/jf/.rstudio-desktop
 # correction d'un bug sur la version fab de m.sh (réimportation de /home/Public/fab/.Rproj.user à chaque ouverture de session)
 cp -vf ./autostart-scripts/m_fab.sh /home/fab/.config/autostart-scripts/m.sh
 git config --global --unset http.proxy
-cd -
+
+cd /home/fab/Dev/altair
+
+git rev-parse --verify release
+
+if test $? != 0; then
+
+ echo "***"
+ echo "*** Création de la branche locale release... ***"
+ echo "***"
+ 
+ git checkout --orphan release
+ 
+ if test $? = 0; then
+    git fetch --depth=1 -f -p -n $(cat entrepot.txt) release
+    git checkout -f FETCH_HEAD
+    git branch -D release
+    git checkout -b release 
+    git add -f .
+ fi
+ 
+ sleep 1
+ 
+else
+
+ echo "***"
+ echo "*** Actualisation de la branche locale release... ***"
+ echo "***"
+
+ git checkout -f release 
+ git fetch --depth=1 -f -p -n $(cat entrepot.txt) release
+ git checkout -f FETCH_HEAD 
+ git branch -D release
+ git checkout -b release
+ git add -f .
+  
+fi 
+
+chown -R fab .
+rm -rf .Rproj.user/
+cp -rf /home/Public/fab/.Rproj.user .
+mkdir -p Tests/Exemple/Donnees/R-Altair
+
+# création du dossier Bulletins sous jf
+
+mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
+chgrp -R users /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
+chmod -R 0770 /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
+             
+# accès des données test
+if test ! -d /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2 ; then
+   mkdir -p /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
+   cp -rf /home/Public/xhl/Anonyme2 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
+fi  
+
+
+echo "*** Opérations sur branche release : Terminé ***"
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
  
 

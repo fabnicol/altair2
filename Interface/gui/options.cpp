@@ -3,9 +3,10 @@
 // Fabrice Nicol, années 2012 à 2017
 // fabrice.nicol@crtc.ccomptes.fr
 //
-// Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
-// produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-// en vigueur à compter de l'année 2008.
+// Ce logiciel est un programme informatique servant à extraire et analyser
+// les fichiers de paye produits au format spécifié par l'annexe de la
+// convention-cadre nationale de dématérialisation en vigueur à compter de
+// l'année 2008.
 //
 // Ce logiciel est régi par la licence CeCILL soumise au droit français et
 // respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -34,7 +35,9 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-//
+////////////////////////////////////////////////////////////////////////////
+
+
 
 #include <QFile>
 #include <thread>
@@ -42,7 +45,6 @@
 #include "altair.h"
 #include "forms.h"
 #include "options.h"
-#include "browser.h"
 #include "altair.h"
 #include "templates.h"
 #include "flineframe.hpp"
@@ -53,49 +55,16 @@ extern template void createHash(QHash<QString, QString>&,
                                 const QList<QString>*,
                                 const QList<QString>*);
 
-#ifdef INSERT_DIRPAGE
-dirPage::dirPage()
-{
-    QGroupBox *baseBox = new QGroupBox;
 
-
-    donneesCSV = new FLineFrame({"Données csv", "Répertoire des données"},
-                                   path_access("Tests/Exemple/Donnees/" AltairDir ),
-                                   "base",
-                                   {0,0},
-                                   nullptr,
-                                   "D");
-
-
-    applicationNoyau = new FLineFrame(
-                {"Application noyau LHX", "Répertoire de l'application noyau" },
-                path_access(System),
-                "lhxDir",
-                {2,0},
-                donneesCSV->getLayout());
-
-
-    baseBox->setLayout(applicationNoyau->getLayout());
-
-    //QGridLayout *v1Layout = new QGridLayout;
-
-    QVBoxLayout* mainLayout = new QVBoxLayout;
-    FRichLabel *mainLabel=new FRichLabel("Répertoires des applications");
-    mainLayout->addWidget(mainLabel);
-    mainLayout->addWidget(baseBox, 1, 0);
-    mainLayout->addSpacing(100);
-
-    setLayout(mainLayout);
-}
-
-#endif
+///
+// Crée une ligne de codes pour un type donné de prime
+//
 
 int codePage::ajouterVariable(const QString& nom)
 {
-
    const QString NOM = nom.toUpper();
 
-   // Ajouter ici les FLineEdit en pile dans listeCodes
+   // ligne de codes de primes nom
 
    FLineEdit *line = new FLineEdit("",
                                    QString(NOM).remove(' '),
@@ -104,8 +73,11 @@ int codePage::ajouterVariable(const QString& nom)
 
    line->setMinimumWidth(MINIMUM_LINE_WIDTH);
 
+   // Ajouter ici les FLineEdit en pile dans listeCodes
+
    listeCodes << line;
 
+   // Les labels sont du type Codes NOM
    // Ajouter ici les labels correspondants dans liste Labels
    // Les labels doivent correspondre à une variable chaîne nommée codes.label dans prologue_codes.R
 
@@ -117,10 +89,8 @@ int codePage::ajouterVariable(const QString& nom)
 
    vLayout->addWidget(listeCodes.last(), listeCodes.size() - 1, 1, Qt::AlignLeft);
 
-
    return listeCodes.size();
- }
-
+}
 
 
 codePage::codePage()
@@ -571,29 +541,6 @@ processPage::processPage()
     QStringList range3 = QStringList();
     for (int i = 1; i < 12; i++) range3 << QString::number(i);
 
-#ifdef INSERT_MAXN
-    nLineLabel = new QLabel("Nombre maximum d'agents par mois  ");
-    nLineLabel->setDisabled(true);
-    nLineEdit = new FLineEdit("",
-                              flags::status::disabled
-                            | flags::commandLineType::defaultCommandLine,
-                              "nAgent",
-                             {"Nombre maximum d'agents", ""},
-                              "n");
-
-    nLineEdit->setFixedWidth(40);
-
-    NLineLabel = new QLabel("Nombre maximum de lignes de paye par agent  ");
-    NLineLabel->setDisabled(true);
-    NLineEdit = new FLineEdit("",
-                              flags::status::disabled
-                            | flags::commandLineType::defaultCommandLine,
-                              "nLine",
-                             {"Nombre maximum de ligne de paye par agent", ""},
-                              "N");
-
-    NLineEdit->setFixedWidth(40);
-#endif
 
     QLabel* processTypeLabel = new QLabel("Nombre de fils d'exécution  ");
     processTypeWidget = new FComboBox(range3,
@@ -671,21 +618,6 @@ processPage::processPage()
     QGridLayout *v2Layout = new QGridLayout;
     v2Layout->addWidget(memoryUseLabel,    3, 0, Qt::AlignRight);
     v2Layout->addWidget(memoryUseWidget,   3, 1, Qt::AlignLeft);
-#ifdef INSERT_MAXN
-
-    connect(memoryUseWidget, &FComboBox::currentTextChanged, [this] {
-           bool value = (memoryUseWidget->currentIndex() > 0);
-            nLineLabel->setDisabled(value);
-            NLineLabel->setDisabled(value);
-            nLineEdit->setDisabled(value);
-            NLineEdit->setDisabled(value);
-        });
-
-    v2Layout->addWidget(nLineEdit,         4, 1, Qt::AlignLeft);
-    v2Layout->addWidget(nLineLabel,        4, 0, Qt::AlignRight);
-    v2Layout->addWidget(NLineEdit,         5, 1, Qt::AlignLeft);
-    v2Layout->addWidget(NLineLabel,        5, 0, Qt::AlignRight);
-#endif
     v2Layout->addWidget(processTypeLabel,  6, 0, Qt::AlignRight);
     v2Layout->addWidget(processTypeWidget, 6, 1, Qt::AlignLeft);
     v2Layout->addWidget(consoleCheckBox,   7, 0, Qt::AlignLeft);
@@ -693,7 +625,6 @@ processPage::processPage()
     processTypeBox->setLayout(v2Layout);
 
     v3Layout->addWidget(logCheckBox,       1, 0, Qt::AlignLeft);
-//    v3Layout->addWidget(logFrame,          2, 0, Qt::AlignLeft);
 
     QGroupBox* logBox = new QGroupBox(tr("Log"));
     logBox->setLayout(v3Layout);
@@ -732,21 +663,43 @@ processPage::processPage()
 
     if (QCoreApplication::applicationDirPath() != "/home/fab/Dev/altair/Interface_linux/gui/x64") rapportEntier->setVisible(false);
 
+
     connect(rapportEntier, &FCheckBox::toggled, [this] {
 
-                 const std::string &root = path_access(".").toStdString();
+        const std::string &root = path_access(".").toStdString();
+        int current_git_branch = system(std::string("cd " + root + " && test \"$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)\" = \"master-jf\"").c_str());
+
                  if (rapportEntier->isChecked())
-                        {
-                            Q("Basculement vers la version Expérimentale.<br>Cela peut prendre une ou deux minutes.")
-                            int res= system(std::string("cd " + root + " && git checkout -f master-jf").c_str());
-                            if (res == 0) { Q("Basculement réalisé.") } else  { Q("Le basculement vers la version Expérimentale n'a pas pu être réalisé.") }
-                        }
-                        else
-                        {
-                            Q("Basculement vers la version standard.<br>Cela peut prendre une ou deux minutes.")
-                            int res= system(std::string("cd " + root + " && git checkout -f release").c_str());
-                            if (res == 0) { Q("Basculement réalisé.") } else  { Q("Le basculement vers la version standard n'a pas pu être réalisé.") }
-                        }
+                 {
+                     if (current_git_branch == 0)
+                     {
+                         // La branche courante est la branch Test
+                         return;
+                     }
+
+                     int res= system(std::string("cd " + root + " && git rev-parse --verify master-jf").c_str());
+                     if (res != 0)
+                     {
+                         Q("La branche Test n'est pas déployée.")
+                         return;
+                     }
+
+                     Q("Basculement vers la version Test.<br>Cela peut prendre une ou deux minutes.")
+                     res= system(std::string("cd " + root + " && git checkout -f master-jf").c_str());
+                     if (res == 0) { Q("Basculement réalisé.") } else  { Q("Le basculement vers la version Test n'a pas pu être réalisé.") }
+                 }
+                 else
+                 {
+                     int res= system(std::string("cd " + root + " && git rev-parse --verify release").c_str());
+                     if (res != 0)
+                     {
+                         Q("La version standard n'est pas déployée.")
+                         return;
+                     }
+                     Q("Basculement vers la version standard.<br>Cela peut prendre une ou deux minutes.")
+                     res = system(std::string("cd " + root + " && git checkout -f release").c_str());
+                     if (res == 0) { Q("Basculement réalisé.") } else  { Q("Le basculement vers la version standard n'a pas pu être réalisé.") }
+                 }
             });
 
 
@@ -767,7 +720,9 @@ processPage::processPage()
     setLayout(mainLayout);
 
     // provisoire
-    //rapportEntier->setChecked(true);
+    const std::string &root = path_access(".").toStdString();
+    int current_git_branch = system(std::string("cd " + root + " && test \"$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)\" = \"master-jf\"").c_str());
+    rapportEntier->setChecked(current_git_branch == 0);
 }
 
 std::uint16_t options::RefreshFlag;
@@ -795,10 +750,6 @@ options::options(Altair* parent)
     codeTab  = new codePage;
     pagesWidget->addWidget(codeTab);
 
-#   ifdef INSERT_DIRPAGE
-      dirTab  = new dirPage;
-      pagesWidget->addWidget(dirTab);
-#   endif
     closeButton = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     closeButton->button(QDialogButtonBox::Ok)->setText("Accepter");
     closeButton->button(QDialogButtonBox::Cancel)->setText("Annuler");
@@ -809,12 +760,7 @@ options::options(Altair* parent)
             {
                 options::RefreshFlag =  interfaceStatus::hasUnsavedOptions;
                 accept();
-#               ifdef  INSERT_DIRPAGE
-                  parent->execPath = dirTab->applicationNoyau->getText();
-#               else
-                  parent->execPath = execPath;
-#               endif
-
+                parent->execPath = execPath;
                 parent->altairCommandStr =  parent->execPath +  QDir::separator()
                                           + ("lhx"+ QString(systemSuffix));
 
@@ -886,11 +832,7 @@ void options::createIcons()
     QList<const char*> iconList=QList<const char*>()
                                     << ":/images/csv.png" << "   Format  "
                                     << ":/images/configure-toolbars.png" << "Traitement "
-                                    << ":/images/data-icon.png" << "   Codes   "
-#                                   ifdef INSERT_DIRPAGE
-                                        << ":/images/directory.png" << "Répertoires"
-#                                   endif
-                                       ;
+                                    << ":/images/data-icon.png" << "   Codes   ";
 
     for (int i = 0; i < iconList.size()/2 ; i++) createIcon(iconList[2*i], iconList[2*i+1]);
 

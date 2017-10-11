@@ -3,9 +3,10 @@
 // Fabrice Nicol, années 2012 à 2017
 // fabrice.nicol@crtc.ccomptes.fr
 //
-// Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
-// produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-// en vigueur à compter de l'année 2008.
+// Ce logiciel est un programme informatique servant à extraire et analyser
+// les fichiers de paye produits au format spécifié par l'annexe de la
+// convention-cadre nationale de dématérialisation en vigueur à compter de
+// l'année 2008.
 //
 // Ce logiciel est régi par la licence CeCILL soumise au droit français et
 // respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -34,14 +35,15 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-//
+////////////////////////////////////////////////////////////////////////////
+
+
+
 #include "common.h"
 #include "altair.h"
 #include "enums.h"
 #include <QApplication>
 #include <QDirIterator>
-#include <QPrinter>
-#include <QPrintDialog>
 #include <fstream>
 #include <sstream>
 
@@ -82,22 +84,6 @@ MainWindow::MainWindow(char* projectName)
 
   recentFiles = QStringList() ;
   settings = new QSettings("altair", "Juridictions Financières");
-
-  // DEPRECATED
-  #ifdef USE_AVERT
-
-  const QString cdROM = common::cdRomMounted();
-  if (settings->value("importerAuLancement") == true && ! cdROM.isEmpty())
-       {
-            if (QDir(cdROM).exists()
-                    && ! QDir(cdROM).QDir::entryInfoList(QDir::Dirs
-                                                         | QDir::Files
-                                                         | QDir::NoDotAndDotDot).isEmpty())
-            {
-                process.start("./Avert", {"200"});
-            }
-       }
-  #endif
 
   altair = new Altair;
   altair->parent = this;
@@ -160,11 +146,7 @@ MainWindow::MainWindow(char* projectName)
 
   QToolButton *nppBottomTabWidgetButton=new QToolButton;
 
-  #if Q_OS_WINDOW
-    const QString &iconpath= ":/images/internet-explorer.png";
-  #else
-    const QString &iconpath= ":/images/internet-web-browser.png";
-  #endif
+  const QString &iconpath= ":/images/internet-web-browser.png";
 
   const QIcon nppIcon = QIcon(iconpath);
   nppBottomTabWidgetButton->setToolTip("Afficher les messages dans l'explorateur internet");
@@ -193,7 +175,6 @@ MainWindow::MainWindow(char* projectName)
   if (settings->value("loadProjectBehavior") == true)
       projectFileStatus = altair->clearInterfaceAndParseProject();
 
-  
   // resetting interfaceStatus::parseXml bits to 0
   Altair::RefreshFlag = Altair::RefreshFlag & (~interfaceStatus::parseXml);
 
@@ -203,10 +184,6 @@ MainWindow::MainWindow(char* projectName)
   connect(&(altair->process), SIGNAL(finished(int)), this, SLOT(resetCounter()));
   connect(&(altair->process), SIGNAL(finished(int)), this, SLOT(resetTableCheckBox()));
 
-  #ifdef USE_AVERT
-    connect(altair->project, SIGNAL(imported()), &process, SLOT(kill()));
-  #endif
-  
   if (projectName[0] != '\0')
   {
       // Paraît étrange... mais c'est pour éviter de lire deux fois le projet
@@ -250,7 +227,8 @@ void MainWindow::on_displayLogButton_clicked()
 
     QUrl url=QUrl::fromLocalFile(tempLog.fileName());
 
-    browser::showPage(url);
+    QDesktopServices::openUrl(url);
+
 }
 
 void MainWindow::on_clearOutputTextButton_clicked()
@@ -379,9 +357,6 @@ void MainWindow::createActions()
   openBaseDirAction = new QAction(tr("Ouvrir le répertoire des bases"), this);
   openBaseDirAction ->setIcon(QIcon(":/images/directory.png"));
   connect(openBaseDirAction, &QAction::triggered, [&] { 
-  #           ifdef INSERT_DIRPAGE
-                  common::openDir(dialog->dirTab->donneesCSV->getText());  
-  #           else
                   
                   QString userdatadir = common::path_access("Tests/Exemple/Donnees/" AltairDir );
                   if (! QFileInfo(userdatadir).isDir())
@@ -390,7 +365,6 @@ void MainWindow::createActions()
                       dir.mkdir(userdatadir);
                   }
                   common::openDir(userdatadir); 
-  #           endif
                   });
 
   optionsAction = new QAction(tr("&Options"), this);
@@ -446,14 +420,15 @@ void MainWindow::createActions()
 
   connect(aboutAction, &QAction::triggered,  [this]  {
                                                           QUrl url=QUrl::fromLocalFile( QCoreApplication::applicationDirPath() + "/../about.html") ;
-                                                          browser::showPage(url);
-                                                      });
+                                                          QDesktopServices::openUrl(url);
+
+                                                     });
 
   licenceAction=new QAction(tr("Licence"), this);
   licenceAction->setIcon(QIcon(":/images/web/gplv3.png"));
   connect(licenceAction, &QAction::triggered,  [this]  {
                                                             QUrl url=QUrl::fromLocalFile( QCoreApplication::applicationDirPath() + "/../licence.html");
-                                                            browser::showPage(url);
+                                                            QDesktopServices::openUrl(url);
                                                         });
   printBaseAction = new QAction("Extraire des bulletins", this);
   printBaseAction->setIcon(QIcon(":/images/print.png"));
@@ -681,16 +656,6 @@ void MainWindow::on_printBase_clicked()
    else
       dialog->standardTab->tableCheckBox->setChecked(true);
 
-#if 0
-   QPrinter printer;
-   QPrintDialog dialog(&printer, this);
-   dialog.setWindowTitle(tr("Imprimer les bulletins"));
-
-   if (dialog.exec() != QDialog::Accepted)
-   {
-       return;
-   }
-#endif   
 }
 
 void MainWindow::resetTableCheckBox()
@@ -887,13 +852,13 @@ void MainWindow::launch_process(const QString& path)
         return;
     }
 
-    altair->outputTextEdit->append(PROCESSING_HTML_TAG "Lecture du fichier...");
+    altair->textAppend(PROCESSING_HTML_TAG "Lecture du fichier...");
     emit(altair->showProgressBar());
     emit(altair->setProgressBar(0));
     altair->outputTextEdit->repaint();
     QString xml_mod = QString(xml.readAll());
 
-    altair->outputTextEdit->append(PROCESSING_HTML_TAG "Remplacement des informations protégées. Patientez...");
+    altair->textAppend(PROCESSING_HTML_TAG "Remplacement des informations protégées. Patientez...");
     altair->outputTextEdit->repaint();
 
     int bar_range = xml_mod.size();
@@ -913,7 +878,7 @@ void MainWindow::launch_process(const QString& path)
     xml.remove();
     rename(xml_out.c_str(), path.toStdString().c_str());
 
-    altair->outputTextEdit->append(PROCESSING_HTML_TAG  "Anonymisation de " + path + " terminée.");
+    altair->textAppend(PROCESSING_HTML_TAG  "Anonymisation de " + path + " terminée.");
     altair->outputTextEdit->repaint();
     emit(altair->setProgressBar(0));
 
@@ -961,6 +926,7 @@ const vector <unsigned char>  MainWindow::nettoyer_donnees(vector <unsigned char
                        {
                            case  0x22  : //"
                                quote = ! quote;
+                               [[fallthrough]];
                                
                            case  0x20  :  // SP  ' '
                                out.emplace_back(*iter2);
@@ -1079,7 +1045,7 @@ void MainWindow::clean_process(const QString& path)
         return;
     }
 
-    altair->outputTextEdit->append(PROCESSING_HTML_TAG "Lecture du fichier...");
+    altair->textAppend(PROCESSING_HTML_TAG "Lecture du fichier...");
     emit(altair->showProgressBar());
     emit(altair->setProgressBar(0));
     altair->outputTextEdit->repaint();
@@ -1109,13 +1075,13 @@ void MainWindow::clean_process(const QString& path)
     f.rename(xml_out, path);
     if (QFileInfo(f).exists())
     {
-      altair->outputTextEdit->append(PROCESSING_HTML_TAG  "Nettoyage de " + path + " terminé.");
+      altair->textAppend(PROCESSING_HTML_TAG  "Nettoyage de " + path + " terminé.");
       altair->outputTextEdit->repaint();
       altair->updateProject(true);
     }
     else
     {
-        altair->outputTextEdit->append(ERROR_HTML_TAG  "Le nettoyage de " + path + " a échoué.");
+        altair->textAppend(ERROR_HTML_TAG  "Le nettoyage de " + path + " a échoué.");
         altair->outputTextEdit->repaint();
         altair->updateProject(true);
     }
@@ -1129,13 +1095,13 @@ void MainWindow::anonymiser()
 
     args << altair->createCommandLineString();
 
-    altair->outputTextEdit->append(PROCESSING_HTML_TAG + tr("Anonymisation des bases de paye ("));
+    altair->textAppend(PROCESSING_HTML_TAG + tr("Anonymisation des bases de paye ("));
 
     for (const QString& s: args)
     {
         if (! s.isEmpty() && QFileInfo(s).isFile())
         {
-            altair->outputTextEdit->append(PROCESSING_HTML_TAG "Lancement de l'anonymisation du fichier " + s + ". Patientez...");
+            altair->textAppend(PROCESSING_HTML_TAG "Lancement de l'anonymisation du fichier " + s + ". Patientez...");
             altair->outputTextEdit->repaint();
             launch_process(s);
         }
@@ -1150,13 +1116,13 @@ void MainWindow::cleanBase()
 
     args << altair->createCommandLineString();
 
-    altair->outputTextEdit->append(PROCESSING_HTML_TAG + tr("Nettoyage des bases de paye..."));
+    altair->textAppend(PROCESSING_HTML_TAG + tr("Nettoyage des bases de paye..."));
 
     for (const QString& s: args)
     {
         if (! s.isEmpty() && QFileInfo(s).isFile())
         {
-            altair->outputTextEdit->append(PROCESSING_HTML_TAG "Nettoyage du fichier " + s + ". Patientez...");
+            altair->textAppend(PROCESSING_HTML_TAG "Nettoyage du fichier " + s + ". Patientez...");
             altair->outputTextEdit->repaint();
             clean_process(s);
         }
@@ -1389,7 +1355,7 @@ bool MainWindow::exportProject(QString dirStr)
     if (QMessageBox::Ok != QMessageBox::warning(nullptr, "", "Les résultats seront exportés vers le dossier <br>" + subDirStr,  QMessageBox::Cancel|QMessageBox::Ok, QMessageBox::Ok))
         return false;
 
-    altair->outputTextEdit->append(PROCESSING_HTML_TAG "Exportation en cours. Patientez...");
+    altair->textAppend(PROCESSING_HTML_TAG "Exportation en cours. Patientez...");
     altair->outputTextEdit->repaint();
     altair->updateProject(true);
    
@@ -1422,7 +1388,7 @@ bool MainWindow::exportProject(QString dirStr)
 
     if (result)
     {
-        altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été exporté sous : " + subDirStr);
+        altair->textAppend(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été exporté sous : " + subDirStr);
         altair->setProgressBar(2);
     }
 
@@ -1430,7 +1396,7 @@ bool MainWindow::exportProject(QString dirStr)
 
     if (result)
     {
-        altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Open Office a été exporté sous : " + subDirStr);
+        altair->textAppend(PARAMETER_HTML_TAG  "Le rapport Altaïr Open Office a été exporté sous : " + subDirStr);
         altair->setProgressBar(3);
     }
 
@@ -1438,7 +1404,7 @@ bool MainWindow::exportProject(QString dirStr)
 
     if (result)
     {
-        altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été exporté sous : " + subDirStr);
+        altair->textAppend(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été exporté sous : " + subDirStr);
         altair->setProgressBar(4);
     }
     
@@ -1451,11 +1417,11 @@ bool MainWindow::exportProject(QString dirStr)
           result = common::copyFile(v(base) + QDir::separator() + st, subDirStr + st, "La base des lignes de paye", REQUIRE);
           if (result)
           {
-              altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base " + v(base) + QDir::separator() + st + " a été exportée sous : " + subDirStr);
+              altair->textAppend(PARAMETER_HTML_TAG  "La base " + v(base) + QDir::separator() + st + " a été exportée sous : " + subDirStr);
               altair->setProgressBar(++bar);
           }
           else
-              altair->outputTextEdit->append(ERROR_HTML_TAG  "La base " + v(base) + QDir::separator() + st + " n'a pas pu être exportée sous : " + subDirStr);
+              altair->textAppend(ERROR_HTML_TAG  "La base " + v(base) + QDir::separator() + st + " n'a pas pu être exportée sous : " + subDirStr);
 
           altair->outputTextEdit->repaint();
         }
@@ -1463,11 +1429,11 @@ bool MainWindow::exportProject(QString dirStr)
         result = common::copyFile(bulletinsFilePath, subDirStr  + "Bulletins.csv", "La base des lignes de paye a été exportée sous : " , REQUIRE);
         if (result)
         {
-            altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base des bulletins de paye a été exportée sous : " + subDirStr);
+            altair->textAppend(PARAMETER_HTML_TAG  "La base des bulletins de paye a été exportée sous : " + subDirStr);
             altair->setProgressBar(++bar);
         }
         else
-            altair->outputTextEdit->append(ERROR_HTML_TAG  "La base des bulletins de paye n'a pas pu être exportée sous : " + subDirStr);
+            altair->textAppend(ERROR_HTML_TAG  "La base des bulletins de paye n'a pas pu être exportée sous : " + subDirStr);
     }
     
     if (v(exportXML).isTrue() || v(exportAll).isTrue())
@@ -1476,14 +1442,14 @@ bool MainWindow::exportProject(QString dirStr)
         {
           for(const QString &s :  Hash::wrapper["XHL"]->at(rank))
           {
-            result = common::copyFile(s, subDirStr  + common::getEmbeddedPath(s), "La base XML " + s, REQUIRE);
+            result = common::copyFile(s, subDirStr  /*+ altair->getEmbeddedPath(s)*/, "La base XML " + s, REQUIRE);
             if (result)
             {
-                altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base " +  s + " a été exportée sous : " + subDirStr);
+                altair->textAppend(PARAMETER_HTML_TAG  "La base " +  s + " a été exportée sous : " + subDirStr);
                 altair->setProgressBar(++bar);
             }
             else
-                altair->outputTextEdit->append(ERROR_HTML_TAG  "La base " +  s + " n'a pas pu être exportée sous : " + subDirStr);
+                altair->textAppend(ERROR_HTML_TAG  "La base " +  s + " n'a pas pu être exportée sous : " + subDirStr);
 
             altair->outputTextEdit->repaint();
           }
@@ -1495,16 +1461,16 @@ bool MainWindow::exportProject(QString dirStr)
     
     if (result)
     {
-        altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases en lien ont été exportées sous : " + subDirStr + "Bases");
+        altair->textAppend(PARAMETER_HTML_TAG  "Les bases en lien ont été exportées sous : " + subDirStr + "Bases");
     }
     else
-        altair->outputTextEdit->append(ERROR_HTML_TAG  "Les bases en lien n'ont pas pu être exportées sous : " + subDirStr + "Bases");
+        altair->textAppend(ERROR_HTML_TAG  "Les bases en lien n'ont pas pu être exportées sous : " + subDirStr + "Bases");
 
     QFile(altair->projectName).close();
     saveProjectAs(subDirStr + "projet.alt");
     altair->setProgressBar(bar + 2);
 
-    altair->outputTextEdit->append(STATE_HTML_TAG "Exportation terminée.");
+    altair->textAppend(STATE_HTML_TAG "Exportation terminée.");
 
     return result;
 }
@@ -1527,7 +1493,7 @@ bool MainWindow::archiveProject()
     if (QMessageBox::Ok != QMessageBox::warning(nullptr, "", "Les résultats seront archivés dans le dossier <br>" + subDirStr,  QMessageBox::Cancel|QMessageBox::Ok, QMessageBox::Ok))
         return false;
 
-    altair->outputTextEdit->append(PROCESSING_HTML_TAG "Archivage en cours. Patientez...");
+    altair->textAppend(PROCESSING_HTML_TAG "Archivage en cours. Patientez...");
     altair->outputTextEdit->repaint();
     altair->updateProject(true);
 
@@ -1559,7 +1525,7 @@ bool MainWindow::archiveProject()
 
     if (result)
     {
-        altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été archivé sous : " + subDirStr);
+        altair->textAppend(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été archivé sous : " + subDirStr);
         altair->setProgressBar(2);
     }
 
@@ -1567,7 +1533,7 @@ bool MainWindow::archiveProject()
 
     if (result)
     {
-        altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Open Office a été archivé sous : " + subDirStr);
+        altair->textAppend(PARAMETER_HTML_TAG  "Le rapport Altaïr Open Office a été archivé sous : " + subDirStr);
         altair->setProgressBar(3);
     }
 
@@ -1575,7 +1541,7 @@ bool MainWindow::archiveProject()
 
     if (result)
     {
-        altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été archivé sous : " + subDirStr);
+        altair->textAppend(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été archivé sous : " + subDirStr);
         altair->setProgressBar(4);
     }
 
@@ -1586,26 +1552,26 @@ bool MainWindow::archiveProject()
 
          for (const QString &st: tableList)
          {
-           result = common::zip(v(base) + QDir::separator() + st, subDirStr + QDir::separator() + common::getEmbeddedPath(st) + ".arch");
+           result = common::zip(v(base) + QDir::separator() + st, subDirStr + QDir::separator() +/* altair->getEmbeddedPath(st) +*/ ".arch");
            if (result)
            {
-               altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base " + v(base) + QDir::separator() + st + " a été archivée sous : " + subDirStr);
+               altair->textAppend(PARAMETER_HTML_TAG  "La base " + v(base) + QDir::separator() + st + " a été archivée sous : " + subDirStr);
                altair->setProgressBar(++bar);
            }
            else
-               altair->outputTextEdit->append(ERROR_HTML_TAG  "La base " + v(base) + QDir::separator() + st + " n'a pas pu être archivée sous : " + subDirStr);
+               altair->textAppend(ERROR_HTML_TAG  "La base " + v(base) + QDir::separator() + st + " n'a pas pu être archivée sous : " + subDirStr);
 
            altair->outputTextEdit->repaint();
          }
          result = common::zip(bulletinsFilePath, subDirStr + QDir::separator() + "Bulletins.csv.arch");
          if (result)
          {
-             altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base des bulletins de paye a été archivée sous : " + subDirStr);
+             altair->textAppend(PARAMETER_HTML_TAG  "La base des bulletins de paye a été archivée sous : " + subDirStr);
              altair->setProgressBar(++bar);
          }
 
          else
-             altair->outputTextEdit->append(ERROR_HTML_TAG  "La base des bulletins de paye n'a pas pu être archivée sous : " + subDirStr);
+             altair->textAppend(ERROR_HTML_TAG  "La base des bulletins de paye n'a pas pu être archivée sous : " + subDirStr);
      }
 
      if (v(archiveXML).isTrue() || v(archiveAll).isTrue())
@@ -1614,14 +1580,14 @@ bool MainWindow::archiveProject()
          {
            for(const QString &s :  Hash::wrapper["XHL"]->at(rank))
            {
-             result = common::zip(s, subDirStr + QDir::separator() + common::getEmbeddedPath(s) + ".arch");
+             result = common::zip(s, subDirStr + QDir::separator() + /*altair->getEmbeddedPath(s) +*/ ".arch");
              if (result)
              {
-                 altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base " +  s + " a été archivée sous : " + subDirStr);
+                 altair->textAppend(PARAMETER_HTML_TAG  "La base " +  s + " a été archivée sous : " + subDirStr);
                  altair->setProgressBar(++bar);
              }
              else
-                 altair->outputTextEdit->append(ERROR_HTML_TAG  "La base " +  s + " n'a pas pu être archivée sous : " + subDirStr);
+                 altair->textAppend(ERROR_HTML_TAG  "La base " +  s + " n'a pas pu être archivée sous : " + subDirStr);
 
              altair->outputTextEdit->repaint();
            }
@@ -1633,15 +1599,15 @@ bool MainWindow::archiveProject()
      
     if (result)
     {
-        altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases en lien ont été archivées sous : " + subDirStr + QDir::separator() + "Bases");
+        altair->textAppend(PARAMETER_HTML_TAG  "Les bases en lien ont été archivées sous : " + subDirStr + QDir::separator() + "Bases");
     }
     else
-        altair->outputTextEdit->append(ERROR_HTML_TAG  "Les bases en lien n'ont pas pu être archivées sous : " + subDirStr + QDir::separator() + "Bases");
+        altair->textAppend(ERROR_HTML_TAG  "Les bases en lien n'ont pas pu être archivées sous : " + subDirStr + QDir::separator() + "Bases");
 
   QFile(altair->projectName).close();
   saveProjectAs(subDirStr + "/projet.alt");
   altair->setProgressBar(bar + 2);
-  altair->outputTextEdit->append(STATE_HTML_TAG "Archivage terminé.");
+  altair->textAppend(STATE_HTML_TAG "Archivage terminé.");
   return result;
 }
 
@@ -1683,14 +1649,14 @@ bool MainWindow::restoreProject(QString subDirStr)
 
     altair->setProgressBar(0, 6 + (v(archiveTable).isTrue() || v(archiveAll).isTrue()) * (1 + tableList.size()) + dimension_paye);
 
-    altair->outputTextEdit->append(PROCESSING_HTML_TAG "Restauration en cours. Patientez...");
+    altair->textAppend(PROCESSING_HTML_TAG "Restauration en cours. Patientez...");
     altair->outputTextEdit->repaint();
     
     result = common::unzip(subDirStr + "altaïr.docx.arch", docxReportFilePath);
 
     if (result)
     {
-        altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été décompressé sous : " + projectRootDir);
+        altair->textAppend(PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été décompressé sous : " + projectRootDir);
         altair->setProgressBar(2);
     }
 
@@ -1698,7 +1664,7 @@ bool MainWindow::restoreProject(QString subDirStr)
 
     if (result)
     {
-        altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr ODT a été décompressé sous : " + projectRootDir);
+        altair->textAppend(PARAMETER_HTML_TAG  "Le rapport Altaïr ODT a été décompressé sous : " + projectRootDir);
         altair->setProgressBar(3);
     }
     
@@ -1706,7 +1672,7 @@ bool MainWindow::restoreProject(QString subDirStr)
 	
     if (result)
     {
-        altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été décompressé sous : " + projectRootDir);
+        altair->textAppend(PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été décompressé sous : " + projectRootDir);
         altair->setProgressBar(4);
     }
 	
@@ -1721,11 +1687,11 @@ bool MainWindow::restoreProject(QString subDirStr)
           result = common::unzip(subDirStr  + st, v(base) + QDir::separator() + st2);
           if (result)
           {
-              altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base " + projectRootDir + QDir::separator() + st2 + " a été décompressée sous : " + subDirStr);
+              altair->textAppend(PARAMETER_HTML_TAG  "La base " + projectRootDir + QDir::separator() + st2 + " a été décompressée sous : " + subDirStr);
               altair->setProgressBar(++bar);
           }
           else
-              altair->outputTextEdit->append(ERROR_HTML_TAG  "La base " + projectRootDir + QDir::separator() + st2 + " n'a pas pu être décompressée sous : " + subDirStr);
+              altair->textAppend(ERROR_HTML_TAG  "La base " + projectRootDir + QDir::separator() + st2 + " n'a pas pu être décompressée sous : " + subDirStr);
 
           altair->outputTextEdit->repaint();
         }
@@ -1733,11 +1699,11 @@ bool MainWindow::restoreProject(QString subDirStr)
         result = common::unzip(subDirStr  + "Bulletins.csv.arch", bulletinsFilePath);
         if (result)
         {
-            altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base des bulletins de paye a été décompressée sous : " + projectRootDir);
+            altair->textAppend(PARAMETER_HTML_TAG  "La base des bulletins de paye a été décompressée sous : " + projectRootDir);
             altair->setProgressBar(++bar);
         }
         else
-            altair->outputTextEdit->append(ERROR_HTML_TAG  "La base des bulletins de paye n'a pas pu être décompressée sous : " + projectRootDir);
+            altair->textAppend(ERROR_HTML_TAG  "La base des bulletins de paye n'a pas pu être décompressée sous : " + projectRootDir);
 
     }
     
@@ -1747,16 +1713,16 @@ bool MainWindow::restoreProject(QString subDirStr)
            while (it.hasNext())        
            {
                 const QString s = it.next();
-                QString filepath = common::getEmbeddedPath(s, subDirStr);
+                QString filepath = "";//altair->getEmbeddedPath(s, subDirStr);
                 filepath.chop(5);
                 result = common::unzip(s, projectRootDir + QDir::separator() + filepath);
                 if (result)
                 {
-                    altair->outputTextEdit->append(PARAMETER_HTML_TAG  "La base " +  s + " a été décompressée sous : " + projectRootDir);
+                    altair->textAppend(PARAMETER_HTML_TAG  "La base " +  s + " a été décompressée sous : " + projectRootDir);
                     altair->setProgressBar(++bar);
                 }
                 else
-                    altair->outputTextEdit->append(ERROR_HTML_TAG  "La base " +  s + " n'a pas pu être décompressée sous : " + projectRootDir);
+                    altair->textAppend(ERROR_HTML_TAG  "La base " +  s + " n'a pas pu être décompressée sous : " + projectRootDir);
 
                 altair->outputTextEdit->repaint();
            }
@@ -1769,13 +1735,13 @@ bool MainWindow::restoreProject(QString subDirStr)
 
     if (result)
     {
-        altair->outputTextEdit->append(PARAMETER_HTML_TAG  "Les bases en lien ont été décompressées sous : " + projectRootDir + QDir::separator() + "Bases");
+        altair->textAppend(PARAMETER_HTML_TAG  "Les bases en lien ont été décompressées sous : " + projectRootDir + QDir::separator() + "Bases");
     }
     else
-        altair->outputTextEdit->append(ERROR_HTML_TAG  "Les bases en lien n'ont pas pu être décompressées sous : " + projectRootDir + QDir::separator() + "Bases");
+        altair->textAppend(ERROR_HTML_TAG  "Les bases en lien n'ont pas pu être décompressées sous : " + projectRootDir + QDir::separator() + "Bases");
 
   altair->setProgressBar(bar + 2);
-  altair->outputTextEdit->append(STATE_HTML_TAG "Désarchivage terminé.");
+  altair->textAppend(STATE_HTML_TAG "Désarchivage terminé.");
   return result;
 }
 
