@@ -6,7 +6,8 @@
 \usage{
 noria(Bulletins = Bulletins.paie, Base = Analyse.variations.par.exercice,
   classe = "", champ = "brut", filtre = "", fichier = "", dec = ",",
-  sep = ";", encoding = "UTF-8", afficher.tableau = TRUE)
+  sep = ";", encoding = "UTF-8", afficher.tableau = TRUE,
+  controle.quotité = FALSE)
 }
 \arguments{
 \item{Bulletins}{Base mensuelle des bulletins de paie, comportant pour l'ensemble de la période
@@ -65,6 +66,8 @@ Si présent, fichier indique le chemin complet du fichier des entrées-sorties, 
 \item{encoding}{Paramètre \code{encoding} de la fonction \code{data.table::fread}.}
 
 \item{afficher.tableau}{Si TRUE, affiche quatre tableaux correspondant à la valeur de retour sur la sortie standard.}
+
+\item{controle.quotité}{Si TRUE, calcule la RMPP comme dans la définition (quotités identiques sur deux exercices, à 0,1 point près). Si FALSE, relâche cette hypothèse.}
 }
 \value{
 Si afficher.tableau = TRUE : 
@@ -101,7 +104,7 @@ Pour passer de la colonne "RMPP" à la colonne "SMPT", il suffit de multiplier s
                 \item{\code{Année}}{Années de la période sous revue}
                 \item{\code{RMPP}}{Rémunération moyenne des personnes en place, présentes deux années complètes consécutives.\cr
                  La vérification de la permanence de la quotité sur les deux années n'est pas implémentée.}
-                \item{\code{Entrée n - 1}}{Effet relatif en \% des entrées de personnels au cours de l'année précédente}
+                \item{\code{Entrée n - 1}}{Effet relatif en \% des entrées de personnels en n - 1 présents en n et des variations de quotité entre n - 1 et n. Pour la première année, n - 1 est remplacé par n + 1 et "entrées" par "sorties".}
                 \item{\code{Noria}}{Effet de noria. Effet relatif en \% du remplacement des sortants par les entrants en faisant l'hypothèse que les entrants sont aussi nombreux que les sortants.}
                 \item{\code{Var. effectifs}}{Effet relatif en \% sur le salaire moyen distribué des variations d'effectifs.}
                 \item{\code{Effet vacances}}{Effet relatif en \%  sur le salaire moyen distribué de la différence entre le nombre d'entrants et le nombre de sortants.}                                  
@@ -151,6 +154,13 @@ Le retour de la fonction est un tableau du GVT négatif au format \code{data.tab
 }
 \description{
 Elabore des tableaux permettant de relier l'évolution de la RMPP, du salaire moyen et des effets d'entrées-sorties.
+}
+\details{
+La RMPP ici utilisée se distingue de la définition officielle pour la première année.
+On considère en effet en début de période que les salaires considérés sont ceux des agents
+présents toute la première année et toute la seconde avec la même quotité.
+Ce devrait être en principe "et toute l'année précédente", mais celle-ci n'est pas documentée
+et l'approximation reste valable pour l'évaluation du GVT.
 }
 \examples{
  noria()
