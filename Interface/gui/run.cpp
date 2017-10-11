@@ -3,9 +3,10 @@
 // Fabrice Nicol, années 2012 à 2017
 // fabrice.nicol@crtc.ccomptes.fr
 //
-// Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
-// produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-// en vigueur à compter de l'année 2008.
+// Ce logiciel est un programme informatique servant à extraire et analyser
+// les fichiers de paye produits au format spécifié par l'annexe de la
+// convention-cadre nationale de dématérialisation en vigueur à compter de
+// l'année 2008.
 //
 // Ce logiciel est régi par la licence CeCILL soumise au droit français et
 // respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -34,11 +35,13 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-//
+////////////////////////////////////////////////////////////////////////////
+
+
 #include "altair.h"
 #include "fwidgets.h"
 #ifdef Q_OS_LINUX
-#  include <sys/mount.h>
+#include <sys/mount.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -50,7 +53,6 @@
 
 /* fichier à encoder en UTF-8 */
 
-QHash<QString, QStringList> Hash::fileList;
 
 
 QStringList Altair::createCommandLineString(const QStringList& files)
@@ -86,10 +88,7 @@ QStringList Altair::createCommandLineString(const QStringList& files)
            continue;
         }
         
-#       ifdef INSERT_PAGE        
-          if (item->getHashKey() == "base")  commandLineChunk[1] += QDir::separator() + subdir;
-#       endif   
-          
+
         if (! commandLineChunk.isEmpty() && ! commandLineChunk[0].isEmpty())
             commandLine +=  commandLineChunk;
         
@@ -147,16 +146,17 @@ void Altair::runWorker(const QString& subdir)
         if (v(XHL).contains("/cdrom"))
 #   endif
          {
-             outputTextEdit->append(PROCESSING_HTML_TAG + tr("Importation des fichiers depuis le disque optique..."));
+             textAppend(PROCESSING_HTML_TAG + tr("Importation des fichiers depuis le disque optique..."));
              args1 << "--cdrom";
          }
-    
+
 #   ifndef INSERT_PAGE
-       args1 << "-D" << v(base) + QDir::separator() + subdir;
-#   endif    
+        args1 << "-D" << v(base) + QDir::separator() + subdir;
+#   endif
 
 
     QStringList temp;
+
     foreach(const QString &str, fileList)
     {
        // if (! Hash::Siret.keys().contains(str)) continue; useless
@@ -215,13 +215,18 @@ void Altair::runWorker(const QString& subdir)
 
     args1 << commandLine;
        
-    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Importation des bases de paye (")
+    textAppend(PROCESSING_HTML_TAG + tr("Importation des bases de paye (")
                                                + QString::number(Altair::totalSize[0] 
                                                                             / (1024*1024)) 
                                                + tr(" Mo)..."));
 
     command = QString("-m -d \",\" -s \";\" -E -rank ") + sharedir + "/rank" ;
-    
+
+#   ifndef INSERT_PAGE
+        command  += "-D " + v(base) + QDir::separator() + subdir;
+#   endif
+
+
     QStringListIterator i(args1);
     while (i.hasNext())
     {
@@ -245,7 +250,7 @@ void Altair::runWorker(const QString& subdir)
     process.setWorkingDirectory(common::execPath);
 
 #ifdef DEBUG
-    outputTextEdit->append(PROCESSING_HTML_TAG + tr("Démarrage dans ") + common::execPath);
+    textAppend(PROCESSING_HTML_TAG + tr("Démarrage dans ") + common::execPath);
 
 #endif
     fileRank=0;
@@ -292,10 +297,10 @@ void Altair::runWorker(const QString& subdir)
     if (process.waitForStarted())
     {
         if (v(memoryUse) != "Intensive")
-            outputTextEdit->append(PROCESSING_HTML_TAG 
+            textAppend(PROCESSING_HTML_TAG 
                                    + tr("Préallocation des ressources...\n"));
         else
-            outputTextEdit->append(PROCESSING_HTML_TAG 
+            textAppend(PROCESSING_HTML_TAG 
                                    + tr("Analyse des bases de paye...Veuillez patienter\n"));
 
 
@@ -341,7 +346,7 @@ void Altair::runWorker(const QString& subdir)
     }
     else
     {
-        outputTextEdit->append(PROCESSING_HTML_TAG
+        textAppend(PROCESSING_HTML_TAG
                                + tr("Echec du lancement de LHX, ligne de commande ")
                                + altairCommandStr);
     }
@@ -491,7 +496,7 @@ void Altair::run()
 
 void Altair::runRAltair()
 {
-    outputTextEdit->append(tr(STATE_HTML_TAG "Création du rapport d'analyse des données..."));
+    textAppend(tr(STATE_HTML_TAG "Création du rapport d'analyse des données..."));
 
     process.setWorkingDirectory(path_access("Tests/Exemple"));
 
@@ -533,7 +538,19 @@ void Altair::runRAltair()
         RAltairDirStr = path_access("R/bin/x64");
         RAltairCommandStr = RAltairDirStr + QDir::separator() + "Rscript" + QString(systemSuffix);
 #else
-        RAltairCommandStr = "/usr/bin/Rscript";
+
+        bool global_R = QFileInfo("/usr/bin/Rscript").exists();
+        bool local_R = QFileInfo("/usr/local/bin/Rscript").exists();
+        if (local_R)
+            RAltairCommandStr = "/usr/local/bin/Rscript";
+        else if(global_R)
+            RAltairCommandStr = "/usr/bin/Rscript";
+        else
+        {
+            Q("Rscript n'est pas installé. La génération automatique du rapport sans interface RStudio n'est pas possible");
+            return;
+        }
+
 #endif
         process.setWorkingDirectory(path_access(""));
         QDir::setCurrent(path_access(""));
@@ -541,8 +558,8 @@ void Altair::runRAltair()
 
         if (process.waitForStarted())
         {
-            outputTextEdit->append(RAltairCommandStr + " " + path_access_rapport);
-            outputTextEdit->append(tr(STATE_HTML_TAG \
+            textAppend(RAltairCommandStr + " " + path_access_rapport);
+            textAppend(tr(STATE_HTML_TAG \
                         "Lancement du traitement des données ...Veuillez patienter.<br>"
                         "Vous pouvez suivre l'exécution du traitement dans la console<br>"
                         "(Configurer > Configurer l'interface > Afficher les messages)."));
@@ -558,7 +575,7 @@ void Altair::runRAltair()
 
 
       #ifdef DEBUG
-        outputTextEdit->append(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr));
+        textAppend(tr(STATE_HTML_TAG "Ligne de commande : %1").arg(RAltairCommandStr));
       #endif
 
 
@@ -569,18 +586,18 @@ void Altair::processFinished(exitCode code)
     switch(code)
     {
         case exitCode::exitFailure :
-            outputTextEdit->append(ERROR_HTML_TAG + QString((outputType == "L") ? 
+            textAppend(ERROR_HTML_TAG + QString((outputType == "L") ? 
                                                              " Décodage des bases " :
                                                              " Analyse des données ")
                                                   + tr(": plantage de l'application."));
 
-            outputTextEdit->append(ERROR_HTML_TAG + QString("Ligne de commande : ") + RAltairCommandStr + " " + path_access("altaïr.Rproj"));
+            textAppend(ERROR_HTML_TAG + QString("Ligne de commande : ") + RAltairCommandStr + " " + path_access("altaïr.Rproj"));
             return;
     
 
     
         default :
-            outputTextEdit->append(PROCESSING_HTML_TAG  + tr(" Terminé."));
+            textAppend(PROCESSING_HTML_TAG  + tr(" Terminé."));
 
     }
 
@@ -590,12 +607,12 @@ void Altair::processFinished(exitCode code)
 
     if (outputType == "L")
     {
-        outputTextEdit->append(PARAMETER_HTML_TAG  
+        textAppend(PARAMETER_HTML_TAG  
                                + tr(" Répertoire de sortie : %1").arg(v(base)));
 
         fsSize=getDirectorySize(v(base), "*.*");
 
-        outputTextEdit->append(tr(STATE_HTML_TAG "Taille de la base : ")
+        textAppend(tr(STATE_HTML_TAG "Taille de la base : ")
                                + QString::number(fsSize) 
                                + " Octets ("
                                + QString::number(((float)fsSize)/(1024.0*1024.0), 'f', 2)
@@ -618,7 +635,7 @@ void Altair::killProcess()
 {
     if (project->use_threads && process.state() != QProcess::Running)
     {
-        outputTextEdit->append(PROCESSING_HTML_TAG
+        textAppend(PROCESSING_HTML_TAG
                                "Arrêt de l'importation des données du disque optique." );
 
         for (QThread *t :  project->thread)
@@ -640,7 +657,7 @@ void Altair::killProcess()
      }
 
     process.kill();
-    outputTextEdit->append(PROCESSING_HTML_TAG
+    textAppend(PROCESSING_HTML_TAG
                            + QString((outputType == "L") ? 
                                      " Décodage des bases " : 
                                      " Analyse des données ")
@@ -652,11 +669,11 @@ void Altair::printMsg(qint64 new_value, const QString &str)
 {
     if (process.state() != QProcess::Running)        return;
     if (new_value < 1024*1024*1024)
-        outputTextEdit->append(tr(STATE_HTML_TAG) + str 
+        textAppend(tr(STATE_HTML_TAG) + str 
                                + QString::number(new_value) 
                                + " B ("+QString::number(new_value/(1024*1024))+ " Mo)");
     else
-        outputTextEdit->append(tr(WARNING_HTML_TAG)
+        textAppend(tr(WARNING_HTML_TAG)
                                + "La taille du projet est supérieurs à  1 Go");
 }
 

@@ -1,0 +1,12 @@
+#ifndef FWIDGETS_LIB_GLOBAL_H
+#define FWIDGETS_LIB_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(FWIDGETS_LIB_LIBRARY)
+#  define FWIDGETS_LIBSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define FWIDGETS_LIBSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // FWIDGETS_LIB_GLOBAL_H

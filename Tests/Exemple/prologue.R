@@ -81,10 +81,10 @@ if (! exists("PDF"))       PDF <- FALSE
 keep_md                        <- FALSE
 utiliser.cplusplus.sft         <- FALSE
 sécuriser.types.sortie         <- TRUE
-utiliser.variable.Heures.Sup. <- FALSE  # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unité
+utiliser.variable.Heures.Sup.  <- FALSE  # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unité
+noria.sur.base.de.paie         <- FALSE  # calculer effet de noria sur base de paie uniquement (pas de fichier E/S)
 
-
-seuil.troncature               <- 1 # jours
+seuil.troncature               <- 2 # jours
 taux.tolérance.homonymie       <- 2  # en %
 quantile.cut                   <- 1  # en %
 minimum.positif                <- 0.5

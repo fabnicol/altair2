@@ -42,6 +42,7 @@ get_path	path
 github_pat	github_pat
 github_pull	github_refs
 github_release	github_refs
+git_checks	git_checks
 has_devel	has_devel
 has_tests	has_tests
 help	help
@@ -128,6 +129,7 @@ use_git	use_git
 use_github	use_github
 use_github_links	use_github_links
 use_git_hook	use_git_hook
+use_gpl3_license	infrastructure
 use_mit_license	infrastructure
 use_news_md	use_news_md
 use_package	use_package

@@ -1,0 +1,15 @@
+altair                  Altaïr: un paquet pour analyser les bases de
+                        paye XML.
+année_comparaison       Année de comparaison avec les données
+                        nationales.
+charges.eqtp            Tableau des coûts moyens de personnel par
+                        grade.
+charges.personnel       Tableau des charges de personnel par grade.
+effectifs               Tableau des effectifs.
+eqtp.grade              Tableau des EQTP par grade.
+extraire.nir            Traitement du NIR (numéro d'inscription au
+                        répertoire des personnes physiques).
+net.eqtp                Tableau des rémunérations nettes moyennes par
+                        grade.
+noria                   Tableau du GVT négatif
+pyramide_ages           Pyramide des âges.
