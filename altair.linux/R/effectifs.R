@@ -157,11 +157,10 @@ for (i in 1:length(eff)) names(eff[[i]]) <- c("Effectifs",
                                                           "ETPT_annexe",
                                                           "ETPT_actif_nonannexe")
 
-effectifs.locale <- lapply(eff,
-                           function(x) formatC(x, big.mark = " ", format="f", digits=1, decimal.mark=","))
+effectifs.locale <- as.data.table(lapply(eff,
+                                   function(x) formatC(x, big.mark = " ", format="f", digits=1, decimal.mark=",")))
 
-tableau.effectifs <- as.data.frame(effectifs.locale,
-                                   row.names = c("Matricules gérés en base (a)",
+tableau.effectifs <- cbind(row.names = c("Matricules gérés en base (a)",
                                                  "&nbsp;&nbsp;&nbsp;dont présents 12 mois",
                                                  "&nbsp;&nbsp;&nbsp;dont fonctionnaires (b)",
                                                  "&nbsp;&nbsp;&nbsp;dont fonct. présents 12 mois",
@@ -182,9 +181,11 @@ tableau.effectifs <- as.data.frame(effectifs.locale,
                                                  "Total ETPT autre statut",
                                                  "Total ETPT postes non actifs (g)",
                                                  "Total ETPT postes actifs annexes (g)",
-                                                 "Total ETPT postes actifs non annexes (g)"))
+                                                 "Total ETPT postes actifs non annexes (g)"),
+                           effectifs.locale)
 
-names(tableau.effectifs) <-  as.character(période)
+setnames(tableau.effectifs, 1, "Effectifs")
+for (i in seq_along(période)) setnames(tableau.effectifs, i + 1, as.character(période[i]))
 
 return(tableau.effectifs)
 }
@@ -343,6 +344,11 @@ eqtp.grade <- function(Base = Bulletins.paie,
   totaux <- tableau.effectifs[, .(Total = formatC(sum(eqtp.g, na.rm = TRUE), digits = 2, big.mark = " ", format = "f")), keyby = Année]
   totaux <- transpose(data.table(c("Total", totaux$Total)))
   
+  if (nrow(tableau.effectifs) == 0) {
+    message("La base des effectifs est vide")
+    return(tableau.effectifs) 
+  }
+  
   if (agr) {
     
     tableau.effectifs <- dcast(tableau.effectifs, G ~ Année, value.var = "eqtp.grade", fill = 0)
@@ -350,15 +356,13 @@ eqtp.grade <- function(Base = Bulletins.paie,
     names(tableau.effectifs)[1] <- "Catégorie de Grades"
     
   } else {
-   
+    
     tableau.effectifs <- dcast(tableau.effectifs, Grade ~ Année, value.var = "eqtp.grade", fill = 0)  
     
   }
-  
   colnames(totaux) <- colnames(tableau.effectifs)
   
   tableau.effectifs <- rbind(tableau.effectifs, totaux)
-  
   
   début <- names(tableau.effectifs)[2]
   fin <- names(tableau.effectifs)[ncol(tableau.effectifs)]
@@ -453,6 +457,11 @@ charges.personnel <- function(Base = Paie, grade = NULL, classe = NULL,  service
                   keyby = Année]
   
   totaux <- transpose(data.table(c("Total", totaux$Total)))
+  
+  if (nrow(A) == 0) {
+    message("Base vide")
+    return(A)
+  }
   
   if (agr) {
     
@@ -616,7 +625,7 @@ charges.eqtp <- function(Base = Paie,
         ]
   
   if (! quotité.nulle) {
-    A <- A[ , Coût.moyen.num := if (is.na(eqtp.cum) || is.na(Coût.moyen.cum) || eqtp.cum == 0) 0 else round(Coût.moyen.cum / eqtp.cum),
+    A <- A[ , Coût.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Coût.moyen.cum) | eqtp.cum == 0, 0, round(Coût.moyen.cum / eqtp.cum)),
                        keyby = c("Année", Gr)
             ][ , Coût.moyen := formatC(round(Coût.moyen.num), big.mark = " ", format = "d")]
     moyenne_ <- A[ , .(Moy.num = round(sum(Coût.moyen.cum, na.rm = TRUE)/sum(eqtp.cum, na.rm = TRUE))), keyby = Année
@@ -627,7 +636,7 @@ charges.eqtp <- function(Base = Paie,
     
   } else {
     
-    A <- A[ , Coût.moyen.num := if (is.na(eqtp.cum) || is.na(Coût.moyen.cum)) 0 else round(Coût.moyen.cum),
+    A <- A[ , Coût.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Coût.moyen.cum), 0, round(Coût.moyen.cum)),
             keyby = c("Année", Gr)
             ][ , Coût.moyen := formatC(round(Coût.moyen.num), big.mark = " ", format = "d")]
     moyenne_ <- A[ , .(Moy.num = round(sum(Coût.moyen.cum, na.rm = TRUE))), keyby = Année
@@ -637,6 +646,11 @@ charges.eqtp <- function(Base = Paie,
     
   }
 
+  if (nrow(A) == 0) {
+    message("Base vide")
+    return(A)
+  }
+  
   if (agr) {
     
     B <- dcast(A, G ~ Année, value.var = "Coût.moyen", fill = 0)
@@ -806,7 +820,7 @@ net.eqtp <- function(Base = Paie,
                   keyby = c("Année", Gr)]
   
   if (! quotité.nulle) {
-    A <- A[ , Net.moyen.num := if (is.na(eqtp.cum) || is.na(Net.moyen.cum) || eqtp.cum == 0) 0 else round(Net.moyen.cum / eqtp.cum),
+    A <- A[ , Net.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Net.moyen.cum) | eqtp.cum == 0, 0, round(Net.moyen.cum / eqtp.cum)),
             keyby = c("Année", Gr)
             ][ , Net.moyen := formatC(round(Net.moyen.num), big.mark = " ", format = "d")]
     moyenne_ <- A[ , .(Moy.num = round(sum(Net.moyen.cum, na.rm = TRUE)/sum(eqtp.cum, na.rm = TRUE))), keyby = Année
@@ -817,7 +831,7 @@ net.eqtp <- function(Base = Paie,
     
   } else {
     
-    A <- A[ , Net.moyen.num := if (is.na(eqtp.cum) || is.na(Net.moyen.cum)) 0 else round(Net.moyen.cum),
+    A <- A[ , Net.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Net.moyen.cum), 0, round(Net.moyen.cum)),
             keyby = c("Année", Gr)
             ][ , Net.moyen := formatC(round(Net.moyen.num), big.mark = " ", format = "d")]
     moyenne_ <- A[ , .(Moy.num = round(sum(Net.moyen.cum, na.rm = TRUE))), keyby = Année
@@ -827,6 +841,12 @@ net.eqtp <- function(Base = Paie,
     
   }
   
+  if (nrow(A) == 0) {
+    message("Base vide")
+    return(A)
+  }
+  
+    
   if (agr) {
     
     B <- dcast(A, G ~ Année, value.var = "Net.moyen", fill = 0)
