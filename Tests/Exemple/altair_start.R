@@ -110,7 +110,6 @@ message("Démographie...")
 
 # Rappel Analyse.variations.par.exercice comprend uniquement les actifs non annexes non assist. mat., non vacataires, non élus.
 
-detach("package:altair", unload=TRUE)
 library("altair", lib.loc=c("/usr/lib64/R/library", "/usr/local/lib64/R/library"))
 
 tableau.effectifs <<- effectifs(période, Bulletins.paie, Analyse.remunerations, Analyse.variations)
@@ -472,10 +471,11 @@ newpage()
 #'# `r chapitre`. Rémunérations nettes : évolutions sur la période `r début.période.sous.revue` - `r fin.période.sous.revue`    
 #'
 #'Nombre d'exercices: `r durée.sous.revue`   
-#'  
-#'**Les données présentées dans cette section sont toutes relatives à des rémunérations nettes en équivalent temps plein (EQTP)**   
-#'Les élus, les vacataires et les assistantes maternelles ont été retirés de la population étudiée       
-#'Seuls sont considérés les postes actifs et non annexes   
+#'
+#'**Périmètre des données**      
+#'**Les données présentées dans cette section sont toutes relatives à des rémunérations nettes en équivalent temps plein (EQTP)**           
+#'**Les élus, les vacataires et les assistantes maternelles ont été retirés de la population étudiée**       
+#'**Seuls sont considérés les postes actifs et non annexes**      
 #'    
 #'*Nota :*   
 #'*EQTP = Equivalent temps plein  = 12 . moyenne du ratio rémunération / quotité*    
@@ -779,7 +779,6 @@ essayer(smpt(Filtre_cat_A), "Le salaire moyen par tête des fonctionnaires de ca
 
 essayer(smpt(Filtre_cat_B),          "Le salaire moyen par tête des fonctionnaires de catégorie B n'a pas pu être calculé.")  
 
-
 #'*Comparaisons nationales*    
 #'*FPT catégorie B*    
 #'    
@@ -872,7 +871,12 @@ essayer(distribution_smpt(Filtre_cat_C), "La distribution du salaire moyen par t
    
 ##### 4.3.1 RMPP de l'ensemble des personnels titulaires et non-titulaires  ####
   
-
+#'### Application de filtres sur les données        
+#'     
+#'**Afin d'apprécier la sensibilité des résultats à la qualité ou aux valeurs extrêmes des données, le filtrage suivant est à présent appliqué.**    
+#'**Sont retirés les valeurs manquantes des variations, les centiles extrêmaux, les rémunérations nettes négatives (rappels) ou proche de zéro.**     
+#'**Un statut explicite doit être renseigné en fin de période. Des rémunérations doivent être versées à la fois en début et en fin de période de paiement de l'agent, supérieures à `r minimum.positif`. Le nombre de jours d'exercice doit être supérieur à `r 2 * seuil.troncature` .**                 
+#'**Ces filtres sont référencés ci-après par les termes "filtres sur RMPP".**          
 #'
 #'### `r chapitre`.3.1 RMPP de l'ensemble des personnels titulaires et non-titulaires   
 #'   
@@ -893,7 +897,7 @@ q3 <- quantile(Analyse.variations$variation.rémunération, c(quantile.cut/100, 
 
 # ici il faut réduire la matrice pour éviter les réduplications pour les Résumés. TODO
 
-Anavar.synthese <- Analyse.variations[total.jours > 2 * seuil.troncature
+Anavar.synthese <- Analyse.variations[total.jours > seuil.troncature
                                                            & pris.en.compte == TRUE
                                                            & ! is.na(statut)   
                                                            & ! is.na(variation.rémunération) 
@@ -921,55 +925,57 @@ try(axis(side=1, at=seq(-5,30, 1), labels=seq(-5,30,1), lwd=2))
 Filtre_rmpp <<- function() (est.rmpp == TRUE)
 }
 
-#'   
-#'**Evolution de la RMPP nette en EQTP**     
-#'   
-#'  
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
+# #'   
+# #'**Evolution de la RMPP nette en EQTP**     
+# #'   
+# #'#### La RMPP est évaluée sans filtrage particulier sur les données dans le tableau suivant      
+# #'  
+# #'&nbsp;*Tableau `r incrément()`*   
+# #'    
+# 
+# if (durée.sous.revue > 1) {
+#    essayer(smpt(Filtre_rmpp, type = "RMPP nette"), "La rémunération moyenne des personnels en place n'a pas pu être calculée.") 
+#   } else  {
+#    cat("RMPP calculable uniquement si la période sous revue est au moins égale à 2 ans.")
+#   }
+# 
+#  
+# #'    
+# #'**Distribution et variation sur la période de la rémunération nette des personnes en place**                   
+# #'  
+# #'&nbsp;*Tableau `r incrément()`*     
+# #'    
+# 
+# # La légère différence de périmètre entre Anavar.synthese et Analyse.variations tient au filtrage des quantiles
+# # extrêmaux et des valeurs manquantes des variations
 
-if (durée.sous.revue > 1) {
-   essayer(smpt(Filtre_rmpp, type = "RMPP nette"), "La rémunération moyenne des personnels en place n'a pas pu être calculée.") 
-  } else  {
-   cat("RMPP calculable uniquement si la période sous revue est au moins égale à 2 ans.")
-  }
 
-#'    
-#'**Distribution et variation sur la période de la rémunération nette des personnes en place**                
-#'  
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
-
-# La légère différence de pérmètre entre Anavar.synthese et Analyse.variations.par.exercice tient au filtrage des quantiles
-# extrêmaux et des valeurs manquantes des variations
-
-
-masque.rmpp.fin.période    <- bitwShiftL(3, durée.sous.revue - 2)      #  11{0,1}...{0,1}
-masque.rmpp.début.période  <- 3                                        #  {0,1}...{0,1}11
+#masque.rmpp.fin.période    <- bitwShiftL(3, durée.sous.revue - 2)      #  11{0,1}...{0,1}
+#masque.rmpp.début.période  <- 3                                        #  {0,1}...{0,1}11
 masque.présent.début.fin   <- bitwShiftL(1, durée.sous.revue - 1) + 1  #  10000..1
-masque.présent.sur.période <- bitwShiftL(1, durée.sous.revue) - 1       #  11111..1
+masque.présent.sur.période <- bitwShiftL(1, durée.sous.revue) - 1      #  11111..1
 
-if (durée.sous.revue > 1) {
+# if (durée.sous.revue > 1) {
+# 
+#   Résumé(c(paste(début.période.sous.revue, début.période.sous.revue + 1, sep = "-"),
+#            "Effectif",
+#            paste(fin.période.sous.revue - 1, fin.période.sous.revue, sep = "-"),
+#            "Effectif"),
+#          list(Anavar.synthese[bitwAnd(indicatrice.période, masque.rmpp.début.période) == masque.rmpp.début.période 
+#                                           & Année == début.période.sous.revue + 1, 
+#                                              .(Montant.net.annuel.eqtp.début, quotité.moyenne)],
+#               Anavar.synthese[indicatrice.période >= masque.rmpp.fin.période
+#                                           & Année == fin.période.sous.revue, 
+#                                           .(Montant.net.annuel.eqtp.sortie, quotité.moyenne)]),
+#           extra = "length")
+#   
+# } else  {
+#   cat("Distribution de la RMPP calculable uniquement si la période sous revue est au moins égale à 2 ans.")
+# }
 
-  Résumé(c(paste(début.période.sous.revue, début.période.sous.revue + 1, sep = "-"),
-           "Effectif",
-           paste(fin.période.sous.revue - 1, fin.période.sous.revue, sep = "-"),
-           "Effectif"),
-         list(Anavar.synthese[bitwAnd(indicatrice.période, masque.rmpp.début.période) == masque.rmpp.début.période 
-                                          & Année == début.période.sous.revue + 1, 
-                                             .(Montant.net.annuel.eqtp.début, quotité.moyenne)],
-              Anavar.synthese[indicatrice.période >= masque.rmpp.fin.période
-                                          & Année == fin.période.sous.revue, 
-                                          .(Montant.net.annuel.eqtp.sortie, quotité.moyenne)]),
-          extra = "length")
-  
-} else  {
-  cat("Distribution de la RMPP calculable uniquement si la période sous revue est au moins égale à 2 ans.")
-}
-
-#'*Note :*    
-#'*RMPP en `r début.période.sous.revue + 1` des personnes en place en `r début.période.sous.revue`-`r début.période.sous.revue + 1`*     
-#'*RMPP en `r fin.période.sous.revue` des personnes en place en `r fin.période.sous.revue - 1`-`r fin.période.sous.revue `*         
+# #'*Note :*    
+# #'*RMPP en `r début.période.sous.revue + 1` des personnes en place en `r début.période.sous.revue`-`r début.période.sous.revue + 1`*     
+# #'*RMPP en `r fin.période.sous.revue` des personnes en place en `r fin.période.sous.revue - 1`-`r fin.période.sous.revue `*         
 #'    
 #'    
 #'**Variation individuelle de rémunération nette en EQTP pour les personnels présents la première et la dernière année**   
@@ -1003,7 +1009,8 @@ Résumé(c("Variation normalisée (%)",
        "Variation annuelle moyenne normalisée (%)",
        "quotité moyenne",
        "Effectif"),
-        Anavar.synthese[indicatrice.période == masque.présent.sur.période, .(variation.rémunération.normalisée,
+        Anavar.synthese[indicatrice.période == masque.présent.sur.période
+                        & Année == début.période.sous.revue, .(variation.rémunération.normalisée,
                                                                              variation.moyenne.rémunération.normalisée,
                                                                              quotité.moyenne)],
         extra = "length")
@@ -1017,45 +1024,46 @@ Résumé(c("Variation normalisée (%)",
 
 Filtre_rmpp_fonctionnaire <<- function () Filtre_fonctionnaire() & (est.rmpp == TRUE)
 
-#'   
-#'**Evolution de la RMPP nette en EQTP**     
-#'   
-#'  
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
-if (durée.sous.revue > 1)
-    essayer(smpt(Filtre_rmpp_fonctionnaire, type = "RMPP nette"), 
-            "La RMPP nette des fonctionnaires n'a pas pu être calculée")
+# #'   
+# #'**Evolution de la RMPP nette en EQTP**     
+# #'   
+# #'  
+# #'&nbsp;*Tableau `r incrément()`*   
+# #'    
+# if (durée.sous.revue > 1)
+#     essayer(smpt(Filtre_rmpp_fonctionnaire, type = "RMPP nette"), 
+#             "La RMPP nette des fonctionnaires n'a pas pu être calculée")
+# 
+# #'    
+# #'**Distribution et variation sur la période de la rémunération nette des fonctionnaires en place**                
+# #'  
+# #'#### Les filtres sur RMPP sont à présent appliqués (voir 4.3.1)      
+# #'  
+# #'&nbsp;*Tableau `r incrément()`*     
+# #'    
+# #'  
+# if (durée.sous.revue > 1) {
+#   
+#   Résumé(c(paste(début.période.sous.revue, début.période.sous.revue + 1, sep="-"),
+#            "Effectif",
+#            paste(fin.période.sous.revue - 1, fin.période.sous.revue, sep="-"),
+#            "Effectif"),
+#          list(Anavar.synthese[(statut == "TITULAIRE" | statut == "STAGIAIRE")
+#                                            & bitwAnd(indicatrice.période, masque.rmpp.début.période) == masque.rmpp.début.période
+#                                            & Année == début.période.sous.revue + 1,  
+#                                           .(Montant.net.annuel.eqtp.début, quotité.moyenne)],
+#               Anavar.synthese[(statut == "TITULAIRE" | statut == "STAGIAIRE")
+#                                           & indicatrice.période >= masque.rmpp.fin.période
+#                                           & Année == fin.période.sous.revue, 
+#                                           .(Montant.net.annuel.eqtp.sortie, quotité.moyenne)]),
+#          extra = "length")
+#   
+# }
 
-#'    
-#'**Distribution et variation sur la période de la rémunération nette des fonctionnaires en place**                
-#'  
-#'&nbsp;*Tableau `r incrément()`*     
-#'    
-
-#'  
-if (durée.sous.revue > 1) {
-  
-  Résumé(c(paste(début.période.sous.revue, début.période.sous.revue + 1, sep="-"),
-           "Effectif",
-           paste(fin.période.sous.revue - 1, fin.période.sous.revue, sep="-"),
-           "Effectif"),
-         list(Anavar.synthese[(statut == "TITULAIRE" | statut == "STAGIAIRE")
-                                           & bitwAnd(indicatrice.période, masque.rmpp.début.période) == masque.rmpp.début.période
-                                           & Année == début.période.sous.revue + 1,  
-                                          .(Montant.net.annuel.eqtp.début, quotité.moyenne)],
-              Anavar.synthese[(statut == "TITULAIRE" | statut == "STAGIAIRE")
-                                          & indicatrice.période >= masque.rmpp.fin.période
-                                          & Année == fin.période.sous.revue, 
-                                          .(Montant.net.annuel.eqtp.sortie, quotité.moyenne)]),
-         extra = "length")
-  
-}
-
-#'*Note :*   
-#'*RMPP en `r début.période.sous.revue + 1` des personnes en place en `r début.période.sous.revue`-`r début.période.sous.revue + 1`*     
-#'*RMPP en `r fin.période.sous.revue` des personnes en place en `r fin.période.sous.revue - 1`-`r fin.période.sous.revue `*         
-#'   
+# #'*Note :*   
+# #'*RMPP en `r début.période.sous.revue + 1` des personnes en place en `r début.période.sous.revue`-`r début.période.sous.revue + 1`*     
+# #'*RMPP en `r fin.période.sous.revue` des personnes en place en `r fin.période.sous.revue - 1`-`r fin.période.sous.revue `*         
+# #'   
 
 #'
 #'**Variation individuelle de rémunération nette en EQTP pour les personnels présents la première et la dernière année**   
@@ -1085,7 +1093,7 @@ if (durée.sous.revue > 1) {
 #'[Lien vers la base de données](Bases/Remunerations/Anavar.synthese.csv)
 #'
 #'**Nota**   
-#'*Personnes en place :* en fonction au moins deux années consécutives sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`    
+#'*Personnes en place :* en fonction au moins deux années consécutives avec la même quotité sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`    
 #'*Variation sur la période d'activité :* entre l'arrivée et le départ de la personne      
 #'*Variation normalisée :* conforme à la définition INSEE (présente en début et en fin de période avec la même quotité)  
 #'  
@@ -1102,11 +1110,12 @@ attach(Analyse.variations.par.exercice)
 
 ##### 4.3.3 Effet de noria et de variation d'effectifs sur rémunérations moyennes ######
 
+#'   
+#'##### Les filtres RMPP appliqués au 4.3.1 et 4.3.2 ne sont plus appliqués.    
+#'         
+
 #'
 #'### `r chapitre`.3.3 Effet de noria et de variation d'effectifs sur rémunérations moyennes       
-#'   
-
-
 #'**Effet de noria et de variations d'effectifs sur rémunérations nettes moyennes EQTP**   
 #'  
 #'&nbsp;*Tableau `r incrément()`*   

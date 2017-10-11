@@ -44,6 +44,13 @@
 #' Décomposition de l'évolution des salaires, RMPP, SMPT et GVT
 #'
 #' Elabore des tableaux permettant de relier l'évolution de la RMPP, du salaire moyen et des effets d'entrées-sorties.
+#' 
+#' La RMPP ici utilisée se distingue de la définition officielle pour la première année.
+#' On considère en effet en début de période que les salaires considérés sont ceux des agents
+#' présents toute la première année et toute la seconde avec la même quotité.
+#' Ce devrait être en principe "et toute l'année précédente", mais celle-ci n'est pas documentée
+#' et l'approximation reste valable pour l'évaluation du GVT.
+#'
 #' @param Bulletins Base mensuelle des bulletins de paie, comportant pour l'ensemble de la période
 #'        \enumerate{
 #'          \item{ les variables charactère suivantes :
@@ -91,6 +98,7 @@
 #' @param sep  Paramètre \code{sep} de la fonction \code{data.table::fread}. 
 #' @param encoding  Paramètre \code{encoding} de la fonction \code{data.table::fread}.
 #' @param afficher.tableau Si TRUE, affiche quatre tableaux correspondant à la valeur de retour sur la sortie standard.
+#' @param controle.quotité Si TRUE, calcule la RMPP comme dans la définition (quotités identiques sur deux exercices, à 0,1 point près). Si FALSE, relâche cette hypothèse.  
 #' @return Si afficher.tableau = TRUE : 
 #'  \enumerate{
 #'      \item{
@@ -125,7 +133,7 @@
 #'                 \item{\code{Année}}{Années de la période sous revue}
 #'                 \item{\code{RMPP}}{Rémunération moyenne des personnes en place, présentes deux années complètes consécutives.\cr
 #'                  La vérification de la permanence de la quotité sur les deux années n'est pas implémentée.}
-#'                 \item{\code{Entrée n - 1}}{Effet relatif en \% des entrées de personnels au cours de l'année précédente}
+#'                 \item{\code{Entrée n - 1}}{Effet relatif en \% des entrées de personnels en n - 1 présents en n et des variations de quotité entre n - 1 et n. Pour la première année, n - 1 est remplacé par n + 1 et "entrées" par "sorties".}
 #'                 \item{\code{Noria}}{Effet de noria. Effet relatif en \% du remplacement des sortants par les entrants en faisant l'hypothèse que les entrants sont aussi nombreux que les sortants.}
 #'                 \item{\code{Var. effectifs}}{Effet relatif en \% sur le salaire moyen distribué des variations d'effectifs.}
 #'                 \item{\code{Effet vacances}}{Effet relatif en \%  sur le salaire moyen distribué de la différence entre le nombre d'entrants et le nombre de sortants.}                                  
@@ -258,7 +266,8 @@ noria <- function(Bulletins = Bulletins.paie,
                   dec = ",", 
                   sep = ";",
                   encoding = "UTF-8",
-                  afficher.tableau = TRUE) { 
+                  afficher.tableau = TRUE,
+                  controle.quotité = FALSE) { 
 
 noria.sur.base.de.paie <- (fichier == ""  | ! file.exists(fichier))
 
@@ -430,22 +439,51 @@ construire.liste <- function(B) {
                         c(weighted.mean(B[[1]], B[[2]], na.rm = TRUE), sum(B[[2]], na.rm = TRUE))
 }
 
+# La RMPP ici utilisée se distingue de la définition officielle pour la première année.
+# On considère en effet en début de période que les salaires considérés sont ceux des agents
+# présents toute la première année et toute la seconde. Ce devrait être en principe "et toute l'année
+# précédente, mais celle-ci n'est pas documentée et l'approximation reste valable pour l'évaluation
+# du GVT.
+
 rmpp <- data.table(t(sapply(période, function(année) {
   
-            B <- Base[Année == année
-                      & ! Matricule %chin% as.character(ent[[transl(année)]][["matricules"]]) 
-                      & ! Matricule %chin% as.character(sort[[transl(année)]][["matricules"]])]
-            
-            if (année > début.période.sous.revue) {
-              
-              Matricules.ant <- Base[Année == année -1, unique(Matricule)]
-              
-              B <- B[! Matricule %chin% as.character(ent[[transl(année - 1)]][["matricules"]])
-                     & ! Matricule %chin% as.character(sort[[transl(année - 1)]][["matricules"]])  # en principe inutile mais sait-on jamais
-                     & Matricule %chin% Matricules.ant]  # en principe inutile mais sait-on jamais
-            }
-            
-           construire.liste(B)
+  if (durée.sous.revue < 2) {
+    message("La RMPP ne peut être calculée que sur deux années au moins.")
+    return(0)
+  }
+  
+  B <- Base[Année == année
+            & ! Matricule %chin% as.character(ent[[transl(année)]][["matricules"]]) 
+            & ! Matricule %chin% as.character(sort[[transl(année)]][["matricules"]])]
+  
+  if (année > début.période.sous.revue) {
+    
+    Matricules.cond <- unique(Base[Année == année -1, .(Matricule, quotité.moyenne)], by = NULL)
+    
+    C <- Matricules.cond[! Matricule %chin% as.character(ent[[transl(année - 1)]][["matricules"]])
+                         & ! Matricule %chin% as.character(sort[[transl(année - 1)]][["matricules"]])]  # en principe inutile mais sait-on jamais
+
+  } else {
+  
+    Matricules.cond <- unique(Base[Année == année + 1, .(Matricule, quotité.moyenne)], by = NULL)
+    
+    C <- Matricules.cond[! Matricule %chin% as.character(ent[[transl(année + 1)]][["matricules"]])
+                        & ! Matricule %chin% as.character(sort[[transl(année + 1)]][["matricules"]])]  # en principe inutile mais sait-on jamais
+  }
+  
+  if (controle.quotité) {
+    
+    D <- merge(B, C, by = "Matricule")  # all = FALSE impératif
+    D <- D[abs(quotité.moyenne.x - quotité.moyenne.y) < 0.1][ , quotité.moyenne.x := NULL] # présent toute l'année avec la même quotité.
+    setnames(D, "quotité.moyenne.y", "quotité.moyenne")
+    D <- unique(D[Année == année , c("Matricule", salaire.moyen, "quotité.moyenne"), with = FALSE])
+    
+  } else {
+  
+    D <- B[Matricule %chin% unique(C$Matricule)]  
+  }
+   
+  construire.liste(D)
 })))
 
 rmpp_mod <- data.table(t(sapply(période, function(année) {
