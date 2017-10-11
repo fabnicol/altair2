@@ -66,7 +66,7 @@
 library(compiler, warn.conflicts = FALSE)
 
 invisible(setCompilerOptions(suppressAll = TRUE, optimize = 3))
-invisible(enableJIT(0))
+invisible(enableJIT(3))
 
 options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE, datatable.integer64 = "numeric")
 
@@ -110,8 +110,9 @@ message("Démographie...")
 
 # Rappel Analyse.variations.par.exercice comprend uniquement les actifs non annexes non assist. mat., non vacataires, non élus.
 
-library(altair, warn.conflicts = FALSE)
-tableau.effectifs <- effectifs(période, Bulletins.paie, Analyse.remunerations, Analyse.variations)
+library("altair", lib.loc=c("/usr/lib64/R/library", "/usr/local/lib64/R/library"))
+
+tableau.effectifs <<- effectifs(période, Bulletins.paie, Analyse.remunerations, Analyse.variations)
 
 #'  
 #  
@@ -158,7 +159,7 @@ fichiers.pyr <- list.files(path= file.path(currentDir, "data"), pattern = "*.csv
 for (f in fichiers.pyr) {
   base <- basename(f)
   assign(substr(base, 1, attr(regexec("(.*)\\.csv", base)[[1]], "match.length")[2]),
-         fread(f, sep = ";", header = TRUE, encoding = "Latin-1"),
+         fread(f, sep = ";", header = TRUE, encoding = "Latin-1", dec = ",", colClasses = c("integer", "numeric", "numeric", "integer", "character")),
          envir = .GlobalEnv)
 }
 
@@ -264,7 +265,7 @@ newpage()
 
 #' 
 #+fig.height=8, fig.width=7
-Filtre_bulletins <- setdiff(unique(Bulletins.paie$Statut), c("TITULAIRE", "NON_TITULAIRE", "STAGIAIRE")) 
+Filtre_bulletins <<- setdiff(unique(Bulletins.paie$Statut), c("TITULAIRE", "NON_TITULAIRE", "STAGIAIRE")) 
 
 essayer(produire_pyramides(Filtre_bulletins,
                            "Pyramide des âges des autres personnels"),
@@ -470,10 +471,11 @@ newpage()
 #'# `r chapitre`. Rémunérations nettes : évolutions sur la période `r début.période.sous.revue` - `r fin.période.sous.revue`    
 #'
 #'Nombre d'exercices: `r durée.sous.revue`   
-#'  
-#'**Les données présentées dans cette section sont toutes relatives à des rémunérations nettes en équivalent temps plein (EQTP)**   
-#'Les élus, les vacataires et les assistantes maternelles ont été retirés de la population étudiée       
-#'Seuls sont considérés les postes actifs et non annexes   
+#'
+#'**Périmètre des données**      
+#'**Les données présentées dans cette section sont toutes relatives à des rémunérations nettes en équivalent temps plein (EQTP)**           
+#'**Les élus, les vacataires et les assistantes maternelles ont été retirés de la population étudiée**       
+#'**Seuls sont considérés les postes actifs et non annexes**      
 #'    
 #'*Nota :*   
 #'*EQTP = Equivalent temps plein  = 12 . moyenne du ratio rémunération / quotité*    
@@ -521,14 +523,14 @@ if (longueur.non.na(temp) > 0)
 }, "Le graphique des rémunérations moyennes des fonctionnaires n'a pas pu être généré")
 
 #'   
-#'[Lien vers la base de données synthétique](Bases/Remunerations/Analyse.variations.par.exercice.csv)
-#'[Lien vers la base de données détaillée par année](Bases/Remunerations/Analyse.variations.par.exercice.csv)  
+#'[Lien vers la base de données synthétique](Bases/Remunerations/Analyse.variations.par.exercice.csv)     
+#'[Lien vers la base de données détaillée par année](Bases/Remunerations/Analyse.variations.par.exercice.csv)     
 
 ########### 4.2  Evolutions des rémunérations nettes ###########
 
-#'## `r chapitre`.2 Evolutions des rémunérations nettes sur la période `r début.période.sous.revue` - `r fin.période.sous.revue`   
+#'## `r chapitre`.2 Evolutions du SMPT sur la période `r début.période.sous.revue` - `r fin.période.sous.revue`   
 #'
-#'### `r chapitre`.2.1 Ensemble des personnels fonctionnaires et non titulaires (hors élus)
+#'### `r chapitre`.2.1 Evolution du SMPT pour l'ensemble des personnels fonctionnaires et non titulaires (hors élus)        
 #'
 #+ remuneration-nette-evolution
 
@@ -608,40 +610,19 @@ distribution_smpt <- function(Filtre) {
 
 }
 
-Filtre_neutre <- function() TRUE
+Filtre_neutre <<- function() TRUE   
 
-essayer(smpt(Filtre_neutre),     "Le salaire moyen par tête n'a pas pu être calculé.")
-
-#'   
-#+ Effet-de-noria-ensemble
-#source("noria.R", encoding = encodage.code.source)
-#noria()
-
-#'   
-#'**Effet de noria sur salaires nets et taux de remplacements**       
-#'   
-#'**Effet de noria** : *différence entre la rémunération annuelle des entrants à l'année N et des sortants à l'année N-1*.  
-#'*Usuellement calculée sur les rémunérations brutes, ici sur les rémunérations nettes EQTP*  
-#'*afin d'apprécier l'impact de cet effet sur l'évolution des rémunérations nette moyennes calculée au tableau précédent.*               
-#'  
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
-#+ noria-tableau
-
-# B
-
-#'
-#'*MS N-1 : masse salariale nette de l'année n-1.*   
+essayer(smpt(Filtre_neutre),     "Le salaire moyen par tête n'a pas pu être calculé.")    
 
 #'**Distribution et variation sur la période du salaire moyen net par tête (SMPT net) en EQTP**         
 #'**pour les salariés à temps complet**           
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r incrément()`*     
 #'    
 
 #+ premiere-derniere-annee
 
-essayer(distribution_smpt(Filtre_neutre),        "La distribution du salaire moyen par tête n'a pas pu être calculée.")
+essayer(distribution_smpt(Filtre_neutre), "La distribution du salaire moyen par tête n'a pas pu être calculée.")
 
 #'  
 #'*Nota :*  La population retenue est constituée des agents qui ne font pas partie des `r 2*quantile.cut` centiles extrêmaux   
@@ -680,17 +661,17 @@ essayer(distribution_smpt(Filtre_neutre),        "La distribution du salaire moy
 #'  
 #' | Décile \ euros   | 2011     | 2013   | 2014   |  
 #' |------------------|----------|--------|--------|   
-#' |    D1            | 15 288   | 15 600 | 15 768 | 
+#' |    D1            | 15 288   | 15 600 | 15 768 |   
 #' |    D2            | 16 512   | 16 860 | 17 124 |   
-#' |    D3            | 17 508   | 17 844 | 18 156 | 
-#' |    D4            | 18 480   | 18 816 | 19 164 | 
+#' |    D3            | 17 508   | 17 844 | 18 156 |   
+#' |    D4            | 18 480   | 18 816 | 19 164 |  
 #' |    D5 (médiane)  | 19 632   | 19 908 | 20 256 |    
 #' |    D6            | 21 012   | 21 300 | 21 648 |  
 #' |    D7            | 22 860   | 23 160 | 23 496 |  
 #' |    D8            | 25 596   | 25 956 | 26 292 |  
 #' |    D9            | 30 876   | 31 272 | 31 596 |  
 #' |    Moyenne       | 21 876   | 22 212 | 22 524 |  
-#' 
+#'    
  
 #'**Distribution des salaires nets annuels en EQTP dans la fonction publique d'Etat (2011-2013)**   
 #' 
@@ -740,24 +721,26 @@ essayer(distribution_smpt(Filtre_neutre),        "La distribution du salaire moy
 #'[Source INSEE 2016](Docs/insee-premiere1616.pdf)    
  
 #'   
-#'### `r chapitre`.2.2 Fonctionnaires      
+#'### `r chapitre`.2.2 Evolution du SMPT des fonctionnaires         
 #'   
-#'**Titulaires et stagiaires**      
+#'##### `r chapitre`.2.2.1 Toutes catégories statutaires          
 
 #'**Salaire net moyen par tête (SMPT net) en EQTP**       
-#'**Ensemble**  
+#'    
 #'    
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Filtre_fonctionnaire <- function() Statut == "TITULAIRE" | Statut == "STAGIAIRE"
+Filtre_fonctionnaire <<- function() Statut == "TITULAIRE" | Statut == "STAGIAIRE"
 
 essayer(smpt(Filtre_fonctionnaire), "Le salaire moyen par tête des fonctionnaires n'a pas pu être calculé.")
 
-Filtre_cat_A <- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "A")
-Filtre_cat_B <- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "B") 
-Filtre_cat_C <- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "C") 
+Filtre_cat_A <<- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "A")
+Filtre_cat_B <<- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "B") 
+Filtre_cat_C <<- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "C") 
 
+#'    
+#'##### `r chapitre`.2.2.2 Par catégorie  statutaire        
 #'   
 #'**Catégorie A**  
 #'
@@ -768,10 +751,10 @@ Filtre_cat_C <- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  &
 
 essayer(smpt(Filtre_cat_A), "Le salaire moyen par tête des fonctionnaires de catégorie A n'a pas pu être calculé.")  
 
-#'**Distribution des salaires nets annuels en EQTP dans la fonction publique territoriale par catégorie (2011-2013)**   
 #'  
 #'*Comparaisons nationales*    
-#'    
+#'*FPT catégorie A*    
+#'            
 #' | Décile \ euros   | 2011     | 2013   |   2014   |  
 #' |------------------|----------|--------|----------|   
 #' |    D1            | 26 040   | 26 340 |  26 460  |   
@@ -788,15 +771,16 @@ essayer(smpt(Filtre_cat_A), "Le salaire moyen par tête des fonctionnaires de ca
 
 #'   
 #'**Catégorie B**  
-#'
+#'   
+#'   
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 #'  
 
 essayer(smpt(Filtre_cat_B),          "Le salaire moyen par tête des fonctionnaires de catégorie B n'a pas pu être calculé.")  
 
-
 #'*Comparaisons nationales*    
+#'*FPT catégorie B*    
 #'    
 #' | Décile \ euros   | 2011     | 2013   |  2014   |    
 #' |------------------|----------|--------|---------|   
@@ -823,7 +807,8 @@ essayer(smpt(Filtre_cat_C),       "Le salaire moyen par tête des fonctionnaires
 
 #'     
 #'*Comparaisons nationales*    
-#' 
+#'*FPT catégorie C*    
+#'    
 #' | Décile \ euros   | 2011     | 2013   |  2014  | 
 #' |------------------|----------|--------|--------|
 #' |    D1            | 15 972   |  16 296| 16 632 |
@@ -840,24 +825,23 @@ essayer(smpt(Filtre_cat_C),       "Le salaire moyen par tête des fonctionnaires
 
 
 
-#'   
-#'**Effet de noria sur salaires nets et taux de remplacements**       
-#'  
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
-
-
-#'     
-#'*MS N-1 : masse salariale nette de l'année n-1.*   
 #'       
-#'**Distribution et variation sur la période du salaire moyen net par tête (SMPT net) en EQTP**         
+#'### `r chapitre`.2.3 Distribution et variation sur la période du SMPT net en EQTP         
+#'     
 
+#'       
+#'#### `r chapitre`.2.3.1 Pour l'ensemble des catégories statutaires             
+#'     
 
 #'**Fonctionnaires**    
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
 essayer(distribution_smpt(Filtre_fonctionnaire), "La distribution du salaire moyen par tête des fonctionnaires n'a pas pu être calculée.")
+
+#'       
+#'#### `r chapitre`.2.3.2 Par catégorie statutaire             
+#'     
 
 #'**Catégorie A**    
 #'&nbsp;*Tableau `r incrément()`*   
@@ -879,16 +863,25 @@ essayer(distribution_smpt(Filtre_cat_C), "La distribution du salaire moyen par t
 
 #'[Lien vers la base de données](Bases/Remunerations/Analyse.variations.par.exercice.csv)     
 
-########### 4.3  GVT ###########  
+########### 4.3  RMPP et effet de noria ###########  
 
-#'## `r chapitre`.3 Glissement vieillesse-technicité (GVT)   
+#'## `r chapitre`.3 Rémunération moyenne des personnes en place (RMPP) et effet de noria
 #'
-#'### `r chapitre`.3.1 Ensemble des personnels   
+
+   
+##### 4.3.1 RMPP de l'ensemble des personnels titulaires et non-titulaires  ####
+  
+#'### Application de filtres sur les données        
+#'     
+#'**Afin d'apprécier la sensibilité des résultats à la qualité ou aux valeurs extrêmes des données, le filtrage suivant est à présent appliqué.**    
+#'**Sont retirés les valeurs manquantes des variations, les centiles extrêmaux, les rémunérations nettes négatives (rappels) ou proche de zéro.**     
+#'**Un statut explicite doit être renseigné en fin de période. Des rémunérations doivent être versées à la fois en début et en fin de période de paiement de l'agent, supérieures à `r minimum.positif`. Le nombre de jours d'exercice doit être supérieur à `r 2 * seuil.troncature` .**                 
+#'**Ces filtres sont référencés ci-après par les termes "filtres sur RMPP".**          
+#'
+#'### `r chapitre`.3.1 RMPP de l'ensemble des personnels titulaires et non-titulaires   
 #'   
 #'*Cette section est consacrée à la rémunération moyenne des personnes en place (RMPP), définies comme présentes deux années entières consécutives avec la même quotité*   
 #'*L'évolution de la RMPP permet d'étudier le glissement vieillesse-technicité "positif", à effectifs constants sur deux années*      
-#'*Le GVT positif est dû aux mesures statutaires et individuelles, à l'avancement et aux changements d'activité*  
-
 
 # Appliquer les filtres maintenant
 
@@ -904,7 +897,7 @@ q3 <- quantile(Analyse.variations$variation.rémunération, c(quantile.cut/100, 
 
 # ici il faut réduire la matrice pour éviter les réduplications pour les Résumés. TODO
 
-Anavar.synthese <- Analyse.variations[total.jours > 2 * seuil.troncature
+Anavar.synthese <- Analyse.variations[total.jours > seuil.troncature
                                                            & pris.en.compte == TRUE
                                                            & ! is.na(statut)   
                                                            & ! is.na(variation.rémunération) 
@@ -929,59 +922,63 @@ if (nrow(Anavar.synthese.plus.2.ans) > 0 && durée.sous.revue > 1 ) {
 
 try(axis(side=1, at=seq(-5,30, 1), labels=seq(-5,30,1), lwd=2))
 
-Filtre_rmpp <- function() (est.rmpp == TRUE)
+Filtre_rmpp <<- function() (est.rmpp == TRUE)
 }
 
-#'   
-#'**Evolution de la RMPP nette en EQTP**     
-#'   
-#'  
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
+# #'   
+# #'**Evolution de la RMPP nette en EQTP**     
+# #'   
+# #'#### La RMPP est évaluée sans filtrage particulier sur les données dans le tableau suivant      
+# #'  
+# #'&nbsp;*Tableau `r incrément()`*   
+# #'    
+# 
+# if (durée.sous.revue > 1) {
+#    essayer(smpt(Filtre_rmpp, type = "RMPP nette"), "La rémunération moyenne des personnels en place n'a pas pu être calculée.") 
+#   } else  {
+#    cat("RMPP calculable uniquement si la période sous revue est au moins égale à 2 ans.")
+#   }
+# 
+#  
+# #'    
+# #'**Distribution et variation sur la période de la rémunération nette des personnes en place**                   
+# #'  
+# #'&nbsp;*Tableau `r incrément()`*     
+# #'    
+# 
+# # La légère différence de périmètre entre Anavar.synthese et Analyse.variations tient au filtrage des quantiles
+# # extrêmaux et des valeurs manquantes des variations
 
-if (durée.sous.revue > 1) {
-   essayer(smpt(Filtre_rmpp, type = "RMPP nette"), "La rémunération moyenne des personnels en place n'a pas pu être calculée.") 
-  } else  {
-   cat("RMPP calculable uniquement si la période sous revue est au moins égale à 2 ans.")
-  }
 
-#'    
-#'**Distribution et variation sur la période de la rémunération nette des personnes en place**                
-#'  
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
-
-# La légère différence de pérmètre entre Anavar.synthese et Analyse.variations.par.exercice tient au filtrage des quantiles
-# extrêmaux et des valeurs manquantes des variations
-
-
-masque.rmpp.fin.période    <- bitwShiftL(3, durée.sous.revue - 2)      #  11{0,1}...{0,1}
-masque.rmpp.début.période  <- 3                                        #  {0,1}...{0,1}11
+#masque.rmpp.fin.période    <- bitwShiftL(3, durée.sous.revue - 2)      #  11{0,1}...{0,1}
+#masque.rmpp.début.période  <- 3                                        #  {0,1}...{0,1}11
 masque.présent.début.fin   <- bitwShiftL(1, durée.sous.revue - 1) + 1  #  10000..1
-masque.présent.sur.période <- bitwShiftL(1, durée.sous.revue) - 1       #  11111..1
+masque.présent.sur.période <- bitwShiftL(1, durée.sous.revue) - 1      #  11111..1
 
-if (durée.sous.revue > 1) {
+# if (durée.sous.revue > 1) {
+# 
+#   Résumé(c(paste(début.période.sous.revue, début.période.sous.revue + 1, sep = "-"),
+#            "Effectif",
+#            paste(fin.période.sous.revue - 1, fin.période.sous.revue, sep = "-"),
+#            "Effectif"),
+#          list(Anavar.synthese[bitwAnd(indicatrice.période, masque.rmpp.début.période) == masque.rmpp.début.période 
+#                                           & Année == début.période.sous.revue + 1, 
+#                                              .(Montant.net.annuel.eqtp.début, quotité.moyenne)],
+#               Anavar.synthese[indicatrice.période >= masque.rmpp.fin.période
+#                                           & Année == fin.période.sous.revue, 
+#                                           .(Montant.net.annuel.eqtp.sortie, quotité.moyenne)]),
+#           extra = "length")
+#   
+# } else  {
+#   cat("Distribution de la RMPP calculable uniquement si la période sous revue est au moins égale à 2 ans.")
+# }
 
-  Résumé(c(paste(début.période.sous.revue, début.période.sous.revue + 1, sep = "-"),
-           "Effectif",
-           paste(fin.période.sous.revue - 1, fin.période.sous.revue, sep = "-"),
-           "Effectif"),
-         list(Anavar.synthese[bitwAnd(indicatrice.période, masque.rmpp.début.période) == masque.rmpp.début.période 
-                                          & Année == début.période.sous.revue + 1, 
-                                             .(Montant.net.annuel.eqtp.début, quotité.moyenne)],
-              Anavar.synthese[indicatrice.période >= masque.rmpp.fin.période
-                                          & Année == fin.période.sous.revue, 
-                                          .(Montant.net.annuel.eqtp.sortie, quotité.moyenne)]),
-          extra = "length")
-  
-} else  {
-  cat("Distribution de la RMPP calculable uniquement si la période sous revue est au moins égale à 2 ans.")
-}
-
-#'*RMPP en `r début.période.sous.revue + 1` des personnes en place en `r début.période.sous.revue`-`r début.période.sous.revue + 1`*     
-#'*RMPP en `r fin.période.sous.revue` des personnes en place en `r fin.période.sous.revue - 1`-`r fin.période.sous.revue `*         
-#'
-#'*Variation individuelle de rémunération nette en EQTP pour les personnels présents la première et la dernière année*   
+# #'*Note :*    
+# #'*RMPP en `r début.période.sous.revue + 1` des personnes en place en `r début.période.sous.revue`-`r début.période.sous.revue + 1`*     
+# #'*RMPP en `r fin.période.sous.revue` des personnes en place en `r fin.période.sous.revue - 1`-`r fin.période.sous.revue `*         
+#'    
+#'    
+#'**Variation individuelle de rémunération nette en EQTP pour les personnels présents la première et la dernière année**   
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
@@ -1002,64 +999,74 @@ if (durée.sous.revue > 1) {
 }
 
 
-# #'
-# #'*Variation individuelle de rémunération nette en EQTP pour les personnels présents sur toute la période*   
+#'
+#'**Variation individuelle de rémunération nette en EQTP pour les personnels présents sur toute la période**     
+#'
+#'&nbsp;*Tableau `r incrément()`*
+#'
+
+Résumé(c("Variation normalisée (%)",
+       "Variation annuelle moyenne normalisée (%)",
+       "quotité moyenne",
+       "Effectif"),
+        Anavar.synthese[indicatrice.période == masque.présent.sur.période
+                        & Année == début.période.sous.revue, .(variation.rémunération.normalisée,
+                                                                             variation.moyenne.rémunération.normalisée,
+                                                                             quotité.moyenne)],
+        extra = "length")
+
+
+##### 4.3.2  RMPP des titulaires et stagiaires     ######   
+
+#'    
+#'### `r chapitre`.3.2 RMPP des titulaires et stagiaires     
+#'   
+
+Filtre_rmpp_fonctionnaire <<- function () Filtre_fonctionnaire() & (est.rmpp == TRUE)
+
+# #'   
+# #'**Evolution de la RMPP nette en EQTP**     
+# #'   
 # #'  
 # #'&nbsp;*Tableau `r incrément()`*   
-# #'  
+# #'    
+# if (durée.sous.revue > 1)
+#     essayer(smpt(Filtre_rmpp_fonctionnaire, type = "RMPP nette"), 
+#             "La RMPP nette des fonctionnaires n'a pas pu être calculée")
 # 
-# Résumé("Variation normalisée (%)",
-#         # "Variation annuelle moyenne normalisée (%)",
-#          "Effectif"),
-#        Anavar.synthese[indicatrice.période == masque.présent.sur.période, variation.rémunération.normalisée],
-#        extra = "length")
+# #'    
+# #'**Distribution et variation sur la période de la rémunération nette des fonctionnaires en place**                
+# #'  
+# #'#### Les filtres sur RMPP sont à présent appliqués (voir 4.3.1)      
+# #'  
+# #'&nbsp;*Tableau `r incrément()`*     
+# #'    
+# #'  
+# if (durée.sous.revue > 1) {
+#   
+#   Résumé(c(paste(début.période.sous.revue, début.période.sous.revue + 1, sep="-"),
+#            "Effectif",
+#            paste(fin.période.sous.revue - 1, fin.période.sous.revue, sep="-"),
+#            "Effectif"),
+#          list(Anavar.synthese[(statut == "TITULAIRE" | statut == "STAGIAIRE")
+#                                            & bitwAnd(indicatrice.période, masque.rmpp.début.période) == masque.rmpp.début.période
+#                                            & Année == début.période.sous.revue + 1,  
+#                                           .(Montant.net.annuel.eqtp.début, quotité.moyenne)],
+#               Anavar.synthese[(statut == "TITULAIRE" | statut == "STAGIAIRE")
+#                                           & indicatrice.période >= masque.rmpp.fin.période
+#                                           & Année == fin.période.sous.revue, 
+#                                           .(Montant.net.annuel.eqtp.sortie, quotité.moyenne)]),
+#          extra = "length")
+#   
+# }
 
-#'    
-#'### `r chapitre`.3.2 Titulaires et stagiaires     
-#'   
-
-Filtre_rmpp_fonctionnaire <- function () Filtre_fonctionnaire() & (est.rmpp == TRUE)
-
-#'   
-#'**Evolution de la RMPP nette en EQTP**     
-#'   
-#'  
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
-if (durée.sous.revue > 1)
-    essayer(smpt(Filtre_rmpp_fonctionnaire, type = "RMPP nette"), "La RMPP nette des fonctionnaires n'a pas pu être calculée")
-
-#'    
-#'**Distribution et variation sur la période de la rémunération nette des fonctionnaires en place**                
-#'  
-#'&nbsp;*Tableau `r incrément()`*   
-#'    
-
-#'  
-if (durée.sous.revue > 1) {
-  
-  Résumé(c(paste(début.période.sous.revue, début.période.sous.revue + 1, sep="-"),
-           "Effectif",
-           paste(fin.période.sous.revue - 1, fin.période.sous.revue, sep="-"),
-           "Effectif"),
-         list(Anavar.synthese[(statut == "TITULAIRE" | statut == "STAGIAIRE")
-                                           & bitwAnd(indicatrice.période, masque.rmpp.début.période) == masque.rmpp.début.période
-                                           & Année == début.période.sous.revue + 1,  
-                                          .(Montant.net.annuel.eqtp.début, quotité.moyenne)],
-              Anavar.synthese[(statut == "TITULAIRE" | statut == "STAGIAIRE")
-                                          & indicatrice.période >= masque.rmpp.fin.période
-                                          & Année == fin.période.sous.revue, 
-                                          .(Montant.net.annuel.eqtp.sortie, quotité.moyenne)]),
-         extra = "length")
-  
-}
-
-#'*RMPP en `r début.période.sous.revue + 1` des personnes en place en `r début.période.sous.revue`-`r début.période.sous.revue + 1`*     
-#'*RMPP en `r fin.période.sous.revue` des personnes en place en `r fin.période.sous.revue - 1`-`r fin.période.sous.revue `*         
-#'
+# #'*Note :*   
+# #'*RMPP en `r début.période.sous.revue + 1` des personnes en place en `r début.période.sous.revue`-`r début.période.sous.revue + 1`*     
+# #'*RMPP en `r fin.période.sous.revue` des personnes en place en `r fin.période.sous.revue - 1`-`r fin.période.sous.revue `*         
+# #'   
 
 #'
-#'*Variation individuelle de rémunération nette en EQTP pour les personnels présents la première et la dernière année*   
+#'**Variation individuelle de rémunération nette en EQTP pour les personnels présents la première et la dernière année**   
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
@@ -1086,13 +1093,135 @@ if (durée.sous.revue > 1) {
 #'[Lien vers la base de données](Bases/Remunerations/Anavar.synthese.csv)
 #'
 #'**Nota**   
-#'*Personnes en place :* en fonction au moins deux années consécutives sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`    
+#'*Personnes en place :* en fonction au moins deux années consécutives avec la même quotité sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`    
 #'*Variation sur la période d'activité :* entre l'arrivée et le départ de la personne      
 #'*Variation normalisée :* conforme à la définition INSEE (présente en début et en fin de période avec la même quotité)  
 #'  
 #'**Commentaire**       
 #'Les différences éventuelles constatées entre l'évolution de la RMPP au tableau `r numéro.tableau-2` sont dues soit à l'effet de noria soit à l'effet périmètre.    
 #'      
+
+
+#'   
+#+ Effet-de-noria-ensemble
+
+detach(Analyse.variations)
+attach(Analyse.variations.par.exercice)
+
+##### 4.3.3 Effet de noria et de variation d'effectifs sur rémunérations moyennes ######
+
+#'   
+#'##### Les filtres RMPP appliqués au 4.3.1 et 4.3.2 ne sont plus appliqués.    
+#'         
+
+#'
+#'### `r chapitre`.3.3 Effet de noria et de variation d'effectifs sur rémunérations moyennes       
+#'**Effet de noria et de variations d'effectifs sur rémunérations nettes moyennes EQTP**   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+#+ noria-tableau
+
+invisible(noria(champ = "net"))
+
+#'  
+#'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP**   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+invisible(noria(champ = "brut"))
+
+#'  
+#'*Note :*        
+#'*Effet de noria* : *variation des rémunérations liées au remplacement de salariés sortants par un même nombre d'entrants.*   
+#'*Effet des variations d'effectifs (ou de périmètre)* : *variation des rémunérations liées à la différence entre nombre de sortants et d'entrants.*    
+#'*Les effets de vacances d'emploi, s'ils existent, sont intégrés dans le calcul de l'effet de noria*     
+#'[Voir complément méthodologique](Docs/Notices/GVT et noria.pdf)          
+
+##### 4.3.4 Effet de noria et de variation d'effectifs sur rémunérations moyennes des fonctionnaires  ######
+
+#'
+#'### `r chapitre`.3.4 Effet de noria et de variation d'effectifs sur rémunérations moyennes des fonctionnaires           
+#'   
+#'   
+#'**Effet de noria et de variations d'effectifs sur rémunérations nettes moyennes EQTP des fonctionnaires**   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+#+ noria-tableau2
+
+invisible(noria(champ = "net", filtre = c("TITULAIRE", "STAGIAIRE")))
+
+#'  
+#'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP des fonctionnaires**   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+invisible(noria(champ = "brut", filtre = c("TITULAIRE", "STAGIAIRE")))
+
+##### 4.3.5 Effet de noria et de variation d'effectifs sur rémunérations moyennes par catégorie statutaire  ######
+
+#'
+#'### `r chapitre`.3.5 Effet de noria et de variation d'effectifs sur rémunérations moyennes par catégorie statutaire             
+#'   
+#'   
+#'**Effet de noria et de variations d'effectifs sur rémunérations nettes moyennes EQTP des fonctionnaires de catégorie A**   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+#+ noria-tableau3
+
+invisible(noria(champ = "net", filtre = "A"))
+
+#'  
+#'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP des fonctionnaires de catégorie A**   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+invisible(noria(champ = "brut", filtre = "A"))
+
+#'   
+#'**Effet de noria et de variations d'effectifs sur rémunérations nettes moyennes EQTP des fonctionnaires de catégorie B**   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+#+ noria-tableau4
+
+invisible(noria(champ = "net", filtre = "B"))
+
+#'  
+#'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP des fonctionnaires de catégorie B**   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+invisible(noria(champ = "brut", filtre = "B"))
+
+#'   
+#'**Effet de noria et de variations d'effectifs sur rémunérations nettes moyennes EQTP des fonctionnaires de catégorie C**   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+#+ noria-tableau5
+
+invisible(noria(champ = "net", filtre = "C"))
+
+#'  
+#'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP des fonctionnaires de catégorie C**   
+#'  
+#'&nbsp;*Tableau `r incrément()`*   
+#'    
+
+invisible(noria(champ = "brut", filtre = "C"))
+
+#'     
+
+
+
+detach(Analyse.variations.par.exercice)
 
 ####### 4.4 Comparaisons nationales ####  
 
@@ -1178,12 +1307,15 @@ newpage()
 ########### 5. TESTS STATUTAIRES ########################
 #'
 #'   
-#'**Dans cette partie, l'ensemble de la base de paie est étudié.**  
-#'Les agents non actifs ou dont le poste est annexe sont réintroduits dans le périmètre.   
 
-#### 5.1 NBI ####
+#### 5.1 NBI ####  
 
 #'# `r chapitre`. Tests réglementaires   
+#'    
+#'**Dans cette partie, l'ensemble de la base de paie est étudié.**  
+#'Les agents non actifs ou dont le poste est annexe sont réintroduits dans le périmètre.   
+#'    
+#'    
 #'## `r chapitre`.1 Contrôle des nouvelles bonifications indiciaires (NBI) 
 
 #+ tests-statutaires-nbi
@@ -1279,9 +1411,11 @@ if (nrow(cumuls.nbi) == 0) cat("Cumuls de NBI nuls. ")
 # On somme ensuite par année sur tous les matricules
 # Les cumuls annuels rapportés aux cumuls indiciaires pour l'année ne doivent pas trop s'écarter de la valeur annuelle moyenne du point d'indice
 
+# Techniquement, rajouter un by = .(Année, Mois) accélère la computation
+
 lignes.nbi.anormales <- T2[nbi.cum.indiciaire > 0 
                             & nbi.eqtp.tot > 0,
-                              test := nbi.eqtp.tot/nbi.cum.indiciaire - PointMensuelIM[Année - 2007, Mois]
+                              test := nbi.eqtp.tot/nbi.cum.indiciaire - PointMensuelIM[Année - 2007, Mois], by= .(Année, Mois)
                           ][! is.na(test) & abs(test) > 1
                           ][ , cout.nbi.anormale := (nbi.eqtp.tot - nbi.cum.indiciaire * PointMensuelIM[Année - 2007, Mois]) * adm.quotité]
 
@@ -1289,7 +1423,7 @@ couts.nbi.anormales <- lignes.nbi.anormales[ , sum(cout.nbi.anormale, na.rm = TR
 
 lignes.nbi.anormales.hors.rappels <- T2[nbi.cum.indiciaire > 0 
                             & nbi.cum.hors.rappels > 0,
-                              test := nbi.cum.hors.rappels/(adm.quotité * nbi.cum.indiciaire) - PointMensuelIM[Année - 2007, Mois]
+                              test := nbi.cum.hors.rappels/(adm.quotité * nbi.cum.indiciaire) - PointMensuelIM[Année - 2007, Mois], by= .(Année, Mois)
                           ][! is.na(test) & abs(test) > 1
                           ][ , cout.nbi.anormale := nbi.cum.hors.rappels - nbi.cum.indiciaire * PointMensuelIM[Année - 2007, Mois] * adm.quotité]
 
@@ -2441,11 +2575,15 @@ colonnes <- c(étiquette.matricule,
               "Mois",
               "Statut",
               "Indice",
+              "NBI",
               "Libellé",
               étiquette.code,
               "Heures",
               "Heures.Sup.",
+              "quotité",
+              "quotité.moyenne",
               "Base",
+              "Nb.Unité",
               "Taux",
               "Montant",
               "Début",
@@ -2462,7 +2600,44 @@ Base.IHTS <- filtrer_Paie("IHTS",
                           indic = TRUE)[ , `:=` (Année.rappel = as.numeric(substr(Début, 0, 4)),
                                                  Mois.rappel  = as.numeric(substr(Début, 6, 7))) ]
 
-Base.IHTS.non.tit <- Base.IHTS[Statut != "TITULAIRE" & Statut != "STAGIAIRE" & indic == TRUE]
+lignes.IHTS <- Base.IHTS[indic == TRUE][ , indic := NULL]
+
+Base.IHTS.non.tit <- lignes.IHTS[Statut != "TITULAIRE" & Statut != "STAGIAIRE"]
+
+lignes.IHTS.rappels <- lignes.IHTS[Type == "R" & Montant != 0
+         ][ , `:=`(ihts.cum.rappels = sum(Montant[Année.rappel == Année & Mois.rappel <= Mois], na.rm = TRUE),
+                   nihts.cum.rappels = ifelse((a <- sum(abs(Base[Année.rappel == Année & Mois.rappel <= Mois]) * sign(Montant), na.rm = TRUE)) == 0, sum(abs(Nb.Unité[Année.rappel == Année & Mois.rappel <= Mois])  * sign(Montant), na.rm = TRUE), a),
+                   ihts.cum.rappels.ant = sum(Montant[Année.rappel < Année], na.rm = TRUE),
+                   nihts.cum.rappels.ant = ifelse((a <- sum(abs(Base[Année.rappel < Année]) * sign(Montant), na.rm = TRUE)) == 0, sum(abs(Nb.Unité[Année.rappel < Année]) * sign(Montant), na.rm = TRUE), a)), 
+                 by= .(Matricule, Année.rappel, Mois.rappel)
+         ][Année.rappel >= début.période.sous.revue 
+                 & Mois.rappel >=1 
+                 & Mois.rappel <= 12
+         ][ , .(Matricule, Année, Mois, quotité, quotité.moyenne, Année.rappel, Mois.rappel, ihts.cum.rappels, nihts.cum.rappels, ihts.cum.rappels.ant, nihts.cum.rappels.ant)]
+
+setnames(lignes.IHTS.rappels, "Année", "Année.R")
+setnames(lignes.IHTS.rappels, "Mois", "Mois.R")
+setnames(lignes.IHTS.rappels, "Année.rappel", "Année")
+setnames(lignes.IHTS.rappels, "Mois.rappel", "Mois")
+
+lignes.IHTS.hors.rappels <- lignes.IHTS[Type != "R" & Montant != 0, 
+                                       .(ihts.cum.hors.rappels = sum(Montant, na.rm = TRUE),
+                                         nihts.cum.hors.rappels = ifelse((a <- sum(abs(Base) * sign(Montant), na.rm = TRUE)) == 0, sum(abs(Nb.Unité) * sign(Montant), na.rm = TRUE), a),
+                                         quotité.moyenne),
+                                           by= .(Matricule, Année, Mois)]
+
+lignes.IHTS.tot <- merge(lignes.IHTS.rappels, lignes.IHTS.hors.rappels, 
+                         all = TRUE,
+                         by = c("Matricule", "Année", "Mois", "quotité.moyenne"))[is.na(ihts.cum.rappels), ihts.cum.rappels := 0
+                     ][is.na(ihts.cum.hors.rappels), ihts.cum.hors.rappels := 0
+                     ][is.na(nihts.cum.rappels), nihts.cum.rappels := 0
+                     ][is.na(nihts.cum.hors.rappels), nihts.cum.hors.rappels := 0
+                     ][is.na(ihts.cum.rappels), ihts.cum.rappels := 0
+                     ][is.na(ihts.cum.rappels.ant), ihts.cum.rappels.ant := 0
+                     ][is.na(nihts.cum.rappels.ant), nihts.cum.rappels.ant := 0]
+
+lignes.IHTS.tot[ ,  `:=`(ihts.tot = ihts.cum.rappels + ihts.cum.hors.rappels + ihts.cum.rappels.ant,
+                         nihts.tot = nihts.cum.rappels + nihts.cum.hors.rappels + nihts.cum.rappels.ant)]
 
 essayer(
 {
@@ -2476,50 +2651,45 @@ essayer(
     cat("Tous les attributaires des IHTS sont titulaires ou stagiaires. ")
   }
   
+# Taux.horaires donne des sommes annuelles pour les traitements et IHTS, afin de calculer les taux maxima "seuils"
+# on prend en compte la NBI pour le calcul du taux (réponse ministérielle 23 mai 2006)   
+  
   Taux.horaires <- Base.IHTS[ ,.(`IR` = sum(Montant[Type == "IR"], na.rm = TRUE),
-                                  IHTS.hors.rappels = sum(Montant[indic == TRUE 
-                                                                  & (Type != "R" | (Année.rappel == Année & Mois.rappel == Mois))],
-                                                          na.rm = TRUE),
-                                  IHTS.rappels = sum(Montant[indic == TRUE
-                                                             & Type == "R"
-                                                             & ((Année.rappel == Année & Mois.rappel < Mois) | Année.rappel < Année) ],
-                                                     na.rm = TRUE),
-                                  IHTS.rappels.année.préc = sum(Montant[indic == TRUE 
-                                                                        & Type == "R" 
-                                                                        & Année.rappel < Année], 
-                                                                na.rm = TRUE), 
                                   Indice = Indice[1],
+                                  NBI = NBI[1],
                                   Heures.Sup. = Heures.Sup.[1]), # ajouter NBI proratisée !
-                                         by = .(Matricule, Année, Mois)
-    
-                            ][ , `Traitement indiciaire annuel et IR` := IR * 12 + Indice * PointIM[Année - 2007, Mois]
+                                         by = .(Matricule, Année, Mois, quotité)]
+  
+  Taux.horaires <- merge(Taux.horaires, lignes.IHTS.tot, by=c("Matricule", "Année", "Mois", "quotité"))
+  
+  setkey(Taux.horaires, Année, Mois)
+  Taux.horaires[ , `Traitement indiciaire annuel et IR` := IR * 12 + (Indice + NBI) * PointIM[Année - 2007, Mois]
                               
-                            ][ , `Taux horaire` := `Traitement indiciaire annuel et IR` / 1820 
-                              
-                            ][ ,  `:=` (`Taux horaire inf.14 H` = `Taux horaire` * 1.25,
-                                        `Taux horaire sup.14 H` = `Taux horaire` * 1.27,   
-                                        `Taux horaire nuit`     = `Taux horaire` * 2,     
-                                        `Taux horaire dim. j.f.`= `Taux horaire` * 5/3)  
-                              
-                            ][ ,   `:=` (Max = Heures.Sup. * `Taux horaire nuit`,
-                                         Min = Heures.Sup. * `Taux horaire inf.14 H`)
-                              
-                            ][ ,  `:=`(Indice = NULL,
+                            ][ , `Taux horaire` := `Traitement indiciaire annuel et IR` / 1820 ]
+  
+  # Pour les temps partiels et les heures complémentaires, pas de sur-rémunération
+  
+  Taux.horaires[ ,  `:=` (`Taux horaire inf.14 H` = `Taux horaire`,
+                          `Taux horaire sup.14 H` = `Taux horaire`,   
+                          `Taux horaire nuit`     = `Taux horaire`,     
+                          `Taux horaire dim. j.f.`= `Taux horaire`)]
+                 
+  Taux.horaires[quotité >= 0.98,  `:=`(`Taux horaire inf.14 H` = `Taux horaire` * 1.25,
+                                   `Taux horaire sup.14 H` = `Taux horaire` * 1.27,   
+                                   `Taux horaire nuit`     = `Taux horaire` * 2,     
+                                   `Taux horaire dim. j.f.`= `Taux horaire` * 5/3)]             
+                
+  Taux.horaires[ ,   `:=` (Max = nihts.tot * `Taux horaire nuit`,
+                           Min = nihts.tot * `Taux horaire inf.14 H`)
+                        
+                ][ ,  `:=`(Indice = NULL,
                                            IR = NULL)]   
   
  
 },
   "La base des taux horaires d'heures supplémentaires n'a pas pu être générée. ")
 
-essayer(
-{
-  Controle.HS <- Taux.horaires[ , .(Matricule, Année, Mois, Max, Min, IHTS.hors.rappels, IHTS.rappels)
-                              ][! duplicated(Taux.horaires)  ,
-                                    .(Tot.Max  = sum(Max, na.rm = TRUE),
-                                      Tot.Min  = sum(Min, na.rm = TRUE),
-                                       Tot.IHTS = sum(IHTS.hors.rappels + IHTS.rappels, na.rm = TRUE)), by = "Matricule,Année"]
-},
-  "La base des cumuls d'IHTS par matricule et année n'a pas pu être générée. ")
+# On considère le taux horaire maximum de nuit et la somme des IHTS 
 
 #'*Le seuil maximal de liquidation d'IHTS pour l'exercice est déterminé comme égal au nombres d'heures supplémentaires déclarées multipliées par le taux horaire des IHTS de nuit.*    
 #'*Les IHTS retenues sont celles qui ont été liquidées sur une base de liquidation, en paiements directs sur l'exercice ou en rappels.*    
@@ -2528,70 +2698,90 @@ essayer(
 #'&nbsp;*Tableau `r incrément()` : Paiements au-delà des seuils de liquidation pour l'exercice*   
 #'    
 
+# On considère le taux horaire maximum de nuit et la somme des IHTS et on teste su la somme des IHTS est supérieures à ce que donnerait l'application du taux de nuit
+
 essayer(
 {
-
-depassement <- Controle.HS[Tot.IHTS > Tot.Max, uniqueN(Matricule)]
-depassement.agent <- Controle.HS[Tot.IHTS > Tot.Max, .(Matricule, Tot.Max, Tot.IHTS), keyby = Année]
-
-if (depassement) {
+  depassement <- Taux.horaires[ihts.tot > Max, uniqueN(Matricule)]
+  depassement.agent <- Taux.horaires[ihts.tot > Max, 
+                           .(`Coût en euros` = -Max + ihts.tot,
+                             Matricule,
+                             Max,
+                             ihts.tot), keyby = Année]
   
-  cat("Il y a", depassement, "agent" %+% ifelse(depassement, "s", ""), "qui perçoivent davantage que le maximum d'IHTS pouvant être liquidé au titre de l'exercice.") 
-}
-  Controle.HS <- Controle.HS[Tot.IHTS > Tot.Max,
-                         .(V1 = -sum(Tot.Max) + sum(Tot.IHTS),
-                           V2 = uniqueN(Matricule)),
-                              keyby=Année]
+  depassement.agent.annee <- depassement.agent[ , .(`Coût en euros` = sum(`Coût en euros`, na.rm = TRUE),
+                                                     `Nombre d'agents` = uniqueN(Matricule)), keyby = Année]
+  
+  if (depassement) {
+    
+    cat("Il y a", depassement, "agent" %+% ifelse(depassement, "s", ""), "qui perçoivent davantage que le maximum d'IHTS pouvant être liquidé au titre du mois.") 
+  }
+    
 },
 "Le tableau des dépassements de coûts n'a pas pu être généré. ")
 
-  with(Controle.HS,
+  with(depassement.agent.annee,
   
     Tableau.vertical2(c("Année", "Coût en euros", "Nombre d'agents"),
-                         Année, digits = 0, V1, V2))         
+                         Année, digits = 0, `Coût en euros`, `Nombre d'agents`))         
 
 
 #'     
 #'[Lien vers la base de données des IHTS aux non-titulaires](Bases/Reglementation/Base.IHTS.non.tit.csv)           
-#'[Lien vers la base de données dépassements des seuils de liquidation](Bases/Reglementation/Controle.HS.csv)     
-#'[Lien vers la base de données dépassements individuels des seuils de liquidation](Bases/Reglementation/depassement.agent.csv)     
-#'[Lien vers la base de données calcul des taux horaires individuels](Bases/Reglementation/Taux.horaires.csv)    
+#'[Lien vers le tableau des dépassements individuels des seuils de liquidation](Bases/Reglementation/depassement.agent.annee.csv)         
+#'[Lien vers la base de données dépassements individuels des seuils de liquidation](Bases/Reglementation/depassement.agent.csv)         
+#'[Lien vers la base de données calcul des taux horaires individuels](Bases/Reglementation/Taux.horaires.csv)        
 #'       
 
 
   
-#'*Le cumul des heures supplémentaires déclarées (colonne Heures.Sup. des bases) est, par année, comparé au cumul des bases de liquidation IHTS, pour l'année et en régularisation de l'année antérieure*    
-#'*Le volume d'heures supplémentaires déclarées et non liquidées sous forme d'IHTS peut correspondre à d'autres régimes d'heures supplémentaires (enseignants, élections) ou à des heures supplémentaires non effectuées (différence positive) ou sous-déclarées (différence négative)*   
-#'*Des différences supérieures aux volumes moyens des autres régimes d'heures supplémentaires indiquent une mauvaise fiabilité des déclarations d'heures supplémentaires et/ou des bases de liquidation IHTS*             
+#'*Le cumul des heures supplémentaires déclarées (colonne Heures.Sup. des bases) est, par année, comparé au cumul des bases de liquidation IHTS, pour l'année et en régularisation l'année suivante au titre du même exercice*    
+#'*Le volume d'heures supplémentaires déclarées et non liquidées sous forme d'IHTS peut correspondre à d'autres régimes d'heures supplémentaires (enseignants, élections) ou à des heures supplémentaires non effectuées ou sous-déclarées*   
+#'*Des différences importantes peuvent indiquer une mauvaise fiabilité des déclarations d'heures supplémentaires et/ou des bases de liquidation IHTS*             
 #'           
 #'       
-#'&nbsp;*Tableau `r incrément()` : Cumuls d'heures supplémentaires déclarées, liquidées et régularisée de l'année précédente, en heures*     
+#'&nbsp;*Tableau `r incrément()` : Cumuls d'heures supplémentaires déclarées et des IHTS payées, en nombre d'heures*     
 #'    
 
 essayer(
 {
-  CumHS <- Bulletins.paie[, .(V1 = sum(Heures.Sup., na.rm = TRUE)), by = Année]
+  CumHS <- Bulletins.paie[ , .(toths = sum(Heures.Sup., na.rm = TRUE)), keyby = Année]
   
-  CumBaseIHTS <- Base.IHTS[indic == TRUE , .(V2 = sum(Base[Type != "R" | (Année.rappel == Année & Mois.rappel < Mois)], na.rm = TRUE),
-                                             V3 = sum(Base[Année.rappel < Année], na.rm = TRUE)),
-                           by = Année]
+  # Certaines bases de données indiquent le nombre d'heures sup dans la variable Base et d'autres dans la variable Nb.Unité
+  # En principe un rappel concerne un mois antérieur. Mais de nombreuses BD ont des rappels du même mois...
   
-  CumHS <- merge(CumHS, CumBaseIHTS, all = TRUE)[, Différence := V1 - V2 - shift(V3, type = "lead", fill = 0)]
+  CumBaseIHTS <- unique(lignes.IHTS.tot[, .(Matricule, Année, Mois, quotité, quotité.moyenne, nihts.tot, nihts.cum.hors.rappels, nihts.cum.rappels, nihts.cum.rappels.ant)], by = NULL)
 
+  TotBaseIHTS <- CumBaseIHTS[ , .(totihts = sum(nihts.tot),
+                   totihts.hors.rappels = sum(nihts.cum.hors.rappels),
+                   totihts.rappels = sum(nihts.cum.rappels),
+                   totihts.rappels.ant = sum(nihts.cum.rappels.ant)),
+                           keyby = Année]
+  
+  CumHS <- merge(CumHS, TotBaseIHTS, all = TRUE, by = "Année")
 },
 "La base des cumuls d'IHTS par année, des régularisations et des IHTS apparemment non liquidées n'a pas pu être générée. ")
 
   with(CumHS,
   
-    Tableau.vertical2(c("Année", "Cumul heures sup", "Cumul Base IHTS année", "Cumul Régul.N-1", "heures sup sans base de liquidation IHTS"),
-                        Année,    V1,                 V2,                      V3,                Différence)
+    Tableau.vertical2(c("Année N", "Cumul HS N", "Cumul IHTS N", "dont du mois", "dont rappels N", "dont payés N+1"),
+                        Année,             toths,    totihts,   totihts.hors.rappels, totihts.rappels,  totihts.rappels.ant)
   
   )
+#'    
+#'    
   
+  if ((l <- length(v <- CumHS[toths < totihts, Année])) > 0) {
+    cat("Le nombre d'heures supplémentaires déclarées pour ")     
+    cat(v, sep = ", ")
+    cat(" est incohérent avec le nombre d'heures IHTS payées au titre de", ifelse(l > 1, "ces", "cet"), ifelse(l > 1, "exercices. ","exercice. "))
+  }
   
-#'
-#'[Lien vers la base des cumuls de nombre d'heures IHTS liquidées](Bases/Reglementation/CumHS.csv)     
-#'  
+#'    
+#'[Lien vers les données du tableau](Bases/Reglementation/CumHS.csv)     
+#'[Lien vers les cumuls IHTS par matricule](Bases/Reglementation/lignes.IHTS.tot.csv)       
+#'[Lien vers les lignes IHTS](Bases/Reglementation/lignes.IHTS.csv)              
+#'   
 
 Depassement.seuil.180h <- data.table()
 Dépassement.seuil.220h <- data.table()
@@ -2599,15 +2789,36 @@ Dépassement.seuil.220h <- data.table()
 nb.agents.dépassement <- 0
 nb.agents.dépassement.220h <- 0
 
-Depassement.seuil.180h <- Bulletins.paie[ , `Cumul heures sup` := sum(Heures.Sup., na.rm = TRUE),
-                                                      keyby = .(Matricule, Année)
-                                               ][ `Cumul heures sup` > 180, 
+
+if (utiliser.variable.Heures.Sup.) {
+  
+  Depassement.seuil.180h <- Bulletins.paie[ , Nihts.tot := sum(Heures.Sup., na.rm = TRUE),
+                                                        keyby = .(Matricule, Année)
+                                                 ][ Nihts.tot > 180 * quotité.moyenne, 
+                                                  .(Matricule, 
+                                                    Année,
+                                                    quotité.moyenne,
+                                                    Nihts.tot,                        
+                                                    Emploi,
+                                                    Grade,
+                                                    Service)]
+} else {
+  
+  Depassement.seuil.180h <- merge(CumBaseIHTS[ , .(Nihts.tot = sum(nihts.tot), quotité.moyenne), by = .(Matricule, Année)
+                                             ][Nihts.tot > 180 * quotité.moyenne, 
                                                 .(Matricule, 
                                                   Année,
-                                                  `Cumul heures sup`,                        
-                                                  Emploi,
-                                                  Grade,
-                                                  Service)]
+                                                  quotité.moyenne,
+                                                  Nihts.tot)],
+                                                 Bulletins.paie[Mois == 12 , .(
+                                                                  Matricule,
+                                                                  Année,
+                                                                  Emploi,
+                                                                  Grade,
+                                                                  Service)], all.x = TRUE)
+
+}
+
 
 nb.agents.dépassement <- uniqueN(Depassement.seuil.180h$Matricule)
 
@@ -2617,7 +2828,7 @@ if  (nb.agents.dépassement)  {
             FR(nb.agents.dépassement), " agents.\n")
   } 
   
-  Depassement.seuil.220h <- Depassement.seuil.180h[`Cumul heures sup` > 220]
+  Depassement.seuil.220h <- Depassement.seuil.180h[Nihts.tot > 220 * quotité.moyenne]
   
   nb.agents.dépassement.220h <- uniqueN(Depassement.seuil.220h$Matricule) 
   
@@ -2633,11 +2844,15 @@ seuil.HS <- switch (VERSANT_FP,
                         FPH = 15,
                         FPT = 25)
 
-HS.sup.25 <- Base.IHTS[indic == TRUE & Heures.Sup. > seuil.HS]
+if (utiliser.variable.Heures.Sup.) {
+  cat ("Les cumuls d'IHTS sont déterminés à partir de la variable Heures.Sup. ")
+   HS.sup.25 <- lignes.IHTS[Heures.Sup. > seuil.HS * quotité]
+} else {
+   cat ("Les cumuls d'IHTS sont déterminés à partir des paiements de l'année, rappels compris, et des rappels payés l'année suivante. ")      
+   HS.sup.25 <- CumBaseIHTS[nihts.tot > seuil.HS * quotité]
+}
 
-setnames(HS.sup.25, "indic", "IHTS identifiée")
-
-nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25[`IHTS identifiée` == TRUE])
+nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25)
 
 ihts.cat.A <- filtrer_Paie("IHTS")[Montant != 0 
                                    & Catégorie == "A"
@@ -2648,7 +2863,7 @@ nombre.ihts.cat.A <- nrow(ihts.cat.A)
 
 message("Heures sup controlées")
 
-#'
+#'  
 #'  
 #'&nbsp;*Tableau `r incrément()` : Heures supplémentaires au-delà des seuils*   
 #'    
@@ -2666,7 +2881,8 @@ essayer({
 #'
 #'**Nota :**   
 #'HS en excès : au-delà de 25 heures par mois dans la FPT et 15 heures par mois dans la FPH, sauf pour certains emplois (18,3 heures par mois)     
-#'IHTS cat.A : attribuées à des fonctionnaires ou non-titulaires de catégorie A ou assimilés.     
+#'IHTS cat.A : attribuées à des fonctionnaires ou non-titulaires de catégorie A ou assimilés.    
+#'Dans les tableaux en lien les grades, emplois et service sont ceux connus en fin d'année.    
 
 
 #### 5.10 ELUS ####
@@ -3518,8 +3734,10 @@ if (sauvegarder.bases.analyse) {
              "codes.ipf",
              "HS.sup.25",
              "Base.IHTS.non.tit",
-             "Controle.HS",
+             "lignes.IHTS",
+             "lignes.IHTS.tot",
              "depassement.agent",
+             "depassement.agent.annee",
              "Taux.horaires",
              "CumHS",
              "Depassement.seuil.180h",
