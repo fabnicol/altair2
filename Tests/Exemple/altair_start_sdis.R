@@ -109,9 +109,9 @@ incrémenter.chapitre()
 message("Démographie...")
 
 # Rappel Analyse.variations.par.exercice comprend uniquement les actifs non annexes non assist. mat., non vacataires, non élus.
-library("altair", lib.loc="/usr/lib64/R/library")
+library("altair", lib.loc="/usr/local/lib64/R/library")
 detach("package:altair", unload=TRUE)
-library("altair", lib.loc="/usr/lib64/R/library")
+library("altair", lib.loc="/usr/local/lib64/R/library")
 
 tableau.effectifs <- effectifs(période, Bulletins.paie, Analyse.remunerations, Analyse.variations)
 
@@ -610,7 +610,7 @@ distribution_smpt <- function(Filtre) {
 
 }
 
-Filtre_neutre <- function() TRUE
+Filtre_neutre <<- function() TRUE
 
 essayer(smpt(Filtre_neutre),     "Le salaire moyen par tête n'a pas pu être calculé.")
 
@@ -752,13 +752,13 @@ essayer(distribution_smpt(Filtre_neutre),        "La distribution du salaire moy
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Filtre_fonctionnaire <- function() Statut == "TITULAIRE" | Statut == "STAGIAIRE"
+Filtre_fonctionnaire <<- function() Statut == "TITULAIRE" | Statut == "STAGIAIRE"
 
 essayer(smpt(Filtre_fonctionnaire), "Le salaire moyen par tête des fonctionnaires n'a pas pu être calculé.")
 
-Filtre_cat_A <- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "A")
-Filtre_cat_B <- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "B") 
-Filtre_cat_C <- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "C") 
+Filtre_cat_A <<- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "A")
+Filtre_cat_B <<- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "B") 
+Filtre_cat_C <<- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "C") 
 
 #'   
 #'**Catégorie A**  
@@ -3568,11 +3568,72 @@ Tab6.EQTP.PATS.C <- eqtp.grade(période = période,
                                grade = grades.pats,
                                catégorie = "C")
 
-Tab6.EQTP.PATS.ABC <- rbind(Tab6.EQTP.PATS.A[Grade == "Total"], Tab6.EQTP.PATS.B[Grade == "Total"], Tab6.EQTP.PATS.C[Grade == "Total"])
-Tab6.EQTP.PATS.ABC <- rbind(Tab6.EQTP.PATS.ABC, Tab6.EQTP.PATS.ABC[ , lapply(.SD, function(x) as.numeric(sub(",", ".", x)))][ , lapply(.SD, sum)])
+Tab6.EQTP.PATS.ABC <- rbind(Tab6.EQTP.PATS.A[Grade == "Total"], 
+                            Tab6.EQTP.PATS.B[Grade == "Total"],
+                            Tab6.EQTP.PATS.C[Grade == "Total"], fill = TRUE)
+
+Tab6.EQTP.PATS.ABC <- rbind(Tab6.EQTP.PATS.ABC,
+                            Tab6.EQTP.PATS.ABC[ , lapply(.SD, function(x) as.numeric(sub(",", ".", x)))
+                                              ][ , lapply(.SD, sum, na.rm = TRUE)])
+
 Tab6.EQTP.PATS.ABC[ , 1] <- c("A", "B", "C", "Total")
 
 setnames(Tab6.EQTP.PATS.ABC, "Grade", "Catégorie")
+
+##### SPV seulement #######
+
+# on prende les bases d'intervention, de gardes et 9% des heures d'astreinte
+# infirmier, médecin, pharmacien, vétérinaire tous grades
+
+sssm.spv <- "(?:INFI|ECIN|ACIEN|RINAIRE)"  
+
+
+Tab.Effectifs.SPV <- lapply(c(e.offsup, e.offsub, e.sousoff,  e.gradsap, sssm.spv, ""),
+      function(x)
+        (c(a <- Paie[Année == 2016 
+              & Statut == "SPV"       
+              & grepl(x, Grade, ignore.case = TRUE, perl = TRUE)
+              & grepl("(?:interv|renf)", Libellé, ignore.case = TRUE, perl = TRUE),
+                       sum(Base, na.rm = TRUE)],
+           b <- Paie[Année == 2016 
+                & Statut == "SPV"
+                & grepl(x, Grade, ignore.case = TRUE, perl = TRUE)
+                & grepl("gard", Libellé, ignore.case = TRUE, perl = TRUE),
+                sum(Base, na.rm = TRUE)],
+           c <- Paie[Année == 2016
+              & Statut == "SPV"       
+              & grepl(x, Grade, ignore.case = TRUE, perl = TRUE)
+              & grepl("ast", Libellé, ignore.case = TRUE, perl = TRUE), 
+                       sum(Base, na.rm = TRUE) * 0.09],
+           d <- a + b + c)) / 1607)
+
+Tab.Effectifs.SPV <- t(data.frame((Tab.Effectifs.SPV)))
+
+#'   
+#'Tableau des effectifs SPV (équivalents temps plein)     
+#'   
+
+colnames(Tab.Effectifs.SPV) <- c("EQTP interventions / renfort", 
+                                  "EQTP gardes", 
+                                  "EQTP astreintes (éq.)", 
+                                  "Total")
+
+rownames(Tab.Effectifs.SPV) <- c("Off. sup", 
+                                  "Off. sub.", 
+                                  "Sous-off.",
+                                  "Sapeurs et gradés",
+                                  "SSSM tous grades",
+                                  "Total")
+
+Tableau.vertical2(colnames = c("Catégorie SPV", 
+                               colnames(Tab.Effectifs.SPV)), 
+                  rownames = rownames(Tab.Effectifs.SPV),
+                  Tab.Effectifs.SPV)
+
+#' 
+#'[Lien vers le tableau des effectifs SPV](Bases/SDIS/Tab.Effectifs.SPV.csv)     
+#'   
+
 
 ##### Couts ####
 
@@ -3642,6 +3703,59 @@ Tab4.COUT.PATS.ABC[ , 1] <- c("A", "B", "C", "Moyenne")
 
 setnames(Tab4.COUT.PATS.ABC, "Grade", "Catégorie")
 
+service.cs <- c("ST GAUDENS-COMMINGES", "COLOMIERS", "MURET-MASSAT", "RAM.-ST-AGN.-BUCHENS", "ROUFFIAC-TOLOSAN", "FRONTON",
+                "SALIES DU SALAT", "AUTERIVE", "CAZERES", "REVEL", "ASPET", "AURIGNAC", "LE FOUSSERET",  "BAGNERES DE LUCHON", "VERFEIL",
+                "SAINT JORY", "BOULOGNE",  "VILLEMUR", "CADOURS", "CINTEGABELLE", "MONTREJEAU", "RIEUMES",  "GRENADE-LONGAGNE", "SAINT LYS",
+                "L'ISLE EN DODON", "CARBONNE", "RIEUX-VOLVESTRE", "CARAMAN", "MONTESQUIEU", "SAINT-BEAT-MARIGNAC", "VILLEFRANCHE", "SAINT MARTORY") 
+
+service.csp      <- c("TOULOUSE-VION", "TOULOUSE-LOUGNON")
+
+service.gptoper  <- c("GPT CENTRE", "GPT SUD", "GPT NORD OUEST", "GPT NORD EST")
+
+service.gptfonct <- c("GPT PREVISION", "GPT TECHNIQUE", "GPT SI", "GPT PREVENTION", "GPT OPERATION", "GPT FORMATION",  "GPT RH", "GPT AFF. GENERALES", "GPT FINANCES", "SSSM")
+
+service.cta      <- "CTA NORD"   
+
+liste.services <- list(service.gptoper, service.gptfonct, service.cta, service.csp, service.cs)
+
+
+for(G in list(grades.spp, grades.pats)) {
+
+for (y in liste.services) {
+ for (x in y) {
+   cat(x,"\n")
+   try({
+   T <-  eqtp.grade(période = 2016, service = x, grade = G)
+   print(kable(T)) 
+ })
+ }
+}
+}
+
+
+EQTP.services <-  lapply(list(grades.spp, grades.pats), 
+                         function(G) {
+                          V <- sapply(liste.services, 
+                               function(serv) {
+                                 sum(sapply(serv,  function(x) {
+                                                     res <- try(eqtp.grade(période = 2016, service = x, grade = G)[Grade == "Total", "2016", with = FALSE])
+                                                     if (inherits(res, "try-error")) res <- 0 
+                                                     as.numeric(sub(",", ".", res))
+                                                   }))})
+                          V <- c(sum(V), V)
+                         })
+
+EQTP.services <- t(data.frame(EQTP.services))
+rownames(EQTP.services) <- c("SPP", "PATS")
+colnames(EQTP.services) <- c("Total", "GPT opér.", "GPT fonct.", "CTA", "CSP", "CS")
+
+
+#'    
+#'### Tableau n°1 des effectifs des services en EQTP   
+#'   
+
+Tableau.vertical2(c("Catégorie", "Total", "GPT opér.", "GPT fonct.", "CTA", "CSP", "CS"), c("SPP", "PATS"), EQTP.services)
+
 #'    
 #'### Tableau n°2 des effectifs SPP en EQTP   
 #'   
@@ -3655,6 +3769,7 @@ kable(EQTP.SPP)
 kable(Tab2.EQTP.PATS)
 
 #'   
+#'[Lien vers le tableau des emplois par service](Bases/SDIS/.csv)      
 #'[Lien vers le tableau des grades de PATS](Bases/SDIS/EQTP.SPP.csv)      
 #'[Lien vers le tableau des grades de PATS](Bases/SDIS/grades.pats.csv)      
 #'[Lien vers le tableau des EQTP de PATS](Bases/SDIS/Tab2.EQTP.PATS.csv)       
@@ -3805,7 +3920,6 @@ setnames(Tab14.Rému.PATS.ABC, "Grade", "Catégorie")
 
 kable(Tab14.Rému.SPP)
 
-
 #'   
 #'### Tableau n°14 bis : Evolution des rémunérations nettes moyennes en EQTP pour les PATS (hors SFT)    
 #'   
@@ -3825,7 +3939,532 @@ kable(Tab14.Rému.SPP.quotnulle)
 #'[Lien vers le tableau des Rémunérations nettes PATS (hors SFT)](Bases/SDIS/Tab14.Rému.PATS.ABC.csv)                                  
 #'   
 
+##### Rémunération SPV #####
 
+i <- 0
+
+Remu.SPV <- lapply(c(e.offsup, e.offsub, e.sousoff,  e.gradsap, sssm.spv, ""),
+                            function(x) {
+                               i <<- i + 1
+                               effectif <- Tab.Effectifs.SPV[i , 4]
+                              (c(a <- Bulletins.paie[Année == 2016 
+                                                     & Statut == "SPV"       
+                                                     & grepl(x, Grade, ignore.case = TRUE, perl = TRUE),
+                                                     sum(Brut, na.rm = TRUE)],
+                                 c <- Bulletins.paie[Année == 2016 
+                                                     & Statut == "SPV"       
+                                                     & grepl(x, Grade, ignore.case = TRUE, perl = TRUE),
+                                                     sum(Net.à.Payer, na.rm = TRUE)],
+                                 a / effectif,
+                                 c / effectif))
+                              })
+rm(i)
+
+Remu.SPV <- t(data.frame((Remu.SPV)))
+
+colnames(Remu.SPV) <- c("Total rémunérations brutes", "Total rémunérations nettes", "Brut / EQTP", "Net / EQTP")
+
+rownames(Remu.SPV) <- rownames(Tab.Effectifs.SPV) 
+
+#'   
+#'Tableau des rémunérations SPV (équivalents temps plein)     
+#'   
+
+
+Tableau.vertical2(colnames = c("Catégorie SPV", 
+                               colnames(Remu.SPV)), 
+                  rownames = rownames(Remu.SPV),
+                  Remu.SPV)
+
+
+#' 
+#'[Lien vers le tableau des rémunérations SPV](Bases/SDIS/Remu.SPV.csv)     
+#'   
+
+
+###### Flux de sortie et d'entrée ######
+
+library(readr)
+library(data.table)
+
+
+CRC_BASE3 <- read_delim("~/Desktop/SDIS/Bases/CRC-BASE3.csv",
+                        ";", escape_double = FALSE, locale = locale(date_names = "fr",
+                                                                    grouping_mark = " ", encoding = "UTF-8"),
+                        trim_ws = TRUE)
+
+CRC_ES <- read_delim("~/Desktop/SDIS/Bases/ES.csv",
+                     ";", escape_double = FALSE, locale = locale(date_names = "fr",
+                                                                 grouping_mark = " ", encoding = "UTF-8"),
+                     trim_ws = TRUE)
+
+
+############  Global ##############
+
+CRC_ES <- data.table(CRC_ES)
+CRC_ES[ , Entrée := substr(`Date entrée`, 1, 4)]
+CRC_ES[ , Sortie := substr(`Date sortie`, 1, 4)]
+
+flux.total <- function(type = "total", Base = CRC_ES) {
+  
+  if (type != "total")   Base <- Base[Categorie == type]
+  
+  Entrées <- Base[Entrée %in% période, .(Nombre = uniqueN(Matricule)), keyby = Entrée]
+  Sorties <- Base[Sortie %in% période, .(Nombre = uniqueN(Matricule)), keyby = Sortie]
+  Entrées_Sorties <- Base[Sortie %in% période & Entrée == Sortie,
+                          .(Nombre = uniqueN(Matricule[as.Date(`Date entrée`) < as.Date(`Date sortie`)])), keyby = Sortie]
+  
+  Sorties_Entrées <- Base[Sortie %in% période & Entrée == Sortie,
+                          .(Nombre = uniqueN(Matricule[as.Date(`Date entrée`) >= as.Date(`Date sortie`)])), keyby = Sortie]
+  
+  data.table(période, Entrées = Entrées$Nombre, Sorties = Sorties$Nombre,
+             Entrées.Sorties = Entrées_Sorties$Nombre,
+             Entrées.nettes = Entrées$Nombre - Entrées_Sorties$Nombre,
+             Sorties.nettes = Sorties$Nombre - Sorties_Entrées$Nombre)[ , Flux.net := Entrées.nettes - Sorties.nettes]
+}
+
+essayer({
+  Flux.total.PATS <- flux.total(type = "PATS")
+  Flux.total.SPP  <- flux.total(type = "Professionnel")
+  Flux.total      <- flux.total(type = "Volontaire")
+  }, "Flux non déterminés.")
+
+
+#################  Détail ###################
+
+CRC_BASE3$Matricule <- as.character(CRC_BASE3$Matricule)
+CRC_BASE3$Mois <- as.integer(CRC_BASE3$Mois)
+
+Bulletins.paie[Grade %chin% grades.pats, Type.personnel := "PATS"]
+Bulletins.paie[Grade %chin% grades.spp, Type.personnel  :=  "SPP"]
+
+# les exécutions précédentes doivent avoir produit Bulletins.paie[Matricule, Année, Mois, Type.personnel = "SPP" ou "PATS"] à fusionner avec CRC_BASE3
+# veiller à ce que la fusion soit propre :"SPP", "PATS" ou "NA"
+
+CRC_BASE3 <- as.data.table(CRC_BASE3)
+BP <- Bulletins.paie[, .(Matricule = substr(Matricule, 1, 4), Année, Mois, Type.personnel, quotité.moyenne)]
+CRC_BASE3 <- merge(CRC_BASE3, BP, by = c("Matricule", "Année", "Mois"), all = FALSE)
+CRC_BASE3[ , Grade := Lib_Grade]
+
+# write.csv2(unique(CRC_BASE3$Evenement), "CRC_BASE3_E.csv")
+# Catégoriser et classer dans Type_sortie et Type_entrée
+
+CRC_BASE3_E <- read_delim("CRC_BASE3_E.csv",
+                          ";", escape_double = FALSE, trim_ws = TRUE)
+
+# Sorties
+
+T <- merge(CRC_BASE3, CRC_BASE3_E[, -1], by = "Evenement", all = FALSE)
+T[ , Grade := Lib_Grade]
+Base_sortie <- T[! is.na(Type_sortie)]
+Base_entrée <- T[! is.na(Type_entrée)]
+rm(T)
+
+flux <- function (type = "Total", io = "out") {
+  
+  Base <- if (io == "out") Base_sortie else Base_entrée
+  
+  if (type == "Total") {
+    Sorties <- Base[ , .(Cum = uniqueN(Matricule)), by = .(Type_sortie, Année)]
+  } else {
+    Sorties <- Base[ ! is.na(Type.personnel) & Type.personnel == type , .(Cum = uniqueN(Matricule)), by = .(Type_sortie, Année)]  
+  }
+  
+  S <- dcast(Sorties, Type_sortie ~ Année, value.var = "Cum")
+  
+  # Remplacer les NA par des 0
+  
+  for (x in names(S)) S[is.na(get(x)), (x) := 0]
+  
+  # Marge colonnes en cumuls
+  
+  tot <- c("Total", colSums(S[, -1], na.rm = TRUE))
+  names(tot)[[1]] <- "Type_sortie"
+  T <- rbind(S, t(tot))
+  
+  names(T)[[1]] <- ( "Année")
+  
+  # Marge lignes en variations 
+  n <- ncol(T) 
+  T[ , Variation := 0]
+  
+  for (i in 2:nrow(T)) set(T,
+                           i,
+                           n + 1,
+                           ifelse(T[i, 2] != 0 & !is.na(T[i, n, with = FALSE]),
+                                  as.numeric(T[i, n, with = FALSE]) - as.numeric(T[i, 2, with = FALSE]), NA))
+  
+  write.csv2(T, "Flux." %+% io %+% ".detail." %+% type %+% ".csv")
+  
+  T
+}
+
+essayer({
+Sorties.SPP  <- flux("SPP")
+Sorties.PATS <- flux("PATS")
+Sorties.total <- flux("Total")
+}, "Les flux n'ont pas pu être déterminés.")
+
+#############  Entrées ##################
+
+
+# Entrées.SPP  <- flux("SPP", io = "in")
+# Entrées.PATS <- flux("PATS", io = "in")
+# Entrées.total <- flux("Total", io = "in")
+
+
+#'   
+#'### Tableau n°7 : Entrées-sorties SPP
+#'   
+
+kable(Sorties.SPP)
+
+#'    
+#'[Lien vers le tableau des sorties SPP](Bases/SDIS/Sorties.SPP.csv)    
+#'[Lien vers le tableau des sorties PATS](Bases/SDIS/Sorties.PATS.csv)     
+#'[Lien vers le tableau des sorties SPP/PATS](Bases/SDIS/Sorties.total)                                  
+#'   
+
+
+#############  Mobilité ##################
+
+
+ES <- CRC_ES[Entrée < 2007 
+             & Sortie > 2016 
+             & Année == 2016 
+             & Mois == 12][ , Matricule := as.character(Matricule)]
+
+ES <- merge(ES, Bulletins.paie[Année == 2016 & Mois == 12], by= "Matricule")
+
+série <- function(cat) {
+  
+  filtre <- if (cat == "Professionnel") {
+    function(Grade, Catégorie, Type.personnel) grepl(pattern = e.santé.offsup,
+                                                     Grade,
+                                                     perl = TRUE,
+                                                     ignore.case = TRUE)  == TRUE
+  } else {
+    function(Grade, Catégorie, Type.personnel) Catégorie == "A" & Type.personnel == cat
+  }
+  
+  sapply(c(10, 15, 20), function(x) ES[Categorie == cat 
+                                       & Entrée < 2017 - x 
+                                       & (is.na(Sortie) | Sortie > 2016)
+                                       & filtre(Grade, Catégorie, Type.personnel), 
+                                       uniqueN(Matricule)])
+  
+}
+
+ES_SPP_PATS <- rbind(c("Officiers SPP", série(cat = "Professionnel")),
+                     c("PATS cat. A", série(cat = "PATS")))
+#'   
+#'Tableau n°8 : mobilité des SPP et PATS    
+#'    
+
+kable(data.table(ES_SPP_PATS), 
+      align = "r",
+      col.names = c("Ancienneté", "Plus de 10 années", "Plus de 15 années", "Plus de 20 années"))
+    
+
+#'    
+#'[Lien vers le tableau mobilité](Bases/SDIS/ES_SPP_PATS.csv)    
+#'
+
+#'   
+#'Tableau n°12 : mobilité sortante des SPP    
+#'    
+
+MOBILITE_SORTANTE <- Base_sortie[toupper(Type_sortie) == "MUTATION", .(N = uniqueN(Matricule)),  by = .(Année, Grade)]
+MOBILITE_SORTANTE[grepl("(?:" %+% e.offsup %+% "|" %+% e.offsub %+% ")", Grade, ignore.case = TRUE, perl = TRUE) , Catégorie := "Officiers supérieurs"]
+MOBILITE_SORTANTE[grepl(e.sousoff, Grade, ignore.case = TRUE, perl = TRUE) , Catégorie := "Sous-officiers"]
+MOBILITE_SORTANTE[grepl(e.gradsap, Grade, ignore.case = TRUE, perl = TRUE) , Catégorie := "Sapeurs et gradés"]
+
+MS <- MOBILITE_SORTANTE[ ,  .(Nombre = sum(N)), keyby = .(Année,Catégorie)]
+
+kable(MS)
+
+L <-  split(MS, by = "Année")
+if (length(L) > 0) {
+  for (i in 1:length(L)){
+    cat(names(L[i]))
+    print(kable(L[[i]][ ,  Année := NULL], 
+          align = "r"))
+    cat("  ")
+  }
+}
+
+
+#'    
+#'[Lien vers le tableau promotion des officier](Bases/SDIS/MOBILITE_SORTANTE.csv)    
+#'
+
+
+##########  Promotion #####################
+
+promotion <- function(regex) {
+
+  for (i in 1:12) {
+    Gr <- "Grade" %+% i
+    CRC_BASE3[ ,  Gr := NULL, with = FALSE]
+  }
+  
+  for (i in 1:12) {
+    Gr <- "Grade" %+% i
+    PROMO_SPP_OFF <- CRC_BASE3[ ,  Gr := Grade[Mois == i], with = FALSE, by = .(Année, Matricule)]
+  }
+
+  PROMO_SPP_OFF <- PROMO_SPP_OFF[grepl(regex, Grade12, ignore.case = FALSE, perl = TRUE)]
+  
+  PROMO_SPP_OFF[(! is.na(Grade1) & Grade1 != Grade12) | (! is.na(Grade2) & Grade2 != Grade12) | (! is.na(Grade3) & Grade3 != Grade12) | (! is.na(Grade4) & Grade4 != Grade12)
+                            | (! is.na(Grade5) & Grade5 != Grade12) | (! is.na(Grade6) & Grade6 != Grade12) | (! is.na(Grade7) & Grade7 != Grade12) | (! is.na(Grade8) & Grade8 != Grade12)
+                            | (! is.na(Grade9) & Grade9 != Grade12) | (! is.na(Grade10) & Grade10 != Grade12) | (! is.na(Grade11) & Grade11 != Grade12),
+                                     .(agm = max(as.numeric(Anciennete_grade), na.rm = TRUE)),
+                                        keyby = .(Année, Grade12, Matricule)]
+}
+
+NPROMUS_MAT <- promotion(regex = e.offsup)
+
+NPROMUS <- NPROMUS_MAT[ ,.(`Nombre de promus du SDIS` = uniqueN(Matricule), `Durée moyenne d’ancienneté des promus dans le grade précédent` = mean(agm, na.rm = TRUE)),
+                             keyby = .(Année, Grade12)]
+
+setnames(NPROMUS, "Grade12", "Grade")
+
+NPROMOUVABLES <- CRC_BASE3[Anciennete >= 5 , .(`Nombre de candidats promouvables du SDIS` = uniqueN(Matricule)), keyby = .(Année, Grade)]
+
+PROMO_SPP_OFF_MERGED <- merge(NPROMUS, NPROMOUVABLES, by= c("Année", "Grade"))
+
+#'   
+#'Tableau n°9 : promotion des officiers supérieurs SPP    
+#'    
+
+kable(data.table(PROMO_SPP_OFF_MERGED), 
+      align = "r")
+
+
+NPROMUS_CAP <- promotion(regex = e.cap)
+
+NPROMUS_CAP <- NPROMUS_CAP[ ,.(`Nombre de promus du SDIS` = uniqueN(Matricule), `Durée moyenne d’ancienneté des promus dans le grade précédent` = mean(agm, na.rm = TRUE)),
+                        keyby = .(Année, Grade12)]
+
+setnames(NPROMUS_CAP, "Grade12", "Grade")
+
+NPROMOUVABLES_CAP <- CRC_BASE3[Anciennete >= 3 , .(`Nombre de candidats promouvables du SDIS` = uniqueN(Matricule)), keyby = .(Année, Grade)]
+
+PROMO_SPP_OFF_MERGED_CAP <- merge(NPROMUS_CAP, NPROMOUVABLES_CAP, by= c("Année", "Grade"))
+
+#'   
+#'Tableau n°9bis : promotion des officiers SPP    
+#'    
+
+kable(data.table(PROMO_SPP_OFF_MERGED_CAP), 
+      align = "r")
+
+#'    
+#'[Lien vers le tableau promotion des officier](Bases/SDIS/PROMO_SPP_OFF_MERGED.csv)    
+#'
+
+nombre_par_durée <- function(T, seuil) {
+  
+  T[ , .(`à la durée minimale` = uniqueN(Matricule[agm <= seuil]),
+            `à une durée supérieure` = uniqueN(Matricule[agm > seuil])),
+     keyby = Année]
+}
+
+NPROMUS_colonel       <- nombre_par_durée(promotion(regex = e.col), seuil = 5)[ , Grade := "Colonel"]
+NPROMUS_lieucol       <- nombre_par_durée(promotion(regex = e.lieutcol), seuil = 5)[ , Grade := "Lieutenant-colonel"]
+NPROMUS_commandant    <- nombre_par_durée(promotion(regex = e.commandant), seuil = 5)[ , Grade := "Commandant"]
+NPROMUS_capitaine     <- nombre_par_durée(promotion(regex = e.cap), seuil = 3)[ , Grade := "Capitaine"]
+NPROMUS_adjudant      <- nombre_par_durée(promotion(regex = e.adjudant), seuil = 6)[ , Grade := "Adjudant"]
+NPROMUS_sergent       <- nombre_par_durée(promotion(regex = e.sergent), seuil = 3)[ , Grade := "Sergent"]
+NPROMUS_caporal_chef  <- nombre_par_durée(promotion(regex = "caporal-chef"), seuil = 5)[ , Grade := "Caporal-chef"]
+NPROMUS_caporal       <- nombre_par_durée(promotion(regex = "caporal"), seuil = 3)[ , Grade := "Caporal"]
+NPROMUS_sap1C         <- nombre_par_durée(promotion(regex = "sapeur 1° classe"), seuil = 3)[ , Grade := "Sapeur 1ère classe"]
+NPROMUS_lieuthc       <- nombre_par_durée(promotion(regex = "lieutenant hors cl."), seuil = 3)[ , Grade := "Lieutenant hors classe"]
+NPROMUS_lieut1C       <- nombre_par_durée(promotion(regex = "lieutenant 1° classe"), seuil = 3)[ , Grade := "Lieutenant 1ère classe"]
+NPROMUS_lieut2C       <- nombre_par_durée(promotion(regex = "lieutenant 2° classe"), seuil = 6)[ , Grade := "Lieutenant 2ème classe"]
+
+PROMO_RYTHME <- rbind(NPROMUS_colonel, NPROMUS_lieucol, NPROMUS_commandant, NPROMUS_capitaine,
+                      NPROMUS_adjudant, NPROMUS_sergent, NPROMUS_caporal_chef, NPROMUS_caporal,
+                      NPROMUS_sap1C, NPROMUS_lieuthc, NPROMUS_lieut1C, NPROMUS_lieut2C)
+
+L <- split(PROMO_RYTHME, by = "Année")
+
+#'   
+#'Tableau n°10 : rythme de promotion des promotions SPP    
+#'    
+
+if (length(L) > 0) {
+  for (i in 1:length(L)) {
+    cat(names(L[i]))
+    print(kable(L[[i]][ ,  Année := NULL], 
+          align = "r"))
+  }
+}
+
+#'    
+#'[Lien vers le tableau promotion des officier](Bases/SDIS/PROMO_RYTHME.csv)    
+#'
+
+##############  Gardes  #####################
+
+TGardes <- fread("~/Desktop/SDIS/Bases/CRC_BASE1_2016.csv", encoding = "Latin-1", dec=",")
+
+# Les SPP-SPV sont présumés faire leurs gardes en SPP faute d'indication fiable
+
+CRC_ES$Mois <- as.integer(CRC_ES$Mois)
+
+TGardes <- merge(TGardes, CRC_ES[Année == 2016, .(Matricule, Categorie, Mois)], all.x = TRUE)
+TGardes <- TGardes[, dupl := .N, by = .(Mois, Matricule, Année, Jour)]
+TGardes <- TGardes[dupl >= 2, Categorie := if ("Professionnel" %chin% Categorie) "Professionnel" else "Volontaire",
+                   by = .(Mois, Matricule, Année, Jour)]
+
+TGardes <- TGardes[! duplicated(TGardes)][ , dupl := NULL]
+TGardesG <- TGardes[grepl("G.*24|G.*12|GARDE", ignore.case = TRUE, `Etat planning`)
+                   ][ , Régime := ifelse(grepl("24", `Etat planning`), 24, 12)
+                   ][ , NGardes := ceiling(`Temps garde` / Régime)]
+
+
+TGardesCum <- TGardesG[ , .(N = sum(NGardes, na.rm = TRUE)), 
+                            keyby = .(`Etat planning`, Categorie)]
+
+#'   
+#'Tableau n°23 : Gardes 2016    
+#'    
+
+kable(TGardesCum)
+
+
+#'    
+#'[Lien vers le tableau des gardes](Bases/SDIS/Gardes.csv)    
+#'
+
+# Gardes blanches 2016
+
+TGardesBlanchesCum <- TGardesG[(`Temps intervention` == 0 | is.na(`Temps intervention`)),
+                               .(N = sum(NGardes, na.rm = TRUE)), 
+                                   keyby = .(`Etat planning`, Categorie)]
+
+#'   
+#'Tableau n°23bis : Gardes blanches 2016    
+#'    
+
+kable(TGardesBlanchesCum)
+
+#'   
+#'Tableau n°23 ter : Gardes `r début.gardes`    
+#'    
+
+#kable(TGardesCumInit)
+
+#'   
+#'Tableau n°23 quater : Gardes blanches `r début.gardes`       
+#'    
+
+#kable(TGardesBlanchesCumInit)
+
+#'    
+#'[Lien vers le tableau gardes fin période](Bases/SDIS/TGardesCum.csv)    
+#'
+#'    
+#'[Lien vers le tableau gardes début période](Bases/SDIS/TGardesCumInit.csv)    
+#'
+#'    
+#'[Lien vers le tableau gardes blanches fin période](Bases/SDIS/TGardesBlanchesCum.csv)    
+#'
+#'    
+#'[Lien vers le tableau gardes blanches début période](Bases/SDIS/TGardesBlanchesCumInit.csv)    
+#'
+#'    
+#'[Lien vers les gardes fin période](Bases/SDIS/TGardesG.csv)    
+#'
+#'    
+#'[Lien vers les gardes début période](Bases/SDIS/TGardesGInit.csv)    
+#'
+
+# SPP-SPV CRC_ES[Année == 2016, .(Categorie, .N), by = .(Année, Mois, Matricule)][N >= 2, uniqueN(Matricule)]
+
+
+###########  Astreintes #############
+
+TAstreintes <- TGardes[grepl("AST", ignore.case = TRUE, `Etat planning`) & ! is.na(`Temps garde`) & `Temps garde` != 0]
+
+#TAstreintesInit <- TGardesInit[grepl("AST", ignore.case = TRUE, `Etat planning`) &  ! is.na(`Nbre heure garde`) & `Nbre heure garde` != 0]
+
+TAstreintesCum   <- TAstreintes[ , .(.N, Durée = sum(`Temps garde`, na.rm = TRUE)), 
+                                 keyby = .(`Etat planning`, Categorie)][ , Normalisé := ceiling(Durée / 12)]
+
+# TAstreintesCumInit  <- TAstreintesInit[ , .(.N, Durée = sum(`Nbre heure garde`, na.rm = TRUE)), 
+#                                              keyby = .(`Etat planning`, Categorie)][ , Normalisé := ceiling(Durée / 12)]
+
+TAstreintesSRCum <- TAstreintes[(`Temps intervention` < 0.1 | is.na(`Temps intervention`)),
+                                .(.N, Durée = sum(`Temps garde`, na.rm = TRUE)), 
+                                keyby = .(`Etat planning`, Categorie)][ , Normalisé := ceiling(Durée /12)]
+
+# TAstreintesSRCumInit <- TAstreintesInit[(`temps intervention` == 0 | is.na(`temps intervention`)),
+#                                         .(.N, Durée = sum(`Nbre heure garde`, na.rm = TRUE)), 
+#                                         keyby = .(`Etat planning`, Categorie)]
+
+
+#'   
+#'Tableau n°20 : Astreintes `r début.gardes`    
+#'    
+
+kable(TAstreintesCum)
+
+#'   
+#'Tableau n°20 bis : Astreintes sans rappel `r début.gardes`       
+#'    
+
+kable(TAstreintesSRCum)
+
+#'   
+#'Tableau n°20 ter : Astreintes `r début.gardes`    
+#'    
+
+#kable(TAstreintesCumInit)
+
+#'   
+#'Tableau n°20 quater : Astreintes sans rappel `r début.gardes`       
+#'    
+
+#kable(TAstreintesSRCumInit)
+
+#'    
+#'[Lien vers le tableau astreintes fin période](Bases/SDIS/TAstreintesCum.csv)    
+#'
+#'    
+#'[Lien vers le tableau astreintes début période](Bases/SDIS/TAstreintesCumInit.csv)    
+#'
+#'    
+#'[Lien vers le tableau astreintes sans rappel fin période](Bases/SDIS/TAstreintesSRCum.csv)    
+#'
+#'    
+#'[Lien vers le tableau astreintes sans rappel début période](Bases/SDIS/TAstreintesSRCumInit.csv)    
+#'
+
+#'    
+#'[Lien vers les astreintes fin période](Bases/SDIS/TAstreintes.csv)    
+#'
+#'    
+#'[Lien vers les astreintes début période](Bases/SDIS/TAstreintesInit.csv)    
+#'
+
+######  Heures sup SPP ######
+
+HS <- Paie[Grade %chin% grades.spp 
+             & Année == 2016 
+             & grepl(expression.rég.heures.sup, 
+                     Libellé, 
+                     perl = TRUE, 
+                     ignore.case = TRUE), 
+                .(Libellé, Code, Base, Taux, Nb.Unité, Montant)]
+
+
+#'  
+#'Cumul des heures supplémentaires SPP et montant brut versé    
+#'  
+
+kable(HS[ , .(`Nombre Heures sup SPP` = round(sum(Base), 1), `Montant total en euros` = round(sum(Montant)))])
 
 #### ANNEXE ####
 
@@ -4141,6 +4780,9 @@ if (sauvegarder.bases.analyse) {
               "Evenements",
               "Evenements.ind",
               "Evenements.mat")
+
+  
+######  . sdis ######  
   
 sauv.bases(file.path(chemin.dossier.bases, "SDIS"),
              env = envir,
@@ -4148,7 +4790,9 @@ sauv.bases(file.path(chemin.dossier.bases, "SDIS"),
               "EQTP.SPP.agr",
               "EQTP.tot",
               "EQTP.SSM",
-              "grades.pats",  
+              "EQTP.services",
+              "grades.pats",
+              "Tab.Effectifs.SPV",
               "Tab2.EQTP.PATS",
               "Tab2.EQTP.PATS.ABC",
               "Tab5.EQTP.hors.SSM.contr",
@@ -4165,7 +4809,28 @@ sauv.bases(file.path(chemin.dossier.bases, "SDIS"),
               "Tab14.Rému",
               "Tab14.Rému.SPP",
               "Tab14.Rému.PATS.ABC",
-              "Tab14.Rému.SPP.quotnulle")
+              "Tab14.Rému.SPP.quotnulle",
+              "Remu.SPV",
+              "Sorties.PATS",
+              "Sorties.SPP",
+              "Sorties.total",
+              "ES_SPP_PATS",
+              "PROMO_SPP_OFF_MERGED",
+              "PROMO_RYTHME",
+              "MOBILITE_SORTANTE",
+              "TGardesG",
+              "TGardesGInit",
+              "TGardesCumInit",
+              "TGardesCum",
+              "TGardesBlanchesCum",
+              "TGardesBlanchesCumInit",
+              "TAstreintes",
+ #            "TAstreintesInit",
+ #            "TAstreintesCumInit",
+              "TAstreintesCum",
+ #            "TAstreintesSRCumInit",
+              "TAstreintesSRCum",
+              "HS")
 
   if (test.delta) 
     sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"), env = envir, "Delta")

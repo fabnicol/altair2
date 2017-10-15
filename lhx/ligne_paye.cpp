@@ -559,7 +559,7 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
                 if (verbeux)
                 {
                     LOCK_GUARD
-                    cerr << WARNING_HTML_TAG "Pas de période de référence pour le rappel" " pour le matricule " << info.Table[info.NCumAgentXml][Matricule] << "Ligne";
+                    cerr << WARNING_HTML_TAG "Pas de période de référence pour le rappel" " pour le matricule " << info.Table[info.NCumAgentXml][Matricule] << " -- Ligne";
                     long lineN = xmlGetLineNo(cur);
                     if (lineN != 65535)
                     {

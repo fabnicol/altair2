@@ -17,4 +17,4 @@ NeedsCompilation: yes
 Packaged: 2016-10-21 19:43:35 UTC; hadley
 Repository: CRAN
 Date/Publication: 2016-10-22 12:17:37
-Built: R 3.3.2; x86_64-pc-linux-gnu; 2017-04-04 22:46:29 UTC; unix
+Built: R 3.4.1; x86_64-pc-linux-gnu; 2017-09-13 01:12:53 UTC; unix
