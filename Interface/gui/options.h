@@ -3,9 +3,10 @@
 // Fabrice Nicol, années 2012 à 2017
 // fabrice.nicol@crtc.ccomptes.fr
 //
-// Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
-// produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-// en vigueur à compter de l'année 2008.
+// Ce logiciel est un programme informatique servant à extraire et analyser
+// les fichiers de paye produits au format spécifié par l'annexe de la
+// convention-cadre nationale de dématérialisation en vigueur à compter de
+// l'année 2008.
 //
 // Ce logiciel est régi par la licence CeCILL soumise au droit français et
 // respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -34,12 +35,13 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-//
+////////////////////////////////////////////////////////////////////////////
+
+
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
 #include "flineframe.hpp"
-#include "flistframe.h"
 #include "common.h"
 
 
@@ -51,14 +53,16 @@ class FListFrame;
 class FLineFrame;
 
 
-class processPage : public common
+class processPage :  public QDialog, public common
 {
     Q_OBJECT
 
 public :
     processPage();
     FLineFrame *logFrame;
+    FCheckBox  *rapportEntier;
     FCheckBox  *enchainerRapports;
+
 
 private:
     FComboBox
@@ -66,11 +70,6 @@ private:
       *memoryUseWidget,
       *rapportTypeWidget;
     
-#   ifdef INSERT_MAXN
-      FLineEdit
-        *nLineEdit,
-        *NLineEdit;
-#   endif
       
     QGroupBox
       *processTypeBox;
@@ -89,7 +88,7 @@ private:
 
 
 
-class standardPage : public common
+class standardPage :  public QDialog, public common
 {
     Q_OBJECT
 
@@ -124,19 +123,8 @@ private slots:
 
 };
 
-#ifdef INSERT_DIRPAGE
-class dirPage : public common
-{
-    Q_OBJECT
 
-public :
-    dirPage();
-    FLineFrame *donneesCSV, *applicationNoyau;
-
-};
-#endif
-
-class codePage : public common
+class codePage :  public QDialog, public common
 {
     Q_OBJECT
 
@@ -157,6 +145,7 @@ private:
     QVBoxLayout *mainLayout = new QVBoxLayout;
     QGroupBox *baseBox;
 
+
     inline int ajouterVariable(const QString& nom);
     bool reinitialiser_prologue();
 
@@ -166,7 +155,7 @@ private slots:
 };
 
 
-class options :  public common
+class options :   public QDialog, public common
 {
     Q_OBJECT
 
@@ -175,9 +164,6 @@ public:
     options(Altair* parent=0);
     standardPage* standardTab;
     processPage* processTab;
-#   ifdef INSERT_DIRPAGE
-      dirPage* dirTab;
-#   endif      
     codePage* codeTab;
     static std::uint16_t RefreshFlag;
     QListWidget *contentsWidget;

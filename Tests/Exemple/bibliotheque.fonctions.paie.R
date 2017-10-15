@@ -395,7 +395,7 @@ Tableau.vertical <- function(colnames, rownames, extra = "", ...)   # extra func
       
   
     if (! missing(extra) && is.character(extra) && extra == "variation") {
-      T <- data.frame(rownames)
+      T <- data.table(rownames)
       NT <- colnames[1]
       ltmp <- length(tmp)
       
@@ -426,12 +426,12 @@ Tableau.vertical <- function(colnames, rownames, extra = "", ...)   # extra func
       
     } else {
  
-      M <- lapply(tmp, function(f) sapply(rownames, f))
+      M <- as.data.table(lapply(tmp, function(f) sapply(rownames, f)))
       
       if (nrow(M) == lr) {
 
-        T <- data.frame(rownames, M)
-        names(T) <- colnames
+        T <- cbind(rownames, M)
+       # names(T) <- colnames
         
       } else {
         cat("Il manque une ligne au moins dans la table. Annulation. [extra != variation]")
