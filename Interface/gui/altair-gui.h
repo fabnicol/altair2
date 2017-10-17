@@ -3,9 +3,10 @@
 // Fabrice Nicol, années 2012 à 2017
 // fabrice.nicol@crtc.ccomptes.fr
 //
-// Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
-// produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-// en vigueur à compter de l'année 2008.
+// Ce logiciel est un programme informatique servant à extraire et analyser
+// les fichiers de paye produits au format spécifié par l'annexe de la
+// convention-cadre nationale de dématérialisation en vigueur à compter de
+// l'année 2008.
 //
 // Ce logiciel est régi par la licence CeCILL soumise au droit français et
 // respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -34,7 +35,9 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-//
+////////////////////////////////////////////////////////////////////////////
+
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -46,14 +49,10 @@
 #include <QtXml>
 
 #include "options.h"
-#include "browser.h"
 #include "common.h"
 #include "highlighter.h"
 #include "enums.h"
 #include "altair.h"
-
-
-
 
 class QAction;
 class QDirModel;
@@ -101,30 +100,7 @@ class MainWindow : public QMainWindow
    void feedRConsoleWithHtml();
    uint32_t getConsoleCounter() { return consoleCounter; }
    void standardDisplay();
-   
-  private slots:
 
-   void on_displayFileTreeViewButton_clicked();
-   void on_openManagerWidgetButton_clicked();
-   void on_displayFileTreeViewButton_clicked(bool);
-   void on_openManagerWidgetButton_clicked(bool);
-   void on_editProjectButton_clicked();
-   void on_optionsButton_clicked();
-   void displayFullScreen(bool);
-   void toggleFullScreen();
-   void configure();
-   void configureOptions();
-   bool exportProject(QString str="");
-   bool archiveProject();
-   bool restoreProject(QString str="");
-   void resetCounter();
-   void on_displayLogButton_clicked();
-   void anonymiser();
-   void cleanBase();
-   void launch_process(const QString&);
-   void clean_process(const QString&);
-   void on_printBase_clicked();
-   void resetTableCheckBox();
 
   private :
   
@@ -146,8 +122,7 @@ class MainWindow : public QMainWindow
    
    int height;
    int width;
-   
-   inline void connectShowActions();
+      
    std::vector<std::string> extraire_donnees_protegees(const std::string& st);
    const std::vector <unsigned char>  nettoyer_donnees(std::vector <unsigned char>& st);
       
@@ -232,10 +207,34 @@ class MainWindow : public QMainWindow
    QFile projectFile;
    QProcess process;
    MatriculeInput *m = nullptr;
+
+
+private slots:
+
+ void on_displayFileTreeViewButton_clicked();
+ void on_openManagerWidgetButton_clicked();
+ void on_displayFileTreeViewButton_clicked(bool);
+ void on_openManagerWidgetButton_clicked(bool);
+ void on_editProjectButton_clicked();
+ void on_optionsButton_clicked();
+ void displayFullScreen(bool);
+ void toggleFullScreen();
+ void configure();
+ void configureOptions();
+ bool exportProject(QString str="");
+ bool archiveProject();
+ bool restoreProject(QString str="");
+ void resetCounter();
+ void on_displayLogButton_clicked();
+ void anonymiser();
+ void cleanBase();
+ void launch_process(const QString&);
+ void clean_process(const QString&);
+ void on_printBase_clicked();
+ void resetTableCheckBox();
+
 signals:
    void exitSignal();
-
-   
 
 };
 
@@ -251,8 +250,6 @@ class MatriculeInput : public QDialog
   public :
     MatriculeInput(int, int);
     QString matricules = "";
-
-
 };
 
 
