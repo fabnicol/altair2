@@ -1905,7 +1905,7 @@ Tableau.vertical2(c("Année", "Montant astreintes irrégulières (euros)"),
 #'**Nota**    
 #'Vérifier l'adéquation des libellés de paye d'astreinte dans le tableau en lien ci-après.      
 #'Définition des fonctions de responsabilité supérieure : décrets du 27 décembre 2001 et du 28 décembre 200    
-#'[Lien vers la base des cumuls astreintes/NBI](Bases/Reglementation/Controle_astreintes.csv)
+#'[Lien vers la base des cumuls astreintes/NBI](Bases/Reglementation/Controle_astreintes.csv)   
 #'[Lien vers les libellés et codes astreintes](Bases/Reglementation/libelles.astreintes.csv)     
 #'   
 
@@ -2407,6 +2407,7 @@ envir <- environment()
 
 if (sauvegarder.bases.analyse) {
 
+######### + Rémunérations #######  
   
   sauv.bases(file.path(chemin.dossier.bases, "Remunerations"),
              env = envir,
@@ -2420,12 +2421,16 @@ if (sauvegarder.bases.analyse) {
              "beneficiaires.PSR.Variation",
              "beneficiaires.IPF.Variation")
 
+######### + Effectifs #######  
+  
   sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
              env = envir,
              "matricules",
              "grades.categories",
              "tableau.effectifs")
 
+######### + Réglementation #######  
+  
   sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
              env = envir,
              "personnels.iat.ifts",
@@ -2445,7 +2450,7 @@ if (sauvegarder.bases.analyse) {
              "Depassement.seuil.220h",
              "ifts.et.contractuel",
              "ihts.cat.A",
-             "Controle_astreintes.csv",
+             "Controle_astreintes",
              "Controle_astreintes_HS_irreg",
              "Cum_astreintes_HS_irreg",
              "libelles.astreintes",
@@ -2483,6 +2488,10 @@ if (sauvegarder.bases.analyse) {
              "personnels.prime.tech.nt",
              "personnels.ps.nt")
   
+  
+######### --Fiabilité #######  
+  
+    
   sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"),
              env = envir,
               "base.heures.nulles.salaire.nonnull",
