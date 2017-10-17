@@ -1,3 +1,4 @@
+
 #' Altaïr: un paquet pour analyser les bases de paye XML.
 #'
 #'
