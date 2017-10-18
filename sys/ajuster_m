@@ -1,0 +1,18 @@
+#!/sbin/openrc-run
+# Copyright 1999-2016 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Id$
+
+
+start() {
+
+     for i in $(cat /etc/passwd | cut -f 1 -d':')
+     do
+        if test -d /home/$i -a -d /home/$i/.config/autostart-scripts; then
+           
+           cp -f /home/fab/Dev/altair/sys/autostart-scripts/m.sh  /home/$i/.config/autostart-scripts
+        fi
+     done         
+
+}
+

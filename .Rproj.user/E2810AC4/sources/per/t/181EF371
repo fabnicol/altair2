@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1506981758127.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2127581097",
+    "id" : "181EF371",
+    "lastKnownWriteTime" : 1508111126,
+    "last_content_update" : 1508111126,
+    "path" : "~/Dev/altair/Tests/Exemple/altair.R",
+    "project_path" : "Tests/Exemple/altair.R",
+    "properties" : {
+        "cursorPosition" : "9,45",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
