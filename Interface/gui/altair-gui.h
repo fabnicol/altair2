@@ -51,7 +51,7 @@
 #include "options.h"
 #include "common.h"
 #include "highlighter.h"
-#include "enums.h"
+#include "gui_enums.h"
 #include "altair.h"
 
 class QAction;

@@ -130,10 +130,10 @@ HEADERS  += \
     options.h \
     common.h \
     altair.h \
-    enums.h \
     altair.h \
     highlighter.h \
     altair-gui.h \
+    gui_enums.h
 
 
 RESOURCES += \
