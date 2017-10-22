@@ -46,6 +46,15 @@
 chemin <-  function(fichier)
   file.path(chemin.dossier.données, fichier)
 
+#' Conversion d'un fichier en UTF-8
+#'
+#' Conversion d'un fichier en UTF-8
+#' 
+#' @param nom Chemin du fichier à encoder 
+#' @param encodage.in (= encodage.entrée) Encodage du fichier de lecture 
+#' @return Lancement dun appel système à iconv -t UTF-8
+#' @export
+
 file2utf8 <- function(nom, encodage.in = encodage.entrée)  {
   
  chem <- chemin(nom)
@@ -55,97 +64,28 @@ file2utf8 <- function(nom, encodage.in = encodage.entrée)  {
 }
 
 
-
-#obsolète
-# en.séparateurs <- function(chem)  {
-# 
-#   commande <- sed %+% " -e s/,/\\./g -e s/;/,/g -i " %+% shQuote(chem)
-#   shell(commande)
-# }
-
-# fr.séparateurs <- function(chem)  {
-#   
-#   commande <- sed %+% " -e s/,/;/g -e s/\\./,/g -i " %+% shQuote(chem)
-#   shell(commande)
-# }
-
-
-# Obsolète. 
-# Trouve le numéro de la ligne à laquelle se situe la liste des noms de variables
-# en recherchant soit le mot "Matricule" soit une expression du type "Code..."
-# Il faudra déduire ce "skip" du read.csv pour récupérer proprement les noms de variable
-
-# Pour cela on scanne les 25 premières lignes de la table une première fois
-
-
-# trouver.valeur.skip <-  function(chemin.table, encodage, classes = NA, séparateur.liste = séparateur.liste.entrée, séparateur.décimal = séparateur.décimal.entrée)
-#   max(
-#     sapply(
-#       read.csv(chemin.table, sep=séparateur.liste, dec=séparateur.décimal, nrows = 25, fileEncoding = encodage.entrée, colClasses = classes),
-#       function(x)
-#       {
-#         m <- match(champ.détection.1, x, nomatch = 0 )
-#         if (m == 0)
-#           m <- pmatch(champ.détection.2, x, nomatch = 0, duplicates.ok = FALSE )
-#         return(m)
-#       }
-#     ))
-
-
-# selectionner.cle.matricule <-  function(Base1, Base2)
-# {
-#   if (fusionner.nom.prénom) {
-#      subset(Base1,
-#            select = c("Nom", "Prénom", étiquette.matricule, setdiff(names(Base1),names(Base2))))
-#     } else {
-#      subset(Base1,
-#          select = c(étiquette.matricule, setdiff(names(Base1), names(Base2))))
-#     }
-# }
-
-# sélectionner.clé <-  function(base1, base2)
-# {
-#   Base1 <- get(base1)
-#   Base2 <- get(base2)
-# 
-#   if (fusionner.nom.prénom) {
-# 
-#     Set1 <- c("Mois", "Année", étiquette.matricule, setdiff(names(Base1), names(Base2)))
-#     Set2 <- setdiff(names(Base2), c("Nom", "Prénom", étiquette.matricule))
-# 
-#     assign(base1,
-#            subset(Base1, select = c("Nom", "Prénom", Set1)),
-#            envir = .GlobalEnv)
-# 
-#     assign(base1,
-#            cbind(as.data.frame(convertir.nom.prénom.majuscules(Base1[, c("Nom", "Prénom")])),
-#                  Base1[, Set1]),
-#            envir = .GlobalEnv)
-# 
-#     assign(base2,
-#            cbind(as.data.frame(convertir.nom.prénom.majuscules(Base2[, c("Nom", "Prénom")])),
-#                  Base2[, Set2]),
-#            envir = .GlobalEnv)
-# 
-# 
-# 
-#   } else {
-# 
-#     assign(base1, subset(Base1,
-#                          select = c(étiquette.matricule,"Mois","Année",
-#                          setdiff(names(Base1), names(Base2)))), envir = .GlobalEnv)
-# 
-#   }
-# }
-# 
-
+#' Lecture d'une base CSV
+#'
+#' Lecture d'un fichier CSV et conversion en data.table.
+#' Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
+#'
+#' @param encodage Encodage de la base lue. Valeur par défaut : encodage.entrée
+#' @param classes Les classes ("character", "numeric") des variables en colonnes 
+#' @param drop  Rang de la colonne à supprimer
+#' @param skip  Nombre de lignes à sauter en début de fichier (défaut aucune).  
+#' @param rapide Booléen (= FALSE). Si TRUE, et si convertir.encodage est TRUE, convertir en UTF-8 avant lecture.     
+#' @param séparateur.liste = séparateur.liste.entrée,
+#' @param séparateur.décimal = séparateur.décimal.entrée,
+#' @param convertir.encodage (= TRUE) convertir en encodage UTF-8 avant lecture
+#' @return Une base data.table
+#' @examples
+#' read.csv.skip(Base, séparateur.décimal = ",")
+#' @export
 
 read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, drop = NULL, skip = 0,
                           rapide = FALSE, séparateur.liste = séparateur.liste.entrée, séparateur.décimal = séparateur.décimal.entrée,
                           convertir.encodage = TRUE)
 {
-  
-  
   if (! rapide) {
 
     T <- read.csv(x,
@@ -165,7 +105,7 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, drop = NU
       message("La table en entrée doit être encodée en UTF-8")
       if (convertir.encodage) message("Conversion via iconv du format " %+% encodage %+% " au format UTF-8...") else stop("Arrêt : convertir l'encodage de la table en UTF-8.")
       file2utf8(x, encodage.in = encodage)
-    }
+  }
       
     # data.table n'admet d'argument dec qu'à partir de la version 1.9.5 
     
@@ -217,6 +157,24 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, drop = NU
 return(T)
 }
 
+#' Sauv.base
+#'
+#' Sauvegarde d'une base data.table sous forme de fichier CSV
+#' Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
+#'
+#' @param chemin.dossier Chemin du dossier dans lequel la base sera sauvegardée
+#' @param nom Nom de l'objet à sauvegarder
+#' @param nom.sauv  Chaine de caractères du nom du fichier .csv sans l'extension
+#' @param encodage (= encodage.sortie)  Nombre de lignes à sauter en début de fichier (défaut aucune).  
+#' @param sep (= séparateur.liste.sortie) 
+#' @param dec (= séparateur.décimal.sortie),
+#' @param environment (= .GlobalEnv) environnement,
+#' @return Une base CSV
+#' @examples
+#' Sauv.base("données", Base, "BaseDonnée", sep = ";", dec = ",")
+#' @export
+#'
+
 Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.sortie, sep = séparateur.liste.sortie, dec = séparateur.décimal.sortie, environment = .GlobalEnv)
 {
   message("Sauvegarde de ", nom.sauv)
@@ -267,6 +225,21 @@ Read.csv <- function(base.string, fichiers, charger = charger.bases, colClasses 
                envir = .GlobalEnv)
     }
 }
+
+#' Statistiques descriptives de base (minimum, maximum et quartiles)
+#' 
+#' Lecture d'un fichier CSV et conversion en data.table.
+#' Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
+#'
+#' @param x Encodage de la base lue. Valeur par défaut : encodage.entrée
+#' @param y Les classes ("character", "numeric") des variables en colonnes 
+#' @param align  Rang de la colonne à supprimer
+#' @param extra  Nombre de lignes à sauter en début de fichier (défaut aucune).  
+#' @param type Booléen (= FALSE). Si TRUE, et si convertir.encodage est TRUE, convertir en UTF-8 avant lecture.     
+#' @return Une base data.table
+#' @examples
+#' read.csv.skip(Base, séparateur.décimal = ",")
+#' @export
 
 
 Résumé <- function(x,y, align = 'r', extra = 0, type = "pond")  {
@@ -356,6 +329,24 @@ Résumé <- function(x,y, align = 'r', extra = 0, type = "pond")  {
 
 }
 
+#' Tableau
+#'
+#' Présentation de tables sous forme de tableau d'une seule ligne de données.
+#' Le tableau ne peut pas présenter plus d'une seule ligne.
+#' 
+#' @param x Vecteur de nom de lignes pour le tableau
+#' @param ...  paramètres. Si sep.milliers est un paramètre, sa valeur est utiisée comme séparateur des milliers. Par défault, le séparateur blanc.
+#' @return Base de données data.table mise en forme de tableau par la fonction knitr::kable comportant l'ensemble des paramètres mis en colonnes centrées, avec x comme noms de lignes.
+#' @examples
+#' Tableau(c("a", "b", "c", "d"), 1, 2, 3, 4)
+#' 
+#' | a | b | c | d |
+#' |:-:|:-:|:-:|:-:|
+#' | 1 | 2 | 3 | 4 |
+#' 
+#' @export
+#'
+
 Tableau <- function(x, ...)
 {
   V <- c(...)
@@ -367,10 +358,30 @@ Tableau <- function(x, ...)
   sep.milliers <- " "
 
   T <- t(prettyNum(V, big.mark = sep.milliers))
-  T <- as.data.frame(T)
+  T <- data.table(T)
   names(T) <- x
   kable(T, row.names = FALSE, align = "c", booktabs= TRUE)
 }
+
+
+#' Tableau de plusieurs lignes
+#'
+#' Présentation de tables sous forme de tableau de plusieurs lignes de données.
+#' 
+#' @param colnames Vecteur de nom de colonnes pour le tableau
+#' @param rownames Vecteur de nom de lignes pour le tableau
+#' @param extra (= "") Si la valeur de ce paramètre est "variation", la variation relative est calculée entre le début et la fin de la période en lignes 
+#' @param ...  paramètres fonctionnels uniquement. Si un paramètre n'est pas une fonction, le tableau est vide dans son ensemble
+#' @return Base de données data.table mise en forme de tableau par la fonction knitr::kable comportant l'ensemble des paramètres mis en colonnes centrées, avec x comme noms de lignes.
+#' @examples
+#' Tableau(c("a", "b", "c", "d"), 1, 2, 3, 4)
+#' 
+#' | a | b | c | d |
+#' |:-:|:-:|:-:|:-:|
+#' | 1 | 2 | 3 | 4 |
+#' 
+#' @export
+#'
 
 Tableau.vertical <- function(colnames, rownames, extra = "", ...)   # extra functions in ... first labeled f
 {

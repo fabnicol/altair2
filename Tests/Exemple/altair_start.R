@@ -44,7 +44,7 @@
 #'css: style.css
 #'---     
 #'   
-#'![Image_Altair](altair.png)
+#'![Image_Altair](Altair.png)
 #'   
 #'   
 #'## Logiciel Altaïr version `r readLines(file.path(currentDir, "VERSION"))`
@@ -62,17 +62,27 @@
 
 #+ début
   
-  
+# Utiliser la compilation JIT
+
 library(compiler, warn.conflicts = FALSE)
 
 invisible(setCompilerOptions(suppressAll = TRUE, optimize = 3))
 invisible(enableJIT(3))
 
+# Options générales
+
 options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE, datatable.integer64 = "numeric")
+
+# Sourcer la biblio de fonctions auxiliaires
 
 source("bibliotheque.fonctions.paie.R", encoding = encodage.code.source)
 
+# Importer les données --> bases Paie et Bulletins.paie
+
 source("import.R", encoding = encodage.code.source)
+
+# En-tête du rapport
+# Les caractéristiques du contrôle sont contenues dans controle[1], controle[2], controle[3], controle[4]
 
 #'
 #'### Employeur : `r controle[1]`      
@@ -92,11 +102,17 @@ source("import.R", encoding = encodage.code.source)
 
 #+ analyse-rémunérations
 
+# Cette fonction permet de sauter une page dans le PDF ou dans le html (pas dans le docx)
+
 newpage()
+
+# Analyser les rémunérations à partir des données importées --> bases Analyse.XXX
 
 source("analyse.rémunérations.R", encoding = encodage.code.source)
 
 ########### 1.1 Effectifs ########################
+
+# Cette fonction incrémente le chapitre du rapport
 
 incrémenter.chapitre()
 
@@ -110,7 +126,12 @@ message("Démographie...")
 
 # Rappel Analyse.variations.par.exercice comprend uniquement les actifs non annexes non assist. mat., non vacataires, non élus.
 
+# Appel de la biblio altair, où sont regroupées des fonctions d'analyse des rémunérations et les pyramides
+
 library("altair", lib.loc=c("/usr/lib64/R/library", "/usr/local/lib64/R/library"))
+
+# Calcul du tableau des effectifs, qui nécessite les deux bases d'analyse (mensuelle, Analyse.remunerations et annuelle Analyse.variations)
+# Utilisation de la fonction effectifs() de la biblio altair.
 
 tableau.effectifs <<- effectifs(période, Bulletins.paie, Analyse.remunerations, Analyse.variations)
 
@@ -118,6 +139,9 @@ tableau.effectifs <<- effectifs(période, Bulletins.paie, Analyse.remunerations,
 #  
 #'&nbsp;*Tableau `r incrément()` : Effectifs*   
 #            
+
+# Mise en forme sous tableau aligné en central par la fonction knitr::kable
+
 kable(tableau.effectifs, row.names = TRUE, align='c')
 
 #'    
@@ -156,6 +180,9 @@ message("Statistiques de démographie réalisées.")
 e <- new.env()
 
 fichiers.pyr <- list.files(path= file.path(currentDir, "data"), pattern = "*.csv", full.names = TRUE)
+
+# Lecture des fichiers de référence des pyramides (fichiers listés dans fichiers.pyr), comportant les statistiques INSEE
+
 for (f in fichiers.pyr) {
   base <- basename(f)
   assign(substr(base, 1, attr(regexec("(.*)\\.csv", base)[[1]], "match.length")[2]),

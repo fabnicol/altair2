@@ -41,7 +41,7 @@
 
 #include "common.h"
 #include "altair.h"
-#include "enums.h"
+#include "gui_enums.h"
 #include <QApplication>
 #include <QDirIterator>
 #include <fstream>
