@@ -42,19 +42,31 @@ PDF <- TRUE
 
 source("rendre.R", encoding = "ISO-8859-1")
 
+# La fonction rendre() permet de générer le rapport pdf
+
 rendre(to = "latex",
-       args=c("-V", 
-              "papersize=A4",
+       args = c("-V", 
+              "papersize=A4",  # taille du papier
               "-V",
-              "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm",
+              "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm", # marges
               "-V",
-              "urlcolor=cyan",
-              "--highlight-style",
+              "urlcolor=cyan", # couleur des liens hypertexte
+              "--highlight-style", # facultatif
               "tango"),
        output_file = "altair.pdf")
 
+# Eviter les caractères non ascii dans l'output de rendre. Renommer.
+
 file.rename("altair.pdf", "altaïr.pdf")
+
+# Copie sur le sous-dossier de la clé (dossier R-Altair ou R-Altair/nom du dossier/
+# en mode distributif)
+
 file.copy("altaïr.pdf", chemin.clé)
+
+# Lancer le lecteur de PDF à la fin
+# Mais ne le faire que s'il ne s'agit pas du mode distributif(+)
+# Il serait en effet non ergonomique de lancer la lecture de 50 fichiers PDF
 
 if (basename(chemin.clé) == basename(racine)) {
   if (setOSWindows) {

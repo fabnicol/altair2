@@ -42,6 +42,7 @@
 
 #include "fstring.h"
 #include "flistframe.h"
+#include "fwidgets.h"
 #include "common.h"
 #include "enums.h"
 #include "altair-gui.h"

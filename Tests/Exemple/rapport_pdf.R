@@ -38,6 +38,11 @@
 
 source("prologue_rapport.R", encoding = "ISO-8859-1")
 
+# Pour chaque répertoire de la clé (dossier R-Altair,export des bases CSV),
+# écraser les rapports et sourcer rapport_pdf_start.R
+# enfin nettoyer l'environnement
+# et revenir au dossier racine 
+
 for (rep in reps) {
   
   env <<- new.env()
@@ -64,8 +69,10 @@ for (rep in reps) {
       message("************************")
       setwd(currentDir)
   }
+  
 if (! debug.code)
  rm(list = setdiff(ls(), script_env))
+  
 }
 
 if (! debug.code)
