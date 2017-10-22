@@ -48,11 +48,6 @@ Interface RStudio
     HTML : n'importe quel navigateur enregistré dans le registre comme application
            par défaut ;
 
-WINDOWS:
-
-    PDF  : Acrobat Reader d'Adobe;
-    
-    MSWORD : Microsoft Word
 
 LINUX:
    okular
@@ -108,16 +103,14 @@ L'auteur remercie les personnes suivantes pour leur contribution aux tests et
 Licence
 -------
 
-L'ensemble du code source inséré dans cette distribution est placé sous licence
-CeCILL version 2.1, voir fichier LICENCE ou LICENCE.html, à l'exception des emprunts
-placés sous licence GPL v.3 qui restent soumis à cette licence, avec l'accord de leur
-auteur.
+Voir fichier COPYRIGHT.txt et fichier fwidgets_lib/LICENCE.txt
 
 La décision de placer le présent logiciel sous licence CeCILL a été entérinée par décision
 du directeur des systèmes d'information de la Cour des comptes,
 en date du 9 mars 2017.
 
-Les fichiers source du logiciel comprennent l'en-tête suivant :
+Les fichiers source du logiciel régis par la licence CeCILL (CEA-CNRS-INRIA)
+comprennent l'en-tête suivant :
 
 Copyright  Cour des comptes, 2017
 Contributeur : 
@@ -156,31 +149,16 @@ pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 
 
-Mis à disposition du code
+Mise à disposition du code
 -------------------------
 
 Le code est entreposé  à l'adresse suivante :
 
     https://gitlabjf.ccomptes.fr/fnicol/master-jf.git
 
-Un installateur Windows peut être compilé sous NSIS : http://nsis.sourceforge.net
-à l'aide du fichier altair.nsi
 
 Composition du paquet distribué
 -------------------------------
-
-WINDOWS:
-
-Le module Interface graphique est distribué sous forme binaire dans le répertoire
-Interface_windows. Elle a été compilée sous Mingw64 5.2 (dérivé du compilateur GNU G++
-http://mingw-w64.sourceforge.net). 
-
-Les dépendances logicielles Qt5 de l'éditeur Digia, ont été recompilées par l'auteur
-à partir du code source, le compilateur étant le même.
-
-Le module noyau LHX, qui effectue la conversion des données au format .xhl vers les 
-bases de données au format .csv, est distribué sous forme binaire dans le répertoire win,
-et est compilé avec le même compilateur. 
 
 LINUX:
 
@@ -201,11 +179,7 @@ Autres répertoires
 ------------------
 
 Docs    : méthodologie statistique
-lib     : bibliothèques pour l'exécution des scripts R, pré-téléchargées du
-          réseau universitaire CRAN (http://cran.r-project.org/)
-Outils  : versions compilées d'utilitaires Unix pour Windows, téléchargées du 
-          site GNUWin32 (http://gnuwin32.sourceforge.net)
-R, RStudio, Git et texlive : voir fichier DEPENDANCES
+
 Tests\Exemple\Données\xhl\Anonyme et Anonyme2 : jeux de données anonymisées.
 
 Historique
@@ -240,4 +214,7 @@ Historique
 				Clonage d'une plateforme linux (Gentoo).
 				Documentation (encore partielle) utilisateur et développeur.
 				
- mars 2017  Déploiement de l'extracteur de données et de l'interface graphique.				
+     mars 2017  Déploiement de l'extracteur de données et de l'interface graphique.				
+septembre 2017  Finalisation de la version de production du modules de production des rapports.
+
+

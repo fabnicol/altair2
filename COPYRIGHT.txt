@@ -1,16 +1,19 @@
-Copyright  Cour des comptes, 2017
+Copyright  Cour des comptes, 2017, sauf mentions contraires dans le code source
 Contributeur : 
 Fabrice Nicol, années 2012 à 2017
 fabrice.nicol@crtc.ccomptes.fr
 
-Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
-produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-en vigueur à compter de l'année 2008. 
+Ce logiciel est un programme informatique servant à extraire et analyser les 
+fichiers de paye produits au format spécifié par l'annexe de la convention-cadre 
+nationale de dématérialisation en vigueur à compter de l'année 2008. 
 
-Ce logiciel est régi par la licence CeCILL soumise au droit français et
-respectant les principes de diffusion des logiciels libres. Vous pouvez
-utiliser, modifier et/ou redistribuer ce programme sous les conditions
-de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA 
+Sauf mention contraire dans le code source, notamment pour le module externe 
+du dossier fwidgets_lib, régi par des stipulations contractuelles spécifiques 
+exposées dans le fichier fwidgets_lib/LICENCE.txt et dans le code source du 
+répertoire fwidgets_lib, ce logiciel est régi par la licence CeCILL soumise 
+au droit français et respectant les principes de diffusion des logiciels libres.
+Vous pouvez utiliser, modifier et/ou redistribuer ce programme sous les
+conditions de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA 
 sur le site "http://www.cecill.info".
 
 En contrepartie de l'accessibilité au code source et des droits de copie,
