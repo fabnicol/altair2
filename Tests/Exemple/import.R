@@ -40,9 +40,7 @@
 library(knitr, warn.conflicts = FALSE)
 library(ggplot2, warn.conflicts = FALSE)
 
-## Pour les versions de data.table < 1.9.5 
-##  if (séparateur.décimal.entrée != ".")
-##  stop("Pour les tables importées par data.table::fread, le séparateur décimal doit être '.'")
+# Il importe que de ne pas confondre le séparateur décimal et le séparateur de champ CSV
 
 if (séparateur.décimal.entrée == séparateur.liste.entrée)
   stop("Le séparateur décimal en entrée doit être différent du séparateur de colonnes !")
@@ -50,23 +48,22 @@ if (séparateur.décimal.entrée == séparateur.liste.entrée)
 if (séparateur.décimal.sortie == séparateur.liste.sortie)
   stop("Le séparateur décimal en sortie doit être différent du séparateur de colonnes !")
 
+# Création des répertoires des fichiers CSV en lien dans les rapports. Attention éviter les caractères non ASCII (bug de knitr)  
+# On peut désactiver les sorties CSV en fixant   sauvegarder.bases.analyse à FALSE [défaut TRUE]
+
 if (sauvegarder.bases.analyse) {
   for (path in c("Remunerations", "Effectifs", "Reglementation", "Fiabilite"))
     dir.create(file.path(chemin.dossier.bases, path), recursive = TRUE, mode="0777")
 }
 
+# Les bases Table et Bulletins augmentées de quelques colonnes auxiliaires et légèrement retraitées peuvent
+# être à nouveau exportées dans Paiements. Généralement inutile, sauf aux fins de débogage. Pour cela
+# fixer sauvegarder.bases.origine à TRUE [défaut FALSE]
+
 if (sauvegarder.bases.origine)
   dir.create(file.path(chemin.dossier.bases, "Paiements"), recursive = TRUE, mode="0777")
 
-# problème temporaire avec l'option fig.retina depuis fin mai 2014
-
 knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
-
-# Contrôle de cohérence
-#  on vérifie que chaque code de paie est associé, dans le fichier des codes de paiement (par défaut, racinecodes.csv),
-#  que à chaque code donné on a associé un et un seul type de rémunération ("INDEMNITAIRE", "TRAITEMENT", etc.)
-# Pour le mode rapide, convertir les fichiers base en UTF-8 SANS BOM (par exemple, notepad++ après Excel)
-
  
 fichier.personnels.existe <- (charger.catégories.personnel == TRUE) & file.exists(chemin("matricules.csv"))
 grades.categories.existe <- (charger.catégories.personnel == TRUE) & file.exists(chemin("grades.categories.csv"))
