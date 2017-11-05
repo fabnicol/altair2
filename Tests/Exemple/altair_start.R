@@ -1149,7 +1149,7 @@ attach(Analyse.variations.par.exercice)
 #'    
 #+ noria-tableau
 
-invisible(noria(champ = "net"))
+invisible(noria(champ = "net", fichier = fichier.es))
 
 #'  
 #'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP**   
@@ -1157,7 +1157,7 @@ invisible(noria(champ = "net"))
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-invisible(noria(champ = "brut"))
+invisible(noria(champ = "brut",fichier = fichier.es))
 
 #'  
 #'*Note :*        
@@ -1178,7 +1178,7 @@ invisible(noria(champ = "brut"))
 #'    
 #+ noria-tableau2
 
-invisible(noria(champ = "net", filtre = c("TITULAIRE", "STAGIAIRE")))
+invisible(noria(champ = "net", filtre = c("TITULAIRE", "STAGIAIRE", fichier = fichier.es)))
 
 #'  
 #'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP des fonctionnaires**   
@@ -1186,7 +1186,7 @@ invisible(noria(champ = "net", filtre = c("TITULAIRE", "STAGIAIRE")))
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-invisible(noria(champ = "brut", filtre = c("TITULAIRE", "STAGIAIRE")))
+invisible(noria(champ = "brut", filtre = c("TITULAIRE", "STAGIAIRE", fichier = fichier.es)))
 
 ##### 4.3.5 Effet de noria et de variation d'effectifs sur rémunérations moyennes par catégorie statutaire  ######
 
@@ -1200,7 +1200,7 @@ invisible(noria(champ = "brut", filtre = c("TITULAIRE", "STAGIAIRE")))
 #'    
 #+ noria-tableau3
 
-invisible(noria(champ = "net", filtre = "A"))
+invisible(noria(champ = "net", filtre = "A", fichier = fichier.es))
 
 #'  
 #'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP des fonctionnaires de catégorie A**   
@@ -1208,7 +1208,7 @@ invisible(noria(champ = "net", filtre = "A"))
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-invisible(noria(champ = "brut", filtre = "A"))
+invisible(noria(champ = "brut", filtre = "A", fichier = fichier.es))
 
 #'   
 #'**Effet de noria et de variations d'effectifs sur rémunérations nettes moyennes EQTP des fonctionnaires de catégorie B**   
@@ -1217,7 +1217,7 @@ invisible(noria(champ = "brut", filtre = "A"))
 #'    
 #+ noria-tableau4
 
-invisible(noria(champ = "net", filtre = "B"))
+invisible(noria(champ = "net", filtre = "B", fichier = fichier.es))
 
 #'  
 #'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP des fonctionnaires de catégorie B**   
@@ -1225,7 +1225,7 @@ invisible(noria(champ = "net", filtre = "B"))
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-invisible(noria(champ = "brut", filtre = "B"))
+invisible(noria(champ = "brut", filtre = "B", fichier = fichier.es))
 
 #'   
 #'**Effet de noria et de variations d'effectifs sur rémunérations nettes moyennes EQTP des fonctionnaires de catégorie C**   
@@ -1234,7 +1234,7 @@ invisible(noria(champ = "brut", filtre = "B"))
 #'    
 #+ noria-tableau5
 
-invisible(noria(champ = "net", filtre = "C"))
+invisible(noria(champ = "net", filtre = "C", fichier = fichier.es))
 
 #'  
 #'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP des fonctionnaires de catégorie C**   
@@ -1242,7 +1242,7 @@ invisible(noria(champ = "net", filtre = "C"))
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-invisible(noria(champ = "brut", filtre = "C"))
+invisible(noria(champ = "brut", filtre = "C", fichier = fichier.es))
 
 #'     
 
