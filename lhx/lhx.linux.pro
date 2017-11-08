@@ -149,7 +149,7 @@ QMAKE_CXXFLAGS += -march=core-avx2 -Wextra
 # Sous linux penser à installer libxml2-dev. Ceci n'est pas testé.
 
 
-INCLUDEPATH += ../Interface/gui /usr/include/libxml2
+INCLUDEPATH += ../Interface/gui ../fwidgets_lib /usr/include/libxml2
 
 LIBS = -L/usr/lib/lib64 -L/usr/lib/x86_64-linux-gnu -lxml2 -pthread
 #/usr/local/lib64/libxml2.so -pthread
