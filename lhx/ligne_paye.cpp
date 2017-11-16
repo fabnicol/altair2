@@ -707,6 +707,12 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 //              On ne rembobine qu'au maximum TYPE_LOOP_LIMIT. Si l'essai échoue,
 //              on déclenche une exception ou on retourne 
 
+                if (type_loop_counter ==  TYPE_LOOP_LIMIT)
+                {
+                    cerr << ERROR_HTML_TAG "En excès du nombre de réordonnancements autorisés (" << type_loop_counter  << "/" << TYPE_LOOP_LIMIT << ")." ENDL;
+                    cerr << ERROR_HTML_TAG "En excès du nombre de types de lignes de paye autorisé (" << nbType << ")." ENDL;
+                }
+
                 if (cur)
                     cerr << ERROR_HTML_TAG "Type litigieux " << cur->name 
                          << " aux alentours du matricule " 
@@ -819,6 +825,9 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
         
 //      Montant obligatoire
 
+        bulletin_obligatoire_numerique("Mt", cur, l, info);
+
+        ++l;
 
         if (t == 8) // La catégorie de ligne de paye est "Rappel"
         {
