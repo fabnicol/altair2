@@ -28,103 +28,7 @@
      <item V="12" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201112_01_00.xhl</item>
      <item V="12" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201112_03_00.xhl</item>
    </onglet>
-   <onglet V="2012">
-     <item V="1" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201201_01_00.xhl</item>
-     <item V="1" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201201_03_00.xhl</item>
-     <item V="2" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201202_01_00.xhl</item>
-     <item V="2" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201202_03_00.xhl</item>
-     <item V="3" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201203_01_00.xhl</item>
-     <item V="3" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201203_03_00.xhl</item>
-     <item V="4" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201204_01_00.xhl</item>
-     <item V="4" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201204_03_00.xhl</item>
-     <item V="5" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201205_01_00.xhl</item>
-     <item V="5" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201205_03_00.xhl</item>
-     <item V="6" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201206_01_00.xhl</item>
-     <item V="6" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201206_03_00.xhl</item>
-     <item V="7" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201207_01_00.xhl</item>
-     <item V="7" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201207_03_00.xhl</item>
-     <item V="8" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201208_01_00.xhl</item>
-     <item V="8" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201208_03_00.xhl</item>
-     <item V="9" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201209_01_00.xhl</item>
-     <item V="9" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201209_03_00.xhl</item>
-     <item V="10" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201210_01_00.xhl</item>
-     <item V="10" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201210_03_00.xhl</item>
-     <item V="11" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201211_01_00.xhl</item>
-     <item V="11" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201211_03_00.xhl</item>
-     <item V="12" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201212_01_00.xhl</item>
-     <item V="12" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201212_03_00.xhl</item>
-   </onglet>
-   <onglet V="2013">
-     <item V="1" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201301_01_00.xhl</item>
-     <item V="1" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201301_03_00.xhl</item>
-     <item V="2" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201302_01_00.xhl</item>
-     <item V="2" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201302_03_00.xhl</item>
-     <item V="3" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201303_01_00.xhl</item>
-     <item V="3" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201303_03_00.xhl</item>
-     <item V="4" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201304_01_00.xhl</item>
-     <item V="4" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201304_03_00.xhl</item>
-     <item V="5" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201305_01_00.xhl</item>
-     <item V="5" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201305_03_00.xhl</item>
-     <item V="6" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201306_01_00.xhl</item>
-     <item V="6" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201306_03_00.xhl</item>
-     <item V="7" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="28310001400028" S2="AUTRES" E2="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201307_01_00.xhl</item>
-     <item V="7" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201307_03_00.xhl</item>
-     <item V="8" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201308_01_00.xhl</item>
-     <item V="8" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201308_03_00.xhl</item>
-     <item V="9" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201309_01_00.xhl</item>
-     <item V="9" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201309_03_00.xhl</item>
-     <item V="10" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201310_01_00.xhl</item>
-     <item V="10" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201310_03_00.xhl</item>
-     <item V="11" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201311_01_00.xhl</item>
-     <item V="11" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201311_03_00.xhl</item>
-     <item V="12" S="28310001400028" B="BUDGET PRINCIPAL" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201312_01_00.xhl</item>
-     <item V="12" S="28310001400028" B="61BUDGET ANNEXE FORMATION" E="SERVICE DEPART.INC.SECOURS 31." EM="SERVICE DEPARTEMENTAL INCENDIE SECOURS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201312_03_00.xhl</item>
-   </onglet>
-   <onglet V="2014">
-     <item V="01" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-01.xhl</item>
-     <item V="02" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-02.xhl</item>
-     <item V="03" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-03.xhl</item>
-     <item V="04" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-04.xhl</item>
-     <item V="05" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-05.xhl</item>
-     <item V="06" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-06.xhl</item>
-     <item V="07" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-07.xhl</item>
-     <item V="08" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-08.xhl</item>
-     <item V="09" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-09.xhl</item>
-     <item V="10" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-10.xhl</item>
-     <item V="11" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-11.xhl</item>
-     <item V="12" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-12.xhl</item>
-   </onglet>
-   <onglet V="2015">
-     <item V="01" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-01.xhl</item>
-     <item V="02" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-02.xhl</item>
-     <item V="03" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-03.xhl</item>
-     <item V="04" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-04.xhl</item>
-     <item V="05" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-05.xhl</item>
-     <item V="06" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-06.xhl</item>
-     <item V="07" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-07.xhl</item>
-     <item V="08" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-08.xhl</item>
-     <item V="09" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-09.xhl</item>
-     <item V="10" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-10.xhl</item>
-     <item V="11" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-11.xhl</item>
-     <item V="12" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-12.xhl</item>
-   </onglet>
-   <onglet V="2016">
-     <item V="01" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-01.xhl</item>
-     <item V="02" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-02.xhl</item>
-     <item V="03" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-03.xhl</item>
-     <item V="04" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-04.xhl</item>
-     <item V="05" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-05.xhl</item>
-     <item V="06" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-06.xhl</item>
-     <item V="07" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-07.xhl</item>
-     <item V="08" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-08.xhl</item>
-     <item V="09" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-09.xhl</item>
-     <item V="10" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-10.xhl</item>
-     <item V="11" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-112.xhl</item>
-     <item V="12" S="28310001400028" B="" E="" EM="SDIS">/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-122.xhl</item>
-   </onglet>
    <onglet V="Siret">
-     <item V="" S="" B="" E="" EM="">28310001400028 </item>
-     <item V="" S="" B="" E="" EM="">28310001400028 AUTRES</item>
      <item V="" S="" B="" E="" EM="">28310001400028 SERVICE DEPART.INC.SECOURS 31.</item>
    </onglet>
    <onglet V="Budget">
@@ -132,7 +36,6 @@
      <item V="" S="" B="" E="" EM="">BUDGET PRINCIPAL</item>
    </onglet>
    <onglet V="Employeur">
-     <item V="" S="" B="" E="" EM="">SDIS</item>
      <item V="" S="" B="" E="" EM="">SERVICE DEPARTEMENTAL INCENDIE SECOURS</item>
    </onglet>
   </XHL>

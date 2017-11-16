@@ -269,6 +269,15 @@ noria <- function(Bulletins = Bulletins.paie,
                   afficher.tableau = TRUE,
                   controle.quotité = FALSE) { 
 
+  
+période.translatée <- 1:durée.sous.revue
+
+if (période.translatée < 2) {
+  
+  cat("L'effet de noria ne peut être calculé que sur au moins deux exercices consécutifs")
+  return(NULL)
+}
+
 noria.sur.base.de.paie <- (fichier == ""  | ! file.exists(fichier))
 
 if (! noria.sur.base.de.paie){
@@ -396,8 +405,6 @@ if (noria.sur.base.de.paie) {
 
 entrants <- function(année)   exclure.présents(année, mois = 1)
 sortants <- function(année)   exclure.présents(année, mois = 12)
-
-période.translatée <- 1:durée.sous.revue
 
 ent   <- lapply(période, entrants)
 sort  <- lapply(période, sortants)
