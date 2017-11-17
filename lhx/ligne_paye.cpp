@@ -990,6 +990,12 @@ inline void GCC_INLINE concat(xmlNodePtr cur, info_t& info)
     }
 }
 
+
+/// Teste si il y a un montant brut ou net payé ou remboursé non nul
+/// mais pas de ligne de paye détaillant la liquidation de ce total
+/// \param info table d'informations
+/// \details Génère seulement un effet de bord sur la sortie d'erreur
+
 inline void test_bulletin_irregulier(info_t& info)
 {
     int brut = atoi((const char*) info.Table[info.NCumAgentXml][MtBrut]) ;
@@ -1005,6 +1011,13 @@ inline void test_bulletin_irregulier(info_t& info)
                << " mais pas de ligne de paye." ENDL;
     }
 }
+
+
+/// Réalloue un ligne de paye en NA sur les variables propres aux lignes de paye (Code, Libellé, Base,...)
+/// \param info table d'informations
+/// \param ligne nombre de lignes (fixé à 1)
+/// \param memoire_p_ligne_allouee allocation de mémoire de la ligne réinitialisée en NA
+/// \details Modifie info.Table à l'index info.NCumAgentXml. Peut poser un problème en cas de préallocation insuffisante.
 
 inline void allouer_ligne_NA(info_t &info, int &ligne, int &memoire_p_ligne_allouee)
 {
@@ -1024,6 +1037,14 @@ inline void allouer_ligne_NA(info_t &info, int &ligne, int &memoire_p_ligne_allo
     ligne = 1;
 }
 
+/// Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...)
+/// \param cur pointeur XML courant
+/// \param info table d'informations
+/// \return nombre de lignes de paye
+/// \details Commence par atteindre le noeud Agent. Vérifie son identification (Nom, Prenom, Matricule, NIR, NbEnfants, Statut, EmploiMetier, Grade, Echelon, Indice)
+/// Décode ensuite Evenement, Service, NBI, QuotiteTrav.
+/// Appelle ensuite la fonction lignePaye qui décode les lignes de paye de la balise Remuneration.
+/// Décode ensuite les champs de fin de fichier : NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer.
 
 uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
 {
@@ -1035,6 +1056,8 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
     xmlNodePtr cur_parent = cur;
 
     cur = atteindreNoeud("Agent", cur);
+
+    // Vérification de l'identification de l'agent
 
     if (cur == nullptr)
     {
@@ -1080,6 +1103,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
     }
 
     // cur n'est pas nul à ce point
+    // Décodage des caractéristiques de l'agent : Nom, Prenom, etc.
 
     cur_parent = cur;
     cur = cur->xmlChildrenNode;
@@ -1172,7 +1196,10 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
     }
     else na_assign_level = 1;
 
- /* pas de break */
+ // Pas de break
+ // Ce switch permet d'assigner NA ou 0 sélectivement aux variables d'identification de l'agent qui ne sont pas
+ // identifiées faute de données adéquates. Pour une variable de nature caractère (y compris le NIR),
+ // assignation de NA; Pour Indice et NbEnfants, assignation de 0.
 
     switch(na_assign_level)
     {
@@ -1202,7 +1229,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
 
 
 
-    if (!result)
+    if (! result)
     {
             if (na_assign_level)
             {
@@ -1223,7 +1250,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
         #endif
     }
 
-    // on remonte d'un niveau
+    // on remonte d'un niveau : décodage de Evenement puis NBI
 
     cur = cur_parent;
 
@@ -1321,7 +1348,10 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
 
     BULLETIN_OBLIGATOIRE_NUMERIQUE(NBI);
 
-    // Problème : unbounded NBI ...
+    // Problème :  NBI est codé comme "unbounded" dans le modèle de BDD Xemelios
+    // Or en droit il ne peut y avoir qu'une seule NBI !
+    // On se contente de sommer sans relever le problème.
+    // TODO : envoyer un message d'alerte sur violation de l'unicité de la NBI
 
     int v = 0;
     while (xmlStrcmp(cur->name, (const xmlChar*) "NBI") == 0)
@@ -1348,6 +1378,9 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
     BULLETIN_OBLIGATOIRE_NUMERIQUE(QuotiteTrav);
 
     xmlNodePtr cur_save = cur;
+
+    // Décodage des données de rémunération (lignes de paye)
+
     cur = atteindreNoeud("Remuneration", cur);
 
     int ligne = 0, memoire_p_ligne_allouee = 0;
@@ -1358,9 +1391,17 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
     {
         xmlNodePtr cur_save = cur;
 
+        // Si la balise <Remuneration> contient des fils
+
         if (cur != nullptr && (cur =  cur->xmlChildrenNode) != nullptr && ! xmlIsBlankNode(cur))
         {
+            // ! C'est ici qu'est lancée la fonction de décodage de la ligne de paye proprement dite
+
             LineCount result = lignePaye(cur, info);
+
+            // Elle renvoie le nombre de lignes de paye ainsi que l'allocation de mémoire effective
+            // après décodage XML correspondant à ces données "ligne de paye" dans memoire_p_ligne_allouee
+
             ligne = result.nbLignePaye;
             memoire_p_ligne_allouee = result.memoire_p_ligne_allouee;
         }
@@ -1369,12 +1410,26 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
         // si <Remuneration>....</Remuneration> ne contient pas de ligne de paye codée
         // alors on attribue quand même une ligne, codée NA sur tous les champs
         {
-          //allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
+            // on devrait utiliser la fonction allouer_ligne_NA mais le problème qui se pose est
+            // celui de la compatibilité avec la préallocation de mémoire dans fonctions_auxiliaires.cpp
+            // TODO : mettre en cohérence la préallocation et allouer_ligne_NA
+            //
+            //allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
+
             if (verbeux)
             {
 
               LOCK_GUARD
-                      long lineN = xmlGetLineNo(cur_save);
+
+              long lineN = xmlGetLineNo(cur_save);
+
+              // Il y a un bug dans la bibliothèque libxml2
+              // qui dans certains cas bloque lorsque le numéro de ligne du fichier XML renvoyé par xmlGetLineNo est supérieur à 65535
+              // Ce bug est semi-systématique, certains fichiers y échappent pour des raisons non déterminées
+              // Lorsqu'il se manifeste, il faut utiliser le vecteur info.ligne_debut et le vecteur info.ligne_fin
+              // qui indiquent pour l'agent de rang info.NCumAgentXml les numéros de lignes de début et de fin du bulletin de l'agent.
+              // Manuellement, il est alors assez facile de localiser la balise Remuneration problématique par édition du fichier XML
+
               if (lineN == 65535)
               {
                   cerr << WARNING_HTML_TAG;
@@ -1521,6 +1576,8 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
 #       endif
     }
 
+    // Décodage des autres champs : NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer
+
     // obligatoire , substitution du sparateur décimal
 
     result = BULLETIN_OPTIONNEL_NUMERIQUE(NbHeureTotal);
@@ -1536,6 +1593,8 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
     info.drapeau_cont=false; // fin du niveau PayeIndivMensuel
     result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE(MtNetAPayer);
 
+    // Tester si le bulletin contient des paiements globaux (MtBrut, MtNetAPayer) sans détail de la liquidation
+
     if (result && pas_de_ligne_de_paye)
     {
         test_bulletin_irregulier(info);
@@ -1549,7 +1608,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
 #endif
     }
 
-    // Rémuneration tag vide
+    // Si la balise Remuneration est vide, allouer une ligne de NA
 
     if (ligne == 0)
         allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
