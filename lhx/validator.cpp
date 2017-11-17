@@ -35,12 +35,14 @@
 // termes.
 //
 //
-/*  Programme écrit par Fabrice NICOL sous licence CECILL 3
- *  Attention : lorsqu'il est édité, le présent code doit être converti soit en UTF-8 soit en ISO-5589-1 (Latin-1)avant d'être compilé.
- *  En entrée d'Altair préciser encodage.entrée en conformité avec l'encodage du présent fichier, qui sera celui de la base générée.
- */
 
-/* Constantes de compilation pouvant être redéfinies : NA_STRING, MAX_LIGNES_PAYE, MAX_NB_AGENTS, NO_DEBUG*/
+
+/// \file    validator.cpp
+/// \author  Fabrice Nicol
+/// \brief   Ce fichier contient le code relatif au décoidage de la partie "bulletins de paye" (variables communes à toutes les lignes de paye)
+/// ainsi qu'à la gestion des allocations de mémoire.
+/// Il contient aussi une fonction auxiliaire relative à la normalisation de certains caractères accentués, afin d'accélerer le traitement par libxml2
+
 
 #include "validator.hpp"
 #include "fonctions_auxiliaires.hpp"
@@ -919,7 +921,7 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
 
 inline void GCC_INLINE normaliser_accents(xmlChar* c)
 {
-    /* la représentation interne est UTF-8 donc les caractères accentués sont sur 2 octets : é = 0xc3a8 etc. */
+    // la représentation interne est UTF-8 donc les caractères accentués sont sur 2 octets : é = 0xc3a8 etc.
 
 
     while (c != nullptr && *c != 0)  // C++11 : on peut avoir c != nullptr et *c == 0.

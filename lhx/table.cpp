@@ -48,6 +48,12 @@
 #include <iostream>
 #include <fstream>
 
+
+/// \file    table.cpp
+/// \author  Fabrice Nicol
+/// \brief   Ce fichier contient l'ensemble du code permettant de générer les fichiers des bulletins de paye et lignes de paye au format CSV.
+
+
 using namespace std;
 
 static const char* type_remuneration_traduit[] = {

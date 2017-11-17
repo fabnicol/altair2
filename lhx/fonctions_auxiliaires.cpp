@@ -44,13 +44,21 @@
 #include "tags.h"
 #include "filenames.hpp"
 
+/// \file    fonctions_auxiliaires.cpp
+/// \author  Fabrice Nicol
+/// \brief   Ce fichier contient le code relatif aux fonctions auxiliaires utilisées par les fonctions principales
+/// ainsi que l'aide en ligne. Il contient en outre la fonction permettant de calculer la préallocation des la structure de données
+/// info_t qui va recueillir les données XML décodées après utilisation des fonctions \ref parseLignesPaye et \ref lignePaye
+
+
 extern bool verbeux;
 
 #ifndef __linux__
-# include "entete-latin1.hpp"
+#include "entete-latin1.hpp"
+#include <windows.h>
 #else
-# include "entete.hpp"
-# include <unistd.h>
+#include "entete.hpp"
+#include <unistd.h>
 #endif
 
 #ifdef MMAP_PARSING
@@ -64,6 +72,7 @@ extern bool verbeux;
 #endif
 
 
+/// Aide en ligne
 
 ostringstream help()
 {
@@ -96,7 +105,6 @@ out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
           <<  "**-M** *sans argument*        : ne pas libérer la mémoire réservée en fin de programme.   " << "\n\n"
           <<  "**-m** *sans argument*        : calculer les maxima d'agents et de lignes de paye.  " << "\n\n"
           <<  "**-L** *argument obligatoire* : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.  " << "\n\n"
-          <<  "**-R** *argument obligatoire* : expression régulière pour la recherche des élus (codés : ELU dans le champ Statut.  " << "\n\n"
           <<  "**-S** *sans argument*        : exporter les champs Budget, Employeur, Siret, Etablissement.  " << "\n\n"
           <<  "**-E** *sans argument*        : exporter le champ Echelon.  " << "\n\n"
           <<  "**-q** *sans argument*        : limiter la verbosité.  " << "\n\n"
@@ -149,6 +157,10 @@ string getexecpath()
 
 #include <unistd.h>
 #define GetCurrentDir getcwd
+
+/// Obtient le répertoire de l'exécution
+/// \return Chemin du répertoire d'exécution
+
 string getexecpath()
 {
 
@@ -164,6 +176,8 @@ string getexecpath()
 #endif
 #endif
 
+/// Scinde une chaîne de caractères en ses composants séparées par un délimiteur
+/// \return vecteur des composants
 
 vector<string> split(const string &s, char delim) 
 {
@@ -235,6 +249,11 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
     return s;
 }
 
+
+/// Taille du fichier en octets
+/// \param filename chemin du fichier
+/// \return Taille en octets au format off_t
+
 off_t taille_fichier(const string& filename)
 {
 #ifndef __linux__
@@ -247,17 +266,31 @@ off_t taille_fichier(const string& filename)
     return rc == 0 ? stat_buf.st_size : -1;
 }
 
-#ifdef __linux__
-    size_t getTotalSystemMemory()
-    {
-        long pages = sysconf(_SC_PHYS_PAGES);
-        long page_size = sysconf(_SC_PAGE_SIZE);
-        return pages * page_size;
-    }
+
+/// Mémoire totale du système
+/// \return Mémoire totale en octets au format size_t
+
+size_t getTotalSystemMemory()
+{
+#   ifdef __linux__
+      long pages = sysconf(_SC_PHYS_PAGES);
+      long page_size = sysconf(_SC_PAGE_SIZE);
+      return pages * page_size;
+#   else
+      MEMORYSTATUSEX status;
+      status.dwLength = sizeof(status);
+      GlobalMemoryStatusEx(&status);
+      return status.ullTotalPhys;
+#   endif
+}
 
 
-    size_t getFreeSystemMemory()
-    {
+/// Mémoire libre du système
+/// \return Mémoire libre du système en octets au format size_t
+
+size_t getFreeSystemMemory()
+{
+#  ifdef __linux__
         FILE *fp;
         char buf[1024];
         fp = fopen("/proc/meminfo", "r");
@@ -273,29 +306,14 @@ off_t taille_fichier(const string& filename)
         p1[p2 - p1] = '\0';
         ++p1;
         return (size_t)(strtoull(p1, NULL, 10));
-    }
-
-
-
-#else
-#include <windows.h>
-    size_t getTotalSystemMemory()
-    {
-        MEMORYSTATUSEX status;
-        status.dwLength = sizeof(status);
-        GlobalMemoryStatusEx(&status);
-        return status.ullTotalPhys;
-    }
-
-    size_t getFreeSystemMemory()
-    {
+#  else
         MEMORYSTATUSEX status;
         status.dwLength = sizeof(status);
         GlobalMemoryStatusEx(&status);
         return status.ullAvailPhys/1024;
-    }
+#  endif
 
-#endif
+}
 
 
 
@@ -314,10 +332,7 @@ off_t taille_fichier(const string& filename)
 
 #endif
 
-
-
-
-/// Retourne la \e current resident set size (consommation d emémoire physique) mesurée
+/// Retourne la \e current resident set size (consommation de mémoire physique) mesurée
 /// en octets, ou zéro si la valeur ne peut pas être déterminée par ce système
 /// d'exploitation.
 
@@ -349,8 +364,6 @@ size_t getCurrentRSS( )
 
 // End of Creative commons license
 
-
-
 /// Produit un journal d'exécution
 /// \param info   table d'informations
 /// \param log    fichier
@@ -365,7 +378,6 @@ void ecrire_log(const info_t& info, ofstream& log, int diff)
 {
     if (! info.chemin_log.empty())
     {
-
         if (log.good())
         #define P  " | "
         log << "Année " << P
@@ -380,8 +392,6 @@ void ecrire_log(const info_t& info, ofstream& log, int diff)
         #undef P
     }
 }
-
-
 
 #if 0
  char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)
@@ -417,15 +427,29 @@ void ecrire_log(const info_t& info, ofstream& log, int diff)
 }
 #endif
 
+/// Ecrit les libellés des colonnes des bulletins
+/// \param info Référence vers une structure de type info_t contenant les données formatées
+/// \param base Référence vers la base à générer de type ofstream
+
 void ecrire_entete_bulletins(const info_t &info, ofstream& base)
 {
-  ecrire_entete0(info, base, entete_char_bulletins, sizeof(entete_char_bulletins)/sizeof(char*));
+  ecrire_entete0(info, base, entete_char_bulletins, sizeof(entete_char_bulletins) / sizeof(char*));
 }
+
+/// Ecrit les libellés des colonnes de la table (bulletins + lignes de paye)
+/// \param info Référence vers une structure de type info_t contenant les données formatées
+/// \param base Référence vers la base à générer de type ofstream
 
 void ecrire_entete_table(const info_t &info, ofstream& base)
 {
-  ecrire_entete0(info, base, entete_char, sizeof(entete_char)/sizeof(char*));
+  ecrire_entete0(info, base, entete_char, sizeof(entete_char) / sizeof(char*));
 }
+
+/// Ecrit les libellés des colonnes d'une base quelconque avec un tableau de libellés de taille donnée
+/// \param info Référence vers une structure de type info_t contenant les données formatées
+/// \param base Référence vers la base à générer de type ofstream
+/// \param entete Tableau des libellés de colonne
+/// \param N Taille de ce tableau
 
 void ecrire_entete0(const info_t &info, ofstream& base, const char* entete[], int N)
 {
@@ -462,15 +486,31 @@ void ecrire_entete0(const info_t &info, ofstream& base, const char* entete[], in
   base << entete[i] << "\n";
 }
 
+/// Ouvre une base de données de bulletins en écriture pour un segment d'exécution donné
+/// \param info Référence vers une structure de type info_t contenant les données formatées
+/// \param base Référence vers la base à générer de type ofstream
+/// \param segment segment d'exécution
+
 void ouvrir_fichier_bulletins(const info_t &info, ofstream& base, int segment)
 {
     ouvrir_fichier_base0(info, BaseCategorie::BULLETINS, BaseType::MONOLITHIQUE, base, segment);
 }
 
+/// Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d'exécution donné
+/// \param info Référence vers une structure de type info_t contenant les données formatées
+/// \param base Référence vers la base à générer de type ofstream
+/// \param segment segment d'exécution
+
 void ouvrir_fichier_base(const info_t &info, BaseType type, ofstream& base, int segment)
 {
     ouvrir_fichier_base0(info, BaseCategorie::BASE, type, base, segment);
 }
+
+
+/// Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d'exécution donné
+/// \param info Référence vers une structure de type info_t contenant les données formatées
+/// \param base Référence vers la base à générer de type ofstream
+/// \param segment segment d'exécution
 
 void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType type, ofstream& base, int segment)
 {
@@ -597,6 +637,11 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
     return;
 }
 
+/// Convertit un argument numérique donné en chaîne de caractères
+/// \param argc  Nombre d'arguments de la ligne de commande restante
+/// \param c_str  Pointeur vers une chaîne de caractères contenant un nombre
+/// \return Entier positif de type 32 bits ou -1 si erreur.
+
 int32_t lire_argument(int argc, char* c_str)
 {
     if (argc > 2)
@@ -619,7 +664,7 @@ int32_t lire_argument(int argc, char* c_str)
         }
         else if (sl > INT32_MAX)
         {
-            cerr << ERROR_HTML_TAG "" <<  sl << " entier excédant la limite des entiers à 16 bits" ENDL;
+            cerr << ERROR_HTML_TAG "" <<  sl << " entier excédant la limite des entiers à 32 bits" ENDL;
         }
         else if (sl < 0)
         {
@@ -637,6 +682,11 @@ int32_t lire_argument(int argc, char* c_str)
         return(-1);
     }
 }
+
+/// Calcule le maximum de lignes de paye par bulletin de paye d'un agent et
+/// le maximum du nombre d'agents par mois
+/// \param Info Vecteur de structures info_t, une par fil d'exécution
+/// \param LOG  Pointeur vers un fichier de log de type ofstream
 
 void calculer_maxima(const vector<info_t> &Info, ofstream* LOG)
 {
@@ -665,6 +715,9 @@ void calculer_maxima(const vector<info_t> &Info, ofstream* LOG)
 
 }
 
+/// Transforme un fichier de type ifstream en un string
+/// \param in Référence vers le fichier de type ifstream
+/// \return Chaîne de caractères de type string
 
 template <typename Allocator = allocator<char>>
 inline string read_stream_into_string(
@@ -699,12 +752,15 @@ string string_exec(const char* cmd)
 #endif
 
 
+/// Calcule la mémoire requise pour l'exécution du programme. Met les fichiers XHL en mémoire dans info.threads->in_memory_file.
+/// \param info Structure de type info_t contenant les données formatées
+/// \return Retourne errno.
 
 int calculer_memoire_requise(info_t& info)
 {
     errno = 0;
 
-    // Attention reserve() ne va pas initialiser les membres à  0 sous Windows. Utiliser resize() ici.
+    // Attention reserve() ne va pas initialiser les membres à 0 sous Windows. Utiliser resize() ici.
    memory_debug("calculer_memoire_requise_pre_tab_resize");
 
 #ifdef PREALLOCATE_ON_HEAP
@@ -718,7 +774,7 @@ int calculer_memoire_requise(info_t& info)
         memory_debug("calculer_memoire_requise_pre");
 #else
 
-  /* C style vector allocation */
+  // C style vector allocation
 
     uint16_t tab[info.threads->argc * MAX_NB_AGENTS];
    // memset(tab, 0, info.threads->argc * MAX_NB_AGENTS) peut éventuellement être utile pour certains compilateurs anciens.
@@ -1006,7 +1062,7 @@ int calculer_memoire_requise(info_t& info)
 #endif
 
 #endif
-#ifdef MMAP_PARSING  // A REVOIR
+#ifdef MMAP_PARSING  // OBSOLETE. A REVOIR
 
         //cerr << "Mappage en mémoire de " << info.threads->argv[i] << "..."ENDL;
         struct stat st;

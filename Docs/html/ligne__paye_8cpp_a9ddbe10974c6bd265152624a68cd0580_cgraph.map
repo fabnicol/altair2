@@ -1,0 +1,11 @@
+<map id="bulletin_optionnel_numerique" name="bulletin_optionnel_numerique">
+<area shape="rect" id="node2" href="$ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5" title="Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit. " alt="" coords="217,56,282,83"/>
+<area shape="rect" id="node8" href="$ligne__paye_8cpp.html#a5342d9b40b92c978ff404415b691e059" title="Substitue le séparateur décimal passé en paramètre au séparateur par défaut (.) " alt="" coords="176,107,323,149"/>
+<area shape="rect" id="node9" href="$ligne__paye_8hpp.html#a703180379a24b61c33f035b1b8a8f437" title="warning_msg" alt="" coords="200,173,299,200"/>
+<area shape="rect" id="node3" href="$validator_8hpp.html#ad164d34b6591a52b6e92b087582fe0cb" title="atteindreNoeud" alt="" coords="406,5,517,32"/>
+<area shape="rect" id="node4" href="$validator2_8h.html#a07d0aecc3d62699e160c170e089992f5" title="xmlGetProp" alt="" coords="416,56,507,83"/>
+<area shape="rect" id="node7" href="$ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le &#160;&#160;caractère &#39;_&#39;..." alt="" coords="428,107,495,133"/>
+<area shape="rect" id="node5" href="$validator2_8h.html#a210c4d9563da6dcd16e49086e6935529" title="tag" alt="" coords="609,31,649,57"/>
+<area shape="rect" id="node6" href="$validator2_8h.html#a54d8555fb27dee8d2e8198add62e306b" title="valeur" alt="" coords="600,81,657,108"/>
+<area shape="rect" id="node10" href="$fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="371,173,552,200"/>
+</map>
