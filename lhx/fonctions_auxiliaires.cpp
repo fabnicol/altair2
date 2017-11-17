@@ -178,9 +178,15 @@ vector<string> split(const string &s, char delim)
 }
 
 
-// Récupère la sortie de stdout dans un string
 
-/* utilité d'affichage de l'environnement xhl en cas de problème de conformité des données */
+/// Fonction d'affichage de des lignes du fichier XML de paye entourant celle où se pose
+/// un problème de conformité des données
+/// \param info  table d'informations
+/// \param cur   noeud courant
+/// \return structure de type #errorline_t contenant la ligne du fichier où apparaît
+/// l'erreur ainsi qu'un message comprenant le fichier et le nom de la balise, s'il est
+/// analysable. Sinon affiche un message indiquant son absence et retourne pour le numéro
+/// de ligne. Retourne NA pour un noeud null.
 
 errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 {
@@ -293,12 +299,11 @@ off_t taille_fichier(const string& filename)
 
 
 
-/* *******************************************************************************************************************************************************************************
- * Author:  David Robert Nadeau
- * Site:    http://NadeauSoftware.com/
- * License: Creative Commons Attribution 3.0 Unported License
- *          http://creativecommons.org/licenses/by/3.0/deed.en_US
- */
+/// Code adapté de source externe. Voir site internet indiqué pour la documentation
+/// Author:  David Robert Nadeau
+/// Site:    http://NadeauSoftware.com/
+/// License: Creative Commons Attribution 3.0 Unported License
+///         http://creativecommons.org/licenses/by/3.0/deed.en_US
 
 #if defined(__WIN32__)
     #include <windows.h>
@@ -311,10 +316,10 @@ off_t taille_fichier(const string& filename)
 
 
 
-/**
- * Returns the current resident set size (physical memory use) measured
- * in bytes, or zero if the value cannot be determined on this OS.
- */
+
+/// Retourne la \e current resident set size (consommation d emémoire physique) mesurée
+/// en octets, ou zéro si la valeur ne peut pas être déterminée par ce système
+/// d'exploitation.
 
 size_t getCurrentRSS( )
 {
@@ -344,6 +349,17 @@ size_t getCurrentRSS( )
 
 // End of Creative commons license
 
+
+
+/// Produit un journal d'exécution
+/// \param info   table d'informations
+/// \param log    fichier
+/// \param diff   différence entre les analyseurs C et XML
+/// \details Contenient les colonnes suivantes, pour chaque ligne de paye :\n
+/// <pre> Année, Mois, Matricule, Rang global, Rang dans le fichier, Analseur C, Xml </pre>
+/// et la différence entre l'analyseur C et Xml. \n
+/// Sépare les colonnes par la chaine " | ".
+/// \note Le chemin du journal est donné par #info#chemin_log
 
 void ecrire_log(const info_t& info, ofstream& log, int diff)
 {
