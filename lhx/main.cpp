@@ -69,6 +69,13 @@
   #define AVERAGE_RAM_DENSITY 1.25
 #endif
 
+/// \file    main.cpp
+/// \author  Fabrice Nicol
+/// \brief   Ce fichier contient le code relatif à l'analyse de la ligne de commande, au découpage de la liste des fichiers XML
+/// en sous-listes (ou segments) déterminées en fonction des capacités de mémoire vive de la plateforme, qui seront analysés successivement,
+/// et au lancement des fils d'exécution permettant de traiter des sous-ensembles de ces segments en parallèle. Il contient aussi la fonction
+/// permetant de lancer l'extraction des bulletins de paye après décodage complet des bases XML.
+
 using namespace std;
 using vString = vector<string>;
 
@@ -109,6 +116,8 @@ int main(int argc, char **argv)
         return -2;
     }
 
+    // Initialisation de libxml2
+
     LIBXML_TEST_VERSION
     xmlKeepBlanksDefault(0);
 
@@ -125,6 +134,8 @@ int main(int argc, char **argv)
     float ajustement = MAX_MEMORY_SHARE;
 
     thread_t mon_thread;
+
+    // Inititalisation de la structure de partage des données décodées des fichiers XML
 
     info_t info =
     {
@@ -165,12 +176,14 @@ int main(int argc, char **argv)
         1                // nbfil
     };
 
-    /* Analyse de la ligne de commande */
+    // Analyse de la ligne de commande
 
     commandline_tab.assign(argv, argv + argc);
 
     while (start < argc)
     {
+
+        // Nombre maximal de bulletins mensuels attendus pour une allocation manuelle de la mémoire
 
        if (commandline_tab[start] == "-n")
        {
@@ -179,12 +192,15 @@ int main(int argc, char **argv)
            = lire_argument (argc, const_cast<char*>(commandline_tab[start + 1].c_str()));
          if (info.nbAgentUtilisateur < 1)
             {
-              cerr << ERROR_HTML_TAG "Préciser le nombre de bulletins mensuels attendus (majorant du nombre) avec -N xxx .\n";
+              cerr << ERROR_HTML_TAG "Préciser le nombre de bulletins mensuels attendus (majorant du nombre) avec -n xxx .\n";
               exit(-1);
             }
             start += 2;
             continue;
         }
+
+        // Aide en ligne
+
         else if (commandline_tab[start] ==  "-h")
         {
             string out = move(help()).str();
@@ -192,6 +208,9 @@ int main(int argc, char **argv)
             cerr << out;
             exit(0);
         }
+
+        // Génération des bulletins de paye
+
         else if (commandline_tab[start] ==  "--bulletins")
         {
            ++start;
@@ -217,6 +236,9 @@ int main(int argc, char **argv)
            ++start;
            continue;
         }
+
+        // Paramétrage du dossier de génération des bulletins de paye
+
         else if (commandline_tab[start] ==  "--dossier-bulletins")
         {
           ++start;
@@ -235,6 +257,9 @@ int main(int argc, char **argv)
           ++start;
           continue;
         }
+
+        // Génération de la documentation de l'aide en ligne
+
         else if (commandline_tab[start] ==  "--hmarkdown" || commandline_tab[start] == "--pdf" || commandline_tab[start] == "--html")
         {
           ostringstream out = std::move(help());
@@ -290,12 +315,18 @@ int main(int argc, char **argv)
           exit(0);
 
         }
+
+        // Mode à verbosité réduite
+
         else if (commandline_tab[start] ==  "-q")
         {
             verbeux = false;
             ++start;
             continue;
         }
+
+        // Type de la table en sortie (standard, par année, par catégorie de ligne de paye,....)
+
         else if (commandline_tab[start] == "-t")
         {
             generer_table = true;
@@ -311,12 +342,18 @@ int main(int argc, char **argv)
                 continue;
             }
         }
+
+       // Génération des rangs de ligne de paye dans la table en sortie
+
         else if (commandline_tab[start] ==  "-l")
         {
             info.generer_rang = true ;
             ++start;
             continue;
         }
+
+       // Type de la table des données de paye en sortie
+
         else if (commandline_tab[start] == "-T")
         {
             if (start + 1 == argc)
@@ -371,6 +408,9 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
+
+       // Séparateur-délimiteur de champs du format CSV (en général ';' ou ',')
+
         else if (commandline_tab[start] == "-s")
         {
             if (start + 1 == argc)
@@ -389,6 +429,9 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
+
+       // Séparateur des décimales
+
         else if (commandline_tab[start] == "-d")
         {
             if (start + 1 == argc)
@@ -400,6 +443,9 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
+
+       // Chemin complet de sortie de la base Table
+
         else if (commandline_tab[start] == "-o")
         {
             if (start + 1 == argc)
@@ -423,18 +469,27 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
+
+       // Désactivation de la libération de la mémoire en sortie (utile pour déboguer)
+
         else if (commandline_tab[start] == "-M")
         {
             liberer_memoire = false;
             ++start;
             continue;
         }
+
+       // Calcul des maxima de nombre de bulletins de paye et d'agents par mois
+
         else if (commandline_tab[start] == "-m")
         {
             info.calculer_maxima = true;
             ++start;
             continue;
         }
+
+       // Chemin complet de sortie du répertoire des données CSV
+
         else if (commandline_tab[start] == "-D")
         {
             info.chemin_base = commandline_tab[start + 1] + string("/") + string(NOM_BASE) ;
@@ -458,6 +513,9 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
+
+       // Nombre de fils d'exécution
+
         else if (commandline_tab[start] == "-j")
         {
             if ((info.nbfil = lire_argument(argc, const_cast<char*>(commandline_tab[start +1].c_str()))) > 0)
@@ -471,6 +529,9 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
+
+       // Chemin du log
+
         else if (commandline_tab[start] == "-L")
         {
             if (argc > start +2) info.chemin_log = commandline_tab[start + 1];
@@ -484,37 +545,26 @@ int main(int argc, char **argv)
             start += 2;
             continue;
         }
+
+       // Nombre maximal de ligne de payes par mois (allocation de mémoire manuelle)
+
         else if (commandline_tab[start] == "-N")
         {
             if ((info.nbLigneUtilisateur = lire_argument(argc, const_cast<char*>(commandline_tab[start +1].c_str()))) > 1)
             {
                 cerr << STATE_HTML_TAG "Nombre maximum de lignes de paye redéfini à : " << info.nbLigneUtilisateur << ENDL;
             }
+            else exit(-1);
 
             info.reduire_consommation_memoire = false;
-            if ((info.nbAgentUtilisateur = lire_argument(argc, const_cast<char*>(commandline_tab[start + 1].c_str()))) < 1)
-            {
-                cerr << ERROR_HTML_TAG "Préciser le nombre de nombre maximum d'agents par mois attendus (majorant du nombre) avec -n xxx" ENDL;
-                exit(-1);
-            }
 
             start += 2;
             continue;
         }
-        else if (commandline_tab[start] == "-R")
-        {
-            if (argc > start +2)
-            {
-                info.expression_reg_elus = commandline_tab[start + 1];
-            }
-            else
-            {
-                perror(ERROR_HTML_TAG "Il manque l'expression régulière.");
-                exit(-115);
-            }
-            start += 2;
-            continue;
-        }
+
+       // Chemin du fichier contenant le rang d'extraction pour permettre l'affichage d'une barre de progression dans l'interface graphique.
+       // Par défaut USERPROFILE/LOCALDATA
+
 #ifdef GENERATE_RANK_SIGNAL
         else if (commandline_tab[start] == "-rank")
         {
@@ -547,6 +597,8 @@ int main(int argc, char **argv)
         }
 #endif
 
+       // Générer les Siret
+
         else if (commandline_tab[start] == "-S")
         {
             if (argc > start +2)
@@ -560,6 +612,9 @@ int main(int argc, char **argv)
             ++start;
             continue;
         }
+
+       // Générer les échelons
+
         else if (commandline_tab[start] == "-E")
         {
             if (argc > start + 1)
@@ -574,6 +629,9 @@ int main(int argc, char **argv)
             ++start;
             continue;
         }
+
+       // Exclure le siret en argument
+
         else if (commandline_tab[start] == "--esiret")
         {
            if (argc > start +2)
@@ -596,6 +654,9 @@ int main(int argc, char **argv)
 
            continue;
         }
+
+       // Exclure le budget en argument
+
         else if (commandline_tab[start] == "--ebudget")
         {
            if (argc > start +2)
@@ -618,6 +679,9 @@ int main(int argc, char **argv)
 
           continue;
         }
+
+       // Exclure le budget en argument
+
         else if (commandline_tab[start] == "--eemployeur")
         {
         if (argc > start +2)
@@ -640,6 +704,9 @@ int main(int argc, char **argv)
 
         continue;
         }
+
+       // Chemin du fichier permettant de lire une ligne de commandes générée par l'interface graphique
+
         else if (commandline_tab[start] == "-f")
         {
             const char* fichier;
@@ -700,18 +767,27 @@ int main(int argc, char **argv)
             }
             //break;
         }
+
+       // Ne pas décoder XML
+
         else if (commandline_tab[start] == "--pretend")
         {
           info.pretend = true;   // pas de décodage
           ++start;
           continue;
         }
+
+       // Seulement vérifier la mémoire
+
         else if (commandline_tab[start] == "--verifmem")
         {
           info.verifmem = true;  // seulement vérifier la mémoire
           ++start;
           continue;
         }
+
+       // Taille totale de fichiers
+
         else if (commandline_tab[start] == "--xhlmem")
         {
           cerr << STATE_HTML_TAG "Taille totale des fichiers : " << commandline_tab[start + 1] << " octets." << ENDL;
@@ -737,6 +813,9 @@ int main(int argc, char **argv)
                   exit(-199);
           }
         }
+
+       // Part de la mémoire vive utilisée
+
         else if (commandline_tab[start] == "--memshare")
           {
             int part = stoi(commandline_tab[start + 1], nullptr);
@@ -747,6 +826,9 @@ int main(int argc, char **argv)
             start += 2;
             continue;
           }
+
+       // Nombre de segments pour répartir les fichiers XHL de manière équilibrée entre ces sgments, qui chacun prendront un fil d'exécution successivement
+
         else if (commandline_tab[start] == "--segments")
         {
            cerr << STATE_HTML_TAG "Les bases seront analysées en au moins : " << commandline_tab[start + 1] << " segments" << ENDL;
@@ -765,6 +847,9 @@ int main(int argc, char **argv)
                exit(-208);
              }
         }
+
+       // Modalité d'exportation (standard, cumulative, distributive,...)
+
        else if (commandline_tab[start] == "--export")
        {
           string st = commandline_tab[start + 1];
@@ -782,6 +867,9 @@ int main(int argc, char **argv)
           start += 2;
           continue;
        }
+
+       // Importation directe d'un disque optique
+
        else if  (commandline_tab[start] == "--cdrom")
        {
          info.cdrom = true;
@@ -789,21 +877,24 @@ int main(int argc, char **argv)
          cerr << STATE_HTML_TAG "Modalité disque optique" << ENDL;
          continue;
        }
-        else if (commandline_tab[start][0] == '-')
-        {
+
+       // Option inconnue
+
+       else if (commandline_tab[start][0] == '-')
+       {
           cerr << ERROR_HTML_TAG "Option inconnue " << commandline_tab[start] << ENDL;
           exit(-100);
-        }
-        else break;
+       }
+       else break;
     }
     
-    /* Fin de l'analyse de la ligne de commande */
-    /* on sait que info.nbfil >= 1 */
+    // Fin de l'analyse de la ligne de commande
+    // on sait que info.nbfil >= 1
 
     vector<unsigned long long> taille;
 
-    /* Soit la taille totale des fichiers est transmise par --mem soit on la calcule ici,
-     * en utilisant taille_fichiers */
+    // Soit la taille totale des fichiers est transmise par --memshare soit on la calcule ici,
+    // en utilisant taille_fichiers
 
     if (memoire_xhl == 0)
     {
@@ -837,7 +928,7 @@ int main(int argc, char **argv)
         }
     }
 
-    /* ajustement représente la part maximum de la mémoire disponible que l'on consacre au processus, compte tenu de la marge sous plafond (overhead) */
+    // ajustement représente la part maximum de la mémoire disponible que l'on consacre au processus, compte tenu de la marge sous plafond (overhead)
 
     unsigned long long memoire_utilisable = floor(ajustement * static_cast<float>(memoire_disponible));
     cerr << STATE_HTML_TAG  << "Mémoire utilisable " <<  memoire_utilisable / 1024 << " Mo."  ENDL;
@@ -872,6 +963,7 @@ int main(int argc, char **argv)
     auto  taille_it = taille.begin();
     auto  commandline_it = commandline_tab.begin() + start;
 
+    // découpage de la ligne de commande en segments, la taille de chaque segment en mémoire devant être inférieure au plafond fix" par memoire_utilisable
     do
     {
         unsigned long long taille_segment = *taille_it;
@@ -909,10 +1001,13 @@ int main(int argc, char **argv)
 
    pair<uint64_t, uint64_t>lignes = make_pair(0, 0);
 
+
    for (auto&& segment : segments)
    {
         unsigned int segment_size = segment.size();
 
+        // S'il y a plus de fils que de fichiers dans le segment il faut corriger le nombre de fils en conséquence (nb de fils = de fichiers)
+        
         if (info.nbfil > segment_size)
         {
             if (verbeux)
@@ -923,10 +1018,16 @@ int main(int argc, char **argv)
         else
             info.nbfil = info_nbfil_defaut;
 
+        // Lancement de la fonction principale
+
         lignes = produire_segment(info, segment);
     }
 
+   // Nettoyage du parseur XML
+
     xmlCleanupParser();
+
+   // Calcul de la durée d'exécution
 
     auto endofprogram = Clock::now();
     auto duree = chrono::duration_cast<chrono::milliseconds>(endofprogram - startofprogram).count();
@@ -945,6 +1046,12 @@ int main(int argc, char **argv)
 
     return errno;
 }
+
+/// Pour un segment donné (sous-ensemble de bases de paye XML), redécoupe le segment en partie égales ou presque
+/// et lance un fil d'exécution pour chacune de ces sous-parties.
+/// \param info  Référence vers un structure de type info_t contenant les données d'input (noms de fichiers, paramètres de lignes de commande)
+/// \param segment Référence vers un vecteur de chaines de caractères de type string contenant les chemins de bases de paye XML en input
+/// \return Nombre de lignes du fichier bulletins de paye et du fichier lignes de paye (Table)
 
 pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& segment)
 {
@@ -1216,6 +1323,12 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
     return lignes;
 }
 
+/// Lance l'extraction d'un bulletin de paye pour un matricule, un mois et une année donnés
+/// \param repertoire_bulletins Référence vers un dossier de bulletins extraits de type string
+/// \param Référence vers un vecteur de structures info_t contenant l'ensemble, pour tous les segments et fils, des données de paye décodées
+/// \param matricule Référence vers une chaîne de caractère de type string contenant le matricule
+/// \param mois Référence vers une chaîne de caractère de type string contenant le 
+/// \param mois Référence vers une chaîne de caractère de type string contenant le matricule
 bool scan_mois(const string &repertoire_bulletins,
                const vector<info_t> &Info,
                const string &matricule,
