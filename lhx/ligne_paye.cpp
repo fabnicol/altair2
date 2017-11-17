@@ -41,11 +41,6 @@
 using namespace std;
 
 
-/* NOTA Sur les valeurs manquantes
- * Pour des variables caractères : NA (NA_ASSIGN)
- * Pour des variables pseudo-numériques (caractères convertibles en numériques) : 0 (ZERO_ASSIGN)
- * On peut donc garantir que Année, Mois, NbEnfants, Indice, NBI, QuotiteTrav,
- * NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer ne sont jamais NA mais à 0 */
 /// \file    ligne_paye.cpp
 /// \author  Fabrice Nicol
 /// \brief   Ce fichier contient le code relatif au traitement individuel des lignes de paye

@@ -39,6 +39,14 @@
 #include "recherche.hpp"
 using namespace std;
 
+
+
+/// \file    recherche.cpp
+/// \author  Fabrice Nicol
+/// \brief   Ce fichier contient le code permettant de rechercher en mémoire, après décodage des bases XML,
+/// un bulletin de paye particulier correspondant à un matricule, un mois et une année. Il contient aussi le code
+/// permettant l'itération de cette fonctionnalité sur des intervalles temporels.
+
 vector<string>  recherche(const vector<info_t> &Info, const string& annee, const string& mois, const string& matricule)
 {
   vector<string> bulletins;

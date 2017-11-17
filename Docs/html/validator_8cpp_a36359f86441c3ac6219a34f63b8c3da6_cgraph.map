@@ -1,0 +1,26 @@
+<map id="parse_info" name="parse_info">
+<area shape="rect" id="node2" href="$validator_8cpp.html#a5223203a3dc856b4169ea2293035e57a" title="allouer_memoire_table" alt="" coords="136,56,288,83"/>
+<area shape="rect" id="node4" href="$validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="parseFile" alt="" coords="175,132,249,159"/>
+<area shape="rect" id="node25" href="$validator_8cpp.html#aa054457564b0f4991283a511f01777e5" title="normaliser_accents" alt="" coords="145,183,279,209"/>
+<area shape="rect" id="node3" href="$validator_8cpp.html#af23e7af258b590af3650be8ab06708be" title="memoire_p_ligne" alt="" coords="337,5,457,32"/>
+<area shape="rect" id="node5" href="$validator_8hpp.html#ad164d34b6591a52b6e92b087582fe0cb" title="atteindreNoeud" alt="" coords="1135,208,1246,235"/>
+<area shape="rect" id="node6" href="$validator2_8h.html#a07d0aecc3d62699e160c170e089992f5" title="xmlGetProp" alt="" coords="1145,284,1236,311"/>
+<area shape="rect" id="node9" href="$ligne__paye_8hpp.html#a703180379a24b61c33f035b1b8a8f437" title="warning_msg" alt="" coords="929,517,1028,544"/>
+<area shape="rect" id="node10" href="$fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="1100,657,1281,684"/>
+<area shape="rect" id="node11" href="$validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="336,335,459,361"/>
+<area shape="rect" id="node24" href="$fonctions__auxiliaires_8cpp.html#ab49257996eb9a8f23f7da4c66838be65" title="Produit un journal d&#39;exécution. " alt="" coords="358,56,437,83"/>
+<area shape="rect" id="node7" href="$validator2_8h.html#a210c4d9563da6dcd16e49086e6935529" title="tag" alt="" coords="1338,259,1378,285"/>
+<area shape="rect" id="node8" href="$validator2_8h.html#a54d8555fb27dee8d2e8198add62e306b" title="valeur" alt="" coords="1329,309,1387,336"/>
+<area shape="rect" id="node12" href="$ligne__paye_8cpp.html#a1387e6beec261819622addf319a581c7" title="Concatène la propriété &quot;V&quot; du noeud cur passé en premier argument avec la chaîne contenue de la table..." alt="" coords="948,309,1009,336"/>
+<area shape="rect" id="node14" href="$ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud &lt;PayeIndivMensuel&gt; " alt="" coords="541,433,620,460"/>
+<area shape="rect" id="node22" href="$ligne__paye_8cpp.html#a6703d71fd67ea3e020d421379d894d87" title="Teste si il y a un montant brut ou net payé ou remboursé non nul mais pas de ligne de paye détaillant..." alt="" coords="507,309,655,336"/>
+<area shape="rect" id="node23" href="$ligne__paye_8cpp.html#a96d1e754fa36a716b5cd2fab2ab93fdc" title="Réalloue un ligne de paye en NA sur les variables propres aux lignes de paye (Code, Libellé, Base,...) " alt="" coords="521,484,641,511"/>
+<area shape="rect" id="node13" href="$ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le &#160;&#160;caractère &#39;_&#39;..." alt="" coords="1157,381,1224,408"/>
+<area shape="rect" id="node15" href="$ligne__paye_8hpp.html#a1918a95b8d7eafcb07bcf867242b3514" title="verifier_taille" alt="" coords="733,543,827,569"/>
+<area shape="rect" id="node16" href="$ligne__paye_8cpp.html#a45ce15888cd33c4753e852fce36fb56e" title="Appelle Bulletin et affiche l&#39;interprétation des erreurs. " alt="" coords="715,593,845,620"/>
+<area shape="rect" id="node18" href="$ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580" title="Appelle Bulletin. " alt="" coords="719,361,841,402"/>
+<area shape="rect" id="node20" href="$ligne__paye_8cpp.html#a8636e0f8d6d7fce58969c36956342c90" title="Appelle Bulletin. " alt="" coords="715,426,845,467"/>
+<area shape="rect" id="node21" href="$ligne__paye_8cpp.html#a4a91586d82e91ad3e3c02355b57c9e09" title="Appelle Bulletin. " alt="" coords="703,492,857,519"/>
+<area shape="rect" id="node17" href="$ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5" title="Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit. " alt="" coords="946,427,1011,453"/>
+<area shape="rect" id="node19" href="$ligne__paye_8cpp.html#a5342d9b40b92c978ff404415b691e059" title="Substitue le séparateur décimal passé en paramètre au séparateur par défaut (.) " alt="" coords="905,361,1052,402"/>
+</map>
