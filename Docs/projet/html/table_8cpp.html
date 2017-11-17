@@ -1,0 +1,1349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>lhx: Référence du fichier table.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">lhx
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Recherche');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Fonctions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle">
+<div class="title">Référence du fichier table.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;inttypes.h&gt;</code><br />
+<code>#include &lt;cstring&gt;</code><br />
+<code>#include &lt;array&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
+<code>#include &quot;<a class="el" href="table_8hpp_source.html">table.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="fonctions__auxiliaires_8hpp_source.html">fonctions_auxiliaires.hpp</a>&quot;</code><br />
+<code>#include &quot;tags.h&quot;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Graphe des dépendances par inclusion de table.cpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp__incl.png" border="0" usemap="#table_8cpp" alt=""/></div>
+<map name="table_8cpp" id="table_8cpp">
+<area shape="rect" id="node6" href="table_8hpp.html" title="table.hpp" alt="" coords="686,80,761,107"/>
+<area shape="rect" id="node22" href="fonctions__auxiliaires_8hpp.html" title="fonctions_auxiliaires.hpp" alt="" coords="886,80,1051,107"/>
+<area shape="rect" id="node7" href="validator_8hpp.html" title="validator.hpp" alt="" coords="595,155,691,181"/>
+</map>
+</div>
+</div>
+<p><a href="table_8cpp_source.html">Aller au code source de ce fichier.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a57a4f130db7a35f46be02c36d8235550"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a57a4f130db7a35f46be02c36d8235550">VAR</a>(X)&#160;&#160;&#160;Info[i].Table[agent][X]</td></tr>
+<tr class="separator:a57a4f130db7a35f46be02c36d8235550"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af69fb23ca3bfda461aabe069444e07be"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a>&#160;&#160;&#160;ostringstream</td></tr>
+<tr class="separator:af69fb23ca3bfda461aabe069444e07be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:aa1e1ec482bbaf2ed7cfffe4dc2f4f42d"><td class="memItemLeft" align="right" valign="top">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d">ECRIRE_LIGNE_l_COMMUN</a> (int i, uint32_t agent, int <a class="el" href="ligne__paye_8cpp.html#ac0c867a924088c764869ceb3df1ea2aa">l</a>, char *type, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;base, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="separator:aa1e1ec482bbaf2ed7cfffe4dc2f4f42d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10d346fbd131429ed40f614df768f309"><td class="memItemLeft" align="right" valign="top">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a10d346fbd131429ed40f614df768f309">ECRIRE_LIGNE_l_GENERER_RANG_ECHELON</a> (int i, uint32_t agent, int <a class="el" href="ligne__paye_8cpp.html#ac0c867a924088c764869ceb3df1ea2aa">l</a>, char *type, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;base, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int rang)</td></tr>
+<tr class="separator:a10d346fbd131429ed40f614df768f309"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d2809698b798e8cd6897a7e5b2474fd"><td class="memItemLeft" align="right" valign="top">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a6d2809698b798e8cd6897a7e5b2474fd">ECRIRE_LIGNE_l_SIRET</a> (int i, uint32_t agent, int <a class="el" href="ligne__paye_8cpp.html#ac0c867a924088c764869ceb3df1ea2aa">l</a>, char *type, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;base, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="separator:a6d2809698b798e8cd6897a7e5b2474fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1bb188f84b6b31fd3728d3a3a6bf67a"><td class="memItemLeft" align="right" valign="top">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#aa1bb188f84b6b31fd3728d3a3a6bf67a">ECRIRE_LIGNE_l_SIRET_ECHELON</a> (int i, uint32_t agent, int <a class="el" href="ligne__paye_8cpp.html#ac0c867a924088c764869ceb3df1ea2aa">l</a>, char *type, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;base, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="separator:aa1bb188f84b6b31fd3728d3a3a6bf67a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc2838ab1d94857632f46835bbdba7f8"><td class="memItemLeft" align="right" valign="top">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#adc2838ab1d94857632f46835bbdba7f8">ECRIRE_LIGNE_l</a> (int i, uint32_t agent, int <a class="el" href="ligne__paye_8cpp.html#ac0c867a924088c764869ceb3df1ea2aa">l</a>, char *type, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;base, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="separator:adc2838ab1d94857632f46835bbdba7f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95e21d80163ed291f9e373e91985ebe0"><td class="memItemLeft" align="right" valign="top">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a95e21d80163ed291f9e373e91985ebe0">ECRIRE_LIGNE_l_ECHELON</a> (int i, uint32_t agent, int <a class="el" href="ligne__paye_8cpp.html#ac0c867a924088c764869ceb3df1ea2aa">l</a>, char *type, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;base, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="separator:a95e21d80163ed291f9e373e91985ebe0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c2fb8f5119259a3b8fd7e2867a554d2"><td class="memItemLeft" align="right" valign="top">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a4c2fb8f5119259a3b8fd7e2867a554d2">ECRIRE_LIGNE_BULLETIN_COMMUN</a> (int i, uint32_t agent, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;bulletins, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="separator:a4c2fb8f5119259a3b8fd7e2867a554d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15050c934db9b8679fd964ce6f64b4da"><td class="memItemLeft" align="right" valign="top">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a15050c934db9b8679fd964ce6f64b4da">ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON</a> (int i, uint32_t agent, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;bulletins, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int rang)</td></tr>
+<tr class="separator:a15050c934db9b8679fd964ce6f64b4da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9ed5d03fab7a936ec196169a5d8b4d0"><td class="memItemLeft" align="right" valign="top">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#ab9ed5d03fab7a936ec196169a5d8b4d0">ECRIRE_LIGNE_BULLETIN_SIRET</a> (int i, uint32_t agent, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;bulletins, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="separator:ab9ed5d03fab7a936ec196169a5d8b4d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31baa6a4402d393752d5bda2bcff48e5"><td class="memItemLeft" align="right" valign="top">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a31baa6a4402d393752d5bda2bcff48e5">ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON</a> (int i, uint32_t agent, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;bulletins, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="separator:a31baa6a4402d393752d5bda2bcff48e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae461a6803c4b93377f480559ce7b4e6c"><td class="memItemLeft" align="right" valign="top">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#ae461a6803c4b93377f480559ce7b4e6c">ECRIRE_LIGNE_BULLETINS</a> (int i, uint32_t agent, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;bulletins, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="separator:ae461a6803c4b93377f480559ce7b4e6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed69034d46f3c4a1b0ace501246c668c"><td class="memItemLeft" align="right" valign="top">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#aed69034d46f3c4a1b0ace501246c668c">ECRIRE_LIGNE_BULLETINS_ECHELON</a> (int i, uint32_t agent, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;bulletins, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="separator:aed69034d46f3c4a1b0ace501246c668c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a666a48e623a324e4c739c91c1ea9adf7"><td class="memItemLeft" align="right" valign="top">pair&lt; uint64_t, uint32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7">boucle_ecriture</a> (vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int nsegment)</td></tr>
+<tr class="separator:a666a48e623a324e4c739c91c1ea9adf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:acc7ca1c88e2775f4daf5f4552de5a676"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#acc7ca1c88e2775f4daf5f4552de5a676">type_remuneration_traduit</a> []</td></tr>
+<tr class="separator:acc7ca1c88e2775f4daf5f4552de5a676"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b3c077eb170d42259235185656e5a01"><td class="memItemLeft" align="right" valign="top">static void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a5b3c077eb170d42259235185656e5a01">ecrire_ligne_table</a> )(int, uint32_t, int, char *, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;, char, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;, int)</td></tr>
+<tr class="separator:a5b3c077eb170d42259235185656e5a01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1f53dea920f9ac830526c9776e96869"><td class="memItemLeft" align="right" valign="top">static void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#af1f53dea920f9ac830526c9776e96869">ecrire_ligne_bulletin</a> )(int i, uint32_t, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;, char, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;, int)</td></tr>
+<tr class="separator:af1f53dea920f9ac830526c9776e96869"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentation des macros</h2>
+<a id="af69fb23ca3bfda461aabe069444e07be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af69fb23ca3bfda461aabe069444e07be">&#9670;&nbsp;</a></span>table_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define table_t&#160;&#160;&#160;ostringstream</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00038">38</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a57a4f130db7a35f46be02c36d8235550"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57a4f130db7a35f46be02c36d8235550">&#9670;&nbsp;</a></span>VAR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define VAR</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">X</td><td>)</td>
+          <td>&#160;&#160;&#160;Info[i].Table[agent][X]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00031">31</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Documentation des fonctions</h2>
+<a id="a666a48e623a324e4c739c91c1ea9adf7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a666a48e623a324e4c739c91c1ea9adf7">&#9670;&nbsp;</a></span>boucle_ecriture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">pair&lt;uint64_t, uint32_t&gt; boucle_ecriture </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nsegment</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00253">253</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+<div class="dynheader">
+Voici le graphe d'appel pour cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_a666a48e623a324e4c739c91c1ea9adf7_cgraph.png" border="0" usemap="#table_8cpp_a666a48e623a324e4c739c91c1ea9adf7_cgraph" alt=""/></div>
+<map name="table_8cpp_a666a48e623a324e4c739c91c1ea9adf7_cgraph" id="table_8cpp_a666a48e623a324e4c739c91c1ea9adf7_cgraph">
+<area shape="rect" id="node2" href="fonctions__auxiliaires_8cpp.html#a0f11a266115e98b2536637a1ad8b05f7" title="ouvrir_fichier_bulletins" alt="" coords="196,95,347,121"/>
+<area shape="rect" id="node4" href="ligne__paye_8cpp.html#af50b3d88fee3112c7ed3cd06920e0677" title="exit" alt="" coords="729,44,772,71"/>
+<area shape="rect" id="node11" href="table_8cpp.html#a10d346fbd131429ed40f614df768f309" title="ECRIRE_LIGNE_l_GENERER\l_RANG_ECHELON" alt="" coords="169,197,374,238"/>
+<area shape="rect" id="node13" href="table_8cpp.html#a15050c934db9b8679fd964ce6f64b4da" title="ECRIRE_LIGNE_BULLETIN\l_GENERER_RANG_ECHELON" alt="" coords="164,481,379,522"/>
+<area shape="rect" id="node15" href="table_8cpp.html#aa1bb188f84b6b31fd3728d3a3a6bf67a" title="ECRIRE_LIGNE_l_SIRET\l_ECHELON" alt="" coords="182,262,361,303"/>
+<area shape="rect" id="node16" href="table_8cpp.html#a31baa6a4402d393752d5bda2bcff48e5" title="ECRIRE_LIGNE_BULLETIN\l_SIRET_ECHELON" alt="" coords="175,546,367,587"/>
+<area shape="rect" id="node17" href="table_8cpp.html#a6d2809698b798e8cd6897a7e5b2474fd" title="ECRIRE_LIGNE_l_SIRET" alt="" coords="182,328,361,355"/>
+<area shape="rect" id="node18" href="table_8cpp.html#ab9ed5d03fab7a936ec196169a5d8b4d0" title="ECRIRE_LIGNE_BULLETIN\l_SIRET" alt="" coords="175,611,367,653"/>
+<area shape="rect" id="node19" href="table_8cpp.html#a95e21d80163ed291f9e373e91985ebe0" title="ECRIRE_LIGNE_l_ECHELON" alt="" coords="170,379,373,405"/>
+<area shape="rect" id="node20" href="table_8cpp.html#aed69034d46f3c4a1b0ace501246c668c" title="ECRIRE_LIGNE_BULLETINS\l_ECHELON" alt="" coords="171,677,372,718"/>
+<area shape="rect" id="node21" href="table_8cpp.html#adc2838ab1d94857632f46835bbdba7f8" title="ECRIRE_LIGNE_l" alt="" coords="206,429,337,456"/>
+<area shape="rect" id="node22" href="table_8cpp.html#ae461a6803c4b93377f480559ce7b4e6c" title="ECRIRE_LIGNE_BULLETINS" alt="" coords="171,743,372,769"/>
+<area shape="rect" id="node23" href="fonctions__auxiliaires_8cpp.html#a7a042e1e36b178756cfb3a5771debbcb" title="ouvrir_fichier_base" alt="" coords="206,145,337,172"/>
+<area shape="rect" id="node3" href="fonctions__auxiliaires_8cpp.html#abe7e6d7a0d5d4f61a075b180408fb042" title="ouvrir_fichier_base0" alt="" coords="457,120,596,147"/>
+<area shape="rect" id="node5" href="fonctions__auxiliaires_8cpp.html#aa4c818d49539c9dec49c5cf3144b8f53" title="Retourne la taille du fichier en argument au format off_t. " alt="" coords="705,95,796,121"/>
+<area shape="rect" id="node8" href="fonctions__auxiliaires_8cpp.html#aff3c87803f64d34f00a30ef30bb74a9b" title="ecrire_entete_table" alt="" coords="685,145,817,172"/>
+<area shape="rect" id="node10" href="fonctions__auxiliaires_8cpp.html#a5e2253f583a3358618441c2cba35742b" title="ecrire_entete_bulletins" alt="" coords="675,196,827,223"/>
+<area shape="rect" id="node6" href="fonctions__auxiliaires_8cpp.html#a7d549d61628c712fecf0f56bf64802ef" title="getTotalSystemMemory" alt="" coords="875,57,1036,84"/>
+<area shape="rect" id="node7" href="fonctions__auxiliaires_8cpp.html#a171c739cfe424d8650e387874baa1e40" title="getFreeSystemMemory" alt="" coords="876,108,1035,135"/>
+<area shape="rect" id="node9" href="fonctions__auxiliaires_8cpp.html#aca69dd2811b53b087f39810c114e7dde" title="ecrire_entete0" alt="" coords="903,184,1007,211"/>
+<area shape="rect" id="node12" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d" title="ECRIRE_LIGNE_l_COMMUN" alt="" coords="427,328,627,355"/>
+<area shape="rect" id="node14" href="table_8cpp.html#a4c2fb8f5119259a3b8fd7e2867a554d2" title="ECRIRE_LIGNE_BULLETIN\l_COMMUN" alt="" coords="431,611,623,653"/>
+</map>
+</div>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_a666a48e623a324e4c739c91c1ea9adf7_icgraph.png" border="0" usemap="#table_8cpp_a666a48e623a324e4c739c91c1ea9adf7_icgraph" alt=""/></div>
+<map name="table_8cpp_a666a48e623a324e4c739c91c1ea9adf7_icgraph" id="table_8cpp_a666a48e623a324e4c739c91c1ea9adf7_icgraph">
+<area shape="rect" id="node2" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="164,5,289,32"/>
+<area shape="rect" id="node3" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="337,5,388,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a4c2fb8f5119259a3b8fd7e2867a554d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c2fb8f5119259a3b8fd7e2867a554d2">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_BULLETIN_COMMUN()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_BULLETIN_COMMUN </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>bulletins</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00149">149</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_a4c2fb8f5119259a3b8fd7e2867a554d2_icgraph.png" border="0" usemap="#table_8cpp_a4c2fb8f5119259a3b8fd7e2867a554d2_icgraph" alt=""/></div>
+<map name="table_8cpp_a4c2fb8f5119259a3b8fd7e2867a554d2_icgraph" id="table_8cpp_a4c2fb8f5119259a3b8fd7e2867a554d2_icgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#a15050c934db9b8679fd964ce6f64b4da" title="ECRIRE_LIGNE_BULLETIN\l_GENERER_RANG_ECHELON" alt="" coords="245,5,460,47"/>
+<area shape="rect" id="node6" href="table_8cpp.html#ab9ed5d03fab7a936ec196169a5d8b4d0" title="ECRIRE_LIGNE_BULLETIN\l_SIRET" alt="" coords="257,71,449,112"/>
+<area shape="rect" id="node7" href="table_8cpp.html#a31baa6a4402d393752d5bda2bcff48e5" title="ECRIRE_LIGNE_BULLETIN\l_SIRET_ECHELON" alt="" coords="257,136,449,177"/>
+<area shape="rect" id="node8" href="table_8cpp.html#ae461a6803c4b93377f480559ce7b4e6c" title="ECRIRE_LIGNE_BULLETINS" alt="" coords="252,202,453,229"/>
+<area shape="rect" id="node9" href="table_8cpp.html#aed69034d46f3c4a1b0ace501246c668c" title="ECRIRE_LIGNE_BULLETINS\l_ECHELON" alt="" coords="252,253,453,295"/>
+<area shape="rect" id="node3" href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="boucle_ecriture" alt="" coords="508,143,619,170"/>
+<area shape="rect" id="node4" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="667,143,792,170"/>
+<area shape="rect" id="node5" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="840,143,891,170"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a15050c934db9b8679fd964ce6f64b4da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15050c934db9b8679fd964ce6f64b4da">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>bulletins</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00170">170</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+<div class="dynheader">
+Voici le graphe d'appel pour cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_a15050c934db9b8679fd964ce6f64b4da_cgraph.png" border="0" usemap="#table_8cpp_a15050c934db9b8679fd964ce6f64b4da_cgraph" alt=""/></div>
+<map name="table_8cpp_a15050c934db9b8679fd964ce6f64b4da_cgraph" id="table_8cpp_a15050c934db9b8679fd964ce6f64b4da_cgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#a4c2fb8f5119259a3b8fd7e2867a554d2" title="ECRIRE_LIGNE_BULLETIN\l_COMMUN" alt="" coords="268,5,460,47"/>
+</map>
+</div>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_a15050c934db9b8679fd964ce6f64b4da_icgraph.png" border="0" usemap="#table_8cpp_a15050c934db9b8679fd964ce6f64b4da_icgraph" alt=""/></div>
+<map name="table_8cpp_a15050c934db9b8679fd964ce6f64b4da_icgraph" id="table_8cpp_a15050c934db9b8679fd964ce6f64b4da_icgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="boucle_ecriture" alt="" coords="268,13,379,39"/>
+<area shape="rect" id="node3" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="427,13,552,39"/>
+<area shape="rect" id="node4" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="600,13,651,39"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab9ed5d03fab7a936ec196169a5d8b4d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9ed5d03fab7a936ec196169a5d8b4d0">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_BULLETIN_SIRET()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_BULLETIN_SIRET </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>bulletins</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00192">192</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+<div class="dynheader">
+Voici le graphe d'appel pour cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_ab9ed5d03fab7a936ec196169a5d8b4d0_cgraph.png" border="0" usemap="#table_8cpp_ab9ed5d03fab7a936ec196169a5d8b4d0_cgraph" alt=""/></div>
+<map name="table_8cpp_ab9ed5d03fab7a936ec196169a5d8b4d0_cgraph" id="table_8cpp_ab9ed5d03fab7a936ec196169a5d8b4d0_cgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#a4c2fb8f5119259a3b8fd7e2867a554d2" title="ECRIRE_LIGNE_BULLETIN\l_COMMUN" alt="" coords="245,5,437,47"/>
+</map>
+</div>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_ab9ed5d03fab7a936ec196169a5d8b4d0_icgraph.png" border="0" usemap="#table_8cpp_ab9ed5d03fab7a936ec196169a5d8b4d0_icgraph" alt=""/></div>
+<map name="table_8cpp_ab9ed5d03fab7a936ec196169a5d8b4d0_icgraph" id="table_8cpp_ab9ed5d03fab7a936ec196169a5d8b4d0_icgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="boucle_ecriture" alt="" coords="245,13,356,39"/>
+<area shape="rect" id="node3" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="404,13,529,39"/>
+<area shape="rect" id="node4" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="577,13,628,39"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a31baa6a4402d393752d5bda2bcff48e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31baa6a4402d393752d5bda2bcff48e5">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>bulletins</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00209">209</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+<div class="dynheader">
+Voici le graphe d'appel pour cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_a31baa6a4402d393752d5bda2bcff48e5_cgraph.png" border="0" usemap="#table_8cpp_a31baa6a4402d393752d5bda2bcff48e5_cgraph" alt=""/></div>
+<map name="table_8cpp_a31baa6a4402d393752d5bda2bcff48e5_cgraph" id="table_8cpp_a31baa6a4402d393752d5bda2bcff48e5_cgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#a4c2fb8f5119259a3b8fd7e2867a554d2" title="ECRIRE_LIGNE_BULLETIN\l_COMMUN" alt="" coords="245,5,437,47"/>
+</map>
+</div>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_a31baa6a4402d393752d5bda2bcff48e5_icgraph.png" border="0" usemap="#table_8cpp_a31baa6a4402d393752d5bda2bcff48e5_icgraph" alt=""/></div>
+<map name="table_8cpp_a31baa6a4402d393752d5bda2bcff48e5_icgraph" id="table_8cpp_a31baa6a4402d393752d5bda2bcff48e5_icgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="boucle_ecriture" alt="" coords="245,13,356,39"/>
+<area shape="rect" id="node3" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="404,13,529,39"/>
+<area shape="rect" id="node4" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="577,13,628,39"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ae461a6803c4b93377f480559ce7b4e6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae461a6803c4b93377f480559ce7b4e6c">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_BULLETINS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_BULLETINS </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>bulletins</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00227">227</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+<div class="dynheader">
+Voici le graphe d'appel pour cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_ae461a6803c4b93377f480559ce7b4e6c_cgraph.png" border="0" usemap="#table_8cpp_ae461a6803c4b93377f480559ce7b4e6c_cgraph" alt=""/></div>
+<map name="table_8cpp_ae461a6803c4b93377f480559ce7b4e6c_cgraph" id="table_8cpp_ae461a6803c4b93377f480559ce7b4e6c_cgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#a4c2fb8f5119259a3b8fd7e2867a554d2" title="ECRIRE_LIGNE_BULLETIN\l_COMMUN" alt="" coords="255,5,447,47"/>
+</map>
+</div>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_ae461a6803c4b93377f480559ce7b4e6c_icgraph.png" border="0" usemap="#table_8cpp_ae461a6803c4b93377f480559ce7b4e6c_icgraph" alt=""/></div>
+<map name="table_8cpp_ae461a6803c4b93377f480559ce7b4e6c_icgraph" id="table_8cpp_ae461a6803c4b93377f480559ce7b4e6c_icgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="boucle_ecriture" alt="" coords="255,5,365,32"/>
+<area shape="rect" id="node3" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="413,5,539,32"/>
+<area shape="rect" id="node4" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="587,5,637,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aed69034d46f3c4a1b0ace501246c668c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed69034d46f3c4a1b0ace501246c668c">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_BULLETINS_ECHELON()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_BULLETINS_ECHELON </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>bulletins</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00238">238</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+<div class="dynheader">
+Voici le graphe d'appel pour cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_aed69034d46f3c4a1b0ace501246c668c_cgraph.png" border="0" usemap="#table_8cpp_aed69034d46f3c4a1b0ace501246c668c_cgraph" alt=""/></div>
+<map name="table_8cpp_aed69034d46f3c4a1b0ace501246c668c_cgraph" id="table_8cpp_aed69034d46f3c4a1b0ace501246c668c_cgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#a4c2fb8f5119259a3b8fd7e2867a554d2" title="ECRIRE_LIGNE_BULLETIN\l_COMMUN" alt="" coords="255,5,447,47"/>
+</map>
+</div>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_aed69034d46f3c4a1b0ace501246c668c_icgraph.png" border="0" usemap="#table_8cpp_aed69034d46f3c4a1b0ace501246c668c_icgraph" alt=""/></div>
+<map name="table_8cpp_aed69034d46f3c4a1b0ace501246c668c_icgraph" id="table_8cpp_aed69034d46f3c4a1b0ace501246c668c_icgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="boucle_ecriture" alt="" coords="255,13,365,39"/>
+<area shape="rect" id="node3" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="413,13,539,39"/>
+<area shape="rect" id="node4" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="587,13,637,39"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="adc2838ab1d94857632f46835bbdba7f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc2838ab1d94857632f46835bbdba7f8">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_l()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_l </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00125">125</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+<div class="dynheader">
+Voici le graphe d'appel pour cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_adc2838ab1d94857632f46835bbdba7f8_cgraph.png" border="0" usemap="#table_8cpp_adc2838ab1d94857632f46835bbdba7f8_cgraph" alt=""/></div>
+<map name="table_8cpp_adc2838ab1d94857632f46835bbdba7f8_cgraph" id="table_8cpp_adc2838ab1d94857632f46835bbdba7f8_cgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d" title="ECRIRE_LIGNE_l_COMMUN" alt="" coords="184,5,384,32"/>
+</map>
+</div>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_adc2838ab1d94857632f46835bbdba7f8_icgraph.png" border="0" usemap="#table_8cpp_adc2838ab1d94857632f46835bbdba7f8_icgraph" alt=""/></div>
+<map name="table_8cpp_adc2838ab1d94857632f46835bbdba7f8_icgraph" id="table_8cpp_adc2838ab1d94857632f46835bbdba7f8_icgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="boucle_ecriture" alt="" coords="184,5,295,32"/>
+<area shape="rect" id="node3" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="343,5,468,32"/>
+<area shape="rect" id="node4" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="516,5,567,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aa1e1ec482bbaf2ed7cfffe4dc2f4f42d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_l_COMMUN()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_l_COMMUN </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00042">42</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_aa1e1ec482bbaf2ed7cfffe4dc2f4f42d_icgraph.png" border="0" usemap="#table_8cpp_aa1e1ec482bbaf2ed7cfffe4dc2f4f42d_icgraph" alt=""/></div>
+<map name="table_8cpp_aa1e1ec482bbaf2ed7cfffe4dc2f4f42d_icgraph" id="table_8cpp_aa1e1ec482bbaf2ed7cfffe4dc2f4f42d_icgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#a10d346fbd131429ed40f614df768f309" title="ECRIRE_LIGNE_l_GENERER\l_RANG_ECHELON" alt="" coords="253,5,459,47"/>
+<area shape="rect" id="node6" href="table_8cpp.html#a6d2809698b798e8cd6897a7e5b2474fd" title="ECRIRE_LIGNE_l_SIRET" alt="" coords="267,71,445,98"/>
+<area shape="rect" id="node7" href="table_8cpp.html#aa1bb188f84b6b31fd3728d3a3a6bf67a" title="ECRIRE_LIGNE_l_SIRET\l_ECHELON" alt="" coords="267,123,445,164"/>
+<area shape="rect" id="node8" href="table_8cpp.html#adc2838ab1d94857632f46835bbdba7f8" title="ECRIRE_LIGNE_l" alt="" coords="291,189,421,215"/>
+<area shape="rect" id="node9" href="table_8cpp.html#a95e21d80163ed291f9e373e91985ebe0" title="ECRIRE_LIGNE_l_ECHELON" alt="" coords="255,239,457,266"/>
+<area shape="rect" id="node3" href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="boucle_ecriture" alt="" coords="507,130,617,157"/>
+<area shape="rect" id="node4" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="665,130,791,157"/>
+<area shape="rect" id="node5" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="839,130,889,157"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a95e21d80163ed291f9e373e91985ebe0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95e21d80163ed291f9e373e91985ebe0">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_l_ECHELON()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_l_ECHELON </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00136">136</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+<div class="dynheader">
+Voici le graphe d'appel pour cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_a95e21d80163ed291f9e373e91985ebe0_cgraph.png" border="0" usemap="#table_8cpp_a95e21d80163ed291f9e373e91985ebe0_cgraph" alt=""/></div>
+<map name="table_8cpp_a95e21d80163ed291f9e373e91985ebe0_cgraph" id="table_8cpp_a95e21d80163ed291f9e373e91985ebe0_cgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d" title="ECRIRE_LIGNE_l_COMMUN" alt="" coords="256,5,456,32"/>
+</map>
+</div>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_a95e21d80163ed291f9e373e91985ebe0_icgraph.png" border="0" usemap="#table_8cpp_a95e21d80163ed291f9e373e91985ebe0_icgraph" alt=""/></div>
+<map name="table_8cpp_a95e21d80163ed291f9e373e91985ebe0_icgraph" id="table_8cpp_a95e21d80163ed291f9e373e91985ebe0_icgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="boucle_ecriture" alt="" coords="256,5,367,32"/>
+<area shape="rect" id="node3" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="415,5,540,32"/>
+<area shape="rect" id="node4" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="588,5,639,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a10d346fbd131429ed40f614df768f309"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10d346fbd131429ed40f614df768f309">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_l_GENERER_RANG_ECHELON()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_l_GENERER_RANG_ECHELON </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00071">71</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+<div class="dynheader">
+Voici le graphe d'appel pour cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_a10d346fbd131429ed40f614df768f309_cgraph.png" border="0" usemap="#table_8cpp_a10d346fbd131429ed40f614df768f309_cgraph" alt=""/></div>
+<map name="table_8cpp_a10d346fbd131429ed40f614df768f309_cgraph" id="table_8cpp_a10d346fbd131429ed40f614df768f309_cgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d" title="ECRIRE_LIGNE_l_COMMUN" alt="" coords="259,13,459,39"/>
+</map>
+</div>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_a10d346fbd131429ed40f614df768f309_icgraph.png" border="0" usemap="#table_8cpp_a10d346fbd131429ed40f614df768f309_icgraph" alt=""/></div>
+<map name="table_8cpp_a10d346fbd131429ed40f614df768f309_icgraph" id="table_8cpp_a10d346fbd131429ed40f614df768f309_icgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="boucle_ecriture" alt="" coords="259,13,369,39"/>
+<area shape="rect" id="node3" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="417,13,543,39"/>
+<area shape="rect" id="node4" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="591,13,641,39"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a6d2809698b798e8cd6897a7e5b2474fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d2809698b798e8cd6897a7e5b2474fd">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_l_SIRET()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_l_SIRET </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00092">92</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+<div class="dynheader">
+Voici le graphe d'appel pour cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_a6d2809698b798e8cd6897a7e5b2474fd_cgraph.png" border="0" usemap="#table_8cpp_a6d2809698b798e8cd6897a7e5b2474fd_cgraph" alt=""/></div>
+<map name="table_8cpp_a6d2809698b798e8cd6897a7e5b2474fd_cgraph" id="table_8cpp_a6d2809698b798e8cd6897a7e5b2474fd_cgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d" title="ECRIRE_LIGNE_l_COMMUN" alt="" coords="232,5,432,32"/>
+</map>
+</div>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_a6d2809698b798e8cd6897a7e5b2474fd_icgraph.png" border="0" usemap="#table_8cpp_a6d2809698b798e8cd6897a7e5b2474fd_icgraph" alt=""/></div>
+<map name="table_8cpp_a6d2809698b798e8cd6897a7e5b2474fd_icgraph" id="table_8cpp_a6d2809698b798e8cd6897a7e5b2474fd_icgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="boucle_ecriture" alt="" coords="232,5,343,32"/>
+<area shape="rect" id="node3" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="391,5,516,32"/>
+<area shape="rect" id="node4" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="564,5,615,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aa1bb188f84b6b31fd3728d3a3a6bf67a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1bb188f84b6b31fd3728d3a3a6bf67a">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_l_SIRET_ECHELON()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_l_SIRET_ECHELON </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00108">108</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+<div class="dynheader">
+Voici le graphe d'appel pour cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_aa1bb188f84b6b31fd3728d3a3a6bf67a_cgraph.png" border="0" usemap="#table_8cpp_aa1bb188f84b6b31fd3728d3a3a6bf67a_cgraph" alt=""/></div>
+<map name="table_8cpp_aa1bb188f84b6b31fd3728d3a3a6bf67a_cgraph" id="table_8cpp_aa1bb188f84b6b31fd3728d3a3a6bf67a_cgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d" title="ECRIRE_LIGNE_l_COMMUN" alt="" coords="232,13,432,39"/>
+</map>
+</div>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="table_8cpp_aa1bb188f84b6b31fd3728d3a3a6bf67a_icgraph.png" border="0" usemap="#table_8cpp_aa1bb188f84b6b31fd3728d3a3a6bf67a_icgraph" alt=""/></div>
+<map name="table_8cpp_aa1bb188f84b6b31fd3728d3a3a6bf67a_icgraph" id="table_8cpp_aa1bb188f84b6b31fd3728d3a3a6bf67a_icgraph">
+<area shape="rect" id="node2" href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="boucle_ecriture" alt="" coords="232,13,343,39"/>
+<area shape="rect" id="node3" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="produire_segment" alt="" coords="391,13,516,39"/>
+<area shape="rect" id="node4" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="564,13,615,39"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Documentation des variables</h2>
+<a id="af1f53dea920f9ac830526c9776e96869"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1f53dea920f9ac830526c9776e96869">&#9670;&nbsp;</a></span>ecrire_ligne_bulletin</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* ecrire_ligne_bulletin) (int i, uint32_t, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;, char, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;, int)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00251">251</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a5b3c077eb170d42259235185656e5a01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b3c077eb170d42259235185656e5a01">&#9670;&nbsp;</a></span>ecrire_ligne_table</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* ecrire_ligne_table) (int, uint32_t, int, char *, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;, char, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;, int)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00250">250</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+</div>
+</div>
+<a id="acc7ca1c88e2775f4daf5f4552de5a676"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc7ca1c88e2775f4daf5f4552de5a676">&#9670;&nbsp;</a></span>type_remuneration_traduit</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* type_remuneration_traduit[]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Valeur initiale :</b><div class="fragment"><div class="line">= {</div><div class="line">    <span class="stringliteral">&quot;T&quot;</span>,   </div><div class="line">    <span class="stringliteral">&quot;IR&quot;</span>, </div><div class="line">    <span class="stringliteral">&quot;S&quot;</span>,  </div><div class="line">    <span class="stringliteral">&quot;AV&quot;</span>, </div><div class="line">    <span class="stringliteral">&quot;I&quot;</span>,  </div><div class="line">    <span class="stringliteral">&quot;A&quot;</span>, </div><div class="line">    <span class="stringliteral">&quot;D&quot;</span>, </div><div class="line">    <span class="stringliteral">&quot;AC&quot;</span>, </div><div class="line">    <span class="stringliteral">&quot;R&quot;</span>, </div><div class="line">    <span class="stringliteral">&quot;RE&quot;</span>, </div><div class="line">    <span class="stringliteral">&quot;C&quot;</span>, </div><div class="line">    <span class="stringliteral">&quot;CO&quot;</span> </div><div class="line">}</div></div><!-- fragment -->
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00016">16</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Généré par &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.13
+</small></address>
+</body>
+</html>
