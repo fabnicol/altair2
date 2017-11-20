@@ -232,16 +232,16 @@ constexpr const char* Tableau_entete[] = {
 typedef struct
 {
 
-    vector<vector<xmlChar*>> Table;
-    uint64_t nbLigne;
-    vector<array<uint64_t, 3>> ligne_debut;
-    vector<array<uint64_t, 2>> ligne_fin;
-    vector<uint32_t> NAgent;
-    uint32_t nbAgentUtilisateur;
-    uint32_t NCumAgent;
-    uint32_t NCumAgentXml;
-    uint32_t taille_base;
-    BaseType  type_base;
+    vector<vector<xmlChar*>> Table;         ///< Contient les données XML à exporter dans le fichier Table
+    uint64_t nbLigne;                       ///< Nombre de lignes
+    vector<array<uint64_t, 3>> ligne_debut; ///< Ligne de début du bulletin dans le fichier XML
+    vector<array<uint64_t, 2>> ligne_fin;   ///< Ligne de fin du bulletin dans le fichier XML
+    vector<uint32_t> NAgent;                ///< Nombre d'agents
+    uint32_t nbAgentUtilisateur;            ///< Nombre d'agents utilisateurs
+    uint32_t NCumAgent;                     ///< Cumul du nombre d'agents pour l'opération de préallocation \ref calculer_memoire_requise
+    uint32_t NCumAgentXml;                  ///< Cumul du nombre d'agents après décodage XML
+    uint32_t taille_base;                   ///< Taille de la base
+    BaseType  type_base;                    ///< Type de la base
     vector<uint16_t> NLigne;
     thread_t* threads;
     string chemin_log;

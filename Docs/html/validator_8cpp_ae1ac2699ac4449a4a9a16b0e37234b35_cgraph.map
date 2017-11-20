@@ -3,7 +3,7 @@
 <area shape="rect" id="node3" href="$validator2_8h.html#a07d0aecc3d62699e160c170e089992f5" title="xmlGetProp" alt="" coords="937,169,1028,196"/>
 <area shape="rect" id="node6" href="$ligne__paye_8hpp.html#a703180379a24b61c33f035b1b8a8f437" title="warning_msg" alt="" coords="721,403,820,429"/>
 <area shape="rect" id="node7" href="$fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="892,543,1073,569"/>
-<area shape="rect" id="node8" href="$validator_8cpp.html#af23e7af258b590af3650be8ab06708be" title="memoire_p_ligne" alt="" coords="129,681,249,708"/>
+<area shape="rect" id="node8" href="$validator_8cpp.html#af23e7af258b590af3650be8ab06708be" title="Définit le besoin de mémoire en octets pour un bulletin de paye de données XML (Table) ..." alt="" coords="129,681,249,708"/>
 <area shape="rect" id="node9" href="$validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="128,281,251,308"/>
 <area shape="rect" id="node22" href="$fonctions__auxiliaires_8cpp.html#ab49257996eb9a8f23f7da4c66838be65" title="Produit un journal d&#39;exécution. " alt="" coords="150,732,229,759"/>
 <area shape="rect" id="node4" href="$validator2_8h.html#a210c4d9563da6dcd16e49086e6935529" title="tag" alt="" coords="1130,144,1170,171"/>

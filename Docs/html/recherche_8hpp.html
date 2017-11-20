@@ -97,8 +97,10 @@ Fonctions</h2></td></tr>
 <tr class="memitem:a38dcbf02e8ca06b3fbcb59f9a0ec805b"><td class="memItemLeft" align="right" valign="top">vector&lt; long long &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="recherche_8hpp.html#a38dcbf02e8ca06b3fbcb59f9a0ec805b">recherche</a> (const vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;info, const <a class="el" href="validator2_8h.html#adc22d1593f2d659f7e60e0c96f9eef2b">xmlChar</a> *annee, const <a class="el" href="validator2_8h.html#adc22d1593f2d659f7e60e0c96f9eef2b">xmlChar</a> *mois, const <a class="el" href="validator2_8h.html#adc22d1593f2d659f7e60e0c96f9eef2b">xmlChar</a> *matricule)</td></tr>
 <tr class="separator:a38dcbf02e8ca06b3fbcb59f9a0ec805b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb222aafededdf9d279d03b5fb62bc11"><td class="memItemLeft" align="right" valign="top">const string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="recherche_8hpp.html#abb222aafededdf9d279d03b5fb62bc11">extraire_lignes</a> (const <a class="el" href="structinfo__t.html">info_t</a> &amp;info, const array&lt; uint64_t, 3 &gt; &amp;debut, const array&lt; uint64_t, 2 &gt; &amp;fin)</td></tr>
+<tr class="memdesc:abb222aafededdf9d279d03b5fb62bc11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extrait le bulletin de paye correspondant à la ligne de début et de fin dans le fichier XML base de paye.  <a href="#abb222aafededdf9d279d03b5fb62bc11">Plus de détails...</a><br /></td></tr>
 <tr class="separator:abb222aafededdf9d279d03b5fb62bc11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8eb57967b0fcb6142a1a81c75237e49c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="recherche_8hpp.html#a8eb57967b0fcb6142a1a81c75237e49c">bulletin_paye</a> (const string &amp;chemin_repertoire, const vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, const string &amp;matricule, const string &amp;mois, const string &amp;annee)</td></tr>
+<tr class="memdesc:a8eb57967b0fcb6142a1a81c75237e49c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crée le répertoire d'exportation d'un bulletin de paye donné pour un matricule, un mois et une année donnés et le fichier XHL minimal encapusalnt ce bulletin individuel.  <a href="#a8eb57967b0fcb6142a1a81c75237e49c">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a8eb57967b0fcb6142a1a81c75237e49c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5938a1013575c56e8e4cad56866314f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="recherche_8hpp.html#ad5938a1013575c56e8e4cad56866314f">scan_mois</a> (const string &amp;<a class="el" href="main_8cpp.html#a0c6fc9e97d59a78019dfcd477d6f08e6">repertoire_bulletins</a>, const vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, const string &amp;matricule, const string &amp;mois, const string &amp;annee)</td></tr>
 <tr class="memdesc:ad5938a1013575c56e8e4cad56866314f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lance l'extraction d'un bulletin de paye pour un matricule, un mois et une année donnés.  <a href="#ad5938a1013575c56e8e4cad56866314f">Plus de détails...</a><br /></td></tr>
@@ -148,13 +150,26 @@ Fonctions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Crée le répertoire d'exportation d'un bulletin de paye donné pour un matricule, un mois et une année donnés et le fichier XHL minimal encapusalnt ce bulletin individuel. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">chemin_repertoire</td><td>Chemin compet du répertoire d'exportation contenant les bulletins extraits </td></tr>
+    <tr><td class="paramname">Info</td><td>vecteur de structures <a class="el" href="structinfo__t.html">info_t</a> contenant les données de paye décodées </td></tr>
+    <tr><td class="paramname">matricule</td><td>Matricule de l'agent </td></tr>
+    <tr><td class="paramname">mois</td><td>Mois de la paye </td></tr>
+    <tr><td class="paramname">annee</td><td>Année de la paye </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>Boléen : true si l'exportation a réussi, false sinon </dd></dl>
 <div class="dynheader">
 Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="recherche_8hpp_a8eb57967b0fcb6142a1a81c75237e49c_cgraph.png" border="0" usemap="#recherche_8hpp_a8eb57967b0fcb6142a1a81c75237e49c_cgraph" alt=""/></div>
 <map name="recherche_8hpp_a8eb57967b0fcb6142a1a81c75237e49c_cgraph" id="recherche_8hpp_a8eb57967b0fcb6142a1a81c75237e49c_cgraph">
 <area shape="rect" id="node2" href="recherche_8cpp.html#a7c170acf1897b8bcf6e41e3853db1ae0" title="recherche" alt="" coords="152,5,231,32"/>
-<area shape="rect" id="node3" href="recherche_8cpp.html#abb222aafededdf9d279d03b5fb62bc11" title="extraire_lignes" alt="" coords="279,5,385,32"/>
+<area shape="rect" id="node3" href="recherche_8cpp.html#abb222aafededdf9d279d03b5fb62bc11" title="Extrait le bulletin de paye correspondant à la ligne de début et de fin dans le fichier XML base de p..." alt="" coords="279,5,385,32"/>
 </map>
 </div>
 <div class="dynheader">
@@ -201,13 +216,24 @@ Voici le graphe des appelants de cette fonction :</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Extrait le bulletin de paye correspondant à la ligne de début et de fin dans le fichier XML base de paye. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">info</td><td>Structure <a class="el" href="structinfo__t.html">info_t</a> contenant la partie pertinente des données de paye décodées </td></tr>
+    <tr><td class="paramname">debut</td><td>Tableau de 3 entiers de 64 bits contenant l'indicatrice du début du bulletin particulier à extraire </td></tr>
+    <tr><td class="paramname">fin</td><td>Tableau de 2 entiers de 64 bits contenant l'indicatrice du fin du bulletin particulier à extraire </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>Chaîne de caractères de type string contenant l'extraction du bulletin </dd></dl>
 <div class="dynheader">
 Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="recherche_8hpp_abb222aafededdf9d279d03b5fb62bc11_icgraph.png" border="0" usemap="#recherche_8hpp_abb222aafededdf9d279d03b5fb62bc11_icgraph" alt=""/></div>
 <map name="recherche_8hpp_abb222aafededdf9d279d03b5fb62bc11_icgraph" id="recherche_8hpp_abb222aafededdf9d279d03b5fb62bc11_icgraph">
 <area shape="rect" id="node2" href="recherche_8cpp.html#a7c170acf1897b8bcf6e41e3853db1ae0" title="recherche" alt="" coords="160,5,239,32"/>
-<area shape="rect" id="node3" href="recherche_8hpp.html#a8eb57967b0fcb6142a1a81c75237e49c" title="bulletin_paye" alt="" coords="287,5,385,32"/>
+<area shape="rect" id="node3" href="recherche_8hpp.html#a8eb57967b0fcb6142a1a81c75237e49c" title="Crée le répertoire d&#39;exportation d&#39;un bulletin de paye donné pour un matricule, un mois et une année ..." alt="" coords="287,5,385,32"/>
 <area shape="rect" id="node4" href="recherche_8hpp.html#ad5938a1013575c56e8e4cad56866314f" title="Lance l&#39;extraction d&#39;un bulletin de paye pour un matricule, un mois et une année donnés. " alt="" coords="433,5,519,32"/>
 <area shape="rect" id="node5" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="567,5,692,32"/>
 <area shape="rect" id="node6" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="740,5,791,32"/>
@@ -316,9 +342,9 @@ Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="recherche_8hpp_ad5938a1013575c56e8e4cad56866314f_cgraph.png" border="0" usemap="#recherche_8hpp_ad5938a1013575c56e8e4cad56866314f_cgraph" alt=""/></div>
 <map name="recherche_8hpp_ad5938a1013575c56e8e4cad56866314f_cgraph" id="recherche_8hpp_ad5938a1013575c56e8e4cad56866314f_cgraph">
-<area shape="rect" id="node2" href="recherche_8cpp.html#a8eb57967b0fcb6142a1a81c75237e49c" title="bulletin_paye" alt="" coords="139,5,237,32"/>
+<area shape="rect" id="node2" href="recherche_8cpp.html#a8eb57967b0fcb6142a1a81c75237e49c" title="Crée le répertoire d&#39;exportation d&#39;un bulletin de paye donné pour un matricule, un mois et une année ..." alt="" coords="139,5,237,32"/>
 <area shape="rect" id="node3" href="recherche_8cpp.html#a7c170acf1897b8bcf6e41e3853db1ae0" title="recherche" alt="" coords="285,5,364,32"/>
-<area shape="rect" id="node4" href="recherche_8cpp.html#abb222aafededdf9d279d03b5fb62bc11" title="extraire_lignes" alt="" coords="412,5,519,32"/>
+<area shape="rect" id="node4" href="recherche_8cpp.html#abb222aafededdf9d279d03b5fb62bc11" title="Extrait le bulletin de paye correspondant à la ligne de début et de fin dans le fichier XML base de p..." alt="" coords="412,5,519,32"/>
 </map>
 </div>
 <div class="dynheader">
