@@ -79,12 +79,12 @@ Graphe des dépendances par inclusion de table.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="table_8cpp__incl.png" border="0" usemap="#lhx_2table_8cpp" alt=""/></div>
 <map name="lhx_2table_8cpp" id="lhx_2table_8cpp">
-<area shape="rect" id="node6" href="table_8hpp.html" title="table.hpp" alt="" coords="1057,80,1132,107"/>
-<area shape="rect" id="node28" href="fonctions__auxiliaires_8hpp.html" title="fonctions_auxiliaires.hpp" alt="" coords="1447,80,1612,107"/>
-<area shape="rect" id="node7" href="validator_8hpp.html" title="validator.hpp" alt="" coords="1047,155,1143,181"/>
-<area shape="rect" id="node25" href="expression__reg__elus_8hpp.html" title="expression_reg_elus.hpp" alt="" coords="665,229,831,256"/>
-<area shape="rect" id="node27" href="expression__reg__adjoints_8hpp.html" title="expression_reg_adjoints.hpp" alt="" coords="453,229,640,256"/>
-<area shape="rect" id="node26" href="expression__reg__commun_8hpp.html" title="expression_reg_commun.hpp" alt="" coords="551,304,743,331"/>
+<area shape="rect" id="node8" href="table_8hpp.html" title="table.hpp" alt="" coords="615,80,689,107"/>
+<area shape="rect" id="node29" href="fonctions__auxiliaires_8hpp.html" title="fonctions_auxiliaires.hpp" alt="" coords="1341,80,1507,107"/>
+<area shape="rect" id="node9" href="validator_8hpp.html" title="validator.hpp" alt="" coords="1027,155,1123,181"/>
+<area shape="rect" id="node26" href="expression__reg__elus_8hpp.html" title="expression_reg_elus.hpp" alt="" coords="463,229,630,256"/>
+<area shape="rect" id="node28" href="expression__reg__adjoints_8hpp.html" title="expression_reg_adjoints.hpp" alt="" coords="655,229,841,256"/>
+<area shape="rect" id="node27" href="expression__reg__commun_8hpp.html" title="expression_reg_commun.hpp" alt="" coords="551,304,743,331"/>
 </map>
 </div>
 </div><table class="memberdecls">
@@ -98,16 +98,36 @@ Macros</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Fonctions</h2></td></tr>
 <tr class="memitem:aa1e1ec482bbaf2ed7cfffe4dc2f4f42d"><td class="memItemLeft" align="right" valign="top">static void <a class="el" href="validator2_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d">ECRIRE_LIGNE_l_COMMUN</a> (int i, uint32_t agent, int l, char *type, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;base, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator2_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="memdesc:aa1e1ec482bbaf2ed7cfffe4dc2f4f42d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table.  <a href="#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d">Plus de détails...</a><br /></td></tr>
 <tr class="separator:aa1e1ec482bbaf2ed7cfffe4dc2f4f42d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72acdb89510299d6bd8136ab10ccce65"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="validator2_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a72acdb89510299d6bd8136ab10ccce65">ECRIRE_LIGNE_l_GENERER_RANG</a> (int i, uint32_t agent, int l, char *type, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;base, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int rang)</td></tr>
+<tr class="memdesc:a72acdb89510299d6bd8136ab10ccce65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier <br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Optionnellement ajoute le Budget, l'Employeur, le Siret et l'Etablissement comme colonnes suivantes<br />
+Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes.  <a href="#a72acdb89510299d6bd8136ab10ccce65">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a72acdb89510299d6bd8136ab10ccce65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4690b0ec4007e562e68502017efc011"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="validator2_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#ac4690b0ec4007e562e68502017efc011">ECRIRE_LIGNE_l_GENERER_RANG_ECHELON</a> (int i, uint32_t agent, int l, char *type, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;base, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int rang)</td></tr>
+<tr class="memdesc:ac4690b0ec4007e562e68502017efc011"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier<br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Optionnellement ajoute le Budget, l'Employeur, le Siret et l'Etablissement comme colonnes suivantes<br />
+Ajoute dans tous les cas l'Echelon, la Categorie ainsi que le NIR en dernières colonnes.  <a href="#ac4690b0ec4007e562e68502017efc011">Plus de détails...</a><br /></td></tr>
 <tr class="separator:ac4690b0ec4007e562e68502017efc011"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82d211f064919b7c49ce3afea746bd6c"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="validator2_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a82d211f064919b7c49ce3afea746bd6c">ECRIRE_LIGNE_l_SIRET</a> (int i, uint32_t agent, int l, char *type, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;base, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator2_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="memdesc:a82d211f064919b7c49ce3afea746bd6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier<br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Ajoute ensuite le Budget, l'Employeur, le Siret et l'Etablissement<br />
+Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes.  <a href="#a82d211f064919b7c49ce3afea746bd6c">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a82d211f064919b7c49ce3afea746bd6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9227a92c4b8fb92bd91242d938be476d"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="validator2_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a9227a92c4b8fb92bd91242d938be476d">ECRIRE_LIGNE_l_SIRET_ECHELON</a> (int i, uint32_t agent, int l, char *type, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;base, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator2_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="memdesc:a9227a92c4b8fb92bd91242d938be476d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier<br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Ajoute ensuite le Budget, l'Employeur, le Siret et l'Etablissement<br />
+Ajoute dans tous les cas l'Echelon, la Categorie ainsi que le NIR en dernières colonnes.  <a href="#a9227a92c4b8fb92bd91242d938be476d">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a9227a92c4b8fb92bd91242d938be476d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76d65e4a709ff415979be1460608f6ab"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="validator2_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a76d65e4a709ff415979be1460608f6ab">ECRIRE_LIGNE_l</a> (int i, uint32_t agent, int l, char *type, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;base, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator2_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="memdesc:a76d65e4a709ff415979be1460608f6ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier<br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes.  <a href="#a76d65e4a709ff415979be1460608f6ab">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a76d65e4a709ff415979be1460608f6ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2fee89611cf768d7f527283808fd5a83"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="validator2_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a2fee89611cf768d7f527283808fd5a83">ECRIRE_LIGNE_l_ECHELON</a> (int i, uint32_t agent, int l, char *type, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;base, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator2_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
 <tr class="separator:a2fee89611cf768d7f527283808fd5a83"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -205,17 +225,17 @@ Voici le graphe d'appel pour cette fonction :</div>
 <div class="center"><img src="table_8cpp_a666a48e623a324e4c739c91c1ea9adf7_cgraph.png" border="0" usemap="#table_8cpp_a666a48e623a324e4c739c91c1ea9adf7_cgraph" alt=""/></div>
 <map name="table_8cpp_a666a48e623a324e4c739c91c1ea9adf7_cgraph" id="table_8cpp_a666a48e623a324e4c739c91c1ea9adf7_cgraph">
 <area shape="rect" id="node2" href="fonctions__auxiliaires_8cpp.html#a0f11a266115e98b2536637a1ad8b05f7" title="Ouvre une base de données de bulletins en écriture pour un segment d&#39;exécution donné ..." alt="" coords="214,31,365,57"/>
-<area shape="rect" id="node8" href="table_8cpp.html#ac4690b0ec4007e562e68502017efc011" title="ECRIRE_LIGNE_l_GENERER\l_RANG_ECHELON" alt="" coords="187,133,392,174"/>
+<area shape="rect" id="node8" href="table_8cpp.html#ac4690b0ec4007e562e68502017efc011" title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier Ajoute l&#39;Annee et le Mois comme deux premières colonnes Optionnellement ajoute le Budget, l&#39;Employeur, le Siret et l&#39;Etablissement comme colonnes suivantes Ajoute dans tous les cas l&#39;Echelon, la Categorie ainsi que le NIR en dernières colonnes. " alt="" coords="187,133,392,174"/>
 <area shape="rect" id="node10" href="table_8cpp.html#ac99b105f075700364aa7b14d11ceab7b" title="ECRIRE_LIGNE_BULLETIN\l_GENERER_RANG_ECHELON" alt="" coords="182,469,397,510"/>
-<area shape="rect" id="node12" href="table_8cpp.html#a72acdb89510299d6bd8136ab10ccce65" title="ECRIRE_LIGNE_l_GENERER_RANG" alt="" coords="164,199,415,225"/>
+<area shape="rect" id="node12" href="table_8cpp.html#a72acdb89510299d6bd8136ab10ccce65" title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier &#160;Ajoute l&#39;Annee et le Mois comme deux premières colonnes Optionnellement ajoute le Budget, l&#39;Employeur, le Siret et l&#39;Etablissement comme colonnes suivantes Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes. " alt="" coords="164,199,415,225"/>
 <area shape="rect" id="node13" href="table_8cpp.html#ac961030aff2e8f0da8ff2788c16e2272" title="ECRIRE_LIGNE_BULLETIN\l_GENERER_RANG" alt="" coords="193,534,385,575"/>
-<area shape="rect" id="node14" href="table_8cpp.html#a9227a92c4b8fb92bd91242d938be476d" title="ECRIRE_LIGNE_l_SIRET\l_ECHELON" alt="" coords="200,250,379,291"/>
+<area shape="rect" id="node14" href="table_8cpp.html#a9227a92c4b8fb92bd91242d938be476d" title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier Ajoute l&#39;Annee et le Mois comme deux premières colonnes Ajoute ensuite le Budget, l&#39;Employeur, le Siret et l&#39;Etablissement Ajoute dans tous les cas l&#39;Echelon, la Categorie ainsi que le NIR en dernières colonnes. " alt="" coords="200,250,379,291"/>
 <area shape="rect" id="node15" href="table_8cpp.html#ae5fac93ecc2de57ead73a4529b95d917" title="ECRIRE_LIGNE_BULLETIN\l_SIRET_ECHELON" alt="" coords="193,599,385,641"/>
-<area shape="rect" id="node16" href="table_8cpp.html#a82d211f064919b7c49ce3afea746bd6c" title="ECRIRE_LIGNE_l_SIRET" alt="" coords="200,316,379,343"/>
+<area shape="rect" id="node16" href="table_8cpp.html#a82d211f064919b7c49ce3afea746bd6c" title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier Ajoute l&#39;Annee et le Mois comme deux premières colonnes Ajoute ensuite le Budget, l&#39;Employeur, le Siret et l&#39;Etablissement Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes. " alt="" coords="200,316,379,343"/>
 <area shape="rect" id="node17" href="table_8cpp.html#a96061df9a94d349009a11fa399bbec5c" title="ECRIRE_LIGNE_BULLETIN\l_SIRET" alt="" coords="193,665,385,706"/>
 <area shape="rect" id="node18" href="table_8cpp.html#a2fee89611cf768d7f527283808fd5a83" title="ECRIRE_LIGNE_l_ECHELON" alt="" coords="188,367,391,393"/>
 <area shape="rect" id="node19" href="table_8cpp.html#a81cadaba9e542262f469cce0176edab7" title="ECRIRE_LIGNE_BULLETINS\l_ECHELON" alt="" coords="189,730,390,771"/>
-<area shape="rect" id="node20" href="table_8cpp.html#a76d65e4a709ff415979be1460608f6ab" title="ECRIRE_LIGNE_l" alt="" coords="224,417,355,444"/>
+<area shape="rect" id="node20" href="table_8cpp.html#a76d65e4a709ff415979be1460608f6ab" title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier Ajoute l&#39;Annee et le Mois comme deux premières colonnes Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes. " alt="" coords="224,417,355,444"/>
 <area shape="rect" id="node21" href="table_8cpp.html#a916e1e5b2942bd8d0c96914172abefc2" title="ECRIRE_LIGNE_BULLETINS" alt="" coords="189,796,390,823"/>
 <area shape="rect" id="node22" href="fonctions__auxiliaires_8cpp.html#a7a042e1e36b178756cfb3a5771debbcb" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="224,81,355,108"/>
 <area shape="rect" id="node3" href="fonctions__auxiliaires_8cpp.html#abe7e6d7a0d5d4f61a075b180408fb042" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="493,56,632,83"/>
@@ -223,7 +243,7 @@ Voici le graphe d'appel pour cette fonction :</div>
 <area shape="rect" id="node5" href="fonctions__auxiliaires_8cpp.html#aff3c87803f64d34f00a30ef30bb74a9b" title="Ecrit les libellés des colonnes de la table (bulletins + lignes de paye) " alt="" coords="721,56,853,83"/>
 <area shape="rect" id="node7" href="fonctions__auxiliaires_8cpp.html#a5e2253f583a3358618441c2cba35742b" title="Ecrit les libellés des colonnes des bulletins. " alt="" coords="711,107,863,133"/>
 <area shape="rect" id="node6" href="fonctions__auxiliaires_8cpp.html#aca69dd2811b53b087f39810c114e7dde" title="Ecrit les libellés des colonnes d&#39;une base quelconque avec un tableau de libellés de taille donnée..." alt="" coords="911,81,1015,108"/>
-<area shape="rect" id="node9" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d" title="ECRIRE_LIGNE_l_COMMUN" alt="" coords="463,287,663,313"/>
+<area shape="rect" id="node9" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d" title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table. " alt="" coords="463,287,663,313"/>
 <area shape="rect" id="node11" href="table_8cpp.html#a4c2fb8f5119259a3b8fd7e2867a554d2" title="ECRIRE_LIGNE_BULLETIN\l_COMMUN" alt="" coords="467,633,659,674"/>
 </map>
 </div>
@@ -852,12 +872,29 @@ Voici le graphe des appelants de cette fonction :</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier<br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Rang du fil d'exécution </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent </td></tr>
+    <tr><td class="paramname">l</td><td>Index permettant de localiser le premier champ de la ligne de paye </td></tr>
+    <tr><td class="paramname">type</td><td>Type de ligne de paye </td></tr>
+    <tr><td class="paramname">base</td><td>Base de type ofstream permettant d'écrire le fichier CSV </td></tr>
+    <tr><td class="paramname">sep</td><td>Séparateur de champs CSV (usuellement ';') </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html">info_t</a> contenant les bases de paye décodées </td></tr>
+    <tr><td class="paramname">rang</td><td>Inutilisé </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="table_8cpp_a76d65e4a709ff415979be1460608f6ab_cgraph.png" border="0" usemap="#table_8cpp_a76d65e4a709ff415979be1460608f6ab_cgraph" alt=""/></div>
 <map name="table_8cpp_a76d65e4a709ff415979be1460608f6ab_cgraph" id="table_8cpp_a76d65e4a709ff415979be1460608f6ab_cgraph">
-<area shape="rect" id="node2" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d" title="ECRIRE_LIGNE_l_COMMUN" alt="" coords="184,5,384,32"/>
+<area shape="rect" id="node2" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d" title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table. " alt="" coords="184,5,384,32"/>
 </map>
 </div>
 <div class="dynheader">
@@ -942,16 +979,31 @@ Voici le graphe des appelants de cette fonction :</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Rang du fil d'exécution </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent </td></tr>
+    <tr><td class="paramname">l</td><td>Index permettant de localiser le premier champ de la ligne de paye </td></tr>
+    <tr><td class="paramname">type</td><td>Type de ligne de paye </td></tr>
+    <tr><td class="paramname">base</td><td>Base de type ofstream permettant d'écrire le fichier CSV </td></tr>
+    <tr><td class="paramname">sep</td><td>Séparateur de champs CSV (usuellement ';') </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html">info_t</a> contenant les bases de paye décodées </td></tr>
+    <tr><td class="paramname">rang</td><td>Inutilisé </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="table_8cpp_aa1e1ec482bbaf2ed7cfffe4dc2f4f42d_icgraph.png" border="0" usemap="#table_8cpp_aa1e1ec482bbaf2ed7cfffe4dc2f4f42d_icgraph" alt=""/></div>
 <map name="table_8cpp_aa1e1ec482bbaf2ed7cfffe4dc2f4f42d_icgraph" id="table_8cpp_aa1e1ec482bbaf2ed7cfffe4dc2f4f42d_icgraph">
-<area shape="rect" id="node2" href="table_8cpp.html#a72acdb89510299d6bd8136ab10ccce65" title="ECRIRE_LIGNE_l_GENERER_RANG" alt="" coords="253,5,504,32"/>
-<area shape="rect" id="node6" href="table_8cpp.html#ac4690b0ec4007e562e68502017efc011" title="ECRIRE_LIGNE_l_GENERER\l_RANG_ECHELON" alt="" coords="276,57,481,98"/>
-<area shape="rect" id="node7" href="table_8cpp.html#a82d211f064919b7c49ce3afea746bd6c" title="ECRIRE_LIGNE_l_SIRET" alt="" coords="289,123,468,149"/>
-<area shape="rect" id="node8" href="table_8cpp.html#a9227a92c4b8fb92bd91242d938be476d" title="ECRIRE_LIGNE_l_SIRET\l_ECHELON" alt="" coords="289,174,468,215"/>
-<area shape="rect" id="node9" href="table_8cpp.html#a76d65e4a709ff415979be1460608f6ab" title="ECRIRE_LIGNE_l" alt="" coords="313,240,444,267"/>
+<area shape="rect" id="node2" href="table_8cpp.html#a72acdb89510299d6bd8136ab10ccce65" title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier &#160;Ajoute l&#39;Annee et le Mois comme deux premières colonnes Optionnellement ajoute le Budget, l&#39;Employeur, le Siret et l&#39;Etablissement comme colonnes suivantes Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes. " alt="" coords="253,5,504,32"/>
+<area shape="rect" id="node6" href="table_8cpp.html#ac4690b0ec4007e562e68502017efc011" title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier Ajoute l&#39;Annee et le Mois comme deux premières colonnes Optionnellement ajoute le Budget, l&#39;Employeur, le Siret et l&#39;Etablissement comme colonnes suivantes Ajoute dans tous les cas l&#39;Echelon, la Categorie ainsi que le NIR en dernières colonnes. " alt="" coords="276,57,481,98"/>
+<area shape="rect" id="node7" href="table_8cpp.html#a82d211f064919b7c49ce3afea746bd6c" title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier Ajoute l&#39;Annee et le Mois comme deux premières colonnes Ajoute ensuite le Budget, l&#39;Employeur, le Siret et l&#39;Etablissement Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes. " alt="" coords="289,123,468,149"/>
+<area shape="rect" id="node8" href="table_8cpp.html#a9227a92c4b8fb92bd91242d938be476d" title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier Ajoute l&#39;Annee et le Mois comme deux premières colonnes Ajoute ensuite le Budget, l&#39;Employeur, le Siret et l&#39;Etablissement Ajoute dans tous les cas l&#39;Echelon, la Categorie ainsi que le NIR en dernières colonnes. " alt="" coords="289,174,468,215"/>
+<area shape="rect" id="node9" href="table_8cpp.html#a76d65e4a709ff415979be1460608f6ab" title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier Ajoute l&#39;Annee et le Mois comme deux premières colonnes Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes. " alt="" coords="313,240,444,267"/>
 <area shape="rect" id="node10" href="table_8cpp.html#a2fee89611cf768d7f527283808fd5a83" title="ECRIRE_LIGNE_l_ECHELON" alt="" coords="277,291,480,317"/>
 <area shape="rect" id="node3" href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="boucle_ecriture" alt="" coords="552,152,663,179"/>
 <area shape="rect" id="node4" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="711,152,836,179"/>
@@ -1035,7 +1087,7 @@ Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="table_8cpp_a2fee89611cf768d7f527283808fd5a83_cgraph.png" border="0" usemap="#table_8cpp_a2fee89611cf768d7f527283808fd5a83_cgraph" alt=""/></div>
 <map name="table_8cpp_a2fee89611cf768d7f527283808fd5a83_cgraph" id="table_8cpp_a2fee89611cf768d7f527283808fd5a83_cgraph">
-<area shape="rect" id="node2" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d" title="ECRIRE_LIGNE_l_COMMUN" alt="" coords="256,5,456,32"/>
+<area shape="rect" id="node2" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d" title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table. " alt="" coords="256,5,456,32"/>
 </map>
 </div>
 <div class="dynheader">
@@ -1120,12 +1172,30 @@ Voici le graphe des appelants de cette fonction :</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier <br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Optionnellement ajoute le Budget, l'Employeur, le Siret et l'Etablissement comme colonnes suivantes<br />
+Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Rang du fil d'exécution </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent </td></tr>
+    <tr><td class="paramname">l</td><td>Index permettant de localiser le premier champ de la ligne de paye </td></tr>
+    <tr><td class="paramname">type</td><td>Type de ligne de paye </td></tr>
+    <tr><td class="paramname">base</td><td>Base de type ofstream permettant d'écrire le fichier CSV </td></tr>
+    <tr><td class="paramname">sep</td><td>Séparateur de champs CSV (usuellement ';') </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html">info_t</a> contenant les bases de paye décodées </td></tr>
+    <tr><td class="paramname">rang</td><td>Inutilisé </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="table_8cpp_a72acdb89510299d6bd8136ab10ccce65_cgraph.png" border="0" usemap="#table_8cpp_a72acdb89510299d6bd8136ab10ccce65_cgraph" alt=""/></div>
 <map name="table_8cpp_a72acdb89510299d6bd8136ab10ccce65_cgraph" id="table_8cpp_a72acdb89510299d6bd8136ab10ccce65_cgraph">
-<area shape="rect" id="node2" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d" title="ECRIRE_LIGNE_l_COMMUN" alt="" coords="304,5,504,32"/>
+<area shape="rect" id="node2" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d" title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table. " alt="" coords="304,5,504,32"/>
 </map>
 </div>
 <div class="dynheader">
@@ -1210,12 +1280,30 @@ Voici le graphe des appelants de cette fonction :</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier<br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Optionnellement ajoute le Budget, l'Employeur, le Siret et l'Etablissement comme colonnes suivantes<br />
+Ajoute dans tous les cas l'Echelon, la Categorie ainsi que le NIR en dernières colonnes. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Rang du fil d'exécution </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent </td></tr>
+    <tr><td class="paramname">l</td><td>Index permettant de localiser le premier champ de la ligne de paye </td></tr>
+    <tr><td class="paramname">type</td><td>Type de ligne de paye </td></tr>
+    <tr><td class="paramname">base</td><td>Base de type ofstream permettant d'écrire le fichier CSV </td></tr>
+    <tr><td class="paramname">sep</td><td>Séparateur de champs CSV (usuellement ';') </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html">info_t</a> contenant les bases de paye décodées </td></tr>
+    <tr><td class="paramname">rang</td><td>Inutilisé </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="table_8cpp_ac4690b0ec4007e562e68502017efc011_cgraph.png" border="0" usemap="#table_8cpp_ac4690b0ec4007e562e68502017efc011_cgraph" alt=""/></div>
 <map name="table_8cpp_ac4690b0ec4007e562e68502017efc011_cgraph" id="table_8cpp_ac4690b0ec4007e562e68502017efc011_cgraph">
-<area shape="rect" id="node2" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d" title="ECRIRE_LIGNE_l_COMMUN" alt="" coords="259,13,459,39"/>
+<area shape="rect" id="node2" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d" title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table. " alt="" coords="259,13,459,39"/>
 </map>
 </div>
 <div class="dynheader">
@@ -1300,12 +1388,30 @@ Voici le graphe des appelants de cette fonction :</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier<br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Ajoute ensuite le Budget, l'Employeur, le Siret et l'Etablissement<br />
+Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Rang du fil d'exécution </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent </td></tr>
+    <tr><td class="paramname">l</td><td>Index permettant de localiser le premier champ de la ligne de paye </td></tr>
+    <tr><td class="paramname">type</td><td>Type de ligne de paye </td></tr>
+    <tr><td class="paramname">base</td><td>Base de type ofstream permettant d'écrire le fichier CSV </td></tr>
+    <tr><td class="paramname">sep</td><td>Séparateur de champs CSV (usuellement ';') </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html">info_t</a> contenant les bases de paye décodées </td></tr>
+    <tr><td class="paramname">rang</td><td>Inutilisé </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="table_8cpp_a82d211f064919b7c49ce3afea746bd6c_cgraph.png" border="0" usemap="#table_8cpp_a82d211f064919b7c49ce3afea746bd6c_cgraph" alt=""/></div>
 <map name="table_8cpp_a82d211f064919b7c49ce3afea746bd6c_cgraph" id="table_8cpp_a82d211f064919b7c49ce3afea746bd6c_cgraph">
-<area shape="rect" id="node2" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d" title="ECRIRE_LIGNE_l_COMMUN" alt="" coords="232,5,432,32"/>
+<area shape="rect" id="node2" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d" title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table. " alt="" coords="232,5,432,32"/>
 </map>
 </div>
 <div class="dynheader">
@@ -1390,12 +1496,30 @@ Voici le graphe des appelants de cette fonction :</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier<br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Ajoute ensuite le Budget, l'Employeur, le Siret et l'Etablissement<br />
+Ajoute dans tous les cas l'Echelon, la Categorie ainsi que le NIR en dernières colonnes. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Rang du fil d'exécution </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent </td></tr>
+    <tr><td class="paramname">l</td><td>Index permettant de localiser le premier champ de la ligne de paye </td></tr>
+    <tr><td class="paramname">type</td><td>Type de ligne de paye </td></tr>
+    <tr><td class="paramname">base</td><td>Base de type ofstream permettant d'écrire le fichier CSV </td></tr>
+    <tr><td class="paramname">sep</td><td>Séparateur de champs CSV (usuellement ';') </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html">info_t</a> contenant les bases de paye décodées </td></tr>
+    <tr><td class="paramname">rang</td><td>Inutilisé </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="table_8cpp_a9227a92c4b8fb92bd91242d938be476d_cgraph.png" border="0" usemap="#table_8cpp_a9227a92c4b8fb92bd91242d938be476d_cgraph" alt=""/></div>
 <map name="table_8cpp_a9227a92c4b8fb92bd91242d938be476d_cgraph" id="table_8cpp_a9227a92c4b8fb92bd91242d938be476d_cgraph">
-<area shape="rect" id="node2" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d" title="ECRIRE_LIGNE_l_COMMUN" alt="" coords="232,13,432,39"/>
+<area shape="rect" id="node2" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d" title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table. " alt="" coords="232,13,432,39"/>
 </map>
 </div>
 <div class="dynheader">
@@ -1475,7 +1599,7 @@ Voici le graphe des appelants de cette fonction :</div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Valeur initiale :</b><div class="fragment"><div class="line">= {</div><div class="line">    <span class="stringliteral">&quot;T&quot;</span>,   </div><div class="line">    <span class="stringliteral">&quot;IR&quot;</span>, </div><div class="line">    <span class="stringliteral">&quot;S&quot;</span>,  </div><div class="line">    <span class="stringliteral">&quot;AV&quot;</span>, </div><div class="line">    <span class="stringliteral">&quot;I&quot;</span>,  </div><div class="line">    <span class="stringliteral">&quot;A&quot;</span>, </div><div class="line">    <span class="stringliteral">&quot;D&quot;</span>, </div><div class="line">    <span class="stringliteral">&quot;AC&quot;</span>, </div><div class="line">    <span class="stringliteral">&quot;R&quot;</span>, </div><div class="line">    <span class="stringliteral">&quot;RE&quot;</span>, </div><div class="line">    <span class="stringliteral">&quot;C&quot;</span>, </div><div class="line">    <span class="stringliteral">&quot;CO&quot;</span> </div><div class="line">}</div></div><!-- fragment -->
+<b>Valeur initiale :</b><div class="fragment"><div class="line">= {</div><div class="line">    <span class="stringliteral">&quot;T&quot;</span>  ,</div><div class="line">    <span class="stringliteral">&quot;IR&quot;</span> ,</div><div class="line">    <span class="stringliteral">&quot;S&quot;</span>  ,</div><div class="line">    <span class="stringliteral">&quot;AV&quot;</span> ,</div><div class="line">    <span class="stringliteral">&quot;I&quot;</span>,  ,</div><div class="line">    <span class="stringliteral">&quot;A&quot;</span>,  ,</div><div class="line">    <span class="stringliteral">&quot;D&quot;</span>,  ,</div><div class="line">    <span class="stringliteral">&quot;AC&quot;</span>, ,</div><div class="line">    <span class="stringliteral">&quot;R&quot;</span>,  ,</div><div class="line">    <span class="stringliteral">&quot;RE&quot;</span>, ,</div><div class="line">    <span class="stringliteral">&quot;C&quot;</span>,  ,</div><div class="line">    <span class="stringliteral">&quot;CO&quot;</span>  </div><div class="line">}</div></div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

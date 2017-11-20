@@ -100,6 +100,7 @@ Fonctions</h2></td></tr>
 <tr class="memdesc:abdf1df3dd61991073a485a3e5d8addd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...)  <a href="#abdf1df3dd61991073a485a3e5d8addd2">Plus de détails...</a><br /></td></tr>
 <tr class="separator:abdf1df3dd61991073a485a3e5d8addd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af23e7af258b590af3650be8ab06708be"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="validator2_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#af23e7af258b590af3650be8ab06708be">memoire_p_ligne</a> (const <a class="el" href="structinfo__t.html">info_t</a> &amp;info, const unsigned agent)</td></tr>
+<tr class="memdesc:af23e7af258b590af3650be8ab06708be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Définit le besoin de mémoire en octets pour un bulletin de paye de données XML (Table)  <a href="#af23e7af258b590af3650be8ab06708be">Plus de détails...</a><br /></td></tr>
 <tr class="separator:af23e7af258b590af3650be8ab06708be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae1ac2699ac4449a4a9a16b0e37234b35"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35">parseFile</a> (<a class="el" href="structinfo__t.html">info_t</a> &amp;info)</td></tr>
 <tr class="separator:ae1ac2699ac4449a4a9a16b0e37234b35"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -172,7 +173,7 @@ Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="validator_8cpp_a5223203a3dc856b4169ea2293035e57a_cgraph.png" border="0" usemap="#validator_8cpp_a5223203a3dc856b4169ea2293035e57a_cgraph" alt=""/></div>
 <map name="validator_8cpp_a5223203a3dc856b4169ea2293035e57a_cgraph" id="validator_8cpp_a5223203a3dc856b4169ea2293035e57a_cgraph">
-<area shape="rect" id="node2" href="validator_8cpp.html#af23e7af258b590af3650be8ab06708be" title="memoire_p_ligne" alt="" coords="205,5,325,32"/>
+<area shape="rect" id="node2" href="validator_8cpp.html#af23e7af258b590af3650be8ab06708be" title="Définit le besoin de mémoire en octets pour un bulletin de paye de données XML (Table) ..." alt="" coords="205,5,325,32"/>
 </map>
 </div>
 <div class="dynheader">
@@ -257,6 +258,17 @@ Voici le graphe des appelants de cette fonction :</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Définit le besoin de mémoire en octets pour un bulletin de paye de données XML (Table) </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">info</td><td>Structure <a class="el" href="structinfo__t.html">info_t</a> contenant les données XML </td></tr>
+    <tr><td class="paramname">agent</td><td>rang de l'agent considéré dans info.NLigne (qui donne le nombre de lignes de paye pour l'agent) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>Besoin de mémoire par bulletin de paye</dd></dl>
+<p>Dépend de trois constantes de compilation : <b><a class="el" href="validator2_8h.html#af7f8f573c3f031d9b48bc85fa01e6ebb">BESOIN_MEMOIRE_ENTETE</a></b>, <b>#TYPE_LOOP_LIMIT</b> et <b><a class="el" href="validator2_8h.html#a3164a7a9fa52a0f9130c9daa04f88195">INDEX_MAX_COLONNNES</a></b> </p>
 <div class="dynheader">
 Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
@@ -331,7 +343,7 @@ Voici le graphe d'appel pour cette fonction :</div>
 <area shape="rect" id="node2" href="validator_8cpp.html#a5223203a3dc856b4169ea2293035e57a" title="allouer_memoire_table" alt="" coords="136,56,288,83"/>
 <area shape="rect" id="node4" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="parseFile" alt="" coords="175,132,249,159"/>
 <area shape="rect" id="node25" href="validator_8cpp.html#aa054457564b0f4991283a511f01777e5" title="normaliser_accents" alt="" coords="145,183,279,209"/>
-<area shape="rect" id="node3" href="validator_8cpp.html#af23e7af258b590af3650be8ab06708be" title="memoire_p_ligne" alt="" coords="337,5,457,32"/>
+<area shape="rect" id="node3" href="validator_8cpp.html#af23e7af258b590af3650be8ab06708be" title="Définit le besoin de mémoire en octets pour un bulletin de paye de données XML (Table) ..." alt="" coords="337,5,457,32"/>
 <area shape="rect" id="node5" href="validator_8hpp.html#ad164d34b6591a52b6e92b087582fe0cb" title="atteindreNoeud" alt="" coords="1135,208,1246,235"/>
 <area shape="rect" id="node6" href="validator2_8h.html#a07d0aecc3d62699e160c170e089992f5" title="xmlGetProp" alt="" coords="1145,284,1236,311"/>
 <area shape="rect" id="node9" href="ligne__paye_8hpp.html#a703180379a24b61c33f035b1b8a8f437" title="warning_msg" alt="" coords="929,517,1028,544"/>
@@ -398,7 +410,7 @@ Voici le graphe d'appel pour cette fonction :</div>
 <area shape="rect" id="node3" href="validator2_8h.html#a07d0aecc3d62699e160c170e089992f5" title="xmlGetProp" alt="" coords="937,169,1028,196"/>
 <area shape="rect" id="node6" href="ligne__paye_8hpp.html#a703180379a24b61c33f035b1b8a8f437" title="warning_msg" alt="" coords="721,403,820,429"/>
 <area shape="rect" id="node7" href="fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="892,543,1073,569"/>
-<area shape="rect" id="node8" href="validator_8cpp.html#af23e7af258b590af3650be8ab06708be" title="memoire_p_ligne" alt="" coords="129,681,249,708"/>
+<area shape="rect" id="node8" href="validator_8cpp.html#af23e7af258b590af3650be8ab06708be" title="Définit le besoin de mémoire en octets pour un bulletin de paye de données XML (Table) ..." alt="" coords="129,681,249,708"/>
 <area shape="rect" id="node9" href="validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="128,281,251,308"/>
 <area shape="rect" id="node22" href="fonctions__auxiliaires_8cpp.html#ab49257996eb9a8f23f7da4c66838be65" title="Produit un journal d&#39;exécution. " alt="" coords="150,732,229,759"/>
 <area shape="rect" id="node4" href="validator2_8h.html#a210c4d9563da6dcd16e49086e6935529" title="tag" alt="" coords="1130,144,1170,171"/>

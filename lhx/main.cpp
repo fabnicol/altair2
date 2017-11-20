@@ -1329,6 +1329,8 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
 /// \param matricule Référence vers une chaîne de caractère de type string contenant le matricule
 /// \param mois Référence vers une chaîne de caractère de type string contenant le 
 /// \param mois Référence vers une chaîne de caractère de type string contenant le matricule
+/// \return Booléen : true si succès, false sinon.
+
 bool scan_mois(const string &repertoire_bulletins,
                const vector<info_t> &Info,
                const string &matricule,
@@ -1338,11 +1340,17 @@ bool scan_mois(const string &repertoire_bulletins,
     size_t pos = 0;
     bool res = true;
 
+    // Les mois peuvent être donnés en intervalles du type 02...11
+    // ce qui signifie : tous les mois entre février et novembre inclus
+
     if ((pos = mois.find_first_of('.')) != string::npos)
     {
         int m0 = stoi(mois.substr(0, pos));
         pos = mois.find_last_of('.');
         int m1 = stoi(mois.substr(pos + 1));
+
+        // Boucler entre les deux mois ainsi donnés en borne inf et max
+        // et lancer la fonction bulletin_paye sur chacun de ces mois
 
         for (int m = m0; m <= m1; ++m)
             res &=  bulletin_paye(repertoire_bulletins,
@@ -1351,6 +1359,7 @@ bool scan_mois(const string &repertoire_bulletins,
                                   to_string(m),
                                   annee);
     }
+    // Si pas d'intervalle, lancer la fonction bulletin_paye sur le seul mois donné.
     else
         res &=  bulletin_paye(repertoire_bulletins,
                               Info,
