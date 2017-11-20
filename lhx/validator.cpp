@@ -58,12 +58,16 @@ extern vector<errorLine_t>  errorLineStack;
 extern int rang_global;
 
 
-
+/// Définit le besoin de mémoire en octets pour un bulletin de paye de données XML (Table)
+/// \param info  Structure info_t contenant les données XML
+/// \param agent rang de l'agent considéré dans info.NLigne (qui donne le nombre de lignes de paye pour l'agent)
+/// \return Besoin de mémoire par bulletin de paye
+/// \details Dépend de trois constantes de compilation : \b #BESOIN_MEMOIRE_ENTETE, \b #TYPE_LOOP_LIMIT et \b #INDEX_MAX_COLONNNES
 
 static inline  int GCC_INLINE memoire_p_ligne(const info_t& info, const unsigned agent)
 {
-    /* Attention on peut "rembobiner" les types dans la limite de TYPE_LOOP_LIMIT, ce qui implique que l'on doit allouer ex ante TYPE_LOOP_LIMIT fois nbType
-     *  pour les drapeux de séparation des catégories */
+    // Attention on peut "rembobiner" les types dans la limite de TYPE_LOOP_LIMIT, ce qui implique que l'on doit allouer ex ante TYPE_LOOP_LIMIT fois nbType
+    //  pour les drapeux de séparation des catégories
 
     return BESOIN_MEMOIRE_ENTETE  // chaque agent a au moins BESOIN_MEMOIRE_ENTETE champs du bulletins de paye en colonnes
                                                         // sans la table ces champs sont répétés à chaque ligne de paye.
@@ -73,34 +77,33 @@ static inline  int GCC_INLINE memoire_p_ligne(const info_t& info, const unsigned
 }
 
 
-/* agent_total est une variable de contrôle pour info->NCumAgent */
 
 static int parseFile(info_t& info)
 {
-   /* REFERENCE */
-   /*
-        <DocumentPaye xmlns="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1">
-          <IdVer V="">{1,1}</IdVer>
-          <Annee V="">{1,1}</Annee>
-          <Mois V="">{1,1}</Mois>
-          <Train V="">{0,1}</Train>
-          <Budget>{0,1}</Budget>
-          <Employeur>{1,1}</Employeur>
-          <DonneesIndiv>{1,unbounded}</DonneesIndiv>
-          <Nomenclatures>{1,1}</Nomenclatures>
-          <RepartitionParNature>{1,1}</RepartitionParNature>
-        </DocumentPaye>
-    */
+// REFERENCE
+//
+//        <DocumentPaye xmlns="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1">
+//          <IdVer V="">{1,1}</IdVer>
+//          <Annee V="">{1,1}</Annee>
+//          <Mois V="">{1,1}</Mois>
+//          <Train V="">{0,1}</Train>
+//          <Budget>{0,1}</Budget>
+//          <Employeur>{1,1}</Employeur>
+//          <DonneesIndiv>{1,unbounded}</DonneesIndiv>
+//          <Nomenclatures>{1,1}</Nomenclatures>
+//          <RepartitionParNature>{1,1}</RepartitionParNature>
+//        </DocumentPaye>
 
-    /* Note sur les modes d'exécution :
-     * Le mode == strict == envoie une exception dès la première non-conformité,
-     * sauf exceptions contraires signalées en commentaire.
-     * Le mode == tolérant == arrête l'exécution du fichier et passe suivant.
-     * Cela peut poser des problèmes de (ré)allocation/réservation/libération de mémoire
-     * Le mode == souple == continue l'exécution le plus possible dans le même fichier.
-     * Le mode strict fait l'objet d'une compilation séparée. Les modes tolérant ou souple
-     * choisis au cas par cas en fonction d'une évaluation plus ou moins subjective de la gravité
-     * de la non-conformité. */
+
+//    Note sur les modes d'exécution :
+//    Le mode == strict == envoie une exception dès la première non-conformité,
+//    sauf exceptions contraires signalées en commentaire.
+//    Le mode == tolérant == arrête l'exécution du fichier et passe suivant.
+//    Cela peut poser des problèmes de (ré)allocation/réservation/libération de mémoire
+//    Le mode == souple == continue l'exécution le plus possible dans le même fichier.
+//    Le mode strict fait l'objet d'une compilation séparée. Les modes tolérant ou souple
+//    choisis au cas par cas en fonction d'une évaluation plus ou moins subjective de la gravité
+//    de la non-conformité. */
 
     ofstream log;
     xmlDocPtr doc;
@@ -173,7 +176,7 @@ static int parseFile(info_t& info)
         int annee;
         annee = (annee_fichier[0] == '\0')? 0 : atoi((const char*) annee_fichier);
 
-        /* Altaïr est écrit pour durer 100 ans :) */
+        // Altaïr est écrit pour durer 100 ans :)
 
         if (annee <= 2000 || annee >= 2100)
         {
@@ -183,7 +186,8 @@ static int parseFile(info_t& info)
             if (log.open()) log.close();
             exit(-517);
 #endif
-            /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
+            // Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger
+
             if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
             return SKIP_FILE;
         }
@@ -200,7 +204,8 @@ static int parseFile(info_t& info)
             log.close();
         exit(-502);
 #else
-        /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
+        // Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger
+
         if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
         return SKIP_FILE;
 #endif
@@ -218,7 +223,8 @@ static int parseFile(info_t& info)
             if (log.open()) log.close();
             exit(-517);
 #endif
-            /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
+            // Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger
+
             if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
             return SKIP_FILE;
         }
@@ -233,7 +239,9 @@ static int parseFile(info_t& info)
             log.close();
         exit(-503);
 #else
-        /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
+
+        // Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger
+
         if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode tolérant)." ENDL;
         return SKIP_FILE;
 #endif
@@ -291,16 +299,16 @@ static int parseFile(info_t& info)
 
     cur_save = cur;
 
-    /* REFERENCE */
+    // REFERENCE
 
-    /* <Employeur>
-    *      <Nom V="">{1,1}</Nom>
-    *      <APE V="">{1,1}</APE>
-    *      <Adresse>{1,1}</Adresse>
-    *      <NumUrssaf V="">{1,1}</NumUrssaf>
-    *      <Siret V="">{1,1}</Siret>
-    * </Employeur>
-    */
+    // <Employeur>
+    //      <Nom V="">{1,1}</Nom>
+    //      <APE V="">{1,1}</APE>
+    //      <Adresse>{1,1}</Adresse>
+    //      <NumUrssaf V="">{1,1}</NumUrssaf>
+    //      <Siret V="">{1,1}</Siret>
+    // </Employeur>
+    //
 
     if (nullptr == (cur = atteindreNoeud("Employeur", cur)))
     {
@@ -320,7 +328,9 @@ static int parseFile(info_t& info)
     else
     {
         cur_save = cur;
-        /* On recherche le nom, le siret de l'employeur */
+
+       // On recherche le nom, le siret de l'employeur
+
         do {
             cur =  cur->xmlChildrenNode;
 
@@ -378,7 +388,7 @@ static int parseFile(info_t& info)
 
         } while (false);
 
-        /* on remonte d'un niveau */
+        // on remonte d'un niveau
 
         cur = cur_save;
     }
@@ -411,7 +421,8 @@ static int parseFile(info_t& info)
             log.close();
         return SKIP_FILE;
 #else
-        /* Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger */
+        // Il faudra sans doute ajuster les différences entre le parsing C et l'analyse Xml, qui vont diverger
+
          if (verbeux) cerr << PROCESSING_HTML_TAG "Reste du fichier omis";
          long lineN = xmlGetLineNo(cur);
          if (lineN != 65535 && lineN != -1)
@@ -468,16 +479,13 @@ static int parseFile(info_t& info)
 #endif
         }
 
-        /* Les données sur l'établissement sont optionnelles */
+// Les données sur l'établissement sont optionnelles
+//         REFERENCE
+//         <DonneesIndiv>
+//           <Etablissement>{0,1}</Etablissement>
+//           <PayeIndivMensuel>{1,unbounded}</PayeIndivMensuel>
+//         </DonneesIndiv>
 
-        /* REFERENCE
-         *
-         * <DonneesIndiv>
-         *   <Etablissement>{0,1}</Etablissement>
-         *   <PayeIndivMensuel>{1,unbounded}</PayeIndivMensuel>
-         * </DonneesIndiv>
-         *
-         */
 
         cur = atteindreNoeud("Etablissement", cur);
         
@@ -495,24 +503,24 @@ static int parseFile(info_t& info)
         else
         {
 
-            /* REFERENCE */
-            /*
-                 * <Etablissement>
-                 *   <Nom V="">{1,1}</Nom>
-                 *   <NumUrssaf V="">{1,1}</NumUrssaf>
-                 *   <Adresse>{1,1}</Adresse>
-                 *   <Siret V="">{1,1}</Siret>
-                 * </Etablissement>
-                */
+// REFERENCE
+//             <Etablissement>
+//               <Nom V="">{1,1}</Nom>
+//               <NumUrssaf V="">{1,1}</NumUrssaf>
+//               <Adresse>{1,1}</Adresse>
+//               <Siret V="">{1,1}</Siret>
+//             </Etablissement>
 
-            /* Altaïr a ici deux modes : strict, le non-repect de la norme entraine une exception
-                 * ou souple : on continue l'exécution en considérant que bien que le nom/siret soit obligatoire,
-                 * l'ensemble du champ lui-même est en fait optionnel. [la norme est quelque peu inconsistante sur ce point]
-                 */
+
+// Altaïr a ici deux modes : strict, le non-repect de la norme entraine une exception
+// ou souple : on continue l'exécution en considérant que bien que le nom/siret soit obligatoire,
+// l'ensemble du champ lui-même est en fait optionnel. [la norme est quelque peu inconsistante sur ce point]
+
 
             cur_save2 = cur;
 
-            /* On recherche le nom, le siret de l'établissement */
+// On recherche le nom, le siret de l'établissement
+
       do {
                 cur =  cur->xmlChildrenNode;
 
@@ -526,7 +534,9 @@ static int parseFile(info_t& info)
 #endif
                     if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
                     etablissement_fichier = xmlStrdup(NA_STRING);
-                    /* on garde le siret de l'employeur */
+
+                    // on garde le siret de l'employeur
+
                     break;
                 }
 
@@ -560,7 +570,7 @@ static int parseFile(info_t& info)
                     if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
                     etablissement_fichier = xmlStrdup(NA_STRING);
 
-                    /* on garde le siret de l'employeur */
+                   // on garde le siret de l'employeur
                 }
 
                 if (cur != nullptr)
@@ -595,7 +605,7 @@ static int parseFile(info_t& info)
 
             } while (false);
 
-            /* on remonte d'un niveau */
+            // on remonte d'un niveau
 
             cur = cur_save2;
         }
@@ -613,31 +623,30 @@ static int parseFile(info_t& info)
         }
 
 
-        /* REFERENCE */
+// REFERENCE
+//         <PayeIndivMensuel>
+//              <Agent>{1,1}</Agent>
+//              <Evenement>{0,unbounded}</Evenement>
+//              <Service V="">{1,1}</Service>
+//              <NBI V="">{1,unbounded}</NBI>
+//              <QuotiteTrav V="">{1,1}</QuotiteTrav>
+//              <Periode>{1,1}</Periode>
+//              <Remuneration>{1,1}</Remuneration>
+//              <NbHeureTotal V="">{0,1}</NbHeureTotal>
+//              <TauxHor V="">{0,1}</TauxHor>
+//              <NbHeureSup V="">{1,1}</NbHeureSup>
+//              <MtBrut V="">{1,1}</MtBrut>
+//              <MtNet V="">{1,1}</MtNet>
+//              <MtNetAPayer V="">{1,1}</MtNetAPayer>
+//              <DatePaiement V="">{1,1}</DatePaiement>
+//              <MtImposable V="">{1,1}</MtImposable>
+//              <CumulMtImposable V="">{1,1}</CumulMtImposable>
+//              <CumulMtBrut V="">{1,1}</CumulMtBrut>
+//              <CumulBaseSS V="">{1,1}</CumulBaseSS>
+//              <RepartitionBudget>{0,unbounded}</RepartitionBudget>
+//              <PJRef>{0,unbounded}</PJRef>
+//           </PayeIndivMensuel>
 
-        /* <PayeIndivMensuel>
-              <Agent>{1,1}</Agent>
-              <Evenement>{0,unbounded}</Evenement>
-              <Service V="">{1,1}</Service>
-              <NBI V="">{1,unbounded}</NBI>
-              <QuotiteTrav V="">{1,1}</QuotiteTrav>
-              <Periode>{1,1}</Periode>
-              <Remuneration>{1,1}</Remuneration>
-              <NbHeureTotal V="">{0,1}</NbHeureTotal>
-              <TauxHor V="">{0,1}</TauxHor>
-              <NbHeureSup V="">{1,1}</NbHeureSup>
-              <MtBrut V="">{1,1}</MtBrut>
-              <MtNet V="">{1,1}</MtNet>
-              <MtNetAPayer V="">{1,1}</MtNetAPayer>
-              <DatePaiement V="">{1,1}</DatePaiement>
-              <MtImposable V="">{1,1}</MtImposable>
-              <CumulMtImposable V="">{1,1}</CumulMtImposable>
-              <CumulMtBrut V="">{1,1}</CumulMtBrut>
-              <CumulBaseSS V="">{1,1}</CumulBaseSS>
-              <RepartitionBudget>{0,unbounded}</RepartitionBudget>
-              <PJRef>{0,unbounded}</PJRef>
-           </PayeIndivMensuel>
-       */
         uint32_t step = 0;
 
         while(cur != nullptr)
@@ -665,14 +674,16 @@ static int parseFile(info_t& info)
                 exit(-518);
 #endif
                 if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
-                /* Ici on ne risque pas d'avoir une divergence entre le parsage C et Xml */
+
+                // Ici on ne risque pas d'avoir une divergence entre le parsage C et Xml
 
                 cur = cur_save2->next;
 
                 continue;
             }
 
-            /* ici on sait que cur->xmlChildrenNode est non vide */
+            // ici on sait que cur->xmlChildrenNode est non vide
+
             cur_save2 = cur;
             cur = cur->xmlChildrenNode;  // Niveau Agent
 
@@ -684,23 +695,21 @@ static int parseFile(info_t& info)
             }
             else
             {
-                    /* remarque atoi retourne zéro s'il rencontre "" ou des caractères non numériques */
+                    // remarque atoi retourne zéro s'il rencontre "" ou des caractères non numériques
 
                     info.Table[info.NCumAgentXml][Annee] = xmlStrdup(annee_fichier);
                     info.Table[info.NCumAgentXml][Mois]  = xmlStrdup(mois_fichier);
                     info.Table[info.NCumAgentXml][Budget] = xmlStrdup(budget_fichier);
                     info.Table[info.NCumAgentXml][Employeur]  = xmlStrdup(employeur_fichier);
 
-                    /* Nota : le Siret est, si l'établissement existe, celui de l'établissement, sinon celui de l'Employeur */
+                    // Nota : le Siret est, si l'établissement existe, celui de l'établissement, sinon celui de l'Employeur
 
                     info.Table[info.NCumAgentXml][Siret]  = xmlStrdup(siret_fichier);
                     info.Table[info.NCumAgentXml][Etablissement]  = xmlStrdup(etablissement_fichier);
 
-                    /* LECTURE DES LIGNES DE PAYE STRICTO SENSU */
+                    // LECTURE DES LIGNES DE PAYE STRICTO SENSU
 
                     int32_t ligne_p = parseLignesPaye(cur, info);
-
-                    /*  */
 
                     info.drapeau_cont = true;
 
@@ -751,7 +760,7 @@ static int parseFile(info_t& info)
                             exit(-1278);
         #else
 
-                            /* il faut tout réallouer */
+                            // il faut tout réallouer
 
                             return RETRY;
         #endif
@@ -787,8 +796,9 @@ static int parseFile(info_t& info)
         }
 
         xmlFree(etablissement_fichier);
-        /* si pas d'établissement (NA_STRING) alors on utilise le siret de l'empoyeur, donc
-         * ne pas libérer dans ce cas ! */
+
+        // si pas d'établissement (NA_STRING) alors on utilise le siret de l'empoyeur, donc
+        // ne pas libérer dans ce cas !
 
         cur = cur_save->next;  // next DonneesIndiv
         if (cur == nullptr || xmlStrcmp(cur->name, (const xmlChar*) "DonneesIndiv")) break;   // on ne va pas envoyer un message d'absence de DonneesIndiv si on a fini la boucle...
@@ -826,7 +836,7 @@ out :
     return 0;
 }
 
-/* Les expressions régulières correctes ne sont disponibles sur MINGW GCC qu'à partir du build 4.9.2 */
+// Les expressions régulières correctes ne sont disponibles sur MINGW GCC qu'à partir du build 4.9.2
 
 #if !defined GCC_REGEX && !defined NO_REGEX && (defined __WIN32__ || defined GCC_4_8)
 #include <regex.h>
@@ -864,10 +874,7 @@ using namespace std;
 #else
 #error "C++14 doit être utilisé."
 #endif
-
-
 #endif // defined
-
 
 static inline void GCC_INLINE allouer_memoire_table(info_t& info)
 {
@@ -895,7 +902,6 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
         exit(-19);
     }
 
-
     if (info.Table.empty())
     {
         cerr << ERROR_HTML_TAG "Mémoire insuffisante pour la table de lignes de paye" ENDL;
@@ -922,7 +928,6 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
 inline void GCC_INLINE normaliser_accents(xmlChar* c)
 {
     // la représentation interne est UTF-8 donc les caractères accentués sont sur 2 octets : é = 0xc3a8 etc.
-
 
     while (c != nullptr && *c != 0)  // C++11 : on peut avoir c != nullptr et *c == 0.
     {
@@ -995,7 +1000,6 @@ inline void GCC_INLINE normaliser_accents(xmlChar* c)
             }
         }
 #endif
-
         ++c;
     }
 
@@ -1004,7 +1008,7 @@ inline void GCC_INLINE normaliser_accents(xmlChar* c)
 
 void* decoder_fichier(info_t& info)
 {
-    /* environ 6000 bulletins par seconde en processus sumple, et 15000 en multithread ; rajoute 1/3 du temps */
+    // environ 6000 bulletins par seconde en processus sumple, et 15000 en multithread ; rajoute 1/3 du temps
 
 if (info.pretend) return nullptr;
 
@@ -1057,17 +1061,15 @@ void* parse_info(info_t& info)
 
     xmlKeepBlanksDefault(0);
 
-
     for (unsigned i = 0; i < info.threads->argc ; ++i)
     {
         if (i == 0)
         {
-            /* première allocation ou réallocation à la suite d'un incident */
+            // première allocation ou réallocation à la suite d'un incident
 
             allouer_memoire_table(info);
             memory_debug("decoder_fichier_allouer_memoire_table(info)");
         }
-
 
     if (info.verifmem) return nullptr;
 
@@ -1076,7 +1078,9 @@ void* parse_info(info_t& info)
         {
         case RETRY:
             i = 0;
-            /* on réalloue tout depuis le début à la site d'un incident */
+
+            // on réalloue tout depuis le début à la site d'un incident
+
             cerr << ERROR_HTML_TAG " Il est nécessaire de réallouer la mémoire à la suite d'un incident dû aux données..." ENDL;
             continue;
 
@@ -1093,9 +1097,6 @@ void* parse_info(info_t& info)
         }
 
         memory_debug("decoder_fichier_parseFile(info");
-
-
-
     }
 
     if (info.reduire_consommation_memoire && info.NCumAgentXml > info.NCumAgent)
@@ -1114,17 +1115,17 @@ void* parse_info(info_t& info)
 
     // attention, pas info<-NCumAgent ici
 
-    /* Le champ statut est modifié comme suit :
-        ELU   pour un élu
-        et le champ grade :
-        V     pour un vacataire
-        A     pour une assistante maternelle */
+    // Le champ statut est modifié comme suit :
+    //    ELU   pour un élu
+    //    et le champ grade :
+    //    V     pour un vacataire
+    //    A     pour une assistante maternelle
 
 #if !defined NO_REGEX
 #define VAR(X) info.Table[agent][X]
     for (unsigned agent = 0; agent < info.NCumAgentXml; ++agent)
     {
-        /* Les élus peuvent être identifiés soit dans le service soit dans l'emploi métier */
+        // Les élus peuvent être identifiés soit dans le service soit dans l'emploi métier
 
 #ifdef NORMALISER_ACCENTS
 
@@ -1148,7 +1149,7 @@ void* parse_info(info_t& info)
         }
         else
         {
-            /* vacataires */
+            // vacataires
 
             if (regex_match((const char*) em, pat2))
             {
@@ -1156,7 +1157,7 @@ void* parse_info(info_t& info)
                 VAR(Grade) = (xmlChar*) xmlStrdup((const xmlChar*)"V");
             }
 
-            /* assistantes maternelles */
+            // assistantes maternelles
 
             else if (regex_match((const char*) em, pat3))
             {
@@ -1164,11 +1165,11 @@ void* parse_info(info_t& info)
                 VAR(Grade) = (xmlChar*) xmlStrdup((const xmlChar*)"A");
             }
 
-            /* identification des catégories A, B, C */
+            // identification des catégories A, B, C
 
-                /* gestion de mémoire : ne pas allouer avec xmlStrdup et ne pas libérer
-                 * à la fin de main.cpp dans la double boucle de libération de mémoire car
-                 * A, B, C, NA ne sont pas alloués sur le tas. */
+                // gestion de mémoire : ne pas allouer avec xmlStrdup et ne pas libérer
+                // à la fin de main.cpp dans la double boucle de libération de mémoire car
+                // A, B, C, NA ne sont pas alloués sur le tas.
 
             if (regex_match((const char*) gr, pat_adjoints)
                 || regex_match((const char*) gr, pat_agents))
@@ -1180,7 +1181,7 @@ void* parse_info(info_t& info)
                 VAR(Categorie) = xmlStrdup((xmlChar*)"A");
             }
 
-            /* Il faut teste d'abord cat A et seulement ensuite cat B */
+            // Il faut teste d'abord cat A et seulement ensuite cat B
 
             else if (regex_match((const char*) gr, pat_cat_b))
             {
@@ -1201,12 +1202,12 @@ void* parse_info(info_t& info)
             }
         }
 
-        /* les vacations peuvent être indiquées comme telles dans les libellés de paie mais pas dans les emplois métiers.
-           On les récupère en parcourant les libellés */
+        // Les vacations peuvent être indiquées comme telles dans les libellés de paie mais pas dans les emplois métiers.
+        // On les récupère en parcourant les libellés
 
         if (info.reduire_consommation_memoire)
         {
-            /* inutile de boucler sur la partie vide du tableau... */
+            // inutile de boucler sur la partie vide du tableau...
 
             for (int j = BESOIN_MEMOIRE_ENTETE; j < info.NLigne[agent]; ++j)
                 if (regex_match((const char*) VAR(j), pat2))
@@ -1229,10 +1230,7 @@ void* parse_info(info_t& info)
         xmlFree(em);
         xmlFree(gr);
 #endif
-
-
     }
-
 
 #undef VAR
 #endif

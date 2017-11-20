@@ -39,37 +39,65 @@
 #include "recherche.hpp"
 using namespace std;
 
-
-
 /// \file    recherche.cpp
 /// \author  Fabrice Nicol
 /// \brief   Ce fichier contient le code permettant de rechercher en mémoire, après décodage des bases XML,
 /// un bulletin de paye particulier correspondant à un matricule, un mois et une année. Il contient aussi le code
 /// permettant l'itération de cette fonctionnalité sur des intervalles temporels.
 
+
+
+///
 vector<string>  recherche(const vector<info_t> &Info, const string& annee, const string& mois, const string& matricule)
 {
+  // Bulletins à extraire
   vector<string> bulletins;
   
   auto matr = (const xmlChar*) matricule.c_str();  
   int m = stoi(mois);
   int a = stoi(annee);
   
+  // Parcourt l'ensemble des données de paye, pour tous les fils d'exécution, après décodage
+  // Il faut donc que lhx se soit complètement exécuté préalablement
+
+  // Boucle sur les fils d'exécution
+
   for (unsigned int i = 0; i < Info[0].nbfil; ++i)
   {
+
+    // Boucle sur les données extraites pour un fil donné
+
     for (vector<vector<xmlChar*>>::const_iterator  it = Info[i].Table.begin(); it != Info[i].Table.end(); ++it)
     {
+      // On restreint la recherche à l'année, au mois et au matricule donnés
+      // On pourrait aller plus vite avec une table de hachage, mais l'expérience montre que ce n'est pas nécessaire
+      // it correspond à la partie de la Table pour un agent donné
+
         if (atoi((const char*) it->at(Annee)) == a
             && atoi((const char*) it->at(Mois)) ==  m
             && xmlStrcmp(it->at(Matricule), matr) == 0)
         {
+            // index correspond au rang de l'agent dans la Table (0 <= index <= NCumAgentXml)
+
             long long index = it - Info[i].Table.begin();
+
+            // le vecteur ligne_debut a été construit lors de l'extraction : il permet de situer la ligne de début
+            // du code XML correspondant à l'agent de rang index dans le fichier et donnant le début de son propre bulletin
+            // de paye au format XML
+            // le vecteur ligne_fin donne la ligne de fin de ce code-bulletin
+
             array<uint64_t, 3> debut = Info[i].ligne_debut.at(index);
             array<uint64_t, 2> fin   = Info[i].ligne_fin.at(index);
             
-            // trouver la ligne debut. lire jusqu'à fin dans le fichier F à déterminer (GUI)
+            // Lancer la fonction extraire_ligne qui copie les lignes XML entre la ligne de début et la ligne de fin
+
             const string fichier = extraire_lignes(Info[i], debut, fin);
             
+            // Cela ne suffit pas à donner un fichier XML syntaxiquement correct.
+            // A cette fin, rajouter un préambule et une fin de fichier en accord avec ce préambule.
+            // Ce qui permettra éventuellement de "repasser" ce bulletin XML artificiellement créé dans lhx
+            // pour extraire ce bulletin particulier au format CSV
+
             const string preambule =
 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\
 <DocumentPaye>\n\
@@ -88,6 +116,8 @@ vector<string>  recherche(const vector<info_t> &Info, const string& annee, const
             
             const string coda = " </DonneesIndiv>\n</DocumentPaye>\n";     
             
+            // Empiler le tout dans le vecteur bulletins
+
             if (! fichier.empty())
                bulletins.emplace_back(preambule + fichier + coda);
         }
@@ -97,6 +127,14 @@ vector<string>  recherche(const vector<info_t> &Info, const string& annee, const
     
     return bulletins;
 }
+
+
+
+/// Extrait le bulletin de paye correspondant à la ligne de début et de fin dans le fichier XML base de paye
+/// \param info Structure info_t contenant la partie pertinente des données de paye décodées
+/// \param debut Tableau de 3 entiers de 64 bits contenant l'indicatrice du début du bulletin particulier à extraire
+/// \param fin Tableau de 2 entiers de 64 bits contenant l'indicatrice du fin du bulletin particulier à extraire
+/// \return  Chaîne de caractères de type string contenant l'extraction du bulletin
 
 const string extraire_lignes(const info_t& info, const array<uint64_t, 3>& debut, const array <uint64_t, 2>& fin)
 {
@@ -111,6 +149,16 @@ const string extraire_lignes(const info_t& info, const array<uint64_t, 3>& debut
 
  return tab;
 }
+
+
+/// Crée le répertoire d'exportation d'un bulletin de paye donné pour un matricule, un mois et une année donnés
+/// et le fichier XHL minimal encapusalnt ce bulletin individuel
+/// \param chemin_repertoire Chemin compet du répertoire d'exportation contenant les bulletins extraits
+/// \param Info vecteur de structures info_t contenant les données de paye décodées
+/// \param matricule Matricule de l'agent
+/// \param mois Mois de la paye
+/// \param annee Année de la paye
+/// \return Boléen : true si l'exportation a réussi, false sinon
 
 bool bulletin_paye(const string& chemin_repertoire, const vector<info_t> &Info, const string& matricule, const string& mois, const string& annee)
 {
