@@ -40,7 +40,10 @@
 #ifdef __linux__
 #include <array>
 
-// doit être encodé en UTF-8
+/// \file filenames.hpp
+/// \brief Noms donnés aux fichiers CSV en sortie, lorsque l'exportation est par
+/// type de ligne de paye (catégorie de ligne de paye dans le lexique Xemelios)
+/// \note Ce fichier doit être encodé en UTF-8
 
 static std::array<std::string, 13> types_extension = { "traitements",
                                                  "indemnités-résidence",
