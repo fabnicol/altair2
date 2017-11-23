@@ -37,15 +37,10 @@
 //
 #ifndef LIGNE_PAYE
 #define LIGNE_PAYE
-/*  Programme écrit par Fabrice NICOL sous licence CECILL 3
- *  Attention : lorsqu'il est édité, le présent code doit être converti soit en UTF-8 soit en ISO-5589-1 (Latin-1)avant d'être compilé.
- *  En entrée d'Altair préciser encodage.entrée en conformité avec l'encodage du présent fichier, qui sera celui de la base générée.
- */
 
-/*
-   Constantes de compilation pouvant être redéfinies : NA_STRING, MAX_LIGNES_PAYE, MAX_NB_AGENTS, NO_DEBUG
-   MAX_NB_AGENTS détermine le nombre maximal d'agents par mois potentiellement traités
-*/
+/// \file ligne_paye.hpp
+/// \brief Définit deux fonctions auxiliaires utilisées dans lignes_paye.cpp
+/// \note   Constantes de compilation pouvant être redéfinies : #WARNING_LIMIT, #MAX_LIGNES_PAYE
 
 #include <iomanip>
 #include <iostream>
@@ -59,39 +54,15 @@ extern bool verbeux;
 extern std::mutex mut;
 extern std::vector<errorLine_t> errorLineStack;
 
-
-#if 0
-static inline xmlNodePtr GCC_INLINE atteindreNoeudArret(const char* noeud, xmlNodePtr cur, const char* arret)
-{
-    while (cur && xmlIsBlankNode(cur))
-    {
-        cur = cur -> next;
-    }
-
-    while (cur != nullptr)
-    {
-        if (xmlStrcmp(cur->name, (const xmlChar *) noeud))  // cur->name != noeud
-        {
-            if (xmlStrcmp(cur->name, (const xmlChar *) arret))
-                cur = cur->next;
-            else
-                return nullptr;
-        }
-        else
-        {
-            AFFICHER_NOEUD(noeud)
-            break;
-        }
-    }
-    return cur;
-}
-#endif
+/// Affiche un message d'avertissement sur la sortie d'erreur lorsqu'un noeud XML ne peut être atteint
+/// \param noeud Noeud courant XML
+/// \param info  Structure info_t contenant les données de paye XMLà décoder
+/// \param cur   Noeud libxml2 courant
+/// \note Le nombre de message d'avertissement est au plus #WARNING_LIMIT si cette constante est définie
 
 inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr GCC_UNUSED cur)
 {
-       /* pour des raisons pratiques il peut être nécessaire de limiter le nombre de sorties de ce type */
-
-
+       // pour des raisons pratiques il peut être nécessaire de limiter le nombre de sorties de ce type
 
     static int warning_count;
     static std::string fichier_last = "";
@@ -127,6 +98,12 @@ inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr 
       #endif
 
 }
+
+
+/// Vérifie que la taille des données de paye en nombre de lignes de paye au décodage effectif des fichiers XML
+/// ne dépasse pas la préallocation en mémoire (en nombre d elignes)
+/// \param nbLignePaye nombre de lignes de paye courant
+/// \param info Structure info_t contenant les données de paye
 
 static inline void GCC_INLINE  verifier_taille(const int nbLignePaye, info_t& info)
 {

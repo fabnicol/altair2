@@ -38,22 +38,48 @@
 #ifndef EXPRESSION_REG_ADJOINTS_HPP
 #define EXPRESSION_REG_ADJOINTS_HPP
 
+/// \file expression_reg_adjoints
+/// \brief Expressions régulières de niveau adjoints / auxiliaires / aides (catégories C)
+
 #include "expression_reg_commun.hpp"
 
+/// administratif
 #define ADMINISTRATIFS   "adm.*"
-#define ANIMATION        "ani.*"
-#define TECHNIQUES       "tech.*"
-#define PATRIMOINE       "pat.*"
-#define OPERATEUR        "op(?:e|é).*"
-#define AIDE_LABO        "aide.*\\blab.*"
-#define AUXILIAIRE       "aux.*"
-#define PUERICULTRICE    "puer.*"
-#define SOIN             "soin"
-#define GARDIEN          "gard(?:ien|.*ch.*)"
-#define SOUS_OFF         "brigadier.*|sapeur.*|capor.*|sous.*off.*|adju.*|serg.*"
-#define RECEVEUR         "receveur"
-#define ADJOINT          "adj.*"
 
+/// animation
+#define ANIMATION        "ani.*"
+
+/// technique
+#define TECHNIQUES       "tech.*"
+
+/// patrimoine
+#define PATRIMOINE       "pat.*"
+
+/// opérateur
+#define OPERATEUR        "op(?:e|é).*"
+
+/// aide de laboratoire
+#define AIDE_LABO        "aide.*\\blab.*"
+
+/// auxiliaire
+#define AUXILIAIRE       "aux.*"
+
+/// puericultrice
+#define PUERICULTRICE    "puer.*"
+
+#define SOIN             "soin"
+
+/// gardien, garde-champêtre
+#define GARDIEN          "gard(?:ien|.*ch.*)"
+
+/// brigadier, sapeur, caporal, sous-oficier, adjudant, sergent
+#define SOUS_OFF         "brigadier.*|sapeur.*|capor.*|sous.*off.*|adju.*|serg.*"
+
+/// receveur
+#define RECEVEUR         "receveur"
+
+/// adjoint
+#define ADJOINT          "adj.*"
 
 //  SOIT A OU B OU ...  FIN_SOIT  OU ... OU ...
 
