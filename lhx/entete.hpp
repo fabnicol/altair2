@@ -43,14 +43,74 @@
 #ifndef CONVERTIR_LATIN_1
 #ifdef __linux__ 
 
-static const char* entete_char[]={"R", "Année", "Mois", "Budget", "Employeur",  "Siret", "Etablissement", "Nom", "Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
-                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
-                                  "Libellé", "Code",   "Base", "Taux", "Nb.Unité", "Montant", "Début", "Fin", "Type",
-                                  "Emploi", "Grade", "Echelon", "Catégorie", "Nir"};
+// Ce tableau est utilisé pour les libellés de colonnes des bases CSV en sortie
 
-static const char* entete_char_bulletins[]={"R", "Année", "Mois", "Budget", "Employeur", "Siret", "Etablissement", "Nom", "Prénom", "Matricule", "Service", "Nb.Enfants", "Statut", "Temps.de.travail",
-                                  "Heures.Sup.", "Heures", "Indice", "Brut", "Net", "Net.à.Payer", "NBI",
-                                            "Emploi", "Grade", "Evenement", "Echelon", "Catégorie", "Nir" };
+// Pour les fichiers Tablesxxx.csv
+
+static const char* entete_char[]={"R",        // Rang
+                                  "Année",
+                                  "Mois",
+                                  "Budget",
+                                  "Employeur",
+                                  "Siret",
+                                  "Etablissement",
+                                  "Nom", "Prénom",
+                                  "Matricule",
+                                  "Service",
+                                  "Nb.Enfants",
+                                  "Statut",
+                                  "Temps.de.travail",
+                                  "Heures.Sup.",
+                                  "Heures",
+                                  "Indice",
+                                  "Brut",
+                                  "Net",
+                                  "Net.à.Payer",
+                                  "NBI",
+                                  "Libellé",
+                                  "Code",
+                                  "Base",
+                                  "Taux",
+                                  "Nb.Unité",
+                                  "Montant",
+                                  "Début",
+                                  "Fin",
+                                  "Type",
+                                  "Emploi",
+                                  "Grade",
+                                  "Echelon",
+                                  "Catégorie",
+                                  "Nir"};
+
+// Pour les fichiers Bulletins.paiexxx.csv
+
+static const char* entete_char_bulletins[]={"R",
+                                            "Année",
+                                            "Mois",
+                                            "Budget",
+                                            "Employeur",
+                                            "Siret",
+                                            "Etablissement",
+                                            "Nom",
+                                            "Prénom",
+                                            "Matricule",
+                                            "Service",
+                                            "Nb.Enfants",
+                                            "Statut",
+                                            "Temps.de.travail",
+                                            "Heures.Sup.",
+                                            "Heures",
+                                            "Indice",
+                                            "Brut",
+                                            "Net",
+                                            "Net.à.Payer",
+                                            "NBI",
+                                            "Emploi",
+                                            "Grade",
+                                            "Evenement",
+                                            "Echelon",
+                                            "Catégorie",
+                                            "Nir" };
 
 #endif
 #endif

@@ -41,15 +41,33 @@
 #include "expression_reg_commun.hpp"
 
 
-#define MAIRE                                    "maire"
-#define PRESIDENT                            "pr..?sident"
-#define ELUS                                      "elus?"
-#define ADJOINT_MAIRE                     "adj.*\\bmaire\\b"
-#define VICE_PRESIDENT                   "vi.*\\bpr..?sident\\b"
-#define CONSEILLER_MUNIC              "cons.*\\bmuni"
-#define CONSEILLER_COMMUN          "cons.*\\bcomm"
-#define CONSEILLER_DELEGUE          "(?:cons.*\\bd|d..?..?gu)"
+/// \file expression_reg_elus
+/// \brief Expressions régulières représentant les élus
 
+
+/// maire
+#define MAIRE                                    "maire"
+
+/// président
+#define PRESIDENT                                "pr..?sident"
+
+/// élu
+#define ELUS                                     "[eé]lus?"
+
+/// adjoint au maire
+#define ADJOINT_MAIRE                            "adj.*\\bmaire\\b"
+
+/// vice-président
+#define VICE_PRESIDENT                           "vi.*\\bpr..?sident\\b"
+
+/// conseiller municipal
+#define CONSEILLER_MUNIC                         "cons.*\\bmuni"
+
+/// conseiller commun
+#define CONSEILLER_COMMUN                        "cons.*\\bcomm"
+
+/// conseiller délégué
+#define CONSEILLER_DELEGUE                       "(?:cons.*\\bd|d..?..?gu)"
 
 static constexpr auto EXPRESSION_REG_ELUS = DEBUT 
                                               SOIT 
