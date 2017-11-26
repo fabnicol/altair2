@@ -328,6 +328,27 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l_ECHELON(int i, uint32_t agent, int l
 /// \param sep Séparateur de champs CSV (usuellement ';')
 /// \param Info Vecteur de structures info_t contenant les bases de paye décodées
 /// \param rang Inutilisé
+/// \note les variables communes à tous les bulletins de paye sont : \n
+/// <ul>
+/// <li>Nom : Nom de l'agent</li>
+/// <li>Prenom : Prénom de l'agent</li>
+/// <li>Matricule : Matricule de l'agent</li>
+/// <li>Service : Service de l'agent</li>
+/// <li>NbEnfants : Nombre d'enfants de l'agent</li>
+/// <li>Statut : Statut de l'agent (TITULAIRE, NON_TITULAIRE, STAGIAIRE, EMPLOI_AIDE, EMPLOI_FONCTIONNEL....)</li>
+/// <li>QuotiteTrav : Quotité admnistrative (sur 100)</li>
+/// <li>NbHeureSup : Nombre d'heures supplémentaires</li>
+/// <li>NbHeureTotal : Nombre d'heures total</li>
+/// <li>Indice : Indice</li>
+/// <li>MtBrut : Montant brut</li>
+/// <li>MtNet : Montant net</li>
+/// <li>MtNetAPayer : Montant net à payer</li>
+/// <li>NBI : Nouvelle bonification indiciaire</li>
+/// <li>EmploiMetier : Libellé de l'emploi</li>
+/// <li>Grade : Libellé du grade</li>
+/// <li>Code : Code de l'événement de paye</li>
+/// <li>Description : Description de l'événement de paye</li>
+/// </ul>
 
 static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN(int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
@@ -554,6 +575,11 @@ static int (*ecrire_ligne_bulletin)(int i, uint32_t, table_t& , char, vector<inf
 /// <li>Info[0].select_echelon (-E) </li>\n
 /// <li>Info[0].select_siret (-S) </li>\n
 /// </ul>\n
+/// Le rang de la ligne sera généré en première colonne si -rank est dans la ligne de commande\n
+/// Le séparateur CSV est donné par -s \n
+/// La taille de la base induit les découpages de base en morceaux de taille fixe \n
+/// Le type de la base induit une limitation sur la catégorie de lignes de paye exportées \n
+/// L'échelon et l'ensemble Budget-Employeur-Siret-Etablissement sont des colonnes optionnelles \n
 /// \return Paire du nombre de lignes de paye et du nombre de ligne de bulletins exportés.
 
 pair<uint64_t, uint32_t> boucle_ecriture(vector<info_t>& Info, int nsegment)

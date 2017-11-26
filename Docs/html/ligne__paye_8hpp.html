@@ -70,6 +70,9 @@ $(function() {
 <div class="title">Référence du fichier ligne_paye.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Définit deux fonctions auxiliaires utilisées dans lignes_paye.cpp.  
+<a href="#details">Plus de détails...</a></p>
 <div class="textblock"><div class="dynheader">
 Graphe des dépendances par inclusion de ligne_paye.hpp:</div>
 <div class="dyncontent">
@@ -97,9 +100,11 @@ Ce graphe montre quels fichiers incluent directement ou indirectement ce fichier
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Fonctions</h2></td></tr>
-<tr class="memitem:a703180379a24b61c33f035b1b8a8f437"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ligne__paye_8hpp.html#a703180379a24b61c33f035b1b8a8f437">warning_msg</a> (const char *noeud, const <a class="el" href="structinfo__t.html">info_t</a> &amp;info, const <a class="el" href="validator2_8h.html#a150a25b617758d99ee2c0b41e31a2805">xmlNodePtr</a> <a class="el" href="validator2_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> cur)</td></tr>
+<tr class="memitem:a703180379a24b61c33f035b1b8a8f437"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ligne__paye_8hpp.html#a703180379a24b61c33f035b1b8a8f437">warning_msg</a> (const char *noeud, const <a class="el" href="structinfo__t.html">info_t</a> &amp;info, const xmlNodePtr <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> cur)</td></tr>
+<tr class="memdesc:a703180379a24b61c33f035b1b8a8f437"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affiche un message d'avertissement sur la sortie d'erreur lorsqu'un noeud XML ne peut être atteint.  <a href="#a703180379a24b61c33f035b1b8a8f437">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a703180379a24b61c33f035b1b8a8f437"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1918a95b8d7eafcb07bcf867242b3514"><td class="memItemLeft" align="right" valign="top">static void <a class="el" href="validator2_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ligne__paye_8hpp.html#a1918a95b8d7eafcb07bcf867242b3514">verifier_taille</a> (const int nbLignePaye, <a class="el" href="structinfo__t.html">info_t</a> &amp;info)</td></tr>
+<tr class="memitem:a1918a95b8d7eafcb07bcf867242b3514"><td class="memItemLeft" align="right" valign="top">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ligne__paye_8hpp.html#a1918a95b8d7eafcb07bcf867242b3514">verifier_taille</a> (const int nbLignePaye, <a class="el" href="structinfo__t.html">info_t</a> &amp;info)</td></tr>
+<tr class="memdesc:a1918a95b8d7eafcb07bcf867242b3514"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vérifie que la taille des données de paye en nombre de lignes de paye au décodage effectif des fichiers XML ne dépasse pas la préallocation en mémoire (en nombre d elignes)  <a href="#a1918a95b8d7eafcb07bcf867242b3514">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a1918a95b8d7eafcb07bcf867242b3514"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
@@ -111,7 +116,10 @@ Variables</h2></td></tr>
 <tr class="memitem:aac3d680986c81bfdccf533d8ba017123"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structerror_line__t.html">errorLine_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ligne__paye_8hpp.html#aac3d680986c81bfdccf533d8ba017123">errorLineStack</a></td></tr>
 <tr class="separator:aac3d680986c81bfdccf533d8ba017123"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Documentation des fonctions</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Description détaillée</h2>
+<div class="textblock"><p>Définit deux fonctions auxiliaires utilisées dans lignes_paye.cpp. </p>
+<dl class="section note"><dt>Note</dt><dd>Constantes de compilation pouvant être redéfinies : #WARNING_LIMIT, <a class="el" href="validator_8hpp.html#ac2a4b55865c1f0f90f48767aa00fe11f">MAX_LIGNES_PAYE</a> </dd></dl>
+</div><h2 class="groupheader">Documentation des fonctions</h2>
 <a id="a1918a95b8d7eafcb07bcf867242b3514"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1918a95b8d7eafcb07bcf867242b3514">&#9670;&nbsp;</a></span>verifier_taille()</h2>
 
@@ -122,7 +130,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void <a class="el" href="validator2_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> verifier_taille </td>
+          <td class="memname">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> verifier_taille </td>
           <td>(</td>
           <td class="paramtype">const int&#160;</td>
           <td class="paramname"><em>nbLignePaye</em>, </td>
@@ -145,6 +153,15 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Vérifie que la taille des données de paye en nombre de lignes de paye au décodage effectif des fichiers XML ne dépasse pas la préallocation en mémoire (en nombre d elignes) </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nbLignePaye</td><td>nombre de lignes de paye courant </td></tr>
+    <tr><td class="paramname">info</td><td>Structure <a class="el" href="structinfo__t.html">info_t</a> contenant les données de paye </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
@@ -185,7 +202,7 @@ Voici le graphe des appelants de cette fonction :</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="validator2_8h.html#a150a25b617758d99ee2c0b41e31a2805">xmlNodePtr</a> <a class="el" href="validator2_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramtype">const xmlNodePtr <a class="el" href="validator_8hpp.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
           <td class="paramname"><em>cur</em>&#160;</td>
         </tr>
         <tr>
@@ -200,6 +217,17 @@ Voici le graphe des appelants de cette fonction :</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Affiche un message d'avertissement sur la sortie d'erreur lorsqu'un noeud XML ne peut être atteint. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">noeud</td><td>Noeud courant XML </td></tr>
+    <tr><td class="paramname">info</td><td>Structure <a class="el" href="structinfo__t.html">info_t</a> contenant les données de paye XMLà décoder </td></tr>
+    <tr><td class="paramname">cur</td><td>Noeud libxml2 courant </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Le nombre de message d'avertissement est au plus #WARNING_LIMIT si cette constante est définie </dd></dl>
 <div class="dynheader">
 Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
