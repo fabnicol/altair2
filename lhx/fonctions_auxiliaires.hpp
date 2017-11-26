@@ -39,7 +39,6 @@
 #define FONCTIONS_AUXILIAIRES_HPP_INCLUDED
 
 #define _CRT_SECURE_NO_WARNINGS
-#define LOCK_GUARD  lock_guard<mutex> guard(mut);
 
 #include "validator.hpp"
 #include <libxml/parser.h>
@@ -65,14 +64,21 @@ using namespace std;
 
 #include "tags.h"
 
+/// Bloqueur de fils d'exécutions concurrents pour l'accès à une console ou à un même fichier.
+#define LOCK_GUARD  lock_guard<mutex> guard(mut);
+
+/// Structure encapsulant les messages d'erreurs sur décodage XML
 typedef struct {
-                 const long lineN;
-                 string filePath;
-                 string pres;
+                 const long lineN; ///< Numéro de ligne XML
+                 string filePath;  ///< Chemin du fichier XML
+                 string pres;      ///< Message d eprésentation à afficher
                } errorLine_t;
 
+
 ostringstream help();
+
 int32_t lire_argument(int argc, char* c_str);
+
 int calculer_memoire_requise( info_t &info);
 void ouvrir_fichier_base(const info_t &info, BaseType, ofstream& base, int segment);
 void ouvrir_fichier_base0(const info_t &info, BaseCategorie,  BaseType type, ofstream& base, int segment);
@@ -93,9 +99,11 @@ extern ofstream rankFile;
 extern string rankFilePath;
 
 string getexecpath();
+
 #ifdef USE_STRING_EXEC
 string string_exec(const char* cmd); 
 #endif
+
 errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur);
 
 vector<string> split(const string &s, char delim) ;
@@ -106,12 +114,19 @@ void calculer_maxima(const vector<info_t> &Info, ofstream* LOG = nullptr);
 
 #ifdef GENERATE_RANK_SIGNAL
 
+/// Rang global de la progression de l'extraction.\n
+/// Utilisé pour la barre de progression de l'interface graphique
+
 static int rang_global;
 
+/// Remet à zéro le rang global
 inline void reset_rank_signal()
 {
     rang_global = 0;
 }
+
+/// Efface le premier caractère d'une chaîne et translate la chaîne d'un caractère vers la gauche
+/// \param c chaine de caractères libXml2 à modifier par pointeur
 
 inline void GCC_INLINE effacer_char(xmlChar* c)
 {
@@ -120,6 +135,10 @@ inline void GCC_INLINE effacer_char(xmlChar* c)
         *(c + j) = *(c + j + 1);
     }
 }
+
+/// Incrémente le rang de la progression de la barre de progrès.\n
+/// \note Est en principe thread-safe, mais peut causer des ralentissements en raison du \n
+///  bloquage des fils concurrents
 
 inline void  generate_rank_signal()
 {
@@ -147,13 +166,18 @@ inline void  generate_rank_signal()
 
 }
 
+/// Rajoute un s au pluriel de Y si X est non unique
+
 #define pluriel(X, Y)  ((X > 1)? " " Y "s ": " " Y " ")
 
+/// Actualise le rang de la progression de la barre de progrès.
+/// \param progression indice d'actualisation
+/// \note Thread-safe.
 
 inline void generate_rank_signal(int progression)
 {
+    LOCK_GUARD
 
-    lock_guard<mutex> lock(mut);
     if (rankFilePath.empty()) return;
 
         rankFile.open(rankFilePath, ios::out|ios::trunc);
@@ -162,60 +186,20 @@ inline void generate_rank_signal(int progression)
            rankFile << progression ;
         }
 
-        rankFile.close();
+     rankFile.close();
 }
+
+/// Débogage de la mémoire
+/// \param func_tag Chaîne de caractères donnant un libellé à afficher.
+/// \note Thread-safe. N'est activé que si la constante MEMORY_DEBUG est définie.
 
 static inline void  memory_debug(GCC_UNUSED const string& func_tag)
 {
 #ifdef MEMORY_DEBUG
        LOCK_GUARD
        cerr << STATE_HTML_TAG << func_tag << " : Calcul de la mémoire disponible : " << getFreeSystemMemory() << ENDL;
-#else
-
 #endif
 }
 
-
-#if 0
-static inline xmlChar* GCC_INLINE  UTF8toISO8859_1(const unsigned char* in)
-{
-
-    const char *encoding = "ISO-8859-1";
-    unsigned char* out;
-    int ret, size, out_size, temp;
-    xmlCharEncodingHandlerPtr handler;
-
-    size = (int) strlen((const char*) in) + 1;
-    out_size = size * 2 - 1;
-    out = (unsigned char*) malloc((size_t)out_size);
-
-    if (out)
-    {
-        handler = xmlFindCharEncodingHandler(encoding);
-
-        if (!handler)
-        {
-            free(out);
-            out = NULL;
-        }
-
-         temp = size-1;
-         ret = handler->input(out, &out_size, in, &temp);
-         if (ret || temp - size + 1)
-         {
-            free(out);
-            out = NULL;
-         } else {
-            out = (unsigned char*) realloc(out,out_size+1);
-            out[out_size]=0; /*null terminating out*/
-
-         }
-     }
-
-    return ((xmlChar*) out);
-}
 #endif
-
-#endif
-
 #endif // FONCTIONS_AUXILIAIRES_HPP_INCLUDED
