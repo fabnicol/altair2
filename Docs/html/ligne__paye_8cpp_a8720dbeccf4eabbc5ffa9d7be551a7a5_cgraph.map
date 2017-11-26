@@ -1,7 +1,4 @@
 <map id="Bulletin" name="Bulletin">
 <area shape="rect" id="node2" href="$validator_8hpp.html#ad164d34b6591a52b6e92b087582fe0cb" title="atteindreNoeud" alt="" coords="119,5,229,32"/>
-<area shape="rect" id="node3" href="$validator2_8h.html#a07d0aecc3d62699e160c170e089992f5" title="xmlGetProp" alt="" coords="129,56,219,83"/>
-<area shape="rect" id="node6" href="$ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le &#160;&#160;caractère &#39;_&#39;..." alt="" coords="141,107,207,133"/>
-<area shape="rect" id="node4" href="$validator2_8h.html#a210c4d9563da6dcd16e49086e6935529" title="tag" alt="" coords="286,31,326,57"/>
-<area shape="rect" id="node5" href="$validator2_8h.html#a54d8555fb27dee8d2e8198add62e306b" title="valeur" alt="" coords="277,81,335,108"/>
+<area shape="rect" id="node3" href="$ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le &#160;&#160;caractère &#39;_&#39;..." alt="" coords="141,56,207,83"/>
 </map>

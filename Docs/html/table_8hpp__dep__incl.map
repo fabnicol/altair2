@@ -1,5 +1,5 @@
 <map id="lhx/table.hpp" name="lhx/table.hpp">
-<area shape="rect" id="node2" href="$ligne__paye_8hpp.html" title="lhx/ligne_paye.hpp" alt="" coords="51,80,181,107"/>
+<area shape="rect" id="node2" href="$ligne__paye_8hpp.html" title="Définit deux fonctions auxiliaires utilisées dans lignes_paye.cpp. " alt="" coords="51,80,181,107"/>
 <area shape="rect" id="node4" href="$validator_8cpp.html" title="Ce fichier contient le code relatif au décoidage de la partie &quot;bulletins de paye&quot; (variables communes..." alt="" coords="160,155,277,181"/>
 <area shape="rect" id="node5" href="$main_8cpp.html" title="Ce fichier contient le code relatif à l&#39;analyse de la ligne de commande, au découpage de la liste des..." alt="" coords="256,80,352,107"/>
 <area shape="rect" id="node6" href="$table_8cpp.html" title="Ce fichier contient l&#39;ensemble du code permettant de générer les fichiers des bulletins de paye et li..." alt="" coords="376,80,472,107"/>
