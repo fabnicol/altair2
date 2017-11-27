@@ -60,17 +60,21 @@
 #include <algorithm>
 #include "tags.h"
 
+/// Macro tendant à forcer l'inlining sous GCC
 #define GCC_INLINE __attribute__((always_inline))
+
+/// Macro indiquant un argument non utilisé
 #define GCC_UNUSED __attribute__((__unused__))
 
 using namespace std;
 
+/// Structure permettant de transmettre à chaque fil d'exécution une partie des données de paye
 typedef struct
 {
-    int      thread_num;
-    vector<string>   argv;
-    vector<string> in_memory_file;
-    unsigned argc;
+    int      thread_num;  ///< Rang du fil d'exécution
+    vector<string>   argv;  ///< Vecteur de noms de fichiers de paye
+    vector<string> in_memory_file; ///< Vecteur empilant en mémoire des fichiers de paye
+    unsigned argc; ///< Rang du fichier de paye
 } thread_t;
 
 /*
@@ -125,13 +129,36 @@ Categorie : A
 #include "expression_reg_elus.hpp"
 #include "expression_reg_adjoints.hpp"
 
-static constexpr const array<int, 22> indices_ergo = {353, 367, 386, 394, 406, 407, 424, 428, 444, 461, 464, 487, 487, 492, 510, 513, 533, 553, 556, 570, 582, 608 };
+static constexpr const array<int, 22> indices_ergo = {353,
+                                                      367,
+                                                      386,
+                                                      394,
+                                                      406,
+                                                      407,
+                                                      424,
+                                                      428,
+                                                      444,
+                                                      461,
+                                                      464,
+                                                      487,
+                                                      487,
+                                                      492,
+                                                      510,
+                                                      513,
+                                                      533,
+                                                      553,
+                                                      556,
+                                                      570,
+                                                      582,
+                                                      608 };
 
-
+/// Expression régulière tendant à capturer les vacataires
 static constexpr auto EXPRESSION_REG_VACATIONS = ".*\\bvacat.*|.*\\bvac\\.?\\b.*";                 // vac.* peut être vérifié par 'vacances'
   
+/// Expression régulière tendant à capturer les assistantes maternelles
 static constexpr auto EXPRESSION_REG_ASSISTANTES_MATERNELLES = ".*\\bass.*\\bmater.*";
         
+/// Expression régulière tendant à capturer les agents de catégorie C
 static constexpr auto   EXPRESSION_REG_AGENTS = "\\W*(?:A\\.?S\\.?\\b|A\\.?A\\.?\\b|A\\.?E\\.?Q\\.?\\b|A\\.?A\\.?H\\.?\\b|A\\.?S\\.?H\\.?Q\\.?|O\\.?P\\.?Q\\.?|\
 (?:agent|agt\\.?).*(?:ser.*ho|soc|ma[îi]|poli|p\\.?m\\.?|pat|ent.*\\b(?:qu|sp))|ch.*pol.*mun|\
 (?:agent|agt\\.?)?.*atsem|aide.*(?:soi|pha)|aumonier|cond.*amb|dessin|.*ouv(?:rier|.*prof)).*",
@@ -139,9 +166,13 @@ static constexpr auto   EXPRESSION_REG_AGENTS = "\\W*(?:A\\.?S\\.?\\b|A\\.?A\\.?
  /* Attention il ne faut pas autre chose que \\W* car sinon on peut avoir confusion entre cons[eiller].* et [agent].*cons[ervation].*   */
  /* cons = conseiller ou conservateur souvent abrégé cons., mais peut être aussi conservation */
 
+/// Expression régulière tendant à capturer les agents de catégorie C
 #define OFFICIER_SUB     "(?:sous-?|\\b)lieut[^c]*\\b|major"
+
+/// Expression régulière tendant à capturer les agents de catégorie C
 #define OFFICIER         "lieut.*col|capit|com.*d.*t|colon|g.?.?n.?.?ral"
 
+/// Expression régulière tendant à capturer les agents de catégorie C
   EXPRESSION_REG_CAT_A = "\\W*\
 (?:adminis|a.*\\bh.*\\bu|c.*\\b(?:cl|tr).*\\bu|attach|biol|biblio|cad.*(?:\\bsoc.*ed|\\bsan)|" OFFICIER "|cons\\.?|d\\S*\\.?\\s*g\\S*\\.?|\
 dir(?:ect|.*\\bet.*b|.*\\bsoi)|ingen|mede|ma.t.*conf|prat.*hos|pharm|ped.*p.*c.*\\bs|prep.*c.*\\bs|prof|psy.*(?:l|m.*c.*\\bs)|puer.*cad.*sa|puericultr|sage.*f|secr.*mai|v[eé]t[eé]r|\
@@ -150,6 +181,7 @@ radiophys|(?:tec.*l|mass.*kin|diet|inf|manip).*\\bc(?:\\.|a).*\\bs).*",
 
  /* A cause du cas problématique des infirmiers et diététiciens, ex B recatégorisés en A, il faut d'abord tester A puis si échec B */
 
+/// Expression régulière tendant à capturer les agents de catégorie C
   EXPRESSION_REG_CAT_B = "\\W*\
 (?:redac|tech|T\\.?S\\.?H\\.?|anim|educ|a\\.?\\s?s\\.?\\s?(?:e|\\s)|ast\\.?|assi?s?t?\\.?.*(?:spec|ens|cons|pat|bib|social|soc.*ed|med.*t|med.*adm)|monit|contro.*t(?:er|ra)|\
 ch.*(?:s.*po|S.*P.*M).*|I\\.?D\\.?E\\.?|inf.*\\bi\\.?d\\.?e|reeduc|adj.*cadr|analyst|diet|prep.*ph|ped.*po|programmeu|orthop|mass.*kin|manip|secr.*med|\\ba\\.?m\\.?a\\.?\\b|" OFFICIER_SUB ").*",
@@ -177,43 +209,45 @@ ch.*(?:s.*po|S.*P.*M).*|I\\.?D\\.?E\\.?|inf.*\\bi\\.?d\\.?e|reeduc|adj.*cadr|ana
  * 
  */
         
-        
+/// Expression régulière tendant à capturer les agents de catégorie C
   EXPRESSION_REG_ERGO = "\\W*ergo.*",
 
   NOM_BASE = "Table",
   NOM_BASE_BULLETINS = "Bulletins",
   CSV = ".csv";
 
-
 enum class BaseCategorie : int {
-                                 BASE = 0,
-                                 BULLETINS = 1
+                                 BASE = 0,  ///< Type de base CSV en sortie : Table.csv
+                                 BULLETINS = 1 ///< Type de base CSV en sortie : Bulletins.paie.csv
                                };
 
 enum class BaseType : int
                   {
-                    MONOLITHIQUE = -1,
-                    PAR_ANNEE = 0,
-                    PAR_TRAITEMENT = 1,
-                    PAR_INDEMNITE_RESIDENCE = 2,
-                    PAR_SFT = 3,
-                    PAR_AVANTAGE_NATURE = 4,
-                    PAR_INDEMNITE = 5,
-                    PAR_REM_DIVERSES = 6,
-                    PAR_DEDUCTION = 7,
-                    PAR_ACOMPTE = 8,
-                    PAR_RAPPEL = 9,
-                    PAR_RETENUE = 10,
-                    PAR_COTISATION = 11,
-                    PAR_COMMENTAIRE = 12,
+                    MONOLITHIQUE = -1, ///< Base complète, en un seul bloc
+                    PAR_ANNEE = 0, ///< Base par année
+                    PAR_TRAITEMENT = 1, ///< Base par type de ligne de paye "Traitement"
+                    PAR_INDEMNITE_RESIDENCE = 2, ///< Base par type de ligne de paye "Indemnité de résidence"
+                    PAR_SFT = 3, ///< Base par type de ligne de paye "Supplément familial de traitement"
+                    PAR_AVANTAGE_NATURE = 4, ///< Base par type de ligne de paye "Avantage en nature"
+                    PAR_INDEMNITE = 5, ///< Base par type de ligne de paye "Indemnité"
+                    PAR_REM_DIVERSES = 6, ///< Base par type de ligne de paye "Rémunérations diverses"
+                    PAR_DEDUCTION = 7,  ///< Base par type de ligne de paye "Déduction"
+                    PAR_ACOMPTE = 8, ///< Base par type de ligne de paye "Acompte"
+                    PAR_RAPPEL = 9, ///< Base par type de ligne de paye "Rappel"
+                    PAR_RETENUE = 10, ///< Base par type de ligne de paye "Retenue"
+                    PAR_COTISATION = 11, ///< Base par type de ligne de paye "Cotisation"
+                    PAR_COMMENTAIRE = 12, ///< Base par type de ligne de paye "Commentaire"
                     NA = 13,
-                    TOUTES_CATEGORIES = 14,
+                    TOUTES_CATEGORIES = 14, ///< Base par type de ligne de paye "Toutes catégories"
                     MAXIMUM_LIGNES = 15,
                     MAXIMUM_LIGNES_PAR_ANNEE = 16
                   };
 
-#define INDEX_MAX_COLONNNES 7    // nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, NbUnite, Montant, DebutPeriode, FinPeriode) moins 1.
-#define BESOIN_MEMOIRE_ENTETE  27  /* nb d'éléments de l'enum ci-dessous, correspondant aux champs des bulletins (répétés à chaque ligne de paye) */
+/// Nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, NbUnite, Montant, DebutPeriode, FinPeriode) moins 1
+#define INDEX_MAX_COLONNNES 7
+
+/// Nombre d'éléments de l'énum ci-dessous, correspondant aux champs des bulletins (répétés à chaque ligne de paye)
+#define BESOIN_MEMOIRE_ENTETE  27
 
 typedef enum {
               Annee, Mois, Budget, Employeur, Siret, Etablissement,
@@ -228,7 +262,6 @@ constexpr const char* Tableau_entete[] = {
                                     "EmploiMetier", "Grade", "Echelon", "Indice", "Evenement", "Service", "NBI", "QuotiteTrav",
                                     "NbHeureTotal", "NbHeureSup", "MtBrut", "MtNet", "MtNetAPayer" };
 
-
 typedef struct
 {
 
@@ -242,37 +275,36 @@ typedef struct
     uint32_t NCumAgentXml;                  ///< Cumul du nombre d'agents après décodage XML
     uint32_t taille_base;                   ///< Taille de la base
     BaseType  type_base;                    ///< Type de la base
-    vector<uint16_t> NLigne;
-    thread_t* threads;
-    string chemin_log;
-    string expression_reg_elus;
-    string chemin_base;
-    string chemin_bulletins;
-    string export_mode;
-    vector<string> exclure_siret;
-    vector<string> exclure_budget;
-    vector<string> exclure_employeur;
-    uint16_t nbLigneUtilisateur;
-    uint16_t fichier_courant;
-    char decimal;
-    char separateur;
-    bool reduire_consommation_memoire;
-    bool drapeau_cont;
-    bool calculer_maxima;
-    bool generer_rang;
-    bool generer_bulletins;
-    bool select_siret;
-    bool select_echelon;
-    bool pretend;
-    bool verifmem;
-    bool cdrom;
-    unsigned int  nbfil;
+    vector<uint16_t> NLigne;                ///< Nombre de lignes par agent
+    thread_t* threads;                      ///< Structure thread_t permettant de communiquer une partie des données de paye à chaque thread.
+    string chemin_log;                      ///< Chemin du log
+    string expression_reg_elus;             ///< Expression régulière des élus (DEPRECATED)
+    string chemin_base;                     ///< Chemin des bases CSV de type Table
+    string chemin_bulletins;                ///< Chemin des bases CSV de type Bulletins.paie
+    string export_mode;                     ///< Type d'exportation (standard, cumulatif, distributif, ...)
+    vector<string> exclure_siret;           ///< Ne pas exporter le Siret
+    vector<string> exclure_budget;          ///< Ne pas exporter le Budget
+    vector<string> exclure_employeur;       ///< Ne pas exporter l'Employeur
+    uint16_t nbLigneUtilisateur;            ///< Ne pas exporter le nombre de lignes utilisateur
+    uint16_t fichier_courant;               ///< Rang du fichier courant
+    char decimal;                           ///< Séparateur décimal
+    char separateur;                        ///< Sépareteur de champ CSV
+    bool reduire_consommation_memoire;      ///< Prédimensionner l'allocation mémoire des données (défaut)
+    bool drapeau_cont;                      ///< TRUE (défaut) : continuer à analyser les données XML le plus possible en cas de léger défaut
+    bool calculer_maxima;                   ///< Calculer les maxima de nombre de lignes de paye par agent et de nombre d'agents par mois
+    bool generer_rang;                      ///< Générer un index dans un fichier temporaire permettant de raffraîchier une barre de progression d'interface graphique
+    bool generer_bulletins;                 ///< Générer des bulletins de paye particuliers
+    bool select_siret;                      ///< Sélectionner un SIRET particulier
+    bool select_echelon;                    ///< Sélectionne run échelon particulier
+    bool pretend;                           ///< Ne pas exporter de données
+    bool verifmem;                          ///< Vérifier l'état de la mémoire
+    bool cdrom;                             ///< Importer les données de paye directement depuis un disque optique
+    unsigned int  nbfil;                    ///< Nombre de fils d'exécution
 } info_t;
 
 typedef struct {
-     int nbLignePaye;
-     int memoire_p_ligne_allouee;
-
+     int nbLignePaye;  ///< Nombre de lignes de paye
+     int memoire_p_ligne_allouee; ///< Mémoire à allouer par ligne
 } LineCount;
 
 
