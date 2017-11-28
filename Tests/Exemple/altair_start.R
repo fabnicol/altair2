@@ -3163,6 +3163,7 @@ message("Analyse du SFT")
 #'## `r chapitre`.13 Contrôle des astreintes
 #'  
 
+essayer({
 Paie_astreintes <- filtrer_Paie("ASTREINTES", portée = "Mois", indic = TRUE)
 
 libelles.astreintes <- unique(Paie_astreintes[indic == TRUE, .(Code, Libellé)], by = NULL)
@@ -3187,6 +3188,8 @@ if (nrow(Controle_astreintes)) {
 Cum_astreintes <- rbind(Controle_astreintes[, round(sum(Montant.astreinte), 1),
                                                   by = "Année"],
                                             list("Total", Controle_astreintes[, round(sum(Montant.astreinte), 1)]))
+},
+"Le contrôle Astreintes-NBI n'a pas pu être réalisé.")
 
 #'  
 #'&nbsp;*Tableau `r incrément()` : Cumuls irréguliers NBI et astreintes (responsabilité supérieure)*   
@@ -3208,7 +3211,7 @@ Tableau.vertical2(c("Année", "Montant astreintes irrégulières (euros)"),
 #'[Lien vers les libellés et codes astreintes](Bases/Reglementation/libelles.astreintes.csv)     
 #'   
 
-
+essayer({
 setnames(Paie_astreintes, "indic", "indic_astr")
 setnames(Base.IHTS, "indic", "indic_IHTS")
 
@@ -3229,6 +3232,10 @@ Cum_astreintes_HS_irreg <- rbind(Controle_astreintes_HS_irreg[, .(round(sum(Mont
                                 list("Total",
                                      Controle_astreintes_HS_irreg[indic_astr == TRUE, round(sum(Montant), 1)],
                                      Controle_astreintes_HS_irreg[indic_IHTS == TRUE, round(sum(Montant), 1)]))
+
+
+}, 
+"Le contrôle du cumul astreintes IHTS n'a pas pu être réalisé")
 
 #'  
 #'&nbsp;*Tableau `r incrément()` : Cumuls potentiellement irréguliers IHTS et astreintes*   
