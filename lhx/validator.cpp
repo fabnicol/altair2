@@ -1055,7 +1055,6 @@ void* parse_info(info_t& info)
     regex pat_agents {EXPRESSION_REG_AGENTS, regex_constants::icase};
     regex pat_cat_a {EXPRESSION_REG_CAT_A, regex_constants::icase};
     regex pat_cat_b {EXPRESSION_REG_CAT_B, regex_constants::icase};
-    regex pat_ergo {EXPRESSION_REG_ERGO, regex_constants::icase };
 
 #endif
 
@@ -1186,15 +1185,6 @@ void* parse_info(info_t& info)
             else if (regex_match((const char*) gr, pat_cat_b))
             {
                 VAR(Categorie) = xmlStrdup((xmlChar*)"B");
-            }
-            else if (regex_match((const char*) gr, pat_ergo))
-            {
-
-
-                    if (find(indices_ergo.begin(), indices_ergo.end(), atoi((const char*) VAR(Indice))) == indices_ergo.end())
-                        VAR(Categorie) = xmlStrdup((xmlChar*)"B");
-                    else
-                        VAR(Categorie) = xmlStrdup((xmlChar*)"A");
             }
             else
             {
