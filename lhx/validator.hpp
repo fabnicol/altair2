@@ -129,6 +129,9 @@ Categorie : A
 #include "expression_reg_elus.hpp"
 #include "expression_reg_adjoints.hpp"
 
+// Les ergothérapeutes ayant changé de catégorie, il faut tester leur indice pour déterminer dans quelle catégorie les classer
+// Attention problème d'entretien en cas d'attribution de points uniformes !
+
 static constexpr const array<int, 22> indices_ergo = {353,
                                                       367,
                                                       386,
@@ -161,30 +164,31 @@ static constexpr auto EXPRESSION_REG_ASSISTANTES_MATERNELLES = ".*\\bass.*\\bmat
 /// Expression régulière tendant à capturer les agents de catégorie C
 static constexpr auto   EXPRESSION_REG_AGENTS = "\\W*(?:A\\.?S\\.?\\b|A\\.?A\\.?\\b|A\\.?E\\.?Q\\.?\\b|A\\.?A\\.?H\\.?\\b|A\\.?S\\.?H\\.?Q\\.?|O\\.?P\\.?Q\\.?|\
 (?:agent|agt\\.?).*(?:ser.*ho|soc|ma[îi]|poli|p\\.?m\\.?|pat|ent.*\\b(?:qu|sp))|ch.*pol.*mun|\
-(?:agent|agt\\.?)?.*atsem|aide.*(?:soi|pha)|aumonier|cond.*amb|dessin|.*ouv(?:rier|.*prof)).*",
+(?:agent|agt\\.?)?.*atsem|aide.*(?:soi|pha)|aumonier|cond.*amb|dessin|.*ouv(?:rier|.*prof)).*";
 
  /* Attention il ne faut pas autre chose que \\W* car sinon on peut avoir confusion entre cons[eiller].* et [agent].*cons[ervation].*   */
  /* cons = conseiller ou conservateur souvent abrégé cons., mais peut être aussi conservation */
 
-/// Expression régulière tendant à capturer les agents de catégorie C
+/// Expression régulière tendant à capturer les officiers subalternes de catégorie B
 #define OFFICIER_SUB     "(?:sous-?|\\b)lieut[^c]*\\b|major"
 
-/// Expression régulière tendant à capturer les agents de catégorie C
+/// Expression régulière tendant à capturer les agents officiers (subalternes et supérieurs) de catégorie A
 #define OFFICIER         "lieut.*col|capit|com.*d.*t|colon|g.?.?n.?.?ral"
 
-/// Expression régulière tendant à capturer les agents de catégorie C
-  EXPRESSION_REG_CAT_A = "\\W*\
+/// Expression régulière tendant à capturer les agents de catégorie A
+static constexpr auto   EXPRESSION_REG_CAT_A = "\\W*\
 (?:adminis|a.*\\bh.*\\bu|c.*\\b(?:cl|tr).*\\bu|attach|biol|biblio|cad.*(?:\\bsoc.*ed|\\bsan)|" OFFICIER "|cons\\.?|d\\S*\\.?\\s*g\\S*\\.?|\
 dir(?:ect|.*\\bet.*b|.*\\bsoi)|ingen|mede|ma.t.*conf|prat.*hos|pharm|ped.*p.*c.*\\bs|prep.*c.*\\bs|prof|psy.*(?:l|m.*c.*\\bs)|puer.*cad.*sa|puericultr|sage.*f|secr.*mai|v[eé]t[eé]r|\
 i\\.?a\\.?d\\.?e\\.?|i\\.?b\\.?o\\.?d\\.?e\\.?|I\\.?S\\.?G\\.?(?:\\b|S)|int.*(?:med|phar|od)|infi?r?m?i?.*(?:\\b(?!i)|anes|bloc|i\\.?a\\.?d\\.?|i\\.?b\\.?o\\.?d\\.?|s\\.?\\s*\\bg\\.?|soi|enc.*s)|\
-radiophys|(?:tec.*l|mass.*kin|diet|inf|manip).*\\bc(?:\\.|a).*\\bs).*",
+radiophys|(?:tec.*l|mass.*kin|diet|inf|manip).*\\bc(?:\\.|a).*\\bs).*";
 
- /* A cause du cas problématique des infirmiers et diététiciens, ex B recatégorisés en A, il faut d'abord tester A puis si échec B */
+ // A cause du cas problématique des infirmiers et diététiciens, ex B recatégorisés en A, il faut d'abord tester A puis si échec B
 
 /// Expression régulière tendant à capturer les agents de catégorie C
-  EXPRESSION_REG_CAT_B = "\\W*\
+static constexpr auto   EXPRESSION_REG_CAT_B = "\\W*\
 (?:redac|tech|T\\.?S\\.?H\\.?|anim|educ|a\\.?\\s?s\\.?\\s?(?:e|\\s)|ast\\.?|assi?s?t?\\.?.*(?:spec|ens|cons|pat|bib|social|soc.*ed|med.*t|med.*adm)|monit|contro.*t(?:er|ra)|\
-ch.*(?:s.*po|S.*P.*M).*|I\\.?D\\.?E\\.?|inf.*\\bi\\.?d\\.?e|reeduc|adj.*cadr|analyst|diet|prep.*ph|ped.*po|programmeu|orthop|mass.*kin|manip|secr.*med|\\ba\\.?m\\.?a\\.?\\b|" OFFICIER_SUB ").*",
+ch.*(?:s.*po|S.*P.*M).*|I\\.?D\\.?E\\.?|inf.*\\bi\\.?d\\.?e|reeduc|adj.*cadr|analyst|diet|prep.*ph|ped.*po|programmeu|orthop|mass.*kin|manip|secr.*med|\\ba\\.?m\\.?a\\.?\\b|" OFFICIER_SUB ").*";
+
 /*
  * REDACTEUR
  * TECHNICIEN
@@ -204,23 +208,26 @@ ch.*(?:s.*po|S.*P.*M).*|I\\.?D\\.?E\\.?|inf.*\\bi\\.?d\\.?e|reeduc|adj.*cadr|ana
  * MONITEUR
  * CONTROLEUR
  * LIEUTENANT 
- * 
- * 
- * 
  */
         
-/// Expression régulière tendant à capturer les agents de catégorie C
-  EXPRESSION_REG_ERGO = "\\W*ergo.*",
+/// Expression régulière tendant à capturer les agents de type ergothérapeute
+static constexpr auto EXPRESSION_REG_ERGO = "\\W*ergo.*";
 
-  NOM_BASE = "Table",
-  NOM_BASE_BULLETINS = "Bulletins",
-  CSV = ".csv";
+/// Nom racine des fichiers Table....csv (Lignes de paye)
+static constexpr auto NOM_BASE = "Table";
 
+/// Nom racine des fichiers Bulletins.paie.csv
+static constexpr auto NOM_BASE_BULLETINS = "Bulletins";
+
+/// Extension CSV
+static constexpr auto CSV = ".csv";
+
+/// Enum des types de base (Bulletins ou Lignes de paye)
 enum class BaseCategorie : int {
                                  BASE = 0,  ///< Type de base CSV en sortie : Table.csv
                                  BULLETINS = 1 ///< Type de base CSV en sortie : Bulletins.paie.csv
                                };
-
+/// Enum des types de base en sortie (tri par catégorie de ligne de paye)
 enum class BaseType : int
                   {
                     MONOLITHIQUE = -1, ///< Base complète, en un seul bloc
@@ -249,6 +256,7 @@ enum class BaseType : int
 /// Nombre d'éléments de l'énum ci-dessous, correspondant aux champs des bulletins (répétés à chaque ligne de paye)
 #define BESOIN_MEMOIRE_ENTETE  27
 
+/// Enum des libellés de balises XML donnant lieu à extraction
 typedef enum {
               Annee, Mois, Budget, Employeur, Siret, Etablissement,
               Nom, Prenom, Matricule, NIR, NbEnfants, Statut,
@@ -256,12 +264,14 @@ typedef enum {
               NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer, Categorie
          } Entete;
 
+/// Tableau des noms de colonnes associés à ces libellés de balises XML
 constexpr const char* Tableau_entete[] = {
                                     "Annee", "Mois", "Budget", "Employeur", "Siret", "Etablissement",
                                     "Nom", "Prenom", "Matricule", "NIR", "NbEnfants", "Statut",
                                     "EmploiMetier", "Grade", "Echelon", "Indice", "Evenement", "Service", "NBI", "QuotiteTrav",
                                     "NbHeureTotal", "NbHeureSup", "MtBrut", "MtNet", "MtNetAPayer" };
 
+/// Structure de stockage de l'information sur les lignes de paye
 typedef struct
 {
 
