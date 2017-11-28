@@ -1,5 +1,6 @@
 <map id="lhx/validator.hpp" name="lhx/validator.hpp">
-<area shape="rect" id="node21" href="$expression__reg__elus_8hpp.html" title="expression_reg_elus.hpp" alt="" coords="1773,80,1940,107"/>
-<area shape="rect" id="node23" href="$expression__reg__adjoints_8hpp.html" title="expression_reg_adjoints.hpp" alt="" coords="1965,80,2151,107"/>
-<area shape="rect" id="node22" href="$expression__reg__commun_8hpp.html" title="expression_reg_commun.hpp" alt="" coords="1861,155,2053,181"/>
+<area shape="rect" id="node21" href="$expression__reg__elus_8hpp.html" title="expression_reg_elus.hpp" alt="" coords="1684,155,1851,181"/>
+<area shape="rect" id="node23" href="$expression__reg__cata_8hpp.html" title="expression_reg_cata.hpp" alt="" coords="1865,80,2032,107"/>
+<area shape="rect" id="node22" href="$expression__reg__commun_8hpp.html" title="expression_reg_commun.hpp" alt="" coords="1771,229,1963,256"/>
+<area shape="rect" id="node24" href="$expression__reg__adjoints_8hpp.html" title="expression_reg_adjoints.hpp" alt="" coords="1875,155,2062,181"/>
 </map>

@@ -176,5 +176,6 @@ HEADERS += \
     expression_reg_commun.hpp \
     expression_reg_adjoints.hpp \
     filenames.hpp \
-    recherche.hpp
+    recherche.hpp \
+    expression_reg_cata.hpp
 

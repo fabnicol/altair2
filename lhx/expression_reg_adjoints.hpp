@@ -81,6 +81,48 @@
 /// adjoint
 #define ADJOINT          "adj.*"
 
+/// agents (abréviation)
+#define AGENTS_ABREVIATION "A\\.?S\\.?\\b|A\\.?A\\.?\\b|A\\.?E\\.?Q\\.?\\b|A\\.?A\\.?H\\.?\\b|A\\.?S\\.?H\\.?Q\\.?|O\\.?P\\.?Q\\.?"
+
+/// ouvrier
+#define OUVRIER          ".*ouv(?:rier|.*prof)"
+
+/// agent
+#define AGENT            "(?:agent|agt\\.?).*"
+
+/// agent de service hospitalier
+#define SERVICE_HOSPITALIER "ser.*ho"
+
+/// agent social
+#define SOCIAL   "soc"
+
+/// agent de maitrise
+#define MAITRISE "ma[îi]"
+
+/// agent de police municipale
+#define POLICE   "poli|p\\.?m\\.?"
+
+/// agent d'entretien spécialisé
+#define ENTRETIEN_SPECIALISE "ent.*\\b(?:qu|sp)"
+
+/// chef de police municipale
+#define CHEF_POLICE "ch.*pol.*mun"
+
+/// ATSEM (agent technique nettoyage etc.)
+#define ATSEM "(?:agent|agt\\.?)?.*atsem"
+
+/// Aide soignant et aide de pharmacie
+#define AIDE_SOIGNANT_PHARMA "aide.*(?:soi|pha)"
+
+/// Aumonier
+#define AUMONIER "aumonier"
+
+/// Conducteur ambulancier
+#define CONDUCTEUR_AMBULANCIER "cond.*amb"
+
+/// Dessinateur
+#define DESSINATEUR "dessin"
+
 //  SOIT A OU B OU ...  FIN_SOIT  OU ... OU ...
 
 static constexpr auto EXPRESSION_REG_ADJOINTS = AUCUN_MOT
@@ -105,6 +147,49 @@ static constexpr auto EXPRESSION_REG_ADJOINTS = AUCUN_MOT
                                                     OU SOUS_OFF
                                                     OU RECEVEUR
                                                   FIN_SOIT
+                                                ETC;
+
+
+/// Expression régulière tendant à capturer les assistantes maternelles
+static constexpr auto EXPRESSION_REG_ASSISTANTES_MATERNELLES = ".*\\bass.*\\bmater.*";
+
+/// Expression régulière tendant à capturer les agents de catégorie C
+/// \warning Attention il ne faut pas autre chose que \\W* car sinon on peut avoir confusion entre cons[eiller].* et [agent].*cons[ervation].*
+/// \note cons = conseiller ou conservateur souvent abrégé cons., mais peut être aussi conservation
+
+static constexpr auto   EXPRESSION_REG_AGENTS = AUCUN_MOT
+                                                SOIT
+                                                    AGENTS_ABREVIATION
+                                                    OU
+                                                    AGENT
+                                                    SOIT
+                                                      SERVICE_HOSPITALIER
+                                                      OU
+                                                      SOCIAL
+                                                      OU
+                                                      MAITRISE
+                                                      OU
+                                                      POLICE
+                                                      OU
+                                                      PATRIMOINE
+                                                      OU
+                                                      ENTRETIEN_SPECIALISE
+                                                    FIN_SOIT
+                                                    OU
+                                                    CHEF_POLICE
+                                                    OU
+                                                    ATSEM
+                                                    OU
+                                                    AIDE_SOIGNANT_PHARMA
+                                                    OU
+                                                    AUMONIER
+                                                    OU
+                                                    CONDUCTEUR_AMBULANCIER
+                                                    OU
+                                                    DESSINATEUR
+                                                    OU
+                                                    OUVRIER
+                                                FIN_SOIT
                                                 ETC;
 
 #endif // EXPRESSION_REG_ADJOINTS_HPP
