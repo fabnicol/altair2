@@ -55,18 +55,18 @@
 using namespace std;
 
 static const char* type_remuneration_traduit[] = {
-    "T"  /**< Traitement */,
-    "IR" /**< Indemnité de résidence*/,
-    "S"  /**< Supplément familial*/,
-    "AV" /**< Avantage en nature*/,
-    "I",  /**< Indemnité*/,
-    "A",  /**< Autres rémunérations*/,
-    "D",  /**< Déduction*/,
-    "AC", /**< Acompte*/,
-    "R",  /**< Rappel*/,
-    "RE", /**< Retenue*/,
-    "C",  /**< Cotisation*/,
-    "CO"  /**< Commentaire*/
+    "T",  // Traitement
+    "IR", // Indemnité de résidence
+    "S",  // Supplément familial
+    "AV", // Avantage en nature
+    "I",  // Indemnité
+    "A",  // Autres rémunérations
+    "D",  // Déduction
+    "AC", // Acompte
+    "R",  // Rappel
+    "RE", // Retenue
+    "C",  // Cotisation
+    "CO"  // Commentaire
 };
 
 #define VAR(X) Info[i].Table[agent][X]

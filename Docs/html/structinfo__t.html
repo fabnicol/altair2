@@ -66,12 +66,15 @@ $(function() {
 <div class="title">Référence de la structure info_t</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Structure de stockage de l'information sur les lignes de paye.  
+ <a href="structinfo__t.html#details">Plus de détails...</a></p>
 <div class="dynheader">
 Graphe de collaboration de info_t:</div>
 <div class="dyncontent">
 <div class="center"><img src="structinfo__t__coll__graph.png" border="0" usemap="#info__t_coll__map" alt="Collaboration graph"/></div>
 <map name="info__t_coll__map" id="info__t_coll__map">
-<area shape="rect" id="node2" href="structthread__t.html" title="thread_t" alt="" coords="5,5,75,32"/>
+<area shape="rect" id="node2" href="structthread__t.html" title="Structure permettant de transmettre à chaque fil d&#39;exécution une partie des données de paye..." alt="" coords="5,5,75,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">légende</a>]</span></center></div>
 <table class="memberdecls">
@@ -108,57 +111,84 @@ Attributs publics</h2></td></tr>
 <tr class="memdesc:a98488531e68031eded490c7fe25802e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type de la base.  <a href="#a98488531e68031eded490c7fe25802e9">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a98488531e68031eded490c7fe25802e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66c83de9fc07c331dd4f8b78d5435fc0"><td class="memItemLeft" align="right" valign="top">vector&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#a66c83de9fc07c331dd4f8b78d5435fc0">NLigne</a></td></tr>
+<tr class="memdesc:a66c83de9fc07c331dd4f8b78d5435fc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de lignes par agent.  <a href="#a66c83de9fc07c331dd4f8b78d5435fc0">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a66c83de9fc07c331dd4f8b78d5435fc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb1a0b8711ad65f9dee7e75d604b9918"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structthread__t.html">thread_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#aeb1a0b8711ad65f9dee7e75d604b9918">threads</a></td></tr>
+<tr class="memdesc:aeb1a0b8711ad65f9dee7e75d604b9918"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure <a class="el" href="structthread__t.html" title="Structure permettant de transmettre à chaque fil d&#39;exécution une partie des données de paye...">thread_t</a> permettant de communiquer une partie des données de paye à chaque thread.  <a href="#aeb1a0b8711ad65f9dee7e75d604b9918">Plus de détails...</a><br /></td></tr>
 <tr class="separator:aeb1a0b8711ad65f9dee7e75d604b9918"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31c9b93172bd74621940f62ff64c3168"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#a31c9b93172bd74621940f62ff64c3168">chemin_log</a></td></tr>
+<tr class="memdesc:a31c9b93172bd74621940f62ff64c3168"><td class="mdescLeft">&#160;</td><td class="mdescRight">Chemin du log.  <a href="#a31c9b93172bd74621940f62ff64c3168">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a31c9b93172bd74621940f62ff64c3168"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac67703da1f6f9d07f54ddd2c1a69b626"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#ac67703da1f6f9d07f54ddd2c1a69b626">expression_reg_elus</a></td></tr>
+<tr class="memdesc:ac67703da1f6f9d07f54ddd2c1a69b626"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expression régulière des élus (DEPRECATED)  <a href="#ac67703da1f6f9d07f54ddd2c1a69b626">Plus de détails...</a><br /></td></tr>
 <tr class="separator:ac67703da1f6f9d07f54ddd2c1a69b626"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a185e587cea00465045f96926997e018f"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#a185e587cea00465045f96926997e018f">chemin_base</a></td></tr>
+<tr class="memdesc:a185e587cea00465045f96926997e018f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Chemin des bases CSV de type Table.  <a href="#a185e587cea00465045f96926997e018f">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a185e587cea00465045f96926997e018f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2aa87a7459f3931055fa0f044b531e6b"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#a2aa87a7459f3931055fa0f044b531e6b">chemin_bulletins</a></td></tr>
+<tr class="memdesc:a2aa87a7459f3931055fa0f044b531e6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Chemin des bases CSV de type Bulletins.paie.  <a href="#a2aa87a7459f3931055fa0f044b531e6b">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a2aa87a7459f3931055fa0f044b531e6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7adfb0a27ba862f50033d1214595378b"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#a7adfb0a27ba862f50033d1214595378b">export_mode</a></td></tr>
+<tr class="memdesc:a7adfb0a27ba862f50033d1214595378b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type d'exportation (standard, cumulatif, distributif, ...)  <a href="#a7adfb0a27ba862f50033d1214595378b">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a7adfb0a27ba862f50033d1214595378b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a086c6b01f5f3197eb5af93eddc04f3cb"><td class="memItemLeft" align="right" valign="top">vector&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#a086c6b01f5f3197eb5af93eddc04f3cb">exclure_siret</a></td></tr>
+<tr class="memdesc:a086c6b01f5f3197eb5af93eddc04f3cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ne pas exporter le Siret.  <a href="#a086c6b01f5f3197eb5af93eddc04f3cb">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a086c6b01f5f3197eb5af93eddc04f3cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa36daba217c17f2c5de7bf33630eca4a"><td class="memItemLeft" align="right" valign="top">vector&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#aa36daba217c17f2c5de7bf33630eca4a">exclure_budget</a></td></tr>
+<tr class="memdesc:aa36daba217c17f2c5de7bf33630eca4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ne pas exporter le Budget.  <a href="#aa36daba217c17f2c5de7bf33630eca4a">Plus de détails...</a><br /></td></tr>
 <tr class="separator:aa36daba217c17f2c5de7bf33630eca4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5437d18d4b9f7a5328c1e81d81e6b48"><td class="memItemLeft" align="right" valign="top">vector&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#ae5437d18d4b9f7a5328c1e81d81e6b48">exclure_employeur</a></td></tr>
+<tr class="memdesc:ae5437d18d4b9f7a5328c1e81d81e6b48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ne pas exporter l'Employeur.  <a href="#ae5437d18d4b9f7a5328c1e81d81e6b48">Plus de détails...</a><br /></td></tr>
 <tr class="separator:ae5437d18d4b9f7a5328c1e81d81e6b48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac91699dd96e38906f73ffce3d8d51dee"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#ac91699dd96e38906f73ffce3d8d51dee">nbLigneUtilisateur</a></td></tr>
+<tr class="memdesc:ac91699dd96e38906f73ffce3d8d51dee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ne pas exporter le nombre de lignes utilisateur.  <a href="#ac91699dd96e38906f73ffce3d8d51dee">Plus de détails...</a><br /></td></tr>
 <tr class="separator:ac91699dd96e38906f73ffce3d8d51dee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac569d513f0d156da601b8af475c1f080"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#ac569d513f0d156da601b8af475c1f080">fichier_courant</a></td></tr>
+<tr class="memdesc:ac569d513f0d156da601b8af475c1f080"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rang du fichier courant.  <a href="#ac569d513f0d156da601b8af475c1f080">Plus de détails...</a><br /></td></tr>
 <tr class="separator:ac569d513f0d156da601b8af475c1f080"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5357bb15cac6a7416cb1c1222ff11e5e"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#a5357bb15cac6a7416cb1c1222ff11e5e">decimal</a></td></tr>
+<tr class="memdesc:a5357bb15cac6a7416cb1c1222ff11e5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Séparateur décimal.  <a href="#a5357bb15cac6a7416cb1c1222ff11e5e">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a5357bb15cac6a7416cb1c1222ff11e5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aafbb87a85d63d1e955cbf397700d275a"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#aafbb87a85d63d1e955cbf397700d275a">separateur</a></td></tr>
+<tr class="memdesc:aafbb87a85d63d1e955cbf397700d275a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sépareteur de champ CSV.  <a href="#aafbb87a85d63d1e955cbf397700d275a">Plus de détails...</a><br /></td></tr>
 <tr class="separator:aafbb87a85d63d1e955cbf397700d275a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e260d2064fd5bc6d8eefc79227fae10"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#a0e260d2064fd5bc6d8eefc79227fae10">reduire_consommation_memoire</a></td></tr>
+<tr class="memdesc:a0e260d2064fd5bc6d8eefc79227fae10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prédimensionner l'allocation mémoire des données (défaut)  <a href="#a0e260d2064fd5bc6d8eefc79227fae10">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a0e260d2064fd5bc6d8eefc79227fae10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af8427570e851fdf2dc402f6ad739461b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#af8427570e851fdf2dc402f6ad739461b">drapeau_cont</a></td></tr>
+<tr class="memdesc:af8427570e851fdf2dc402f6ad739461b"><td class="mdescLeft">&#160;</td><td class="mdescRight">TRUE (défaut) : continuer à analyser les données XML le plus possible en cas de léger défaut.  <a href="#af8427570e851fdf2dc402f6ad739461b">Plus de détails...</a><br /></td></tr>
 <tr class="separator:af8427570e851fdf2dc402f6ad739461b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7e4e2efb4b476784e7ed8ca215f3c63"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#af7e4e2efb4b476784e7ed8ca215f3c63">calculer_maxima</a></td></tr>
+<tr class="memdesc:af7e4e2efb4b476784e7ed8ca215f3c63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculer les maxima de nombre de lignes de paye par agent et de nombre d'agents par mois.  <a href="#af7e4e2efb4b476784e7ed8ca215f3c63">Plus de détails...</a><br /></td></tr>
 <tr class="separator:af7e4e2efb4b476784e7ed8ca215f3c63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4458d8d503f8536da8240daf689d218f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#a4458d8d503f8536da8240daf689d218f">generer_rang</a></td></tr>
+<tr class="memdesc:a4458d8d503f8536da8240daf689d218f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Générer un index dans un fichier temporaire permettant de raffraîchier une barre de progression d'interface graphique.  <a href="#a4458d8d503f8536da8240daf689d218f">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a4458d8d503f8536da8240daf689d218f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f31423d9b034f0e33df144257af9495"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#a8f31423d9b034f0e33df144257af9495">generer_bulletins</a></td></tr>
+<tr class="memdesc:a8f31423d9b034f0e33df144257af9495"><td class="mdescLeft">&#160;</td><td class="mdescRight">Générer des bulletins de paye particuliers.  <a href="#a8f31423d9b034f0e33df144257af9495">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a8f31423d9b034f0e33df144257af9495"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b41140964bf3f26585a0ebe7664a2e0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#a4b41140964bf3f26585a0ebe7664a2e0">select_siret</a></td></tr>
+<tr class="memdesc:a4b41140964bf3f26585a0ebe7664a2e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sélectionner un SIRET particulier.  <a href="#a4b41140964bf3f26585a0ebe7664a2e0">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a4b41140964bf3f26585a0ebe7664a2e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66112c94cd2f36092f804aa93c1ec319"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#a66112c94cd2f36092f804aa93c1ec319">select_echelon</a></td></tr>
+<tr class="memdesc:a66112c94cd2f36092f804aa93c1ec319"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sélectionne run échelon particulier.  <a href="#a66112c94cd2f36092f804aa93c1ec319">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a66112c94cd2f36092f804aa93c1ec319"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace62f41d04da3b35ae08765a4b0be223"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#ace62f41d04da3b35ae08765a4b0be223">pretend</a></td></tr>
+<tr class="memdesc:ace62f41d04da3b35ae08765a4b0be223"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ne pas exporter de données.  <a href="#ace62f41d04da3b35ae08765a4b0be223">Plus de détails...</a><br /></td></tr>
 <tr class="separator:ace62f41d04da3b35ae08765a4b0be223"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2fec42b48d023f693aaf3319e8b10302"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#a2fec42b48d023f693aaf3319e8b10302">verifmem</a></td></tr>
+<tr class="memdesc:a2fec42b48d023f693aaf3319e8b10302"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vérifier l'état de la mémoire.  <a href="#a2fec42b48d023f693aaf3319e8b10302">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a2fec42b48d023f693aaf3319e8b10302"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e4fc0e406651c3df7233a47ecc9d879"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#a8e4fc0e406651c3df7233a47ecc9d879">cdrom</a></td></tr>
+<tr class="memdesc:a8e4fc0e406651c3df7233a47ecc9d879"><td class="mdescLeft">&#160;</td><td class="mdescRight">Importer les données de paye directement depuis un disque optique.  <a href="#a8e4fc0e406651c3df7233a47ecc9d879">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a8e4fc0e406651c3df7233a47ecc9d879"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e5047d3e131ef45bcea7d5d98e6084e"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinfo__t.html#a7e5047d3e131ef45bcea7d5d98e6084e">nbfil</a></td></tr>
+<tr class="memdesc:a7e5047d3e131ef45bcea7d5d98e6084e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de fils d'exécution.  <a href="#a7e5047d3e131ef45bcea7d5d98e6084e">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a7e5047d3e131ef45bcea7d5d98e6084e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Documentation des données membres</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Description détaillée</h2>
+<div class="textblock"><p>Structure de stockage de l'information sur les lignes de paye. </p>
+</div><h2 class="groupheader">Documentation des données membres</h2>
 <a id="af7e4e2efb4b476784e7ed8ca215f3c63"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af7e4e2efb4b476784e7ed8ca215f3c63">&#9670;&nbsp;</a></span>calculer_maxima</h2>
 
@@ -170,6 +200,8 @@ Attributs publics</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Calculer les maxima de nombre de lignes de paye par agent et de nombre d'agents par mois. </p>
 
 </div>
 </div>
@@ -185,6 +217,8 @@ Attributs publics</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Importer les données de paye directement depuis un disque optique. </p>
+
 </div>
 </div>
 <a id="a185e587cea00465045f96926997e018f"></a>
@@ -198,6 +232,8 @@ Attributs publics</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Chemin des bases CSV de type Table. </p>
 
 </div>
 </div>
@@ -213,6 +249,8 @@ Attributs publics</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Chemin des bases CSV de type Bulletins.paie. </p>
+
 </div>
 </div>
 <a id="a31c9b93172bd74621940f62ff64c3168"></a>
@@ -226,6 +264,8 @@ Attributs publics</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Chemin du log. </p>
 
 </div>
 </div>
@@ -241,6 +281,8 @@ Attributs publics</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Séparateur décimal. </p>
+
 </div>
 </div>
 <a id="af8427570e851fdf2dc402f6ad739461b"></a>
@@ -254,6 +296,8 @@ Attributs publics</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>TRUE (défaut) : continuer à analyser les données XML le plus possible en cas de léger défaut. </p>
 
 </div>
 </div>
@@ -269,6 +313,8 @@ Attributs publics</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Ne pas exporter le Budget. </p>
+
 </div>
 </div>
 <a id="ae5437d18d4b9f7a5328c1e81d81e6b48"></a>
@@ -282,6 +328,8 @@ Attributs publics</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Ne pas exporter l'Employeur. </p>
 
 </div>
 </div>
@@ -297,6 +345,8 @@ Attributs publics</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Ne pas exporter le Siret. </p>
+
 </div>
 </div>
 <a id="a7adfb0a27ba862f50033d1214595378b"></a>
@@ -310,6 +360,8 @@ Attributs publics</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Type d'exportation (standard, cumulatif, distributif, ...) </p>
 
 </div>
 </div>
@@ -325,6 +377,8 @@ Attributs publics</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Expression régulière des élus (DEPRECATED) </p>
+
 </div>
 </div>
 <a id="ac569d513f0d156da601b8af475c1f080"></a>
@@ -338,6 +392,8 @@ Attributs publics</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Rang du fichier courant. </p>
 
 </div>
 </div>
@@ -353,6 +409,8 @@ Attributs publics</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Générer des bulletins de paye particuliers. </p>
+
 </div>
 </div>
 <a id="a4458d8d503f8536da8240daf689d218f"></a>
@@ -366,6 +424,8 @@ Attributs publics</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Générer un index dans un fichier temporaire permettant de raffraîchier une barre de progression d'interface graphique. </p>
 
 </div>
 </div>
@@ -445,6 +505,8 @@ Attributs publics</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Nombre de fils d'exécution. </p>
+
 </div>
 </div>
 <a id="a44d9ac495219fc9e5339a775a5334ac1"></a>
@@ -474,6 +536,8 @@ Attributs publics</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Ne pas exporter le nombre de lignes utilisateur. </p>
 
 </div>
 </div>
@@ -521,6 +585,8 @@ Attributs publics</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Nombre de lignes par agent. </p>
+
 </div>
 </div>
 <a id="ace62f41d04da3b35ae08765a4b0be223"></a>
@@ -534,6 +600,8 @@ Attributs publics</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Ne pas exporter de données. </p>
 
 </div>
 </div>
@@ -549,6 +617,8 @@ Attributs publics</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Prédimensionner l'allocation mémoire des données (défaut) </p>
+
 </div>
 </div>
 <a id="a66112c94cd2f36092f804aa93c1ec319"></a>
@@ -562,6 +632,8 @@ Attributs publics</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Sélectionne run échelon particulier. </p>
 
 </div>
 </div>
@@ -577,6 +649,8 @@ Attributs publics</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Sélectionner un SIRET particulier. </p>
+
 </div>
 </div>
 <a id="aafbb87a85d63d1e955cbf397700d275a"></a>
@@ -590,6 +664,8 @@ Attributs publics</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Sépareteur de champ CSV. </p>
 
 </div>
 </div>
@@ -637,6 +713,8 @@ Attributs publics</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Structure <a class="el" href="structthread__t.html" title="Structure permettant de transmettre à chaque fil d&#39;exécution une partie des données de paye...">thread_t</a> permettant de communiquer une partie des données de paye à chaque thread. </p>
+
 </div>
 </div>
 <a id="a98488531e68031eded490c7fe25802e9"></a>
@@ -666,6 +744,8 @@ Attributs publics</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Vérifier l'état de la mémoire. </p>
 
 </div>
 </div>

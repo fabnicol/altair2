@@ -77,10 +77,11 @@ Graphe des dépendances par inclusion de fonctions_auxiliaires.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="fonctions__auxiliaires_8hpp__incl.png" border="0" usemap="#lhx_2fonctions__auxiliaires_8hpp" alt=""/></div>
 <map name="lhx_2fonctions__auxiliaires_8hpp" id="lhx_2fonctions__auxiliaires_8hpp">
-<area shape="rect" id="node2" href="validator_8hpp.html" title="validator.hpp" alt="" coords="1099,80,1195,107"/>
-<area shape="rect" id="node22" href="expression__reg__elus_8hpp.html" title="expression_reg_elus.hpp" alt="" coords="1165,155,1332,181"/>
-<area shape="rect" id="node24" href="expression__reg__adjoints_8hpp.html" title="expression_reg_adjoints.hpp" alt="" coords="954,155,1141,181"/>
-<area shape="rect" id="node23" href="expression__reg__commun_8hpp.html" title="expression_reg_commun.hpp" alt="" coords="1051,229,1243,256"/>
+<area shape="rect" id="node2" href="validator_8hpp.html" title="validator.hpp" alt="" coords="979,80,1075,107"/>
+<area shape="rect" id="node22" href="expression__reg__elus_8hpp.html" title="expression_reg_elus.hpp" alt="" coords="844,229,1011,256"/>
+<area shape="rect" id="node24" href="expression__reg__cata_8hpp.html" title="expression_reg_cata.hpp" alt="" coords="1005,155,1172,181"/>
+<area shape="rect" id="node23" href="expression__reg__commun_8hpp.html" title="expression_reg_commun.hpp" alt="" coords="931,304,1123,331"/>
+<area shape="rect" id="node25" href="expression__reg__adjoints_8hpp.html" title="expression_reg_adjoints.hpp" alt="" coords="1035,229,1222,256"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -296,7 +297,7 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Calcule le maximum de lignes de paye par bulletin de paye d'un agent et le maximum du nombre d'agents par mois. </p>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html">info_t</a>, une par fil d'exécution </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a>, une par fil d'exécution </td></tr>
     <tr><td class="paramname">LOG</td><td>Pointeur vers un fichier de log de type ofstream </td></tr>
   </table>
   </dd>
@@ -332,7 +333,7 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Calcule la mémoire requise pour l'exécution du programme. </p>
 <p>Met les fichiers XHL en mémoire dans info.threads-&gt;in_memory_file. </p><dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">info</td><td>Structure de type <a class="el" href="structinfo__t.html">info_t</a> contenant les données formatées </td></tr>
+    <tr><td class="paramname">info</td><td>Structure de type <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données formatées </td></tr>
   </table>
   </dd>
 </dl>
@@ -427,7 +428,7 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Ecrit les libellés des colonnes d'une base quelconque avec un tableau de libellés de taille donnée. </p>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html">info_t</a> contenant les données formatées </td></tr>
+    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données formatées </td></tr>
     <tr><td class="paramname">base</td><td>Référence vers la base à générer de type ofstream </td></tr>
     <tr><td class="paramname">entete</td><td>Tableau des libellés de colonne </td></tr>
     <tr><td class="paramname">N</td><td>Taille de ce tableau </td></tr>
@@ -481,7 +482,7 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Ecrit les libellés des colonnes des bulletins. </p>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html">info_t</a> contenant les données formatées </td></tr>
+    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données formatées </td></tr>
     <tr><td class="paramname">base</td><td>Référence vers la base à générer de type ofstream </td></tr>
   </table>
   </dd>
@@ -809,7 +810,7 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d'exécution donné </p>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html">info_t</a> contenant les données formatées </td></tr>
+    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données formatées </td></tr>
     <tr><td class="paramname">base</td><td>Référence vers la base à générer de type ofstream </td></tr>
     <tr><td class="paramname">segment</td><td>segment d'exécution </td></tr>
   </table>
@@ -887,7 +888,7 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d'exécution donné </p>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html">info_t</a> contenant les données formatées </td></tr>
+    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données formatées </td></tr>
     <tr><td class="paramname">base</td><td>Référence vers la base à générer de type ofstream </td></tr>
     <tr><td class="paramname">segment</td><td>segment d'exécution </td></tr>
   </table>
@@ -954,7 +955,7 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Ouvre une base de données de bulletins en écriture pour un segment d'exécution donné </p>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html">info_t</a> contenant les données formatées </td></tr>
+    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données formatées </td></tr>
     <tr><td class="paramname">base</td><td>Référence vers la base à générer de type ofstream </td></tr>
     <tr><td class="paramname">segment</td><td>segment d'exécution </td></tr>
   </table>
