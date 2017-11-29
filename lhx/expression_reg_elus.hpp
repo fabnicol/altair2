@@ -63,7 +63,7 @@
 /// conseiller municipal
 #define CONSEILLER_MUNIC                         "cons.*\\bmuni"
 
-/// conseiller commun
+/// conseiller communautaire
 #define CONSEILLER_COMMUN                        "cons.*\\bcomm"
 
 /// conseiller délégué
