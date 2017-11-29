@@ -55,21 +55,145 @@ Categorie : A
 static constexpr auto EXPRESSION_REG_VACATIONS = ".*\\bvacat.*|.*\\bvac\\.?\\b.*";                 // vac.* peut être vérifié par 'vacances'
 
 /// Expression régulière tendant à capturer les officiers subalternes de catégorie B
+/// Sous-lieutenant, lieutenant, major
 #define OFFICIER_SUB     "(?:sous-?|\\b)lieut[^c]*\\b|major"
 
 /// Expression régulière tendant à capturer les agents officiers (subalternes et supérieurs) de catégorie A
+/// Capitaine, commandant, lieutenant-colonel, colonel, général
 #define OFFICIER         "lieut.*col|capit|com.*d.*t|colon|g.?.?n.?.?ral"
 
+/// Administrateur
+#define ADMINISTRATEUR "adminis|a.*\\bh.*\\bu"
+
+/// Attaché
+#define ATTACHE "attach"
+
+/// Biologiste
+#define BIOLOGISTE "biol"
+
+/// Bibliothécaire
+#define BIBLIOTHECAIRE "biblio"
+
+/// Cadre socio-éducatif ou de santé
+#define CADRE_SOCIO_ED_SANTE "cad.*(?:\\bsoc.*ed|\\bsan)"
+
+/// Conseiller
+#define CONSEILLER "cons\\.?"
+
+/// Directeur
+#define DIRECTEUR "dir(?:ect|.*\\bet.*b|.*\\bsoi)"
+
+/// Ingénieur
+#define INGENIEUR "ingen"
+
+/// Médecin
+#define MEDECIN "mede"
+
+/// Maître de conférences
+#define MAITRE_DE_CONF "ma.t.*conf"
+
+/// Praticien hospitalier
+#define PRATICIEN_HOSP "prat.*hos"
+
+/// Pharmacien
+#define PHARMACIEN "pharm"
+
+/// Professeur
+#define PROFESSEUR "prof"
+
+/// Psychologue
+#define PSYCHOLOGUE "psy.*(?:l|m.*c.*\\bs)"
+
+/// Sage-femme
+#define SAGE_FEMME "sage.*f"
+
+/// secrétaire de mairie
+#define SECRETAIRE_MAIRIE "secr.*mai"
+
+/// Vétérinaire
+#define VETERINAIRE "v[eé]t[eé]r"
+
+/// Interne
+#define INTERNE "int.*(?:med|phar|od)"
+
+/// Ergothérapeute
+#define ERGOTHERAPEUTE "ergo.*sant"
+
+/// Infirmière de catégorie A
+#define INFIRMIERE_A  "infi?r?m?i?.*(?:\\b(?!i)|anes|bloc|i\\.?a\\.?d\\.?|i\\.?b\\.?o\\.?d\\.?|s\\.?\\s*\\bg\\.?|soi|enc.*s)"
+
+/// Radiophysicien
+#define RADIOPHYSICIEN "radiophys"
+
+/// Technicien, masseur kinésithérapeute, diététicien, informaticien, manipulateur cadre de santé (technicien supérieur cat. A)
+#define TECHNICIEN_CADRE_SANTE "(?:tec.*l|mass.*kin|diet|inf|manip).*\\bc(?:\\.|a).*\\bs"
+
 /// Expression régulière tendant à capturer les agents de catégorie A
-static constexpr auto   EXPRESSION_REG_CAT_A = "\\W*\
-(?:adminis|a.*\\bh.*\\bu|c.*\\b(?:cl|tr).*\\bu|attach|biol|biblio|cad.*(?:\\bsoc.*ed|\\bsan)|" OFFICIER "|cons\\.?|d\\S*\\.?\\s*g\\S*\\.?|\
-dir(?:ect|.*\\bet.*b|.*\\bsoi)|ingen|mede|ma.t.*conf|prat.*hos|pharm|ped.*p.*c.*\\bs|prep.*c.*\\bs|prof|psy.*(?:l|m.*c.*\\bs)|puer.*cad.*sa|puericultr|sage.*f|secr.*mai|v[eé]t[eé]r|\
-i\\.?a\\.?d\\.?e\\.?|i\\.?b\\.?o\\.?d\\.?e\\.?|I\\.?S\\.?G\\.?(?:\\b|S)|int.*(?:med|phar|od)|ergo.*sant|infi?r?m?i?.*(?:\\b(?!i)|anes|bloc|i\\.?a\\.?d\\.?|i\\.?b\\.?o\\.?d\\.?|s\\.?\\s*\\bg\\.?|soi|enc.*s)|\
-radiophys|(?:tec.*l|mass.*kin|diet|inf|manip).*\\bc(?:\\.|a).*\\bs).*";
+static constexpr auto   EXPRESSION_REG_CAT_A = AUCUN_MOT
+SOIT
+     ADMINISTRATEUR
+   OU
+     "c.*\\b(?:cl|tr).*\\bu"
+   OU
+     ATTACHE
+   OU
+     BIOLOGISTE
+   OU
+     BIBLIOTHECAIRE
+   OU
+     CADRE_SOCIO_ED_SANTE
+   OU
+     OFFICIER
+   OU
+     CONSEILLER
+   OU
+     "d\\S*\\.?\\s*g\\S*\\.?"
+   OU
+     DIRECTEUR
+   OU
+     INGENIEUR
+   OU
+     MEDECIN
+   OU
+     MAITRE_DE_CONF
+   OU
+     PRATICIEN_HOSP
+   OU
+     PHARMACIEN
+   OU
+     "ped.*p.*c.*\\bs"
+   OU
+     "prep.*c.*\\bs"
+   OU
+     PROFESSEUR
+   OU
+     PSYCHOLOGUE
+   OU
+     PUERICULTRICE
+   OU
+     SAGE_FEMME
+   OU
+     SECRETAIRE_MAIRIE
+   OU
+     VETERINAIRE
+   OU
+     "i\\.?a\\.?d\\.?e\\.?|i\\.?b\\.?o\\.?d\\.?e\\.?|I\\.?S\\.?G\\.?(?:\\b|S)"
+   OU
+     INTERNE
+   OU
+     ERGOTHERAPEUTE
+   OU
+     INFIRMIERE_A
+   OU
+     RADIOPHYSICIEN
+   OU
+     TECHNICIEN_CADRE_SANTE
+FIN_SOIT
+ETC;
 
  // A cause du cas problématique des infirmiers et diététiciens, ex B recatégorisés en A, il faut d'abord tester A puis si échec B
 
-/// Expression régulière tendant à capturer les agents de catégorie C
+/// Expression régulière tendant à capturer les agents de catégorie B
 static constexpr auto   EXPRESSION_REG_CAT_B = "\\W*\
 (?:redac|tech|T\\.?S\\.?H\\.?|anim|educ|a\\.?\\s?s\\.?\\s?(?:e|\\s)|ast\\.?|assi?s?t?\\.?.*(?:spec|ens|cons|pat|bib|social|soc.*ed|med.*t|med.*adm)|monit|contro.*t(?:er|ra)|\
 ch.*(?:s.*po|S.*P.*M).*|I\\.?D\\.?E\\.?|ergo|inf.*\\bi\\.?d\\.?e|reeduc|adj.*cadr|analyst|diet|prep.*ph|ped.*po|programmeu|orthop|mass.*kin|manip|secr.*med|\\ba\\.?m\\.?a\\.?\\b|" OFFICIER_SUB ").*";
