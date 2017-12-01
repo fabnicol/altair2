@@ -66,6 +66,9 @@ $(function() {
 <div class="title">Référence du fichier expression_reg_cata.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Ce fichier contient les expressions rationnelles permettant d'identifier les catégories statutaires A et B à partir des grades des agents.  
+<a href="#details">Plus de détails...</a></p>
 <div class="textblock"><div class="dynheader">
 Graphe des dépendances par inclusion de expression_reg_cata.hpp:</div>
 <div class="dyncontent">
@@ -80,8 +83,8 @@ Ce graphe montre quels fichiers incluent directement ou indirectement ce fichier
 <div class="dyncontent">
 <div class="center"><img src="expression__reg__cata_8hpp__dep__incl.png" border="0" usemap="#lhx_2expression__reg__cata_8hppdep" alt=""/></div>
 <map name="lhx_2expression__reg__cata_8hppdep" id="lhx_2expression__reg__cata_8hppdep">
-<area shape="rect" id="node2" href="validator_8hpp.html" title="lhx/validator.hpp" alt="" coords="541,95,658,121"/>
-<area shape="rect" id="node3" href="fonctions__auxiliaires_8hpp.html" title="lhx/fonctions_auxiliaires.hpp" alt="" coords="261,169,447,196"/>
+<area shape="rect" id="node2" href="validator_8hpp.html" title="Ce fichier contient notamment la structure info_t qui stocke les données de paye décodées ainsi que l..." alt="" coords="541,95,658,121"/>
+<area shape="rect" id="node3" href="fonctions__auxiliaires_8hpp.html" title="Diverses fonctions auxiliaires en inlining. " alt="" coords="261,169,447,196"/>
 <area shape="rect" id="node6" href="ligne__paye_8cpp.html" title="Ce fichier contient le code relatif au traitement individuel des lignes de paye. " alt="" coords="142,319,273,345"/>
 <area shape="rect" id="node7" href="validator_8cpp.html" title="Ce fichier contient le code relatif au décoidage de la partie &quot;bulletins de paye&quot; (variables communes..." alt="" coords="465,319,582,345"/>
 <area shape="rect" id="node8" href="main_8cpp.html" title="Ce fichier contient le code relatif à l&#39;analyse de la ligne de commande, au découpage de la liste des..." alt="" coords="613,244,709,271"/>
@@ -170,6 +173,66 @@ Macros</h2></td></tr>
 <tr class="memitem:a95fd3611ca0c83d6d92e902e36cf7d2d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#a95fd3611ca0c83d6d92e902e36cf7d2d">TECHNICIEN_CADRE_SANTE</a>&#160;&#160;&#160;&quot;(?:tec.*l|mass.*kin|diet|inf|manip).*\\bc(?:\\.|a).*\\bs&quot;</td></tr>
 <tr class="memdesc:a95fd3611ca0c83d6d92e902e36cf7d2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Technicien, masseur kinésithérapeute, diététicien, informaticien, manipulateur cadre de santé (technicien supérieur cat. A)  <a href="#a95fd3611ca0c83d6d92e902e36cf7d2d">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a95fd3611ca0c83d6d92e902e36cf7d2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4842233b164d6bb5b2a4b7bec7ae553"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#ad4842233b164d6bb5b2a4b7bec7ae553">REDACTEUR</a>&#160;&#160;&#160;&quot;redac&quot;</td></tr>
+<tr class="separator:ad4842233b164d6bb5b2a4b7bec7ae553"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ce2da4f629903c43f655666c1a464b5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#a7ce2da4f629903c43f655666c1a464b5">TECHNICIEN</a>&#160;&#160;&#160;&quot;tech&quot;</td></tr>
+<tr class="separator:a7ce2da4f629903c43f655666c1a464b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a456e1baa338458e6a589de46b19c7844"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#a456e1baa338458e6a589de46b19c7844">TECHNICIEN_SUP_HOSP</a>&#160;&#160;&#160;&quot;T\\.?S\\.?H\\.?&quot;</td></tr>
+<tr class="separator:a456e1baa338458e6a589de46b19c7844"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f9e4ee5ec6a31d0a553445b751d4f2f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#a5f9e4ee5ec6a31d0a553445b751d4f2f">ANIMATEUR</a>&#160;&#160;&#160;&quot;anim&quot;</td></tr>
+<tr class="separator:a5f9e4ee5ec6a31d0a553445b751d4f2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a843f905b726f8c9911001ee5296cf8d9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#a843f905b726f8c9911001ee5296cf8d9">EDUCATEUR</a>&#160;&#160;&#160;&quot;educ&quot;</td></tr>
+<tr class="separator:a843f905b726f8c9911001ee5296cf8d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa42a34d8f17233661a75fe8fc1235e49"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#aa42a34d8f17233661a75fe8fc1235e49">AS</a>&#160;&#160;&#160;&quot;a\\.?\\s?s\\.?\\s?(?:e|\\s)&quot;</td></tr>
+<tr class="separator:aa42a34d8f17233661a75fe8fc1235e49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51553334231e266dbcb1410612d956b4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#a51553334231e266dbcb1410612d956b4">ASSISTANT</a>&#160;&#160;&#160;&quot;a\\.?\\s?s\\.?\\s?(?:e|\\s)|ast\\.?|assi?s?t?\\.?.*&quot;</td></tr>
+<tr class="separator:a51553334231e266dbcb1410612d956b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a975ed9a1141a799fe08ac8a94d5ac74e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#a975ed9a1141a799fe08ac8a94d5ac74e">SPECIALISE</a>&#160;&#160;&#160;&quot;spec&quot;</td></tr>
+<tr class="separator:a975ed9a1141a799fe08ac8a94d5ac74e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeab6df8a5628c408eecbe9c9d32e6c87"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#aeab6df8a5628c408eecbe9c9d32e6c87">ENSEIGNEMENT</a>&#160;&#160;&#160;&quot;ens&quot;</td></tr>
+<tr class="separator:aeab6df8a5628c408eecbe9c9d32e6c87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec6d1b7f3b33fe19c5c9ef70b8e938e9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#aec6d1b7f3b33fe19c5c9ef70b8e938e9">CONSERVATION</a>&#160;&#160;&#160;&quot;cons&quot;</td></tr>
+<tr class="separator:aec6d1b7f3b33fe19c5c9ef70b8e938e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35331c91ba9e03cf21fcce44b4cb4bbc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#a35331c91ba9e03cf21fcce44b4cb4bbc">BIBLIOTHEQUES</a>&#160;&#160;&#160;&quot;bib&quot;</td></tr>
+<tr class="separator:a35331c91ba9e03cf21fcce44b4cb4bbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a468e99106d24170f8986031ee8b4e434"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#a468e99106d24170f8986031ee8b4e434">SOCIO_EDUC</a>&#160;&#160;&#160;&quot;soc.*ed&quot;</td></tr>
+<tr class="separator:a468e99106d24170f8986031ee8b4e434"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f017c8465642bc30bfda001ca7f2c9f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#a4f017c8465642bc30bfda001ca7f2c9f">MEDICO_TECH</a>&#160;&#160;&#160;&quot;med.*t&quot;</td></tr>
+<tr class="separator:a4f017c8465642bc30bfda001ca7f2c9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09356fb8fcf9b7904a7d522baca458ec"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#a09356fb8fcf9b7904a7d522baca458ec">MEDICO_ADM</a>&#160;&#160;&#160;&quot;med.*adm&quot;</td></tr>
+<tr class="separator:a09356fb8fcf9b7904a7d522baca458ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab92e4ae3878ef89c837664d248baa0e4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#ab92e4ae3878ef89c837664d248baa0e4">MONITEUR</a>&#160;&#160;&#160;&quot;monit&quot;</td></tr>
+<tr class="separator:ab92e4ae3878ef89c837664d248baa0e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accb69ff63e94218e6b2933b978e53bb3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#accb69ff63e94218e6b2933b978e53bb3">CONTROLEUR</a>&#160;&#160;&#160;&quot;contro.*t(?:er|ra)&quot;</td></tr>
+<tr class="separator:accb69ff63e94218e6b2933b978e53bb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad70cde24392667879c8f4d4ccf1786be"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#ad70cde24392667879c8f4d4ccf1786be">CHEF_SERVICE_PM</a>&#160;&#160;&#160;&quot;ch.*(?:s.*po|S.*P.*M).*&quot;</td></tr>
+<tr class="separator:ad70cde24392667879c8f4d4ccf1786be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae4902dd2ae125e97ac12d224dff567d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#aae4902dd2ae125e97ac12d224dff567d">IDE</a>&#160;&#160;&#160;&quot;I\\.?D\\.?E\\.?|inf.*\\bi\\.?d\\.?e&quot;</td></tr>
+<tr class="separator:aae4902dd2ae125e97ac12d224dff567d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2c3d0bbad4bc49a6be8bc92d8b218e1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#aa2c3d0bbad4bc49a6be8bc92d8b218e1">REEDUCATEUR</a>&#160;&#160;&#160;&quot;r[eé][eé]duc&quot;</td></tr>
+<tr class="separator:aa2c3d0bbad4bc49a6be8bc92d8b218e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2daaf60baf32bf500891c0faffb55be"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#af2daaf60baf32bf500891c0faffb55be">ADJOINT_CADRE</a>&#160;&#160;&#160;&quot;adj.*cadr&quot;</td></tr>
+<tr class="separator:af2daaf60baf32bf500891c0faffb55be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d73f457b3e19192537d48020b17687c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#a2d73f457b3e19192537d48020b17687c">ANALYSTE</a>&#160;&#160;&#160;&quot;analyst&quot;</td></tr>
+<tr class="separator:a2d73f457b3e19192537d48020b17687c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d7c3bcdea7c6f01d80aba30f32768ac"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#a8d7c3bcdea7c6f01d80aba30f32768ac">DIETETICIEN</a>&#160;&#160;&#160;&quot;diet&quot;</td></tr>
+<tr class="separator:a8d7c3bcdea7c6f01d80aba30f32768ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae78dd225032e913f8b9ea307d582ba4a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#ae78dd225032e913f8b9ea307d582ba4a">PREPARATEUR</a>&#160;&#160;&#160;&quot;prep.*ph&quot;</td></tr>
+<tr class="separator:ae78dd225032e913f8b9ea307d582ba4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4127f7fb226da2d48d4038e5f861ac1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#ac4127f7fb226da2d48d4038e5f861ac1">PED</a>&#160;&#160;&#160;&quot;ped.po&quot;</td></tr>
+<tr class="separator:ac4127f7fb226da2d48d4038e5f861ac1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62bc230fba74dbdd55006f53963b1824"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#a62bc230fba74dbdd55006f53963b1824">PROGRAMMEUR</a>&#160;&#160;&#160;&quot;programm&quot;</td></tr>
+<tr class="separator:a62bc230fba74dbdd55006f53963b1824"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af301937f9a0f13d766941f4d7ea8295e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#af301937f9a0f13d766941f4d7ea8295e">ORTHOPEDISTE</a>&#160;&#160;&#160;&quot;orthop&quot;</td></tr>
+<tr class="separator:af301937f9a0f13d766941f4d7ea8295e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24b7da1acb0f0a839585f328e7d2c00b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#a24b7da1acb0f0a839585f328e7d2c00b">KINE</a>&#160;&#160;&#160;&quot;mass.*kin&quot;</td></tr>
+<tr class="separator:a24b7da1acb0f0a839585f328e7d2c00b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc9a52fa9dd071a6fd67e1af86c1990e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#afc9a52fa9dd071a6fd67e1af86c1990e">MANIPULATEUR</a>&#160;&#160;&#160;&quot;manip&quot;</td></tr>
+<tr class="separator:afc9a52fa9dd071a6fd67e1af86c1990e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1af7eb92ecec52351c3cb4162111fed2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#a1af7eb92ecec52351c3cb4162111fed2">SECRETAIRE_MED</a>&#160;&#160;&#160;&quot;secr.*med&quot;</td></tr>
+<tr class="separator:a1af7eb92ecec52351c3cb4162111fed2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20714c3ddbd350af89e7280bd20da399"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression__reg__cata_8hpp.html#a20714c3ddbd350af89e7280bd20da399">AMA</a>&#160;&#160;&#160;&quot;\\ba\\.?m\\.?a\\.?\\b&quot;</td></tr>
+<tr class="separator:a20714c3ddbd350af89e7280bd20da399"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -183,7 +246,28 @@ Variables</h2></td></tr>
 <tr class="memdesc:a47cf78843237ae1d1e5c2e0845061e4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expression régulière tendant à capturer les agents de catégorie B.  <a href="#a47cf78843237ae1d1e5c2e0845061e4f">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a47cf78843237ae1d1e5c2e0845061e4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Documentation des macros</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Description détaillée</h2>
+<div class="textblock"><p>Ce fichier contient les expressions rationnelles permettant d'identifier les catégories statutaires A et B à partir des grades des agents. </p>
+<dl class="section author"><dt>Auteur</dt><dd>Fabrice Nicol </dd></dl>
+
+<p class="definition">Définition dans le fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+</div><h2 class="groupheader">Documentation des macros</h2>
+<a id="af2daaf60baf32bf500891c0faffb55be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2daaf60baf32bf500891c0faffb55be">&#9670;&nbsp;</a></span>ADJOINT_CADRE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ADJOINT_CADRE&#160;&#160;&#160;&quot;adj.*cadr&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00218">218</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
 <a id="a2ea2e3545e8a3468b349f6239095e908"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2ea2e3545e8a3468b349f6239095e908">&#9670;&nbsp;</a></span>ADMINISTRATEUR</h2>
 
@@ -198,7 +282,87 @@ Variables</h2></td></tr>
 
 <p>Administrateur. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00066">66</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00069">69</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a20714c3ddbd350af89e7280bd20da399"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20714c3ddbd350af89e7280bd20da399">&#9670;&nbsp;</a></span>AMA</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define AMA&#160;&#160;&#160;&quot;\\ba\\.?m\\.?a\\.?\\b&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00228">228</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a2d73f457b3e19192537d48020b17687c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d73f457b3e19192537d48020b17687c">&#9670;&nbsp;</a></span>ANALYSTE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ANALYSTE&#160;&#160;&#160;&quot;analyst&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00219">219</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a5f9e4ee5ec6a31d0a553445b751d4f2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f9e4ee5ec6a31d0a553445b751d4f2f">&#9670;&nbsp;</a></span>ANIMATEUR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ANIMATEUR&#160;&#160;&#160;&quot;anim&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00202">202</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aa42a34d8f17233661a75fe8fc1235e49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa42a34d8f17233661a75fe8fc1235e49">&#9670;&nbsp;</a></span>AS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define AS&#160;&#160;&#160;&quot;a\\.?\\s?s\\.?\\s?(?:e|\\s)&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00204">204</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a51553334231e266dbcb1410612d956b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51553334231e266dbcb1410612d956b4">&#9670;&nbsp;</a></span>ASSISTANT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ASSISTANT&#160;&#160;&#160;&quot;a\\.?\\s?s\\.?\\s?(?:e|\\s)|ast\\.?|assi?s?t?\\.?.*&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00205">205</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -216,7 +380,7 @@ Variables</h2></td></tr>
 
 <p>Attaché </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00069">69</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00072">72</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -234,7 +398,23 @@ Variables</h2></td></tr>
 
 <p>Bibliothécaire. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00075">75</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00078">78</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a35331c91ba9e03cf21fcce44b4cb4bbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35331c91ba9e03cf21fcce44b4cb4bbc">&#9670;&nbsp;</a></span>BIBLIOTHEQUES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BIBLIOTHEQUES&#160;&#160;&#160;&quot;bib&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00209">209</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -252,7 +432,7 @@ Variables</h2></td></tr>
 
 <p>Biologiste. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00072">72</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00075">75</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -270,7 +450,23 @@ Variables</h2></td></tr>
 
 <p>Cadre socio-éducatif ou de santé </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00078">78</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00081">81</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ad70cde24392667879c8f4d4ccf1786be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad70cde24392667879c8f4d4ccf1786be">&#9670;&nbsp;</a></span>CHEF_SERVICE_PM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CHEF_SERVICE_PM&#160;&#160;&#160;&quot;ch.*(?:s.*po|S.*P.*M).*&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00215">215</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -288,7 +484,55 @@ Variables</h2></td></tr>
 
 <p>Conseiller. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00081">81</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00084">84</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aec6d1b7f3b33fe19c5c9ef70b8e938e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec6d1b7f3b33fe19c5c9ef70b8e938e9">&#9670;&nbsp;</a></span>CONSERVATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CONSERVATION&#160;&#160;&#160;&quot;cons&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00208">208</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="accb69ff63e94218e6b2933b978e53bb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#accb69ff63e94218e6b2933b978e53bb3">&#9670;&nbsp;</a></span>CONTROLEUR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CONTROLEUR&#160;&#160;&#160;&quot;contro.*t(?:er|ra)&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00214">214</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a8d7c3bcdea7c6f01d80aba30f32768ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d7c3bcdea7c6f01d80aba30f32768ac">&#9670;&nbsp;</a></span>DIETETICIEN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DIETETICIEN&#160;&#160;&#160;&quot;diet&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00220">220</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -306,7 +550,39 @@ Variables</h2></td></tr>
 
 <p>Directeur. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00084">84</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00087">87</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a843f905b726f8c9911001ee5296cf8d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a843f905b726f8c9911001ee5296cf8d9">&#9670;&nbsp;</a></span>EDUCATEUR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EDUCATEUR&#160;&#160;&#160;&quot;educ&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00203">203</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aeab6df8a5628c408eecbe9c9d32e6c87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeab6df8a5628c408eecbe9c9d32e6c87">&#9670;&nbsp;</a></span>ENSEIGNEMENT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENSEIGNEMENT&#160;&#160;&#160;&quot;ens&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00207">207</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -324,7 +600,23 @@ Variables</h2></td></tr>
 
 <p>Ergothérapeute. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00120">120</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00123">123</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aae4902dd2ae125e97ac12d224dff567d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae4902dd2ae125e97ac12d224dff567d">&#9670;&nbsp;</a></span>IDE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define IDE&#160;&#160;&#160;&quot;I\\.?D\\.?E\\.?|inf.*\\bi\\.?d\\.?e&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00216">216</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -342,7 +634,7 @@ Variables</h2></td></tr>
 
 <p>Infirmière de catégorie A. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00123">123</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00126">126</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -360,7 +652,7 @@ Variables</h2></td></tr>
 
 <p>Ingénieur. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00087">87</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00090">90</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -378,7 +670,23 @@ Variables</h2></td></tr>
 
 <p>Interne. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00117">117</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00120">120</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a24b7da1acb0f0a839585f328e7d2c00b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24b7da1acb0f0a839585f328e7d2c00b">&#9670;&nbsp;</a></span>KINE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KINE&#160;&#160;&#160;&quot;mass.*kin&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00225">225</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -396,7 +704,23 @@ Variables</h2></td></tr>
 
 <p>Maître de conférences. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00093">93</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00096">96</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="afc9a52fa9dd071a6fd67e1af86c1990e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc9a52fa9dd071a6fd67e1af86c1990e">&#9670;&nbsp;</a></span>MANIPULATEUR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MANIPULATEUR&#160;&#160;&#160;&quot;manip&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00226">226</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -414,7 +738,55 @@ Variables</h2></td></tr>
 
 <p>Médecin. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00090">90</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00093">93</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a09356fb8fcf9b7904a7d522baca458ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09356fb8fcf9b7904a7d522baca458ec">&#9670;&nbsp;</a></span>MEDICO_ADM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MEDICO_ADM&#160;&#160;&#160;&quot;med.*adm&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00212">212</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a4f017c8465642bc30bfda001ca7f2c9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f017c8465642bc30bfda001ca7f2c9f">&#9670;&nbsp;</a></span>MEDICO_TECH</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MEDICO_TECH&#160;&#160;&#160;&quot;med.*t&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00211">211</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ab92e4ae3878ef89c837664d248baa0e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab92e4ae3878ef89c837664d248baa0e4">&#9670;&nbsp;</a></span>MONITEUR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MONITEUR&#160;&#160;&#160;&quot;monit&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00213">213</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -432,7 +804,7 @@ Variables</h2></td></tr>
 
 <p>Expression régulière tendant à capturer les agents officiers (subalternes et supérieurs) de catégorie A Capitaine, commandant, lieutenant-colonel, colonel, général. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00063">63</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00066">66</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -450,7 +822,39 @@ Variables</h2></td></tr>
 
 <p>Expression régulière tendant à capturer les officiers subalternes de catégorie B Sous-lieutenant, lieutenant, major. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00059">59</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00062">62</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="af301937f9a0f13d766941f4d7ea8295e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af301937f9a0f13d766941f4d7ea8295e">&#9670;&nbsp;</a></span>ORTHOPEDISTE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ORTHOPEDISTE&#160;&#160;&#160;&quot;orthop&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00224">224</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ac4127f7fb226da2d48d4038e5f861ac1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4127f7fb226da2d48d4038e5f861ac1">&#9670;&nbsp;</a></span>PED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PED&#160;&#160;&#160;&quot;ped.po&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00222">222</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -468,7 +872,7 @@ Variables</h2></td></tr>
 
 <p>Pharmacien. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00099">99</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00102">102</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -486,7 +890,23 @@ Variables</h2></td></tr>
 
 <p>Praticien hospitalier. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00096">96</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00099">99</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ae78dd225032e913f8b9ea307d582ba4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae78dd225032e913f8b9ea307d582ba4a">&#9670;&nbsp;</a></span>PREPARATEUR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PREPARATEUR&#160;&#160;&#160;&quot;prep.*ph&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00221">221</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -504,7 +924,23 @@ Variables</h2></td></tr>
 
 <p>Professeur. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00102">102</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00105">105</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a62bc230fba74dbdd55006f53963b1824"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62bc230fba74dbdd55006f53963b1824">&#9670;&nbsp;</a></span>PROGRAMMEUR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PROGRAMMEUR&#160;&#160;&#160;&quot;programm&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00223">223</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -522,7 +958,7 @@ Variables</h2></td></tr>
 
 <p>Psychologue. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00105">105</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00108">108</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -540,7 +976,39 @@ Variables</h2></td></tr>
 
 <p>Radiophysicien. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00126">126</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00129">129</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ad4842233b164d6bb5b2a4b7bec7ae553"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4842233b164d6bb5b2a4b7bec7ae553">&#9670;&nbsp;</a></span>REDACTEUR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define REDACTEUR&#160;&#160;&#160;&quot;redac&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00199">199</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aa2c3d0bbad4bc49a6be8bc92d8b218e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2c3d0bbad4bc49a6be8bc92d8b218e1">&#9670;&nbsp;</a></span>REEDUCATEUR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define REEDUCATEUR&#160;&#160;&#160;&quot;r[eé][eé]duc&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00217">217</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -558,7 +1026,7 @@ Variables</h2></td></tr>
 
 <p>Sage-femme. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00108">108</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00111">111</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -576,7 +1044,71 @@ Variables</h2></td></tr>
 
 <p>secrétaire de mairie </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00111">111</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00114">114</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a1af7eb92ecec52351c3cb4162111fed2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1af7eb92ecec52351c3cb4162111fed2">&#9670;&nbsp;</a></span>SECRETAIRE_MED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SECRETAIRE_MED&#160;&#160;&#160;&quot;secr.*med&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00227">227</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a468e99106d24170f8986031ee8b4e434"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a468e99106d24170f8986031ee8b4e434">&#9670;&nbsp;</a></span>SOCIO_EDUC</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SOCIO_EDUC&#160;&#160;&#160;&quot;soc.*ed&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00210">210</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a975ed9a1141a799fe08ac8a94d5ac74e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a975ed9a1141a799fe08ac8a94d5ac74e">&#9670;&nbsp;</a></span>SPECIALISE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SPECIALISE&#160;&#160;&#160;&quot;spec&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00206">206</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a7ce2da4f629903c43f655666c1a464b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ce2da4f629903c43f655666c1a464b5">&#9670;&nbsp;</a></span>TECHNICIEN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TECHNICIEN&#160;&#160;&#160;&quot;tech&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00200">200</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -594,7 +1126,23 @@ Variables</h2></td></tr>
 
 <p>Technicien, masseur kinésithérapeute, diététicien, informaticien, manipulateur cadre de santé (technicien supérieur cat. A) </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00129">129</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00132">132</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a456e1baa338458e6a589de46b19c7844"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a456e1baa338458e6a589de46b19c7844">&#9670;&nbsp;</a></span>TECHNICIEN_SUP_HOSP</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TECHNICIEN_SUP_HOSP&#160;&#160;&#160;&quot;T\\.?S\\.?H\\.?&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00201">201</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -612,7 +1160,7 @@ Variables</h2></td></tr>
 
 <p>Vétérinaire. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00114">114</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00117">117</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -639,7 +1187,7 @@ Variables</h2></td></tr>
 
 <p>Expression régulière tendant à capturer les agents de catégorie A. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00132">132</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00135">135</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -662,11 +1210,11 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Valeur initiale :</b><div class="fragment"><div class="line">= <span class="stringliteral">&quot;\\W*\</span></div><div class="line"><span class="stringliteral">(?:redac|tech|T\\.?S\\.?H\\.?|anim|educ|a\\.?\\s?s\\.?\\s?(?:e|\\s)|ast\\.?|assi?s?t?\\.?.*(?:spec|ens|cons|pat|bib|social|soc.*ed|med.*t|med.*adm)|monit|contro.*t(?:er|ra)|\</span></div><div class="line"><span class="stringliteral">ch.*(?:s.*po|S.*P.*M).*|I\\.?D\\.?E\\.?|ergo|inf.*\\bi\\.?d\\.?e|reeduc|adj.*cadr|analyst|diet|prep.*ph|ped.*po|programmeu|orthop|mass.*kin|manip|secr.*med|\\ba\\.?m\\.?a\\.?\\b|&quot;</span> <a class="code" href="expression__reg__cata_8hpp.html#a6c7185429bc370f9e73fbd3dd12ebc37">OFFICIER_SUB</a> <span class="stringliteral">&quot;).*&quot;</span></div><div class="ttc" id="expression__reg__cata_8hpp_html_a6c7185429bc370f9e73fbd3dd12ebc37"><div class="ttname"><a href="expression__reg__cata_8hpp.html#a6c7185429bc370f9e73fbd3dd12ebc37">OFFICIER_SUB</a></div><div class="ttdeci">#define OFFICIER_SUB</div><div class="ttdoc">Expression régulière tendant à capturer les officiers subalternes de catégorie B Sous-lieutenant, lieutenant, major. </div><div class="ttdef"><b>Definition:</b> <a href="expression__reg__cata_8hpp_source.html#l00059">expression_reg_cata.hpp:59</a></div></div>
-</div><!-- fragment -->
-<p>Expression régulière tendant à capturer les agents de catégorie B. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00197">197</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p>Expression régulière tendant à capturer les agents de catégorie B. </p>
+<dl class="section warning"><dt>Avertissement</dt><dd>Ne tester cette expression qu'après échec de l'expression régulière de catégorie A <a class="el" href="expression__reg__cata_8hpp.html#a137151c90949e69fb769ebb30241ab16">EXPRESSION_REG_CAT_A</a> </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00232">232</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>
@@ -692,7 +1240,7 @@ Variables</h2></td></tr>
 
 <p>Expression régulière tendant à capturer les vacataires. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00055">55</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="expression__reg__cata_8hpp_source.html#l00058">58</a> du fichier <a class="el" href="expression__reg__cata_8hpp_source.html">expression_reg_cata.hpp</a>.</p>
 
 </div>
 </div>

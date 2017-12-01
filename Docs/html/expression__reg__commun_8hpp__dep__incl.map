@@ -1,9 +1,9 @@
 <map id="lhx/expression_reg_commun.hpp" name="lhx/expression_reg_commun.hpp">
 <area shape="rect" id="node2" href="$expression__reg__adjoints_8hpp.html" title="lhx/expression_reg\l_adjoints.hpp" alt="" coords="470,95,601,136"/>
 <area shape="rect" id="node15" href="$expression__reg__elus_8hpp.html" title="lhx/expression_reg\l_elus.hpp" alt="" coords="611,184,742,225"/>
-<area shape="rect" id="node3" href="$expression__reg__cata_8hpp.html" title="lhx/expression_reg\l_cata.hpp" alt="" coords="457,184,587,225"/>
-<area shape="rect" id="node4" href="$validator_8hpp.html" title="lhx/validator.hpp" alt="" coords="541,273,658,300"/>
-<area shape="rect" id="node5" href="$fonctions__auxiliaires_8hpp.html" title="lhx/fonctions_auxiliaires.hpp" alt="" coords="261,348,447,375"/>
+<area shape="rect" id="node3" href="$expression__reg__cata_8hpp.html" title="Ce fichier contient les expressions rationnelles permettant d&#39;identifier les catégories statutaires A..." alt="" coords="457,184,587,225"/>
+<area shape="rect" id="node4" href="$validator_8hpp.html" title="Ce fichier contient notamment la structure info_t qui stocke les données de paye décodées ainsi que l..." alt="" coords="541,273,658,300"/>
+<area shape="rect" id="node5" href="$fonctions__auxiliaires_8hpp.html" title="Diverses fonctions auxiliaires en inlining. " alt="" coords="261,348,447,375"/>
 <area shape="rect" id="node8" href="$ligne__paye_8cpp.html" title="Ce fichier contient le code relatif au traitement individuel des lignes de paye. " alt="" coords="142,497,273,524"/>
 <area shape="rect" id="node9" href="$validator_8cpp.html" title="Ce fichier contient le code relatif au décoidage de la partie &quot;bulletins de paye&quot; (variables communes..." alt="" coords="465,497,582,524"/>
 <area shape="rect" id="node10" href="$main_8cpp.html" title="Ce fichier contient le code relatif à l&#39;analyse de la ligne de commande, au découpage de la liste des..." alt="" coords="613,423,709,449"/>
