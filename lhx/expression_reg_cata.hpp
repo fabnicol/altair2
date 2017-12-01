@@ -1,7 +1,10 @@
 #ifndef EXPRESSION_REG_CATA_HPP
 #define EXPRESSION_REG_CATA_HPP
 
-
+/// \file expression_reg_cata.hpp
+/// \author Fabrice Nicol
+/// \brief Ce fichier contient les expressions rationnelles permettant d'identifier les catégories statutaires A et B
+/// à partir des grades des agents
 
 /*
 Décret n° 2011-746 du 27 juin 2011 portant statuts particuliers des corps des personnels de rééducation de la catégorie B de la fonction publique hospitalière
@@ -193,30 +196,109 @@ ETC;
 
  // A cause du cas problématique des infirmiers et diététiciens, ex B recatégorisés en A, il faut d'abord tester A puis si échec B
 
-/// Expression régulière tendant à capturer les agents de catégorie B
-static constexpr auto   EXPRESSION_REG_CAT_B = "\\W*\
-(?:redac|tech|T\\.?S\\.?H\\.?|anim|educ|a\\.?\\s?s\\.?\\s?(?:e|\\s)|ast\\.?|assi?s?t?\\.?.*(?:spec|ens|cons|pat|bib|social|soc.*ed|med.*t|med.*adm)|monit|contro.*t(?:er|ra)|\
-ch.*(?:s.*po|S.*P.*M).*|I\\.?D\\.?E\\.?|ergo|inf.*\\bi\\.?d\\.?e|reeduc|adj.*cadr|analyst|diet|prep.*ph|ped.*po|programmeu|orthop|mass.*kin|manip|secr.*med|\\ba\\.?m\\.?a\\.?\\b|" OFFICIER_SUB ").*";
+#define REDACTEUR "redac"
+#define TECHNICIEN "tech"
+#define TECHNICIEN_SUP_HOSP "T\\.?S\\.?H\\.?"
+#define ANIMATEUR "anim"
+#define EDUCATEUR "educ"
+#define AS  "a\\.?\\s?s\\.?\\s?(?:e|\\s)"
+#define ASSISTANT "a\\.?\\s?s\\.?\\s?(?:e|\\s)|ast\\.?|assi?s?t?\\.?.*"
+#define SPECIALISE "spec"
+#define ENSEIGNEMENT "ens"
+#define CONSERVATION "cons"
+#define BIBLIOTHEQUES "bib"
+#define SOCIO_EDUC "soc.*ed"
+#define MEDICO_TECH "med.*t"
+#define MEDICO_ADM "med.*adm"
+#define MONITEUR "monit"
+#define CONTROLEUR "contro.*t(?:er|ra)"
+#define CHEF_SERVICE_PM "ch.*(?:s.*po|S.*P.*M).*"
+#define IDE  "I\\.?D\\.?E\\.?|inf.*\\bi\\.?d\\.?e"
+#define REEDUCATEUR  "r[eé][eé]duc"
+#define ADJOINT_CADRE "adj.*cadr"
+#define  ANALYSTE "analyst"
+#define  DIETETICIEN "diet"
+#define  PREPARATEUR "prep.*ph"
+#define  PED "ped.po"
+#define  PROGRAMMEUR "programm"
+#define  ORTHOPEDISTE "orthop"
+#define  KINE "mass.*kin"
+#define  MANIPULATEUR "manip"
+#define  SECRETAIRE_MED "secr.*med"
+#define  AMA  "\\ba\\.?m\\.?a\\.?\\b"
 
-/*
- * REDACTEUR
- * TECHNICIEN
- * TECHNICIEN_SUP_HOSP
- * ANIMATEUR
- * AS
- * EDUCATEUR
- * ASSISTANT
- * SPECIALISE
- * ENSEIGNEMENT
- * CONSERVATION
- * PATRIMOINE
- * BIBLIOTHEQUES
- * SOCIO_EDUC
- * MEDICO_TECH
- * MEDICO_ADM
- * MONITEUR
- * CONTROLEUR
- * LIEUTENANT
- */
+/// Expression régulière tendant à capturer les agents de catégorie B
+/// \warning Ne tester cette expression qu'après échec de l'expression régulière de catégorie A \ref EXPRESSION_REG_CAT_A
+static constexpr auto   EXPRESSION_REG_CAT_B = AUCUN_MOT
+SOIT
+      REDACTEUR
+    OU
+      TECHNICIEN
+    OU
+      TECHNICIEN_SUP_HOSP
+    OU
+      ANIMATEUR
+    OU
+      EDUCATEUR
+    OU
+      AS
+    OU
+      ASSISTANT
+        SOIT
+            SPECIALISE
+          OU
+            ENSEIGNEMENT
+          OU
+            CONSERVATION
+          OU
+            PATRIMOINE
+          OU
+            BIBLIOTHEQUES
+          OU
+            SOCIAL
+          OU
+            SOCIO_EDUC
+          OU
+            MEDICO_TECH
+          OU
+            MEDICO_ADM
+        FIN_SOIT
+     OU
+        MONITEUR
+     OU
+        CONTROLEUR
+     OU
+        CHEF_SERVICE_PM
+     OU
+        IDE
+     OU
+        REEDUCATEUR
+     OU
+        ADJOINT_CADRE
+     OU
+        ANALYSTE
+     OU
+        DIETETICIEN
+     OU
+        PREPARATEUR
+     OU
+        PED
+     OU
+        PROGRAMMEUR
+     OU
+        ORTHOPEDISTE
+     OU
+        KINE
+     OU
+        MANIPULATEUR
+     OU
+        SECRETAIRE_MAIRIE
+     OU
+        AMA
+     OU
+        OFFICIER_SUB
+FIN_SOIT
+ETC;
+
 
 #endif // EXPRESSION_REG_CATA_HPP

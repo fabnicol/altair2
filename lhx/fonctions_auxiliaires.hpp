@@ -34,7 +34,12 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-//
+
+/// \file fonctions_auxiliaires.hpp
+/// \author Fabrice Nicol
+/// \brief Diverses fonctions auxiliaires en inlining
+
+
 #ifndef FONCTIONS_AUXILIAIRES_HPP_INCLUDED
 #define FONCTIONS_AUXILIAIRES_HPP_INCLUDED
 

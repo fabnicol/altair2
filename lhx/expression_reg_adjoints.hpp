@@ -39,6 +39,7 @@
 #define EXPRESSION_REG_ADJOINTS_HPP
 
 /// \file expression_reg_adjoints
+/// \author  Fabrice Nicol
 /// \brief Expressions régulières de niveau adjoints / auxiliaires / aides (catégories C)
 
 #include "expression_reg_commun.hpp"
@@ -94,7 +95,7 @@
 #define SERVICE_HOSPITALIER "ser.*ho"
 
 /// agent social
-#define SOCIAL   "soc"
+#define SOCIAL   "soc\\.?"
 
 /// agent de maitrise
 #define MAITRISE "ma[îi]"

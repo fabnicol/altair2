@@ -1,7 +1,7 @@
 <map id="lhx/table.hpp" name="lhx/table.hpp">
-<area shape="rect" id="node2" href="$validator_8hpp.html" title="validator.hpp" alt="" coords="966,80,1062,107"/>
+<area shape="rect" id="node2" href="$validator_8hpp.html" title="Ce fichier contient notamment la structure info_t qui stocke les données de paye décodées ainsi que l..." alt="" coords="966,80,1062,107"/>
 <area shape="rect" id="node22" href="$expression__reg__elus_8hpp.html" title="expression_reg_elus.hpp" alt="" coords="239,229,405,256"/>
-<area shape="rect" id="node24" href="$expression__reg__cata_8hpp.html" title="expression_reg_cata.hpp" alt="" coords="400,155,567,181"/>
+<area shape="rect" id="node24" href="$expression__reg__cata_8hpp.html" title="Ce fichier contient les expressions rationnelles permettant d&#39;identifier les catégories statutaires A..." alt="" coords="400,155,567,181"/>
 <area shape="rect" id="node23" href="$expression__reg__commun_8hpp.html" title="expression_reg_commun.hpp" alt="" coords="326,304,518,331"/>
 <area shape="rect" id="node25" href="$expression__reg__adjoints_8hpp.html" title="expression_reg_adjoints.hpp" alt="" coords="430,229,617,256"/>
 </map>
