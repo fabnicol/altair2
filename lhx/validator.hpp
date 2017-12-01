@@ -34,7 +34,13 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-//
+
+/// \file validator.hpp
+/// \author Fabrice Nicol
+/// \brief Ce fichier contient notamment la structure info_t qui stocke les données de paye décodées
+/// ainsi que la description des bases de sortie BaseType
+
+
 #ifndef VALIDATOR_HPP_INCLUDED
 #define VALIDATOR_HPP_INCLUDED
 
@@ -184,9 +190,13 @@ typedef struct {
      int memoire_p_ligne_allouee; ///< Mémoire à allouer par ligne
 } LineCount;
 
-
+/// Recommencer l'allocation de mémoire
 #define RETRY -1
+
+/// Sauter le fichier en cours
 #define SKIP_FILE 1
+
+/// Pas d'agent détecté
 #define NO_AGENT -1
 
 #ifndef MAX_MEMORY_SHARE
@@ -194,19 +204,23 @@ typedef struct {
 #endif
 
 #ifndef NA_STRING
+ /// Caractérisation des non-réponses ou variables non renseignées
  #define NA_STRING  (xmlChar*) "NA"
 #endif
 #ifndef MAX_LIGNES_PAYE
+ /// Maximum de lignes de paye par agent par défaut
  #define MAX_LIGNES_PAYE 1000
 #endif
 
 // MAX_NB_AGENTS détermine le nombre maximal d'agents par mois potentiellement traités
 
 #ifndef MAX_NB_AGENTS
+ ///Maximum de nombre d'agents par mois par défaut
  #define MAX_NB_AGENTS 8000
 #endif
 
 #ifndef NO_DEBUG
+    /// Fonctions de débogage
     #define DEBUG(X) cerr << "\n" << X << "\n";
     #define AFFICHER_NOEUD(X)       { char msg[50]={0}; \
                                       sprintf(msg, "atteint %s\n", (const char*) X);\
@@ -225,15 +239,21 @@ typedef struct {
     #endif
 #endif
 
+/// Un noeud libxml2 XmlPtr a été trouvé
 #define NODE_FOUND  0
+
+/// Aucun noeud libxml2 XmlPtr n'a été trouvé
 #define NODE_NOT_FOUND 1
+
+/// Problème d'allocation de mémoire pour une ligne de paye
 #define LINE_MEMORY_EXCEPTION 2
+
+/// Pas de noeud libxml2 suivant au même niveau de profondeur d'arbre
 #define NO_NEXT_ITEM 3
 
-/* pas de contrôle d'existence de noeud : version affaiblie de la macro précédente */
 
-
-
+/// Tableau décrivant les libellés des balises XML du format XHL de la DGFIP
+/// Voir site Xemelios de la DGFIP
 static const char* type_remuneration[]   = {
                                             "TraitBrut",
                                             "IndemResid",
@@ -250,16 +270,22 @@ static const char* type_remuneration[]   = {
                                             };
 
 
+/// nbType donne le nombre d'items du tableau précédent
 static const int nbType                  = sizeof(type_remuneration)/sizeof(char*);  // + NA
 
+/// drapeau est un tableau de paires permettant d'isoler en mémoire les balises de type_remuneration lorsqu'elles sont
+/// rencontrées dans un fichier XHL/XML. Le nombre d'items est donc nbType
 
 static const xmlChar drapeau[][2]  = {{1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, {7,0}, {8,0}, {9,0}, {10,0}, {11,0}, {12,0}};
-/* A chaque valeur de drapeau[i][0] doit correspondre un type différent de rémunération type_remuneration[i] */
-
 
 void* decoder_fichier(info_t& tinfo);
 void* parse_info(info_t& info);
 
+
+/// Permet d'atteindre un noeud donné par son libellé de balise XML à partir d'un pointeur XmlNodePtr de libxml2
+/// \param noeud Libellé de la balise à atteindre
+/// \param cur Noeud libxml2 courant
+/// \return Soit le noeud XmlNodePtr correspondant au noeud trouvé, soit nullptr si pas de noeud trouvé.
 inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur)
 {
 

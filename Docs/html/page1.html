@@ -126,7 +126,7 @@ Rebouclage des noms de catégorie</h3>
 <p>Rebouclage du parcours en cas de non-conformité de l'ordre des noeuds de catégorie de ligne de paye.<br />
 En principe les éléments constitutifs des enregistrements &lt;Remuneration&gt;....&lt;/Remuneration&gt; sont enregistrés dans l'ordre du tableau <a class="el" href="validator_8hpp.html#a0325dfbede8f04eea731f905a77e2907">type_remuneration</a>.<br />
 Toutefois quelques cas de désordre sont observés. Dans ces cas là on doit réinitialiser le parcours du tableau.<br />
-La constante <b>#TYPE_LOOP_LIMIT</b> est définie à la compilation et si ce n'est pas le cas prend la valeur par défaut encodée dans le fichier <a class="el" href="validator_8hpp.html">validator.hpp</a> <br />
+La constante <b>#TYPE_LOOP_LIMIT</b> est définie à la compilation et si ce n'est pas le cas prend la valeur par défaut encodée dans le fichier <a class="el" href="validator_8hpp.html" title="Ce fichier contient notamment la structure info_t qui stocke les données de paye décodées ainsi que l...">validator.hpp</a> <br />
 Elle définit le maximum du nombre de réinitialisation du parcours du tableau <a class="el" href="validator_8hpp.html#a0325dfbede8f04eea731f905a77e2907">type_remuneration</a> autrement dit le nombre maximum de non-conformités à l'ordonnancement des catégories de ligne de paye prévu par la convention-cadre.<br />
 Ce maximum n'est jamais atteint en pratique. S'il est atteint la fonction retourne {<b>nbLignePaye</b>, 1}, où <b>nbLignePaye</b> est le nombre de lignes de paye effectivement lues dans la fonction au cours de cet appel.<br />
  </p>

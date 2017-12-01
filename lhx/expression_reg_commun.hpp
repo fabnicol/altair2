@@ -39,6 +39,7 @@
 #define EXPRESSION_REG_COMMUN_HPP
 
 /// \file expression_reg_commun
+/// \author Fabrice Nicol
 /// \brief Elements constitutifs des expressions régulières
 
 #define  OU                                       "|"

@@ -42,6 +42,7 @@
 
 
 /// \file expression_reg_elus
+/// \author Fabrice Nicol
 /// \brief Expressions régulières représentant les élus
 
 
