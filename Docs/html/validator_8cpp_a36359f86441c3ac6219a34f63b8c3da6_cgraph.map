@@ -1,9 +1,9 @@
 <map id="parse_info" name="parse_info">
-<area shape="rect" id="node2" href="$validator_8cpp.html#a5223203a3dc856b4169ea2293035e57a" title="allouer_memoire_table" alt="" coords="136,31,288,57"/>
-<area shape="rect" id="node4" href="$validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="parseFile" alt="" coords="175,107,249,133"/>
-<area shape="rect" id="node22" href="$validator_8cpp.html#aa054457564b0f4991283a511f01777e5" title="normaliser_accents" alt="" coords="145,157,279,184"/>
+<area shape="rect" id="node2" href="$validator_8cpp.html#a5223203a3dc856b4169ea2293035e57a" title="Alloue la mémoire de la table des données. " alt="" coords="136,31,288,57"/>
+<area shape="rect" id="node4" href="$validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="175,107,249,133"/>
+<area shape="rect" id="node22" href="$validator_8cpp.html#aa054457564b0f4991283a511f01777e5" title="Fonction permettant de convertir très efficacement les caractères accentués UTF&#45;8 ou Latin&#45;1 en carac..." alt="" coords="145,157,279,184"/>
 <area shape="rect" id="node3" href="$validator_8cpp.html#af23e7af258b590af3650be8ab06708be" title="Définit le besoin de mémoire en octets pour un bulletin de paye de données XML (Table) ..." alt="" coords="337,5,457,32"/>
-<area shape="rect" id="node5" href="$validator_8hpp.html#ad164d34b6591a52b6e92b087582fe0cb" title="atteindreNoeud" alt="" coords="1135,157,1246,184"/>
+<area shape="rect" id="node5" href="$validator_8hpp.html#ad164d34b6591a52b6e92b087582fe0cb" title="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..." alt="" coords="1135,157,1246,184"/>
 <area shape="rect" id="node6" href="$ligne__paye_8hpp.html#a703180379a24b61c33f035b1b8a8f437" title="Affiche un message d&#39;avertissement sur la sortie d&#39;erreur lorsqu&#39;un noeud XML ne peut être atteint..." alt="" coords="929,376,1028,403"/>
 <area shape="rect" id="node7" href="$fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="1100,532,1281,559"/>
 <area shape="rect" id="node8" href="$validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="336,391,459,417"/>
