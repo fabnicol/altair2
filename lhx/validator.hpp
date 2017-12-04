@@ -286,6 +286,7 @@ void* parse_info(info_t& info);
 /// \param noeud Libellé de la balise à atteindre
 /// \param cur Noeud libxml2 courant
 /// \return Soit le noeud XmlNodePtr correspondant au noeud trouvé, soit nullptr si pas de noeud trouvé.
+
 inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur)
 {
 

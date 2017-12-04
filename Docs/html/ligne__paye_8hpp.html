@@ -115,7 +115,7 @@ Variables</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Description détaillée</h2>
 <div class="textblock"><p>Définit deux fonctions auxiliaires utilisées dans lignes_paye.cpp. </p>
-<dl class="section note"><dt>Note</dt><dd>Constantes de compilation pouvant être redéfinies : #WARNING_LIMIT, <a class="el" href="validator_8hpp.html#ac2a4b55865c1f0f90f48767aa00fe11f">MAX_LIGNES_PAYE</a> </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Constantes de compilation pouvant être redéfinies : #WARNING_LIMIT, <a class="el" href="validator_8hpp.html#ac2a4b55865c1f0f90f48767aa00fe11f" title="Maximum de lignes de paye par agent par défaut. ">MAX_LIGNES_PAYE</a> </dd></dl>
 
 <p class="definition">Définition dans le fichier <a class="el" href="ligne__paye_8hpp_source.html">ligne_paye.hpp</a>.</p>
 </div><h2 class="groupheader">Documentation des fonctions</h2>
@@ -170,8 +170,8 @@ Voici le graphe des appelants de cette fonction :</div>
 <map name="ligne__paye_8hpp_a1918a95b8d7eafcb07bcf867242b3514_icgraph" id="ligne__paye_8hpp_a1918a95b8d7eafcb07bcf867242b3514_icgraph">
 <area shape="rect" id="node2" href="ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud &lt;PayeIndivMensuel&gt; " alt="" coords="148,5,227,32"/>
 <area shape="rect" id="node3" href="validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="275,5,397,32"/>
-<area shape="rect" id="node4" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="parseFile" alt="" coords="445,5,520,32"/>
-<area shape="rect" id="node5" href="validator_8hpp.html#a36359f86441c3ac6219a34f63b8c3da6" title="parse_info" alt="" coords="568,5,651,32"/>
+<area shape="rect" id="node4" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="445,5,520,32"/>
+<area shape="rect" id="node5" href="validator_8hpp.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="568,5,651,32"/>
 <area shape="rect" id="node6" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="699,5,824,32"/>
 <area shape="rect" id="node7" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="872,5,923,32"/>
 </map>
@@ -245,13 +245,13 @@ Voici le graphe des appelants de cette fonction :</div>
 <div class="center"><img src="ligne__paye_8hpp_a703180379a24b61c33f035b1b8a8f437_icgraph.png" border="0" usemap="#ligne__paye_8hpp_a703180379a24b61c33f035b1b8a8f437_icgraph" alt=""/></div>
 <map name="ligne__paye_8hpp_a703180379a24b61c33f035b1b8a8f437_icgraph" id="ligne__paye_8hpp_a703180379a24b61c33f035b1b8a8f437_icgraph">
 <area shape="rect" id="node2" href="ligne__paye_8cpp.html#a45ce15888cd33c4753e852fce36fb56e" title="Appelle Bulletin et affiche l&#39;interprétation des erreurs. " alt="" coords="165,5,294,32"/>
-<area shape="rect" id="node5" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="parseFile" alt="" coords="652,196,727,223"/>
+<area shape="rect" id="node5" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="652,196,727,223"/>
 <area shape="rect" id="node9" href="ligne__paye_8cpp.html#a4a91586d82e91ad3e3c02355b57c9e09" title="Appelle Bulletin. " alt="" coords="152,56,307,83"/>
 <area shape="rect" id="node10" href="ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580" title="Appelle Bulletin. " alt="" coords="168,107,291,149"/>
 <area shape="rect" id="node11" href="ligne__paye_8cpp.html#a8636e0f8d6d7fce58969c36956342c90" title="Appelle Bulletin. " alt="" coords="165,173,294,214"/>
 <area shape="rect" id="node3" href="ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud &lt;PayeIndivMensuel&gt; " alt="" coords="355,115,433,141"/>
 <area shape="rect" id="node4" href="validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="481,152,604,179"/>
-<area shape="rect" id="node6" href="validator_8hpp.html#a36359f86441c3ac6219a34f63b8c3da6" title="parse_info" alt="" coords="775,196,857,223"/>
+<area shape="rect" id="node6" href="validator_8hpp.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="775,196,857,223"/>
 <area shape="rect" id="node7" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="905,196,1031,223"/>
 <area shape="rect" id="node8" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1079,196,1129,223"/>
 </map>

@@ -76,7 +76,13 @@ static inline  int GCC_INLINE memoire_p_ligne(const info_t& info, const unsigned
                                                                                                      // soit INDEX_MAX_COLONNES = N pour les écritures du type Var(l+i), i=0,...,N dans ECRIRE_LIGNE_l_COMMUN
 }
 
-
+/// Décode une structure info_t contenant les données de paye à l'état brut "fichier" (<pre> info.threads->in_memory_file </pre> ou <pre> info.threads->argv </pre>)
+/// Commence par décoder Annee, Mois, Budget, Siret, Employeur, puis lance le décodage des données de paye individuelles, agent par agent, pour l'ensemble du fichier
+/// A chaque bulletin de paye de l'agent, lance \ref parseLignesPaye
+/// \param info Structure info_t contenant les fichiers de paye en mémoire vive et les champs à remplir par le décodage libxml2.
+/// \return #SKIP_FILE si le fichier doit être sauté pour une raison ou pour une autre \n
+/// ou bien #RETRY si le décodage est essayé à nouveau \n
+/// sinon 0 en cas de succès.
 
 static int parseFile(info_t& info)
 {
@@ -876,10 +882,14 @@ using namespace std;
 #endif
 #endif // defined
 
+/// Alloue la mémoire de la table des données
+/// \param info Structure info_t contenant les champs à réserver en mémoire
+
 static inline void GCC_INLINE allouer_memoire_table(info_t& info)
 {
     // utiliser NCumAgent ici et pas NCumAgentXml, puisqu'il s'agit d'une préallocation
     
+    // Libération de la mémoire si elle est déjà allouée
 
     if (info.Table.size() > 0 && info.Table.size() == info.NCumAgent)
     {
@@ -891,6 +901,8 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
             }
         }
     }
+
+    // Utilisation des dimensions issues de calculer_memoire_requise (info.threads->argc et info.NCumAgent)
 
     info.NAgent.resize(info.threads->argc);
     info.Table.resize(info.NCumAgent);
@@ -908,9 +920,10 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
         exit(-18);
     }
 
+    // Pour chaque agent utiliser memoire_p_ligne(info, agent) pour retailler info.Table
+
     for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
     {
-
         info.Table[agent].resize(memoire_p_ligne(info, agent)); 
 
         if (verbeux && info.Table[agent].empty())
@@ -924,6 +937,10 @@ static inline void GCC_INLINE allouer_memoire_table(info_t& info)
         }
     }
 }
+
+/// Fonction permettant de convertir très efficacement les caractères accentués UTF-8 ou Latin-1 en caractères non accentués
+/// et d'effacer les octets superflus après remplacement par des caractères non accentués.
+/// \param c Caractère au format xmlChar*
 
 inline void GCC_INLINE normaliser_accents(xmlChar* c)
 {
@@ -1005,46 +1022,67 @@ inline void GCC_INLINE normaliser_accents(xmlChar* c)
 
 }
 
+/// Lance \ref calculer_memoire_requise ou le calcul direct de la mémoire par par les saisies de -n et -N \n
+/// ou alors retourne si <pre>--pretend</pre> est en ligne de commande.
+/// \param info Structure info_t contenant les informations de ligne de commande
+/// \return Pointeur nul. Exception en cas d'erreur.
 
 void* decoder_fichier(info_t& info)
 {
-    // environ 6000 bulletins par seconde en processus sumple, et 15000 en multithread ; rajoute 1/3 du temps
+    if (info.pretend) return nullptr;
 
-if (info.pretend) return nullptr;
-
-if (info.reduire_consommation_memoire)
-    {
-        int err = calculer_memoire_requise(info);
-        if (err)
+    if (info.reduire_consommation_memoire)
         {
-            cerr << ERROR_HTML_TAG "Calcul de la mémoire requise" ENDL;
-            cerr << ERROR_HTML_TAG  "Erreur : " << strerror(errno);
-            //    exit(-1001);
-        }
-    }
-    else
-    {
-        info.NCumAgent = info.nbAgentUtilisateur * info.threads->argc;
-        info.NLigne.resize(info.NCumAgent);
-
-        memory_debug("decoder_fichier_info.NLigne.resize(info.NCumAgent)");
-
-        if (! info.NLigne.empty())
-        {
-            for (unsigned i = 0 ; i < info.NCumAgent; ++i)
-                info.NLigne[i] = info.nbLigneUtilisateur;
+            int err = calculer_memoire_requise(info);
+            if (err)
+            {
+                cerr << ERROR_HTML_TAG "Calcul de la mémoire requise" ENDL;
+                cerr << ERROR_HTML_TAG "Erreur : " << strerror(errno);
+                throw;
+            }
         }
         else
         {
-            perror(ERROR_HTML_TAG "Problème d'allocation mémoire de info.NLigne");
-            throw;
+            info.NCumAgent = info.nbAgentUtilisateur * info.threads->argc;
+            info.NLigne.resize(info.NCumAgent);
+
+            memory_debug("decoder_fichier_info.NLigne.resize(info.NCumAgent)");
+
+            if (! info.NLigne.empty())
+            {
+                for (unsigned i = 0 ; i < info.NCumAgent; ++i)
+                    info.NLigne[i] = info.nbLigneUtilisateur;
+            }
+            else
+            {
+                perror(ERROR_HTML_TAG "Problème d'allocation mémoire de info.NLigne");
+                throw;
+            }
         }
-    }
-return nullptr;
+
+    return nullptr;
 }
+
+
+/// Lance l'ensemble des processus de pré-traitement et de post-traitement des fichiers de paye. \n
+/// Pour le pré-traitement : \n
+/// <ul> <li> Allocation de la mémoire des tables des structures info_t </li>
+/// <li>En cas d'incident de code #RETRY dans \ref parseFile, tente une réallocation </li>
+/// <li>En cas d'incident de code #SKIP_FILE dans \ref parseFile, saute le fichier et passe au suivant </li></ul>
+/// Pour le post-traitement : \n
+/// <ul><li> Vérification de la cohérence de l'allocation mémoire ex-ante et de la mémoire consommée au décodage par libxml2. Exception en cas d'incohérence.</li>
+/// <li>Tentative de codage dans le Grade des assistantes maternelles (A) et des vacataires (V) reconnus par expression régulière</li>
+/// <li>Tentative de codage dans le Statut des élus reconnus par expression régulière (ELU) </li>
+/// <li>Inférence de la catégorie statutaire A, B, C, à partir d'expressions régulières</li></ul>
+/// \param info Structure info_t contenant les fichiers de paye en mémoire
+/// \return nullptr ou Exception.
+
 
 void* parse_info(info_t& info)
 {
+//
+// Pré-traitement des fichiers de paye
+//
 
 #if  defined GCC_REGEX && !defined NO_REGEX
 
@@ -1065,38 +1103,48 @@ void* parse_info(info_t& info)
         if (i == 0)
         {
             // première allocation ou réallocation à la suite d'un incident
-
             allouer_memoire_table(info);
             memory_debug("decoder_fichier_allouer_memoire_table(info)");
         }
 
-    if (info.verifmem) return nullptr;
+        if (info.verifmem) return nullptr;
 
         info.fichier_courant = i;
+
+//
+// Lancement du traitement des fichiers de paye
+//
+
         switch(parseFile(info))
         {
-        case RETRY:
-            i = 0;
+            case RETRY:
+                i = 0;
+                // on réalloue tout depuis le début à la site d'un incident
 
-            // on réalloue tout depuis le début à la site d'un incident
+                cerr << ERROR_HTML_TAG " Il est nécessaire de réallouer la mémoire à la suite d'un incident dû aux données..." ENDL;
+                continue;
 
-            cerr << ERROR_HTML_TAG " Il est nécessaire de réallouer la mémoire à la suite d'un incident dû aux données..." ENDL;
-            continue;
+            case SKIP_FILE:
+                cerr << ERROR_HTML_TAG " Le fichier  " << info.threads->argv[info.fichier_courant] << " n'a pas pu être traité" ENDL
+                          << "   Fichier suivant..." ENDL;
+                continue;
 
-        case SKIP_FILE:
-            cerr << ERROR_HTML_TAG " Le fichier  " << info.threads->argv[info.fichier_courant] << " n'a pas pu être traité" ENDL
-                      << "   Fichier suivant..." ENDL;
-            continue;
-
-        default :
-#ifndef NO_DEBUG
-            cerr << PROCESSING_HTML_TAG "Fichier " << info.threads->argv[info.fichier_courant]  << "  traité" ENDL;
-#endif
-            break;
+            default :
+    #ifndef NO_DEBUG
+                cerr << PROCESSING_HTML_TAG "Fichier " << info.threads->argv[info.fichier_courant]  << "  traité" ENDL;
+    #endif
+                break;
         }
 
         memory_debug("decoder_fichier_parseFile(info");
     }
+
+//
+// Post-traitement
+//
+
+    // Vérifie la cohérence des deux calculs de préallocation de NCumAgentXml et NCumAgent
+    // En cas d'incohérence, exception.
 
     if (info.reduire_consommation_memoire && info.NCumAgentXml > info.NCumAgent)
         {
@@ -1107,9 +1155,10 @@ void* parse_info(info_t& info)
                       << "Sortie pour éviter une erreur de segmentation." ENDL;
             cerr << " Fichier : " << info.threads->argv[info.fichier_courant] << ENDL;
            }
-            else
-                 cerr << ERROR_HTML_TAG "Erreur critique lors de l'analyse du fichier : " << info.threads->argv[info.fichier_courant] << ENDL;
-            exit(1005);
+           else
+             cerr << ERROR_HTML_TAG "Erreur critique lors de l'analyse du fichier : " << info.threads->argv[info.fichier_courant] << ENDL;
+
+           throw;
         }
 
     // attention, pas info<-NCumAgent ici
@@ -1122,6 +1171,7 @@ void* parse_info(info_t& info)
 
 #if !defined NO_REGEX
 #define VAR(X) info.Table[agent][X]
+
     for (unsigned agent = 0; agent < info.NCumAgentXml; ++agent)
     {
         // Les élus peuvent être identifiés soit dans le service soit dans l'emploi métier
@@ -1136,6 +1186,8 @@ void* parse_info(info_t& info)
         xmlChar* gr = xmlStrdup(VAR(Grade));
 
 #endif
+
+        // La normalisation des accents facilite et sécurise les analyses d'expressions régulières
 
         normaliser_accents(em);
         normaliser_accents(gr);
@@ -1164,7 +1216,9 @@ void* parse_info(info_t& info)
                 VAR(Grade) = (xmlChar*) xmlStrdup((const xmlChar*)"A");
             }
 
-            // identification des catégories A, B, C
+            ///////////////////////////////////////////////
+            // identification des catégories A, B, C     //
+            ///////////////////////////////////////////////
 
                 // gestion de mémoire : ne pas allouer avec xmlStrdup et ne pas libérer
                 // à la fin de main.cpp dans la double boucle de libération de mémoire car
@@ -1180,7 +1234,7 @@ void* parse_info(info_t& info)
                 VAR(Categorie) = xmlStrdup((xmlChar*)"A");
             }
 
-            // Il faut teste d'abord cat A et seulement ensuite cat B
+            // Il faut tester d'abord cat A et seulement ensuite cat B
 
             else if (regex_match((const char*) gr, pat_cat_b))
             {
