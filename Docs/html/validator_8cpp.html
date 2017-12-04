@@ -102,14 +102,20 @@ Fonctions</h2></td></tr>
 <tr class="memdesc:af23e7af258b590af3650be8ab06708be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Définit le besoin de mémoire en octets pour un bulletin de paye de données XML (Table)  <a href="#af23e7af258b590af3650be8ab06708be">Plus de détails...</a><br /></td></tr>
 <tr class="separator:af23e7af258b590af3650be8ab06708be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae1ac2699ac4449a4a9a16b0e37234b35"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35">parseFile</a> (<a class="el" href="structinfo__t.html">info_t</a> &amp;info)</td></tr>
+<tr class="memdesc:ae1ac2699ac4449a4a9a16b0e37234b35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Décode une structure <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données de paye à l'état brut "fichier" (.  <a href="#ae1ac2699ac4449a4a9a16b0e37234b35">Plus de détails...</a><br /></td></tr>
 <tr class="separator:ae1ac2699ac4449a4a9a16b0e37234b35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5223203a3dc856b4169ea2293035e57a"><td class="memItemLeft" align="right" valign="top">static void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#a5223203a3dc856b4169ea2293035e57a">allouer_memoire_table</a> (<a class="el" href="structinfo__t.html">info_t</a> &amp;info)</td></tr>
+<tr class="memdesc:a5223203a3dc856b4169ea2293035e57a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alloue la mémoire de la table des données.  <a href="#a5223203a3dc856b4169ea2293035e57a">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a5223203a3dc856b4169ea2293035e57a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa054457564b0f4991283a511f01777e5"><td class="memItemLeft" align="right" valign="top">void <a class="el" href="validator_8hpp.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#aa054457564b0f4991283a511f01777e5">normaliser_accents</a> (xmlChar *c)</td></tr>
+<tr class="memdesc:aa054457564b0f4991283a511f01777e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fonction permettant de convertir très efficacement les caractères accentués UTF-8 ou Latin-1 en caractères non accentués et d'effacer les octets superflus après remplacement par des caractères non accentués.  <a href="#aa054457564b0f4991283a511f01777e5">Plus de détails...</a><br /></td></tr>
 <tr class="separator:aa054457564b0f4991283a511f01777e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a568278e967fa4ca7537349f4032aeb7c"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#a568278e967fa4ca7537349f4032aeb7c">decoder_fichier</a> (<a class="el" href="structinfo__t.html">info_t</a> &amp;info)</td></tr>
+<tr class="memdesc:a568278e967fa4ca7537349f4032aeb7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lance <a class="el" href="fonctions__auxiliaires_8hpp.html#a6a6eceeeb38bc24fd24e0acb226c1304">calculer_memoire_requise</a> ou le calcul direct de la mémoire par par les saisies de -n et -N <br />
+ou alors retourne si.  <a href="#a568278e967fa4ca7537349f4032aeb7c">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a568278e967fa4ca7537349f4032aeb7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36359f86441c3ac6219a34f63b8c3da6"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#a36359f86441c3ac6219a34f63b8c3da6">parse_info</a> (<a class="el" href="structinfo__t.html">info_t</a> &amp;info)</td></tr>
+<tr class="memdesc:a36359f86441c3ac6219a34f63b8c3da6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lance l'ensemble des processus de pré-traitement et de post-traitement des fichiers de paye.  <a href="#a36359f86441c3ac6219a34f63b8c3da6">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a36359f86441c3ac6219a34f63b8c3da6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
@@ -170,7 +176,15 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Définition à la ligne <a class="el" href="validator_8cpp_source.html#l00879">879</a> du fichier <a class="el" href="validator_8cpp_source.html">validator.cpp</a>.</p>
+<p>Alloue la mémoire de la table des données. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">info</td><td>Structure <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les champs à réserver en mémoire </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="validator_8cpp_source.html#l00888">888</a> du fichier <a class="el" href="validator_8cpp_source.html">validator.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
@@ -184,7 +198,7 @@ Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="validator_8cpp_a5223203a3dc856b4169ea2293035e57a_icgraph.png" border="0" usemap="#validator_8cpp_a5223203a3dc856b4169ea2293035e57a_icgraph" alt=""/></div>
 <map name="validator_8cpp_a5223203a3dc856b4169ea2293035e57a_icgraph" id="validator_8cpp_a5223203a3dc856b4169ea2293035e57a_icgraph">
-<area shape="rect" id="node2" href="validator_8hpp.html#a36359f86441c3ac6219a34f63b8c3da6" title="parse_info" alt="" coords="205,5,288,32"/>
+<area shape="rect" id="node2" href="validator_8hpp.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="205,5,288,32"/>
 <area shape="rect" id="node3" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="336,5,461,32"/>
 <area shape="rect" id="node4" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="509,5,560,32"/>
 </map>
@@ -208,7 +222,17 @@ Voici le graphe des appelants de cette fonction :</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Définition à la ligne <a class="el" href="validator_8cpp_source.html#l01009">1009</a> du fichier <a class="el" href="validator_8cpp_source.html">validator.cpp</a>.</p>
+<p>Lance <a class="el" href="fonctions__auxiliaires_8hpp.html#a6a6eceeeb38bc24fd24e0acb226c1304">calculer_memoire_requise</a> ou le calcul direct de la mémoire par par les saisies de -n et -N <br />
+ou alors retourne si. </p>
+<pre>--pretend</pre><p> est en ligne de commande. </p><dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">info</td><td>Structure <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les informations de ligne de commande </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>Pointeur nul. Exception en cas d'erreur. </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="validator_8cpp_source.html#l01030">1030</a> du fichier <a class="el" href="validator_8cpp_source.html">validator.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
@@ -281,9 +305,9 @@ Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="validator_8cpp_af23e7af258b590af3650be8ab06708be_icgraph.png" border="0" usemap="#validator_8cpp_af23e7af258b590af3650be8ab06708be_icgraph" alt=""/></div>
 <map name="validator_8cpp_af23e7af258b590af3650be8ab06708be_icgraph" id="validator_8cpp_af23e7af258b590af3650be8ab06708be_icgraph">
-<area shape="rect" id="node2" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="parseFile" alt="" coords="212,5,287,32"/>
-<area shape="rect" id="node6" href="validator_8cpp.html#a5223203a3dc856b4169ea2293035e57a" title="allouer_memoire_table" alt="" coords="173,56,325,83"/>
-<area shape="rect" id="node3" href="validator_8hpp.html#a36359f86441c3ac6219a34f63b8c3da6" title="parse_info" alt="" coords="373,31,456,57"/>
+<area shape="rect" id="node2" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="212,5,287,32"/>
+<area shape="rect" id="node6" href="validator_8cpp.html#a5223203a3dc856b4169ea2293035e57a" title="Alloue la mémoire de la table des données. " alt="" coords="173,56,325,83"/>
+<area shape="rect" id="node3" href="validator_8hpp.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="373,31,456,57"/>
 <area shape="rect" id="node4" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="504,31,629,57"/>
 <area shape="rect" id="node5" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="677,31,728,57"/>
 </map>
@@ -315,13 +339,21 @@ Voici le graphe des appelants de cette fonction :</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Définition à la ligne <a class="el" href="validator_8cpp_source.html#l00928">928</a> du fichier <a class="el" href="validator_8cpp_source.html">validator.cpp</a>.</p>
+<p>Fonction permettant de convertir très efficacement les caractères accentués UTF-8 ou Latin-1 en caractères non accentués et d'effacer les octets superflus après remplacement par des caractères non accentués. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>Caractère au format xmlChar* </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="validator_8cpp_source.html#l00945">945</a> du fichier <a class="el" href="validator_8cpp_source.html">validator.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="validator_8cpp_aa054457564b0f4991283a511f01777e5_icgraph.png" border="0" usemap="#validator_8cpp_aa054457564b0f4991283a511f01777e5_icgraph" alt=""/></div>
 <map name="validator_8cpp_aa054457564b0f4991283a511f01777e5_icgraph" id="validator_8cpp_aa054457564b0f4991283a511f01777e5_icgraph">
-<area shape="rect" id="node2" href="validator_8hpp.html#a36359f86441c3ac6219a34f63b8c3da6" title="parse_info" alt="" coords="188,5,271,32"/>
+<area shape="rect" id="node2" href="validator_8hpp.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="188,5,271,32"/>
 <area shape="rect" id="node3" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="319,5,444,32"/>
 <area shape="rect" id="node4" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="492,5,543,32"/>
 </map>
@@ -345,17 +377,47 @@ Voici le graphe des appelants de cette fonction :</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Définition à la ligne <a class="el" href="validator_8cpp_source.html#l01046">1046</a> du fichier <a class="el" href="validator_8cpp_source.html">validator.cpp</a>.</p>
+<p>Lance l'ensemble des processus de pré-traitement et de post-traitement des fichiers de paye. </p>
+<p><br />
+Pour le pré-traitement : <br />
+</p><ul>
+<li>
+Allocation de la mémoire des tables des structures <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a>  </li>
+<li>
+En cas d'incident de code <a class="el" href="validator_8hpp.html#ab56f9f937902b77e7d2b1e52e004ce84" title="Recommencer l&#39;allocation de mémoire. ">RETRY</a> dans <a class="el" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35">parseFile</a>, tente une réallocation  </li>
+<li>
+En cas d'incident de code <a class="el" href="validator_8hpp.html#ab49e7f441fe09e5ef827696121663a29" title="Sauter le fichier en cours. ">SKIP_FILE</a> dans <a class="el" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35">parseFile</a>, saute le fichier et passe au suivant </li>
+</ul>
+<p>Pour le post-traitement : <br />
+</p><ul>
+<li>
+Vérification de la cohérence de l'allocation mémoire ex-ante et de la mémoire consommée au décodage par libxml2. Exception en cas d'incohérence. </li>
+<li>
+Tentative de codage dans le Grade des assistantes maternelles (A) et des vacataires (V) reconnus par expression régulière </li>
+<li>
+Tentative de codage dans le Statut des élus reconnus par expression régulière (ELU)  </li>
+<li>
+Inférence de la catégorie statutaire A, B, C, à partir d'expressions régulières</li>
+</ul>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">info</td><td>Structure <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les fichiers de paye en mémoire </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>nullptr ou Exception. </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="validator_8cpp_source.html#l01081">1081</a> du fichier <a class="el" href="validator_8cpp_source.html">validator.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="validator_8cpp_a36359f86441c3ac6219a34f63b8c3da6_cgraph.png" border="0" usemap="#validator_8cpp_a36359f86441c3ac6219a34f63b8c3da6_cgraph" alt=""/></div>
 <map name="validator_8cpp_a36359f86441c3ac6219a34f63b8c3da6_cgraph" id="validator_8cpp_a36359f86441c3ac6219a34f63b8c3da6_cgraph">
-<area shape="rect" id="node2" href="validator_8cpp.html#a5223203a3dc856b4169ea2293035e57a" title="allouer_memoire_table" alt="" coords="136,31,288,57"/>
-<area shape="rect" id="node4" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="parseFile" alt="" coords="175,107,249,133"/>
-<area shape="rect" id="node22" href="validator_8cpp.html#aa054457564b0f4991283a511f01777e5" title="normaliser_accents" alt="" coords="145,157,279,184"/>
+<area shape="rect" id="node2" href="validator_8cpp.html#a5223203a3dc856b4169ea2293035e57a" title="Alloue la mémoire de la table des données. " alt="" coords="136,31,288,57"/>
+<area shape="rect" id="node4" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="175,107,249,133"/>
+<area shape="rect" id="node22" href="validator_8cpp.html#aa054457564b0f4991283a511f01777e5" title="Fonction permettant de convertir très efficacement les caractères accentués UTF&#45;8 ou Latin&#45;1 en carac..." alt="" coords="145,157,279,184"/>
 <area shape="rect" id="node3" href="validator_8cpp.html#af23e7af258b590af3650be8ab06708be" title="Définit le besoin de mémoire en octets pour un bulletin de paye de données XML (Table) ..." alt="" coords="337,5,457,32"/>
-<area shape="rect" id="node5" href="validator_8hpp.html#ad164d34b6591a52b6e92b087582fe0cb" title="atteindreNoeud" alt="" coords="1135,157,1246,184"/>
+<area shape="rect" id="node5" href="validator_8hpp.html#ad164d34b6591a52b6e92b087582fe0cb" title="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..." alt="" coords="1135,157,1246,184"/>
 <area shape="rect" id="node6" href="ligne__paye_8hpp.html#a703180379a24b61c33f035b1b8a8f437" title="Affiche un message d&#39;avertissement sur la sortie d&#39;erreur lorsqu&#39;un noeud XML ne peut être atteint..." alt="" coords="929,376,1028,403"/>
 <area shape="rect" id="node7" href="fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="1100,532,1281,559"/>
 <area shape="rect" id="node8" href="validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="336,391,459,417"/>
@@ -410,13 +472,24 @@ Voici le graphe des appelants de cette fonction :</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Définition à la ligne <a class="el" href="validator_8cpp_source.html#l00081">81</a> du fichier <a class="el" href="validator_8cpp_source.html">validator.cpp</a>.</p>
+<p>Décode une structure <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données de paye à l'état brut "fichier" (. </p>
+<pre> info.threads-&gt;in_memory_file </pre><p> ou </p><pre> info.threads-&gt;argv </pre><p>) Commence par décoder Annee, Mois, Budget, Siret, Employeur, puis lance le décodage des données de paye individuelles, agent par agent, pour l'ensemble du fichier A chaque bulletin de paye de l'agent, lance <a class="el" href="validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2">parseLignesPaye</a> </p><dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">info</td><td>Structure <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les fichiers de paye en mémoire vive et les champs à remplir par le décodage libxml2. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd><a class="el" href="validator_8hpp.html#ab49e7f441fe09e5ef827696121663a29" title="Sauter le fichier en cours. ">SKIP_FILE</a> si le fichier doit être sauté pour une raison ou pour une autre <br />
+ou bien <a class="el" href="validator_8hpp.html#ab56f9f937902b77e7d2b1e52e004ce84" title="Recommencer l&#39;allocation de mémoire. ">RETRY</a> si le décodage est essayé à nouveau <br />
+sinon 0 en cas de succès. </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="validator_8cpp_source.html#l00087">87</a> du fichier <a class="el" href="validator_8cpp_source.html">validator.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="validator_8cpp_ae1ac2699ac4449a4a9a16b0e37234b35_cgraph.png" border="0" usemap="#validator_8cpp_ae1ac2699ac4449a4a9a16b0e37234b35_cgraph" alt=""/></div>
 <map name="validator_8cpp_ae1ac2699ac4449a4a9a16b0e37234b35_cgraph" id="validator_8cpp_ae1ac2699ac4449a4a9a16b0e37234b35_cgraph">
-<area shape="rect" id="node2" href="validator_8hpp.html#ad164d34b6591a52b6e92b087582fe0cb" title="atteindreNoeud" alt="" coords="927,43,1038,69"/>
+<area shape="rect" id="node2" href="validator_8hpp.html#ad164d34b6591a52b6e92b087582fe0cb" title="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..." alt="" coords="927,43,1038,69"/>
 <area shape="rect" id="node3" href="ligne__paye_8hpp.html#a703180379a24b61c33f035b1b8a8f437" title="Affiche un message d&#39;avertissement sur la sortie d&#39;erreur lorsqu&#39;un noeud XML ne peut être atteint..." alt="" coords="721,261,820,288"/>
 <area shape="rect" id="node4" href="fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="892,417,1073,444"/>
 <area shape="rect" id="node5" href="validator_8cpp.html#af23e7af258b590af3650be8ab06708be" title="Définit le besoin de mémoire en octets pour un bulletin de paye de données XML (Table) ..." alt="" coords="129,617,249,644"/>
@@ -441,7 +514,7 @@ Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="validator_8cpp_ae1ac2699ac4449a4a9a16b0e37234b35_icgraph.png" border="0" usemap="#validator_8cpp_ae1ac2699ac4449a4a9a16b0e37234b35_icgraph" alt=""/></div>
 <map name="validator_8cpp_ae1ac2699ac4449a4a9a16b0e37234b35_icgraph" id="validator_8cpp_ae1ac2699ac4449a4a9a16b0e37234b35_icgraph">
-<area shape="rect" id="node2" href="validator_8hpp.html#a36359f86441c3ac6219a34f63b8c3da6" title="parse_info" alt="" coords="128,5,211,32"/>
+<area shape="rect" id="node2" href="validator_8hpp.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="128,5,211,32"/>
 <area shape="rect" id="node3" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="259,5,384,32"/>
 <area shape="rect" id="node4" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="432,5,483,32"/>
 </map>
@@ -492,7 +565,7 @@ Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="validator_8cpp_abdf1df3dd61991073a485a3e5d8addd2_cgraph.png" border="0" usemap="#validator_8cpp_abdf1df3dd61991073a485a3e5d8addd2_cgraph" alt=""/></div>
 <map name="validator_8cpp_abdf1df3dd61991073a485a3e5d8addd2_cgraph" id="validator_8cpp_abdf1df3dd61991073a485a3e5d8addd2_cgraph">
-<area shape="rect" id="node2" href="validator_8hpp.html#ad164d34b6591a52b6e92b087582fe0cb" title="atteindreNoeud" alt="" coords="805,166,915,193"/>
+<area shape="rect" id="node2" href="validator_8hpp.html#ad164d34b6591a52b6e92b087582fe0cb" title="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..." alt="" coords="805,166,915,193"/>
 <area shape="rect" id="node3" href="ligne__paye_8cpp.html#a1387e6beec261819622addf319a581c7" title="Concatène la propriété &quot;V&quot; du noeud cur passé en premier argument avec la chaîne contenue de la table..." alt="" coords="617,325,679,351"/>
 <area shape="rect" id="node5" href="ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud &lt;PayeIndivMensuel&gt; " alt="" coords="211,194,289,221"/>
 <area shape="rect" id="node9" href="fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="769,274,951,301"/>
@@ -514,8 +587,8 @@ Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="validator_8cpp_abdf1df3dd61991073a485a3e5d8addd2_icgraph.png" border="0" usemap="#validator_8cpp_abdf1df3dd61991073a485a3e5d8addd2_icgraph" alt=""/></div>
 <map name="validator_8cpp_abdf1df3dd61991073a485a3e5d8addd2_icgraph" id="validator_8cpp_abdf1df3dd61991073a485a3e5d8addd2_icgraph">
-<area shape="rect" id="node2" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="parseFile" alt="" coords="176,5,251,32"/>
-<area shape="rect" id="node3" href="validator_8hpp.html#a36359f86441c3ac6219a34f63b8c3da6" title="parse_info" alt="" coords="299,5,381,32"/>
+<area shape="rect" id="node2" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="176,5,251,32"/>
+<area shape="rect" id="node3" href="validator_8hpp.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="299,5,381,32"/>
 <area shape="rect" id="node4" href="main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="429,5,555,32"/>
 <area shape="rect" id="node5" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="603,5,653,32"/>
 </map>

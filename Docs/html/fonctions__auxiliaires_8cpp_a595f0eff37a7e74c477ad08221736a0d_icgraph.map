@@ -1,10 +1,10 @@
 <map id="afficher_environnement_xhl" name="afficher_environnement_xhl">
 <area shape="rect" id="node2" href="$ligne__paye_8cpp.html#a45ce15888cd33c4753e852fce36fb56e" title="Appelle Bulletin et affiche l&#39;interprétation des erreurs. " alt="" coords="394,93,523,120"/>
 <area shape="rect" id="node4" href="$validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="711,93,833,120"/>
-<area shape="rect" id="node5" href="$validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="parseFile" alt="" coords="881,93,956,120"/>
+<area shape="rect" id="node5" href="$validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="881,93,956,120"/>
 <area shape="rect" id="node9" href="$ligne__paye_8hpp.html#a703180379a24b61c33f035b1b8a8f437" title="Affiche un message d&#39;avertissement sur la sortie d&#39;erreur lorsqu&#39;un noeud XML ne peut être atteint..." alt="" coords="235,173,333,200"/>
 <area shape="rect" id="node3" href="$ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud &lt;PayeIndivMensuel&gt; " alt="" coords="584,144,663,171"/>
-<area shape="rect" id="node6" href="$validator_8hpp.html#a36359f86441c3ac6219a34f63b8c3da6" title="parse_info" alt="" coords="1004,93,1087,120"/>
+<area shape="rect" id="node6" href="$validator_8hpp.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="1004,93,1087,120"/>
 <area shape="rect" id="node7" href="$main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="1135,93,1260,120"/>
 <area shape="rect" id="node8" href="$main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1308,93,1359,120"/>
 <area shape="rect" id="node10" href="$ligne__paye_8cpp.html#a4a91586d82e91ad3e3c02355b57c9e09" title="Appelle Bulletin. " alt="" coords="381,144,536,171"/>

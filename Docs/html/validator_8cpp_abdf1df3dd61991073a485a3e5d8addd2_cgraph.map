@@ -1,5 +1,5 @@
 <map id="parseLignesPaye" name="parseLignesPaye">
-<area shape="rect" id="node2" href="$validator_8hpp.html#ad164d34b6591a52b6e92b087582fe0cb" title="atteindreNoeud" alt="" coords="805,166,915,193"/>
+<area shape="rect" id="node2" href="$validator_8hpp.html#ad164d34b6591a52b6e92b087582fe0cb" title="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..." alt="" coords="805,166,915,193"/>
 <area shape="rect" id="node3" href="$ligne__paye_8cpp.html#a1387e6beec261819622addf319a581c7" title="Concatène la propriété &quot;V&quot; du noeud cur passé en premier argument avec la chaîne contenue de la table..." alt="" coords="617,325,679,351"/>
 <area shape="rect" id="node5" href="$ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud &lt;PayeIndivMensuel&gt; " alt="" coords="211,194,289,221"/>
 <area shape="rect" id="node9" href="$fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="769,274,951,301"/>

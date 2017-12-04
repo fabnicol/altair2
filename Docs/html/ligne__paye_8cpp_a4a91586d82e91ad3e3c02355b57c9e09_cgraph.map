@@ -1,7 +1,7 @@
 <map id="bulletin_optionnel_char" name="bulletin_optionnel_char">
 <area shape="rect" id="node2" href="$ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5" title="Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit. " alt="" coords="225,56,290,83"/>
 <area shape="rect" id="node5" href="$ligne__paye_8hpp.html#a703180379a24b61c33f035b1b8a8f437" title="Affiche un message d&#39;avertissement sur la sortie d&#39;erreur lorsqu&#39;un noeud XML ne peut être atteint..." alt="" coords="208,107,307,133"/>
-<area shape="rect" id="node3" href="$validator_8hpp.html#ad164d34b6591a52b6e92b087582fe0cb" title="atteindreNoeud" alt="" coords="390,5,501,32"/>
+<area shape="rect" id="node3" href="$validator_8hpp.html#ad164d34b6591a52b6e92b087582fe0cb" title="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..." alt="" coords="390,5,501,32"/>
 <area shape="rect" id="node4" href="$ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le &#160;&#160;caractère &#39;_&#39;..." alt="" coords="412,56,479,83"/>
 <area shape="rect" id="node6" href="$fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="355,107,536,133"/>
 </map>
