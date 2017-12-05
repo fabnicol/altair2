@@ -261,7 +261,6 @@ void Altair::runWorker(const QString& subdir)
     updateProject(true);
 
     rankFile.setFileName(sharedir + "/rank");
-    stateFile.setFileName(sharedir + "/processing");
 
     if (! rankFile.exists())
         rankFile.open(QIODevice::WriteOnly);

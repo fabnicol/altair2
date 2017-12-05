@@ -40,6 +40,10 @@
 #ifndef ALTAIR_H
 #define ALTAIR_H
 
+/// \file altair.h
+/// \author Fabrice Nicol
+/// \brief Code de la classe principale Altair, qui joue le rôle d'agent de l'interface graphique
+
 #include "fstring.h"
 #include "flistframe.h"
 #include "fwidgets.h"
@@ -57,43 +61,78 @@ class Altair : public FDialog, public common
 
 public:
 
-    Altair();
-    QTextEdit *outputTextEdit = new QTextEdit;
-    void setCurrentFile(const QString &fileName);
-    const QStringList  XML_FILTERS = {"*.xml", "*.xhl", "*.XML", "*.XHL"};    
-    MainWindow *parent;
-    enum { MaxRecentFiles = 5 };
-    static std::uint16_t RefreshFlag;
-    static int dialVolume;
-    QFileSystemModel *model = nullptr;
-    QTreeWidget *managerWidget= new QTreeWidget;
-    QTreeView *fileTreeView = nullptr;
-    QString projectName;
-    FListFrame *project;
+  // Membres données
 
+    Altair();
+
+    MainWindow *parent; ///< Interface graphique dont cette classe est l'agent.
+
+    enum { MaxRecentFiles = 5 ///< Maximum de la liste des fichiers récents
+    };
+
+    FListFrame *project; ///< Occurrence de la classe englobant les contenus de l'onglet central
+
+    QTextEdit *outputTextEdit = new QTextEdit; ///< onglet des messages en bas de l'interface
+    QFileSystemModel *model = nullptr; ///< Modèle Qt de l'arborescence de fichiers de l'exporateur de fichiers à gauche de l'interface
+    QTreeView *fileTreeView = nullptr; ///< Vue associée
+    QTreeWidget *managerWidget= new QTreeWidget; ///< Arbre du gestionnaire de projet à droite de l'interface
+
+
+
+    QFile rankFile; ///< Fichier permettant de lire l'indice de progression de l'application noyau lhx et d'ajuster la barre de progression de manière dynamique
+    QString projectName; ///< Nom du projet .alt
+    QString rootDir = ""; ///< Fichier racine des données
+    QString username; ///< NOm de l'utilisateur Unix
+
+    const QStringList  XML_FILTERS = {"*.xml", "*.xhl", "*.XML", "*.XHL"}; ///< Liste des extensions valides pour les fichiers entrants
+
+    static std::uint16_t RefreshFlag; ///< Drapeau permettant d'indiquer l'état de rafraichissement de l'interface.
+
+
+  // Méthodes
+
+    /// Efface les onglets, le gestionnaire de projet et lit le projet .alt en cours
     bool clearInterfaceAndParseProject();
     
+    /// Remplace un nom de projet vide par un nom par défaut
     void checkEmptyProjectName()
       {
          if (projectName.isEmpty())
             projectName = userdatadir + QString("défaut.alt");
       }
 
+    /// Début du glisser-déplacer
     void startDrag();
+
+    /// Fonction réimplémentée : événement du déplacement de la souris
     void dragMoveEvent(QDragMoveEvent *event);
+
+    /// Fonction réimplémentée : début du déplacement de la souris
     void dragEnterEvent(QDragEnterEvent *event);
+
+    /// Fonction réimplémentée : fin du déplacement de la souris
     void dropEvent(QDropEvent *event);
-    QPoint startPos;
-    QFile rankFile;
-    QFile stateFile;
-    QString fileTreeFile;
-    QString rootDir = "";
+
+    /// Assigner le fichier courant
+    void setCurrentFile(const QString &fileName);
+
+    /// Renvoie la taille des données exportées
     qint64 size() { return Altair::totalSize[0]; }
+
+    /// Rafraîchit le gestionnaire de projet à la droite de l'interface.
+    /// \param \ref manager::refreshAllZones ou bien \ref manager::refreshXHLZone, \ref manager::refreshNBulletins, \ref manager::refreshSystemZone, selon la zone à rafraichir.
     void refreshProjectManagerValues(std::uint16_t = manager::refreshAllZones );
 
+    /// Rafraîchit le gestionnaire de projet à la droite de l'interface. Fonction globale par défaut.
+    bool refreshProjectManager();
+
+    /// Renvoie le widget fonctionnel associé à la barre de progression
     FProgressBar* getProgressBar() { return progress; }
 
+    /// Accesseur en lecture de \ref fileCount
     inline int getFileCount() {return fileCount;}
+
+    /// Lit le fichier \ref rankFile pour l'index de la barre progression, le lit dans \ref fileRank et ajuste la barre de progression
     inline void __attribute__((always_inline)) readRankSignal()
     {
             if (! rankFile.exists()) return;
@@ -109,12 +148,16 @@ public:
 
     }
 
-    bool refreshProjectManager();
-    void setProcessMsg(const QString& msg) {processMsg =  msg; }
+    /// Crée une ligne de commande
     QStringList createCommandLineString(const QStringList &L = QStringList());
+
+    /// Ecrit le fichier de projet .alt
     void writeProjectFile();
+
+    /// Rafraichit la vue d'arbre \ref fileTreeView de l'exporateur de fichiers à gauche de l'interface
+    /// \param create (= false) Si \e true, alloue la vue.
     void refreshTreeView(bool create=false);
-    QString username;
+
     
 public slots:
 
@@ -153,7 +196,7 @@ private:
 
     bool hasIndexChanged;
     int myTimerId = 0;
-    int fileCount = 0;
+    int fileCount = 0; ///< Nombre de fichiers de paye en input de la ligne de commande
     int row = 0;
     uint currentIndex = 0;
     qint64 value = 0;

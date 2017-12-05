@@ -1,0 +1,38 @@
+<map id="Altair::processSecondLevelData" name="Altair::processSecondLevelData">
+<area shape="rect" id="node2" href="$class_altair.html#a45f599288745eb6bc53155a85fb5dc1a" title="Rafraîchit le gestionnaire de projet à la droite de l&#39;interface. " alt="" coords="263,1240,453,1282"/>
+<area shape="rect" id="node3" href="$class_altair.html#a5b3c33b6ae4f6b57b5593245751ef203" title="Altair::clearProjectData" alt="" coords="501,1197,659,1224"/>
+<area shape="rect" id="node19" href="$class_altair.html#ac2c564092ba321a22bd6a86a6ed66190" title="Altair::parseProjectFile" alt="" coords="1821,1197,1976,1224"/>
+<area shape="rect" id="node20" href="$class_altair.html#ac9d7d8e7cebf70212818f1a8ba7d7d78" title="Rafraîchit le gestionnaire de projet à la droite de l&#39;interface. Fonction globale par défaut..." alt="" coords="2024,1197,2215,1224"/>
+<area shape="rect" id="node32" href="$class_altair.html#a78a2870bb9b316c5ad6bcbd64471eeb8" title="Renvoie la taille des données exportées. " alt="" coords="2299,1096,2383,1122"/>
+<area shape="rect" id="node4" href="$class_altair.html#ab67e3285c4a6c8fb48d12381ea6ac6bd" title="Altair::closeProject" alt="" coords="707,776,839,802"/>
+<area shape="rect" id="node5" href="$class_altair.html#ae0975ced0a36e0ed889ae06043a4df66" title="Altair::Altair" alt="" coords="2774,788,2865,814"/>
+<area shape="rect" id="node6" href="$class_altair.html#a2e9b932b1dbf45bf9ad0db41dce474b6" title="Altair::on_newProjectButton\l_clicked" alt="" coords="1589,51,1773,92"/>
+<area shape="rect" id="node7" href="$class_altair.html#a4bf6dfedf20c082376c7146710e7f127" title="Lit le fichier rankFile pour l&#39;index de la barre progression, le lit dans fileRank et ajuste la barre..." alt="" coords="3491,762,3625,789"/>
+<area shape="rect" id="node8" href="$class_altair.html#ab98d384297c6b94ff65a683eb5f99633" title="Altair::on_openProjectButton\l_clicked" alt="" coords="3255,784,3443,826"/>
+<area shape="rect" id="node9" href="$class_altair.html#a84cf34107cd413ab33800b583bdef59e" title="Altair::openProjectFile" alt="" coords="887,893,1037,920"/>
+<area shape="rect" id="node25" href="$class_altair.html#a1afa285a65e0bdff4c761ad05ec9f8df" title="Fonction réimplémentée : fin du déplacement de la souris. " alt="" coords="2507,1146,2626,1173"/>
+<area shape="rect" id="node35" href="$class_altair.html#a2f6882c170016e2d7729058b08896a1d" title="Altair::killProcess" alt="" coords="1619,269,1743,296"/>
+<area shape="rect" id="node10" href="$class_altair.html#a52076f38f63affb6f08acf787dcfea09" title="Altair::processFinished" alt="" coords="1085,893,1240,920"/>
+<area shape="rect" id="node11" href="$class_altair.html#a7d10f8ecf4097577885172afb6c2e9c6" title="Altair::run" alt="" coords="1288,446,1367,473"/>
+<area shape="rect" id="node12" href="$class_altair.html#a4995cdc9462838289b5b1df75edba552" title="Altair::textAppend" alt="" coords="1415,446,1541,473"/>
+<area shape="rect" id="node13" href="$class_altair.html#a750cc65076dd04ac4d34f486b84a7026" title="Altair::importData" alt="" coords="2057,168,2181,194"/>
+<area shape="rect" id="node14" href="$class_altair.html#a4fad8882e9af3420d9815a123597d33f" title="Altair::on_helpButton\l_clicked" alt="" coords="1610,827,1753,868"/>
+<area shape="rect" id="node15" href="$class_altair.html#a16c9e4332678b243ec200e215d03a643" title="Altair::displayTotalSize" alt="" coords="2263,733,2419,760"/>
+<area shape="rect" id="node18" href="$class_altair.html#a8b7b1fa3e0b567dc1d4721bf88087a68" title="Altair::assignWidgetValues" alt="" coords="1592,1045,1771,1072"/>
+<area shape="rect" id="node29" href="$class_altair.html#a08b5e402c9a694af09110afe33219080" title="Altair::runWorker" alt="" coords="2507,370,2627,397"/>
+<area shape="rect" id="node31" href="$class_altair.html#a16b8035c4383a789cd00b687fb105fe9" title="Altair::processFinished" alt="" coords="3012,421,3167,448"/>
+<area shape="rect" id="node34" href="$class_altair.html#afd71c35a3a71291b0d4eece1058de4f0" title="Altair::runRAltair" alt="" coords="1622,421,1741,448"/>
+<area shape="rect" id="node36" href="$class_altair.html#add0ab6760227a6edc57f4153f407d982" title="Altair::printMsg" alt="" coords="1626,573,1737,600"/>
+<area shape="rect" id="node16" href="$class_altair.html#ab913abfdd0c6fbbceb9a051a4443d5fa" title="Altair::deleteGroup" alt="" coords="2501,842,2632,869"/>
+<area shape="rect" id="node17" href="$class_altair.html#a299584936cc20c9a1451977264eba1f5" title="Altair::on_deleteItem\l_clicked" alt="" coords="2495,726,2638,767"/>
+<area shape="rect" id="node21" href="$class_altair.html#acaa583766e1c062ea311847fcdd35374" title="Efface les onglets, le gestionnaire de projet et lit le projet .alt en cours. " alt="" coords="2738,1240,2901,1282"/>
+<area shape="rect" id="node23" href="$class_altair.html#a6e54e0ed3eb1ce060c53ad6122386291" title="Altair::updateProject" alt="" coords="2271,944,2411,970"/>
+<area shape="rect" id="node22" href="$class_altair.html#aa341707131924eff160bcab41422d1ec" title="Altair::openProjectFileCommonCode" alt="" coords="2972,1146,3207,1173"/>
+<area shape="rect" id="node24" href="$class_altair.html#aab5da600c227ac7eb604fa24a9308d26" title="Altair::requestSaveProject" alt="" coords="2479,1096,2654,1122"/>
+<area shape="rect" id="node28" href="$classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" title="options::options" alt="" coords="2509,944,2624,970"/>
+<area shape="rect" id="node26" href="$class_altair.html#a9df2266cd3e2a9905e74bb41c1f9415d" title="Remplace un nom de projet vide par un nom par défaut. " alt="" coords="2715,1146,2924,1173"/>
+<area shape="rect" id="node27" href="$class_altair.html#a43120f9909d0284074119529a03df85b" title="Ecrit le fichier de projet .alt. " alt="" coords="3014,994,3165,1021"/>
+<area shape="rect" id="node30" href="$class_altair.html#ae04f2a5771d47bbe2e0cc3a11b72d6bf" title="Altair::runWorkerDistributed" alt="" coords="2728,370,2911,397"/>
+<area shape="rect" id="node33" href="$class_altair.html#a9994693b3dbb6941b4096dc732c92e73" title="Altair::refreshRowPresentation" alt="" coords="2467,1197,2667,1224"/>
+<area shape="rect" id="node37" href="$class_altair.html#abeafd88b78402bf56667663d6c05d367" title="Altair::printBaseSize" alt="" coords="1828,573,1969,600"/>
+</map>

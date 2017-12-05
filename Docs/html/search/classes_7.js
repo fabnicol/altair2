@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['xml',['Xml',['../class_xml.html',1,'']]]
+  ['options',['options',['../classoptions.html',1,'']]]
 ];
