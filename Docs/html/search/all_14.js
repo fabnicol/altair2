@@ -1,13 +1,8 @@
 var searchData=
 [
-  ['validator_2ecpp',['validator.cpp',['../validator_8cpp.html',1,'']]],
-  ['validator_2ehpp',['validator.hpp',['../validator_8hpp.html',1,'']]],
-  ['var',['VAR',['../table_8cpp.html#a57a4f130db7a35f46be02c36d8235550',1,'VAR():&#160;table.cpp'],['../validator_8cpp.html#a57a4f130db7a35f46be02c36d8235550',1,'VAR():&#160;validator.cpp']]],
-  ['vbull',['vbull',['../main_8cpp.html#a812adbbf21919943e1134c287edfa25c',1,'main.cpp']]],
-  ['verbeux',['verbeux',['../fonctions__auxiliaires_8cpp.html#ad0cc56f38d8a53ce4438bdc86a30bfa0',1,'verbeux():&#160;main.cpp'],['../ligne__paye_8hpp.html#ad0cc56f38d8a53ce4438bdc86a30bfa0',1,'verbeux():&#160;main.cpp'],['../main_8cpp.html#ad0cc56f38d8a53ce4438bdc86a30bfa0',1,'verbeux():&#160;main.cpp'],['../table_8hpp.html#ad0cc56f38d8a53ce4438bdc86a30bfa0',1,'verbeux():&#160;main.cpp']]],
-  ['verifier_5ftaille',['verifier_taille',['../ligne__paye_8hpp.html#a1918a95b8d7eafcb07bcf867242b3514',1,'ligne_paye.hpp']]],
-  ['verifmem',['verifmem',['../structinfo__t.html#a2fec42b48d023f693aaf3319e8b10302',1,'info_t']]],
-  ['veterinaire',['VETERINAIRE',['../expression__reg__cata_8hpp.html#ac3207b4410857bf3af37b96498829c90',1,'expression_reg_cata.hpp']]],
-  ['vice_5fpresident',['VICE_PRESIDENT',['../expression__reg__elus_8hpp.html#a121d482ebd65016872112862645fa499',1,'expression_reg_elus.hpp']]],
-  ['vstring',['vString',['../main_8cpp.html#a4dd0e07b4998ebe199d690d4eada983f',1,'main.cpp']]]
+  ['updateindexchangeinfo',['updateIndexChangeInfo',['../class_altair.html#a8ed1f86e14168d628bdf8759d55bcc92',1,'Altair']]],
+  ['updateindexinfo',['updateIndexInfo',['../class_altair.html#a94c37375266a849cb43570457163db13',1,'Altair']]],
+  ['updateproject',['updateProject',['../class_altair.html#a6e54e0ed3eb1ce060c53ad6122386291',1,'Altair']]],
+  ['updaterecentfileactions',['updateRecentFileActions',['../class_main_window.html#affa76730fa370a3466b62a4caee721e3',1,'MainWindow']]],
+  ['username',['username',['../class_altair.html#a0251bd01be686b604b1d2c4cb8c00ae9',1,'Altair']]]
 ];

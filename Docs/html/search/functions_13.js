@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['_7eanalyseur',['~Analyseur',['../class_analyseur.html#ae18b83474551367dc6e7efb6acdc858c',1,'Analyseur']]],
-  ['_7ecommandline',['~Commandline',['../class_commandline.html#ad81012b9b63935cdd54a52db2a931fe9',1,'Commandline']]],
-  ['_7ethread_5fhandler',['~thread_handler',['../classthread__handler.html#af578394fb123fc78dd71594a8c84703d',1,'thread_handler']]]
+  ['updateindexchangeinfo',['updateIndexChangeInfo',['../class_altair.html#a8ed1f86e14168d628bdf8759d55bcc92',1,'Altair']]],
+  ['updateindexinfo',['updateIndexInfo',['../class_altair.html#a94c37375266a849cb43570457163db13',1,'Altair']]],
+  ['updateproject',['updateProject',['../class_altair.html#a6e54e0ed3eb1ce060c53ad6122386291',1,'Altair']]],
+  ['updaterecentfileactions',['updateRecentFileActions',['../class_main_window.html#affa76730fa370a3466b62a4caee721e3',1,'MainWindow']]]
 ];

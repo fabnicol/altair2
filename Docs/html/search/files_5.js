@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['table_2ecpp',['table.cpp',['../table_8cpp.html',1,'']]],
-  ['table_2ehpp',['table.hpp',['../table_8hpp.html',1,'']]]
+  ['highlighter_2ecpp',['highlighter.cpp',['../highlighter_8cpp.html',1,'']]],
+  ['highlighter_2eh',['highlighter.h',['../highlighter_8h.html',1,'']]]
 ];

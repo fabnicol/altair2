@@ -1,7 +1,11 @@
 var searchData=
 [
-  ['liberer_5fmemoire',['liberer_memoire',['../main_8cpp.html#a3cda7bdf925b202f5cbda9e3c3ddcf81',1,'main.cpp']]],
-  ['ligne_5fdebut',['ligne_debut',['../structinfo__t.html#a66d51402a6b120da15d2f4e736d16e93',1,'info_t']]],
-  ['ligne_5ffin',['ligne_fin',['../structinfo__t.html#a9c8b33f92cf07a36781ff9aee58f4211',1,'info_t']]],
-  ['linen',['lineN',['../structerror_line__t.html#aa3eb41b4851c835b1dadfa68f03b8d3b',1,'errorLine_t']]]
+  ['hasindexchanged',['hasIndexChanged',['../class_altair.html#af64392f7e402be8c432adb3be537bdea',1,'Altair']]],
+  ['hassavedoptions',['hasSavedOptions',['../classinterface_status.html#a753d8d7ec9d96e22d2480c9f64306da2',1,'interfaceStatus']]],
+  ['hassavedoptionsmask',['hasSavedOptionsMask',['../classinterface_status.html#a17baea881e45c279e417e194240e66b4',1,'interfaceStatus']]],
+  ['hasunsavedoptions',['hasUnsavedOptions',['../classinterface_status.html#af730c3975a97a6209ef3f7bdd1fb5fa4',1,'interfaceStatus']]],
+  ['height',['height',['../class_main_window.html#af1d653658cae4585c7124a33bda496ed',1,'MainWindow']]],
+  ['helpaction',['helpAction',['../class_main_window.html#add8f4264db92b536da73c849e14bd3c7',1,'MainWindow']]],
+  ['highlighter',['highlighter',['../class_main_window.html#ae653e799d7c4b702ad23f9a5f5b134e7',1,'MainWindow']]],
+  ['highlightingrules',['highlightingRules',['../class_highlighter.html#aa23f8b3f4ddd1354f508b46d77897fe5',1,'Highlighter']]]
 ];
