@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['quad',['quad',['../structquad.html',1,'']]]
+  ['linecount',['LineCount',['../struct_line_count.html',1,'']]]
 ];

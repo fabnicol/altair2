@@ -1,6 +1,26 @@
 var searchData=
 [
-  ['vbull',['vbull',['../main_8cpp.html#a812adbbf21919943e1134c287edfa25c',1,'main.cpp']]],
-  ['verbeux',['verbeux',['../fonctions__auxiliaires_8cpp.html#ad0cc56f38d8a53ce4438bdc86a30bfa0',1,'verbeux():&#160;main.cpp'],['../ligne__paye_8hpp.html#ad0cc56f38d8a53ce4438bdc86a30bfa0',1,'verbeux():&#160;main.cpp'],['../main_8cpp.html#ad0cc56f38d8a53ce4438bdc86a30bfa0',1,'verbeux():&#160;main.cpp'],['../table_8hpp.html#ad0cc56f38d8a53ce4438bdc86a30bfa0',1,'verbeux():&#160;main.cpp']]],
-  ['verifmem',['verifmem',['../structinfo__t.html#a2fec42b48d023f693aaf3319e8b10302',1,'info_t']]]
+  ['pageswidget',['pagesWidget',['../classoptions.html#aabfe2c2cca901cca5a4ad87e859273d8',1,'options']]],
+  ['parent',['parent',['../class_altair.html#abf95754e4d2285aef5b179bc9ef3b4eb',1,'Altair']]],
+  ['parsexml',['parseXml',['../classinterface_status.html#a3818ccabac4fafcc8611f34944b71ede',1,'interfaceStatus']]],
+  ['parsexmlmask',['parseXmlMask',['../classinterface_status.html#ad31f5fd44735fa1f7bdaf90e971ef4ae',1,'interfaceStatus']]],
+  ['pattern',['pattern',['../struct_highlighter_1_1_highlighting_rule.html#aaecab525cb637802e0c4a10e8832cd84',1,'Highlighter::HighlightingRule']]],
+  ['pres',['pres',['../structerror_line__t.html#af3e0e432d383c8cb43ff84552bc1a8f6',1,'errorLine_t']]],
+  ['pretend',['pretend',['../structinfo__t.html#ace62f41d04da3b35ae08765a4b0be223',1,'info_t']]],
+  ['printbaseaction',['printBaseAction',['../class_main_window.html#a3163a4d57e6826bb75847ec03fc2754b',1,'MainWindow']]],
+  ['process',['process',['../class_main_window.html#a4197eadc38249310fba62bbbdf440c48',1,'MainWindow']]],
+  ['processmenu',['processMenu',['../class_main_window.html#a30007af7ad6d23b9f44f5971f3dc95a8',1,'MainWindow']]],
+  ['processmsg',['processMsg',['../class_altair.html#a53c95ee416187c729161cf7c147b539e',1,'Altair']]],
+  ['processtab',['processTab',['../classoptions.html#a685ad984f0540b95970659d172d1da4e',1,'options']]],
+  ['processtoolbar',['processToolBar',['../class_main_window.html#a153817ffb5d24b333e1f581cd5454e82',1,'MainWindow']]],
+  ['processtoolbaraction',['processToolBarAction',['../class_main_window.html#ae3b635bacdf27c77308fa55b44a441d2',1,'MainWindow']]],
+  ['processtypebox',['processTypeBox',['../classprocess_page.html#ac9d89a5a06c053514e6c655a090c8cd5',1,'processPage']]],
+  ['processtypewidget',['processTypeWidget',['../classprocess_page.html#a90fe0f3345c4f3e91612bd7217f45e38',1,'processPage::processTypeWidget()'],['../classstandard_page.html#a412ed9056bc1b83fa701a0b28fc4fae3',1,'standardPage::processTypeWidget()']]],
+  ['progress',['progress',['../class_altair.html#a73c07f0548862cfeecdd5e58c5db17bd',1,'Altair']]],
+  ['progresslayout',['progressLayout',['../class_altair.html#a26e961c8c8a8b8cc0f181b36d0cd61fc',1,'Altair']]],
+  ['project',['project',['../class_altair.html#aa2a75bb1459908902ea2ebb8854ea925',1,'Altair']]],
+  ['projectfile',['projectFile',['../class_main_window.html#abbba0dfc80aca622015f2dfe15936660',1,'MainWindow']]],
+  ['projectfilestatus',['projectFileStatus',['../class_main_window.html#aeff3526f04fb06a948f7a6678f2db28e',1,'MainWindow']]],
+  ['projectname',['projectName',['../class_altair.html#a3335254a35dba3e52590616616a43aa0',1,'Altair']]],
+  ['prologue_5fcodes_5fpath',['prologue_codes_path',['../classcode_page.html#a5b953a3cea059f199d0b63b9b7cb8b38',1,'codePage']]]
 ];

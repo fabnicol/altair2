@@ -1,0 +1,5 @@
+<map id="Altair::refreshTreeView" name="Altair::refreshTreeView">
+<area shape="rect" id="node2" href="$class_altair.html#ae0975ced0a36e0ed889ae06043a4df66" title="Altair::Altair" alt="" coords="225,5,315,32"/>
+<area shape="rect" id="node3" href="$class_altair.html#a750cc65076dd04ac4d34f486b84a7026" title="Altair::importData" alt="" coords="208,56,332,83"/>
+<area shape="rect" id="node4" href="$class_altair.html#a4bf6dfedf20c082376c7146710e7f127" title="Lit le fichier rankFile pour l&#39;index de la barre progression, le lit dans fileRank et ajuste la barre..." alt="" coords="380,81,515,108"/>
+</map>

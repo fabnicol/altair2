@@ -1,6 +1,17 @@
 var searchData=
 [
-  ['select_5fechelon',['select_echelon',['../structinfo__t.html#a66112c94cd2f36092f804aa93c1ec319',1,'info_t']]],
-  ['select_5fsiret',['select_siret',['../structinfo__t.html#a4b41140964bf3f26585a0ebe7664a2e0',1,'info_t']]],
-  ['separateur',['separateur',['../structinfo__t.html#aafbb87a85d63d1e955cbf397700d275a',1,'info_t']]]
+  ['nagent',['NAgent',['../structinfo__t.html#a61109959a20ca2e661751a4f9610087a',1,'info_t']]],
+  ['nbagentutilisateur',['nbAgentUtilisateur',['../structinfo__t.html#a00a021f30ecba8083a5c2e4826d2b8ce',1,'info_t']]],
+  ['nbfil',['nbfil',['../structinfo__t.html#a7e5047d3e131ef45bcea7d5d98e6084e',1,'info_t']]],
+  ['nbligne',['nbLigne',['../structinfo__t.html#a44d9ac495219fc9e5339a775a5334ac1',1,'info_t']]],
+  ['nblignepaye',['nbLignePaye',['../struct_line_count.html#a1c34f68cd710322c80c7407a0703483e',1,'LineCount']]],
+  ['nbligneutilisateur',['nbLigneUtilisateur',['../structinfo__t.html#ac91699dd96e38906f73ffce3d8d51dee',1,'info_t']]],
+  ['nbtype',['nbType',['../validator_8hpp.html#a4cbe6c13994c407c22b04129ae4c259b',1,'validator.hpp']]],
+  ['ncumagent',['NCumAgent',['../structinfo__t.html#a7bd46092bdd45e4e5f2b7b41a995b5b8',1,'info_t']]],
+  ['ncumagentxml',['NCumAgentXml',['../structinfo__t.html#af493decd399759a6afb37ed02f66a4cf',1,'info_t']]],
+  ['newaction',['newAction',['../class_main_window.html#a5bcdb8d44feeff7d1bcb21f66a164255',1,'MainWindow']]],
+  ['nligne',['NLigne',['../structinfo__t.html#a66c83de9fc07c331dd4f8b78d5435fc0',1,'info_t']]],
+  ['nlinelabel',['nLineLabel',['../classprocess_page.html#abf516891bb2e8b5e24f29f4154414277',1,'processPage::nLineLabel()'],['../classprocess_page.html#a1064f9e89ccd7b8a9832a7a63258898b',1,'processPage::NLineLabel()']]],
+  ['nom_5fbase',['NOM_BASE',['../validator_8hpp.html#ab6dbc5e54eee0f34711f78b330f2b4c2',1,'validator.hpp']]],
+  ['nom_5fbase_5fbulletins',['NOM_BASE_BULLETINS',['../validator_8hpp.html#a5e1ed7e6123bb48faa3ca79a1335a172',1,'validator.hpp']]]
 ];
