@@ -41,28 +41,41 @@
 #include "altair.h"
 #include "common.h"
 
+/// Crée la chaîne QString permettant d'écrire un projet XML d'extension .alt
+/// \param start rang de départ pour l'écriture du projet XML
+/// \param end rang de fin pour l'écriture du projet XML
+/// \note Utilise une des fonctionnalités des FWidget (setXmlFromWidget) qui permet
+/// de transposer l'état du widget en valeurs
+
 inline const QString Altair::makeParserString(int start, int end)
 {
-
     QStringList L=QStringList();
-    int listsize = Abstract::abstractWidgetList.size();
-    for (int j = start; j <= end && j < listsize; j++)
+    auto origin = Abstract::abstractWidgetList.begin();
+
+    // Parcourir l'ensemble de la liste abstractWidgetList des widgets abstrait
+
+    for (auto  u = origin + start; u != Abstract::abstractWidgetList.end() && u <= origin + end; ++u)
     {
 
-        FAbstractWidget* widget = Abstract::abstractWidgetList.at(j);
-        if (widget == nullptr) return "";
-        QString hK = widget->getHashKey();
+        FAbstractWidget* v = *u;
+        if (v == nullptr) return "";
+        QString hK = v->getHashKey();
 
         if  (hK.isEmpty())
         {
             Warning(tr("Erreur"), tr("Erreur d'analyse XML du projet"));
             continue;
         }
-        QString xml = widget->setXmlFromWidget().toQString();
+
+        // Enregistrer le projet XML à partir du contenu des widgets
+
+        QString xml = v->setXmlFromWidget().toQString();
 
         if (hK == "XHL" && xml.isEmpty()) continue;
 
-        QString widgetDepth = widget->getDepth();
+        // La priofondeur permet d'ecrire des objets complexes
+
+        QString widgetDepth = v->getDepth();
 
         L <<  "  <" + hK + " profondeur=\"" + widgetDepth +  "\">\n   "
               + xml
@@ -70,21 +83,27 @@ inline const QString Altair::makeParserString(int start, int end)
 
     }
 
+    // Retourner le QString du projet .alt
+
     return L.join("");
 }
 
 
+/// Lance \ref Altair::makeParserString sur le premier item courant de abstractWidgetList (celui des données de paye)
 inline const QString  Altair::makeDataString()
 {
     return  makeParserString(0,0);
 }
 
+/// Lance \ref Altair::makeParserString sur l'ensemble de la liste des FWidgets sauf le premier (tous les widgets sauif les données de paye)
 inline const QString  Altair::makeSystemString()
 {
     return makeParserString(1);
 }
 
 
+/// Ecrit le projet XML d'extension .alt contenant les références des donnéees de paye
+/// \note Ecrit un en-tête classique puis lance \ref makeDataString() et \reggmakeSystemString()
 void Altair::writeProjectFile()
 {
     checkEmptyProjectName();
@@ -129,7 +148,12 @@ namespace XmlMethod
 
 QTreeWidgetItem *itemParent=nullptr;
 
-inline void stackData(const QDomNode & node, int level, QVariant &textData)
+/// Empile les données pour un noeud donné, pour une profondeur d'enchassement donnée
+/// \param Le noeud de l'arborescence abstraite QomNode
+/// \param Profondeur de l'enchassement
+/// \param textDate Texte à empiler.
+
+inline void stackData(const QDomNode &node, int level, QVariant &textData)
 {
     QDomNode  childNode=node.firstChild();
 
@@ -153,18 +177,18 @@ inline void stackData(const QDomNode & node, int level, QVariant &textData)
         textData=QVariant(str);
         break;
 
-        /*
-         * parses < tags[0]>
-                             <tags[1]>  text </tags[1]>
-                             ....
-                             <tags[1]> text </tags[1]>
-                        </tags[0]>
-             note: does not check subordinate tag uniformity
-        */
+
+//          parses < tags[0]>
+//                             <tags[1]>  text </tags[1]>
+//                             ....
+//                             <tags[1]> text </tags[1]>
+//                        </tags[0]>
+//             note: does not check subordinate tag uniformity
+
 
     case 1:
-/* Add properties collection here to read month */
-      //  tags[0]=node.toElement().tagName();
+// Add properties collection here to read month */
+//       tags[0]=node.toElement().tagName();
 
         while (!childNode.isNull())
         {
@@ -255,9 +279,8 @@ inline void stackData(const QDomNode & node, QVariant &textData, QStringList& ta
 
 }
 
-/* computes sizes and sends filenames to main tab Widget */
-/* displays on manager tree window */
-
+// Calcule les tailles et envoie les noms de fichier dans l'onglet central.computes sizes and sends filenames to main tab Widget
+// Affichage sur l'onglet central
 
 void displayTextData(const QStringList &firstColumn,
                      const QString &secondColumn="",
@@ -316,10 +339,9 @@ void displayTextData(const QStringList &firstColumn,
 }
 
 
-
-/* tags[0] k
- *                       tags[1] 1 : xxx  ...  size Mo
- *                       tags[1] 2 : xxx  ...  size Mo  */
+// tags[0] k
+//                       tags[1] 1 : xxx  ...  size Mo
+//                       tags[1] 2 : xxx  ...  size Mo
 
 inline qint64 displaySecondLevelData(    const QStringList &tags,
                                          const QVector<QStringList> &stackedInfo,
@@ -394,9 +416,9 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
 }
 
 
-/* tags[0]
- *                       tags[1] 1 : xxx  ...  (size Mo)
- *                       tags[1] 2 : xxx  ...  (size Mo) ... */
+//tags[0]
+//                       tags[1] 1 : xxx  ...  (size Mo)
+//                       tags[1] 2 : xxx  ...  (size Mo) ...
 
 inline void displayFirstLevelData( const QString &tag,  const QString &style, const QStringList &stackedInfo)
 {
@@ -417,7 +439,6 @@ void Altair::parseProjectFile(QIODevice* file)
 {
     // Beware: to be able to interactively modify managerWidget in the parseProjectFile child class constructor,
     // pass it as a parameter to the constructor otherwise the protected parent member will be accessible yet unaltered
-
 
     file->seek(0);
 
@@ -445,8 +466,7 @@ void Altair::parseProjectFile(QIODevice* file)
 
     QDomNode node= root.firstChild();
 
-    /* this stacks data into relevant list structures, processes information
-     * and displays it in the manager tree Widget  */
+//   Empiler les données dans les listes pertinentes, traiter l'information et l'afficher dans l'arbre
 
     Altair::totalSize[0]=0;
 
@@ -478,8 +498,7 @@ void Altair::parseProjectFile(QIODevice* file)
 
     assignWidgetValues();
 
-    //Hash::wrapper["XHL"]->removeAll(QStringList());
-    int projectRank = Hash::wrapper["XHL"]->size();
+   int projectRank = Hash::wrapper["XHL"]->size();
     if (projectRank == 0) return;
 
     for (int group_index=0; group_index< projectRank ; group_index++)
