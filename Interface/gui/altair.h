@@ -63,6 +63,7 @@ public:
 
   // Membres données
 
+    /// Constructeur de la classe Altair, agent de la classe MainWindow qui implémente les fonctions globales de l'interface graphique
     Altair();
 
     MainWindow *parent; ///< Interface graphique dont cette classe est l'agent.
@@ -151,7 +152,8 @@ public:
     /// Crée une ligne de commande
     QStringList createCommandLineString(const QStringList &L = QStringList());
 
-    /// Ecrit le fichier de projet .alt
+    /// Ecrit le projet XML d'extension .alt contenant les références des donnéees de paye
+    /// \note Ecrit un en-tête classique puis lance \ref makeDataString() et \reggmakeSystemString()
     void writeProjectFile();
 
     /// Rafraichit la vue d'arbre \ref fileTreeView de l'exporateur de fichiers à gauche de l'interface
@@ -161,14 +163,32 @@ public:
     
 public slots:
 
-   bool updateProject(bool=false);
+   /// Rafraichir le projet .alt après avoir actualisé l'interface
+   /// \param enreg Si \e true, enregistre le projet actualisé.
+   bool updateProject(bool enreg = false);
+
+   /// Ouvre le projet, le décode en appelant \ref parseProjectFile et actualise l'interface en conséquence
    void on_openProjectButton_clicked();
+
+   /// Crée un nouveau projet défaut.alt
    void on_newProjectButton_clicked();
+
+   /// Ecrase un item d'un onglet donné
    void on_deleteItem_clicked();
+
+   /// Ferme le projet et réinitialise l'interface (gestionnaire de projet inclus)
    void closeProject();
+
+   /// Code commun à différentes fonctions lancées pour l'analyse des projets
    void openProjectFileCommonCode();
+
+   /// Importer les données du répertoire \ref userdatadir ou du disque optique s'il est monté, au lancement d el'interface, si l'option est cochée.
    void importData();
+
+   /// Ajouter du texte à l'onglet des messages
    void textAppend(const QString& s) { outputTextEdit->append(s);}
+
+   /// Tuer l'application en ligne de commande \e lhx
    void killProcess();
 
 private slots:
@@ -214,10 +234,22 @@ private:
     void assignWidgetValues();
     void clearProjectData();
 
+    /// Inititalise les variables utilisateur et de localisation (\ref userdatadir)
     void initialize();
+
+    /// Crée la chaîne QString permettant d'écrire un projet XML d'extension .alt
+    /// \param start rang de départ pour l'écriture du projet XML
+    /// \param end rang de fin pour l'écriture du projet XML
+    /// \note Utilise une des fonctionnalités des FWidget (setXmlFromWidget) qui permet
+    /// de transposer l'état du widget en valeurs
     const QString  makeParserString(int start, int end=Abstract::abstractWidgetList.size()-1);
+
+    /// Lance \ref Altair::makeParserString sur le premier item courant de abstractWidgetList (celui des données de paye)
     const QString  makeDataString( );
+
+    /// Lance \ref Altair::makeParserString sur l'ensemble de la liste des FWidgets sauf le premier (tous les widgets sauif les données de paye)
     const QString  makeSystemString( );
+
     QString processMsg;
     
     QVector<QStringList> processSecondLevelData(QVector<QStringList> &L, bool isFile=true);
@@ -230,6 +262,8 @@ private:
     void updateIndexInfo();
     void updateIndexChangeInfo();
     void displayTotalSize();
+
+    /// Détruit et reconstruit de modèle de l'arborescence des fichiers
     void refreshModel();
 
     void parseProjectFile(QIODevice*);
