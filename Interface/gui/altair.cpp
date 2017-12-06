@@ -92,7 +92,6 @@ void Altair::initialize()
     Hash::description["année"]=QStringList("Fichiers .xhl");
 }
 
-
 void Altair::refreshModel()
 {
     delete(model);
@@ -105,7 +104,6 @@ void Altair::refreshModel()
     model->setNameFilterDisables(false);
     model->setNameFilters(XML_FILTERS);
 }
-
 
 void Altair::refreshTreeView(bool create)
 {
@@ -132,44 +130,58 @@ void Altair::refreshTreeView(bool create)
 
 
 
+
 Altair::Altair()
 {
+    //////////////  Initialisation   ///////////////////
+
     setAttribute(Qt::WA_DeleteOnClose);
+
+    // Initialiser des variables utilisateur/répertoire données
+
     initialize();
     setAcceptDrops(true);
     
+    // Créer l'arborescence des fichiers
+
     refreshModel();
     refreshTreeView(true);
 
     bool visibility = true;
 
-    project = new FListFrame(fileTreeView,                     // files may be imported from this tree view
-                             importFiles,                     // FListFrame type
-                             "XHL",                          // superordinate xml tag
-                             {"Décodeur de fichiers XHL", ""},                   // project manager widget on-screen tag
-                             "g",                                   // command line label
-                             flags::commandLineType::altairCommandLine | flags::status::hasListCommandLine | flags::status::enabled,  // command line characteristic features
-                             {" ", " -g "},                       // command line separators
-                             {"item", "onglet"},                 // subordinate xml tags
-                             {"Siret", "Budget", "Employeur"},
-                             tools::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET);                      //tab icon
+    // Créer l'onglet central à vide
+
+    project = new FListFrame(fileTreeView,                     // les fichiers peuvent être importés dans l'onglet depuis cette arborescence
+                             importFiles,                      // l'onglet autorise l'importation de fichiers
+                             "XHL",                            // Balise des fichiers de paye pour l'exportation du projet .alt (<XHL>...</XHL>)
+                             {"Décodeur de fichiers XHL", ""},      // Section du gestionnaire de projet (à droite de l'interface)
+                             "g",                                   // Option de ligne de commande introduisant les fichiers de paye
+                             flags::commandLineType::altairCommandLine | flags::status::hasListCommandLine | flags::status::enabled,  // Génère une ligne de commande + à partir d'une liste enchassée + le widget est activé par défaut
+                             {" ", " -g "},                       // A chaque ligne d'un onglet correspond un séparateur blanc dans la ligne de commande. Pour chaque onglet différent, -g est préfixé devant la liste des fichiers
+                             {"item", "onglet"},                  // Balises de niveau 1 et 2 echassées sous <XML> : <XML> <onglet><item>...</item><item>...</item></onglet> </XML>
+                             {"Siret", "Budget", "Employeur"},    // Onglets supplémentaires générés en sus de ceux qui résultent de la décomposition des fichiers en années (1 année = 1 onglet)
+                             tools::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET);                      // pas d'enchassement de l'onglet central dans un onglet matrice
+
+    // Assigne le modèle de fichiers de la classe comme membre de project
+    project->model = model;
+    project->slotList = nullptr;
+    project->importFromMainTree->setVisible(visibility);
+
+    // Création de la barre de progression
 
     progress = new FProgressBar(this, &FDialog::killProcess);
-
     progress->setToolTip(tr("Décodage"));
+
+    // Caractéristiques générales de l'onglet des messages
 
     outputTextEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     outputTextEdit->setAcceptDrops(false);
-
     outputTextEdit->setReadOnly(true);
 
-    connect(&process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int)));
+    //////////////  Signaux et Slots   ///////////////////
 
-    project->model=model;
-    project->slotList=nullptr;
-
-/////// Ce qui suit présupose que les connexions déclenchées par le click
-/////// sont préalablement traitées par FListFrame (ce qui est le cas)
+    // Ce qui suit présupose que les connexions déclenchées par le clic
+    // sont préalablement traitées par FListFrame (ce qui est le cas)
                 
     connect(project->importFromMainTree,
             &QToolButton::clicked,
@@ -179,7 +191,6 @@ Altair::Altair()
         checkAnnumSpan();
 
     });
-
 
     connect(project->fileListWidget, SIGNAL(forceCloseProject()), this, SLOT(closeProject()));
     connect(project, SIGNAL(showProgressBar()), this, SIGNAL(showProgressBar()));
@@ -191,19 +202,23 @@ Altair::Altair()
     connect(project, SIGNAL(appRepaint()), this, SLOT(repaint()));
     connect(this, &QDialog::customContextMenuRequested, [this] {  project->showContextMenu(); });
 
+    connect(&process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int)));
 
-////////////
-
-
-    project->importFromMainTree->setVisible(visibility);
 #ifndef USE_RIGHT_CLICK
     connect(project->deleteGroupButton, SIGNAL(clicked()), this, SLOT(deleteGroup()));
     connect(project->retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
 #endif
 
-        
+    //////////////  Graphisme   ///////////////////
+
     QGridLayout *projectLayout = new QGridLayout;
+
+    // Ajout de la flèche d'importation des fichiers
+
     projectLayout->addWidget(project->importFromMainTree, 0, 1);
+
+    // Ajout de l'onglet central
+
     projectLayout->addWidget(project->mainTabWidget, 0, 2);
 
 #ifndef USE_RIGHT_CLICK
@@ -218,8 +233,11 @@ Altair::Altair()
     progressLayout->addLayout(progress->getLayout());
     mainLayout->addLayout(progressLayout);
 
+    // Graphisme du gestionnaire de projets
+
     QStringList labels;
     labels << tr("") << tr("Mois") << tr("Chemin")  << tr("Taille\nFichier") << tr("Total") << tr("Employeur Siret Etablissement") << tr("Budget");
+
     managerWidget->hide();
     managerWidget->setHeaderLabels(labels);
     managerWidget->setColumnWidth(0,300);
@@ -235,14 +253,17 @@ Altair::Altair()
     allLayout->addLayout(mainLayout);
     allLayout->addLayout(managerLayout);
 
+    // clics droits
+
     setContextMenuPolicy(Qt::CustomContextMenu);
 
     setLayout(allLayout);
+
+    // Titre et icone de l'interface
+
     setWindowTitle(tr("altair-author"));
     const QIcon altairIcon=QIcon(QString::fromUtf8( ":/images/altair.png"));
     setWindowIcon(altairIcon);
-    
-    
 }
 
 void Altair::importData()
@@ -350,7 +371,6 @@ void  Altair::openProjectFileCommonCode()
 
 void Altair::on_openProjectButton_clicked()
 {
-
     closeProject();
     projectName=QFileDialog::getOpenFileName(this,  tr("Ouvrir le projet"), userdatadir,  tr("projet altair (*.alt)"));
     if (projectName.isEmpty()) return;
