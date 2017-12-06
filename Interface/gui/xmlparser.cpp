@@ -41,11 +41,6 @@
 #include "altair.h"
 #include "common.h"
 
-/// Crée la chaîne QString permettant d'écrire un projet XML d'extension .alt
-/// \param start rang de départ pour l'écriture du projet XML
-/// \param end rang de fin pour l'écriture du projet XML
-/// \note Utilise une des fonctionnalités des FWidget (setXmlFromWidget) qui permet
-/// de transposer l'état du widget en valeurs
 
 inline const QString Altair::makeParserString(int start, int end)
 {
@@ -89,21 +84,17 @@ inline const QString Altair::makeParserString(int start, int end)
 }
 
 
-/// Lance \ref Altair::makeParserString sur le premier item courant de abstractWidgetList (celui des données de paye)
 inline const QString  Altair::makeDataString()
 {
     return  makeParserString(0,0);
 }
 
-/// Lance \ref Altair::makeParserString sur l'ensemble de la liste des FWidgets sauf le premier (tous les widgets sauif les données de paye)
 inline const QString  Altair::makeSystemString()
 {
     return makeParserString(1);
 }
 
 
-/// Ecrit le projet XML d'extension .alt contenant les références des donnéees de paye
-/// \note Ecrit un en-tête classique puis lance \ref makeDataString() et \reggmakeSystemString()
 void Altair::writeProjectFile()
 {
     checkEmptyProjectName();
