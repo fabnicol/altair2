@@ -216,7 +216,7 @@ void Altair::runWorker(const QString& subdir)
     args1 << commandLine;
        
     textAppend(PROCESSING_HTML_TAG + tr("Importation des bases de paye (")
-                                               + QString::number(Altair::totalSize[0] 
+                                               + QString::number(Altair::totalSize
                                                                             / (1024*1024)) 
                                                + tr(" Mo)..."));
 
@@ -357,7 +357,7 @@ void Altair::run()
     updateProject(true);   // crucial otherwise some dynamic settings in the option dialog
     //may not get through to command line
 
-    if (Altair::totalSize[0] == 0)
+    if (Altair::totalSize == 0)
     {
         processFinished(exitCode::shouldLaunchRAltairAlone);
         return;

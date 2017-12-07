@@ -459,7 +459,7 @@ void Altair::parseProjectFile(QIODevice* file)
 
 //   Empiler les données dans les listes pertinentes, traiter l'information et l'afficher dans l'arbre
 
-    Altair::totalSize[0]=0;
+    Altair::totalSize =0;
 
     for (const QString& maintag : {"data", "systeme"})
     {
@@ -584,11 +584,11 @@ void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag
     item->setExpanded(true);
     XmlMethod::itemParent=item;
 
-    Altair::totalSize[0]=XmlMethod::displaySecondLevelData(
+    Altair::totalSize =XmlMethod::displaySecondLevelData(
                             tags,
                            *Hash::wrapper["XHL"],
                             fileSizeDataBase[0]);
-    Altair::totalSize[0]+=1;
+    Altair::totalSize +=1;
 
     item=new QTreeWidgetItem(managerWidget);
     item->setText(0, "Logiciel");
