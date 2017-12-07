@@ -118,13 +118,14 @@ public:
     void setCurrentFile(const QString &fileName);
 
     /// Renvoie la taille des données exportées
-    qint64 size() { return Altair::totalSize[0]; }
+    qint64 size() { return Altair::totalSize; }
 
     /// Rafraîchit le gestionnaire de projet à la droite de l'interface.
-    /// \param \ref manager::refreshAllZones ou bien \ref manager::refreshXHLZone, \ref manager::refreshNBulletins, \ref manager::refreshSystemZone, selon la zone à rafraichir.
+    /// \param \ref manager::refreshAllZones ou bien \ref manager::refreshXHLZone,\n
+    /// \ref manager::refreshNBulletins, \ref manager::refreshSystemZone, selon la zone à rafraichir.
     void refreshProjectManagerValues(std::uint16_t = manager::refreshAllZones );
 
-    /// Rafraîchit le gestionnaire de projet à la droite de l'interface. Fonction globale par défaut.
+    /// Rafraîchit le gestionnaire de projet à la droite de l'interface. Fonction globale \n par défaut.
     bool refreshProjectManager();
 
     /// Renvoie le widget fonctionnel associé à la barre de progression
@@ -133,7 +134,8 @@ public:
     /// Accesseur en lecture de \ref fileCount
     inline int getFileCount() {return fileCount;}
 
-    /// Lit le fichier \ref rankFile pour l'index de la barre progression, le lit dans \ref fileRank et ajuste la barre de progression
+    /// Lit le fichier \ref rankFile pour l'index de la barre progression, le lit dans \n
+    /// \ref fileRank \n et ajuste la barre de progression
     inline void __attribute__((always_inline)) readRankSignal()
     {
             if (! rankFile.exists()) return;
@@ -153,10 +155,10 @@ public:
     QStringList createCommandLineString(const QStringList &L = QStringList());
 
     /// Ecrit le projet XML d'extension .alt contenant les références des donnéees de paye
-    /// \note Ecrit un en-tête classique puis lance \ref makeDataString() et \reggmakeSystemString()
+    /// \note Ecrit un en-tête classique puis lance \ref makeDataString() et \ref makeSystemString()
     void writeProjectFile();
 
-    /// Rafraichit la vue d'arbre \ref fileTreeView de l'exporateur de fichiers à gauche de l'interface
+    /// Rafraichit la vue d'arbre \ref fileTreeView de l'exporateur de fichiers à gauche de \n l'interface
     /// \param create (= false) Si \e true, alloue la vue.
     void refreshTreeView(bool create=false);
 
@@ -167,7 +169,8 @@ public slots:
    /// \param enreg Si \e true, enregistre le projet actualisé.
    bool updateProject(bool enreg = false);
 
-   /// Ouvre le projet, le décode en appelant \ref parseProjectFile et actualise l'interface en conséquence
+   /// Ouvre le projet, le décode en appelant \ref parseProjectFile et actualise l'interface\n
+   /// en conséquence
    void on_openProjectButton_clicked();
 
    /// Crée un nouveau projet défaut.alt
@@ -182,7 +185,8 @@ public slots:
    /// Code commun à différentes fonctions lancées pour l'analyse des projets
    void openProjectFileCommonCode();
 
-   /// Importer les données du répertoire \ref userdatadir ou du disque optique s'il est monté, au lancement d el'interface, si l'option est cochée.
+   /// Importer les données du répertoire \ref userdatadir ou du disque optique s'il est monté,\n
+   /// au lancement de l'interface, si l'option est cochée.
    void importData();
 
    /// Ajouter du texte à l'onglet des messages
@@ -192,16 +196,34 @@ public slots:
    void killProcess();
 
 private slots:
-    
-    void run();
-    void runRAltair();
-    void processFinished(int code) { processFinished(static_cast<exitCode>(code));}
-    void processFinished(exitCode);
-    void deleteGroup();
-    void on_helpButton_clicked();
-    void requestSaveProject();
-    void openProjectFile();
-    void refreshRowPresentation(int);
+
+   /// Lance l'exécution de l'application en ligne de commande lhx
+   void run();
+
+   /// Lance l'application Rstudio et les scripts R
+   void runRAltair();
+
+   /// Traitement de la fin de l'exécution de lhx
+   void processFinished(int code) { processFinished(static_cast<exitCode>(code));}
+
+   /// Traitement de la fin de l'exécution de lhx
+   void processFinished(exitCode);
+
+   /// Supprimer un onglet central
+   void deleteGroup();
+
+   /// Lancer l'aide (menu ou barre)
+   void on_helpButton_clicked();
+
+   /// Enregistre le projet \e .alt en actualisant \ref projectName et l'état de l'interface \n
+   void requestSaveProject();
+
+   /// Ouvre le projet \e .alt et décode le projet pour actualiser l'interface
+   void openProjectFile();
+
+   /// Raccourcit les chemins dans les onglets en se limitant au non de fichier et les présente \n
+   /// en surlignage bleu alterné de gris argent
+   void refreshRowPresentation(int);
 
 protected:
 
@@ -214,24 +236,35 @@ signals:
 
 private:
 
+ // Données privées
+
     bool hasIndexChanged;
     int myTimerId = 0;
     int fileCount = 0; ///< Nombre de fichiers de paye en input de la ligne de commande
     int row = 0;
     uint currentIndex = 0;
     qint64 value = 0;
-    static qint64 totalSize[2];
+    static qint64 totalSize; ///< Taille des données extraites
 
-    QHash <int,  QVector<QStringList>  > fileSizeDataBase;
+    QHash <int,  QVector<QStringList>  > fileSizeDataBase; ///< Table de hashage contenant les tailles de fichier
 
     QIcon iconShowMaximized, iconShowNormal;
 
-    FProgressBar *progress;
-    QVBoxLayout *mainLayout= new QVBoxLayout;
-    QVBoxLayout *progressLayout= new QVBoxLayout;
-    QVBoxLayout *managerLayout= new QVBoxLayout;
-    QHBoxLayout *allLayout= new QHBoxLayout;
+    FProgressBar *progress; ///< Barre de progression
+
+    QVBoxLayout *mainLayout= new QVBoxLayout; ///< Layout de l'interface
+    QVBoxLayout *progressLayout= new QVBoxLayout; ///< Layout de la barre de progression
+    QVBoxLayout *managerLayout= new QVBoxLayout; ///< Layout du gestionnaire de projets
+    QHBoxLayout *allLayout= new QHBoxLayout;  ///< Layout global
+
+
+    /// Parcout l'ensemble des widgets fonctionnels \ref Abstract::abstractWidgetList
+    /// et actualise leur statut interne en fonction de l'état du projet .alt
+    /// en appelant \e setWidgetFromXml
     void assignWidgetValues();
+
+    /// Efface toutes les données du projet .alt et réinitialise l'interface et les conteneurs
+    /// de données internes
     void clearProjectData();
 
     /// Inititalise les variables utilisateur et de localisation (\ref userdatadir)
@@ -254,6 +287,7 @@ private:
     
     QVector<QStringList> processSecondLevelData(QVector<QStringList> &L, bool isFile=true);
     QVector<QUrl> parseUrlsDragged(QList<QUrl>& urlsDragged);
+
     FStringList parseEntry(const QDomNode &, QTreeWidgetItem *parent=0);
     void refreshRowPresentation();
 
@@ -266,17 +300,21 @@ private:
     /// Détruit et reconstruit de modèle de l'arborescence des fichiers
     void refreshModel();
 
-    void parseProjectFile(QIODevice*);
-    void msg (const QString & text);
+    /// Décode le projet représenté par un pointeur vers QFile ou similaire
+    /// \param file Pointeur ver un fichier contenant le projet.
+
+    void parseProjectFile(QIODevice* file);
+
     void printMsg(qint64 new_value, const QString &str);
+
     void printBaseSize(qint64 new_value = 0);
 
+    /// Vérifie que les onglets de contiennent pas des années incomplètes
+    /// et signale les mois manquants
     void checkAnnumSpan();
 
     bool runWorkerDistributed(bool);
     void runWorker(const QString& = "");
-
-
 };
 
 

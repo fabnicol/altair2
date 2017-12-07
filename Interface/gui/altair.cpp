@@ -52,7 +52,7 @@
 
 
 std::uint16_t Altair::RefreshFlag = interfaceStatus::hasUnsavedOptions;
-qint64   Altair::totalSize[]={0,0};
+qint64   Altair::totalSize;
 
 class Hash;
 QHash<QString, QString> Hash::Annee;
@@ -407,7 +407,7 @@ void Altair::closeProject()
     int projectDimension = project->getRank();
 
     clearProjectData();
-    Altair::totalSize[0] = 0;
+    Altair::totalSize = 0;
 
     for  (int i = projectDimension; i >= 0;   i--)
     {
@@ -488,7 +488,7 @@ void Altair::on_helpButton_clicked()
 void Altair::displayTotalSize()
 {
     static qint64 comp;
-    qint64 tot=Altair::totalSize[0];
+    qint64 tot=Altair::totalSize;
     if (tot != comp && v(quiet).isFalse())
         textAppend(STATE_HTML_TAG "Taille des bases de paye :  " + QString::number(tot) + " B ("+QString::number(tot/(1024*1024))+" Mo)");
     comp=tot;
@@ -544,7 +544,6 @@ void Altair::updateIndexInfo()
     row = project->getCurrentRow();
 }
 
-
 void Altair::on_deleteItem_clicked()
 {
     RefreshFlag = RefreshFlag & ~interfaceStatus::parseXml;
@@ -556,14 +555,14 @@ void Altair::on_deleteItem_clicked()
     displayTotalSize();
 }
 
-
-
 void Altair::requestSaveProject()
 {
-    projectName=QFileDialog::getSaveFileName(this,  tr("Entrer le nom du projet"), userdatadir + "défaut.alt", tr("projets altair (*.alt)"));
+    projectName = QFileDialog::getSaveFileName(this,
+                                               tr("Entrer le nom du projet"),
+                                               userdatadir + "défaut.alt",
+                                               tr("projets altair (*.alt)"));
     updateProject(true);
 }
-
 
 bool Altair::updateProject(bool requestSave)
 {
