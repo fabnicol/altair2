@@ -893,48 +893,56 @@ const vector <unsigned char>  MainWindow::nettoyer_donnees(vector <unsigned char
 {
     vector <unsigned char> out;
     const size_t taille = st.size();
+
+    // Découper le fichier en 5
     out.reserve((size_t) taille / 5);
     vector <unsigned char>::const_iterator iter = st.begin();
     vector <unsigned char>::const_iterator iter2; 
     size_t i = 0;
     size_t k = 0;
+
+    // Découper le fichier en pas de 1/20 ème de la taille
     const size_t pas = taille / 20;
-    bool quote = false;
+    bool quote = false; // drapeau d'indentification d'une chaine
     
     loop :
     while (iter != st.end())
     {
        switch (*iter) 
        {
-         case  0x22 :    // "
-               quote = ! quote;
-               out.push_back(0x22);
+         case  0x22 :    // Repérer "
+               quote = ! quote; // On a identifié un "
+               out.push_back(0x22); // L'empiler
                ++iter;
            break;
                
-         case  0x26  :   // &
-                if (! quote)
+         case  0x26  :   // Repérer &
+                if (! quote)  // En dehors d'une chaine
                 {
-                    ++iter;
+                    ++iter;  // sauter ce caractère illégal
                     goto loop;
                 }
                 
-                iter2 = iter;
+                iter2 = iter; // A l'intérieur d'une chaine
+
+                // On essaie de repérer les séquences html qui sont illicites sous libxml2 : &accute; par exemple
+                // Elles sont dénuées d'espace, commencent par & et terminent par ;
+
                 while (++iter2 != st.end())
                    {
                        switch (*iter2)
                        {
-                           case  0x22  : //"
-                               quote = ! quote;
+                           case  0x22  : // Repérer la fin de la chaine : "
+                               quote = ! quote; // Réinitialiser le drapeau d'indentification d'une chaine
                                [[fallthrough]];
                                
-                           case  0x20  :  // SP  ' '
-                               out.emplace_back(*iter2);
-                               iter = iter2 + 1;
+                           case  0x20  :  // Repérer espace  ' '
+                               out.emplace_back(*iter2); // l'empiler : on est sorti de la séquence
+                               iter = iter2 + 1;  // Fin de la séquence et retour à la boucle principale
                                goto loop;
           
                            case  0x3b  :  // SEMICOLON  ';'
-                               iter = iter2 + 1;
+                               iter = iter2 + 1; // Fin de la séquence et retour à la boucle principale
                                goto loop;
                                
                             default :
@@ -945,7 +953,7 @@ const vector <unsigned char>  MainWindow::nettoyer_donnees(vector <unsigned char
                    
                    continue;
 
-        case 0x3e :  //  '>'
+        case 0x3e :  //  Repérer fin balise '>'
                    if (quote)
                    {
                        out.push_back(0x3e);
@@ -959,10 +967,15 @@ const vector <unsigned char>  MainWindow::nettoyer_donnees(vector <unsigned char
                    break;
                                
         default :
+                   // Cas général
+                   // Empiler tous les caractères imprimables
+                   // La locale au sens de C++ est principe "C" même si la locate Qt est différente
+                   // Donc isprint est false sur l'étendue des caractères accentués
                    if (isprint(*iter)) out.emplace_back(*iter); 
                    else
                    switch (*iter)
                    {
+                   // Pour les caractères non
                        // Latin-1
                        case 0xe8 : // è
                        case 0xe9 : // é
@@ -974,7 +987,7 @@ const vector <unsigned char>  MainWindow::nettoyer_donnees(vector <unsigned char
                        case 0xce : // I accent circ
                        case 0xd4 :  // ô
                        case 0xf4 :  // O accent circ
-                            out.emplace_back(*iter);
+                            out.emplace_back(*iter);  // Empiler les caractères accentués (1 octet en Latin-1)
                           break;
                        // UTF-8
                        case 0xc3 :
@@ -991,7 +1004,7 @@ const vector <unsigned char>  MainWindow::nettoyer_donnees(vector <unsigned char
                                case 0xb4 :  // ô
                                case 0x94 :  // O accent circ
                                    out.emplace_back(*iter);
-                                   out.emplace_back(*++iter);
+                                   out.emplace_back(*++iter); // Empiler les caractères accentués (2 octets en UTF-8)
                                  break;
                                default :
                                  break;
@@ -1000,7 +1013,7 @@ const vector <unsigned char>  MainWindow::nettoyer_donnees(vector <unsigned char
                         break;
                            
                         default : 
-                           out.push_back(0x20);  // SP ' '
+                           out.push_back(0x20);  // Sinon par défaut remplacer par une espace tout caractère non imprimable non accentué (SP ' ')
                         break;
        
                    }
@@ -1011,6 +1024,8 @@ const vector <unsigned char>  MainWindow::nettoyer_donnees(vector <unsigned char
 
      ++i;
      ++k;
+
+     // A chaque pas de 1/20 de la taille émettre un signal à la barre de progression et forcer l'interface à se raffraichir
      if (k >= pas)
      {
          emit(altair->setProgressBar(i));
@@ -1982,30 +1997,6 @@ void MainWindow::configureOptions()
 
 }
 
-void MainWindow::adjustDisplay(bool projectFileStatus)
-{
-    if (projectFileStatus == false || (altair->RefreshFlag & interfaceStatus::parseXmlMask) !=  interfaceStatus::parseXml)
-    {
-
-        for (FCheckBox* a :  displayWidgetListBox +  behaviorWidgetListBox + displayToolBarCBoxListBox)
-        {
-            a->toggle();
-            a->toggle();
-            // Ceci pour lancer très simplement les signaux et slots afin d'activer les effets sur l'interface
-            // correspondant à la configuration
-        }
-
-        // Peut être modifié pour ajuster le comportement par défaut minimal ici :
-
-#ifdef MINIMAL
-        for (FCheckBox* a :  displayWidgetListBox +  behaviorWidgetListBox + displayToolBarCBoxListBox)
-            if (a != defaultProcessToolBarBox &&
-                a != defaultOptionsToolBarBox &&
-                a != defaultAboutToolBarBox)
-                   a->setChecked(false);
-#endif
-    }
-}
 
 void MainWindow::displayFullScreen(bool state)
 {
