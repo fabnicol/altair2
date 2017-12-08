@@ -79,57 +79,72 @@ class MainWindow : public QMainWindow
   Q_OBJECT
 
   public :
-   MainWindow(char*);
-   options* dialog;
-   QSettings  *settings;
 
-   enum { MaxRecentFiles = 5 };
-   QStringList recentFiles;
-   void updateRecentFileActions();
-   QString strippedName(const QString &fullFuleName);
-   void on_clearOutputTextButton_clicked();
+  // Membres données
 
-   QTabWidget *bottomTabWidget;
+   MainWindow(char*); ///< Constructeur de l'interface graphique
+   options* dialog;   ///< dialogue d'options
+   QSettings  *settings; ///< paramètres par défaut mémorisés
 
-   QTextEdit* getEditor() {return editor;}
+   enum { MaxRecentFiles = 5 };  ///< Nombre maximum de fichiers récents
+   QStringList recentFiles; ///< Liste des fichiers de projets .alt récents
+
+   QTabWidget *bottomTabWidget; ///< Onglet des Messages et Console (normalement en bas de l'interface)
+   QTextEdit *consoleDialog; ///< Editeur de l'onglet Console
+
+  // Méthodes
+
+   void updateRecentFileActions(); ///< Mise à jour de la liste des fichiers de projet récents
+   QString strippedName(const QString &fullFuleName); ///< Renvoie le nom de fichier en enlevant le chemin de dossier
+   void on_clearOutputTextButton_clicked(); ///< Nettoie l'onglet courant Console ou Messages
+   QTextEdit* getEditor() {return editor;} ///< Renvoie l'éditeur du fichier de projet .alt
+
+   /// Vérifie si par défaut le projet .alt doit être enregistré à chaque modification de l'état de l'interface
+   /// \return Booléen : vrai si la case du dialogue de configuration est cochée, faux sinon
    bool isDefaultSaveProjectChecked() { return defaultSaveProjectBehaviorBox->isChecked(); }
-   void saveProjectAs();
-   void saveProjectAs(const QString &newst);
-   QTextEdit *consoleDialog;
-   void feedLHXConsoleWithHtml();
-   void feedRConsoleWithHtml();
-   uint32_t getConsoleCounter() { return consoleCounter; }
-   void standardDisplay();
 
+   /// Sauvegarde du projet .alt selon un chemin à spécifier
+   void saveProjectAs();
+
+   /// Sauvegarde du projet .alt selon un chemin donné
+   /// \param chemin Chemin du projet
+   void saveProjectAs(const QString &chemin);
+
+   /// Envoie du texte formaté HTML dans l'onglet Console
+   /// Etape de capture de la sortie cout et cerr de l'application en ligne de commande \e lhx
+   void feedLHXConsoleWithHtml();
+
+   /// Envoie du texte formaté HTML dans l'onglet Console
+   /// Etape de capture de la sortie des flux d'exécution des scripts R
+   void feedRConsoleWithHtml();
+
+   /// Limite (si l'option du dialogue de configuration est cochée) le volume de texte en sortie de l'onglet Console
+   /// Peut être utile pour les sorties très pathologiques et éviter une saturation mémoire ou un <i>freeze</i>
+   /// \return Un index qui devra être inférieur à #MAXIMUM_CONSOLE_OUTPUT
+   uint32_t getConsoleCounter() { return consoleCounter; }
+
+   /// Affiche l'interface à la taille standard (réduite)
+   void standardDisplay();
 
   private :
   
+  // Membres données
 
-   QHash<QString, QAction*> actionHash;
+   QHash<QString, QAction*> actionHash; ///< Table de hachage permettant d'enregistrer les actions sur l'éditeur de projets .alt
 
-   bool readFile(const QString &fileName);
    bool projectFileStatus;
    uint32_t consoleCounter = 0;
    QFile tempLog;
 
    Altair *altair;
    QMainWindow *editWidget;
-   void createActions();
-   void createMenus();
-   void createToolBars();
-   void loadFile(const QString &fileName);
-   void adjustDisplay(bool);
-   
+
    int height;
    int width;
-      
-   std::vector<std::string> extraire_donnees_protegees(const std::string& st);
-   const std::vector <unsigned char>  nettoyer_donnees(std::vector <unsigned char>& st);
-      
    QDockWidget* fileTreeViewDockWidget;
    QDockWidget* bottomDockWidget;
    QDockWidget* managerDockWidget;
-   
+
    QMenu *fileMenu;
    QMenu *processMenu;
    QMenu *editMenu;
@@ -147,7 +162,7 @@ class MainWindow : public QMainWindow
    QAction *editToolBarAction;
    QAction *optionsToolBarAction;
    QAction *aboutToolBarAction;
-   
+
    QList<QAction*> recentFileActions;
    QAction *separatorAction;
    QAction *newAction;
@@ -201,13 +216,37 @@ class MainWindow : public QMainWindow
                         *defaultQuietBox;
 
    QList<FCheckBox*> displayWidgetListBox, behaviorWidgetListBox, displayToolBarCBoxListBox, outputListBox;
-   
+
    QTextEdit *editor=nullptr;
    Highlighter *highlighter;
    QFile projectFile;
    QProcess process;
    MatriculeInput *m = nullptr;
 
+  // Méthodes
+
+   /// Lit un fichier et renvoie la chaîne de caractères correspondante.
+   /// \param fileName Chemin du fichier
+   bool readFile(const QString &fileName);
+
+   /// Crée les actions correspondant aux entrées des menus et barre d'outils
+   void createActions();
+
+   /// Crée les menus
+   void createMenus();
+
+   /// Crée les barres d'outils
+   void createToolBars();
+
+   std::vector<std::string> extraire_donnees_protegees(const std::string& st);
+
+   /// Nettoie les données de paye \n
+   /// \param st Fichier de paye converti en vecteur de caractères non signés
+   /// \return vecteur de caractères non signés
+   /// \note Essaie de repérer les séquences html qui sont illicites sous libxml2 : &accute; par exemple. \n
+   /// Elimine les caractères non imprimables, sauf les voyelles accentuées, et les remplace par une espace.
+   const std::vector <unsigned char>  nettoyer_donnees(std::vector <unsigned char>& st);
+      
 
 private slots:
 
