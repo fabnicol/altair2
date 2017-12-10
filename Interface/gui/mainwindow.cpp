@@ -173,7 +173,7 @@ MainWindow::MainWindow(char* projectName)
   Altair::RefreshFlag =  Altair::RefreshFlag  | interfaceStatus::parseXml;
 
   if (settings->value("loadProjectBehavior") == true)
-      projectFileStatus = altair->clearInterfaceAndParseProject();
+      altair->clearInterfaceAndParseProject();
 
   // resetting interfaceStatus::parseXml bits to 0
   Altair::RefreshFlag = Altair::RefreshFlag & (~interfaceStatus::parseXml);
@@ -2000,7 +2000,6 @@ void MainWindow::configureOptions()
 
 void MainWindow::displayFullScreen(bool state)
 {
-
   if (state)
   {
       setWindowState(Qt::WindowFullScreen);
