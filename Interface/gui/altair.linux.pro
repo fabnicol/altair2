@@ -38,6 +38,7 @@
 
 VERSION_TAG = $$system(cat ../../VERSION)
 DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
+
 message("Version :  $$VERSION_TAG")
 QMAKE_CXX = /usr/bin/g++
 QMAKE_LINK = /usr/bin/g++
@@ -93,9 +94,14 @@ TARGET = Altair
 VPATH = .
 INCLUDEPATH += ../../fwidgets_lib
 LIBS += libfwidgets_lib.a
+
+DEFINES += SCRIPT_DIR=\\\"Tests/Exemple/\\\"  # Dossier des scripts R
+
+DEFINES += MAX_FICHIERS_RECENTS=5     # Nombre maximum de fichiers récents
+
 DEFINES += PROGRESSBAR_TIMEOUT=200    # Intervalle d'incrémentation de la barre de progression en millisecondes
-                            # Un timeout plus élevé diminue l'overhead mais rend la la progression moins fluide.
-                            # Le minimum (timeout = 0) donne des progressions fluides mais augmente de 10 % la durée d'exec.
+                                      # Un timeout plus élevé diminue l'overhead mais rend la la progression moins fluide.
+                                      # Le minimum (timeout = 0) donne des progressions fluides mais augmente de 10 % la durée d'exec.
 
 DEFINES += MAXIMUM_CONSOLE_OUTPUT=800  \ # Pour limiter le volume de lignes de la cosole et éviter des plantages ou ralentissements en cas de verbosité excessive
            MINIMUM_LINE_WIDTH=360      \ # Largeur minimale des lignes de l'onglet d'entrée du dialogue d'options (codes de paye). Détermine la lageur du dialogue

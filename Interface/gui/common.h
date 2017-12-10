@@ -56,16 +56,24 @@ public:
 
  common()   {  whatsThisPath=generateDatadirPath("/whatsthis.info");  }
 
+ /// Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement
+ /// \param  file_str Chaîne de caractères dans laquelle insérer ces informations
+ /// \param  subdir Répertoire du rapport
  void exporter_identification_controle(QString & file_str, const QString &subdir = "");
- void exporter_identification_controle(const QString &subdir = "");
+
+ /// Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement
+ /// \note utilise le fichier #SCRIPT_DIR "prologue_codes.R"
+ /// \param subdir Répertoire du rapport
+  void exporter_identification_controle(const QString &subdir = "");
 
 #ifdef LOCAL_BINPATH
- /* insert executable at root of windows package */
 
-  QString execPath = path_access(System);
+  QString execPath = path_access(System);  ///< Chemin du répertoire lhx
   const QString sharedir = generateDatadirPath();
-  QString altairCommandStr = execPath + QDir::separator()+("lhx"+ QString(systemSuffix));
 
+  QString altairCommandStr = execPath + QDir::separator()+("lhx"+ QString(systemSuffix)); ///< Ligne de commande permettant de lancer lhx
+
+  /// Ligne de commande permettant de lancer RStudio
     #ifdef MINIMAL
       QString RAltairDirStr = path_access("R/bin/x64");
       // Passer les '/' soit avec QDir::toNativeSeparators() soit utiliser QDir::separator() sous Windows.
@@ -81,11 +89,11 @@ public:
 
 #else
 
-   QString execPath = PREFIX+QString("/bin");
-   QString sharedir = PREFIX+QString("/share/applications/altair");
-   QString RAltairCommandStr = PREFIX+QString("/lib/rstudio/bin/rstudio");
+   QString execPath = PREFIX + QString("/bin"); ///< Chemin du répertoire contenant lhx
+   QString sharedir = PREFIX + QString("/share/applications/altair");
    QString RAltairDirStr = QString("/lib/rstudio/bin");
-   QString altairCommandStr = PREFIX+QString("/bin/lhx");
+   QString RAltairCommandStr = PREFIX + RAltairDirStr + QString("rstudio"); ///< Ligne de commande permettant de lancer RStudio
+   QString altairCommandStr = PREFIX + QString("/bin/lhx"); ///< Ligne de commande permettant de lancer lhx
 
 #endif
  
