@@ -294,7 +294,6 @@ private:
     void setIndexedProperties(QModelIndexList* indexList);
     void setDialogFromProject();
     void updateIndexInfo();
-    void updateIndexChangeInfo();
     void displayTotalSize();
 
     /// Détruit et reconstruit de modèle de l'arborescence des fichiers
