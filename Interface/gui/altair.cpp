@@ -497,13 +497,29 @@ void Altair::displayTotalSize()
 void Altair::deleteGroup()
 {
     updateIndexInfo();
+
+    // Taille du conteneur de données
+    //   project->widgetContainer
+    // moins 1, autrement dit du nombre d'onglets contenant des fichiers de paye, moins 1
+
     uint rank=(uint) project->getRank();
+
+    // le conteneur fileSizeDataBase contient toutes les tailles de fichier pour tous les
+    // onglets. On vide le conteneur à l'index correspondant à l'onglet supprimé
 
     if ((uint) fileSizeDataBase[0].size() > currentIndex)
         fileSizeDataBase[0][currentIndex].clear();
 
+    // Il faut se fonder sur rank plutot que sur currentIndex, qui peut être sur des
+    // onglets supplémentaires (type Siret...) qui ne correspondent pas à des données
+    // de fichier
+
     if (rank > 0)
     {
+        // Pour tous les onglets de rang supérieur à l'onglet courant et inférieur à l'onglet
+        // maximal contenant des données, translater les données de taille de fichier d'un
+        // index vers la gauche après suppression de l'onglet courant
+
         if (currentIndex < rank)
         {
 
@@ -514,27 +530,16 @@ void Altair::deleteGroup()
         }
     }
 
+    // Réactualiser le projet .alt et le gestionnaire de projet à droite de l'interface
+
     updateProject();
+
+    // Afficher la taille des bases de paye dans l'onglet Messages
+    // Elle sera en principe inférieure à la taille avant suppression de l'onglet
+
     displayTotalSize();
 }
 
-static bool firstSelection=true;
-
-void Altair::updateIndexChangeInfo()
-{
-    static uint oldVideo;
-    static uint oldCurrentIndex;
-    static int oldRow;
-    hasIndexChanged=(0 != oldVideo) | (currentIndex != oldCurrentIndex) |  (row != oldRow);
-    if (firstSelection) hasIndexChanged=false;
-
-    emit(hasIndexChangedSignal());
-
-    oldVideo=0;
-    oldCurrentIndex=currentIndex;
-    oldRow=row;
-    firstSelection=false;
-}
 
 void Altair::updateIndexInfo()
 {
@@ -546,12 +551,16 @@ void Altair::updateIndexInfo()
 
 void Altair::on_deleteItem_clicked()
 {
-    RefreshFlag = RefreshFlag & ~interfaceStatus::parseXml;
-    RefreshFlag = RefreshFlag | interfaceStatus::saveTree
-                              | interfaceStatus::tree;
+    // Ces drapeaux jouent sur updateProject()
+    RefreshFlag = RefreshFlag & ~interfaceStatus::parseXml; // reparser le projet pour actualiser le gestionnaire de projet
 
+    // Supprimer le fichier dans le projet
     updateProject();
+
+    // Actualiser l'index courant
     updateIndexInfo();
+
+    // Recalculer la tailler totale des données
     displayTotalSize();
 }
 
@@ -566,16 +575,19 @@ void Altair::requestSaveProject()
 
 bool Altair::updateProject(bool requestSave)
 {
-    RefreshFlag = RefreshFlag
-                 | interfaceStatus::saveTree
-                 | interfaceStatus::tree;
+    RefreshFlag = RefreshFlag | interfaceStatus::saveTree // ouvrir le fichier projet pour le modifier
+                              | interfaceStatus::tree;  // actualisation le gestionnaire de projet
 
     setCurrentFile(projectName);
+
+    // Si la case du dialogue de confirguration est cochée, ou si la sauvegarde est forcée
+    // par requetSave = true alors réécrire le projet .alt
 
     if (parent->isDefaultSaveProjectChecked() || requestSave)
         writeProjectFile();
 
-    Abstract::initH("base", path_access("Tests/Exemple/Donnees/" AltairDir));
+    // Les
+    Abstract::initH("base", path_access(DONNEES_SORTIE));
     Abstract::initH("lhxDir", path_access(System));
 
     return refreshProjectManager();
@@ -695,15 +707,16 @@ bool Altair::refreshProjectManager()
 
     if ((RefreshFlag & interfaceStatus::treeMask) == interfaceStatus::tree)
     {
+     // Colorier en couleurs alternées silver et blanche le gestionnaire de projet
 
         QPalette palette;
         palette.setColor(QPalette::AlternateBase,QColor("silver"));
         managerWidget->setPalette(palette);
         managerWidget->setAlternatingRowColors(true);
 
-        if ((RefreshFlag & interfaceStatus::parseXmlMask) == interfaceStatus::parseXml)  // refresh display by parsing xml file again
+        if ((RefreshFlag & interfaceStatus::parseXmlMask)
+                == interfaceStatus::parseXml)  // Re-parser le fichier XML projet
         {
-
             if (!file.isOpen())
                 file.open(QIODevice::ReadWrite);
             else
@@ -716,9 +729,8 @@ bool Altair::refreshProjectManager()
             }
 
             parseProjectFile(&file);
-
         }
-        else  // refresh display using containers without parsing xml file
+        else  // Ne pas reparser le XML simplement utiliser le conteneur de données
         {
             refreshProjectManagerValues(manager::refreshProjectInteractiveMode
                                         | manager::refreshNBulletins
@@ -735,7 +747,6 @@ bool Altair::refreshProjectManager()
                                               | interfaceStatus::treeMask
                                               | interfaceStatus::tabMask
                                               | interfaceStatus::parseXmlMask) ;
-
 
     return (filesize !=  0);
 }

@@ -131,11 +131,14 @@ public:
 
 class FAbstractWidget : public flags
 {
-
 public:
- Q2VectorWidget* enabledObjects = nullptr;
- Q2VectorWidget* disabledObjects = nullptr;
 
+ Q2VectorWidget* enabledObjects = nullptr; ///< Pointeur vers un vecteur de vecteurs de widgets activés par le widget courant
+
+ Q2VectorWidget* disabledObjects = nullptr; ///< Pointeur vers un vecteur de vecteurs de widgets désactivés par le widget courant
+ // command-line interface type
+ flags::commandLineType commandLineType;
+ flags::status  status;
 
   /* is used for .alt Xml project writing: refresh Widget information and injects current Widget state into Hash::qstring as left-valued of <...hashKey=...> */
  virtual const FString setXmlFromWidget()=0 ;
@@ -143,20 +146,30 @@ public:
   /* does the reverse of setXmlFromWidget : reads left value of <...hashKey=...> and injects it into commandLineList. Refreshes Widget state accordingly */
   virtual void setWidgetFromXml(const FStringList& )=0;
 
-  /* Refreshes widget state from current value of commandLineList member to ensure coherence betwenn internal object state and on-screen display */
+ /// Actualise l'état du widget à partir de la valeur courante du membre de \ref commandLineList pour assurer
+ /// la cohérence entre l'état des données en mémoire et l'apparence graphique du widget
+
  virtual void refreshWidgetDisplay()=0 ;
+
+ /// Retourne la clé de hashage de \ref Hash::wrapper correspondant au widget
+ /// \return QString correspondant à la clé \ref hashKey
+
  const QString& getHashKey() const {return hashKey; }
+
  QVector<QWidget*>& getComponentList() { return componentList;}
+
+ /// Accesseur en lecture de la \e profondeur du widget
+ /// \return Retourne \ref widgetDepth
+
  const QString& getDepth() const {return widgetDepth; }
+
+ /// Accesseur en lecture de la \e description du widget
+ /// \return Retourne \ref description
+
  const QStringList& getDescription() const { return description; }
 
-
-  /* command-line interface maker */
+  // command-line interface maker
   virtual const QStringList commandLineStringList();
-
-  /* command-line interface type */
-  flags::commandLineType commandLineType;
-  flags::status  status;
 
   // isEnabled() cannot be used as it would trigger lexical ambiguity with QWidget-inherited isEnabled() in subclasses
   // yet using virtual derivation makes it possible to invoke the QWidget-inherited isEnabled().
@@ -191,33 +204,65 @@ protected:
 
 struct Abstract
 {
-    static QVector<FAbstractWidget*> abstractWidgetList;
+    static QVector<FAbstractWidget*> abstractWidgetList; ///< englobe tous les widgets fonctionnels utilisés
+
+    /// Pour tous les membres de \ref abstractWidgetList, appelle \ref refreshWidgetDisplay()
+    /// ce qui a pour effet d'actualiser l'état graphique du widget en fonction des données
+    /// en mémoire.
+
     static void refreshOptionFields();
+
+    /// Détruire la valeur allouée de \ref Hash::wrapper pour la clé \e hashKey si elle existe
+    /// et si elle est allouée et réallouer une nouvelle
+    /// \param hashKey Clé à réallouer
+    /// \param value Nouvelle valeur
+
     static void initH(const QString &hashKey, const QString& value)
     {
-        *(Hash::wrapper[hashKey]=new FStringList) = value;
+       if (! Hash::wrapper.isEmpty()
+                && Hash::wrapper.value(hashKey, nullptr) != nullptr)
+                 delete(Hash::wrapper[hashKey]);
+
+        *(Hash::wrapper[hashKey] = new FStringList) = value;
     }
+
+    /// Détruire la valeur allouée de \ref Hash::wrapper pour la clé \e hashKey si elle existe
+    /// et si elle est allouée et réallouer une nouvelle
+    /// \param hashKey Clé à réallouer
 
     static void initH(const QString &hashKey)
     {
-        Hash::wrapper[hashKey]=new FStringList;
+        // Détruire la valeur allouée de Hash::wrapper[hashKey] si elle existe
+        // et si elle est allouée et réallouer une nouvelle à blanc
+
+        if (! Hash::wrapper.isEmpty()
+                && Hash::wrapper.value(hashKey, nullptr) != nullptr)
+                 delete(Hash::wrapper[hashKey]);
+
+        Hash::wrapper[hashKey] = new FStringList;
     }
+
+    /// Réinitialiser toutes les valeurs du de la table de hachage \ref Hash::wrapper
 
     static void initH()
     {
         for (const QString& hashKey: Hash::wrapper.keys()) initH(hashKey);
     }
 
+    /// Récupère toutes les clés de hachage (de Hash::wrapper) des FWidgets qui
+    /// sont dans le vecteur FAbstractWidget::abstractWidgetList, qui englobe tous
+    /// les widgets fonctionnels utilisés
+    /// \return Une QStringList de toutes les clés
+
     static QStringList hashKeys()
     {
         QStringList L;
         for (const FAbstractWidget* a : abstractWidgetList)
             L << a->getHashKey();
+
         return L;
     }
-
 };
-
 
 class FListWidget : public QWidget, public FAbstractWidget
 {

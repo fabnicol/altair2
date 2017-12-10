@@ -502,7 +502,7 @@ void Altair::runRAltair()
     process.setProcessChannelMode(QProcess::MergedChannels);
 
     // ne pas utiliser isFalse() car la valeur peut être non-spécifiée au lancement
-   QDir outputDir = QDir(common::path_access("Tests/Exemple/Donnees/" AltairDir));
+    QDir outputDir = QDir(common::path_access(DONNEES_SORTIE));
 
     outputDir.remove("altaïr.pdf");
     outputDir.remove("altaïr.odt");
@@ -520,17 +520,17 @@ void Altair::runRAltair()
 
         if (v(rapportType) == "WORD et ODT")
         {
-          path_access_rapport = path_access("Tests/Exemple/rapport_msword.R");
+          path_access_rapport = path_access(SCRIPT_DIR "rapport_msword.R");
         }
         else
         if (v(rapportType) == "PDF")
         {
-          path_access_rapport = path_access("Tests/Exemple/rapport_pdf.R");
+          path_access_rapport = path_access(SCRIPT_DIR "rapport_pdf.R");
         }
         else
         if (v(rapportType) == "WORD, ODT et PDF")
         {
-          path_access_rapport = path_access("Tests/Exemple/rapport_msword_et_pdf.R");
+          path_access_rapport = path_access(SCRIPT_DIR "rapport_msword_et_pdf.R");
         }
 
 #ifdef Q_OS_WIN
