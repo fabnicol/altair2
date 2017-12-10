@@ -49,14 +49,27 @@
 #  define MINIMUM_LINE_WIDTH 350
 #endif
 
-#define DONNEES_XHL  "Tests/Exemple/Donnees/xhl"    
-
-#ifdef __linux__
-  #define AltairDir  "R-Altair"
-#else
-  #define AltairDir  "R-Altaïr"
+#ifndef SCRIPT_DIR
+#  define SCRIPT_DIR "Tests/Exemple/"
 #endif
 
+#ifndef DONNEES
+#  define DONNEES  SCRIPT_DIR "Donnees/"
+#endif
+
+#ifndef DONNEES_XHL
+#  define DONNEES_XHL  DONNEES "xhl"
+#endif
+
+#ifndef AltairDir
+#  ifdef __linux__
+#    define AltairDir  "R-Altair"
+#  else
+#    define AltairDir  "R-Altaïr"
+#  endif
+#endif
+
+#define DONNEES_SORTIE  DONNEES AltairDir
 
 class interfaceStatus  {
   public:

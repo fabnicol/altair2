@@ -173,7 +173,7 @@ MainWindow::MainWindow(char* projectName)
   Altair::RefreshFlag =  Altair::RefreshFlag  | interfaceStatus::parseXml;
 
   if (settings->value("loadProjectBehavior") == true)
-      projectFileStatus = altair->clearInterfaceAndParseProject();
+      altair->clearInterfaceAndParseProject();
 
   // resetting interfaceStatus::parseXml bits to 0
   Altair::RefreshFlag = Altair::RefreshFlag & (~interfaceStatus::parseXml);
@@ -358,7 +358,7 @@ void MainWindow::createActions()
   openBaseDirAction ->setIcon(QIcon(":/images/directory.png"));
   connect(openBaseDirAction, &QAction::triggered, [&] { 
                   
-                  QString userdatadir = common::path_access("Tests/Exemple/Donnees/" AltairDir );
+                  QString userdatadir = common::path_access(DONNEES_SORTIE);
                   if (! QFileInfo(userdatadir).isDir())
                   {
                       QDir dir;
@@ -459,7 +459,6 @@ void MainWindow::createActions()
  
 }
 
-
 MatriculeInput::MatriculeInput(int width, int height)
 {
     QGridLayout* q = new QGridLayout;
@@ -510,7 +509,7 @@ MatriculeInput::MatriculeInput(int width, int height)
                                    "%bulletins" );
     
     QGroupBox* dBox = new QGroupBox("Exportation");
-    const QString dirpath = common::path_access("Tests/Exemple/Donnees/Bulletins");
+    const QString dirpath = common::path_access(DONNEES "Bulletins");
     
     dossier = new FLineFrame({"Matricules", "Répertoire"},
                                    dirpath,
@@ -590,7 +589,6 @@ MatriculeInput::MatriculeInput(int width, int height)
                     });
 }
 
-
 bool MatriculeInput::checkInput(FLineEdit* l)
 {
     bool res = true;
@@ -646,16 +644,13 @@ bool MatriculeInput::checkInput(FLineEdit* l)
 
 void MainWindow::on_printBase_clicked()
 {
-
    if (m->exec() != QDialog::Accepted) return;
-
    if (! m->matricules.isEmpty())
    {
       dialog->standardTab->tableCheckBox->setChecked(false);
    }
    else
       dialog->standardTab->tableCheckBox->setChecked(true);
-
 }
 
 void MainWindow::resetTableCheckBox()
@@ -831,11 +826,9 @@ vector<string> MainWindow::extraire_donnees_protegees(const string& st)
 
 void MainWindow::launch_process(const QString& path)
 {
-
     QFile xml(path);
 
     std::string xml_out(path.toStdString() + ".new");
-
     std::ofstream out;
 
     if (!xml.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -882,11 +875,10 @@ void MainWindow::launch_process(const QString& path)
     altair->outputTextEdit->repaint();
     emit(altair->setProgressBar(0));
 
-    /* Il est souhaitable d'actualiser le projet avant de lancer v() car en cas de non actualisation récente la valeur de la case
-     * peut être en décalage avec la réalité. C'est au cours de ces actualisations que la valeur est enregistrée dans une table de hashage. */
+    // Il est souhaitable d'actualiser le projet avant de lancer v() car en cas de non actualisation récente la valeur de la case
+    // peut être en décalage avec la réalité. C'est au cours de ces actualisations que la valeur est enregistrée dans une table de hashage.
 
     altair->updateProject(true);
-
 }
 
 const vector <unsigned char>  MainWindow::nettoyer_donnees(vector <unsigned char>& st)
@@ -1034,7 +1026,7 @@ const vector <unsigned char>  MainWindow::nettoyer_donnees(vector <unsigned char
      }
   }
 
-    return(out);
+  return(out);
 }
 
 void MainWindow::clean_process(const QString& path)
@@ -2000,7 +1992,6 @@ void MainWindow::configureOptions()
 
 void MainWindow::displayFullScreen(bool state)
 {
-
   if (state)
   {
       setWindowState(Qt::WindowFullScreen);
