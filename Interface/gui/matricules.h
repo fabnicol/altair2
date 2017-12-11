@@ -37,39 +37,45 @@
 //
 // //////////////////////////////////////////////////////////////////////////
 
-/// \file altair.h
+#ifndef MATRICULES_H
+#define MATRICULES_H
+
+
+/// \file matricules.h
 /// \author Fabrice Nicol
-/// \brief Implémentation de la classe \ref common qui comprend des utilitaires communs
+/// \brief Code de la classe MatriculeInput, qui construit un dialogue d'extraction des bulletins
 
 #include "common.h"
-#include "gui_enums.h"
+#include <QDialog>
 
-void common::exporter_identification_controle(QString &file_str, const QString &subdir)
+/// Classe permettant de construire un dialogue d'extraction des bulletins de paye par matricule, année(s) et mois
+
+class MatriculeInput : public QDialog
 {
-    const QString &employeur = Hash::aplatir(Hash::Employeur, ", ", subdir);
-    const QString &budget = Hash::aplatir(Hash::Budget, ", ", subdir);
-    const QString &siret = Hash::aplatir(Hash::Siret, " - ", subdir);
-    const QString &etablissement = Hash::aplatir(Hash::Etablissement, " - ", subdir);
+  private :
+    QDialogButtonBox *closeButton; ///< Bouton Quitter
+    FLineEdit *matrLineEdit;       ///< Première ligne de matricules
+    FLineEdit *matrLineEdit2;      ///< Deuxième ligne de matricules
+    FLineEdit *matrLineEdit3;      ///< Troisième ligne de matricules
+    FLineFrame* dossier;           ///< Dossier d'export des bulletins extraits
 
-    substituer("controle<-c\\(\"\",\"\",\"\",\"\"\\)", "controle<-c(\""
-                                                 + employeur +"\",\""
-                                                 + siret + "\",\""
-                                                 + etablissement + "\",\""
-                                                 + budget + "\")",
-               file_str);
-}
+    /// Vérifie l'input (format de saisie)
+    /// \param l CHaîne de caractères formatée selon l'usage :\n
+    /// <ul><li>Pour un seul matricule : Matricule-Mois-Année</li>
+    ///  <li>Pour une plage de mois et d'années : Matricule-Mois.début...Mois.fin-Année.début...Année.fin</li>
+    /// </ul>\n
+    /// Les séquences de ce type peuvent être ajoutées les unes aux autres séparées par un point-virgule.
+    bool checkInput(FLineEdit* l);
 
-void common::exporter_identification_controle(const QString &subdir)
-{
-    const QString &prologue_code_path = path_access(SCRIPT_DIR "prologue_codes.R");
-    QString file_str = readFile(prologue_code_path);
-    exporter_identification_controle(file_str, subdir);
+  public :
 
-    QString exportpath = (subdir.isEmpty())? prologue_code_path  : common::path_access(DONNEES_SORTIE) + QDir::separator() + subdir + "/prologue_codes.R";
-    renommer(dump(file_str), exportpath);
-}
+    /// Constructeur de la classe MatriculeInput
+    /// \param  largeur du dialogue
+    /// \param  hauteur en paramètres
+    MatriculeInput(int largeur, int hauteur);
 
-
+    QString matricules;  ///< Liste des séquences Matricule-Mois-Année (avec leurs plages éventuelles), séparées par des points virgules.
+};
 
 
-
+#endif // MATRICULES_H
