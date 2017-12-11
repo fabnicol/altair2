@@ -131,6 +131,7 @@ SOURCES += \
     xmlparser.cpp \
     highlighter.cpp \
     run.cpp \
+    matricules.cpp
 
 
 HEADERS  += \
@@ -140,7 +141,8 @@ HEADERS  += \
     altair.h \
     highlighter.h \
     altair-gui.h \
-    gui_enums.h
+    gui_enums.h \
+    matricules.h
 
 
 RESOURCES += \

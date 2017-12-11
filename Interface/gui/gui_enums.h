@@ -1,4 +1,4 @@
-/// Copyright Cour des comptes, 2017
+// Copyright Cour des comptes, 2017
 // Contributeur :
 // Fabrice Nicol, années 2012 à 2017
 // fabrice.nicol@crtc.ccomptes.fr
@@ -35,7 +35,12 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////
+
+
+/// \file gui_enums.h
+/// \author Fabrice Nicol
+/// \brief Code de constantes et de classes regroupant des constantes
 
 #ifndef ENUMS_H
 #define ENUMS_H

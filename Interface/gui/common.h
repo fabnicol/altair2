@@ -1,4 +1,4 @@
-/// Copyright Cour des comptes, 2017
+// Copyright Cour des comptes, 2017
 // Contributeur :
 // Fabrice Nicol, années 2012 à 2017
 // fabrice.nicol@crtc.ccomptes.fr
@@ -35,7 +35,11 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////
+
+/// \file common.h
+/// \author Fabrice Nicol
+/// \brief Code de la classe common, qui regroupe des utilitaires communs à l'interface graphique \ref MainWindow, à son agent \ref Altair et à d'autres classes
 
 #ifndef COMMON_H
 #define COMMON_H

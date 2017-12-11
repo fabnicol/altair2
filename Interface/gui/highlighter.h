@@ -39,6 +39,12 @@
 **
 ****************************************************************************/
 
+
+/// \file highlighter.h
+/// \author Digia Plc
+/// \brief Code de l'utilitaire de colorisation du code XML du projet .alt
+/// \note Ce code est utilisé sous licence BSD dans le cadre de l'usage de <i>fair use</i>
+
 #ifndef HIGHLIGHTER_H
 #define HIGHLIGHTER_H
 
