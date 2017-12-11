@@ -38,6 +38,10 @@
 ////////////////////////////////////////////////////////////////////////////
 
 
+/// \file altair-gui.h
+/// \author Fabrice Nicol
+/// \brief Code de la classe MainWindow qui construit l'interface graphique
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -339,21 +343,6 @@ signals:
    void exitSignal();
 
 };
-
-
-class MatriculeInput : public QDialog
-{
-  private :
-    QDialogButtonBox *closeButton;
-    FLineEdit *matrLineEdit, *matrLineEdit2, *matrLineEdit3;
-    FLineFrame* dossier;
-    bool checkInput(FLineEdit* l);
-    
-  public :
-    MatriculeInput(int, int);
-    QString matricules = "";
-};
-
 
 #endif
 

@@ -35,9 +35,12 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////////////
 
 
+/// \file options.cpp
+/// \author Fabrice Nicol
+/// \brief Implémentation des classes du dialogue d'options
 
 #include <QFile>
 #include <thread>
@@ -55,8 +58,7 @@ extern template void createHash(QHash<QString, QString>&,
                                 const QList<QString>*,
                                 const QList<QString>*);
 
-
-///
+//
 // Crée une ligne de codes pour un type donné de prime
 //
 
