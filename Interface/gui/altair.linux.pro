@@ -38,6 +38,7 @@
 
 VERSION_TAG = $$system(cat ../../VERSION)
 DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
+
 message("Version :  $$VERSION_TAG")
 QMAKE_CXX = /usr/bin/g++
 QMAKE_LINK = /usr/bin/g++
@@ -94,6 +95,8 @@ VPATH = .
 INCLUDEPATH += ../../fwidgets_lib
 LIBS += libfwidgets_lib.a
 
+DEFINES += SCRIPT_DIR=\\\"Tests/Exemple/\\\"  # Dossier des scripts R
+
 DEFINES += MAX_FICHIERS_RECENTS=5     # Nombre maximum de fichiers récents
 
 DEFINES += PROGRESSBAR_TIMEOUT=200    # Intervalle d'incrémentation de la barre de progression en millisecondes
@@ -128,6 +131,7 @@ SOURCES += \
     xmlparser.cpp \
     highlighter.cpp \
     run.cpp \
+    matricules.cpp
 
 
 HEADERS  += \
@@ -137,7 +141,8 @@ HEADERS  += \
     altair.h \
     highlighter.h \
     altair-gui.h \
-    gui_enums.h
+    gui_enums.h \
+    matricules.h
 
 
 RESOURCES += \
