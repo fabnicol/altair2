@@ -166,16 +166,16 @@ SOURCES += \
     recherche.cpp
 
 HEADERS += \
-    fonctions_auxiliaires.hpp \
-    table.hpp \
-    validator.hpp \
-    ligne_paye.hpp \
+    table.h \
     ../Interface/gui/tags.h \
-    entete.hpp \
-    expression_reg_elus.hpp \
-    expression_reg_commun.hpp \
-    expression_reg_adjoints.hpp \
-    filenames.hpp \
-    recherche.hpp \
-    expression_reg_cata.hpp
+    entete.h \
+    expression_reg_adjoints.h \
+    expression_reg_cata.h \
+    expression_reg_commun.h \
+    expression_reg_elus.h \
+    filenames.h \
+    fonctions_auxiliaires.h \
+    ligne_paye.h \
+    recherche.h \
+    validator.h
 

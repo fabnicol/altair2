@@ -36,7 +36,7 @@
 //
 //
 
-#include "recherche.hpp"
+#include "recherche.h"
 using namespace std;
 
 /// \file    recherche.cpp
@@ -61,56 +61,56 @@ using namespace std;
 
 vector<string>  recherche(const vector<info_t> &Info, const string& annee, const string& mois, const string& matricule)
 {
-  // Bulletins à extraire
-  vector<string> bulletins;
-  
-  auto matr = (const xmlChar*) matricule.c_str();  
-  int m = stoi(mois);
-  int a = stoi(annee);
-  
-  // Parcourt l'ensemble des données de paye, pour tous les fils d'exécution, après décodage
-  // Il faut donc que lhx se soit complètement exécuté préalablement
+    // Bulletins à extraire
+    vector<string> bulletins;
 
-  // Boucle sur les fils d'exécution
+    auto matr = (const xmlChar*) matricule.c_str();
+    int m = stoi(mois);
+    int a = stoi(annee);
 
-  for (unsigned int i = 0; i < Info[0].nbfil; ++i)
-  {
+    // Parcourt l'ensemble des données de paye, pour tous les fils d'exécution, après décodage
+    // Il faut donc que lhx se soit complètement exécuté préalablement
 
-    // Boucle sur les données extraites pour un fil donné
+    // Boucle sur les fils d'exécution
 
-    for (vector<vector<xmlChar*>>::const_iterator  it = Info[i].Table.begin(); it != Info[i].Table.end(); ++it)
-    {
-      // On restreint la recherche à l'année, au mois et au matricule donnés
-      // On pourrait aller plus vite avec une table de hachage, mais l'expérience montre que ce n'est pas nécessaire
-      // it correspond à la partie de la Table pour un agent donné
-
-        if (atoi((const char*) it->at(Annee)) == a
-            && atoi((const char*) it->at(Mois)) ==  m
-            && xmlStrcmp(it->at(Matricule), matr) == 0)
+    for (unsigned int i = 0; i < Info[0].nbfil; ++i)
         {
-            // index correspond au rang de l'agent dans la Table (0 <= index <= NCumAgentXml)
 
-            long long index = it - Info[i].Table.begin();
+            // Boucle sur les données extraites pour un fil donné
 
-            // le vecteur ligne_debut a été construit lors de l'extraction : il permet de situer la ligne de début
-            // du code XML correspondant à l'agent de rang index dans le fichier et donnant le début de son propre bulletin
-            // de paye au format XML
-            // le vecteur ligne_fin donne la ligne de fin de ce code-bulletin
+            for (vector<vector<xmlChar*>>::const_iterator  it = Info[i].Table.begin(); it != Info[i].Table.end(); ++it)
+                {
+                    // On restreint la recherche à l'année, au mois et au matricule donnés
+                    // On pourrait aller plus vite avec une table de hachage, mais l'expérience montre que ce n'est pas nécessaire
+                    // it correspond à la partie de la Table pour un agent donné
 
-            array<uint64_t, 3> debut = Info[i].ligne_debut.at(index);
-            array<uint64_t, 2> fin   = Info[i].ligne_fin.at(index);
-            
-            // Lancer la fonction extraire_ligne qui copie les lignes XML entre la ligne de début et la ligne de fin
+                    if (atoi((const char*) it->at(Annee)) == a
+                            && atoi((const char*) it->at(Mois)) ==  m
+                            && xmlStrcmp(it->at(Matricule), matr) == 0)
+                        {
+                            // index correspond au rang de l'agent dans la Table (0 <= index <= NCumAgentXml)
 
-            const string fichier = extraire_lignes(Info[i], debut, fin);
-            
-            // Cela ne suffit pas à donner un fichier XML syntaxiquement correct.
-            // A cette fin, rajouter un préambule et une fin de fichier en accord avec ce préambule.
-            // Ce qui permettra éventuellement de "repasser" ce bulletin XML artificiellement créé dans lhx
-            // pour extraire ce bulletin particulier au format CSV
+                            long long index = it - Info[i].Table.begin();
 
-            const string preambule =
-"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\
+                            // le vecteur ligne_debut a été construit lors de l'extraction : il permet de situer la ligne de début
+                            // du code XML correspondant à l'agent de rang index dans le fichier et donnant le début de son propre bulletin
+                            // de paye au format XML
+                            // le vecteur ligne_fin donne la ligne de fin de ce code-bulletin
+
+                            array<uint64_t, 3> debut = Info[i].ligne_debut.at(index);
+                            array<uint64_t, 2> fin   = Info[i].ligne_fin.at(index);
+
+                            // Lancer la fonction extraire_ligne qui copie les lignes XML entre la ligne de début et la ligne de fin
+
+                            const string fichier = extraire_lignes(Info[i], debut, fin);
+
+                            // Cela ne suffit pas à donner un fichier XML syntaxiquement correct.
+                            // A cette fin, rajouter un préambule et une fin de fichier en accord avec ce préambule.
+                            // Ce qui permettra éventuellement de "repasser" ce bulletin XML artificiellement créé dans lhx
+                            // pour extraire ce bulletin particulier au format CSV
+
+                            const string preambule =
+                                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\
 <DocumentPaye>\n\
  <IdVer V=\"1.0\"/>\n\
  <Annee V=\"" + annee + "\"/>\n\
@@ -124,18 +124,18 @@ vector<string>  recherche(const vector<info_t> &Info, const string& annee, const
   <Siret V=\"" + string((const char*) it->at(Siret)) + "\"/>\n\
  </Employeur>\n\
  <DonneesIndiv>\n";
-            
-            const string coda = " </DonneesIndiv>\n</DocumentPaye>\n";     
-            
-            // Empiler le tout dans le vecteur bulletins
 
-            if (! fichier.empty())
-               bulletins.emplace_back(preambule + fichier + coda);
+                            const string coda = " </DonneesIndiv>\n</DocumentPaye>\n";
+
+                            // Empiler le tout dans le vecteur bulletins
+
+                            if (! fichier.empty())
+                                bulletins.emplace_back(preambule + fichier + coda);
+                        }
+                }
+
         }
-    }
 
-  }
-    
     return bulletins;
 }
 
@@ -150,15 +150,15 @@ vector<string>  recherche(const vector<info_t> &Info, const string& annee, const
 const string extraire_lignes(const info_t& info, const array<uint64_t, 3>& debut, const array <uint64_t, 2>& fin)
 {
 
- if (fin[1] < debut[1]) return "";
+    if (fin[1] < debut[1]) return "";
 
- string xhl = info.threads->in_memory_file.at(debut[2]);
+    string xhl = info.threads->in_memory_file.at(debut[2]);
 
- string tab = xhl.substr(debut[1], fin[1] - debut[1] + 1);
+    string tab = xhl.substr(debut[1], fin[1] - debut[1] + 1);
 
- tab += "\n";
+    tab += "\n";
 
- return tab;
+    return tab;
 }
 
 
@@ -179,38 +179,38 @@ bool bulletin_paye(const string& chemin_repertoire, const vector<info_t> &Info, 
     auto bulletins = recherche(Info, annee, mois, matricule);
     int rang = 0;
     bool res = true;
-    
+
     for (auto &&bulletin : bulletins)
-    {
-        ++rang;
-        string nom_bulletin =  annee + string("_") + mois + string("_") + matricule
-                              + (rang > 1 ? "_" + to_string(rang) : "") + string(".xml");
-                
-        ofstream f;
-        
-        f.open(chemin_repertoire + "/" + nom_bulletin, std::ofstream::out | std::ofstream::trunc);
-        
-        if (f.is_open())
-            f << bulletin;
-        else
         {
-           cerr << ERROR_HTML_TAG "Echec de la génération du bulletin pour le matricule "
-                << matricule << " Année : " << annee << " Mois : " << mois << ENDL;
-           res = false;
-           continue;
-        }
-        
-        f.close();
-               
-        cerr << STATE_HTML_TAG "Bulletin extrait pour le matricule " << matricule;
+            ++rang;
+            string nom_bulletin =  annee + string("_") + mois + string("_") + matricule
+                                   + (rang > 1 ? "_" + to_string(rang) : "") + string(".xml");
 
-        if (rang > 1)
-        {
-            cerr << " Rang local : " << rang;
+            ofstream f;
+
+            f.open(chemin_repertoire + "/" + nom_bulletin, std::ofstream::out | std::ofstream::trunc);
+
+            if (f.is_open())
+                f << bulletin;
+            else
+                {
+                    cerr << ERROR_HTML_TAG "Echec de la génération du bulletin pour le matricule "
+                         << matricule << " Année : " << annee << " Mois : " << mois << ENDL;
+                    res = false;
+                    continue;
+                }
+
+            f.close();
+
+            cerr << STATE_HTML_TAG "Bulletin extrait pour le matricule " << matricule;
+
+            if (rang > 1)
+                {
+                    cerr << " Rang local : " << rang;
+                }
+
+            cerr << " Année : " << annee << " Mois : " << mois << ENDL;
         }
 
-        cerr << " Année : " << annee << " Mois : " << mois << ENDL;
-    }
-    
     return res;
- }
+}

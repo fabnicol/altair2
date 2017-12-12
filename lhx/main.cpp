@@ -56,17 +56,17 @@
 #include <sstream>
 #include <cstdlib>
 #include <limits.h>
-#include "validator.hpp"
-#include "fonctions_auxiliaires.hpp"
-#include "table.hpp"
-#include "recherche.hpp"
+#include "validator.h"
+#include "fonctions_auxiliaires.h"
+#include "table.h"
+#include "recherche.h"
 
 #ifndef OVERHEAD
-  #define OVERHEAD 500
+#define OVERHEAD 500
 #endif
 
 #ifndef AVERAGE_RAM_DENSITY
-  #define AVERAGE_RAM_DENSITY 1.25
+#define AVERAGE_RAM_DENSITY 1.25
 #endif
 
 /// \file    main.cpp
@@ -104,17 +104,17 @@ int main(int argc, char **argv)
     setlocale(LC_ALL, "French_France.1252"); // Windows ne gère pas UTF-8 en locale
     //locale::global(locale("French_France.1252"));
 #elif defined __linux__
-   // setlocale(LC_ALL, "fr_FR.ISO-8859-15");
-   locale::global(locale("fr_FR.utf8"));
+    // setlocale(LC_ALL, "fr_FR.ISO-8859-15");
+    locale::global(locale("fr_FR.utf8"));
 #else
 #error "Programme conçu pour Windows ou linux"
 #endif
 
     if (argc < 2)
-    {
-        cerr << ERROR_HTML_TAG "Il faut au moins un fichier à analyser.\n" ;
-        return -2;
-    }
+        {
+            cerr << ERROR_HTML_TAG "Il faut au moins un fichier à analyser.\n" ;
+            return -2;
+        }
 
     // Initialisation de libxml2
 
@@ -142,7 +142,7 @@ int main(int argc, char **argv)
         {{}},             //    bulletinPtr* Table;
         0,                //    uint64_t nbLigne;
         vector<array<uint64_t, 3>>(),                //    ligne_debut
-        vector<array<uint64_t, 2>>(),                //    ligne_fin
+                                vector<array<uint64_t, 2>>(),                //    ligne_fin
         {},               //    int32_t  *NAgent;
         0,                //    uint32_t nbAgentUtilisateur
         0,                //    uint32_t NCumAgent;
@@ -181,713 +181,752 @@ int main(int argc, char **argv)
     commandline_tab.assign(argv, argv + argc);
 
     while (start < argc)
-    {
-
-        // Nombre maximal de bulletins mensuels attendus pour une allocation manuelle de la mémoire
-
-       if (commandline_tab[start] == "-n")
-       {
-         info.reduire_consommation_memoire = false;
-         info.nbAgentUtilisateur
-           = lire_argument (argc, const_cast<char*>(commandline_tab[start + 1].c_str()));
-         if (info.nbAgentUtilisateur < 1)
-            {
-              cerr << ERROR_HTML_TAG "Préciser le nombre de bulletins mensuels attendus (majorant du nombre) avec -n xxx .\n";
-              exit(-1);
-            }
-            start += 2;
-            continue;
-        }
-
-        // Aide en ligne
-
-        else if (commandline_tab[start] ==  "-h")
         {
-            string out = move(help()).str();
-            out.erase(remove(out.begin(), out.end(), '*'), out.end());
-            cerr << out;
-            exit(0);
-        }
 
-        // Génération des bulletins de paye
+            // Nombre maximal de bulletins mensuels attendus pour une allocation manuelle de la mémoire
 
-        else if (commandline_tab[start] ==  "--bulletins")
-        {
-           ++start;
-           if (start == argc) break;
-           if (none_of(commandline_tab.begin(), 
-                       commandline_tab.end(),
-                       [] (const string& x) { return(x == string("--dossier-bulletins"));}))
-           {
-               cerr << ERROR_HTML_TAG "Erreur de ligne de commande fatale : "
-                       "Il faut une option --dossier-bulletins spécifiant en argument"
-                       "le dossier vers lequel les bulletins extraits seront exportés."
-                       ENDL;
-               throw;
-           }
-           const string req = commandline_tab[start];
-           vString bull = split(req, ';');
-           generer_table = false;
-           info.generer_bulletins = true;
+            if (commandline_tab[start] == "-n")
+                {
+                    info.reduire_consommation_memoire = false;
+                    info.nbAgentUtilisateur
+                        = lire_argument (argc, const_cast<char*>(commandline_tab[start + 1].c_str()));
 
-           for (const string &v : bull) 
-               vbull.emplace_back(split(v, '-'));  // {"1025N", "6...9", "2012...2015"}
-           
-           ++start;
-           continue;
-        }
+                    if (info.nbAgentUtilisateur < 1)
+                        {
+                            cerr << ERROR_HTML_TAG "Préciser le nombre de bulletins mensuels attendus (majorant du nombre) avec -n xxx .\n";
+                            exit(-1);
+                        }
 
-        // Paramétrage du dossier de génération des bulletins de paye
+                    start += 2;
+                    continue;
+                }
 
-        else if (commandline_tab[start] ==  "--dossier-bulletins")
-        {
-          ++start;
-          if (start == argc) break;
-          if (none_of(commandline_tab.begin(),
-                      commandline_tab.end(),
-                      [] (const string& x) { return(x == string("--bulletins"));}))
-          {
-              cerr << ERROR_HTML_TAG "Erreur de ligne de commande fatale : "
-                      "Il faut une option --bulletins avec les bulletins à imprimer"
-                      "en argument, sur le format matricule-mois...mois-année...année"
-                      ENDL;
-              throw;
-          }
-          repertoire_bulletins = commandline_tab[start];
-          ++start;
-          continue;
-        }
+            // Aide en ligne
 
-        // Génération de la documentation de l'aide en ligne
+            else if (commandline_tab[start] ==  "-h")
+                {
+                    string out = move(help()).str();
+                    out.erase(remove(out.begin(), out.end(), '*'), out.end());
+                    cerr << out;
+                    exit(0);
+                }
 
-        else if (commandline_tab[start] ==  "--hmarkdown" || commandline_tab[start] == "--pdf" || commandline_tab[start] == "--html")
-        {
-          ostringstream out = std::move(help());
-          
-          if (commandline_tab[start] == "--hmarkdown")
-          {
-             cerr << out.str();
-          }
-          else
-          {
-             ofstream help;
+            // Génération des bulletins de paye
 
-              help.open("aide.md");
+            else if (commandline_tab[start] ==  "--bulletins")
+                {
+                    ++start;
 
-              help << out.str();
-              
+                    if (start == argc) break;
+
+                    if (none_of(commandline_tab.begin(),
+                                commandline_tab.end(),
+                                [] (const string & x)
+                    {
+                        return(x == string("--dossier-bulletins"));
+                        }))
+                    {
+                        cerr << ERROR_HTML_TAG "Erreur de ligne de commande fatale : "
+                             "Il faut une option --dossier-bulletins spécifiant en argument"
+                             "le dossier vers lequel les bulletins extraits seront exportés."
+                             ENDL;
+                        throw;
+                    }
+                    const string req = commandline_tab[start];
+                    vString bull = split(req, ';');
+                    generer_table = false;
+                    info.generer_bulletins = true;
+
+                    for (const string &v : bull)
+                        vbull.emplace_back(split(v, '-'));  // {"1025N", "6...9", "2012...2015"}
+
+                    ++start;
+                    continue;
+                }
+
+            // Paramétrage du dossier de génération des bulletins de paye
+
+            else if (commandline_tab[start] ==  "--dossier-bulletins")
+                {
+                    ++start;
+
+                    if (start == argc) break;
+
+                    if (none_of(commandline_tab.begin(),
+                                commandline_tab.end(),
+                                [] (const string & x)
+                    {
+                        return(x == string("--bulletins"));
+                        }))
+                    {
+                        cerr << ERROR_HTML_TAG "Erreur de ligne de commande fatale : "
+                             "Il faut une option --bulletins avec les bulletins à imprimer"
+                             "en argument, sur le format matricule-mois...mois-année...année"
+                             ENDL;
+                        throw;
+                    }
+                    repertoire_bulletins = commandline_tab[start];
+                    ++start;
+                    continue;
+                }
+
+            // Génération de la documentation de l'aide en ligne
+
+            else if (commandline_tab[start] ==  "--hmarkdown" || commandline_tab[start] == "--pdf" || commandline_tab[start] == "--html")
+                {
+                    ostringstream out = std::move(help());
+
+                    if (commandline_tab[start] == "--hmarkdown")
+                        {
+                            cerr << out.str();
+                        }
+                    else
+                        {
+                            ofstream help;
+
+                            help.open("aide.md");
+
+                            help << out.str();
+
 #ifndef __linux__
-              string sep(";");
-              sep[0] = SYSTEM_PATH_SEPARATOR;
-              string exec_dir = getexecpath();
-              string command = string("PATH=") + string(getenv("PATH"))
-                                 + sep + exec_dir + string("/../texlive/miktex/bin")
-                                 + sep + exec_dir + string("/../Outils")
-                                 + sep + exec_dir + string("/../RStudio/bin/pandoc");
-              putenv(command.c_str());
+                            string sep(";");
+                            sep[0] = SYSTEM_PATH_SEPARATOR;
+                            string exec_dir = getexecpath();
+                            string command = string("PATH=") + string(getenv("PATH"))
+                                             + sep + exec_dir + string("/../texlive/miktex/bin")
+                                             + sep + exec_dir + string("/../Outils")
+                                             + sep + exec_dir + string("/../RStudio/bin/pandoc");
+                            putenv(command.c_str());
 #             define exec  ".exe"
 #else
-#             define exec   ""              
+#             define exec   ""
 #endif
 
 
-              int res = system("iconv"  exec  " -t utf-8 -f latin1 -c -s  aide.md > aide.utf8.md");
-              if (res) cerr << "La conversion en UTF-8 par iconv a échoué" ENDL;
-              if (commandline_tab[start] == "--pdf")
-              {
-                 res = system("pandoc" exec  " -o aide_lhx.pdf  aide.utf8.md");
-                 if (res) cerr << "La conversion en PDF par pandoc a échoué" ENDL;
-              }
-              else
-              if (commandline_tab[start] == "--html")
-              {
-                 res = system("pandoc"  exec  " -o aide_lhx.utf8.html  aide.utf8.md");
-                 if (res) cerr << "La conversion en HTML par pandoc a échoué" ENDL;
-                 res = system("iconv"  exec  " -f utf-8 -t latin1 -c -s  aide_lhx.utf8.html > aide_lhx.html");
-                 if (res) cerr << "La conversion en latin1 par iconv a échoué" ENDL;
-                 unlink("aide_lhx.utf8.html");
-              }
-              help.close();
-              unlink("aide.utf8.md");
-              unlink("aide.md");
-          }
+                            int res = system("iconv"  exec  " -t utf-8 -f latin1 -c -s  aide.md > aide.utf8.md");
 
-          exit(0);
+                            if (res) cerr << "La conversion en UTF-8 par iconv a échoué" ENDL;
 
-        }
+                            if (commandline_tab[start] == "--pdf")
+                                {
+                                    res = system("pandoc" exec  " -o aide_lhx.pdf  aide.utf8.md");
 
-        // Mode à verbosité réduite
+                                    if (res) cerr << "La conversion en PDF par pandoc a échoué" ENDL;
+                                }
+                            else if (commandline_tab[start] == "--html")
+                                {
+                                    res = system("pandoc"  exec  " -o aide_lhx.utf8.html  aide.utf8.md");
 
-        else if (commandline_tab[start] ==  "-q")
-        {
-            verbeux = false;
-            ++start;
-            continue;
-        }
+                                    if (res) cerr << "La conversion en HTML par pandoc a échoué" ENDL;
 
-        // Type de la table en sortie (standard, par année, par catégorie de ligne de paye,....)
+                                    res = system("iconv"  exec  " -f utf-8 -t latin1 -c -s  aide_lhx.utf8.html > aide_lhx.html");
 
-        else if (commandline_tab[start] == "-t")
-        {
-            generer_table = true;
-            if (commandline_tab[start + 1] == "standard")
-            {
-                type_table = commandline_tab[start + 1];
-                start += 2;
-                continue;
-            }
-            else
-            {
-                ++start;
-                continue;
-            }
-        }
+                                    if (res) cerr << "La conversion en latin1 par iconv a échoué" ENDL;
 
-       // Génération des rangs de ligne de paye dans la table en sortie
+                                    unlink("aide_lhx.utf8.html");
+                                }
 
-        else if (commandline_tab[start] ==  "-l")
-        {
-            info.generer_rang = true ;
-            ++start;
-            continue;
-        }
+                            help.close();
+                            unlink("aide.utf8.md");
+                            unlink("aide.md");
+                        }
 
-       // Type de la table des données de paye en sortie
+                    exit(0);
 
-        else if (commandline_tab[start] == "-T")
-        {
-            if (start + 1 == argc)
-            {
-                cerr << ERROR_HTML_TAG "Option -T suivi d'un argument obligatoire (nombre de lignes)." ENDL ;
-                exit(-100);
-            }
-
-            map<string, BaseType> hashTable;
-
-            hashTable["AN"] = BaseType::PAR_ANNEE;
-            hashTable["A"]  = BaseType::PAR_REM_DIVERSES;
-            hashTable["AC"] = BaseType::PAR_ACOMPTE;
-            hashTable["AV"] = BaseType::PAR_AVANTAGE_NATURE;
-            hashTable["C"]  = BaseType::PAR_COTISATION;
-            hashTable["D"]  = BaseType::PAR_DEDUCTION;
-            hashTable["I"]  = BaseType::PAR_INDEMNITE;
-            hashTable["IR"] = BaseType::PAR_INDEMNITE_RESIDENCE;
-            hashTable["S"]  = BaseType::PAR_SFT;
-            hashTable["T"]  = BaseType::PAR_TRAITEMENT;
-            hashTable["R"]  = BaseType::PAR_RAPPEL;
-            hashTable["RE"] = BaseType::PAR_RETENUE;
-            hashTable["X"]  = BaseType::TOUTES_CATEGORIES;
-
-            if (hashTable.find(commandline_tab[start + 1]) != hashTable.end())
-            {
-                BaseType type = hashTable[commandline_tab[start + 1]];
-                info.type_base = (info.type_base == BaseType::MAXIMUM_LIGNES && type == BaseType::PAR_ANNEE)? BaseType::MAXIMUM_LIGNES_PAR_ANNEE : type;
-
-            }
-            else
-            {
-                // On a trouvé un argument numérique en ligne de commande
-
-                int32_t size_read = lire_argument(argc, const_cast<char*>(commandline_tab[start + 1].c_str()));
-
-                if (size_read < 0 || size_read > INT32_MAX -1)
-                {
-                    cerr << ERROR_HTML_TAG "Le nombre de lignes doit être compris entre 0 et INT64_MAX" ENDL;
-                    exit(-908);
                 }
-                else
+
+            // Mode à verbosité réduite
+
+            else if (commandline_tab[start] ==  "-q")
                 {
-                    info.taille_base = size_read;
-
-                    info.type_base = (info.type_base == BaseType::PAR_ANNEE)? BaseType::MAXIMUM_LIGNES_PAR_ANNEE : BaseType::MAXIMUM_LIGNES;
-
-                    cerr << PARAMETER_HTML_TAG "Bases d'au plus " << size_read << " lignes" ENDL;
+                    verbeux = false;
+                    ++start;
+                    continue;
                 }
-            }
 
-            start += 2;
-            continue;
-        }
+            // Type de la table en sortie (standard, par année, par catégorie de ligne de paye,....)
 
-       // Séparateur-délimiteur de champs du format CSV (en général ';' ou ',')
-
-        else if (commandline_tab[start] == "-s")
-        {
-            if (start + 1 == argc)
-            {
-                cerr << ERROR_HTML_TAG "Option -s suivi d'un argument obligatoire (séparateur de champs)." ENDL;
-                exit(-100);
-            }
-            info.separateur = commandline_tab[start + 1][0];
-
-            if (info.separateur == '_')
-            {
-                perror(ERROR_HTML_TAG "Le séparateur ne doit pas être '_'");
-                exit(-909);
-            }
-
-            start += 2;
-            continue;
-        }
-
-       // Séparateur des décimales
-
-        else if (commandline_tab[start] == "-d")
-        {
-            if (start + 1 == argc)
-            {
-                cerr << ERROR_HTML_TAG "Option -d suivi d'un argument obligatoire (séparateur décimal)." ENDL;
-                exit(-100);
-            }
-            info.decimal = commandline_tab[start + 1][0];
-            start += 2;
-            continue;
-        }
-
-       // Chemin complet de sortie de la base Table
-
-        else if (commandline_tab[start] == "-o")
-        {
-            if (start + 1 == argc)
-            {
-                cerr << ERROR_HTML_TAG "Option -o suivi d'un argument obligatoire (nom de  fichier)." ENDL;
-                exit(-100);
-            }
-
-            info.chemin_base = commandline_tab[start + 1];
-
-            ofstream base;
-            base.open(info.chemin_base);
-            if (! base.good())
-            {
-                perror(ERROR_HTML_TAG "La base de données ne peut être créée, vérifier l'existence du dossier.");
-                exit(-113);
-            }
-
-            base.close();
-            unlink(info.chemin_base.c_str());
-            start += 2;
-            continue;
-        }
-
-       // Désactivation de la libération de la mémoire en sortie (utile pour déboguer)
-
-        else if (commandline_tab[start] == "-M")
-        {
-            liberer_memoire = false;
-            ++start;
-            continue;
-        }
-
-       // Calcul des maxima de nombre de bulletins de paye et d'agents par mois
-
-        else if (commandline_tab[start] == "-m")
-        {
-            info.calculer_maxima = true;
-            ++start;
-            continue;
-        }
-
-       // Chemin complet de sortie du répertoire des données CSV
-
-        else if (commandline_tab[start] == "-D")
-        {
-            info.chemin_base = commandline_tab[start + 1] + string("/") + string(NOM_BASE) ;
-            info.chemin_bulletins = commandline_tab[start + 1] + string("/") + string(NOM_BASE_BULLETINS);
-            ofstream base;
-            base.open(info.chemin_base, ofstream::out | ofstream::trunc);
-
-            if (! base.good())
-            {
-                cerr << ERROR_HTML_TAG "La base de données "
-                          << info.chemin_base  + string(CSV) << " ne peut être créée, vérifier l'existence du dossier." ENDL ;
-                exit(-113);
-            }
-            else
-            {
-                // Necessaire sous Windows, no-op sous *.nix
-                base.close();
-                unlink(info.chemin_base.c_str());
-            }
-
-            start += 2;
-            continue;
-        }
-
-       // Nombre de fils d'exécution
-
-        else if (commandline_tab[start] == "-j")
-        {
-            if ((info.nbfil = lire_argument(argc, const_cast<char*>(commandline_tab[start +1].c_str()))) > 0)
-            {
-                if (info.nbfil < 1)
+            else if (commandline_tab[start] == "-t")
                 {
-                    perror(ERROR_HTML_TAG "Le nombre de fils d'exécution doit être compris au moins égal à 2.");
-                    exit(-111);
+                    generer_table = true;
+
+                    if (commandline_tab[start + 1] == "standard")
+                        {
+                            type_table = commandline_tab[start + 1];
+                            start += 2;
+                            continue;
+                        }
+                    else
+                        {
+                            ++start;
+                            continue;
+                        }
                 }
-            }
-            start += 2;
-            continue;
-        }
 
-       // Chemin du log
+            // Génération des rangs de ligne de paye dans la table en sortie
 
-        else if (commandline_tab[start] == "-L")
-        {
-            if (argc > start +2) info.chemin_log = commandline_tab[start + 1];
-            ofstream base;
-            base.open(info.chemin_log);
-            if (! base.good())
-            {
-                perror(ERROR_HTML_TAG "Le log ne peut être créé, vérifier l'existence du dossier.");
-                exit(-114);
-            }
-            start += 2;
-            continue;
-        }
+            else if (commandline_tab[start] ==  "-l")
+                {
+                    info.generer_rang = true ;
+                    ++start;
+                    continue;
+                }
 
-       // Nombre maximal de ligne de payes par mois (allocation de mémoire manuelle)
+            // Type de la table des données de paye en sortie
 
-        else if (commandline_tab[start] == "-N")
-        {
-            if ((info.nbLigneUtilisateur = lire_argument(argc, const_cast<char*>(commandline_tab[start +1].c_str()))) > 1)
-            {
-                cerr << STATE_HTML_TAG "Nombre maximum de lignes de paye redéfini à : " << info.nbLigneUtilisateur << ENDL;
-            }
-            else exit(-1);
+            else if (commandline_tab[start] == "-T")
+                {
+                    if (start + 1 == argc)
+                        {
+                            cerr << ERROR_HTML_TAG "Option -T suivi d'un argument obligatoire (nombre de lignes)." ENDL ;
+                            exit(-100);
+                        }
 
-            info.reduire_consommation_memoire = false;
+                    map<string, BaseType> hashTable;
 
-            start += 2;
-            continue;
-        }
+                    hashTable["AN"] = BaseType::PAR_ANNEE;
+                    hashTable["A"]  = BaseType::PAR_REM_DIVERSES;
+                    hashTable["AC"] = BaseType::PAR_ACOMPTE;
+                    hashTable["AV"] = BaseType::PAR_AVANTAGE_NATURE;
+                    hashTable["C"]  = BaseType::PAR_COTISATION;
+                    hashTable["D"]  = BaseType::PAR_DEDUCTION;
+                    hashTable["I"]  = BaseType::PAR_INDEMNITE;
+                    hashTable["IR"] = BaseType::PAR_INDEMNITE_RESIDENCE;
+                    hashTable["S"]  = BaseType::PAR_SFT;
+                    hashTable["T"]  = BaseType::PAR_TRAITEMENT;
+                    hashTable["R"]  = BaseType::PAR_RAPPEL;
+                    hashTable["RE"] = BaseType::PAR_RETENUE;
+                    hashTable["X"]  = BaseType::TOUTES_CATEGORIES;
 
-       // Chemin du fichier contenant le rang d'extraction pour permettre l'affichage d'une barre de progression dans l'interface graphique.
-       // Par défaut USERPROFILE/LOCALDATA
+                    if (hashTable.find(commandline_tab[start + 1]) != hashTable.end())
+                        {
+                            BaseType type = hashTable[commandline_tab[start + 1]];
+                            info.type_base = (info.type_base == BaseType::MAXIMUM_LIGNES && type == BaseType::PAR_ANNEE) ? BaseType::MAXIMUM_LIGNES_PAR_ANNEE : type;
+
+                        }
+                    else
+                        {
+                            // On a trouvé un argument numérique en ligne de commande
+
+                            int32_t size_read = lire_argument(argc, const_cast<char*>(commandline_tab[start + 1].c_str()));
+
+                            if (size_read < 0 || size_read > INT32_MAX - 1)
+                                {
+                                    cerr << ERROR_HTML_TAG "Le nombre de lignes doit être compris entre 0 et INT64_MAX" ENDL;
+                                    exit(-908);
+                                }
+                            else
+                                {
+                                    info.taille_base = size_read;
+
+                                    info.type_base = (info.type_base == BaseType::PAR_ANNEE) ? BaseType::MAXIMUM_LIGNES_PAR_ANNEE : BaseType::MAXIMUM_LIGNES;
+
+                                    cerr << PARAMETER_HTML_TAG "Bases d'au plus " << size_read << " lignes" ENDL;
+                                }
+                        }
+
+                    start += 2;
+                    continue;
+                }
+
+            // Séparateur-délimiteur de champs du format CSV (en général ';' ou ',')
+
+            else if (commandline_tab[start] == "-s")
+                {
+                    if (start + 1 == argc)
+                        {
+                            cerr << ERROR_HTML_TAG "Option -s suivi d'un argument obligatoire (séparateur de champs)." ENDL;
+                            exit(-100);
+                        }
+
+                    info.separateur = commandline_tab[start + 1][0];
+
+                    if (info.separateur == '_')
+                        {
+                            perror(ERROR_HTML_TAG "Le séparateur ne doit pas être '_'");
+                            exit(-909);
+                        }
+
+                    start += 2;
+                    continue;
+                }
+
+            // Séparateur des décimales
+
+            else if (commandline_tab[start] == "-d")
+                {
+                    if (start + 1 == argc)
+                        {
+                            cerr << ERROR_HTML_TAG "Option -d suivi d'un argument obligatoire (séparateur décimal)." ENDL;
+                            exit(-100);
+                        }
+
+                    info.decimal = commandline_tab[start + 1][0];
+                    start += 2;
+                    continue;
+                }
+
+            // Chemin complet de sortie de la base Table
+
+            else if (commandline_tab[start] == "-o")
+                {
+                    if (start + 1 == argc)
+                        {
+                            cerr << ERROR_HTML_TAG "Option -o suivi d'un argument obligatoire (nom de  fichier)." ENDL;
+                            exit(-100);
+                        }
+
+                    info.chemin_base = commandline_tab[start + 1];
+
+                    ofstream base;
+                    base.open(info.chemin_base);
+
+                    if (! base.good())
+                        {
+                            perror(ERROR_HTML_TAG "La base de données ne peut être créée, vérifier l'existence du dossier.");
+                            exit(-113);
+                        }
+
+                    base.close();
+                    unlink(info.chemin_base.c_str());
+                    start += 2;
+                    continue;
+                }
+
+            // Désactivation de la libération de la mémoire en sortie (utile pour déboguer)
+
+            else if (commandline_tab[start] == "-M")
+                {
+                    liberer_memoire = false;
+                    ++start;
+                    continue;
+                }
+
+            // Calcul des maxima de nombre de bulletins de paye et d'agents par mois
+
+            else if (commandline_tab[start] == "-m")
+                {
+                    info.calculer_maxima = true;
+                    ++start;
+                    continue;
+                }
+
+            // Chemin complet de sortie du répertoire des données CSV
+
+            else if (commandline_tab[start] == "-D")
+                {
+                    info.chemin_base = commandline_tab[start + 1] + string("/") + string(NOM_BASE) ;
+                    info.chemin_bulletins = commandline_tab[start + 1] + string("/") + string(NOM_BASE_BULLETINS);
+                    ofstream base;
+                    base.open(info.chemin_base, ofstream::out | ofstream::trunc);
+
+                    if (! base.good())
+                        {
+                            cerr << ERROR_HTML_TAG "La base de données "
+                                 << info.chemin_base  + string(CSV) << " ne peut être créée, vérifier l'existence du dossier." ENDL ;
+                            exit(-113);
+                        }
+                    else
+                        {
+                            // Necessaire sous Windows, no-op sous *.nix
+                            base.close();
+                            unlink(info.chemin_base.c_str());
+                        }
+
+                    start += 2;
+                    continue;
+                }
+
+            // Nombre de fils d'exécution
+
+            else if (commandline_tab[start] == "-j")
+                {
+                    if ((info.nbfil = lire_argument(argc, const_cast<char*>(commandline_tab[start + 1].c_str()))) > 0)
+                        {
+                            if (info.nbfil < 1)
+                                {
+                                    perror(ERROR_HTML_TAG "Le nombre de fils d'exécution doit être compris au moins égal à 2.");
+                                    exit(-111);
+                                }
+                        }
+
+                    start += 2;
+                    continue;
+                }
+
+            // Chemin du log
+
+            else if (commandline_tab[start] == "-L")
+                {
+                    if (argc > start + 2) info.chemin_log = commandline_tab[start + 1];
+
+                    ofstream base;
+                    base.open(info.chemin_log);
+
+                    if (! base.good())
+                        {
+                            perror(ERROR_HTML_TAG "Le log ne peut être créé, vérifier l'existence du dossier.");
+                            exit(-114);
+                        }
+
+                    start += 2;
+                    continue;
+                }
+
+            // Nombre maximal de ligne de payes par mois (allocation de mémoire manuelle)
+
+            else if (commandline_tab[start] == "-N")
+                {
+                    if ((info.nbLigneUtilisateur = lire_argument(argc, const_cast<char*>(commandline_tab[start + 1].c_str()))) > 1)
+                        {
+                            cerr << STATE_HTML_TAG "Nombre maximum de lignes de paye redéfini à : " << info.nbLigneUtilisateur << ENDL;
+                        }
+                    else exit(-1);
+
+                    info.reduire_consommation_memoire = false;
+
+                    start += 2;
+                    continue;
+                }
+
+            // Chemin du fichier contenant le rang d'extraction pour permettre l'affichage d'une barre de progression dans l'interface graphique.
+            // Par défaut USERPROFILE/LOCALDATA
 
 #ifdef GENERATE_RANK_SIGNAL
-        else if (commandline_tab[start] == "-rank")
-        {
-            int hasArg = 0;
-            if (argc > start +2)
-            {
-                if (commandline_tab[start + 1][0] == '-')
-                    rankFilePath = string(getenv(USERPROFILE)) + string("/") + string(LOCALDATA);
-
-                else
+            else if (commandline_tab[start] == "-rank")
                 {
-                    rankFilePath = commandline_tab[start + 1];
-                    hasArg = 1;
+                    int hasArg = 0;
+
+                    if (argc > start + 2)
+                        {
+                            if (commandline_tab[start + 1][0] == '-')
+                                rankFilePath = string(getenv(USERPROFILE)) + string("/") + string(LOCALDATA);
+
+                            else
+                                {
+                                    rankFilePath = commandline_tab[start + 1];
+                                    hasArg = 1;
+                                }
+
+                            ifstream testFile;
+                            testFile.open(rankFilePath);
+
+                            if (testFile.is_open())
+                                {
+                                    testFile.close();
+                                }
+
+                            rankFile.open(rankFilePath, ios::out | ios::trunc);
+                            rankFile << 1 << "\n";
+                            rankFile.close();
+                        }
+
+                    start += 1 + hasArg;
+                    continue;
                 }
 
-                ifstream testFile;
-                testFile.open(rankFilePath);
-                if (testFile.is_open())
-                {
-                    testFile.close();
-                }
-
-                rankFile.open(rankFilePath, ios::out| ios::trunc);
-                rankFile << 1 << "\n";
-                rankFile.close();
-            }
-
-            start += 1 + hasArg;
-            continue;
-        }
 #endif
 
-       // Générer les Siret
+            // Générer les Siret
 
-        else if (commandline_tab[start] == "-S")
-        {
-            if (argc > start +2)
-            {
-                info.select_siret = true;
-            }
-            else
-            {
-                exit(-116);
-            }
-            ++start;
-            continue;
-        }
+            else if (commandline_tab[start] == "-S")
+                {
+                    if (argc > start + 2)
+                        {
+                            info.select_siret = true;
+                        }
+                    else
+                        {
+                            exit(-116);
+                        }
 
-       // Générer les échelons
-
-        else if (commandline_tab[start] == "-E")
-        {
-            if (argc > start + 1)
-            {
-                info.select_echelon = true;
-            }
-            else
-            {
-                cout << "Il faut au moins un fichier";
-                exit(-116);
-            }
-            ++start;
-            continue;
-        }
-
-       // Exclure le siret en argument
-
-        else if (commandline_tab[start] == "--esiret")
-        {
-           if (argc > start +2)
-           {
-               if (commandline_tab[start + 1][0] == '-') throw("Il manque les SIRET à exclure");
-
-               do
-               {
-                       info.exclure_siret.push_back(commandline_tab[start + 1]);
-                       ++start;
-               }
-               while(argc > start + 1 && commandline_tab[start][0] != '-');
-
-           }
-           else
-           {
-               cerr << ERROR_HTML_TAG "Il manque les SIRET à exclure.";
-               throw("");
-           }
-
-           continue;
-        }
-
-       // Exclure le budget en argument
-
-        else if (commandline_tab[start] == "--ebudget")
-        {
-           if (argc > start +2)
-           {
-               if (commandline_tab[start + 1][0] == '-') throw("Il manque les budgets à exclure");
-
-               do
-               {
-                       info.exclure_budget.push_back(commandline_tab[start + 1]);
-                       ++start;
-               }
-               while(argc > start + 1 && commandline_tab[start][0] != '-');
-
-           }
-           else
-           {
-               cerr << ERROR_HTML_TAG "Il manque les budgets à exclure.";
-               throw("");
-           }
-
-          continue;
-        }
-
-       // Exclure le budget en argument
-
-        else if (commandline_tab[start] == "--eemployeur")
-        {
-        if (argc > start +2)
-        {
-            if (commandline_tab[start + 1][0] == '-') throw("Il manque les employeurs à exclure");
-
-            do
-            {
-                    info.exclure_employeur.push_back(commandline_tab[start + 1]);
                     ++start;
-            }
-            while(argc > start + 1 && commandline_tab[start][0] != '-');
-
-        }
-        else
-        {
-            cerr << ERROR_HTML_TAG "Il manque les employeurs à exclure.";
-            throw("");
-        }
-
-        continue;
-        }
-
-       // Chemin du fichier permettant de lire une ligne de commandes générée par l'interface graphique
-
-        else if (commandline_tab[start] == "-f")
-        {
-            const char* fichier;
-            if (argc >= start + 2)
-            {
-                fichier = commandline_tab[start + 1].c_str();
-            }
-            else
-            {
-                cerr << ERROR_HTML_TAG "Il manque le fichier de ligne de commande.\n";
-                exit(-119);
-            }
-
-            ifstream f;
-            f.open(fichier);
-            if (! f.good())
-            {
-                cerr << ERROR_HTML_TAG "Impossible d'ouvrir le fichier " << fichier << ".\n";
-                exit(-119);
-            }
-
-            string ligne;
-            if (f.good())
-            {
-              while(f.rdstate() != fstream::eofbit)
-              {
-                getline(f, ligne);
-
-                if (! ligne.empty())
-                       cl.push_back(ligne);
-              }
-
-            }
-
-            f.close();
-            if (! cl.empty())
-            {
-                argc = cl.size() + 1;
-
-                commandline_tab.resize(argc);
-
-                for (int i = 0; i < argc - 1; ++i)
-                {
-
-                    commandline_tab[i + 1] = cl.at(i);
-
-                    if (string(cl.at(i)) == "-f")
-                    {
-                        cerr << ERROR_HTML_TAG "La ligne de commande -f ne peut pas être incluse dans un fichier par -f [risque de boucle infinie].\n";
-                    }
+                    continue;
                 }
 
+            // Générer les échelons
 
-                /* on relance ...*/
-
-                start = 1;
-                continue;
-            }
-            //break;
-        }
-
-       // Ne pas décoder XML
-
-        else if (commandline_tab[start] == "--pretend")
-        {
-          info.pretend = true;   // pas de décodage
-          ++start;
-          continue;
-        }
-
-       // Seulement vérifier la mémoire
-
-        else if (commandline_tab[start] == "--verifmem")
-        {
-          info.verifmem = true;  // seulement vérifier la mémoire
-          ++start;
-          continue;
-        }
-
-       // Taille totale de fichiers
-
-        else if (commandline_tab[start] == "--xhlmem")
-        {
-          cerr << STATE_HTML_TAG "Taille totale des fichiers : " << commandline_tab[start + 1] << " octets." << ENDL;
-          // Taille des fichiers en ko fournie par l'interface graphique, en octets
-          
-          memoire_xhl = stoull(commandline_tab[start + 1], nullptr);
-          if (60000ULL * 1048576ULL < ULLONG_MAX)
-          {
-              if (memoire_xhl > 1ULL || memoire_xhl < (60000ULL * 1048576ULL))
+            else if (commandline_tab[start] == "-E")
                 {
-                  start += 2;
-                  continue;
+                    if (argc > start + 1)
+                        {
+                            info.select_echelon = true;
+                        }
+                    else
+                        {
+                            cout << "Il faut au moins un fichier";
+                            exit(-116);
+                        }
+
+                    ++start;
+                    continue;
                 }
-              else
+
+            // Exclure le siret en argument
+
+            else if (commandline_tab[start] == "--esiret")
                 {
-                  cerr << ERROR_HTML_TAG "La donnée de la taille des fichiers en input est erronée ou au-delà de la limite permise (60 Go)." << ENDL;
-                  exit(-199);
+                    if (argc > start + 2)
+                        {
+                            if (commandline_tab[start + 1][0] == '-') throw("Il manque les SIRET à exclure");
+
+                            do
+                                {
+                                    info.exclure_siret.push_back(commandline_tab[start + 1]);
+                                    ++start;
+                                }
+                            while(argc > start + 1 && commandline_tab[start][0] != '-');
+
+                        }
+                    else
+                        {
+                            cerr << ERROR_HTML_TAG "Il manque les SIRET à exclure.";
+                            throw("");
+                        }
+
+                    continue;
                 }
-          }
-          else
-          {
-                  cerr << ERROR_HTML_TAG "Le plus grand entier non signé est inférieur à 60 * 1048576" << ENDL;
-                  exit(-199);
-          }
+
+            // Exclure le budget en argument
+
+            else if (commandline_tab[start] == "--ebudget")
+                {
+                    if (argc > start + 2)
+                        {
+                            if (commandline_tab[start + 1][0] == '-') throw("Il manque les budgets à exclure");
+
+                            do
+                                {
+                                    info.exclure_budget.push_back(commandline_tab[start + 1]);
+                                    ++start;
+                                }
+                            while(argc > start + 1 && commandline_tab[start][0] != '-');
+
+                        }
+                    else
+                        {
+                            cerr << ERROR_HTML_TAG "Il manque les budgets à exclure.";
+                            throw("");
+                        }
+
+                    continue;
+                }
+
+            // Exclure le budget en argument
+
+            else if (commandline_tab[start] == "--eemployeur")
+                {
+                    if (argc > start + 2)
+                        {
+                            if (commandline_tab[start + 1][0] == '-') throw("Il manque les employeurs à exclure");
+
+                            do
+                                {
+                                    info.exclure_employeur.push_back(commandline_tab[start + 1]);
+                                    ++start;
+                                }
+                            while(argc > start + 1 && commandline_tab[start][0] != '-');
+
+                        }
+                    else
+                        {
+                            cerr << ERROR_HTML_TAG "Il manque les employeurs à exclure.";
+                            throw("");
+                        }
+
+                    continue;
+                }
+
+            // Chemin du fichier permettant de lire une ligne de commandes générée par l'interface graphique
+
+            else if (commandline_tab[start] == "-f")
+                {
+                    const char* fichier;
+
+                    if (argc >= start + 2)
+                        {
+                            fichier = commandline_tab[start + 1].c_str();
+                        }
+                    else
+                        {
+                            cerr << ERROR_HTML_TAG "Il manque le fichier de ligne de commande.\n";
+                            exit(-119);
+                        }
+
+                    ifstream f;
+                    f.open(fichier);
+
+                    if (! f.good())
+                        {
+                            cerr << ERROR_HTML_TAG "Impossible d'ouvrir le fichier " << fichier << ".\n";
+                            exit(-119);
+                        }
+
+                    string ligne;
+
+                    if (f.good())
+                        {
+                            while(f.rdstate() != fstream::eofbit)
+                                {
+                                    getline(f, ligne);
+
+                                    if (! ligne.empty())
+                                        cl.push_back(ligne);
+                                }
+
+                        }
+
+                    f.close();
+
+                    if (! cl.empty())
+                        {
+                            argc = cl.size() + 1;
+
+                            commandline_tab.resize(argc);
+
+                            for (int i = 0; i < argc - 1; ++i)
+                                {
+
+                                    commandline_tab[i + 1] = cl.at(i);
+
+                                    if (string(cl.at(i)) == "-f")
+                                        {
+                                            cerr << ERROR_HTML_TAG "La ligne de commande -f ne peut pas être incluse dans un fichier par -f [risque de boucle infinie].\n";
+                                        }
+                                }
+
+
+                            /* on relance ...*/
+
+                            start = 1;
+                            continue;
+                        }
+
+                    //break;
+                }
+
+            // Ne pas décoder XML
+
+            else if (commandline_tab[start] == "--pretend")
+                {
+                    info.pretend = true;   // pas de décodage
+                    ++start;
+                    continue;
+                }
+
+            // Seulement vérifier la mémoire
+
+            else if (commandline_tab[start] == "--verifmem")
+                {
+                    info.verifmem = true;  // seulement vérifier la mémoire
+                    ++start;
+                    continue;
+                }
+
+            // Taille totale de fichiers
+
+            else if (commandline_tab[start] == "--xhlmem")
+                {
+                    cerr << STATE_HTML_TAG "Taille totale des fichiers : " << commandline_tab[start + 1] << " octets." << ENDL;
+                    // Taille des fichiers en ko fournie par l'interface graphique, en octets
+
+                    memoire_xhl = stoull(commandline_tab[start + 1], nullptr);
+
+                    if (60000ULL * 1048576ULL < ULLONG_MAX)
+                        {
+                            if (memoire_xhl > 1ULL || memoire_xhl < (60000ULL * 1048576ULL))
+                                {
+                                    start += 2;
+                                    continue;
+                                }
+                            else
+                                {
+                                    cerr << ERROR_HTML_TAG "La donnée de la taille des fichiers en input est erronée ou au-delà de la limite permise (60 Go)." << ENDL;
+                                    exit(-199);
+                                }
+                        }
+                    else
+                        {
+                            cerr << ERROR_HTML_TAG "Le plus grand entier non signé est inférieur à 60 * 1048576" << ENDL;
+                            exit(-199);
+                        }
+                }
+
+            // Part de la mémoire vive utilisée
+
+            else if (commandline_tab[start] == "--memshare")
+                {
+                    int part = stoi(commandline_tab[start + 1], nullptr);
+
+                    cerr << ENDL << STATE_HTML_TAG "Part de la mémoire vive utilisée : " <<  part << " %" ENDL;
+
+                    ajustement = (float) part / 100;
+                    start += 2;
+                    continue;
+                }
+
+            // Nombre de segments pour répartir les fichiers XHL de manière équilibrée entre ces sgments, qui chacun prendront un fil d'exécution successivement
+
+            else if (commandline_tab[start] == "--segments")
+                {
+                    cerr << STATE_HTML_TAG "Les bases seront analysées en au moins : " << commandline_tab[start + 1] << " segments" << ENDL;
+
+                    // au maximum 99 segments
+
+                    nsegments = stoi(commandline_tab[start + 1], nullptr);
+
+                    if (nsegments > 1 || nsegments < 100)
+                        {
+                            start += 2;
+                            continue;
+                        }
+                    else
+                        {
+                            cerr << ERROR_HTML_TAG "Il doit y avoir entre 1 et 99 segments de bases." << ENDL;
+                            exit(-208);
+                        }
+                }
+
+            // Modalité d'exportation (standard, cumulative, distributive,...)
+
+            else if (commandline_tab[start] == "--export")
+                {
+                    string st = commandline_tab[start + 1];
+                    cerr << STATE_HTML_TAG "Modalité d'exportation : " << st << ENDL;
+
+                    if (  st != "'Standard'"
+                            && st != "'Cumulative'"
+                            && st != "'Distributive'")
+                        {
+                            cerr << ERROR_HTML_TAG "Modalité d'exportation inconnue : " << st << ENDL;
+                            throw;
+                        }
+
+                    info.export_mode = st;
+                    start += 2;
+                    continue;
+                }
+
+            // Importation directe d'un disque optique
+
+            else if  (commandline_tab[start] == "--cdrom")
+                {
+                    info.cdrom = true;
+                    ++start;
+                    cerr << STATE_HTML_TAG "Modalité disque optique" << ENDL;
+                    continue;
+                }
+
+            // Option inconnue
+
+            else if (commandline_tab[start][0] == '-')
+                {
+                    cerr << ERROR_HTML_TAG "Option inconnue " << commandline_tab[start] << ENDL;
+                    exit(-100);
+                }
+            else break;
         }
 
-       // Part de la mémoire vive utilisée
-
-        else if (commandline_tab[start] == "--memshare")
-          {
-            int part = stoi(commandline_tab[start + 1], nullptr);
-
-            cerr << ENDL << STATE_HTML_TAG "Part de la mémoire vive utilisée : " <<  part << " %" ENDL;
-
-            ajustement = (float) part / 100;
-            start += 2;
-            continue;
-          }
-
-       // Nombre de segments pour répartir les fichiers XHL de manière équilibrée entre ces sgments, qui chacun prendront un fil d'exécution successivement
-
-        else if (commandline_tab[start] == "--segments")
-        {
-           cerr << STATE_HTML_TAG "Les bases seront analysées en au moins : " << commandline_tab[start + 1] << " segments" << ENDL;
-
-           // au maximum 99 segments
-
-           nsegments = stoi(commandline_tab[start + 1], nullptr);
-           if (nsegments > 1 || nsegments < 100)
-             {
-               start += 2;
-               continue;
-             }
-           else
-             {
-               cerr << ERROR_HTML_TAG "Il doit y avoir entre 1 et 99 segments de bases." << ENDL;
-               exit(-208);
-             }
-        }
-
-       // Modalité d'exportation (standard, cumulative, distributive,...)
-
-       else if (commandline_tab[start] == "--export")
-       {
-          string st = commandline_tab[start + 1];
-          cerr << STATE_HTML_TAG "Modalité d'exportation : " << st << ENDL;
-
-          if (  st != "'Standard'" 
-              && st != "'Cumulative'" 
-              && st != "'Distributive'")
-            {
-              cerr << ERROR_HTML_TAG "Modalité d'exportation inconnue : " << st << ENDL;
-              throw;
-            }
-          
-          info.export_mode = st;
-          start += 2;
-          continue;
-       }
-
-       // Importation directe d'un disque optique
-
-       else if  (commandline_tab[start] == "--cdrom")
-       {
-         info.cdrom = true;
-         ++start;
-         cerr << STATE_HTML_TAG "Modalité disque optique" << ENDL;
-         continue;
-       }
-
-       // Option inconnue
-
-       else if (commandline_tab[start][0] == '-')
-       {
-          cerr << ERROR_HTML_TAG "Option inconnue " << commandline_tab[start] << ENDL;
-          exit(-100);
-       }
-       else break;
-    }
-    
     // Fin de l'analyse de la ligne de commande
     // on sait que info.nbfil >= 1
 
@@ -897,36 +936,36 @@ int main(int argc, char **argv)
     // en utilisant taille_fichiers
 
     if (memoire_xhl == 0)
-    {
-        off_t mem = 0;
-        int count = 0;
-
-        for (int i = start; i < argc; ++i)
         {
-            if ((mem = taille_fichier(commandline_tab.at(i))) != -1)
+            off_t mem = 0;
+            int count = 0;
+
+            for (int i = start; i < argc; ++i)
+                {
+                    if ((mem = taille_fichier(commandline_tab.at(i))) != -1)
+                        {
+                            memoire_xhl += static_cast<unsigned long long>(mem);
+                            taille.push_back(static_cast<unsigned long long>(mem));
+                            ++count;
+                        }
+                    else
+                        {
+                            cerr << ERROR_HTML_TAG "La taille du fichier " << commandline_tab.at(i) << " n'a pas pu être déterminée." ENDL;
+                            taille.push_back(0);
+                            ++count;
+                        }
+                }
+
             {
-                memoire_xhl += static_cast<unsigned long long>(mem);
-                taille.push_back(static_cast<unsigned long long>(mem));
-                ++count;
-            }
-            else
-            {
-                cerr << ERROR_HTML_TAG "La taille du fichier " << commandline_tab.at(i) << " n'a pas pu être déterminée." ENDL;
-                taille.push_back(0);
-                ++count;
+                LOCK_GUARD
+                cerr << ENDL STATE_HTML_TAG << "Taille totale des " << count << " fichiers : " << memoire_xhl / 1048576 << " Mo."  ENDL;
+                cerr << STATE_HTML_TAG
+                     << "Mémoire disponible " <<  ((memoire_disponible = getFreeSystemMemory()) / 1024)
+                     << " / " << (getTotalSystemMemory()  / 1048576)
+                     << " Mo."  ENDL;
+
             }
         }
-
-        {
-            LOCK_GUARD
-            cerr << ENDL STATE_HTML_TAG << "Taille totale des " << count << " fichiers : " << memoire_xhl / 1048576 << " Mo."  ENDL;
-            cerr << STATE_HTML_TAG
-                      << "Mémoire disponible " <<  ((memoire_disponible = getFreeSystemMemory()) / 1024)
-                      << " / " << (getTotalSystemMemory()  / 1048576)
-                      << " Mo."  ENDL;
-                    
-        }
-    }
 
     // ajustement représente la part maximum de la mémoire disponible que l'on consacre au processus, compte tenu de la marge sous plafond (overhead)
 
@@ -936,27 +975,26 @@ int main(int argc, char **argv)
     memoire_utilisable *= 1024;
 
     if (nsegments != 0)
-    {
-         while (true)
-         {
-             if (memoire_xhl % nsegments == 0)
-             {
-                 memoire_utilisable = memoire_xhl / nsegments ;
-                 break;
-             }
-             else
-             if (memoire_xhl % (nsegments - 1) == 0)
-               {
-                  cerr << ERROR_HTML_TAG "Impossible de générer " << nsegments << " segments. Utilisation d'au moins " << nsegments + 1 << " segments." ENDL;
-                  ++nsegments;
-               }
-             else
-               {
-                  memoire_utilisable = memoire_xhl / (nsegments - 1);
-                  break;
-               }
-         }
-    }
+        {
+            while (true)
+                {
+                    if (memoire_xhl % nsegments == 0)
+                        {
+                            memoire_utilisable = memoire_xhl / nsegments ;
+                            break;
+                        }
+                    else if (memoire_xhl % (nsegments - 1) == 0)
+                        {
+                            cerr << ERROR_HTML_TAG "Impossible de générer " << nsegments << " segments. Utilisation d'au moins " << nsegments + 1 << " segments." ENDL;
+                            ++nsegments;
+                        }
+                    else
+                        {
+                            memoire_utilisable = memoire_xhl / (nsegments - 1);
+                            break;
+                        }
+                }
+        }
 
     vector<vString> segments;
 
@@ -965,69 +1003,71 @@ int main(int argc, char **argv)
 
     // découpage de la ligne de commande en segments, la taille de chaque segment en mémoire devant être inférieure au plafond fix" par memoire_utilisable
     do
-    {
-        unsigned long long taille_segment = *taille_it;
-        vString segment;
-        float densite_segment=AVERAGE_RAM_DENSITY;
-        #ifdef STRINGSTREAM_PARSING
-          ++densite_segment;
-        #endif
-        #ifndef OFSTREAM_TABLE_OUTPUT
-          ++densite_segment;
-        #endif
+        {
+            unsigned long long taille_segment = *taille_it;
+            vString segment;
+            float densite_segment = AVERAGE_RAM_DENSITY;
+#ifdef STRINGSTREAM_PARSING
+            ++densite_segment;
+#endif
+#ifndef OFSTREAM_TABLE_OUTPUT
+            ++densite_segment;
+#endif
 
-        do
-         {
-           taille_segment  += *taille_it;
-           segment.push_back(*commandline_it);  // ne pas utiliser move;
-           ++commandline_it;
-           ++taille_it;
+            do
+                {
+                    taille_segment  += *taille_it;
+                    segment.push_back(*commandline_it);  // ne pas utiliser move;
+                    ++commandline_it;
+                    ++taille_it;
 
-         }
-         while (taille_it != taille.end()
-                && commandline_it != commandline_tab.end()
-                && taille_segment * densite_segment < memoire_utilisable);
+                }
+            while (taille_it != taille.end()
+                    && commandline_it != commandline_tab.end()
+                    && taille_segment * densite_segment < memoire_utilisable);
 
-        segments.emplace_back(segment);
+            segments.emplace_back(segment);
 
-    } while (commandline_it != commandline_tab.end() 
-                 && taille_it != taille.end());
+        }
+    while (commandline_it != commandline_tab.end()
+            && taille_it != taille.end());
 
     unsigned int segments_size = segments.size();
+
     if (segments_size > 1)
         cerr << PROCESSING_HTML_TAG << "Les bases en sortie seront analysées en " << segments_size << " segments." ENDL;
 
-   int info_nbfil_defaut = info.nbfil;
+    int info_nbfil_defaut = info.nbfil;
 
-   pair<uint64_t, uint64_t>lignes = make_pair(0, 0);
+    pair<uint64_t, uint64_t>lignes = make_pair(0, 0);
 
 
-   for (auto&& segment : segments)
-   {
-        unsigned int segment_size = segment.size();
-
-        // S'il y a plus de fils que de fichiers dans le segment il faut corriger le nombre de fils en conséquence (nb de fils = de fichiers)
-        
-        if (info.nbfil > segment_size)
+    for (auto&& segment : segments)
         {
-            if (verbeux)
-               cerr << WARNING_HTML_TAG "Réduction du nombre de fils (" << info.nbfil << ") au nombre de fichiers (" << segment_size << ")" ENDL;
+            unsigned int segment_size = segment.size();
 
-            info.nbfil = segment_size;
+            // S'il y a plus de fils que de fichiers dans le segment il faut corriger le nombre de fils en conséquence (nb de fils = de fichiers)
+
+            if (info.nbfil > segment_size)
+                {
+                    if (verbeux)
+                        cerr << WARNING_HTML_TAG "Réduction du nombre de fils (" << info.nbfil << ") au nombre de fichiers (" << segment_size << ")" ENDL;
+
+                    info.nbfil = segment_size;
+                }
+            else
+                info.nbfil = info_nbfil_defaut;
+
+            // Lancement de la fonction principale
+
+            lignes = produire_segment(info, segment);
         }
-        else
-            info.nbfil = info_nbfil_defaut;
 
-        // Lancement de la fonction principale
-
-        lignes = produire_segment(info, segment);
-    }
-
-   // Nettoyage du parseur XML
+    // Nettoyage du parseur XML
 
     xmlCleanupParser();
 
-   // Calcul de la durée d'exécution
+    // Calcul de la durée d'exécution
 
     auto endofprogram = Clock::now();
     auto duree = chrono::duration_cast<chrono::milliseconds>(endofprogram - startofprogram).count();
@@ -1065,25 +1105,25 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
     int remainder = segment_size % info.nbfil;
 
     for (unsigned i = 0; i < info.nbfil; ++i)
-    {
-         nb_fichier_par_fil.push_back(segment_size / info.nbfil + (remainder > 0));
-         --remainder;
-    }
+        {
+            nb_fichier_par_fil.push_back(segment_size / info.nbfil + (remainder > 0));
+            --remainder;
+        }
 
-    // on répartir le reste de manière équilibrée sur les premiers fils 
+    // on répartir le reste de manière équilibrée sur les premiers fils
 
     vector<info_t> Info(info.nbfil);
     vector<thread> t;
 
     if (info.nbfil > 1)
-    {
-        t.resize(info.nbfil);
-    }
+        {
+            t.resize(info.nbfil);
+        }
 
     if (verbeux)
-    {
-        cerr << PROCESSING_HTML_TAG "Création de " << info.nbfil << pluriel(info.nbfil, "fil") << "d'exécution." ENDL;
-    }
+        {
+            cerr << PROCESSING_HTML_TAG "Création de " << info.nbfil << pluriel(info.nbfil, "fil") << "d'exécution." ENDL;
+        }
 
     vector<thread_t> v_thread_t(info.nbfil);
     vString::const_iterator segment_it = segment.begin();
@@ -1096,229 +1136,232 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
 #endif
 
 
-    
+
     for (unsigned  i = 0; i < info.nbfil; ++i)
-    {
-        Info[i] = info;
-        Info[i].threads = &v_thread_t[i];
-        Info[i].threads->thread_num = i;
-        Info[i].threads->argc = nb_fichier_par_fil.at(i);
-        Info[i].threads->argv = vString(segment_it, segment_it + nb_fichier_par_fil[i]);
-        Info[i].threads->in_memory_file = vString(nb_fichier_par_fil[i]);
-        segment_it += nb_fichier_par_fil.at(i);
-
-        if (Info[i].threads->argv.size() != (unsigned) nb_fichier_par_fil.at(i))
         {
-            cerr << ERROR_HTML_TAG "Problème issu de l'allocation des threads" << ENDL ;
-            throw;
-        }
+            Info[i] = info;
+            Info[i].threads = &v_thread_t[i];
+            Info[i].threads->thread_num = i;
+            Info[i].threads->argc = nb_fichier_par_fil.at(i);
+            Info[i].threads->argv = vString(segment_it, segment_it + nb_fichier_par_fil[i]);
+            Info[i].threads->in_memory_file = vString(nb_fichier_par_fil[i]);
+            segment_it += nb_fichier_par_fil.at(i);
 
-        if (verbeux)
-            cerr <<  PROCESSING_HTML_TAG "Fil d'exécution i = " << i+1 << "/" << info.nbfil
-                 << "   Nombre de fichiers dans ce fil : " << nb_fichier_par_fil[i] << ENDL;
+            if (Info[i].threads->argv.size() != (unsigned) nb_fichier_par_fil.at(i))
+                {
+                    cerr << ERROR_HTML_TAG "Problème issu de l'allocation des threads" << ENDL ;
+                    throw;
+                }
 
-        errno = 0;
+            if (verbeux)
+                cerr <<  PROCESSING_HTML_TAG "Fil d'exécution i = " << i + 1 << "/" << info.nbfil
+                     << "   Nombre de fichiers dans ce fil : " << nb_fichier_par_fil[i] << ENDL;
 
-        // Lancement des fils d'exécution 
+            errno = 0;
 
-        if (verbeux && Info[0].reduire_consommation_memoire)
-           cerr << ENDL PROCESSING_HTML_TAG 
-                      "Premier scan des fichiers pour déterminer les besoins mémoire, "
-                 << "fil " << i << ENDL;
+            // Lancement des fils d'exécution
 
-        if (info.nbfil > 1)
-        {
-            if (! info.cdrom)
-            {
-                thread th{decoder_fichier, ref(Info[i])};
-                t[i] = move(th);
-            }
+            if (verbeux && Info[0].reduire_consommation_memoire)
+                cerr << ENDL PROCESSING_HTML_TAG
+                     "Premier scan des fichiers pour déterminer les besoins mémoire, "
+                     << "fil " << i << ENDL;
+
+            if (info.nbfil > 1)
+                {
+                    if (! info.cdrom)
+                        {
+                            thread th{decoder_fichier, ref(Info[i])};
+                            t[i] = move(th);
+                        }
+                    else
+                        decoder_fichier(ref(Info[i]));
+                }
             else
-                decoder_fichier(ref(Info[i]));
-        }
-        else
-        {
-            decoder_fichier(ref(Info[0]));
-        }
+                {
+                    decoder_fichier(ref(Info[0]));
+                }
 
-        if (errno)
-        {
-            cerr << ENDL << strerror(errno) << ENDL;
+            if (errno)
+                {
+                    cerr << ENDL << strerror(errno) << ENDL;
+                }
         }
-    }
 
     if (verbeux)
-       cerr << ENDL PROCESSING_HTML_TAG "Rassemblement des fils d'exécution." ENDL;
+        cerr << ENDL PROCESSING_HTML_TAG "Rassemblement des fils d'exécution." ENDL;
 
     if (info.nbfil > 1 && !info.cdrom)
         for (unsigned i = 0; i < info.nbfil; ++i)
-        {
-            t[i].join ();
-        }
+            {
+                t[i].join ();
+            }
 
     for (unsigned  i = 0; i < info.nbfil; ++i)
-    {
-        errno = 0;
-
-        // Lancement des fils d'exécution 
-
-        if (verbeux)
-           cerr << ENDL PROCESSING_HTML_TAG "Analyse XML, " << "fil " << i << ENDL;
-
-        if (info.nbfil > 1)
         {
-                thread th{parse_info, ref(Info[i])};
-                t[i] = move(th);
+            errno = 0;
+
+            // Lancement des fils d'exécution
+
+            if (verbeux)
+                cerr << ENDL PROCESSING_HTML_TAG "Analyse XML, " << "fil " << i << ENDL;
+
+            if (info.nbfil > 1)
+                {
+                    thread th{parse_info, ref(Info[i])};
+                    t[i] = move(th);
+                }
+            else
+                {
+                    parse_info(ref(Info[0]));
+                }
         }
-        else
-        {
-            parse_info(ref(Info[0]));
-        }
-    }
-    
+
     if (info.nbfil > 1)
         for (unsigned i = 0; i < info.nbfil; ++i)
-        {
-            t[i].join ();
-        }
-    
-    
+            {
+                t[i].join ();
+            }
+
+
     if (info.pretend) return make_pair(0, 0);
 
     if (Info[0].calculer_maxima)
-    {
-        calculer_maxima(Info);
-    }
+        {
+            calculer_maxima(Info);
+        }
 
     if (! Info[0].chemin_log.empty())
-    {
-        ofstream LOG;
-        LOG.open(Info[0].chemin_log, ios::app);
-        calculer_maxima(Info, &LOG);
-        LOG.close();
-    }
+        {
+            ofstream LOG;
+            LOG.open(Info[0].chemin_log, ios::app);
+            calculer_maxima(Info, &LOG);
+            LOG.close();
+        }
 
-    
+
     // Edition éventuelle des bulletins
     bool res = true;
-    
-    for (auto &&v : vbull)
-    {
-        string annee = v.at(2);
-        string mois  = v.at(1);
-        string matricule = v.at(0);
-        int res = true;
-        size_t pos;
-        
-        if ((pos = annee.find_first_of('.')) != string::npos)
-        {
-            int an0 = stoi(annee.substr(0, pos));
-            pos = annee.find_last_of('.');
-            int an1 = stoi(annee.substr(pos + 1));
 
-            for (int an = an0; an <= an1; ++an)
-            {
-                const string annee = to_string(an);
-                
+    for (auto &&v : vbull)
+        {
+            string annee = v.at(2);
+            string mois  = v.at(1);
+            string matricule = v.at(0);
+            int res = true;
+            size_t pos;
+
+            if ((pos = annee.find_first_of('.')) != string::npos)
+                {
+                    int an0 = stoi(annee.substr(0, pos));
+                    pos = annee.find_last_of('.');
+                    int an1 = stoi(annee.substr(pos + 1));
+
+                    for (int an = an0; an <= an1; ++an)
+                        {
+                            const string annee = to_string(an);
+
+                            res &= scan_mois(repertoire_bulletins,
+                                             Info,
+                                             matricule,
+                                             mois,
+                                             annee);
+                        }
+
+                }
+            else
                 res &= scan_mois(repertoire_bulletins,
-                                Info,
-                                matricule,
-                                mois,
-                                annee);
-            }
-            
+                                 Info,
+                                 matricule,
+                                 mois,
+                                 annee);
         }
-        else
-            res &= scan_mois(repertoire_bulletins,
-                            Info,
-                            matricule,
-                            mois,
-                            annee);
-    }
-    
+
     if (res)
-    {
-        cerr << STATE_HTML_TAG "Tous les bulletins ont été extraits" << ENDL;
-    }
+        {
+            cerr << STATE_HTML_TAG "Tous les bulletins ont été extraits" << ENDL;
+        }
     else
-    {
-        cerr << WARNING_HTML_TAG "Certains bulletins n'ont pas été extraits" << ENDL;
-    }
-    
+        {
+            cerr << WARNING_HTML_TAG "Certains bulletins n'ont pas été extraits" << ENDL;
+        }
+
     pair<uint64_t, uint64_t> lignes;
 
     if (generer_table)
-    {
-      cerr << ENDL << PROCESSING_HTML_TAG "Exportation des bases de données au format CSV..." << ENDL ENDL;
-      lignes = boucle_ecriture(Info, nsegment);
-    }
+        {
+            cerr << ENDL << PROCESSING_HTML_TAG "Exportation des bases de données au format CSV..." << ENDL ENDL;
+            lignes = boucle_ecriture(Info, nsegment);
+        }
 
-    // Résumé des erreurs rencontrées 
+    // Résumé des erreurs rencontrées
 
     if (errorLineStack.size() > 0)
-    {
-        cerr << WARNING_HTML_TAG "<b>Récapitulatif des erreurs rencontrées</b>" << ENDL;
-        for (const errorLine_t& e :  errorLineStack)
         {
-            cerr << e.pres;
-            if (e.lineN != -1)
-                cerr << " -- Ligne n°" << e.lineN << ENDL;
-            else
-                cerr << " -- Ligne inconnue." << ENDL;
+            cerr << WARNING_HTML_TAG "<b>Récapitulatif des erreurs rencontrées</b>" << ENDL;
 
+            for (const errorLine_t& e :  errorLineStack)
+                {
+                    cerr << e.pres;
+
+                    if (e.lineN != -1)
+                        cerr << " -- Ligne n°" << e.lineN << ENDL;
+                    else
+                        cerr << " -- Ligne inconnue." << ENDL;
+
+                }
         }
-    }
 
     if (! Info[0].chemin_log.empty())
-    {
-        ofstream LOG;
-        LOG.open(Info[0].chemin_log, ios::app);
-        if (LOG.good())
-            for (const errorLine_t& e :  errorLineStack)
-            {
-                if (e.lineN != -1)
-                    LOG << " -- Ligne n°" << e.lineN << ENDL;
-                else
-                    LOG << " -- Ligne inconnue." << ENDL;
-            }
-    }
+        {
+            ofstream LOG;
+            LOG.open(Info[0].chemin_log, ios::app);
 
-   generate_rank_signal(-1);
-   cerr << " \n";
+            if (LOG.good())
+                for (const errorLine_t& e :  errorLineStack)
+                    {
+                        if (e.lineN != -1)
+                            LOG << " -- Ligne n°" << e.lineN << ENDL;
+                        else
+                            LOG << " -- Ligne inconnue." << ENDL;
+                    }
+        }
 
-    // libération de la mémoire 
+    generate_rank_signal(-1);
+    cerr << " \n";
 
-   if (! liberer_memoire) return lignes;
+    // libération de la mémoire
 
-   if (verbeux)
-       cerr << ENDL
-            << PROCESSING_HTML_TAG "Libération de la mémoire..."
-            << ENDL;
+    if (! liberer_memoire) return lignes;
+
+    if (verbeux)
+        cerr << ENDL
+             << PROCESSING_HTML_TAG "Libération de la mémoire..."
+             << ENDL;
 
     // En cas de problème d'allocation mémoire le mieux est encore de ne pas désallouer car on ne connait pas exacteemnt l'état
-    // de la mémoire dynamique 
+    // de la mémoire dynamique
 
     for (unsigned i = 0; i < Info[0].nbfil; ++i)
-    {
-        for (unsigned agent = 0; agent < Info[i].NCumAgent; ++agent)
         {
-            if (! Info[i].Table[agent].empty())  
-            for (xmlChar* u : Info[i].Table[agent])
-            {
-                if (u != NULL) xmlFree(u);
-            }
-        }
+            for (unsigned agent = 0; agent < Info[i].NCumAgent; ++agent)
+                {
+                    if (! Info[i].Table[agent].empty())
+                        for (xmlChar* u : Info[i].Table[agent])
+                            {
+                                if (u != NULL) xmlFree(u);
+                            }
+                }
 
-    }
+        }
 
     if (Info[0].generer_bulletins)
-    {
-        for (unsigned i = 0; i < Info[0].nbfil; ++i)
         {
-           for (auto &&f : Info[i].threads->in_memory_file)
-            f.clear();
+            for (unsigned i = 0; i < Info[0].nbfil; ++i)
+                {
+                    for (auto &&f : Info[i].threads->in_memory_file)
+                        f.clear();
+                }
         }
-    }
 
     return lignes;
 }
@@ -1327,7 +1370,7 @@ pair<uint64_t, uint64_t> produire_segment(const info_t& info, const vString& seg
 /// \param repertoire_bulletins Référence vers un dossier de bulletins extraits de type string
 /// \param Référence vers un vecteur de structures info_t contenant l'ensemble, pour tous les segments et fils, des données de paye décodées
 /// \param matricule Référence vers une chaîne de caractère de type string contenant le matricule
-/// \param mois Référence vers une chaîne de caractère de type string contenant le 
+/// \param mois Référence vers une chaîne de caractère de type string contenant le
 /// \param mois Référence vers une chaîne de caractère de type string contenant le matricule
 /// \return Booléen : true si succès, false sinon.
 
@@ -1344,21 +1387,21 @@ bool scan_mois(const string &repertoire_bulletins,
     // ce qui signifie : tous les mois entre février et novembre inclus
 
     if ((pos = mois.find_first_of('.')) != string::npos)
-    {
-        int m0 = stoi(mois.substr(0, pos));
-        pos = mois.find_last_of('.');
-        int m1 = stoi(mois.substr(pos + 1));
+        {
+            int m0 = stoi(mois.substr(0, pos));
+            pos = mois.find_last_of('.');
+            int m1 = stoi(mois.substr(pos + 1));
 
-        // Boucler entre les deux mois ainsi donnés en borne inf et max
-        // et lancer la fonction bulletin_paye sur chacun de ces mois
+            // Boucler entre les deux mois ainsi donnés en borne inf et max
+            // et lancer la fonction bulletin_paye sur chacun de ces mois
 
-        for (int m = m0; m <= m1; ++m)
-            res &=  bulletin_paye(repertoire_bulletins,
-                                  Info,
-                                  matricule,
-                                  to_string(m),
-                                  annee);
-    }
+            for (int m = m0; m <= m1; ++m)
+                res &=  bulletin_paye(repertoire_bulletins,
+                                      Info,
+                                      matricule,
+                                      to_string(m),
+                                      annee);
+        }
     // Si pas d'intervalle, lancer la fonction bulletin_paye sur le seul mois donné.
     else
         res &=  bulletin_paye(repertoire_bulletins,

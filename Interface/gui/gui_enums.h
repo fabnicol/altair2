@@ -47,7 +47,7 @@
 #include <cstdint>
 
 #ifndef STEP_UP
-    static constexpr const char* STEP_UP  =  "/../../";
+static constexpr const char* STEP_UP  =  "/../../";
 #endif
 
 #ifndef MINIMUM_LINE_WIDTH
@@ -76,28 +76,30 @@
 
 #define DONNEES_SORTIE  DONNEES AltairDir
 
-class interfaceStatus  {
-  public:
-    
-  static constexpr  std::uint16_t hasUnsavedOptions = 0x0;
-  static constexpr std::uint16_t hasSavedOptions = 0x1;
-  static constexpr std::uint16_t hasSavedOptionsMask = 0xF;
-  static constexpr std::uint16_t tree = 0x0010;
-  static constexpr std::uint16_t treeMask = 0x00F0;
-  static constexpr std::uint16_t saveTree = 0x0100;
-  static constexpr std::uint16_t saveTreeMask = 0x0F00;
-  static constexpr std::uint16_t mainTabs = 0x1000;
-  static constexpr std::uint16_t tabMask = 0x7000;
-  static constexpr std::uint16_t optionTabs = 0x2000;
-  static constexpr std::uint16_t keepOptionTabs = 0x4000;
-  static constexpr std::uint16_t parseXml = 0xF000;
-  static constexpr std::uint16_t parseXmlMask = 0xF000;
+class interfaceStatus
+{
+public:
+
+    static constexpr  std::uint16_t hasUnsavedOptions = 0x0;
+    static constexpr std::uint16_t hasSavedOptions = 0x1;
+    static constexpr std::uint16_t hasSavedOptionsMask = 0xF;
+    static constexpr std::uint16_t tree = 0x0010;
+    static constexpr std::uint16_t treeMask = 0x00F0;
+    static constexpr std::uint16_t saveTree = 0x0100;
+    static constexpr std::uint16_t saveTreeMask = 0x0F00;
+    static constexpr std::uint16_t mainTabs = 0x1000;
+    static constexpr std::uint16_t tabMask = 0x7000;
+    static constexpr std::uint16_t optionTabs = 0x2000;
+    static constexpr std::uint16_t keepOptionTabs = 0x4000;
+    static constexpr std::uint16_t parseXml = 0xF000;
+    static constexpr std::uint16_t parseXmlMask = 0xF000;
 };
 
-class manager  {
-  
+class manager
+{
+
 public:
-    
+
     static constexpr std::uint16_t refreshProjectManagerFlag = 0x000;
     static constexpr std::uint16_t refreshProjectXHLZoneMask = 0x00F;
     static constexpr std::uint16_t refreshNBulletinsMask = 0x0F0;
@@ -107,7 +109,7 @@ public:
     static constexpr std::uint16_t refreshNBulletins = 0x010;
     static constexpr std::uint16_t refreshSystemZone = 0x100;
     static constexpr std::uint16_t refreshProjectInteractiveMode = 0x1000;
-    static constexpr std::uint16_t refreshAllZones  =  manager::refreshXHLZone| manager::refreshNBulletins | manager::refreshSystemZone;
+    static constexpr std::uint16_t refreshAllZones  =  manager::refreshXHLZone | manager::refreshNBulletins | manager::refreshSystemZone;
 };
 
 
