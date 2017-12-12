@@ -1,8 +1,9 @@
-<map id="Interface/gui/mainwindow.cpp" name="Interface/gui/mainwindow.cpp">
-<area shape="rect" id="node2" href="$common_8h.html" title="common.h" alt="" coords="374,304,457,331"/>
-<area shape="rect" id="node6" href="$altair_8h.html" title="Copyright Cour des comptes, 2017. " alt="" coords="422,80,484,107"/>
-<area shape="rect" id="node22" href="$gui__enums_8h.html" title="gui_enums.h" alt="" coords="1214,229,1310,256"/>
-<area shape="rect" id="node10" href="$altair-gui_8h.html" title="altair&#45;gui.h" alt="" coords="558,155,641,181"/>
-<area shape="rect" id="node17" href="$options_8h.html" title="options.h" alt="" coords="670,229,745,256"/>
-<area shape="rect" id="node19" href="$highlighter_8h.html" title="highlighter.h" alt="" coords="770,229,862,256"/>
+<map id="/home/fab/Desktop/Entrepot/Interface/gui/mainwindow.cpp" name="/home/fab/Desktop/Entrepot/Interface/gui/mainwindow.cpp">
+<area shape="rect" id="node2" href="$common_8h.html" title="Code de la classe common, qui regroupe des utilitaires communs à l&#39;interface graphique MainWindow..." alt="" coords="687,319,773,345"/>
+<area shape="rect" id="node6" href="$altair_8h.html" title="Code de la classe principale Altair, qui joue le rôle d&#39;agent de l&#39;interface graphique. " alt="" coords="478,95,542,121"/>
+<area shape="rect" id="node22" href="$gui__enums_8h.html" title="Code de constantes et de classes regroupant des constantes. " alt="" coords="1165,244,1265,271"/>
+<area shape="rect" id="node24" href="$matricules_8h.html" title="Code de la classe MatriculeInput, qui construit un dialogue d&#39;extraction des bulletins. " alt="" coords="1029,169,1125,196"/>
+<area shape="rect" id="node10" href="$altair-gui_8h.html" title="Code de la classe MainWindow qui construit l&#39;interface graphique. " alt="" coords="467,169,553,196"/>
+<area shape="rect" id="node17" href="$options_8h.html" title="Code des classes du dialogue d&#39;options. " alt="" coords="863,244,941,271"/>
+<area shape="rect" id="node19" href="$highlighter_8h.html" title="Code de l&#39;utilitaire de colorisation du code XML du projet .alt. " alt="" coords="55,244,154,271"/>
 </map>

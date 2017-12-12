@@ -1,13 +1,13 @@
 <map id="lignePaye" name="lignePaye">
-<area shape="rect" id="node2" href="$ligne__paye_8hpp.html#a1918a95b8d7eafcb07bcf867242b3514" title="Vérifie que la taille des données de paye en nombre de lignes de paye au décodage effectif des fichie..." alt="" coords="162,5,257,32"/>
-<area shape="rect" id="node3" href="$ligne__paye_8cpp.html#a45ce15888cd33c4753e852fce36fb56e" title="Appelle Bulletin et affiche l&#39;interprétation des erreurs. " alt="" coords="145,56,274,83"/>
-<area shape="rect" id="node9" href="$ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580" title="Appelle Bulletin. " alt="" coords="148,158,271,199"/>
-<area shape="rect" id="node11" href="$ligne__paye_8cpp.html#a8636e0f8d6d7fce58969c36956342c90" title="Appelle Bulletin. " alt="" coords="145,223,274,265"/>
-<area shape="rect" id="node12" href="$ligne__paye_8cpp.html#a4a91586d82e91ad3e3c02355b57c9e09" title="Appelle Bulletin. " alt="" coords="132,107,287,133"/>
-<area shape="rect" id="node4" href="$ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5" title="Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit. " alt="" coords="375,161,441,188"/>
-<area shape="rect" id="node7" href="$fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="529,79,711,105"/>
-<area shape="rect" id="node8" href="$ligne__paye_8hpp.html#a703180379a24b61c33f035b1b8a8f437" title="Affiche un message d&#39;avertissement sur la sortie d&#39;erreur lorsqu&#39;un noeud XML ne peut être atteint..." alt="" coords="359,107,457,133"/>
-<area shape="rect" id="node5" href="$validator_8hpp.html#ad164d34b6591a52b6e92b087582fe0cb" title="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..." alt="" coords="565,133,675,160"/>
-<area shape="rect" id="node6" href="$ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le &#160;&#160;caractère &#39;_&#39;..." alt="" coords="587,184,653,211"/>
-<area shape="rect" id="node10" href="$ligne__paye_8cpp.html#a5342d9b40b92c978ff404415b691e059" title="Substitue le séparateur décimal passé en paramètre au séparateur par défaut (.) " alt="" coords="335,221,481,262"/>
+<area shape="rect" id="node2" href="$ligne__paye_8h.html#a1918a95b8d7eafcb07bcf867242b3514" title="Vérifie que la taille des données de paye en nombre de lignes de paye au décodage effectif des fichie..." alt="" coords="169,5,272,32"/>
+<area shape="rect" id="node3" href="$ligne__paye_8cpp.html#a45ce15888cd33c4753e852fce36fb56e" title="Appelle Bulletin et affiche l&#39;interprétation des erreurs. " alt="" coords="151,56,290,83"/>
+<area shape="rect" id="node9" href="$ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580" title="Appelle Bulletin. " alt="" coords="155,158,286,199"/>
+<area shape="rect" id="node11" href="$ligne__paye_8cpp.html#a8636e0f8d6d7fce58969c36956342c90" title="Appelle Bulletin. " alt="" coords="151,223,290,265"/>
+<area shape="rect" id="node12" href="$ligne__paye_8cpp.html#a4a91586d82e91ad3e3c02355b57c9e09" title="Appelle Bulletin. " alt="" coords="137,107,304,133"/>
+<area shape="rect" id="node4" href="$ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5" title="Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit. " alt="" coords="397,161,464,188"/>
+<area shape="rect" id="node7" href="$fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="557,79,755,105"/>
+<area shape="rect" id="node8" href="$ligne__paye_8h.html#a703180379a24b61c33f035b1b8a8f437" title="Affiche un message d&#39;avertissement sur la sortie d&#39;erreur lorsqu&#39;un noeud XML ne peut être atteint..." alt="" coords="377,107,484,133"/>
+<area shape="rect" id="node5" href="$validator_8h.html#ad164d34b6591a52b6e92b087582fe0cb" title="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..." alt="" coords="597,133,715,160"/>
+<area shape="rect" id="node6" href="$ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le &#160;caractère &#39;_&#39;..." alt="" coords="621,184,691,211"/>
+<area shape="rect" id="node10" href="$ligne__paye_8cpp.html#a5342d9b40b92c978ff404415b691e059" title="Substitue le séparateur décimal passé en paramètre au séparateur par défaut (.) " alt="" coords="352,221,509,262"/>
 </map>

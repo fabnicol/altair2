@@ -16,6 +16,6 @@ var searchData=
   ['consolecounter',['consoleCounter',['../class_main_window.html#aea2b6f5092a5d5a1f452b7a779a00727',1,'MainWindow']]],
   ['consoledialog',['consoleDialog',['../class_main_window.html#aa124723f26e7f4877d3574eb0d043e45',1,'MainWindow']]],
   ['contentswidget',['contentsWidget',['../class_main_window.html#aec5f2e94e7e64c26f0a798827134cbdc',1,'MainWindow::contentsWidget()'],['../classoptions.html#a5761c2de64101f49d12b08c3684fb570',1,'options::contentsWidget()']]],
-  ['csv',['CSV',['../validator_8hpp.html#af15b14746467a36d75fcb76c867eb984',1,'validator.hpp']]],
+  ['csv',['CSV',['../validator_8h.html#af15b14746467a36d75fcb76c867eb984',1,'validator.h']]],
   ['currentindex',['currentIndex',['../class_altair.html#ae9367484295058e53224cbb4452418ee',1,'Altair']]]
 ];

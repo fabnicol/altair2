@@ -1,12 +1,12 @@
 var searchData=
 [
-  ['calculer_5fmaxima',['calculer_maxima',['../fonctions__auxiliaires_8cpp.html#a338490d76e4fe43668697f46d251600b',1,'calculer_maxima(const vector&lt; info_t &gt; &amp;Info, ofstream *LOG):&#160;fonctions_auxiliaires.cpp'],['../fonctions__auxiliaires_8hpp.html#a2f8dd1d57d2d77a2732c0630d1cfdc87',1,'calculer_maxima(const vector&lt; info_t &gt; &amp;Info, ofstream *LOG=nullptr):&#160;fonctions_auxiliaires.cpp']]],
-  ['calculer_5fmemoire_5frequise',['calculer_memoire_requise',['../fonctions__auxiliaires_8cpp.html#a6a6eceeeb38bc24fd24e0acb226c1304',1,'calculer_memoire_requise(info_t &amp;info):&#160;fonctions_auxiliaires.cpp'],['../fonctions__auxiliaires_8hpp.html#a6a6eceeeb38bc24fd24e0acb226c1304',1,'calculer_memoire_requise(info_t &amp;info):&#160;fonctions_auxiliaires.cpp']]],
+  ['calculer_5fmaxima',['calculer_maxima',['../fonctions__auxiliaires_8cpp.html#a338490d76e4fe43668697f46d251600b',1,'calculer_maxima(const vector&lt; info_t &gt; &amp;Info, ofstream *LOG):&#160;fonctions_auxiliaires.cpp'],['../fonctions__auxiliaires_8h.html#a2f8dd1d57d2d77a2732c0630d1cfdc87',1,'calculer_maxima(const vector&lt; info_t &gt; &amp;Info, ofstream *LOG=nullptr):&#160;fonctions_auxiliaires.cpp']]],
+  ['calculer_5fmemoire_5frequise',['calculer_memoire_requise',['../fonctions__auxiliaires_8cpp.html#a6a6eceeeb38bc24fd24e0acb226c1304',1,'calculer_memoire_requise(info_t &amp;info):&#160;fonctions_auxiliaires.cpp'],['../fonctions__auxiliaires_8h.html#a6a6eceeeb38bc24fd24e0acb226c1304',1,'calculer_memoire_requise(info_t &amp;info):&#160;fonctions_auxiliaires.cpp']]],
   ['changepage',['changePage',['../classoptions.html#afd95d4619d23d889c1a7b5acca9aa9a3',1,'options']]],
   ['checkannumspan',['checkAnnumSpan',['../class_altair.html#abd55c8c0c2e48e64f5b1ae2442b87ade',1,'Altair']]],
   ['checkemptyprojectname',['checkEmptyProjectName',['../class_altair.html#a9df2266cd3e2a9905e74bb41c1f9415d',1,'Altair']]],
   ['checkinput',['checkInput',['../class_matricule_input.html#ae46b914e11ae6cb17e6c581ea0b6f994',1,'MatriculeInput']]],
-  ['clean_5fprocess',['clean_process',['../class_main_window.html#a5b4f26eb8b5b98fc9cb2718f0ec4fc61',1,'MainWindow']]],
+  ['clean_5fprocess',['clean_process',['../class_main_window.html#afcfd35506889f65ad36b4c258920f57b',1,'MainWindow']]],
   ['cleanbase',['cleanBase',['../class_main_window.html#a1f54b77c6b79d4ada9e22d4415cfa0f1',1,'MainWindow']]],
   ['clearinterfaceandparseproject',['clearInterfaceAndParseProject',['../class_altair.html#acaa583766e1c062ea311847fcdd35374',1,'Altair']]],
   ['clearoptiondata',['clearOptionData',['../classoptions.html#a67bf62e71e3abec12487f0b53335e2e4',1,'options']]],

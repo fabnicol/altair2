@@ -20,7 +20,6 @@ var searchData=
   ['progresslayout',['progressLayout',['../class_altair.html#a26e961c8c8a8b8cc0f181b36d0cd61fc',1,'Altair']]],
   ['project',['project',['../class_altair.html#aa2a75bb1459908902ea2ebb8854ea925',1,'Altair']]],
   ['projectfile',['projectFile',['../class_main_window.html#abbba0dfc80aca622015f2dfe15936660',1,'MainWindow']]],
-  ['projectfilestatus',['projectFileStatus',['../class_main_window.html#aeff3526f04fb06a948f7a6678f2db28e',1,'MainWindow']]],
   ['projectname',['projectName',['../class_altair.html#a3335254a35dba3e52590616616a43aa0',1,'Altair']]],
   ['prologue_5fcodes_5fpath',['prologue_codes_path',['../classcode_page.html#a5b953a3cea059f199d0b63b9b7cb8b38',1,'codePage']]]
 ];

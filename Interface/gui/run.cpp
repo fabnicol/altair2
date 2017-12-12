@@ -59,8 +59,15 @@
 
 #endif
 
+
+/// Génère la ligne de commande à partir des chemins des fichiers de paye
+/// \param files Liste de chaînes de caractères des chemins des fichiers de paye
+/// \return Ligne de commande en forme de liste (un élément par option ou argument)
+/// \sa  \ref abstractWidgetList, \ref getHashKey, \ref commandLineStringList, \ref filecount
 QStringList Altair::createCommandLineString(const QStringList& files)
 {
+    // liste des widget fonctionnels
+
     QVectorIterator<FAbstractWidget*> w(Abstract::abstractWidgetList);
     QStringList commandLine;
 
@@ -71,6 +78,8 @@ QStringList Altair::createCommandLineString(const QStringList& files)
         {
             FAbstractWidget* item = w.previous();
             QStringList commandLineChunk;
+
+            // Les onglets correspondent au fwidget FListFrame de balise "XHL"
 
             if (! files.isEmpty() && item->getHashKey() == "XHL")
                 {
@@ -84,17 +93,26 @@ QStringList Altair::createCommandLineString(const QStringList& files)
                             || v(MatriculesB).isFilled()
                             || v(MatriculesC).isFilled())
 
+                        // Cas général : on récupère le bout de ligne de commande généré par chaque fwidget :
+
                         commandLineChunk = item->commandLineStringList();
                 }
+
+            // Certains fidgets génèrent une ligne de commande
+            // C'est le cas pour celui de balise "exportMode" mais la ligne de doit pas être crée ici :
+            // On saute ce cas :
 
             if (item->getHashKey() == "exportMode")
                 {
                     continue;
                 }
 
+            // Collage des bouts de ligne de commande :
 
             if (! commandLineChunk.isEmpty() && ! commandLineChunk[0].isEmpty())
                 commandLine +=  commandLineChunk;
+
+            // Le nombre de fichiers de paye filecount est simplement égal à la taille de la liste commandLineChunk
 
             if (item->getHashKey() == "XHL")
                 {
@@ -107,6 +125,12 @@ QStringList Altair::createCommandLineString(const QStringList& files)
     return commandLine;
 }
 
+
+/// Parcourt le répertoire en cours du mode distributif, un à chaque appel
+/// Exporte l'identification dans chaque répertoire.
+/// Lance runWorker à chaque changement de répertoire
+/// \param reset Si true, "rembobine" la liste Hash::fileList des répertoires
+/// \return \e true si il y a encore un répertoire à traiter ou \e false sinon.
 
 bool Altair::runWorkerDistributed(bool reset)
 {
@@ -125,7 +149,23 @@ bool Altair::runWorkerDistributed(bool reset)
     else return false;
 }
 
-// ne pas utiliser le polymorphisme en QString en raison d'un bug du compilateur
+
+
+/// Construction de la ligne de commande pour des bases de paye dans un répertoire donné
+/// \param subdir Répertoire dans lequel sont recherchés les fichiers de paye
+/// \note \e Algorithme :\n
+/// Récupérer la liset des fichiers de paye du répertoire distribué \e subdir \n
+/// Le traitement du répertoire suivant sera assuré par une nouvelle itération.\n
+/// Par défaut la ligne de commande contient de obligatoirement : \n
+/// <ul><li>-m : libérer la mémoire en fin d'exécution</li>
+/// <li>-d , : séparateur décimal virgule</li>
+/// <li>-s ; : séparateur de champs point-virgule</li>
+/// <li>-E : Générer l'échelon</li>
+/// <li>-rank sharedir + "/rank" : fichier exporté dans ~/.local/share/applications/Altair (\ref sharedir par défaut)<br>
+/// indiquant l'index de la barre de progression</li>
+/// <li><pre>--cdrom</pre> : si depuis un disque optique</li>
+/// <li>-D << $HOME/Dev/altair/\def DONNEES_SORTIE/subdir : répertoire d'exportation des bases si subdir !="" </li></ul>
+/// \sa \ref runWorkerDistributed, classe \ref Hash
 
 void Altair::runWorker(const QString& subdir)
 {
@@ -133,11 +173,25 @@ void Altair::runWorker(const QString& subdir)
     QStringList args0, args1;
     QString command;
     QStringList commandLine;
+
+    // Récupérer la liset des fichiers de paye du répertoire distribué subdir
+
     const QStringList &fileList = Hash::fileList.value(subdir);
+
+    // Créer la ligne de commande pour subdir
+    // le traitement du répertoire suivant sera assuré par une nouvelle itération
 
     commandLine = createCommandLineString(fileList);
 
     if (commandLine.isEmpty()) return;
+
+    // par défaut :
+    // -m : libérer la mémoire en fin d'exécution
+    // -d ',' : séparateur décimal virgule
+    // -s ';' : séparateur de champs point-virgule
+    // -E : Générer l'échelon
+    // -rank sharedir + "/rank" : fichier exporté dans ~/.local/share/applications/Altair (sharedir par défaut)
+    //                            indiquant l'index de la barre de progression
 
     args0 <<  "-m" << "-d" << "," << "-s" << ";" << "-E" << "-rank" << sharedir + "/rank";
 
@@ -160,7 +214,6 @@ void Altair::runWorker(const QString& subdir)
 #   ifndef INSERT_PAGE
     args1 << "-D" << v(base) + QDir::separator() + subdir;
 #   endif
-
 
     QStringList temp;
 
@@ -202,7 +255,6 @@ void Altair::runWorker(const QString& subdir)
             args1 << "--eemployeur";
             args1 << temp;
         }
-
 
     temp.clear();
 
@@ -265,9 +317,9 @@ void Altair::runWorker(const QString& subdir)
 #endif
     fileRank = 0;
 
-    /* Lancement */
+    // Lancement
+    // nécessaire pour avoir l'état réel de certains champs de contrôle comme activerConsole
 
-    /* nécessaire pour avoir l'état réel de certains champs de contrôle comme activerConsole */
     updateProject(true);
 
     rankFile.setFileName(sharedir + "/rank");
