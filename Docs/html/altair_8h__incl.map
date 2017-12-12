@@ -1,7 +1,7 @@
-<map id="Interface/gui/altair.h" name="Interface/gui/altair.h">
-<area shape="rect" id="node5" href="$common_8h.html" title="common.h" alt="" coords="285,229,368,256"/>
-<area shape="rect" id="node9" href="$altair-gui_8h.html" title="altair&#45;gui.h" alt="" coords="640,80,723,107"/>
-<area shape="rect" id="node16" href="$options_8h.html" title="options.h" alt="" coords="965,155,1040,181"/>
-<area shape="rect" id="node18" href="$highlighter_8h.html" title="highlighter.h" alt="" coords="1065,155,1157,181"/>
-<area shape="rect" id="node21" href="$gui__enums_8h.html" title="gui_enums.h" alt="" coords="1220,155,1316,181"/>
+<map id="/home/fab/Desktop/Entrepot/Interface/gui/altair.h" name="/home/fab/Desktop/Entrepot/Interface/gui/altair.h">
+<area shape="rect" id="node5" href="$common_8h.html" title="Code de la classe common, qui regroupe des utilitaires communs à l&#39;interface graphique MainWindow..." alt="" coords="290,244,377,271"/>
+<area shape="rect" id="node9" href="$altair-gui_8h.html" title="Code de la classe MainWindow qui construit l&#39;interface graphique. " alt="" coords="661,95,747,121"/>
+<area shape="rect" id="node16" href="$options_8h.html" title="Code des classes du dialogue d&#39;options. " alt="" coords="997,169,1075,196"/>
+<area shape="rect" id="node18" href="$highlighter_8h.html" title="Code de l&#39;utilitaire de colorisation du code XML du projet .alt. " alt="" coords="1100,169,1199,196"/>
+<area shape="rect" id="node21" href="$gui__enums_8h.html" title="Code de constantes et de classes regroupant des constantes. " alt="" coords="1265,169,1365,196"/>
 </map>

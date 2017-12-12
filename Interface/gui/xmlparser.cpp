@@ -160,11 +160,13 @@ inline void stackData(const QDomNode &node, int level, QVariant &textData)
 
     switch(level)
         {
-        /* parses < tag> text </tag> */
+
+        // parses < tag> text </tag>
 
         case 0:
 
             //    tags[0] = node.toElement().tagName();
+
             str.clear();
 
             while ((!childNode.isNull()) && (childNode.nodeType() == QDomNode::TextNode))
@@ -177,12 +179,12 @@ inline void stackData(const QDomNode &node, int level, QVariant &textData)
             break;
 
 
-//          parses < tags[0]>
-//                             <tags[1]>  text </tags[1]>
-//                             ....
-//                             <tags[1]> text </tags[1]>
-//                        </tags[0]>
-//             note: does not check subordinate tag uniformity
+//  parses < tags[0]>
+//                    <tags[1]>  text </tags[1]>
+//                       ....
+//                    <tags[1]> text </tags[1]>
+//         </tags[0]>
+//  note: does not check subordinate tag uniformity
 
 
         case 1:
@@ -227,22 +229,21 @@ inline void stackData(const QDomNode &node, int level, QVariant &textData)
             textData = QVariant(strL);
             break;
 
-            /*
-             *   parses
-             *            <tags[0]>
-             *               <tags[1] V=tags[3]>
-                                 <tags[2] V=tags[4] S=tags[5] B=tags[6] E=tags[7]>  text </tags[2]>
-                                 ....
-                                 <tags[2] V=tags[4] S=tags[5] B=tags[6] E=tags[7]> text </tags[2]>
-                             </tags[1]>
-                             ...
-                             <tags[1] V=tags[3]>
-                                 <tags[2]  V=tags[4] S=tags[5] B=tags[6] E=tags[7]>  text </tags[2]>
-                                 ....
-                                 <tags[2]  V=tags[4] S=tags[5] B=tags[6] E=tags[7]> text </tags[2]>
-                             </tags[1]>
-                           </tags[0]>
-            */
+
+//                parses
+//                         <tags[0]>
+//                            <tags[1] V=tags[3]>
+//                                 <tags[2] V=tags[4] S=tags[5] B=tags[6] E=tags[7]>  text </tags[2]>
+//                                 ....
+//                                 <tags[2] V=tags[4] S=tags[5] B=tags[6] E=tags[7]> text </tags[2]>
+//                             </tags[1]>
+//                             ...
+//                             <tags[1] V=tags[3]>
+//                                 <tags[2]  V=tags[4] S=tags[5] B=tags[6] E=tags[7]>  text </tags[2]>
+//                                 ....
+//                                 <tags[2]  V=tags[4] S=tags[5] B=tags[6] E=tags[7]> text </tags[2]>
+//                             </tags[1]>
+//                           </tags[0]>
 
         }
 }

@@ -50,7 +50,6 @@
         <file>images/clean.png</file>
         <file>images/print.png</file>
         <file>images/internet-web-browser.png</file>
-        <file>images/altair.jpg</file>
         <file>images/altair.png</file>
     </qresource>
 </RCC>
