@@ -46,7 +46,7 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
-#include "flineframe.hpp"
+#include "flineframe.h"
 #include "common.h"
 
 
@@ -71,21 +71,21 @@ public :
 
 private:
     FComboBox
-      *processTypeWidget,
-      *memoryUseWidget,
-      *rapportTypeWidget;
-    
-      
+    *processTypeWidget,
+    *memoryUseWidget,
+    *rapportTypeWidget;
+
+
     QGroupBox
-      *processTypeBox;
+    *processTypeBox;
 
     FCheckBox
-      *logCheckBox,
-      *consoleCheckBox;
+    *logCheckBox,
+    *consoleCheckBox;
 
 
     FString
-      standardMsg;
+    standardMsg;
 
     QLabel *nLineLabel, *NLineLabel;
 
@@ -100,26 +100,26 @@ class standardPage :  public QDialog, public common
 public :
     standardPage();
     FCheckBox
-      *tableCheckBox, *FPHCheckBox;
+    *tableCheckBox, *FPHCheckBox;
     FComboBox* exportWidget;
 
 private:
     FComboBox
-      *baseTypeWidget,
-      *processTypeWidget;
+    *baseTypeWidget,
+    *processTypeWidget;
 
     FLineEdit
-     *maxNLigneLineEdit;
+    *maxNLigneLineEdit;
 
     QGroupBox
-      *baseTypeBox;
+    *baseTypeBox;
 
     FCheckBox
-      *etabCheckBox,
-      *rangCheckBox;
+    *etabCheckBox,
+    *rangCheckBox;
 
     FString
-      standardMsg;
+    standardMsg;
 
     QLabel *maxNLigneLabel;
 
@@ -135,7 +135,10 @@ class codePage :  public QDialog, public common
 
 public :
     codePage();
-    void resetLabel() {label->setText("") ;}
+    void resetLabel()
+    {
+        label->setText("") ;
+    }
 
 private:
     QString prologue_codes_path;
@@ -166,7 +169,7 @@ class options :   public QDialog, public common
 
 public:
 
-    options(Altair* parent=0);
+    options(Altair* parent = 0);
     standardPage* standardTab;
     processPage* processTab;
     codePage* codeTab;

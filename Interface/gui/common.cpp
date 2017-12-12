@@ -52,10 +52,10 @@ void common::exporter_identification_controle(QString &file_str, const QString &
     const QString &etablissement = Hash::aplatir(Hash::Etablissement, " - ", subdir);
 
     substituer("controle<-c\\(\"\",\"\",\"\",\"\"\\)", "controle<-c(\""
-                                                 + employeur +"\",\""
-                                                 + siret + "\",\""
-                                                 + etablissement + "\",\""
-                                                 + budget + "\")",
+               + employeur + "\",\""
+               + siret + "\",\""
+               + etablissement + "\",\""
+               + budget + "\")",
                file_str);
 }
 
@@ -65,7 +65,7 @@ void common::exporter_identification_controle(const QString &subdir)
     QString file_str = readFile(prologue_code_path);
     exporter_identification_controle(file_str, subdir);
 
-    QString exportpath = (subdir.isEmpty())? prologue_code_path  : common::path_access(DONNEES_SORTIE) + QDir::separator() + subdir + "/prologue_codes.R";
+    QString exportpath = (subdir.isEmpty()) ? prologue_code_path  : common::path_access(DONNEES_SORTIE) + QDir::separator() + subdir + "/prologue_codes.R";
     renommer(dump(file_str), exportpath);
 }
 

@@ -37,22 +37,23 @@
 //
 // //////////////////////////////////////////////////////////////////////////
 
-#ifndef MATRICULES_H
-#define MATRICULES_H
-
-
 /// \file matricules.h
 /// \author Fabrice Nicol
 /// \brief Code de la classe MatriculeInput, qui construit un dialogue d'extraction des bulletins
 
-#include "common.h"
+
+#ifndef MATRICULES_H
+#define MATRICULES_H
+
 #include <QDialog>
+#include "common.h"
+#include "flineframe.h"
+#include "gui_enums.h"
 
 /// Classe permettant de construire un dialogue d'extraction des bulletins de paye par matricule, année(s) et mois
-
 class MatriculeInput : public QDialog
 {
-  private :
+private :
     QDialogButtonBox *closeButton; ///< Bouton Quitter
     FLineEdit *matrLineEdit;       ///< Première ligne de matricules
     FLineEdit *matrLineEdit2;      ///< Deuxième ligne de matricules
@@ -67,7 +68,7 @@ class MatriculeInput : public QDialog
     /// Les séquences de ce type peuvent être ajoutées les unes aux autres séparées par un point-virgule.
     bool checkInput(FLineEdit* l);
 
-  public :
+public :
 
     /// Constructeur de la classe MatriculeInput
     /// \param  largeur du dialogue
