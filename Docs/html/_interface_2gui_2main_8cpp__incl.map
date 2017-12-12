@@ -1,8 +1,8 @@
-<map id="Interface/gui/main.cpp" name="Interface/gui/main.cpp">
-<area shape="rect" id="node6" href="$altair-gui_8h.html" title="altair&#45;gui.h" alt="" coords="559,80,641,107"/>
-<area shape="rect" id="node13" href="$options_8h.html" title="options.h" alt="" coords="608,155,683,181"/>
-<area shape="rect" id="node15" href="$common_8h.html" title="common.h" alt="" coords="600,229,683,256"/>
-<area shape="rect" id="node19" href="$highlighter_8h.html" title="highlighter.h" alt="" coords="1081,155,1173,181"/>
-<area shape="rect" id="node22" href="$gui__enums_8h.html" title="gui_enums.h" alt="" coords="1275,155,1371,181"/>
-<area shape="rect" id="node24" href="$altair_8h.html" title="Copyright Cour des comptes, 2017. " alt="" coords="757,155,819,181"/>
+<map id="/home/fab/Desktop/Entrepot/Interface/gui/main.cpp" name="/home/fab/Desktop/Entrepot/Interface/gui/main.cpp">
+<area shape="rect" id="node6" href="$altair-gui_8h.html" title="Code de la classe MainWindow qui construit l&#39;interface graphique. " alt="" coords="583,95,670,121"/>
+<area shape="rect" id="node13" href="$options_8h.html" title="Code des classes du dialogue d&#39;options. " alt="" coords="634,169,713,196"/>
+<area shape="rect" id="node15" href="$common_8h.html" title="Code de la classe common, qui regroupe des utilitaires communs à l&#39;interface graphique MainWindow..." alt="" coords="626,244,713,271"/>
+<area shape="rect" id="node19" href="$highlighter_8h.html" title="Code de l&#39;utilitaire de colorisation du code XML du projet .alt. " alt="" coords="1120,169,1219,196"/>
+<area shape="rect" id="node22" href="$gui__enums_8h.html" title="Code de constantes et de classes regroupant des constantes. " alt="" coords="1325,169,1425,196"/>
+<area shape="rect" id="node24" href="$altair_8h.html" title="Code de la classe principale Altair, qui joue le rôle d&#39;agent de l&#39;interface graphique. " alt="" coords="788,169,852,196"/>
 </map>

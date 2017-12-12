@@ -9,7 +9,7 @@ var searchData=
   ['filetoolbaraction',['fileToolBarAction',['../class_main_window.html#a04e84ac67a2213b2ee20201abd44c8e3',1,'MainWindow']]],
   ['filetreeview',['fileTreeView',['../class_altair.html#a27b23804b24cf3e0e1d7d89e3f00da00',1,'Altair']]],
   ['filetreeviewdockwidget',['fileTreeViewDockWidget',['../class_main_window.html#a88d339601e150f7ffc68e6b460d52d13',1,'MainWindow']]],
-  ['firstselection',['firstSelection',['../altair_8cpp.html#abe9007a6790583e471c7e0e24db02770',1,'altair.cpp']]],
+  ['fontsize',['fontsize',['../altair_8cpp.html#a25f0921ae57b6d39d608aebb5e17d363',1,'fontsize():&#160;main.cpp'],['../_interface_2gui_2main_8cpp.html#a25f0921ae57b6d39d608aebb5e17d363',1,'fontsize():&#160;main.cpp'],['../mainwindow_8cpp.html#a25f0921ae57b6d39d608aebb5e17d363',1,'fontsize():&#160;main.cpp'],['../options_8cpp.html#a25f0921ae57b6d39d608aebb5e17d363',1,'fontsize():&#160;main.cpp']]],
   ['format',['format',['../struct_highlighter_1_1_highlighting_rule.html#ae0a636ba88b740accc9b98ca777b6fb4',1,'Highlighter::HighlightingRule']]],
   ['fphcheckbox',['FPHCheckBox',['../classstandard_page.html#aa6407333849954af395e70aed8eee7d0',1,'standardPage']]]
 ];
