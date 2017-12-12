@@ -56,7 +56,7 @@
 #include "fstring.h"
 #include "tags.h"
 
-
+extern int fontsize;
 std::uint16_t Altair::RefreshFlag = interfaceStatus::hasUnsavedOptions;
 qint64   Altair::totalSize;
 
@@ -71,7 +71,7 @@ QHash<QString, bool>    Hash::Suppression;
 QVector<QStringList> Hash::Reference;
 QHash<QString, QStringList> Hash::fileList;
 QHash<QString, FStringList*> Hash::wrapper;
-QHash<QString,QStringList> Hash::description;
+QHash<QString, QStringList> Hash::description;
 
 void Altair::initialize()
 {
@@ -84,25 +84,27 @@ void Altair::initialize()
     username = "Public";
 #else
     username = qgetenv("USER");
+
     if (username.isEmpty())
-       username = qgetenv("USERNAME");
+        username = qgetenv("USERNAME");
+
 #endif
 
     // Accès au répertoire des données XML par défaut (userdatadir)
 
     const QString xhl = path_access(QString(DONNEES_XHL)) + QDir::separator();
 
-    #ifdef Q_OS_WIN
-        userdatadir = xhl;
-    #else
-       userdatadir = username == "fab" ? xhl : xhl + username + QDir::separator() ;
-    #endif
+#ifdef Q_OS_WIN
+    userdatadir = xhl;
+#else
+    userdatadir = username == "fab" ? xhl : xhl + username + QDir::separator() ;
+#endif
 
     if (! QFileInfo(userdatadir).isDir())
-    {
-        userdatadir = xhl;
-    }
-            
+        {
+            userdatadir = xhl;
+        }
+
     Hash::description["année"] = QStringList("Fichiers .xhl");
 }
 
@@ -115,9 +117,9 @@ void Altair::refreshModel()
     model = new QFileSystemModel;
     model->setReadOnly(false);
     model->setRootPath("");
-    
+
     model->sort(Qt::AscendingOrder);
-    model->setFilter(QDir::AllDirs|QDir::Files|QDir::NoDotAndDotDot);
+    model->setFilter(QDir::AllDirs | QDir::Files | QDir::NoDotAndDotDot);
     model->setNameFilterDisables(false);
     model->setNameFilters(XML_FILTERS);
 }
@@ -128,18 +130,17 @@ void Altair::refreshTreeView(bool create)
     // Partie vue
 
     if (create)
-    {
-       fileTreeView = new QTreeView;
-    }
-    
+        {
+            fileTreeView = new QTreeView;
+        }
+
     fileTreeView->setModel(model);
-    
     fileTreeView->setRootIndex(model->index(userdatadir));
     fileTreeView->hideColumn(1);
     fileTreeView->hideColumn(2);
     fileTreeView->hideColumn(3);
     fileTreeView->setMinimumWidth(300);
-    fileTreeView->setColumnWidth(0,300);
+    fileTreeView->setColumnWidth(0, 300);
     fileTreeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     fileTreeView->setSelectionBehavior(QAbstractItemView::SelectItems);
     fileTreeView->header()->setStretchLastSection(true);
@@ -161,7 +162,7 @@ Altair::Altair()
 
     initialize();
     setAcceptDrops(true);
-    
+
     // Créer l'arborescence des fichiers
 
     refreshModel();
@@ -174,13 +175,13 @@ Altair::Altair()
     project = new FListFrame(fileTreeView,                     // les fichiers peuvent être importés dans l'onglet depuis cette arborescence
                              importFiles,                      // l'onglet autorise l'importation de fichiers
                              "XHL",                            // Balise des fichiers de paye pour l'exportation du projet .alt (<XHL>...</XHL>)
-                             {"Décodeur de fichiers XHL", ""},      // Section du gestionnaire de projet (à droite de l'interface)
-                             "g",                                   // Option de ligne de commande introduisant les fichiers de paye
-                             flags::commandLineType::altairCommandLine | flags::status::hasListCommandLine | flags::status::enabled,  // Génère une ligne de commande + à partir d'une liste enchassée + le widget est activé par défaut
-                             {" ", " -g "},                       // A chaque ligne d'un onglet correspond un séparateur blanc dans la ligne de commande. Pour chaque onglet différent, -g est préfixé devant la liste des fichiers
-                             {"item", "onglet"},                  // Balises de niveau 1 et 2 echassées sous <XML> : <XML> <onglet><item>...</item><item>...</item></onglet> </XML>
-                             {"Siret", "Budget", "Employeur"},    // Onglets supplémentaires générés en sus de ceux qui résultent de la décomposition des fichiers en années (1 année = 1 onglet)
-                             tools::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET);                      // pas d'enchassement de l'onglet central dans un onglet matrice
+    {"Décodeur de fichiers XHL", ""},      // Section du gestionnaire de projet (à droite de l'interface)
+    "g",                                   // Option de ligne de commande introduisant les fichiers de paye
+    flags::commandLineType::altairCommandLine | flags::status::hasListCommandLine | flags::status::enabled,  // Génère une ligne de commande + à partir d'une liste enchassée + le widget est activé par défaut
+    {" ", " -g "},                       // A chaque ligne d'un onglet correspond un séparateur blanc dans la ligne de commande. Pour chaque onglet différent, -g est préfixé devant la liste des fichiers
+    {"item", "onglet"},                  // Balises de niveau 1 et 2 echassées sous <XML> : <XML> <onglet><item>...</item><item>...</item></onglet> </XML>
+    {"Siret", "Budget", "Employeur"},    // Onglets supplémentaires générés en sus de ceux qui résultent de la décomposition des fichiers en années (1 année = 1 onglet)
+    tools::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET);                      // pas d'enchassement de l'onglet central dans un onglet matrice
 
     // Assigne le modèle de fichiers de la classe comme membre de project
     project->model = model;
@@ -202,13 +203,14 @@ Altair::Altair()
 
     // Ce qui suit présupose que les connexions déclenchées par le clic
     // sont préalablement traitées par FListFrame (ce qui est le cas)
-                
+
     // Une fois exécutés les automatismes de FListFrame, finaliser en actualisant le projet
     // et en affichant la taille totale ainsi qu'en vérifiant les années.
 
     connect(project->importFromMainTree,
             &QToolButton::clicked,
-            [this]{
+            [this]
+    {
         updateProject();
         displayTotalSize();
         checkAnnumSpan();
@@ -269,13 +271,13 @@ Altair::Altair()
 
     managerWidget->hide();
     managerWidget->setHeaderLabels(labels);
-    managerWidget->setColumnWidth(0,300);
-    managerWidget->setColumnWidth(1,50);
-    managerWidget->setColumnWidth(2,300);
-    managerWidget->setColumnWidth(3,50);
-    managerWidget->setColumnWidth(4,60);
-    managerWidget->setColumnWidth(5,220);
-    managerWidget->setColumnWidth(6,90);
+    managerWidget->setColumnWidth(0, 300);
+    managerWidget->setColumnWidth(1, 50);
+    managerWidget->setColumnWidth(2, 300);
+    managerWidget->setColumnWidth(3, 50);
+    managerWidget->setColumnWidth(4, 60);
+    managerWidget->setColumnWidth(5, 220);
+    managerWidget->setColumnWidth(6, 90);
     managerWidget->setContextMenuPolicy(Qt::ContextMenuPolicy::NoContextMenu);
     managerLayout->addWidget(managerWidget);
 
@@ -290,48 +292,49 @@ Altair::Altair()
 
     // Titre et icone de l'interface
 
-    const QIcon altairIcon=QIcon(QString::fromUtf8( ":/images/altair.png"));
+    const QIcon altairIcon = QIcon(QString::fromUtf8( ":/images/altair.png"));
     setWindowIcon(altairIcon);
 }
 
 void Altair::importData()
-{ 
-   const QString cdROM = cdRomMounted();
+{
+    const QString cdROM = cdRomMounted();
 
-   if (! cdROM.isEmpty())
-   {
-        QDir c = QDir(cdROM, "", QDir::IgnoreCase, QDir::Drives|QDir::Dirs);
+    if (! cdROM.isEmpty())
+        {
+            QDir c = QDir(cdROM, "", QDir::IgnoreCase, QDir::Drives | QDir::Dirs);
 
-       if (c.exists()
-           && ! c.QDir::entryInfoList(QDir::Dirs
-                                     | QDir::Drives
-                                     | QDir::Files
-                                     | QDir::NoDotAndDotDot).isEmpty())
-       {
-           textAppend(PROCESSING_HTML_TAG "Analyse du disque optique...Veuillez patienter...");
-           fileTreeView->setCurrentIndex(model->index(cdROM));
+            if (c.exists()
+                    && ! c.QDir::entryInfoList(QDir::Dirs
+                                               | QDir::Drives
+                                               | QDir::Files
+                                               | QDir::NoDotAndDotDot).isEmpty())
+                {
+                    textAppend(PROCESSING_HTML_TAG "Analyse du disque optique...Veuillez patienter...");
+                    fileTreeView->setCurrentIndex(model->index(cdROM));
 
-           project->importFromMainTree->click();
-           
-           return;
-       }
-   }
+                    project->importFromMainTree->click();
 
-   QDir d = QDir(userdatadir);
-   if (d.exists() && ! d.QDir::entryInfoList(QDir::Dirs
-                                            | QDir::Files
-                                            | QDir::NoDotAndDotDot).isEmpty())
-   {
-       fileTreeView->setCurrentIndex(model->index(userdatadir));    
-       project->importFromMainTree->click();
+                    return;
+                }
+        }
 
-       // l'opération précédente semble annuler la possibilité de sélectionner les indices proprement
-       // à nouveau. Peut-être un bug de Qt. On fait un reset suivi d'un reset.
+    QDir d = QDir(userdatadir);
 
-       fileTreeView->reset();
-       refreshTreeView();
-       return;
-   }
+    if (d.exists() && ! d.QDir::entryInfoList(QDir::Dirs
+            | QDir::Files
+            | QDir::NoDotAndDotDot).isEmpty())
+        {
+            fileTreeView->setCurrentIndex(model->index(userdatadir));
+            project->importFromMainTree->click();
+
+            // l'opération précédente semble annuler la possibilité de sélectionner les indices proprement
+            // à nouveau. Peut-être un bug de Qt. On fait un reset suivi d'un reset.
+
+            fileTreeView->reset();
+            refreshTreeView();
+            return;
+        }
 }
 
 void Altair::refreshRowPresentation()
@@ -346,11 +349,13 @@ void Altair::refreshRowPresentation(int j)
     if (Hash::wrapper.isEmpty()) return;
 
     QPalette palette;
-    palette.setColor(QPalette::AlternateBase,QColor("silver"));
-    QFont font=QFont("Courier",10);
+    palette.setColor(QPalette::AlternateBase, QColor("silver"));
+    QFont font = QFont("Courier", fontsize);
 
-    QListWidget *widget=project->getWidgetContainer(j);
+    QListWidget *widget = project->getWidgetContainer(j);
+
     if (widget == nullptr) return;
+
     widget->setPalette(palette);
     widget->setAlternatingRowColors(true);
     widget->setFont(font);
@@ -360,11 +365,12 @@ void Altair::refreshRowPresentation(int j)
     QStringList strL = Hash::wrapper["XHL"]->at(j);
     strL.sort();
     int size = strL.size();
-    for (int r=0; (r < widget->count()) && (r < size); r++ )
-    {
-        widget->item(r)->setText(strL.at(r).section('/',-1));
-        widget->item(r)->setTextColor(QColor("navy"));
-    }
+
+    for (int r = 0; (r < widget->count()) && (r < size); r++ )
+        {
+            widget->item(r)->setText(strL.at(r).section('/', -1));
+            widget->item(r)->setTextColor(QColor("navy"));
+        }
 }
 
 
@@ -372,7 +378,7 @@ void Altair::on_newProjectButton_clicked()
 {
     closeProject();
 
-    projectName=QString(userdatadir + "défaut.alt");
+    projectName = QString(userdatadir + "défaut.alt");
     QFile projectFile(projectName);
 
     if (projectFile.exists()) projectFile.remove();
@@ -400,8 +406,10 @@ void  Altair::openProjectFileCommonCode()
 void Altair::on_openProjectButton_clicked()
 {
     closeProject();
-    projectName=QFileDialog::getOpenFileName(this,  tr("Ouvrir le projet"), userdatadir,  tr("projet altair (*.alt)"));
+    projectName = QFileDialog::getOpenFileName(this,  tr("Ouvrir le projet"), userdatadir,  tr("projet altair (*.alt)"));
+
     if (projectName.isEmpty()) return;
+
     openProjectFileCommonCode();
 }
 
@@ -409,7 +417,7 @@ void Altair::on_openProjectButton_clicked()
 void Altair::openProjectFile()
 {
     closeProject();
-    projectName=qobject_cast<QAction *>(sender())->data().toString();
+    projectName = qobject_cast<QAction *>(sender())->data().toString();
 
     openProjectFileCommonCode();
 }
@@ -422,9 +430,12 @@ bool Altair::clearInterfaceAndParseProject()
 
     QTextEdit* editor = parent->getEditor();
 
-    try { if (editor) editor->clear(); }
+    try
+        {
+            if (editor) editor->clear();
+        }
     catch (...) {}
-    
+
     return refreshProjectManager();
 }
 
@@ -436,12 +447,13 @@ void Altair::closeProject()
     Altair::totalSize = 0;
 
     for  (int i = projectDimension; i >= 0;   i--)
-    {
-        project->mainTabWidget->removeTab(i);
-        auto widgetV = project->getWidgetContainer();
-        int size = widgetV.size();
-        if (i < size) widgetV.removeAt(i);
-    }
+        {
+            project->mainTabWidget->removeTab(i);
+            auto widgetV = project->getWidgetContainer();
+            int size = widgetV.size();
+
+            if (i < size) widgetV.removeAt(i);
+        }
 
     project->addNewTab();
 
@@ -453,9 +465,9 @@ void Altair::closeProject()
 void Altair::clearProjectData()
 {
     RefreshFlag =  RefreshFlag
-                     | interfaceStatus::mainTabs
-                     | interfaceStatus::optionTabs
-                     | interfaceStatus::tree;
+                   | interfaceStatus::mainTabs
+                   | interfaceStatus::optionTabs
+                   | interfaceStatus::tree;
 
     fileSizeDataBase[0].clear();
 
@@ -465,27 +477,28 @@ void Altair::clearProjectData()
     int choice = 2;
 
     if (options::RefreshFlag ==  interfaceStatus::hasUnsavedOptions)
-    {
-        choice=QMessageBox::information(this,
-                                        "Nouveaux paramètres",
-                                        "Ce projet contient de nouveaux paramètres.\nAppuyer sur OK pour les sauvegarder,\nsinon sur Non\nou sur Fermer pour quitter.\n",
-                                        "Oui", "Non", "Fermer");
-        switch (choice)
         {
-        case 0  :
-            // parent->dialog->clearOptionData();
-            break;
+            choice = QMessageBox::information(this,
+                                              "Nouveaux paramètres",
+                                              "Ce projet contient de nouveaux paramètres.\nAppuyer sur OK pour les sauvegarder,\nsinon sur Non\nou sur Fermer pour quitter.\n",
+                                              "Oui", "Non", "Fermer");
 
-        case 1 :
-            options::RefreshFlag = interfaceStatus::keepOptionTabs;
-            break;
+            switch (choice)
+                {
+                case 0  :
+                    // parent->dialog->clearOptionData();
+                    break;
 
-        case 2 :
-        default:
-            return;
-            break;
+                case 1 :
+                    options::RefreshFlag = interfaceStatus::keepOptionTabs;
+                    break;
+
+                case 2 :
+                default:
+                    return;
+                    break;
+                }
         }
-    }
 
     Hash::Reference.clear();
     Hash::Annee.clear();
@@ -505,7 +518,7 @@ void Altair::clearProjectData()
 
 void Altair::on_helpButton_clicked()
 {
-    QUrl url=QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/../GUI.html");
+    QUrl url = QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/../GUI.html");
     textAppend(STATE_HTML_TAG + QString("Ouverture de l'aide : ") + url.toDisplayString());
     QDesktopServices::openUrl(url);
 }
@@ -514,11 +527,13 @@ void Altair::on_helpButton_clicked()
 void Altair::displayTotalSize()
 {
     static qint64 comp;
-    qint64 tot=Altair::totalSize;
+    qint64 tot = Altair::totalSize;
+
     if (tot != comp && v(quiet).isFalse())
         textAppend(STATE_HTML_TAG "Taille des bases de paye :  "
-                   + QString::number(tot) + " B ("+QString::number(tot/(1024*1024))+" Mo)");
-    comp=tot;
+                   + QString::number(tot) + " B (" + QString::number(tot / (1024 * 1024)) + " Mo)");
+
+    comp = tot;
 }
 
 void Altair::deleteGroup()
@@ -529,7 +544,7 @@ void Altair::deleteGroup()
     //   project->widgetContainer
     // moins 1, autrement dit du nombre d'onglets contenant des fichiers de paye, moins 1
 
-    uint rank=(uint) project->getRank();
+    uint rank = (uint) project->getRank();
 
     // le conteneur fileSizeDataBase contient toutes les tailles de fichier pour tous les
     // onglets. On vide le conteneur à l'index correspondant à l'onglet supprimé
@@ -542,20 +557,20 @@ void Altair::deleteGroup()
     // de fichier
 
     if (rank > 0)
-    {
-        // Pour tous les onglets de rang supérieur à l'onglet courant et inférieur à l'onglet
-        // maximal contenant des données, translater les données de taille de fichier d'un
-        // index vers la gauche après suppression de l'onglet courant
-
-        if (currentIndex < rank)
         {
+            // Pour tous les onglets de rang supérieur à l'onglet courant et inférieur à l'onglet
+            // maximal contenant des données, translater les données de taille de fichier d'un
+            // index vers la gauche après suppression de l'onglet courant
 
-            for (unsigned j=currentIndex; j < rank ; j++)
-            {
-                fileSizeDataBase[0][j]=fileSizeDataBase[0][j+1];
-            }
+            if (currentIndex < rank)
+                {
+
+                    for (unsigned j = currentIndex; j < rank ; j++)
+                        {
+                            fileSizeDataBase[0][j] = fileSizeDataBase[0][j + 1];
+                        }
+                }
         }
-    }
 
     // Réactualiser le projet .alt et le gestionnaire de projet à droite de l'interface
 
@@ -594,16 +609,16 @@ void Altair::on_deleteItem_clicked()
 void Altair::requestSaveProject()
 {
     projectName = QFileDialog::getSaveFileName(this,
-                                               tr("Entrer le nom du projet"),
-                                               userdatadir + "défaut.alt",
-                                               tr("projets altair (*.alt)"));
+                  tr("Entrer le nom du projet"),
+                  userdatadir + "défaut.alt",
+                  tr("projets altair (*.alt)"));
     updateProject(true);
 }
 
 bool Altair::updateProject(bool requestSave)
 {
     RefreshFlag = RefreshFlag | interfaceStatus::saveTree // ouvrir le fichier projet pour le modifier
-                              | interfaceStatus::tree;  // actualisation le gestionnaire de projet
+                  | interfaceStatus::tree;  // actualisation le gestionnaire de projet
 
     setCurrentFile(projectName);
 
@@ -626,12 +641,13 @@ void Altair::setCurrentFile(const QString &fileName)
     setWindowModified(false);
 
     if (! fileName.isEmpty())
-    {
-        if (parent->recentFiles.isEmpty() || parent->recentFiles.at(0) != fileName)
-          parent->recentFiles.prepend(fileName);
-        parent->updateRecentFileActions();
+        {
+            if (parent->recentFiles.isEmpty() || parent->recentFiles.at(0) != fileName)
+                parent->recentFiles.prepend(fileName);
 
-    }
+            parent->updateRecentFileActions();
+
+        }
 
     parent->settings->setValue("defaut", QVariant(fileName));
 }
@@ -639,76 +655,79 @@ void Altair::setCurrentFile(const QString &fileName)
 void Altair::assignWidgetValues()
 {
     if (Hash::wrapper.isEmpty()) return;
+
     QVectorIterator<FAbstractWidget*> w(Abstract::abstractWidgetList);
     QList<QString> keyList = Hash::wrapper.keys();
 
     while (w.hasNext())
-    {
-        FAbstractWidget* widget = w.next();
-        const QString key = widget->getHashKey();
-
-        if (! keyList.contains(key))
         {
-            textAppend(WARNING_HTML_TAG "Le Widget de clé "
-                                   + key +
-                                   " n'est pas référencé pas dans cette version des fichiers de projet Altaïr"
-                                   + (Hash::wrapper["version"]->isEmpty() ? "." :
-                                      " (version" + v(version) + " )."));
+            FAbstractWidget* widget = w.next();
+            const QString key = widget->getHashKey();
 
-            continue;
-        }
+            if (! keyList.contains(key))
+                {
+                    textAppend(WARNING_HTML_TAG "Le Widget de clé "
+                               + key +
+                               " n'est pas référencé pas dans cette version des fichiers de projet Altaïr"
+                               + (Hash::wrapper["version"]->isEmpty() ? "." :
+                                  " (version" + v(version) + " )."));
+
+                    continue;
+                }
 
 
-        if (key == "XHL")
-        {
-            if (Altair::RefreshFlag & interfaceStatus::mainTabs)
-            {
-               widget->setWidgetFromXml(*Hash::wrapper[key]);
-            }
+            if (key == "XHL")
+                {
+                    if (Altair::RefreshFlag & interfaceStatus::mainTabs)
+                        {
+                            widget->setWidgetFromXml(*Hash::wrapper[key]);
+                        }
+                }
+            else
+                {
+                    if (options::RefreshFlag & interfaceStatus::optionTabs)
+                        {
+                            widget->setWidgetFromXml(*Hash::wrapper[key]);
+                        }
+                }
         }
-        else
-        {
-            if (options::RefreshFlag & interfaceStatus::optionTabs)
-            {
-                  widget->setWidgetFromXml(*Hash::wrapper[key]);
-            }
-        }
-    }
 
     if (v(quiet).isFalse())
-    {
-        if (keyList.size() - 1 != Abstract::abstractWidgetList.size())
         {
-            // On assigne base et lhxDir en hard code donc il n'est nu dans l'abstractWidgetList ni
-            // dans le projet
+            if (keyList.size() - 1 != Abstract::abstractWidgetList.size())
+                {
+                    // On assigne base et lhxDir en hard code donc il n'est nu dans l'abstractWidgetList ni
+                    // dans le projet
 
-            // version est lu dans le projet mais n'a pas de Widget
+                    // version est lu dans le projet mais n'a pas de Widget
 
-            textAppend(WARNING_HTML_TAG "Le nombre de Widget à identifier ("
-                                   + QString::number(Abstract::abstractWidgetList.size())
-                                   + ") est différent du nombre de clés lues dans le projet ("
-                                   + QString::number(keyList.size() - 1) +").");
+                    textAppend(WARNING_HTML_TAG "Le nombre de Widget à identifier ("
+                               + QString::number(Abstract::abstractWidgetList.size())
+                               + ") est différent du nombre de clés lues dans le projet ("
+                               + QString::number(keyList.size() - 1) + ").");
 
-        }
+                }
+
             QHashIterator<QString, FStringList*> w(Hash::wrapper);
             QStringList hashKeys = Abstract::hashKeys();
 
             QStringList exclusion = {"version", "base", "lhxDir"};
 
             while (w.hasNext())
-            {
-               auto h = w.next();
-               if (! exclusion.contains(h.key()) && ! hashKeys.contains(h.key()))
-                       textAppend(WARNING_HTML_TAG "Pas de Widget de clé " + h.key()
-                                              + " pour cette version (" VERSION ") de l'interface Altaïr.");
-            }
+                {
+                    auto h = w.next();
+
+                    if (! exclusion.contains(h.key()) && ! hashKeys.contains(h.key()))
+                        textAppend(WARNING_HTML_TAG "Pas de Widget de clé " + h.key()
+                                   + " pour cette version (" VERSION ") de l'interface Altaïr.");
+                }
 
             textAppend(STATE_HTML_TAG "Version du projet : "
-                                   + (Hash::wrapper["version"]->isEmpty() ? "non référencée." :
-                                      v(version)));
+                       + (Hash::wrapper["version"]->isEmpty() ? "non référencée." :
+                          v(version)));
             textAppend(STATE_HTML_TAG "Version de l'interface : " VERSION);
 
-    }
+        }
 
 }
 
@@ -719,61 +738,62 @@ bool Altair::refreshProjectManager()
     QFile file(projectName);
     bool result = true;
 
-    if ((RefreshFlag&interfaceStatus::saveTreeMask) == interfaceStatus::saveTree)
-    {
-        if (!file.isOpen())
-            result = file.open(QIODevice::ReadWrite);
-        else
-            result = file.seek(0);
-        if (!result) return false;
-    }
+    if ((RefreshFlag & interfaceStatus::saveTreeMask) == interfaceStatus::saveTree)
+        {
+            if (!file.isOpen())
+                result = file.open(QIODevice::ReadWrite);
+            else
+                result = file.seek(0);
+
+            if (!result) return false;
+        }
 
     qint64 filesize = file.size() ;
 
     // Step 2: parsing on opening .dvp project  (=update tree +refresh tabs) or adding/deleting tab files (=update tree)
 
     if ((RefreshFlag & interfaceStatus::treeMask) == interfaceStatus::tree)
-    {
-     // Colorier en couleurs alternées silver et blanche le gestionnaire de projet
-
-        QPalette palette;
-        palette.setColor(QPalette::AlternateBase,QColor("silver"));
-        managerWidget->setPalette(palette);
-        managerWidget->setAlternatingRowColors(true);
-
-        if ((RefreshFlag & interfaceStatus::parseXmlMask)
-                == interfaceStatus::parseXml)  // Re-parser le fichier XML projet
         {
-            if (!file.isOpen())
-                file.open(QIODevice::ReadWrite);
-            else
-                file.seek(0);
+            // Colorier en couleurs alternées silver et blanche le gestionnaire de projet
 
-            if (filesize == 0)
-            {
-                textAppend(WARNING_HTML_TAG " Pas de projet en cours (défaut.alt est vide).");
-                return false;
-            }
+            QPalette palette;
+            palette.setColor(QPalette::AlternateBase, QColor("silver"));
+            managerWidget->setPalette(palette);
+            managerWidget->setAlternatingRowColors(true);
 
-            parseProjectFile(&file);
+            if ((RefreshFlag & interfaceStatus::parseXmlMask)
+                    == interfaceStatus::parseXml)  // Re-parser le fichier XML projet
+                {
+                    if (!file.isOpen())
+                        file.open(QIODevice::ReadWrite);
+                    else
+                        file.seek(0);
+
+                    if (filesize == 0)
+                        {
+                            textAppend(WARNING_HTML_TAG " Pas de projet en cours (défaut.alt est vide).");
+                            return false;
+                        }
+
+                    parseProjectFile(&file);
+                }
+            else  // Ne pas reparser le XML simplement utiliser le conteneur de données
+                {
+                    refreshProjectManagerValues(manager::refreshProjectInteractiveMode
+                                                | manager::refreshNBulletins
+                                                | manager::refreshXHLZone
+                                                | manager::refreshSystemZone);
+                }
         }
-        else  // Ne pas reparser le XML simplement utiliser le conteneur de données
-        {
-            refreshProjectManagerValues(manager::refreshProjectInteractiveMode
-                                        | manager::refreshNBulletins
-                                        | manager::refreshXHLZone
-                                        | manager::refreshSystemZone);
-        }
-    }
 
     if (file.isOpen()) file.close();
 
     RefreshFlag =  RefreshFlag
-                       & (interfaceStatus::hasSavedOptionsMask
-                                              | interfaceStatus::saveTreeMask
-                                              | interfaceStatus::treeMask
-                                              | interfaceStatus::tabMask
-                                              | interfaceStatus::parseXmlMask) ;
+                   & (interfaceStatus::hasSavedOptionsMask
+                      | interfaceStatus::saveTreeMask
+                      | interfaceStatus::treeMask
+                      | interfaceStatus::tabMask
+                      | interfaceStatus::parseXmlMask) ;
 
     return (filesize !=  0);
 }
@@ -781,83 +801,86 @@ bool Altair::refreshProjectManager()
 void Altair::checkAnnumSpan()
 {
     if (Hash::wrapper.isEmpty()) return;
+
     int r = project->getRank() - 2;
     const QStringList& years = project->getTabLabels();
 
     for (int i = 0; i < r; ++i)
-    {
-        QList<int> monthList;
-
-        for (const QString& fileName : Hash::wrapper["XHL"]->at(i))
-            monthList << Hash::Mois[fileName].toInt();
-
-        monthList = monthList.toSet().toList();
-        std::sort(monthList.begin(), monthList.end());
-
-        QMutableListIterator<int> w(monthList);
-
-        QString annee = years.at(i);
-        if (annee != "" && annee.at(0) == '2')
         {
-            for (int z = 1; z <= 12; ++z)
-            {
-                if (! monthList.contains(z))
+            QList<int> monthList;
+
+            for (const QString& fileName : Hash::wrapper["XHL"]->at(i))
+                monthList << Hash::Mois[fileName].toInt();
+
+            monthList = monthList.toSet().toList();
+            std::sort(monthList.begin(), monthList.end());
+
+            QMutableListIterator<int> w(monthList);
+
+            QString annee = years.at(i);
+
+            if (annee != "" && annee.at(0) == '2')
                 {
-                    QMessageBox::critical(nullptr, "Données incomplètes",
-                                                    "Il manque des données mensuelles pour l'année " + annee +
-                                                    " mois "+ QString::number(z),
-                                                    QMessageBox::Ok);
+                    for (int z = 1; z <= 12; ++z)
+                        {
+                            if (! monthList.contains(z))
+                                {
+                                    QMessageBox::critical(nullptr, "Données incomplètes",
+                                                          "Il manque des données mensuelles pour l'année " + annee +
+                                                          " mois " + QString::number(z),
+                                                          QMessageBox::Ok);
+                                }
+                        }
                 }
-            }
         }
-    }
 }
 
 
 void Altair::dragEnterEvent(QDragEnterEvent *event)
 {
     if (event->source() != this)
-    {
-        event->setDropAction(Qt::CopyAction);
-        event->accept();
-    }
+        {
+            event->setDropAction(Qt::CopyAction);
+            event->accept();
+        }
 }
 
 void Altair::dragMoveEvent(QDragMoveEvent *event)
 {
     if (event->source() != this)
-    {
-        event->setDropAction(Qt::CopyAction);
-        event->accept();
-    }
+        {
+            event->setDropAction(Qt::CopyAction);
+            event->accept();
+        }
 }
 
 
 void Altair::dropEvent(QDropEvent *event)
 {
     if (event->source() != this)
-    {
-        QList<QUrl> urlsDragged=event->mimeData()->urls();
-        QStringList stringsDragged;
-        int size = 0;
-
-        for (const QUrl& url : urlsDragged)
         {
-            const QString path = url.toLocalFile();
-            if (! path.isEmpty())
-            {
-                stringsDragged << path;
-                size ++;
-            }
+            QList<QUrl> urlsDragged = event->mimeData()->urls();
+            QStringList stringsDragged;
+            int size = 0;
+
+            for (const QUrl& url : urlsDragged)
+                {
+                    const QString path = url.toLocalFile();
+
+                    if (! path.isEmpty())
+                        {
+                            stringsDragged << path;
+                            size ++;
+                        }
+                }
+
+            if (size == 0) return;
+
+            updateIndexInfo();
+            closeProject();
+            project->addParsedTreeToListWidget(stringsDragged);
+            checkAnnumSpan();
+            updateProject();
         }
-
-        if (size == 0) return;
-
-        updateIndexInfo();
-        closeProject();
-        project->addParsedTreeToListWidget(stringsDragged);
-        checkAnnumSpan();
-        updateProject();
-     }
 }
 

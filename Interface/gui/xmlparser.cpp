@@ -49,39 +49,41 @@
 
 inline const QString Altair::makeParserString(int start, int end)
 {
-    QStringList L=QStringList();
+    QStringList L = QStringList();
     auto origin = Abstract::abstractWidgetList.begin();
 
     // Parcourir l'ensemble de la liste abstractWidgetList des widgets abstrait
 
     for (auto  u = origin + start; u != Abstract::abstractWidgetList.end() && u <= origin + end; ++u)
-    {
-
-        FAbstractWidget* v = *u;
-        if (v == nullptr) return "";
-        QString hK = v->getHashKey();
-
-        if  (hK.isEmpty())
         {
-            Warning(tr("Erreur"), tr("Erreur d'analyse XML du projet"));
-            continue;
-        }
 
-        // Enregistrer le projet XML à partir du contenu des widgets
+            FAbstractWidget* v = *u;
 
-        QString xml = v->setXmlFromWidget().toQString();
+            if (v == nullptr) return "";
 
-        if (hK == "XHL" && xml.isEmpty()) continue;
+            QString hK = v->getHashKey();
 
-        // La priofondeur permet d'ecrire des objets complexes
+            if  (hK.isEmpty())
+                {
+                    Warning(tr("Erreur"), tr("Erreur d'analyse XML du projet"));
+                    continue;
+                }
 
-        QString widgetDepth = v->getDepth();
+            // Enregistrer le projet XML à partir du contenu des widgets
 
-        L <<  "  <" + hK + " profondeur=\"" + widgetDepth +  "\">\n   "
+            QString xml = v->setXmlFromWidget().toQString();
+
+            if (hK == "XHL" && xml.isEmpty()) continue;
+
+            // La priofondeur permet d'ecrire des objets complexes
+
+            QString widgetDepth = v->getDepth();
+
+            L <<  "  <" + hK + " profondeur=\"" + widgetDepth +  "\">\n   "
               + xml
-              +"\n  </" + hK + ">\n";
+              + "\n  </" + hK + ">\n";
 
-    }
+        }
 
     // Retourner le QString du projet .alt
 
@@ -91,7 +93,7 @@ inline const QString Altair::makeParserString(int start, int end)
 
 inline const QString  Altair::makeDataString()
 {
-    return  makeParserString(0,0);
+    return  makeParserString(0, 0);
 }
 
 inline const QString  Altair::makeSystemString()
@@ -108,20 +110,20 @@ void Altair::writeProjectFile()
 
     if (projectFile.isOpen()) projectFile.close();
 
-    if (! projectFile.open(QFile::WriteOnly|QFile::Truncate|QFile::Text))
-    {
-        errorMessageDialog->showMessage("Impossible d'ouvrir le fichier du projet " + projectName +"\n"+ qPrintable(projectFile.errorString()));
-        QLabel *errorLabel = new QLabel;
-        errorLabel->setText(tr("Si cette case est décochée, ce message "
-                               "ne s'affichera plus à  nouveau."));
-        return;
-    }
+    if (! projectFile.open(QFile::WriteOnly | QFile::Truncate | QFile::Text))
+        {
+            errorMessageDialog->showMessage("Impossible d'ouvrir le fichier du projet " + projectName + "\n" + qPrintable(projectFile.errorString()));
+            QLabel *errorLabel = new QLabel;
+            errorLabel->setText(tr("Si cette case est décochée, ce message "
+                                   "ne s'affichera plus à  nouveau."));
+            return;
+        }
 
     QTextStream out(&projectFile);
     out.setCodec("UTF-8");
 
     out << "<?xml version=\"1.0\"?>\n"
-        <<"<projet version=\"" VERSION "\">\n";
+        << "<projet version=\"" VERSION "\">\n";
     out << " <data>\n";
 
     out << Altair::makeDataString();
@@ -135,14 +137,14 @@ void Altair::writeProjectFile()
 
     out << "</projet>\n";
     out.flush();
-    options::RefreshFlag=interfaceStatus::hasSavedOptions;
+    options::RefreshFlag = interfaceStatus::hasSavedOptions;
 
 }
 
 namespace XmlMethod
 {
 
-QTreeWidgetItem *itemParent=nullptr;
+QTreeWidgetItem *itemParent = nullptr;
 
 /// Empile les données pour un noeud donné, pour une profondeur d'enchassement donnée
 /// \param Le noeud de l'arborescence abstraite QomNode
@@ -151,27 +153,28 @@ QTreeWidgetItem *itemParent=nullptr;
 
 inline void stackData(const QDomNode &node, int level, QVariant &textData)
 {
-    QDomNode  childNode=node.firstChild();
+    QDomNode  childNode = node.firstChild();
 
     QStringList strL;
     QString str;
 
     switch(level)
-    {
-    /* parses < tag> text </tag> */
-
-    case 0:
-
-    //    tags[0] = node.toElement().tagName();
-        str.clear();
-        while ((!childNode.isNull()) && (childNode.nodeType() == QDomNode::TextNode))
         {
-            str += childNode.toText().data().simplified();
-            childNode=childNode.nextSibling();
-        }
+        /* parses < tag> text </tag> */
 
-        textData=QVariant(str);
-        break;
+        case 0:
+
+            //    tags[0] = node.toElement().tagName();
+            str.clear();
+
+            while ((!childNode.isNull()) && (childNode.nodeType() == QDomNode::TextNode))
+                {
+                    str += childNode.toText().data().simplified();
+                    childNode = childNode.nextSibling();
+                }
+
+            textData = QVariant(str);
+            break;
 
 
 //          parses < tags[0]>
@@ -182,96 +185,100 @@ inline void stackData(const QDomNode &node, int level, QVariant &textData)
 //             note: does not check subordinate tag uniformity
 
 
-    case 1:
+        case 1:
+
 // Add properties collection here to read month */
 //       tags[0]=node.toElement().tagName();
 
-        while (!childNode.isNull())
-        {
-            QVariant strV;
+            while (!childNode.isNull())
+                {
+                    QVariant strV;
 
-            stackData(childNode, 0, strV);
-            QString str = strV.toString();
-            strL << str;
-            QDomElement element = childNode.toElement();
-            Hash::Mois[str] = element.attribute("V");
-            Hash::Siret[str] << element.attribute("S");
-            Hash::Budget[str] = element.attribute("B");
-            Hash::Etablissement[str] << element.attribute("E");
-            Hash::Employeur[str] = element.attribute("EM");
-            QDomNamedNodeMap attribs = element.attributes();
-            int i = 2;
-            QString attr;
+                    stackData(childNode, 0, strV);
+                    QString str = strV.toString();
+                    strL << str;
+                    QDomElement element = childNode.toElement();
+                    Hash::Mois[str] = element.attribute("V");
+                    Hash::Siret[str] << element.attribute("S");
+                    Hash::Budget[str] = element.attribute("B");
+                    Hash::Etablissement[str] << element.attribute("E");
+                    Hash::Employeur[str] = element.attribute("EM");
+                    QDomNamedNodeMap attribs = element.attributes();
+                    int i = 2;
+                    QString attr;
 
-            while (attribs.contains(attr = "S" + QString::number(i)))
-            {
-                   Hash::Siret[str] << childNode.toElement().attribute(attr);
-                   ++i;
-            }
-            i = 2;
+                    while (attribs.contains(attr = "S" + QString::number(i)))
+                        {
+                            Hash::Siret[str] << childNode.toElement().attribute(attr);
+                            ++i;
+                        }
 
-            while (attribs.contains(attr = "E" + QString::number(i)))
-            {
-                   Hash::Etablissement[str] << childNode.toElement().attribute(attr);
-                   ++i;
-            }
+                    i = 2;
 
-            childNode=childNode.nextSibling();
+                    while (attribs.contains(attr = "E" + QString::number(i)))
+                        {
+                            Hash::Etablissement[str] << childNode.toElement().attribute(attr);
+                            ++i;
+                        }
+
+                    childNode = childNode.nextSibling();
+                }
+
+            textData = QVariant(strL);
+            break;
+
+            /*
+             *   parses
+             *            <tags[0]>
+             *               <tags[1] V=tags[3]>
+                                 <tags[2] V=tags[4] S=tags[5] B=tags[6] E=tags[7]>  text </tags[2]>
+                                 ....
+                                 <tags[2] V=tags[4] S=tags[5] B=tags[6] E=tags[7]> text </tags[2]>
+                             </tags[1]>
+                             ...
+                             <tags[1] V=tags[3]>
+                                 <tags[2]  V=tags[4] S=tags[5] B=tags[6] E=tags[7]>  text </tags[2]>
+                                 ....
+                                 <tags[2]  V=tags[4] S=tags[5] B=tags[6] E=tags[7]> text </tags[2]>
+                             </tags[1]>
+                           </tags[0]>
+            */
+
         }
-        textData=QVariant(strL);
-        break;
-
-        /*
-         *   parses
-         *            <tags[0]>
-         *               <tags[1] V=tags[3]>
-                             <tags[2] V=tags[4] S=tags[5] B=tags[6] E=tags[7]>  text </tags[2]>
-                             ....
-                             <tags[2] V=tags[4] S=tags[5] B=tags[6] E=tags[7]> text </tags[2]>
-                         </tags[1]>
-                         ...
-                         <tags[1] V=tags[3]>
-                             <tags[2]  V=tags[4] S=tags[5] B=tags[6] E=tags[7]>  text </tags[2]>
-                             ....
-                             <tags[2]  V=tags[4] S=tags[5] B=tags[6] E=tags[7]> text </tags[2]>
-                         </tags[1]>
-                       </tags[0]>
-        */
-
-  }
 }
 
 inline void stackData(const QDomNode & node, QVariant &textData, QStringList& tabLabels)
 {
-    QDomNode  childNode=node.firstChild();
+    QDomNode  childNode = node.firstChild();
     QList<QVariant> stackedInfo;
     QString annee;
 
 //    tags[0]=node.toElement().tagName();
-    childNode=node.firstChild();
+    childNode = node.firstChild();
 
     while (!childNode.isNull())
-    {
-        if (childNode.toElement().tagName() == "onglet")
         {
-              annee = childNode.toElement().attribute("V");
+            if (childNode.toElement().tagName() == "onglet")
+                {
+                    annee = childNode.toElement().attribute("V");
 //              if (annee[0] != '2') break;
-              tabLabels += annee;
+                    tabLabels += annee;
+                }
+
+            QVariant M;
+            stackData(childNode, 1, M);
+            const QStringList SL = M.toStringList();
+
+            for (const QString& s :  SL)
+                {
+                    Hash::Annee[s] = annee;
+                }
+
+            stackedInfo << SL;
+            childNode = childNode.nextSibling();
         }
 
-        QVariant M;
-        stackData(childNode, 1, M);
-        const QStringList SL = M.toStringList();
-        for (const QString& s :  SL)
-        {
-            Hash::Annee[s] = annee;
-        }
-
-        stackedInfo << SL;
-        childNode=childNode.nextSibling();
-    }
-
-    textData= QVariant(stackedInfo);
+    textData = QVariant(stackedInfo);
 
 }
 
@@ -279,56 +286,62 @@ inline void stackData(const QDomNode & node, QVariant &textData, QStringList& ta
 // Affichage sur l'onglet central
 
 void displayTextData(const QStringList &firstColumn,
-                     const QString &secondColumn="",
-                     const QString &thirdColumn="",
-                     const QString &fourthColumn="",
-                     const QString &fifthColumn="",
-                     const QString &sixthColumn="",
-                     const QString &seventhColumn="",
-                     const QColor &color=QColor("blue"))
+                     const QString &secondColumn = "",
+                     const QString &thirdColumn = "",
+                     const QString &fourthColumn = "",
+                     const QString &fifthColumn = "",
+                     const QString &sixthColumn = "",
+                     const QString &seventhColumn = "",
+                     const QColor &color = QColor("blue"))
 {
     static QString last;
     static QTreeWidgetItem* item;
 
     if ( (firstColumn.at(0) != last) &&  !firstColumn.at(0).isEmpty())
-    {
-        item = new QTreeWidgetItem(XmlMethod::itemParent);
-        item->setText(0, firstColumn.at(0));
-        item->setExpanded(true);
-     }
+        {
+            item = new QTreeWidgetItem(XmlMethod::itemParent);
+            item->setText(0, firstColumn.at(0));
+            item->setExpanded(true);
+        }
 
-    last= firstColumn.at(0);
+    last = firstColumn.at(0);
 
     if ((thirdColumn.isEmpty()) && (firstColumn.count() == 1)) return;
 
     if (item == nullptr) return;
 
     QTreeWidgetItem* item2 = new QTreeWidgetItem(item);
+
     if (item2 == nullptr) return;
+
     if (firstColumn.count() > 1)
-    {
-        item2->setText(0, firstColumn.at(1));
-    }
-    else
-    {
-        if (!thirdColumn.isEmpty())   item2->setText(2, thirdColumn);
-        if (!fourthColumn.isEmpty())  item2->setText(3, fourthColumn);
-        if (!fifthColumn.isEmpty())   item2->setText(4, fifthColumn);
-        if (!sixthColumn.isEmpty())   item2->setText(5, sixthColumn);
-        if (!seventhColumn.isEmpty()) item2->setText(6, seventhColumn);
-
-        if (color.isValid())
         {
-            item2->setTextColor(3, color);
-            item2->setTextColor(4, color);
+            item2->setText(0, firstColumn.at(1));
         }
+    else
+        {
+            if (!thirdColumn.isEmpty())   item2->setText(2, thirdColumn);
 
-        item2->setTextAlignment(2, Qt::AlignLeft);
-        item2->setTextAlignment(3, Qt::AlignRight);
-        item2->setTextAlignment(4, Qt::AlignCenter);
-        item2->setTextAlignment(5, Qt::AlignLeft);
-        item2->setTextAlignment(6, Qt::AlignCenter);
-    }
+            if (!fourthColumn.isEmpty())  item2->setText(3, fourthColumn);
+
+            if (!fifthColumn.isEmpty())   item2->setText(4, fifthColumn);
+
+            if (!sixthColumn.isEmpty())   item2->setText(5, sixthColumn);
+
+            if (!seventhColumn.isEmpty()) item2->setText(6, seventhColumn);
+
+            if (color.isValid())
+                {
+                    item2->setTextColor(3, color);
+                    item2->setTextColor(4, color);
+                }
+
+            item2->setTextAlignment(2, Qt::AlignLeft);
+            item2->setTextAlignment(3, Qt::AlignRight);
+            item2->setTextAlignment(4, Qt::AlignCenter);
+            item2->setTextAlignment(5, Qt::AlignLeft);
+            item2->setTextAlignment(6, Qt::AlignCenter);
+        }
 
     item2->setText(1, secondColumn);
 
@@ -340,15 +353,15 @@ void displayTextData(const QStringList &firstColumn,
 //                       tags[1] 2 : xxx  ...  size Mo
 
 inline qint64 displaySecondLevelData(    const QStringList &tags,
-                                         const QVector<QStringList> &stackedInfo,
-                                         const QVector<QStringList> &stackedSizeInfo)
+        const QVector<QStringList> &stackedInfo,
+        const QVector<QStringList> &stackedSizeInfo)
 {
-    int count=0, tagcount=0, l;
-    qint64 filesizecount=0;
+    int count = 0, tagcount = 0, l;
+    qint64 filesizecount = 0;
 
     QString firstColumn,
-            root=tags.at(0),
-            secondColumn=" ",
+            root = tags.at(0),
+            secondColumn = " ",
             thirdColumn,
             fourthColumn,
             fifthColumn,
@@ -360,53 +373,56 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
     QVectorIterator<QStringList> i(stackedInfo), j(stackedSizeInfo);
 
     while (i.hasNext() && j.hasNext())
-    {
-        if (!root.isEmpty() && tagcount < tagListSize)
+        {
+            if (!root.isEmpty() && tagcount < tagListSize)
                 firstColumn = tags.at(tagcount++);
 
-        if (firstColumn[0] != '2') break;
-        displayTextData({firstColumn});
+            if (firstColumn[0] != '2') break;
 
-        QStringListIterator w(i.next()), y(j.next());
-        l=0;
+            displayTextData({firstColumn});
 
-        while (w.hasNext() && y.hasNext())
-        {
-            ++count;
+            QStringListIterator w(i.next()), y(j.next());
+            l = 0;
 
-            thirdColumn =  "fichier " + QString::number(++l) + "/"+ QString::number(count) +": ";
-            const QString filename = w.next();
-            thirdColumn += filename;
-            secondColumn =  Hash::Mois[filename];
-            sixthColumn = "";
-            for (int s = 0; s < Hash::Siret[filename].size() && s < Hash::Etablissement[filename].size(); ++s)
-            {
-                sixthColumn += ((s > 0)? "\n" : "") + Hash::Employeur[filename];
-                sixthColumn += " " + Hash::Siret[filename].at(s);
-                sixthColumn += " " + Hash::Etablissement[filename].at(s);
-            }
+            while (w.hasNext() && y.hasNext())
+                {
+                    ++count;
 
-            seventhColumn =  Hash::Budget[filename];
-            if ((stackedSizeInfo.size() > 0) && (y.hasNext()))
-            {
-                QStringList units=y.next().split(" ");
-                qint64 msize=units.at(0).toLongLong();
-                filesizecount += msize;
-                // force coertion into float or double using .0
-                fourthColumn    = QString::number(msize/1048576.0, 'f', 1);
-                fifthColumn   = QString::number(filesizecount/1048576.0, 'f', 1)+ " Mo" ;
-            }
+                    thirdColumn =  "fichier " + QString::number(++l) + "/" + QString::number(count) + ": ";
+                    const QString filename = w.next();
+                    thirdColumn += filename;
+                    secondColumn =  Hash::Mois[filename];
+                    sixthColumn = "";
 
-            displayTextData({""},
-                            secondColumn,
-                            thirdColumn,
-                            fourthColumn,
-                            fifthColumn,
-                            sixthColumn,
-                            seventhColumn,
-                            (y.hasNext())? QColor("navy"): ((j.hasNext())? QColor("orange") :QColor("red")));
+                    for (int s = 0; s < Hash::Siret[filename].size() && s < Hash::Etablissement[filename].size(); ++s)
+                        {
+                            sixthColumn += ((s > 0) ? "\n" : "") + Hash::Employeur[filename];
+                            sixthColumn += " " + Hash::Siret[filename].at(s);
+                            sixthColumn += " " + Hash::Etablissement[filename].at(s);
+                        }
+
+                    seventhColumn =  Hash::Budget[filename];
+
+                    if ((stackedSizeInfo.size() > 0) && (y.hasNext()))
+                        {
+                            QStringList units = y.next().split(" ");
+                            qint64 msize = units.at(0).toLongLong();
+                            filesizecount += msize;
+                            // force coertion into float or double using .0
+                            fourthColumn    = QString::number(msize / 1048576.0, 'f', 1);
+                            fifthColumn   = QString::number(filesizecount / 1048576.0, 'f', 1) + " Mo" ;
+                        }
+
+                    displayTextData({""},
+                                    secondColumn,
+                                    thirdColumn,
+                                    fourthColumn,
+                                    fifthColumn,
+                                    sixthColumn,
+                                    seventhColumn,
+                                    (y.hasNext()) ? QColor("navy") : ((j.hasNext()) ? QColor("orange") : QColor("red")));
+                }
         }
-    }
 
     return filesizecount;
 }
@@ -419,12 +435,13 @@ inline qint64 displaySecondLevelData(    const QStringList &tags,
 inline void displayFirstLevelData( const QString &tag,  const QString &style, const QStringList &stackedInfo)
 {
     QStringListIterator i(stackedInfo);
-    int count=0;
+    int count = 0;
+
     while (i.hasNext())
-    {
-        ++count;
-        displayTextData((count>1)?QStringList(""):QStringList(tag), style+" "+QString::number(count)+": "+i.next());
-    }
+        {
+            ++count;
+            displayTextData((count > 1) ? QStringList("") : QStringList(tag), style + " " + QString::number(count) + ": " + i.next());
+        }
 }
 
 
@@ -443,48 +460,52 @@ void Altair::parseProjectFile(QIODevice* file)
     int errorColumn;
 
     QDomDocument doc;
-    if (!doc.setContent(file, true, &errorStr, &errorLine, &errorColumn))
-    {
-        Warning(tr("Décodage XML"), tr("Erreur de décodage ligne %1, " "colonne %2:\n%3").arg(errorLine).arg(errorColumn).arg(errorStr));
-        return;
-    }
 
-    QDomElement root=doc.documentElement();
+    if (!doc.setContent(file, true, &errorStr, &errorLine, &errorColumn))
+        {
+            Warning(tr("Décodage XML"), tr("Erreur de décodage ligne %1, " "colonne %2:\n%3").arg(errorLine).arg(errorColumn).arg(errorStr));
+            return;
+        }
+
+    QDomElement root = doc.documentElement();
 
     if (root.tagName() != "projet") return;
 
     Hash::wrapper.clear();
 
     Hash::wrapper["version"]  = new FStringList;
+
     if (Hash::wrapper["version"] == nullptr) return;
 
     *Hash::wrapper["version"] = FStringList(root.toElement().attribute("version"));
 
-    QDomNode node= root.firstChild();
+    QDomNode node = root.firstChild();
 
 //   Empiler les données dans les listes pertinentes, traiter l'information et l'afficher dans l'arbre
 
-    Altair::totalSize =0;
+    Altair::totalSize = 0;
 
-    for (const QString& maintag : {"data", "systeme"})
+    for (const QString& maintag :
+    {"data", "systeme"
+    })
     {
         if (node.toElement().tagName() != maintag) return;
 
-        QDomNode subnode=node.firstChild();
+        QDomNode subnode = node.firstChild();
 
         while (!subnode.isNull())
-        {
-            FStringList &&str = parseEntry(subnode);
-            //if (!str.at(0).at(0).isEmpty())
             {
-                const QString key  = subnode.toElement().tagName();
+                FStringList &&str = parseEntry(subnode);
+                //if (!str.at(0).at(0).isEmpty())
+                {
+                    const QString key  = subnode.toElement().tagName();
 
-                Hash::wrapper[key]  = new FStringList;
-                *Hash::wrapper[key] =  str;
+                    Hash::wrapper[key]  = new FStringList;
+                    *Hash::wrapper[key] =  str;
+                }
+
+                subnode = subnode.nextSibling();
             }
-
-            subnode=subnode.nextSibling();
-        }
 
         node = node.nextSibling();
     }
@@ -494,14 +515,15 @@ void Altair::parseProjectFile(QIODevice* file)
 
     assignWidgetValues();
 
-   int projectRank = Hash::wrapper["XHL"]->size();
+    int projectRank = Hash::wrapper["XHL"]->size();
+
     if (projectRank == 0) return;
 
-    for (int group_index=0; group_index< projectRank ; group_index++)
-    {
-        refreshRowPresentation(group_index);
-        // Ne pas inclure les onglets Siret et Budget
-    }
+    for (int group_index = 0; group_index < projectRank ; group_index++)
+        {
+            refreshRowPresentation(group_index);
+            // Ne pas inclure les onglets Siret et Budget
+        }
 
     emit(project->is_ntabs_changed(projectRank));
 
@@ -519,25 +541,27 @@ FStringList Altair::parseEntry(const QDomNode &node, QTreeWidgetItem *itemParent
 {
 
     QVariant textData;
-    int level=node.toElement().attribute("profondeur").toInt();
+    int level = node.toElement().attribute("profondeur").toInt();
 
     XmlMethod::itemParent = itemParent;
 
     QStringList tabLabels;
 
     switch (level)
-    {
+        {
         case 0:
-                XmlMethod::stackData(node, 0, textData);
-                return FStringList(textData.toString());
+            XmlMethod::stackData(node, 0, textData);
+            return FStringList(textData.toString());
+
         case 1:
-                XmlMethod::stackData(node, 1, textData);
-                return FStringList(textData.toStringList());
+            XmlMethod::stackData(node, 1, textData);
+            return FStringList(textData.toStringList());
+
         case 2:
-                XmlMethod::stackData(node, textData, tabLabels);
-                project->setTabLabels(tabLabels);
-                return FStringList(textData.toList().toVector());
-    }
+            XmlMethod::stackData(node, textData, tabLabels);
+            project->setTabLabels(tabLabels);
+            return FStringList(textData.toList().toVector());
+        }
 
     return FStringList();
 }
@@ -545,29 +569,31 @@ FStringList Altair::parseEntry(const QDomNode &node, QTreeWidgetItem *itemParent
 inline QVector<QStringList> Altair::processSecondLevelData(QVector<QStringList> &L, bool isFile)
 {
     QVectorIterator<QStringList> i(L);
-    int group_index=0;
+    int group_index = 0;
 
     QVector<QStringList> stackedSizeInfo2 ;
+
     while (i.hasNext())
-    {
-        QStringListIterator w(i.next());
-        QStringList stackedSizeInfo1=QStringList();
-        while (w.hasNext())
         {
-            QString text=w.next();
+            QStringListIterator w(i.next());
+            QStringList stackedSizeInfo1 = QStringList();
 
-            if (isFile & QFileInfo(text).isFile())  // double check on file status. First check is for processing speed, so that QFileInfo is only called when necessary
-            {
-                // computing filesizes
+            while (w.hasNext())
+                {
+                    QString text = w.next();
 
-                stackedSizeInfo1 <<  QString::number((long) QFileInfo(text).size())+" ";
+                    if (isFile & QFileInfo(text).isFile())  // double check on file status. First check is for processing speed, so that QFileInfo is only called when necessary
+                        {
+                            // computing filesizes
 
-            }
+                            stackedSizeInfo1 <<  QString::number((long) QFileInfo(text).size()) + " ";
+
+                        }
+                }
+
+            stackedSizeInfo2 << stackedSizeInfo1;
+            group_index++;
         }
-
-        stackedSizeInfo2 << stackedSizeInfo1;
-        group_index++;
-    }
 
     return stackedSizeInfo2;
 }
@@ -580,39 +606,39 @@ void Altair::refreshProjectManagerValues(std::uint16_t refreshProjectManagerFlag
     if (tags.isEmpty() || Hash::wrapper.isEmpty() || Hash::wrapper["XHL"] == nullptr || Hash::wrapper["XHL"]->isEmpty()) return;
 
     if ((refreshProjectManagerFlag & manager::refreshProjectInteractiveMask) == manager::refreshProjectInteractiveMode)
-    {
-        fileSizeDataBase[0] = processSecondLevelData(*Hash::wrapper["XHL"]);
-    }
+        {
+            fileSizeDataBase[0] = processSecondLevelData(*Hash::wrapper["XHL"]);
+        }
 
-    QTreeWidgetItem *item=new QTreeWidgetItem(managerWidget);
+    QTreeWidgetItem *item = new QTreeWidgetItem(managerWidget);
     item->setText(0, "Fichiers xhl");
     item->setExpanded(true);
-    XmlMethod::itemParent=item;
+    XmlMethod::itemParent = item;
 
-    Altair::totalSize =XmlMethod::displaySecondLevelData(
+    Altair::totalSize = XmlMethod::displaySecondLevelData(
                             tags,
-                           *Hash::wrapper["XHL"],
+                            *Hash::wrapper["XHL"],
                             fileSizeDataBase[0]);
-    Altair::totalSize +=1;
+    Altair::totalSize += 1;
 
-    item=new QTreeWidgetItem(managerWidget);
+    item = new QTreeWidgetItem(managerWidget);
     item->setText(0, "Logiciel");
     item->setExpanded(true);
-    XmlMethod::itemParent=item;
+    XmlMethod::itemParent = item;
     QStringList L = Hash::wrapper.keys();
 
-    for (int k=1; k < Abstract::abstractWidgetList.count(); k++)
-    {
-        const QString& key=Abstract::abstractWidgetList[k]->getHashKey();
-        if (! L.contains(key) || Hash::wrapper[key] == nullptr) continue;
-
-        if (Abstract::abstractWidgetList[k]->getDepth() == "0")
+    for (int k = 1; k < Abstract::abstractWidgetList.count(); k++)
         {
-            XmlMethod::displayTextData(Hash::description[key], Hash::wrapper[key]->toQString());
+            const QString& key = Abstract::abstractWidgetList[k]->getHashKey();
+
+            if (! L.contains(key) || Hash::wrapper[key] == nullptr) continue;
+
+            if (Abstract::abstractWidgetList[k]->getDepth() == "0")
+                {
+                    XmlMethod::displayTextData(Hash::description[key], Hash::wrapper[key]->toQString());
+                }
+            else if (Abstract::abstractWidgetList[k]->getDepth() == "1")
+                XmlMethod::displayFirstLevelData(Hash::description[key].at(0), "bouton", Hash::wrapper[key]->at(0));
         }
-        else
-            if (Abstract::abstractWidgetList[k]->getDepth() == "1")
-            XmlMethod::displayFirstLevelData(Hash::description[key].at(0), "bouton", Hash::wrapper[key]->at(0));
-    }
 
 }

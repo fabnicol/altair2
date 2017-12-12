@@ -55,11 +55,11 @@ inline void Highlighter::createRulePattern(const QColor& color,  QFont::Weight w
     rule.format = classFormat;
 
     for (const QString& a : list)
-    {
-        rule.pattern = QRegExp(a);
-        rule.pattern.setPatternSyntax(QRegExp::RegExp2);
-        highlightingRules.append(rule);
-    }
+        {
+            rule.pattern = QRegExp(a);
+            rule.pattern.setPatternSyntax(QRegExp::RegExp2);
+            highlightingRules.append(rule);
+        }
 }
 
 
@@ -72,11 +72,11 @@ Highlighter::Highlighter(QTextDocument *parent)
     keywordFormat.setFontWeight(QFont::Bold);
 
     for (FAbstractWidget* a : Abstract::abstractWidgetList)
-    {
-        rule.pattern = QRegExp("\\b"+a->getHashKey()+"\\b");
-        rule.format = keywordFormat;
-        highlightingRules.append(rule);
-    }
+        {
+            rule.pattern = QRegExp("\\b" + a->getHashKey() + "\\b");
+            rule.format = keywordFormat;
+            highlightingRules.append(rule);
+        }
 
     createRulePattern(Qt::darkBlue, QFont::Bold, {"\\bprofondeur\\b"});
 
@@ -95,17 +95,18 @@ Highlighter::Highlighter(QTextDocument *parent)
 
 void Highlighter::highlightBlock(const QString &text)
 {
-    for (const HighlightingRule &rule: highlightingRules)
-    {
-        QRegExp expression(rule.pattern);
-        int index = expression.indexIn(text);
-        while (index >= 0)
+    for (const HighlightingRule &rule : highlightingRules)
         {
-            int length = expression.matchedLength();
-            setFormat(index, length, rule.format);
-            index = expression.indexIn(text, index + length);
+            QRegExp expression(rule.pattern);
+            int index = expression.indexIn(text);
+
+            while (index >= 0)
+                {
+                    int length = expression.matchedLength();
+                    setFormat(index, length, rule.format);
+                    index = expression.indexIn(text, index + length);
+                }
         }
-    }
 
 }
 

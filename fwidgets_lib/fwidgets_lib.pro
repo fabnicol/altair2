@@ -78,7 +78,7 @@ SOURCES += \
 
 HEADERS += \
         fwidgets_lib_global.h \ 
-    flineframe.hpp \
+    flineframe.h \
     flistframe.h \
     forms.h \
     fstring.h \
