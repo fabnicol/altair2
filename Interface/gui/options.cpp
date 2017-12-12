@@ -35,9 +35,12 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////////////
 
 
+/// \file options.cpp
+/// \author Fabrice Nicol
+/// \brief Implémentation des classes du dialogue d'options
 
 #include <QFile>
 #include <thread>
@@ -55,8 +58,7 @@ extern template void createHash(QHash<QString, QString>&,
                                 const QList<QString>*,
                                 const QList<QString>*);
 
-
-///
+//
 // Crée une ligne de codes pour un type donné de prime
 //
 
@@ -96,7 +98,7 @@ int codePage::ajouterVariable(const QString& nom)
 codePage::codePage()
 {
     baseBox = new QGroupBox;
-    prologue_codes_path = path_access("Tests/Exemple/prologue_codes.R");
+    prologue_codes_path = path_access(SCRIPT_DIR "prologue_codes.R");
     appliquerCodes = new QToolButton;
 
     appliquerCodes->setIcon(QIcon(":/images/view-refresh.png"));
@@ -311,7 +313,7 @@ bool codePage::reinitialiser_prologue()
 {
 
     QFile(prologue_codes_path).remove();
-    bool result = QFile(path_access("Tests/Exemple/prologue_init.R")).copy(prologue_codes_path);
+    bool result = QFile(path_access(SCRIPT_DIR "prologue_init.R")).copy(prologue_codes_path);
 
     return result;
 }
@@ -519,7 +521,7 @@ standardPage::standardPage()
 void standardPage::substituer_versant()
 {
 
-    const QString &versant_path = path_access("Tests/Exemple/versant.R");
+    const QString &versant_path = path_access(SCRIPT_DIR "versant.R");
 
     QString file_str = readFile(versant_path);
 

@@ -35,11 +35,19 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////////////
 
+
+
+/// \file run.cpp
+/// \author Fabrice Nicol
+/// \brief Implémentation de la classe \ref Altair agent de la classe \ref MainWindow qui construit l'interface graphique.\n
+/// Cette partie de l'implémentation concerne uniquement le lancement ou l'arrêt d'applications externes ou le traitement de leur exécution
+/// \note fichier à encoder en \e UTF-8
 
 #include "altair.h"
 #include "fwidgets.h"
+
 #ifdef Q_OS_LINUX
 #include <sys/mount.h>
 #include <sys/ioctl.h>
@@ -50,10 +58,6 @@
 #include <unistd.h> 
 
 #endif
-
-/* fichier à encoder en UTF-8 */
-
-
 
 QStringList Altair::createCommandLineString(const QStringList& files)
 {
@@ -502,7 +506,7 @@ void Altair::runRAltair()
     process.setProcessChannelMode(QProcess::MergedChannels);
 
     // ne pas utiliser isFalse() car la valeur peut être non-spécifiée au lancement
-   QDir outputDir = QDir(common::path_access("Tests/Exemple/Donnees/" AltairDir));
+    QDir outputDir = QDir(common::path_access(DONNEES_SORTIE));
 
     outputDir.remove("altaïr.pdf");
     outputDir.remove("altaïr.odt");
@@ -520,17 +524,17 @@ void Altair::runRAltair()
 
         if (v(rapportType) == "WORD et ODT")
         {
-          path_access_rapport = path_access("Tests/Exemple/rapport_msword.R");
+          path_access_rapport = path_access(SCRIPT_DIR "rapport_msword.R");
         }
         else
         if (v(rapportType) == "PDF")
         {
-          path_access_rapport = path_access("Tests/Exemple/rapport_pdf.R");
+          path_access_rapport = path_access(SCRIPT_DIR "rapport_pdf.R");
         }
         else
         if (v(rapportType) == "WORD, ODT et PDF")
         {
-          path_access_rapport = path_access("Tests/Exemple/rapport_msword_et_pdf.R");
+          path_access_rapport = path_access(SCRIPT_DIR "rapport_msword_et_pdf.R");
         }
 
 #ifdef Q_OS_WIN
