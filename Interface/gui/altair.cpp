@@ -35,7 +35,13 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////////////
+
+
+/// \file altair.cpp
+/// \author Fabrice Nicol
+/// \brief Code implémentant la classe principale Altair, qui joue le rôle d'agent de l'interface graphique
+/// \sa MainWindow
 
 #include <QFile>
 #include <sys/stat.h>
@@ -69,7 +75,11 @@ QHash<QString,QStringList> Hash::description;
 
 void Altair::initialize()
 {
+    // Taille par défaut
     adjustSize();
+
+    // Récupérer la variable d'environnement USER/USERNAME
+
 #ifdef Q_OS_WIN
     username = "Public";
 #else
@@ -77,7 +87,11 @@ void Altair::initialize()
     if (username.isEmpty())
        username = qgetenv("USERNAME");
 #endif
+
+    // Accès au répertoire des données XML par défaut (userdatadir)
+
     const QString xhl = path_access(QString(DONNEES_XHL)) + QDir::separator();
+
     #ifdef Q_OS_WIN
         userdatadir = xhl;
     #else
@@ -89,11 +103,14 @@ void Altair::initialize()
         userdatadir = xhl;
     }
             
-    Hash::description["année"]=QStringList("Fichiers .xhl");
+    Hash::description["année"] = QStringList("Fichiers .xhl");
 }
 
 void Altair::refreshModel()
 {
+    // Reconstruire complètement l'arborescence de fichiers (explorateur à gauche de l'interface)
+    // Partie modèle
+
     delete(model);
     model = new QFileSystemModel;
     model->setReadOnly(false);
@@ -107,6 +124,9 @@ void Altair::refreshModel()
 
 void Altair::refreshTreeView(bool create)
 {
+    // Reconstruire complètement l'arborescence de fichiers (explorateur à gauche de l'interface)
+    // Partie vue
+
     if (create)
     {
        fileTreeView = new QTreeView;
@@ -183,6 +203,9 @@ Altair::Altair()
     // Ce qui suit présupose que les connexions déclenchées par le clic
     // sont préalablement traitées par FListFrame (ce qui est le cas)
                 
+    // Une fois exécutés les automatismes de FListFrame, finaliser en actualisant le projet
+    // et en affichant la taille totale ainsi qu'en vérifiant les années.
+
     connect(project->importFromMainTree,
             &QToolButton::clicked,
             [this]{
@@ -192,6 +215,8 @@ Altair::Altair()
 
     });
 
+    // Idem pour fermer le projet, animer la barre d'outil, ajouter du texte à l'onglet des messages
+    // ou actualiser l'interface
     connect(project->fileListWidget, SIGNAL(forceCloseProject()), this, SLOT(closeProject()));
     connect(project, SIGNAL(showProgressBar()), this, SIGNAL(showProgressBar()));
     connect(project, SIGNAL(setProgressBar(int, int)), this, SIGNAL(setProgressBar(int, int)));
@@ -200,14 +225,17 @@ Altair::Altair()
     connect(project, SIGNAL(refreshRowPresentation(int)), this, SLOT(refreshRowPresentation(int)));
     connect(project, SIGNAL(updateProject(bool)), this, SLOT(updateProject(bool)));
     connect(project, SIGNAL(appRepaint()), this, SLOT(repaint()));
-    connect(this, &QDialog::customContextMenuRequested, [this] {  project->showContextMenu(); });
-
-    connect(&process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int)));
-
 #ifndef USE_RIGHT_CLICK
     connect(project->deleteGroupButton, SIGNAL(clicked()), this, SLOT(deleteGroup()));
     connect(project->retrieveItemButton, SIGNAL(clicked()), this, SLOT(on_deleteItem_clicked()));
 #endif
+
+    // A rebours le signal "click droit" est transmis à project
+    connect(this, &QDialog::customContextMenuRequested, [this] {  project->showContextMenu(); });
+
+    // Traitement de la fin d'exécution par processFinished
+    connect(&process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int)));
+
 
     //////////////  Graphisme   ///////////////////
 
@@ -236,7 +264,8 @@ Altair::Altair()
     // Graphisme du gestionnaire de projets
 
     QStringList labels;
-    labels << tr("") << tr("Mois") << tr("Chemin")  << tr("Taille\nFichier") << tr("Total") << tr("Employeur Siret Etablissement") << tr("Budget");
+    labels << tr("") << tr("Mois") << tr("Chemin")  << tr("Taille\nFichier") << tr("Total")
+           << tr("Employeur Siret Etablissement") << tr("Budget");
 
     managerWidget->hide();
     managerWidget->setHeaderLabels(labels);
@@ -261,7 +290,6 @@ Altair::Altair()
 
     // Titre et icone de l'interface
 
-    setWindowTitle(tr("altair-author"));
     const QIcon altairIcon=QIcon(QString::fromUtf8( ":/images/altair.png"));
     setWindowIcon(altairIcon);
 }
@@ -380,7 +408,6 @@ void Altair::on_openProjectButton_clicked()
 
 void Altair::openProjectFile()
 {
-
     closeProject();
     projectName=qobject_cast<QAction *>(sender())->data().toString();
 
@@ -399,7 +426,6 @@ bool Altair::clearInterfaceAndParseProject()
     catch (...) {}
     
     return refreshProjectManager();
-
 }
 
 void Altair::closeProject()
@@ -490,7 +516,8 @@ void Altair::displayTotalSize()
     static qint64 comp;
     qint64 tot=Altair::totalSize;
     if (tot != comp && v(quiet).isFalse())
-        textAppend(STATE_HTML_TAG "Taille des bases de paye :  " + QString::number(tot) + " B ("+QString::number(tot/(1024*1024))+" Mo)");
+        textAppend(STATE_HTML_TAG "Taille des bases de paye :  "
+                   + QString::number(tot) + " B ("+QString::number(tot/(1024*1024))+" Mo)");
     comp=tot;
 }
 
@@ -587,7 +614,7 @@ bool Altair::updateProject(bool requestSave)
         writeProjectFile();
 
     // Les
-    Abstract::initH("base", path_access("Tests/Exemple/Donnees/" AltairDir));
+    Abstract::initH("base", path_access(DONNEES_SORTIE));
     Abstract::initH("lhxDir", path_access(System));
 
     return refreshProjectManager();

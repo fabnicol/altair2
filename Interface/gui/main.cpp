@@ -35,15 +35,18 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////////////
 
+
+/// \file main.cpp
+/// \author Fabrice Nicol
+/// \brief Lance l'interface graphique en chargeant le bon contexte linguistique et la feuille de style
 
 #include <QApplication>
 #include <QTranslator>
 #include <QLibraryInfo>
 #include <QTextCodec>
 #include "altair-gui.h"
-
 
 int main(int argc, char *argv[])
 {

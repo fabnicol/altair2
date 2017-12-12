@@ -38,6 +38,10 @@
 **
 ****************************************************************************/
 
+/// \file highlighter.cpp
+/// \author Digia Plc
+/// \brief Implémentation de la classe \ref Highlighter qui sert à coloriser le code XML des projets .alt
+
 #include "highlighter.h"
 #include "fwidgets.h"
 

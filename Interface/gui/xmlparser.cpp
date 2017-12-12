@@ -35,12 +35,17 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////////////
 
+
+/// \file xmlparser.cpp
+/// \author Fabrice Nicol
+/// \brief Implémentation de la classe \ref Altair agent de la classe \ref MainWindow qui construit l'interface graphique.\n
+/// Cette partie de l'implémentation concerne uniquement l'enregistrement ou le décodage des projets XML d'extension \e .alt \n
+/// ainsi que l'ajustement de l'état d el'interface graphique et de widgets en fonction du décodage des projets.
 
 #include "altair.h"
 #include "common.h"
-
 
 inline const QString Altair::makeParserString(int start, int end)
 {

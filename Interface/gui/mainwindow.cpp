@@ -35,9 +35,11 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////////////
 
-
+/// \file mainwindow.cpp
+/// \author Fabrice Nicol
+/// \brief Code de l'implémentation de la classe MainWindow de l'interface graphique
 
 #include "common.h"
 #include "altair.h"
@@ -47,12 +49,9 @@
 #include <fstream>
 #include <sstream>
 
-
 using namespace std;
-// Should it slow down application launch on some platform, one option could be to launch it just once then on user demand
-
-
-
+// Should it slow down application launch on some platform, one option could be to launch
+// it just once then on user demand
 
 void MainWindow::standardDisplay()
 {
@@ -70,7 +69,6 @@ void MainWindow::standardDisplay()
 
   setGeometry(QRect(200, 300, width / 2, height / 2));
 #endif
-
   
   displayAction->setIcon(QIcon(":/images/show-maximized.png"));
 }
@@ -358,7 +356,7 @@ void MainWindow::createActions()
   openBaseDirAction ->setIcon(QIcon(":/images/directory.png"));
   connect(openBaseDirAction, &QAction::triggered, [&] { 
                   
-                  QString userdatadir = common::path_access("Tests/Exemple/Donnees/" AltairDir );
+                  QString userdatadir = common::path_access(DONNEES_SORTIE);
                   if (! QFileInfo(userdatadir).isDir())
                   {
                       QDir dir;
@@ -435,7 +433,6 @@ void MainWindow::createActions()
   printBaseAction->setShortcut(QKeySequence("Ctrl+P"));
   connect(printBaseAction, &QAction::triggered, [this] { on_printBase_clicked(); });
 
-
   for (int i=0; i < MaxRecentFiles ; i++)
   {
     recentFileActions << new QAction(this);
@@ -459,203 +456,15 @@ void MainWindow::createActions()
  
 }
 
-
-MatriculeInput::MatriculeInput(int width, int height)
-{
-    QGridLayout* q = new QGridLayout;
-
-    QLabel *l = new QLabel("Matricules");
-    QLabel *m = new QLabel("Matricules");
-    QLabel *n = new QLabel("Matricules");
-
-    QToolButton *lb = new QToolButton;
-    QToolButton *mb = new QToolButton;
-    QToolButton *nb = new QToolButton;
-
-    lb->setIcon(QIcon(":/images/edit-clear.png"));
-    mb->setIcon(QIcon(":/images/edit-clear.png"));
-    nb->setIcon(QIcon(":/images/edit-clear.png"));
-
-    lb->setToolTip("Effacer");
-    mb->setToolTip("Effacer");
-    nb->setToolTip("Effacer");
-
-    const char* tip = "Pour extraire le bulletin d'un agent, rentrer son matricule, suivi d'un tiret,\n"
-                       "puis le numéro du mois (de 1 à 12), suivi d'un tiret, et l'année.\n"
-                       "Utiliser ... pour indiquer une plage de valeurs.\n"
-                       "Insérer un point-vigule avant la demande suivante, sans espace.\n"
-                       "Exemple :\n\n"
-                       "\t1058 N-3-2010;1010 B-7...9-2012...2014\n\n"
-                       "pour extraire les bulletins des agents de matricule :\n\n"
-                       "\t1058 N en mars 2010\n"
-                       "\t1010 B en juillet, août, septembre 2012 à 2014.\n";
-    
-    l->setToolTip(tip);
-    m->setToolTip(tip);
-    n->setToolTip(tip);
-
-    matrLineEdit = new FLineEdit ("",
-                                  "Matricules",
-                                  {"Impression", "Format Matricule-Mois...-Anéee(s)...;"},
-                                   "%bulletins" );
-      
-    matrLineEdit2 = new FLineEdit ("",
-                                  "MatriculesB",
-                                  {"Impression", "Format Matricule-Mois...-Anéee(s)...;"},
-                                   "%bulletins" );
-    
-    matrLineEdit3 = new FLineEdit ("",
-                                  "MatriculesC",
-                                  {"Impression", "Format Matricule-Mois...-Anéee(s)...;"},
-                                   "%bulletins" );
-    
-    QGroupBox* dBox = new QGroupBox("Exportation");
-    const QString dirpath = common::path_access("Tests/Exemple/Donnees/Bulletins");
-    
-    dossier = new FLineFrame({"Matricules", "Répertoire"},
-                                   dirpath,
-                                   "dossierBulletins",
-                                   {0,0},
-                                   nullptr,
-                                   "%dossier-bulletins",
-                                   flags::directory::checkEmptyness,
-                                   flags::flineframe::isDirectoryPath);
-
-    if (! QFileInfo(dirpath).isDir())
-        QDir().mkpath(dirpath);
-
-    dBox->setLayout(dossier->getLayout());
-    // format d'input: par exemple : 1058N-3-2010;1010B-7...9-2012..2014 : 
-    // agents 1058N en mars 2010 et 1010B en juillet,août,septembre 2012 à 2014
-    
-    closeButton = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-    closeButton->button(QDialogButtonBox::Ok)->setText("Accepter");
-    closeButton->button(QDialogButtonBox::Cancel)->setText("Annuler");
-
-    q->addWidget(l, 0 , 2);
-    q->addWidget(m, 3 , 2);
-    q->addWidget(n, 6 , 2);
-        
-    q->setRowMinimumHeight(10, height * 2/8);
-    q->setRowMinimumHeight(9,  height * 5/16);
-    q->setRowMinimumHeight(8,  height * 1/8);
-    q->setRowMinimumHeight(5,  height * 1/8);
-    q->setRowMinimumHeight(2,  height * 1/8);
-    
-    q->addWidget(matrLineEdit,  1 , 2);
-    q->addWidget(lb,  1 , 3);
-    q->addWidget(matrLineEdit2, 4 , 2);
-    q->addWidget(mb,  4 , 3);
-    q->addWidget(matrLineEdit3, 7 , 2);
-    q->addWidget(nb,  7 , 3);
-    q->addWidget(dBox, 9, 2);    
-    q->addWidget(closeButton, 10 , 2);
-
-    setFixedWidth(width);
-    setMinimumHeight(height);
-
-    setWindowTitle("Extraction des bulletins");
-    setLayout(q);
-
-    connect(lb, &QToolButton::clicked, [this] {matrLineEdit->clear();});
-    connect(mb, &QToolButton::clicked, [this] {matrLineEdit2->clear();});
-    connect(nb, &QToolButton::clicked, [this] {matrLineEdit3->clear();});
-
-    connect(closeButton,
-            &QDialogButtonBox::accepted,
-            [this] {
-                     bool res = checkInput(matrLineEdit);
-                     res &= checkInput(matrLineEdit2);
-                     res &= checkInput(matrLineEdit3);
-
-                     matricules = matrLineEdit->text();
-                     if (! matrLineEdit2->text().isEmpty())
-                                 matricules += matricules.isEmpty() ? "" : ";" + matrLineEdit2->text();
-                     if (! matrLineEdit3->text().isEmpty())
-                                 matricules += matricules.isEmpty() ? "" : ";" + matrLineEdit3->text();
-
-                     if (matricules.isEmpty())
-                         dossier->setText("");
-
-                     if (res) accept();
-                    });
-
-    connect(closeButton,
-            &QDialogButtonBox::rejected,
-            [this] {
-                     matricules =  "";
-                     dossier->setText("");
-
-                     reject();
-                    });
-}
-
-
-bool MatriculeInput::checkInput(FLineEdit* l)
-{
-    bool res = true;
-    
-    QString s = l->text();
-    QList<QString> L;
-    for (auto &&S : s.split(';', QString::SkipEmptyParts))
-    {
-      QList<QString> sublist = S.split('-', QString::SkipEmptyParts);
-      
-      if (sublist.size() != 3)
-      {
-          QMessageBox::warning(nullptr, "Format de la requête " + S, 
-                               "Utiliser le format suivant : matricule-mois-année.<br>"
-                               "Un intervalle peut être utilisé pour le mois et l'année.<br>"
-                               "Exemple :<br>\t 1012B-1...7-2011...2013", QMessageBox::Ok);
-          S.clear();
-      }
-      
-      int cut = 0, cut2 = 0;
-      const QString s1 = sublist.at(1);
-      bool range = false;
-
-      if (s1.contains("..."))
-      {
-         cut  = s1.split("...", QString::SkipEmptyParts).at(0).toInt();
-         cut2 = s1.split("...", QString::SkipEmptyParts).at(1).toInt();
-         range = true;
-      }
-
-      if (! s1.contains(QRegularExpression("[0-9]+(?:\\.\\.\\.[0-9]+|)"))
-           || (range && (cut > 12 || cut < 1) && (cut2 > 12 || cut2 < 1)) ||  (! range  && (s1.toInt() > 12 || s1.toInt() < 1)))
-      {
-          QMessageBox::warning(nullptr, "Format de la requête " + S, "Le mois doit être compris entre 1 et 12.", QMessageBox::Ok);
-          S.clear();
-      }
-      
-      if (! sublist.at(2).contains(QRegularExpression("[0-9]{4}(?:\\.\\.\\.[0-9]{4}|)")) ||  (! range  && sublist.at(2).toInt() < 2007))
-      {
-          QMessageBox::warning(nullptr, "Format de la requête " + S, "L'année doit être numérique, à compter de 2008.", QMessageBox::Ok);
-          S.clear();
-      }
-      
-      if (! S.isEmpty())
-          L << S;
-      else 
-          res = false;
-    }
-    
-    l->setText(L.join(";"));
-    return res;
-}
-
 void MainWindow::on_printBase_clicked()
 {
-
    if (m->exec() != QDialog::Accepted) return;
-
    if (! m->matricules.isEmpty())
    {
       dialog->standardTab->tableCheckBox->setChecked(false);
    }
    else
       dialog->standardTab->tableCheckBox->setChecked(true);
-
 }
 
 void MainWindow::resetTableCheckBox()
@@ -831,11 +640,9 @@ vector<string> MainWindow::extraire_donnees_protegees(const string& st)
 
 void MainWindow::launch_process(const QString& path)
 {
-
     QFile xml(path);
 
     std::string xml_out(path.toStdString() + ".new");
-
     std::ofstream out;
 
     if (!xml.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -882,11 +689,10 @@ void MainWindow::launch_process(const QString& path)
     altair->outputTextEdit->repaint();
     emit(altair->setProgressBar(0));
 
-    /* Il est souhaitable d'actualiser le projet avant de lancer v() car en cas de non actualisation récente la valeur de la case
-     * peut être en décalage avec la réalité. C'est au cours de ces actualisations que la valeur est enregistrée dans une table de hashage. */
+    // Il est souhaitable d'actualiser le projet avant de lancer v() car en cas de non actualisation récente la valeur de la case
+    // peut être en décalage avec la réalité. C'est au cours de ces actualisations que la valeur est enregistrée dans une table de hashage.
 
     altair->updateProject(true);
-
 }
 
 const vector <unsigned char>  MainWindow::nettoyer_donnees(vector <unsigned char>& st)
@@ -1034,7 +840,7 @@ const vector <unsigned char>  MainWindow::nettoyer_donnees(vector <unsigned char
      }
   }
 
-    return(out);
+  return(out);
 }
 
 void MainWindow::clean_process(const QString& path)

@@ -38,6 +38,10 @@
 ////////////////////////////////////////////////////////////////////////////
 
 
+/// \file altair-gui.h
+/// \author Fabrice Nicol
+/// \brief Code de la classe MainWindow qui construit l'interface graphique
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -317,14 +321,21 @@ private slots:
  /// Lancer l'anonymisation des bases de paye
  void anonymiser();
 
+ /// Lancer le nettoyage des bases de paye
  void cleanBase();
 
- void launch_process(const QString&);
+ /// Lancer l'anonymisation d'un fichier de paye
+ /// \param st Chemin du fichier de paye
+ void launch_process(const QString& st);
 
- void clean_process(const QString&);
+ /// Lancer le nettoyage d'un fichier de paye XML
+ /// \param st Chemin du fichier de paye
+ void clean_process(const QString& st);
 
+ /// Désactive l'export des tables lors de l'extraction de bulletins de paye
  void on_printBase_clicked();
 
+ /// Réinitialise à \e true l'exportation des bases CSV en fin d'exécution d'un processus d'extraction
  void resetTableCheckBox();
 
 signals:
@@ -332,21 +343,6 @@ signals:
    void exitSignal();
 
 };
-
-
-class MatriculeInput : public QDialog
-{
-  private :
-    QDialogButtonBox *closeButton;
-    FLineEdit *matrLineEdit, *matrLineEdit2, *matrLineEdit3;
-    FLineFrame* dossier;
-    bool checkInput(FLineEdit* l);
-    
-  public :
-    MatriculeInput(int, int);
-    QString matricules = "";
-};
-
 
 #endif
 
