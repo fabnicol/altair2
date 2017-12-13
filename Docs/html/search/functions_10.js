@@ -6,7 +6,7 @@ var searchData=
   ['refreshmodel',['refreshModel',['../class_altair.html#a8785d3fe762ee2beda4c52532b36b3c2',1,'Altair']]],
   ['refreshprojectmanager',['refreshProjectManager',['../class_altair.html#ac9d7d8e7cebf70212818f1a8ba7d7d78',1,'Altair']]],
   ['refreshprojectmanagervalues',['refreshProjectManagerValues',['../class_altair.html#a45f599288745eb6bc53155a85fb5dc1a',1,'Altair']]],
-  ['refreshrowpresentation',['refreshRowPresentation',['../class_altair.html#a9994693b3dbb6941b4096dc732c92e73',1,'Altair::refreshRowPresentation(int)'],['../class_altair.html#a20528df591deee5ad32f28996ba8dc35',1,'Altair::refreshRowPresentation()']]],
+  ['refreshrowpresentation',['refreshRowPresentation',['../class_altair.html#aebac84e0cf9914bcb5220c44d853091d',1,'Altair::refreshRowPresentation(int index)'],['../class_altair.html#a20528df591deee5ad32f28996ba8dc35',1,'Altair::refreshRowPresentation()']]],
   ['refreshtreeview',['refreshTreeView',['../class_altair.html#a8a329bbe1b7429dae0386afc0b423712',1,'Altair']]],
   ['regexp',['regexp',['../options_8cpp.html#aa5399073540b3e6a7a9d60a70ef4dd88',1,'options.cpp']]],
   ['reinitialiser_5fprologue',['reinitialiser_prologue',['../classcode_page.html#a8524212298b5473047c5c4f0cadc86a6',1,'codePage']]],

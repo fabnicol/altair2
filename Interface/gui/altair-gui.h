@@ -108,35 +108,42 @@ public :
 
     /// Vérifie si par défaut le projet .alt doit être enregistré à chaque modification de l'état de l'interface
     /// \return Booléen : vrai si la case du dialogue de configuration est cochée, faux sinon
+
     bool isDefaultSaveProjectChecked()
     {
         return defaultSaveProjectBehaviorBox->isChecked();
     }
 
     /// Sauvegarde du projet .alt selon un chemin à spécifier
+
     void saveProjectAs();
 
     /// Sauvegarde du projet .alt selon un chemin donné
     /// \param chemin Chemin du projet
+
     void saveProjectAs (const QString &chemin);
 
     /// Envoie du texte formaté HTML dans l'onglet Console
     /// Etape de capture de la sortie cout et cerr de l'application en ligne de commande \e lhx
+
     void feedLHXConsoleWithHtml();
 
     /// Envoie du texte formaté HTML dans l'onglet Console
     /// Etape de capture de la sortie des flux d'exécution des scripts R
+
     void feedRConsoleWithHtml();
 
     /// Limite (si l'option du dialogue de configuration est cochée) le volume de texte en sortie de l'onglet Console
     /// Peut être utile pour les sorties très pathologiques et éviter une saturation mémoire ou un <i>freeze</i>
     /// \return Un index qui devra être inférieur à #MAXIMUM_CONSOLE_OUTPUT
+
     uint32_t getConsoleCounter()
     {
         return consoleCounter;
     }
 
     /// Affiche l'interface à la taille standard (réduite)
+
     void standardDisplay();
 
 private :
@@ -252,15 +259,19 @@ private :
 
     /// Lit un fichier et renvoie la chaîne de caractères correspondante.
     /// \param fileName Chemin du fichier
+
     bool readFile (const QString &fileName);
 
     /// Crée les actions correspondant aux entrées des menus et barre d'outils
+
     void createActions();
 
     /// Crée les menus
+
     void createMenus();
 
     /// Crée les barres d'outils
+
     void createToolBars();
 
     std::vector<std::string> extraire_donnees_protegees (const std::string& st);
@@ -275,82 +286,102 @@ private :
 
 private slots:
 
-/// Afficher / Masquer l'arborescence de fichiers
+    /// Afficher / Masquer l'arborescence de fichiers
+
     void on_displayFileTreeViewButton_clicked();
 
-/// Afficher / Masquer l'arborescence de fichiers
-/// \param val Si true, afficher, sinon masquer
+    /// Afficher / Masquer l'arborescence de fichiers
+    /// \param val Si true, afficher, sinon masquer
+
     void on_displayFileTreeViewButton_clicked (bool val);
 
-/// Afficher / Masque le gestionnaire de projets
+    /// Afficher / Masque le gestionnaire de projets
+
     void on_openManagerWidgetButton_clicked();
 
-/// Afficher / Masquer le gestionnaire de projets
-/// \param val Si true, afficher, sinon masquer
+    /// Afficher / Masquer le gestionnaire de projets
+    /// \param val Si true, afficher, sinon masquer
+
     void on_openManagerWidgetButton_clicked (bool val);
 
-/// Afficher / Masque l'éditeur de projets
+    /// Afficher / Masque l'éditeur de projets
+
     void on_editProjectButton_clicked();
 
-/// Afficher le dialogue d'options / des paramètres
+    /// Afficher le dialogue d'options / des paramètres
+
     void on_optionsButton_clicked();
 
-/// Afficher en plein écran ou en format standard
-/// \param plein Si vaut \e true alors plein écran sinon standard
+    /// Afficher en plein écran ou en format standard
+    /// \param plein Si vaut \e true alors plein écran sinon standard
+
     void displayFullScreen (bool plein);
 
-/// Basculer de plein écran à écran standard et réciproquement
+    /// Basculer de plein écran à écran standard et réciproquement
+
     void toggleFullScreen();
 
-/// Afficher le dialogue de configuration de l'interface graphique
+    /// Afficher le dialogue de configuration de l'interface graphique
+
     void configure();
 
-/// Créer le dialogue de configuration de l'interface graphique
+    /// Créer le dialogue de configuration de l'interface graphique
+
     void configureOptions();
 
-/// Enregistrer l'ensemble des données d'output (bases CSV, rapports...) dans un répertoire
-/// \param str Si str est vide, appeler un dialogue de sélection de répertoire, sinon exporter dans le répertoire en argument
+    /// Enregistrer l'ensemble des données d'output (bases CSV, rapports...) dans un répertoire
+    /// \param str Si str est vide, appeler un dialogue de sélection de répertoire, sinon exporter dans le répertoire en argument
+
     bool exportProject (QString str = "");
 
-/// Archiver le projet courant
+    /// Archiver le projet courant
+
     bool archiveProject();
 
-/// Désarchiver le projet
-/// \param str Si str n'est pas spécifié, appelle un dialogue d'explorateur de fichiers\n
-/// Sinon, décarchive le projet dont le chemin est indiqué en argument
+    /// Désarchiver le projet
+    /// \param str Si str n'est pas spécifié, appelle un dialogue d'explorateur de fichiers\n
+    /// Sinon, décarchive le projet dont le chemin est indiqué en argument
 
     bool restoreProject (QString str = "");
 
-/// Réinitialise \ref consoleCounter à zéro.
+    /// Réinitialise \ref consoleCounter à zéro.
+
     void resetCounter();
 
-/// Afficher le log dans le navigateur internet par défaut
+    /// Afficher le log dans le navigateur internet par défaut
+
     void on_displayLogButton_clicked();
 
-/// Lancer l'anonymisation des bases de paye
+    /// Lancer l'anonymisation des bases de paye
+
     void anonymiser();
 
-/// Lancer le nettoyage des bases de paye
+    /// Lancer le nettoyage des bases de paye
+
     void cleanBase();
 
-/// Lancer l'anonymisation d'un fichier de paye
-/// \param st Chemin du fichier de paye
+    /// Lancer l'anonymisation d'un fichier de paye
+    /// \param st Chemin du fichier de paye
+
     void launch_process (const QString& st);
 
-/// Lancer le nettoyage d'un fichier de paye XML
-/// \param st Chemin du fichier de paye
+    /// Lancer le nettoyage d'un fichier de paye XML
+    /// \param st Chemin du fichier de paye
+
     void clean_process (const QString& st);
 
-/// Désactive l'export des tables lors de l'extraction de bulletins de paye
+    /// Désactive l'export des tables lors de l'extraction de bulletins de paye
+
     void on_printBase_clicked();
 
-/// Réinitialise à \e true l'exportation des bases CSV en fin d'exécution d'un processus d'extraction
+    /// Réinitialise à \e true l'exportation des bases CSV en fin d'exécution d'un processus d'extraction
+
     void resetTableCheckBox();
 
 signals:
     /// Fermer l'interface
-    void exitSignal();
 
+    void exitSignal();
 };
 
 #endif

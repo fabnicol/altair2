@@ -33,7 +33,7 @@ var searchData=
   ['refreshprojectmanagervalues',['refreshProjectManagerValues',['../class_altair.html#a45f599288745eb6bc53155a85fb5dc1a',1,'Altair']]],
   ['refreshprojectsystemzonemask',['refreshProjectSystemZoneMask',['../classmanager.html#aac71e150810f8732410d89e6262d356b',1,'manager']]],
   ['refreshprojectxhlzonemask',['refreshProjectXHLZoneMask',['../classmanager.html#a0290dae4407e91714434dfbed80c47c1',1,'manager']]],
-  ['refreshrowpresentation',['refreshRowPresentation',['../class_altair.html#a9994693b3dbb6941b4096dc732c92e73',1,'Altair::refreshRowPresentation(int)'],['../class_altair.html#a20528df591deee5ad32f28996ba8dc35',1,'Altair::refreshRowPresentation()']]],
+  ['refreshrowpresentation',['refreshRowPresentation',['../class_altair.html#aebac84e0cf9914bcb5220c44d853091d',1,'Altair::refreshRowPresentation(int index)'],['../class_altair.html#a20528df591deee5ad32f28996ba8dc35',1,'Altair::refreshRowPresentation()']]],
   ['refreshsystemzone',['refreshSystemZone',['../classmanager.html#a3305ee8db553c3662dcd88e32551fe6e',1,'manager']]],
   ['refreshtreeview',['refreshTreeView',['../class_altair.html#a8a329bbe1b7429dae0386afc0b423712',1,'Altair']]],
   ['refreshxhlzone',['refreshXHLZone',['../classmanager.html#ae00e61dc4d40eb03e97b4ff15778c6fe',1,'manager']]],

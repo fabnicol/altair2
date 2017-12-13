@@ -2,7 +2,6 @@ var searchData=
 [
   ['validator_2ecpp',['validator.cpp',['../validator_8cpp.html',1,'']]],
   ['validator_2eh',['validator.h',['../validator_8h.html',1,'']]],
-  ['value',['value',['../class_altair.html#a97888f9d8e6eaecccccd2c37fdcc2f4a',1,'Altair']]],
   ['var',['VAR',['../table_8cpp.html#a57a4f130db7a35f46be02c36d8235550',1,'VAR():&#160;table.cpp'],['../validator_8cpp.html#a57a4f130db7a35f46be02c36d8235550',1,'VAR():&#160;validator.cpp']]],
   ['variables',['variables',['../classcode_page.html#a17b745d9d3958fa8e2855c330d7eaca9',1,'codePage']]],
   ['vbull',['vbull',['../lhx_2main_8cpp.html#a812adbbf21919943e1134c287edfa25c',1,'main.cpp']]],

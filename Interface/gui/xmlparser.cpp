@@ -47,16 +47,16 @@
 #include "altair.h"
 #include "common.h"
 
+
 inline const QString Altair::makeParserString (int start, int end)
 {
     QStringList L = QStringList();
     auto origin = Abstract::abstractWidgetList.begin();
 
-    // Parcourir l'ensemble de la liste abstractWidgetList des widgets abstrait
+    // Parcourir l'ensemble de la liste abstractWidgetList des fwidgets
 
     for (auto  u = origin + start; u != Abstract::abstractWidgetList.end() && u <= origin + end; ++u)
         {
-
             FAbstractWidget* v = *u;
 
             if (v == nullptr) return "";
@@ -75,14 +75,13 @@ inline const QString Altair::makeParserString (int start, int end)
 
             if (hK == "XHL" && xml.isEmpty()) continue;
 
-            // La priofondeur permet d'ecrire des objets complexes
+            // La profondeur permet d'ecrire des objets complexes
 
             QString widgetDepth = v->getDepth();
 
             L <<  "  <" + hK + " profondeur=\"" + widgetDepth +  "\">\n   "
               + xml
               + "\n  </" + hK + ">\n";
-
         }
 
     // Retourner le QString du projet .alt
@@ -147,7 +146,7 @@ namespace XmlMethod
 QTreeWidgetItem *itemParent = nullptr;
 
 /// Empile les données pour un noeud donné, pour une profondeur d'enchassement donnée
-/// \param Le noeud de l'arborescence abstraite QomNode
+/// \param Le noeud de l'arborescence abstraite QDomNode
 /// \param Profondeur de l'enchassement
 /// \param textDate Texte à empiler.
 
@@ -496,14 +495,16 @@ void Altair::parseProjectFile (QIODevice* file)
 
         while (!subnode.isNull())
             {
-                FStringList &&str = parseEntry (subnode);
-                //if (!str.at(0).at(0).isEmpty())
-                {
-                    const QString key  = subnode.toElement().tagName();
+                const QString key   = subnode.toElement().tagName();
 
-                    Hash::wrapper[key]  = new FStringList;
-                    *Hash::wrapper[key] =  str;
-                }
+                // Empiler les informations des différentes balises
+                // dans une FStringList et ajouter à la table de hashage Hash::wrapper
+                // dont la clé est la première balise
+                // Dans tout le code on utilisera l'opérateur v(key) pour lire la valeur
+                // de la table de manière globale et efficace
+
+                Hash::wrapper[key]  = new FStringList;
+                *Hash::wrapper[key] = parseEntry (subnode);
 
                 subnode = subnode.nextSibling();
             }
@@ -511,8 +512,11 @@ void Altair::parseProjectFile (QIODevice* file)
         node = node.nextSibling();
     }
 
-    //refreshProjectManagerValues();
     project->mainTabWidget->clear();
+
+    // Parcourt l'ensemble des widgets fonctionnels \ref Abstract::abstractWidgetList
+    // et actualise leur statut interne en fonction de l'état du projet .alt
+    // en appelant \e setWidgetFromXml
 
     assignWidgetValues();
 
@@ -523,17 +527,22 @@ void Altair::parseProjectFile (QIODevice* file)
     for (int group_index = 0; group_index < projectRank ; group_index++)
         {
             refreshRowPresentation (group_index);
-            // Ne pas inclure les onglets Siret et Budget
+            // Ne pas inclure les onglets supplémentaires (Employeur, Siret et Budget) à ce stade
         }
 
     emit (project->is_ntabs_changed (projectRank));
 
+    // Il est nécessaire d'avoir une référence (un tableau) des chemins de fichiers initialement importés
+    // Pour pouvoir supprimer et surtout récupérer les suppressions de fichiers par l'utilisateur
+    // en mémorisant l'état de l'onglet avant suppression
+
     Hash::createReference (projectRank);
+
+    // Actualiser le gestionnaire de projets
 
     refreshProjectManagerValues (manager::refreshProjectInteractiveMode
                                  | manager::refreshXHLZone
                                  | manager::refreshSystemZone);
-
 }
 
 
@@ -547,6 +556,9 @@ FStringList Altair::parseEntry (const QDomNode &node, QTreeWidgetItem *itemParen
     XmlMethod::itemParent = itemParent;
 
     QStringList tabLabels;
+
+    // En fonction de la profondeur d'enchassement des données dans la balise XML,
+    // appelle la bonne version de XmlMethod::stackData, et renvoie la FStringList "empilée"
 
     switch (level)
         {
