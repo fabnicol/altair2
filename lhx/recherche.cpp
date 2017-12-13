@@ -59,14 +59,14 @@ using namespace std;
 /// \param matricule
 /// \return Vecteur de chaînes de caractères, chacune des chaînes représentant un bulletin XML extrait
 
-vector<string>  recherche(const vector<info_t> &Info, const string& annee, const string& mois, const string& matricule)
+vector<string>  recherche (const vector<info_t> &Info, const string& annee, const string& mois, const string& matricule)
 {
     // Bulletins à extraire
     vector<string> bulletins;
 
     auto matr = (const xmlChar*) matricule.c_str();
-    int m = stoi(mois);
-    int a = stoi(annee);
+    int m = stoi (mois);
+    int a = stoi (annee);
 
     // Parcourt l'ensemble des données de paye, pour tous les fils d'exécution, après décodage
     // Il faut donc que lhx se soit complètement exécuté préalablement
@@ -84,9 +84,9 @@ vector<string>  recherche(const vector<info_t> &Info, const string& annee, const
                     // On pourrait aller plus vite avec une table de hachage, mais l'expérience montre que ce n'est pas nécessaire
                     // it correspond à la partie de la Table pour un agent donné
 
-                    if (atoi((const char*) it->at(Annee)) == a
-                            && atoi((const char*) it->at(Mois)) ==  m
-                            && xmlStrcmp(it->at(Matricule), matr) == 0)
+                    if (atoi ((const char*) it->at (Annee)) == a
+                            && atoi ((const char*) it->at (Mois)) ==  m
+                            && xmlStrcmp (it->at (Matricule), matr) == 0)
                         {
                             // index correspond au rang de l'agent dans la Table (0 <= index <= NCumAgentXml)
 
@@ -97,12 +97,12 @@ vector<string>  recherche(const vector<info_t> &Info, const string& annee, const
                             // de paye au format XML
                             // le vecteur ligne_fin donne la ligne de fin de ce code-bulletin
 
-                            array<uint64_t, 3> debut = Info[i].ligne_debut.at(index);
-                            array<uint64_t, 2> fin   = Info[i].ligne_fin.at(index);
+                            array<uint64_t, 3> debut = Info[i].ligne_debut.at (index);
+                            array<uint64_t, 2> fin   = Info[i].ligne_fin.at (index);
 
                             // Lancer la fonction extraire_ligne qui copie les lignes XML entre la ligne de début et la ligne de fin
 
-                            const string fichier = extraire_lignes(Info[i], debut, fin);
+                            const string fichier = extraire_lignes (Info[i], debut, fin);
 
                             // Cela ne suffit pas à donner un fichier XML syntaxiquement correct.
                             // A cette fin, rajouter un préambule et une fin de fichier en accord avec ce préambule.
@@ -116,12 +116,12 @@ vector<string>  recherche(const vector<info_t> &Info, const string& annee, const
  <Annee V=\"" + annee + "\"/>\n\
  <Mois V=\"" + mois + "\"/>\n\
  <Budget>\n\
-  <Libelle V=\"" + string((const char*)it->at(Budget)) + "\"/>\n\
+  <Libelle V=\"" + string ((const char*)it->at (Budget)) + "\"/>\n\
   <Code V=\"\"/>\n\
  </Budget>\n\
  <Employeur>\n\
-  <Nom V=\"" + string((const char*) it->at(Employeur)) + "\"/>\n\
-  <Siret V=\"" + string((const char*) it->at(Siret)) + "\"/>\n\
+  <Nom V=\"" + string ((const char*) it->at (Employeur)) + "\"/>\n\
+  <Siret V=\"" + string ((const char*) it->at (Siret)) + "\"/>\n\
  </Employeur>\n\
  <DonneesIndiv>\n";
 
@@ -130,7 +130,7 @@ vector<string>  recherche(const vector<info_t> &Info, const string& annee, const
                             // Empiler le tout dans le vecteur bulletins
 
                             if (! fichier.empty())
-                                bulletins.emplace_back(preambule + fichier + coda);
+                                bulletins.emplace_back (preambule + fichier + coda);
                         }
                 }
 
@@ -147,14 +147,14 @@ vector<string>  recherche(const vector<info_t> &Info, const string& annee, const
 /// \param fin Tableau de 2 entiers de 64 bits contenant l'indicatrice du fin du bulletin particulier à extraire
 /// \return  Chaîne de caractères de type string contenant l'extraction du bulletin
 
-const string extraire_lignes(const info_t& info, const array<uint64_t, 3>& debut, const array <uint64_t, 2>& fin)
+const string extraire_lignes (const info_t& info, const array<uint64_t, 3>& debut, const array <uint64_t, 2>& fin)
 {
 
     if (fin[1] < debut[1]) return "";
 
-    string xhl = info.threads->in_memory_file.at(debut[2]);
+    string xhl = info.threads->in_memory_file.at (debut[2]);
 
-    string tab = xhl.substr(debut[1], fin[1] - debut[1] + 1);
+    string tab = xhl.substr (debut[1], fin[1] - debut[1] + 1);
 
     tab += "\n";
 
@@ -171,24 +171,24 @@ const string extraire_lignes(const info_t& info, const array<uint64_t, 3>& debut
 /// \param annee Année de la paye
 /// \return Boléen : true si l'exportation a réussi, false sinon
 
-bool bulletin_paye(const string& chemin_repertoire, const vector<info_t> &Info, const string& matricule, const string& mois, const string& annee)
+bool bulletin_paye (const string& chemin_repertoire, const vector<info_t> &Info, const string& matricule, const string& mois, const string& annee)
 {
     cerr << ENDL;
     cerr << PROCESSING_HTML_TAG << "Extraction des bulletins..." << ENDL;
 
-    auto bulletins = recherche(Info, annee, mois, matricule);
+    auto bulletins = recherche (Info, annee, mois, matricule);
     int rang = 0;
     bool res = true;
 
     for (auto &&bulletin : bulletins)
         {
             ++rang;
-            string nom_bulletin =  annee + string("_") + mois + string("_") + matricule
-                                   + (rang > 1 ? "_" + to_string(rang) : "") + string(".xml");
+            string nom_bulletin =  annee + string ("_") + mois + string ("_") + matricule
+                                   + (rang > 1 ? "_" + to_string (rang) : "") + string (".xml");
 
             ofstream f;
 
-            f.open(chemin_repertoire + "/" + nom_bulletin, std::ofstream::out | std::ofstream::trunc);
+            f.open (chemin_repertoire + "/" + nom_bulletin, std::ofstream::out | std::ofstream::trunc);
 
             if (f.is_open())
                 f << bulletin;

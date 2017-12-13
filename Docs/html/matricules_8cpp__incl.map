@@ -1,5 +1,5 @@
-<map id="/home/fab/Desktop/Entrepot/Interface/gui/matricules.cpp" name="/home/fab/Desktop/Entrepot/Interface/gui/matricules.cpp">
-<area shape="rect" id="node2" href="$matricules_8h.html" title="Code de la classe MatriculeInput, qui construit un dialogue d&#39;extraction des bulletins. " alt="" coords="169,95,265,121"/>
-<area shape="rect" id="node4" href="$common_8h.html" title="Code de la classe common, qui regroupe des utilitaires communs à l&#39;interface graphique MainWindow..." alt="" coords="117,169,203,196"/>
-<area shape="rect" id="node9" href="$gui__enums_8h.html" title="Code de constantes et de classes regroupant des constantes. " alt="" coords="346,169,446,196"/>
+<map id="Interface/gui/matricules.cpp" name="Interface/gui/matricules.cpp">
+<area shape="rect" id="node2" href="$matricules_8h.html" title="Code de la classe MatriculeInput, qui construit un dialogue d&#39;extraction des bulletins. " alt="" coords="163,80,257,107"/>
+<area shape="rect" id="node4" href="$common_8h.html" title="Code de la classe common, qui regroupe des utilitaires communs à l&#39;interface graphique MainWindow..." alt="" coords="114,155,197,181"/>
+<area shape="rect" id="node9" href="$gui__enums_8h.html" title="Code de constantes et de classes regroupant des constantes. " alt="" coords="335,155,431,181"/>
 </map>

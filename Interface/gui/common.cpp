@@ -44,29 +44,29 @@
 #include "common.h"
 #include "gui_enums.h"
 
-void common::exporter_identification_controle(QString &file_str, const QString &subdir)
+void common::exporter_identification_controle (QString &file_str, const QString &subdir)
 {
-    const QString &employeur = Hash::aplatir(Hash::Employeur, ", ", subdir);
-    const QString &budget = Hash::aplatir(Hash::Budget, ", ", subdir);
-    const QString &siret = Hash::aplatir(Hash::Siret, " - ", subdir);
-    const QString &etablissement = Hash::aplatir(Hash::Etablissement, " - ", subdir);
+    const QString &employeur = Hash::aplatir (Hash::Employeur, ", ", subdir);
+    const QString &budget = Hash::aplatir (Hash::Budget, ", ", subdir);
+    const QString &siret = Hash::aplatir (Hash::Siret, " - ", subdir);
+    const QString &etablissement = Hash::aplatir (Hash::Etablissement, " - ", subdir);
 
-    substituer("controle<-c\\(\"\",\"\",\"\",\"\"\\)", "controle<-c(\""
-               + employeur + "\",\""
-               + siret + "\",\""
-               + etablissement + "\",\""
-               + budget + "\")",
-               file_str);
+    substituer ("controle<-c\\(\"\",\"\",\"\",\"\"\\)", "controle<-c(\""
+                + employeur + "\",\""
+                + siret + "\",\""
+                + etablissement + "\",\""
+                + budget + "\")",
+                file_str);
 }
 
-void common::exporter_identification_controle(const QString &subdir)
+void common::exporter_identification_controle (const QString &subdir)
 {
-    const QString &prologue_code_path = path_access(SCRIPT_DIR "prologue_codes.R");
-    QString file_str = readFile(prologue_code_path);
-    exporter_identification_controle(file_str, subdir);
+    const QString &prologue_code_path = path_access (SCRIPT_DIR "prologue_codes.R");
+    QString file_str = readFile (prologue_code_path);
+    exporter_identification_controle (file_str, subdir);
 
-    QString exportpath = (subdir.isEmpty()) ? prologue_code_path  : common::path_access(DONNEES_SORTIE) + QDir::separator() + subdir + "/prologue_codes.R";
-    renommer(dump(file_str), exportpath);
+    QString exportpath = (subdir.isEmpty()) ? prologue_code_path  : common::path_access (DONNEES_SORTIE) + QDir::separator() + subdir + "/prologue_codes.R";
+    renommer (dump (file_str), exportpath);
 }
 
 

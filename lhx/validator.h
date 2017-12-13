@@ -277,15 +277,15 @@ static const char* type_remuneration[]   =
 
 
 /// nbType donne le nombre d'items du tableau précédent
-static const int nbType                  = sizeof(type_remuneration) / sizeof(char*); // + NA
+static const int nbType                  = sizeof (type_remuneration) / sizeof (char*); // + NA
 
 /// drapeau est un tableau de paires permettant d'isoler en mémoire les balises de type_remuneration lorsqu'elles sont
 /// rencontrées dans un fichier XHL/XML. Le nombre d'items est donc nbType
 
 static const xmlChar drapeau[][2]  = {{1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}, {8, 0}, {9, 0}, {10, 0}, {11, 0}, {12, 0}};
 
-void* decoder_fichier(info_t& tinfo);
-void* parse_info(info_t& info);
+void* decoder_fichier (info_t& tinfo);
+void* parse_info (info_t& info);
 
 
 /// Permet d'atteindre un noeud donné par son libellé de balise XML à partir d'un pointeur XmlNodePtr de libxml2
@@ -293,7 +293,7 @@ void* parse_info(info_t& info);
 /// \param cur Noeud libxml2 courant
 /// \return Soit le noeud XmlNodePtr correspondant au noeud trouvé, soit nullptr si pas de noeud trouvé.
 
-inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur)
+inline xmlNodePtr GCC_INLINE atteindreNoeud (const char * noeud, xmlNodePtr cur)
 {
 
 #       ifdef DEBUG_ATTEINDRE
@@ -301,7 +301,7 @@ inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur)
     cerr << "[DEBUG] --- Recherche de " << noeud <<  ENDL;
 #       endif
 
-    while (cur && xmlIsBlankNode(cur))
+    while (cur && xmlIsBlankNode (cur))
         {
             cur = cur -> next;
 #       ifdef DEBUG_ATTEINDRE
@@ -310,7 +310,7 @@ inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur)
         }
 
 
-    while (cur != nullptr && xmlStrcmp(cur->name,  (const xmlChar*) noeud))
+    while (cur != nullptr && xmlStrcmp (cur->name,  (const xmlChar*) noeud))
         {
 #       ifdef DEBUG_ATTEINDRE
             //       cerr << "[DEBUG]      ......" << cur->name <<  ENDL;
@@ -321,7 +321,7 @@ inline xmlNodePtr GCC_INLINE atteindreNoeud(const char * noeud, xmlNodePtr cur)
 
     if (cur == nullptr)
         {
-            AFFICHER_NOEUD(noeud)  // cur->name == noeud
+            AFFICHER_NOEUD (noeud) // cur->name == noeud
         }
 
 #     ifdef DEBUG_ATTEINDRE

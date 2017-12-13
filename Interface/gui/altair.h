@@ -101,23 +101,23 @@ public:
     void checkEmptyProjectName()
     {
         if (projectName.isEmpty())
-            projectName = userdatadir + QString("défaut.alt");
+            projectName = userdatadir + QString ("défaut.alt");
     }
 
     /// Début du glisser-déplacer
     void startDrag();
 
     /// Fonction réimplémentée : événement du déplacement de la souris
-    void dragMoveEvent(QDragMoveEvent *event);
+    void dragMoveEvent (QDragMoveEvent *event);
 
     /// Fonction réimplémentée : début du déplacement de la souris
-    void dragEnterEvent(QDragEnterEvent *event);
+    void dragEnterEvent (QDragEnterEvent *event);
 
     /// Fonction réimplémentée : fin du déplacement de la souris
-    void dropEvent(QDropEvent *event);
+    void dropEvent (QDropEvent *event);
 
     /// Assigner le fichier courant
-    void setCurrentFile(const QString &fileName);
+    void setCurrentFile (const QString &fileName);
 
     /// Renvoie la taille des données exportées
     qint64 size()
@@ -128,7 +128,7 @@ public:
     /// Rafraîchit le gestionnaire de projet à la droite de l'interface.
     /// \param \ref manager::refreshAllZones ou bien \ref manager::refreshXHLZone,\n
     /// \ref manager::refreshNBulletins, \ref manager::refreshSystemZone, selon la zone à rafraichir.
-    void refreshProjectManagerValues(std::uint16_t = manager::refreshAllZones );
+    void refreshProjectManagerValues (std::uint16_t = manager::refreshAllZones);
 
     /// Rafraîchit le gestionnaire de projet à la droite de l'interface. Fonction globale \n par défaut.
     bool refreshProjectManager();
@@ -147,26 +147,26 @@ public:
 
     /// Lit le fichier \ref rankFile pour l'index de la barre progression, le lit dans \n
     /// \ref fileRank \n et ajuste la barre de progression
-    inline void __attribute__((always_inline)) readRankSignal()
+    inline void __attribute__ ((always_inline)) readRankSignal()
     {
         if (! rankFile.exists()) return;
 
         int baInt = 0;
 
-        if (rankFile.open(QFile::ReadOnly))
+        if (rankFile.open (QFile::ReadOnly))
             {
                 baInt = rankFile.readLine().toInt();
                 rankFile.close();
             }
 
-        if (baInt == -1) emit(setProgressBar(0, fileCount));
+        if (baInt == -1) emit (setProgressBar (0, fileCount));
 
         fileRank = (baInt >= 1) ? baInt : 1;
 
     }
 
     /// Crée une ligne de commande
-    QStringList createCommandLineString(const QStringList &L = QStringList());
+    QStringList createCommandLineString (const QStringList &L = QStringList());
 
     /// Ecrit le projet XML d'extension .alt contenant les références des donnéees de paye
     /// \note Ecrit un en-tête classique puis lance \ref makeDataString() et \ref makeSystemString()
@@ -174,14 +174,14 @@ public:
 
     /// Rafraichit la vue d'arbre \ref fileTreeView de l'exporateur de fichiers à gauche de \n l'interface
     /// \param create (= false) Si \e true, alloue la vue.
-    void refreshTreeView(bool create = false);
+    void refreshTreeView (bool create = false);
 
 
 public slots:
 
     /// Rafraichir le projet .alt après avoir actualisé l'interface
     /// \param enreg Si \e true, enregistre le projet actualisé.
-    bool updateProject(bool enreg = false);
+    bool updateProject (bool enreg = false);
 
     /// Ouvre le projet, le décode en appelant \ref parseProjectFile et actualise l'interface\n
     /// en conséquence
@@ -204,9 +204,9 @@ public slots:
     void importData();
 
     /// Ajouter du texte à l'onglet des messages
-    void textAppend(const QString& s)
+    void textAppend (const QString& s)
     {
-        outputTextEdit->append(s);
+        outputTextEdit->append (s);
     }
 
     /// Tuer l'application en ligne de commande \e lhx
@@ -221,13 +221,13 @@ private slots:
     void runRAltair();
 
     /// Traitement de la fin de l'exécution de lhx
-    void processFinished(int code)
+    void processFinished (int code)
     {
-        processFinished(static_cast<exitCode>(code));
+        processFinished (static_cast<exitCode> (code));
     }
 
     /// Traitement de la fin de l'exécution de lhx
-    void processFinished(exitCode);
+    void processFinished (exitCode);
 
     /// Supprimer un onglet central
     void deleteGroup();
@@ -243,7 +243,7 @@ private slots:
 
     /// Raccourcit les chemins dans les onglets en se limitant au non de fichier et les présente \n
     /// en surlignage bleu alterné de gris argent
-    void refreshRowPresentation(int);
+    void refreshRowPresentation (int);
 
 protected:
 
@@ -295,23 +295,23 @@ private:
     /// \param end rang de fin pour l'écriture du projet XML
     /// \note Utilise une des fonctionnalités des FWidget (setXmlFromWidget) qui permet
     /// de transposer l'état du widget en valeurs
-    const QString  makeParserString(int start, int end = Abstract::abstractWidgetList.size() - 1);
+    const QString  makeParserString (int start, int end = Abstract::abstractWidgetList.size() - 1);
 
     /// Lance \ref Altair::makeParserString sur le premier item courant de abstractWidgetList (celui des données de paye)
-    const QString  makeDataString( );
+    const QString  makeDataString();
 
     /// Lance \ref Altair::makeParserString sur l'ensemble de la liste des FWidgets sauf le premier (tous les widgets sauif les données de paye)
-    const QString  makeSystemString( );
+    const QString  makeSystemString();
 
     QString processMsg;
 
-    QVector<QStringList> processSecondLevelData(QVector<QStringList> &L, bool isFile = true);
-    QVector<QUrl> parseUrlsDragged(QList<QUrl>& urlsDragged);
+    QVector<QStringList> processSecondLevelData (QVector<QStringList> &L, bool isFile = true);
+    QVector<QUrl> parseUrlsDragged (QList<QUrl>& urlsDragged);
 
-    FStringList parseEntry(const QDomNode &, QTreeWidgetItem *parent = 0);
+    FStringList parseEntry (const QDomNode &, QTreeWidgetItem *parent = 0);
     void refreshRowPresentation();
 
-    void setIndexedProperties(QModelIndexList* indexList);
+    void setIndexedProperties (QModelIndexList* indexList);
     void setDialogFromProject();
     void updateIndexInfo();
     void displayTotalSize();
@@ -322,18 +322,18 @@ private:
     /// Décode le projet représenté par un pointeur vers QFile ou similaire
     /// \param file Pointeur ver un fichier contenant le projet.
 
-    void parseProjectFile(QIODevice* file);
+    void parseProjectFile (QIODevice* file);
 
-    void printMsg(qint64 new_value, const QString &str);
+    void printMsg (qint64 new_value, const QString &str);
 
-    void printBaseSize(qint64 new_value = 0);
+    void printBaseSize (qint64 new_value = 0);
 
     /// Vérifie que les onglets de contiennent pas des années incomplètes
     /// et signale les mois manquants
     void checkAnnumSpan();
 
-    bool runWorkerDistributed(bool);
-    void runWorker(const QString& = "");
+    bool runWorkerDistributed (bool);
+    void runWorker (const QString& = "");
 };
 
 

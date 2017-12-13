@@ -1,5 +1,5 @@
 <map id="Altair::refreshTreeView" name="Altair::refreshTreeView">
-<area shape="rect" id="node2" href="$class_altair.html#ae0975ced0a36e0ed889ae06043a4df66" title="Constructeur de la classe Altair, agent de la classe MainWindow qui implémente les fonctions globales..." alt="" coords="237,5,329,32"/>
-<area shape="rect" id="node3" href="$class_altair.html#a750cc65076dd04ac4d34f486b84a7026" title="Importer les données du répertoire userdatadir ou du disque optique s&#39;il est monté, au lancement de l&#39;interface, si l&#39;option est cochée. " alt="" coords="219,56,348,83"/>
-<area shape="rect" id="node4" href="$class_altair.html#a4bf6dfedf20c082376c7146710e7f127" title="Lit le fichier rankFile pour l&#39;index de la barre progression, le lit dans &#160;fileRank &#160;&#160;et ajuste la ba..." alt="" coords="396,81,539,108"/>
+<area shape="rect" id="node2" href="$class_altair.html#ae0975ced0a36e0ed889ae06043a4df66" title="Constructeur de la classe Altair, agent de la classe MainWindow qui implémente les fonctions globales..." alt="" coords="225,5,315,32"/>
+<area shape="rect" id="node3" href="$class_altair.html#a750cc65076dd04ac4d34f486b84a7026" title="Importer les données du répertoire userdatadir ou du disque optique s&#39;il est monté, au lancement de l&#39;interface, si l&#39;option est cochée. " alt="" coords="208,56,332,83"/>
+<area shape="rect" id="node4" href="$class_altair.html#a4bf6dfedf20c082376c7146710e7f127" title="Lit le fichier rankFile pour l&#39;index de la barre progression, le lit dans &#160;fileRank &#160;&#160;et ajuste la ba..." alt="" coords="380,81,515,108"/>
 </map>
