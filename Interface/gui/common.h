@@ -63,14 +63,16 @@ public:
         whatsThisPath = generateDatadirPath ("/whatsthis.info");
     }
 
-/// Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement
-/// \param  file_str Chaîne de caractères dans laquelle insérer ces informations
-/// \param  subdir Répertoire du rapport
+    /// Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement
+    /// \param  file_str Chaîne de caractères dans laquelle insérer ces informations
+    /// \param  subdir Répertoire du rapport
+
     void exporter_identification_controle (QString & file_str, const QString &subdir = "");
 
-/// Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement
-/// \note utilise le fichier #SCRIPT_DIR "prologue_codes.R"
-/// \param subdir Répertoire du rapport
+    /// Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement
+    /// \note utilise le fichier #SCRIPT_DIR "prologue_codes.R"
+    /// \param subdir Répertoire du rapport
+
     void exporter_identification_controle (const QString &subdir = "");
 
 #ifdef LOCAL_BINPATH

@@ -10,7 +10,6 @@ var searchData=
   ['printbaseaction',['printBaseAction',['../class_main_window.html#a3163a4d57e6826bb75847ec03fc2754b',1,'MainWindow']]],
   ['process',['process',['../class_main_window.html#a4197eadc38249310fba62bbbdf440c48',1,'MainWindow']]],
   ['processmenu',['processMenu',['../class_main_window.html#a30007af7ad6d23b9f44f5971f3dc95a8',1,'MainWindow']]],
-  ['processmsg',['processMsg',['../class_altair.html#a53c95ee416187c729161cf7c147b539e',1,'Altair']]],
   ['processtab',['processTab',['../classoptions.html#a685ad984f0540b95970659d172d1da4e',1,'options']]],
   ['processtoolbar',['processToolBar',['../class_main_window.html#a153817ffb5d24b333e1f581cd5454e82',1,'MainWindow']]],
   ['processtoolbaraction',['processToolBarAction',['../class_main_window.html#ae3b635bacdf27c77308fa55b44a441d2',1,'MainWindow']]],

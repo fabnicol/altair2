@@ -299,6 +299,7 @@ public:
   static QHash<QString, bool>    Suppression;
   static QVector<QStringList> Reference;
   static QHash<QString, QStringList> fileList;
+
   static inline void createReference(int rank)
   {
       Reference.clear();

@@ -66,6 +66,7 @@ private :
     ///  <li>Pour une plage de mois et d'années : Matricule-Mois.début...Mois.fin-Année.début...Année.fin</li>
     /// </ul>\n
     /// Les séquences de ce type peuvent être ajoutées les unes aux autres séparées par un point-virgule.
+
     bool checkInput (FLineEdit* l);
 
 public :
@@ -73,6 +74,7 @@ public :
     /// Constructeur de la classe MatriculeInput
     /// \param  largeur du dialogue
     /// \param  hauteur en paramètres
+
     MatriculeInput (int largeur, int hauteur);
 
     QString matricules;  ///< Liste des séquences Matricule-Mois-Année (avec leurs plages éventuelles), séparées par des points virgules.
