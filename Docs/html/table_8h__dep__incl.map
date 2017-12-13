@@ -1,7 +1,7 @@
-<map id="/home/fab/Desktop/Entrepot/lhx/table.h" name="/home/fab/Desktop/Entrepot/lhx/table.h">
-<area shape="rect" id="node2" href="$ligne__paye_8h.html" title="Définit deux fonctions auxiliaires utilisées dans lignes_paye.cpp. " alt="" coords="92,95,291,136"/>
-<area shape="rect" id="node4" href="$validator_8cpp.html" title="Ce fichier contient le code relatif au décoidage de la partie &quot;bulletins de paye&quot; (variables communes..." alt="" coords="228,184,427,225"/>
-<area shape="rect" id="node5" href="$lhx_2main_8cpp.html" title="/home/fab/Desktop/Entrepot\l/lhx/main.cpp" alt="" coords="364,95,563,136"/>
-<area shape="rect" id="node6" href="$table_8cpp.html" title="Ce fichier contient l&#39;ensemble du code permettant de générer les fichiers des bulletins de paye et li..." alt="" coords="587,95,785,136"/>
-<area shape="rect" id="node3" href="$ligne__paye_8cpp.html" title="Ce fichier contient le code relatif au traitement individuel des lignes de paye. " alt="" coords="5,184,204,225"/>
+<map id="lhx/table.h" name="lhx/table.h">
+<area shape="rect" id="node2" href="$ligne__paye_8h.html" title="Définit deux fonctions auxiliaires utilisées dans lignes_paye.cpp. " alt="" coords="65,80,181,107"/>
+<area shape="rect" id="node4" href="$validator_8cpp.html" title="Ce fichier contient le code relatif au décoidage de la partie &quot;bulletins de paye&quot; (variables communes..." alt="" coords="160,155,277,181"/>
+<area shape="rect" id="node5" href="$lhx_2main_8cpp.html" title="lhx/main.cpp" alt="" coords="256,80,352,107"/>
+<area shape="rect" id="node6" href="$table_8cpp.html" title="Ce fichier contient l&#39;ensemble du code permettant de générer les fichiers des bulletins de paye et li..." alt="" coords="376,80,472,107"/>
+<area shape="rect" id="node3" href="$ligne__paye_8cpp.html" title="Ce fichier contient le code relatif au traitement individuel des lignes de paye. " alt="" coords="5,155,136,181"/>
 </map>

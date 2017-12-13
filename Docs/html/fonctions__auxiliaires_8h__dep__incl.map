@@ -1,8 +1,8 @@
-<map id="/home/fab/Desktop/Entrepot/lhx/fonctions_auxiliaires.h" name="/home/fab/Desktop/Entrepot/lhx/fonctions_auxiliaires.h">
-<area shape="rect" id="node2" href="$fonctions__auxiliaires_8cpp.html" title="Ce fichier contient le code relatif aux fonctions auxiliaires utilisées par les fonctions principales..." alt="" coords="5,95,207,136"/>
-<area shape="rect" id="node3" href="$ligne__paye_8h.html" title="Définit deux fonctions auxiliaires utilisées dans lignes_paye.cpp. " alt="" coords="231,95,429,136"/>
-<area shape="rect" id="node5" href="$validator_8cpp.html" title="Ce fichier contient le code relatif au décoidage de la partie &quot;bulletins de paye&quot; (variables communes..." alt="" coords="367,184,565,225"/>
-<area shape="rect" id="node6" href="$lhx_2main_8cpp.html" title="/home/fab/Desktop/Entrepot\l/lhx/main.cpp" alt="" coords="503,95,701,136"/>
-<area shape="rect" id="node7" href="$table_8cpp.html" title="Ce fichier contient l&#39;ensemble du code permettant de générer les fichiers des bulletins de paye et li..." alt="" coords="725,95,924,136"/>
-<area shape="rect" id="node4" href="$ligne__paye_8cpp.html" title="Ce fichier contient le code relatif au traitement individuel des lignes de paye. " alt="" coords="144,184,343,225"/>
+<map id="lhx/fonctions_auxiliaires.h" name="lhx/fonctions_auxiliaires.h">
+<area shape="rect" id="node2" href="$fonctions__auxiliaires_8cpp.html" title="Ce fichier contient le code relatif aux fonctions auxiliaires utilisées par les fonctions principales..." alt="" coords="5,80,192,107"/>
+<area shape="rect" id="node3" href="$ligne__paye_8h.html" title="Définit deux fonctions auxiliaires utilisées dans lignes_paye.cpp. " alt="" coords="217,80,333,107"/>
+<area shape="rect" id="node5" href="$validator_8cpp.html" title="Ce fichier contient le code relatif au décoidage de la partie &quot;bulletins de paye&quot; (variables communes..." alt="" coords="312,155,429,181"/>
+<area shape="rect" id="node6" href="$lhx_2main_8cpp.html" title="lhx/main.cpp" alt="" coords="408,80,504,107"/>
+<area shape="rect" id="node7" href="$table_8cpp.html" title="Ce fichier contient l&#39;ensemble du code permettant de générer les fichiers des bulletins de paye et li..." alt="" coords="528,80,624,107"/>
+<area shape="rect" id="node4" href="$ligne__paye_8cpp.html" title="Ce fichier contient le code relatif au traitement individuel des lignes de paye. " alt="" coords="157,155,288,181"/>
 </map>

@@ -83,18 +83,18 @@ typedef struct
 
 ostringstream help();
 
-int32_t lire_argument(int argc, char* c_str);
+int32_t lire_argument (int argc, char* c_str);
 
-int calculer_memoire_requise( info_t &info);
-void ouvrir_fichier_base(const info_t &info, BaseType, ofstream& base, int segment);
-void ouvrir_fichier_base0(const info_t &info, BaseCategorie,  BaseType type, ofstream& base, int segment);
-void ecrire_entete_bulletins(const info_t &info, ofstream& base);
+int calculer_memoire_requise ( info_t &info);
+void ouvrir_fichier_base (const info_t &info, BaseType, ofstream& base, int segment);
+void ouvrir_fichier_base0 (const info_t &info, BaseCategorie,  BaseType type, ofstream& base, int segment);
+void ecrire_entete_bulletins (const info_t &info, ofstream& base);
 
-void ecrire_entete(const info_t &info, ofstream& base);
-void ecrire_entete0(const info_t &info, ofstream& base, const char* entete[], int N);
-void ouvrir_fichier_bulletins(const info_t &info, ofstream& base, int segment);
+void ecrire_entete (const info_t &info, ofstream& base);
+void ecrire_entete0 (const info_t &info, ofstream& base, const char* entete[], int N);
+void ouvrir_fichier_bulletins (const info_t &info, ofstream& base, int segment);
 
-off_t taille_fichier(const string& filename);
+off_t taille_fichier (const string& filename);
 size_t getTotalSystemMemory();
 size_t getFreeSystemMemory();
 size_t getCurrentRSS( );
@@ -107,16 +107,16 @@ extern string rankFilePath;
 string getexecpath();
 
 #ifdef USE_STRING_EXEC
-string string_exec(const char* cmd);
+string string_exec (const char* cmd);
 #endif
 
-errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur);
+errorLine_t afficher_environnement_xhl (const info_t& info, const xmlNodePtr cur);
 
-vector<string> split(const string &s, char delim) ;
+vector<string> split (const string &s, char delim) ;
 
-void ecrire_log(const info_t& info, ofstream& log, int diff);
+void ecrire_log (const info_t& info, ofstream& log, int diff);
 
-void calculer_maxima(const vector<info_t> &Info, ofstream* LOG = nullptr);
+void calculer_maxima (const vector<info_t> &Info, ofstream* LOG = nullptr);
 
 #ifdef GENERATE_RANK_SIGNAL
 
@@ -134,11 +134,11 @@ inline void reset_rank_signal()
 /// Efface le premier caractère d'une chaîne et translate la chaîne d'un caractère vers la gauche
 /// \param c chaine de caractères libXml2 à modifier par pointeur
 
-inline void GCC_INLINE effacer_char(xmlChar* c)
+inline void GCC_INLINE effacer_char (xmlChar* c)
 {
-    for (int j = 0; * (c + j) != 0 && *(c + j + 1) != 0; ++j)
+    for (int j = 0; * (c + j) != 0 && * (c + j + 1) != 0; ++j)
         {
-            *(c + j) = *(c + j + 1);
+            * (c + j) = * (c + j + 1);
         }
 }
 
@@ -156,7 +156,7 @@ inline void  generate_rank_signal()
 
     do
         {
-            rankFile.open(rankFilePath, ios::out | ios::trunc);
+            rankFile.open (rankFilePath, ios::out | ios::trunc);
 
             if (rankFile.is_open())
                 {
@@ -173,7 +173,7 @@ inline void  generate_rank_signal()
             mut.unlock();
 
         }
-    while(false);
+    while (false);
 
 }
 
@@ -185,13 +185,13 @@ inline void  generate_rank_signal()
 /// \param progression indice d'actualisation
 /// \note Thread-safe.
 
-inline void generate_rank_signal(int progression)
+inline void generate_rank_signal (int progression)
 {
     LOCK_GUARD
 
     if (rankFilePath.empty()) return;
 
-    rankFile.open(rankFilePath, ios::out | ios::trunc);
+    rankFile.open (rankFilePath, ios::out | ios::trunc);
 
     if (rankFile.is_open())
         {
@@ -205,7 +205,7 @@ inline void generate_rank_signal(int progression)
 /// \param func_tag Chaîne de caractères donnant un libellé à afficher.
 /// \note Thread-safe. N'est activé que si la constante MEMORY_DEBUG est définie.
 
-static inline void  memory_debug(GCC_UNUSED const string& func_tag)
+static inline void  memory_debug (GCC_UNUSED const string& func_tag)
 {
 #ifdef MEMORY_DEBUG
     LOCK_GUARD

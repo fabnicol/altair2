@@ -1,51 +1,51 @@
 <map id="Altair::openProjectFile" name="Altair::openProjectFile">
-<area shape="rect" id="node2" href="$class_altair.html#ab67e3285c4a6c8fb48d12381ea6ac6bd" title="Ferme le projet et réinitialise l&#39;interface (gestionnaire de projet inclus) " alt="" coords="212,119,349,146"/>
-<area shape="rect" id="node48" href="$class_altair.html#aa341707131924eff160bcab41422d1ec" title="Code commun à différentes fonctions lancées pour l&#39;analyse des projets. " alt="" coords="865,659,1113,686"/>
-<area shape="rect" id="node3" href="$class_altair.html#a5b3c33b6ae4f6b57b5593245751ef203" title="Efface toutes les données du projet .alt et réinitialise l&#39;interface et les conteneurs de données int..." alt="" coords="397,216,563,243"/>
-<area shape="rect" id="node6" href="$class_altair.html#a78a2870bb9b316c5ad6bcbd64471eeb8" title="Renvoie la taille des données exportées. " alt="" coords="1219,195,1305,222"/>
-<area shape="rect" id="node4" href="$class_altair.html#a45f599288745eb6bc53155a85fb5dc1a" title="Rafraîchit le gestionnaire de projet à la droite de l&#39;interface. " alt="" coords="611,318,817,360"/>
-<area shape="rect" id="node47" href="$classcode_page.html#ad89c8fd4b641a2b884ac3980759fe329" title="codePage::resetLabel" alt="" coords="635,216,793,243"/>
-<area shape="rect" id="node5" href="$class_altair.html#adc79f280e4f580298a8dd80e2f7cf712" title="Altair::processSecondLevelData" alt="" coords="878,246,1101,272"/>
-<area shape="rect" id="node44" href="$namespace_xml_method.html#ac0a708c4bc4c55df24e60816d69a90cf" title="XmlMethod::displaySecond\lLevelData" alt="" coords="894,348,1085,389"/>
-<area shape="rect" id="node45" href="$namespace_xml_method.html#aad1e553eb1ec6f1bb128cc6744cba9e3" title="XmlMethod::displayTextData" alt="" coords="1161,414,1363,440"/>
-<area shape="rect" id="node46" href="$namespace_xml_method.html#a796c4f03d9e7a8057f0102b87eecbd3e" title="XmlMethod::displayFirstLevelData" alt="" coords="872,464,1107,491"/>
-<area shape="rect" id="node7" href="$class_altair.html#ac9d7d8e7cebf70212818f1a8ba7d7d78" title="Rafraîchit le gestionnaire de projet à la droite de l&#39;interface. Fonction globale &#160;&#160;par défaut..." alt="" coords="1411,347,1617,374"/>
-<area shape="rect" id="node8" href="$class_altair.html#a9df2266cd3e2a9905e74bb41c1f9415d" title="Remplace un nom de projet vide par un nom par défaut. " alt="" coords="3563,659,3780,686"/>
-<area shape="rect" id="node25" href="$class_altair.html#a4995cdc9462838289b5b1df75edba552" title="Ajouter du texte à l&#39;onglet des messages. " alt="" coords="2126,347,2258,374"/>
-<area shape="rect" id="node39" href="$class_altair.html#a41b6c8a35ed8ba14c7c0ce2e6994655f" title="Décode le projet représenté par un pointeur vers QFile ou similaire. " alt="" coords="1665,398,1828,424"/>
-<area shape="rect" id="node9" href="$class_altair.html#a830a875daeadb24dfa5fc988bd584130" title="Début du glisser&#45;déplacer. " alt="" coords="3849,710,3967,736"/>
-<area shape="rect" id="node10" href="$class_altair.html#a1d5064d3e77d72efca82b6ffba3beafb" title="Fonction réimplémentée : événement du déplacement de la souris. " alt="" coords="3828,608,3988,635"/>
-<area shape="rect" id="node11" href="$class_altair.html#aeffceb66ecb03f73fda93abc601a5d40" title="Fonction réimplémentée : début du déplacement de la souris. " alt="" coords="3829,659,3987,686"/>
-<area shape="rect" id="node12" href="$class_altair.html#a1afa285a65e0bdff4c761ad05ec9f8df" title="Fonction réimplémentée : fin du déplacement de la souris. " alt="" coords="3845,94,3971,120"/>
-<area shape="rect" id="node16" href="$class_altair.html#ad0436bfddbdcdd19cc80154e02b4323c" title="Assigner le fichier courant. " alt="" coords="3834,760,3982,787"/>
-<area shape="rect" id="node13" href="$class_altair.html#a94c37375266a849cb43570457163db13" title="Altair::updateIndexInfo" alt="" coords="4053,144,4216,171"/>
-<area shape="rect" id="node14" href="$class_altair.html#abd55c8c0c2e48e64f5b1ae2442b87ade" title="Vérifie que les onglets de contiennent pas des années incomplètes et signale les mois manquants..." alt="" coords="4048,94,4221,120"/>
-<area shape="rect" id="node15" href="$class_altair.html#a2eb0a89c3223b2df1c01d2b3b7d1c0eb" title="Rafraichir le projet .alt après avoir actualisé l&#39;interface. " alt="" coords="3083,331,3230,358"/>
-<area shape="rect" id="node18" href="$class_main_window.html#ab58113ae4ed9a73ec3e3e5f83c98dfcc" title="Vérifie si par défaut le projet .alt doit être enregistré à chaque modification de l&#39;état de l&#39;interf..." alt="" coords="3320,324,3515,365"/>
-<area shape="rect" id="node22" href="$class_altair.html#a43120f9909d0284074119529a03df85b" title="Ecrit le projet XML d&#39;extension .alt contenant les références des donnéees de paye. " alt="" coords="3339,608,3495,635"/>
-<area shape="rect" id="node17" href="$class_main_window.html#affa76730fa370a3466b62a4caee721e3" title="Mise à jour de la liste des fichiers de projet récents. " alt="" coords="4036,753,4233,794"/>
-<area shape="rect" id="node19" href="$class_main_window.html#acb0d089a9bd777962ddd3e7d30e81c1a" title="Sauvegarde du projet .alt selon un chemin à spécifier. " alt="" coords="3572,331,3771,358"/>
-<area shape="rect" id="node20" href="$class_main_window.html#a7ca647c33971b09cd6ef4af33937369e" title="Envoie du texte formaté HTML dans l&#39;onglet Console Etape de capture de la sortie cout et cerr de l&#39;ap..." alt="" coords="3563,469,3779,510"/>
-<area shape="rect" id="node21" href="$class_main_window.html#ad5413bb37042daa28f5fd7d72b4b616c" title="Envoie du texte formaté HTML dans l&#39;onglet Console Etape de capture de la sortie des flux d&#39;exécution..." alt="" coords="3572,382,3771,424"/>
-<area shape="rect" id="node23" href="$class_altair.html#a2f8d129da914d8b9ab3cdaf195f92bd1" title="Lance Altair::makeParserString sur le premier item courant de abstractWidgetList (celui des données d..." alt="" coords="3591,608,3752,635"/>
-<area shape="rect" id="node24" href="$class_altair.html#adb7f94af778c4b6874abab74c8ef4016" title="Lance Altair::makeParserString sur l&#39;ensemble de la liste des FWidgets sauf le premier (tous les widg..." alt="" coords="3583,558,3760,584"/>
-<area shape="rect" id="node26" href="$class_altair.html#a2f6882c170016e2d7729058b08896a1d" title="Tuer l&#39;application en ligne de commande lhx. " alt="" coords="2339,246,2466,272"/>
-<area shape="rect" id="node27" href="$class_altair.html#a7d10f8ecf4097577885172afb6c2e9c6" title="Lance l&#39;exécution de l&#39;application en ligne de commande lhx. " alt="" coords="2363,452,2443,479"/>
-<area shape="rect" id="node38" href="$class_altair.html#afd71c35a3a71291b0d4eece1058de4f0" title="Lance l&#39;application Rstudio et les scripts R. " alt="" coords="2341,347,2464,374"/>
-<area shape="rect" id="node28" href="$class_altair.html#a52076f38f63affb6f08acf787dcfea09" title="Traitement de la fin de l&#39;exécution de lhx. " alt="" coords="2547,246,2709,272"/>
-<area shape="rect" id="node33" href="$class_altair.html#ae04f2a5771d47bbe2e0cc3a11b72d6bf" title="Parcourt le répertoire en cours du mode distributif, un à chaque appel Exporte l&#39;identification dans ..." alt="" coords="2532,507,2724,534"/>
-<area shape="rect" id="node34" href="$classcommon.html#a3149ba29e04e6e5f7f85a2894434bf9e" title="Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement. " alt="" coords="2772,465,2993,506"/>
-<area shape="rect" id="node35" href="$class_altair.html#a08b5e402c9a694af09110afe33219080" title="Altair::runWorker" alt="" coords="2819,531,2946,558"/>
-<area shape="rect" id="node29" href="$class_altair.html#ab913abfdd0c6fbbceb9a051a4443d5fa" title="Supprimer un onglet central. " alt="" coords="2813,144,2952,171"/>
-<area shape="rect" id="node30" href="$class_altair.html#a4fad8882e9af3420d9815a123597d33f" title="Lancer l&#39;aide (menu ou barre) " alt="" coords="2807,297,2958,338"/>
-<area shape="rect" id="node31" href="$class_altair.html#aab5da600c227ac7eb604fa24a9308d26" title="Enregistre le projet .alt en actualisant projectName et l&#39;état de l&#39;interface &#160;. " alt="" coords="2791,246,2974,272"/>
-<area shape="rect" id="node32" href="$class_altair.html#a20528df591deee5ad32f28996ba8dc35" title="Altair::refreshRowPresentation" alt="" coords="2776,363,2989,390"/>
-<area shape="rect" id="node36" href="$class_altair.html#a9d3b1c2ca7ac0cef908a896fb8d71322" title="Crée une ligne de commande. " alt="" coords="3061,441,3252,482"/>
-<area shape="rect" id="node37" href="$class_main_window.html#a29b1b37488fb3e9d9d716d33e26acb55" title="Limite (si l&#39;option du dialogue de configuration est cochée) le volume de texte en sortie de l&#39;onglet..." alt="" coords="3041,507,3272,534"/>
-<area shape="rect" id="node40" href="$class_altair.html#aaf3a8dfe0d9d1a29a4999cfb3a536982" title="Altair::parseEntry" alt="" coords="1905,524,2034,551"/>
-<area shape="rect" id="node43" href="$class_altair.html#a8b7b1fa3e0b567dc1d4721bf88087a68" title="Parcout l&#39;ensemble des widgets fonctionnels Abstract::abstractWidgetList et actualise leur statut int..." alt="" coords="1876,296,2063,323"/>
-<area shape="rect" id="node41" href="$namespace_xml_method.html#abe26f53c2028527b0ebea361faa85221" title="Empile les données pour un noeud donné, pour une profondeur d&#39;enchassement donnée. " alt="" coords="2111,571,2273,598"/>
-<area shape="rect" id="node42" href="$namespace_xml_method.html#a40cfba405dd7bb3e66fef711fe47be4a" title="XmlMethod::stackData" alt="" coords="2321,608,2484,635"/>
-<area shape="rect" id="node49" href="$class_altair.html#acaa583766e1c062ea311847fcdd35374" title="Efface les onglets, le gestionnaire de projet et lit le projet .alt en cours. " alt="" coords="1176,601,1348,642"/>
-<area shape="rect" id="node50" href="$class_main_window.html#a7bbefc0725287bac10300f9b32e54e4a" title="MainWindow::getEditor" alt="" coords="1431,608,1597,635"/>
+<area shape="rect" id="node2" href="$class_altair.html#ab67e3285c4a6c8fb48d12381ea6ac6bd" title="Ferme le projet et réinitialise l&#39;interface (gestionnaire de projet inclus) " alt="" coords="204,119,336,145"/>
+<area shape="rect" id="node48" href="$class_altair.html#aa341707131924eff160bcab41422d1ec" title="Code commun à différentes fonctions lancées pour l&#39;analyse des projets. " alt="" coords="828,659,1063,685"/>
+<area shape="rect" id="node3" href="$class_altair.html#a5b3c33b6ae4f6b57b5593245751ef203" title="Efface toutes les données du projet .alt et réinitialise l&#39;interface et les conteneurs de données int..." alt="" coords="384,216,541,243"/>
+<area shape="rect" id="node6" href="$class_altair.html#a78a2870bb9b316c5ad6bcbd64471eeb8" title="Renvoie la taille des données exportées. " alt="" coords="1164,195,1248,221"/>
+<area shape="rect" id="node4" href="$class_altair.html#a45f599288745eb6bc53155a85fb5dc1a" title="Rafraîchit le gestionnaire de projet à la droite de l&#39;interface. " alt="" coords="589,318,780,359"/>
+<area shape="rect" id="node47" href="$classcode_page.html#ad89c8fd4b641a2b884ac3980759fe329" title="codePage::resetLabel" alt="" coords="611,216,759,243"/>
+<area shape="rect" id="node5" href="$class_altair.html#adc79f280e4f580298a8dd80e2f7cf712" title="Altair::processSecondLevelData" alt="" coords="841,245,1050,272"/>
+<area shape="rect" id="node44" href="$namespace_xml_method.html#ac0a708c4bc4c55df24e60816d69a90cf" title="XmlMethod::displaySecond\lLevelData" alt="" coords="855,347,1036,389"/>
+<area shape="rect" id="node45" href="$namespace_xml_method.html#aad1e553eb1ec6f1bb128cc6744cba9e3" title="XmlMethod::displayTextData" alt="" coords="1111,413,1301,440"/>
+<area shape="rect" id="node46" href="$namespace_xml_method.html#a796c4f03d9e7a8057f0102b87eecbd3e" title="XmlMethod::displayFirstLevelData" alt="" coords="834,464,1057,491"/>
+<area shape="rect" id="node7" href="$class_altair.html#ac9d7d8e7cebf70212818f1a8ba7d7d78" title="Rafraîchit le gestionnaire de projet à la droite de l&#39;interface. Fonction globale &#160;&#160;par défaut..." alt="" coords="1349,347,1540,373"/>
+<area shape="rect" id="node8" href="$class_altair.html#a9df2266cd3e2a9905e74bb41c1f9415d" title="Remplace un nom de projet vide par un nom par défaut. " alt="" coords="3411,659,3620,685"/>
+<area shape="rect" id="node25" href="$class_altair.html#a4995cdc9462838289b5b1df75edba552" title="Ajouter du texte à l&#39;onglet des messages. " alt="" coords="2032,347,2159,373"/>
+<area shape="rect" id="node39" href="$class_altair.html#a41b6c8a35ed8ba14c7c0ce2e6994655f" title="Décode le projet représenté par un pointeur vers QFile ou similaire. " alt="" coords="1588,397,1743,424"/>
+<area shape="rect" id="node9" href="$class_altair.html#a830a875daeadb24dfa5fc988bd584130" title="Début du glisser&#45;déplacer. " alt="" coords="3686,709,3801,736"/>
+<area shape="rect" id="node10" href="$class_altair.html#a1d5064d3e77d72efca82b6ffba3beafb" title="Fonction réimplémentée : événement du déplacement de la souris. " alt="" coords="3668,608,3819,635"/>
+<area shape="rect" id="node11" href="$class_altair.html#aeffceb66ecb03f73fda93abc601a5d40" title="Fonction réimplémentée : début du déplacement de la souris. " alt="" coords="3668,659,3819,685"/>
+<area shape="rect" id="node12" href="$class_altair.html#a1afa285a65e0bdff4c761ad05ec9f8df" title="Fonction réimplémentée : fin du déplacement de la souris. " alt="" coords="3684,93,3803,120"/>
+<area shape="rect" id="node16" href="$class_altair.html#ad0436bfddbdcdd19cc80154e02b4323c" title="Assigner le fichier courant. " alt="" coords="3672,760,3815,787"/>
+<area shape="rect" id="node13" href="$class_altair.html#a94c37375266a849cb43570457163db13" title="Altair::updateIndexInfo" alt="" coords="3883,144,4037,171"/>
+<area shape="rect" id="node14" href="$class_altair.html#abd55c8c0c2e48e64f5b1ae2442b87ade" title="Vérifie que les onglets de contiennent pas des années incomplètes et signale les mois manquants..." alt="" coords="3877,93,4043,120"/>
+<area shape="rect" id="node15" href="$class_altair.html#a2eb0a89c3223b2df1c01d2b3b7d1c0eb" title="Rafraichir le projet .alt après avoir actualisé l&#39;interface. " alt="" coords="2949,331,3089,357"/>
+<area shape="rect" id="node18" href="$class_main_window.html#ab58113ae4ed9a73ec3e3e5f83c98dfcc" title="Vérifie si par défaut le projet .alt doit être enregistré à chaque modification de l&#39;état de l&#39;interf..." alt="" coords="3176,323,3363,365"/>
+<area shape="rect" id="node22" href="$class_altair.html#a43120f9909d0284074119529a03df85b" title="Ecrit le projet XML d&#39;extension .alt contenant les références des donnéees de paye. " alt="" coords="3194,608,3345,635"/>
+<area shape="rect" id="node17" href="$class_main_window.html#affa76730fa370a3466b62a4caee721e3" title="Mise à jour de la liste des fichiers de projet récents. " alt="" coords="3867,753,4053,794"/>
+<area shape="rect" id="node19" href="$class_main_window.html#acb0d089a9bd777962ddd3e7d30e81c1a" title="Sauvegarde du projet .alt selon un chemin à spécifier. " alt="" coords="3420,331,3611,357"/>
+<area shape="rect" id="node20" href="$class_main_window.html#a7ca647c33971b09cd6ef4af33937369e" title="Envoie du texte formaté HTML dans l&#39;onglet Console Etape de capture de la sortie cout et cerr de l&#39;ap..." alt="" coords="3413,469,3617,510"/>
+<area shape="rect" id="node21" href="$class_main_window.html#ad5413bb37042daa28f5fd7d72b4b616c" title="Envoie du texte formaté HTML dans l&#39;onglet Console Etape de capture de la sortie des flux d&#39;exécution..." alt="" coords="3421,382,3609,423"/>
+<area shape="rect" id="node23" href="$class_altair.html#a2f8d129da914d8b9ab3cdaf195f92bd1" title="Lance Altair::makeParserString sur le premier item courant de abstractWidgetList (celui des données d..." alt="" coords="3438,608,3593,635"/>
+<area shape="rect" id="node24" href="$class_altair.html#adb7f94af778c4b6874abab74c8ef4016" title="Lance Altair::makeParserString sur l&#39;ensemble de la liste des FWidgets sauf le premier (tous les widg..." alt="" coords="3430,557,3601,584"/>
+<area shape="rect" id="node26" href="$class_altair.html#a2f6882c170016e2d7729058b08896a1d" title="Tuer l&#39;application en ligne de commande lhx. " alt="" coords="2237,245,2361,272"/>
+<area shape="rect" id="node27" href="$class_altair.html#a7d10f8ecf4097577885172afb6c2e9c6" title="Lance l&#39;exécution de l&#39;application en ligne de commande lhx. " alt="" coords="2260,452,2339,479"/>
+<area shape="rect" id="node38" href="$class_altair.html#afd71c35a3a71291b0d4eece1058de4f0" title="Lance l&#39;application Rstudio et les scripts R. " alt="" coords="2240,347,2359,373"/>
+<area shape="rect" id="node28" href="$class_altair.html#a52076f38f63affb6f08acf787dcfea09" title="Traitement de la fin de l&#39;exécution de lhx. " alt="" coords="2439,245,2594,272"/>
+<area shape="rect" id="node33" href="$class_altair.html#ae04f2a5771d47bbe2e0cc3a11b72d6bf" title="Parcourt le répertoire en cours du mode distributif, un à chaque appel Exporte l&#39;identification dans ..." alt="" coords="2425,507,2608,533"/>
+<area shape="rect" id="node34" href="$classcommon.html#a3149ba29e04e6e5f7f85a2894434bf9e" title="Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement. " alt="" coords="2656,465,2863,506"/>
+<area shape="rect" id="node35" href="$class_altair.html#a08b5e402c9a694af09110afe33219080" title="Construction de la ligne de commande pour des bases de paye dans un répertoire donné ..." alt="" coords="2699,531,2819,557"/>
+<area shape="rect" id="node29" href="$class_altair.html#ab913abfdd0c6fbbceb9a051a4443d5fa" title="Supprimer un onglet central. " alt="" coords="2694,144,2825,171"/>
+<area shape="rect" id="node30" href="$class_altair.html#a4fad8882e9af3420d9815a123597d33f" title="Lancer l&#39;aide (menu ou barre) " alt="" coords="2688,297,2831,338"/>
+<area shape="rect" id="node31" href="$class_altair.html#aab5da600c227ac7eb604fa24a9308d26" title="Enregistre le projet .alt en actualisant projectName et l&#39;état de l&#39;interface &#160;. " alt="" coords="2672,245,2847,272"/>
+<area shape="rect" id="node32" href="$class_altair.html#a20528df591deee5ad32f28996ba8dc35" title="Altair::refreshRowPresentation" alt="" coords="2659,363,2859,389"/>
+<area shape="rect" id="node36" href="$class_altair.html#a9d3b1c2ca7ac0cef908a896fb8d71322" title="Crée une ligne de commande. " alt="" coords="2929,441,3109,482"/>
+<area shape="rect" id="node37" href="$class_main_window.html#a29b1b37488fb3e9d9d716d33e26acb55" title="Limite (si l&#39;option du dialogue de configuration est cochée) le volume de texte en sortie de l&#39;onglet..." alt="" coords="2911,507,3128,533"/>
+<area shape="rect" id="node40" href="$class_altair.html#aaf3a8dfe0d9d1a29a4999cfb3a536982" title="Altair::parseEntry" alt="" coords="1819,524,1941,551"/>
+<area shape="rect" id="node43" href="$class_altair.html#a8b7b1fa3e0b567dc1d4721bf88087a68" title="Parcout l&#39;ensemble des widgets fonctionnels Abstract::abstractWidgetList et actualise leur statut int..." alt="" coords="1791,296,1969,323"/>
+<area shape="rect" id="node41" href="$namespace_xml_method.html#abe26f53c2028527b0ebea361faa85221" title="Empile les données pour un noeud donné, pour une profondeur d&#39;enchassement donnée. " alt="" coords="2017,571,2173,597"/>
+<area shape="rect" id="node42" href="$namespace_xml_method.html#a40cfba405dd7bb3e66fef711fe47be4a" title="XmlMethod::stackData" alt="" coords="2221,608,2377,635"/>
+<area shape="rect" id="node49" href="$class_altair.html#acaa583766e1c062ea311847fcdd35374" title="Efface les onglets, le gestionnaire de projet et lit le projet .alt en cours. " alt="" coords="1125,601,1287,642"/>
+<area shape="rect" id="node50" href="$class_main_window.html#a7bbefc0725287bac10300f9b32e54e4a" title="MainWindow::getEditor" alt="" coords="1366,608,1523,635"/>
 </map>

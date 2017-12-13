@@ -137,7 +137,7 @@ public :
     codePage();
     void resetLabel()
     {
-        label->setText("") ;
+        label->setText ("") ;
     }
 
 private:
@@ -154,12 +154,12 @@ private:
     QGroupBox *baseBox;
 
 
-    inline int ajouterVariable(const QString& nom);
+    inline int ajouterVariable (const QString& nom);
     bool reinitialiser_prologue();
 
 private slots:
     void substituer_valeurs_dans_script_R();
-    void activer_fph(bool);
+    void activer_fph (bool);
 };
 
 
@@ -169,7 +169,7 @@ class options :   public QDialog, public common
 
 public:
 
-    options(Altair* parent = 0);
+    options (Altair* parent = 0);
     standardPage* standardTab;
     processPage* processTab;
     codePage* codeTab;
@@ -179,7 +179,7 @@ public:
 
 signals:
 
-    void defaultClick(bool);
+    void defaultClick (bool);
 
 
 private:
@@ -188,11 +188,11 @@ private:
     QStackedWidget *pagesWidget;
 
     void createIcons();
-    void createIcon(const char* path, const char* text);
+    void createIcon (const char* path, const char* text);
 
 private slots:
-    void changePage(QListWidgetItem *current, QListWidgetItem *previous);
-    void enchainerRapports(int index);
+    void changePage (QListWidgetItem *current, QListWidgetItem *previous);
+    void enchainerRapports (int index);
 
 
 };

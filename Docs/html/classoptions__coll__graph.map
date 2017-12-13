@@ -1,6 +1,6 @@
 <map id="options" name="options">
-<area shape="rect" id="node5" href="$classprocess_page.html" title="processPage" alt="" coords="23,157,129,184"/>
-<area shape="rect" id="node6" href="$classstandard_page.html" title="standardPage" alt="" coords="153,157,263,184"/>
-<area shape="rect" id="node7" href="$classcode_page.html" title="codePage" alt="" coords="287,157,374,184"/>
-<area shape="rect" id="node3" href="$classcommon.html" title="common" alt="" coords="231,81,305,108"/>
+<area shape="rect" id="node5" href="$classprocess_page.html" title="processPage" alt="" coords="22,157,121,184"/>
+<area shape="rect" id="node6" href="$classstandard_page.html" title="standardPage" alt="" coords="146,157,248,184"/>
+<area shape="rect" id="node7" href="$classcode_page.html" title="codePage" alt="" coords="273,157,353,184"/>
+<area shape="rect" id="node3" href="$classcommon.html" title="common" alt="" coords="221,81,293,108"/>
 </map>

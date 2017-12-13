@@ -60,10 +60,10 @@ class Highlighter : public QSyntaxHighlighter
     Q_OBJECT
 
 public:
-    Highlighter(QTextDocument *parent = 0);
+    Highlighter (QTextDocument *parent = 0);
 
 protected:
-    void highlightBlock(const QString &text);
+    void highlightBlock (const QString &text);
 
 private:
     struct HighlightingRule
@@ -75,7 +75,7 @@ private:
 
     QTextCharFormat keywordFormat;
 
-    void createRulePattern(const QColor& color,  QFont::Weight weight,  const QStringList& list);
+    void createRulePattern (const QColor& color,  QFont::Weight weight,  const QStringList& list);
 };
 
 #endif // HIGHLIGHTER_H

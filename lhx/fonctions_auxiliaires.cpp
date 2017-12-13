@@ -146,9 +146,9 @@ string getexecpath()
 {
     const unsigned long maxDir = 260;
     wchar_t currentDir[maxDir];
-    GetCurrentDirectory(maxDir, currentDir);
-    wstring ws(currentDir);
-    string str(ws.begin(), ws.end());
+    GetCurrentDirectory (maxDir, currentDir);
+    wstring ws (currentDir);
+    string str (ws.begin(), ws.end());
     return str;
 }
 
@@ -166,13 +166,13 @@ string getexecpath()
 
     char szTmp[32] = {0};
     char pBuf[1000] = {0};
-    int len = sprintf(szTmp, "/proc/%d/exe", getpid());
-    int bytes = min((int) readlink(szTmp, pBuf, len), len - 1);
+    int len = sprintf (szTmp, "/proc/%d/exe", getpid());
+    int bytes = min ((int) readlink (szTmp, pBuf, len), len - 1);
 
-    if(bytes >= 0)
+    if (bytes >= 0)
         pBuf[bytes] = '\0';
 
-    return string(pBuf);
+    return string (pBuf);
 }
 
 #endif
@@ -181,15 +181,15 @@ string getexecpath()
 /// Scinde une chaîne de caractères en ses composants séparées par un délimiteur
 /// \return vecteur des composants
 
-vector<string> split(const string &s, char delim)
+vector<string> split (const string &s, char delim)
 {
-    stringstream ss(s);
+    stringstream ss (s);
     string item;
     vector<string> tokens;
 
-    while (getline(ss, item, delim))
+    while (getline (ss, item, delim))
         {
-            tokens.emplace_back(item);
+            tokens.emplace_back (item);
         }
 
     return tokens;
@@ -206,7 +206,7 @@ vector<string> split(const string &s, char delim)
 /// analysable. Sinon affiche un message indiquant son absence et retourne pour le numéro
 /// de ligne. Retourne NA pour un noeud null.
 
-errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
+errorLine_t afficher_environnement_xhl (const info_t& info, const xmlNodePtr cur)
 {
 
     long lineN = 0;
@@ -215,16 +215,16 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 
     if (cur)
         {
-            lineN = (long) xmlGetLineNo(cur);
+            lineN = (long) xmlGetLineNo (cur);
 
             if (lineN == 65535 && verbeux
                     && info.ligne_debut.size() > info.NCumAgentXml
                     && info.ligne_fin.size() > info.NCumAgentXml)
                 {
                     cerr << WARNING_HTML_TAG "Entre les lignes "
-                         << info.ligne_debut.at(info.NCumAgentXml)[0] + 1
+                         << info.ligne_debut.at (info.NCumAgentXml)[0] + 1
                          << " et "
-                         <<   info.ligne_fin.at(info.NCumAgentXml)[0]  <<  ENDL;
+                         <<   info.ligne_fin.at (info.NCumAgentXml)[0]  <<  ENDL;
                 }
             else
                 {
@@ -243,7 +243,7 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 
     for (const xmlChar* u : info.Table[info.NCumAgentXml])
         {
-            if (l >= sizeof(Tableau_entete) / sizeof(char*)) break;
+            if (l >= sizeof (Tableau_entete) / sizeof (char*)) break;
 
             ++l;
 
@@ -252,9 +252,9 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
                      << "  " << u << ENDL;
         }
 
-    errorLine_t s = {lineN, string(info.threads->argv[info.fichier_courant]),
-                     string("Fichier : ") + string(info.threads->argv[info.fichier_courant])
-                     + string(" -- Balise : ") + ((cur) ? string((const char*)cur->name) : string("NA"))
+    errorLine_t s = {lineN, string (info.threads->argv[info.fichier_courant]),
+                     string ("Fichier : ") + string (info.threads->argv[info.fichier_courant])
+                     + string (" -- Balise : ") + ((cur) ? string ((const char*)cur->name) : string ("NA"))
                     };
     return s;
 }
@@ -264,14 +264,14 @@ errorLine_t afficher_environnement_xhl(const info_t& info, const xmlNodePtr cur)
 /// \param filename chemin du fichier
 /// \return Taille en octets au format off_t
 
-off_t taille_fichier(const string& filename)
+off_t taille_fichier (const string& filename)
 {
 #ifndef __linux__
     struct __stat64 stat_buf;
-    int rc = __stat64(filename.c_str(), &stat_buf);
+    int rc = __stat64 (filename.c_str(), &stat_buf);
 #else
     struct stat64 stat_buf;
-    int rc = stat64(filename.c_str(), &stat_buf);
+    int rc = stat64 (filename.c_str(), &stat_buf);
 #endif
     return rc == 0 ? stat_buf.st_size : -1;
 }
@@ -283,13 +283,13 @@ off_t taille_fichier(const string& filename)
 size_t getTotalSystemMemory()
 {
 #   ifdef __linux__
-    long pages = sysconf(_SC_PHYS_PAGES);
-    long page_size = sysconf(_SC_PAGE_SIZE);
+    long pages = sysconf (_SC_PHYS_PAGES);
+    long page_size = sysconf (_SC_PAGE_SIZE);
     return pages * page_size;
 #   else
     MEMORYSTATUSEX status;
-    status.dwLength = sizeof(status);
-    GlobalMemoryStatusEx(&status);
+    status.dwLength = sizeof (status);
+    GlobalMemoryStatusEx (&status);
     return status.ullTotalPhys;
 #   endif
 }
@@ -303,25 +303,25 @@ size_t getFreeSystemMemory()
 #  ifdef __linux__
     FILE *fp;
     char buf[1024];
-    fp = fopen("/proc/meminfo", "r");
+    fp = fopen ("/proc/meminfo", "r");
     char *res;
 
-    for(int i = 0; i < 3; i++)
+    for (int i = 0; i < 3; i++)
         {
-            res = fgets(buf, 1024, fp);
+            res = fgets (buf, 1024, fp);
 
             if (res == nullptr) cerr << ERROR_HTML_TAG "Erreur dans getFreeSystemMemory()" ENDL;
         }
 
-    char *p1 = strchr(buf, ':');
-    char *p2 = strchr(p1, 'k');
+    char *p1 = strchr (buf, ':');
+    char *p2 = strchr (p1, 'k');
     p1[p2 - p1] = '\0';
     ++p1;
-    return (size_t)(strtoull(p1, NULL, 10));
+    return (size_t) (strtoull (p1, NULL, 10));
 #  else
     MEMORYSTATUSEX status;
-    status.dwLength = sizeof(status);
-    GlobalMemoryStatusEx(&status);
+    status.dwLength = sizeof (status);
+    GlobalMemoryStatusEx (&status);
     return status.ullAvailPhys / 1024;
 #  endif
 
@@ -353,7 +353,7 @@ size_t getCurrentRSS( )
 #if defined(__WIN32__)
     /* Windows -------------------------------------------------- */
     PROCESS_MEMORY_COUNTERS info;
-    GetProcessMemoryInfo( GetCurrentProcess( ), &info, sizeof(info) );
+    GetProcessMemoryInfo ( GetCurrentProcess( ), &info, sizeof (info) );
     return (size_t)info.WorkingSetSize;
 
 
@@ -362,17 +362,17 @@ size_t getCurrentRSS( )
     long rss = 0L;
     FILE* fp = NULL;
 
-    if ( (fp = fopen( "/proc/self/statm", "r" )) == NULL )
+    if ( (fp = fopen ( "/proc/self/statm", "r" )) == NULL )
         return (size_t)0L;		/* Can't open? */
 
-    if ( fscanf( fp, "%*s%ld", &rss ) != 1 )
+    if ( fscanf ( fp, "%*s%ld", &rss ) != 1 )
         {
-            fclose( fp );
+            fclose ( fp );
             return (size_t)0L;		/* Can't read? */
         }
 
-    fclose( fp );
-    return (size_t)rss * (size_t)sysconf( _SC_PAGESIZE);
+    fclose ( fp );
+    return (size_t)rss * (size_t)sysconf ( _SC_PAGESIZE);
 
 #endif
 }
@@ -389,7 +389,7 @@ size_t getCurrentRSS( )
 /// Sépare les colonnes par la chaine " | ".
 /// \note Le chemin du journal est donné par #info#chemin_log
 
-void ecrire_log(const info_t& info, ofstream& log, int diff)
+void ecrire_log (const info_t& info, ofstream& log, int diff)
 {
     if (! info.chemin_log.empty())
         {
@@ -397,25 +397,25 @@ void ecrire_log(const info_t& info, ofstream& log, int diff)
 #define P  " | "
                 log << "Année " << P
                     << info.Table[info.NCumAgentXml][Annee] << P
-                    << "Mois "  << setw(2) << info.Table[info.NCumAgentXml][Mois] << P
-                    << "Matricule " << setw(6) <<  info.Table[info.NCumAgentXml][Matricule] << P
-                    << "Rang global " << setw(6) <<  info.NCumAgentXml << P
-                    << "Rang dans fichier " << setw(5) <<  info.NAgent[info.fichier_courant] << P
-                    << "Analyseur C " << setw(6) << info.NLigne[info.NCumAgentXml] << P
-                    << "Xml " << setw(6) << info.NLigne[info.NCumAgentXml] - diff << P
-                    << "Différence " << setw(4) << diff << "\n";
+                    << "Mois "  << setw (2) << info.Table[info.NCumAgentXml][Mois] << P
+                    << "Matricule " << setw (6) <<  info.Table[info.NCumAgentXml][Matricule] << P
+                    << "Rang global " << setw (6) <<  info.NCumAgentXml << P
+                    << "Rang dans fichier " << setw (5) <<  info.NAgent[info.fichier_courant] << P
+                    << "Analyseur C " << setw (6) << info.NLigne[info.NCumAgentXml] << P
+                    << "Xml " << setw (6) << info.NLigne[info.NCumAgentXml] - diff << P
+                    << "Différence " << setw (4) << diff << "\n";
 
 #undef P
         }
 }
 
 #if 0
-char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)
+char* ecrire_chemin_base (const char* chemin_base, int rang_fichier_base)
 {
-    int s = strlen(chemin_base);
+    int s = strlen (chemin_base);
     char* chemin = new char[s + 1 + 3]();   // chemin_base + _ + 3 chiffres
-    int cut = s - strlen(CSV);
-    strncpy(chemin, chemin_base, cut);
+    int cut = s - strlen (CSV);
+    strncpy (chemin, chemin_base, cut);
 
     /*  si rang_fichier_base == 0, base monolithique
         si rang_fichier_base compris entre 1 et nbType, base par catégorie
@@ -426,20 +426,20 @@ char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)
         {
         /* rang_ fichier_base == 0  -->   Table.csv */
         case 0 :
-            sprintf(chemin + cut, "%s", CSV);
+            sprintf (chemin + cut, "%s", CSV);
             break;
 
         /* 1 <= rang_ fichier_base <= nbType  --> Table_TraitBrut.csv etc. */
         case 1 :
-            sprintf(chemin + cut, "_%s%s", type_remuneration[rang_fichier_base - 1], CSV);
+            sprintf (chemin + cut, "_%s%s", type_remuneration[rang_fichier_base - 1], CSV);
             break;
 
         /* nbType < rang_fichier_base   --> Table_2008.csv etc. */
         default :
-            sprintf(chemin + cut, "_%d%s", rang_fichier_base - nbType - 1, CSV);
+            sprintf (chemin + cut, "_%d%s", rang_fichier_base - nbType - 1, CSV);
         }
 
-    return(chemin);
+    return (chemin);
 }
 #endif
 
@@ -447,18 +447,18 @@ char* ecrire_chemin_base(const char* chemin_base, int rang_fichier_base)
 /// \param info Référence vers une structure de type info_t contenant les données formatées
 /// \param base Référence vers la base à générer de type ofstream
 
-void ecrire_entete_bulletins(const info_t &info, ofstream& base)
+void ecrire_entete_bulletins (const info_t &info, ofstream& base)
 {
-    ecrire_entete0(info, base, entete_char_bulletins, sizeof(entete_char_bulletins) / sizeof(char*));
+    ecrire_entete0 (info, base, entete_char_bulletins, sizeof (entete_char_bulletins) / sizeof (char*));
 }
 
 /// Ecrit les libellés des colonnes de la table (bulletins + lignes de paye)
 /// \param info Référence vers une structure de type info_t contenant les données formatées
 /// \param base Référence vers la base à générer de type ofstream
 
-void ecrire_entete_table(const info_t &info, ofstream& base)
+void ecrire_entete_table (const info_t &info, ofstream& base)
 {
-    ecrire_entete0(info, base, entete_char, sizeof(entete_char) / sizeof(char*));
+    ecrire_entete0 (info, base, entete_char, sizeof (entete_char) / sizeof (char*));
 }
 
 /// Ecrit les libellés des colonnes d'une base quelconque avec un tableau de libellés de taille donnée
@@ -467,7 +467,7 @@ void ecrire_entete_table(const info_t &info, ofstream& base)
 /// \param entete Tableau des libellés de colonne
 /// \param N Taille de ce tableau
 
-void ecrire_entete0(const info_t &info, ofstream& base, const char* entete[], int N)
+void ecrire_entete0 (const info_t &info, ofstream& base, const char* entete[], int N)
 {
     int i;
 
@@ -508,9 +508,9 @@ void ecrire_entete0(const info_t &info, ofstream& base, const char* entete[], in
 /// \param base Référence vers la base à générer de type ofstream
 /// \param segment segment d'exécution
 
-void ouvrir_fichier_bulletins(const info_t &info, ofstream& base, int segment)
+void ouvrir_fichier_bulletins (const info_t &info, ofstream& base, int segment)
 {
-    ouvrir_fichier_base0(info, BaseCategorie::BULLETINS, BaseType::MONOLITHIQUE, base, segment);
+    ouvrir_fichier_base0 (info, BaseCategorie::BULLETINS, BaseType::MONOLITHIQUE, base, segment);
 }
 
 /// Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d'exécution donné
@@ -518,9 +518,9 @@ void ouvrir_fichier_bulletins(const info_t &info, ofstream& base, int segment)
 /// \param base Référence vers la base à générer de type ofstream
 /// \param segment segment d'exécution
 
-void ouvrir_fichier_base(const info_t &info, BaseType type, ofstream& base, int segment)
+void ouvrir_fichier_base (const info_t &info, BaseType type, ofstream& base, int segment)
 {
-    ouvrir_fichier_base0(info, BaseCategorie::BASE, type, base, segment);
+    ouvrir_fichier_base0 (info, BaseCategorie::BASE, type, base, segment);
 }
 
 
@@ -529,7 +529,7 @@ void ouvrir_fichier_base(const info_t &info, BaseType type, ofstream& base, int 
 /// \param base Référence vers la base à générer de type ofstream
 /// \param segment segment d'exécution
 
-void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType type, ofstream& base, int segment)
+void ouvrir_fichier_base0 (const info_t &info, BaseCategorie categorie, BaseType type, ofstream& base, int segment)
 {
     string chemin_base = "";
 
@@ -541,7 +541,7 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
 #if defined(__WIN32__) && defined (USE_ICONV)
                           + ".temp"
 #endif
-                          + string(CSV);
+                          + string (CSV);
         }
     else
         {
@@ -579,7 +579,7 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
                 case BaseType::PAR_ANNEE:
                 case BaseType::MAXIMUM_LIGNES_PAR_ANNEE:
                     rang += increment;
-                    index = index + to_string(rang) +  string(CSV);
+                    index = index + to_string (rang) +  string (CSV);
                     chemin_base = chemin_base + index;
                     break;
 
@@ -635,23 +635,23 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
                                || info.export_mode == "'Distributive+'"
                                || segment > 0) ? ios_base::app : ios_base::trunc;
 
-    base.open(chemin_base, ofstream::out | mode);
+    base.open (chemin_base, ofstream::out | mode);
 
     if (! base.good())
         {
             LOCK_GUARD
             cerr << ERROR_HTML_TAG "Impossible d'ouvrir le fichier de sortie " << chemin_base << " de type " << Type << ENDL;
-            exit(-1000);
+            exit (-1000);
         }
 
-    bool insert_header = (taille_fichier(chemin_base) == 0);
+    bool insert_header = (taille_fichier (chemin_base) == 0);
 
     if (insert_header)
         {
             if (categorie == BaseCategorie::BASE)
-                ecrire_entete_table(info, base);
+                ecrire_entete_table (info, base);
             else
-                ecrire_entete_bulletins(info, base);
+                ecrire_entete_bulletins (info, base);
         }
 
     return;
@@ -662,12 +662,12 @@ void ouvrir_fichier_base0(const info_t &info, BaseCategorie categorie, BaseType 
 /// \param c_str  Pointeur vers une chaîne de caractères contenant un nombre
 /// \return Entier positif de type 32 bits ou -1 si erreur.
 
-int32_t lire_argument(int argc, char* c_str)
+int32_t lire_argument (int argc, char* c_str)
 {
     if (argc > 2)
         {
             char *end;
-            int s = strlen(c_str);
+            int s = strlen (c_str);
             errno = 0;
 
             if (c_str[0] == '\'' && c_str[s - 1] == '\'')
@@ -676,7 +676,7 @@ int32_t lire_argument(int argc, char* c_str)
                     c_str[s - 2] = '\0';
                 }
 
-            const long sl = strtol(c_str, &end, 10);
+            const long sl = strtol (c_str, &end, 10);
 
             if (end == c_str)
                 {
@@ -692,15 +692,15 @@ int32_t lire_argument(int argc, char* c_str)
                 }
             else
                 {
-                    return((uint32_t)sl);
+                    return ((uint32_t)sl);
                 }
 
-            return(-1);
+            return (-1);
         }
     else
         {
             cerr << ERROR_HTML_TAG "Préciser le nombre de bulletins mensuels attendus (majorant du nombre)." ENDL;
-            return(-1);
+            return (-1);
         }
 }
 
@@ -709,7 +709,7 @@ int32_t lire_argument(int argc, char* c_str)
 /// \param Info Vecteur de structures info_t, une par fil d'exécution
 /// \param LOG  Pointeur vers un fichier de log de type ofstream
 
-void calculer_maxima(const vector<info_t> &Info, ofstream* LOG)
+void calculer_maxima (const vector<info_t> &Info, ofstream* LOG)
 {
     uint32_t maximum[2] = {0, 0};
 
@@ -742,32 +742,32 @@ void calculer_maxima(const vector<info_t> &Info, ofstream* LOG)
 /// \return Chaîne de caractères de type string
 
 template <typename Allocator = allocator<char>>
-inline string read_stream_into_string(
+inline string read_stream_into_string (
     ifstream& in,
     Allocator alloc = {})
 {
     basic_ostringstream<char, char_traits<char>, Allocator>
-    ss(basic_string<char, char_traits<char>, Allocator>(move(alloc)));
+    ss (basic_string<char, char_traits<char>, Allocator> (move (alloc)));
 
-    if (!(ss << in.rdbuf()))
+    if (! (ss << in.rdbuf()))
         throw ios_base::failure{"[ERR] Erreur d'allocation de lecture de fichier.\n"};
 
     return ss.str();
 }
 
 #ifdef USE_STRING_EXEC
-string string_exec(const char* cmd)
+string string_exec (const char* cmd)
 {
 
     array<char, 999> buffer;
     string result;
-    shared_ptr<FILE> pipe(popen(cmd, "r"), pclose);
+    shared_ptr<FILE> pipe (popen (cmd, "r"), pclose);
 
-    if (!pipe) throw runtime_error("popen() failed!");
+    if (!pipe) throw runtime_error ("popen() failed!");
 
-    while (!feof(pipe.get()))
+    while (!feof (pipe.get()))
         {
-            if (fgets(buffer.data(), 999, pipe.get()) != NULL)
+            if (fgets (buffer.data(), 999, pipe.get()) != NULL)
                 result += buffer.data();
         }
 
@@ -781,12 +781,12 @@ string string_exec(const char* cmd)
 /// \param info Structure de type info_t contenant les données formatées
 /// \return Retourne errno.
 
-int calculer_memoire_requise(info_t& info)
+int calculer_memoire_requise (info_t& info)
 {
     errno = 0;
 
     // Attention reserve() ne va pas initialiser les membres à 0 sous Windows. Utiliser resize() ici.
-    memory_debug("calculer_memoire_requise_pre_tab_resize");
+    memory_debug ("calculer_memoire_requise_pre_tab_resize");
 
 #ifdef PREALLOCATE_ON_HEAP
 
@@ -794,9 +794,9 @@ int calculer_memoire_requise(info_t& info)
 
 #define tab info.NLigne
 
-    tab.resize(info.threads->argc * MAX_NB_AGENTS);
+    tab.resize (info.threads->argc * MAX_NB_AGENTS);
 
-    memory_debug("calculer_memoire_requise_pre");
+    memory_debug ("calculer_memoire_requise_pre");
 #else
 
     // C style vector allocation
@@ -824,7 +824,7 @@ int calculer_memoire_requise(info_t& info)
 
             compteur_ligne = 0;
 
-            ifstream c(info.threads->argv[i]);
+            ifstream c (info.threads->argv[i]);
 
             if (verbeux)
                 {
@@ -834,7 +834,7 @@ int calculer_memoire_requise(info_t& info)
                 }
 
             if (c.is_open())
-                c.seekg(0, ios::beg);
+                c.seekg (0, ios::beg);
             else
                 {
                     if (verbeux)
@@ -844,7 +844,7 @@ int calculer_memoire_requise(info_t& info)
                                  << info.threads->argv[i] << "*" << ENDL;
                         }
 
-                    exit(-120);
+                    exit (-120);
                 }
 
             errno = 0;
@@ -888,7 +888,7 @@ int calculer_memoire_requise(info_t& info)
                             ident[0] = compteur_ligne + 1;
                             ident[1] = (uint64_t) c.tellg() - 13;
                             ident[2] = i;
-                            info.ligne_debut.push_back(ident);
+                            info.ligne_debut.push_back (ident);
                         }
 
                     remuneration_xml_open = true;
@@ -917,7 +917,7 @@ int calculer_memoire_requise(info_t& info)
                                             array<uint64_t, 2> ident;
                                             ident[0] = compteur_ligne + 1;
                                             ident[1] = (uint64_t) c.tellg() + 5;
-                                            info.ligne_fin.push_back(ident);
+                                            info.ligne_fin.push_back (ident);
                                         }
 
                                     remuneration_xml_open = false;
@@ -960,12 +960,12 @@ int calculer_memoire_requise(info_t& info)
                             LOCK_GUARD
                             cerr << "Erreur XML : la balise PayeIndivMensuel n'est pas refermée pour le fichier " << info.threads->argv[i]
                                  << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
-                            exit(0);
+                            exit (0);
 
 #ifndef STRICT
                             continue;
 #else
-                            exit(-100);
+                            exit (-100);
 #endif
                         }
 
@@ -973,7 +973,7 @@ int calculer_memoire_requise(info_t& info)
 
 #else   // STRINGSTREAM_PARSING
 
-            auto ss = read_stream_into_string(c);
+            auto ss = read_stream_into_string (c);
 
             string::iterator iter = ss.begin();
 
@@ -1007,7 +1007,7 @@ int calculer_memoire_requise(info_t& info)
                             ident[0] = compteur_ligne + 1;
                             ident[1] = iter - ss.begin() - 13;
                             ident[2] = i;
-                            info.ligne_debut.push_back(ident);
+                            info.ligne_debut.push_back (ident);
                         }
 
                     remuneration_xml_open = true;
@@ -1043,7 +1043,7 @@ int calculer_memoire_requise(info_t& info)
                                             array<uint64_t, 2> ident;
                                             ident[0] = compteur_ligne + 1;
                                             ident[1] = iter - ss.begin() + 5;
-                                            info.ligne_fin.push_back(ident);
+                                            info.ligne_fin.push_back (ident);
                                         }
 
                                     remuneration_xml_open = false;
@@ -1077,30 +1077,30 @@ int calculer_memoire_requise(info_t& info)
                             LOCK_GUARD
                             cerr << "Erreur XML : la balise PayeIndivMensuel n'est pas refermée pour le fichier " << info.threads->argv[i]
                                  << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
-                            exit(0);
+                            exit (0);
 
 #ifndef STRICT
                             continue;
 #else
-                            exit(-100);
+                            exit (-100);
 #endif
                         }
 
                 }
 
-            info.threads->in_memory_file[i] = move(ss);
+            info.threads->in_memory_file[i] = move (ss);
 
 #endif
 
             c.clear();
             c.close();
 
-            memory_debug("calculer_memoire_requise_close");
+            memory_debug ("calculer_memoire_requise_close");
 
 #ifdef PREALLOCATE_ON_HEAP
 #undef tab
 #else
-            info.NLigne.assign(tab, tab + info.NCumAgent);
+            info.NLigne.assign (tab, tab + info.NCumAgent);
 #endif
 
 #endif
@@ -1108,19 +1108,19 @@ int calculer_memoire_requise(info_t& info)
 
             //cerr << "Mappage en mémoire de " << info.threads->argv[i] << "..."ENDL;
             struct stat st;
-            stat(info.threads->argv[i].c_str(), &st);
+            stat (info.threads->argv[i].c_str(), &st);
             const size_t file_size =  st.st_size;
             void *dat;
-            int fd = open(info.threads->argv[i].c_str(), O_RDONLY);
+            int fd = open (info.threads->argv[i].c_str(), O_RDONLY);
             // cerr << "Taille : " << file_size << ENDL;
-            assert(fd != -1);
+            assert (fd != -1);
 
             /* MADV_SEQUENTIAL
             *    The application intends to access the pages in the specified range sequentially, from lower to higher addresses.
             *   MADV_WILLNEED
             *    The application intends to access the pages in the specified range in the near future. */
 
-            dat = mmap(NULL, file_size,  PROT_READ, MAP_PRIVATE | MAP_POPULATE, fd, 0);
+            dat = mmap (NULL, file_size,  PROT_READ, MAP_PRIVATE | MAP_POPULATE, fd, 0);
             int ret;
 
             ret = madvise (dat, 0, MADV_SEQUENTIAL | MADV_WILLNEED);
@@ -1128,7 +1128,7 @@ int calculer_memoire_requise(info_t& info)
             if (ret < 0)
                 perror ("madvise");
 
-            assert(dat != NULL);
+            assert (dat != NULL);
             //write(1, dat, file_size);
             char* data = (char*) dat;
             // cerr << "Mapping OK"ENDL;
@@ -1201,9 +1201,9 @@ int calculer_memoire_requise(info_t& info)
                 }
 
 
-            info.threads->in_memory_file[i] = move(data);
+            info.threads->in_memory_file[i] = move (data);
             //munmap(data, file_size);
-            close(fd);
+            close (fd);
 #endif
 
 #ifdef GUI_TAG_MESSAGES
@@ -1219,10 +1219,10 @@ int calculer_memoire_requise(info_t& info)
 
     // A ETUDIER
 #ifdef PREALLOCATE_ON_HEAP
-    info.NLigne.resize(info.NCumAgent + 1);
+    info.NLigne.resize (info.NCumAgent + 1);
 #endif
 
-    memory_debug("calculer_memoire_requise_end");
+    memory_debug ("calculer_memoire_requise_end");
     return errno;
 }
 

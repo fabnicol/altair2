@@ -86,7 +86,7 @@ public :
 
     // Membres données
 
-    MainWindow(char*);            ///< Constructeur de l'interface graphique
+    MainWindow (char*);           ///< Constructeur de l'interface graphique
     options* dialog;              ///< dialogue d'options
     QSettings  *settings;         ///< paramètres par défaut mémorisés
 
@@ -99,7 +99,7 @@ public :
     // Méthodes
 
     void updateRecentFileActions();                    ///< Mise à jour de la liste des fichiers de projet récents
-    QString strippedName(const QString &fullFuleName); ///< Renvoie le nom de fichier en enlevant le chemin de dossier
+    QString strippedName (const QString &fullFuleName); ///< Renvoie le nom de fichier en enlevant le chemin de dossier
     void on_clearOutputTextButton_clicked();           ///< Nettoie l'onglet courant Console ou Messages
     QTextEdit* getEditor()
     {
@@ -118,7 +118,7 @@ public :
 
     /// Sauvegarde du projet .alt selon un chemin donné
     /// \param chemin Chemin du projet
-    void saveProjectAs(const QString &chemin);
+    void saveProjectAs (const QString &chemin);
 
     /// Envoie du texte formaté HTML dans l'onglet Console
     /// Etape de capture de la sortie cout et cerr de l'application en ligne de commande \e lhx
@@ -252,7 +252,7 @@ private :
 
     /// Lit un fichier et renvoie la chaîne de caractères correspondante.
     /// \param fileName Chemin du fichier
-    bool readFile(const QString &fileName);
+    bool readFile (const QString &fileName);
 
     /// Crée les actions correspondant aux entrées des menus et barre d'outils
     void createActions();
@@ -263,7 +263,7 @@ private :
     /// Crée les barres d'outils
     void createToolBars();
 
-    std::vector<std::string> extraire_donnees_protegees(const std::string& st);
+    std::vector<std::string> extraire_donnees_protegees (const std::string& st);
 
     /// Nettoie les données de paye \n
     /// \param st Fichier de paye converti en vecteur de caractères non signés
@@ -271,7 +271,7 @@ private :
     /// \note Essaie de repérer les séquences html qui sont illicites sous libxml2 : &accute; par exemple. \n
     /// Elimine les caractères non imprimables, sauf les voyelles accentuées, et les remplace par une espace.
 
-    const std::vector <unsigned char>  nettoyer_donnees(std::vector <unsigned char>& st);
+    const std::vector <unsigned char>  nettoyer_donnees (std::vector <unsigned char>& st);
 
 private slots:
 
@@ -280,14 +280,14 @@ private slots:
 
 /// Afficher / Masquer l'arborescence de fichiers
 /// \param val Si true, afficher, sinon masquer
-    void on_displayFileTreeViewButton_clicked(bool val);
+    void on_displayFileTreeViewButton_clicked (bool val);
 
 /// Afficher / Masque le gestionnaire de projets
     void on_openManagerWidgetButton_clicked();
 
 /// Afficher / Masquer le gestionnaire de projets
 /// \param val Si true, afficher, sinon masquer
-    void on_openManagerWidgetButton_clicked(bool val);
+    void on_openManagerWidgetButton_clicked (bool val);
 
 /// Afficher / Masque l'éditeur de projets
     void on_editProjectButton_clicked();
@@ -297,7 +297,7 @@ private slots:
 
 /// Afficher en plein écran ou en format standard
 /// \param plein Si vaut \e true alors plein écran sinon standard
-    void displayFullScreen(bool plein);
+    void displayFullScreen (bool plein);
 
 /// Basculer de plein écran à écran standard et réciproquement
     void toggleFullScreen();
@@ -310,7 +310,7 @@ private slots:
 
 /// Enregistrer l'ensemble des données d'output (bases CSV, rapports...) dans un répertoire
 /// \param str Si str est vide, appeler un dialogue de sélection de répertoire, sinon exporter dans le répertoire en argument
-    bool exportProject(QString str = "");
+    bool exportProject (QString str = "");
 
 /// Archiver le projet courant
     bool archiveProject();
@@ -319,7 +319,7 @@ private slots:
 /// \param str Si str n'est pas spécifié, appelle un dialogue d'explorateur de fichiers\n
 /// Sinon, décarchive le projet dont le chemin est indiqué en argument
 
-    bool restoreProject(QString str = "");
+    bool restoreProject (QString str = "");
 
 /// Réinitialise \ref consoleCounter à zéro.
     void resetCounter();
@@ -335,11 +335,11 @@ private slots:
 
 /// Lancer l'anonymisation d'un fichier de paye
 /// \param st Chemin du fichier de paye
-    void launch_process(const QString& st);
+    void launch_process (const QString& st);
 
 /// Lancer le nettoyage d'un fichier de paye XML
 /// \param st Chemin du fichier de paye
-    void clean_process(const QString& st);
+    void clean_process (const QString& st);
 
 /// Désactive l'export des tables lors de l'extraction de bulletins de paye
     void on_printBase_clicked();
