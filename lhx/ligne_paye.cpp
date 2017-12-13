@@ -101,7 +101,7 @@ using namespace std;
 ///  \note A surveiller en cas de développement Windows.
 
 
-static void GCC_INLINE sanitize(xmlChar* s,  const char sep)
+static void GCC_INLINE sanitize (xmlChar* s,  const char sep)
 {
 
     while (*s != 0)
@@ -109,7 +109,7 @@ static void GCC_INLINE sanitize(xmlChar* s,  const char sep)
             // Non-switchable car info.seperateur n'est pas une expression constante.
             if (*s == sep)  *s = '_';
 
-            switch(*s)
+            switch (*s)
                 {
 
                 case '\n':
@@ -131,22 +131,22 @@ static void GCC_INLINE sanitize(xmlChar* s,  const char sep)
 
                 case 0xC3:
 
-                    *s = ((*(s + 1) & 0xF0) + 0x40) | (*(s + 1) & 0x0F);
+                    *s = ((* (s + 1) & 0xF0) + 0x40) | (* (s + 1) & 0x0F);
 
-                    effacer_char(s + 1);
+                    effacer_char (s + 1);
 
                     break;
 
                 case 0xC2:
 
-                    *s = *(s + 1);
+                    *s = * (s + 1);
 //    Le caractère ° (degré) est bien codé en Latin-1 comme 0xB0, mais il y a un
 //    problème avec le paquet texlive inputenc pour la conversion pdf.
 //    On remplace donc par (0x65). Apparemment plus nécessaire */
 //    if (info.Table[info.NCumAgentXml][l][i] == 0xB0)
 //            info.Table[info.NCumAgentXml][l][i] = 0x65;
 
-                    effacer_char(s + 1);
+                    effacer_char (s + 1);
 
                     break;
 #endif
@@ -172,11 +172,11 @@ static void GCC_INLINE sanitize(xmlChar* s,  const char sep)
 /// Sinon appelle #sanitize et retourne \b #NODE_FOUND \n
 /// \return  \b #NODE_FOUND sauf si \b #LINE_MEMORY_EXCEPTION ou \b #NO_NEXT_ITEM.
 
-static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, info_t& info)
+static inline int GCC_INLINE Bulletin (const char*  tag, xmlNodePtr& cur, int l, info_t& info)
 {
 // attention faire en sorte que cur ne soit JAMAIS nul en entrée ou en sortie
 
-    const xmlNodePtr nextcur = atteindreNoeud(tag, cur);
+    const xmlNodePtr nextcur = atteindreNoeud (tag, cur);
 
     if ( nullptr == nextcur)
         {
@@ -187,7 +187,7 @@ static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, 
 
 
     if ((info.Table[info.NCumAgentXml][l]
-            = xmlGetProp(nextcur, (const xmlChar *) "V"))
+            = xmlGetProp (nextcur, (const xmlChar *) "V"))
             == nullptr)
 
         return LINE_MEMORY_EXCEPTION;
@@ -202,7 +202,7 @@ static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, 
 
 //     sanitisation
 
-    sanitize(info.Table[info.NCumAgentXml][l], info.separateur);
+    sanitize (info.Table[info.NCumAgentXml][l], info.separateur);
 
     return NODE_FOUND;
 
@@ -227,12 +227,12 @@ static inline int GCC_INLINE Bulletin(const char*  tag, xmlNodePtr& cur, int l, 
 /// de code -1.
 
 
-static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& cur, int l,  info_t& info)
+static inline bool GCC_INLINE bulletin_obligatoire (const char* tag, xmlNodePtr& cur, int l,  info_t& info)
 {
 
 //     attention faire en sorte que cur ne soit JAMAIS nul
 
-    switch (Bulletin(tag, cur, l, info))
+    switch (Bulletin (tag, cur, l, info))
         {
 //         on sait que cur ne sera jamais nul
         case NODE_FOUND :
@@ -245,9 +245,9 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
         }
 
         if (verbeux)
-            afficher_environnement_xhl(info, cur);
+            afficher_environnement_xhl (info, cur);
 
-        NA_ASSIGN(l);
+        NA_ASSIGN (l);
         break;
 
         case LINE_MEMORY_EXCEPTION :
@@ -257,9 +257,9 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
         }
 
         if (verbeux)
-            afficher_environnement_xhl(info, cur);
+            afficher_environnement_xhl (info, cur);
 
-        NA_ASSIGN(l);
+        NA_ASSIGN (l);
         break;
 
         case NO_NEXT_ITEM :
@@ -269,7 +269,7 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
         }
 
         if (verbeux)
-            afficher_environnement_xhl(info, cur);
+            afficher_environnement_xhl (info, cur);
 
         break;
 
@@ -277,10 +277,10 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
 
 //     Ne pas mettre de lock ici, il y en a un dans warning_msg
 
-    warning_msg(tag, info, cur);
+    warning_msg (tag, info, cur);
 
 #ifdef STRICT
-    exit(-1);
+    exit (-1);
 #else
 
     if (nullptr != cur->next)
@@ -314,9 +314,9 @@ static inline bool GCC_INLINE bulletin_obligatoire(const char* tag, xmlNodePtr& 
 /// \param decimal séparateur décimal substitué à '.'
 /// \note potentiellement optimisable
 
-static void GCC_INLINE substituer_separateur_decimal(xmlChar* ligne, const char decimal)
+static void GCC_INLINE substituer_separateur_decimal (xmlChar* ligne, const char decimal)
 {
-    const int size = xmlStrlen(ligne);
+    const int size = xmlStrlen (ligne);
 
     for (int i = 0; i < size; ++i)
         if (ligne[i] == '.') ligne[i] = decimal;
@@ -344,21 +344,21 @@ static void GCC_INLINE substituer_separateur_decimal(xmlChar* ligne, const char 
 /// de code -1.
 ///
 
-static inline bool GCC_INLINE bulletin_optionnel_char(const char* tag,
+static inline bool GCC_INLINE bulletin_optionnel_char (const char* tag,
         xmlNodePtr& cur,
         int l,
         info_t& info)
 {
 //     attention faire en sorte que cur ne soit JAMAIS nul
 
-    switch (Bulletin(tag, cur, l, info))
+    switch (Bulletin (tag, cur, l, info))
         {
 //         on sait que cur ne sera jamais nul
         case NODE_FOUND :
             return true;
 
         case NODE_NOT_FOUND :
-            NA_ASSIGN(l);
+            NA_ASSIGN (l);
             return true;
 
         case LINE_MEMORY_EXCEPTION :
@@ -368,7 +368,7 @@ static inline bool GCC_INLINE bulletin_optionnel_char(const char* tag,
                     cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
                 }
 
-            NA_ASSIGN(l);
+            NA_ASSIGN (l);
             break;
 
         case NO_NEXT_ITEM :
@@ -383,10 +383,10 @@ static inline bool GCC_INLINE bulletin_optionnel_char(const char* tag,
 
 //     Ne pas mettre de lock ici, il y en a un dans warning_msg
 
-    warning_msg(tag, info, cur);
+    warning_msg (tag, info, cur);
 
 #ifdef STRICT
-    exit(-1);
+    exit (-1);
 #else
 
     if (nullptr != cur->next)
@@ -422,26 +422,26 @@ static inline bool GCC_INLINE bulletin_optionnel_char(const char* tag,
 /// de code -1.
 
 
-static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag,
+static inline bool GCC_INLINE bulletin_optionnel_numerique (const char* tag,
         xmlNodePtr& cur,
         int l,
         info_t& info)
 {
 //     attention faire en sorte que cur ne soit JAMAIS nul
 
-    switch (Bulletin(tag, cur, l, info))
+    switch (Bulletin (tag, cur, l, info))
         {
 //         on sait que cur ne sera jamais nul
         case NODE_FOUND :
 #ifndef DECIMAL_NON_EN
             if (info.decimal != '.')
 #endif
-                substituer_separateur_decimal(info.Table[info.NCumAgentXml][l], info.decimal);
+                substituer_separateur_decimal (info.Table[info.NCumAgentXml][l], info.decimal);
 
             return true;
 
         case NODE_NOT_FOUND :
-            ZERO_ASSIGN(l);
+            ZERO_ASSIGN (l);
             return true;
 
         case LINE_MEMORY_EXCEPTION :
@@ -451,7 +451,7 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag,
                     cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
                 }
 
-            ZERO_ASSIGN(l);
+            ZERO_ASSIGN (l);
             break;
 
         case NO_NEXT_ITEM :
@@ -461,17 +461,17 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag,
 
             if (info.decimal != '.')
 #endif
-                substituer_separateur_decimal(info.Table[info.NCumAgentXml][l], info.decimal);
+                substituer_separateur_decimal (info.Table[info.NCumAgentXml][l], info.decimal);
 
             break;
         }
 
 //     Ne pas mettre de lock ici, il y en a un dans warning_msg
 
-    warning_msg(tag, info, cur);
+    warning_msg (tag, info, cur);
 
 #ifdef STRICT
-    exit(-1);
+    exit (-1);
 #else
 
     if (nullptr != cur->next)
@@ -507,29 +507,29 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique(const char* tag,
 /// \note Dans ce cas, si la compilation est définie avec STRICT, sortie du programme
 /// de code -1.
 
-static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xmlNodePtr& cur, int l, info_t& info)
+static inline bool GCC_INLINE bulletin_obligatoire_numerique (const char* tag, xmlNodePtr& cur, int l, info_t& info)
 {
     // attention faire en sorte que cur ne soit JAMAIS nul
 
-    switch (Bulletin(tag, cur, l, info))
+    switch (Bulletin (tag, cur, l, info))
         {
         // on sait que cur ne sera jamais nul
         case NODE_FOUND :
 #ifndef DECIMAL_NON_EN
             if (info.decimal != '.')
 #endif
-                substituer_separateur_decimal(info.Table[info.NCumAgentXml][l], info.decimal);
+                substituer_separateur_decimal (info.Table[info.NCumAgentXml][l], info.decimal);
 
             return true;
 
         case NODE_NOT_FOUND :
-            ZERO_ASSIGN(l);
+            ZERO_ASSIGN (l);
             return true;
 
         case LINE_MEMORY_EXCEPTION :
             if (verbeux) cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
 
-            NA_ASSIGN(l);
+            NA_ASSIGN (l);
             break;
 
         case NO_NEXT_ITEM :
@@ -538,17 +538,17 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xm
 
             if (info.decimal != '.')
 #endif
-                substituer_separateur_decimal(info.Table[info.NCumAgentXml][l], info.decimal);
+                substituer_separateur_decimal (info.Table[info.NCumAgentXml][l], info.decimal);
 
             break;
         }
 
 //    Ne pas mettre de lock ici, il y en a un dans warning_msg
 
-    warning_msg(tag, info, cur);
+    warning_msg (tag, info, cur);
 
 #ifdef STRICT
-    exit(-1);
+    exit (-1);
 #else
 
     if (nullptr != cur->next)
@@ -679,7 +679,7 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique(const char* tag, xm
 /// circonstances décrites par \ref rebouclage ou s'il y a erreur d'allocation de la copie
 /// des drapeaux.
 
-static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
+static inline LineCount lignePaye (xmlNodePtr cur, info_t& info)
 {
     int l = BESOIN_MEMOIRE_ENTETE;
 
@@ -688,7 +688,7 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
     unsigned int t = 0;
 
 //  +1 pour éviter la confusion avec \0 des chaines vides
-    info.Table[info.NCumAgentXml][l] = (xmlChar*) xmlStrdup(drapeau[t]);
+    info.Table[info.NCumAgentXml][l] = (xmlChar*) xmlStrdup (drapeau[t]);
     ++l;
 
 //  Besoins en mémoire :
@@ -701,10 +701,10 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
         {
             bool new_type = false;
 
-            while (xmlStrcmp(cur->name, (const xmlChar *) type_remuneration[t]))
+            while (xmlStrcmp (cur->name, (const xmlChar *) type_remuneration[t]))
                 {
                     // Cas rare dans lequel <Remuneration> n'existe pas
-                    if (xmlStrcmp(cur->name, (const xmlChar *) "NbHeureTotal") == 0)
+                    if (xmlStrcmp (cur->name, (const xmlChar *) "NbHeureTotal") == 0)
                         return  { nbLignePaye, l};
 
                     ++t;
@@ -742,7 +742,7 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
                                 cerr << ERROR_HTML_TAG "Pointeur noeud courant nul" << ENDL;
 
 #ifdef STRICT
-                            exit(-11);
+                            exit (-11);
 #else
                             cerr << ERROR_HTML_TAG "Arrêt du décodage de la ligne de paye." << ENDL;
                             return {nbLignePaye, l};
@@ -756,14 +756,14 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
                 {
 //          +1 pour éviter la confusion avec \0 des chaines vides
                     if ((info.Table[info.NCumAgentXml][l]
-                            = (xmlChar*) xmlStrdup(drapeau[t])) == nullptr)
+                            = (xmlChar*) xmlStrdup (drapeau[t])) == nullptr)
                         {
                             LOCK_GUARD
 
                             if (verbeux) cerr << ERROR_HTML_TAG "Erreur dans l'allocation des drapeaux de catégories." << ENDL;
 
 #ifdef STRICT
-                            exit(-12);
+                            exit (-12);
 #else
 
                             if (verbeux) cerr << ERROR_HTML_TAG "Arrêt du décodage de la ligne de paye." << ENDL;
@@ -779,13 +779,13 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 
             if (! info.reduire_consommation_memoire)
                 {
-                    verifier_taille(nbLignePaye, info);
+                    verifier_taille (nbLignePaye, info);
                 }
 
 //         Si on arrive à un noeud de type Commentaire, on le saute et on réinitialise
 //          "gratuitement" le parcours des drapeaux.
 
-            if (xmlStrcmp(cur->name, (const xmlChar*) "Commentaire") == 0)
+            if (xmlStrcmp (cur->name, (const xmlChar*) "Commentaire") == 0)
                 {
                     cur = cur->next;
                     t = 0;
@@ -800,13 +800,13 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 
             if (cur == nullptr)
                 {
-                    NA_ASSIGN(l);
+                    NA_ASSIGN (l);
 #if 0
 
                     // Normalement c'est ce qu'il faudrait faire
                     // Mais il n'y a pas eu de préallocation de mémoire pour ce cas
 
-                    for (short c = 0; c < 6; ++c) NA_ASSIGN(l++);
+                    for (short c = 0; c < 6; ++c) NA_ASSIGN (l++);
 
                     ++nbLignePaye;
 
@@ -822,37 +822,37 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 
 //      Libellé, obligatoire
 
-            bulletin_obligatoire("Libelle", cur, l, info);
+            bulletin_obligatoire ("Libelle", cur, l, info);
 
             ++l;
 
 //      Code, obligatoire
 
-            bulletin_obligatoire("Code", cur, l, info);
+            bulletin_obligatoire ("Code", cur, l, info);
 
             ++l;
 
 //      Base, si elle existe
 
-            bulletin_optionnel_numerique("Base", cur,  l, info);
+            bulletin_optionnel_numerique ("Base", cur,  l, info);
 
             ++l;
 
 //     Taux, s'il existe
 
-            bulletin_optionnel_numerique("Taux", cur, l, info);
+            bulletin_optionnel_numerique ("Taux", cur, l, info);
 
             ++l;
 
 //      Nombre d'unités, s'il existe
 
-            bulletin_optionnel_numerique("NbUnite", cur, l, info);
+            bulletin_optionnel_numerique ("NbUnite", cur, l, info);
 
             ++l;
 
 //      Montant obligatoire
 
-            bulletin_obligatoire_numerique("Mt", cur, l, info);
+            bulletin_obligatoire_numerique ("Mt", cur, l, info);
 
             ++l;
 
@@ -864,7 +864,7 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
                                 {
                                     LOCK_GUARD
                                     cerr << WARNING_HTML_TAG "Pas de période de référence pour le rappel" " pour le matricule " << info.Table[info.NCumAgentXml][Matricule] << " -- Ligne";
-                                    long lineN = xmlGetLineNo(cur);
+                                    long lineN = xmlGetLineNo (cur);
 
                                     if (lineN != 65535)
                                         {
@@ -875,14 +875,14 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
                                             if (info.ligne_debut.size() > info.NCumAgentXml
                                                     && info.ligne_fin.size() > info.NCumAgentXml)
                                                 {
-                                                    cerr << "s "  << info.ligne_debut.at(info.NCumAgentXml)[0] + 1
-                                                         << " - " << info.ligne_fin.at(info.NCumAgentXml)[0] + 1 << ENDL;
+                                                    cerr << "s "  << info.ligne_debut.at (info.NCumAgentXml)[0] + 1
+                                                         << " - " << info.ligne_fin.at (info.NCumAgentXml)[0] + 1 << ENDL;
                                                 }
                                         }
                                 }
 
-                            NA_ASSIGN(l);
-                            NA_ASSIGN(++l);
+                            NA_ASSIGN (l);
+                            NA_ASSIGN (++l);
                         }
                     else
                         {
@@ -890,19 +890,19 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
                             // On ne tient pas rigueur du manque de qualité éventuelle
                             // tellement la norme est peu respectée
 
-                            bulletin_optionnel_char("DateDebut", cur, l, info);
+                            bulletin_optionnel_char ("DateDebut", cur, l, info);
 
                             ++l;
                             info.drapeau_cont = false; // pas de noeud successeur
-                            bulletin_optionnel_char("DateFin", cur, l, info);
+                            bulletin_optionnel_char ("DateFin", cur, l, info);
                             cur = cur->parent->next;
                             info.drapeau_cont = true; // noeud successeur existe
                         }
                 }
             else
                 {
-                    NA_ASSIGN(l);
-                    NA_ASSIGN(++l);
+                    NA_ASSIGN (l);
+                    NA_ASSIGN (++l);
                 }
 
             ++l;
@@ -993,28 +993,28 @@ static inline LineCount lignePaye(xmlNodePtr cur, info_t& info)
 /// \param info table d'informations
 /// \details Insère " - " entre les deux parties de la chaîne
 
-inline void GCC_INLINE concat(xmlNodePtr cur, info_t& info)
+inline void GCC_INLINE concat (xmlNodePtr cur, info_t& info)
 {
-    xmlChar* addCode2 = xmlGetProp(cur, (const xmlChar*) "V");
+    xmlChar* addCode2 = xmlGetProp (cur, (const xmlChar*) "V");
 
     if (addCode2)
         {
 
-            sanitize(addCode2, info.separateur);
+            sanitize (addCode2, info.separateur);
 
-            xmlChar* desc_hyphen = xmlStrncatNew(info.Table[info.NCumAgentXml][Description],
-                                                 (const xmlChar*) " - ",
-                                                 -1);
+            xmlChar* desc_hyphen = xmlStrncatNew (info.Table[info.NCumAgentXml][Description],
+                                                  (const xmlChar*) " - ",
+                                                  -1);
 
             if (desc_hyphen)
                 {
-                    xmlChar* desc_code2 = xmlStrncatNew(desc_hyphen,
-                                                        addCode2,
-                                                        -1);
+                    xmlChar* desc_code2 = xmlStrncatNew (desc_hyphen,
+                                                         addCode2,
+                                                         -1);
 
-                    xmlFree(info.Table[info.NCumAgentXml][Description]);
-                    xmlFree(addCode2);
-                    xmlFree(desc_hyphen);
+                    xmlFree (info.Table[info.NCumAgentXml][Description]);
+                    xmlFree (addCode2);
+                    xmlFree (desc_hyphen);
                     info.Table[info.NCumAgentXml][Description] = desc_code2;
                 }
         }
@@ -1026,10 +1026,10 @@ inline void GCC_INLINE concat(xmlNodePtr cur, info_t& info)
 /// \param info table d'informations
 /// \details Génère seulement un effet de bord sur la sortie d'erreur
 
-inline void test_bulletin_irregulier(info_t& info)
+inline void test_bulletin_irregulier (info_t& info)
 {
-    int brut = atoi((const char*) info.Table[info.NCumAgentXml][MtBrut]) ;
-    int net = atoi((const char*) info.Table[info.NCumAgentXml][MtNetAPayer]);
+    int brut = atoi ((const char*) info.Table[info.NCumAgentXml][MtBrut]) ;
+    int net = atoi ((const char*) info.Table[info.NCumAgentXml][MtNetAPayer]);
 
     if (brut || net)
         {
@@ -1049,19 +1049,19 @@ inline void test_bulletin_irregulier(info_t& info)
 /// \param memoire_p_ligne_allouee allocation de mémoire de la ligne réinitialisée en NA
 /// \details Modifie info.Table à l'index info.NCumAgentXml. Peut poser un problème en cas de préallocation insuffisante.
 
-inline void allouer_ligne_NA(info_t &info, int &ligne, int &memoire_p_ligne_allouee)
+inline void allouer_ligne_NA (info_t &info, int &ligne, int &memoire_p_ligne_allouee)
 {
     info.NLigne[info.NCumAgentXml] = 1;  // 1 ldp
     memoire_p_ligne_allouee = BESOIN_MEMOIRE_ENTETE + INDEX_MAX_COLONNNES // nombre de NAs mis pour les variables de paye de la ligne
                               + 1  // TraitBrut
                               + 1;
 
-    info.Table[info.NCumAgentXml].resize(memoire_p_ligne_allouee);
-    info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE] = (xmlChar*) xmlStrdup(drapeau[0]);  // TraitBrut
+    info.Table[info.NCumAgentXml].resize (memoire_p_ligne_allouee);
+    info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE] = (xmlChar*) xmlStrdup (drapeau[0]); // TraitBrut
 
     for (int k = 1; k <= INDEX_MAX_COLONNNES; ++k)
         {
-            info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE + k] = (xmlChar*) xmlStrdup(NA_STRING);
+            info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE + k] = (xmlChar*) xmlStrdup (NA_STRING);
         }
 
     ligne = 1;
@@ -1076,7 +1076,7 @@ inline void allouer_ligne_NA(info_t &info, int &ligne, int &memoire_p_ligne_allo
 /// Appelle ensuite la fonction lignePaye qui décode les lignes de paye de la balise Remuneration.
 /// Décode ensuite les champs de fin de fichier : NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer.
 
-uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
+uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
 {
     bool result = true;
     int na_assign_level = 0;
@@ -1086,7 +1086,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
                               };
     xmlNodePtr cur_parent = cur;
 
-    cur = atteindreNoeud("Agent", cur);
+    cur = atteindreNoeud ("Agent", cur);
 
     // Vérification de l'identification de l'agent
 
@@ -1097,7 +1097,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
                  << ERROR_HTML_TAG  "Année " << info.Table[info.NCumAgentXml][Annee] << ENDL
                  << ERROR_HTML_TAG  "Mois "  << info.Table[info.NCumAgentXml][Mois]  << ENDL;
 
-            long lineN = xmlGetLineNo(cur_parent);
+            long lineN = xmlGetLineNo (cur_parent);
 
             cerr  << WARNING_HTML_TAG "Ligne";
 
@@ -1113,8 +1113,8 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
                             && info.ligne_debut.size() > info.NCumAgentXml
                             && info.ligne_fin.size() > info.NCumAgentXml)
                         {
-                            cerr << "s "  << info.ligne_debut.at(info.NCumAgentXml)[0] + 1
-                                 << " - " << info.ligne_fin.at(info.NCumAgentXml)[0] + 1 << ENDL;
+                            cerr << "s "  << info.ligne_debut.at (info.NCumAgentXml)[0] + 1
+                                 << " - " << info.ligne_fin.at (info.NCumAgentXml)[0] + 1 << ENDL;
                         }
                 }
 
@@ -1128,11 +1128,11 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
                         Nom, Prenom, Matricule, NIR, EmploiMetier, Statut, NbEnfants, Grade, Echelon, Indice
                     })
                 {
-                    info.Table[info.NCumAgentXml][l] = xmlStrdup((xmlChar*)"");
+                    info.Table[info.NCumAgentXml][l] = xmlStrdup ((xmlChar*)"");
                 }
 
             cur = cur_parent;
-            cur = atteindreNoeud("Service", cur);
+            cur = atteindreNoeud ("Service", cur);
             goto level0;
         }
 
@@ -1142,7 +1142,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
     cur_parent = cur;
     cur = cur->xmlChildrenNode;
 
-    if (cur == nullptr ||  xmlIsBlankNode(cur)) return 0;
+    if (cur == nullptr ||  xmlIsBlankNode (cur)) return 0;
 
 #ifdef TOLERANT_TAG_HIERARCHY
     xmlNodePtr cur_save = cur;
@@ -1155,19 +1155,19 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
 
     // if (result) va garantir notamment que le pointeur cur filé implicitement est non nul
 
-    result    = BULLETIN_OBLIGATOIRE(Nom);
+    result    = BULLETIN_OBLIGATOIRE (Nom);
 
     if (result)
         {
-            result &= BULLETIN_OBLIGATOIRE(Prenom);
+            result &= BULLETIN_OBLIGATOIRE (Prenom);
 
             if (result)
                 {
-                    result &= BULLETIN_OBLIGATOIRE(Matricule);
+                    result &= BULLETIN_OBLIGATOIRE (Matricule);
 
                     if (result)
                         {
-                            result &= BULLETIN_OBLIGATOIRE(NIR);
+                            result &= BULLETIN_OBLIGATOIRE (NIR);
 
 #ifdef TOLERANT_TAG_HIERARCHY       // on refait le parcours depuis le haut en cas d'ordre inexact des balises
                             cur = cur_save;
@@ -1175,11 +1175,11 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
 
                             if (result)
                                 {
-                                    result &= BULLETIN_OBLIGATOIRE(NbEnfants);
+                                    result &= BULLETIN_OBLIGATOIRE (NbEnfants);
 
                                     if (result)
                                         {
-                                            result &= BULLETIN_OBLIGATOIRE(Statut);
+                                            result &= BULLETIN_OBLIGATOIRE (Statut);
 
                                             //  NOTA : on ne contrôle pas le respect du champ Adresse, normalement obligatoire
                                             //  et situé entre NIR et NbEnfants, ce champ devant être regardé comme trop volatile
@@ -1187,14 +1187,14 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
 
                                             if (result)
                                                 {
-                                                    result &= BULLETIN_OBLIGATOIRE(EmploiMetier);
+                                                    result &= BULLETIN_OBLIGATOIRE (EmploiMetier);
 
                                                     if (result)
                                                         {
 #ifdef TOLERANT_TAG_HIERARCHY
                                                             cur = cur_save;
 #endif
-                                                            result &= BULLETIN_OBLIGATOIRE(Grade);
+                                                            result &= BULLETIN_OBLIGATOIRE (Grade);
 
                                                             if (result)
                                                                 {
@@ -1202,7 +1202,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
                                                                     cur = cur_save;
 #endif
 
-                                                                    result &= BULLETIN_OBLIGATOIRE(Echelon);
+                                                                    result &= BULLETIN_OBLIGATOIRE (Echelon);
 
                                                                     // ne pas lire la balise adjacente : fin du niveau subordonné Agent
 
@@ -1214,7 +1214,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
                                                                             cur = cur_save;
 #endif
 
-                                                                            result &= BULLETIN_OBLIGATOIRE_NUMERIQUE(Indice);
+                                                                            result &= BULLETIN_OBLIGATOIRE_NUMERIQUE (Indice);
 
                                                                             if (! result) na_assign_level = 10;
                                                                         }
@@ -1243,37 +1243,37 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
 // identifiées faute de données adéquates. Pour une variable de nature caractère (y compris le NIR),
 // assignation de NA; Pour Indice et NbEnfants, assignation de 0.
 
-    switch(na_assign_level)
+    switch (na_assign_level)
         {
         case 1:
-            NA_ASSIGN(Nom);
+            NA_ASSIGN (Nom);
 
         case 2:
-            NA_ASSIGN(Prenom);
+            NA_ASSIGN (Prenom);
 
         case 3:
-            NA_ASSIGN(Matricule);
+            NA_ASSIGN (Matricule);
 
         case 4:
-            NA_ASSIGN(NIR);
+            NA_ASSIGN (NIR);
 
         case 5:
-            ZERO_ASSIGN(NbEnfants);
+            ZERO_ASSIGN (NbEnfants);
 
         case 6:
-            NA_ASSIGN(Statut);
+            NA_ASSIGN (Statut);
 
         case 7:
-            NA_ASSIGN(EmploiMetier);
+            NA_ASSIGN (EmploiMetier);
 
         case 8:
-            NA_ASSIGN(Grade);
+            NA_ASSIGN (Grade);
 
         case 9:
-            NA_ASSIGN(Echelon);
+            NA_ASSIGN (Echelon);
 
         case 10:
-            ZERO_ASSIGN(Indice);
+            ZERO_ASSIGN (Indice);
 
         default:
             break;
@@ -1299,7 +1299,7 @@ uint64_t  parseLignesPaye(xmlNodePtr cur, info_t& info)
 
 
 #ifdef STRICT
-            exit(-512);
+            exit (-512);
 #endif
         }
 
@@ -1329,24 +1329,24 @@ level0:
 
     if (cur) cur = cur-> next;
 
-    if (cur && xmlStrcmp(cur->name, (const xmlChar*) "Evenement") == 0)
+    if (cur && xmlStrcmp (cur->name, (const xmlChar*) "Evenement") == 0)
         {
             cur_parent = cur;
             cur = cur->xmlChildrenNode;
 
-            if (cur &&  !xmlIsBlankNode(cur))
+            if (cur &&  !xmlIsBlankNode (cur))
                 {
                     info.drapeau_cont = false;
-                    BULLETIN_OBLIGATOIRE(Code);
+                    BULLETIN_OBLIGATOIRE (Code);
                     cur = cur->next;
 
                     if (cur)
                         {
-                            BULLETIN_OPTIONNEL_CHAR(Description);
+                            BULLETIN_OPTIONNEL_CHAR (Description);
                         }
                     else
                         {
-                            NA_ASSIGN(Description);
+                            NA_ASSIGN (Description);
                         }
 
                     info.drapeau_cont = true;
@@ -1356,30 +1356,30 @@ level0:
         }
     else
         {
-            NA_ASSIGN(Code);
-            NA_ASSIGN(Description);
+            NA_ASSIGN (Code);
+            NA_ASSIGN (Description);
         }
 
     // Vu la rareté du 2e évenement, il est rationnel de ne pas réserver systématiquement de place en mémoire de type Description2.
     // Mieux vaut concaténer, même si le code est plus lourd et l'allocation de mémoire ponctuellement plus lente : on gagne
     // sur l'allocation-déallocation d'un très grand nombre de champs Description2 non remplis.
 
-    if (cur && xmlStrcmp(cur->name, (const xmlChar*) "Evenement") == 0)
+    if (cur && xmlStrcmp (cur->name, (const xmlChar*) "Evenement") == 0)
         {
             cur_parent = cur;
             cur = cur->xmlChildrenNode;
 
-            if (cur &&  !xmlIsBlankNode(cur))
+            if (cur &&  !xmlIsBlankNode (cur))
                 {
                     info.drapeau_cont = false;
 
-                    concat(cur, info);
+                    concat (cur, info);
 
                     cur = cur->next;
 
                     if (cur)
                         {
-                            concat(cur, info);
+                            concat (cur, info);
                         }
 
                     info.drapeau_cont = true;
@@ -1390,22 +1390,22 @@ level0:
 
     if (cur)
         {
-            BULLETIN_OBLIGATOIRE(Service);
+            BULLETIN_OBLIGATOIRE (Service);
         }
     else
         {
             cerr << ERROR_HTML_TAG "Service introuvable." ENDL;
 #ifdef STRICT
-            exit(-5);
+            exit (-5);
 #endif
         }
 
 #ifdef TOLERANT_TAG_HIERARCHY
     cur = cur_save;
-    cur = atteindreNoeud("NBI", cur);
+    cur = atteindreNoeud ("NBI", cur);
 #endif
 
-    BULLETIN_OBLIGATOIRE_NUMERIQUE(NBI);
+    BULLETIN_OBLIGATOIRE_NUMERIQUE (NBI);
 
     // Problème :  NBI est codé comme "unbounded" dans le modèle de BDD Xemelios
     // Or en droit il ne peut y avoir qu'une seule NBI !
@@ -1414,34 +1414,34 @@ level0:
 
     int v = 0;
 
-    while (xmlStrcmp(cur->name, (const xmlChar*) "NBI") == 0)
+    while (xmlStrcmp (cur->name, (const xmlChar*) "NBI") == 0)
         {
-            v += atoi((const char*) xmlGetProp(cur, (const xmlChar*) "V"));
+            v += atoi ((const char*) xmlGetProp (cur, (const xmlChar*) "V"));
             cur =  cur->next;
         }
 
     if (v > 0)
         {
-            xmlFree(info.Table[info.NCumAgentXml][NBI]);
+            xmlFree (info.Table[info.NCumAgentXml][NBI]);
             char buffer[8] = {0};
-            sprintf(buffer, "%d", atoi((const char*)info.Table[info.NCumAgentXml][NBI]) + v);
-            info.Table[info.NCumAgentXml][NBI] = xmlStrdup((xmlChar*) buffer);
+            sprintf (buffer, "%d", atoi ((const char*)info.Table[info.NCumAgentXml][NBI]) + v);
+            info.Table[info.NCumAgentXml][NBI] = xmlStrdup ((xmlChar*) buffer);
         }
 
 #ifdef TOLERANT_TAG_HIERARCHY
     cur = cur_save;
-    cur = atteindreNoeud("QuotiteTrav", cur);
+    cur = atteindreNoeud ("QuotiteTrav", cur);
 #endif
 
     // obligatoire, substitution du séparateur décimal
 
-    BULLETIN_OBLIGATOIRE_NUMERIQUE(QuotiteTrav);
+    BULLETIN_OBLIGATOIRE_NUMERIQUE (QuotiteTrav);
 
     xmlNodePtr cur_save = cur;
 
     // Décodage des données de rémunération (lignes de paye)
 
-    cur = atteindreNoeud("Remuneration", cur);
+    cur = atteindreNoeud ("Remuneration", cur);
 
     int ligne = 0, memoire_p_ligne_allouee = 0;
 
@@ -1453,11 +1453,11 @@ level0:
 
             // Si la balise <Remuneration> contient des fils
 
-            if (cur != nullptr && (cur =  cur->xmlChildrenNode) != nullptr && ! xmlIsBlankNode(cur))
+            if (cur != nullptr && (cur =  cur->xmlChildrenNode) != nullptr && ! xmlIsBlankNode (cur))
                 {
                     // ! C'est ici qu'est lancée la fonction de décodage de la ligne de paye proprement dite
 
-                    LineCount result = lignePaye(cur, info);
+                    LineCount result = lignePaye (cur, info);
 
                     // Elle renvoie le nombre de lignes de paye ainsi que l'allocation de mémoire effective
                     // après décodage XML correspondant à ces données "ligne de paye" dans memoire_p_ligne_allouee
@@ -1481,7 +1481,7 @@ level0:
 
                             LOCK_GUARD
 
-                            long lineN = xmlGetLineNo(cur_save);
+                            long lineN = xmlGetLineNo (cur_save);
 
                             // Il y a un bug dans la bibliothèque libxml2
                             // qui dans certains cas bloque lorsque le numéro de ligne du fichier XML renvoyé par xmlGetLineNo est supérieur à 65535
@@ -1496,8 +1496,8 @@ level0:
 
                                     if (info.ligne_debut.size() > info.NCumAgentXml && info.ligne_fin.size() > info.NCumAgentXml)
                                         {
-                                            cerr << "Ligne " << info.ligne_debut.at(info.NCumAgentXml)[0] + 1
-                                                 << " à " << info.ligne_fin.at(info.NCumAgentXml)[0]
+                                            cerr << "Ligne " << info.ligne_debut.at (info.NCumAgentXml)[0] + 1
+                                                 << " à " << info.ligne_fin.at (info.NCumAgentXml)[0]
                                                  << " :";
                                         }
 
@@ -1530,7 +1530,7 @@ level0:
 
                     for (int k = 0; k < nbType; ++k)
                         {
-                            cur = atteindreNoeud(type_remuneration[k], cur);
+                            cur = atteindreNoeud (type_remuneration[k], cur);
 
                             if (cur) break;
                         }
@@ -1546,7 +1546,7 @@ level0:
                             if (verbeux)
                                 {
                                     LOCK_GUARD
-                                    long  lineN = xmlGetLineNo(cur_save);
+                                    long  lineN = xmlGetLineNo (cur_save);
 
                                     cerr << WARNING_HTML_TAG "Absence de lignes de paye également";
 
@@ -1559,8 +1559,8 @@ level0:
                                             && info.ligne_fin.size() > info.NCumAgentXml)
                                         {
                                             cerr << WARNING_HTML_TAG  "Bulletin entre les lignes "
-                                                 << info.ligne_debut.at(info.NCumAgentXml)[0] + 1 << " et "
-                                                 <<  info.ligne_fin.at(info.NCumAgentXml)[0]
+                                                 << info.ligne_debut.at (info.NCumAgentXml)[0] + 1 << " et "
+                                                 <<  info.ligne_fin.at (info.NCumAgentXml)[0]
                                                  << ENDL;
                                         }
 
@@ -1573,7 +1573,7 @@ level0:
                             if (verbeux)
                                 {
                                     LOCK_GUARD
-                                    long  lineN = xmlGetLineNo(cur);
+                                    long  lineN = xmlGetLineNo (cur);
 
                                     cerr << WARNING_HTML_TAG "Lignes de paye néanmoins présentes";
 
@@ -1586,13 +1586,13 @@ level0:
                                             && info.ligne_fin.size() > info.NCumAgentXml)
                                         {
                                             cerr << WARNING_HTML_TAG  "Bulletin entre les lignes "
-                                                 << info.ligne_debut.at(info.NCumAgentXml)[0] + 1 << " et "
-                                                 <<  info.ligne_fin.at(info.NCumAgentXml)[0]
+                                                 << info.ligne_debut.at (info.NCumAgentXml)[0] + 1 << " et "
+                                                 <<  info.ligne_fin.at (info.NCumAgentXml)[0]
                                                  << ENDL;
                                         }
                                 }
 
-                            LineCount result = lignePaye(cur, info);
+                            LineCount result = lignePaye (cur, info);
                             ligne = result.nbLignePaye;
                             memoire_p_ligne_allouee = result.memoire_p_ligne_allouee;
                         }
@@ -1606,7 +1606,7 @@ level0:
                     if (verbeux)
                         {
                             LOCK_GUARD
-                            long  lineN = xmlGetLineNo(cur);
+                            long  lineN = xmlGetLineNo (cur);
 
                             cerr << WARNING_HTML_TAG "Absence de lignes de paye également";
 
@@ -1619,8 +1619,8 @@ level0:
                                     && info.ligne_fin.size() > info.NCumAgentXml)
                                 {
                                     cerr << WARNING_HTML_TAG  "Bulletin entre les lignes "
-                                         << info.ligne_debut.at(info.NCumAgentXml)[0] + 1 << " et "
-                                         <<  info.ligne_fin.at(info.NCumAgentXml)[0]
+                                         << info.ligne_debut.at (info.NCumAgentXml)[0] + 1 << " et "
+                                         <<  info.ligne_fin.at (info.NCumAgentXml)[0]
                                          << ENDL;
                                 }
                         }
@@ -1629,13 +1629,13 @@ level0:
                 }
 
 #       if ! NO_DEBUG
-            errorLine_t env = afficher_environnement_xhl(info, nullptr);
+            errorLine_t env = afficher_environnement_xhl (info, nullptr);
             cerr << env.pres;
 #       endif
             cur = cur_save->next;
 
 #       ifdef STRICT
-            exit(-4);
+            exit (-4);
 #       endif
         }
 
@@ -1643,38 +1643,38 @@ level0:
 
     // obligatoire , substitution du sparateur décimal
 
-    result = BULLETIN_OPTIONNEL_NUMERIQUE(NbHeureTotal);
+    result = BULLETIN_OPTIONNEL_NUMERIQUE (NbHeureTotal);
 
-    cur = atteindreNoeud("NbHeureSup", cur);
+    cur = atteindreNoeud ("NbHeureSup", cur);
 
     // obligatoire, substitution du sparateur décimal. Attention : utiliser des bitwise, pas des logical && sinon le deuxième opérande peut ne pas être évalué
 
-    result = result & BULLETIN_OPTIONNEL_NUMERIQUE(NbHeureSup);
-    result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE(MtBrut);
-    result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE(MtNet);
+    result = result & BULLETIN_OPTIONNEL_NUMERIQUE (NbHeureSup);
+    result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE (MtBrut);
+    result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE (MtNet);
 
     info.drapeau_cont = false; // fin du niveau PayeIndivMensuel
-    result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE(MtNetAPayer);
+    result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE (MtNetAPayer);
 
     // Tester si le bulletin contient des paiements globaux (MtBrut, MtNetAPayer) sans détail de la liquidation
 
     if (result && pas_de_ligne_de_paye)
         {
-            test_bulletin_irregulier(info);
+            test_bulletin_irregulier (info);
         }
 
     if (!result)
         {
             cerr << ERROR_HTML_TAG "Problème de conformité des données sur les champs des bulletins de paye." ENDL;
 #ifdef STRICT
-            exit(-513);
+            exit (-513);
 #endif
         }
 
     // Si la balise Remuneration est vide, allouer une ligne de NA
 
     if (ligne == 0)
-        allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
+        allouer_ligne_NA (info, ligne, memoire_p_ligne_allouee);
 
     return ligne;
 }

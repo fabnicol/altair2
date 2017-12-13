@@ -1,12 +1,12 @@
-<map id="/home/fab/Desktop/Entrepot/lhx/validator.h" name="/home/fab/Desktop/Entrepot/lhx/validator.h">
-<area shape="rect" id="node2" href="$fonctions__auxiliaires_8h.html" title="Diverses fonctions auxiliaires en inlining. " alt="" coords="305,95,504,136"/>
-<area shape="rect" id="node5" href="$ligne__paye_8cpp.html" title="Ce fichier contient le code relatif au traitement individuel des lignes de paye. " alt="" coords="166,273,365,315"/>
-<area shape="rect" id="node6" href="$validator_8cpp.html" title="Ce fichier contient le code relatif au décoidage de la partie &quot;bulletins de paye&quot; (variables communes..." alt="" coords="596,273,794,315"/>
-<area shape="rect" id="node7" href="$lhx_2main_8cpp.html" title="/home/fab/Desktop/Entrepot\l/lhx/main.cpp" alt="" coords="800,184,998,225"/>
-<area shape="rect" id="node9" href="$table_8h.html" title="/home/fab/Desktop/Entrepot\l/lhx/table.h" alt="" coords="596,95,794,136"/>
-<area shape="rect" id="node10" href="$recherche_8h.html" title="/home/fab/Desktop/Entrepot\l/lhx/recherche.h" alt="" coords="868,95,1066,136"/>
-<area shape="rect" id="node3" href="$fonctions__auxiliaires_8cpp.html" title="Ce fichier contient le code relatif aux fonctions auxiliaires utilisées par les fonctions principales..." alt="" coords="29,184,230,225"/>
-<area shape="rect" id="node4" href="$ligne__paye_8h.html" title="Définit deux fonctions auxiliaires utilisées dans lignes_paye.cpp. " alt="" coords="528,184,726,225"/>
-<area shape="rect" id="node8" href="$table_8cpp.html" title="Ce fichier contient l&#39;ensemble du code permettant de générer les fichiers des bulletins de paye et li..." alt="" coords="305,184,504,225"/>
-<area shape="rect" id="node11" href="$recherche_8cpp.html" title="Ce fichier contient le code permettant de rechercher en mémoire, après décodage des bases XML..." alt="" coords="1022,184,1221,225"/>
+<map id="lhx/validator.h" name="lhx/validator.h">
+<area shape="rect" id="node2" href="$fonctions__auxiliaires_8h.html" title="Diverses fonctions auxiliaires en inlining. " alt="" coords="268,80,440,107"/>
+<area shape="rect" id="node5" href="$ligne__paye_8cpp.html" title="Ce fichier contient le code relatif au traitement individuel des lignes de paye. " alt="" coords="137,229,267,256"/>
+<area shape="rect" id="node6" href="$validator_8cpp.html" title="Ce fichier contient le code relatif au décoidage de la partie &quot;bulletins de paye&quot; (variables communes..." alt="" coords="455,229,573,256"/>
+<area shape="rect" id="node7" href="$lhx_2main_8cpp.html" title="lhx/main.cpp" alt="" coords="599,155,695,181"/>
+<area shape="rect" id="node9" href="$table_8h.html" title="lhx/table.h" alt="" coords="502,80,585,107"/>
+<area shape="rect" id="node10" href="$recherche_8h.html" title="lhx/recherche.h" alt="" coords="660,80,771,107"/>
+<area shape="rect" id="node3" href="$fonctions__auxiliaires_8cpp.html" title="Ce fichier contient le code relatif aux fonctions auxiliaires utilisées par les fonctions principales..." alt="" coords="26,155,213,181"/>
+<area shape="rect" id="node4" href="$ligne__paye_8h.html" title="Définit deux fonctions auxiliaires utilisées dans lignes_paye.cpp. " alt="" coords="408,155,524,181"/>
+<area shape="rect" id="node8" href="$table_8cpp.html" title="Ce fichier contient l&#39;ensemble du code permettant de générer les fichiers des bulletins de paye et li..." alt="" coords="287,155,383,181"/>
+<area shape="rect" id="node11" href="$recherche_8cpp.html" title="Ce fichier contient le code permettant de rechercher en mémoire, après décodage des bases XML..." alt="" coords="719,155,845,181"/>
 </map>

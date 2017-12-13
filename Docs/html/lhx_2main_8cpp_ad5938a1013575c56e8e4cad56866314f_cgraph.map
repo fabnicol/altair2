@@ -1,5 +1,5 @@
 <map id="scan_mois" name="scan_mois">
-<area shape="rect" id="node2" href="$recherche_8cpp.html#a8eb57967b0fcb6142a1a81c75237e49c" title="Crée le répertoire d&#39;exportation d&#39;un bulletin de paye donné pour un matricule, un mois et une année ..." alt="" coords="143,5,247,32"/>
-<area shape="rect" id="node3" href="$recherche_8cpp.html#a7c170acf1897b8bcf6e41e3853db1ae0" title="Parcourt l&#39;ensemble des données de paye, pour tous les fils d&#39;exécution, après décodage &#160;(lhx a compl..." alt="" coords="295,5,381,32"/>
-<area shape="rect" id="node4" href="$recherche_8cpp.html#abb222aafededdf9d279d03b5fb62bc11" title="Extrait le bulletin de paye correspondant à la ligne de début et de fin dans le fichier XML base de p..." alt="" coords="429,5,544,32"/>
+<area shape="rect" id="node2" href="$recherche_8cpp.html#a8eb57967b0fcb6142a1a81c75237e49c" title="Crée le répertoire d&#39;exportation d&#39;un bulletin de paye donné pour un matricule, un mois et une année ..." alt="" coords="139,5,237,32"/>
+<area shape="rect" id="node3" href="$recherche_8cpp.html#a7c170acf1897b8bcf6e41e3853db1ae0" title="Parcourt l&#39;ensemble des données de paye, pour tous les fils d&#39;exécution, après décodage &#160;(lhx a compl..." alt="" coords="285,5,364,32"/>
+<area shape="rect" id="node4" href="$recherche_8cpp.html#abb222aafededdf9d279d03b5fb62bc11" title="Extrait le bulletin de paye correspondant à la ligne de début et de fin dans le fichier XML base de p..." alt="" coords="412,5,519,32"/>
 </map>

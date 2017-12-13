@@ -60,14 +60,14 @@ extern std::vector<errorLine_t> errorLineStack;
 /// \param cur   Noeud libxml2 courant
 /// \note Le nombre de message d'avertissement est au plus #WARNING_LIMIT si cette constante est définie
 
-inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr GCC_UNUSED cur)
+inline void warning_msg (const char* noeud, const info_t& info, const xmlNodePtr GCC_UNUSED cur)
 {
     // pour des raisons pratiques il peut être nécessaire de limiter le nombre de sorties de ce type
 
     static int warning_count;
     static std::string fichier_last = "";
 
-    std::lock_guard<std::mutex> guard(mut);
+    std::lock_guard<std::mutex> guard (mut);
 
 #ifdef WARNING_LIMIT
 
@@ -98,7 +98,7 @@ inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr 
 
     if (verbeux) std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ENDL;
 
-    errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
+    errorLineStack.emplace_back (afficher_environnement_xhl (info, cur));
 #endif
 
 }
@@ -109,7 +109,7 @@ inline void warning_msg(const char* noeud, const info_t& info, const xmlNodePtr 
 /// \param nbLignePaye nombre de lignes de paye courant
 /// \param info Structure info_t contenant les données de paye
 
-static inline void GCC_INLINE  verifier_taille(const int nbLignePaye, info_t& info)
+static inline void GCC_INLINE  verifier_taille (const int nbLignePaye, info_t& info)
 {
     if (nbLignePaye >= info.nbLigneUtilisateur)
         {
@@ -119,7 +119,7 @@ static inline void GCC_INLINE  verifier_taille(const int nbLignePaye, info_t& in
                       "Omettre -n ... et utiliser -L fichier_log pour détecter le maximum de lignes de paye dans les fichiers."  ENDL
                       "Utiliser -N ce_maximum ou bien recompiler en augmentant MAX_LIGNES_PAYE, à condition de disposer d'assez de mémoire."  ENDL;
 
-            exit(-10);
+            exit (-10);
         }
 }
 
