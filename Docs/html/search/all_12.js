@@ -18,8 +18,6 @@ var searchData=
   ['service',['Service',['../validator_8h.html#a7298899e034c29b49f749493c80a055daa554ee1f02c7109125c6d52b8a3ad027',1,'validator.h']]],
   ['service_5fhospitalier',['SERVICE_HOSPITALIER',['../expression__reg__adjoints_8h.html#aa5aeac9180bd6d5be9360cfcac834dcb',1,'expression_reg_adjoints.h']]],
   ['setcurrentfile',['setCurrentFile',['../class_altair.html#ad0436bfddbdcdd19cc80154e02b4323c',1,'Altair']]],
-  ['setdialogfromproject',['setDialogFromProject',['../class_altair.html#a24a8d1ecf19ff9559607e0ffa64fe4c7',1,'Altair']]],
-  ['setindexedproperties',['setIndexedProperties',['../class_altair.html#a5b378ba5b47de6dfb052c4e988de579e',1,'Altair']]],
   ['settings',['settings',['../class_main_window.html#a4d8dbbb57b71b4fde207e465526a6753',1,'MainWindow']]],
   ['sharedir',['sharedir',['../classcommon.html#a8661164975ed6a37e90861bd294ddcc5',1,'common']]],
   ['siret',['Siret',['../validator_8h.html#a7298899e034c29b49f749493c80a055da740e806a6abdd57dc73731169c73010f',1,'validator.h']]],
