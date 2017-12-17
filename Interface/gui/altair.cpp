@@ -177,7 +177,7 @@ Altair::Altair()
                               "XHL",                            // Balise des fichiers de paye pour l'exportation du projet .alt (<XHL>...</XHL>)
     {"Décodeur de fichiers XHL", ""},      // Section du gestionnaire de projet (à droite de l'interface)
     "g",                                   // Option de ligne de commande introduisant les fichiers de paye
-    flags::commandLineType::altairCommandLine | flags::status::hasListCommandLine | flags::status::enabled,  // Génère une ligne de commande + à partir d'une liste enchassée + le widget est activé par défaut
+    flags::commandLineType::coreApplicationCommandLine | flags::status::hasListCommandLine | flags::status::enabled,  // Génère une ligne de commande + à partir d'une liste enchassée + le widget est activé par défaut
     {" ", " -g "},                       // A chaque ligne d'un onglet correspond un séparateur blanc dans la ligne de commande. Pour chaque onglet différent, -g est préfixé devant la liste des fichiers
     {"item", "onglet"},                  // Balises de niveau 1 et 2 echassées sous <XML> : <XML> <onglet><item>...</item><item>...</item></onglet> </XML>
     {"Siret", "Budget", "Employeur"},    // Onglets supplémentaires générés en sus de ceux qui résultent de la décomposition des fichiers en années (1 année = 1 onglet)

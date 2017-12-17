@@ -362,7 +362,7 @@ standardPage::standardPage()
 
     etabCheckBox = new FCheckBox ("Exporter les informations\nsur l'établissement",
                                   flags::status::enabledUnchecked
-                                  | flags::commandLineType::altairCommandLine,
+                                  | flags::commandLineType::coreApplicationCommandLine,
                                   "exporterEtab",
     {
         "Données csv",
@@ -426,7 +426,7 @@ standardPage::standardPage()
 
     tableCheckBox = new FCheckBox ("Créer la base de données",
                                    flags::status::enabledChecked
-                                   | flags::commandLineType::altairCommandLine,
+                                   | flags::commandLineType::coreApplicationCommandLine,
                                    "genererTable",
     {
         "Données csv",

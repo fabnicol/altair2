@@ -1,4 +1,3 @@
-
 // Auteur : Fabrice Nicol
 // Copyright Fabrice Nicol
 // Contributeur :
@@ -37,6 +36,10 @@
 // révoquée.
 //
 
+/// \file flineframe.h
+/// \author Fabrice Nicol
+/// \date Janvier 2010
+/// \brief Ce fichier contient la classe FLineFrame, dérivée fonctionnelle de FLineEdit
 
 #ifndef FLINEFRAME_HPP
 #define FLINEFRAME_HPP
@@ -44,6 +47,7 @@
 #include "fstring.h"
 #include "enums.h"
 
+/// Ligne de saisie de texte FLineEdit enrichie de fonctionnalités
 
 class FLineFrame : public FLineEdit
 {
@@ -51,31 +55,48 @@ Q_OBJECT
 
 public:
 
-FLineFrame(const QStringList& ={"", ""},
-           const QString& ="",
-           const QString& ="",
-           const QList<int>& pair = {0,0},
-           QGridLayout* inputLayout = nullptr,
-           const QString& commandLine ="",
-           flags::directory check = directory::checkEmptyness,
-           flags::flineframe category = flags::flineframe::isDirectoryPath);
+FLineFrame(const QStringList& ={"", ""},                                   ///< Titre de la ligne et 3e argument de \ref lineEdit
+           const QString& ="",                                             ///< Texte par défaut de \ref lineEdit
+           const QString& ="",                                             ///< Balise XML de \ref lineEdit
+           const QList<int>& pair = {0,0},                                 ///< Ligne et colonne d'insertion dans la disposition en grille
+           QGridLayout* inputLayout = nullptr,                             ///< Disposition de rattachement s'il y a lieu
+           const QString& commandLine ="",                                 ///< Ligne de commande générée par \ref lineEdit, s'il y en a une
+           flags::directory check = directory::checkEmptyness,             ///< Vérifier que le répertoire indiqué dans \ref lineEdit est vide
+           flags::flineframe category = flags::flineframe::isDirectoryPath ///< Chemin de répertoire par défaut dans \ref lineEdit
+        );
 
+/// Accesseur en lecture : retourne le texte de la ligne
+/// \return Chaîne de caractères \e QString de la ligne
 
 QString getText(){ return lineEdit->text();}
+
+/// Accesseur en écriture : édite le texte de la ligne
+
 void setText(const QString &t){ lineEdit->setText(t);}
+
+/// Accesseur en lecture de la disposition (Layout)
+/// \return Pointeur vers une disposition de type \e QGridLayout
+
 QGridLayout* getLayout(){ return frameLayout;}
+
+/// Accesseur en lecture de la liste des composants \ref componentList
+/// \return Vecteur de pointeurs vers chacun des QWidget composant
+
 QVector<QWidget*> getComponentList() {return componentList;}
+
+/// Accesseur en écriture de \ref pathCategory, type de chemin représenté par lineEdit
+
 void setPathCategory(flags::flineframe t)     {    pathCategory = t;    }
 
 private:
 
-QGridLayout* frameLayout;
-FLineEdit* lineEdit;
-QLabel *label;
-QToolDirButton *sButton;
-QToolDirButton *oButton;
-QVector<QWidget*> componentList;
-flags::flineframe pathCategory;
+QGridLayout* frameLayout; ///< Disposition de la FLineFrame de type \e QGridLayout
+FLineEdit* lineEdit;      ///< Ligne à éditer, noyau du widget
+QLabel *label;            ///< Libellé du widget
+QToolDirButton *sButton;  ///< Bouton permettant d'ouvrir un dialogue de sélection de répertoire
+QToolDirButton *oButton;  ///< Bouton permettant d'ouvrir le répertoire ou le fichier sélectionné dans \ref lineEdit
+QVector<QWidget*> componentList; ///< Liste des composants de type \e QWidget*
+flags::flineframe pathCategory;  ///< Type de chemin représenté dans \ref lineEdit : soit chemin de fichier soit chemin de répertoire
 };
 
 #endif

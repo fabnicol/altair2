@@ -36,12 +36,18 @@
 // révoquée.
 //
 
+/// \file custom.h
+/// \author Fabrice Nicol
+/// \date Janvier 2010
+/// \brief Personnalisation de l'onglet central par des onglets à droite des onglets dédiés aux fichiers importés
+
 #ifndef CUSTOM_H
 #define CUSTOM_H
 #include "fstring.h"
 
 
-
+/// Ajoute trois onglets Sirte, Budget, Employeur à l'onglet central, qui sont traités à part
+/// \sa \ref finalise_macro
 #define FINALISE_MACRO {\
   finalise_macro(this, pairs, "Siret", rank++); \
   finalise_macro<QHash<QString, QString>>(this, Hash::Budget, "Budget", rank++); \
