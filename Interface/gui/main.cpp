@@ -55,7 +55,7 @@ int main (int argc, char *argv[])
     QApplication app (argc, argv);
     QRect rec = QApplication::desktop()->screenGeometry();
     int width0 = rec.width();
-    int fontsize = 10 * (width0 > 2000) ? width0 / 1920 * 10 : 10;
+    int fontsize = (width0 > 2000) ? width0 / 1920 * 10 : 10;
     app.setFont (QFont ("Verdana", fontsize));
 
     QString translationsPath (QCoreApplication::applicationDirPath() + "/../translations");
