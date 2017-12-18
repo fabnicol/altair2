@@ -15,8 +15,7 @@
 -t
 -T
 1000000
--T
-AN
+-q
 /home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201101_01_00.xhl
 /home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201101_03_00.xhl
 /home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201102_01_00.xhl
