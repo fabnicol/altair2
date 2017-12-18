@@ -58,9 +58,6 @@ extern template void createHash (QHash<QString, QString>&,
                                  const QList<QString>*,
                                  const QList<QString>*);
 
-//
-// Crée une ligne de codes pour un type donné de prime
-//
 
 int codePage::ajouterVariable (const QString& nom)
 {
@@ -68,9 +65,9 @@ int codePage::ajouterVariable (const QString& nom)
 
     // ligne de codes de primes nom
 
-    FLineEdit *line = new FLineEdit ("",
-                                     QString (NOM).remove (' '),
-    {NOM, "Code de paye"});
+    FLineEdit *line = new FLineEdit ("",                          // Pas de valeur par défaut
+                                     QString (NOM).remove (' '),  // Titre (enlever les blancs)
+                                    {NOM, "Code de paye"});       // Présentation du gestionnaire de projets
 
 
     line->setMinimumWidth (MINIMUM_LINE_WIDTH);
@@ -95,10 +92,12 @@ int codePage::ajouterVariable (const QString& nom)
 }
 
 
+
 codePage::codePage()
 {
     baseBox = new QGroupBox;
     prologue_codes_path = path_access (SCRIPT_DIR "prologue_codes.R");
+
     appliquerCodes = new QToolButton;
 
     appliquerCodes->setIcon (QIcon (":/images/view-refresh.png"));
@@ -112,6 +111,9 @@ codePage::codePage()
 
     short index = 0;
 
+    // Pour chacun des membres de variables, ajouter une ligne FLineEdit au dialogue
+    // qui donnera lieu à exportation dans prologue_codes.R
+
     for (const QString& s : variables) index = ajouterVariable (s);
 
     label = new QLabel;
@@ -124,6 +126,7 @@ codePage::codePage()
     baseBox->setLayout (vLayout);
 
     FRichLabel *mainLabel = new FRichLabel ("Code de paye des tests");
+
     mainLayout->addWidget (mainLabel);
     mainLayout->addWidget (baseBox, 1, 0);
     mainLayout->addSpacing (100);
@@ -131,7 +134,12 @@ codePage::codePage()
     init_label_text = "Appuyer pour exporter<br> vers les rapports d'analyse ";
     label->setText (init_label_text);
 
+    // Lorsque que bouton appliqueCodes est cliqué, la substitution des valeurs de lignes du dialogue
+    // est opérée dans prologue_codes.R
+
     connect (appliquerCodes, SIGNAL (clicked()), this, SLOT (substituer_valeurs_dans_script_R()));
+
+    // A chaque fois qu'une ligne est éditée à la main, réinitialiser l'état d'exportation (bouton et fichier prologue_codes.R à partor de prologue_init.R)
 
     for (FLineEdit *a : listeCodes)
         {
@@ -311,11 +319,8 @@ void codePage::substituer_valeurs_dans_script_R()
 
 bool codePage::reinitialiser_prologue()
 {
-
     QFile (prologue_codes_path).remove();
-    bool result = QFile (path_access (SCRIPT_DIR "prologue_init.R")).copy (prologue_codes_path);
-
-    return result;
+    return QFile (path_access (SCRIPT_DIR "prologue_init.R")).copy(prologue_codes_path);
 }
 
 standardPage::standardPage()
@@ -334,42 +339,42 @@ standardPage::standardPage()
 
     QLabel* baseTypeLabel = new QLabel ("Type de base  ");
     baseTypeBox = new QGroupBox (tr ("Type de base en sortie"));
-    baseTypeWidget = new FComboBox (range,
-                                    "baseType",
-    {"Données csv", "Type de base par catégorie"},
-    "T");
+
+    baseTypeWidget = new FComboBox (range,                          // Contenu du menu déroulant
+                                    "baseType",                     // Balise XML du projet .alt
+                                    {"Données csv",
+                                     "Type de base par catégorie"}, // Présentation du gestionnaire de projets
+                                    "T");                           // Ligne de commande -T valeur
 
 
     maxNLigneLabel = new QLabel ("Nombre maximum de lignes\npar segment de base  ");
 
-    maxNLigneLineEdit = new FLineEdit ("1000000",
-                                       "maxLigne",
-    {
-        "Données csv",
-        "Découper la base de données"
-        "par segment d'au maximum ce nombre de lignes."
-    },
-    "T");
+    maxNLigneLineEdit = new FLineEdit ("1000000",                                                // Valeur par défaut
+                                       "maxLigne",                                               // Balise XML du projet .alt
+                                        {
+                                            "Données csv",
+                                            "Découper la base de données"
+                                            " par segment d'au maximum ce nombre de lignes."
+                                        },                                                       // Présentation du gestionnaire de projets
+                                        "T");                                                    // Ligne de commande -T valeur
 
     maxNLigneLineEdit->setFixedWidth (150);
 
     QGroupBox* optionalFieldBox = new QGroupBox (tr ("Variables optionnelles"));
 
-    rangCheckBox = new FCheckBox ("Numéroter les lignes",
-                                  "genererNumLigne",
-    {"Données csv", "numéroter les lignes"},
-    "l");
+    rangCheckBox = new FCheckBox ("Numéroter les lignes",                   // Titre de la case à cocher
+                                  "genererNumLigne",                        // Balise XML du projet .alt
+                                  {"Données csv", "numéroter les lignes"},  ///
+                                  "l");
 
-    etabCheckBox = new FCheckBox ("Exporter les informations\nsur l'établissement",
-                                  flags::status::enabledUnchecked
-                                  | flags::commandLineType::coreApplicationCommandLine,
-                                  "exporterEtab",
-    {
-        "Données csv",
-        "Exporter les champs Budget,"
-        " Employeur, Siret, Etablissement"
-    },
-    "S");
+    etabCheckBox = new FCheckBox ("Exporter les informations\nsur l'établissement",      // Titre de la case à cocher
+                                  "exporterEtab",                                        // Balise XML du projet .alt
+                                  {
+                                    "Données csv",
+                                    "Exporter les champs Budget,"
+                                    " Employeur, Siret, Etablissement"                   // Présentation du gestionnaire de projets
+                                  },
+                                  "S");                                                  // Ligne de commande -S si cochée
 
 
     QList<QString> exportRange = QList<QString>();
@@ -377,15 +382,15 @@ standardPage::standardPage()
 
     QLabel* exportLabel = new QLabel ("Exportation  ");
 
-    /* Utiliser % devant l'option active la syntaxe `--option argument' plutôt que `--option=argument' */
+    // Utiliser % devant l'option active la syntaxe `--option argument' plutôt que `--option=argument'
 
-    exportWidget = new FComboBox (exportRange,
-                                  "exportMode",
-    {
-        "Données csv",
-        "Mode d'exportation"
-    },
-    "%export");
+    exportWidget = new FComboBox(exportRange,             // Contenu du menu déroulant
+                                  "exportMode",           // Balise XML du projet .alt
+                                  {
+                                    "Données csv",
+                                    "Mode d'exportation"
+                                  },                      // Présentation du gestionnaire de projets
+                                  "%export");             // Ligne de commande --export valeur
 
     exportWidget->status = flags::status::defaultStatus;
     exportWidget->commandLineType = flags::commandLineType::defaultCommandLine;
@@ -412,39 +417,37 @@ standardPage::standardPage()
 
     optionalFieldBox->setLayout (v2Layout);
 
-
-
-    FPHCheckBox = new FCheckBox ("Fonction publique hospitalière",
-                                 flags::status::enabledUnchecked
-                                 | flags::commandLineType::noCommandLine,
-                                 "FPH",
-    {
-        "Contrôle hospitalier",
-        "Ajuster le rapport pour la FPH"
-    }
+    FPHCheckBox = new FCheckBox ("Fonction publique hospitalière",         // Titre de la case à cocher
+                                 flags::status::enabledUnchecked           // Décochée par défaut
+                                 | flags::commandLineType::noCommandLine,  // Pas de ligne de commande
+                                 "FPH",                                    // Balise XML du projet .alt
+                                 {
+                                    "Contrôle hospitalier",
+                                    "Ajuster le rapport pour la FPH"       // Présentation du gestionnaire de projets
+                                 }
                                 );
 
-    tableCheckBox = new FCheckBox ("Créer la base de données",
-                                   flags::status::enabledChecked
+    tableCheckBox = new FCheckBox ("Créer la base de données",                           // Titre de la case à cocher
+                                   flags::status::enabledChecked                         // Par défaut, case cochée génératrice de ligne de commande
                                    | flags::commandLineType::coreApplicationCommandLine,
-                                   "genererTable",
-    {
-        "Données csv",
-        "créer la base des lignes et bulletins de paye"
-    },
-    "t",
-    {
-        optionalFieldBox, baseTypeLabel, baseTypeWidget,
-        maxNLigneLabel, maxNLigneLineEdit, FPHCheckBox, exportWidget, exportLabel
-    });
+                                   "genererTable",                                       // Balise XML du projet .alt
+                                    {
+                                        "Données csv",
+                                        "créer la base des lignes et bulletins de paye"  // Présentation du gestionnaire de projets
+                                    },
+                                    "t",                                                 // Ligne de commande -t si cochée
+                                    {
+                                        optionalFieldBox, baseTypeLabel,                 // Objets activés lorsque la case l'est, désactivés lorsqu'elle ne l'est pas.
+                                        baseTypeWidget,   maxNLigneLabel,
+                                        maxNLigneLineEdit, FPHCheckBox,
+                                        exportWidget, exportLabel
+                                    });
 
     QStringList range3 = QStringList();
 
     for (int i = 1; i < 12; i++) range3 << QString::number (i);
 
     createHash (baseTypeWidget->comboBoxTranslationHash, &range, &range2);
-    baseTypeWidget->status = flags::status::defaultStatus;
-    baseTypeWidget->commandLineType = flags::commandLineType::defaultCommandLine;
     baseTypeWidget->setFixedWidth (175);
     baseTypeWidget->setFixedHeight (30);
     baseTypeWidget->setCurrentIndex (0);
@@ -464,34 +467,41 @@ standardPage::standardPage()
 
     connect (FPHCheckBox, SIGNAL (toggled (bool)), this, SLOT (substituer_versant()));
 
-
     QGroupBox* archBox = new QGroupBox (tr ("Archivage et Restauration"));
     QGroupBox* exportBox = new QGroupBox (tr ("Exportation"));
 
+    // Les cases à cocher suivantes de classe FCheckBox ont :
+    //    - un titre (premier argument),
+    //    - une balise XML du projet .alt (deuxième arg.)
+    //    - une présentation dans le gestionnaire de projets (troisième arg.)
+    // Elles ne sont pas génératrices de ligne de commande.
+    // Leur portée est limitée à l'interface graphique
+
+
     FCheckBox* archiveTableBox = new FCheckBox ("Données tableur",
-            "archiveTable",
-    {"Données csv", "Archiver/Restaurer les données CSV"});
+                                                "archiveTable",
+                                                {"Données csv", "Archiver/Restaurer les données CSV"});
 
 
     FCheckBox* exportTableBox  = new FCheckBox ("Données tableur",
-            "exportTable",
-    {"Données csv", "Exporter les données CSV"});
+                                                 "exportTable",
+                                                {"Données csv", "Exporter les données CSV"});
 
     FCheckBox* archiveAllBox = new FCheckBox ("Tout",
-            "archiveAll",
-    {"Données XML", "Archiver/Restaurer les données tableur et XML"});
+                                              "archiveAll",
+                                             {"Données XML", "Archiver/Restaurer les données tableur et XML"});
 
     FCheckBox* exportAllBox  = new FCheckBox ("Tout",
-            "exportAll",
-    {"Données XML", "Exporter les données tableur et XML"});
+                                              "exportAll",
+                                              {"Données XML", "Exporter les données tableur et XML"});
 
     FCheckBox* archiveXhlBox = new FCheckBox ("Bases XML",
-            "archiveXML",
-    {"Données XML", "Archiver/Restaurer les bases XML"});
+                                              "archiveXML",
+                                              {"Données XML", "Archiver/Restaurer les bases XML"});
 
     FCheckBox* exportXhlBox  = new FCheckBox ("Bases XML",
-            "exportXML",
-    {"Données XML", "Exporter les bases XML"});
+                                              "exportXML",
+                                              {"Données XML", "Exporter les bases XML"});
 
     v1Layout->addWidget (tableCheckBox,     1, 0, Qt::AlignLeft);
     v1Layout->addWidget (FPHCheckBox,       2, 0, Qt::AlignLeft);
@@ -504,27 +514,28 @@ standardPage::standardPage()
 
     baseTypeBox->setLayout (v1Layout);
 
-    v3Layout->addWidget (exportTableBox,      1, 0, Qt::AlignLeft);
-    v3Layout->addWidget (exportAllBox,  1, 1, Qt::AlignCenter);
-    v3Layout->addWidget (exportXhlBox,  2, 0, Qt::AlignLeft);
+    v3Layout->addWidget (exportTableBox,    1, 0, Qt::AlignLeft);
+    v3Layout->addWidget (exportAllBox,      1, 1, Qt::AlignCenter);
+    v3Layout->addWidget (exportXhlBox,      2, 0, Qt::AlignLeft);
 
     exportBox->setLayout (v3Layout);
 
-    v4Layout->addWidget (archiveTableBox,     1, 0, Qt::AlignLeft);
-    v4Layout->addWidget (archiveAllBox, 1, 1, Qt::AlignCenter);
-    v4Layout->addWidget (archiveXhlBox, 2, 0, Qt::AlignLeft);
+    v4Layout->addWidget (archiveTableBox,   1, 0, Qt::AlignLeft);
+    v4Layout->addWidget (archiveAllBox,     1, 1, Qt::AlignCenter);
+    v4Layout->addWidget (archiveXhlBox,     2, 0, Qt::AlignLeft);
 
     archBox->setLayout (v4Layout);
 
     QVBoxLayout* mainLayout = new QVBoxLayout;
+
     FRichLabel *mainLabel = new FRichLabel ("Format des bases");
+
     mainLayout->addWidget (mainLabel);
 
     mainLayout->addWidget (baseTypeBox,      1, 0);
     mainLayout->addWidget (optionalFieldBox, 2, 0);
-    mainLayout->addWidget (exportBox,   3, 0);
-    mainLayout->addWidget (archBox,   4, 0);
-    // mainLayout->addSpacing(100);
+    mainLayout->addWidget (exportBox,        3, 0);
+    mainLayout->addWidget (archBox,          4, 0);
 
     setLayout (mainLayout);
     substituer_versant();
