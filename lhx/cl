@@ -7,120 +7,119 @@
 -rank
 /home/fab/.local/share/Altair/rank
 -D
-/home/fab/Dev/altair/Tests/Exemple/Donnees/R-Altair/
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/R-Altair/
 --memshare
 80
 -j
-'8'
+'4'
 -t
 -T
 1000000
--q
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201101_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201101_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201102_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201102_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201103_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201103_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201104_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201104_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201105_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201105_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201106_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201106_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201107_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201107_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201108_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201108_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201109_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201109_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201110_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201110_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201111_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201111_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201112_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2011/SDIS_201112_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201201_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201201_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201202_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201202_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201203_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201203_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201204_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201204_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201205_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201205_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201206_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201206_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201207_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201207_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201208_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201208_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201209_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201209_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201210_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201210_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201211_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201211_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201212_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2012/SDIS_201212_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201301_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201301_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201302_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201302_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201303_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201303_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201304_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201304_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201305_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201305_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201306_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201306_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201307_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201307_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201308_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201308_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201309_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201309_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201310_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201310_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201311_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201311_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201312_01_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2013/SDIS_201312_03_00.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-01.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-02.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-03.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-04.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-05.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-06.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-07.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-08.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-09.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-10.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-11.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2014/28310001400028-2014-ETAT_PAYE-12.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-01.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-02.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-03.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-04.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-05.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-06.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-07.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-08.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-09.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-10.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-11.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2015/28310001400028-2015-ETAT_PAYE-12.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-01.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-02.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-03.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-04.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-05.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-06.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-07.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-08.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-09.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-10.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-112.xhl
-/home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/SDIS/2016/28310001400028-2016-ETAT_PAYE-122.xhl
+-T
+AN
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201101_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201101_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201102_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201102_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201103_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201104_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201105_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201105_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201106_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201106_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201107_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201107_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201108_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201108_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201109_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201109_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201110_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201110_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201111_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201111_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201112_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2011/SDIS_201112_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201201_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201201_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201202_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201202_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201203_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201203_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201204_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201204_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201205_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201205_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201206_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201206_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201207_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201207_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201208_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201208_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201209_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201209_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201210_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201210_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201211_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201211_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201212_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2012/SDIS_201212_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201301_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201301_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201302_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201302_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201303_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201303_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201304_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201304_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201305_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201305_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201306_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201306_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201307_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201307_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201308_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201308_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201309_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201309_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201310_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201310_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201311_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201311_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201312_01_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2013/SDIS_201312_03_00.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2014/28310001400028-2014-ETAT_PAYE-01.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2014/28310001400028-2014-ETAT_PAYE-02.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2014/28310001400028-2014-ETAT_PAYE-03.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2014/28310001400028-2014-ETAT_PAYE-04.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2014/28310001400028-2014-ETAT_PAYE-05.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2014/28310001400028-2014-ETAT_PAYE-06.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2014/28310001400028-2014-ETAT_PAYE-07.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2014/28310001400028-2014-ETAT_PAYE-08.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2014/28310001400028-2014-ETAT_PAYE-09.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2014/28310001400028-2014-ETAT_PAYE-10.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2014/28310001400028-2014-ETAT_PAYE-11.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2014/28310001400028-2014-ETAT_PAYE-12.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2015/28310001400028-2015-ETAT_PAYE-01.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2015/28310001400028-2015-ETAT_PAYE-02.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2015/28310001400028-2015-ETAT_PAYE-03.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2015/28310001400028-2015-ETAT_PAYE-04.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2015/28310001400028-2015-ETAT_PAYE-05.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2015/28310001400028-2015-ETAT_PAYE-06.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2015/28310001400028-2015-ETAT_PAYE-07.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2015/28310001400028-2015-ETAT_PAYE-08.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2015/28310001400028-2015-ETAT_PAYE-09.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2015/28310001400028-2015-ETAT_PAYE-10.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2015/28310001400028-2015-ETAT_PAYE-11.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2015/28310001400028-2015-ETAT_PAYE-12.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2016/28310001400028-2016-ETAT_PAYE-01.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2016/28310001400028-2016-ETAT_PAYE-02.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2016/28310001400028-2016-ETAT_PAYE-03.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2016/28310001400028-2016-ETAT_PAYE-04.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2016/28310001400028-2016-ETAT_PAYE-05.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2016/28310001400028-2016-ETAT_PAYE-06.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2016/28310001400028-2016-ETAT_PAYE-07.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2016/28310001400028-2016-ETAT_PAYE-08.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2016/28310001400028-2016-ETAT_PAYE-09.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2016/28310001400028-2016-ETAT_PAYE-10.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2016/28310001400028-2016-ETAT_PAYE-112.xhl
+/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/SPP PATS/2016/28310001400028-2016-ETAT_PAYE-122.xhl

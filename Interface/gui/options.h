@@ -68,13 +68,11 @@ public :
     FCheckBox  *rapportEntier;
     FCheckBox  *enchainerRapports;
 
-
 private:
     FComboBox
     *processTypeWidget,
     *memoryUseWidget,
     *rapportTypeWidget;
-
 
     QGroupBox
     *processTypeBox;
@@ -83,48 +81,45 @@ private:
     *logCheckBox,
     *consoleCheckBox;
 
-
     FString
     standardMsg;
 
     QLabel *nLineLabel, *NLineLabel;
-
 };
 
 
+/// Classe de l'onglet "Format des bases" du dialogue d'options
 
 class standardPage :  public QDialog, public common
 {
     Q_OBJECT
 
 public :
+
+    /// Constructeur de l'onglet "Format des bases"
+
     standardPage();
+
     FCheckBox
-    *tableCheckBox, *FPHCheckBox;
-    FComboBox* exportWidget;
+      *tableCheckBox,         ///< Exporter la table ou pas
+      *FPHCheckBox;           ///< Données Fonction publique hospitalière ou pas
+    FComboBox* exportWidget;  ///< Modalités d'exportation (standard, cumulative, distributive etc.)
 
 private:
-    FComboBox
-    *baseTypeWidget,
-    *processTypeWidget;
+    FComboBox  *baseTypeWidget;   ///< Type de base en sortie : "Standard", "Par année", "Toutes catégories", "Traitement" etc.
 
-    FLineEdit
-    *maxNLigneLineEdit;
+    FLineEdit *maxNLigneLineEdit; ///< Nombre maximal de lignes de la base
 
-    QGroupBox
-    *baseTypeBox;
+    QGroupBox  *baseTypeBox;      ///< Boîte de présentation Type de base
 
     FCheckBox
-    *etabCheckBox,
-    *rangCheckBox;
+      *etabCheckBox,              ///< Exporter l'établissement ou pas
+      *rangCheckBox;              ///< Numéroter les lignes ou pas
 
-    FString
-    standardMsg;
-
-    QLabel *maxNLigneLabel;
+    QLabel *maxNLigneLabel;       ///< Titre de \ref maxNLigneLineEdit
 
 private slots:
-    void substituer_versant();
+    void substituer_versant();    ///< Exporter le versant FPH ou FPT dans le script R pour générer les tests adéquats
 
 };
 
@@ -134,7 +129,10 @@ class codePage :  public QDialog, public common
     Q_OBJECT
 
 public :
+    /// Constructeur du dialogue "Code de paye des tests"
+
     codePage();
+
     void resetLabel()
     {
         label->setText ("") ;
@@ -154,7 +152,16 @@ private:
     QGroupBox *baseBox;
 
 
+    /// Crée une ligne de codes pour un type donné d'éléments de paye
+    /// \param nom Nom de l'élément de paye
+    /// \return Nombre d'éléments de paye empilés
+
     inline int ajouterVariable (const QString& nom);
+
+    /// Réinitialise l'exportation des codes d'éléments de paye
+    /// Ecrase prologue_codes.R (\ref prologue_codes_path) par sa valeur d'initialisation prologue_init.R
+    /// \return \e true si la réinitialisation par écrasement a réussi, \e false sinon.
+
     bool reinitialiser_prologue();
 
 private slots:

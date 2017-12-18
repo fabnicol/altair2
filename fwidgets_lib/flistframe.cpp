@@ -418,7 +418,11 @@ void FListFrame::parseXhlFile()
               emit(setProgressBar(++rank));
 #           endif
         }
+
+        // N'utiliser des threads que si un disque optique est en input de données
+
         use_threads = false;
+
         importFromMainTree->show();
         emit(imported());
         return;
@@ -950,6 +954,8 @@ void FListFrame::finalise()
 
     if (use_threads)
     {
+        // Terminer les fils d'exécutiion s'il y en a.
+
         for (QThread* t : thread)
         {
           t->terminate();
