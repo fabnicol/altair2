@@ -671,6 +671,8 @@ void Altair::killProcess()
             textAppend (PROCESSING_HTML_TAG
                         "Arrêt de l'importation des données du disque optique.");
 
+            // Terminer les fils d'exécution s'il y en a
+
             for (QThread *t :  project->thread)
                 {
                     if (t)

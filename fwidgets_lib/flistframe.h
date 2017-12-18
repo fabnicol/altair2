@@ -1,4 +1,3 @@
-
 // Auteur : Fabrice Nicol
 // Copyright Fabrice Nicol
 // Contributeur :
@@ -78,7 +77,7 @@ public:
  QAbstractItemView *fileTreeView;                ///< Arborescence de fichiers pour importation par \ref importFromMainTree
  QFileSystemModel *model = new QFileSystemModel; ///< Modèle de fichiers sous-jacent à \ref fileTreeView
  QGroupBox *controlButtonBox = new QGroupBox;    ///< Boîte permettant de regrouper divers boutons de contrôle (haut/bas etc.)
- bool use_threads = false;
+ bool use_threads = false;                       ///< Par défaut, les fils d'exécution ne seront pas utilisés. Seront activés en cas d'input disque optique.
 
  // Méthodes
 
@@ -104,47 +103,55 @@ public:
 
  const QString &getHashKey() const {return frameHashKey;}
 
-/// Accesseur en lecture de \ref widgetContainer
-/// \return Valeur de \ref
+ /// Accesseur en lecture de \ref widgetContainer
+ /// \return Valeur de \ref widgetContainer
 
  QVector<QListWidget*>  getWidgetContainer() {return widgetContainer;}
-int getWidgetContainerCount() {return widgetContainer.size();}
 
-/// Accesseur en lecture de \ref
-/// \return Valeur de \ref
+ /// Accesseur en lecture du nombre d'éléments (nombre d'onglets) du vecteur \ref widgetContainer
+ /// \return Valeur de la méthode \e size() pour \ref widgetContainer
 
-int getWidgetContainerCount(int g) {return widgetContainer[g]->count();}
+ int getWidgetContainerCount() {return widgetContainer.size();}
 
-/// Accesseur en lecture de \ref
-/// \return Valeur de \ref
-QListWidget*  getWidgetContainer(int rank) {if (rank < widgetContainer.count()) return widgetContainer[rank]; else return nullptr;}
+ /// Accesseur en lecture du nombre d'items (fichiers) dans l'élément (onglet) de rang donné de \ref widgetContainer
+ /// \param g Rang (0-based) de l'élément (onglet) du vecteur \ref widgetContainer
+ /// \return Valeur de la méthode count() pour \ref widgetContainer[g]
 
-/// Accesseur en lecture de \ref
-/// \return Valeur de \ref
-int getCurrentIndex() { return this->mainTabWidget->currentIndex(); }
+ int getWidgetContainerCount(int g) {return widgetContainer.at(g)->count();}
 
-/// Accesseur en lecture de \ref
-/// \return Valeur de \ref
-QListWidget*  getCurrentWidget() { return widgetContainer.at(getCurrentIndex());}
+ /// Accesseur en lecture d'un élément de rang donné du vecteur \ref widgetContainer
+ /// \param g Rang (0-based) de l'élément du vecteur
+ /// \return Si g est inférieur à la taille du vecteur, valeur de l'élément de rang g du vecteur \ref widgetContainer, sinon nullptr.
 
-/// Accesseur en lecture de \ref
-/// \return Valeur de \ref
-QString  getCurrentLabel() { return this->mainTabWidget->tabText(getCurrentIndex());}
+ QListWidget*  getWidgetContainer(int rank) {if (rank < widgetContainer.count()) return widgetContainer[rank]; else return nullptr;}
 
-/// Accesseur en lecture de \ref
-/// \return Valeur de \ref
-QString  getLabel(int index) { return this->mainTabWidget->tabText(index);}
+ /// Accesseur en lecture du rang (index) de l'onglet courant (0-based)
+ /// \return Valeur de la méthode \e currentIndex() pour \ref mainTabWidget
 
-/// Accesseur en lecture de \ref
-/// \return Valeur de \ref
-QGroupBox* getControlButtonBox() { return controlButtonBox;}
+ int getCurrentIndex() { return this->mainTabWidget->currentIndex(); }
+
+ /// Accesseur en lecture de \ref
+ /// \return Valeur de \ref
+ QListWidget*  getCurrentWidget() { return widgetContainer.at(getCurrentIndex());}
+
+ /// Accesseur en lecture de \ref
+ /// \return Valeur de \ref
+ QString  getCurrentLabel() { return this->mainTabWidget->tabText(getCurrentIndex());}
+
+ /// Accesseur en lecture de \ref
+ /// \return Valeur de \ref
+ QString  getLabel(int index) { return this->mainTabWidget->tabText(index);}
+
+ /// Accesseur en lecture de \ref
+ /// \return Valeur de \ref
+ QGroupBox* getControlButtonBox() { return controlButtonBox;}
 
 
-void setControlButtonBoxVisible(bool x) {controlButtonBox->setVisible(x);}
+ void setControlButtonBoxVisible(bool x) {controlButtonBox->setVisible(x);}
 
-/// Accesseur en lecture de \ref
-/// \return Valeur de \ref
-int getCurrentRow() { return getCurrentWidget()->currentRow(); }
+ /// Accesseur en lecture de \ref
+ /// \return Valeur de \ref
+ int getCurrentRow() { return getCurrentWidget()->currentRow(); }
 
 void setStatus(flags::status status) {fileListWidget->status=status;}
 void setCommandLineType(flags::commandLineType cl) {fileListWidget->commandLineType=cl;}
