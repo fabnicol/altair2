@@ -185,7 +185,6 @@ Altair::Altair()
 
     // Assigne le modèle de fichiers de la classe comme membre de project
     project->model = model;
-    project->slotList = nullptr;
     project->importFromMainTree->setVisible (visibility);
 
     // Création de la barre de progression

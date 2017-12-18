@@ -58,13 +58,15 @@ Q_OBJECT
 
 public:
 
- QVector<QListWidget*> widgetContainer;
- FListWidget *fileListWidget;
- QString frameHashKey;
- std::vector<QThread*> thread;
- int size = 0;
- QToolButton *importFromMainTree=new QToolButton;
- QStringList tabLabels;
+// Membres données
+
+ QVector<QListWidget*> widgetContainer;  ///< Conteneur des widgets listes composant les onglets
+ FListWidget *fileListWidget;            ///< fwidget associé à QWidget représentant l'onglet courant
+ QString frameHashKey;                   ///< Balise XML correspondant à la classe
+ std::vector<QThread*> thread;           ///< Vecteur de fils d'exécution permettant de lance \ref parseXhlFile sur chaque fichier d'onglet
+ int size = 0;                           ///< Nombre totalde fichiers dans \ref widgetContainer
+ QToolButton *importFromMainTree=new QToolButton; ///< Bouton permettant d'importer des fichiers d'une arborescence de fichiers \ref fileTreeView
+ QStringList tabLabels;                  ///< Liste des titres des onglets
 # ifndef USE_RIGHT_CLICK
 
      QToolButton  *retrieveItemButton=new QToolButton,
@@ -72,38 +74,77 @@ public:
                   *nppDisplayButton =  new QToolButton;
 # endif
 
- QTabWidget *mainTabWidget;
- QAbstractItemView *fileTreeView;
- QStringList* slotList= new QStringList;
-
- QFileSystemModel *model=new QFileSystemModel;
- QGroupBox *controlButtonBox=new QGroupBox;
+ QTabWidget *mainTabWidget;                      ///< Onglet central matrice
+ QAbstractItemView *fileTreeView;                ///< Arborescence de fichiers pour importation par \ref importFromMainTree
+ QFileSystemModel *model = new QFileSystemModel; ///< Modèle de fichiers sous-jacent à \ref fileTreeView
+ QGroupBox *controlButtonBox = new QGroupBox;    ///< Boîte permettant de regrouper divers boutons de contrôle (haut/bas etc.)
  bool use_threads = false;
- /* accessors */
 
- inline QStringList getTabLabels(){
-                                        QStringList labels;
-                                        int r = getRank();
-                                        for (int i=0; i <= r; ++i)
-                                             labels << mainTabWidget->tabText(i);
-                                        return labels;
-                                   }
+ // Méthodes
+
+ /// Récupère les titres d'onglet
+ /// \return Liste de format \e QStringList des titres d'onglet
+
+ QStringList getTabLabels(){
+                                QStringList labels;
+                                int r = getRank();
+                                for (int i=0; i <= r; ++i)
+                                     labels << mainTabWidget->tabText(i);
+                                return labels;
+                            }
+
+ /// Récupère la taille courante (0-based) du conteneur \ref widgetContainer
+ /// Cette taille doit en principe être alignée avec le nombre d'onglets en présence
+ /// \return Taille du conteneur moins 1.
 
  int getRank() {return widgetContainer.size()-1;}
+
+ /// Accesseur en lecture de \ref frameHashKey, balise XML du fwidget.
+ /// \return Valeur de \ref frameHashKey
+
  const QString &getHashKey() const {return frameHashKey;}
 
+/// Accesseur en lecture de \ref widgetContainer
+/// \return Valeur de \ref
 
-inline QVector<QListWidget*>  getWidgetContainer() {return widgetContainer;}
-inline int getWidgetContainerCount() {return widgetContainer.size();}
-inline int getWidgetContainerCount(int g) {return widgetContainer[g]->count();}
-inline QListWidget*  getWidgetContainer(int rank) {if (rank < widgetContainer.count()) return widgetContainer[rank]; else return nullptr;}
-inline int getCurrentIndex() { return this->mainTabWidget->currentIndex(); }
-inline QListWidget*  getCurrentWidget() { return widgetContainer.at(getCurrentIndex());}
-inline QString  getCurrentLabel() { return this->mainTabWidget->tabText(getCurrentIndex());}
-inline QString  getLabel(int index) { return this->mainTabWidget->tabText(index);}
+ QVector<QListWidget*>  getWidgetContainer() {return widgetContainer;}
+int getWidgetContainerCount() {return widgetContainer.size();}
+
+/// Accesseur en lecture de \ref
+/// \return Valeur de \ref
+
+int getWidgetContainerCount(int g) {return widgetContainer[g]->count();}
+
+/// Accesseur en lecture de \ref
+/// \return Valeur de \ref
+QListWidget*  getWidgetContainer(int rank) {if (rank < widgetContainer.count()) return widgetContainer[rank]; else return nullptr;}
+
+/// Accesseur en lecture de \ref
+/// \return Valeur de \ref
+int getCurrentIndex() { return this->mainTabWidget->currentIndex(); }
+
+/// Accesseur en lecture de \ref
+/// \return Valeur de \ref
+QListWidget*  getCurrentWidget() { return widgetContainer.at(getCurrentIndex());}
+
+/// Accesseur en lecture de \ref
+/// \return Valeur de \ref
+QString  getCurrentLabel() { return this->mainTabWidget->tabText(getCurrentIndex());}
+
+/// Accesseur en lecture de \ref
+/// \return Valeur de \ref
+QString  getLabel(int index) { return this->mainTabWidget->tabText(index);}
+
+/// Accesseur en lecture de \ref
+/// \return Valeur de \ref
 QGroupBox* getControlButtonBox() { return controlButtonBox;}
+
+
 void setControlButtonBoxVisible(bool x) {controlButtonBox->setVisible(x);}
-inline int getCurrentRow() { return getCurrentWidget()->currentRow(); }
+
+/// Accesseur en lecture de \ref
+/// \return Valeur de \ref
+int getCurrentRow() { return getCurrentWidget()->currentRow(); }
 
 void setStatus(flags::status status) {fileListWidget->status=status;}
 void setCommandLineType(flags::commandLineType cl) {fileListWidget->commandLineType=cl;}
@@ -112,6 +153,9 @@ void setOptionLabel(QString option) {fileListWidget->optionLabel=option;}
 void setTabLabels(QStringList& tabLabels) { fileListWidget->setTabLabels(tabLabels);}
 
 inline bool listConnected() { return isListConnected; }
+
+/// Accesseur en lecture de \ref
+/// \return Valeur de \ref
 inline int  getSlotListSize() {  return (isListConnected == true || isTotalConnected == true)? slotListSize : -1; }
 
 FListFrame(QAbstractItemView* tree, short import_type,
@@ -155,13 +199,40 @@ private:
  void list_connect(FComboBox* w);
  void list_connect(FListFrame* w);
  void total_connect(FListFrame* w);
+
+ /// Actualise \ref currentWidget, \ref row et \ref currentIndex
+
  void updateIndexInfo();
+
+ /// Efface tous les onglets et, selon la valeur des paramètres, insère un onglet vierge (ou pas) et efface \ref Hash::wrapper (ou pas)
+ /// \param insertFirstGroup  Si true, insère un onglet vierge après l'effacement des onglets
+ /// \param eraseAllData Si true, efface toute la table de hachage \ref Hash::wrapper
+
  void deleteAllGroups(bool insertFirstGroup, bool eraseAllData);
+
+ /// Efface \ref widgetContainer
+
  void clearWidgetContainer();
+
+ /// Lancer un fil d'exécution pour lire l'entête d'un fichier XHL (Année, Mois,...) et classer les fichiers par onglet automatiquement
+ /// \param rank Rang du fichier dans la liste des fichiers de l'onglet central
+ /// \note Cette fonction appelle \ref parseXhlFile
+ /// \todo Cette fonction pourrait être optimisée en ne lançant pas les fils d'exécution de manière successive mais par par groupe avec plusieurs fils parallèles dans chaque groupe
+
  void launch_thread(int rank);
+
  struct Header* elemPar;
+
+ /// Décode les champs principaux du fichier XHL: Année, Mois, Budget, ...
+ /// \param fileName Chemin du fichier décodé.
+
  void parseXhlFile(const QString& fileName);
+
+ /// Appelle \ref parseXhlFile(const QString&) sur l'ensemble de \ref widgetContainer
+
  void parseXhlFile();
+
+
  void addStringListToListWidget();
  QStringList parseTreeForFilePaths(const QStringList& stringList);
  void setStrikeOutFileNames(flags::colors color);
@@ -196,8 +267,6 @@ protected slots:
     void on_importFromMainTree_clicked();
     void on_file_display(const QString& file);
     void finalise();
-
-
 };
 
 
