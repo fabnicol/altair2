@@ -177,10 +177,10 @@ void FListFrame::total_connect(FListFrame* w)
 
 void FListFrame::updateIndexInfo()
 {
-  currentListWidget=qobject_cast<QListWidget*>(mainTabWidget->currentWidget());
+  currentListWidget = qobject_cast<QListWidget*>(mainTabWidget->currentWidget());
   if (currentListWidget == nullptr) return;
-  row=currentListWidget->currentRow();
-  currentIndex=mainTabWidget->currentIndex();
+  row = currentListWidget->currentRow();
+  currentIndex = mainTabWidget->currentIndex();
 }
 
 void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
@@ -228,19 +228,28 @@ void FListFrame::launch_thread(int rank)
 {
     if (isTerminated || size == 0 || rank >= size) return;
 
+    // Ajouter un fil d'exécution à la liste des fils thread
+
     thread.push_back(new QThread);
 
     const QString& fileName = stringList.at(rank);
 
-    thread[rank]->start();
+    // Démarrer le fil et lui faire lire l'entête du fichier XHL en cours
 
+    thread[rank]->start();
     connect(thread[rank], &QThread::started, [this, fileName] {
         parseXhlFile(fileName);
     });
 
+    // Lorsque le fil a fini de lire l'année, le mois etc. le signal parsed() est émis et le fil doit être arrêté
+
     connect(this, SIGNAL(parsed()), thread[rank], SLOT(quit()), Qt::DirectConnection);
+
+    // Dès lors on peut passer au fil suivant et au fichier suivant
+
     connect(thread[rank], &QThread::finished, [this, rank] { if (! isTerminated) launch_thread(rank + 1); });
 
+    // Cette fonction pourrait être optimisée en ne lançant pas les fils d'exécution de manière successive mais par par groupe avec plusieurs fils parallèles dans chaque groupe
 }
 
 
