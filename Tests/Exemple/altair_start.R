@@ -1149,7 +1149,8 @@ attach(Analyse.variations.par.exercice)
 #'    
 #+ noria-tableau
 
-invisible(noria(champ = "net", fichier = fichier.es))
+essayer(invisible(noria(champ = "net", fichier = fichier.es)),
+        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations nettes moyennes.")
 
 #'  
 #'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP**   
@@ -1157,7 +1158,8 @@ invisible(noria(champ = "net", fichier = fichier.es))
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-invisible(noria(champ = "brut",fichier = fichier.es))
+essayer(invisible(noria(champ = "brut",fichier = fichier.es)),
+        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations brutes moyennes.")
 
 #'  
 #'*Note :*        
@@ -1178,7 +1180,9 @@ invisible(noria(champ = "brut",fichier = fichier.es))
 #'    
 #+ noria-tableau2
 
-invisible(noria(champ = "net", filtre = c("TITULAIRE", "STAGIAIRE", fichier = fichier.es)))
+essayer(invisible(noria(champ = "net", filtre = c("TITULAIRE", "STAGIAIRE", fichier = fichier.es))),
+        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations nettes moyennes des fonctionnaires.")
+        
 
 #'  
 #'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP des fonctionnaires**   
@@ -1186,7 +1190,8 @@ invisible(noria(champ = "net", filtre = c("TITULAIRE", "STAGIAIRE", fichier = fi
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-invisible(noria(champ = "brut", filtre = c("TITULAIRE", "STAGIAIRE", fichier = fichier.es)))
+essayer(invisible(noria(champ = "brut", filtre = c("TITULAIRE", "STAGIAIRE", fichier = fichier.es))),
+        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations brutes moyennes des fonctionnaires.")
 
 ##### 4.3.5 Effet de noria et de variation d'effectifs sur rémunérations moyennes par catégorie statutaire  ######
 
@@ -1200,7 +1205,8 @@ invisible(noria(champ = "brut", filtre = c("TITULAIRE", "STAGIAIRE", fichier = f
 #'    
 #+ noria-tableau3
 
-invisible(noria(champ = "net", filtre = "A", fichier = fichier.es))
+essayer(invisible(noria(champ = "net", filtre = "A", fichier = fichier.es)),
+        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations nettes moyennes des fonctionnaires de catégorie A.")
 
 #'  
 #'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP des fonctionnaires de catégorie A**   
@@ -1208,7 +1214,8 @@ invisible(noria(champ = "net", filtre = "A", fichier = fichier.es))
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-invisible(noria(champ = "brut", filtre = "A", fichier = fichier.es))
+essayer(invisible(noria(champ = "brut", filtre = "A", fichier = fichier.es)),
+        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations brutes moyennes des fonctionnaires de catégorie A.")
 
 #'   
 #'**Effet de noria et de variations d'effectifs sur rémunérations nettes moyennes EQTP des fonctionnaires de catégorie B**   
@@ -1217,7 +1224,8 @@ invisible(noria(champ = "brut", filtre = "A", fichier = fichier.es))
 #'    
 #+ noria-tableau4
 
-invisible(noria(champ = "net", filtre = "B", fichier = fichier.es))
+essayer(invisible(noria(champ = "net", filtre = "B", fichier = fichier.es)),
+        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations nettes moyennes des fonctionnaires de catégorie B.")
 
 #'  
 #'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP des fonctionnaires de catégorie B**   
@@ -1225,7 +1233,8 @@ invisible(noria(champ = "net", filtre = "B", fichier = fichier.es))
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-invisible(noria(champ = "brut", filtre = "B", fichier = fichier.es))
+essayer(invisible(noria(champ = "brut", filtre = "B", fichier = fichier.es)),
+        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations brutes moyennes des fonctionnaires de catégorie B.")
 
 #'   
 #'**Effet de noria et de variations d'effectifs sur rémunérations nettes moyennes EQTP des fonctionnaires de catégorie C**   
@@ -1234,7 +1243,8 @@ invisible(noria(champ = "brut", filtre = "B", fichier = fichier.es))
 #'    
 #+ noria-tableau5
 
-invisible(noria(champ = "net", filtre = "C", fichier = fichier.es))
+essayer(invisible(noria(champ = "net", filtre = "C", fichier = fichier.es)),
+        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations nettes moyennes des fonctionnaires de catégorie C.")
 
 #'  
 #'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP des fonctionnaires de catégorie C**   
@@ -1242,11 +1252,10 @@ invisible(noria(champ = "net", filtre = "C", fichier = fichier.es))
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-invisible(noria(champ = "brut", filtre = "C", fichier = fichier.es))
+essayer(invisible(noria(champ = "brut", filtre = "C", fichier = fichier.es)),
+        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations brutes moyennes des fonctionnaires de catégorie C.")
 
 #'     
-
-
 
 detach(Analyse.variations.par.exercice)
 
@@ -1284,7 +1293,6 @@ detach(Analyse.variations.par.exercice)
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
-
 
 #' 
 #'|  Organisme   SMPT net     |  2011  | 2012     |    2013 |  2014  | 2007-2011 (%) | 2011-2014 (%) | 
@@ -1375,7 +1383,6 @@ if (nombre.personnels.nbi.nontit <- uniqueN(NBI.aux.non.titulaires$Matricule)) {
 } else {
     cat("Pas de NBI apparemment attribuée à des non-titulaires. ")
 }
-
 
 #'   
 #'[Lien vers la base de données NBI aux non titulaires](Bases/Reglementation/NBI.aux.non.titulaires.csv)   
@@ -1480,7 +1487,6 @@ Tableau(
   nrow(lignes.nbi.anormales.hors.rappels),
   round(couts.nbi.anormales.hors.rappels, 1))
 
-
 #'       
 #'[Lien vers la base de données des anomalies de NBI](Bases/Fiabilite/lignes.nbi.anormales.csv)     
 #'[Lien vers la base de données des anomalies de NBI hors rappels](Bases/Fiabilite/lignes.nbi.anormales.hors.rappels.csv)          
@@ -1504,7 +1510,6 @@ Tableau.vertical2(c("Année", "Cumuls des NBI", "Montants versés (a)", "Point d
                   ifelse(abs(b - a) > 0.3, "Rouge", ifelse(abs(b - a) > 0.15, "Orange", "Vert")))
 
 )
-
 
 #'   
 #'[Lien vers la base de données des cumuls annuels de NBI](Bases/Fiabilite/cumuls.nbi.csv)   
@@ -3734,7 +3739,6 @@ envir <- environment()
 
 if (sauvegarder.bases.analyse) {
 
-  
   sauv.bases(file.path(chemin.dossier.bases, "Remunerations"),
              env = envir,
              "Analyse.remunerations",
