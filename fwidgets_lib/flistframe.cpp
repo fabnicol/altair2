@@ -908,8 +908,11 @@ void FListFrame::on_file_display(const QString& file)
 constexpr const int colorListSize = 9;
 constexpr const  std::array<const char*, colorListSize > &colorList = { "tomato", "navy", "yellowgreen", "marroon", "orange", "green",  "darkcyan", "blue", "black"};
 
-inline void finalise_macro(FListFrame* listFrame, const QStringList& pairs, const QString& label, const int rank)
+inline void finalise_macro(FListFrame* listFrame, QStringList& pairs, const QString& label, const int rank)
 {
+
+    pairs.removeDuplicates();
+    pairs.removeAll("");
 
     QStringList tabList;
     for (int i=0; i < pairs.size(); i++)
@@ -939,8 +942,6 @@ inline void finalise_macro(FListFrame* listFrame, const T &hash, const QString& 
     QStringList pairs;
     pairs = hash.values();
     pairs.sort();
-    pairs.removeDuplicates();
-    pairs.removeAll("");
 
     finalise_macro(listFrame, pairs, label, rank);
 }
