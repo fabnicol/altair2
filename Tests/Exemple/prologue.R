@@ -184,22 +184,12 @@ date.format                      <- "%d/%m/%Y"
 # A priori les deux modes de lectures de tables (rapide et standard) lisent aussi bien le Windows ANSI/ISO-8859-1 que
 # l'UTF-8 à condition que le Windows ANSI soit encodé par Excel ou l'éditeur de RStudio.
 
-encodage.entrée <-  "ISO-8859-1"
+encodage.entrée                <-  "ISO-8859-1"
   # "WINDOWS-1252"
   # "UTF-8"
-  
-encodage.entrée.xhl2csv <-  "ISO-8859-1"
-
-encodage.sortie <- "ISO-8859-15"
-
-modalité.traitement            <- "TRAITEMENT"     # s'applique aussi aux NBI
-modalité.indemnitaire          <- "INDEMNITAIRE"   # hors vacations
-
-modalité.principal.contractuel <- "PRINCIPAL.CONTRACTUEL" # contractuels qui ne sont pas payés par référénece à un traitement indiciaire.
-modalité.élu                   <- "ELU"
-modalité.vacations             <- "VACATIONS"
-modalité.autres                <- "AUTRES"         # notamment les remboursements de frais professionnels, de transport et les restitutions/régularisations
-
+encodage.entrée.xhl2csv        <-   encodage.entrée
+encodage.sortie                <- "UTF-8" #ISO-8859-15"
+convertir.latin                <- grepl("ISO.*8859-1.*", encodage.sortie, ignore.case = TRUE)
 
 # expressions régulières
 

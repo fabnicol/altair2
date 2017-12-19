@@ -46,21 +46,35 @@
 chemin <-  function(fichier)
   file.path(chemin.dossier.données, fichier)
 
-#' Conversion d'un fichier en UTF-8
+#' Conversion d'un fichier de ISO-8859-15 en UTF-8
 #'
-#' Conversion d'un fichier en UTF-8
+#' Conversion d'un fichier de ISO-8859-15 en UTF-8
 #' 
 #' @param nom Chemin du fichier à encoder 
 #' @param encodage.in (= encodage.entrée) Encodage du fichier de lecture 
 #' @return Lancement dun appel système à iconv -t UTF-8
 #' @export
 
-file2utf8 <- function(nom, encodage.in = encodage.entrée)  {
+file2utf8 <- function(nom, encodage.in = "ISO-8859-15")  {
+ err <- system2(iconv, c("-f", encodage.in, "-t", "UTF-8", shQuote(nom), "-c", "-o", "temp"))
+ if (! err)  err <- system2("mv", c("temp", shQuote(nom))) else stop("Erreur d'encodage avec iconv")
+ if (err) stop("Erreur de copie fichier après encodage avec iconv")
+}
+
+#' Conversion d'un fichier en ISO-8859-15
+#'
+#' Conversion d'un fichier de UTF-8 en ISO-8859-15
+#' 
+#' @param nom Chemin du fichier à encoder 
+#' @param encodage.in (= encodage.entrée) Encodage du fichier de lecture 
+#' @return Lancement dun appel système à iconv -t ISO-8859-15
+#' @export
+
+file2Latin <- function(nom, encodage.in = "UTF-8")  {
   
- chem <- chemin(nom)
- err <- system2(iconv, c("-f", encodage.in, "-t", "UTF-8", shQuote(chem), "-o", "temp"))
- if (! err)  err <- system2("mv", c("temp", shQuote(chem))) else stop("Erreur d'encodage avec iconv")
- if (! err)  message("Conversion réussie") else stop("Erreur de copie fichier après encodage avec iconv")
+  err <- system2(iconv, c("-f", encodage.in, "-t", "ISO-8859-15", shQuote(nom), "-c", "-o", "temp"))
+  if (! err)  err <- system2("mv", c("temp", shQuote(nom))) else stop("Erreur d'encodage Latin avec iconv")
+  if (err)  stop("Erreur de copie fichier après encodage Latin avec iconv")
 }
 
 
@@ -104,7 +118,7 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, drop = NU
     if (encodage != "UTF-8" && convertir.encodage) {
       message("La table en entrée doit être encodée en UTF-8")
       if (convertir.encodage) message("Conversion via iconv du format " %+% encodage %+% " au format UTF-8...") else stop("Arrêt : convertir l'encodage de la table en UTF-8.")
-      file2utf8(x, encodage.in = encodage)
+      file2utf8(chemin(x), encodage.in = encodage)
   }
       
     # data.table n'admet d'argument dec qu'à partir de la version 1.9.5 
@@ -175,17 +189,25 @@ return(T)
 #' @export
 #'
 
-Sauv.base <- function(chemin.dossier, nom, nom.sauv, encodage = encodage.sortie, sep = séparateur.liste.sortie, dec = séparateur.décimal.sortie, environment = .GlobalEnv)
+Sauv.base <- function(chemin.dossier, nom, nom.sauv, Latin = FALSE, sep = séparateur.liste.sortie, dec = séparateur.décimal.sortie, environment = .GlobalEnv)
 {
   message("Sauvegarde de ", nom.sauv)
  
-  write.table(get(nom, envir = environment),
-             paste0(chemin.dossier, "/", nom.sauv, ".csv"), 
-             quote = FALSE,
+  filepath <- file.path(chemin.dossier, nom.sauv) %+% ".csv"
+  
+  L <- get(nom, envir = environment)
+  
+  if (! is.list(L) || (is.data.frame(L) && nrow(L) == 0)) L <- list(0)
+  
+  data.table::fwrite(L,
+             filepath, 
              sep = sep,
-             dec = dec,
-             row.names = FALSE,
-             fileEncoding = encodage)
+             dec = dec)
+
+  if (Latin) {
+    file2Latin(filepath)
+    message("Conversion de ", nom.sauv, " en encodage ISO-8859-15")
+  }
 }
 
 sauv.bases <- function(dossier, env, ...)
@@ -199,7 +221,11 @@ sauv.bases <- function(dossier, env, ...)
   tmp[1] <- NULL
 
   message("Dans le dossier ", dossier," :")
-  invisible(lapply(tmp[-c(1,2)], function(x) if (exists(x, where = env)) Sauv.base(dossier, x, x, environment = env)))
+  invisible(lapply(tmp[-c(1,2)], function(x) if (exists(x, where = env)) Sauv.base(dossier,
+                                                                                   x,
+                                                                                   x,
+                                                                                   Latin = convertir.latin,
+                                                                                   environment = env)))
 }
 
 # Utiliser une assignation globale
