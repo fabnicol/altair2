@@ -243,6 +243,7 @@ isClassUnion	setClassUnion
 isGeneric	GenericFunctions
 isGrammarSymbol	languageEl
 isGroup	GenericFunctions
+isRematched	RMethodUtils
 isSealedClass	isSealedMethod
 isSealedMethod	isSealedMethod
 isVirtualClass	RClassUtils

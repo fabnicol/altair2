@@ -34,6 +34,7 @@ Foreign                 Foreign Function Interface
 ISOdatetime             Date-time Conversion Functions from Numeric
                         Representations
 InternalMethods         Internal Generic Functions
+La_library              LAPACK Library
 La_version              LAPACK Version
 Logic                   Logical Operators
 Memory                  Memory Available for Data Storage
@@ -168,7 +169,7 @@ dontCheck               Identity Function to Suppress Checking
 double                  Double-Precision Vectors
 dput                    Write an Object to a File or Recreate it
 drop                    Drop Redundant Extent Information
-droplevels              droplevels
+droplevels              Drop Unused Levels from Factors
 dump                    Text Representations of R Objects
 duplicated              Determine Duplicate Elements
 dyn.load                Foreign Function Interface
@@ -378,10 +379,12 @@ slice.index             Slice Indexes in an Array
 socketSelect            Wait on Socket Connections
 solve                   Solve a System of Equations
 sort                    Sorting or Ordering Vectors
-source                  Read R Code from a File or a Connection
+source                  Read R Code from a File, a Connection or
+                        Expressions
 split                   Divide into Groups and Reassemble
 sprintf                 Use C-style String Formatting Commands
 srcfile                 References to Source Files and Code
+standardGeneric         Formal Method System - Dispatching S4 Methods
 startsWith              Does String Start or End With Another String?
 stop                    Stop Function Execution
 stopifnot               Ensure the Truth of R Expressions
@@ -443,7 +446,7 @@ which                   Which indices are TRUE?
 which.min               Where is the Min() or Max() or first TRUE or
                         FALSE ?
 with                    Evaluate an Expression in a Data Environment
-withVisible             Return both a value and its visibility
+withVisible             Return both a Value and its Visibility
 write                   Write Data to a File
 writeLines              Write Lines to a Connection
 xtfrm                   Auxiliary Function for Sorting and Ranking
