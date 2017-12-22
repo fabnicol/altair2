@@ -22,7 +22,7 @@ Author: Hadley Wickham [aut, cre],
   Yue Hue [aut],
   R Core team [ctb] (guess_bandwidth adapted from stats::bw.SJ)
 Maintainer: Hadley Wickham <hadley@rstudio.com>
-Built: R 3.4.1; x86_64-pc-linux-gnu; 2017-09-13 01:16:29 UTC; unix
+Built: R 3.4.2; x86_64-pc-linux-gnu; 2017-12-04 15:10:03 UTC; unix
 RemoteType: github
 RemoteHost: https://api.github.com
 RemoteRepo: bigvis

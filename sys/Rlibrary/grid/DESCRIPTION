@@ -1,5 +1,5 @@
 Package: grid
-Version: 3.3.2
+Version: 3.4.3
 Priority: base
 Title: The Grid Graphics Package
 Author: Paul Murrell <paul@stat.auckland.ac.nz>
@@ -8,6 +8,6 @@ Description: A rewrite of the graphics layout capabilities, plus some
   support for interaction.
 Imports: grDevices, utils
 Suggests: lattice
-License: Part of R 3.3.2
+License: Part of R 3.4.3
 NeedsCompilation: yes
-Built: R 3.3.2; x86_64-pc-linux-gnu; 2017-03-27 07:25:09 UTC; unix
+Built: R 3.4.3; x86_64-pc-linux-gnu; 2017-12-22 14:43:26 UTC; unix
