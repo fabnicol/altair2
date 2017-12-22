@@ -277,15 +277,6 @@ private slots:
 
     void refreshRowPresentation (int index);
 
-protected:
-
-    QString      sourceDir;
-    unsigned int maxRange = 0;
-
-signals:
-
-    void hasIndexChangedSignal();
-
 private:
 
 // Données privées
@@ -315,7 +306,10 @@ private:
     void assignWidgetValues();
 
     /// Efface toutes les données du projet .alt et réinitialise l'interface et les conteneurs
-    /// de données internes
+    /// de données internes.
+    /// Si l'interface a des éléments de statut non encore sauvegardés, affiche une boîte de dialogue
+    /// permettant soit de sauvegarder l'état de l'interface dans un fichier projet .alt, soit de réinitialiser
+    /// l'interface, soit de quitter le choix.
 
     void clearProjectData();
 

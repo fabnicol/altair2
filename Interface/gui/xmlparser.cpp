@@ -48,6 +48,188 @@
 #include "common.h"
 
 
+/// \page page1 Documentation des projets Altaïr d'extension .alt
+/// \tableofcontents
+///
+/// \section  sec1 Exemple commenté de projet
+///
+/// \par
+/// <pre>
+///<?xml version="1.0"?>
+///<projet version="17.12-1">
+/// <data>
+///  <XHL profondeur="2">
+///   <onglet V="2011">
+///     <item V="1" S="28XXXXXXXXXXXX" B="BUDGET PRINCIPAL"        E="ETABLISSEMENT X" EM="EMPLOYEUR X">/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/2011/01.xhl</item>
+///   </onglet>
+///   <onglet V="2012">
+///     <item V="1" S="28XXXXXXXXXXXX" B="BUDGET PRINCIPAL"        E="ETABLISSEMENT X" EM="EMPLOYEUR X">/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/2012/02.xhl</item>
+///     <item V="1" S="28XXXXXXXXXXXX" B="BUDGET ANNEXE FORMATION" E="ETABLISSEMENT X" EM="EMPLOYEUR X">/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/xhl/2012/03.xhl</item>
+///   <onglet V="Siret">
+///     <item V="" S="" B="" E="" EM="">28XXXXXXXXXXXX </item>
+///   </onglet>
+///   <onglet V="Budget">
+///     <item V="" S="" B="" E="" EM="">BUDGET ANNEXE FORMATION</item>
+///     <item V="" S="" B="" E="" EM="">BUDGET PRINCIPAL</item>
+///   </onglet>
+///   <onglet V="Employeur">
+///     <item V="" S="" B="" E="" EM="">EMPLOYEUR X</item>
+///   </onglet>
+///  </XHL>
+/// </data>
+/// <systeme>
+///  <projectManagerDisplay profondeur="0">
+///   oui
+///  </projectManagerDisplay>
+///  <fileManagerDisplay profondeur="0">
+///   oui
+///  </fileManagerDisplay>
+///  <fullScreenDisplay profondeur="0">
+///   non
+///  </fullScreenDisplay>
+///  <outputTextEdit profondeur="0">
+///   oui
+///  </outputTextEdit>
+///  <fileToolBar profondeur="0">
+///   oui
+///  </fileToolBar>
+///  <editToolBar profondeur="0">
+///   oui
+///  </editToolBar>
+///  <processToolBar profondeur="0">
+///   oui
+///  </processToolBar>
+///  <optionsToolBar profondeur="0">
+///   oui
+///  </optionsToolBar>
+///  <aboutToolBar profondeur="0">
+///   non
+///  </aboutToolBar>
+///  <saveProjectBehavior profondeur="0">
+///   non
+///  </saveProjectBehavior>
+///  <importerAuLancement profondeur="0">
+///   non
+///  </importerAuLancement>
+///  <loadProjectBehavior profondeur="0">
+///   non
+///  </loadProjectBehavior>
+///  <limitConsoleOutput profondeur="0">
+///   non
+///  </limitConsoleOutput>
+///  <quiet profondeur="0">
+///   oui
+///  </quiet>
+///  <baseType profondeur="0">
+///
+///  </baseType>
+///  <maxLigne profondeur="0">
+///   1000000
+///  </maxLigne>
+///  <genererNumLigne profondeur="0">
+///   non
+///  </genererNumLigne>
+///  <exporterEtab profondeur="0">
+///   non
+///  </exporterEtab>
+///  <exportMode profondeur="0">
+///   'Standard'
+///  </exportMode>
+///  <FPH profondeur="0">
+///   non
+///  </FPH>
+///  <genererTable profondeur="0">
+///   oui
+///  </genererTable>
+///  <archiveTable profondeur="0">
+///   non
+///  </archiveTable>
+///  <exportTable profondeur="0">
+///   non
+///  </exportTable>
+///  <archiveAll profondeur="0">
+///   non
+///  </archiveAll>
+///  <exportAll profondeur="0">
+///   non
+///  </exportAll>
+///  <archiveXML profondeur="0">
+///   non
+///  </archiveXML>
+///  <exportXML profondeur="0">
+///   non
+///  </exportXML>
+///  <processType profondeur="0">
+///   '4'
+///  </processType>
+///  <log profondeur="0">
+///   /home/fab/.local/share/Altair/altair.log
+///  </log>
+///  <genererLog profondeur="0">
+///   non
+///  </genererLog>
+///  <activerConsole profondeur="0">
+///   oui
+///  </activerConsole>
+///  <memoryUse profondeur="0">
+///   80
+///  </memoryUse>
+///  <rapportType profondeur="0">
+///   'WORD et ODT'
+///  </rapportType>
+///  <enchainerRapports profondeur="0">
+///   non
+///  </enchainerRapports>
+///  <TRAITEMENT profondeur="0">
+///
+///  </TRAITEMENT>
+///  <NBI profondeur="0">
+///
+///  </NBI>
+///  <PFI profondeur="0">
+///
+///  </PFI>
+///  <PFR profondeur="0">
+///
+///  </PFR>
+///  <IPF profondeur="0">
+///
+///  </IPF>
+///  <PSR profondeur="0">
+///
+///  </PSR>
+///  <IFTS profondeur="0">
+///
+///  </IFTS>
+///  <IAT profondeur="0">
+///
+///  </IAT>
+///  <IHTS profondeur="0">
+///
+///  </IHTS>
+///  <VACATAIRES profondeur="0">
+///
+///  </VACATAIRES>
+///  <ASTREINTES profondeur="0">
+///
+///  </ASTREINTES>
+///  <Matricules profondeur="0">
+///
+///  </Matricules>
+///  <MatriculesB profondeur="0">
+///
+///  </MatriculesB>
+///  <MatriculesC profondeur="0">
+///
+///  </MatriculesC>
+///  <dossierBulletins profondeur="0">
+///   /home/fab/Dev/altair/Tests/Exemple/Donnees/Bulletins
+///  </dossierBulletins>
+/// </systeme>
+///</projet>
+/// </pre>
+
+
 inline const QString Altair::makeParserString (int start, int end)
 {
     QStringList L = QStringList();
