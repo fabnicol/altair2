@@ -42,29 +42,39 @@
 /// \author Fabrice Nicol
 /// \brief Code de constantes et de classes regroupant des constantes
 
-#ifndef ENUMS_H
-#define ENUMS_H
+#ifndef GUI_ENUMS_H
+#define GUI_ENUMS_H
 #include <cstdint>
 
 #ifndef STEP_UP
 static constexpr const char* STEP_UP  =  "/../../";
 #endif
 
+/// Largeur minimale des lignes de l'onglet d'entrée du dialogue d'options (codes de paye). Détermine la lageur du dialogue
+
 #ifndef MINIMUM_LINE_WIDTH
 #  define MINIMUM_LINE_WIDTH 350
 #endif
 
 #ifndef SCRIPT_DIR
+
+/// Répertoire principal des scripts R
+
 #  define SCRIPT_DIR "Tests/Exemple/"
 #endif
 
 #ifndef DONNEES
+
+///Répertoire d'insertion des répertoires \ref AltairDir et \ref DONNEES_XHL
+
 #  define DONNEES  SCRIPT_DIR "Donnees/"
 #endif
 
 #ifndef DONNEES_XHL
 #  define DONNEES_XHL  DONNEES "xhl"
 #endif
+
+/// Répertoire d'exportation des données CSV et des rapports d'analyse
 
 #ifndef AltairDir
 #  ifdef __linux__
@@ -76,42 +86,41 @@ static constexpr const char* STEP_UP  =  "/../../";
 
 #define DONNEES_SORTIE  DONNEES AltairDir
 
+/// Caractérise l'état d'actualisation de l'interface et les processus de raffraichissement
+/// des différentes parties de l'interface.
+
 class interfaceStatus
 {
 public:
 
-    static constexpr  std::uint16_t hasUnsavedOptions = 0x0;
-    static constexpr std::uint16_t hasSavedOptions = 0x1;
-    static constexpr std::uint16_t hasSavedOptionsMask = 0xF;
-    static constexpr std::uint16_t tree = 0x0010;
-    static constexpr std::uint16_t treeMask = 0x00F0;
-    static constexpr std::uint16_t saveTree = 0x0100;
-    static constexpr std::uint16_t saveTreeMask = 0x0F00;
-    static constexpr std::uint16_t mainTabs = 0x1000;
-    static constexpr std::uint16_t tabMask = 0x7000;
-    static constexpr std::uint16_t optionTabs = 0x2000;
-    static constexpr std::uint16_t keepOptionTabs = 0x4000;
-    static constexpr std::uint16_t parseXml = 0xF000;
-    static constexpr std::uint16_t parseXmlMask = 0xF000;
+    static constexpr std::uint16_t hasUnsavedOptions = 0x0;   ///< Caractérise des nouveaux paramètres non sauvegardés dans le projet .alt
+    static constexpr std::uint16_t hasSavedOptions = 0x1;     ///< Caractérise des nouveaux paramètres sauvegardés dans le projet .alt
+    static constexpr std::uint16_t hasSavedOptionsMask = 0xF; ///< Masque des nouveaux paramètres sauvegardés dans le projet .alt
+    static constexpr std::uint16_t tree = 0x0010;             ///< Gestionnaire de projets à raffraichir à la première occasion
+    static constexpr std::uint16_t treeMask = 0x00F0;         ///< Masque correspondant à \ref tree
+    static constexpr std::uint16_t saveTree = 0x0100;         ///< Ouvrir le fichier projet pour le modifier
+    static constexpr std::uint16_t saveTreeMask = 0x0F00;     ///< Masque correspondant à \ref saveTree
+    static constexpr std::uint16_t mainTabs = 0x1000;         ///< Permet d'autoriser l'actualisation des valeurs de l'onglet central à partir du décodage du projet .alt (balise <XML>)
+    static constexpr std::uint16_t tabMask = 0x7000;          ///< Masque correspondant à \ref mainTabs
+    static constexpr std::uint16_t optionTabs = 0x2000;       ///< Permet d'autoriser l'actualisation des valeurs du dialogue d'options à partir du décodage du projet .alt
+    static constexpr std::uint16_t keepOptionTabs = 0x4000;   ///< Force l'enregostrement des éléments de statut de l'interface non encore enregistrés dans un projet .alt
+    static constexpr std::uint16_t parseXml = 0xF000;         ///< Autorise le décodage (parsing) du projet XML
+    static constexpr std::uint16_t parseXmlMask = 0xF000;     ///< Masque de \parseXml
 };
+
+/// Décrit la portée des actualisations à opérer sur le gestionnaire de projets et le fichier projet .alt
 
 class manager
 {
-
 public:
 
-    static constexpr std::uint16_t refreshProjectManagerFlag = 0x000;
-    static constexpr std::uint16_t refreshProjectXHLZoneMask = 0x00F;
-    static constexpr std::uint16_t refreshNBulletinsMask = 0x0F0;
-    static constexpr std::uint16_t refreshProjectSystemZoneMask = 0xF00;
-    static constexpr std::uint16_t refreshProjectInteractiveMask = 0xF000;
-    static constexpr std::uint16_t refreshXHLZone = 0x001;
-    static constexpr std::uint16_t refreshNBulletins = 0x010;
-    static constexpr std::uint16_t refreshSystemZone = 0x100;
-    static constexpr std::uint16_t refreshProjectInteractiveMode = 0x1000;
-    static constexpr std::uint16_t refreshAllZones  =  manager::refreshXHLZone | manager::refreshNBulletins | manager::refreshSystemZone;
+    static constexpr std::uint16_t refreshProjectInteractiveMask = 0xF000;  ///< Masque du comportament par défaut
+    static constexpr std::uint16_t refreshProjectInteractiveMode = 0x1000;  ///< Défaut
+    static constexpr std::uint16_t refreshXHLZone = 0x001;                  ///< Raffraîchir la zone de données XHL
+    static constexpr std::uint16_t refreshSystemZone = 0x100;               ///< Raffraîchir la zone de données paramètres de l'interface
+    static constexpr std::uint16_t refreshAllZones  =  manager::refreshXHLZone | manager::refreshSystemZone; ///< Tout raffraichir
 };
 
 
 
-#endif // ENUMS_H
+#endif // GUI_ENUMS_H
