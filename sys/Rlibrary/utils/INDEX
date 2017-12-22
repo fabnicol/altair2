@@ -52,6 +52,7 @@ create.post             Ancillary Function for Preparing Emails and
                         Postings
 data                    Data Sets
 dataentry               Spreadsheet Interface for Entering Data
+debugcall               Debug a Call
 debugger                Post-Mortem Debugging
 demo                    Demonstrations of R Functionality
 download.file           Download File from the Internet
@@ -75,6 +76,7 @@ getSrcFilename          Source Reference Utilities
 glob2rx                 Change Wildcard or Globbing Pattern into
                         Regular Expression
 globalVariables         Declarations Used in Checking a Package
+hasName                 Check for name
 head                    Return the First or Last Part of an Object
 help                    Documentation
 help.request            Send a Post to R-help
@@ -85,6 +87,7 @@ install.packages        Install Packages from Repositories or Local
                         Files
 installed.packages      Find Installed Packages
 isS3method              Is 'method' the Name of an S3 Method?
+isS3stdGeneric          Check if a function acts as an S3 generic
 localeToCharset         Select a Suitable Encoding Name from a Locale
                         Name
 ls.str                  List Objects and their Structure
@@ -129,6 +132,7 @@ stack                   Stack or Unstack Vectors from a Data Frame or
                         List
 str                     Compactly Display the Structure of an Arbitrary
                         R Object
+strcapture              Capture string tokens into a data.frame
 summaryRprof            Summarise Output of R Sampling Profiler
 tar                     Create a Tar Archive
 toLatex                 Converting R Objects to BibTeX or LaTeX

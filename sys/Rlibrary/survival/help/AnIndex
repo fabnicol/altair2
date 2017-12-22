@@ -146,17 +146,11 @@ survConcordance.fit	survConcordance
 survdiff	survdiff
 survdiff.fit	survival-internal
 survexp	survexp
-survexp.az	survexp.us
-survexp.azr	survexp.us
 survexp.fit	survexp.fit
-survexp.fl	survexp.us
-survexp.flr	survexp.us
 survexp.mn	survexp.us
-survexp.mnwhite	survexp.us
 survexp.object	survexp.object
 survexp.us	survexp.us
 survexp.usr	survexp.us
-survexp.wnc	survexp.us
 survfit	survfit
 survfit.coxph	survfit.coxph
 survfit.formula	survfit.formula
