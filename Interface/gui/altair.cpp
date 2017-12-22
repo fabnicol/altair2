@@ -76,6 +76,7 @@ QHash<QString, QStringList> Hash::description;
 void Altair::initialize()
 {
     // Taille par défaut
+
     adjustSize();
 
     // Récupérer la variable d'environnement USER/USERNAME
@@ -460,7 +461,6 @@ void Altair::closeProject()
     projectFile.close();
 }
 
-
 void Altair::clearProjectData()
 {
     RefreshFlag =  RefreshFlag
@@ -468,34 +468,31 @@ void Altair::clearProjectData()
                    | interfaceStatus::optionTabs
                    | interfaceStatus::tree;
 
-    fileSizeDataBase[0].clear();
-
-    refreshProjectManagerValues (manager::refreshProjectInteractiveMode
-                                 | manager::refreshXHLZone
-                                 | manager::refreshSystemZone);
-    int choice = 2;
 
     if (options::RefreshFlag ==  interfaceStatus::hasUnsavedOptions)
         {
-            choice = QMessageBox::information (this,
-                                               "Nouveaux paramètres",
-                                               "Ce projet contient de nouveaux paramètres.\nAppuyer sur OK pour les sauvegarder,\nsinon sur Non\nou sur Fermer pour quitter.\n",
-                                               "Oui", "Non", "Fermer");
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Nouveaux paramètres");
+            msgBox.setText("Ce projet contient de nouveaux paramètres.\n");
+            msgBox.setInformativeText("Appuyer sur OK pour les sauvegarder,\nsinon sur Non\nou sur Fermer pour quitter.\n");
+            msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+            msgBox.setDefaultButton(QMessageBox::Yes);
+
+            int choice = msgBox.exec();
 
             switch (choice)
                 {
-                case 0  :
-                    // parent->dialog->clearOptionData();
-                    break;
+                    case QMessageBox::No  :
+                        // parent->dialog->clearOptionData();
+                        break;
 
-                case 1 :
-                    options::RefreshFlag = interfaceStatus::keepOptionTabs;
-                    break;
+                    case QMessageBox::Yes :
+                        options::RefreshFlag = interfaceStatus::keepOptionTabs;
+                        break;
 
-                case 2 :
-                default:
-                    return;
-                    break;
+                    case QMessageBox::Cancel :
+                    default:
+                        return;
                 }
         }
 
@@ -509,10 +506,15 @@ void Altair::clearProjectData()
     Hash::Suppression.clear();
     Hash::fileList.clear();
 
-
     project->mainTabWidget->setCurrentIndex (0);
     project->initializeWidgetContainer();
     parent->dialog->codeTab->resetLabel();
+
+    fileSizeDataBase[0].clear();
+
+    refreshProjectManagerValues(manager::refreshProjectInteractiveMode
+                                 | manager::refreshAllZones);
+
 }
 
 void Altair::on_helpButton_clicked()
@@ -749,7 +751,7 @@ bool Altair::refreshProjectManager()
 
     qint64 filesize = file.size() ;
 
-    // Step 2: parsing on opening .dvp project  (=update tree +refresh tabs) or adding/deleting tab files (=update tree)
+    // Step 2: parse le projet .alt
 
     if ((RefreshFlag & interfaceStatus::treeMask) == interfaceStatus::tree)
         {
@@ -779,7 +781,6 @@ bool Altair::refreshProjectManager()
             else  // Ne pas reparser le XML simplement utiliser le conteneur de données
                 {
                     refreshProjectManagerValues (manager::refreshProjectInteractiveMode
-                                                 | manager::refreshNBulletins
                                                  | manager::refreshXHLZone
                                                  | manager::refreshSystemZone);
                 }
