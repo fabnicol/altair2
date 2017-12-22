@@ -69,6 +69,7 @@ de	dataentry
 de.ncols	dataentry
 de.restore	dataentry
 de.setup	dataentry
+debugcall	debugcall
 debugger	debugger
 demo	demo
 download.file	download.file
@@ -89,6 +90,8 @@ findLineNum	findLineNum
 fix	fix
 fixInNamespace	getFromNamespace
 flush.console	flush.console
+format.bibentry	bibentry
+format.citation	bibentry
 format.object_size	object.size
 format.person	person
 formatOL	format
@@ -107,6 +110,7 @@ getSrcref	sourceutils
 getTxtProgressBar	txtProgressBar
 glob2rx	glob2rx
 globalVariables	globalVariables
+hasName	hasName
 head	head
 head.data.frame	head
 head.default	head
@@ -127,6 +131,7 @@ install.packages	install.packages
 installed.packages	installed.packages
 is.relistable	relist
 isS3method	isS3method
+isS3stdGeneric	isS3stdGen
 limitedLabels	recover
 LINK	LINK
 loadhistory	savehistory
@@ -163,6 +168,7 @@ print.bibentry	bibentry
 print.Bibtex	toLatex
 print.browseVignettes	browseVignettes
 print.changedFiles	changedFiles
+print.citation	bibentry
 print.fileSnapshot	changedFiles
 print.getAnywhere	getAnywhere
 print.hsearch	help.search
@@ -236,6 +242,7 @@ setBreakpoint	findLineNum
 setRepositories	setRepositories
 setTxtProgressBar	txtProgressBar
 SHLIB	SHLIB
+sort.bibentry	bibentry
 stack	stack
 stack.data.frame	stack
 stack.default	stack
@@ -243,6 +250,7 @@ Stangle	Sweave
 str	str
 str.data.frame	str
 str.default	str
+strcapture	strcapture
 strOptions	str
 summary.packageStatus	packageStatus
 summaryRprof	summaryRprof
@@ -268,6 +276,7 @@ toLatex	toLatex
 toLatex.sessionInfo	sessionInfo
 txtProgressBar	txtProgressBar
 type.convert	type.convert
+undebugcall	debugcall
 unlist.relistable	relist
 unstack	stack
 unstack.data.frame	stack
