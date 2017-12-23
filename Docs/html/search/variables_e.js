@@ -14,7 +14,7 @@ var searchData=
   ['processtoolbar',['processToolBar',['../class_main_window.html#a153817ffb5d24b333e1f581cd5454e82',1,'MainWindow']]],
   ['processtoolbaraction',['processToolBarAction',['../class_main_window.html#ae3b635bacdf27c77308fa55b44a441d2',1,'MainWindow']]],
   ['processtypebox',['processTypeBox',['../classprocess_page.html#ac9d89a5a06c053514e6c655a090c8cd5',1,'processPage']]],
-  ['processtypewidget',['processTypeWidget',['../classprocess_page.html#a90fe0f3345c4f3e91612bd7217f45e38',1,'processPage::processTypeWidget()'],['../classstandard_page.html#a412ed9056bc1b83fa701a0b28fc4fae3',1,'standardPage::processTypeWidget()']]],
+  ['processtypewidget',['processTypeWidget',['../classprocess_page.html#a90fe0f3345c4f3e91612bd7217f45e38',1,'processPage']]],
   ['progress',['progress',['../class_altair.html#a73c07f0548862cfeecdd5e58c5db17bd',1,'Altair']]],
   ['progresslayout',['progressLayout',['../class_altair.html#a26e961c8c8a8b8cc0f181b36d0cd61fc',1,'Altair']]],
   ['project',['project',['../class_altair.html#aa2a75bb1459908902ea2ebb8854ea925',1,'Altair']]],

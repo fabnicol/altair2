@@ -4,6 +4,6 @@
 <area shape="rect" id="node5" href="$class_matricule_input.html" title="Classe permettant de construire un dialogue d&#39;extraction des bulletins de paye par matricule..." alt="" coords="125,259,229,285"/>
 <area shape="rect" id="node6" href="$classoptions.html" title="options" alt="" coords="145,107,209,133"/>
 <area shape="rect" id="node7" href="$classprocess_page.html" title="processPage" alt="" coords="128,157,227,184"/>
-<area shape="rect" id="node8" href="$classstandard_page.html" title="standardPage" alt="" coords="126,208,229,235"/>
+<area shape="rect" id="node8" href="$classstandard_page.html" title="Classe de l&#39;onglet &quot;Format des bases&quot; du dialogue d&#39;options. " alt="" coords="126,208,229,235"/>
 <area shape="rect" id="node9" href="$classcommon.html" title="common" alt="" coords="5,107,77,133"/>
 </map>

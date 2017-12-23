@@ -1,7 +1,6 @@
 var searchData=
 [
   ['hasindexchanged',['hasIndexChanged',['../class_altair.html#af64392f7e402be8c432adb3be537bdea',1,'Altair']]],
-  ['hasindexchangedsignal',['hasIndexChangedSignal',['../class_altair.html#a8332a09df606d2bea01860b7e8ceb6ad',1,'Altair']]],
   ['hassavedoptions',['hasSavedOptions',['../classinterface_status.html#a753d8d7ec9d96e22d2480c9f64306da2',1,'interfaceStatus']]],
   ['hassavedoptionsmask',['hasSavedOptionsMask',['../classinterface_status.html#a17baea881e45c279e417e194240e66b4',1,'interfaceStatus']]],
   ['hasunsavedoptions',['hasUnsavedOptions',['../classinterface_status.html#af730c3975a97a6209ef3f7bdd1fb5fa4',1,'interfaceStatus']]],
