@@ -10,8 +10,7 @@ var searchData=
   ['separatoraction',['separatorAction',['../class_main_window.html#ab85c652c82929c2511fca92594464a18',1,'MainWindow']]],
   ['settings',['settings',['../class_main_window.html#a4d8dbbb57b71b4fde207e465526a6753',1,'MainWindow']]],
   ['sharedir',['sharedir',['../classcommon.html#a8661164975ed6a37e90861bd294ddcc5',1,'common']]],
-  ['sourcedir',['sourceDir',['../class_altair.html#a2f93438eb1a75b0b80082f8b77598c14',1,'Altair']]],
-  ['standardmsg',['standardMsg',['../classprocess_page.html#a3815041f2e42722e702e06faf2af7f0c',1,'processPage::standardMsg()'],['../classstandard_page.html#a4e78ca761f4d6a1d813b4758e25364eb',1,'standardPage::standardMsg()']]],
+  ['standardmsg',['standardMsg',['../classprocess_page.html#a3815041f2e42722e702e06faf2af7f0c',1,'processPage']]],
   ['standardtab',['standardTab',['../classoptions.html#a0ef4b58fb9e815553ae5dc02a70ec168',1,'options']]],
   ['step_5fup',['STEP_UP',['../gui__enums_8h.html#afe38766880652cf6ce8881ab97fa978e',1,'gui_enums.h']]]
 ];
