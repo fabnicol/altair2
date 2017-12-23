@@ -33,7 +33,6 @@ var searchData=
   ['maximum_5flignes_5fpar_5fannee',['MAXIMUM_LIGNES_PAR_ANNEE',['../validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742ad66f3084ab689a74cd89aa2c955a7a92',1,'validator.h']]],
   ['maxnlignelabel',['maxNLigneLabel',['../classstandard_page.html#a7841dc501ff7b555551b28df561976d4',1,'standardPage']]],
   ['maxnlignelineedit',['maxNLigneLineEdit',['../classstandard_page.html#a161a84c73bdf182588e7314144d0ef9c',1,'standardPage']]],
-  ['maxrange',['maxRange',['../class_altair.html#a00be4335597dacfabcafe797e7b2f752',1,'Altair']]],
   ['maxrecentfiles',['MaxRecentFiles',['../class_main_window.html#a0ee5fdf298d8f30b5e29418348ecaacfacffff941ca3da9119f465d531db6dc86',1,'MainWindow::MaxRecentFiles()'],['../class_altair.html#a0f6d929971f591136288741d7224499daafcb551f43b08d452fe6bf97c0f5963b',1,'Altair::MaxRecentFiles()']]],
   ['medecin',['MEDECIN',['../expression__reg__cata_8h.html#af7007479ac9fb8a25794a3e911a9bc4e',1,'expression_reg_cata.h']]],
   ['medico_5fadm',['MEDICO_ADM',['../expression__reg__cata_8h.html#a09356fb8fcf9b7904a7d522baca458ec',1,'expression_reg_cata.h']]],

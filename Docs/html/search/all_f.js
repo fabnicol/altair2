@@ -46,7 +46,7 @@ var searchData=
   ['processtoolbar',['processToolBar',['../class_main_window.html#a153817ffb5d24b333e1f581cd5454e82',1,'MainWindow']]],
   ['processtoolbaraction',['processToolBarAction',['../class_main_window.html#ae3b635bacdf27c77308fa55b44a441d2',1,'MainWindow']]],
   ['processtypebox',['processTypeBox',['../classprocess_page.html#ac9d89a5a06c053514e6c655a090c8cd5',1,'processPage']]],
-  ['processtypewidget',['processTypeWidget',['../classprocess_page.html#a90fe0f3345c4f3e91612bd7217f45e38',1,'processPage::processTypeWidget()'],['../classstandard_page.html#a412ed9056bc1b83fa701a0b28fc4fae3',1,'standardPage::processTypeWidget()']]],
+  ['processtypewidget',['processTypeWidget',['../classprocess_page.html#a90fe0f3345c4f3e91612bd7217f45e38',1,'processPage']]],
   ['produire_5fsegment',['produire_segment',['../lhx_2main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b',1,'main.cpp']]],
   ['professeur',['PROFESSEUR',['../expression__reg__cata_8h.html#a2cf4011ddb110f03534c97a64fa6c52f',1,'expression_reg_cata.h']]],
   ['programmeur',['PROGRAMMEUR',['../expression__reg__cata_8h.html#a62bc230fba74dbdd55006f53963b1824',1,'expression_reg_cata.h']]],

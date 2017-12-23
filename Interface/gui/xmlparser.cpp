@@ -48,15 +48,15 @@
 #include "common.h"
 
 
-/// \page page1 Documentation des projets Altaïr d'extension .alt
+/// \page page_alt Documentation des projets Altaïr d'extension .alt
 /// \tableofcontents
 ///
-/// \section  sec1 Exemple commenté de projet
+/// \section  sec_alt Exemple commenté de projet
 ///
 /// \par
 /// <pre>
-///<?xml version="1.0"?>
-///<projet version="17.12-1">
+/// <?xml version="1.0"?>
+/// <projet version="17.12-1">
 /// <data>
 ///  <XHL profondeur="2">
 ///   <onglet V="2011">
@@ -121,7 +121,7 @@
 ///   oui
 ///  </quiet>
 ///  <baseType profondeur="0">
-///
+///  &nbsp;
 ///  </baseType>
 ///  <maxLigne profondeur="0">
 ///   1000000
@@ -181,52 +181,52 @@
 ///   non
 ///  </enchainerRapports>
 ///  <TRAITEMENT profondeur="0">
-///
+///  &nbsp;
 ///  </TRAITEMENT>
 ///  <NBI profondeur="0">
-///
+///  &nbsp;
 ///  </NBI>
 ///  <PFI profondeur="0">
-///
+///  &nbsp;
 ///  </PFI>
 ///  <PFR profondeur="0">
-///
+///  &nbsp;
 ///  </PFR>
 ///  <IPF profondeur="0">
-///
+///  &nbsp;
 ///  </IPF>
 ///  <PSR profondeur="0">
-///
+///  &nbsp;
 ///  </PSR>
 ///  <IFTS profondeur="0">
-///
+///  &nbsp;
 ///  </IFTS>
 ///  <IAT profondeur="0">
-///
+///  &nbsp;
 ///  </IAT>
 ///  <IHTS profondeur="0">
-///
+///  &nbsp;
 ///  </IHTS>
 ///  <VACATAIRES profondeur="0">
-///
+///  &nbsp;
 ///  </VACATAIRES>
 ///  <ASTREINTES profondeur="0">
-///
+///  &nbsp;
 ///  </ASTREINTES>
 ///  <Matricules profondeur="0">
-///
+///  &nbsp;
 ///  </Matricules>
 ///  <MatriculesB profondeur="0">
-///
+///  &nbsp;
 ///  </MatriculesB>
 ///  <MatriculesC profondeur="0">
-///
+///  &nbsp;
 ///  </MatriculesC>
 ///  <dossierBulletins profondeur="0">
 ///   /home/fab/Dev/altair/Tests/Exemple/Donnees/Bulletins
 ///  </dossierBulletins>
 /// </systeme>
-///</projet>
+/// </projet>
 /// </pre>
 
 
