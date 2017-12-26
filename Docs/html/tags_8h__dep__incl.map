@@ -1,0 +1,37 @@
+<map id="fwidgets_lib/tags.h" name="fwidgets_lib/tags.h">
+<area shape="rect" id="node2" href="$validator_8h.html" title="Ce fichier contient notamment la structure info_t qui stocke les données de paye décodées ainsi que l..." alt="" coords="415,80,518,107"/>
+<area shape="rect" id="node3" href="$fonctions__auxiliaires_8h.html" title="Diverses fonctions auxiliaires en inlining. " alt="" coords="163,155,335,181"/>
+<area shape="rect" id="node4" href="$fonctions__auxiliaires_8cpp.html" title="Ce fichier contient le code relatif aux fonctions auxiliaires utilisées par les fonctions principales..." alt="" coords="23,229,209,256"/>
+<area shape="rect" id="node5" href="$ligne__paye_8h.html" title="Définit deux fonctions auxiliaires utilisées dans lignes_paye.cpp. " alt="" coords="605,229,721,256"/>
+<area shape="rect" id="node9" href="$table_8cpp.html" title="Ce fichier contient l&#39;ensemble du code permettant de générer les fichiers des bulletins de paye et li..." alt="" coords="745,229,841,256"/>
+<area shape="rect" id="node10" href="$table_8h.html" title="lhx/table.h" alt="" coords="547,155,629,181"/>
+<area shape="rect" id="node13" href="$altair_8cpp.html" title="Code implémentant la classe principale Altair, qui joue le rôle d&#39;agent de l&#39;interface graphique..." alt="" coords="895,543,1046,569"/>
+<area shape="rect" id="node14" href="$fwidgets_8h.html" title="fwidgets_lib/fwidgets.h" alt="" coords="1732,80,1887,107"/>
+<area shape="rect" id="node6" href="$ligne__paye_8cpp.html" title="Ce fichier contient le code relatif au traitement individuel des lignes de paye. " alt="" coords="679,304,809,331"/>
+<area shape="rect" id="node7" href="$validator_8cpp.html" title="Ce fichier contient le code relatif au décoidage de la partie &quot;bulletins de paye&quot; (variables communes..." alt="" coords="348,304,465,331"/>
+<area shape="rect" id="node8" href="$lhx_2main_8cpp.html" title="Ce fichier contient le code relatif à l&#39;analyse de la ligne de commande, au découpage de la liste des..." alt="" coords="284,229,380,256"/>
+<area shape="rect" id="node11" href="$recherche_8h.html" title="lhx/recherche.h" alt="" coords="411,155,522,181"/>
+<area shape="rect" id="node12" href="$recherche_8cpp.html" title="Ce fichier contient le code permettant de rechercher en mémoire, après décodage des bases XML..." alt="" coords="404,229,529,256"/>
+<area shape="rect" id="node15" href="$common_8h.html" title="Code de la classe common, qui regroupe des utilitaires communs à l&#39;interface graphique MainWindow..." alt="" coords="1587,229,1746,256"/>
+<area shape="rect" id="node18" href="$altair_8h.html" title="Code de la classe principale Altair, qui joue le rôle d&#39;agent de l&#39;interface graphique. " alt="" coords="1574,468,1711,495"/>
+<area shape="rect" id="node21" href="$run_8cpp.html" title="Implémentation de la classe Altair agent de la classe MainWindow qui construit l&#39;interface graphique..." alt="" coords="2308,543,2449,569"/>
+<area shape="rect" id="node27" href="$highlighter_8cpp.html" title="Implémentation de la classe Highlighter qui sert à coloriser le code XML des projets ..." alt="" coords="2031,155,2214,181"/>
+<area shape="rect" id="node28" href="$flineframe_8h.html" title="Ce fichier contient la classe FLineFrame, dérivée fonctionnelle de FLineEdit. " alt="" coords="1247,155,1409,181"/>
+<area shape="rect" id="node29" href="$flineframe_8cpp.html" title="fwidgets_lib/flineframe.cpp" alt="" coords="1386,229,1563,256"/>
+<area shape="rect" id="node30" href="$tools_8h.html" title="fwidgets_lib/tools.h" alt="" coords="1873,155,2007,181"/>
+<area shape="rect" id="node31" href="$flistframe_8h.html" title="fwidgets_lib/flistframe.h" alt="" coords="1821,229,1981,256"/>
+<area shape="rect" id="node33" href="$fwidgets_8cpp.html" title="fwidgets_lib/fwidgets.cpp" alt="" coords="2303,304,2473,331"/>
+<area shape="rect" id="node16" href="$options_8h.html" title="Code des classes du dialogue d&#39;options. " alt="" coords="1069,304,1219,331"/>
+<area shape="rect" id="node17" href="$altair-gui_8h.html" title="Code de la classe MainWindow qui construit l&#39;interface graphique. " alt="" coords="1327,379,1454,420"/>
+<area shape="rect" id="node19" href="$mainwindow_8cpp.html" title="Code de l&#39;implémentation de la classe MainWindow de l&#39;interface graphique. " alt="" coords="1545,543,1740,569"/>
+<area shape="rect" id="node22" href="$xmlparser_8cpp.html" title="Implémentation de la classe Altair agent de la classe MainWindow qui construit l&#39;interface graphique..." alt="" coords="1813,543,1993,569"/>
+<area shape="rect" id="node24" href="$common_8cpp.html" title="Interface/gui/common.cpp" alt="" coords="1488,304,1661,331"/>
+<area shape="rect" id="node25" href="$matricules_8h.html" title="Code de la classe MatriculeInput, qui construit un dialogue d&#39;extraction des bulletins. " alt="" coords="1243,304,1413,331"/>
+<area shape="rect" id="node20" href="$options_8cpp.html" title="Implémentation des classes du dialogue d&#39;options. " alt="" coords="1071,543,1236,569"/>
+<area shape="rect" id="node23" href="$_interface_2gui_2main_8cpp.html" title="Lance l&#39;interface graphique en chargeant le bon contexte linguistique et la feuille de style..." alt="" coords="1327,468,1478,495"/>
+<area shape="rect" id="node26" href="$matricules_8cpp.html" title="Implémentation de la classe MatriculeInput, qui construit un dialogue d&#39;extraction des bulletins..." alt="" coords="1478,386,1661,413"/>
+<area shape="rect" id="node34" href="$fstring_8cpp.html" title="fwidgets_lib/fstring.cpp" alt="" coords="2426,229,2582,256"/>
+<area shape="rect" id="node35" href="$gui__options_8h.html" title="fwidgets_lib/gui_options.h" alt="" coords="2006,229,2178,256"/>
+<area shape="rect" id="node36" href="$tools_8cpp.html" title="fwidgets_lib/tools.cpp" alt="" coords="2202,229,2350,256"/>
+<area shape="rect" id="node32" href="$flistframe_8cpp.html" title="fwidgets_lib/flistframe.cpp" alt="" coords="1939,304,2114,331"/>
+</map>

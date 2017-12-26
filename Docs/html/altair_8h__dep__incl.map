@@ -5,5 +5,5 @@
 <area shape="rect" id="node6" href="$options_8cpp.html" title="Implémentation des classes du dialogue d&#39;options. " alt="" coords="562,87,727,114"/>
 <area shape="rect" id="node7" href="$run_8cpp.html" title="Implémentation de la classe Altair agent de la classe MainWindow qui construit l&#39;interface graphique..." alt="" coords="751,87,893,114"/>
 <area shape="rect" id="node8" href="$xmlparser_8cpp.html" title="Implémentation de la classe Altair agent de la classe MainWindow qui construit l&#39;interface graphique..." alt="" coords="917,87,1097,114"/>
-<area shape="rect" id="node3" href="$_interface_2gui_2main_8cpp.html" title="Interface/gui/main.cpp" alt="" coords="5,169,156,196"/>
+<area shape="rect" id="node3" href="$_interface_2gui_2main_8cpp.html" title="Lance l&#39;interface graphique en chargeant le bon contexte linguistique et la feuille de style..." alt="" coords="5,169,156,196"/>
 </map>

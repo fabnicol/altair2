@@ -1,12 +1,9 @@
 var searchData=
 [
-  ['matricule',['Matricule',['../validator_8h.html#a7298899e034c29b49f749493c80a055dafe86be2251e18e829184017bc00cfcf4',1,'validator.h']]],
-  ['maximum_5flignes',['MAXIMUM_LIGNES',['../validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742a04587a57da129affd899aba9fb79cb79',1,'validator.h']]],
-  ['maximum_5flignes_5fpar_5fannee',['MAXIMUM_LIGNES_PAR_ANNEE',['../validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742ad66f3084ab689a74cd89aa2c955a7a92',1,'validator.h']]],
-  ['maxrecentfiles',['MaxRecentFiles',['../class_main_window.html#a0ee5fdf298d8f30b5e29418348ecaacfacffff941ca3da9119f465d531db6dc86',1,'MainWindow::MaxRecentFiles()'],['../class_altair.html#a0f6d929971f591136288741d7224499daafcb551f43b08d452fe6bf97c0f5963b',1,'Altair::MaxRecentFiles()']]],
-  ['mois',['Mois',['../validator_8h.html#a7298899e034c29b49f749493c80a055da823130308643faf1dc52136366ea5655',1,'validator.h']]],
-  ['monolithique',['MONOLITHIQUE',['../validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742a1dac6caf72a9bbfcc5905afcbead6694',1,'validator.h']]],
-  ['mtbrut',['MtBrut',['../validator_8h.html#a7298899e034c29b49f749493c80a055daa45ef2df30b1316f2e2445bae86d1c84',1,'validator.h']]],
-  ['mtnet',['MtNet',['../validator_8h.html#a7298899e034c29b49f749493c80a055dafc32c843a21ebad2b54129a3ee361595',1,'validator.h']]],
-  ['mtnetapayer',['MtNetAPayer',['../validator_8h.html#a7298899e034c29b49f749493c80a055daf9d03119c547046926d5b680f278172b',1,'validator.h']]]
+  ['importfiles',['importFiles',['../classflags.html#a765fe08ff11cc9bd46d940b4f8835d30a5e7bc402eee0bd82820c486daf540ee0',1,'flags']]],
+  ['importnames',['importNames',['../classflags.html#a765fe08ff11cc9bd46d940b4f8835d30a0a43b2a13a74a08a4ae3230d8fbef73f',1,'flags']]],
+  ['indice',['Indice',['../validator_8h.html#a7298899e034c29b49f749493c80a055da9479f2bbd5d88eaecf9edbe1ea2a5bb3',1,'validator.h']]],
+  ['isdirectorypath',['isDirectoryPath',['../classflags.html#a63bbc6582bdb497673a0189f5d9c655eaf26a15db14f2bde18b8cd7aa542401b4',1,'flags']]],
+  ['isfilepath',['isFilePath',['../classflags.html#a63bbc6582bdb497673a0189f5d9c655eac168706b058e7b99ff1a1f280e251d2a',1,'flags']]],
+  ['italictitle',['italicTitle',['../classflags.html#aaade999d13c60d05836adbe81c510e1ba2ff5f73d0345b68cf8e71191f06370b9',1,'flags']]]
 ];

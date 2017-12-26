@@ -1,0 +1,12 @@
+<map id="fwidgets_lib/flistframe.h" name="fwidgets_lib/flistframe.h">
+<area shape="rect" id="node2" href="$altair_8h.html" title="Code de la classe principale Altair, qui joue le rôle d&#39;agent de l&#39;interface graphique. " alt="" coords="372,80,509,107"/>
+<area shape="rect" id="node10" href="$flistframe_8cpp.html" title="fwidgets_lib/flistframe.cpp" alt="" coords="533,80,708,107"/>
+<area shape="rect" id="node11" href="$fwidgets_8cpp.html" title="fwidgets_lib/fwidgets.cpp" alt="" coords="732,80,901,107"/>
+<area shape="rect" id="node3" href="$altair-gui_8h.html" title="Code de la classe MainWindow qui construit l&#39;interface graphique. " alt="" coords="17,155,144,196"/>
+<area shape="rect" id="node5" href="$altair_8cpp.html" title="Code implémentant la classe principale Altair, qui joue le rôle d&#39;agent de l&#39;interface graphique..." alt="" coords="168,162,319,189"/>
+<area shape="rect" id="node6" href="$mainwindow_8cpp.html" title="Code de l&#39;implémentation de la classe MainWindow de l&#39;interface graphique. " alt="" coords="343,162,538,189"/>
+<area shape="rect" id="node7" href="$options_8cpp.html" title="Implémentation des classes du dialogue d&#39;options. " alt="" coords="562,162,727,189"/>
+<area shape="rect" id="node8" href="$run_8cpp.html" title="Implémentation de la classe Altair agent de la classe MainWindow qui construit l&#39;interface graphique..." alt="" coords="751,162,893,189"/>
+<area shape="rect" id="node9" href="$xmlparser_8cpp.html" title="Implémentation de la classe Altair agent de la classe MainWindow qui construit l&#39;interface graphique..." alt="" coords="917,162,1097,189"/>
+<area shape="rect" id="node4" href="$_interface_2gui_2main_8cpp.html" title="Lance l&#39;interface graphique en chargeant le bon contexte linguistique et la feuille de style..." alt="" coords="5,244,156,271"/>
+</map>

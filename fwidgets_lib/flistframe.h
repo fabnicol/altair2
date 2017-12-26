@@ -5,7 +5,7 @@
 // fabrnicol@gmail.com
 //
 // Ce logiciel est régi par les dispositions du code de la propriété
-// intellectuelle. 
+// intellectuelle (CPI).
 
 // L'auteur se réserve le droit d'exploitation du présent logiciel, 
 // et notamment de reproduire et de modifier le logiciel, conformément aux 
@@ -30,10 +30,10 @@
 // pris connaissance de ces stipulations et que vous en avez accepté les
 // termes.
 
-// Pour l'année 2017, une autorisation d'usage, de modification et de 
+// Sans préjudice des dispositions du CPI, une autorisation d'usage et de
 // reproduction du présent code est donnée à tout agent employé par les
-// juridictions financières. Cette autorisation est temporaire et peut être 
-// révoquée.
+// juridictions financières pour l'exercice de leurs fonctions publiques.
+// Le code ainsi mis à disposition ne peut être transmis à d'autres utilisateurs.
 //
 //
 //
@@ -62,9 +62,9 @@ public:
  QVector<QListWidget*> widgetContainer;  ///< Conteneur des widgets listes composant les onglets
  FListWidget *fileListWidget;            ///< fwidget associé à QWidget représentant l'onglet courant
  QString frameHashKey;                   ///< Balise XML correspondant à la classe
- std::vector<QThread*> thread;           ///< Vecteur de fils d'exécution permettant de lance \ref parseXhlFile sur chaque fichier d'onglet
- int size = 0;                           ///< Nombre totalde fichiers dans \ref widgetContainer
- QToolButton *importFromMainTree=new QToolButton; ///< Bouton permettant d'importer des fichiers d'une arborescence de fichiers \ref fileTreeView
+ std::vector<QThread*> thread;           ///< Vecteur de fils d'exécution permettant de lance  parseXhlFile sur chaque fichier d'onglet
+ int size = 0;                           ///< Nombre totalde fichiers dans  widgetContainer
+ QToolButton *importFromMainTree=new QToolButton; ///< Bouton permettant d'importer des fichiers d'une arborescence de fichiers  fileTreeView
  QStringList tabLabels;                  ///< Liste des titres des onglets
 # ifndef USE_RIGHT_CLICK
 
@@ -74,8 +74,8 @@ public:
 # endif
 
  QTabWidget *mainTabWidget;                      ///< Onglet central matrice
- QAbstractItemView *fileTreeView;                ///< Arborescence de fichiers pour importation par \ref importFromMainTree
- QFileSystemModel *model = new QFileSystemModel; ///< Modèle de fichiers sous-jacent à \ref fileTreeView
+ QAbstractItemView *fileTreeView;                ///< Arborescence de fichiers pour importation par  importFromMainTree
+ QFileSystemModel *model = new QFileSystemModel; ///< Modèle de fichiers sous-jacent à  fileTreeView
  QGroupBox *controlButtonBox = new QGroupBox;    ///< Boîte permettant de regrouper divers boutons de contrôle (haut/bas etc.)
  bool use_threads = false;                       ///< Par défaut, les fils d'exécution ne seront pas utilisés. Seront activés en cas d'input disque optique.
 
@@ -92,65 +92,68 @@ public:
                                 return labels;
                             }
 
- /// Récupère la taille courante (0-based) du conteneur \ref widgetContainer
+ /// Récupère la taille courante (0-based) du conteneur  widgetContainer
  /// Cette taille doit en principe être alignée avec le nombre d'onglets en présence
  /// \return Taille du conteneur moins 1.
 
  int getRank() {return widgetContainer.size()-1;}
 
- /// Accesseur en lecture de \ref frameHashKey, balise XML du fwidget.
- /// \return Valeur de \ref frameHashKey
+ /// Accesseur en lecture de  frameHashKey, balise XML du fwidget.
+ /// \return Valeur de  frameHashKey
 
  const QString &getHashKey() const {return frameHashKey;}
 
- /// Accesseur en lecture de \ref widgetContainer
- /// \return Valeur de \ref widgetContainer
+ /// Accesseur en lecture de  widgetContainer
+ /// \return Valeur de  widgetContainer
 
  QVector<QListWidget*>  getWidgetContainer() {return widgetContainer;}
 
- /// Accesseur en lecture du nombre d'éléments (nombre d'onglets) du vecteur \ref widgetContainer
- /// \return Valeur de la méthode \e size() pour \ref widgetContainer
+ /// Accesseur en lecture du nombre d'éléments (nombre d'onglets) du vecteur  widgetContainer
+ /// \return Valeur de la méthode \e size() pour  widgetContainer
 
  int getWidgetContainerCount() {return widgetContainer.size();}
 
- /// Accesseur en lecture du nombre d'items (fichiers) dans l'élément (onglet) de rang donné de \ref widgetContainer
- /// \param g Rang (0-based) de l'élément (onglet) du vecteur \ref widgetContainer
- /// \return Valeur de la méthode count() pour \ref widgetContainer[g]
+ /// Accesseur en lecture du nombre d'items (fichiers) dans l'élément (onglet) de rang donné de  widgetContainer
+ /// \param g Rang (0-based) de l'élément (onglet) du vecteur  widgetContainer
+ /// \return Valeur de la méthode count() pour  widgetContainer[g]
 
  int getWidgetContainerCount(int g) {return widgetContainer.at(g)->count();}
 
- /// Accesseur en lecture d'un élément de rang donné du vecteur \ref widgetContainer
- /// \param g Rang (0-based) de l'élément du vecteur
- /// \return Si g est inférieur à la taille du vecteur, valeur de l'élément de rang g du vecteur \ref widgetContainer, sinon nullptr.
+ /// Accesseur en lecture d'un élément de rang donné du vecteur widgetContainer
+ /// \param rank Rang (0-based) de l'élément du vecteur
+ /// \return Si rank est inférieur à la taille du vecteur, valeur de l'élément de rang rank du vecteur widgetContainer, sinon \e nullptr.
 
  QListWidget*  getWidgetContainer(int rank) {if (rank < widgetContainer.count()) return widgetContainer[rank]; else return nullptr;}
 
  /// Accesseur en lecture du rang (index) de l'onglet courant (0-based)
- /// \return Valeur de la méthode \e currentIndex() pour \ref mainTabWidget
+ /// \return Valeur de la méthode \e currentIndex() pour  mainTabWidget
 
  int getCurrentIndex() { return this->mainTabWidget->currentIndex(); }
 
- /// Accesseur en lecture de \ref
- /// \return Valeur de \ref
+ /// Accesseur en lecture de /
+ /// \return Valeur de
+
  QListWidget*  getCurrentWidget() { return widgetContainer.at(getCurrentIndex());}
 
- /// Accesseur en lecture de \ref
- /// \return Valeur de \ref
+ /// Accesseur en lecture de /
+ /// \return Valeur de
+
  QString  getCurrentLabel() { return this->mainTabWidget->tabText(getCurrentIndex());}
 
- /// Accesseur en lecture de \ref
- /// \return Valeur de \ref
+ /// Accesseur en lecture de /
+ /// \return Valeur de
+
  QString  getLabel(int index) { return this->mainTabWidget->tabText(index);}
 
- /// Accesseur en lecture de \ref
- /// \return Valeur de \ref
- QGroupBox* getControlButtonBox() { return controlButtonBox;}
+ /// Accesseur en lecture de /
+ /// \return Valeur de
 
+ QGroupBox* getControlButtonBox() { return controlButtonBox;}
 
  void setControlButtonBoxVisible(bool x) {controlButtonBox->setVisible(x);}
 
- /// Accesseur en lecture de \ref
- /// \return Valeur de \ref
+ /// Accesseur en lecture de /
+ /// \return Valeur de
  int getCurrentRow() { return getCurrentWidget()->currentRow(); }
 
 void setStatus(flags::status status) {fileListWidget->status=status;}
@@ -161,9 +164,10 @@ void setTabLabels(QStringList& tabLabels) { fileListWidget->setTabLabels(tabLabe
 
 inline bool listConnected() { return isListConnected; }
 
-/// Accesseur en lecture de \ref
-/// \return Valeur de \ref
-inline int  getSlotListSize() {  return (isListConnected == true || isTotalConnected == true)? slotListSize : -1; }
+/// Accesseur en lecture de
+/// \return Valeur de ine
+
+int  getSlotListSize() {  return (isListConnected == true || isTotalConnected == true)? slotListSize : -1; }
 
 FListFrame(QAbstractItemView* tree, short import_type,
            const QString &hashKey,
@@ -207,23 +211,23 @@ private:
  void list_connect(FListFrame* w);
  void total_connect(FListFrame* w);
 
- /// Actualise \ref currentWidget, \ref row et \ref currentIndex
+ /// Actualise  currentWidget,  row et  currentIndex
 
  void updateIndexInfo();
 
- /// Efface tous les onglets et, selon la valeur des paramètres, insère un onglet vierge (ou pas) et efface \ref Hash::wrapper (ou pas)
+ /// Efface tous les onglets et, selon la valeur des paramètres, insère un onglet vierge (ou pas) et efface  Hash::wrapper (ou pas)
  /// \param insertFirstGroup  Si true, insère un onglet vierge après l'effacement des onglets
- /// \param eraseAllData Si true, efface toute la table de hachage \ref Hash::wrapper
+ /// \param eraseAllData Si true, efface toute la table de hachage  Hash::wrapper
 
  void deleteAllGroups(bool insertFirstGroup, bool eraseAllData);
 
- /// Efface \ref widgetContainer
+ /// Efface  widgetContainer
 
  void clearWidgetContainer();
 
  /// Lancer un fil d'exécution pour lire l'entête d'un fichier XHL (Année, Mois,...) et classer les fichiers par onglet automatiquement
  /// \param rank Rang du fichier dans la liste des fichiers de l'onglet central
- /// \note Cette fonction appelle \ref parseXhlFile
+ /// \note Cette fonction appelle  parseXhlFile
  /// \todo Cette fonction pourrait être optimisée en ne lançant pas les fils d'exécution de manière successive mais par par groupe avec plusieurs fils parallèles dans chaque groupe
 
  void launch_thread(int rank);
@@ -235,7 +239,7 @@ private:
 
  void parseXhlFile(const QString& fileName);
 
- /// Appelle \ref parseXhlFile(const QString&) sur l'ensemble de \ref widgetContainer
+ /// Appelle  parseXhlFile(const QString&) sur l'ensemble de  widgetContainer
 
  void parseXhlFile();
 

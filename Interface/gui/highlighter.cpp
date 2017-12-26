@@ -40,7 +40,7 @@
 
 /// \file highlighter.cpp
 /// \author Digia Plc
-/// \brief Implémentation de la classe \ref Highlighter qui sert à coloriser le code XML des projets .alt
+/// \brief Implémentation de la classe  Highlighter qui sert à coloriser le code XML des projets \b .alt
 /// \note Ce code est emprunté tel quel, avec quelques adaptations mineures,
 ///  à l'éditeur Digia sous licence BSD dans le cadre de l'usage de <i>fair use</i>.<br><b>Il n'est pas documenté.</b>
 

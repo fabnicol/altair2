@@ -82,7 +82,6 @@ MainWindow::MainWindow (char* projectName)
     height = rec.height();
     width  = rec.width();
 
-    recentFiles = QStringList() ;
     settings = new QSettings ("altair", "Juridictions Financières");
 
     altair = new Altair;

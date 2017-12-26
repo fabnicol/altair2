@@ -1,0 +1,10 @@
+<map id="FListFrame::parsed" name="FListFrame::parsed">
+<area shape="rect" id="node2" href="$class_f_list_frame.html#a22a50157e8c6d287c2b2c08d2b7deee9" title="Lancer un fil d&#39;exécution pour lire l&#39;entête d&#39;un fichier XHL (Année, Mois,...) et classer les fichie..." alt="" coords="205,27,339,69"/>
+<area shape="rect" id="node9" href="$class_f_list_frame.html#adc46faa6ac7f4f664698f249293809a4" title="Décode les champs principaux du fichier XHL: Année, Mois, Budget, ... " alt="" coords="188,93,356,120"/>
+<area shape="rect" id="node3" href="$class_f_list_frame.html#a802475894ee1e30753faed81d9f9dc4b" title="Appelle parseXhlFile(const QString&amp;) sur l&#39;ensemble de widgetContainer. " alt="" coords="404,35,572,61"/>
+<area shape="rect" id="node4" href="$class_f_list_frame.html#af8c91e66c02e4c6f1f0fb66097903b73" title="FListFrame::addStringList\lToListWidget" alt="" coords="620,27,792,69"/>
+<area shape="rect" id="node5" href="$class_f_list_frame.html#a4228ed10f2d800b92ff34e2f25edcd8c" title="FListFrame::addParsedTree\lToListWidget" alt="" coords="840,27,1024,69"/>
+<area shape="rect" id="node6" href="$class_altair.html#a1afa285a65e0bdff4c761ad05ec9f8df" title="Fonction réimplémentée : fin du déplacement de la souris. " alt="" coords="1104,5,1223,32"/>
+<area shape="rect" id="node7" href="$class_f_list_frame.html#ac14c494842340a0438766256c01f83bc" title="FListFrame::on_importFrom\lMainTree_clicked" alt="" coords="1072,57,1255,98"/>
+<area shape="rect" id="node8" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="FListFrame::FListFrame" alt="" coords="1303,64,1465,91"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="tools::cdRomMounted" name="tools::cdRomMounted">
+<area shape="rect" id="node2" href="$class_altair.html#a750cc65076dd04ac4d34f486b84a7026" title="Importer les données du répertoire userdatadir ou du disque optique s&#39;il est monté, &#160;au lancement de l&#39;interface, si l&#39;option est cochée. " alt="" coords="226,49,350,76"/>
+<area shape="rect" id="node3" href="$class_f_list_frame.html#a802475894ee1e30753faed81d9f9dc4b" title="Appelle parseXhlFile(const QString&amp;) sur l&#39;ensemble de widgetContainer. " alt="" coords="204,100,372,127"/>
+<area shape="rect" id="node10" href="$class_altair.html#a7d10f8ecf4097577885172afb6c2e9c6" title="Lance l&#39;exécution de l&#39;application en ligne de commande lhx. " alt="" coords="249,151,327,177"/>
+<area shape="rect" id="node4" href="$class_f_list_frame.html#af8c91e66c02e4c6f1f0fb66097903b73" title="FListFrame::addStringList\lToListWidget" alt="" coords="420,27,592,69"/>
+<area shape="rect" id="node9" href="$class_f_list_frame.html#a22a50157e8c6d287c2b2c08d2b7deee9" title="Lancer un fil d&#39;exécution pour lire l&#39;entête d&#39;un fichier XHL (Année, Mois,...) et classer les fichie..." alt="" coords="439,93,573,134"/>
+<area shape="rect" id="node5" href="$class_f_list_frame.html#a4228ed10f2d800b92ff34e2f25edcd8c" title="FListFrame::addParsedTree\lToListWidget" alt="" coords="640,27,824,69"/>
+<area shape="rect" id="node6" href="$class_altair.html#a1afa285a65e0bdff4c761ad05ec9f8df" title="Fonction réimplémentée : fin du déplacement de la souris. " alt="" coords="904,5,1023,32"/>
+<area shape="rect" id="node7" href="$class_f_list_frame.html#ac14c494842340a0438766256c01f83bc" title="FListFrame::on_importFrom\lMainTree_clicked" alt="" coords="872,57,1055,98"/>
+<area shape="rect" id="node8" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="FListFrame::FListFrame" alt="" coords="1103,64,1265,91"/>
+</map>

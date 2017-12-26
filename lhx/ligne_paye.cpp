@@ -163,12 +163,11 @@ static void GCC_INLINE sanitize (xmlChar* s,  const char sep)
 /// \param cur  noeud courant
 /// \param l    indice courant de la table
 /// \param info table d'informations
-/// \param normalJump  nombre de noeuds sautés (défaut 0)
-/// \details Va au prochain noeud de libellé \a tag, après un saut éventuel \a normalJump. \n
-/// Assigne ce noeud XML dans le pointeur courant \cur. Lit la propriété "V" de ce noeud
+/// \details Va au prochain noeud de libellé \a tag. \n
+/// Assigne ce noeud XML dans le pointeur courant \a cur. Lit la propriété "V" de ce noeud
 /// dans la table \a info à l'indice \a l de l'agent courant.\n
 /// Renvoie un code d'exception \b #LINE_MEMORY_EXCEPTION en cas d'allocation mémoire
-/// impossible ou \b #NO_NEXT_ITEM si \a drapeau_cont est vrai pour \a #info.\n
+/// impossible ou \b #NO_NEXT_ITEM si \a drapeau_cont est vrai pour \a info.\n
 /// Sinon appelle #sanitize et retourne \b #NODE_FOUND \n
 /// \return  \b #NODE_FOUND sauf si \b #LINE_MEMORY_EXCEPTION ou \b #NO_NEXT_ITEM.
 
@@ -213,7 +212,6 @@ static inline int GCC_INLINE Bulletin (const char*  tag, xmlNodePtr& cur, int l,
 /// \param cur  noeud courant
 /// \param l    indice courant de la table
 /// \param info table d'informations
-/// \param normalJump  nombre de noeuds sautés (défaut 0)
 /// \details Si Bulletin renvoie NODE_NOT_FOUND, appelle #NA_ASSIGN et affiche
 /// "Impossible d'atteindre" le noeud de libellé \a tag à partir du libellé du pointeur
 /// courant. \n
@@ -331,7 +329,6 @@ static void GCC_INLINE substituer_separateur_decimal (xmlChar* ligne, const char
 /// \param cur  noeud courant
 /// \param l    indice courant de la table
 /// \param info table d'informations
-/// \param normalJump  nombre de noeuds sautés (défaut 0)
 /// \details Si le noeud n'est pas trouvé appelle #NA_ASSIGN.
 /// Affiche l'interprétation des erreurs.\n
 /// Si Bulletin renvoie #LINE_MEMORY_EXCEPTION, appelle #NA_ASSIGN et affiche
@@ -407,7 +404,6 @@ static inline bool GCC_INLINE bulletin_optionnel_char (const char* tag,
 /// \param cur  noeud courant
 /// \param l    indice courant de la table
 /// \param info table d'informations
-/// \param normalJump  nombre de noeuds sautés (défaut 0)
 /// \details Si le noeud est trouvé, avec ou sans successseur, substitue le séparateur
 /// décimal au point.\n
 /// Si le noeud n'est pas trouvé ou en cas d'exception, appelle #ZERO_ASSIGN. \n
@@ -492,7 +488,6 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique (const char* tag,
 /// \param cur  noeud courant
 /// \param l    indice courant de la table
 /// \param info table d'informations
-/// \param normalJump  nombre de noeuds sautés (défaut 0)
 /// \details Si le noeud est trouvé, avec ou sans successseur, substitue le séparateur
 /// décimal au point.\n
 /// Si Bulletin renvoie #NODE_NOT_FOUND, appelle #ZERO_ASSIGN et affiche
@@ -572,6 +567,7 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique (const char* tag, x
 ///
 /// \subsection subsec1  Noeuds XML
 /// \par
+/// \code
 /// <pre>
 /// <PayeIndivMensuel>
 ///   <Agent>{1,1}</Agent>
@@ -596,7 +592,7 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique (const char* tag, x
 ///   <PJRef>{0,unbounded}</PJRef>
 /// </PayeIndivMensuel>
 /// </pre>
-///
+/// \endcode
 /// \warning Toute évolution significative de la convention devra donner lieu à des
 ///  ajustements de code dans cette fonction
 ///
@@ -624,7 +620,7 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique (const char* tag, x
 /// Rebouclage du parcours en cas de non-conformité de l'ordre des noeuds de
 /// catégorie de ligne de paye.\n
 /// En principe les éléments constitutifs des enregistrements
-/// <Remuneration>....</Remuneration> sont enregistrés dans l'ordre du tableau
+/// \code <Remuneration>....</Remuneration> \endcode sont enregistrés dans l'ordre du tableau
 /// #type_remuneration.\n
 /// Toutefois quelques cas de désordre sont observés. Dans ces cas là on doit
 /// réinitialiser le parcours du tableau.\n
@@ -667,10 +663,10 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique (const char* tag, x
 /// Dans le cas général, examen des noeuds fils.\n
 /// Appel succesif de #bulletin_obligatoire à 2 reprises et #bulletin_optionnel_numerique
 /// à 4 reprises, pour les noeuds cités \e supra. Au terme de la lecture de ces 6 noeuds
-/// fils, le noeud courant est assigné au noeud <Remuneration> suivant.
+/// fils, le noeud courant est assigné au noeud \code <Remuneration> \endcode suivant.
 
 
-/// Analyse les noeuds fils du noeud <PayeIndivMensuel>
+/// Analyse les noeuds fils du noeud \code <PayeIndivMensuel> \endcode
 /// \param cur  Noeud courant
 /// \param info Structure contenant l'information analysée de type #info_t
 /// \details Les détails de l'algorithme sont décrits dans \ref page1

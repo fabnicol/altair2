@@ -1,7 +1,0 @@
-<map id="Bulletin" name="Bulletin">
-<area shape="rect" id="node2" href="$ligne__paye_8cpp.html#a45ce15888cd33c4753e852fce36fb56e" title="bulletin_obligatoire" alt="" coords="131,5,261,32"/>
-<area shape="rect" id="node5" href="$ligne__paye_8cpp.html#a4a91586d82e91ad3e3c02355b57c9e09" title="bulletin_optionnel_char" alt="" coords="119,56,273,83"/>
-<area shape="rect" id="node6" href="$ligne__paye_8cpp.html#a8636e0f8d6d7fce58969c36956342c90" title="bulletin_obligatoire\l_numerique" alt="" coords="131,107,261,149"/>
-<area shape="rect" id="node3" href="$ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="lignePaye" alt="" coords="321,31,400,57"/>
-<area shape="rect" id="node4" href="$ligne__paye_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="parseLignesPaye" alt="" coords="448,31,571,57"/>
-</map>

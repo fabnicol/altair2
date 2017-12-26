@@ -40,6 +40,7 @@
 
 /// \file options.h
 /// \author Fabrice Nicol
+/// \date 2015-2017
 /// \brief Code des classes du dialogue d'options
 
 
@@ -63,28 +64,27 @@ class processPage :  public QDialog, public common
     Q_OBJECT
 
 public :
-    processPage();
-    FLineFrame *logFrame;
-    FCheckBox  *rapportEntier;
-    FCheckBox  *enchainerRapports;
+    processPage();                 ///< Constructeur de l'onglet Traitement.
+    FLineFrame *logFrame;          ///< fwidget de type QLineEdit augmenté de fonctionnalités spéciales. Enregistre le chemin du log.
+    FCheckBox  *rapportEntier;     ///< Case à cocher indiquant si le rapport doit être dans sa version longue (ou courte si non cochée).
+    FCheckBox  *enchainerRapports; ///< Cas à cocher indiquant si la génération des rapports est automatiquement lancée par l'interface sans passer par RStudio.
 
 private:
     FComboBox
-    *processTypeWidget,
-    *memoryUseWidget,
-    *rapportTypeWidget;
+        *processTypeWidget,    ///< Sélectionne le nombre de fils d'exécution.
+        *memoryUseWidget,      ///< Sélectionne le pourcentage d'utilisation de la RAM disponible.
+        *rapportTypeWidget;    ///< Sélectionne le type de rapport en sortie (PDF, DOCX et ODT ou les trois formats).
 
     QGroupBox
-    *processTypeBox;
+        *processTypeBox;       ///< Groupe "Mode d'exécution"
 
     FCheckBox
-    *logCheckBox,
-    *consoleCheckBox;
+        *logCheckBox,          ///< Case à cocher permettant d'activer/de désactiver logFrame.
+        *consoleCheckBox;      ///< Case à cocher permettant d'activer la console (cochée par défaut).
 
-    FString
-    standardMsg;
-
-    QLabel *nLineLabel, *NLineLabel;
+    QLabel
+        *nLineLabel,
+        *NLineLabel;
 };
 
 
@@ -116,7 +116,7 @@ private:
       *etabCheckBox,              ///< Exporter l'établissement ou pas
       *rangCheckBox;              ///< Numéroter les lignes ou pas
 
-    QLabel *maxNLigneLabel;       ///< Titre de \ref maxNLigneLineEdit
+    QLabel *maxNLigneLabel;       ///< Titre de  maxNLigneLineEdit
 
 private slots:
     void substituer_versant();    ///< Exporter le versant FPH ou FPT dans le script R pour générer les tests adéquats
@@ -156,10 +156,10 @@ private:
     /// \param nom Nom de l'élément de paye
     /// \return Nombre d'éléments de paye empilés
 
-    inline int ajouterVariable (const QString& nom);
+    int ajouterVariable (const QString& nom);
 
     /// Réinitialise l'exportation des codes d'éléments de paye
-    /// Ecrase prologue_codes.R (\ref prologue_codes_path) par sa valeur d'initialisation prologue_init.R
+    /// Ecrase prologue_codes.R ( prologue_codes_path) par sa valeur d'initialisation prologue_init.R
     /// \return \e true si la réinitialisation par écrasement a réussi, \e false sinon.
 
     bool reinitialiser_prologue();
@@ -177,30 +177,23 @@ class options :   public QDialog, public common
 public:
 
     options (Altair* parent = 0);
-    standardPage* standardTab;
-    processPage* processTab;
-    codePage* codeTab;
-    static std::uint16_t RefreshFlag;
-    QListWidget *contentsWidget;
-    void clearOptionData();
-
-signals:
-
-    void defaultClick (bool);
-
+    standardPage* standardTab;         ///< Onglet d'accueil Format : type de base en sortie, modalité d'extraction des données, exportation/archivage
+    processPage* processTab;           ///< Onglet de Traitement : nombre de fils, utilisation de la mémoire, log et enchainement avec la production des rapports
+    codePage* codeTab;                 ///< Onglet des codes de paye : renseignement manuel des codes de paye utilisés pour certains types d'éléments de paye
+    static std::uint16_t RefreshFlag;  ///< Drapeau indiquant si si l'interface a été actualisée ou doit l'être
+    QListWidget *optionWidget;         ///< Widget du dialogue d'options
+    void clearOptionData();            ///< Efface les données de  Hash::wrapper et de  Hash::Reference
 
 private:
 
-    QDialogButtonBox *closeButton;
-    QStackedWidget *pagesWidget;
+    QDialogButtonBox *closeButton;     ///< Bouton "Quitter"
+    QStackedWidget *pagesWidget;       ///< Widget permettant d'empiler les onglets du dialogue d'options (standardPage,  processPage,  codePage)
 
-    void createIcons();
+    void createIcons();                                     ///< Méthode permettant d'ajouter les icones
     void createIcon (const char* path, const char* text);
 
 private slots:
-    void changePage (QListWidgetItem *current, QListWidgetItem *previous);
-    void enchainerRapports (int index);
-
-
+    void changePage(QListWidgetItem *current, QListWidgetItem *previous); ///< Changement de page
+    void enchainerRapports (int index);                                   ///< Code la case "Enchainer les rapports" qui permet de lancer R pour produire des rapports d'analyse à partir de l'interface sans lancer RStudio
 };
 #endif // OPTIONS_H

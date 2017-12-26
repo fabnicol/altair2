@@ -56,6 +56,22 @@ static constexpr const char* STEP_UP  =  "/../../";
 #  define MINIMUM_LINE_WIDTH 350
 #endif
 
+/// Nombre maximum de lignes d'avertissement par erreur de ligne de paye
+
+#ifndef WARNING_LIMIT
+#  define WARNING_LIMIT 5
+#endif
+
+/// Maximum du nombre de lignes de la sortie console si l'option de configuration "Limiter la sortie de la console" est cochée.
+
+#ifndef MAXIMUM_CONSOLE_OUTPUT
+#  define MAXIMUM_CONSOLE_OUTPUT 800
+#endif
+
+#ifndef TYPE_LOOP_LIMIT
+#  define TYPE_LOOP_LIMIT 50
+#endif
+
 #ifndef SCRIPT_DIR
 
 /// Répertoire principal des scripts R
@@ -65,7 +81,7 @@ static constexpr const char* STEP_UP  =  "/../../";
 
 #ifndef DONNEES
 
-///Répertoire d'insertion des répertoires \ref AltairDir et \ref DONNEES_XHL
+///Répertoire d'insertion des répertoires  AltairDir et  DONNEES_XHL
 
 #  define DONNEES  SCRIPT_DIR "Donnees/"
 #endif
@@ -93,22 +109,22 @@ class interfaceStatus
 {
 public:
 
-    static constexpr std::uint16_t hasUnsavedOptions = 0x0;   ///< Caractérise des nouveaux paramètres non sauvegardés dans le projet .alt
-    static constexpr std::uint16_t hasSavedOptions = 0x1;     ///< Caractérise des nouveaux paramètres sauvegardés dans le projet .alt
-    static constexpr std::uint16_t hasSavedOptionsMask = 0xF; ///< Masque des nouveaux paramètres sauvegardés dans le projet .alt
+    static constexpr std::uint16_t hasUnsavedOptions = 0x0;   ///< Caractérise des nouveaux paramètres non sauvegardés dans le projet \b .alt
+    static constexpr std::uint16_t hasSavedOptions = 0x1;     ///< Caractérise des nouveaux paramètres sauvegardés dans le projet \b .alt
+    static constexpr std::uint16_t hasSavedOptionsMask = 0xF; ///< Masque des nouveaux paramètres sauvegardés dans le projet \b .alt
     static constexpr std::uint16_t tree = 0x0010;             ///< Gestionnaire de projets à raffraichir à la première occasion
-    static constexpr std::uint16_t treeMask = 0x00F0;         ///< Masque correspondant à \ref tree
+    static constexpr std::uint16_t treeMask = 0x00F0;         ///< Masque correspondant à  tree
     static constexpr std::uint16_t saveTree = 0x0100;         ///< Ouvrir le fichier projet pour le modifier
-    static constexpr std::uint16_t saveTreeMask = 0x0F00;     ///< Masque correspondant à \ref saveTree
-    static constexpr std::uint16_t mainTabs = 0x1000;         ///< Permet d'autoriser l'actualisation des valeurs de l'onglet central à partir du décodage du projet .alt (balise <XML>)
-    static constexpr std::uint16_t tabMask = 0x7000;          ///< Masque correspondant à \ref mainTabs
-    static constexpr std::uint16_t optionTabs = 0x2000;       ///< Permet d'autoriser l'actualisation des valeurs du dialogue d'options à partir du décodage du projet .alt
-    static constexpr std::uint16_t keepOptionTabs = 0x4000;   ///< Force l'enregostrement des éléments de statut de l'interface non encore enregistrés dans un projet .alt
-    static constexpr std::uint16_t parseXml = 0xF000;         ///< Autorise le décodage (parsing) du projet XML
-    static constexpr std::uint16_t parseXmlMask = 0xF000;     ///< Masque de \parseXml
+    static constexpr std::uint16_t saveTreeMask = 0x0F00;     ///< Masque correspondant à  saveTree
+    static constexpr std::uint16_t mainTabs = 0x1000;         ///< Permet d'autoriser l'actualisation des valeurs de l'onglet central à partir du décodage du projet \b .alt (balise \code <XML> \endcode)
+    static constexpr std::uint16_t tabMask = 0x7000;          ///< Masque correspondant à  mainTabs
+    static constexpr std::uint16_t optionTabs = 0x2000;       ///< Permet d'autoriser l'actualisation des valeurs du dialogue d'options à partir du décodage du projet \b .alt
+    static constexpr std::uint16_t keepOptionTabs = 0x4000;   ///< Force l'enregostrement des éléments de statut de l'interface non encore enregistrés dans un projet \b .alt
+    static constexpr std::uint16_t parseXml = 0xF000;         ///< Autorise le décodage (parsing) du projet \b .alt
+    static constexpr std::uint16_t parseXmlMask = 0xF000;     ///< Masque de interfaceStatus::parseXml
 };
 
-/// Décrit la portée des actualisations à opérer sur le gestionnaire de projets et le fichier projet .alt
+/// Décrit la portée des actualisations à opérer sur le gestionnaire de projets et le fichier projet \b .alt
 
 class manager
 {
