@@ -1,3 +1,7 @@
 <map id="processPage::processPage" name="processPage::processPage">
-<area shape="rect" id="node2" href="$options_8cpp.html#a8d50c51bb5f4090834cae8e176ac7255" title="createHash" alt="" coords="236,5,325,32"/>
+<area shape="rect" id="node2" href="$templates_8h.html#af9e9a83f3128fefbef4968186ae6aa6b" title="Crée une table de hachage entre deux listes de même longueur. " alt="" coords="294,5,383,32"/>
+<area shape="rect" id="node3" href="$classtools.html#acba8057b8c8527f6a2df7a372e944abb" title="tools::generateDatadirPath" alt="" coords="250,56,427,83"/>
+<area shape="rect" id="node4" href="$class_f_line_frame.html#a5debca9f6fbf28824aff949dd245351d" title="Accesseur en lecture de la liste des composants componentList. " alt="" coords="236,107,441,133"/>
+<area shape="rect" id="node5" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="tools::path_access" alt="" coords="273,157,405,184"/>
+<area shape="rect" id="node6" href="$class_f_line_frame.html#ab34e6d28c51608cfdf2e4dae14501159" title="Accesseur en écriture de pathCategory, type de chemin représenté par lineEdit. " alt="" coords="240,208,437,235"/>
 </map>

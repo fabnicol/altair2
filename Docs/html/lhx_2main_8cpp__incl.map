@@ -3,8 +3,9 @@
 <area shape="rect" id="node32" href="$fonctions__auxiliaires_8h.html" title="Diverses fonctions auxiliaires en inlining. " alt="" coords="1335,80,1486,107"/>
 <area shape="rect" id="node39" href="$table_8h.html" title="table.h" alt="" coords="936,80,997,107"/>
 <area shape="rect" id="node40" href="$recherche_8h.html" title="recherche.h" alt="" coords="1045,80,1136,107"/>
-<area shape="rect" id="node28" href="$expression__reg__elus_8h.html" title="expression_reg_elus.h" alt="" coords="953,304,1105,331"/>
+<area shape="rect" id="node27" href="$tags_8h.html" title="tags.h" alt="" coords="1376,229,1435,256"/>
+<area shape="rect" id="node28" href="$expression__reg__elus_8h.html" title="Expressions régulières représentant les élus. " alt="" coords="953,304,1105,331"/>
 <area shape="rect" id="node30" href="$expression__reg__cata_8h.html" title="Ce fichier contient les expressions rationnelles permettant d&#39;identifier les catégories statutaires A..." alt="" coords="1103,229,1257,256"/>
-<area shape="rect" id="node29" href="$expression__reg__commun_8h.html" title="expression_reg_commun.h" alt="" coords="1033,379,1212,405"/>
-<area shape="rect" id="node31" href="$expression__reg__adjoints_8h.html" title="expression_reg_adjoints.h" alt="" coords="1129,304,1303,331"/>
+<area shape="rect" id="node29" href="$expression__reg__commun_8h.html" title="Elements constitutifs des expressions régulières. " alt="" coords="1033,379,1212,405"/>
+<area shape="rect" id="node31" href="$expression__reg__adjoints_8h.html" title="Expressions régulières de niveau adjoints / auxiliaires / aides (catégories C) " alt="" coords="1129,304,1303,331"/>
 </map>

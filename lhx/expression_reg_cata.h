@@ -228,7 +228,7 @@ static constexpr auto   EXPRESSION_REG_CAT_A = AUCUN_MOT
 #define  AMA  "\\ba\\.?m\\.?a\\.?\\b"
 
 /// Expression régulière tendant à capturer les agents de catégorie B
-/// \warning Ne tester cette expression qu'après échec de l'expression régulière de catégorie A \ref EXPRESSION_REG_CAT_A
+/// \warning Ne tester cette expression qu'après échec de l'expression régulière de catégorie A  EXPRESSION_REG_CAT_A
 static constexpr auto   EXPRESSION_REG_CAT_B = AUCUN_MOT
         SOIT
         REDACTEUR

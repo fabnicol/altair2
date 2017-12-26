@@ -78,7 +78,7 @@ static inline  int GCC_INLINE memoire_p_ligne (const info_t& info, const unsigne
 
 /// Décode une structure info_t contenant les données de paye à l'état brut "fichier" (<pre> info.threads->in_memory_file </pre> ou <pre> info.threads->argv </pre>)
 /// Commence par décoder Annee, Mois, Budget, Siret, Employeur, puis lance le décodage des données de paye individuelles, agent par agent, pour l'ensemble du fichier
-/// A chaque bulletin de paye de l'agent, lance \ref parseLignesPaye
+/// A chaque bulletin de paye de l'agent, lance  parseLignesPaye
 /// \param info Structure info_t contenant les fichiers de paye en mémoire vive et les champs à remplir par le décodage libxml2.
 /// \return #SKIP_FILE si le fichier doit être sauté pour une raison ou pour une autre \n
 /// ou bien #RETRY si le décodage est essayé à nouveau \n
@@ -1116,7 +1116,7 @@ inline void GCC_INLINE normaliser_accents (xmlChar* c)
 
 }
 
-/// Lance \ref calculer_memoire_requise ou le calcul direct de la mémoire par par les saisies de -n et -N \n
+/// Lance  calculer_memoire_requise ou le calcul direct de la mémoire par par les saisies de -n et -N \n
 /// ou alors retourne si <pre>--pretend</pre> est en ligne de commande.
 /// \param info Structure info_t contenant les informations de ligne de commande
 /// \return Pointeur nul. Exception en cas d'erreur.
@@ -1162,8 +1162,8 @@ void* decoder_fichier (info_t& info)
 /// Lance l'ensemble des processus de pré-traitement et de post-traitement des fichiers de paye. \n
 /// Pour le pré-traitement : \n
 /// <ul> <li> Allocation de la mémoire des tables des structures info_t </li>
-/// <li>En cas d'incident de code #RETRY dans \ref parseFile, tente une réallocation </li>
-/// <li>En cas d'incident de code #SKIP_FILE dans \ref parseFile, saute le fichier et passe au suivant </li></ul>
+/// <li>En cas d'incident de code #RETRY dans  parseFile, tente une réallocation </li>
+/// <li>En cas d'incident de code #SKIP_FILE dans  parseFile, saute le fichier et passe au suivant </li></ul>
 /// Pour le post-traitement : \n
 /// <ul><li> Vérification de la cohérence de l'allocation mémoire ex-ante et de la mémoire consommée au décodage par libxml2. Exception en cas d'incohérence.</li>
 /// <li>Tentative de codage dans le Grade des assistantes maternelles (A) et des vacataires (V) reconnus par expression régulière</li>

@@ -41,7 +41,7 @@
 
 /// \file run.cpp
 /// \author Fabrice Nicol
-/// \brief Implémentation de la classe \ref Altair agent de la classe \ref MainWindow qui construit l'interface graphique.\n
+/// \brief Implémentation de la classe  Altair agent de la classe  MainWindow qui construit l'interface graphique.\n
 /// Cette partie de l'implémentation concerne uniquement le lancement ou l'arrêt d'applications externes ou le traitement de leur exécution
 /// \note fichier à encoder en \e UTF-8
 
@@ -58,12 +58,6 @@
 #include <unistd.h>
 
 #endif
-
-
-/// Génère la ligne de commande à partir des chemins des fichiers de paye
-/// \param files Liste de chaînes de caractères des chemins des fichiers de paye
-/// \return Ligne de commande en forme de liste (un élément par option ou argument)
-/// \sa  \ref Abstract::abstractWidgetList, \ref FAbstractWidget::getHashKey, \ref FAbstractWidget::commandLineStringList, \ref Altair::filecount
 
 QStringList Altair::createCommandLineString (const QStringList& files)
 {

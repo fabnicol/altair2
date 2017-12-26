@@ -1,8 +1,0 @@
-<map id="bulletin_optionnel_char" name="bulletin_optionnel_char">
-<area shape="rect" id="node2" href="$ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5" title="Bulletin" alt="" coords="237,31,302,57"/>
-<area shape="rect" id="node5" href="$ligne__paye_8cpp.html#ad44d84709c9d149355b3ab2d52208b15" title="warning_msg" alt="" coords="220,81,319,108"/>
-<area shape="rect" id="node6" href="$ligne__paye_8cpp.html#af50b3d88fee3112c7ed3cd06920e0677" title="exit" alt="" coords="248,132,291,159"/>
-<area shape="rect" id="node7" href="$ligne__paye_8cpp.html#af45853d95d8f4c7573aec75ffa5b20ca" title="bulletin_optionnel\l_numerique" alt="" coords="208,183,331,225"/>
-<area shape="rect" id="node3" href="$validator_8hpp.html#ad46b6c15ccecdf1587db809152d12001" title="atteindreNoeud" alt="" coords="379,5,489,32"/>
-<area shape="rect" id="node4" href="$ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="sanitize" alt="" coords="401,56,467,83"/>
-</map>

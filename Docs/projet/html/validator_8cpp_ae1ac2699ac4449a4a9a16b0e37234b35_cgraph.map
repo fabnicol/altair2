@@ -1,8 +1,0 @@
-<map id="parseFile" name="parseFile">
-<area shape="rect" id="node2" href="$validator_8hpp.html#ad46b6c15ccecdf1587db809152d12001" title="atteindreNoeud" alt="" coords="163,5,274,32"/>
-<area shape="rect" id="node3" href="$ligne__paye_8cpp.html#af50b3d88fee3112c7ed3cd06920e0677" title="exit" alt="" coords="197,56,240,83"/>
-<area shape="rect" id="node4" href="$ligne__paye_8cpp.html#ad44d84709c9d149355b3ab2d52208b15" title="warning_msg" alt="" coords="169,107,268,133"/>
-<area shape="rect" id="node5" href="$fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="afficher_environnement_xhl" alt="" coords="128,157,309,184"/>
-<area shape="rect" id="node6" href="$validator_8cpp.html#a8f9f27b474dcdd9d1ae8e172e9678844" title="parseLignesPaye" alt="" coords="157,208,280,235"/>
-<area shape="rect" id="node7" href="$fonctions__auxiliaires_8cpp.html#ab49257996eb9a8f23f7da4c66838be65" title="ecrire_log" alt="" coords="179,259,258,285"/>
-</map>

@@ -35,7 +35,7 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////////////
 
 
 /// \file altair-gui.h
@@ -78,6 +78,10 @@ class common;
 class Console;
 class MatriculeInput;
 
+
+/// Classe principale de l'interface graphique utilisateur.
+/// Régit une classe agent Altair à laquelle sont déléguées des rôles non stictement liés à l'interfaçage graphique.
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -88,52 +92,55 @@ public :
 
     MainWindow (char*);           ///< Constructeur de l'interface graphique
     options* dialog;              ///< dialogue d'options
-    QSettings  *settings;         ///< paramètres par défaut mémorisés
+    QSettings  *settings;         ///< paramètres par défaut mémorisés.
+    QStringList recentFiles;      ///< Liste des fichiers de projet \b .alt récents
+    QTextEdit* consoleDialog;     ///< Editeur de l'onglet console.
 
-    enum { MaxRecentFiles = MAX_FICHIERS_RECENTS };  ///< Nombre maximum de fichiers récents
-    QStringList recentFiles;      ///< Liste des fichiers de projets .alt récents
+    // Méthodes publiques
 
-    QTabWidget *bottomTabWidget;  ///< Onglet des Messages et Console (normalement en bas de l'interface)
-    QTextEdit *consoleDialog;     ///< Editeur de l'onglet Console
+    /// Renvoie le nom de fichier en enlevant le chemin de dossier.
+    /// \param fullName Chemin complet du fichier.
+    /// \return Nom du fichier sans le chemin du dossier.
 
-    // Méthodes
+    QString strippedName (const QString &fullName);
 
-    void updateRecentFileActions();                    ///< Mise à jour de la liste des fichiers de projet récents
-    QString strippedName (const QString &fullFuleName); ///< Renvoie le nom de fichier en enlevant le chemin de dossier
     void on_clearOutputTextButton_clicked();           ///< Nettoie l'onglet courant Console ou Messages
+
+    /// Renvoie l'éditeur du fichier de projet \b .alt
+
     QTextEdit* getEditor()
     {
-        return editor;   ///< Renvoie l'éditeur du fichier de projet .alt
+        return editor;
     }
 
-    /// Vérifie si par défaut le projet .alt doit être enregistré à chaque modification de l'état de l'interface
-    /// \return Booléen : vrai si la case du dialogue de configuration est cochée, faux sinon
+    /// Vérifie si par défaut le projet \b .alt doit être enregistré à chaque modification de l'état de l'interface.
+    /// \return Booléen \e true si la case du dialogue de configuration est cochée, \e false sinon
 
     bool isDefaultSaveProjectChecked()
     {
         return defaultSaveProjectBehaviorBox->isChecked();
     }
 
-    /// Sauvegarde du projet .alt selon un chemin à spécifier
+    /// Sauvegarde du projet \b .alt selon un chemin à spécifier.
 
     void saveProjectAs();
 
-    /// Sauvegarde du projet .alt selon un chemin donné
+    /// Sauvegarde du projet \b .alt selon un chemin donné.
     /// \param chemin Chemin du projet
 
     void saveProjectAs (const QString &chemin);
 
-    /// Envoie du texte formaté HTML dans l'onglet Console
+    /// Envoie du texte formaté HTML dans l'onglet Console.
     /// Etape de capture de la sortie cout et cerr de l'application en ligne de commande \e lhx
 
     void feedLHXConsoleWithHtml();
 
-    /// Envoie du texte formaté HTML dans l'onglet Console
+    /// Envoie du texte formaté HTML dans l'onglet Console.
     /// Etape de capture de la sortie des flux d'exécution des scripts R
 
     void feedRConsoleWithHtml();
 
-    /// Limite (si l'option du dialogue de configuration est cochée) le volume de texte en sortie de l'onglet Console
+    /// Limite (si l'option du dialogue de configuration est cochée) le volume de texte en sortie de l'onglet Console.
     /// Peut être utile pour les sorties très pathologiques et éviter une saturation mémoire ou un <i>freeze</i>
     /// \return Un index qui devra être inférieur à #MAXIMUM_CONSOLE_OUTPUT
 
@@ -142,13 +149,20 @@ public :
         return consoleCounter;
     }
 
-    /// Affiche l'interface à la taille standard (réduite)
+    /// Affiche l'interface à la taille standard (réduite).
 
     void standardDisplay();
+
+    /// Actualise la liste des fichiers de projet \b .alt récents dans le menu Fichier
+
+    void updateRecentFileActions();
 
 private :
 
     // Membres données
+
+    /// Maximum de la liste des fichiers récents
+    enum { MaxRecentFiles = 5 };
 
     uint32_t consoleCounter = 0; ///< Compteur de lignes de log sur l'onglet Console
     int height;                  ///< Hauteur de l'interface en pixels
@@ -156,7 +170,7 @@ private :
 
     Altair *altair;                      ///< Classe agent de l'interface graphique permettant d'encapsuler sous statut privé les opérations les plus techniques tendant à traiter les fichiers de paye
 
-    QHash<QString, QAction*> actionHash; ///< Table de hachage permettant d'enregistrer les actions sur l'éditeur de projets .alt
+    QHash<QString, QAction*> actionHash; ///< Table de hachage permettant d'enregistrer les actions sur l'éditeur de projets \b .alt
     QFile tempLog;                       ///< Fichier log.html ouvert par un navigateur pour exporter le log de l'onglet Console
     QMainWindow *editWidget;             ///< Fenêtre contenant l'éditeur de projet.
 
@@ -166,10 +180,10 @@ private :
     // gestionnaire de projet (à droite)
     // Ils peuvent être dissimulés ou déplacés par l'utilisateur
 
-    QDockWidget* fileTreeViewDockWidget;  ///< Widget mobile de l'arborescence de fichiers
-    QDockWidget* bottomDockWidget;        ///< Widget mobile des onglets Messages et Console
-    QDockWidget* managerDockWidget;       ///< Widget mobile du gestionnaire de projets
-
+    QDockWidget *fileTreeViewDockWidget;  ///< Widget mobile de l'arborescence de fichiers
+    QDockWidget *bottomDockWidget;        ///< Widget mobile des onglets Messages et Console
+    QDockWidget *managerDockWidget;       ///< Widget mobile du gestionnaire de projets
+    QTabWidget  *bottomTabWidget;         ///< Conteneur des onglets du widget mobile bottomDockWidget;
     // Menus
 
     QMenu *fileMenu;      ///< Menu fichiers de projet
@@ -202,7 +216,7 @@ private :
     QAction *exportAction;             ///< Exportation de l'ensemble des sorties de tous les modules vers un dossier donné
     QAction *archiveAction;            ///< Compression et archivage de l'ensemble des sorties de tous les modules vers un dossier donné
     QAction *restoreAction;            ///< Décompression et désarchivage de l'ensemble des sorties de tous les modules
-    QAction *openAction;               ///< Ouvrir un fichier projet .alt
+    QAction *openAction;               ///< Ouvrir un fichier projet \b .alt
     QAction *saveAsAction;             ///< Sauvegarder un fichier projet à un emplacement à déterminer
     QAction *saveAction;               ///< Sauvegarder un fichier projet en place
     QAction *closeAction;              ///< Fermer un fichier projet et réinitialiser l'interface
@@ -255,31 +269,32 @@ private :
     QProcess process;             ///< Processus associé au lancement de l'application-noyau \e lhx ou de \e RStudio
     MatriculeInput *m = nullptr;  ///< Agent sélecteur de latricule pour l'extraction de bulletin particulier
 
-    // Méthodes
+    // Méthodes privées
 
     /// Lit un fichier et renvoie la chaîne de caractères correspondante.
     /// \param fileName Chemin du fichier
+    /// \result Booléen : \e true si réussite de l'ensemble des opérations, \e false sinon.
 
     bool readFile (const QString &fileName);
 
-    /// Crée les actions correspondant aux entrées des menus et barre d'outils
+    /// Crée les actions correspondant aux entrées des menus et barre d'outils.
 
     void createActions();
 
-    /// Crée les menus
+    /// Crée les menus.
 
     void createMenus();
 
-    /// Crée les barres d'outils
+    /// Crée les barres d'outils.
 
     void createToolBars();
 
     std::vector<std::string> extraire_donnees_protegees (const std::string& st);
 
-    /// Nettoie les données de paye \n
-    /// \param st Fichier de paye converti en vecteur de caractères non signés
-    /// \return vecteur de caractères non signés
-    /// \note Essaie de repérer les séquences html qui sont illicites sous libxml2 : &accute; par exemple. \n
+    /// Nettoie les données de paye.
+    /// \param st Fichier de paye converti en vecteur de caractères non signés.
+    /// \return vecteur de caractères non signés.
+    /// \note Essaie de repérer les séquences html qui sont illicites sous libxml2 : \code &accute; \endcode par exemple. \n
     /// Elimine les caractères non imprimables, sauf les voyelles accentuées, et les remplace par une espace.
 
     const std::vector <unsigned char>  nettoyer_donnees (std::vector <unsigned char>& st);
@@ -290,7 +305,7 @@ private slots:
 
     void on_displayFileTreeViewButton_clicked();
 
-    /// Afficher / Masquer l'arborescence de fichiers
+    /// Afficher / Masquer l'arborescence de fichiers.
     /// \param val Si true, afficher, sinon masquer
 
     void on_displayFileTreeViewButton_clicked (bool val);
@@ -299,12 +314,12 @@ private slots:
 
     void on_openManagerWidgetButton_clicked();
 
-    /// Afficher / Masquer le gestionnaire de projets
+    /// Afficher / Masquer le gestionnaire de projets.
     /// \param val Si true, afficher, sinon masquer
 
     void on_openManagerWidgetButton_clicked (bool val);
 
-    /// Afficher / Masque l'éditeur de projets
+    /// Afficher / Masque l'éditeur de projets.
 
     void on_editProjectButton_clicked();
 
@@ -331,20 +346,23 @@ private slots:
 
     /// Enregistrer l'ensemble des données d'output (bases CSV, rapports...) dans un répertoire
     /// \param str Si str est vide, appeler un dialogue de sélection de répertoire, sinon exporter dans le répertoire en argument
+    /// \result Booléen : \e true si réussite de l'ensemble des opérations, \e false sinon.
 
     bool exportProject (QString str = "");
 
     /// Archiver le projet courant
+    /// \result Booléen : \e true si réussite de l'ensemble des opérations, \e false sinon.
 
     bool archiveProject();
 
     /// Désarchiver le projet
     /// \param str Si str n'est pas spécifié, appelle un dialogue d'explorateur de fichiers\n
-    /// Sinon, décarchive le projet dont le chemin est indiqué en argument
+    /// Sinon, désarchive le projet dont le chemin est indiqué en argument
+    /// \result Booléen : \e true si réussite de l'ensemble des opérations, \e false sinon.
 
     bool restoreProject (QString str = "");
 
-    /// Réinitialise \ref consoleCounter à zéro.
+    /// Réinitialise  consoleCounter à zéro.
 
     void resetCounter();
 

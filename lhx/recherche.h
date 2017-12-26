@@ -38,13 +38,38 @@
 #include <fstream>
 #include "validator.h"
 
-vector<long long>  recherche (const vector<info_t> &info, const xmlChar* annee, const xmlChar* mois, const xmlChar* matricule);
+
+
+
+/// Parcourt l'ensemble des données de paye, pour tous les fils d'exécution, après décodage \n
+/// (lhx a complètement exécuté préalablement)\n
+/// La recherche est restreinte à l'année, au mois et au matricule donnés \n
+/// Lance  extraire_lignes pour extraire les lignes XML correspondantes. \n
+/// Cela ne suffit pas à donner un fichier XML syntaxiquement correct. \n
+/// A cette fin, rajouter un préambule et une fin de fichier en accord avec ce préambule. \n
+/// \param Info Vecteur de structures \e info_t contenant l'information de paye.
+/// \param annee Année du/des bulletins(s).
+/// \param mois  Mois du/des bulletin(s).
+/// \param matricule Matricule de l'agent.
+/// \return Vecteur de chaînes de caractères, chacune des chaînes représentant un bulletin XML extrait.
+
+vector<long long>  recherche (const vector<info_t> &Info, const xmlChar* annee, const xmlChar* mois, const xmlChar* matricule);
+
 const string extraire_lignes (const info_t& info, const array<uint64_t, 3>& debut, const array<uint64_t, 2>& fin);
 bool bulletin_paye (const string& chemin_repertoire,
                     const vector<info_t> &Info,
                     const string& matricule,
                     const string& mois,
                     const string& annee);
+
+/// Lance l'extraction d'un bulletin de paye pour un matricule, un mois et une année donnés
+/// \param repertoire_bulletins Référence vers un dossier de bulletins extraits de type \e std::string
+/// \param Info vers un vecteur de structures info_t contenant l'ensemble, pour tous les segments et fils, des données de paye décodées
+/// \param matricule Référence vers une chaîne de caractère de type string contenant le matricule
+/// \param mois Référence vers une chaîne de caractère de type string contenant le mois
+/// \param annee Référence vers une chaîne de caractère de type string contenant l'année
+/// \return Booléen : \e true si succès, \e false sinon.
+
 bool scan_mois (const string &repertoire_bulletins,
                 const vector<info_t> &Info,
                 const string &matricule,

@@ -1,0 +1,10 @@
+<map id="FListFrame::getCurrentIndex" name="FListFrame::getCurrentIndex">
+<area shape="rect" id="node2" href="$class_f_list_frame.html#a75abd65147e16cf6a2338faaf8a511b6" title="Accesseur en lecture de /. " alt="" coords="248,5,436,32"/>
+<area shape="rect" id="node3" href="$class_f_list_frame.html#a73aaa61fe9f56248049e96722c17b164" title="Accesseur en lecture de /. " alt="" coords="243,56,441,83"/>
+<area shape="rect" id="node5" href="$class_altair.html#a94c37375266a849cb43570457163db13" title="Raffraîchit la valeur de row et currentIndex en fonction de l&#39;état de l&#39;onglet. " alt="" coords="721,81,875,108"/>
+<area shape="rect" id="node4" href="$class_f_list_frame.html#a38151a18f0313c555c2cf71f19d54ab2" title="Accesseur en lecture de /. " alt="" coords="489,56,673,83"/>
+<area shape="rect" id="node6" href="$class_altair.html#ab913abfdd0c6fbbceb9a051a4443d5fa" title="Supprimer un onglet central. " alt="" coords="929,31,1059,57"/>
+<area shape="rect" id="node8" href="$class_altair.html#a1afa285a65e0bdff4c761ad05ec9f8df" title="Fonction réimplémentée : fin du déplacement de la souris. " alt="" coords="935,81,1053,108"/>
+<area shape="rect" id="node9" href="$class_altair.html#a299584936cc20c9a1451977264eba1f5" title="Ecrase un item d&#39;un onglet donné " alt="" coords="923,133,1065,174"/>
+<area shape="rect" id="node7" href="$class_altair.html#ae0975ced0a36e0ed889ae06043a4df66" title="Constructeur. " alt="" coords="1113,85,1204,112"/>
+</map>

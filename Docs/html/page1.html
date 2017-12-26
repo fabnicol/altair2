@@ -3,15 +3,28 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="generator" content="Doxygen 1.8.15"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Documentation de l&#39;algorithme d&#39;analyse des noeuds Remuneration</title>
+<title>&nbsp;: Documentation de l&#39;algorithme d&#39;analyse des noeuds Remuneration</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -21,24 +34,54 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="altaïr.bmp"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">&nbsp;
+   </div>
+   <div id="projectbrief">Documentation du projet Altaïr</div>
+  </td>
+   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
 </div>
 <!-- end header part -->
-<!-- Généré par Doxygen 1.8.13 -->
+<!-- Généré par Doxygen 1.8.15 -->
 <script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
 var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
+/* @license-end */
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
-$(function() {
-  initMenu('',true,false,'search.php','Recherche');
-  $(document).ready(function() { init_search(); });
-});
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('page1.html','');});
+/* @license-end */
 </script>
-<div id="main-nav"></div>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -53,7 +96,6 @@ $(function() {
 </iframe>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">Documentation de l'algorithme d'analyse des noeuds Remuneration </div>  </div>
@@ -80,30 +122,7 @@ $(function() {
 Spécifications de la convention cadre au 1er Oct. 2016</h1>
 <h2><a class="anchor" id="subsec1"></a>
 Noeuds XML</h2>
-<dl class="section user"><dt></dt><dd><pre>
-&lt;PayeIndivMensuel&gt;
-  &lt;Agent&gt;{1,1}&lt;/Agent&gt;
-  &lt;Evenement&gt;{0,unbounded}&lt;/Evenement&gt;
-  &lt;Service v=""&gt;{1,1}&lt;/Service&gt;
-  &lt;NBI v=""&gt;{1,unbounded}&lt;/NBI&gt;
-  &lt;QuotiteTrav v=""&gt;{1,1}&lt;/QuotiteTrav&gt;
-  &lt;Periode&gt;{1,1}&lt;/Periode&gt;
-  &lt;Remuneration&gt;{1,1}&lt;/Remuneration&gt;
-  &lt;NbHeureTotal v=""&gt;{0,1}&lt;/NbHeureTotal&gt;
-  &lt;TauxHor v=""&gt;{0,1}&lt;/TauxHor&gt;
-  &lt;NbHeureSup v=""&gt;{1,1}&lt;/NbHeureSup&gt;
-  &lt;MtBrut v=""&gt;{1,1}&lt;/MtBrut&gt;
-  &lt;MtNet v=""&gt;{1,1}&lt;/MtNet&gt;
-  &lt;MtNetAPayer v=""&gt;{1,1}&lt;/MtNetAPayer&gt;
-  &lt;DatePaiement v=""&gt;{1,1}&lt;/DatePaiement&gt;
-  &lt;MtImposable v=""&gt;{1,1}&lt;/MtImposable&gt;
-  &lt;CumulMtImposable v=""&gt;{1,1}&lt;/CumulMtImposable&gt;
-  &lt;CumulMtBrut v=""&gt;{1,1}&lt;/CumulMtBrut&gt;
-  &lt;CumulBaseSS v=""&gt;{1,1}&lt;/CumulBaseSS&gt;
-  &lt;RepartitionBudget&gt;{0,unbounded}&lt;/RepartitionBudget&gt;
-  &lt;PJRef&gt;{0,unbounded}&lt;/PJRef&gt;
-&lt;/PayeIndivMensuel&gt;
-</pre></dd></dl>
+<dl class="section user"><dt></dt><dd><div class="fragment"><div class="line">&lt;pre&gt;</div><div class="line">&lt;PayeIndivMensuel&gt;</div><div class="line">  &lt;Agent&gt;{1,1}&lt;/Agent&gt;</div><div class="line">  &lt;Evenement&gt;{0,unbounded}&lt;/Evenement&gt;</div><div class="line">  &lt;<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055daa554ee1f02c7109125c6d52b8a3ad027">Service</a> V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055daa554ee1f02c7109125c6d52b8a3ad027">Service</a>&gt;</div><div class="line">  &lt;<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055dafdc5130c2170b6cacf79a4bed2298502">NBI</a> V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,unbounded}&lt;/<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055dafdc5130c2170b6cacf79a4bed2298502">NBI</a>&gt;</div><div class="line">  &lt;<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055da975fd208ea028726f9b329fd51a55822">QuotiteTrav</a> V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055da975fd208ea028726f9b329fd51a55822">QuotiteTrav</a>&gt;</div><div class="line">  &lt;Periode&gt;{1,1}&lt;/Periode&gt;</div><div class="line">  &lt;Remuneration&gt;{1,1}&lt;/Remuneration&gt;</div><div class="line">  &lt;<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055dabfa8e5d354fdd874e0a7d89c1c973951">NbHeureTotal</a> V=<span class="stringliteral">&quot;&quot;</span>&gt;{0,1}&lt;/<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055dabfa8e5d354fdd874e0a7d89c1c973951">NbHeureTotal</a>&gt;</div><div class="line">  &lt;TauxHor V=<span class="stringliteral">&quot;&quot;</span>&gt;{0,1}&lt;/TauxHor&gt;</div><div class="line">  &lt;<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055dab192e226f333ec1d1217af1dd218bfcb">NbHeureSup</a> V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055dab192e226f333ec1d1217af1dd218bfcb">NbHeureSup</a>&gt;</div><div class="line">  &lt;<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055daa45ef2df30b1316f2e2445bae86d1c84">MtBrut</a> V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055daa45ef2df30b1316f2e2445bae86d1c84">MtBrut</a>&gt;</div><div class="line">  &lt;<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055dafc32c843a21ebad2b54129a3ee361595">MtNet</a> V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055dafc32c843a21ebad2b54129a3ee361595">MtNet</a>&gt;</div><div class="line">  &lt;<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055daf9d03119c547046926d5b680f278172b">MtNetAPayer</a> V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055daf9d03119c547046926d5b680f278172b">MtNetAPayer</a>&gt;</div><div class="line">  &lt;DatePaiement V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/DatePaiement&gt;</div><div class="line">  &lt;MtImposable V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/MtImposable&gt;</div><div class="line">  &lt;CumulMtImposable V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/CumulMtImposable&gt;</div><div class="line">  &lt;CumulMtBrut V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/CumulMtBrut&gt;</div><div class="line">  &lt;CumulBaseSS V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/CumulBaseSS&gt;</div><div class="line">  &lt;RepartitionBudget&gt;{0,unbounded}&lt;/RepartitionBudget&gt;</div><div class="line">  &lt;PJRef&gt;{0,unbounded}&lt;/PJRef&gt;</div><div class="line">&lt;/PayeIndivMensuel&gt;</div><div class="line">&lt;/pre&gt;</div></div><!-- fragment --> </dd></dl>
 <dl class="section warning"><dt>Avertissement</dt><dd>Toute évolution significative de la convention devra donner lieu à des ajustements de code dans cette fonction</dd></dl>
 <h1><a class="anchor" id="sec2"></a>
 Description de l'algorithme</h1>
@@ -124,9 +143,9 @@ Une boucle parcours <a class="el" href="validator_8h.html#a0325dfbede8f04eea731f
 <h3><a class="anchor" id="rebouclage"></a>
 Rebouclage des noms de catégorie</h3>
 <p>Rebouclage du parcours en cas de non-conformité de l'ordre des noeuds de catégorie de ligne de paye.<br />
-En principe les éléments constitutifs des enregistrements &lt;Remuneration&gt;....&lt;/Remuneration&gt; sont enregistrés dans l'ordre du tableau <a class="el" href="validator_8h.html#a0325dfbede8f04eea731f905a77e2907" title="Tableau décrivant les libellés des balises XML du format XHL de la DGFIP Voir site Xemelios de la DGF...">type_remuneration</a>.<br />
+En principe les éléments constitutifs des enregistrements </p><div class="fragment"><div class="line">&lt;Remuneration&gt;....&lt;/Remuneration&gt; </div></div><!-- fragment --><p> sont enregistrés dans l'ordre du tableau <a class="el" href="validator_8h.html#a0325dfbede8f04eea731f905a77e2907" title="Tableau décrivant les libellés des balises XML du format XHL de la DGFIP Voir site Xemelios de la DGF...">type_remuneration</a>.<br />
 Toutefois quelques cas de désordre sont observés. Dans ces cas là on doit réinitialiser le parcours du tableau.<br />
-La constante <b>#TYPE_LOOP_LIMIT</b> est définie à la compilation et si ce n'est pas le cas prend la valeur par défaut encodée dans le fichier <a class="el" href="validator_8h.html" title="Ce fichier contient notamment la structure info_t qui stocke les données de paye décodées ainsi que l...">validator.h</a> <br />
+La constante <b><a class="el" href="gui__enums_8h.html#a307a3c68612145a207676f5b093fcbcd">TYPE_LOOP_LIMIT</a></b> est définie à la compilation et si ce n'est pas le cas prend la valeur par défaut encodée dans le fichier <a class="el" href="validator_8h.html" title="Ce fichier contient notamment la structure info_t qui stocke les données de paye décodées ainsi que l...">validator.h</a> <br />
 Elle définit le maximum du nombre de réinitialisation du parcours du tableau <a class="el" href="validator_8h.html#a0325dfbede8f04eea731f905a77e2907" title="Tableau décrivant les libellés des balises XML du format XHL de la DGFIP Voir site Xemelios de la DGF...">type_remuneration</a> autrement dit le nombre maximum de non-conformités à l'ordonnancement des catégories de ligne de paye prévu par la convention-cadre.<br />
 Ce maximum n'est jamais atteint en pratique. S'il est atteint la fonction retourne {<b>nbLignePaye</b>, 1}, où <b>nbLignePaye</b> est le nombre de lignes de paye effectivement lues dans la fonction au cours de cet appel.<br />
  </p>
@@ -138,7 +157,7 @@ Cette vérification est opérée par <a class="el" href="ligne__paye_8h.html#a19
 <h2><a class="anchor" id="subsec5"></a>
 Cas de noeuds de type Commentaire</h2>
 <dl class="section user"><dt></dt><dd>Pour éviter des problèmes de cohérence typage en base, les noeuds Commentaire ne sont pas lus. </dd></dl>
-<dl class="section user"><dt></dt><dd>En cas de noeud commentaire, le parcours de drapeaux et de <a class="el" href="validator_8h.html#a0325dfbede8f04eea731f905a77e2907" title="Tableau décrivant les libellés des balises XML du format XHL de la DGFIP Voir site Xemelios de la DGF...">type_remuneration</a> est réinitialisé et il n'en est pas tenu compte pour la vérification du plafond #TYPE_LOOP_LIMIT.</dd></dl>
+<dl class="section user"><dt></dt><dd>En cas de noeud commentaire, le parcours de drapeaux et de <a class="el" href="validator_8h.html#a0325dfbede8f04eea731f905a77e2907" title="Tableau décrivant les libellés des balises XML du format XHL de la DGFIP Voir site Xemelios de la DGF...">type_remuneration</a> est réinitialisé et il n'en est pas tenu compte pour la vérification du plafond <a class="el" href="gui__enums_8h.html#a307a3c68612145a207676f5b093fcbcd">TYPE_LOOP_LIMIT</a>.</dd></dl>
 <h2><a class="anchor" id="subsec6"></a>
 Cas d'anomalie</h2>
 <dl class="section user"><dt></dt><dd>Une anomalie peut être l'absence de noeuds fils décrivant le contenu de la paye :<br />
@@ -149,13 +168,16 @@ Elle donne lieu au décompte d'une ligne de paye (assignée de valeurs manquante
 <h2><a class="anchor" id="subsec7"></a>
 Cas général</h2>
 <dl class="section user"><dt></dt><dd>Dans le cas général, examen des noeuds fils.<br />
-Appel succesif de <a class="el" href="ligne__paye_8cpp.html#a45ce15888cd33c4753e852fce36fb56e" title="Appelle Bulletin et affiche l&#39;interprétation des erreurs. ">bulletin_obligatoire</a> à 2 reprises et <a class="el" href="ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580" title="Appelle Bulletin. ">bulletin_optionnel_numerique</a> à 4 reprises, pour les noeuds cités <em>supra</em>. Au terme de la lecture de ces 6 noeuds fils, le noeud courant est assigné au noeud &lt;Remuneration&gt; suivant. </dd></dl>
+Appel succesif de <a class="el" href="ligne__paye_8cpp.html#a45ce15888cd33c4753e852fce36fb56e" title="Appelle Bulletin et affiche l&#39;interprétation des erreurs. ">bulletin_obligatoire</a> à 2 reprises et <a class="el" href="ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580" title="Appelle Bulletin. ">bulletin_optionnel_numerique</a> à 4 reprises, pour les noeuds cités <em>supra</em>. Au terme de la lecture de ces 6 noeuds fils, le noeud courant est assigné au noeud<div class="fragment"><div class="line">&lt;Remuneration&gt; </div></div><!-- fragment --> suivant. </dd></dl>
 </div></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Généré par &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.13
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Généré par
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.15 </li>
+  </ul>
+</div>
 </body>
 </html>

@@ -5,7 +5,7 @@
 // fabrnicol@gmail.com
 //
 // Ce logiciel est régi par les dispositions du code de la propriété
-// intellectuelle. 
+// intellectuelle (CPI).
 
 // L'auteur se réserve le droit d'exploitation du présent logiciel, 
 // et notamment de reproduire et de modifier le logiciel, conformément aux 
@@ -30,10 +30,10 @@
 // pris connaissance de ces stipulations et que vous en avez accepté les
 // termes.
 
-// Pour l'année 2017, une autorisation d'usage, de modification et de 
+// Sans préjudice des dispositions du CPI, une autorisation d'usage et de
 // reproduction du présent code est donnée à tout agent employé par les
-// juridictions financières. Cette autorisation est temporaire et peut être 
-// révoquée.
+// juridictions financières pour l'exercice de leurs fonctions publiques.
+// Le code ainsi mis à disposition ne peut être transmis à d'autres utilisateurs.
 //
 
 /// \file flineframe.h
@@ -55,14 +55,14 @@ Q_OBJECT
 
 public:
 
-FLineFrame(const QStringList& ={"", ""},                                   ///< Titre de la ligne et 3e argument de \ref lineEdit
-           const QString& ="",                                             ///< Texte par défaut de \ref lineEdit
-           const QString& ="",                                             ///< Balise XML de \ref lineEdit
+FLineFrame(const QStringList& ={"", ""},                                   ///< Titre de la ligne et 3e argument de  lineEdit
+           const QString& ="",                                             ///< Texte par défaut de  lineEdit
+           const QString& ="",                                             ///< Balise XML de  lineEdit
            const QList<int>& pair = {0,0},                                 ///< Ligne et colonne d'insertion dans la disposition en grille
            QGridLayout* inputLayout = nullptr,                             ///< Disposition de rattachement s'il y a lieu
-           const QString& commandLine ="",                                 ///< Ligne de commande générée par \ref lineEdit, s'il y en a une
-           flags::directory check = directory::checkEmptyness,             ///< Vérifier que le répertoire indiqué dans \ref lineEdit est vide
-           flags::flineframe category = flags::flineframe::isDirectoryPath ///< Chemin de répertoire par défaut dans \ref lineEdit
+           const QString& commandLine ="",                                 ///< Ligne de commande générée par  lineEdit, s'il y en a une
+           flags::directory check = directory::checkEmptyness,             ///< Vérifier que le répertoire indiqué dans  lineEdit est vide
+           flags::flineframe category = flags::flineframe::isDirectoryPath ///< Chemin de répertoire par défaut dans  lineEdit
         );
 
 /// Accesseur en lecture : retourne le texte de la ligne
@@ -79,12 +79,12 @@ void setText(const QString &t){ lineEdit->setText(t);}
 
 QGridLayout* getLayout(){ return frameLayout;}
 
-/// Accesseur en lecture de la liste des composants \ref componentList
+/// Accesseur en lecture de la liste des composants  componentList
 /// \return Vecteur de pointeurs vers chacun des QWidget composant
 
 QVector<QWidget*> getComponentList() {return componentList;}
 
-/// Accesseur en écriture de \ref pathCategory, type de chemin représenté par lineEdit
+/// Accesseur en écriture de  pathCategory, type de chemin représenté par lineEdit
 
 void setPathCategory(flags::flineframe t)     {    pathCategory = t;    }
 
@@ -94,9 +94,9 @@ QGridLayout* frameLayout; ///< Disposition de la FLineFrame de type \e QGridLayo
 FLineEdit* lineEdit;      ///< Ligne à éditer, noyau du widget
 QLabel *label;            ///< Libellé du widget
 QToolDirButton *sButton;  ///< Bouton permettant d'ouvrir un dialogue de sélection de répertoire
-QToolDirButton *oButton;  ///< Bouton permettant d'ouvrir le répertoire ou le fichier sélectionné dans \ref lineEdit
+QToolDirButton *oButton;  ///< Bouton permettant d'ouvrir le répertoire ou le fichier sélectionné dans  lineEdit
 QVector<QWidget*> componentList; ///< Liste des composants de type \e QWidget*
-flags::flineframe pathCategory;  ///< Type de chemin représenté dans \ref lineEdit : soit chemin de fichier soit chemin de répertoire
+flags::flineframe pathCategory;  ///< Type de chemin représenté dans  lineEdit : soit chemin de fichier soit chemin de répertoire
 };
 
 #endif

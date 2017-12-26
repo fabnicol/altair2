@@ -38,7 +38,7 @@
 // //////////////////////////////////////////////////////////////////////////
 
 
-/// \file main.cpp
+/// \file gui/main.cpp
 /// \author Fabrice Nicol
 /// \brief Lance l'interface graphique en chargeant le bon contexte linguistique et la feuille de style
 

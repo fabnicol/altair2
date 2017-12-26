@@ -1,0 +1,11 @@
+<map id="FListFrame::on_importFromMainTree_clicked" name="FListFrame::on_importFromMainTree_clicked">
+<area shape="rect" id="node2" href="$class_f_list_frame.html#a4228ed10f2d800b92ff34e2f25edcd8c" title="FListFrame::addParsedTree\lToListWidget" alt="" coords="236,90,420,131"/>
+<area shape="rect" id="node3" href="$class_f_list_frame.html#af8c91e66c02e4c6f1f0fb66097903b73" title="FListFrame::addStringList\lToListWidget" alt="" coords="469,57,641,98"/>
+<area shape="rect" id="node10" href="$class_f_list_frame.html#ae166a8e51ccbb22a5aa2f1d885507565" title="FListFrame::parseTreeFor\lFilePaths" alt="" coords="468,122,641,163"/>
+<area shape="rect" id="node4" href="$class_f_list_frame.html#a9353fe4926e97788a6462c3ee79f6a15" title="FListFrame::clearTabLabels" alt="" coords="703,5,887,32"/>
+<area shape="rect" id="node6" href="$class_f_list_frame.html#a0ebe3d7847101344e70c84aff2be39b0" title="Accesseur en lecture du nombre d&#39;éléments (nombre d&#39;onglets) du vecteur widgetContainer. " alt="" coords="689,57,900,98"/>
+<area shape="rect" id="node7" href="$class_f_list_frame.html#a802475894ee1e30753faed81d9f9dc4b" title="Appelle parseXhlFile(const QString&amp;) sur l&#39;ensemble de widgetContainer. " alt="" coords="711,123,879,149"/>
+<area shape="rect" id="node5" href="$class_f_list_widget.html#a74bf008958a87e9055b8ec6573d8e2e9" title="FListWidget::clearTabLabels" alt="" coords="948,5,1136,32"/>
+<area shape="rect" id="node8" href="$classtools.html#a0aa994303a938a76300767d2251b9f85" title="tools::cdRomMounted" alt="" coords="967,64,1117,91"/>
+<area shape="rect" id="node9" href="$class_f_list_frame.html#a22a50157e8c6d287c2b2c08d2b7deee9" title="Lancer un fil d&#39;exécution pour lire l&#39;entête d&#39;un fichier XHL (Année, Mois,...) et classer les fichie..." alt="" coords="975,115,1109,157"/>
+</map>

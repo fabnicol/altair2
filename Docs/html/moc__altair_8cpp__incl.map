@@ -1,0 +1,15 @@
+<map id="Interface/gui/moc_altair.cpp" name="Interface/gui/moc_altair.cpp">
+<area shape="rect" id="node2" href="$altair_8h.html" title="Code de la classe principale Altair, qui joue le rôle d&#39;agent de l&#39;interface graphique. " alt="" coords="800,80,861,107"/>
+<area shape="rect" id="node3" href="$fstring_8h.html" title="fstring.h" alt="" coords="464,528,533,555"/>
+<area shape="rect" id="node5" href="$enums_8h.html" title="Enumérations et constantes permettant de paramétrer les fwidgets. " alt="" coords="549,603,621,629"/>
+<area shape="rect" id="node6" href="$flistframe_8h.html" title="flistframe.h" alt="" coords="231,304,318,331"/>
+<area shape="rect" id="node7" href="$fwidgets_8h.html" title="fwidgets.h" alt="" coords="641,453,724,480"/>
+<area shape="rect" id="node14" href="$common_8h.html" title="Code de la classe common, qui regroupe des utilitaires communs à l&#39;interface graphique MainWindow..." alt="" coords="840,304,923,331"/>
+<area shape="rect" id="node15" href="$altair-gui_8h.html" title="Code de la classe MainWindow qui construit l&#39;interface graphique. " alt="" coords="789,155,872,181"/>
+<area shape="rect" id="node10" href="$tools_8h.html" title="tools.h" alt="" coords="771,379,832,405"/>
+<area shape="rect" id="node9" href="$tags_8h.html" title="tags.h" alt="" coords="653,528,712,555"/>
+<area shape="rect" id="node22" href="$options_8h.html" title="Code des classes du dialogue d&#39;options. " alt="" coords="511,229,585,256"/>
+<area shape="rect" id="node24" href="$highlighter_8h.html" title="Code de l&#39;utilitaire de colorisation du code XML du projet .alt. " alt="" coords="394,229,486,256"/>
+<area shape="rect" id="node27" href="$gui__enums_8h.html" title="Code de constantes et de classes regroupant des constantes. " alt="" coords="884,229,980,256"/>
+<area shape="rect" id="node23" href="$flineframe_8h.html" title="Ce fichier contient la classe FLineFrame, dérivée fonctionnelle de FLineEdit. " alt="" coords="504,379,595,405"/>
+</map>

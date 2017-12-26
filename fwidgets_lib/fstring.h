@@ -6,7 +6,7 @@
 // fabrnicol@gmail.com
 //
 // Ce logiciel est régi par les dispositions du code de la propriété
-// intellectuelle. 
+// intellectuelle (CPI).
 
 // L'auteur se réserve le droit d'exploitation du présent logiciel, 
 // et notamment de reproduire et de modifier le logiciel, conformément aux 
@@ -31,10 +31,10 @@
 // pris connaissance de ces stipulations et que vous en avez accepté les
 // termes.
 
-// Pour l'année 2017, une autorisation d'usage, de modification et de 
+// Sans préjudice des dispositions du CPI, une autorisation d'usage et de
 // reproduction du présent code est donnée à tout agent employé par les
-// juridictions financières. Cette autorisation est temporaire et peut être 
-// révoquée.
+// juridictions financières pour l'exercice de leurs fonctions publiques.
+// Le code ainsi mis à disposition ne peut être transmis à d'autres utilisateurs.
 //
 //
 #ifndef FSTRING_H
@@ -47,119 +47,151 @@ class FString;
 class FStringList;
 class Hash;
 
+/// Chaîne de caractères fonctionnelle
+
 class FString : public QString
 {
 private:
- int x;
- QString p;
- inline void testBool(QString &s, flags::status flag=flags::status::defaultStatus)
+
+ int x; ///< 1 : positif ; 0 : négatif; 2 : vide
+
+ QString p; ///< si "oui" alors positif; si "non" alors négatif;
+
+ void testBool(QString &s, flags::status flag = flags::status::defaultStatus)
  {
  if (s.isEmpty())
-   x=2;
+   x = 2;
  else
    {
      if (s == QString("oui"))
-       x=1;
+       x = 1;
      else
      if (s == QString("non"))
-       x=0;
+       x = 0;
      else
        // Preserving flagged status
-         x= (flag != flags::status::defaultStatus)? static_cast<int>(flag) : 2;
+         x = (flag != flags::status::defaultStatus)? static_cast<int>(flag) : 2;
     }
  }
 
 public:
 
+  /// Opérateur & : "oui" & "oui" -> "oui" etc.
 
-  inline FString   operator & (FString  s)
+  FString   operator & (FString  s)
   {
     if (x * s.x == 1) return "oui";
     else return "non";
   }
 
+  /// Opérateur & : "oui" & false -> false etc.
 
-  inline FString   operator & (bool  s)
+  FString   operator & (bool  s)
   {
-    if (x * s ==1) return "oui";
-    else return "non";
+    return x * static_cast<int>(s) == 1 ?  "oui" : "non";
   }
+
+  /// Opérateur &= : s &= true a même valeur que s
 
   void   operator &= (bool  s)
   {
-    x = x & (int) s;
-    if (x == 1) p="oui";
-    else p="non";
+    x = x * static_cast<int>(s);
+    p = x == 1 ? "oui" : "non";
   }
+
+  /// Opérateur &= : s &= "oui" a même valeur que s
+  /// s &= FString("oui") -> s
+  /// s &= FString("non") -> FString("non")
+  /// s &= FString("") -> FString("non")
+  /// FString("")    | FString("oui") -> FString("non")
+  /// FString("non") | FString("")    -> FString("non")
 
   void   operator &= (FString  s)
   {
     x = x & s.x;
-    if (x ==1) p="oui";
-    else p="non";
+    p = x == 1 ? "oui" : "non";
   }
 
+  /// Opérateur |
+  /// FString("oui") | FString("oui") -> FString("oui")
+  /// FString("oui") | FString("non") -> FString("non")
+  /// FString("non") | FString("oui") -> FString("non")
+  /// FString("")    | FString("oui") -> FString("non")
+  /// FString("non") | FString("")    -> FString("non")
 
   FString   operator | (FString  s)
   {
-    if ((x == 1) || (s.x == 1) )return "oui";
-    else return "non";
+    return (x == 1 || s.x == 1 ) ? "oui" : "non";
   }
+
+  /// Opérateur ! : ! "non" -> "oui" et autres cas "non"
+  /// ! FString("oui") -> {0, "non"}
+  /// ! FString("non") -> {1, "oui"}
+  /// ! FString("")    -> {0, "non"}
 
   FString   operator ! ()
   {
-    switch (x)
-      {
-        case  1:  return "non"; break;
-        case  0:  return "oui"; break;
-        default:  return "non";
-      }
+    return x != 0 ? "non" : "oui";
   }
+
+  /// Accesseur de la partie QString p
 
   QString toQString() const
   {
     return p;
   }
 
+  /// Accesseur de la partie QString& p
 
   QString& toQStringRef()
   {
     return p;
   }
 
+  /// Transformation en booléen
+  /// FString("oui").toBool() -> false
+  /// FString("non").toBool() -> true
+  /// FString("").toBool()    -> false
 
-
-  short toBool()
+  bool toBool()
   {
-    if ( x > 1) return 0;
-    else return x;
+    return x != 1 ? false : true;
   }
+
+  /// Variante de l'opérateur ! .
+  /// Si s est vide s.toggle() -> "oui" alors que !s -> "non"
+  /// FString("oui").toggle() -> {1, "non"}
+  /// FString("non").toggle() -> {0, "oui"}
+  /// FString("").toggle()    -> {2, "oui"}
 
   void toggle()
   {
     if (x == 1) x = 0;
     else
-        if (x == 0) x =1;
+    if (x == 0) x =1;
 
-    if (x) p = "oui"; else p = "non";
+    p = x ? "oui" : "non";
   }
 
+  /// Inverse de isEmpty()
 
   bool isFilled()
   {
     return (!p.isEmpty());
   }
 
+  /// Conversion depuis un booléen : true -> {1, "oui"} ; false -> {0, "non"}
+
   const FString  fromBool(bool value)
   {
-    x=value;
-    if (value) p="oui"; else p="non";
+    x = static_cast<int>(value);
+    p = (value == true) ? "oui" : "non";
     return FString(p);
   }
 
   bool isTrue()
   {
-      return (p == "oui");
+      return (x == 1);
   }
 
   bool isMultimodal()
@@ -172,52 +204,59 @@ public:
     x = static_cast<int>(flags::status::multimodal);
   }
 
+  /// Test d'égalité avec FString("non")
+
   bool isFalse()
   {
-      return (p == "non");
+      return (x == 0);
   }
 
   bool isBoolean()
   {
-    return ((x == 0) | (x == 1));
+    return (x == 0 | x == 1);
   }
 
-  inline FString()
+  /// Constructeur à valeur vide {2, "" }
+
+  FString()
   {
-    x=2;
-    p="";
+    x = 2;
+    p = "";
   }
 
-  inline FString(QString s, flags::status flag=flags::status::defaultStatus):QString(s)
+  /// Constructeur à valeur quelconque QString donnée
+
+  FString(QString s, flags::status flag = flags::status::defaultStatus) : QString(s)
   {
-    p=s;
+    p = s;
     testBool(s, flag);
   }
 
-  inline FString(const char* s):FString(QString(s))  {  }
+  /// Constructeur à valeur quelconque const char* donnée
 
-  inline FString(bool value)
+  FString(const char* s) : FString(QString(s))  {  }
+
+  FString(bool value)
   {
-    x=value;
-    if (value) p="oui"; else p="non";
-    this->append(p); // caution! does not work otherwise
+    x = static_cast<int>(value);
+
+    p = (value == true) ? "oui" : "non";
+
+    this->append(p);
   }
 
   FString  operator * ();
 
-  /* copy constructor */
-  FString(const FString  & v):QString(v.p)
-  {
-    x=v.x;
-    p=v.p;
-  }
+  /// Constructeur de copie
 
+  FString(const FString & v) : QString(v.p)
+  {
+    x = v.x;
+    p = v.p;
+  }
 
   const FStringList split(const QString &) const;
   const FStringList split(const QStringList &separator) const;
-
-
-
 };
 
 

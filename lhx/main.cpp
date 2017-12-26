@@ -69,7 +69,7 @@
 #define AVERAGE_RAM_DENSITY 1.25
 #endif
 
-/// \file    main.cpp
+/// \file    lhx/main.cpp
 /// \author  Fabrice Nicol
 /// \brief   Ce fichier contient le code relatif à l'analyse de la ligne de commande, au découpage de la liste des fichiers XML
 /// en sous-listes (ou segments) déterminées en fonction des capacités de mémoire vive de la plateforme, qui seront analysés successivement,
@@ -1374,13 +1374,6 @@ pair<uint64_t, uint64_t> produire_segment (const info_t& info, const vString& se
     return lignes;
 }
 
-/// Lance l'extraction d'un bulletin de paye pour un matricule, un mois et une année donnés
-/// \param repertoire_bulletins Référence vers un dossier de bulletins extraits de type string
-/// \param Référence vers un vecteur de structures info_t contenant l'ensemble, pour tous les segments et fils, des données de paye décodées
-/// \param matricule Référence vers une chaîne de caractère de type string contenant le matricule
-/// \param mois Référence vers une chaîne de caractère de type string contenant le
-/// \param mois Référence vers une chaîne de caractère de type string contenant le matricule
-/// \return Booléen : true si succès, false sinon.
 
 bool scan_mois (const string &repertoire_bulletins,
                 const vector<info_t> &Info,

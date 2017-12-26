@@ -54,9 +54,9 @@
 #include "flineframe.h"
 
 extern int fontsize;
-extern template void createHash (QHash<QString, QString>&,
-                                 const QList<QString>*,
-                                 const QList<QString>*);
+//extern template void createHash (QHash<QString, QString>&,
+//                                 const QList<QString>*,
+//                                 const QList<QString>*);
 
 
 int codePage::ajouterVariable (const QString& nom)
@@ -560,7 +560,7 @@ void standardPage::substituer_versant()
 
     if (! res) Q ("Le versant de la fonction publique n'a pas pu être exporté.")
 
-    }
+}
 
 processPage::processPage()
 {
@@ -574,8 +574,8 @@ processPage::processPage()
     QLabel* processTypeLabel = new QLabel ("Nombre de fils d'exécution  ");
     processTypeWidget = new FComboBox (range3,
                                        "processType",
-    {"Type de processus", "Nombre de fils d'exécution"},
-    "j");
+                                        {"Type de processus", "Nombre de fils d'exécution"},
+                                        "j");
 
     processTypeWidget->setFixedWidth (45);
     processTypeWidget->setFixedHeight (30);
@@ -587,9 +587,9 @@ processPage::processPage()
                                QDir::toNativeSeparators (common::generateDatadirPath()
                                        + "/altair.log"),
                                "log",
-    {2, 1},
-    v3Layout,
-    "L");
+                                {2, 1},
+                                v3Layout,
+                                "L");
 
     logFrame->setPathCategory (flags::flineframe::isFilePath);
 
@@ -597,17 +597,17 @@ processPage::processPage()
                                  flags::status::enabledUnchecked
                                  | flags::commandLineType::noCommandLine,
                                  "genererLog",
-    {"Générer un log d'exécution", "application noyau"},
-    logFrame->getComponentList());
+                                {"Générer un log d'exécution", "application noyau"},
+                                logFrame->getComponentList());
 
     consoleCheckBox = new FCheckBox ("Activer la console  ",
                                      flags::status::enabledChecked
                                      | flags::commandLineType::noCommandLine,
                                      "activerConsole",
-    {
-        "Générer un log d'exécution",
-        "Utiliser l'onglet console"
-    });
+                                    {
+                                        "Générer un log d'exécution",
+                                        "Utiliser l'onglet console"
+                                    });
 
 
     QList<QString> ecoRange = QList<QString>(), ecoRange2 = QList<QString>();
@@ -623,11 +623,11 @@ processPage::processPage()
 
     memoryUseWidget = new FComboBox (ecoRange,
                                      "memoryUse",
-    {
-        "Gestion de la mémoire",
-        "Pourcentage d'utilisation de la mémoire libre"
-    },
-    "%memshare");
+                                    {
+                                        "Gestion de la mémoire",
+                                        "Pourcentage d'utilisation de la mémoire libre"
+                                    },
+                                    "%memshare");
 
 
     createHash (memoryUseWidget->comboBoxTranslationHash, &ecoRange, &ecoRange2);
@@ -681,11 +681,11 @@ processPage::processPage()
 
     enchainerRapports = new FCheckBox ("Enchaîner extraction et analyse",
                                        "enchainerRapports",
-    {
-        "Enchaînements",
-        "Enchaîner l'extraction des données et la production des rapports"
-    },
-    {rapportTypeWidget, rapportTypeLabel});
+                                        {
+                                            "Enchaînements",
+                                            "Enchaîner l'extraction des données et la production des rapports"
+                                        },
+                                        {rapportTypeWidget, rapportTypeLabel});
 
     rapportEntier = new FCheckBox ("Version expérimentale",
                                    flags::status::enabledUnchecked
@@ -693,10 +693,10 @@ processPage::processPage()
                                    | flags::status::excluded,  // exclu de la liste des widgets qui déclenche la ligne de commande
                                    //ou la l'importation/l'exportation de la valeur sur le projet XML.
                                    "rapportEntier",
-    {
-        "Version expérimentale",
-        "Produire les rapports expérimentaux (EQTP et rémunérations)"
-    });
+                                    {
+                                        "Version expérimentale",
+                                        "Produire les rapports expérimentaux (EQTP et rémunérations)"
+                                    });
 
     // La version expérimentale n'est accessible que sous compte administrateur
 
@@ -792,13 +792,13 @@ options::options (Altair* parent)
 
     options::RefreshFlag = interfaceStatus::optionTabs;
 
-    contentsWidget = new QListWidget;
-    contentsWidget->setViewMode (QListView::IconMode);
-    contentsWidget->setIconSize (QSize (48, 48));
-    contentsWidget->setFont (QFont ("Garamond", fontsize - 2));
-    contentsWidget->setMovement (QListView::Static);
-    contentsWidget->setFixedWidth (98);
-    contentsWidget->setSpacing (12);
+    optionWidget = new QListWidget;
+    optionWidget->setViewMode (QListView::IconMode);
+    optionWidget->setIconSize (QSize (48, 48));
+    optionWidget->setFont (QFont ("Garamond", fontsize - 2));
+    optionWidget->setMovement (QListView::Static);
+    optionWidget->setFixedWidth (98);
+    optionWidget->setSpacing (12);
 
     pagesWidget = new QStackedWidget;
     standardTab = new standardPage;
@@ -816,19 +816,19 @@ options::options (Altair* parent)
     connect (closeButton,
              &QDialogButtonBox::accepted,
              [this, parent]
-    {
-        options::RefreshFlag =  interfaceStatus::hasUnsavedOptions;
-        accept();
-        parent->execPath = execPath;
-        parent->altairCommandStr =  parent->execPath +  QDir::separator()
-        + ("lhx" + QString (systemSuffix));
+                {
+                    options::RefreshFlag =  interfaceStatus::hasUnsavedOptions;
+                    accept();
+                    parent->execPath = execPath;
+                    parent->altairCommandStr =  parent->execPath +  QDir::separator()
+                    + ("lhx" + QString (systemSuffix));
 
-        parent->updateProject (true);
+                    parent->updateProject (true);
 
-    });
+                });
 
     connect (closeButton, SIGNAL (rejected()), this, SLOT (reject()));
-    connect (contentsWidget,
+    connect (optionWidget,
              SIGNAL (currentItemChanged (QListWidgetItem*, QListWidgetItem*)),
              this, SLOT (changePage (QListWidgetItem*, QListWidgetItem*)));
 
@@ -839,10 +839,10 @@ options::options (Altair* parent)
 
 
     createIcons();
-    contentsWidget->setCurrentRow (0);
+    optionWidget->setCurrentRow (0);
 
     QHBoxLayout *horizontalLayout = new QHBoxLayout;
-    horizontalLayout->addWidget (contentsWidget);
+    horizontalLayout->addWidget (optionWidget);
     horizontalLayout->addWidget (pagesWidget, 1);
 
     QHBoxLayout *buttonsLayout = new QHBoxLayout;
@@ -876,7 +876,7 @@ void options::clearOptionData()
 
 void options::createIcon (const char* path, const char* text)
 {
-    QListWidgetItem *button = new QListWidgetItem (contentsWidget);
+    QListWidgetItem *button = new QListWidgetItem (optionWidget);
     QString strpath = QString (path);
     QString strtext = QString (text);
     button->setIcon (QIcon (strpath));
@@ -903,7 +903,7 @@ void options::changePage (QListWidgetItem *current, QListWidgetItem *previous)
         current = previous;
 
     int r;
-    r = (current) ? contentsWidget->row (current) : 0;
+    r = (current) ? optionWidget->row (current) : 0;
 
     if (current) pagesWidget->setCurrentIndex (r);
 }

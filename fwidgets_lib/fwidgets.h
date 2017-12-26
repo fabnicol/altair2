@@ -6,7 +6,7 @@
 // fabrnicol@gmail.com
 //
 // Ce logiciel est régi par les dispositions du code de la propriété
-// intellectuelle. 
+// intellectuelle (CPI).
 
 // L'auteur se réserve le droit d'exploitation du présent logiciel, 
 // et notamment de reproduire et de modifier le logiciel, conformément aux 
@@ -31,10 +31,10 @@
 // pris connaissance de ces stipulations et que vous en avez accepté les
 // termes.
 
-// Pour l'année 2017, une autorisation d'usage, de modification et de 
+// Sans préjudice des dispositions du CPI, une autorisation d'usage et de
 // reproduction du présent code est donnée à tout agent employé par les
-// juridictions financières. Cette autorisation est temporaire et peut être 
-// révoquée.
+// juridictions financières pour l'exercice de leurs fonctions publiques.
+// Le code ainsi mis à disposition ne peut être transmis à d'autres utilisateurs.
 //
 //
 #ifndef FWIDGETS_H
@@ -146,25 +146,25 @@ public:
   /* does the reverse of setXmlFromWidget : reads left value of <...hashKey=...> and injects it into commandLineList. Refreshes Widget state accordingly */
   virtual void setWidgetFromXml(const FStringList& )=0;
 
- /// Actualise l'état du widget à partir de la valeur courante du membre de \ref commandLineList pour assurer
+ /// Actualise l'état du widget à partir de la valeur courante du membre de  commandLineList pour assurer
  /// la cohérence entre l'état des données en mémoire et l'apparence graphique du widget
 
  virtual void refreshWidgetDisplay()=0 ;
 
- /// Retourne la clé de hashage de \ref Hash::wrapper correspondant au widget
- /// \return QString correspondant à la clé \ref hashKey
+ /// Retourne la clé de hashage de  Hash::wrapper correspondant au widget
+ /// \return QString correspondant à la clé  hashKey
 
  const QString& getHashKey() const {return hashKey; }
 
  QVector<QWidget*>& getComponentList() { return componentList;}
 
  /// Accesseur en lecture de la \e profondeur du widget
- /// \return Retourne \ref widgetDepth
+ /// \return Retourne  widgetDepth
 
  const QString& getDepth() const {return widgetDepth; }
 
  /// Accesseur en lecture de la \e description du widget
- /// \return Retourne \ref description
+ /// \return Retourne  description
 
  const QStringList& getDescription() const { return description; }
 
@@ -195,9 +195,9 @@ protected:
 
   QVector<QWidget*> componentList;
 
-  inline void FCore(const QVector<QWidget*>& , FString, int, const QString&, const QStringList& , const QString&,  QVector<QWidget*> =QVector<QWidget*>(), QVector<QWidget*> =QVector<QWidget*>());
+  void FCore(const QVector<QWidget*>& , FString, int, const QString&, const QStringList& , const QString&,  const QVector<QWidget*> =QVector<QWidget*>(), const QVector<QWidget*> =QVector<QWidget*>());
 
-  inline void FCore(const QVector<QWidget*>&, FString, int, const QString &, const QStringList &, const QString&, Q2VectorWidget*, Q2VectorWidget*);
+  void FCore(const QVector<QWidget*>&, FString, int, const QString &, const QStringList &, const QString&, Q2VectorWidget*, Q2VectorWidget*);
   
 };
 
@@ -206,13 +206,13 @@ struct Abstract
 {
     static QVector<FAbstractWidget*> abstractWidgetList; ///< englobe tous les widgets fonctionnels utilisés
 
-    /// Pour tous les membres de \ref abstractWidgetList, appelle \ref refreshWidgetDisplay()
+    /// Pour tous les membres de  abstractWidgetList, appelle  refreshWidgetDisplay()
     /// ce qui a pour effet d'actualiser l'état graphique du widget en fonction des données
     /// en mémoire.
 
     static void refreshOptionFields();
 
-    /// Détruire la valeur allouée de \ref Hash::wrapper pour la clé \e hashKey si elle existe
+    /// Détruire la valeur allouée de  Hash::wrapper pour la clé \e hashKey si elle existe
     /// et si elle est allouée et réallouer une nouvelle
     /// \param hashKey Clé à réallouer
     /// \param value Nouvelle valeur
@@ -226,7 +226,7 @@ struct Abstract
         *(Hash::wrapper[hashKey] = new FStringList) = value;
     }
 
-    /// Détruire la valeur allouée de \ref Hash::wrapper pour la clé \e hashKey si elle existe
+    /// Détruire la valeur allouée de  Hash::wrapper pour la clé \e hashKey si elle existe
     /// et si elle est allouée et réallouer une nouvelle
     /// \param hashKey Clé à réallouer
 
@@ -242,7 +242,7 @@ struct Abstract
         Hash::wrapper[hashKey] = new FStringList;
     }
 
-    /// Réinitialiser toutes les valeurs du de la table de hachage \ref Hash::wrapper
+    /// Réinitialiser toutes les valeurs du de la table de hachage  Hash::wrapper
 
     static void initH()
     {

@@ -57,6 +57,12 @@ class FProgressBar;
 class MainWindow;
 class FListFrame;
 
+/// Macro tendant à forcer l'inlining sous GCC
+
+#define GCC_INLINE __attribute__((always_inline))
+
+/// Classe Altair, agent de la classe MainWindow qui implémente les fonctions globales de l'interface graphique
+
 class Altair : public FDialog, public common
 {
     Q_OBJECT
@@ -65,14 +71,11 @@ public:
 
     // Membres données
 
-    /// Constructeur de la classe Altair, agent de la classe MainWindow qui implémente les fonctions globales de l'interface graphique
+    /// Constructeur
 
     Altair();
 
     MainWindow *parent; ///< Interface graphique dont cette classe est l'agent.
-
-    enum { MaxRecentFiles = 5 ///< Maximum de la liste des fichiers récents
-         };
 
     FListFrame *project; ///< Occurrence de la classe englobant les contenus de l'onglet central
 
@@ -82,7 +85,7 @@ public:
     QTreeWidget *managerWidget = new QTreeWidget; ///< Arbre du gestionnaire de projet à droite de l'interface
 
     QFile rankFile; ///< Fichier permettant de lire l'indice de progression de l'application noyau lhx et d'ajuster la barre de progression de manière dynamique
-    QString projectName; ///< Nom du projet .alt
+    QString projectName; ///< Nom du projet \b .alt
     QString rootDir = ""; ///< Fichier racine des données
     QString username; ///< NOm de l'utilisateur Unix
 
@@ -92,7 +95,7 @@ public:
 
     // Méthodes
 
-    /// Efface les onglets, le gestionnaire de projet et lit le projet .alt en cours
+    /// Efface les onglets, le gestionnaire de projet et lit le projet \b .alt en cours
 
     bool clearInterfaceAndParseProject();
 
@@ -132,10 +135,10 @@ public:
     }
 
     /// Rafraîchit le gestionnaire de projet à la droite de l'interface.
-    /// \param \ref manager::refreshAllZones ou bien \ref manager::refreshXHLZone,
-    /// \ref manager::refreshNBulletins, \ref manager::refreshSystemZone, selon la zone à rafraichir.
+    /// \param  statut manager::refreshAllZones ou bien  manager::refreshXHLZone,
+    ///  manager::refreshNBulletins,  manager::refreshSystemZone, selon la zone à rafraichir.
 
-    void refreshProjectManagerValues (std::uint16_t = manager::refreshAllZones);
+    void refreshProjectManagerValues (std::uint16_t statut = manager::refreshAllZones);
 
     /// Rafraîchit le gestionnaire de projet à la droite de l'interface. Fonction globale par défaut.
 
@@ -148,17 +151,17 @@ public:
         return progress;
     }
 
-    /// Accesseur en lecture de \ref fileCount
+    /// Accesseur en lecture de  fileCount
 
-    inline int getFileCount()
+    int getFileCount()
     {
         return fileCount;
     }
 
-    /// Lit le fichier \ref rankFile pour l'index de la barre progression, le lit dans \n
-    /// \ref fileRank \n et ajuste la barre de progression
+    /// Lit le fichier  rankFile pour l'index de la barre progression, le lit dans \n
+    ///  fileRank \n et ajuste la barre de progression
 
-    inline void __attribute__ ((always_inline)) readRankSignal()
+    void GCC_INLINE readRankSignal()
     {
         if (! rankFile.exists()) return;
 
@@ -176,33 +179,36 @@ public:
 
     }
 
-    /// Crée une ligne de commande
+    /// Génère la ligne de commande à partir des chemins des fichiers de paye
+    /// \param files Liste de chaînes de caractères des chemins des fichiers de paye
+    /// \return Ligne de commande en forme de liste (un élément par option ou argument)
+    /// \sa   Abstract::abstractWidgetList, FAbstractWidget::getHashKey, FAbstractWidget::commandLineStringList, fileCount
 
-    QStringList createCommandLineString (const QStringList &L = QStringList());
+    QStringList createCommandLineString (const QStringList &files = QStringList());
 
-    /// Ecrit le projet XML d'extension .alt contenant les références des donnéees de paye
-    /// \note Ecrit un en-tête classique puis lance \ref makeDataString() et \ref makeSystemString()
+    /// Ecrit le projet XML d'extension \b .alt contenant les références des donnéees de paye
+    /// \note Ecrit un en-tête classique puis lance  makeDataString() et  makeSystemString()
 
     void writeProjectFile();
 
-    /// Rafraichit la vue d'arbre \ref fileTreeView de l'exporateur de fichiers à gauche de \n l'interface
+    /// Rafraichit la vue d'arbre  fileTreeView de l'exporateur de fichiers à gauche de \n l'interface
     /// \param create (= false) Si \e true, alloue la vue.
 
     void refreshTreeView (bool create = false);
 
 public slots:
 
-    /// Rafraichir le projet .alt après avoir actualisé l'interface
+    /// Rafraichir le projet \b .alt après avoir actualisé l'interface
     /// \param enreg Si \e true, enregistre le projet actualisé.
 
     bool updateProject (bool enreg = false);
 
-    /// Ouvre le projet, le décode en appelant \ref parseProjectFile et actualise l'interface \n
+    /// Ouvre le projet, le décode en appelant  parseProjectFile et actualise l'interface \n
     /// en conséquence
 
     void on_openProjectButton_clicked();
 
-    /// Crée un nouveau projet défaut.alt
+    /// Crée un nouveau projet défaut\b .alt
 
     void on_newProjectButton_clicked();
 
@@ -218,7 +224,7 @@ public slots:
 
     void openProjectFileCommonCode();
 
-    /// Importer les données du répertoire \ref userdatadir ou du disque optique s'il est monté, \n
+    /// Importer les données du répertoire  userdatadir ou du disque optique s'il est monté, \n
     /// au lancement de l'interface, si l'option est cochée.
 
     void importData();
@@ -263,11 +269,11 @@ private slots:
 
     void on_helpButton_clicked();
 
-    /// Enregistre le projet \e .alt en actualisant \ref projectName et l'état de l'interface \n
+    /// Enregistre le projet \e \b .alt en actualisant  projectName et l'état de l'interface \n
 
     void requestSaveProject();
 
-    /// Ouvre le projet \e .alt et décode le projet pour actualiser l'interface
+    /// Ouvre le projet \e \b .alt et décode le projet pour actualiser l'interface
 
     void openProjectFile();
 
@@ -299,67 +305,67 @@ private:
     QVBoxLayout *managerLayout = new QVBoxLayout;  ///< Layout du gestionnaire de projets
     QHBoxLayout *allLayout = new QHBoxLayout;      ///< Layout global
 
-    /// Parcourt l'ensemble des widgets fonctionnels \ref Abstract::abstractWidgetList
-    /// et actualise leur statut interne en fonction de l'état du projet .alt
+    /// Parcourt l'ensemble des widgets fonctionnels  Abstract::abstractWidgetList
+    /// et actualise leur statut interne en fonction de l'état du projet \b .alt
     /// en appelant \e setWidgetFromXml
 
     void assignWidgetValues();
 
-    /// Efface toutes les données du projet .alt et réinitialise l'interface et les conteneurs
+    /// Efface toutes les données du projet \b .alt et réinitialise l'interface et les conteneurs
     /// de données internes.
     /// Si l'interface a des éléments de statut non encore sauvegardés, affiche une boîte de dialogue
-    /// permettant soit de sauvegarder l'état de l'interface dans un fichier projet .alt, soit de réinitialiser
+    /// permettant soit de sauvegarder l'état de l'interface dans un fichier projet \b .alt, soit de réinitialiser
     /// l'interface, soit de quitter le choix.
 
     void clearProjectData();
 
-    /// Inititalise les variables utilisateur et de localisation (\ref userdatadir)
+    /// Inititalise les variables utilisateur et de localisation ( userdatadir)
 
     void initialize();
 
-    /// Crée la chaîne QString permettant d'écrire un projet XML d'extension .alt
-    /// Parcourt l'ensemble de la liste \ref Abstract::abstractWidgetList des fwidgets (widgets fonctionnels)
+    /// Crée la chaîne QString permettant d'écrire un projet XML d'extension \b .alt
+    /// Parcourt l'ensemble de la liste Abstract::abstractWidgetList des fwidgets (widgets fonctionnels)
     /// Enregistre le projet XML à partir du contenu des fwidgets
     /// \param  start  Index de départ dans la liste (0-based, inclus)
     /// \param  end    Index de fin dans la liste (0-based, inclus)
-    /// \return Retourner le QString du projet .alt
+    /// \return Retourner le QString du projet \b .alt
     /// \note \e profondeur permet d'ecrire des objets complexes en encodant le degré d'enchassement (0 à 2)
     /// \note Utilise une des fonctionnalités des FWidget (setXmlFromWidget) qui permet
     /// de transposer l'état du widget en valeurs
-    /// \sa \ref FAbstractWidget, FAbstractWidget::setXmlFromWidget
+    /// \sa FAbstractWidget, FAbstractWidget::setXmlFromWidget
 
     const QString  makeParserString (int start, int end = Abstract::abstractWidgetList.size() - 1);
 
-    /// Lance \ref Altair::makeParserString sur le premier item courant de abstractWidgetList (celui des données de paye)
+    /// Lance  Altair::makeParserString sur le premier item courant de abstractWidgetList (celui des données de paye)
 
     const QString  makeDataString();
 
-    /// Lance \ref Altair::makeParserString sur l'ensemble de la liste des FWidgets sauf le premier (tous les widgets sauif les données de paye)
+    /// Lance  Altair::makeParserString sur l'ensemble de la liste des FWidgets sauf le premier (tous les widgets sauif les données de paye)
 
     const QString  makeSystemString();
 
-    /// Parcourt la table de chachage \ref Hash::wrapper dans laquelle sont stockés à la clé "XHL" les chemins
+    /// Parcourt la table de chachage  Hash::wrapper dans laquelle sont stockés à la clé "XHL" les chemins
     /// des fichiers de paye des onglets, calcule leur taille, affiche leurs données dans le gestionnaire de projets
     /// \param L Structure de stockage QVector<QStringList> des fichiers de l'onglet central.
     /// \param isFile  Si true (défaut) force le calcul de la taille des fichiers.
-    /// \return La table de hashage \ref fileSizeDateBase
+    /// \return La table de hashage  fileSizeDateBase
 
     QVector<QStringList> processSecondLevelData (QVector<QStringList> &L, bool isFile = true);
 
-    /// Lors du décodage du projet XML \e .alt, décoder le noed courant et renvoyer l'empilement des valeurs en FStringList
+    /// Lors du décodage du projet XML \e \b .alt, décoder le noed courant et renvoyer l'empilement des valeurs en FStringList
     /// \param noeud Noeud QDom courant
     /// \param parent item parent de l'arbre widget (aucun par défaut)
     /// \return FStringList des valeurs empilées seloon le degré d'enchassement (profondeur) du noeud XML
 
-    FStringList parseEntry (const QDomNode &, QTreeWidgetItem *parent = 0);
+    FStringList parseEntry (const QDomNode &noeud, QTreeWidgetItem *parent = 0);
 
     /// Raccourcit les chemins dans les onglets en se limitant au non de fichier et les présente \n
     /// en surlignage bleu alterné de gris argent
-    /// \note Appelle \ref refreshRowPresentation(int index) pour le noeud courant
+    /// \note Appelle  refreshRowPresentation(int index) pour le noeud courant
 
     void refreshRowPresentation();
 
-    /// Raffraîchit la valeur de \ref row et \ref currentIndex en fonction de l'état de l'onglet
+    /// Raffraîchit la valeur de  row et  currentIndex en fonction de l'état de l'onglet
 
     void updateIndexInfo();
 
@@ -382,8 +388,9 @@ private:
 
     void printMsg (qint64 new_value, const QString &str);
 
-    /// Appelle \ref printMsg une première fois.
-    /// \new_value Taille de la base
+    /// Appelle  printMsg une première fois.
+    /// \param new_value Taille de la base
+
     void printBaseSize (qint64 new_value = 0);
 
     /// Vérifie que les onglets de contiennent pas des années incomplètes
@@ -394,7 +401,7 @@ private:
     /// Parcourt le répertoire en cours du mode distributif, un à chaque appel
     /// Exporte l'identification dans chaque répertoire.
     /// Lance runWorker à chaque changement de répertoire
-    /// \param reset Si true, "rembobine" la liste Hash::fileList des répertoires
+    /// \param reset Si \e true, "rembobine" la liste Hash::fileList des répertoires
     /// \return \e true si il y a encore un répertoire à traiter ou \e false sinon.
 
     bool runWorkerDistributed (bool);
@@ -402,18 +409,18 @@ private:
     /// Construction de la ligne de commande pour des bases de paye dans un répertoire donné
     /// \param subdir Répertoire dans lequel sont recherchés les fichiers de paye
     /// \note \e Algorithme :\n
-    /// Récupérer la liset des fichiers de paye du répertoire distribué \ref subdir
+    /// Récupérer la liset des fichiers de paye du répertoire distribué  subdir
     /// Le traitement du répertoire suivant sera assuré par une nouvelle itération.
     /// Par défaut la ligne de commande contient de obligatoirement :
     /// <ul><li>-m : calcul des maxima du nombre de bulletins de paye par mois et du nombre de lignes de paye par agent par bulletin</li>
     /// <li>-d , : séparateur décimal virgule</li>
     /// <li>-s ; : séparateur de champs point-virgule</li>
     /// <li>-E : Générer l'échelon</li>
-    /// <li>-rank sharedir + "/rank" : fichier exporté dans ~/.local/share/applications/Altair (\ref sharedir par défaut) <br> indiquant l'index de la barre de progression</li>
+    /// <li>-rank sharedir + "/rank" : fichier exporté dans ~/.local/share/applications/Altair ( sharedir par défaut) <br> indiquant l'index de la barre de progression</li>
     /// <li><pre>--cdrom : si depuis un disque optique</pre></li>
-    /// <li>-D \ref username /Dev/altair/#DONNEES_SORTIE /subdir : répertoire d'exportation des bases si \ref subdir est non vide </li>
+    /// <li>-D  username /Dev/altair/#DONNEES_SORTIE /subdir : répertoire d'exportation des bases si  subdir est non vide </li>
     /// </ul>
-    /// \sa \ref Altair::runWorkerDistributed, classe \ref Hash
+    /// \sa  Altair::runWorkerDistributed, classe Hash
 
     void runWorker (const QString& = "");
 };

@@ -1,9 +1,0 @@
-<map id="ouvrir_fichier_base0" name="ouvrir_fichier_base0">
-<area shape="rect" id="node2" href="$ligne__paye_8cpp.html#af50b3d88fee3112c7ed3cd06920e0677" title="exit" alt="" coords="247,5,289,32"/>
-<area shape="rect" id="node3" href="$fonctions__auxiliaires_8cpp.html#aa4c818d49539c9dec49c5cf3144b8f53" title="Retourne la taille du fichier en argument au format off_t. " alt="" coords="223,56,313,83"/>
-<area shape="rect" id="node6" href="$fonctions__auxiliaires_8cpp.html#aff3c87803f64d34f00a30ef30bb74a9b" title="ecrire_entete_table" alt="" coords="202,107,334,133"/>
-<area shape="rect" id="node8" href="$fonctions__auxiliaires_8cpp.html#a5e2253f583a3358618441c2cba35742b" title="ecrire_entete_bulletins" alt="" coords="192,157,344,184"/>
-<area shape="rect" id="node4" href="$fonctions__auxiliaires_8cpp.html#a7d549d61628c712fecf0f56bf64802ef" title="getTotalSystemMemory" alt="" coords="392,31,553,57"/>
-<area shape="rect" id="node5" href="$fonctions__auxiliaires_8cpp.html#a171c739cfe424d8650e387874baa1e40" title="getFreeSystemMemory" alt="" coords="393,81,552,108"/>
-<area shape="rect" id="node7" href="$fonctions__auxiliaires_8cpp.html#aca69dd2811b53b087f39810c114e7dde" title="ecrire_entete0" alt="" coords="421,144,525,171"/>
-</map>
