@@ -158,7 +158,7 @@ typedef struct
     vector<array<uint64_t, 2>> ligne_fin;   ///< Ligne de fin du bulletin dans le fichier XML
     vector<uint32_t> NAgent;                ///< Nombre d'agents
     uint32_t nbAgentUtilisateur;            ///< Nombre d'agents utilisateurs
-    uint32_t NCumAgent;                     ///< Cumul du nombre d'agents pour l'opération de préallocation \ref calculer_memoire_requise
+    uint32_t NCumAgent;                     ///< Cumul du nombre d'agents pour l'opération de préallocation  calculer_memoire_requise
     uint32_t NCumAgentXml;                  ///< Cumul du nombre d'agents après décodage XML
     uint32_t taille_base;                   ///< Taille de la base
     BaseType  type_base;                    ///< Type de la base

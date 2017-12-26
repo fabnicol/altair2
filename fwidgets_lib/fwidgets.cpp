@@ -6,7 +6,7 @@
 // fabrnicol@gmail.com
 //
 // Ce logiciel est régi par les dispositions du code de la propriété
-// intellectuelle. 
+// intellectuelle (CPI). 
 
 // L'auteur se réserve le droit d'exploitation du présent logiciel, 
 // et notamment de reproduire et de modifier le logiciel, conformément aux 
@@ -31,10 +31,10 @@
 // pris connaissance de ces stipulations et que vous en avez accepté les
 // termes.
 
-// Pour l'année 2017, une autorisation d'usage, de modification et de 
+// Sans préjudice des dispositions du CPI, une autorisation d'usage et de 
 // reproduction du présent code est donnée à tout agent employé par les
-// juridictions financières. Cette autorisation est temporaire et peut être 
-// révoquée.
+// juridictions financières pour l'exercice de leurs fonctions publiques. 
+// Le code ainsi mis à disposition ne peut être transmis à d'autres utilisateurs.
 //
 #include "fwidgets.h"
 #include "tools.h"
@@ -462,13 +462,18 @@ const FString FListWidget::setXmlFromWidget()
       for (const QString &str : strL)
       {
           QStringList qstrl = QStringList() << Hash::Mois[str]
-                                                         << (Hash::Siret[str].isEmpty()? "": Hash::Siret[str].at(0))
-                                                         << Hash::Budget[str]
-                                                         << (Hash::Etablissement[str].isEmpty()? "" :Hash::Etablissement[str].at(0));
+                                            << (Hash::Siret[str].isEmpty()? "": Hash::Siret[str].at(0))
+                                            << Hash::Budget[str]
+                                            << (Hash::Etablissement[str].isEmpty()? "" : Hash::Etablissement[str].at(0));
 
           if  (Hash::Siret[str].size() > 1 && Hash::Etablissement[str].size() > 1)
+          {
               for (int j = 1; j < Hash::Siret[str].size() && j < Hash::Etablissement[str].size(); ++j)
-                   qstrl  << Hash::Siret[str].at(j) << Hash::Etablissement[str].at(j);
+              {
+                   qstrl  << Hash::Siret[str].at(j)
+                          << Hash::Etablissement[str].at(j);
+              }
+          }
 
           qstrl << Hash::Employeur[str];
 

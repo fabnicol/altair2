@@ -1,12 +1,12 @@
 <map id="lhx/expression_reg_commun.h" name="lhx/expression_reg_commun.h">
-<area shape="rect" id="node2" href="$expression__reg__adjoints_8h.html" title="lhx/expression_reg\l_adjoints.h" alt="" coords="453,95,583,136"/>
-<area shape="rect" id="node15" href="$expression__reg__elus_8h.html" title="lhx/expression_reg\l_elus.h" alt="" coords="594,184,725,225"/>
+<area shape="rect" id="node2" href="$expression__reg__adjoints_8h.html" title="Expressions régulières de niveau adjoints / auxiliaires / aides (catégories C) " alt="" coords="453,95,583,136"/>
+<area shape="rect" id="node15" href="$expression__reg__elus_8h.html" title="Expressions régulières représentant les élus. " alt="" coords="594,184,725,225"/>
 <area shape="rect" id="node3" href="$expression__reg__cata_8h.html" title="Ce fichier contient les expressions rationnelles permettant d&#39;identifier les catégories statutaires A..." alt="" coords="439,184,570,225"/>
 <area shape="rect" id="node4" href="$validator_8h.html" title="Ce fichier contient notamment la structure info_t qui stocke les données de paye décodées ainsi que l..." alt="" coords="531,273,633,300"/>
 <area shape="rect" id="node5" href="$fonctions__auxiliaires_8h.html" title="Diverses fonctions auxiliaires en inlining. " alt="" coords="268,348,440,375"/>
 <area shape="rect" id="node8" href="$ligne__paye_8cpp.html" title="Ce fichier contient le code relatif au traitement individuel des lignes de paye. " alt="" coords="137,497,267,524"/>
 <area shape="rect" id="node9" href="$validator_8cpp.html" title="Ce fichier contient le code relatif au décoidage de la partie &quot;bulletins de paye&quot; (variables communes..." alt="" coords="455,497,573,524"/>
-<area shape="rect" id="node10" href="$lhx_2main_8cpp.html" title="lhx/main.cpp" alt="" coords="599,423,695,449"/>
+<area shape="rect" id="node10" href="$lhx_2main_8cpp.html" title="Ce fichier contient le code relatif à l&#39;analyse de la ligne de commande, au découpage de la liste des..." alt="" coords="599,423,695,449"/>
 <area shape="rect" id="node12" href="$table_8h.html" title="lhx/table.h" alt="" coords="502,348,585,375"/>
 <area shape="rect" id="node13" href="$recherche_8h.html" title="lhx/recherche.h" alt="" coords="660,348,771,375"/>
 <area shape="rect" id="node6" href="$fonctions__auxiliaires_8cpp.html" title="Ce fichier contient le code relatif aux fonctions auxiliaires utilisées par les fonctions principales..." alt="" coords="26,423,213,449"/>

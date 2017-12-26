@@ -1,0 +1,11 @@
+<map id="FListFrame::initializeWidgetContainer" name="FListFrame::initializeWidgetContainer">
+<area shape="rect" id="node2" href="$class_altair.html#a5b3c33b6ae4f6b57b5593245751ef203" title="Efface toutes les données du projet .alt et réinitialise l&#39;interface et les conteneurs de données int..." alt="" coords="240,136,397,163"/>
+<area shape="rect" id="node10" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="FListFrame::FListFrame" alt="" coords="237,187,400,213"/>
+<area shape="rect" id="node3" href="$class_altair.html#ab67e3285c4a6c8fb48d12381ea6ac6bd" title="Ferme le projet et réinitialise l&#39;interface (gestionnaire de projet inclus) " alt="" coords="448,136,580,163"/>
+<area shape="rect" id="node4" href="$class_altair.html#ae0975ced0a36e0ed889ae06043a4df66" title="Constructeur. " alt="" coords="677,5,767,32"/>
+<area shape="rect" id="node5" href="$class_altair.html#a1afa285a65e0bdff4c761ad05ec9f8df" title="Fonction réimplémentée : fin du déplacement de la souris. " alt="" coords="663,56,781,83"/>
+<area shape="rect" id="node6" href="$class_altair.html#a2f6882c170016e2d7729058b08896a1d" title="Tuer l&#39;application en ligne de commande lhx. " alt="" coords="660,107,784,133"/>
+<area shape="rect" id="node7" href="$class_altair.html#a2e9b932b1dbf45bf9ad0db41dce474b6" title="Crée un nouveau projet défaut.alt. " alt="" coords="630,158,814,199"/>
+<area shape="rect" id="node8" href="$class_altair.html#ab98d384297c6b94ff65a683eb5f99633" title="Ouvre le projet, le décode en appelant parseProjectFile et actualise l&#39;interface &#160;en conséquence..." alt="" coords="628,223,816,265"/>
+<area shape="rect" id="node9" href="$class_altair.html#a84cf34107cd413ab33800b583bdef59e" title="Ouvre le projet .alt et décode le projet pour actualiser l&#39;interface. " alt="" coords="647,289,797,316"/>
+</map>

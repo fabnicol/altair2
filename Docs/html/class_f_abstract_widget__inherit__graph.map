@@ -1,0 +1,8 @@
+<map id="FAbstractWidget" name="FAbstractWidget">
+<area shape="rect" id="node3" href="$class_f_check_box.html" title="{FCheckBox\n||+ FCheckBox()\l+ FCheckBox()\l+ FCheckBox()\l+ FCheckBox()\l+ FCheckBox()\l+ FCheckBox()\l+ isAbstractEnabled()\l+ refreshWidgetDisplay()\l+ setWidgetFromXml()\l+ setXmlFromWidget()\l&#45; uncheckDisabledBox()\l}" alt="" coords="5,615,172,839"/>
+<area shape="rect" id="node4" href="$class_f_combo_box.html" title="{FComboBox\n|+ comboBoxTranslationHash\l+ signalList\l|+ FComboBox()\l+ FComboBox()\l+ FComboBox()\l+ FComboBox()\l+ FComboBox()\l+ isAbstractEnabled()\l+ refreshWidgetDisplay()\l+ setWidgetFromXml()\l+ setXmlFromWidget()\l&#45; fromCurrentIndex()\l}" alt="" coords="196,615,387,839"/>
+<area shape="rect" id="node5" href="$class_f_line_edit.html" title="{FLineEdit\n||+ FLineEdit()\l+ FLineEdit()\l+ FLineEdit()\l+ FLineEdit()\l+ FLineEdit()\l+ FLineEdit()\l+ isAbstractEnabled()\l+ refreshWidgetDisplay()\l+ setWidgetFromXml()\l+ setXmlFromWidget()\l}" alt="" coords="411,623,577,832"/>
+<area shape="rect" id="node7" href="$class_f_list_widget.html" title="{FListWidget\n|+ currentListWidget\l+ separator\l&#45; listWidgetTranslationHash\l&#45; parent\l&#45; tabLabels\l&#45; tags\l|+ FListWidget()\l+ addGroup()\l+ clearTabLabels()\l+ getTabLabels()\l+ isAbstractEnabled()\l+ refreshWidgetDisplay()\l+ setSeparator()\l+ setTabLabels()\l+ setWidgetFromXml()\l+ setXmlFromWidget()\l&#45; translate()\l}" alt="" coords="601,579,784,876"/>
+<area shape="rect" id="node2" href="$classflags.html" title="{flags\n||}" alt="" coords="367,5,418,83"/>
+<area shape="rect" id="node6" href="$class_f_line_frame.html" title="Ligne de saisie de texte FLineEdit enrichie de fonctionnalités. " alt="" coords="420,924,568,1163"/>
+</map>

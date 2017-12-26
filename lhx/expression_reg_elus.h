@@ -41,7 +41,7 @@
 #include "expression_reg_commun.h"
 
 
-/// \file expression_reg_elus
+/// \file expression_reg_elus.h
 /// \author Fabrice Nicol
 /// \brief Expressions régulières représentant les élus
 

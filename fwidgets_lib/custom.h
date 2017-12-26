@@ -5,7 +5,7 @@
 // fabrnicol@gmail.com
 //
 // Ce logiciel est régi par les dispositions du code de la propriété
-// intellectuelle. 
+// intellectuelle (CPI). 
 
 // L'auteur se réserve le droit d'exploitation du présent logiciel, 
 // et notamment de reproduire et de modifier le logiciel, conformément aux 
@@ -30,10 +30,10 @@
 // pris connaissance de ces stipulations et que vous en avez accepté les
 // termes.
 
-// Pour l'année 2017, une autorisation d'usage, de modification et de 
+// Sans préjudice des dispositions du CPI, une autorisation d'usage et de 
 // reproduction du présent code est donnée à tout agent employé par les
-// juridictions financières. Cette autorisation est temporaire et peut être 
-// révoquée.
+// juridictions financières pour l'exercice de leurs fonctions publiques. 
+// Le code ainsi mis à disposition ne peut être transmis à d'autres utilisateurs.
 //
 
 /// \file custom.h
@@ -47,7 +47,7 @@
 
 
 /// Ajoute trois onglets Sirte, Budget, Employeur à l'onglet central, qui sont traités à part
-/// \sa \ref finalise_macro
+/// \sa  finalise_macro
 #define FINALISE_MACRO {\
   finalise_macro(this, pairs, "Siret", rank++); \
   finalise_macro<QHash<QString, QString>>(this, Hash::Budget, "Budget", rank++); \

@@ -38,7 +38,7 @@
 #ifndef EXPRESSION_REG_ADJOINTS_HPP
 #define EXPRESSION_REG_ADJOINTS_HPP
 
-/// \file expression_reg_adjoints
+/// \file expression_reg_adjoints.h
 /// \author  Fabrice Nicol
 /// \brief Expressions régulières de niveau adjoints / auxiliaires / aides (catégories C)
 

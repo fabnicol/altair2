@@ -39,7 +39,7 @@
 
 /// \file altair.h
 /// \author Fabrice Nicol
-/// \brief Implémentation de la classe \ref common qui comprend des utilitaires communs
+/// \brief Implémentation de la classe  common qui comprend des utilitaires communs
 
 #include "common.h"
 #include "gui_enums.h"

@@ -6,7 +6,7 @@
 // fabrnicol@gmail.com
 //
 // Ce logiciel est régi par les dispositions du code de la propriété
-// intellectuelle. 
+// intellectuelle (CPI). 
 
 // L'auteur se réserve le droit d'exploitation du présent logiciel, 
 // et notamment de reproduire et de modifier le logiciel, conformément aux 
@@ -31,10 +31,10 @@
 // pris connaissance de ces stipulations et que vous en avez accepté les
 // termes.
 
-// Pour l'année 2017, une autorisation d'usage, de modification et de 
+// Sans préjudice des dispositions du CPI, une autorisation d'usage et de 
 // reproduction du présent code est donnée à tout agent employé par les
-// juridictions financières. Cette autorisation est temporaire et peut être 
-// révoquée.
+// juridictions financières pour l'exercice de leurs fonctions publiques. 
+// Le code ainsi mis à disposition ne peut être transmis à d'autres utilisateurs.
 //
 
 
@@ -64,20 +64,17 @@ class tools : public flags
 
 public:
 
-  QString whatsThisPath;
-  tools()   {    whatsThisPath=generateDatadirPath("/whatsthis.info");  }
+  tools()   { }
   enum class TabWidgetTrait {NO_EMBEDDING_TAB_WIDGET=-1};
   const QString getEmbeddedPath(QString s, QString subDir = "");
   static QString cdRomMounted();
   static QString userdatadir;
   static QString tempdir;
-  static QString generateDatadirPath(const char* path="");
+  static QString generateDatadirPath(const char* path = "");
   static QString generateDatadirPath(const QString &path);
   static qint64 getDirectorySize(const QString &path, const QString &extension="");
-
   bool renommer(const QString& ancien, const QString& nouveau);
   bool substituer(const QString &s, const QString &repl, QString &file_str);
-
   int readFile(const QString &path, QStringList &list, int start=0, int stop=-1, int width=0);
   int readFile(const char* path, QStringList &list, int start=0, int stop=-1, int width=0)
   {
@@ -101,7 +98,6 @@ static bool copyDir(const QString &in, const QString &out, const QString& commen
 static bool zipDir (const QString& inPath , const QString& outPath);
 static bool unzipDir (const QString& inPath , const QString& outPath);
 static const QString remAccents(QString str, bool toUpper = false);
-void setWhatsThisText(QWidget* widget, int start, int stop);
 static void openDir(QString path);
 static qint64 getFileSize(const QString &);
 static const QString openDirDialog(flags::directory checkEmptyness = directory::noCheck);

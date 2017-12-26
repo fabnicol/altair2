@@ -1,8 +1,8 @@
 <map id="taille_fichier" name="taille_fichier">
-<area shape="rect" id="node2" href="$fonctions__auxiliaires_8h.html#a754eb2ea17d8b6af8dad048cb54deefe" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="144,56,283,83"/>
-<area shape="rect" id="node6" href="$lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="861,81,912,108"/>
-<area shape="rect" id="node3" href="$fonctions__auxiliaires_8h.html#a0f11a266115e98b2536637a1ad8b05f7" title="Ouvre une base de données de bulletins en écriture pour un segment d&#39;exécution donné ..." alt="" coords="331,5,481,32"/>
-<area shape="rect" id="node7" href="$fonctions__auxiliaires_8h.html#ab3b3811d96152c8a288af17dcf305b49" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="341,56,471,83"/>
-<area shape="rect" id="node4" href="$table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="Lance l&#39;écriture des fichiers Bulletins.paie.csv et Table....csv pour un segment des données de paye..." alt="" coords="529,56,640,83"/>
-<area shape="rect" id="node5" href="$lhx_2main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="688,56,813,83"/>
+<area shape="rect" id="node2" href="$lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="861,17,912,44"/>
+<area shape="rect" id="node3" href="$fonctions__auxiliaires_8h.html#a431b684508f6cb26e36343e8a5383de1" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="144,43,283,69"/>
+<area shape="rect" id="node4" href="$fonctions__auxiliaires_8h.html#a7a042e1e36b178756cfb3a5771debbcb" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="341,43,471,69"/>
+<area shape="rect" id="node7" href="$fonctions__auxiliaires_8h.html#a0f11a266115e98b2536637a1ad8b05f7" title="Ouvre une base de données de bulletins en écriture pour un segment d&#39;exécution donné ..." alt="" coords="331,93,481,120"/>
+<area shape="rect" id="node5" href="$table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="Lance l&#39;écriture des fichiers Bulletins.paie.csv et Table....csv pour un segment des données de paye..." alt="" coords="529,43,640,69"/>
+<area shape="rect" id="node6" href="$lhx_2main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="688,43,813,69"/>
 </map>

@@ -64,7 +64,13 @@
 #include <memory>
 #include <stdexcept>
 #include <array>
+#if defined(__WIN32__)
+#include <windows.h>
+#include <psapi.h>
 
+#elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__)
+#include <stdio.h>
+#endif
 using namespace std;
 
 #include "tags.h"
@@ -81,28 +87,107 @@ typedef struct
 } errorLine_t;
 
 
+/// Aide en ligne
+
 ostringstream help();
+
+
+/// Convertit un argument numérique donné en chaîne de caractères
+/// \param argc  Nombre d'arguments de la ligne de commande restante
+/// \param c_str  Pointeur vers une chaîne de caractères contenant un nombre
+/// \return Entier positif de type 32 bits ou -1 si erreur.
 
 int32_t lire_argument (int argc, char* c_str);
 
+/// Calcule la mémoire requise pour l'exécution du programme. Met les fichiers XHL en mémoire dans info.threads->in_memory_file.
+/// \param info Structure de type info_t contenant les données formatées
+/// \return Retourne errno.
+
 int calculer_memoire_requise ( info_t &info);
-void ouvrir_fichier_base (const info_t &info, BaseType, ofstream& base, int segment);
-void ouvrir_fichier_base0 (const info_t &info, BaseCategorie,  BaseType type, ofstream& base, int segment);
+
+/// Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d'exécution donné
+/// \param info Référence vers une structure de type info_t contenant les données formatées
+/// \param type Type d'exportation de base (base monolithique, par indemnité, par année...)
+/// \param base Référence vers la base à générer de type \e ofstream
+/// \param segment segment d'exécution
+
+void ouvrir_fichier_base (const info_t &info, BaseType type, ofstream& base, int segment);
+
+
+/// Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d'exécution donné
+/// \param info Référence vers une structure de type info_t contenant les données formatées
+/// \param cat Catégorie de base (Bulletins de paye ou Lignes de paye)
+/// \param type Type d'exportation de base (base monolithique, par indemnité, par année...)
+/// \param base Référence vers la base à générer de type \e ofstream
+/// \param segment segment d'exécution
+
+void ouvrir_fichier_base0 (const info_t &info, BaseCategorie cat,  BaseType type, ofstream& base, int segment);
+
+/// Ecrit les libellés des colonnes des bulletins
+/// \param info Référence vers une structure de type info_t contenant les données formatées
+/// \param base Référence vers la base à générer de type ofstream
+
 void ecrire_entete_bulletins (const info_t &info, ofstream& base);
 
+/// Ecrit les libellés des colonnes de la table (bulletins + lignes de paye)
+/// \param info Référence vers une structure de type info_t contenant les données formatées
+/// \param base Référence vers la base à générer de type ofstream
+
 void ecrire_entete (const info_t &info, ofstream& base);
+
+/// Ecrit les libellés des colonnes d'une base quelconque avec un tableau de libellés de taille donnée
+/// \param info Référence vers une structure de type info_t contenant les données formatées
+/// \param base Référence vers la base à générer de type ofstream
+/// \param entete Tableau des libellés de colonne
+/// \param N Taille de ce tableau
+
 void ecrire_entete0 (const info_t &info, ofstream& base, const char* entete[], int N);
+
+
+/// Ouvre une base de données de bulletins en écriture pour un segment d'exécution donné
+/// \param info Référence vers une structure de type info_t contenant les données formatées
+/// \param base Référence vers la base à générer de type ofstream
+/// \param segment segment d'exécution
+
 void ouvrir_fichier_bulletins (const info_t &info, ofstream& base, int segment);
 
+
+/// Taille du fichier en octets
+/// \param filename chemin du fichier
+/// \return Taille en octets au format off_t
+
 off_t taille_fichier (const string& filename);
+
+/// Mémoire totale du système
+/// \return Mémoire totale en octets au format size_t
+
 size_t getTotalSystemMemory();
+
+/// Mémoire libre du système
+/// \return Mémoire libre du système en octets au format size_t
+
 size_t getFreeSystemMemory();
+
+
+/// Retourne la \e current resident set size (consommation de mémoire physique) mesurée
+/// en octets, ou zéro si la valeur ne peut pas être déterminée par ce système
+/// d'exploitation.
+/// Code adapté de source externe. Voir site internet indiqué pour la documentation
+/// Author:  David Robert Nadeau
+/// Site:    http://NadeauSoftware.com/
+/// License: Creative Commons Attribution 3.0 Unported License
+///         http://creativecommons.org/licenses/by/3.0/deed.en_US
+
 size_t getCurrentRSS( );
+
 size_t getPeakRSS( );
 
 extern mutex mut;
 extern ofstream rankFile;
 extern string rankFilePath;
+
+/// Obtient le répertoire de l'exécution
+/// \return Chemin du répertoire d'exécution
 
 string getexecpath();
 
@@ -110,11 +195,50 @@ string getexecpath();
 string string_exec (const char* cmd);
 #endif
 
+
+/// Fonction d'affichage de des lignes du fichier XML de paye entourant celle où se pose
+/// un problème de conformité des données
+/// \param info  table d'informations
+/// \param cur   noeud courant
+/// \return structure de type errorLine_t contenant la ligne du fichier où apparaît
+/// l'erreur ainsi qu'un message comprenant le fichier et le nom de la balise, s'il est
+/// analysable. Sinon affiche un message indiquant son absence et retourne pour le numéro
+/// de ligne. Retourne NA pour un noeud null.
+
 errorLine_t afficher_environnement_xhl (const info_t& info, const xmlNodePtr cur);
+
+/// Scinde une chaîne de caractères en ses composants séparées par un délimiteur
+/// \return vecteur des composants
 
 vector<string> split (const string &s, char delim) ;
 
+
+/// Produit un journal d'exécution
+/// \param info   table d'informations
+/// \param log    fichier
+/// \param diff   différence entre les analyseurs C et XML
+/// \details Contenient les colonnes suivantes, pour chaque ligne de paye :\n
+/// <pre> Année, Mois, Matricule, Rang global, Rang dans le fichier, Analseur C, Xml </pre>
+/// et la différence entre l'analyseur C et Xml. \n
+/// Sépare les colonnes par la chaine " | ".
+/// \note Le chemin du journal est donné par info_t::chemin_log
+
 void ecrire_log (const info_t& info, ofstream& log, int diff);
+
+/// Transforme un fichier de type \e std::ifstream en un \e std::string
+/// \param in Référence vers le fichier de type ifstream
+/// \param alloc Allocateur ({} par défaut)
+/// \return Chaîne de caractères de type string
+
+template <typename Allocator = allocator<char>>
+string read_stream_into_string (
+    ifstream& in,
+    Allocator alloc = {});
+
+/// Calcule le maximum de lignes de paye par bulletin de paye d'un agent et
+/// le maximum du nombre d'agents par mois
+/// \param Info Vecteur de structures info_t, une par fil d'exécution
+/// \param LOG  Pointeur vers un fichier de log de type ofstream
 
 void calculer_maxima (const vector<info_t> &Info, ofstream* LOG = nullptr);
 

@@ -38,7 +38,7 @@
 #ifndef EXPRESSION_REG_COMMUN_HPP
 #define EXPRESSION_REG_COMMUN_HPP
 
-/// \file expression_reg_commun
+/// \file expression_reg_commun.h
 /// \author Fabrice Nicol
 /// \brief Elements constitutifs des expressions régulières
 

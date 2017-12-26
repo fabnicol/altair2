@@ -1,0 +1,10 @@
+<map id="FListFrame::getWidgetContainer" name="FListFrame::getWidgetContainer">
+<area shape="rect" id="node2" href="$class_altair.html#ab67e3285c4a6c8fb48d12381ea6ac6bd" title="Ferme le projet et réinitialise l&#39;interface (gestionnaire de projet inclus) " alt="" coords="298,136,430,163"/>
+<area shape="rect" id="node9" href="$class_altair.html#aebac84e0cf9914bcb5220c44d853091d" title="Raccourcit les chemins dans les onglets en se limitant au non de fichier et les présente &#160;en surligna..." alt="" coords="264,187,464,213"/>
+<area shape="rect" id="node3" href="$class_altair.html#ae0975ced0a36e0ed889ae06043a4df66" title="Constructeur. " alt="" coords="561,5,651,32"/>
+<area shape="rect" id="node4" href="$class_altair.html#a1afa285a65e0bdff4c761ad05ec9f8df" title="Fonction réimplémentée : fin du déplacement de la souris. " alt="" coords="547,56,665,83"/>
+<area shape="rect" id="node5" href="$class_altair.html#a2f6882c170016e2d7729058b08896a1d" title="Tuer l&#39;application en ligne de commande lhx. " alt="" coords="544,107,668,133"/>
+<area shape="rect" id="node6" href="$class_altair.html#a2e9b932b1dbf45bf9ad0db41dce474b6" title="Crée un nouveau projet défaut.alt. " alt="" coords="514,158,698,199"/>
+<area shape="rect" id="node7" href="$class_altair.html#ab98d384297c6b94ff65a683eb5f99633" title="Ouvre le projet, le décode en appelant parseProjectFile et actualise l&#39;interface &#160;en conséquence..." alt="" coords="512,223,700,265"/>
+<area shape="rect" id="node8" href="$class_altair.html#a84cf34107cd413ab33800b583bdef59e" title="Ouvre le projet .alt et décode le projet pour actualiser l&#39;interface. " alt="" coords="531,289,681,316"/>
+</map>

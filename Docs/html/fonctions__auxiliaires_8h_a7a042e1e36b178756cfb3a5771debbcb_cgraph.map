@@ -1,0 +1,7 @@
+<map id="ouvrir_fichier_base" name="ouvrir_fichier_base">
+<area shape="rect" id="node2" href="$fonctions__auxiliaires_8cpp.html#abe7e6d7a0d5d4f61a075b180408fb042" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="184,56,323,83"/>
+<area shape="rect" id="node3" href="$fonctions__auxiliaires_8cpp.html#a5e2253f583a3358618441c2cba35742b" title="Ecrit les libellés des colonnes des bulletins. " alt="" coords="371,5,523,32"/>
+<area shape="rect" id="node5" href="$fonctions__auxiliaires_8cpp.html#aff3c87803f64d34f00a30ef30bb74a9b" title="ecrire_entete_table" alt="" coords="381,56,513,83"/>
+<area shape="rect" id="node6" href="$fonctions__auxiliaires_8cpp.html#aa4c818d49539c9dec49c5cf3144b8f53" title="Taille du fichier en octets. " alt="" coords="401,107,492,133"/>
+<area shape="rect" id="node4" href="$fonctions__auxiliaires_8cpp.html#aca69dd2811b53b087f39810c114e7dde" title="Ecrit les libellés des colonnes d&#39;une base quelconque avec un tableau de libellés de taille donnée..." alt="" coords="571,31,675,57"/>
+</map>

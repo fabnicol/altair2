@@ -46,19 +46,6 @@ using namespace std;
 /// permettant l'itération de cette fonctionnalité sur des intervalles temporels.
 
 
-
-/// Parcourt l'ensemble des données de paye, pour tous les fils d'exécution, après décodage \n
-/// (lhx a complètement exécuté préalablement)\n
-/// La recherche est restreinte à l'année, au mois et au matricule donnés \n
-/// Lance \ref extraire_lignes pour extraire les lignes XML correspondantes. \n
-/// Cela ne suffit pas à donner un fichier XML syntaxiquement correct. \n
-/// A cette fin, rajouter un préambule et une fin de fichier en accord avec ce préambule. \n
-/// \param Info
-/// \param annee
-/// \param mois
-/// \param matricule
-/// \return Vecteur de chaînes de caractères, chacune des chaînes représentant un bulletin XML extrait
-
 vector<string>  recherche (const vector<info_t> &Info, const string& annee, const string& mois, const string& matricule)
 {
     // Bulletins à extraire

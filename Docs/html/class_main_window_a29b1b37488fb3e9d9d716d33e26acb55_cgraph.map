@@ -1,3 +1,4 @@
 <map id="MainWindow::getConsoleCounter" name="MainWindow::getConsoleCounter">
-<area shape="rect" id="node2" href="$class_main_window.html#a5e2163adcfd0eeaff834f65cb6a2419a" title="Affiche l&#39;interface à la taille standard (réduite) " alt="" coords="271,5,469,32"/>
+<area shape="rect" id="node2" href="$class_main_window.html#a5e2163adcfd0eeaff834f65cb6a2419a" title="Affiche l&#39;interface à la taille standard (réduite). " alt="" coords="271,5,469,32"/>
+<area shape="rect" id="node3" href="$class_main_window.html#affa76730fa370a3466b62a4caee721e3" title="Actualise la liste des fichiers de projet .alt récents dans le menu Fichier. " alt="" coords="277,57,463,98"/>
 </map>
