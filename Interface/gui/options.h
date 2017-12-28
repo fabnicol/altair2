@@ -181,13 +181,13 @@ public:
     processPage* processTab;           ///< Onglet de Traitement : nombre de fils, utilisation de la mémoire, log et enchainement avec la production des rapports
     codePage* codeTab;                 ///< Onglet des codes de paye : renseignement manuel des codes de paye utilisés pour certains types d'éléments de paye
     static std::uint16_t RefreshFlag;  ///< Drapeau indiquant si si l'interface a été actualisée ou doit l'être
-    QListWidget *optionWidget;         ///< Widget du dialogue d'options
+    QListWidget *optionWidget;         ///< composant du dialogue d'options
     void clearOptionData();            ///< Efface les données de  Hash::wrapper et de  Hash::Reference
 
 private:
 
     QDialogButtonBox *closeButton;     ///< Bouton "Quitter"
-    QStackedWidget *pagesWidget;       ///< Widget permettant d'empiler les onglets du dialogue d'options (standardPage,  processPage,  codePage)
+    QStackedWidget *pagesWidget;       ///< composant permettant d'empiler les onglets du dialogue d'options (standardPage,  processPage,  codePage)
 
     void createIcons();                                     ///< Méthode permettant d'ajouter les icones
     void createIcon (const char* path, const char* text);

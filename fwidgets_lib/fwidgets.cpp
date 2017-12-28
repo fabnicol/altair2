@@ -256,20 +256,7 @@ const QStringList FAbstractWidget::commandLineStringList()
        return QStringList(strL);
 }
 
-/* caution : abstractWidgetList must have its first two elements as respectively being with "DVD-A" and "DVD-V" hashKeys. */
-
 QVector<FAbstractWidget*> Abstract::abstractWidgetList = QVector<FAbstractWidget*>();
-
-
-void Abstract::refreshOptionFields()
-{
-    QVectorIterator<FAbstractWidget*>  j(Abstract::abstractWidgetList);
-    while (j.hasNext())
-    {
-        j.next()->refreshWidgetDisplay();
-    }
-}
-
 
 FListWidget::FListWidget(QWidget* par,
                          const QString& hashKey,
@@ -496,14 +483,6 @@ const FString FListWidget::setXmlFromWidget()
 }
 
 
-void FListWidget::refreshWidgetDisplay()
-{
-//    currentListWidget->clear();
-//    if ((Hash::wrapper.contains(hashKey)) && (Hash::wrapper[hashKey]->count() > rank ))
-//         currentListWidget->addItems(Hash::wrapper[hashKey]->at(getank));
-}
-
-
 
 FCheckBox::FCheckBox(const QString &boxLabel, int status, const QString &hashKey, const QStringList &description, const QString& commandLineString,
                      const QVector<QWidget*> &enabledObjects, const QVector<QWidget*> &disabledObjects) : QCheckBox(boxLabel)
@@ -520,36 +499,6 @@ void FCheckBox::uncheckDisabledBox()
     if (!this->isEnabled()) this->setChecked(false);
 }
 
-
-void FCheckBox::refreshWidgetDisplay()
-{
-    bool checked=commandLineList[0].isTrue();
-
-    setChecked(checked);
-
-    if ((enabledObjects) && (enabledObjects->size()))
-    {
-        QVectorIterator<QWidget*> i(enabledObjects->at(0));
-
-        while (i.hasNext())
-        {
-            QWidget *item=i.next();
-            if (item == nullptr) continue;
-            item->setEnabled(checked);
-        }
-    }
-
-    if ((disabledObjects) && (disabledObjects->size()))
-    {
-        QVectorIterator<QWidget*> i(disabledObjects->at(0));
-        while (i.hasNext())
-        {
-            QWidget* item=i.next();
-            if (item == nullptr) continue;
-            item->setDisabled(checked);
-        }
-    }
-}
 
 const FString FCheckBox::setXmlFromWidget()
 {
@@ -619,25 +568,6 @@ void FComboBox::fromCurrentIndex(const QString &text)
         *signalList << QString::number(i+1);
 }
 
-
-void FComboBox::refreshWidgetDisplay()
-{
-    FString str = commandLineList[0];
-    if (str.isFilled())
-    {
-        if (!comboBoxTranslationHash.isEmpty()) 
-            str = comboBoxTranslationHash.key(str);
-        
-        if (findText(str.remove('\'')) != -1)
-            setCurrentIndex(findText(str));
-        else
-            if (isEditable())
-            {
-                addItem(commandLineList[0]);
-            }
-    }
-}
-
 const FString FComboBox::setXmlFromWidget()
 {
     if (Hash::wrapper[hashKey] == nullptr) return "";
@@ -649,25 +579,12 @@ const FString FComboBox::setXmlFromWidget()
 }
 
 
-void FComboBox::setWidgetFromXml(const FStringList &s)
-{
-    commandLineList[0] = s.toFString();
-    refreshWidgetDisplay();
-}
-
-
 FLineEdit::FLineEdit(const QString &defaultString, int status, const QString &hashKey, const QStringList &description, const QString &commandLine):QLineEdit()
 {
     widgetDepth="0";
 
     FCore({this}, defaultString, status, hashKey, description, commandLine);
     this->setText(defaultString);
-}
-
-
-void FLineEdit::refreshWidgetDisplay()
-{
-    this->setText(commandLineList[0].toQString());
 }
 
 const FString FLineEdit::setXmlFromWidget()

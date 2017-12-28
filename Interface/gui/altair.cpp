@@ -178,11 +178,11 @@ Altair::Altair()
                               "XHL",                            // Balise des fichiers de paye pour l'exportation du projet .alt (<XHL>...</XHL>)
     {"Décodeur de fichiers XHL", ""},      // Section du gestionnaire de projet (à droite de l'interface)
     "g",                                   // Option de ligne de commande introduisant les fichiers de paye
-    flags::commandLineType::coreApplicationCommandLine | flags::status::hasListCommandLine | flags::status::enabled,  // Génère une ligne de commande + à partir d'une liste enchassée + le widget est activé par défaut
+    flags::commandLineType::coreApplicationCommandLine | flags::status::hasListCommandLine | flags::status::enabled,  // Génère une ligne de commande + à partir d'une liste enchâssée + le composant est activé par défaut
     {" ", " -g "},                       // A chaque ligne d'un onglet correspond un séparateur blanc dans la ligne de commande. Pour chaque onglet différent, -g est préfixé devant la liste des fichiers
     {"item", "onglet"},                  // Balises de niveau 1 et 2 echassées sous <XML> : <XML> <onglet><item>...</item><item>...</item></onglet> </XML>
     {"Siret", "Budget", "Employeur"},    // Onglets supplémentaires générés en sus de ceux qui résultent de la décomposition des fichiers en années (1 année = 1 onglet)
-    tools::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET);                      // pas d'enchassement de l'onglet central dans un onglet matrice
+    tools::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET);                      // pas d'enchâssement de l'onglet central dans un onglet matrice
 
     // Assigne le modèle de fichiers de la classe comme membre de project
     project->model = model;
@@ -352,24 +352,24 @@ void Altair::refreshRowPresentation (int j)
     palette.setColor (QPalette::AlternateBase, QColor ("silver"));
     QFont font = QFont ("Courier", fontsize);
 
-    QListWidget *widget = project->getWidgetContainer (j);
+    QListWidget *composant = project->getWidgetContainer (j);
 
-    if (widget == nullptr) return;
+    if (composant == nullptr) return;
 
-    widget->setPalette (palette);
-    widget->setAlternatingRowColors (true);
-    widget->setFont (font);
-    widget->setSelectionMode (QAbstractItemView::ExtendedSelection);
-    widget->setSelectionBehavior (QAbstractItemView::SelectRows);
-    //widget->setSelectionBehavior(QAbstractItemView::ExtendedSelection);
+    composant->setPalette (palette);
+    composant->setAlternatingRowColors (true);
+    composant->setFont (font);
+    composant->setSelectionMode (QAbstractItemView::ExtendedSelection);
+    composant->setSelectionBehavior (QAbstractItemView::SelectRows);
+    //composant->setSelectionBehavior(QAbstractItemView::ExtendedSelection);
     QStringList strL = Hash::wrapper["XHL"]->at (j);
     strL.sort();
     int size = strL.size();
 
-    for (int r = 0; (r < widget->count()) && (r < size); r++)
+    for (int r = 0; (r < composant->count()) && (r < size); r++)
         {
-            widget->item (r)->setText (strL.at (r).section ('/', -1));
-            widget->item (r)->setTextColor (QColor ("navy"));
+            composant->item (r)->setText (strL.at (r).section ('/', -1));
+            composant->item (r)->setTextColor (QColor ("navy"));
         }
 }
 
@@ -662,12 +662,12 @@ void Altair::assignWidgetValues()
 
     while (w.hasNext())
         {
-            FAbstractWidget* widget = w.next();
-            const QString key = widget->getHashKey();
+            FAbstractWidget* composant = w.next();
+            const QString key = composant->getHashKey();
 
             if (! keyList.contains (key))
                 {
-                    textAppend (WARNING_HTML_TAG "Le Widget de clé "
+                    textAppend (WARNING_HTML_TAG "Le composant de clé "
                                 + key +
                                 " n'est pas référencé pas dans cette version des fichiers de projet Altaïr"
                                 + (Hash::wrapper["version"]->isEmpty() ? "." :
@@ -681,14 +681,14 @@ void Altair::assignWidgetValues()
                 {
                     if (Altair::RefreshFlag & interfaceStatus::mainTabs)
                         {
-                            widget->setWidgetFromXml (*Hash::wrapper[key]);
+                            composant->setWidgetFromXml (*Hash::wrapper[key]);
                         }
                 }
             else
                 {
                     if (options::RefreshFlag & interfaceStatus::optionTabs)
                         {
-                            widget->setWidgetFromXml (*Hash::wrapper[key]);
+                            composant->setWidgetFromXml (*Hash::wrapper[key]);
                         }
                 }
         }
@@ -700,7 +700,7 @@ void Altair::assignWidgetValues()
                     // On assigne base et lhxDir en hard code donc il n'est nu dans l'abstractWidgetList ni
                     // dans le projet
 
-                    // version est lu dans le projet mais n'a pas de Widget
+                    // version est lu dans le projet mais n'a pas de composant
 
                     textAppend (WARNING_HTML_TAG "Le nombre de Widget à identifier ("
                                 + QString::number (Abstract::abstractWidgetList.size())
@@ -719,7 +719,7 @@ void Altair::assignWidgetValues()
                     auto h = w.next();
 
                     if (! exclusion.contains (h.key()) && ! hashKeys.contains (h.key()))
-                        textAppend (WARNING_HTML_TAG "Pas de Widget de clé " + h.key()
+                        textAppend (WARNING_HTML_TAG "Pas de composant de clé " + h.key()
                                     + " pour cette version (" VERSION ") de l'interface Altaïr.");
                 }
 

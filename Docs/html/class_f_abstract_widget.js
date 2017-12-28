@@ -9,7 +9,6 @@ var class_f_abstract_widget =
     [ "getHashKey", "class_f_abstract_widget.html#ae6ba84e8ed8a54dc8121245f35f568fe", null ],
     [ "isAbstractDisabled", "class_f_abstract_widget.html#a6e974137b3ddc4347eef32a468fd2f9b", null ],
     [ "isAbstractEnabled", "class_f_abstract_widget.html#a6bec2d63718d591bf304509947161432", null ],
-    [ "refreshWidgetDisplay", "class_f_abstract_widget.html#abac221e8e5d5fc864ed77154c8ebe826", null ],
     [ "setDisableObjects", "class_f_abstract_widget.html#ac95a769d8e274582de7bf014a3289a39", null ],
     [ "setHashKey", "class_f_abstract_widget.html#a9c9ae2fe01ca3ea96cd7462c68c9d30f", null ],
     [ "setWidgetFromXml", "class_f_abstract_widget.html#a88c229861e7973810c6ac979d5526c2d", null ],

@@ -55,13 +55,13 @@ var sectionId = 'dynsection-5';
 <g id="viewport">
 <title>MainWindow::configureOptions</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-35 692,-35 692,4 -4,4"/>
-<!-- Node20 -->
-<g id="node1" class="node"><title>Node20</title>
+<!-- Node19 -->
+<g id="node1" class="node"><title>Node19</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-6 0,-25 152,-25 152,-6 0,-6"/>
 <text text-anchor="middle" x="76" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::configureOptions</text>
 </g>
-<!-- Node21 -->
-<g id="node2" class="node"><title>Node21</title>
+<!-- Node20 -->
+<g id="node2" class="node"><title>Node20</title>
 <g id="a_node2"><a xlink:href="class_f_abstract_widget.html#ac95a769d8e274582de7bf014a3289a39" target="_top" xlink:title="FAbstractWidget::setDisable\lObjects">
 <polygon fill="white" stroke="black" points="188,-0.5 188,-30.5 331,-30.5 331,-0.5 188,-0.5"/>
 <text text-anchor="start" x="196" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">FAbstractWidget::setDisable</text>
@@ -69,13 +69,13 @@ var sectionId = 'dynsection-5';
 </a>
 </g>
 </g>
-<!-- Node20&#45;&gt;Node21 -->
-<g id="edge1" class="edge"><title>Node20&#45;&gt;Node21</title>
+<!-- Node19&#45;&gt;Node20 -->
+<g id="edge1" class="edge"><title>Node19&#45;&gt;Node20</title>
 <path fill="none" stroke="midnightblue" d="M152.133,-15.5C160.522,-15.5 169.095,-15.5 177.553,-15.5"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="177.793,-19.0001 187.793,-15.5 177.793,-12.0001 177.793,-19.0001"/>
 </g>
-<!-- Node22 -->
-<g id="node3" class="node"><title>Node22</title>
+<!-- Node21 -->
+<g id="node3" class="node"><title>Node21</title>
 <g id="a_node3"><a xlink:href="class_f_abstract_connection.html#afbf1c1d7d9f7f8c39659cff4ce05f87f" target="_top" xlink:title="FAbstractConnection\l::meta_connect">
 <polygon fill="white" stroke="black" points="367,-0.5 367,-30.5 476,-30.5 476,-0.5 367,-0.5"/>
 <text text-anchor="start" x="375" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">FAbstractConnection</text>
@@ -83,21 +83,21 @@ var sectionId = 'dynsection-5';
 </a>
 </g>
 </g>
-<!-- Node21&#45;&gt;Node22 -->
-<g id="edge2" class="edge"><title>Node21&#45;&gt;Node22</title>
+<!-- Node20&#45;&gt;Node21 -->
+<g id="edge2" class="edge"><title>Node20&#45;&gt;Node21</title>
 <path fill="none" stroke="midnightblue" d="M331.144,-15.5C339.595,-15.5 348.188,-15.5 356.537,-15.5"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="356.575,-19.0001 366.575,-15.5 356.575,-12.0001 356.575,-19.0001"/>
 </g>
-<!-- Node23 -->
-<g id="node4" class="node"><title>Node23</title>
+<!-- Node22 -->
+<g id="node4" class="node"><title>Node22</title>
 <g id="a_node4"><a xlink:href="class_f_abstract_widget.html#a0275be1c2f0cc30e047cd75d207b59e0" target="_top" xlink:title="FAbstractWidget::getComponentList">
 <polygon fill="white" stroke="black" points="512,-6 512,-25 688,-25 688,-6 512,-6"/>
 <text text-anchor="middle" x="600" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00">FAbstractWidget::getComponentList</text>
 </a>
 </g>
 </g>
-<!-- Node22&#45;&gt;Node23 -->
-<g id="edge3" class="edge"><title>Node22&#45;&gt;Node23</title>
+<!-- Node21&#45;&gt;Node22 -->
+<g id="edge3" class="edge"><title>Node21&#45;&gt;Node22</title>
 <path fill="none" stroke="midnightblue" d="M476.415,-15.5C484.503,-15.5 493.047,-15.5 501.708,-15.5"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="501.909,-19.0001 511.909,-15.5 501.909,-12.0001 501.909,-19.0001"/>
 </g>

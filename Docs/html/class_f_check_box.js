@@ -7,7 +7,6 @@ var class_f_check_box =
     [ "FCheckBox", "class_f_check_box.html#a66bd6e27850dcaf7f0a5ada70cc4d0b8", null ],
     [ "FCheckBox", "class_f_check_box.html#a732d1268a72f22f51d8270a7e2de6bf8", null ],
     [ "isAbstractEnabled", "class_f_check_box.html#accc2acc57bc0d701dc8e306ae099c76f", null ],
-    [ "refreshWidgetDisplay", "class_f_check_box.html#a34157dee55241f281f989121483aea26", null ],
     [ "setWidgetFromXml", "class_f_check_box.html#a75202b6fa1c642f772ed0f86e512c9ce", null ],
     [ "setXmlFromWidget", "class_f_check_box.html#aa7f647115d2f8da53afadc5a209014ef", null ],
     [ "uncheckDisabledBox", "class_f_check_box.html#a1593006f4837b15be9be93f423f22614", null ],

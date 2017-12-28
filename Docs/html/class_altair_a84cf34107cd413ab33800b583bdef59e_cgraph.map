@@ -27,10 +27,10 @@
 <area shape="rect" id="node30" href="$class_altair.html#a8b7b1fa3e0b567dc1d4721bf88087a68" title="Parcourt l&#39;ensemble des widgets fonctionnels Abstract::abstractWidgetList et actualise leur statut in..." alt="" coords="1205,656,1384,683"/>
 <area shape="rect" id="node34" href="$class_altair.html#a20528df591deee5ad32f28996ba8dc35" title="Raccourcit les chemins dans les onglets en se limitant au non de fichier et les présente &#160;en surligna..." alt="" coords="1195,605,1395,632"/>
 <area shape="rect" id="node26" href="$class_f_string_list.html#a71ec48a52b6ca4ffe89400d66f3ff634" title="FStringList::toInt" alt="" coords="1495,504,1613,531"/>
-<area shape="rect" id="node27" href="$namespace_xml_method.html#abe26f53c2028527b0ebea361faa85221" title="Empile les données pour un noeud donné, pour une profondeur d&#39;enchassement donnée. " alt="" coords="1476,555,1632,581"/>
+<area shape="rect" id="node27" href="$namespace_xml_method.html#abe26f53c2028527b0ebea361faa85221" title="Empile les données pour un noeud donné, pour une profondeur d&#39;enchâssement donnée. " alt="" coords="1476,555,1632,581"/>
 <area shape="rect" id="node28" href="$class_f_list_frame.html#a7ecbe60018d55d1a1352c5fd24c5e72e" title="FListFrame::setTabLabels" alt="" coords="1467,656,1641,683"/>
 <area shape="rect" id="node29" href="$class_f_list_widget.html#aac6eaaeb9946354f743394b54c84a6a7" title="FListWidget::setTabLabels" alt="" coords="1719,656,1898,683"/>
-<area shape="rect" id="node31" href="$class_f_abstract_widget.html#ae6ba84e8ed8a54dc8121245f35f568fe" title="Retourne la clé de hashage de Hash::wrapper correspondant au widget. " alt="" coords="1454,824,1654,851"/>
+<area shape="rect" id="node31" href="$class_f_abstract_widget.html#ae6ba84e8ed8a54dc8121245f35f568fe" title="Retourne la clé de hashage de Hash::wrapper correspondant au composant. " alt="" coords="1454,824,1654,851"/>
 <area shape="rect" id="node32" href="$struct_abstract.html#a634c4a8152edbeb8d96d2ca8f30e1025" title="Récupère toutes les clés de hachage (de Hash::wrapper) des FWidgets qui sont dans le vecteur FAbstrac..." alt="" coords="1485,707,1623,733"/>
 <area shape="rect" id="node33" href="$class_f_abstract_widget.html#a88c229861e7973810c6ac979d5526c2d" title="FAbstractWidget::setWidget\lFromXml" alt="" coords="1461,758,1647,799"/>
 </map>
