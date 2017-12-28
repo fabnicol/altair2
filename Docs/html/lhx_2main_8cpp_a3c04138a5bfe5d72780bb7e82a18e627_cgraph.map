@@ -2,7 +2,7 @@
 <area shape="rect" id="node2" href="$fonctions__auxiliaires_8h.html#a661508f7b6597865a14818eadd134e10" title="Obtient le répertoire de l&#39;exécution. " alt="" coords="138,569,231,595"/>
 <area shape="rect" id="node3" href="$fonctions__auxiliaires_8cpp.html#a171c739cfe424d8650e387874baa1e40" title="Mémoire libre du système. " alt="" coords="105,619,264,646"/>
 <area shape="rect" id="node4" href="$fonctions__auxiliaires_8cpp.html#a7d549d61628c712fecf0f56bf64802ef" title="Mémoire totale du système. " alt="" coords="104,670,265,697"/>
-<area shape="rect" id="node5" href="$fonctions__auxiliaires_8cpp.html#a2dff91c98bf5c4003e4d7b9b708b1ff0" title="Aide en ligne. " alt="" coords="161,721,208,747"/>
+<area shape="rect" id="node5" href="$fonctions__auxiliaires_8cpp.html#a2dff91c98bf5c4003e4d7b9b708b1ff0" title="Aide en ligne Peut être appelée en ligne de commande par : " alt="" coords="161,721,208,747"/>
 <area shape="rect" id="node6" href="$fonctions__auxiliaires_8cpp.html#a05213245e8ed5f9b5da98808698cede6" title="Convertit un argument numérique donné en chaîne de caractères. " alt="" coords="135,771,235,798"/>
 <area shape="rect" id="node7" href="$lhx_2main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="122,873,247,899"/>
 <area shape="rect" id="node34" href="$fonctions__auxiliaires_8cpp.html#aa4c818d49539c9dec49c5cf3144b8f53" title="Taille du fichier en octets. " alt="" coords="1073,654,1164,681"/>
@@ -13,7 +13,7 @@
 <area shape="rect" id="node26" href="$lhx_2main_8cpp.html#ad5938a1013575c56e8e4cad56866314f" title="Lance l&#39;extraction d&#39;un bulletin de paye pour un matricule, un mois et une année donnés. " alt="" coords="331,1101,416,1127"/>
 <area shape="rect" id="node30" href="$table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="Lance l&#39;écriture des fichiers Bulletins.paie.csv et Table....csv pour un segment des données de paye..." alt="" coords="318,435,429,462"/>
 <area shape="rect" id="node9" href="$fonctions__auxiliaires_8cpp.html#a6a6eceeeb38bc24fd24e0acb226c1304" title="Calcule la mémoire requise pour l&#39;exécution du programme. " alt="" coords="520,873,693,899"/>
-<area shape="rect" id="node10" href="$fonctions__auxiliaires_8cpp.html#a6ae1ab10756e4c3c1c627199aedf7d2e" title="Transforme un fichier de type std::ifstream en un std::string. " alt="" coords="799,873,961,899"/>
+<area shape="rect" id="node10" href="$fonctions__auxiliaires_8cpp.html#a42b58b99a50fba87cf44db116b0eb56a" title="Transforme un fichier de type std::ifstream en un std::string. " alt="" coords="799,873,961,899"/>
 <area shape="rect" id="node12" href="$validator_8cpp.html#a5223203a3dc856b4169ea2293035e57a" title="Alloue la mémoire de la table des données. " alt="" coords="531,923,683,950"/>
 <area shape="rect" id="node14" href="$validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="569,1025,644,1051"/>
 <area shape="rect" id="node24" href="$validator_8cpp.html#aa054457564b0f4991283a511f01777e5" title="Fonction permettant de convertir très efficacement les caractères accentués UTF&#45;8 ou Latin&#45;1 en carac..." alt="" coords="539,974,674,1001"/>

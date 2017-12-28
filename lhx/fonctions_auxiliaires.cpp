@@ -77,6 +77,7 @@ ostringstream help()
     ostringstream out;
     out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
         <<  "**OPTIONS :**  " << "\n\n"
+        <<  "**-h** *sans argument*        : affiche cette aide sur la sortie d'erreur (cerr)." << "\n\n"
         <<  "**-n** *argument obligatoire* : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]  " << "\n\n"
         <<  "**-N** *argument obligatoire* : nombre maximum de lignes de paye attendues [calcul exact par défaut]  " << "\n\n"
         <<  "**-t** *argument optionnel*   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].  " << "\n\n"
@@ -649,7 +650,7 @@ void calculer_maxima (const vector<info_t> &Info, ofstream* LOG)
 template <typename Allocator = allocator<char>>
 string read_stream_into_string (
     ifstream& in,
-    Allocator alloc = {})
+    Allocator alloc)
 {
     basic_ostringstream<char, char_traits<char>, Allocator>
     ss (basic_string<char, char_traits<char>, Allocator> (move (alloc)));

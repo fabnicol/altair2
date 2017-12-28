@@ -9,66 +9,66 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
 <title>MainWindow::feedLHXConsoleWithHtml</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-62 608,-62 608,4 -4,4"/>
-<!-- Node46 -->
-<g id="node1" class="node"><title>Node46</title>
+<!-- Node45 -->
+<g id="node1" class="node"><title>Node45</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-14 0,-44 153,-44 153,-14 0,-14"/>
 <text text-anchor="start" x="8" y="-32" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::feedLHXConsole</text>
 <text text-anchor="middle" x="76.5" y="-21" font-family="Helvetica,sans-Serif" font-size="10.00">WithHtml</text>
 </g>
-<!-- Node47 -->
-<g id="node2" class="node"><title>Node47</title>
+<!-- Node46 -->
+<g id="node2" class="node"><title>Node46</title>
 <g id="a_node2"><a xlink:href="class_altair.html#a08b5e402c9a694af09110afe33219080" target="_top" xlink:title="Construction de la ligne de commande pour des bases de paye dans un répertoire donné ...">
 <polygon fill="white" stroke="black" points="189,-19.5 189,-38.5 279,-38.5 279,-19.5 189,-19.5"/>
 <text text-anchor="middle" x="234" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::runWorker</text>
 </a>
 </g>
 </g>
-<!-- Node46&#45;&gt;Node47 -->
-<g id="edge1" class="edge"><title>Node46&#45;&gt;Node47</title>
+<!-- Node45&#45;&gt;Node46 -->
+<g id="edge1" class="edge"><title>Node45&#45;&gt;Node46</title>
 <path fill="none" stroke="midnightblue" d="M163.693,-29C172.404,-29 180.973,-29 188.953,-29"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="163.428,-25.5001 153.428,-29 163.428,-32.5001 163.428,-25.5001"/>
 </g>
-<!-- Node48 -->
-<g id="node3" class="node"><title>Node48</title>
+<!-- Node47 -->
+<g id="node3" class="node"><title>Node47</title>
 <g id="a_node3"><a xlink:href="class_altair.html#a7d10f8ecf4097577885172afb6c2e9c6" target="_top" xlink:title="Lance l&#39;exécution de l&#39;application en ligne de commande lhx. ">
 <polygon fill="white" stroke="black" points="516.5,-38.5 516.5,-57.5 575.5,-57.5 575.5,-38.5 516.5,-38.5"/>
 <text text-anchor="middle" x="546" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::run</text>
 </a>
 </g>
 </g>
-<!-- Node47&#45;&gt;Node48 -->
-<g id="edge2" class="edge"><title>Node47&#45;&gt;Node48</title>
+<!-- Node46&#45;&gt;Node47 -->
+<g id="edge2" class="edge"><title>Node46&#45;&gt;Node47</title>
 <path fill="none" stroke="midnightblue" d="M289.317,-32.3291C355.467,-36.3834 464.743,-43.081 516.336,-46.2432"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="289.282,-28.8205 279.086,-31.7021 288.853,-35.8074 289.282,-28.8205"/>
 </g>
-<!-- Node49 -->
-<g id="node4" class="node"><title>Node49</title>
+<!-- Node48 -->
+<g id="node4" class="node"><title>Node48</title>
 <g id="a_node4"><a xlink:href="class_altair.html#ae04f2a5771d47bbe2e0cc3a11b72d6bf" target="_top" xlink:title="Parcourt le répertoire en cours du mode distributif, un à chaque appel Exporte l&#39;identification dans ...">
 <polygon fill="white" stroke="black" points="315,-0.5 315,-19.5 452,-19.5 452,-0.5 315,-0.5"/>
 <text text-anchor="middle" x="383.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::runWorkerDistributed</text>
 </a>
 </g>
 </g>
-<!-- Node47&#45;&gt;Node49 -->
-<g id="edge3" class="edge"><title>Node47&#45;&gt;Node49</title>
+<!-- Node46&#45;&gt;Node48 -->
+<g id="edge3" class="edge"><title>Node46&#45;&gt;Node48</title>
 <path fill="none" stroke="midnightblue" d="M289.209,-22.0171C297.542,-20.9438 306.233,-19.8242 314.814,-18.7189"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="288.726,-18.5504 279.255,-23.2994 289.62,-25.493 288.726,-18.5504"/>
 </g>
-<!-- Node49&#45;&gt;Node48 -->
-<g id="edge5" class="edge"><title>Node49&#45;&gt;Node48</title>
+<!-- Node48&#45;&gt;Node47 -->
+<g id="edge5" class="edge"><title>Node48&#45;&gt;Node47</title>
 <path fill="none" stroke="midnightblue" d="M434.97,-21.9494C461.719,-28.2823 493.61,-35.833 516.155,-41.1707"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="435.538,-18.4871 425.001,-19.589 433.926,-25.2988 435.538,-18.4871"/>
 </g>
-<!-- Node50 -->
-<g id="node5" class="node"><title>Node50</title>
+<!-- Node49 -->
+<g id="node5" class="node"><title>Node49</title>
 <g id="a_node5"><a xlink:href="class_altair.html#a16b8035c4383a789cd00b687fb105fe9" target="_top" xlink:title="Traitement de la fin de l&#39;exécution de lhx. ">
 <polygon fill="white" stroke="black" points="488,-0.5 488,-19.5 604,-19.5 604,-0.5 488,-0.5"/>
 <text text-anchor="middle" x="546" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::processFinished</text>
 </a>
 </g>
 </g>
-<!-- Node49&#45;&gt;Node50 -->
-<g id="edge4" class="edge"><title>Node49&#45;&gt;Node50</title>
+<!-- Node48&#45;&gt;Node49 -->
+<g id="edge4" class="edge"><title>Node48&#45;&gt;Node49</title>
 <path fill="none" stroke="midnightblue" d="M462.215,-10C470.867,-10 479.558,-10 487.885,-10"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="462.101,-6.5001 452.101,-10 462.101,-13.5001 462.101,-6.5001"/>
 </g>

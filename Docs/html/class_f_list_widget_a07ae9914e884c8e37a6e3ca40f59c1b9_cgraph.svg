@@ -9,47 +9,47 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
 <title>FListWidget::setXmlFromWidget</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-62 454,-62 454,4 -4,4"/>
-<!-- Node65 -->
-<g id="node1" class="node"><title>Node65</title>
+<!-- Node63 -->
+<g id="node1" class="node"><title>Node63</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-19.5 0,-38.5 159,-38.5 159,-19.5 0,-19.5"/>
 <text text-anchor="middle" x="79.5" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListWidget::setXmlFromWidget</text>
 </g>
-<!-- Node66 -->
-<g id="node2" class="node"><title>Node66</title>
+<!-- Node64 -->
+<g id="node2" class="node"><title>Node64</title>
 <g id="a_node2"><a xlink:href="class_f_string_list.html#a13ae40e837189c05782253c65bef764d" target="_top" xlink:title="FStringList::setEmptyTags">
 <polygon fill="white" stroke="black" points="195,-38.5 195,-57.5 329,-57.5 329,-38.5 195,-38.5"/>
 <text text-anchor="middle" x="262" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">FStringList::setEmptyTags</text>
 </a>
 </g>
 </g>
-<!-- Node65&#45;&gt;Node66 -->
-<g id="edge1" class="edge"><title>Node65&#45;&gt;Node66</title>
+<!-- Node63&#45;&gt;Node64 -->
+<g id="edge1" class="edge"><title>Node63&#45;&gt;Node64</title>
 <path fill="none" stroke="midnightblue" d="M159.145,-37.2784C167.587,-38.1671 176.168,-39.0703 184.584,-39.9562"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="184.436,-43.4599 194.747,-41.026 185.169,-36.4983 184.436,-43.4599"/>
 </g>
-<!-- Node67 -->
-<g id="node3" class="node"><title>Node67</title>
+<!-- Node65 -->
+<g id="node3" class="node"><title>Node65</title>
 <g id="a_node3"><a xlink:href="class_f_list_widget.html#a3d9112c6c7226706cbbeb8dc8eb36ea8" target="_top" xlink:title="FListWidget::translate">
 <polygon fill="white" stroke="black" points="205.5,-0.5 205.5,-19.5 318.5,-19.5 318.5,-0.5 205.5,-0.5"/>
 <text text-anchor="middle" x="262" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListWidget::translate</text>
 </a>
 </g>
 </g>
-<!-- Node65&#45;&gt;Node67 -->
-<g id="edge2" class="edge"><title>Node65&#45;&gt;Node67</title>
+<!-- Node63&#45;&gt;Node65 -->
+<g id="edge2" class="edge"><title>Node63&#45;&gt;Node65</title>
 <path fill="none" stroke="midnightblue" d="M159.145,-20.7216C171.195,-19.4531 183.526,-18.1551 195.259,-16.9201"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="195.816,-20.3809 205.394,-15.8532 195.083,-13.4194 195.816,-20.3809"/>
 </g>
-<!-- Node68 -->
-<g id="node4" class="node"><title>Node68</title>
+<!-- Node66 -->
+<g id="node4" class="node"><title>Node66</title>
 <g id="a_node4"><a xlink:href="class_f_string_list.html#a1d9b84941af3c6931ea6d5614efdf109" target="_top" xlink:title="FStringList::join">
 <polygon fill="white" stroke="black" points="365,-0.5 365,-19.5 450,-19.5 450,-0.5 365,-0.5"/>
 <text text-anchor="middle" x="407.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FStringList::join</text>
 </a>
 </g>
 </g>
-<!-- Node67&#45;&gt;Node68 -->
-<g id="edge3" class="edge"><title>Node67&#45;&gt;Node68</title>
+<!-- Node65&#45;&gt;Node66 -->
+<g id="edge3" class="edge"><title>Node65&#45;&gt;Node66</title>
 <path fill="none" stroke="midnightblue" d="M318.892,-10C330.7,-10 343.111,-10 354.758,-10"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="354.762,-13.5001 364.762,-10 354.762,-6.5001 354.762,-13.5001"/>
 </g>

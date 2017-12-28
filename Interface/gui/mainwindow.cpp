@@ -125,8 +125,6 @@ MainWindow::MainWindow (char* projectName)
 
     Abstract::initH();
 
-    Abstract::refreshOptionFields();
-
     configureOptions();
     createToolBars();
 
@@ -1651,36 +1649,36 @@ void MainWindow::configureOptions()
     closeButton->button (QDialogButtonBox::Cancel)->setText ("Annuler");
 
     defaultProjectManagerWidgetLayoutBox = new FCheckBox ("Afficher le gestionnaire de projet",
-#ifdef MINIMAL
-            flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
-#else
-            flags::status::enabledChecked | flags::commandLineType::noCommandLine,
-#endif
-            "projectManagerDisplay",
-    {"Interface", "Afficher le gestionnaire de projet"});
+                                                #ifdef MINIMAL
+                                                            flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
+                                                #else
+                                                            flags::status::enabledChecked | flags::commandLineType::noCommandLine,
+                                                #endif
+                                                            "projectManagerDisplay",
+                                                            {"Interface", "Afficher le gestionnaire de projet"});
 
     defaultFileManagerWidgetLayoutBox = new FCheckBox ("Afficher le gestionnaire de fichiers",
-#ifdef MINIMAL
-            flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
-#else
-            flags::status::enabledChecked | flags::commandLineType::noCommandLine,
-#endif
-            "fileManagerDisplay",
-    {"Interface", "Afficher le gestionnaire de fichiers"});
+                                            #ifdef MINIMAL
+                                                        flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
+                                            #else
+                                                        flags::status::enabledChecked | flags::commandLineType::noCommandLine,
+                                            #endif
+                                                        "fileManagerDisplay",
+                                                        {"Interface", "Afficher le gestionnaire de fichiers"});
 
     defaultFullScreenLayoutBox = new FCheckBox ("Plein écran",
-            flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
-            "fullScreenDisplay",
-    {"Interface", "Plein écran au lancement"});
+                                                flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
+                                                "fullScreenDisplay",
+                                                {"Interface", "Plein écran au lancement"});
 
     defaultOutputTextEditBox = new FCheckBox ("Afficher les messages",
-#ifdef MINIMAL
-            flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
-#else
-            flags::status::enabledChecked | flags::commandLineType::noCommandLine,
-#endif
-            "outputTextEdit",
-    {"Interface", "Afficher les messages"});
+                                    #ifdef MINIMAL
+                                                flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
+                                    #else
+                                                flags::status::enabledChecked | flags::commandLineType::noCommandLine,
+                                    #endif
+                                                "outputTextEdit",
+                                                {"Interface", "Afficher les messages"});
 
     defaultFileToolBarBox = new FCheckBox ("Afficher la barre d'outils de fichiers",
 #ifdef MINIMAL
@@ -1689,42 +1687,42 @@ void MainWindow::configureOptions()
                                            flags::status::enabledChecked | flags::commandLineType::noCommandLine,
 #endif
                                            "fileToolBar",
-    {"Interface", "Afficher la barre d'outils de fichiers"});
+                                           {"Interface", "Afficher la barre d'outils de fichiers"});
 
     defaultEditToolBarBox = new FCheckBox ("Afficher la barre d'outils d'édition",
                                            flags::status::enabledChecked | flags::commandLineType::noCommandLine,
                                            "editToolBar",
-    {"Interface", "Afficher la barre d'outils d'édition"});
+                                           {"Interface", "Afficher la barre d'outils d'édition"});
 
     defaultProcessToolBarBox = new FCheckBox ("Afficher la barre d'outils de processus",
-#ifdef MINIMAL
-            flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
-#else
-            flags::status::enabledChecked | flags::commandLineType::noCommandLine,
-#endif
-            "processToolBar",
-    {"Interface", "Afficher la barre d'outils de processus"});
+                                    #ifdef MINIMAL
+                                                flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
+                                    #else
+                                                flags::status::enabledChecked | flags::commandLineType::noCommandLine,
+                                    #endif
+                                                "processToolBar",
+                                                {"Interface", "Afficher la barre d'outils de processus"});
 
     defaultOptionsToolBarBox = new FCheckBox ("Afficher la barre d'options",
-#ifdef MINIMAL
-            flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
-#else
-            flags::status::enabledChecked | flags::commandLineType::noCommandLine,
-#endif
-            "optionsToolBar",
-    {"Interface", "Afficher les options"});
+                                    #ifdef MINIMAL
+                                                flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
+                                    #else
+                                                flags::status::enabledChecked | flags::commandLineType::noCommandLine,
+                                    #endif
+                                                "optionsToolBar",
+                                                {"Interface", "Afficher les options"});
 
     defaultAboutToolBarBox = new FCheckBox ("Afficher la barre d'A propos",
                                             flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
                                             "aboutToolBar",
-    {"Interface", "Afficher la barre A propos"});
+                                            {"Interface", "Afficher la barre A propos"});
 
     QGroupBox* behaviorGroupBox = new QGroupBox (tr ("Sauvegarder/Lancer"));
 
     defaultSaveProjectBehaviorBox = new FCheckBox ("Sauvegarder le projet .alt automatiquement",
-            flags::status::enabledChecked | flags::commandLineType::noCommandLine,
-            "saveProjectBehavior",
-    {"Interface", "Sauvegarder le projet .alt automatiquement"});
+                                                    flags::status::enabledChecked | flags::commandLineType::noCommandLine,
+                                                    "saveProjectBehavior",
+                                                    {"Interface", "Sauvegarder le projet .alt automatiquement"});
 
     importerAuLancementBox = new FCheckBox ("Charger les données utilisateur au lancement",
                                             (settings->value ("importerAuLancement") == true ? flags::status::enabledChecked :
@@ -1734,9 +1732,9 @@ void MainWindow::configureOptions()
     {"Interface", "Charger les données xhl du disque optique\nou du répertoire de données au lancement"});
 
     defaultLoadProjectBehaviorBox = new FCheckBox ("Charger le projet par défaut au lancement",
-            flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
-            "loadProjectBehavior",
-    {"Interface", "Charger le projet .alt au lancement"});
+                                                    flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
+                                                    "loadProjectBehavior",
+                                                    {"Interface", "Charger le projet .alt au lancement"});
 
     // Ces deux cases sont mutuellement exclusives. On aurait pu mettre un FRadioButton à la place. On laisse des FCheckBox par esthétique
     // et aussi pour éviter de devoir rajouter toute cette classe pour ce seul cas de figure.
@@ -1748,15 +1746,15 @@ void MainWindow::configureOptions()
     QGroupBox *outputGroupBox = new QGroupBox (tr ("Console"));
 
     defaultMaximumConsoleOutputBox = new FCheckBox ("Limiter la sortie de la console",
-            flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
-            "limitConsoleOutput",
-    {"Interface", "Limiter le nombre de lignes en sortie de la console"});
+                                                    flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
+                                                    "limitConsoleOutput",
+                                                    {"Interface", "Limiter le nombre de lignes en sortie de la console"});
 
     defaultQuietBox = new FCheckBox ("Limiter la verbosité",
                                      flags::status::enabledChecked | flags::commandLineType::defaultCommandLine,
                                      "quiet",
-    {"Interface", "Limiter la verbosité de la console"},
-    "q");
+                                     {"Interface", "Limiter la verbosité de la console"},
+                                     "q");
 
     displayWidgetListBox   <<  defaultFileManagerWidgetLayoutBox
                            << defaultProjectManagerWidgetLayoutBox

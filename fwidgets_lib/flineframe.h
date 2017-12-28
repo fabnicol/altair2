@@ -91,8 +91,8 @@ void setPathCategory(flags::flineframe t)     {    pathCategory = t;    }
 private:
 
 QGridLayout* frameLayout; ///< Disposition de la FLineFrame de type \e QGridLayout
-FLineEdit* lineEdit;      ///< Ligne à éditer, noyau du widget
-QLabel *label;            ///< Libellé du widget
+FLineEdit* lineEdit;      ///< Ligne à éditer, noyau du composant
+QLabel *label;            ///< Libellé du composant
 QToolDirButton *sButton;  ///< Bouton permettant d'ouvrir un dialogue de sélection de répertoire
 QToolDirButton *oButton;  ///< Bouton permettant d'ouvrir le répertoire ou le fichier sélectionné dans  lineEdit
 QVector<QWidget*> componentList; ///< Liste des composants de type \e QWidget*

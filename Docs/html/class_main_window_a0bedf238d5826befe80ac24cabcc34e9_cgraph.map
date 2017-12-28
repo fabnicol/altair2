@@ -1,4 +1,3 @@
 <map id="MainWindow::MainWindow" name="MainWindow::MainWindow">
-<area shape="rect" id="node2" href="$struct_abstract.html#af7b700041c9d75de3f642f15ece3e6ae" title="Réinitialiser toutes les valeurs du de la table de hachage Hash::wrapper. " alt="" coords="276,5,383,32"/>
-<area shape="rect" id="node3" href="$struct_abstract.html#a302f4b87e20ac45c849569e5ce2cd4e2" title="Pour tous les membres de abstractWidgetList, appelle refreshWidgetDisplay() ce qui a pour effet d&#39;act..." alt="" coords="233,56,425,83"/>
+<area shape="rect" id="node2" href="$struct_abstract.html#af7b700041c9d75de3f642f15ece3e6ae" title="Réinitialiser toutes les valeurs du de la table de hachage Hash::wrapper. " alt="" coords="233,5,340,32"/>
 </map>

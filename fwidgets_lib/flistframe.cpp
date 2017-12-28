@@ -675,7 +675,7 @@ void FListFrame::setStrikeOutFileNames(flags::colors color)
         if (size_j > listWidget->count())
         {
             QMessageBox::critical(nullptr, "Erreur", "Incohérence des tailles de la table de référence : "
-                                                                       + QString::number(size_j) + " et du widget : " + QString::number(listWidget->count()) + " pour l'onglet "
+                                                                       + QString::number(size_j) + " et du composant : " + QString::number(listWidget->count()) + " pour l'onglet "
                                                                        + QString::number(j +1) + ".", QMessageBox::Cancel);
             return;
         }
@@ -910,10 +910,10 @@ inline void finalise_macro(FListFrame* listFrame, QStringList& pairs, const QStr
     for (int i=0; i < pairs.size(); i++)
            tabList <<  pairs[i].left(60);
 
-    QListWidget* widget = new QListWidget;
-    widget->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    widget->setSelectionBehavior(QAbstractItemView::SelectRows);
-    listFrame->widgetContainer.insert(rank, widget);
+    QListWidget* composant = new QListWidget;
+    composant->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    composant->setSelectionBehavior(QAbstractItemView::SelectRows);
+    listFrame->widgetContainer.insert(rank, composant);
 
      listFrame->addNewTab(rank, label);
      Hash::wrapper[listFrame->frameHashKey]->insert(rank, pairs);

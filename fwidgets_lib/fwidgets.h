@@ -133,9 +133,9 @@ class FAbstractWidget : public flags
 {
 public:
 
- Q2VectorWidget* enabledObjects = nullptr; ///< Pointeur vers un vecteur de vecteurs de widgets activés par le widget courant
+ Q2VectorWidget* enabledObjects = nullptr; ///< Pointeur vers un vecteur de vecteurs de widgets activés par le composant courant
 
- Q2VectorWidget* disabledObjects = nullptr; ///< Pointeur vers un vecteur de vecteurs de widgets désactivés par le widget courant
+ Q2VectorWidget* disabledObjects = nullptr; ///< Pointeur vers un vecteur de vecteurs de widgets désactivés par le composant courant
  // command-line interface type
  flags::commandLineType commandLineType;
  flags::status  status;
@@ -146,24 +146,20 @@ public:
   /* does the reverse of setXmlFromWidget : reads left value of <...hashKey=...> and injects it into commandLineList. Refreshes Widget state accordingly */
   virtual void setWidgetFromXml(const FStringList& )=0;
 
- /// Actualise l'état du widget à partir de la valeur courante du membre de  commandLineList pour assurer
- /// la cohérence entre l'état des données en mémoire et l'apparence graphique du widget
 
- virtual void refreshWidgetDisplay()=0 ;
-
- /// Retourne la clé de hashage de  Hash::wrapper correspondant au widget
+ /// Retourne la clé de hashage de  Hash::wrapper correspondant au composant
  /// \return QString correspondant à la clé  hashKey
 
  const QString& getHashKey() const {return hashKey; }
 
  QVector<QWidget*>& getComponentList() { return componentList;}
 
- /// Accesseur en lecture de la \e profondeur du widget
+ /// Accesseur en lecture de la \e profondeur du composant
  /// \return Retourne  widgetDepth
 
  const QString& getDepth() const {return widgetDepth; }
 
- /// Accesseur en lecture de la \e description du widget
+ /// Accesseur en lecture de la \e description du composant
  /// \return Retourne  description
 
  const QStringList& getDescription() const { return description; }
@@ -206,11 +202,6 @@ struct Abstract
 {
     static QVector<FAbstractWidget*> abstractWidgetList; ///< englobe tous les widgets fonctionnels utilisés
 
-    /// Pour tous les membres de  abstractWidgetList, appelle  refreshWidgetDisplay()
-    /// ce qui a pour effet d'actualiser l'état graphique du widget en fonction des données
-    /// en mémoire.
-
-    static void refreshOptionFields();
 
     /// Détruire la valeur allouée de  Hash::wrapper pour la clé \e hashKey si elle existe
     /// et si elle est allouée et réallouer une nouvelle
@@ -278,7 +269,6 @@ public:
   void setWidgetFromXml(const FStringList & );
   const FString setXmlFromWidget();
 
-  void refreshWidgetDisplay();
   bool isAbstractEnabled() {return this->isEnabled();}
 
   QListWidget* currentListWidget;
@@ -341,7 +331,6 @@ public:
 
   void setWidgetFromXml(const FStringList& );
   const FString setXmlFromWidget();
-  void refreshWidgetDisplay();
   bool isAbstractEnabled() {return this->QCheckBox::isEnabled();}
 
 private slots:
@@ -373,7 +362,6 @@ public:
 
   void setWidgetFromXml(const FStringList&);
   const FString setXmlFromWidget();
-  void refreshWidgetDisplay();
   bool isAbstractEnabled() {return this->isEnabled();}
 
   QStringList *signalList;
@@ -403,7 +391,6 @@ public:
   FLineEdit() {}
   void setWidgetFromXml(const FStringList&);
   const FString setXmlFromWidget();
-  void refreshWidgetDisplay();
   bool isAbstractEnabled() {return this->isEnabled();}
 
   FLineEdit(const FLineEdit* f) :  FLineEdit(f->commandLineList[0].toQString(), f->status, f->hashKey, f->description, f->optionLabel) {}

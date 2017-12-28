@@ -6,7 +6,6 @@ var class_f_list_widget =
     [ "forceCloseProject", "class_f_list_widget.html#a3b131bdfbab54fdfe95a92212e63ab78", null ],
     [ "getTabLabels", "class_f_list_widget.html#a81dae63e19cad64c637cfee609defa3f", null ],
     [ "isAbstractEnabled", "class_f_list_widget.html#a6103f86c5ddbd76f1a03e8a9db41d0d1", null ],
-    [ "refreshWidgetDisplay", "class_f_list_widget.html#ac0b2debf8fb307615055481be18e2d3b", null ],
     [ "setSeparator", "class_f_list_widget.html#a708084f42aac966810cfac84634c6edd", null ],
     [ "setTabLabels", "class_f_list_widget.html#aac6eaaeb9946354f743394b54c84a6a7", null ],
     [ "setWidgetFromXml", "class_f_list_widget.html#ac9bc1c75b6e519155a7af03ce7c4287a", null ],

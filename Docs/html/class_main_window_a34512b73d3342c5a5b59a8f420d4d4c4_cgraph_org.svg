@@ -9,83 +9,83 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
 <title>MainWindow::archiveProject</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-62 693,-62 693,4 -4,4"/>
-<!-- Node6 -->
-<g id="node1" class="node"><title>Node6</title>
+<!-- Node5 -->
+<g id="node1" class="node"><title>Node5</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-19.5 0,-38.5 141,-38.5 141,-19.5 0,-19.5"/>
 <text text-anchor="middle" x="70.5" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::archiveProject</text>
 </g>
-<!-- Node7 -->
-<g id="node2" class="node"><title>Node7</title>
+<!-- Node6 -->
+<g id="node2" class="node"><title>Node6</title>
 <g id="a_node2"><a xlink:href="classtools.html#aae1cdbea84aed049937a52ceb9421794" target="_top" xlink:title="tools::zip">
 <polygon fill="white" stroke="black" points="282,-19.5 282,-38.5 338,-38.5 338,-19.5 282,-19.5"/>
 <text text-anchor="middle" x="310" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::zip</text>
 </a>
 </g>
 </g>
-<!-- Node6&#45;&gt;Node7 -->
-<g id="edge1" class="edge"><title>Node6&#45;&gt;Node7</title>
+<!-- Node5&#45;&gt;Node6 -->
+<g id="edge1" class="edge"><title>Node5&#45;&gt;Node6</title>
 <path fill="none" stroke="midnightblue" d="M141.153,-29C183.824,-29 236.759,-29 271.639,-29"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="271.853,-32.5001 281.853,-29 271.853,-25.5001 271.853,-32.5001"/>
 </g>
-<!-- Node11 -->
-<g id="node6" class="node"><title>Node11</title>
+<!-- Node10 -->
+<g id="node6" class="node"><title>Node10</title>
 <g id="a_node6"><a xlink:href="classtools.html#aefd7e17f4eeb34a4ab3d254eb3bb0a03" target="_top" xlink:title="tools::zipDir">
 <polygon fill="white" stroke="black" points="177,-0.5 177,-19.5 246,-19.5 246,-0.5 177,-0.5"/>
 <text text-anchor="middle" x="211.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::zipDir</text>
 </a>
 </g>
 </g>
-<!-- Node6&#45;&gt;Node11 -->
-<g id="edge6" class="edge"><title>Node6&#45;&gt;Node11</title>
+<!-- Node5&#45;&gt;Node10 -->
+<g id="edge6" class="edge"><title>Node5&#45;&gt;Node10</title>
 <path fill="none" stroke="midnightblue" d="M141.407,-19.4443C150.059,-18.2618 158.701,-17.0804 166.8,-15.9734"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="167.292,-19.4388 176.726,-14.6166 166.344,-12.5033 167.292,-19.4388"/>
 </g>
-<!-- Node8 -->
-<g id="node3" class="node"><title>Node8</title>
+<!-- Node7 -->
+<g id="node3" class="node"><title>Node7</title>
 <g id="a_node3"><a xlink:href="classtools.html#ae1018e45c513785270b999cbcfa8beb6" target="_top" xlink:title="tools::IOControl">
 <polygon fill="white" stroke="black" points="374,-19.5 374,-38.5 460,-38.5 460,-19.5 374,-19.5"/>
 <text text-anchor="middle" x="417" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::IOControl</text>
 </a>
 </g>
 </g>
-<!-- Node7&#45;&gt;Node8 -->
-<g id="edge2" class="edge"><title>Node7&#45;&gt;Node8</title>
+<!-- Node6&#45;&gt;Node7 -->
+<g id="edge2" class="edge"><title>Node6&#45;&gt;Node7</title>
 <path fill="none" stroke="midnightblue" d="M338.04,-29C345.987,-29 354.96,-29 363.918,-29"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="363.968,-32.5001 373.968,-29 363.968,-25.5001 363.968,-32.5001"/>
 </g>
-<!-- Node9 -->
-<g id="node4" class="node"><title>Node9</title>
+<!-- Node8 -->
+<g id="node4" class="node"><title>Node8</title>
 <g id="a_node4"><a xlink:href="classtools.html#a37c9c486d90129b0d6a4ac93f29fd5bb" target="_top" xlink:title="tools::copyDir">
 <polygon fill="white" stroke="black" points="496,-38.5 496,-57.5 573,-57.5 573,-38.5 496,-38.5"/>
 <text text-anchor="middle" x="534.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::copyDir</text>
 </a>
 </g>
 </g>
-<!-- Node8&#45;&gt;Node9 -->
-<g id="edge3" class="edge"><title>Node8&#45;&gt;Node9</title>
+<!-- Node7&#45;&gt;Node8 -->
+<g id="edge3" class="edge"><title>Node7&#45;&gt;Node8</title>
 <path fill="none" stroke="midnightblue" d="M460.025,-35.9132C468.462,-37.3012 477.385,-38.7689 485.993,-40.185"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="485.471,-43.6462 495.907,-41.8159 486.608,-36.739 485.471,-43.6462"/>
 </g>
-<!-- Node10 -->
-<g id="node5" class="node"><title>Node10</title>
+<!-- Node9 -->
+<g id="node5" class="node"><title>Node9</title>
 <g id="a_node5"><a xlink:href="classtools.html#a0765c68c41d7c957f1fb0f0da8b4a9c9" target="_top" xlink:title="tools::copyFile">
 <polygon fill="white" stroke="black" points="609,-19.5 609,-38.5 689,-38.5 689,-19.5 609,-19.5"/>
 <text text-anchor="middle" x="649" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::copyFile</text>
 </a>
 </g>
 </g>
-<!-- Node9&#45;&gt;Node10 -->
-<g id="edge4" class="edge"><title>Node9&#45;&gt;Node10</title>
+<!-- Node8&#45;&gt;Node9 -->
+<g id="edge4" class="edge"><title>Node8&#45;&gt;Node9</title>
 <path fill="none" stroke="midnightblue" d="M573.274,-41.6204C581.532,-40.2257 590.388,-38.73 599.013,-37.2734"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="599.704,-40.7064 608.981,-35.5899 598.538,-33.8041 599.704,-40.7064"/>
 </g>
-<!-- Node10&#45;&gt;Node8 -->
-<g id="edge5" class="edge"><title>Node10&#45;&gt;Node8</title>
+<!-- Node9&#45;&gt;Node7 -->
+<g id="edge5" class="edge"><title>Node9&#45;&gt;Node7</title>
 <path fill="none" stroke="midnightblue" d="M608.768,-29C570.589,-29 512.336,-29 470.247,-29"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="470.186,-25.5001 460.186,-29 470.186,-32.5001 470.186,-25.5001"/>
 </g>
-<!-- Node11&#45;&gt;Node7 -->
-<g id="edge7" class="edge"><title>Node11&#45;&gt;Node7</title>
+<!-- Node10&#45;&gt;Node6 -->
+<g id="edge7" class="edge"><title>Node10&#45;&gt;Node6</title>
 <path fill="none" stroke="midnightblue" d="M246.251,-16.6453C254.52,-18.2734 263.415,-20.0248 271.835,-21.6825"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="271.306,-25.1456 281.794,-23.6434 272.659,-18.2775 271.306,-25.1456"/>
 </g>

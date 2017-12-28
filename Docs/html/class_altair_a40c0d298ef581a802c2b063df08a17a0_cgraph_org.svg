@@ -31,7 +31,7 @@
 </g>
 <!-- Node182 -->
 <g id="node5" class="node"><title>Node182</title>
-<g id="a_node5"><a xlink:href="class_f_abstract_widget.html#ae6ba84e8ed8a54dc8121245f35f568fe" target="_top" xlink:title="Retourne la clé de hashage de Hash::wrapper correspondant au widget. ">
+<g id="a_node5"><a xlink:href="class_f_abstract_widget.html#ae6ba84e8ed8a54dc8121245f35f568fe" target="_top" xlink:title="Retourne la clé de hashage de Hash::wrapper correspondant au composant. ">
 <polygon fill="white" stroke="black" points="171,-0.5 171,-19.5 321,-19.5 321,-0.5 171,-0.5"/>
 <text text-anchor="middle" x="246" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FAbstractWidget::getHashKey</text>
 </a>

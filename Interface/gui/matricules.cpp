@@ -79,18 +79,18 @@ MatriculeInput::MatriculeInput (int width, int height)
 
     matrLineEdit = new FLineEdit ("",
                                   "Matricules",
-    {"Impression", "Format Matricule-Mois...-Anéee(s)...;"},
-    "%bulletins");
+                                  {"Impression", "Format Matricule-Mois...-Anéee(s)...;"},
+                                   "%bulletins");
 
     matrLineEdit2 = new FLineEdit ("",
                                    "MatriculesB",
-    {"Impression", "Format Matricule-Mois...-Anéee(s)...;"},
-    "%bulletins");
+                                   {"Impression", "Format Matricule-Mois...-Anéee(s)...;"},
+                                    "%bulletins");
 
     matrLineEdit3 = new FLineEdit ("",
                                    "MatriculesC",
-    {"Impression", "Format Matricule-Mois...-Anéee(s)...;"},
-    "%bulletins");
+                                   {"Impression", "Format Matricule-Mois...-Anéee(s)...;"},
+                                    "%bulletins");
 
     QGroupBox* dBox = new QGroupBox ("Exportation");
     const QString dirpath = common::path_access (DONNEES "Bulletins");

@@ -18,12 +18,12 @@
 <area shape="rect" id="node21" href="$class_hash.html#a2ac10203aa8b32a04d9088e08ddbaab4" title="Hash::createReference" alt="" coords="933,298,1091,325"/>
 <area shape="rect" id="node22" href="$class_altair.html#a3f6193de22ed2034c9b6dbe7a8ac4d97" title="Lors du décodage du projet XML .alt, décoder le noed courant et renvoyer l&#39;empilement des valeurs en ..." alt="" coords="951,399,1073,426"/>
 <area shape="rect" id="node34" href="$class_altair.html#a20528df591deee5ad32f28996ba8dc35" title="Raccourcit les chemins dans les onglets en se limitant au non de fichier et les présente &#160;en surligna..." alt="" coords="912,349,1112,375"/>
-<area shape="rect" id="node16" href="$class_f_abstract_widget.html#ae6ba84e8ed8a54dc8121245f35f568fe" title="Retourne la clé de hashage de Hash::wrapper correspondant au widget. " alt="" coords="1171,450,1371,477"/>
+<area shape="rect" id="node16" href="$class_f_abstract_widget.html#ae6ba84e8ed8a54dc8121245f35f568fe" title="Retourne la clé de hashage de Hash::wrapper correspondant au composant. " alt="" coords="1171,450,1371,477"/>
 <area shape="rect" id="node17" href="$struct_abstract.html#a634c4a8152edbeb8d96d2ca8f30e1025" title="Récupère toutes les clés de hachage (de Hash::wrapper) des FWidgets qui sont dans le vecteur FAbstrac..." alt="" coords="1203,501,1340,527"/>
 <area shape="rect" id="node18" href="$class_f_abstract_widget.html#a88c229861e7973810c6ac979d5526c2d" title="FAbstractWidget::setWidget\lFromXml" alt="" coords="1178,552,1365,593"/>
 <area shape="rect" id="node19" href="$class_altair.html#a78a2870bb9b316c5ad6bcbd64471eeb8" title="Renvoie la taille des données exportées. " alt="" coords="1484,223,1568,250"/>
 <area shape="rect" id="node23" href="$class_f_list_frame.html#a7ecbe60018d55d1a1352c5fd24c5e72e" title="FListFrame::setTabLabels" alt="" coords="1184,274,1359,301"/>
-<area shape="rect" id="node25" href="$namespace_xml_method.html#abe26f53c2028527b0ebea361faa85221" title="Empile les données pour un noeud donné, pour une profondeur d&#39;enchassement donnée. " alt="" coords="1193,325,1349,351"/>
+<area shape="rect" id="node25" href="$namespace_xml_method.html#abe26f53c2028527b0ebea361faa85221" title="Empile les données pour un noeud donné, pour une profondeur d&#39;enchâssement donnée. " alt="" coords="1193,325,1349,351"/>
 <area shape="rect" id="node26" href="$class_f_string_list.html#a71ec48a52b6ca4ffe89400d66f3ff634" title="FStringList::toInt" alt="" coords="1212,399,1331,426"/>
 <area shape="rect" id="node24" href="$class_f_list_widget.html#aac6eaaeb9946354f743394b54c84a6a7" title="FListWidget::setTabLabels" alt="" coords="1437,274,1615,301"/>
 <area shape="rect" id="node28" href="$namespace_xml_method.html#a796c4f03d9e7a8057f0102b87eecbd3e" title="XmlMethod::displayFirstLevelData" alt="" coords="1160,122,1383,149"/>

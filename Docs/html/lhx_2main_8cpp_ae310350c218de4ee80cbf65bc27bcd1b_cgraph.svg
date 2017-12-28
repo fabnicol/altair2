@@ -481,7 +481,7 @@ var sectionId = 'dynsection-2';
 </g>
 <!-- Node87 -->
 <g id="node27" class="node"><title>Node87</title>
-<g id="a_node27"><a xlink:href="fonctions__auxiliaires_8cpp.html#a6ae1ab10756e4c3c1c627199aedf7d2e" target="_top" xlink:title="Transforme un fichier de type std::ifstream en un std::string. ">
+<g id="a_node27"><a xlink:href="fonctions__auxiliaires_8cpp.html#a42b58b99a50fba87cf44db116b0eb56a" target="_top" xlink:title="Transforme un fichier de type std::ifstream en un std::string. ">
 <polygon fill="white" stroke="black" points="494.5,-479.5 494.5,-498.5 615.5,-498.5 615.5,-479.5 494.5,-479.5"/>
 <text text-anchor="middle" x="555" y="-486.5" font-family="Helvetica,sans-Serif" font-size="10.00">read_stream_into_string</text>
 </a>

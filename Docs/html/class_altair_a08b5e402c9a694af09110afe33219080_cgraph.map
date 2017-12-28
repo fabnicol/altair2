@@ -8,7 +8,7 @@
 <area shape="rect" id="node12" href="$class_altair.html#a4995cdc9462838289b5b1df75edba552" title="Ajouter du texte à l&#39;onglet des messages. " alt="" coords="1231,400,1357,427"/>
 <area shape="rect" id="node13" href="$class_altair.html#a2eb0a89c3223b2df1c01d2b3b7d1c0eb" title="Rafraichir le projet .alt après avoir actualisé l&#39;interface. " alt="" coords="212,577,352,604"/>
 <area shape="rect" id="node3" href="$class_f_abstract_widget.html#a5c45eef47bfac1603a3cce654c96c66b" title="FAbstractWidget::command\lLineStringList" alt="" coords="441,90,627,131"/>
-<area shape="rect" id="node6" href="$class_f_abstract_widget.html#ae6ba84e8ed8a54dc8121245f35f568fe" title="Retourne la clé de hashage de Hash::wrapper correspondant au widget. " alt="" coords="1194,181,1394,208"/>
+<area shape="rect" id="node6" href="$class_f_abstract_widget.html#ae6ba84e8ed8a54dc8121245f35f568fe" title="Retourne la clé de hashage de Hash::wrapper correspondant au composant. " alt="" coords="1194,181,1394,208"/>
 <area shape="rect" id="node4" href="$class_f_abstract_widget.html#a6e974137b3ddc4347eef32a468fd2f9b" title="FAbstractWidget::isAbstract\lDisabled" alt="" coords="689,78,875,119"/>
 <area shape="rect" id="node5" href="$class_f_abstract_widget.html#a6bec2d63718d591bf304509947161432" title="FAbstractWidget::isAbstract\lEnabled" alt="" coords="941,65,1128,106"/>
 <area shape="rect" id="node14" href="$class_altair.html#ad0436bfddbdcdd19cc80154e02b4323c" title="Assigner le fichier courant. " alt="" coords="463,679,605,705"/>
@@ -31,7 +31,7 @@
 <area shape="rect" id="node27" href="$class_f_abstract_widget.html#a88c229861e7973810c6ac979d5526c2d" title="FAbstractWidget::setWidget\lFromXml" alt="" coords="1201,283,1387,325"/>
 <area shape="rect" id="node28" href="$class_altair.html#a78a2870bb9b316c5ad6bcbd64471eeb8" title="Renvoie la taille des données exportées. " alt="" coords="1507,400,1591,427"/>
 <area shape="rect" id="node31" href="$class_f_list_frame.html#a7ecbe60018d55d1a1352c5fd24c5e72e" title="FListFrame::setTabLabels" alt="" coords="1207,5,1381,32"/>
-<area shape="rect" id="node33" href="$namespace_xml_method.html#abe26f53c2028527b0ebea361faa85221" title="Empile les données pour un noeud donné, pour une profondeur d&#39;enchassement donnée. " alt="" coords="1216,131,1372,157"/>
+<area shape="rect" id="node33" href="$namespace_xml_method.html#abe26f53c2028527b0ebea361faa85221" title="Empile les données pour un noeud donné, pour une profondeur d&#39;enchâssement donnée. " alt="" coords="1216,131,1372,157"/>
 <area shape="rect" id="node34" href="$class_f_string_list.html#a71ec48a52b6ca4ffe89400d66f3ff634" title="FStringList::toInt" alt="" coords="1235,80,1353,107"/>
 <area shape="rect" id="node32" href="$class_f_list_widget.html#aac6eaaeb9946354f743394b54c84a6a7" title="FListWidget::setTabLabels" alt="" coords="1459,5,1638,32"/>
 <area shape="rect" id="node36" href="$namespace_xml_method.html#a796c4f03d9e7a8057f0102b87eecbd3e" title="XmlMethod::displayFirstLevelData" alt="" coords="1183,669,1405,696"/>
