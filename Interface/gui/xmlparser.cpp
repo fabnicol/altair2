@@ -51,13 +51,14 @@
 /// \mainpage Sommaire
 /// La documentation du projet comprend :
 /// - \subpage   page1 "la documentation de l'algorithme d'analyse des noeuds Remuneration"
-/// - \subpage   page_alt "la documentation des projets Altaïr d'extension .alt"
+/// - \subpage   page_alt "la documentation des paramètres de l'interface graphique et des projets Altaïr d'extension .alt"
+/// - \subpage   page_lhx "la documentation de la ligne de commande de l'application-noyau lhx"
 /// - \ref todo "la liste des choses à faire"
 /// - l'onglet <a href="namespaces.html"><b>Espaces de nommage</b></a>
 /// - l'onglet <a href="annotated.html"><b>Classes</b></a>
 /// - et l'onglet <a href="files.html"><b>Fichiers</b></a>
 ///\n\n
-/// \note Dans toute la documentation, un petit triangle bleu en marge indique un lien dynamique. \n
+/// \note Dans toute la documentation, un petit triangle bleu en marge gauche indique un lien dynamique. \n
 /// Les éléments suivants sont accessibles en cliquant sur ces liens : \n
 /// <ul>
 /// <li> graphe d'héritage de classes</li>
@@ -67,112 +68,136 @@
 /// <li> liste des types, connecteurs, signaux, fonctions et attributs hérités par une classe.</li></ul> \n
 /// Il est possible de naviguer dans les graphes en utilisant la fonctionnalité de navigation (+/- pour zoomer, flèches de direction) en haut à droite des graphes.
 
-/// \page page_alt Documentation des projets Altaïr d'extension .alt
+/// \page page_alt Documentation des paramètres de l'interface graphique et des projets Altaïr d'extension .alt
 /// \tableofcontents
+/// \section edition_alt Edition d'un projet .alt
+/// Pour éditer un projet :
+/// - soit utiliser un éditeur de texte et de suivre les indications \e supra ;
+/// - soit utiliser l'éditeur intégré de projet .alt : <b>Ctrl + E</b> ou menu Editer &rarr; Editer le projet courant &rarr; faire les modifications &rarr; menu Fichier interne à l'éditeur &rarr; Enregistrer et Quitter ou autres actions de ce menu.
+/// - soit modifier les paramètres dans l'interface elle-même puis enregistrer le projet (<b>Ctrl + S</b> ou menu Fichier &rarr; Enregistrer) ou utiliser la fonctionnalité d'enregistrement automatique de l'interface (menu Configurer &rarr; Configurer l'interface &rarr; Sauvegarder le projet .alt automatiquement) ;
+///
+/// \section lancement_alt Lancement automatique de l'interface à partir d'un projet .alt
+/// Sous Windows comme sous Linux il est possible d'utiliser les fichiers de projet .alt pour lancer directement l'interface graphique, chargée des paramètres et données contenues dans le projet.\n
+/// L'utilisateur retrouve ainsi exactement l'état de l'interface et du traitement des données qui était en cours lors d'une utilisation précédente.
+/// A cette fin :
+/// - vérifier que l'ensemble des dépendances de bibliothèques est dans le chemin d'exécution par défaut (sous Linux, LD_LIBRARY_PATH des fichiers .desktop est exporté en variable globale)
+/// - sous Linux (KDE) : Clic droit sur un fichier .alt &rarr; Ouvrir avec &rarr; Autres &rarr; renseigner le chemin de l'interface Altaïr et cocher Mémoriser l'association...\n
+/// Un clic sur un fichier .alt permet de charger automatiquement le projet en lançant l'interface graphique.
+///
+/// \section lancement_alt_manu Chargement manuel d'un projet .alt
+/// Alternativement, après lancement de l'interface :
+/// - menu Fichier &rarr; Ouvrir le projet .alt ou <b>Ctrl + O</b>
+/// - si le projet est en fichiers récents (menu Fichier &rarr; fichiers numérotés par ordre d'apparition), sélectionner le fichier bascule l'interface sur ce projet récent
+/// - il est aussi possible de désarchiver un projet archivé (menu Fichier &rarr; Désarchiver le projet)
+/// - pour un nouveau projet : <b>Ctrl + N</b> ou menu Fichier &rarr; Nouveau projet.
+///
+/// \section cli_lhx Génération de la ligne de commande de l'application-noyau lhx
+/// Par défaut la ligne de commande contient obligatoirement :
+/// <ul><li>-m : calcul des maxima du nombre de bulletins de paye par mois et du nombre de lignes de paye par agent par bulletin</li>
+/// <li>-d , : séparateur décimal virgule</li>
+/// <li>-s ; : séparateur de champs point-virgule</li>
+/// <li>-E : Générer l'échelon</li>
+/// <li>-rank sharedir + "/rank" : fichier exporté dans ~/.local/share/applications/Altair ( sharedir par défaut) <br> indiquant l'index de la barre de progression</li>
+/// <li>&ndash;&ndash;cdrom : si depuis un disque optique</li>
+/// <li>-D  username /Dev/altair/#DONNEES_SORTIE /subdir : répertoire d'exportation des bases si  subdir est non vide </li>
+/// <li>&ndash;&ndash;esiret Sirets séparés par blancs : si des Sirets sont excus (barrés) dans l'onglet Siret</li>
+/// <li>&ndash;&ndash;ebudget budgets séparés par blancs : si des budgets sont excus (barrés) dans l'onglet Budget</li>
+/// <li>&ndash;&ndash;eemployeur employeurs séparés par blancs : si des employeurs sont excus (barrés) dans l'onglet Employeur</li>
+/// </ul>
+/// Elle contient en outre des valeurs qui dépendent de l'état des composants (\em widgets) de l'interface graphique.\n
+/// En fonction des valeurs d'un des composants identifiés dans le tableau suivant, un ou plusieurs éléments sont ajoutés à la ligne de commande de \b lhx.\n
+/// En miroir, une valeur (ou une série de valeurs) est générée entre la paire de balises XML correspondantes dans le projet .alt.\n
+/// Par exemple, si la case du dialogue de configuration <b> Limiter la verbosité </b> est cochée, le composant MainWindow::defaultQuietBox génère l'option de ligne de commande \b -q.\n
+/// En parallèle, une paire de balises \em quiet est munie de la valeur positive \em oui dans le projet XML d'extension .alt :
+/// \code
+/// <quiet>
+///  oui
+/// </quiet>
+/// \endcode
+/// Si la même case est décochée, l'option \b -q n'est pas insérée en ligne de commande. La paire de balises du projet .alt est alors renseignée par \em non :
+/// \code
+/// <quiet>
+///  non
+/// </quiet>
+/// \endcode
+/// \n
+/// \section sec_alt1 Balises XML des projets Altaïr
 /// \note Lorsque qu'une notation {valeur1, valeur2,...} est rencontrée, comprendre qu'est choisie une valeur parmi valeur1, valeur2, etc.\n
 /// La valeur est donnée soit littéralement (en extension) soit en intension (année -> 2011, 2012, etc.).
-/// \section sec_alt1 Balises XML des projets Altaïr
 ///
-/// <br>
-/// <table style="width:65%;">
-/// <tr><th>Balise XML</th><th>Attributs</th><th>Valeur</th><th>Commentaires</th></tr>
-/// <tr><td style="font-weight:bold;">projet</td><td>version="..."</td><td></td><td>Début du projet et version de l'application.</td></tr>
-/// <tr><td style="font-weight:bold;">data</td><td></td><td></td><td>Début des données de paye</td></tr>
-/// <tr><td style="font-weight:bold;">XHL</td><td>profondeur="2"</td><td>Enchasse les balise <i>onglet</i></td><td>Données de paye : 2 niveaux d'enchassement ("onglet" et "item").</td></tr>
-/// <tr><td style="font-weight:bold;">onglet</td><td>V="{année}"</td><td>Enchasse les balises <i>item</i></td><td>Onglet pour chaque année de paye (sauf trois derniers).</td></tr>
-/// <tr><td style="font-weight:bold;">item</td><td>V="..." S="..." B="..." E="..." EM="..."</td><td>Chaîne de caractères</td><td>Chemin du fichier mensuel de paye pour le mois V, le Siret S, l'établissement E et l'employeur EM</td></tr>
-/// <tr><td style="font-weight:bold;">onglet</td><td>V="Siret"</td><td></td><td>Onglet des Siret.</td></tr>
-/// <tr><td style="font-weight:bold;">item</td><td>V="" S="" B="" E="" EM=""</td><td>Chaîne de caractères du Siret.</td><td>Siret détecté.</td></tr>
-/// <tr><td style="font-weight:bold;">onglet</td><td>V="Budget"</td><td></td><td>Onglet des Budgets.</td></tr>
-/// <tr><td style="font-weight:bold;">item</td><td>V="" S="" B="" E="" EM=""</td><td>Chaîne de caractères du Budget.</td><td>Budget détecté.</td></tr>
-/// <tr><td style="font-weight:bold;">onglet</td><td>V="Employeur"</td><td></td><td>Onglet des Employeurs.</td></tr>
-/// <tr><td style="font-weight:bold;">item</td><td>V="" S="" B="" E="" EM=""</td><td></td>Chaîne de caractères de l'employeur.<td>Employeur détecté.</td></tr>
-/// <tr><td style="font-weight:bold;">systeme</td><td></td><td></td><td>Paramètres système (paramétrage de l'interface, dialogues d'options et de configuration de l'interface)</td></tr>
-/// <tr><td style="font-weight:bold;">projectManagerDisplay</td><td>profondeur="0"</td><td>{oui, non}</td><td>Afficher le gestionnaire de projets à droite de l'interface.<br>La profondeur 0 indique une balise sans enchassement : la valeur est lue dans le texte de la balise</td></tr>
-/// <tr><td style="font-weight:bold;">fileManagerDisplay</td><td>profondeur="0"</td><td>{oui, non}</td><td>Afficher le gestionnaire (ou explorateur ou arbre) de fichiers à gauche de l'interface.</td></tr>
-/// <tr><td style="font-weight:bold;">fullScreenDisplay</td><td>profondeur="0"</td><td>{oui, non}</td><td>Plein écran ("oui" ou "non")</td></tr>
-/// <tr><td style="font-weight:bold;">outputTextEdit</td><td>profondeur="0"</td><td>{oui, non}</td><td>Afficher l'onglet des messages en bas de l'interface.</td></tr>
-/// <tr><td style="font-weight:bold;">fileToolBar</td><td> profondeur="0"</td><td>{oui, non}</td><td>Afficher la barre d'outils du menu Fichier.</td></tr>
-/// <tr><td style="font-weight:bold;">editToolBar</td><td>profondeur="0"</td><td>{oui, non}</td><td>Afficher la barre d'outils du menu Editer.</td></tr>
-/// <tr><td style="font-weight:bold;">processToolBar</td><td>profondeur="0"</td><td>{oui, non}</td><td>Afficher la barre d'outils du menu Lancer.</td></tr>
-/// <tr><td style="font-weight:bold;">optionsToolBar</td><td>profondeur="0"</td><td>{oui, non}</td><td>Afficher la barre d'outils du menu Configurer.</td></tr>
-/// <tr><td style="font-weight:bold;">aboutToolBar</td><td>profondeur="0"</td><td>{oui, non}</td><td>Afficher la barre d'outils du menu Aide.</td></tr>
-/// <tr><td style="font-weight:bold;">saveProjectBehavior</td><td>profondeur="0"</td><td>{oui, non}</td><td>Enregistrer les projet .alt automatiquement à chaque modification d'un paramètre.</td></tr>
-/// <tr><td style="font-weight:bold;">importerAuLancement</td><td>profondeur="0"</td><td>{oui, non}</td><td>Importer les données de paye du répertoire Données (.xhl/.xml) au lancement de l'interface.</td></tr>
-/// <tr><td style="font-weight:bold;">loadProjectBehavior</td><td>profondeur="0"</td><td>{oui, non}</td><td>Charger le projet .alt par défaut au lancement de l'interface.</td></tr>
-/// <tr><td style="font-weight:bold;">limitConsoleOutput</td><td>profondeur="0"</td><td>{oui, non}</td><td>Limiter le nombre de lignes du log de l'onglet Console.</td></tr>
-/// <tr><td style="font-weight:bold;">TRAITEMENT</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye Traitement</td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td></tr>
-/// <tr><td style="font-weight:bold;">NBI</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye NBI</td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td></tr>
-/// <tr><td style="font-weight:bold;">PFI</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye PFI</td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td></tr>
-/// <tr><td style="font-weight:bold;">PFR</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye PFR</td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td></tr>
-/// <tr><td style="font-weight:bold;">IPF</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye IPF</td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td></tr>
-/// <tr><td style="font-weight:bold;">PSR</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye PSR</td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td></tr>
-/// <tr><td style="font-weight:bold;">IFTS</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye IFTS</td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td></tr>
-/// <tr><td style="font-weight:bold;">IAT</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye IAT</td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td></tr>
-/// <tr><td style="font-weight:bold;">IHTS</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye IHTS</td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td></tr>
-/// <tr><td style="font-weight:bold;">VACATAIRES</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye VACATAIRES</td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td></tr>
-/// <tr><td style="font-weight:bold;">ASTREINTES</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye ASTREINTES</td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td></tr>
-/// <tr><td style="font-weight:bold;">Matricules</td><td>profondeur="0"</td><td>Matricule(s) saisi(s) pour extraction d'un bulletin de paye donné.</td><td>1ère ligne</td></tr>
-/// <tr><td style="font-weight:bold;">MatriculesB</td><td>profondeur="0"</td><td>Matricule(s) saisi(s) pour extraction d'un bulletin de paye donné.</td><td>2e ligne</td></tr>
-/// <tr><td style="font-weight:bold;">MatriculesC</td><td>profondeur="0"</td><td>Matricule(s) saisi(s) pour extraction d'un bulletin de paye donné.</td><td>3e ligne</td></tr>
-/// <tr><td style="font-weight:bold;">dossierBulletins</td><td>profondeur="0"</td><td>Chemin du dossier d'extraction des bulletins de paye individuels.</td><td></td></tr>
-/// <tr><td style="font-weight:bold;">quiet</td><td>profondeur="0"</td><td>{oui, non}</td><td>Limiter/// <tr><td style="font-weight:bold;">genererNumLigne</td><td>profondeur="0"</td><td>{oui, non}</td><td>Numéroter les lignes.</td></tr> la verbosité de l'onglet Console.</td></tr>
-/// <tr><td style="font-weight:bold;">baseType </td><td>profondeur="0"</td><td>{"", "AN", "X", "T", "I", "S", "A", "R", "AC", "AV", "IR", "C", "D", "RE"}</td><td>Type de base monolithique, par année, tous types, ou par type de ligne de paye (Traitement, Indemnité, SFT, etc.)</td></tr>
-/// <tr><td style="font-weight:bold;">maxLigne</td><td>profondeur="0"</td><td>Nombre</td><td>Maximum du nombre de lignes de la base Table.csv (lignes de paye)</td></tr>
-/// <tr><td style="font-weight:bold;">genererNumLigne</td><td>profondeur="0"</td><td>{oui, non}</td><td>Numéroter les lignes.</td></tr>
-/// <tr><td style="font-weight:bold;">exporterEtab</td><td>profondeur="0"</td><td>{oui, non}</td><td>Exporter les colonnes Siret, Budget, Etablissement, Employeur.</td></tr>
-/// <tr><td style="font-weight:bold;">exportMode</td><td>profondeur="0"</td><td>{'Standard', 'Cumulative', 'Distributive', 'Distributive+'}</td><td>Mode d'exportation des bases CSV (voir guide utilisateur).</td></tr>
-/// <tr><td style="font-weight:bold;">FPH</td><td>profondeur="0"</td><td>{oui, non}</td><td>Activer les contrôles réglementaires FPH.</td></tr>
-/// <tr><td style="font-weight:bold;">genererTable</td><td>profondeur="0"</td><td>{oui, non}</td><td>Générer les bulletins et lignes de paye au format CSV.</td></tr>
-/// <tr><td style="font-weight:bold;">archiveTable</td><td>profondeur="0"</td><td>{oui, non}</td><td>archiver les sorties CSV du logiciel dans un format de compression (.arch).</td></tr></table>
-
-///  <exportTable profondeur="0">
-///   non                                Ne pas exporter les sorties CSV du logiciel vers un répertoire donné.
-///  </exportTable>
-///  <archiveAll profondeur="0">
-///   non                                Ne pas archiver l'ensemble des sorties du logiciel dans un format de compression (.arch)
-///  </archiveAll>
-///  <exportAll profondeur="0">
-///   non                                Ne pas exporter l'ensemble des sorties du logiciel vers un répertoire donné.
-///  </exportAll>
-///  <archiveXML profondeur="0">
-///   non                                Archiver les données de paye.
-///  </archiveXML>
-///  <exportXML profondeur="0">
-///   non                                Exporter les données de paye vers un répertoire donné.
-///  </exportXML>
-///  <processType profondeur="0">
-///   '4'                                Utiliser 4 fils d'exécution.
-///  </processType>
-///  <log profondeur="0">
-///   /home/fab/.local/share/Altair/altair.log   Chemin du log de l'onglet Console/Messages lorsque le navigateur est activé (bouton "mappemonde" à gauche de l'onglet Console/Messages)
-///  </log>
-///  <genererLog profondeur="0">
-///   non                                Ne pas générer le log.
-///  </genererLog>
-///  <activerConsole profondeur="0">
-///   oui                                Activer les sorties Console.
-///  </activerConsole>
-///  <memoryUse profondeur="0">
-///   80                                 Utiliser 80 % de la RAM au maximum.
-///  </memoryUse>
-///  <rapportType profondeur="0">
-///   'WORD et ODT'                      Rapports d'analyse de type MS Word (.docx) et Libreoffice Writer (.odt)
-///  </rapportType>
-///  <enchainerRapports profondeur="0">
-///   non                                Ne pas enchaîner les rapports d'analyse à la suite de l'extraction des données.
-///  </enchainerRapports>
-
-
-
+/// <table style="width:100%;">
+/// <tr><th>Balise XML</th><th>Attributs</th><th>Valeur</th><th>Dialogue/Onglet</th><th>Génération de ligne de commande pour <i>lhx</i></th><th>Commentaires</th><th>Composant</th></tr>
+/// <tr><td style="font-weight:bold;">projet</td><td>version="..."</td><td></td><td></td><td></td><td>Début du projet et version de l'application.</td></tr>
+/// <tr><td style="font-weight:bold;">data</td><td></td><td></td><td></td><td></td><td>Début des données de paye</td></tr>
+/// <tr><td style="font-weight:bold;">XHL</td><td>profondeur="2"</td><td>Enchâsse les balise <i>onglet</i></td><td>Onglet central</td><td></td><td>Données de paye : 2 niveaux d'enchâssement ("onglet" et "item").</td><td>Altair::project</td></tr>
+/// <tr><td style="font-weight:bold;">onglet</td><td>V="{année}"</td><td>Enchâsse les balises <i>item</i></td><td>Onglets annuels centraux</td><td></td><td>Onglet pour chaque année de paye (sauf trois derniers).</td></tr>
+/// <tr><td style="font-weight:bold;">item</td><td>V="..." S="..." B="..." E="..." EM="..."</td><td>Chaîne de caractères</td><td>Elément des onglets annuels centraux</td><td>Chemin du fichier.</td><td>Chemin du fichier mensuel de paye pour le mois V, le Siret S, l'établissement E et l'employeur EM</td></tr>
+/// <tr><td style="font-weight:bold;">onglet</td><td>V="Siret"</td><td></td><td>3ème onglet en partant de droite.</td><td>Si barré(s) : &ndash;&ndash;esiret <i>Siret(s) exclus(s)</i></td><td>Onglet des Siret.</td></tr>
+/// <tr><td style="font-weight:bold;">item</td><td>V="" S="" B="" E="" EM=""</td><td>Chaîne de caractères du Siret.</td><td></td><td></td><td>Siret détecté (éventuellement : exclu).</td></tr>
+/// <tr><td style="font-weight:bold;">onglet</td><td>V="Budget"</td><td></td><td>2ème onglet en partant de droite.</td><td>Si barré(s) : &ndash;&ndash;ebudget <i>Budget(s) exclus(s)</i></td><td>Onglet des Budgets.</td></tr>
+/// <tr><td style="font-weight:bold;">item</td><td>V="" S="" B="" E="" EM=""</td><td>Chaîne de caractères du Budget.</td><td></td><td></td><td>Budget détecté (éventuellement : exclu).</td></tr>
+/// <tr><td style="font-weight:bold;">onglet</td><td>V="Employeur"</td><td></td><td>1er onglet en partant de droite</td><td>Si barré(s) : &ndash;&ndash;employeur <i>Employeur(s) exclus(s)</i></td><td>Onglet des Employeurs.</td></tr>
+/// <tr><td style="font-weight:bold;">item</td><td>V="" S="" B="" E="" EM=""</td><td>Chaîne de caractères de l'employeur.</td><td></td><td></td><td>Employeur détecté (éventuellement : exclu).</td></tr>
+/// <tr><td style="font-weight:bold;">systeme</td><td></td><td></td><td></td><td></td><td>Paramètres système (paramétrage de l'interface, dialogues d'options et de configuration de l'interface)</td></tr>
+/// <tr><td style="font-weight:bold;">projectManagerDisplay</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher le gestionnaire de projets à droite de l'interface.<br>La profondeur 0 indique une balise sans enchâssement : la valeur est lue dans le texte de la balise</td><td>MainWindow::defaultProjectManagerWidgetLayoutBox</td></tr>
+/// <tr><td style="font-weight:bold;">fileManagerDisplay</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher le gestionnaire (ou explorateur ou arbre) de fichiers à gauche de l'interface.</td><td>MainWindow::defaultFileManagerWidgetLayoutBox</td></tr>
+/// <tr><td style="font-weight:bold;">fullScreenDisplay</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Plein écran ("oui" ou "non")</td><td>MainWindow::defaultFullScreenLayoutBox</td></tr>
+/// <tr><td style="font-weight:bold;">outputTextEdit</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher l'onglet des messages en bas de l'interface.</td><td>MainWindow::defaultOutputTextEditBox</td></tr>
+/// <tr><td style="font-weight:bold;">fileToolBar</td><td> profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher la barre d'outils du menu Fichier.</td><td>MainWindow::defaultFileToolBarBox</td></tr>
+/// <tr><td style="font-weight:bold;">editToolBar</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher la barre d'outils du menu Editer.</td><td>MainWindow::defaultEditToolBarBox</td></tr>
+/// <tr><td style="font-weight:bold;">processToolBar</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher la barre d'outils du menu Lancer.</td><td>MainWindow::defaultProcessToolBarBox</td></tr>
+/// <tr><td style="font-weight:bold;">optionsToolBar</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher la barre d'outils du menu Configurer.</td><td>MainWindow::defaultOptionsToolBarBox</td></tr>
+/// <tr><td style="font-weight:bold;">aboutToolBar</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher la barre d'outils du menu Aide.</td><td>MainWindow::defaultAboutToolBarBox</td></tr>
+/// <tr><td style="font-weight:bold;">saveProjectBehavior</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Enregistrer les projet .alt automatiquement à chaque modification d'un paramètre.</td><td>MainWindow::defaultSaveProjectBehaviorBox</td></tr>
+/// <tr><td style="font-weight:bold;">importerAuLancement</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Importer les données de paye du répertoire Données (.xhl/.xml) au lancement de l'interface.</td><td>MainWindow::importerAuLancementBox</td></tr>
+/// <tr><td style="font-weight:bold;">loadProjectBehavior</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Charger le projet .alt par défaut au lancement de l'interface.</td><td>MainWindow::defaultLoadProjectBehaviorBox</td></tr>
+/// <tr><td style="font-weight:bold;">limitConsoleOutput</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Limiter le nombre de lignes du log de l'onglet Console.</td><td>MainWindow::defaultMaximumConsoleOutputBox</td></tr>
+/// <tr><td style="font-weight:bold;">TRAITEMENT</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye Traitement</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <i>line</i> vers FLineEdit dans codePage::ajouterVariable</td></tr>
+/// <tr><td style="font-weight:bold;">NBI</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye NBI</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <i>line</i> vers FLineEdit dans codePage::ajouterVariable</td></tr>
+/// <tr><td style="font-weight:bold;">PFI</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye PFI</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <i>line</i> vers FLineEdit dans codePage::ajouterVariable</td></tr>
+/// <tr><td style="font-weight:bold;">PFR</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye PFR</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <i>line</i> vers FLineEdit dans codePage::ajouterVariable</td></tr>
+/// <tr><td style="font-weight:bold;">IPF</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye IPF</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <i>line</i> vers FLineEdit dans codePage::ajouterVariable</td></tr>
+/// <tr><td style="font-weight:bold;">PSR</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye PSR</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <i>line</i> vers FLineEdit dans codePage::ajouterVariable</td></tr>
+/// <tr><td style="font-weight:bold;">IFTS</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye IFTS</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <i>line</i> vers FLineEdit dans codePage::ajouterVariable</td></tr>
+/// <tr><td style="font-weight:bold;">IAT</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye IAT</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <i>line</i> vers FLineEdit dans codePage::ajouterVariable</td></tr>
+/// <tr><td style="font-weight:bold;">IHTS</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye IHTS</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <i>line</i> vers FLineEdit dans codePage::ajouterVariable</td></tr>
+/// <tr><td style="font-weight:bold;">VACATAIRES</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye VACATAIRES</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <i>line</i> vers FLineEdit dans codePage::ajouterVariable</td></tr>
+/// <tr><td style="font-weight:bold;">ASTREINTES</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye ASTREINTES</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <i>line</i> vers FLineEdit dans codePage::ajouterVariable</td></tr>
+/// <tr><td style="font-weight:bold;">Matricules</td><td>profondeur="0"</td><td>Matricule(s), mois, année(s) saisi(s) pour extraction d'un bulletin de paye donné.<br>Argument de format : matricule-mois_début...mois_fin-année_début...année_fin;matricule2-mois_début2...mois_fin2-année_début2...année_fin2;[etc.]</td><td>Dialogue Extraire les bulletins</td><td>&ndash;&ndash;bulletins <i>argument</i></td><td>1ère ligne.</td><td>MatriculeInput::matrLineEdit</td></tr>
+/// <tr><td style="font-weight:bold;">MatriculesB</td><td>profondeur="0"</td><td>Matricule(s), mois, année(s) saisi(s) pour extraction d'un bulletin de paye donné.<br> Argument de même format.</td><td>Dialogue Extraire les bulletins</td><td>&ndash;&ndash;bulletins <i>argument</i></td><td>2e ligne.</td><td>MatriculeInput::matrLineEdit2</td></tr>
+/// <tr><td style="font-weight:bold;">MatriculesC</td><td>profondeur="0"</td><td>Matricule(s), mois, année(s) saisi(s) pour extraction d'un bulletin de paye donné.<br> Argument de même format.</td><td>Dialogue Extraire les bulletins</td><td>&ndash;&ndash;bulletins <i>argument</i></td><td>3e ligne.</td><td>MatriculeInput::matrLineEdit3</td></tr>
+/// <tr><td style="font-weight:bold;">dossierBulletins</td><td>profondeur="0"</td><td>Chemin du dossier d'extraction des bulletins de paye individuels.</td><td>Dialogue Extraire les bulletins</td><td>&ndash;&ndash;dossier-bulletins <i>argument</i></td><td></td><td>MatriculeInput::dossier</td></tr>
+/// <tr><td style="font-weight:bold;">quiet</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td>-q</td><td>Limiter la verbosité de l'onglet Console.</td><td>MainWindow::defaultQuietBox</td></tr>
+/// <tr><td style="font-weight:bold;">baseType</td><td>profondeur="0"</td><td>{"", "AN", "X", "T", "I", "S", "A", "R", "AC", "AV", "IR", "C", "D", "RE"}</td><td>Dialogue d'options &rarr; onglet Format</td><td>-T <i>argument</i><td>Type de base monolithique, par année, tous types, ou par type de ligne de paye (Traitement, Indemnité, SFT, etc.)</td><td>standardPage::baseTypeWidget</td></tr>
+/// <tr><td style="font-weight:bold;">maxLigne</td><td>profondeur="0"</td><td>Nombre</td><td>Dialogue d'options &rarr; onglet Format</td><td>-T <i>argument</i><td>Maximum du nombre de lignes de la base Table.csv (lignes de paye)</td><td>standardPage::maxNLigneLineEdit</td></tr>
+/// <tr><td style="font-weight:bold;">genererNumLigne</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td>-l</td><td>Numéroter les lignes.</td></tr>
+/// <tr><td style="font-weight:bold;">exporterEtab</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td>-S</td><td>Exporter les colonnes Siret, Budget, Etablissement, Employeur.</td></tr>
+/// <tr><td style="font-weight:bold;">exportMode</td><td>profondeur="0"</td><td>{'Standard', 'Cumulative', 'Distributive', 'Distributive+'}</td><td>Dialogue d'options &rarr; onglet Format</td><td>&ndash;&ndash;export <i>argument</i></td><td>Mode d'exportation des bases CSV (voir guide utilisateur).</td></tr>
+/// <tr><td style="font-weight:bold;">FPH</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td></td><td>Activer les contrôles réglementaires FPH.</td></tr>
+/// <tr><td style="font-weight:bold;">genererTable</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td>-t</td><td>Générer les bulletins et lignes de paye au format CSV.</td></tr>
+/// <tr><td style="font-weight:bold;">archiveTable</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td></td><td>Archiver les sorties CSV du logiciel dans un format de compression (.arch).</td></tr>
+/// <tr><td style="font-weight:bold;">exportTable</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td></td><td>Exporter les sorties CSV du logiciel vers un répertoire donné.</td></tr>
+/// <tr><td style="font-weight:bold;">archiveAll</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td></td><td>Archiver l'ensemble des sorties du logiciel dans un format de compression (.arch).</td></tr>
+/// <tr><td style="font-weight:bold;">exportAll</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td></td><td>Exporter l'ensemble des sorties du logiciel vers un répertoire donné.</td></tr>
+/// <tr><td style="font-weight:bold;">archiveXML</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td></td><td>Archiver les données de paye.</td></tr>
+/// <tr><td style="font-weight:bold;">exportXML</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td></td><td>Exporter les données de paye vers un répertoire donné.</td></tr>
+/// <tr><td style="font-weight:bold;">processType</td><td>profondeur="0"</td><td>{'1',...,'11'}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td>-j <i>argument</i></td><td>Utiliser autant de fils d'exécution qu'indiqué dans le menu déroulant.</td></tr>
+/// <tr><td style="font-weight:bold;">log</td><td>profondeur="0"</td><td>Chemin du fichier altair.log</td><td>Dialogue d'options &rarr; onglet Traitement</td><td>-L <i>argument</i></td><td>Chemin du log d’exécution du test de cohérence entre analyseurs C et XML.</td></tr>
+/// <tr><td style="font-weight:bold;">genererLog</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Autoriser la génération du log.</td></tr>
+/// <tr><td style="font-weight:bold;">activerConsole</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Activer les sorties Console.</td></tr>
+/// <tr><td style="font-weight:bold;">memoryUse</td><td>profondeur="0"</td><td>Nombre entre 1 et 100</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Part maximum de la RAM utilisée.</td></tr>
+/// <tr><td style="font-weight:bold;">rapportType</td><td>profondeur="0"</td><td>{'PDF', 'WORD et ODT', 'WORD, ODT et PDF'</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Activé uniquement si enchainerRapports vaut 'oui'. Rapports d'analyse de type PDF, MS Word (.docx) et Libreoffice Writer (.odt)</td></tr>
+/// <tr><td style="font-weight:bold;">enchainerRapports</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Lancer automatiquement les scripts R depuis l'interface graphique sans utiliser RStudio.</td></tr>
+/// <tr><td style="font-weight:bold;">rapportEntier</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td><i>Interne à l'interface graphique. Non exporté vers le fichier de projet Altaïr .alt.</i><br>Version expérimentale (code de développement).</td></tr></table>
 /// \n\n
+
 /// \section  sec_alt2 Exemple commenté de projet .alt
 /// <table style="width:35%;"><tr><th>Code XML</th><th>Commentaires</th></tr></table>
 /// \code
 /// <?xml version="1.0"?>                Fichier de type XML.
 /// <projet version="17.12-1">           Début du projet et version de l'application.
 /// <data>                               Partie "données de paye".
-///  <XHL profondeur="2">                Balise XHL : 2 niveaux d'enchassement ("onglet" et "item"). Données de paye.
+///  <XHL profondeur="2">                Balise XHL : 2 niveaux d'enchâssement ("onglet" et "item"). Données de paye.
 ///   <onglet V="2011">                  Onglet de valeur ("V") 2011 (année).
 ///     <item V="1"
 ///         S="28XXXXXXXXXXXX"
@@ -229,7 +254,7 @@
 ///  </XHL>                              Fin des données de paye de l'onglet central
 /// </data>
 /// <systeme>                            Paramètres système (paramétrage de l'interface, dialogues d'options et de configuration de l'interface)
-///  <projectManagerDisplay profondeur="0">  La profondeur 0 indique une balise sans enchassement : la valeur est lue dans le texte entre <balise> et </balise>
+///  <projectManagerDisplay profondeur="0">  La profondeur 0 indique une balise sans enchâssement : la valeur est lue dans le texte entre <balise> et </balise>
 ///   oui                                Afficher le gestionnaire de projets à droite de l'interface.
 ///  </projectManagerDisplay>
 ///  <fileManagerDisplay profondeur="0">
@@ -314,7 +339,7 @@
 ///   '4'                                Utiliser 4 fils d'exécution.
 ///  </processType>
 ///  <log profondeur="0">
-///   /home/fab/.local/share/Altair/altair.log   Chemin du log de l'onglet Console/Messages lorsque le navigateur est activé (bouton "mappemonde" à gauche de l'onglet Console/Messages)
+///   /home/fab/.local/share/Altair/altair.log   Chemin du log d’exécution du test de cohérence entre analyseurs C et XML.
 ///  </log>
 ///  <genererLog profondeur="0">
 ///   non                                Ne pas générer le log.
@@ -379,27 +404,7 @@
 /// </systeme>                           Fin des paramètres système.
 /// </projet>                            Fin du projet.
 /// \endcode
-/// \n\n
-/// \section edition_alt Edition d'un projet .alt
-/// Pour éditer un projet :
-/// - soit utiliser un éditeur de texte et de suivre les indications \e supra ;
-/// - soit utiliser l'éditeur intégré de projet .alt : <b>Ctrl + E</b> ou menu Editer > Editer le projet courant > faire les modifications > menu Fichier interne à l'éditeur > Enregistrer et Quitter ou autres actions de ce menu.
-/// - soit modifier les paramètres dans l'interface elle-même puis enregistrer le projet (<b>Ctrl + S</b> ou menu Fichier > Enregistrer) ou utiliser la fonctionnalité d'enregistrement automatique de l'interface (menu Configurer > Configurer l'interface > Sauvegarder le projet .alt automatiquement) ;
-///
-/// \section lancement_alt Lancement automatique de l'interface à partir d'un projet .alt
-/// Sous Windows comme sous Linux il est possible d'utiliser les fichiers de projet .alt pour lancer directement l'interface graphique, chargée des paramètres et données contenues dans le projet.\n
-/// L'utilisateur retrouve ainsi exactement l'état de l'interface et du traitement des données qui était en cours lors d'une utilisation précédente.
-/// A cette fin :
-/// - vérifier que l'ensemble des dépendances de bibliothèques est dans le chemin d'exécution par défaut (sous Linux, LD_LIBRARY_PATH des fichiers .desktop est exporté en variable globale)
-/// - sous Linux (KDE) : Clic droit sur un fichier .alt > Ouvrir avec > Autres > renseigner le chemin de l'interface Altaïr et cocher Mémoriser l'association...
-/// Un clic sur un fichier .alt permet de charger automatiquement le projet en lançant l'interface graphique.
-///
-/// \section lancement_alt_manu Chargement manuel d'un projet .alt
-/// Alternativement, après lancement de l'interface :
-/// - menu Fichier > Ouvrir le projet .alt ou <b>Ctrl + O</b>
-/// - si le projet est en fichiers récents (menu Fichier > fichiers numérotés par ordre d'apparition), sélectionner le fichier bascule l'interface sur ce projet récent
-/// - il est aussi possible de désarchiver un projet archivé (menu Fichier > Désarchiver le projet)
-/// - pour un nouveau projet : <b>Ctrl + N</b> ou menu Fichier > Nouveau projet.
+
 
 
 inline const QString Altair::makeParserString (int start, int end)
@@ -499,9 +504,9 @@ namespace XmlMethod
 
 QTreeWidgetItem *itemParent = nullptr;
 
-/// Empile les données pour un noeud donné, pour une profondeur d'enchassement donnée
+/// Empile les données pour un noeud donné, pour une profondeur d'enchâssement donnée
 /// \param node Le noeud de l'arborescence abstraite QDomNode
-/// \param level Profondeur de l'enchassement
+/// \param level Profondeur de l'enchâssement
 /// \param textData Texte à empiler.
 
 inline void stackData (const QDomNode &node, int level, QVariant &textData)
@@ -636,7 +641,7 @@ inline void stackData (const QDomNode & node, QVariant &textData, QStringList& t
 
 }
 
-// Calcule les tailles et envoie les noms de fichier dans l'onglet central.computes sizes and sends filenames to main tab Widget
+// Calcule les tailles et envoie les noms de fichier dans l'onglet central.computes sizes and sends filenames to main tab composant
 // Affichage sur l'onglet central
 
 void displayTextData (const QStringList &firstColumn,
@@ -911,7 +916,7 @@ FStringList Altair::parseEntry (const QDomNode &node, QTreeWidgetItem *itemParen
 
     QStringList tabLabels;
 
-    // En fonction de la profondeur d'enchassement des données dans la balise XML,
+    // En fonction de la profondeur d'enchâssement des données dans la balise XML,
     // appelle la bonne version de XmlMethod::stackData, et renvoie la FStringList "empilée"
 
     switch (level)

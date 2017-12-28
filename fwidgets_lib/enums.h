@@ -86,7 +86,7 @@ public:
        disabled = 0x200,             ///< Désactiver fwidget par défaut
        checked = 0x1000,             ///< Cocher par défaut
        unchecked = 0x2000,           ///< Décocher par défaut
-       multimodal = 0x3000,          ///< Widget multi-modes
+       multimodal = 0x3000,          ///< composant multi-modes
        enabledChecked = 0x1100,      ///< Raccourci pour enabled & checked
        enabledUnchecked = 0x2100,    ///< Raccourci pour enabled & unchecked
        hasListCommandLine = 0x4000,  ///< Profondeur au moins 2

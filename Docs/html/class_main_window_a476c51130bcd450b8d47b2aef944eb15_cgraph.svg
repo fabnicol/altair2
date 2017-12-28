@@ -9,22 +9,22 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 35)">
 <title>MainWindow::on_displayLogButton_clicked</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-35 314,-35 314,4 -4,4"/>
-<!-- Node92 -->
-<g id="node1" class="node"><title>Node92</title>
+<!-- Node91 -->
+<g id="node1" class="node"><title>Node91</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-30.5 141,-30.5 141,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::on_displayLog</text>
 <text text-anchor="middle" x="70.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Button_clicked</text>
 </g>
-<!-- Node93 -->
-<g id="node2" class="node"><title>Node93</title>
+<!-- Node92 -->
+<g id="node2" class="node"><title>Node92</title>
 <g id="a_node2"><a xlink:href="classtools.html#acba8057b8c8527f6a2df7a372e944abb" target="_top" xlink:title="tools::generateDatadirPath">
 <polygon fill="white" stroke="black" points="177,-6 177,-25 310,-25 310,-6 177,-6"/>
 <text text-anchor="middle" x="243.5" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00">tools::generateDatadirPath</text>
 </a>
 </g>
 </g>
-<!-- Node92&#45;&gt;Node93 -->
-<g id="edge1" class="edge"><title>Node92&#45;&gt;Node93</title>
+<!-- Node91&#45;&gt;Node92 -->
+<g id="edge1" class="edge"><title>Node91&#45;&gt;Node92</title>
 <path fill="none" stroke="midnightblue" d="M141.052,-15.5C149.559,-15.5 158.284,-15.5 166.875,-15.5"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="166.876,-19.0001 176.876,-15.5 166.876,-12.0001 166.876,-19.0001"/>
 </g>

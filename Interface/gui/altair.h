@@ -144,7 +144,7 @@ public:
 
     bool refreshProjectManager();
 
-    /// Renvoie le widget fonctionnel associé à la barre de progression
+    /// Renvoie le composant fonctionnel associé à la barre de progression
 
     FProgressBar* getProgressBar()
     {
@@ -329,9 +329,9 @@ private:
     /// \param  start  Index de départ dans la liste (0-based, inclus)
     /// \param  end    Index de fin dans la liste (0-based, inclus)
     /// \return Retourner le QString du projet \b .alt
-    /// \note \e profondeur permet d'ecrire des objets complexes en encodant le degré d'enchassement (0 à 2)
+    /// \note \e profondeur permet d'ecrire des objets complexes en encodant le degré d'enchâssement (0 à 2)
     /// \note Utilise une des fonctionnalités des FWidget (setXmlFromWidget) qui permet
-    /// de transposer l'état du widget en valeurs
+    /// de transposer l'état du composant en valeurs
     /// \sa FAbstractWidget, FAbstractWidget::setXmlFromWidget
 
     const QString  makeParserString (int start, int end = Abstract::abstractWidgetList.size() - 1);
@@ -354,8 +354,8 @@ private:
 
     /// Lors du décodage du projet XML \e \b .alt, décoder le noed courant et renvoyer l'empilement des valeurs en FStringList
     /// \param noeud Noeud QDom courant
-    /// \param parent item parent de l'arbre widget (aucun par défaut)
-    /// \return FStringList des valeurs empilées seloon le degré d'enchassement (profondeur) du noeud XML
+    /// \param parent item parent de l'arbre composant (aucun par défaut)
+    /// \return FStringList des valeurs empilées seloon le degré d'enchâssement (profondeur) du noeud XML
 
     FStringList parseEntry (const QDomNode &noeud, QTreeWidgetItem *parent = 0);
 
@@ -419,6 +419,9 @@ private:
     /// <li>-rank sharedir + "/rank" : fichier exporté dans ~/.local/share/applications/Altair ( sharedir par défaut) <br> indiquant l'index de la barre de progression</li>
     /// <li><pre>--cdrom : si depuis un disque optique</pre></li>
     /// <li>-D  username /Dev/altair/#DONNEES_SORTIE /subdir : répertoire d'exportation des bases si  subdir est non vide </li>
+    /// <li>&ndash;&ndash;esiret Sirets séparés par blancs : si des Sirets sont excus (barrés) dans l'onglet Siret</li>
+    /// <li>&ndash;&ndash;ebudget budgets séparés par blancs : si des budgets sont excus (barrés) dans l'onglet Budget</li>
+    /// <li>&ndash;&ndash;eemployeur employeurs séparés par blancs : si des employeurs sont excus (barrés) dans l'onglet Employeur</li>
     /// </ul>
     /// \sa  Altair::runWorkerDistributed, classe Hash
 

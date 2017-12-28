@@ -9,21 +9,21 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>FCheckBox::setWidgetFromXml</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-24 308,-24 308,4 -4,4"/>
-<!-- Node17 -->
-<g id="node1" class="node"><title>Node17</title>
+<!-- Node15 -->
+<g id="node1" class="node"><title>Node15</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-19.5 158,-19.5 158,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="79" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FCheckBox::setWidgetFromXml</text>
 </g>
-<!-- Node18 -->
-<g id="node2" class="node"><title>Node18</title>
+<!-- Node16 -->
+<g id="node2" class="node"><title>Node16</title>
 <g id="a_node2"><a xlink:href="class_f_string_list.html#ad22c96481414c6dcd98fc14d84bcc081" target="_top" xlink:title="FStringList::toFString">
 <polygon fill="white" stroke="black" points="194,-0.5 194,-19.5 304,-19.5 304,-0.5 194,-0.5"/>
 <text text-anchor="middle" x="249" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FStringList::toFString</text>
 </a>
 </g>
 </g>
-<!-- Node17&#45;&gt;Node18 -->
-<g id="edge1" class="edge"><title>Node17&#45;&gt;Node18</title>
+<!-- Node15&#45;&gt;Node16 -->
+<g id="edge1" class="edge"><title>Node15&#45;&gt;Node16</title>
 <path fill="none" stroke="midnightblue" d="M158.098,-10C166.627,-10 175.237,-10 183.575,-10"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="183.586,-13.5001 193.586,-10 183.586,-6.5001 183.586,-13.5001"/>
 </g>

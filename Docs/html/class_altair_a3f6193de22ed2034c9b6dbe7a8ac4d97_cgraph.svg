@@ -29,7 +29,7 @@
 </g>
 <!-- Node538 -->
 <g id="node4" class="node"><title>Node538</title>
-<g id="a_node4"><a xlink:href="namespace_xml_method.html#abe26f53c2028527b0ebea361faa85221" target="_top" xlink:title="Empile les données pour un noeud donné, pour une profondeur d&#39;enchassement donnée. ">
+<g id="a_node4"><a xlink:href="namespace_xml_method.html#abe26f53c2028527b0ebea361faa85221" target="_top" xlink:title="Empile les données pour un noeud donné, pour une profondeur d&#39;enchâssement donnée. ">
 <polygon fill="white" stroke="black" points="135,-56.5 135,-75.5 252,-75.5 252,-56.5 135,-56.5"/>
 <text text-anchor="middle" x="193.5" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">XmlMethod::stackData</text>
 </a>

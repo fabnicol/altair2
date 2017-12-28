@@ -16,7 +16,7 @@ var fonctions__auxiliaires_8cpp =
     [ "ouvrir_fichier_base", "fonctions__auxiliaires_8cpp.html#a7a042e1e36b178756cfb3a5771debbcb", null ],
     [ "ouvrir_fichier_base0", "fonctions__auxiliaires_8cpp.html#abe7e6d7a0d5d4f61a075b180408fb042", null ],
     [ "ouvrir_fichier_bulletins", "fonctions__auxiliaires_8cpp.html#a0f11a266115e98b2536637a1ad8b05f7", null ],
-    [ "read_stream_into_string", "fonctions__auxiliaires_8cpp.html#a6ae1ab10756e4c3c1c627199aedf7d2e", null ],
+    [ "read_stream_into_string", "fonctions__auxiliaires_8cpp.html#a42b58b99a50fba87cf44db116b0eb56a", null ],
     [ "split", "fonctions__auxiliaires_8cpp.html#add313f0fe82466f4c1c4622307d928bc", null ],
     [ "taille_fichier", "fonctions__auxiliaires_8cpp.html#aa4c818d49539c9dec49c5cf3144b8f53", null ],
     [ "verbeux", "fonctions__auxiliaires_8cpp.html#ad0cc56f38d8a53ce4438bdc86a30bfa0", null ]

@@ -327,7 +327,7 @@ var sectionId = 'dynsection-58';
 </g>
 <!-- Node803 -->
 <g id="node16" class="node"><title>Node803</title>
-<g id="a_node16"><a xlink:href="class_f_abstract_widget.html#ae6ba84e8ed8a54dc8121245f35f568fe" target="_top" xlink:title="Retourne la clé de hashage de Hash::wrapper correspondant au widget. ">
+<g id="a_node16"><a xlink:href="class_f_abstract_widget.html#ae6ba84e8ed8a54dc8121245f35f568fe" target="_top" xlink:title="Retourne la clé de hashage de Hash::wrapper correspondant au composant. ">
 <polygon fill="white" stroke="black" points="874.5,-171.5 874.5,-190.5 1024.5,-190.5 1024.5,-171.5 874.5,-171.5"/>
 <text text-anchor="middle" x="949.5" y="-178.5" font-family="Helvetica,sans-Serif" font-size="10.00">FAbstractWidget::getHashKey</text>
 </a>
@@ -398,7 +398,7 @@ var sectionId = 'dynsection-58';
 </g>
 <!-- Node812 -->
 <g id="node25" class="node"><title>Node812</title>
-<g id="a_node25"><a xlink:href="namespace_xml_method.html#abe26f53c2028527b0ebea361faa85221" target="_top" xlink:title="Empile les données pour un noeud donné, pour une profondeur d&#39;enchassement donnée. ">
+<g id="a_node25"><a xlink:href="namespace_xml_method.html#abe26f53c2028527b0ebea361faa85221" target="_top" xlink:title="Empile les données pour un noeud donné, pour une profondeur d&#39;enchâssement donnée. ">
 <polygon fill="white" stroke="black" points="891,-265.5 891,-284.5 1008,-284.5 1008,-265.5 891,-265.5"/>
 <text text-anchor="middle" x="949.5" y="-272.5" font-family="Helvetica,sans-Serif" font-size="10.00">XmlMethod::stackData</text>
 </a>

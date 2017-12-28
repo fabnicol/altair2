@@ -61,7 +61,7 @@
 
 QStringList Altair::createCommandLineString (const QStringList& files)
 {
-    // liste des widget fonctionnels
+    // liste des composant fonctionnels
 
     QVectorIterator<FAbstractWidget*> w (Abstract::abstractWidgetList);
     QStringList commandLine;
@@ -143,7 +143,7 @@ void Altair::runWorker (const QString& subdir)
     QString command;
     QStringList commandLine;
 
-    // Récupérer la liset des fichiers de paye du répertoire distribué subdir
+    // Récupérer la liste des fichiers de paye du répertoire distribué subdir
 
     const QStringList &fileList = Hash::fileList.value (subdir);
 

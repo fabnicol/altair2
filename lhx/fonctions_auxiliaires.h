@@ -87,7 +87,17 @@ typedef struct
 } errorLine_t;
 
 
+/// \page page_lhx Documentation de la ligne de commande de l'application-noyau <i>lhx</i>
+/// \n\n
+/// - <a href="../../linux/aide_lhx.html"><b>Aide au format html</b></a>
+/// - <a href="../../linux/aide_lhx.pdf"><b>Aide au format pdf</b></a>
+
 /// Aide en ligne
+/// Peut être appelée en ligne de commande par :\code $ lhx -h \endcode
+/// L'aide peut être générée aux formats :
+/// - pdf, en invoquant \code $ lhx --pdf \endcode
+/// - html, en invoquant \code $ lhx --html \endcode
+/// - markdown, en invoquant \code $ lhx --hmarkdown \endcode
 
 ostringstream help();
 

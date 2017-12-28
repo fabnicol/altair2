@@ -213,7 +213,7 @@ public:
 
   bool isBoolean()
   {
-    return (x == 0 | x == 1);
+    return (x == 0 || x == 1);
   }
 
   /// Constructeur à valeur vide {2, "" }

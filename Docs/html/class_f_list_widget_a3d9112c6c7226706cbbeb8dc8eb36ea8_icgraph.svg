@@ -9,34 +9,34 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
 <title>FListWidget::translate</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-62 312,-62 312,4 -4,4"/>
-<!-- Node72 -->
-<g id="node1" class="node"><title>Node72</title>
+<!-- Node70 -->
+<g id="node1" class="node"><title>Node70</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-19.5 0,-38.5 113,-38.5 113,-19.5 0,-19.5"/>
 <text text-anchor="middle" x="56.5" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListWidget::translate</text>
 </g>
-<!-- Node73 -->
-<g id="node2" class="node"><title>Node73</title>
+<!-- Node71 -->
+<g id="node2" class="node"><title>Node71</title>
 <g id="a_node2"><a xlink:href="class_f_list_widget.html#ac9bc1c75b6e519155a7af03ce7c4287a" target="_top" xlink:title="FListWidget::setWidgetFromXml">
 <polygon fill="white" stroke="black" points="149,-38.5 149,-57.5 308,-57.5 308,-38.5 149,-38.5"/>
 <text text-anchor="middle" x="228.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListWidget::setWidgetFromXml</text>
 </a>
 </g>
 </g>
-<!-- Node72&#45;&gt;Node73 -->
-<g id="edge1" class="edge"><title>Node72&#45;&gt;Node73</title>
+<!-- Node70&#45;&gt;Node71 -->
+<g id="edge1" class="edge"><title>Node70&#45;&gt;Node71</title>
 <path fill="none" stroke="midnightblue" d="M123.252,-36.3487C131.648,-37.2872 140.31,-38.2552 148.884,-39.2135"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="123.491,-32.8538 113.164,-35.2213 122.714,-39.8105 123.491,-32.8538"/>
 </g>
-<!-- Node74 -->
-<g id="node3" class="node"><title>Node74</title>
+<!-- Node72 -->
+<g id="node3" class="node"><title>Node72</title>
 <g id="a_node3"><a xlink:href="class_f_list_widget.html#a07ae9914e884c8e37a6e3ca40f59c1b9" target="_top" xlink:title="FListWidget::setXmlFromWidget">
 <polygon fill="white" stroke="black" points="149,-0.5 149,-19.5 308,-19.5 308,-0.5 149,-0.5"/>
 <text text-anchor="middle" x="228.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListWidget::setXmlFromWidget</text>
 </a>
 </g>
 </g>
-<!-- Node72&#45;&gt;Node74 -->
-<g id="edge2" class="edge"><title>Node72&#45;&gt;Node74</title>
+<!-- Node70&#45;&gt;Node72 -->
+<g id="edge2" class="edge"><title>Node70&#45;&gt;Node72</title>
 <path fill="none" stroke="midnightblue" d="M123.252,-21.6513C131.648,-20.7128 140.31,-19.7448 148.884,-18.7865"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="122.714,-18.1895 113.164,-22.7787 123.491,-25.1462 122.714,-18.1895"/>
 </g>

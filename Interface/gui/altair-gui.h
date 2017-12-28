@@ -180,10 +180,10 @@ private :
     // gestionnaire de projet (à droite)
     // Ils peuvent être dissimulés ou déplacés par l'utilisateur
 
-    QDockWidget *fileTreeViewDockWidget;  ///< Widget mobile de l'arborescence de fichiers
-    QDockWidget *bottomDockWidget;        ///< Widget mobile des onglets Messages et Console
-    QDockWidget *managerDockWidget;       ///< Widget mobile du gestionnaire de projets
-    QTabWidget  *bottomTabWidget;         ///< Conteneur des onglets du widget mobile bottomDockWidget;
+    QDockWidget *fileTreeViewDockWidget;  ///< composant mobile de l'arborescence de fichiers
+    QDockWidget *bottomDockWidget;        ///< composant mobile des onglets Messages et Console
+    QDockWidget *managerDockWidget;       ///< composant mobile du gestionnaire de projets
+    QTabWidget  *bottomTabWidget;         ///< Conteneur des onglets du composant mobile bottomDockWidget;
     // Menus
 
     QMenu *fileMenu;      ///< Menu fichiers de projet
@@ -241,7 +241,7 @@ private :
 
     QList<QAction*>  actionList;       ///< Liste des actions
 
-    QDialog *contentsWidget;           ///< Widget du dialogue des options de configuration
+    QDialog *contentsWidget;           ///< composant du dialogue des options de configuration
     QDialogButtonBox *closeButton;     ///< Bouton Quitter du dialogue des options
 
     // Cases à cocher du dialogue de configuration
