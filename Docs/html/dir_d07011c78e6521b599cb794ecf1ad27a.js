@@ -30,5 +30,6 @@ var dir_d07011c78e6521b599cb794ecf1ad27a =
       [ "standardPage", "classstandard_page.html", "classstandard_page" ]
     ] ],
     [ "run.cpp", "run_8cpp.html", null ],
+    [ "sommaire.h", "sommaire_8h.html", null ],
     [ "xmlparser.cpp", "xmlparser_8cpp.html", "xmlparser_8cpp" ]
 ];
