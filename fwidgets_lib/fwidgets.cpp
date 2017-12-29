@@ -579,6 +579,25 @@ const FString FComboBox::setXmlFromWidget()
 }
 
 
+void FComboBox::setWidgetFromXml(const FStringList &s)
+{
+    commandLineList[0] = s.toFString();
+    FString str = commandLineList[0];
+    if (str.isEmpty()) return;
+
+    if (!comboBoxTranslationHash.isEmpty())
+        str = comboBoxTranslationHash.key(str);
+
+    if (findText(str.remove('\'')) != -1)
+        setCurrentIndex(findText(str));
+    else
+        if (isEditable())
+        {
+            addItem(commandLineList[0]);
+        }
+}
+
+
 FLineEdit::FLineEdit(const QString &defaultString, int status, const QString &hashKey, const QStringList &description, const QString &commandLine):QLineEdit()
 {
     widgetDepth="0";
