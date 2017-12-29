@@ -142,7 +142,8 @@ HEADERS  += \
     highlighter.h \
     altair-gui.h \
     gui_enums.h \
-    matricules.h
+    matricules.h \
+    sommaire.h
 
 
 RESOURCES += \
