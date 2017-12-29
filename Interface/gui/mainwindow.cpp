@@ -360,14 +360,13 @@ void MainWindow::createActions()
     connect (openBaseDirAction, &QAction::triggered, [&]
     {
 
-        QString userdatadir = common::path_access (DONNEES_SORTIE);
+        QString useroutdir = common::path_access (DONNEES_SORTIE);
 
-        if (! QFileInfo (userdatadir).isDir())
+        if (! QFileInfo (useroutdir).isDir())
             {
-                QDir dir;
-                dir.mkdir (userdatadir);
+                QDir().mkdir (useroutdir);
             }
-        common::openDir (userdatadir);
+        common::openDir (useroutdir);
     });
 
     optionsAction = new QAction (tr ("&Options"), this);
