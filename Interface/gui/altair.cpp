@@ -103,7 +103,8 @@ void Altair::initialize()
 
     if (! QFileInfo (userdatadir).isDir())
         {
-            userdatadir = xhl;
+            bool res = QDir().mkpath(userdatadir);
+            if (! res) Q("Le répertoire " + userdatadir + " dans lequel le projet défaut.alt doit être généré n'a pas pu être créé.\nMerci de le créer manuellement.")
         }
 
     Hash::description["année"] = QStringList ("Fichiers .xhl");

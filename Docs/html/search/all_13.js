@@ -61,6 +61,7 @@ var searchData=
   ['socio_5feduc',['SOCIO_EDUC',['../expression__reg__cata_8h.html#a468e99106d24170f8986031ee8b4e434',1,'expression_reg_cata.h']]],
   ['soin',['SOIN',['../expression__reg__adjoints_8h.html#ae9c55ace44186a03ba4d5b4f114620dd',1,'expression_reg_adjoints.h']]],
   ['soit',['SOIT',['../expression__reg__commun_8h.html#a4721b5cb49094eaabff2b8054fbe0538',1,'expression_reg_commun.h']]],
+  ['sommaire_2eh',['sommaire.h',['../sommaire_8h.html',1,'']]],
   ['sous_5foff',['SOUS_OFF',['../expression__reg__adjoints_8h.html#a4579ed67a7fb0df2e5ec10e0db4c1a1f',1,'expression_reg_adjoints.h']]],
   ['spacer',['SPACER',['../tags_8h.html#a34f990a91f8bde3acb64da09eed8a48b',1,'tags.h']]],
   ['specialise',['SPECIALISE',['../expression__reg__cata_8h.html#a975ed9a1141a799fe08ac8a94d5ac74e',1,'expression_reg_cata.h']]],
