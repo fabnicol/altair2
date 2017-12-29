@@ -64,14 +64,14 @@
 /// - pour un nouveau projet : <b>Ctrl + N</b> ou menu Fichier &rarr; Nouveau projet.
 ///
 /// \section cli_lhx Génération de la ligne de commande de l'application-noyau lhx
-/// Par défaut la ligne de commande contient obligatoirement :
+/// Par défaut la ligne de commande de \b lhx contient les options suivantes, qui sont automatiquement générées :
 /// <ul><li>-m : calcul des maxima du nombre de bulletins de paye par mois et du nombre de lignes de paye par agent par bulletin</li>
-/// <li>-d , : séparateur décimal virgule</li>
-/// <li>-s ; : séparateur de champs point-virgule</li>
+/// <li>-d ',' : séparateur décimal virgule</li>
+/// <li>-s ';' : séparateur de champs point-virgule</li>
 /// <li>-E : Générer l'échelon</li>
-/// <li>-rank sharedir + "/rank" : fichier exporté dans ~/.local/share/applications/Altair ( sharedir par défaut) <br> indiquant l'index de la barre de progression</li>
+/// <li>-rank tools::sharedir + "/rank" : fichier exporté dans ~/.local/share/applications/Altair (tools::sharedir par défaut) <br> indiquant l'index de la barre de progression</li>
 /// <li>&ndash;&ndash;cdrom : si depuis un disque optique</li>
-/// <li>-D  username /Dev/altair/#DONNEES_SORTIE /subdir : répertoire d'exportation des bases si  subdir est non vide </li>
+/// <li>-D  ~/Dev/altair/#DONNEES_SORTIE /subdir : répertoire d'exportation des bases si subdir est non vide </li>
 /// <li>&ndash;&ndash;esiret Sirets séparés par blancs : si des Sirets sont excus (barrés) dans l'onglet Siret</li>
 /// <li>&ndash;&ndash;ebudget budgets séparés par blancs : si des budgets sont excus (barrés) dans l'onglet Budget</li>
 /// <li>&ndash;&ndash;eemployeur employeurs séparés par blancs : si des employeurs sont excus (barrés) dans l'onglet Employeur</li>
