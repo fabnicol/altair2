@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.15"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&nbsp;: Documentation de la ligne de commande de l&#39;application-noyau &lt;i&gt;lhx&lt;/i&gt;</title>
+<title>&nbsp;: La documentation de la ligne de commande de l&#39;application-noyau lhx</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -98,16 +98,35 @@ $(document).ready(function(){initNavTree('page_lhx.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Documentation de la ligne de commande de l'application-noyau <em>lhx</em> </div>  </div>
+<div class="title">La documentation de la ligne de commande de l'application-noyau lhx </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><br />
 <br />
 </p>
+<h1><a class="anchor" id="sec_docu_lhx"></a>
+Les paramètres de la ligne de commande</h1>
 <ul>
 <li><a href="../../linux/aide_lhx.html"><b>Aide au format html</b></a></li>
-<li><a href="../../linux/aide_lhx.pdf"><b>Aide au format pdf</b></a> </li>
+<li><a href="../../linux/aide_lhx.pdf"><b>Aide au format pdf</b></a></li>
+<li>l'aide en ligne de commande peut être appelée par :<div class="fragment"><div class="line">$ lhx -h </div></div><!-- fragment --> </li>
 </ul>
+<h1><a class="anchor" id="sec_formats_lhx"></a>
+La génération de la documentation</h1>
+<p>L'aide peut être générée aux formats :</p><ul>
+<li><b>PDF</b>, en invoquant<div class="fragment"><div class="line">$ lhx --pdf </div></div><!-- fragment --></li>
+<li><b>HTML</b>, en invoquant<div class="fragment"><div class="line">$ lhx --html </div></div><!-- fragment --></li>
+<li><b>markdown</b>, en invoquant<div class="fragment"><div class="line">$ lhx --hmarkdown </div></div><!-- fragment --> </li>
+</ul>
+<h1><a class="anchor" id="sec_inter"></a>
+Les intéractions avec l'interface graphique</h1>
+<h2><a class="anchor" id="sub2_sec_inter"></a>
+En entrée de l'application</h2>
+<h2><a class="anchor" id="sub1_sec_inter"></a>
+En sortie de l'application</h2>
+<p>Un formatage HTML est proposé par défaut.<br />
+Ce formatage peut ne pas être réalisé à condition de recompiler l'application-noyau <b>lhx</b> en ne définissant pas la constante de compilation (définie par défaut) </p><div class="fragment"><div class="line">GUI_TAG_MESSAGES </div></div><!-- fragment --><p> Si l'application est compilée en utilisant l'outil <b>qmake</b> et le fichier de configuration d'extension  .pro, il suffit de retirer <code>guiOutput</code> de la ligne </p><div class="fragment"><div class="line">CONFIG += console guiOutput </div></div><!-- fragment --><p> Lorsque le formatage HTML est activé, l'onglet Console de l'interface graphique affiche cette sortie en distinguant les phases de l'exécution par des symboles graphiques.<br />
+ </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

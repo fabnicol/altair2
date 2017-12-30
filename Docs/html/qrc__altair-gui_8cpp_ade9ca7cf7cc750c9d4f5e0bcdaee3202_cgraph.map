@@ -1,5 +1,0 @@
-<map id="qInitResources_altair_gui" name="qInitResources_altair_gui">
-<area shape="rect" id="node2" href="$qrc__altair-gui_8cpp.html#a5ff102ff3defb3a19e5bc896644ada22" title="qCleanupResources_altair_gui" alt="" coords="223,5,421,32"/>
-<area shape="rect" id="node4" href="$qrc__altair-gui_8cpp.html#a2ce5a6cde5b318dc75442940471e05f7" title="qRegisterResourceData" alt="" coords="241,56,403,83"/>
-<area shape="rect" id="node3" href="$qrc__altair-gui_8cpp.html#a54b96c9f44d004fc0ea13bb581f97a71" title="qUnregisterResourceData" alt="" coords="469,5,643,32"/>
-</map>

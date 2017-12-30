@@ -101,7 +101,7 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node4 -->
 <g id="node5" class="node"><title>Node4</title>
-<g id="a_node5"><a xlink:href="fonctions__auxiliaires_8cpp.html#a2dff91c98bf5c4003e4d7b9b708b1ff0" target="_top" xlink:title="Aide en ligne Peut être appelée en ligne de commande par : ">
+<g id="a_node5"><a xlink:href="fonctions__auxiliaires_8cpp.html#a2dff91c98bf5c4003e4d7b9b708b1ff0" target="_top" xlink:title="help">
 <polygon fill="white" stroke="black" points="117,-418.5 117,-437.5 152,-437.5 152,-418.5 117,-418.5"/>
 <text text-anchor="middle" x="134.5" y="-425.5" font-family="Helvetica,sans-Serif" font-size="10.00">help</text>
 </a>
