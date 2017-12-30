@@ -157,22 +157,22 @@ Chargement manuel d'un projet Altaïr dans l'interface graphique</h1>
 </ul>
 <h1><a class="anchor" id="cli_lhx"></a>
 Génération de la ligne de commande de l'application-noyau lhx</h1>
-<p>Par défaut la ligne de commande contient obligatoirement : </p><ul>
+<p>Par défaut la ligne de commande de <b>lhx</b> contient les options suivantes, qui sont automatiquement générées : </p><ul>
 <li>
 -m : calcul des maxima du nombre de bulletins de paye par mois et du nombre de lignes de paye par agent par bulletin </li>
 <li>
--d , : séparateur décimal virgule </li>
+-d ',' : séparateur décimal virgule </li>
 <li>
--s ; : séparateur de champs point-virgule </li>
+-s ';' : séparateur de champs point-virgule </li>
 <li>
 -E : Générer l'échelon </li>
 <li>
--rank sharedir + "/rank" : fichier exporté dans ~/.local/share/applications/Altair ( sharedir par défaut) <br />
+-rank tools::sharedir + "/rank" : fichier exporté dans ~/.local/share/applications/Altair (tools::sharedir par défaut) <br />
  indiquant l'index de la barre de progression </li>
 <li>
 &ndash;&ndash;cdrom : si depuis un disque optique </li>
 <li>
--D username /Dev/altair/<a class="el" href="gui__enums_8h.html#a5d544d497fa8251d92fdba3f7a15d74c">DONNEES_SORTIE</a> /subdir : répertoire d'exportation des bases si subdir est non vide  </li>
+-D ~/Dev/altair/<a class="el" href="gui__enums_8h.html#a5d544d497fa8251d92fdba3f7a15d74c">DONNEES_SORTIE</a> /subdir : répertoire d'exportation des bases si subdir est non vide  </li>
 <li>
 &ndash;&ndash;esiret Sirets séparés par blancs : si des Sirets sont excus (barrés) dans l'onglet Siret </li>
 <li>
