@@ -87,18 +87,29 @@ typedef struct
 } errorLine_t;
 
 
-/// \page page_lhx Documentation de la ligne de commande de l'application-noyau <i>lhx</i>
+/// \page page_lhx La documentation de la ligne de commande de l'application-noyau lhx
 /// \n\n
+/// \section sec_docu_lhx Les paramètres de la ligne de commande
 /// - <a href="../../linux/aide_lhx.html"><b>Aide au format html</b></a>
 /// - <a href="../../linux/aide_lhx.pdf"><b>Aide au format pdf</b></a>
-
-/// Aide en ligne
-/// Peut être appelée en ligne de commande par :\code $ lhx -h \endcode
+/// - l'aide en ligne de commande peut être appelée par :\code $ lhx -h \endcode
+/// \section sec_formats_lhx La génération de la documentation
 /// L'aide peut être générée aux formats :
-/// - pdf, en invoquant \code $ lhx --pdf \endcode
-/// - html, en invoquant \code $ lhx --html \endcode
-/// - markdown, en invoquant \code $ lhx --hmarkdown \endcode
-
+/// - \b PDF, en invoquant : \code $ lhx --pdf \endcode
+/// - \b HTML, en invoquant : \code $ lhx --html \endcode
+/// - \b markdown, en invoquant : \code $ lhx --hmarkdown \endcode
+/// \section sec_inter Les intéractions avec l'interface graphique
+/// \subsection sub2_sec_inter En entrée de l'application
+/// \subsection sub1_sec_inter En sortie de l'application
+/// Un formatage HTML est proposé par défaut.\n
+/// Ce formatage peut ne pas être réalisé à condition de recompiler l'application-noyau \b lhx en ne définissant pas la constante de compilation (définie par défaut)
+/// \code GUI_TAG_MESSAGES \endcode
+/// Si l'application est compilée en utilisant l'outil \b qmake et le fichier de configuration d'extension \em .pro, il suffit de retirer <tt> guiOutput </tt> de la ligne
+/// \code CONFIG += console guiOutput \endcode
+/// Lorsque le formatage HTML est activé, l'onglet Console de l'interface graphique affiche cette sortie en distinguant les phases de l'exécution par des symboles graphiques.\n 
+/// 
+/// 
+/// 
 ostringstream help();
 
 

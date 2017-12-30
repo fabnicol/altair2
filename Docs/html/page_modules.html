@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.15"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&nbsp;:  Fichier source de Interface/gui/sommaire.h</title>
+<title>&nbsp;: L&#39;organisation modulaire du logiciel Altaïr</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -78,7 +78,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('sommaire_8h_source.html','');});
+$(document).ready(function(){initNavTree('page_modules.html','');});
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -98,15 +98,44 @@ $(document).ready(function(){initNavTree('sommaire_8h_source.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">sommaire.h</div>  </div>
+<div class="title">L'organisation modulaire du logiciel Altaïr </div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="sommaire_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div><div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;</div></div><!-- fragment --></div><!-- contents -->
+<div class="textblock"><h1><a class="anchor" id="sec1_modules"></a>
+Les modules du logiciel</h1>
+<p>Le logiciel comprend <b>trois modules</b> :<br />
+</p><ul>
+<li>
+une <b>interface graphique utilisateur</b> qui produit une ligne de commande ; </li>
+<li>
+une <b>application-noyau</b> nommée <b><em>lhx</em>,</b> qui : <ul>
+<li>
+exécute cette ligne de commande ; </li>
+<li>
+extrait les données de paye pour produire des bases (bulletins et lignes de paye) au format CSV, équivalentes à celles qui sont exportées par le logiciel <a href="http:///www.xemelios.org">Xemelios</a> de la DGFIP ; </li>
+</ul>
+</li>
+<li>
+un <b>ensemble de scripts</b> en <a href="http://www.r-project.org">langage R</a>, qui sont exécutés : <ul>
+<li>
+soit directement depuis l'interface graphique ; </li>
+<li>
+soit en utilisant l'interface de développement <a href="http://www.rstudio.com">RStudio</a>. </li>
+</ul>
+En entrée, ces scripts réimportent en mémoire les bases de paye précédemment exportées au format CSV. <br />
+ En sortie, ils produisent des rapports d'analyse de la paye, aux formats Microsoft Word, Libreoffice Writer ou Adobe PDF. <br />
+ Ces analyses portent sur la démographie des structures étudiées, les rémunérations des personnels et le respect du cadre statutaire et réglementaires de la paye. <br />
+ Une annexe propose quelques indicateurs d'appréciation de la fiabilité des bases de paye et des tableaux auxiliaires en lien, qui peuvent faciliter l'analyse personnalisée de certains aspects qui ne font pas l'objet d'un traitement automatisé.<br />
+ Les rapports d'analyse sont accompagnés d'un dossier documentaire, qui comprend des notices méthodologiques et des documents de référence. <br />
+ Ils contiennent des liens hypertextes vers des fichiers auxiliaires au format CSV, qui précisent les analyses statistiques et réglementaires présentées dans le rapport. </li>
+</ul>
+<h1><a class="anchor" id="sec2_docum"></a>
+La documentation des modules</h1>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_b7263c2df3abed61e1897d5e9e534860.html">Interface</a></li><li class="navelem"><a class="el" href="dir_d07011c78e6521b599cb794ecf1ad27a.html">gui</a></li><li class="navelem"><a class="el" href="sommaire_8h.html">sommaire.h</a></li>
     <li class="footer">Généré par
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.15 </li>

@@ -2,9 +2,10 @@
 
 /// \mainpage Sommaire
 /// La documentation du projet comprend :
-/// - \subpage   page1 "la documentation de l'algorithme d'analyse des noeuds Remuneration"
+/// - \subpage   page_modules "la présentation de l'organisation modulaire du logiciel"
 /// - \subpage   page_alt "la documentation des paramètres de l'interface graphique et des projets Altaïr d'extension .alt"
 /// - \subpage   page_lhx "la documentation de la ligne de commande de l'application-noyau lhx"
+/// - \subpage   page1 "la documentation de l'algorithme d'analyse des noeuds Remuneration"
 /// - \ref todo "la liste des choses à faire"
 /// - l'onglet <a href="namespaces.html"><b>Espaces de nommage</b></a>
 /// - l'onglet <a href="annotated.html"><b>Classes</b></a>
@@ -19,6 +20,32 @@
 /// <li> graphe d'appel d'une fonction</li>
 /// <li> liste des types, connecteurs, signaux, fonctions et attributs hérités par une classe.</li></ul> \n
 /// Il est possible de naviguer dans les graphes en utilisant la fonctionnalité de navigation (+/- pour zoomer, flèches de direction) en haut à droite des graphes.
+
+/// \page page_modules L'organisation modulaire du logiciel Altaïr
+/// \section sec1_modules Les modules du logiciel
+/// Le logiciel comprend <b>trois modules</b> :\n
+/// <ul>
+/// <li>une <b>interface graphique utilisateur</b> qui produit une ligne de commande ;</li>
+/// <li>une <b>application-noyau</b> nommée \b \em lhx, qui :</li>
+///   <ul>
+///   <li>exécute cette ligne de commande ;</li>
+///   <li>extrait les données de paye pour produire des bases (bulletins et lignes de paye) au format CSV, équivalentes à celles qui sont exportées par le logiciel <a href="http:///www.xemelios.org">Xemelios</a> de la DGFIP ;</li>
+///   </ul> 
+/// <li>un <b>ensemble de scripts</b> en <a href="http://www.r-project.org">langage R</a>, qui sont exécutés :
+///   <ul>
+///   <li>soit directement depuis l'interface graphique ;</li>
+///   <li>soit en utilisant l'interface de développement <a href="http://www.rstudio.com">RStudio</a>.</li>
+///   </ul>
+///   En entrée, ces scripts réimportent en mémoire les bases de paye précédemment exportées au format CSV. \n
+///   En sortie, ils produisent des rapports d'analyse de la paye, aux formats Microsoft Word, Libreoffice Writer ou Adobe PDF. \n
+///   Ces analyses portent sur la démographie des structures étudiées, les rémunérations des personnels et le respect du cadre statutaire et réglementaires de la paye. \n
+///   Une annexe propose quelques indicateurs d'appréciation de la fiabilité des bases de paye et des tableaux auxiliaires en lien, qui peuvent faciliter l'analyse personnalisée de certains aspects qui ne font pas l'objet d'un traitement automatisé.\n
+///   Les rapports d'analyse sont accompagnés d'un dossier documentaire, qui comprend des notices méthodologiques et des documents de référence. \n
+///   Ils contiennent des liens hypertextes vers des fichiers auxiliaires au format CSV, qui précisent les analyses statistiques et réglementaires présentées dans le rapport.
+/// </ul>
+/// \section sec2_docum La documentation des modules
+/// 
+///
 
 /// \page page_alt Documentation des paramètres de l'interface graphique et des projets Altaïr d'extension .alt
 /// \tableofcontents
