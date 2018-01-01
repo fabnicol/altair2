@@ -65,8 +65,8 @@ void common::exporter_identification_controle (const QString &subdir)
     QString file_str = readFile (prologue_code_path);
     exporter_identification_controle (file_str, subdir);
 
-    QString exportpath = (subdir.isEmpty()) ? prologue_code_path  : common::path_access (DONNEES_SORTIE) + QDir::separator() + subdir + "/prologue_codes.R";
-    renommer (dump (file_str), exportpath);
+    exportpath = (subdir.isEmpty()) ? prologue_code_path  : common::path_access (DONNEES_SORTIE) + QDir::separator() + subdir + "/prologue_codes.R";
+    renommer(dump (file_str), exportpath);
 }
 
 

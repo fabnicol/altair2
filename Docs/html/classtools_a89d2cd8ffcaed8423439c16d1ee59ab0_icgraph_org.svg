@@ -16,7 +16,7 @@
 </g>
 <!-- Node88 -->
 <g id="node2" class="node"><title>Node88</title>
-<g id="a_node2"><a xlink:href="classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" target="_top" xlink:title="Constructeur du dialogue &quot;Code de paye des tests&quot;. ">
+<g id="a_node2"><a xlink:href="classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" target="_top" xlink:title="Constructeur de l&#39;onglet &quot;Code de paye des tests&quot;. ">
 <polygon fill="white" stroke="black" points="517.5,-556.5 517.5,-575.5 627.5,-575.5 627.5,-556.5 517.5,-556.5"/>
 <text text-anchor="middle" x="572.5" y="-563.5" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::codePage</text>
 </a>
@@ -208,7 +208,7 @@
 </g>
 <!-- Node92 -->
 <g id="node6" class="node"><title>Node92</title>
-<g id="a_node6"><a xlink:href="classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" target="_top" xlink:title="codePage::substituer\l_valeurs_dans_script_R">
+<g id="a_node6"><a xlink:href="classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" target="_top" xlink:title="Substitue certaines valeurs caractéristiques du contrôle dans le fichier prologue_codes.R dans exportpath, notamment le Siret, le budget et l&#39;employeur. ">
 <polygon fill="white" stroke="black" points="326.5,-595 326.5,-625 448.5,-625 448.5,-595 326.5,-595"/>
 <text text-anchor="start" x="334.5" y="-613" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::substituer</text>
 <text text-anchor="middle" x="387.5" y="-602" font-family="Helvetica,sans-Serif" font-size="10.00">_valeurs_dans_script_R</text>
@@ -382,7 +382,7 @@
 </g>
 <!-- Node111 -->
 <g id="node25" class="node"><title>Node111</title>
-<g id="a_node25"><a xlink:href="classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" target="_top" xlink:title="options::options">
+<g id="a_node25"><a xlink:href="classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" target="_top" xlink:title="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair...">
 <polygon fill="white" stroke="black" points="344.5,-316.5 344.5,-335.5 430.5,-335.5 430.5,-316.5 344.5,-316.5"/>
 <text text-anchor="middle" x="387.5" y="-323.5" font-family="Helvetica,sans-Serif" font-size="10.00">options::options</text>
 </a>

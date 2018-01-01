@@ -102,7 +102,7 @@ var sectionId = 'dynsection-2';
 </g>
 <!-- Node4 -->
 <g id="node5" class="node"><title>Node4</title>
-<g id="a_node5"><a xlink:href="classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" target="_top" xlink:title="codePage::substituer\l_valeurs_dans_script_R">
+<g id="a_node5"><a xlink:href="classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" target="_top" xlink:title="Substitue certaines valeurs caractéristiques du contrôle dans le fichier prologue_codes.R dans exportpath, notamment le Siret, le budget et l&#39;employeur. ">
 <polygon fill="white" stroke="black" points="150.5,-151.368 150.5,-181.368 272.5,-181.368 272.5,-151.368 150.5,-151.368"/>
 <text text-anchor="start" x="158.5" y="-169.368" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::substituer</text>
 <text text-anchor="middle" x="211.5" y="-158.368" font-family="Helvetica,sans-Serif" font-size="10.00">_valeurs_dans_script_R</text>

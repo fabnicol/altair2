@@ -1,7 +1,7 @@
 <map id="Altair" name="Altair">
 <area shape="rect" id="node2" href="$class_f_dialog.html" title="{FDialog\n|+ fileRank\l+ outputType\l+ process\l|+ killProcess()\l+ textAppend()\l}" alt="" coords="29,703,137,825"/>
 <area shape="rect" id="node3" href="$class_f_dialog_connections.html" title="{FDialogConnections\n||}" alt="" coords="5,336,145,413"/>
-<area shape="rect" id="node5" href="$classcommon.html" title="{common\n|+ altairCommandStr\l+ execPath\l+ RAltairCommandStr\l+ RAltairDirStr\l+ sharedir\l|+ common()\l+ exporter_identification\l_controle()\l+ exporter_identification\l_controle()\l}" alt="" coords="165,667,327,861"/>
+<area shape="rect" id="node5" href="$classcommon.html" title="Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l&#39;interface vers l..." alt="" coords="165,667,327,861"/>
 <area shape="rect" id="node6" href="$classtools.html" title="{tools\n|+ htmlLogPath\l+ systemPathPrefix\l+ tempdir\l+ userdatadir\l|+ tools()\l+ dump()\l+ getEmbeddedPath()\l+ readFile()\l+ readFile()\l+ readFile()\l+ readFile()\l+ renommer()\l+ substituer()\l+ cdRomMounted()\l+ copyDir()\l+ copyFile()\l+ ents()\l+ generateDatadirPath()\l+ generateDatadirPath()\l+ getDirectorySize()\l+ getFileSize()\l+ IOControl()\l+ openDir()\l+ openDirDialog()\l+ path_access()\l+ remAccents()\l+ unzip()\l+ unzipDir()\l+ zip()\l+ zipDir()\l}" alt="" coords="169,131,331,619"/>
 <area shape="rect" id="node7" href="$classflags.html" title="{flags\n||}" alt="" coords="225,5,275,83"/>
 </map>

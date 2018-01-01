@@ -2,7 +2,7 @@
 <area shape="rect" id="node2" href="$classcommon.html#a7900f8a5d7ebd42770ce8c366dd4b933" title="Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement. " alt="" coords="260,5,467,47"/>
 <area shape="rect" id="node3" href="$class_altair.html#a7d10f8ecf4097577885172afb6c2e9c6" title="Lance l&#39;exécution de l&#39;application en ligne de commande lhx. " alt="" coords="553,71,631,98"/>
 <area shape="rect" id="node4" href="$class_altair.html#ae04f2a5771d47bbe2e0cc3a11b72d6bf" title="Parcourt le répertoire en cours du mode distributif, un à chaque appel Exporte l&#39;identification dans ..." alt="" coords="272,122,455,149"/>
-<area shape="rect" id="node6" href="$classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" title="codePage::substituer\l_valeurs_dans_script_R" alt="" coords="282,173,445,215"/>
+<area shape="rect" id="node6" href="$classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" title="Substitue certaines valeurs caractéristiques du contrôle dans le fichier prologue_codes.R dans exportpath, notamment le Siret, le budget et l&#39;employeur. " alt="" coords="282,173,445,215"/>
 <area shape="rect" id="node5" href="$class_altair.html#a16b8035c4383a789cd00b687fb105fe9" title="Traitement de la fin de l&#39;exécution de lhx. " alt="" coords="515,122,669,149"/>
-<area shape="rect" id="node7" href="$classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" title="Constructeur du dialogue &quot;Code de paye des tests&quot;. " alt="" coords="519,181,665,207"/>
+<area shape="rect" id="node7" href="$classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" title="Constructeur de l&#39;onglet &quot;Code de paye des tests&quot;. " alt="" coords="519,181,665,207"/>
 </map>

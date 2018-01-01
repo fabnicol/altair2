@@ -20,7 +20,7 @@
 <area shape="rect" id="node25" href="$class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" title="Accesseur en lecture de widgetContainer. " alt="" coords="643,312,853,339"/>
 <area shape="rect" id="node17" href="$class_f_list_frame.html#a018583305b4464d69c66805aceb1a2ac" title="FListFrame::initializeWidget\lContainer" alt="" coords="909,355,1093,397"/>
 <area shape="rect" id="node18" href="$class_altair.html#abf7d1895e52f7b8d7d26e4b5a0e6146a" title="Rafraîchit le gestionnaire de projet à la droite de l&#39;interface. " alt="" coords="906,653,1097,694"/>
-<area shape="rect" id="node24" href="$classcode_page.html#ad89c8fd4b641a2b884ac3980759fe329" title="codePage::resetLabel" alt="" coords="927,304,1075,331"/>
+<area shape="rect" id="node24" href="$classcode_page.html#ad89c8fd4b641a2b884ac3980759fe329" title="Réinitialisation de l&#39;élément de texte variable de l&#39;onglet. " alt="" coords="927,304,1075,331"/>
 <area shape="rect" id="node19" href="$class_altair.html#adc79f280e4f580298a8dd80e2f7cf712" title="Parcourt la table de chachage Hash::wrapper dans laquelle sont stockés à la clé &quot;XHL&quot; les chemins des..." alt="" coords="1156,573,1365,600"/>
 <area shape="rect" id="node21" href="$namespace_xml_method.html#ac0a708c4bc4c55df24e60816d69a90cf" title="XmlMethod::displaySecond\lLevelData" alt="" coords="1170,625,1351,666"/>
 <area shape="rect" id="node22" href="$namespace_xml_method.html#aad1e553eb1ec6f1bb128cc6744cba9e3" title="XmlMethod::displayTextData" alt="" coords="1420,691,1611,717"/>

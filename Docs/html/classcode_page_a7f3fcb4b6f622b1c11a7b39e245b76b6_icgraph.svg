@@ -17,7 +17,7 @@
 </g>
 <!-- Node60 -->
 <g id="node2" class="node"><title>Node60</title>
-<g id="a_node2"><a xlink:href="classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" target="_top" xlink:title="Constructeur du dialogue &quot;Code de paye des tests&quot;. ">
+<g id="a_node2"><a xlink:href="classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" target="_top" xlink:title="Constructeur de l&#39;onglet &quot;Code de paye des tests&quot;. ">
 <polygon fill="white" stroke="black" points="158,-6 158,-25 268,-25 268,-6 158,-6"/>
 <text text-anchor="middle" x="213" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::codePage</text>
 </a>

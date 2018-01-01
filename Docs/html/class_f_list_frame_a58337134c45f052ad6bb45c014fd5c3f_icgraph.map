@@ -16,7 +16,7 @@
 <area shape="rect" id="node15" href="$class_altair.html#aa341707131924eff160bcab41422d1ec" title="Code commun à différentes fonctions lancées pour l&#39;analyse des projets. " alt="" coords="1131,275,1365,301"/>
 <area shape="rect" id="node17" href="$class_altair.html#ab913abfdd0c6fbbceb9a051a4443d5fa" title="Supprimer un onglet central. " alt="" coords="1183,595,1313,621"/>
 <area shape="rect" id="node18" href="$class_altair.html#a299584936cc20c9a1451977264eba1f5" title="Ecrase un item d&#39;un onglet donné " alt="" coords="1177,427,1319,469"/>
-<area shape="rect" id="node19" href="$classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" title="options::options" alt="" coords="1191,493,1305,520"/>
+<area shape="rect" id="node19" href="$classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" title="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair..." alt="" coords="1191,493,1305,520"/>
 <area shape="rect" id="node20" href="$class_altair.html#aab5da600c227ac7eb604fa24a9308d26" title="Enregistre le projet .alt en actualisant projectName et l&#39;état de l&#39;interface &#160;. " alt="" coords="1161,544,1335,571"/>
 <area shape="rect" id="node21" href="$class_altair.html#a7d10f8ecf4097577885172afb6c2e9c6" title="Lance l&#39;exécution de l&#39;application en ligne de commande lhx. " alt="" coords="1687,645,1766,672"/>
 <area shape="rect" id="node22" href="$class_altair.html#a08b5e402c9a694af09110afe33219080" title="Construction de la ligne de commande pour des bases de paye dans un répertoire donné ..." alt="" coords="1188,696,1308,723"/>

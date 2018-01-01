@@ -52,6 +52,7 @@
 #include "config.h"
 #endif
 
+/// Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l'interface vers les scripts R
 
 class common : public tools
 {
@@ -77,7 +78,7 @@ public:
    QString execPath = path_access (System); ///< Chemin du répertoire lhx, soit ~/Dev/altair/linux/lhx sous linux et ~/Dev/altair/win/lhx sous Windows
    const QString sharedir = generateDatadirPath(); ///< Chemin ~/.local/share/Altair
    QString altairCommandStr = execPath + QDir::separator() + ("lhx" + QString (systemSuffix)); ///< Ligne de commande permettant de lancer lhx
-
+   QString exportpath;
 
 #  ifdef MINIMAL
 

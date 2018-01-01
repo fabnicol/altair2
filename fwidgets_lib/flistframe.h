@@ -130,8 +130,8 @@ public:
 
  int getCurrentIndex() { return this->mainTabWidget->currentIndex(); }
 
- /// Accesseur en lecture de /
- /// \return Valeur de
+ /// Accesseur en lecture du composant (\em widget) courant dans le conteneur widgetContainer. 
+ /// \return Composant courant.
 
  QListWidget*  getCurrentWidget() { return widgetContainer.at(getCurrentIndex());}
 
@@ -156,13 +156,12 @@ public:
  /// \return Valeur de
  int getCurrentRow() { return getCurrentWidget()->currentRow(); }
 
-void setStatus(flags::status status) {fileListWidget->status=status;}
-void setCommandLineType(flags::commandLineType cl) {fileListWidget->commandLineType=cl;}
-void setSeparator(QStringList sep) { fileListWidget->separator[0]=sep[0]; fileListWidget->separator[1]=sep[1];}
-void setOptionLabel(QString option) {fileListWidget->optionLabel=option;}
-void setTabLabels(QStringList& tabLabels) { fileListWidget->setTabLabels(tabLabels);}
+ 
+ void setSeparator(QStringList sep) { fileListWidget->separator[0]=sep[0]; fileListWidget->separator[1]=sep[1];}
+ 
+ void setTabLabels(QStringList& tabLabels) { fileListWidget->setTabLabels(tabLabels);}
 
-inline bool listConnected() { return isListConnected; }
+ inline bool listConnected() { return isListConnected; }
 
 /// Accesseur en lecture de
 /// \return Valeur de ine

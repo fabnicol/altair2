@@ -107,7 +107,7 @@
 </g>
 <!-- Node4 -->
 <g id="node5" class="node"><title>Node4</title>
-<g id="a_node5"><a xlink:href="classcommon.html" target="_top" xlink:title="{common\n|+ altairCommandStr\l+ execPath\l+ RAltairCommandStr\l+ RAltairDirStr\l+ sharedir\l|+ common()\l+ exporter_identification\l_controle()\l+ exporter_identification\l_controle()\l}">
+<g id="a_node5"><a xlink:href="classcommon.html" target="_top" xlink:title="Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l&#39;interface vers l...">
 <polygon fill="white" stroke="black" points="114,-347.5 114,-492.5 235,-492.5 235,-347.5 114,-347.5"/>
 <text text-anchor="middle" x="174.5" y="-480.5" font-family="Helvetica,sans-Serif" font-size="10.00">common</text>
 <polyline fill="none" stroke="black" points="114,-473.5 235,-473.5 "/>
