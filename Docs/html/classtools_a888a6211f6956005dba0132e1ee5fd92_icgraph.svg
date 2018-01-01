@@ -30,7 +30,7 @@
 </g>
 <!-- Node136 -->
 <g id="node3" class="node"><title>Node136</title>
-<g id="a_node3"><a xlink:href="classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" target="_top" xlink:title="codePage::substituer\l_valeurs_dans_script_R">
+<g id="a_node3"><a xlink:href="classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" target="_top" xlink:title="Substitue certaines valeurs caractéristiques du contrôle dans le fichier prologue_codes.R dans exportpath, notamment le Siret, le budget et l&#39;employeur. ">
 <polygon fill="white" stroke="black" points="139.5,-49.5 139.5,-79.5 261.5,-79.5 261.5,-49.5 139.5,-49.5"/>
 <text text-anchor="start" x="147.5" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::substituer</text>
 <text text-anchor="middle" x="200.5" y="-56.5" font-family="Helvetica,sans-Serif" font-size="10.00">_valeurs_dans_script_R</text>
@@ -58,7 +58,7 @@
 </g>
 <!-- Node137 -->
 <g id="node4" class="node"><title>Node137</title>
-<g id="a_node4"><a xlink:href="classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" target="_top" xlink:title="Constructeur du dialogue &quot;Code de paye des tests&quot;. ">
+<g id="a_node4"><a xlink:href="classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" target="_top" xlink:title="Constructeur de l&#39;onglet &quot;Code de paye des tests&quot;. ">
 <polygon fill="white" stroke="black" points="330.5,-55 330.5,-74 440.5,-74 440.5,-55 330.5,-55"/>
 <text text-anchor="middle" x="385.5" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::codePage</text>
 </a>

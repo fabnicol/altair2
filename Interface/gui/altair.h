@@ -87,7 +87,7 @@ public:
     QFile rankFile; ///< Fichier permettant de lire l'indice de progression de l'application noyau lhx et d'ajuster la barre de progression de manière dynamique
     QString projectName; ///< Nom du projet \b .alt
     QString rootDir = ""; ///< Fichier racine des données
-    QString username; ///< NOm de l'utilisateur Unix
+    QString username; ///< Nom de l'utilisateur Unix
 
     const QStringList  XML_FILTERS = {"*.xml", "*.xhl", "*.XML", "*.XHL"}; ///< Liste des extensions valides pour les fichiers entrants
 

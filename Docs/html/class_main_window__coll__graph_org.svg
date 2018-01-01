@@ -277,7 +277,7 @@
 </g>
 <!-- Node6 -->
 <g id="node5" class="node"><title>Node6</title>
-<g id="a_node5"><a xlink:href="classoptions.html" target="_top" xlink:title="{options\n|+ optionWidget\l+ RefreshFlag\l&#45; closeButton\l&#45; pagesWidget\l|+ options()\l+ clearOptionData()\l&#45; createIcon()\l&#45; createIcons()\l&#45; changePage()\l&#45; enchainerRapports()\l}">
+<g id="a_node5"><a xlink:href="classoptions.html" target="_top" xlink:title="Classe de l&#39;onglet Codes, qui permet de saisir manuellement les codes de paye de certaines catégories...">
 <polygon fill="white" stroke="black" points="573.149,-2663.5 573.149,-2808.5 683.149,-2808.5 683.149,-2663.5 573.149,-2663.5"/>
 <text text-anchor="middle" x="628.149" y="-2796.5" font-family="Helvetica,sans-Serif" font-size="10.00">options</text>
 <polyline fill="none" stroke="black" points="573.149,-2789.5 683.149,-2789.5 "/>
@@ -317,7 +317,7 @@
 </g>
 <!-- Node13 -->
 <g id="node12" class="node"><title>Node13</title>
-<g id="a_node12"><a xlink:href="classprocess_page.html" target="_top" xlink:title="{processPage\n|&#45; nLineLabel\l&#45; NLineLabel\l&#45; processTypeBox\l|+ processPage()\l+ processPage()\l}">
+<g id="a_node12"><a xlink:href="classprocess_page.html" target="_top" xlink:title="Classe de l&#39;onglet Traitement du dialgue d&#39;options. ">
 <polygon fill="white" stroke="black" points="818.149,-3439.5 818.149,-3529.5 914.149,-3529.5 914.149,-3439.5 818.149,-3439.5"/>
 <text text-anchor="middle" x="866.149" y="-3517.5" font-family="Helvetica,sans-Serif" font-size="10.00">processPage</text>
 <polyline fill="none" stroke="black" points="818.149,-3510.5 914.149,-3510.5 "/>
@@ -368,7 +368,7 @@
 </g>
 <!-- Node25 -->
 <g id="node24" class="node"><title>Node25</title>
-<g id="a_node24"><a xlink:href="classcode_page.html" target="_top" xlink:title="{codePage\n|&#45; appliquerCodes\l&#45; baseBox\l&#45; init_label_text\l&#45; label\l&#45; listeCodes\l&#45; listeDialogueLabels\l&#45; listeLabels\l&#45; mainLayout\l&#45; prologue_codes_path\l&#45; variables\l&#45; vLayout\l|+ codePage()\l+ codePage()\l+ resetLabel()\l+ resetLabel()\l&#45; ajouterVariable()\l&#45; ajouterVariable()\l&#45; reinitialiser_prologue()\l&#45; reinitialiser_prologue()\l&#45; activer_fph()\l&#45; activer_fph()\l&#45; substituer_valeurs\l_dans_script_R()\l&#45; substituer_valeurs\l_dans_script_R()\l}">
+<g id="a_node24"><a xlink:href="classcode_page.html" target="_top" xlink:title="Classe de l&#39;onglet Codes permettant d&#39;exporter des codes de paye manuellement spécifiés vers les scri...">
 <polygon fill="white" stroke="black" points="438.649,-3329.5 438.649,-3639.5 555.649,-3639.5 555.649,-3329.5 438.649,-3329.5"/>
 <text text-anchor="middle" x="497.149" y="-3627.5" font-family="Helvetica,sans-Serif" font-size="10.00">codePage</text>
 <polyline fill="none" stroke="black" points="438.649,-3620.5 555.649,-3620.5 "/>
@@ -449,7 +449,7 @@
 </g>
 <!-- Node8 -->
 <g id="node7" class="node"><title>Node8</title>
-<g id="a_node7"><a xlink:href="classcommon.html" target="_top" xlink:title="{common\n|+ altairCommandStr\l+ execPath\l+ RAltairCommandStr\l+ RAltairDirStr\l+ sharedir\l|+ common()\l+ exporter_identification\l_controle()\l+ exporter_identification\l_controle()\l}">
+<g id="a_node7"><a xlink:href="classcommon.html" target="_top" xlink:title="Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l&#39;interface vers l...">
 <polygon fill="white" stroke="black" points="345.649,-3726 345.649,-3871 466.649,-3871 466.649,-3726 345.649,-3726"/>
 <text text-anchor="middle" x="406.149" y="-3859" font-family="Helvetica,sans-Serif" font-size="10.00">common</text>
 <polyline fill="none" stroke="black" points="345.649,-3852 466.649,-3852 "/>

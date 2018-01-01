@@ -133,7 +133,7 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node11 -->
 <g id="node7" class="node"><title>Node11</title>
-<g id="a_node7"><a xlink:href="classcommon.html" target="_top" xlink:title="{common\n|+ altairCommandStr\l+ execPath\l+ RAltairCommandStr\l+ RAltairDirStr\l+ sharedir\l|+ common()\l+ exporter_identification\l_controle()\l+ exporter_identification\l_controle()\l}">
+<g id="a_node7"><a xlink:href="classcommon.html" target="_top" xlink:title="Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l&#39;interface vers l...">
 <polygon fill="white" stroke="black" points="70.5,-188 70.5,-333 191.5,-333 191.5,-188 70.5,-188"/>
 <text text-anchor="middle" x="131" y="-321" font-family="Helvetica,sans-Serif" font-size="10.00">common</text>
 <polyline fill="none" stroke="black" points="70.5,-314 191.5,-314 "/>

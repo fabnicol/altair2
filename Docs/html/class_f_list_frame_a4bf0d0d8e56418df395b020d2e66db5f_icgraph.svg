@@ -488,7 +488,7 @@ var sectionId = 'dynsection-25';
 </g>
 <!-- Node178 -->
 <g id="node28" class="node"><title>Node178</title>
-<g id="a_node28"><a xlink:href="classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" target="_top" xlink:title="options::options">
+<g id="a_node28"><a xlink:href="classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" target="_top" xlink:title="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair...">
 <polygon fill="white" stroke="black" points="1079,-77.7078 1079,-96.7078 1165,-96.7078 1165,-77.7078 1079,-77.7078"/>
 <text text-anchor="middle" x="1122" y="-84.7078" font-family="Helvetica,sans-Serif" font-size="10.00">options::options</text>
 </a>

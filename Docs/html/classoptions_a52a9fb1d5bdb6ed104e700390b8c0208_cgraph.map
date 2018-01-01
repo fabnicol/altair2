@@ -1,9 +1,9 @@
 <map id="options::options" name="options::options">
-<area shape="rect" id="node2" href="$classoptions.html#afd95d4619d23d889c1a7b5acca9aa9a3" title="Changement de page. " alt="" coords="187,216,331,243"/>
-<area shape="rect" id="node3" href="$classoptions.html#ad87424d624e6d5e6a3999fbe7da72d09" title="Méthode permettant d&#39;ajouter les icones. " alt="" coords="189,267,329,293"/>
-<area shape="rect" id="node5" href="$classoptions.html#a3ed5ebd88ec807e26894187b51327bc4" title="Code la case &quot;Enchainer les rapports&quot; qui permet de lancer R pour produire des rapports d&#39;analyse à p..." alt="" coords="168,317,349,344"/>
+<area shape="rect" id="node2" href="$classoptions.html#afd95d4619d23d889c1a7b5acca9aa9a3" title="Changement d&#39;onglet du dialogue d&#39;options. " alt="" coords="187,216,331,243"/>
+<area shape="rect" id="node3" href="$classoptions.html#ad87424d624e6d5e6a3999fbe7da72d09" title="Méthode permettant d&#39;ajouter les icônes. " alt="" coords="189,267,329,293"/>
+<area shape="rect" id="node5" href="$classoptions.html#a3ed5ebd88ec807e26894187b51327bc4" title="Coche la case &quot;Enchainer les rapports&quot; qui permet de lancer R pour produire des rapports d&#39;analyse à ..." alt="" coords="168,317,349,344"/>
 <area shape="rect" id="node6" href="$class_altair.html#a2eb0a89c3223b2df1c01d2b3b7d1c0eb" title="Rafraichir le projet .alt après avoir actualisé l&#39;interface. " alt="" coords="189,393,329,420"/>
-<area shape="rect" id="node4" href="$classoptions.html#a45e2899f9b408fb65f4a84049be19713" title="options::createIcon" alt="" coords="426,241,559,268"/>
+<area shape="rect" id="node4" href="$classoptions.html#a45e2899f9b408fb65f4a84049be19713" title="Méthode permettant d&#39;ajouter une icône particulière. " alt="" coords="426,241,559,268"/>
 <area shape="rect" id="node7" href="$struct_abstract.html#af7b700041c9d75de3f642f15ece3e6ae" title="Réinitialiser toutes les valeurs du de la table de hachage Hash::wrapper. " alt="" coords="439,444,546,471"/>
 <area shape="rect" id="node8" href="$class_main_window.html#ab58113ae4ed9a73ec3e3e5f83c98dfcc" title="Vérifie si par défaut le projet .alt doit être enregistré à chaque modification de l&#39;état de l&#39;interf..." alt="" coords="399,495,586,537"/>
 <area shape="rect" id="node9" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="tools::path_access" alt="" coords="427,561,559,588"/>

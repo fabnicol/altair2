@@ -1,8 +1,8 @@
 <map id="tools::readFile" name="tools::readFile">
 <area shape="rect" id="node2" href="$classcommon.html#a7900f8a5d7ebd42770ce8c366dd4b933" title="Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement. " alt="" coords="157,5,364,47"/>
 <area shape="rect" id="node3" href="$classtools.html#a13fc801ee004227bea7e8d1602b04d26" title="tools::readFile" alt="" coords="209,71,313,98"/>
-<area shape="rect" id="node4" href="$classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" title="codePage::substituer\l_valeurs_dans_script_R" alt="" coords="179,123,342,164"/>
+<area shape="rect" id="node4" href="$classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" title="Substitue certaines valeurs caractéristiques du contrôle dans le fichier prologue_codes.R dans exportpath, notamment le Siret, le budget et l&#39;employeur. " alt="" coords="179,123,342,164"/>
 <area shape="rect" id="node6" href="$classstandard_page.html#abb37a1fff677f91ad2418b07593aa40d" title="Exporter le versant FPH ou FPT dans le script R pour générer les tests adéquats. " alt="" coords="177,188,344,229"/>
-<area shape="rect" id="node5" href="$classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" title="Constructeur du dialogue &quot;Code de paye des tests&quot;. " alt="" coords="434,130,581,157"/>
+<area shape="rect" id="node5" href="$classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" title="Constructeur de l&#39;onglet &quot;Code de paye des tests&quot;. " alt="" coords="434,130,581,157"/>
 <area shape="rect" id="node7" href="$classstandard_page.html#a95b9887a321f29e844fd314048585cee" title="Constructeur de l&#39;onglet &quot;Format des bases&quot;. " alt="" coords="412,195,603,222"/>
 </map>

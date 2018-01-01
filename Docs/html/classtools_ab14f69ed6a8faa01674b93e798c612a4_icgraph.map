@@ -1,11 +1,11 @@
 <map id="tools::substituer" name="tools::substituer">
 <area shape="rect" id="node2" href="$classcommon.html#a3149ba29e04e6e5f7f85a2894434bf9e" title="Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement. " alt="" coords="168,115,375,156"/>
-<area shape="rect" id="node7" href="$classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" title="codePage::substituer\l_valeurs_dans_script_R" alt="" coords="445,173,607,215"/>
+<area shape="rect" id="node7" href="$classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" title="Substitue certaines valeurs caractéristiques du contrôle dans le fichier prologue_codes.R dans exportpath, notamment le Siret, le budget et l&#39;employeur. " alt="" coords="445,173,607,215"/>
 <area shape="rect" id="node9" href="$classstandard_page.html#abb37a1fff677f91ad2418b07593aa40d" title="Exporter le versant FPH ou FPT dans le script R pour générer les tests adéquats. " alt="" coords="188,232,355,273"/>
 <area shape="rect" id="node3" href="$classcommon.html#a7900f8a5d7ebd42770ce8c366dd4b933" title="Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement. " alt="" coords="423,5,629,47"/>
 <area shape="rect" id="node4" href="$class_altair.html#a7d10f8ecf4097577885172afb6c2e9c6" title="Lance l&#39;exécution de l&#39;application en ligne de commande lhx. " alt="" coords="715,71,794,98"/>
 <area shape="rect" id="node5" href="$class_altair.html#ae04f2a5771d47bbe2e0cc3a11b72d6bf" title="Parcourt le répertoire en cours du mode distributif, un à chaque appel Exporte l&#39;identification dans ..." alt="" coords="435,122,617,149"/>
 <area shape="rect" id="node6" href="$class_altair.html#a16b8035c4383a789cd00b687fb105fe9" title="Traitement de la fin de l&#39;exécution de lhx. " alt="" coords="677,122,832,149"/>
-<area shape="rect" id="node8" href="$classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" title="Constructeur du dialogue &quot;Code de paye des tests&quot;. " alt="" coords="681,181,828,207"/>
+<area shape="rect" id="node8" href="$classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" title="Constructeur de l&#39;onglet &quot;Code de paye des tests&quot;. " alt="" coords="681,181,828,207"/>
 <area shape="rect" id="node10" href="$classstandard_page.html#a95b9887a321f29e844fd314048585cee" title="Constructeur de l&#39;onglet &quot;Format des bases&quot;. " alt="" coords="431,239,621,266"/>
 </map>

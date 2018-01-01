@@ -50,7 +50,7 @@
 static constexpr const char* STEP_UP  =  "/../../";
 #endif
 
-/// Largeur minimale des lignes de l'onglet d'entrée du dialogue d'options (codes de paye). Détermine la lageur du dialogue
+/// Largeur minimale des lignes de l'onglet d'entrée du dialogue d'options (codes de paye). Détermine la largeur du dialogue
 
 #ifndef MINIMUM_LINE_WIDTH
 #  define MINIMUM_LINE_WIDTH 350
