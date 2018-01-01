@@ -16,7 +16,7 @@
 </g>
 <!-- Node46 -->
 <g id="node2" class="node"><title>Node46</title>
-<g id="a_node2"><a xlink:href="classoptions.html#ad87424d624e6d5e6a3999fbe7da72d09" target="_top" xlink:title="Méthode permettant d&#39;ajouter les icones. ">
+<g id="a_node2"><a xlink:href="classoptions.html#ad87424d624e6d5e6a3999fbe7da72d09" target="_top" xlink:title="Méthode permettant d&#39;ajouter les icônes. ">
 <polygon fill="white" stroke="black" points="136,-0.5 136,-19.5 241,-19.5 241,-0.5 136,-0.5"/>
 <text text-anchor="middle" x="188.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">options::createIcons</text>
 </a>
@@ -29,7 +29,7 @@
 </g>
 <!-- Node47 -->
 <g id="node3" class="node"><title>Node47</title>
-<g id="a_node3"><a xlink:href="classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" target="_top" xlink:title="options::options">
+<g id="a_node3"><a xlink:href="classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" target="_top" xlink:title="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair...">
 <polygon fill="white" stroke="black" points="277,-0.5 277,-19.5 363,-19.5 363,-0.5 277,-0.5"/>
 <text text-anchor="middle" x="320" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">options::options</text>
 </a>

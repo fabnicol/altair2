@@ -110,7 +110,7 @@
 </g>
 <!-- Node26 -->
 <g id="node9" class="node"><title>Node26</title>
-<g id="a_node9"><a xlink:href="classcode_page.html" target="_top" xlink:title="codePage">
+<g id="a_node9"><a xlink:href="classcode_page.html" target="_top" xlink:title="Classe de l&#39;onglet Codes permettant d&#39;exporter des codes de paye manuellement spécifiés vers les scri...">
 <polygon fill="white" stroke="black" points="335.5,-152.5 335.5,-171.5 395.5,-171.5 395.5,-152.5 335.5,-152.5"/>
 <text text-anchor="middle" x="365.5" y="-159.5" font-family="Helvetica,sans-Serif" font-size="10.00">codePage</text>
 </a>
@@ -123,7 +123,7 @@
 </g>
 <!-- Node48 -->
 <g id="node10" class="node"><title>Node48</title>
-<g id="a_node10"><a xlink:href="classcommon.html" target="_top" xlink:title="common">
+<g id="a_node10"><a xlink:href="classcommon.html" target="_top" xlink:title="Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l&#39;interface vers l...">
 <polygon fill="white" stroke="black" points="211.5,-171.5 211.5,-190.5 265.5,-190.5 265.5,-171.5 211.5,-171.5"/>
 <text text-anchor="middle" x="238.5" y="-178.5" font-family="Helvetica,sans-Serif" font-size="10.00">common</text>
 </a>
@@ -136,7 +136,7 @@
 </g>
 <!-- Node33 -->
 <g id="node13" class="node"><title>Node33</title>
-<g id="a_node13"><a xlink:href="classprocess_page.html" target="_top" xlink:title="processPage">
+<g id="a_node13"><a xlink:href="classprocess_page.html" target="_top" xlink:title="Classe de l&#39;onglet Traitement du dialgue d&#39;options. ">
 <polygon fill="white" stroke="black" points="328.5,-190.5 328.5,-209.5 402.5,-209.5 402.5,-190.5 328.5,-190.5"/>
 <text text-anchor="middle" x="365.5" y="-197.5" font-family="Helvetica,sans-Serif" font-size="10.00">processPage</text>
 </a>
@@ -180,7 +180,7 @@
 </g>
 <!-- Node32 -->
 <g id="node12" class="node"><title>Node32</title>
-<g id="a_node12"><a xlink:href="classoptions.html" target="_top" xlink:title="options">
+<g id="a_node12"><a xlink:href="classoptions.html" target="_top" xlink:title="Classe de l&#39;onglet Codes, qui permet de saisir manuellement les codes de paye de certaines catégories...">
 <polygon fill="white" stroke="black" points="341.5,-114.5 341.5,-133.5 389.5,-133.5 389.5,-114.5 341.5,-114.5"/>
 <text text-anchor="middle" x="365.5" y="-121.5" font-family="Helvetica,sans-Serif" font-size="10.00">options</text>
 </a>

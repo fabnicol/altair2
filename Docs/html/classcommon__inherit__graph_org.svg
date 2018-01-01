@@ -123,7 +123,7 @@
 </g>
 <!-- Node4 -->
 <g id="node5" class="node"><title>Node4</title>
-<g id="a_node5"><a xlink:href="classcode_page.html" target="_top" xlink:title="{codePage\n|&#45; appliquerCodes\l&#45; baseBox\l&#45; init_label_text\l&#45; label\l&#45; listeCodes\l&#45; listeDialogueLabels\l&#45; listeLabels\l&#45; mainLayout\l&#45; prologue_codes_path\l&#45; variables\l&#45; vLayout\l|+ codePage()\l+ codePage()\l+ resetLabel()\l+ resetLabel()\l&#45; ajouterVariable()\l&#45; ajouterVariable()\l&#45; reinitialiser_prologue()\l&#45; reinitialiser_prologue()\l&#45; activer_fph()\l&#45; activer_fph()\l&#45; substituer_valeurs\l_dans_script_R()\l&#45; substituer_valeurs\l_dans_script_R()\l}">
+<g id="a_node5"><a xlink:href="classcode_page.html" target="_top" xlink:title="Classe de l&#39;onglet Codes permettant d&#39;exporter des codes de paye manuellement spécifiés vers les scri...">
 <polygon fill="white" stroke="black" points="182.5,-303 182.5,-613 299.5,-613 299.5,-303 182.5,-303"/>
 <text text-anchor="middle" x="241" y="-601" font-family="Helvetica,sans-Serif" font-size="10.00">codePage</text>
 <polyline fill="none" stroke="black" points="182.5,-594 299.5,-594 "/>
@@ -163,7 +163,7 @@
 </g>
 <!-- Node5 -->
 <g id="node6" class="node"><title>Node5</title>
-<g id="a_node6"><a xlink:href="classoptions.html" target="_top" xlink:title="{options\n|+ codeTab\l+ optionWidget\l+ processTab\l+ standardTab\l+ RefreshFlag\l&#45; closeButton\l&#45; pagesWidget\l|+ options()\l+ clearOptionData()\l&#45; createIcon()\l&#45; createIcons()\l&#45; changePage()\l&#45; enchainerRapports()\l}">
+<g id="a_node6"><a xlink:href="classoptions.html" target="_top" xlink:title="Classe de l&#39;onglet Codes, qui permet de saisir manuellement les codes de paye de certaines catégories...">
 <polygon fill="white" stroke="black" points="318,-369 318,-547 428,-547 428,-369 318,-369"/>
 <text text-anchor="middle" x="373" y="-535" font-family="Helvetica,sans-Serif" font-size="10.00">options</text>
 <polyline fill="none" stroke="black" points="318,-528 428,-528 "/>
@@ -191,7 +191,7 @@
 </g>
 <!-- Node6 -->
 <g id="node7" class="node"><title>Node6</title>
-<g id="a_node7"><a xlink:href="classprocess_page.html" target="_top" xlink:title="{processPage\n|+ enchainerRapports\l+ logFrame\l+ rapportEntier\l&#45; consoleCheckBox\l&#45; logCheckBox\l&#45; memoryUseWidget\l&#45; nLineLabel\l&#45; NLineLabel\l&#45; processTypeBox\l&#45; processTypeWidget\l&#45; rapportTypeWidget\l&#45; standardMsg\l|+ processPage()\l+ processPage()\l}">
+<g id="a_node7"><a xlink:href="classprocess_page.html" target="_top" xlink:title="Classe de l&#39;onglet Traitement du dialgue d&#39;options. ">
 <polygon fill="white" stroke="black" points="446,-363.5 446,-552.5 556,-552.5 556,-363.5 446,-363.5"/>
 <text text-anchor="middle" x="501" y="-540.5" font-family="Helvetica,sans-Serif" font-size="10.00">processPage</text>
 <polyline fill="none" stroke="black" points="446,-533.5 556,-533.5 "/>

@@ -88,7 +88,7 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node12 -->
 <g id="node8" class="node"><title>Node12</title>
-<g id="a_node8"><a xlink:href="classprocess_page.html" target="_top" xlink:title="{processPage\n|&#45; nLineLabel\l&#45; NLineLabel\l&#45; processTypeBox\l|+ processPage()\l+ processPage()\l}">
+<g id="a_node8"><a xlink:href="classprocess_page.html" target="_top" xlink:title="Classe de l&#39;onglet Traitement du dialgue d&#39;options. ">
 <polygon fill="white" stroke="black" points="521.201,-303.5 521.201,-393.5 617.201,-393.5 617.201,-303.5 521.201,-303.5"/>
 <text text-anchor="middle" x="569.201" y="-381.5" font-family="Helvetica,sans-Serif" font-size="10.00">processPage</text>
 <polyline fill="none" stroke="black" points="521.201,-374.5 617.201,-374.5 "/>
@@ -139,7 +139,7 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node24 -->
 <g id="node20" class="node"><title>Node24</title>
-<g id="a_node20"><a xlink:href="classcode_page.html" target="_top" xlink:title="{codePage\n|&#45; appliquerCodes\l&#45; baseBox\l&#45; init_label_text\l&#45; label\l&#45; listeCodes\l&#45; listeDialogueLabels\l&#45; listeLabels\l&#45; mainLayout\l&#45; prologue_codes_path\l&#45; variables\l&#45; vLayout\l|+ codePage()\l+ codePage()\l+ resetLabel()\l+ resetLabel()\l&#45; ajouterVariable()\l&#45; ajouterVariable()\l&#45; reinitialiser_prologue()\l&#45; reinitialiser_prologue()\l&#45; activer_fph()\l&#45; activer_fph()\l&#45; substituer_valeurs\l_dans_script_R()\l&#45; substituer_valeurs\l_dans_script_R()\l}">
+<g id="a_node20"><a xlink:href="classcode_page.html" target="_top" xlink:title="Classe de l&#39;onglet Codes permettant d&#39;exporter des codes de paye manuellement spécifiés vers les scri...">
 <polygon fill="white" stroke="black" points="63.7008,-193.5 63.7008,-503.5 180.701,-503.5 180.701,-193.5 63.7008,-193.5"/>
 <text text-anchor="middle" x="122.201" y="-491.5" font-family="Helvetica,sans-Serif" font-size="10.00">codePage</text>
 <polyline fill="none" stroke="black" points="63.7008,-484.5 180.701,-484.5 "/>
@@ -184,7 +184,7 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node7 -->
 <g id="node3" class="node"><title>Node7</title>
-<g id="a_node3"><a xlink:href="classcommon.html" target="_top" xlink:title="{common\n|+ altairCommandStr\l+ execPath\l+ RAltairCommandStr\l+ RAltairDirStr\l+ sharedir\l|+ common()\l+ exporter_identification\l_controle()\l+ exporter_identification\l_controle()\l}">
+<g id="a_node3"><a xlink:href="classcommon.html" target="_top" xlink:title="Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l&#39;interface vers l...">
 <polygon fill="white" stroke="black" points="281.701,-590 281.701,-735 402.701,-735 402.701,-590 281.701,-590"/>
 <text text-anchor="middle" x="342.201" y="-723" font-family="Helvetica,sans-Serif" font-size="10.00">common</text>
 <polyline fill="none" stroke="black" points="281.701,-716 402.701,-716 "/>

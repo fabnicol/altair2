@@ -2,7 +2,7 @@
 <area shape="rect" id="node2" href="$classcode_page.html#a6896b21cac9b9ab917b333a01530fce9" title="Crée une ligne de codes pour un type donné d&#39;éléments de paye. " alt="" coords="200,5,375,32"/>
 <area shape="rect" id="node3" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="tools::path_access" alt="" coords="677,115,809,141"/>
 <area shape="rect" id="node4" href="$classcode_page.html#a8524212298b5473047c5c4f0cadc86a6" title="Réinitialise l&#39;exportation des codes d&#39;éléments de paye Ecrase prologue_codes.R ( prologue_codes_path..." alt="" coords="451,107,601,149"/>
-<area shape="rect" id="node5" href="$classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" title="codePage::substituer\l_valeurs_dans_script_R" alt="" coords="206,267,369,309"/>
+<area shape="rect" id="node5" href="$classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" title="Substitue certaines valeurs caractéristiques du contrôle dans le fichier prologue_codes.R dans exportpath, notamment le Siret, le budget et l&#39;employeur. " alt="" coords="206,267,369,309"/>
 <area shape="rect" id="node6" href="$classtools.html#af43fc30ac740fa0fa1d773afb2538c8c" title="tools::readFile" alt="" coords="474,275,578,301"/>
 <area shape="rect" id="node7" href="$classcommon.html#a3149ba29e04e6e5f7f85a2894434bf9e" title="Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement. " alt="" coords="423,377,629,418"/>
 <area shape="rect" id="node9" href="$classtools.html#ab14f69ed6a8faa01674b93e798c612a4" title="tools::substituer" alt="" coords="686,464,801,491"/>

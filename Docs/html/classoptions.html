@@ -109,24 +109,30 @@ $(document).ready(function(){initNavTree('classoptions.html','');});
 <div class="title">Référence de la classe options</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Classe de l'onglet Codes, qui permet de saisir manuellement les codes de paye de certaines catégories de lignes de paye.  
+ <a href="classoptions.html#details">Plus de détails...</a></p>
 <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Graphe d'héritage de options:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classoptions__inherit__graph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classoptions__inherit__graph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Graphe de collaboration de options:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classoptions__coll__graph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classoptions__coll__graph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Fonctions membres publiques</h2></td></tr>
 <tr class="memitem:a52a9fb1d5bdb6ed104e700390b8c0208"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208">options</a> (<a class="el" href="class_altair.html">Altair</a> *parent=0)</td></tr>
+<tr class="memdesc:a52a9fb1d5bdb6ed104e700390b8c0208"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructeur de l'onglet correspondant à un pointeur <em>parent</em> vers une instance de la classe <a class="el" href="class_altair.html" title="Classe Altair, agent de la classe MainWindow qui implémente les fonctions globales de l&#39;interface gra...">Altair</a>.  <a href="#a52a9fb1d5bdb6ed104e700390b8c0208">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a52a9fb1d5bdb6ed104e700390b8c0208"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67bf62e71e3abec12487f0b53335e2e4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classoptions.html#a67bf62e71e3abec12487f0b53335e2e4">clearOptionData</a> ()</td></tr>
 <tr class="memdesc:a67bf62e71e3abec12487f0b53335e2e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Efface les données de <a class="el" href="class_hash.html#acf7475b24c0beb8c903848b017fe657c">Hash::wrapper</a> et de <a class="el" href="class_hash.html#afa9c423a2b33233b76ab12fb6904d3ae">Hash::Reference</a>.  <a href="#a67bf62e71e3abec12487f0b53335e2e4">Plus de détails...</a><br /></td></tr>
@@ -208,18 +214,19 @@ Attributs publics statiques</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-slots"></a>
 Connecteurs privés</h2></td></tr>
 <tr class="memitem:afd95d4619d23d889c1a7b5acca9aa9a3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classoptions.html#afd95d4619d23d889c1a7b5acca9aa9a3">changePage</a> (QListWidgetItem *current, QListWidgetItem *previous)</td></tr>
-<tr class="memdesc:afd95d4619d23d889c1a7b5acca9aa9a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changement de page.  <a href="#afd95d4619d23d889c1a7b5acca9aa9a3">Plus de détails...</a><br /></td></tr>
+<tr class="memdesc:afd95d4619d23d889c1a7b5acca9aa9a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changement d'onglet du dialogue d'options.  <a href="#afd95d4619d23d889c1a7b5acca9aa9a3">Plus de détails...</a><br /></td></tr>
 <tr class="separator:afd95d4619d23d889c1a7b5acca9aa9a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ed5ebd88ec807e26894187b51327bc4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classoptions.html#a3ed5ebd88ec807e26894187b51327bc4">enchainerRapports</a> (int index)</td></tr>
-<tr class="memdesc:a3ed5ebd88ec807e26894187b51327bc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Code la case "Enchainer les rapports" qui permet de lancer R pour produire des rapports d'analyse à partir de l'interface sans lancer RStudio.  <a href="#a3ed5ebd88ec807e26894187b51327bc4">Plus de détails...</a><br /></td></tr>
+<tr class="memdesc:a3ed5ebd88ec807e26894187b51327bc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Coche la case "Enchainer les rapports" qui permet de lancer R pour produire des rapports d'analyse à partir de l'interface sans lancer RStudio.  <a href="#a3ed5ebd88ec807e26894187b51327bc4">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a3ed5ebd88ec807e26894187b51327bc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Fonctions membres privées</h2></td></tr>
 <tr class="memitem:a45e2899f9b408fb65f4a84049be19713"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classoptions.html#a45e2899f9b408fb65f4a84049be19713">createIcon</a> (const char *path, const char *text)</td></tr>
+<tr class="memdesc:a45e2899f9b408fb65f4a84049be19713"><td class="mdescLeft">&#160;</td><td class="mdescRight">Méthode permettant d'ajouter une icône particulière.  <a href="#a45e2899f9b408fb65f4a84049be19713">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a45e2899f9b408fb65f4a84049be19713"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad87424d624e6d5e6a3999fbe7da72d09"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classoptions.html#ad87424d624e6d5e6a3999fbe7da72d09">createIcons</a> ()</td></tr>
-<tr class="memdesc:ad87424d624e6d5e6a3999fbe7da72d09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Méthode permettant d'ajouter les icones.  <a href="#ad87424d624e6d5e6a3999fbe7da72d09">Plus de détails...</a><br /></td></tr>
+<tr class="memdesc:ad87424d624e6d5e6a3999fbe7da72d09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Méthode permettant d'ajouter les icônes.  <a href="#ad87424d624e6d5e6a3999fbe7da72d09">Plus de détails...</a><br /></td></tr>
 <tr class="separator:ad87424d624e6d5e6a3999fbe7da72d09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
@@ -228,7 +235,7 @@ Attributs privés</h2></td></tr>
 <tr class="memdesc:a76ffef95b410ddd4d70f9dea667564ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bouton "Quitter".  <a href="#a76ffef95b410ddd4d70f9dea667564ef">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a76ffef95b410ddd4d70f9dea667564ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aabfe2c2cca901cca5a4ad87e859273d8"><td class="memItemLeft" align="right" valign="top">QStackedWidget *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classoptions.html#aabfe2c2cca901cca5a4ad87e859273d8">pagesWidget</a></td></tr>
-<tr class="memdesc:aabfe2c2cca901cca5a4ad87e859273d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">composant permettant d'empiler les onglets du dialogue d'options (<a class="el" href="classstandard_page.html" title="Classe de l&#39;onglet &quot;Format des bases&quot; du dialogue d&#39;options. ">standardPage</a>, <a class="el" href="classprocess_page.html">processPage</a>, <a class="el" href="classcode_page.html">codePage</a>)  <a href="#aabfe2c2cca901cca5a4ad87e859273d8">Plus de détails...</a><br /></td></tr>
+<tr class="memdesc:aabfe2c2cca901cca5a4ad87e859273d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">composant permettant d'empiler les onglets du dialogue d'options (<a class="el" href="classstandard_page.html" title="Classe de l&#39;onglet &quot;Format des bases&quot; du dialogue d&#39;options. ">standardPage</a>, <a class="el" href="classprocess_page.html" title="Classe de l&#39;onglet Traitement du dialgue d&#39;options. ">processPage</a>, <a class="el" href="classcode_page.html" title="Classe de l&#39;onglet Codes permettant d&#39;exporter des codes de paye manuellement spécifiés vers les scri...">codePage</a>)  <a href="#aabfe2c2cca901cca5a4ad87e859273d8">Plus de détails...</a><br /></td></tr>
 <tr class="separator:aabfe2c2cca901cca5a4ad87e859273d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
@@ -324,8 +331,10 @@ Membres hérités additionnels</h2></td></tr>
 <tr class="separator:aefd7e17f4eeb34a4ab3d254eb3bb0a03 inherit pub_static_methods_classtools"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Description détaillée</h2>
-<div class="textblock">
-<p class="definition">Définition à la ligne <a class="el" href="options_8h_source.html#l00173">173</a> du fichier <a class="el" href="options_8h_source.html">options.h</a>.</p>
+<div class="textblock"><p>Classe de l'onglet Codes, qui permet de saisir manuellement les codes de paye de certaines catégories de lignes de paye. </p>
+<p>Les codes différents, pour la même ligne, sont séparés par des points-virgules. Ils doivent être exportés dans le fichier exportpath en cliquant sur la flèche verte de l'onglet. </p>
+
+<p class="definition">Définition à la ligne <a class="el" href="options_8h_source.html#l00185">185</a> du fichier <a class="el" href="options_8h_source.html">options.h</a>.</p>
 </div><h2 class="groupheader">Documentation des constructeurs et destructeur</h2>
 <a id="a52a9fb1d5bdb6ed104e700390b8c0208"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a52a9fb1d5bdb6ed104e700390b8c0208">&#9670;&nbsp;</a></span>options()</h2>
@@ -343,15 +352,18 @@ Membres hérités additionnels</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructeur de l'onglet correspondant à un pointeur <em>parent</em> vers une instance de la classe <a class="el" href="class_altair.html" title="Classe Altair, agent de la classe MainWindow qui implémente les fonctions globales de l&#39;interface gra...">Altair</a>. </p>
+
 <p class="definition">Définition à la ligne <a class="el" href="options_8cpp_source.html#l00789">789</a> du fichier <a class="el" href="options_8cpp_source.html">options.cpp</a>.</p>
 
-<p class="reference">Références <a class="el" href="common_8h_source.html#l00111">common::altairCommandStr</a>, <a class="el" href="options_8cpp_source.html#l00900">changePage()</a>, <a class="el" href="options_8h_source.html#l00189">closeButton</a>, <a class="el" href="options_8h_source.html#l00182">codeTab</a>, <a class="el" href="options_8cpp_source.html#l00889">createIcons()</a>, <a class="el" href="options_8cpp_source.html#l00860">enchainerRapports()</a>, <a class="el" href="common_8h_source.html#l00106">common::execPath</a>, <a class="el" href="options_8h_source.html#l00106">standardPage::exportWidget</a>, <a class="el" href="_interface_2gui_2main_8cpp_source.html#l00051">fontsize</a>, <a class="el" href="options_8h_source.html#l00104">standardPage::FPHCheckBox</a>, <a class="el" href="gui__enums_8h_source.html#l00112">interfaceStatus::hasUnsavedOptions</a>, <a class="el" href="gui__enums_8h_source.html#l00121">interfaceStatus::optionTabs</a>, <a class="el" href="options_8h_source.html#l00184">optionWidget</a>, <a class="el" href="options_8h_source.html#l00190">pagesWidget</a>, <a class="el" href="options_8h_source.html#l00181">processTab</a>, <a class="el" href="options_8h_source.html#l00183">RefreshFlag</a>, <a class="el" href="options_8h_source.html#l00180">standardTab</a>, et <a class="el" href="altair_8cpp_source.html#l00620">Altair::updateProject()</a>.</p>
+<p class="reference">Références <a class="el" href="common_8h_source.html#l00112">common::altairCommandStr</a>, <a class="el" href="options_8cpp_source.html#l00900">changePage()</a>, <a class="el" href="options_8h_source.html#l00204">closeButton</a>, <a class="el" href="options_8h_source.html#l00194">codeTab</a>, <a class="el" href="options_8cpp_source.html#l00889">createIcons()</a>, <a class="el" href="options_8cpp_source.html#l00860">enchainerRapports()</a>, <a class="el" href="common_8h_source.html#l00107">common::execPath</a>, <a class="el" href="options_8h_source.html#l00105">standardPage::exportWidget</a>, <a class="el" href="_interface_2gui_2main_8cpp_source.html#l00051">fontsize</a>, <a class="el" href="options_8h_source.html#l00103">standardPage::FPHCheckBox</a>, <a class="el" href="gui__enums_8h_source.html#l00112">interfaceStatus::hasUnsavedOptions</a>, <a class="el" href="gui__enums_8h_source.html#l00121">interfaceStatus::optionTabs</a>, <a class="el" href="options_8h_source.html#l00196">optionWidget</a>, <a class="el" href="options_8h_source.html#l00205">pagesWidget</a>, <a class="el" href="options_8h_source.html#l00193">processTab</a>, <a class="el" href="options_8h_source.html#l00195">RefreshFlag</a>, <a class="el" href="options_8h_source.html#l00192">standardTab</a>, et <a class="el" href="altair_8cpp_source.html#l00620">Altair::updateProject()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-2-content" class="dyncontent" style="display:none;">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classoptions_a52a9fb1d5bdb6ed104e700390b8c0208_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classoptions_a52a9fb1d5bdb6ed104e700390b8c0208_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 
 </div>
@@ -391,11 +403,11 @@ Membres hérités additionnels</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Changement de page. </p>
+<p>Changement d'onglet du dialogue d'options. </p>
 
 <p class="definition">Définition à la ligne <a class="el" href="options_8cpp_source.html#l00900">900</a> du fichier <a class="el" href="options_8cpp_source.html">options.cpp</a>.</p>
 
-<p class="reference">Références <a class="el" href="options_8h_source.html#l00184">optionWidget</a>, et <a class="el" href="options_8h_source.html#l00190">pagesWidget</a>.</p>
+<p class="reference">Références <a class="el" href="options_8h_source.html#l00196">optionWidget</a>, et <a class="el" href="options_8h_source.html#l00205">pagesWidget</a>.</p>
 
 <p class="reference">Référencé par <a class="el" href="options_8cpp_source.html#l00789">options()</a>.</p>
 <div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -403,7 +415,8 @@ Membres hérités additionnels</h2></td></tr>
 <div id="dynsection-3-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-3-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classoptions_afd95d4619d23d889c1a7b5acca9aa9a3_icgraph.svg" width="318" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classoptions_afd95d4619d23d889c1a7b5acca9aa9a3_icgraph.svg" width="318" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 
 </div>
@@ -427,7 +440,7 @@ Membres hérités additionnels</h2></td></tr>
 
 <p class="definition">Définition à la ligne <a class="el" href="options_8cpp_source.html#l00868">868</a> du fichier <a class="el" href="options_8cpp_source.html">options.cpp</a>.</p>
 
-<p class="reference">Références <a class="el" href="gui__enums_8h_source.html#l00121">interfaceStatus::optionTabs</a>, <a class="el" href="fstring_8h_source.html#l00339">Hash::Reference</a>, <a class="el" href="options_8h_source.html#l00183">RefreshFlag</a>, et <a class="el" href="fstring_8h_source.html#l00324">Hash::wrapper</a>.</p>
+<p class="reference">Références <a class="el" href="gui__enums_8h_source.html#l00121">interfaceStatus::optionTabs</a>, <a class="el" href="fstring_8h_source.html#l00339">Hash::Reference</a>, <a class="el" href="options_8h_source.html#l00195">RefreshFlag</a>, et <a class="el" href="fstring_8h_source.html#l00324">Hash::wrapper</a>.</p>
 
 </div>
 </div>
@@ -465,9 +478,18 @@ Membres hérités additionnels</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Méthode permettant d'ajouter une icône particulière. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Chemin de l'icône </td></tr>
+    <tr><td class="paramname">text</td><td>Libellé de l'icône </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p class="definition">Définition à la ligne <a class="el" href="options_8cpp_source.html#l00877">877</a> du fichier <a class="el" href="options_8cpp_source.html">options.cpp</a>.</p>
 
-<p class="reference">Références <a class="el" href="options_8h_source.html#l00184">optionWidget</a>.</p>
+<p class="reference">Références <a class="el" href="options_8h_source.html#l00196">optionWidget</a>.</p>
 
 <p class="reference">Référencé par <a class="el" href="options_8cpp_source.html#l00889">createIcons()</a>.</p>
 <div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -475,7 +497,8 @@ Membres hérités additionnels</h2></td></tr>
 <div id="dynsection-4-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-4-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classoptions_a45e2899f9b408fb65f4a84049be19713_icgraph.svg" width="495" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classoptions_a45e2899f9b408fb65f4a84049be19713_icgraph.svg" width="495" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 
 </div>
@@ -503,7 +526,8 @@ Membres hérités additionnels</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Méthode permettant d'ajouter les icones. </p>
+<p>Méthode permettant d'ajouter les icônes. </p>
+<p>Appelle  sur une liste prédéterminée d'arguments. </p>
 
 <p class="definition">Définition à la ligne <a class="el" href="options_8cpp_source.html#l00889">889</a> du fichier <a class="el" href="options_8cpp_source.html">options.cpp</a>.</p>
 
@@ -515,14 +539,16 @@ Membres hérités additionnels</h2></td></tr>
 <div id="dynsection-5-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-5-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classoptions_ad87424d624e6d5e6a3999fbe7da72d09_cgraph.svg" width="332" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classoptions_ad87424d624e6d5e6a3999fbe7da72d09_cgraph.svg" width="332" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 <div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
 <div id="dynsection-6-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-6-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classoptions_ad87424d624e6d5e6a3999fbe7da72d09_icgraph.svg" width="314" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classoptions_ad87424d624e6d5e6a3999fbe7da72d09_icgraph.svg" width="314" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 
 </div>
@@ -551,11 +577,11 @@ Membres hérités additionnels</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Code la case "Enchainer les rapports" qui permet de lancer R pour produire des rapports d'analyse à partir de l'interface sans lancer RStudio. </p>
+<p>Coche la case "Enchainer les rapports" qui permet de lancer R pour produire des rapports d'analyse à partir de l'interface sans lancer RStudio. </p>
 
 <p class="definition">Définition à la ligne <a class="el" href="options_8cpp_source.html#l00860">860</a> du fichier <a class="el" href="options_8cpp_source.html">options.cpp</a>.</p>
 
-<p class="reference">Références <a class="el" href="options_8h_source.html#l00070">processPage::enchainerRapports</a>, et <a class="el" href="options_8h_source.html#l00181">processTab</a>.</p>
+<p class="reference">Références <a class="el" href="options_8h_source.html#l00073">processPage::enchainerRapports</a>, et <a class="el" href="options_8h_source.html#l00193">processTab</a>.</p>
 
 <p class="reference">Référencé par <a class="el" href="options_8cpp_source.html#l00789">options()</a>.</p>
 <div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -563,7 +589,8 @@ Membres hérités additionnels</h2></td></tr>
 <div id="dynsection-7-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-7-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classoptions_a3ed5ebd88ec807e26894187b51327bc4_icgraph.svg" width="355" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classoptions_a3ed5ebd88ec807e26894187b51327bc4_icgraph.svg" width="355" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 
 </div>
@@ -591,7 +618,7 @@ Membres hérités additionnels</h2></td></tr>
 
 <p>Bouton "Quitter". </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="options_8h_source.html#l00189">189</a> du fichier <a class="el" href="options_8h_source.html">options.h</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="options_8h_source.html#l00204">204</a> du fichier <a class="el" href="options_8h_source.html">options.h</a>.</p>
 
 <p class="reference">Référencé par <a class="el" href="options_8cpp_source.html#l00789">options()</a>.</p>
 
@@ -611,7 +638,7 @@ Membres hérités additionnels</h2></td></tr>
 
 <p>Onglet des codes de paye : renseignement manuel des codes de paye utilisés pour certains types d'éléments de paye. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="options_8h_source.html#l00182">182</a> du fichier <a class="el" href="options_8h_source.html">options.h</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="options_8h_source.html#l00194">194</a> du fichier <a class="el" href="options_8h_source.html">options.h</a>.</p>
 
 <p class="reference">Référencé par <a class="el" href="altair_8cpp_source.html#l00465">Altair::clearProjectData()</a>, et <a class="el" href="options_8cpp_source.html#l00789">options()</a>.</p>
 
@@ -631,7 +658,7 @@ Membres hérités additionnels</h2></td></tr>
 
 <p>composant du dialogue d'options </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="options_8h_source.html#l00184">184</a> du fichier <a class="el" href="options_8h_source.html">options.h</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="options_8h_source.html#l00196">196</a> du fichier <a class="el" href="options_8h_source.html">options.h</a>.</p>
 
 <p class="reference">Référencé par <a class="el" href="options_8cpp_source.html#l00900">changePage()</a>, <a class="el" href="options_8cpp_source.html#l00877">createIcon()</a>, et <a class="el" href="options_8cpp_source.html#l00789">options()</a>.</p>
 
@@ -657,9 +684,9 @@ Membres hérités additionnels</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>composant permettant d'empiler les onglets du dialogue d'options (<a class="el" href="classstandard_page.html" title="Classe de l&#39;onglet &quot;Format des bases&quot; du dialogue d&#39;options. ">standardPage</a>, <a class="el" href="classprocess_page.html">processPage</a>, <a class="el" href="classcode_page.html">codePage</a>) </p>
+<p>composant permettant d'empiler les onglets du dialogue d'options (<a class="el" href="classstandard_page.html" title="Classe de l&#39;onglet &quot;Format des bases&quot; du dialogue d&#39;options. ">standardPage</a>, <a class="el" href="classprocess_page.html" title="Classe de l&#39;onglet Traitement du dialgue d&#39;options. ">processPage</a>, <a class="el" href="classcode_page.html" title="Classe de l&#39;onglet Codes permettant d&#39;exporter des codes de paye manuellement spécifiés vers les scri...">codePage</a>) </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="options_8h_source.html#l00190">190</a> du fichier <a class="el" href="options_8h_source.html">options.h</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="options_8h_source.html#l00205">205</a> du fichier <a class="el" href="options_8h_source.html">options.h</a>.</p>
 
 <p class="reference">Référencé par <a class="el" href="options_8cpp_source.html#l00900">changePage()</a>, et <a class="el" href="options_8cpp_source.html#l00789">options()</a>.</p>
 
@@ -679,7 +706,7 @@ Membres hérités additionnels</h2></td></tr>
 
 <p>Onglet de Traitement : nombre de fils, utilisation de la mémoire, log et enchainement avec la production des rapports. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="options_8h_source.html#l00181">181</a> du fichier <a class="el" href="options_8h_source.html">options.h</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="options_8h_source.html#l00193">193</a> du fichier <a class="el" href="options_8h_source.html">options.h</a>.</p>
 
 <p class="reference">Référencé par <a class="el" href="options_8cpp_source.html#l00860">enchainerRapports()</a>, et <a class="el" href="options_8cpp_source.html#l00789">options()</a>.</p>
 
@@ -707,7 +734,7 @@ Membres hérités additionnels</h2></td></tr>
 
 <p>Drapeau indiquant si si l'interface a été actualisée ou doit l'être. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="options_8h_source.html#l00183">183</a> du fichier <a class="el" href="options_8h_source.html">options.h</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="options_8h_source.html#l00195">195</a> du fichier <a class="el" href="options_8h_source.html">options.h</a>.</p>
 
 <p class="reference">Référencé par <a class="el" href="altair_8cpp_source.html#l00657">Altair::assignWidgetValues()</a>, <a class="el" href="altair_8cpp_source.html#l00427">Altair::clearInterfaceAndParseProject()</a>, <a class="el" href="options_8cpp_source.html#l00868">clearOptionData()</a>, <a class="el" href="altair_8cpp_source.html#l00465">Altair::clearProjectData()</a>, <a class="el" href="options_8cpp_source.html#l00789">options()</a>, et <a class="el" href="xmlparser_8cpp_source.html#l00104">Altair::writeProjectFile()</a>.</p>
 
@@ -727,7 +754,7 @@ Membres hérités additionnels</h2></td></tr>
 
 <p>Onglet d'accueil Format : type de base en sortie, modalité d'extraction des données, exportation/archivage. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="options_8h_source.html#l00180">180</a> du fichier <a class="el" href="options_8h_source.html">options.h</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="options_8h_source.html#l00192">192</a> du fichier <a class="el" href="options_8h_source.html">options.h</a>.</p>
 
 <p class="reference">Référencé par <a class="el" href="options_8cpp_source.html#l00789">options()</a>.</p>
 

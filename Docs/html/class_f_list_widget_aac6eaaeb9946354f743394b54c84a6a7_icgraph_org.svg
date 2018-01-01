@@ -227,7 +227,7 @@
 </g>
 <!-- Node49 -->
 <g id="node18" class="node"><title>Node49</title>
-<g id="a_node18"><a xlink:href="classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" target="_top" xlink:title="options::options">
+<g id="a_node18"><a xlink:href="classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" target="_top" xlink:title="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair...">
 <polygon fill="white" stroke="black" points="1029,-152.5 1029,-171.5 1115,-171.5 1115,-152.5 1029,-152.5"/>
 <text text-anchor="middle" x="1072" y="-159.5" font-family="Helvetica,sans-Serif" font-size="10.00">options::options</text>
 </a>

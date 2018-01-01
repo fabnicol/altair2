@@ -160,7 +160,7 @@ var sectionId = 'dynsection-12';
 </g>
 <!-- Node169 -->
 <g id="node13" class="node"><title>Node169</title>
-<g id="a_node13"><a xlink:href="classcode_page.html#ad89c8fd4b641a2b884ac3980759fe329" target="_top" xlink:title="codePage::resetLabel">
+<g id="a_node13"><a xlink:href="classcode_page.html#ad89c8fd4b641a2b884ac3980759fe329" target="_top" xlink:title="Réinitialisation de l&#39;élément de texte variable de l&#39;onglet. ">
 <polygon fill="white" stroke="black" points="345,-108.5 345,-127.5 456,-127.5 456,-108.5 345,-108.5"/>
 <text text-anchor="middle" x="400.5" y="-115.5" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::resetLabel</text>
 </a>

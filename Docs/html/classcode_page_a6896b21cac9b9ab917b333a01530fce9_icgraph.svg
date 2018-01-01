@@ -16,7 +16,7 @@
 </g>
 <!-- Node25 -->
 <g id="node2" class="node"><title>Node25</title>
-<g id="a_node2"><a xlink:href="classcode_page.html#a3b8692dcc8d9bd11272f65d00f8f10ab" target="_top" xlink:title="codePage::activer_fph">
+<g id="a_node2"><a xlink:href="classcode_page.html#a3b8692dcc8d9bd11272f65d00f8f10ab" target="_top" xlink:title="Active les contrôles réglementaires sur la fonction publique hospitalière (FPH) même s&#39;ils n&#39;ont pas ...">
 <polygon fill="white" stroke="black" points="167,-38.5 167,-57.5 281,-57.5 281,-38.5 167,-38.5"/>
 <text text-anchor="middle" x="224" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::activer_fph</text>
 </a>
@@ -29,7 +29,7 @@
 </g>
 <!-- Node26 -->
 <g id="node3" class="node"><title>Node26</title>
-<g id="a_node3"><a xlink:href="classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" target="_top" xlink:title="Constructeur du dialogue &quot;Code de paye des tests&quot;. ">
+<g id="a_node3"><a xlink:href="classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" target="_top" xlink:title="Constructeur de l&#39;onglet &quot;Code de paye des tests&quot;. ">
 <polygon fill="white" stroke="black" points="169,-0.5 169,-19.5 279,-19.5 279,-0.5 169,-0.5"/>
 <text text-anchor="middle" x="224" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::codePage</text>
 </a>

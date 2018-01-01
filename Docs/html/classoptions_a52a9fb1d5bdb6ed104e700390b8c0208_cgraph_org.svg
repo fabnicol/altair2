@@ -16,7 +16,7 @@
 </g>
 <!-- Node1 -->
 <g id="node2" class="node"><title>Node1</title>
-<g id="a_node2"><a xlink:href="classoptions.html#afd95d4619d23d889c1a7b5acca9aa9a3" target="_top" xlink:title="Changement de page. ">
+<g id="a_node2"><a xlink:href="classoptions.html#afd95d4619d23d889c1a7b5acca9aa9a3" target="_top" xlink:title="Changement d&#39;onglet du dialogue d&#39;options. ">
 <polygon fill="white" stroke="black" points="136,-340.5 136,-359.5 244,-359.5 244,-340.5 136,-340.5"/>
 <text text-anchor="middle" x="190" y="-347.5" font-family="Helvetica,sans-Serif" font-size="10.00">options::changePage</text>
 </a>
@@ -29,7 +29,7 @@
 </g>
 <!-- Node2 -->
 <g id="node3" class="node"><title>Node2</title>
-<g id="a_node3"><a xlink:href="classoptions.html#ad87424d624e6d5e6a3999fbe7da72d09" target="_top" xlink:title="Méthode permettant d&#39;ajouter les icones. ">
+<g id="a_node3"><a xlink:href="classoptions.html#ad87424d624e6d5e6a3999fbe7da72d09" target="_top" xlink:title="Méthode permettant d&#39;ajouter les icônes. ">
 <polygon fill="white" stroke="black" points="137.5,-302.5 137.5,-321.5 242.5,-321.5 242.5,-302.5 137.5,-302.5"/>
 <text text-anchor="middle" x="190" y="-309.5" font-family="Helvetica,sans-Serif" font-size="10.00">options::createIcons</text>
 </a>
@@ -42,7 +42,7 @@
 </g>
 <!-- Node4 -->
 <g id="node5" class="node"><title>Node4</title>
-<g id="a_node5"><a xlink:href="classoptions.html#a3ed5ebd88ec807e26894187b51327bc4" target="_top" xlink:title="Code la case &quot;Enchainer les rapports&quot; qui permet de lancer R pour produire des rapports d&#39;analyse à p...">
+<g id="a_node5"><a xlink:href="classoptions.html#a3ed5ebd88ec807e26894187b51327bc4" target="_top" xlink:title="Coche la case &quot;Enchainer les rapports&quot; qui permet de lancer R pour produire des rapports d&#39;analyse à ...">
 <polygon fill="white" stroke="black" points="122,-264.5 122,-283.5 258,-283.5 258,-264.5 122,-264.5"/>
 <text text-anchor="middle" x="190" y="-271.5" font-family="Helvetica,sans-Serif" font-size="10.00">options::enchainerRapports</text>
 </a>
@@ -68,7 +68,7 @@
 </g>
 <!-- Node3 -->
 <g id="node4" class="node"><title>Node3</title>
-<g id="a_node4"><a xlink:href="classoptions.html#a45e2899f9b408fb65f4a84049be19713" target="_top" xlink:title="options::createIcon">
+<g id="a_node4"><a xlink:href="classoptions.html#a45e2899f9b408fb65f4a84049be19713" target="_top" xlink:title="Méthode permettant d&#39;ajouter une icône particulière. ">
 <polygon fill="white" stroke="black" points="315.5,-321.5 315.5,-340.5 415.5,-340.5 415.5,-321.5 315.5,-321.5"/>
 <text text-anchor="middle" x="365.5" y="-328.5" font-family="Helvetica,sans-Serif" font-size="10.00">options::createIcon</text>
 </a>
