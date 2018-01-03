@@ -85,7 +85,7 @@ utiliser.variable.Heures.Sup.  <- FALSE  # faire les tests de seuil IHTS sur la 
 noria.sur.base.de.paie         <- FALSE  # calculer effet de noria sur base de paie uniquement (pas de fichier E/S)
 
 numéro.tableau                 <- 0  # Numérotation de départ des tableaux
-numéro.tableau                 <- 0  # Numérotation de départ des chapitres
+chapitre                       <- 0  # Numérotation de départ des chapitres
 seuil.troncature               <- 2  # jours
 taux.tolérance.homonymie       <- 2  # en %
 quantile.cut                   <- 1  # en %
