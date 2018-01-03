@@ -75,7 +75,7 @@ options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE, dat
 
 # Sourcer la biblio de fonctions auxiliaires
 
-source("bibliotheque.fonctions.paie.R", encoding = encodage.code.source)
+source("bibliotheque.fonctions.paie.R", encoding = "UTF-8")
 
 # Importer les données --> bases Paie et Bulletins.paie
 

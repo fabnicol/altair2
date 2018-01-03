@@ -216,7 +216,7 @@ Sauv.base <- function(chemin.dossier, nom, nom.sauv, Latin = convertir.latin, se
              sep = sep,
              dec = dec)
 
-  if (Latin) {
+  if (Latin == convertir.latin) {
     file2Latin(filepath)
     message("Conversion de ", nom.sauv, " en encodage ISO-8859-15")
   }
@@ -257,8 +257,8 @@ sauv.bases <- function(chemin.dossier, Latin = convertir.latin, env = .GlobalEnv
   tmp[1] <- NULL
 
   message("Dans le dossier ", chemin.dossier," :")
-  invisible(lapply(tmp[-1:skiplist], function(x) {
-    if (exists(x, where = env)) Sauv.base(dossier,
+  invisible(lapply(tmp[-c(1:skiplist)], function(x) {
+    if (exists(x, where = env)) Sauv.base(chemin.dossier,
                                            x,
                                            x,
                                            Latin,

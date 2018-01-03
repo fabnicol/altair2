@@ -515,8 +515,14 @@ if (redresser.heures) {
   
   message("Quotités calculées")
   
-  Bulletins.paie[ ,   `:=`(Montant.net.eqtp  = ifelse(is.finite(a<-Net.à.Payer/quotité), a,  NA),
-                           Montant.brut.eqtp = ifelse(is.finite(a<-Brut/quotité), a,  NA))]
+  # Bulletins.paie[ ,   Montant.net.eqtp  := Net.à.Payer / quotité]
+  # Bulletins.paie[is.na(Montant.net.eqtp) | ! is.finite(Montant.net.eqtp),   Montant.net.eqtp  := 0]
+  # 
+  # Bulletins.paie[ ,   Montant.brut.eqtp  := Brut / quotité]
+  # Bulletins.paie[is.na(Montant.brut.eqtp) | ! is.finite(Montant.brut.eqtp),   Montant.brut.eqtp  := 0]
+  
+  Bulletins.paie$Montant.brut.eqtp <- Bulletins.paie$Brut
+  Bulletins.paie$Montant.net.eqtp  <- Bulletins.paie$Net.à.Payer
   
   Bulletins.paie[ ,   `:=`(Statut.sortie   = Statut[length(Net.à.Payer)],
                            nb.jours        = calcul.nb.jours.mois(Mois, Année[1]),
