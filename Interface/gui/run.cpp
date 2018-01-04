@@ -251,7 +251,7 @@ void Altair::runWorker (const QString& subdir)
     command = QString ("-m -d \",\" -s \";\" -E -rank ") + sharedir + "/rank" ;
 
 #   ifndef INSERT_PAGE
-    command  += "-D " + v(base) + QDir::separator() + subdir;
+    command  += QDir::separator() + subdir;
 #   endif
 
     QStringListIterator i (args1);

@@ -53,23 +53,9 @@
 /// Classe permettant de construire un dialogue d'extraction des bulletins de paye par matricule, année(s) et mois
 class MatriculeInput : public QDialog
 {
-private :
-    QDialogButtonBox *closeButton; ///< Bouton Quitter
-    FLineEdit *matrLineEdit;       ///< Première ligne de matricules
-    FLineEdit *matrLineEdit2;      ///< Deuxième ligne de matricules
-    FLineEdit *matrLineEdit3;      ///< Troisième ligne de matricules
-    FLineFrame* dossier;           ///< Dossier d'export des bulletins extraits
+Q_OBJECT
 
-    /// Vérifie l'input (format de saisie)
-    /// \param l CHaîne de caractères formatée selon l'usage :\n
-    /// <ul><li>Pour un seul matricule : Matricule-Mois-Année</li>
-    ///  <li>Pour une plage de mois et d'années : Matricule-Mois.début...Mois.fin-Année.début...Année.fin</li>
-    /// </ul>\n
-    /// Les séquences de ce type peuvent être ajoutées les unes aux autres séparées par un point-virgule.
-
-    bool checkInput (FLineEdit* l);
-
-public :
+public:
 
     /// Constructeur de la classe MatriculeInput
     /// \param  largeur du dialogue
@@ -90,8 +76,41 @@ public :
         matrLineEdit->setText("");
         matrLineEdit2->setText("");
         matrLineEdit3->setText("");
+        updateProject(true);
         return filled;
     }
+
+    /// Vérifie qu'à l'ouverture du dialogue, le répertoire par défaut dirpath est bien renseigné.
+
+    void checkDefaultFolder()
+    {
+        Q(dirpath)
+        if (dossier->getText().isEmpty())
+        {
+            dossier->setText(dirpath);
+            updateProject(true);
+        }
+    }
+
+private:
+    QDialogButtonBox *closeButton; ///< Bouton Quitter
+    FLineEdit *matrLineEdit;       ///< Première ligne de matricules
+    FLineEdit *matrLineEdit2;      ///< Deuxième ligne de matricules
+    FLineEdit *matrLineEdit3;      ///< Troisième ligne de matricules
+    FLineFrame* dossier;           ///< Dossier d'export des bulletins extraits
+    QString dirpath;         ///< Chemin du dossier par défaut.
+
+    /// Vérifie l'input (format de saisie)
+    /// \param l CHaîne de caractères formatée selon l'usage :\n
+    /// <ul><li>Pour un seul matricule : Matricule-Mois-Année</li>
+    ///  <li>Pour une plage de mois et d'années : Matricule-Mois.début...Mois.fin-Année.début...Année.fin</li>
+    /// </ul>\n
+    /// Les séquences de ce type peuvent être ajoutées les unes aux autres séparées par un point-virgule.
+
+    bool checkInput (FLineEdit* l);
+
+signals:
+    void updateProject(bool);
 };
 
 

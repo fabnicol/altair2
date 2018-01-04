@@ -166,6 +166,7 @@ MainWindow::MainWindow (char* projectName)
     dialog = new options (altair);
     dialog->setParent (altair, Qt::Window);
     m = new MatriculeInput (width / 4, height / 6);
+    connect(m, SIGNAL(updateProject(bool)), altair, SLOT(updateProject(bool)));
 
     Altair::RefreshFlag =  Altair::RefreshFlag  | interfaceStatus::parseXml;
 
@@ -465,7 +466,8 @@ void MainWindow::createActions()
 
 void MainWindow::on_printBase_clicked()
 {
-    if (m->exec() != QDialog::Accepted) return;
+    m->checkDefaultFolder();
+    m->exec();
 
     if (! m->matricules.isEmpty())
         {

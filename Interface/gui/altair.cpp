@@ -445,6 +445,7 @@ void Altair::closeProject()
     int projectDimension = project->getRank();
 
     clearProjectData();
+
     Altair::totalSize = 0;
 
     for (int i = projectDimension; i >= 0;   i--)
@@ -498,6 +499,8 @@ void Altair::clearProjectData()
         }
 
     Hash::Reference.clear();
+    // Réinitialise Hash::wrapper profondément.
+    Abstract::initH();
     Hash::Annee.clear();
     Hash::Mois.clear();
     Hash::Budget.clear();
