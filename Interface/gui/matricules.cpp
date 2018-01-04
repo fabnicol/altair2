@@ -93,7 +93,7 @@ MatriculeInput::MatriculeInput (int width, int height)
                                     "%bulletins");
 
     QGroupBox* dBox = new QGroupBox ("Exportation");
-    const QString dirpath = common::path_access (DONNEES "Bulletins");
+    dirpath = common::path_access (DONNEES "Bulletins");
 
     dossier = new FLineFrame ({"Matricules", "Répertoire"},
                               dirpath,
@@ -159,8 +159,7 @@ MatriculeInput::MatriculeInput (int width, int height)
         if (! matrLineEdit3->text().isEmpty())
             matricules += matricules.isEmpty() ? "" : ";" + matrLineEdit3->text();
 
-        if (matricules.isEmpty())
-            dossier->setText ("");
+        emit(updateProject(true));
 
         if (res) accept();
     });
@@ -169,9 +168,6 @@ MatriculeInput::MatriculeInput (int width, int height)
              &QDialogButtonBox::rejected,
              [this]
     {
-        matricules =  "";
-        dossier->setText ("");
-
         reject();
     });
 }
