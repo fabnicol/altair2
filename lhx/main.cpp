@@ -1248,50 +1248,60 @@ pair<uint64_t, uint64_t> produire_segment (const info_t& info, const vString& se
 
 
     // Edition éventuelle des bulletins
-    bool res = true;
 
-    for (auto &&v : vbull)
-        {
-            string annee = v.at (2);
-            string mois  = v.at (1);
-            string matricule = v.at (0);
-            int res = true;
-            size_t pos;
+    if (info.generer_bulletins)
+    {
 
-            if ((pos = annee.find_first_of ('.')) != string::npos)
-                {
-                    int an0 = stoi (annee.substr (0, pos));
-                    pos = annee.find_last_of ('.');
-                    int an1 = stoi (annee.substr (pos + 1));
+        vector<string> chemins_bulletins;
 
-                    for (int an = an0; an <= an1; ++an)
-                        {
-                            const string annee = to_string (an);
+        for (auto &&v : vbull)
+            {
+                string annee = v.at (2);
+                string mois  = v.at (1);
+                string matricule = v.at (0);
 
-                            res &= scan_mois (repertoire_bulletins,
-                                              Info,
-                                              matricule,
-                                              mois,
-                                              annee);
-                        }
+                size_t pos;
 
-                }
-            else
-                res &= scan_mois (repertoire_bulletins,
-                                  Info,
-                                  matricule,
-                                  mois,
-                                  annee);
-        }
+                if ((pos = annee.find_first_of ('.')) != string::npos)
+                    {
+                        int an0 = stoi (annee.substr (0, pos));
+                        pos = annee.find_last_of ('.');
+                        int an1 = stoi (annee.substr (pos + 1));
 
-    if (res)
-        {
-            cerr << STATE_HTML_TAG "Tous les bulletins ont été extraits" << ENDL;
-        }
-    else
-        {
-            cerr << WARNING_HTML_TAG "Certains bulletins n'ont pas été extraits" << ENDL;
-        }
+                        for (int an = an0; an <= an1; ++an)
+                            {
+                                const string annee = to_string (an);
+                                vector<string> c;
+                                c = scan_mois (repertoire_bulletins,
+                                                  Info,
+                                                  matricule,
+                                                  mois,
+                                                  annee);
+
+                                std::move(c.begin(), c.end(), std::back_inserter(chemins_bulletins));
+
+                            }
+
+                    }
+                else
+                    chemins_bulletins = scan_mois (repertoire_bulletins,
+                                                      Info,
+                                                      matricule,
+                                                      mois,
+                                                      annee);
+            }
+
+        int res = chemins_bulletins.size();
+
+        if (res)
+            {
+                cerr << STATE_HTML_TAG  << res << " bulletin" << (res > 1 ? "s" : "") << "ont été extraits" << ENDL;
+            }
+        else
+            {
+                cerr << WARNING_HTML_TAG "Aucun bulletin n'a été extrait" << ENDL;
+            }
+    }
 
     pair<uint64_t, uint64_t> lignes;
 
@@ -1375,15 +1385,14 @@ pair<uint64_t, uint64_t> produire_segment (const info_t& info, const vString& se
 }
 
 
-bool scan_mois (const string &repertoire_bulletins,
+vector<string> scan_mois (const string &repertoire_bulletins,
                 const vector<info_t> &Info,
                 const string &matricule,
                 const string &mois,
                 const string &annee)
 {
     size_t pos = 0;
-    bool res = true;
-
+    vector<string> chemins_bulletins;
     // Les mois peuvent être donnés en intervalles du type 02...11
     // ce qui signifie : tous les mois entre février et novembre inclus
 
@@ -1397,19 +1406,22 @@ bool scan_mois (const string &repertoire_bulletins,
             // et lancer la fonction bulletin_paye sur chacun de ces mois
 
             for (int m = m0; m <= m1; ++m)
-                res &=  bulletin_paye (repertoire_bulletins,
-                                       Info,
-                                       matricule,
-                                       to_string (m),
-                                       annee);
+            {
+                 vector<string> c = bulletin_paye (repertoire_bulletins,
+                                                   Info,
+                                                   matricule,
+                                                   to_string (m),
+                                                   annee);
+
+                 std::move(c.begin(), c.end(), std::back_inserter(chemins_bulletins));
+            }
         }
     // Si pas d'intervalle, lancer la fonction bulletin_paye sur le seul mois donné.
     else
-        res &=  bulletin_paye (repertoire_bulletins,
-                               Info,
-                               matricule,
-                               mois,
-                               annee);
-
-    return res;
+        chemins_bulletins = bulletin_paye (repertoire_bulletins,
+                                               Info,
+                                               matricule,
+                                               mois,
+                                               annee);
+    return chemins_bulletins;
 }

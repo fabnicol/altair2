@@ -56,7 +56,7 @@
 vector<long long>  recherche (const vector<info_t> &Info, const xmlChar* annee, const xmlChar* mois, const xmlChar* matricule);
 
 const string extraire_lignes (const info_t& info, const array<uint64_t, 3>& debut, const array<uint64_t, 2>& fin);
-bool bulletin_paye (const string& chemin_repertoire,
+vector<string> bulletin_paye (const string& chemin_repertoire,
                     const vector<info_t> &Info,
                     const string& matricule,
                     const string& mois,
@@ -68,10 +68,10 @@ bool bulletin_paye (const string& chemin_repertoire,
 /// \param matricule Référence vers une chaîne de caractère de type string contenant le matricule
 /// \param mois Référence vers une chaîne de caractère de type string contenant le mois
 /// \param annee Référence vers une chaîne de caractère de type string contenant l'année
-/// \return Booléen : \e true si succès, \e false sinon.
+/// \return Vecteur de chemins de bulletins \em xml extraits.
 
-bool scan_mois (const string &repertoire_bulletins,
-                const vector<info_t> &Info,
-                const string &matricule,
-                const string &mois,
-                const string &annee);
+vector<string> scan_mois (const string &repertoire_bulletins,
+                            const vector<info_t> &Info,
+                            const string &matricule,
+                            const string &mois,
+                            const string &annee);
