@@ -78,6 +78,20 @@ public :
     MatriculeInput (int largeur, int hauteur);
 
     QString matricules;  ///< Liste des séquences Matricule-Mois-Année (avec leurs plages éventuelles), séparées par des points virgules.
+
+    /// Réinitialisation de tous les champs
+    /// @return Booléen \em true sur les dialogue d'extraction était rempli, \em false sinon
+
+    bool clear()
+    {
+        bool filled = ! matricules.isEmpty();
+        matricules.clear();
+        dossier->setText("");
+        matrLineEdit->setText("");
+        matrLineEdit2->setText("");
+        matrLineEdit3->setText("");
+        return filled;
+    }
 };
 
 

@@ -79,17 +79,17 @@ MatriculeInput::MatriculeInput (int width, int height)
 
     matrLineEdit = new FLineEdit ("",
                                   "Matricules",
-                                  {"Impression", "Format Matricule-Mois...-Anéee(s)...;"},
+                                  {"Impression", "Format Matricule-Mois...-Année(s)...;"},
                                    "%bulletins");
 
     matrLineEdit2 = new FLineEdit ("",
                                    "MatriculesB",
-                                   {"Impression", "Format Matricule-Mois...-Anéee(s)...;"},
+                                   {"Impression", "Format Matricule-Mois...-Année(s)...;"},
                                     "%bulletins");
 
     matrLineEdit3 = new FLineEdit ("",
                                    "MatriculesC",
-                                   {"Impression", "Format Matricule-Mois...-Anéee(s)...;"},
+                                   {"Impression", "Format Matricule-Mois...-Année(s)...;"},
                                     "%bulletins");
 
     QGroupBox* dBox = new QGroupBox ("Exportation");
