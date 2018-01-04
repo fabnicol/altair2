@@ -156,16 +156,16 @@ const string extraire_lignes (const info_t& info, const array<uint64_t, 3>& debu
 /// \param matricule Matricule de l'agent
 /// \param mois Mois de la paye
 /// \param annee Année de la paye
-/// \return Boléen : true si l'exportation a réussi, false sinon
+/// \return Liste des chemins des fichiers \em .xml exportés dans le répertoire chemin_repertoire.
 
-bool bulletin_paye (const string& chemin_repertoire, const vector<info_t> &Info, const string& matricule, const string& mois, const string& annee)
+vector<string> bulletin_paye (const string& chemin_repertoire, const vector<info_t> &Info, const string& matricule, const string& mois, const string& annee)
 {
     cerr << ENDL;
     cerr << PROCESSING_HTML_TAG << "Extraction des bulletins..." << ENDL;
 
     auto bulletins = recherche (Info, annee, mois, matricule);
     int rang = 0;
-    bool res = true;
+    vector<string> chemins_bulletins;
 
     for (auto &&bulletin : bulletins)
         {
@@ -175,7 +175,11 @@ bool bulletin_paye (const string& chemin_repertoire, const vector<info_t> &Info,
 
             ofstream f;
 
-            f.open (chemin_repertoire + "/" + nom_bulletin, std::ofstream::out | std::ofstream::trunc);
+            string chemin_bulletin = chemin_repertoire + "/" + nom_bulletin;
+
+            chemins_bulletins.emplace_back(chemin_bulletin);
+
+            f.open (chemin_bulletin, std::ofstream::out | std::ofstream::trunc);
 
             if (f.is_open())
                 f << bulletin;
@@ -183,7 +187,7 @@ bool bulletin_paye (const string& chemin_repertoire, const vector<info_t> &Info,
                 {
                     cerr << ERROR_HTML_TAG "Echec de la génération du bulletin pour le matricule "
                          << matricule << " Année : " << annee << " Mois : " << mois << ENDL;
-                    res = false;
+
                     continue;
                 }
 
@@ -199,5 +203,5 @@ bool bulletin_paye (const string& chemin_repertoire, const vector<info_t> &Info,
             cerr << " Année : " << annee << " Mois : " << mois << ENDL;
         }
 
-    return res;
+    return chemins_bulletins;
 }
