@@ -57,6 +57,7 @@
 #include "highlighter.h"
 #include "gui_enums.h"
 #include "altair.h"
+#include "matricules.h"
 
 class QAction;
 class QDirModel;
@@ -156,6 +157,11 @@ public :
     /// Actualise la liste des fichiers de projet \b .alt récents dans le menu Fichier
 
     void updateRecentFileActions();
+
+    /// Réinitialise le dialogue d'extraction des matricules
+    /// @return Booléen \em true si le dialogue d'extraction était rempli à l'origine, \em false sinon
+
+    bool resetExtractionBulletins() { return m->clear();}
 
 private :
 
