@@ -272,7 +272,7 @@ noria <- function(Bulletins = Bulletins.paie,
   
 période.translatée <- 1:durée.sous.revue
 
-if (période.translatée < 2) {
+if (length(période.translatée) < 2) {
   
   cat("L'effet de noria ne peut être calculé que sur au moins deux exercices consécutifs")
   return(NULL)
