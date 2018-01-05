@@ -142,7 +142,7 @@ DEVROOT = $$PWD/../..
 # Ce compilateur doit être adjacent aux sources sous Windows
 
 QMAKE_CXXFLAGS_RELEASE -= -O2
-QMAKE_CXXFLAGS +=  -m64 -std=c++14
+QMAKE_CXXFLAGS +=  -m64 -std=c++17 -lstdc++fs
 QMAKE_CXXFLAGS += -march=core-avx2 -Wextra
 #QMAKE_CXXFLAGS += -march=core2
 

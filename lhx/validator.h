@@ -169,6 +169,7 @@ typedef struct
     string chemin_base;                     ///< Chemin des bases CSV de type Table
     string chemin_bulletins;                ///< Chemin des bases CSV de type Bulletins.paie
     string export_mode;                     ///< Type d'exportation (standard, cumulatif, distributif, ...)
+    vector<string> chemins_bulletins_extraits; ///< Vecteur des chemins des bulletins de paye XML extraits des bases XHL/XML originales
     vector<string> exclure_siret;           ///< Ne pas exporter le Siret
     vector<string> exclure_budget;          ///< Ne pas exporter le Budget
     vector<string> exclure_employeur;       ///< Ne pas exporter l'Employeur

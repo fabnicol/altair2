@@ -56,6 +56,8 @@
 #include <sstream>
 #include <cstdlib>
 #include <limits.h>
+#include <experimental/filesystem>
+
 #include "validator.h"
 #include "fonctions_auxiliaires.h"
 #include "table.h"
@@ -77,6 +79,11 @@
 /// permetant de lancer l'extraction des bulletins de paye après décodage complet des bases XML.
 
 using namespace std;
+
+//#ifdef HAS_CPP17
+using namespace experimental::filesystem;
+//#endif
+
 using vString = vector<string>;
 
 typedef chrono::high_resolution_clock Clock;
@@ -93,7 +100,7 @@ vString commandline_tab;
 vector<vString> vbull;
 string repertoire_bulletins;
 
-pair<uint64_t, uint64_t>  produire_segment (const info_t& info, const vString& segment);
+pair<uint64_t, uint64_t>  produire_segment (info_t& info, const vString& segment);
 
 
 int main (int argc, char **argv)
@@ -150,30 +157,31 @@ int main (int argc, char **argv)
         0, // taille base
         BaseType::MONOLITHIQUE,         //    type base
         vector<uint16_t>(),             //    vector<uint16_t> NLigne;
-        &mon_thread,    //    thread_t threads;
-        "",             //    chemin log
+        &mon_thread,      //    thread_t threads;
+        "",               //    chemin log
         EXPRESSION_REG_ELUS,
         chemin_base,
         chemin_bulletins,
         "Standard",       // export_mode
-        vString(),               // n'exclure aucun SIRET
-        vString(),               // n'exclure aucun budget
-        vString(),               // n'exclure aucun employeur
+        vString(),        // pas d'extraction de bulletins
+        vString(),        // n'exclure aucun SIRET
+        vString(),        // n'exclure aucun budget
+        vString(),        // n'exclure aucun employeur
         MAX_LIGNES_PAYE,  // nbLigneUtilisateur
         0,                // uint16_t fichier_courant
-        ',',              // const char decimal;
-        ';',              // const char separateur;
-        true,             // réduire coso mémoire
+        ',',              // const char decimal
+        ';',              // const char separateur
+        true,             // réduire consommation mémoire
         true,             // par défaut lire la balise adjacente
         false,            // calculer les maxima de lignes et d'agents
         false,            // numéroter les lignes
         false,            // ne pas générer des bulletins particuliers pour impression
         false,            // ne pas exporter les informations sur l'établissement
         false,            // ne pas exporter l'échelon
-        false,            // pretend
-        false,            // verifmem
-        false,           //  cdrom
-        1                // nbfil
+        false,            // faire semblant d'extraire
+        false,            // test mémoire
+        false,            // extraction depuis disque optique
+        1                 // nombre de fils
     };
 
     // Analyse de la ligne de commande
@@ -238,7 +246,7 @@ int main (int argc, char **argv)
                     info.generer_bulletins = true;
 
                     for (const string &v : bull)
-                        vbull.emplace_back (split (v, '-')); // {"1025N", "6...9", "2012...2015"}
+                        vbull.emplace_back (split (v, '-')); // vbull est un vecteur de triplets du type {"1025N", "6...9", "2012...2015"}
 
                     ++start;
                     continue;
@@ -523,16 +531,22 @@ int main (int argc, char **argv)
 
             else if (commandline_tab[start] == "-D")
                 {
-                    info.chemin_base = commandline_tab[start + 1] + string ("/") + string (NOM_BASE) ;
-                    info.chemin_bulletins = commandline_tab[start + 1] + string ("/") + string (NOM_BASE_BULLETINS);
+                    const string path = commandline_tab[start + 1];
+
+                    if (! exists(path))
+                        create_directories(path);
+
+                    info.chemin_base = path + string ("/") + string (NOM_BASE) ;
+                    info.chemin_bulletins = path + string ("/") + string (NOM_BASE_BULLETINS);
                     ofstream base;
+
                     base.open (info.chemin_base, ofstream::out | ofstream::trunc);
 
                     if (! base.good())
                         {
                             cerr << ERROR_HTML_TAG "La base de données "
-                                 << info.chemin_base  + string (CSV) << " ne peut être créée, vérifier l'existence du dossier." ENDL ;
-                            exit (-113);
+                                 << info.chemin_base  + string (CSV) << " ne peut être créée, vérifier les droits d'accès au dossier spécifié par -D." ENDL ;
+                            throw;
                         }
                     else
                         {
@@ -1049,9 +1063,8 @@ int main (int argc, char **argv)
 
     pair<uint64_t, uint64_t>lignes = make_pair (0, 0);
 
-
-    for (auto&& segment : segments)
-        {
+    for (auto &&segment : segments)
+      {
             unsigned int segment_size = segment.size();
 
             // S'il y a plus de fils que de fichiers dans le segment il faut corriger le nombre de fils en conséquence (nb de fils = de fichiers)
@@ -1070,6 +1083,44 @@ int main (int argc, char **argv)
 
             lignes = produire_segment (info, segment);
         }
+
+    // Extraction des bulletins : on relance lhx mais sur une ligne de commande qui pour sa partie fichiers est remplacée par les bulletins individuels xml extraits
+    // Il suffit de substituer le répertoire --dossier-bulletins au répertoire de sortie (-D) habituel
+    // Le segment est à présent la collection de chemins de bulletins réalisée plus haut. Un seul segment va suffire, dans la pratique.
+
+    if (info.generer_bulletins && ! info.chemins_bulletins_extraits.empty())
+    {
+        // réajustement du répertoire de sortie
+
+        const string path = repertoire_bulletins + string ("/Bases/");
+        if (! exists(path)) create_directories(path);
+
+        // on est maintenant en extraction standard :
+
+        info.generer_bulletins = false;
+        generer_table = true;
+
+        info.chemin_base = path + string (NOM_BASE) ;
+        info.chemin_bulletins = path + string (NOM_BASE_BULLETINS);
+
+        unsigned int segment_size = info.chemins_bulletins_extraits.size();
+
+        // S'il y a plus de fils que de fichiers dans le segment il faut corriger le nombre de fils en conséquence (nb de fils = de fichiers)
+
+        if (info.nbfil > segment_size)
+            {
+                if (verbeux)
+                    cerr << WARNING_HTML_TAG "Réduction du nombre de fils (" << info.nbfil << ") au nombre de fichiers (" << segment_size << ")" ENDL;
+
+                info.nbfil = segment_size;
+            }
+        else
+            info.nbfil = info_nbfil_defaut;
+
+        // Lancement de la fonction principale
+
+        lignes = produire_segment(info, info.chemins_bulletins_extraits);
+    }
 
     // Nettoyage du parseur XML
 
@@ -1101,7 +1152,7 @@ int main (int argc, char **argv)
 /// \param segment Référence vers un vecteur de chaines de caractères de type string contenant les chemins de bases de paye XML en input
 /// \return Nombre de lignes du fichier bulletins de paye et du fichier lignes de paye (Table)
 
-pair<uint64_t, uint64_t> produire_segment (const info_t& info, const vString& segment)
+pair<uint64_t, uint64_t> produire_segment (info_t& info, const vString& segment)
 {
     static int nsegment;
 
@@ -1142,8 +1193,6 @@ pair<uint64_t, uint64_t> produire_segment (const info_t& info, const vString& se
     generate_rank_signal();
 
 #endif
-
-
 
     for (unsigned  i = 0; i < info.nbfil; ++i)
         {
@@ -1251,8 +1300,7 @@ pair<uint64_t, uint64_t> produire_segment (const info_t& info, const vString& se
 
     if (info.generer_bulletins)
     {
-
-        vector<string> chemins_bulletins;
+        vString chemins_bulletins_extraits;
 
         for (auto &&v : vbull)
             {
@@ -1278,29 +1326,31 @@ pair<uint64_t, uint64_t> produire_segment (const info_t& info, const vString& se
                                                   mois,
                                                   annee);
 
-                                std::move(c.begin(), c.end(), std::back_inserter(chemins_bulletins));
+                                vect_concat(chemins_bulletins_extraits, c);
 
                             }
 
                     }
                 else
-                    chemins_bulletins = scan_mois (repertoire_bulletins,
+                    chemins_bulletins_extraits = scan_mois (repertoire_bulletins,
                                                       Info,
                                                       matricule,
                                                       mois,
                                                       annee);
             }
 
-        int res = chemins_bulletins.size();
+        int res = chemins_bulletins_extraits.size();
 
         if (res)
             {
-                cerr << STATE_HTML_TAG  << res << " bulletin" << (res > 1 ? "s" : "") << "ont été extraits" << ENDL;
+                cerr << STATE_HTML_TAG  << res << " bulletin" << (res > 1 ? "s" : "") << " ont été extraits" << ENDL;
             }
         else
             {
                 cerr << WARNING_HTML_TAG "Aucun bulletin n'a été extrait" << ENDL;
             }
+
+        vect_concat(info.chemins_bulletins_extraits, chemins_bulletins_extraits);
     }
 
     pair<uint64_t, uint64_t> lignes;
@@ -1392,7 +1442,7 @@ vector<string> scan_mois (const string &repertoire_bulletins,
                 const string &annee)
 {
     size_t pos = 0;
-    vector<string> chemins_bulletins;
+    vString chemins_bulletins_extraits;
     // Les mois peuvent être donnés en intervalles du type 02...11
     // ce qui signifie : tous les mois entre février et novembre inclus
 
@@ -1413,15 +1463,16 @@ vector<string> scan_mois (const string &repertoire_bulletins,
                                                    to_string (m),
                                                    annee);
 
-                 std::move(c.begin(), c.end(), std::back_inserter(chemins_bulletins));
+                 vect_concat(chemins_bulletins_extraits, c);
             }
         }
     // Si pas d'intervalle, lancer la fonction bulletin_paye sur le seul mois donné.
     else
-        chemins_bulletins = bulletin_paye (repertoire_bulletins,
-                                               Info,
-                                               matricule,
-                                               mois,
-                                               annee);
-    return chemins_bulletins;
+        chemins_bulletins_extraits = bulletin_paye (repertoire_bulletins,
+                                                    Info,
+                                                    matricule,
+                                                    mois,
+                                                    annee);
+
+    return chemins_bulletins_extraits;
 }

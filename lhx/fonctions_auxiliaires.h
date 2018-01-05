@@ -279,7 +279,7 @@ inline void reset_rank_signal()
 /// Efface le premier caractère d'une chaîne et translate la chaîne d'un caractère vers la gauche
 /// \param c chaine de caractères libXml2 à modifier par pointeur
 
-inline void GCC_INLINE effacer_char (xmlChar* c)
+static inline void effacer_char (xmlChar* c)
 {
     for (int j = 0; * (c + j) != 0 && * (c + j + 1) != 0; ++j)
         {
@@ -291,7 +291,7 @@ inline void GCC_INLINE effacer_char (xmlChar* c)
 /// \note Est en principe thread-safe, mais peut causer des ralentissements en raison du \n
 ///  bloquage des fils concurrents
 
-inline void  generate_rank_signal()
+static inline void  generate_rank_signal()
 {
     if (rankFilePath.empty()) return;
 
@@ -330,7 +330,7 @@ inline void  generate_rank_signal()
 /// \param progression indice d'actualisation
 /// \note Thread-safe.
 
-inline void generate_rank_signal (int progression)
+static inline void generate_rank_signal (int progression)
 {
     LOCK_GUARD
 
@@ -357,6 +357,31 @@ static inline void  memory_debug (GCC_UNUSED const string& func_tag)
     cerr << STATE_HTML_TAG << func_tag << " : Calcul de la mémoire disponible : " << getFreeSystemMemory() << ENDL;
 #endif
 }
+
+/// Concaténation de deux vecteurs dans le premier d'entre eux.
+/// \param first Premier vecteur
+/// \param second Deuxième vecteur
+/// \warning Les deux vecteurs ne doivent pas se superposer (comportement indéfini sinon).
+
+static inline void vect_concat(vector<string> &first, vector<string> &second)
+{
+  move(second.begin(), second.end(), back_inserter(first));
+}
+
+#ifndef HAS_CPP17
+static inline void create_directories(const string & path)
+{
+    const int dir_err = mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    if (-1 == dir_err)
+    {
+        throw("Erreur répertoire.");
+    }
+}
+
+static inline bool exists(const string &path) { return ! path.empty(); }
+
+#endif
+
 
 #endif
 #endif // FONCTIONS_AUXILIAIRES_HPP_INCLUDED
