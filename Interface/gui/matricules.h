@@ -84,7 +84,6 @@ public:
 
     void checkDefaultFolder()
     {
-        Q(dirpath)
         if (dossier->getText().isEmpty())
         {
             dossier->setText(dirpath);
