@@ -505,40 +505,40 @@ void ouvrir_fichier_base0 (const info_t &info, BaseCategorie categorie, BaseType
 
                 case BaseType::NA:
                     ++Type;
-
+                   [[fallthrough]];
                 case BaseType::PAR_COMMENTAIRE:
                     ++Type;
-
+                   [[fallthrough]];
                 case BaseType::PAR_COTISATION:
                     ++Type;
-
+                   [[fallthrough]];
                 case BaseType::PAR_RETENUE:
                     ++Type;
-
+                   [[fallthrough]];
                 case BaseType::PAR_RAPPEL:
                     ++Type;
-
+                   [[fallthrough]];
                 case BaseType::PAR_ACOMPTE:
                     ++Type;
-
+                   [[fallthrough]];
                 case BaseType::PAR_DEDUCTION:
                     ++Type;
-
+                   [[fallthrough]];
                 case BaseType::PAR_REM_DIVERSES:
                     ++Type;
-
+                   [[fallthrough]];
                 case BaseType::PAR_INDEMNITE:
                     ++Type;
-
+                   [[fallthrough]];
                 case BaseType::PAR_AVANTAGE_NATURE:
                     ++Type;
-
+                   [[fallthrough]];
                 case BaseType::PAR_SFT:
                     ++Type;
-
+                   [[fallthrough]];
                 case BaseType::PAR_INDEMNITE_RESIDENCE:
                     ++Type;
-
+                   [[fallthrough]];
                 case BaseType::PAR_TRAITEMENT:
                     chemin_base = chemin_base + index + types_extension[Type] + CSV;
                     break;

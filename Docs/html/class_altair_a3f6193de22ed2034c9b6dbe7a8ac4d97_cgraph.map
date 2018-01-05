@@ -1,6 +1,4 @@
 <map id="Altair::parseEntry" name="Altair::parseEntry">
-<area shape="rect" id="node2" href="$class_f_list_frame.html#a7ecbe60018d55d1a1352c5fd24c5e72e" title="FListFrame::setTabLabels" alt="" coords="176,5,351,32"/>
-<area shape="rect" id="node4" href="$namespace_xml_method.html#abe26f53c2028527b0ebea361faa85221" title="Empile les données pour un noeud donné, pour une profondeur d&#39;enchâssement donnée. " alt="" coords="185,56,341,83"/>
-<area shape="rect" id="node5" href="$class_f_string_list.html#a71ec48a52b6ca4ffe89400d66f3ff634" title="FStringList::toInt" alt="" coords="204,131,323,157"/>
-<area shape="rect" id="node3" href="$class_f_list_widget.html#aac6eaaeb9946354f743394b54c84a6a7" title="FListWidget::setTabLabels" alt="" coords="399,5,577,32"/>
+<area shape="rect" id="node2" href="$namespace_xml_method.html#abe26f53c2028527b0ebea361faa85221" title="Empile les données pour un noeud donné, pour une profondeur d&#39;enchâssement donnée. " alt="" coords="176,5,332,32"/>
+<area shape="rect" id="node3" href="$namespace_xml_method.html#a40cfba405dd7bb3e66fef711fe47be4a" title="XmlMethod::stackData" alt="" coords="380,5,536,32"/>
 </map>

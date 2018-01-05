@@ -1243,34 +1243,35 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
         {
         case 1:
             NA_ASSIGN (Nom);
+            [[fallthrough]];
 
         case 2:
             NA_ASSIGN (Prenom);
-
+            [[fallthrough]];
         case 3:
             NA_ASSIGN (Matricule);
-
+            [[fallthrough]];
         case 4:
             NA_ASSIGN (NIR);
-
+            [[fallthrough]];
         case 5:
             ZERO_ASSIGN (NbEnfants);
-
+            [[fallthrough]];
         case 6:
             NA_ASSIGN (Statut);
-
+            [[fallthrough]];
         case 7:
             NA_ASSIGN (EmploiMetier);
-
+            [[fallthrough]];
         case 8:
             NA_ASSIGN (Grade);
-
+            [[fallthrough]];
         case 9:
             NA_ASSIGN (Echelon);
-
+            [[fallthrough]];
         case 10:
             ZERO_ASSIGN (Indice);
-
+            [[fallthrough]];
         default:
             break;
         }
@@ -1390,6 +1391,7 @@ level0:
         }
     else
         {
+            LOCK_GUARD
             cerr << ERROR_HTML_TAG "Service introuvable." ENDL;
 #ifdef STRICT
             exit (-5);
@@ -1419,9 +1421,15 @@ level0:
     if (v > 0)
         {
             xmlFree (info.Table[info.NCumAgentXml][NBI]);
-            char buffer[8] = {0};
+            char buffer[12] = {0};
             sprintf (buffer, "%d", atoi ((const char*)info.Table[info.NCumAgentXml][NBI]) + v);
             info.Table[info.NCumAgentXml][NBI] = xmlStrdup ((xmlChar*) buffer);
+            if (v > 1 && verbeux)
+            {
+                LOCK_GUARD
+                cerr << WARNING_HTML_TAG << v << " NBI détectées - " << "Année : " << info.Table[info.NCumAgentXml][Annee]
+                     << ", Mois : "  << info.Table[info.NCumAgentXml][Mois]  << ", Matricule : " << info.Table[info.NCumAgentXml][Matricule] << ENDL;
+            }
         }
 
 #ifdef TOLERANT_TAG_HIERARCHY
