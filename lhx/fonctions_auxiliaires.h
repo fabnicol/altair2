@@ -363,7 +363,7 @@ static inline void  memory_debug (GCC_UNUSED const string& func_tag)
 /// \param second Deuxième vecteur
 /// \warning Les deux vecteurs ne doivent pas se superposer (comportement indéfini sinon).
 
-static inline void vect_concat(vector<string> &first, vector<string> &second)
+static inline void vect_concat(vector<string> &first, const vector<string> &second)
 {
   move(second.begin(), second.end(), back_inserter(first));
 }
@@ -378,7 +378,7 @@ static inline void create_directories(const string & path)
     }
 }
 
-static inline bool exists(const string &path) { return ! path.empty(); }
+static inline bool exists(const string &path) { return false; }
 
 #endif
 

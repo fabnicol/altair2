@@ -54,14 +54,17 @@ MatriculeInput::MatriculeInput (int width, int height)
     QToolButton *lb = new QToolButton;
     QToolButton *mb = new QToolButton;
     QToolButton *nb = new QToolButton;
+    QToolButton *ab = new QToolButton;
 
     lb->setIcon (QIcon (":/images/edit-clear.png"));
     mb->setIcon (QIcon (":/images/edit-clear.png"));
     nb->setIcon (QIcon (":/images/edit-clear.png"));
+    ab->setIcon (QIcon (":/images/include.png"));
 
     lb->setToolTip ("Effacer");
     mb->setToolTip ("Effacer");
     nb->setToolTip ("Effacer");
+    ab->setToolTip ("Ajouter une ligne de saisie");
 
     const char* tip = "Pour extraire le bulletin d'un agent, rentrer son matricule, suivi d'un tiret,\n"
                       "puis le numéro du mois (de 1 à 12), suivi d'un tiret, et l'année.\n"
@@ -71,7 +74,16 @@ MatriculeInput::MatriculeInput (int width, int height)
                       "\t1058 N-3-2010;1010 B-7...9-2012...2014\n\n"
                       "pour extraire les bulletins des agents de matricule :\n\n"
                       "\t1058 N en mars 2010\n"
-                      "\t1010 B en juillet, août, septembre 2012 à 2014.\n";
+                      "\t1010 B en juillet, août, septembre 2012 à 2014.\n"
+                      "Lorsque les années sont données sur deux chiffres au lieu de 4, elles sont\n"
+                      "réputées être postérieures à l'an 2000.\n"
+                      "Il est possible de regrouper plusieurs matricules, pour une même valeur\n"
+                      "du ou des mois et années. Les matricules sont alors séparés par des virgules.\n"
+                      "Exemple :\n\n"
+                      "\t1059,1092,1011-1...3-15...17\n\n"
+                      "pour extraire les bulletins des agents de matricule :\n\n"
+                      "\t1059, 1092 et 1011 en janvier, février et mars 2015, 2016 et 2017.\n";
+
 
     l->setToolTip (tip);
     m->setToolTip (tip);
@@ -92,22 +104,29 @@ MatriculeInput::MatriculeInput (int width, int height)
                                    {"Impression", "Format Matricule-Mois...-Année(s)...;"},
                                     "%bulletins");
 
+    matrLineEditList = QList<FLineEdit*>();
+    matrLineEditList << matrLineEdit << matrLineEdit2 << matrLineEdit3;
+
+    eraseButtonList = QList<QToolButton*>();
+    eraseButtonList  << lb << mb << nb;
+
     QGroupBox* dBox = new QGroupBox ("Exportation");
     dirpath = common::path_access (DONNEES "Bulletins");
 
     dossier = new FLineFrame ({"Matricules", "Répertoire"},
                               dirpath,
                               "dossierBulletins",
-    {0, 0},
-    nullptr,
-    "%dossier-bulletins",
-    flags::directory::checkEmptyness,
-    flags::flineframe::isDirectoryPath);
+                              {0, 0},
+                              nullptr,
+                              "%dossier-bulletins",
+                              flags::directory::checkEmptyness,
+                              flags::flineframe::isDirectoryPath);
 
     if (! QFileInfo (dirpath).isDir())
         QDir().mkpath (dirpath);
 
     dBox->setLayout (dossier->getLayout());
+
     // format d'input: par exemple : 1058N-3-2010;1010B-7...9-2012..2014 :
     // agents 1058N en mars 2010 et 1010B en juillet,août,septembre 2012 à 2014
 
@@ -130,39 +149,94 @@ MatriculeInput::MatriculeInput (int width, int height)
     q->addWidget (matrLineEdit2, 4, 2);
     q->addWidget (mb,  4, 3);
     q->addWidget (matrLineEdit3, 7, 2);
-    q->addWidget (nb,  7, 3);
-    q->addWidget (dBox, 9, 2);
-    q->addWidget (closeButton, 10, 2);
+    int pos = 7;
+    q->addWidget (nb,  pos, 3);
+    q->addWidget (dBox, pos + 2, 2);
+    q->addWidget (closeButton, pos + 3, 2);
+    q->addWidget (ab, pos + 3, 3);
 
     setFixedWidth (width);
     setMinimumHeight (height);
 
     setWindowTitle ("Extraction des bulletins");
-    setLayout (q);
 
-    connect (lb, &QToolButton::clicked, [this] {matrLineEdit->clear();});
-    connect (mb, &QToolButton::clicked, [this] {matrLineEdit2->clear();});
-    connect (nb, &QToolButton::clicked, [this] {matrLineEdit3->clear();});
+    eraseButtonList = QList<QToolButton*>();
+
+    eraseButtonList << lb << mb << nb;
+
+    connect(ab, &QToolButton::clicked, [this, q, ab] {
+
+            static int rank;
+            ++rank;
+            FLineEdit* ligne = new FLineEdit ("",
+                                              "Matricules" + QString::number(rank),
+                                              {"Impression", "Format Matricule-Mois...-Année(s)...;"},
+                                               "%bulletins");
+            matrLineEditList << ligne;
+
+            QToolButton* button = new QToolButton;
+            eraseButtonList << button;
+            button->setIcon (QIcon (":/images/edit-clear.png"));
+            button->setToolTip("Effacer");
+
+            int pos = 1 + 3 * (3 + rank);
+            q->addWidget(new QLabel("Matricules"), pos - 1, 2);
+            q->addWidget(ligne, pos, 2);
+            q->addWidget(button, pos, 3);
+            QRect rec = QApplication::desktop()->availableGeometry();
+            int h = rec.height();
+            h = h/4 + rank * h / 25;
+            setMinimumHeight(h);
+
+            QList<QToolButton*>::Iterator b = eraseButtonList.begin();
+            QList<FLineEdit*>::Iterator it = matrLineEditList.begin();
+
+            while (b != eraseButtonList.end())
+            {
+                connect(*b,
+                        &QToolButton::clicked,
+                        [this, it]
+                        {
+                          (*it)->clear();
+                        });
+                ++b;
+                ++it;
+            }
+    });
+
+    QList<QToolButton*>::Iterator b = eraseButtonList.begin();
+    QList<FLineEdit*>::Iterator it = matrLineEditList.begin();
+
+    while (b != eraseButtonList.end())
+    {
+        connect(*b,
+                &QToolButton::clicked,
+                [this, it]
+                {
+                  (*it)->clear();
+                });
+        ++b;
+        ++it;
+    }
 
     connect (closeButton,
              &QDialogButtonBox::accepted,
              [this]
-    {
-        bool res = checkInput (matrLineEdit);
-        res &= checkInput (matrLineEdit2);
-        res &= checkInput (matrLineEdit3);
+            {
+                bool res = true;
+                for (FLineEdit* ligne : matrLineEditList)
+                {
+                    res &= checkInput (ligne);
+                    if (! ligne->text().isEmpty())
+                       matricules += matricules.isEmpty() ? "" : ";" + ligne->text();
+                }
 
-        matricules = matrLineEdit->text();
+                emit(updateProject(true));
 
-        if (! matrLineEdit2->text().isEmpty())
-            matricules += matricules.isEmpty() ? "" : ";" + matrLineEdit2->text();
-        if (! matrLineEdit3->text().isEmpty())
-            matricules += matricules.isEmpty() ? "" : ";" + matrLineEdit3->text();
-
-        emit(updateProject(true));
-
-        if (res) accept();
-    });
+                if (res) accept();
+                else
+                    Q("Le format des entrants est inexact.\nMerci de respecter les conventions de formatage :\n  matricule1,...,matriculeN-mois1...moisN-année1...annéeN")
+            });
 
     connect (closeButton,
              &QDialogButtonBox::rejected,
@@ -170,6 +244,8 @@ MatriculeInput::MatriculeInput (int width, int height)
     {
         reject();
     });
+
+    setLayout (q);
 }
 
 bool MatriculeInput::checkInput (FLineEdit* l)

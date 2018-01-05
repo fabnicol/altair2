@@ -81,7 +81,8 @@
 using namespace std;
 
 //#ifdef HAS_CPP17
-using namespace experimental::filesystem;
+namespace fs = experimental::filesystem;
+
 //#endif
 
 using vString = vector<string>;
@@ -274,6 +275,7 @@ int main (int argc, char **argv)
                         throw;
                     }
                     repertoire_bulletins = commandline_tab[start];
+
                     ++start;
                     continue;
                 }
@@ -531,10 +533,10 @@ int main (int argc, char **argv)
 
             else if (commandline_tab[start] == "-D")
                 {
-                    const string path = commandline_tab[start + 1];
+                    string path = commandline_tab[start + 1];
 
-                    if (! exists(path))
-                        create_directories(path);
+                    if (! fs::exists(path))
+                        fs::create_directories(path);
 
                     info.chemin_base = path + string ("/") + string (NOM_BASE) ;
                     info.chemin_bulletins = path + string ("/") + string (NOM_BASE_BULLETINS);
@@ -1092,8 +1094,8 @@ int main (int argc, char **argv)
     {
         // réajustement du répertoire de sortie
 
-        const string path = repertoire_bulletins + string ("/Bases/");
-        if (! exists(path)) create_directories(path);
+        string path = repertoire_bulletins + string ("/Bases/");
+        if (! fs::exists(path)) fs::create_directories(path);
 
         // on est maintenant en extraction standard :
 
@@ -1319,35 +1321,35 @@ pair<uint64_t, uint64_t> produire_segment (info_t& info, const vString& segment)
                         for (int an = an0; an <= an1; ++an)
                             {
                                 const string annee = to_string (an);
-                                vector<string> c;
-                                c = scan_mois (repertoire_bulletins,
-                                                  Info,
-                                                  matricule,
-                                                  mois,
-                                                  annee);
 
-                                vect_concat(chemins_bulletins_extraits, c);
+                                vect_concat(chemins_bulletins_extraits,
+                                            scan_mois (repertoire_bulletins,
+                                                              Info,
+                                                              matricule,
+                                                              mois,
+                                                              annee));
 
                             }
 
                     }
                 else
-                    chemins_bulletins_extraits = scan_mois (repertoire_bulletins,
-                                                      Info,
-                                                      matricule,
-                                                      mois,
-                                                      annee);
+                    vect_concat(chemins_bulletins_extraits,
+                                scan_mois (repertoire_bulletins,
+                                           Info,
+                                           matricule,
+                                           mois,
+                                           annee));
             }
 
         int res = chemins_bulletins_extraits.size();
 
         if (res)
             {
-                cerr << STATE_HTML_TAG  << res << " bulletin" << (res > 1 ? "s" : "") << " ont été extraits" << ENDL;
+                cerr << STATE_HTML_TAG  << res << " bulletin" << (res > 1 ? "s ont " : " a ") << " extrait" << (res > 1 ? "s." : ".") << ENDL;
             }
         else
             {
-                cerr << WARNING_HTML_TAG "Aucun bulletin n'a été extrait" << ENDL;
+                cerr << WARNING_HTML_TAG "Aucun bulletin n'a été extrait." << ENDL;
             }
 
         vect_concat(info.chemins_bulletins_extraits, chemins_bulletins_extraits);

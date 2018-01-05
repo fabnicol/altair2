@@ -5,7 +5,7 @@
 <area shape="rect" id="node9" href="$ligne__paye_8h.html#a703180379a24b61c33f035b1b8a8f437" title="Affiche un message d&#39;avertissement sur la sortie d&#39;erreur lorsqu&#39;un noeud XML ne peut être atteint..." alt="" coords="235,173,333,200"/>
 <area shape="rect" id="node3" href="$ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud. " alt="" coords="584,144,663,171"/>
 <area shape="rect" id="node6" href="$validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="1004,93,1087,120"/>
-<area shape="rect" id="node7" href="$lhx_2main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="1135,93,1260,120"/>
+<area shape="rect" id="node7" href="$lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="1135,93,1260,120"/>
 <area shape="rect" id="node8" href="$lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1308,93,1359,120"/>
 <area shape="rect" id="node10" href="$ligne__paye_8cpp.html#a4a91586d82e91ad3e3c02355b57c9e09" title="Appelle Bulletin. " alt="" coords="381,144,536,171"/>
 <area shape="rect" id="node11" href="$ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580" title="Appelle Bulletin. " alt="" coords="397,195,520,237"/>

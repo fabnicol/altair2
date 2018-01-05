@@ -3,28 +3,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.8.15"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&nbsp;: Référence du fichier lhx/validator.cpp</title>
+<title>Référence du fichier lhx/validator.cpp</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
-<script type="text/javascript" src="navtreedata.js"></script>
-<script type="text/javascript" src="navtree.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-  $(document).ready(initResizable);
-/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-  $(document).ready(function() { init_search(); });
-/* @license-end */
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -34,54 +21,24 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="altaïr.bmp"/></td>
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">&nbsp;
-   </div>
-   <div id="projectbrief">Documentation du projet Altaïr</div>
-  </td>
-   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <img id="MSearchSelect" src="search/mag_sel.png"
-               onmouseover="return searchBox.OnSearchSelectShow()"
-               onmouseout="return searchBox.OnSearchSelectHide()"
-               alt=""/>
-          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
-          </span>
-        </div>
-</td>
  </tr>
  </tbody>
 </table>
 </div>
 <!-- end header part -->
-<!-- Généré par Doxygen 1.8.15 -->
+<!-- Généré par Doxygen 1.8.13 -->
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
 var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
-/* @license-end */
 </script>
-</div><!-- top -->
-<div id="side-nav" class="ui-resizable side-nav-resizable">
-  <div id="nav-tree">
-    <div id="nav-tree-contents">
-      <div id="nav-sync" class="sync"></div>
-    </div>
-  </div>
-  <div id="splitbar" style="-moz-user-select:none;" 
-       class="ui-resizable-handle">
-  </div>
-</div>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('validator_8cpp.html','');});
-/* @license-end */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche');
+  $(document).ready(function() { init_search(); });
+});
 </script>
-<div id="doc-content">
+<div id="main-nav"></div>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,6 +53,11 @@ $(document).ready(function(){initNavTree('validator_8cpp.html','');});
 </iframe>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_f92775b0174f2bb7a0fa78a915496faf.html">lhx</a></li>  </ul>
+</div>
+</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
@@ -108,12 +70,20 @@ $(document).ready(function(){initNavTree('validator_8cpp.html','');});
 
 <p>Ce fichier contient le code relatif au décoidage de la partie "bulletins de paye" (variables communes à toutes les lignes de paye) ainsi qu'à la gestion des allocations de mémoire. Il contient aussi une fonction auxiliaire relative à la normalisation de certains caractères accentués, afin d'accélerer le traitement par libxml2.  
 <a href="#details">Plus de détails...</a></p>
-<div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Graphe des dépendances par inclusion de validator.cpp:</div>
-<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="validator_8cpp__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="textblock"><div class="dynheader">
+Graphe des dépendances par inclusion de validator.cpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="validator_8cpp__incl.png" border="0" usemap="#lhx_2validator_8cpp" alt=""/></div>
+<map name="lhx_2validator_8cpp" id="lhx_2validator_8cpp">
+<area shape="rect" id="node2" href="validator_8h.html" title="Ce fichier contient notamment la structure info_t qui stocke les données de paye décodées ainsi que l..." alt="" coords="1265,229,1348,256"/>
+<area shape="rect" id="node26" href="fonctions__auxiliaires_8h.html" title="Diverses fonctions auxiliaires en inlining. " alt="" coords="1077,155,1227,181"/>
+<area shape="rect" id="node35" href="table_8h.html" title="table.h" alt="" coords="1481,155,1543,181"/>
+<area shape="rect" id="node36" href="ligne__paye_8h.html" title="Définit deux fonctions auxiliaires utilisées dans lignes_paye.cpp. " alt="" coords="1379,80,1474,107"/>
+<area shape="rect" id="node22" href="expression__reg__elus_8h.html" title="Expressions régulières représentant les élus. " alt="" coords="685,379,837,405"/>
+<area shape="rect" id="node24" href="expression__reg__cata_8h.html" title="Ce fichier contient les expressions rationnelles permettant d&#39;identifier les catégories statutaires A..." alt="" coords="835,304,989,331"/>
+<area shape="rect" id="node23" href="expression__reg__commun_8h.html" title="Elements constitutifs des expressions régulières. " alt="" coords="765,453,944,480"/>
+<area shape="rect" id="node25" href="expression__reg__adjoints_8h.html" title="Expressions régulières de niveau adjoints / auxiliaires / aides (catégories C) " alt="" coords="861,379,1035,405"/>
+</map>
 </div>
 </div>
 <p><a href="validator_8cpp_source.html">Aller au code source de ce fichier.</a></p>
@@ -125,35 +95,35 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Fonctions</h2></td></tr>
+<tr class="memitem:abdf1df3dd61991073a485a3e5d8addd2"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2">parseLignesPaye</a> (xmlNodePtr cur, <a class="el" href="structinfo__t.html">info_t</a> &amp;info)</td></tr>
+<tr class="memdesc:abdf1df3dd61991073a485a3e5d8addd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...)  <a href="#abdf1df3dd61991073a485a3e5d8addd2">Plus de détails...</a><br /></td></tr>
+<tr class="separator:abdf1df3dd61991073a485a3e5d8addd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af23e7af258b590af3650be8ab06708be"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#af23e7af258b590af3650be8ab06708be">memoire_p_ligne</a> (const <a class="el" href="structinfo__t.html">info_t</a> &amp;info, const unsigned agent)</td></tr>
+<tr class="memdesc:af23e7af258b590af3650be8ab06708be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Définit le besoin de mémoire en octets pour un bulletin de paye de données XML (Table)  <a href="#af23e7af258b590af3650be8ab06708be">Plus de détails...</a><br /></td></tr>
+<tr class="separator:af23e7af258b590af3650be8ab06708be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1ac2699ac4449a4a9a16b0e37234b35"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35">parseFile</a> (<a class="el" href="structinfo__t.html">info_t</a> &amp;info)</td></tr>
+<tr class="memdesc:ae1ac2699ac4449a4a9a16b0e37234b35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Décode une structure <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données de paye à l'état brut "fichier" (.  <a href="#ae1ac2699ac4449a4a9a16b0e37234b35">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ae1ac2699ac4449a4a9a16b0e37234b35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5223203a3dc856b4169ea2293035e57a"><td class="memItemLeft" align="right" valign="top">static void <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#a5223203a3dc856b4169ea2293035e57a">allouer_memoire_table</a> (<a class="el" href="structinfo__t.html">info_t</a> &amp;info)</td></tr>
 <tr class="memdesc:a5223203a3dc856b4169ea2293035e57a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alloue la mémoire de la table des données.  <a href="#a5223203a3dc856b4169ea2293035e57a">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a5223203a3dc856b4169ea2293035e57a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa054457564b0f4991283a511f01777e5"><td class="memItemLeft" align="right" valign="top">void <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#aa054457564b0f4991283a511f01777e5">normaliser_accents</a> (xmlChar *c)</td></tr>
+<tr class="memdesc:aa054457564b0f4991283a511f01777e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fonction permettant de convertir très efficacement les caractères accentués UTF-8 ou Latin-1 en caractères non accentués et d'effacer les octets superflus après remplacement par des caractères non accentués.  <a href="#aa054457564b0f4991283a511f01777e5">Plus de détails...</a><br /></td></tr>
+<tr class="separator:aa054457564b0f4991283a511f01777e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a568278e967fa4ca7537349f4032aeb7c"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#a568278e967fa4ca7537349f4032aeb7c">decoder_fichier</a> (<a class="el" href="structinfo__t.html">info_t</a> &amp;info)</td></tr>
 <tr class="memdesc:a568278e967fa4ca7537349f4032aeb7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lance calculer_memoire_requise ou le calcul direct de la mémoire par par les saisies de -n et -N <br />
 ou alors retourne si.  <a href="#a568278e967fa4ca7537349f4032aeb7c">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a568278e967fa4ca7537349f4032aeb7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af23e7af258b590af3650be8ab06708be"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#af23e7af258b590af3650be8ab06708be">memoire_p_ligne</a> (const <a class="el" href="structinfo__t.html">info_t</a> &amp;info, const unsigned agent)</td></tr>
-<tr class="memdesc:af23e7af258b590af3650be8ab06708be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Définit le besoin de mémoire en octets pour un bulletin de paye de données XML (Table)  <a href="#af23e7af258b590af3650be8ab06708be">Plus de détails...</a><br /></td></tr>
-<tr class="separator:af23e7af258b590af3650be8ab06708be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa054457564b0f4991283a511f01777e5"><td class="memItemLeft" align="right" valign="top">void <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#aa054457564b0f4991283a511f01777e5">normaliser_accents</a> (xmlChar *c)</td></tr>
-<tr class="memdesc:aa054457564b0f4991283a511f01777e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fonction permettant de convertir très efficacement les caractères accentués UTF-8 ou Latin-1 en caractères non accentués et d'effacer les octets superflus après remplacement par des caractères non accentués.  <a href="#aa054457564b0f4991283a511f01777e5">Plus de détails...</a><br /></td></tr>
-<tr class="separator:aa054457564b0f4991283a511f01777e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36359f86441c3ac6219a34f63b8c3da6"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#a36359f86441c3ac6219a34f63b8c3da6">parse_info</a> (<a class="el" href="structinfo__t.html">info_t</a> &amp;info)</td></tr>
 <tr class="memdesc:a36359f86441c3ac6219a34f63b8c3da6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lance l'ensemble des processus de pré-traitement et de post-traitement des fichiers de paye.  <a href="#a36359f86441c3ac6219a34f63b8c3da6">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a36359f86441c3ac6219a34f63b8c3da6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1ac2699ac4449a4a9a16b0e37234b35"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35">parseFile</a> (<a class="el" href="structinfo__t.html">info_t</a> &amp;info)</td></tr>
-<tr class="memdesc:ae1ac2699ac4449a4a9a16b0e37234b35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Décode une structure <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données de paye à l'état brut "fichier" (.  <a href="#ae1ac2699ac4449a4a9a16b0e37234b35">Plus de détails...</a><br /></td></tr>
-<tr class="separator:ae1ac2699ac4449a4a9a16b0e37234b35"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abdf1df3dd61991073a485a3e5d8addd2"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2">parseLignesPaye</a> (xmlNodePtr cur, <a class="el" href="structinfo__t.html">info_t</a> &amp;info)</td></tr>
-<tr class="memdesc:abdf1df3dd61991073a485a3e5d8addd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...)  <a href="#abdf1df3dd61991073a485a3e5d8addd2">Plus de détails...</a><br /></td></tr>
-<tr class="separator:abdf1df3dd61991073a485a3e5d8addd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a8f9968a3951ff6fa5fe81857f39373c2"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="structerror_line__t.html">errorLine_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#a8f9968a3951ff6fa5fe81857f39373c2">errorLineStack</a></td></tr>
-<tr class="separator:a8f9968a3951ff6fa5fe81857f39373c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8068724ec29d6e66aad75c716e138db3"><td class="memItemLeft" align="right" valign="top">mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#a8068724ec29d6e66aad75c716e138db3">mut</a></td></tr>
 <tr class="separator:a8068724ec29d6e66aad75c716e138db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f9968a3951ff6fa5fe81857f39373c2"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="structerror_line__t.html">errorLine_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#a8f9968a3951ff6fa5fe81857f39373c2">errorLineStack</a></td></tr>
+<tr class="separator:a8f9968a3951ff6fa5fe81857f39373c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55cdbf3585918d3446ab58c62cd89615"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="validator_8cpp.html#a55cdbf3585918d3446ab58c62cd89615">rang_global</a></td></tr>
 <tr class="separator:a55cdbf3585918d3446ab58c62cd89615"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -178,8 +148,6 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p class="reference">Référencé par <a class="el" href="validator_8cpp_source.html#l01176">parse_info()</a>.</p>
 
 </div>
 </div>
@@ -217,23 +185,23 @@ Variables</h2></td></tr>
 </dl>
 
 <p class="definition">Définition à la ligne <a class="el" href="validator_8cpp_source.html#l00979">979</a> du fichier <a class="el" href="validator_8cpp_source.html">validator.cpp</a>.</p>
-
-<p class="reference">Références <a class="el" href="validator_8h_source.html#l00085">thread_t::argc</a>, <a class="el" href="tags_8h_source.html#l00084">ENDL</a>, <a class="el" href="tags_8h_source.html#l00082">ERROR_HTML_TAG</a>, <a class="el" href="validator_8cpp_source.html#l00067">memoire_p_ligne()</a>, <a class="el" href="validator_8h_source.html#l00159">info_t::NAgent</a>, <a class="el" href="validator_8h_source.html#l00161">info_t::NCumAgent</a>, <a class="el" href="validator_8h_source.html#l00162">info_t::NCumAgentXml</a>, <a class="el" href="validator_8h_source.html#l00155">info_t::Table</a>, <a class="el" href="validator_8h_source.html#l00166">info_t::threads</a>, et <a class="el" href="lhx_2main_8cpp_source.html#l00086">verbeux</a>.</p>
-
-<p class="reference">Référencé par <a class="el" href="validator_8cpp_source.html#l01176">parse_info()</a>.</p>
-<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
-<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+<div class="dynheader">
+Voici le graphe d'appel pour cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="validator_8cpp_a5223203a3dc856b4169ea2293035e57a_cgraph.png" border="0" usemap="#validator_8cpp_a5223203a3dc856b4169ea2293035e57a_cgraph" alt=""/></div>
+<map name="validator_8cpp_a5223203a3dc856b4169ea2293035e57a_cgraph" id="validator_8cpp_a5223203a3dc856b4169ea2293035e57a_cgraph">
+<area shape="rect" id="node2" href="validator_8cpp.html#af23e7af258b590af3650be8ab06708be" title="Définit le besoin de mémoire en octets pour un bulletin de paye de données XML (Table) ..." alt="" coords="205,5,325,32"/>
+</map>
 </div>
-<div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="validator_8cpp_a5223203a3dc856b4169ea2293035e57a_cgraph.svg" width="331" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
-<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-2-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="validator_8cpp_a5223203a3dc856b4169ea2293035e57a_icgraph.svg" width="566" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="validator_8cpp_a5223203a3dc856b4169ea2293035e57a_icgraph.png" border="0" usemap="#validator_8cpp_a5223203a3dc856b4169ea2293035e57a_icgraph" alt=""/></div>
+<map name="validator_8cpp_a5223203a3dc856b4169ea2293035e57a_icgraph" id="validator_8cpp_a5223203a3dc856b4169ea2293035e57a_icgraph">
+<area shape="rect" id="node2" href="validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="205,5,288,32"/>
+<area shape="rect" id="node3" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="336,5,461,32"/>
+<area shape="rect" id="node4" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="509,5,560,32"/>
+</map>
 </div>
 
 </div>
@@ -265,23 +233,23 @@ ou alors retourne si. </p>
 <dl class="section return"><dt>Renvoie</dt><dd>Pointeur nul. Exception en cas d'erreur. </dd></dl>
 
 <p class="definition">Définition à la ligne <a class="el" href="validator_8cpp_source.html#l01124">1124</a> du fichier <a class="el" href="validator_8cpp_source.html">validator.cpp</a>.</p>
-
-<p class="reference">Références <a class="el" href="validator_8h_source.html#l00085">thread_t::argc</a>, <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00685">calculer_memoire_requise()</a>, <a class="el" href="tags_8h_source.html#l00084">ENDL</a>, <a class="el" href="tags_8h_source.html#l00082">ERROR_HTML_TAG</a>, <a class="el" href="validator_8h_source.html#l00160">info_t::nbAgentUtilisateur</a>, <a class="el" href="validator_8h_source.html#l00175">info_t::nbLigneUtilisateur</a>, <a class="el" href="validator_8h_source.html#l00161">info_t::NCumAgent</a>, <a class="el" href="validator_8h_source.html#l00165">info_t::NLigne</a>, <a class="el" href="validator_8h_source.html#l00186">info_t::pretend</a>, <a class="el" href="validator_8h_source.html#l00179">info_t::reduire_consommation_memoire</a>, et <a class="el" href="validator_8h_source.html#l00166">info_t::threads</a>.</p>
-
-<p class="reference">Référencé par <a class="el" href="lhx_2main_8cpp_source.html#l01104">produire_segment()</a>.</p>
-<div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
-<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
+<div class="dynheader">
+Voici le graphe d'appel pour cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="validator_8cpp_a568278e967fa4ca7537349f4032aeb7c_cgraph.png" border="0" usemap="#validator_8cpp_a568278e967fa4ca7537349f4032aeb7c_cgraph" alt=""/></div>
+<map name="validator_8cpp_a568278e967fa4ca7537349f4032aeb7c_cgraph" id="validator_8cpp_a568278e967fa4ca7537349f4032aeb7c_cgraph">
+<area shape="rect" id="node2" href="fonctions__auxiliaires_8cpp.html#a6a6eceeeb38bc24fd24e0acb226c1304" title="Calcule la mémoire requise pour l&#39;exécution du programme. " alt="" coords="164,5,337,32"/>
+<area shape="rect" id="node3" href="fonctions__auxiliaires_8cpp.html#a42b58b99a50fba87cf44db116b0eb56a" title="Transforme un fichier de type std::ifstream en un std::string. " alt="" coords="385,5,547,32"/>
+</map>
 </div>
-<div id="dynsection-3-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="validator_8cpp_a568278e967fa4ca7537349f4032aeb7c_cgraph.svg" width="552" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
-<div id="dynsection-4-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-4-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="validator_8cpp_a568278e967fa4ca7537349f4032aeb7c_icgraph.svg" width="394" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="validator_8cpp_a568278e967fa4ca7537349f4032aeb7c_icgraph.png" border="0" usemap="#validator_8cpp_a568278e967fa4ca7537349f4032aeb7c_icgraph" alt=""/></div>
+<map name="validator_8cpp_a568278e967fa4ca7537349f4032aeb7c_icgraph" id="validator_8cpp_a568278e967fa4ca7537349f4032aeb7c_icgraph">
+<area shape="rect" id="node2" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="164,5,289,32"/>
+<area shape="rect" id="node3" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="337,5,388,32"/>
+</map>
 </div>
 
 </div>
@@ -332,16 +300,17 @@ ou alors retourne si. </p>
 <p>Dépend de trois constantes de compilation : <b><a class="el" href="validator_8h.html#af7f8f573c3f031d9b48bc85fa01e6ebb" title="Nombre d&#39;éléments de l&#39;énum ci-dessous, correspondant aux champs des bulletins (répétés à chaque lign...">BESOIN_MEMOIRE_ENTETE</a></b>, <b><a class="el" href="gui__enums_8h.html#a307a3c68612145a207676f5b093fcbcd">TYPE_LOOP_LIMIT</a></b> et <b><a class="el" href="validator_8h.html#a3164a7a9fa52a0f9130c9daa04f88195" title="Nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, NbUnite, Montant, DebutPeriode, FinPeriode) moins 1. ">INDEX_MAX_COLONNNES</a></b> </p>
 
 <p class="definition">Définition à la ligne <a class="el" href="validator_8cpp_source.html#l00067">67</a> du fichier <a class="el" href="validator_8cpp_source.html">validator.cpp</a>.</p>
-
-<p class="reference">Références <a class="el" href="validator_8h_source.html#l00131">BESOIN_MEMOIRE_ENTETE</a>, <a class="el" href="validator_8h_source.html#l00128">INDEX_MAX_COLONNNES</a>, <a class="el" href="validator_8h_source.html#l00280">nbType</a>, <a class="el" href="validator_8h_source.html#l00165">info_t::NLigne</a>, et <a class="el" href="gui__enums_8h_source.html#l00072">TYPE_LOOP_LIMIT</a>.</p>
-
-<p class="reference">Référencé par <a class="el" href="validator_8cpp_source.html#l00979">allouer_memoire_table()</a>, et <a class="el" href="validator_8cpp_source.html#l00087">parseFile()</a>.</p>
-<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
-<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-5-content" class="dyncontent" style="display:none;">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="validator_8cpp_af23e7af258b590af3650be8ab06708be_icgraph.svg" width="100%" height="366"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="validator_8cpp_af23e7af258b590af3650be8ab06708be_icgraph.png" border="0" usemap="#validator_8cpp_af23e7af258b590af3650be8ab06708be_icgraph" alt=""/></div>
+<map name="validator_8cpp_af23e7af258b590af3650be8ab06708be_icgraph" id="validator_8cpp_af23e7af258b590af3650be8ab06708be_icgraph">
+<area shape="rect" id="node2" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="212,5,287,32"/>
+<area shape="rect" id="node6" href="validator_8cpp.html#a5223203a3dc856b4169ea2293035e57a" title="Alloue la mémoire de la table des données. " alt="" coords="173,56,325,83"/>
+<area shape="rect" id="node3" href="validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="373,31,456,57"/>
+<area shape="rect" id="node4" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="504,31,629,57"/>
+<area shape="rect" id="node5" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="677,31,728,57"/>
+</map>
 </div>
 
 </div>
@@ -379,14 +348,15 @@ ou alors retourne si. </p>
 </dl>
 
 <p class="definition">Définition à la ligne <a class="el" href="validator_8cpp_source.html#l01036">1036</a> du fichier <a class="el" href="validator_8cpp_source.html">validator.cpp</a>.</p>
-
-<p class="reference">Référencé par <a class="el" href="validator_8cpp_source.html#l01176">parse_info()</a>.</p>
-<div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
-<div id="dynsection-6-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-6-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="validator_8cpp_aa054457564b0f4991283a511f01777e5_icgraph.svg" width="548" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="validator_8cpp_aa054457564b0f4991283a511f01777e5_icgraph.png" border="0" usemap="#validator_8cpp_aa054457564b0f4991283a511f01777e5_icgraph" alt=""/></div>
+<map name="validator_8cpp_aa054457564b0f4991283a511f01777e5_icgraph" id="validator_8cpp_aa054457564b0f4991283a511f01777e5_icgraph">
+<area shape="rect" id="node2" href="validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="188,5,271,32"/>
+<area shape="rect" id="node3" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="319,5,444,32"/>
+<area shape="rect" id="node4" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="492,5,543,32"/>
+</map>
 </div>
 
 </div>
@@ -438,23 +408,42 @@ Inférence de la catégorie statutaire A, B, C, à partir d'expressions réguli�
 <dl class="section return"><dt>Renvoie</dt><dd>nullptr ou Exception. </dd></dl>
 
 <p class="definition">Définition à la ligne <a class="el" href="validator_8cpp_source.html#l01176">1176</a> du fichier <a class="el" href="validator_8cpp_source.html">validator.cpp</a>.</p>
-
-<p class="reference">Références <a class="el" href="validator_8cpp_source.html#l00979">allouer_memoire_table()</a>, <a class="el" href="validator_8h_source.html#l00085">thread_t::argc</a>, <a class="el" href="validator_8h_source.html#l00083">thread_t::argv</a>, <a class="el" href="validator_8h_source.html#l00131">BESOIN_MEMOIRE_ENTETE</a>, <a class="el" href="validator_8h_source.html#l00139">Categorie</a>, <a class="el" href="validator_8h_source.html#l00138">EmploiMetier</a>, <a class="el" href="tags_8h_source.html#l00084">ENDL</a>, <a class="el" href="tags_8h_source.html#l00082">ERROR_HTML_TAG</a>, <a class="el" href="expression__reg__adjoints_8h_source.html#l00129">EXPRESSION_REG_ADJOINTS</a>, <a class="el" href="expression__reg__adjoints_8h_source.html#l00161">EXPRESSION_REG_AGENTS</a>, <a class="el" href="expression__reg__adjoints_8h_source.html#l00155">EXPRESSION_REG_ASSISTANTES_MATERNELLES</a>, <a class="el" href="expression__reg__cata_8h_source.html#l00135">EXPRESSION_REG_CAT_A</a>, <a class="el" href="expression__reg__cata_8h_source.html#l00232">EXPRESSION_REG_CAT_B</a>, <a class="el" href="expression__reg__elus_8h_source.html#l00073">EXPRESSION_REG_ELUS</a>, <a class="el" href="expression__reg__cata_8h_source.html#l00058">EXPRESSION_REG_VACATIONS</a>, <a class="el" href="validator_8h_source.html#l00176">info_t::fichier_courant</a>, <a class="el" href="validator_8h_source.html#l00138">Grade</a>, <a class="el" href="validator_8h_source.html#l00213">NA_STRING</a>, <a class="el" href="validator_8h_source.html#l00161">info_t::NCumAgent</a>, <a class="el" href="validator_8h_source.html#l00162">info_t::NCumAgentXml</a>, <a class="el" href="validator_8h_source.html#l00165">info_t::NLigne</a>, <a class="el" href="validator_8cpp_source.html#l01036">normaliser_accents()</a>, <a class="el" href="validator_8cpp_source.html#l00087">parseFile()</a>, <a class="el" href="tags_8h_source.html#l00081">PROCESSING_HTML_TAG</a>, <a class="el" href="validator_8h_source.html#l00179">info_t::reduire_consommation_memoire</a>, <a class="el" href="validator_8h_source.html#l00199">RETRY</a>, <a class="el" href="validator_8h_source.html#l00138">Service</a>, <a class="el" href="validator_8h_source.html#l00202">SKIP_FILE</a>, <a class="el" href="validator_8h_source.html#l00137">Statut</a>, <a class="el" href="validator_8h_source.html#l00155">info_t::Table</a>, <a class="el" href="validator_8h_source.html#l00166">info_t::threads</a>, <a class="el" href="validator_8cpp.html#a57a4f130db7a35f46be02c36d8235550">VAR</a>, <a class="el" href="lhx_2main_8cpp_source.html#l00086">verbeux</a>, et <a class="el" href="validator_8h_source.html#l00187">info_t::verifmem</a>.</p>
-
-<p class="reference">Référencé par <a class="el" href="lhx_2main_8cpp_source.html#l01104">produire_segment()</a>.</p>
-<div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
-<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
+<div class="dynheader">
+Voici le graphe d'appel pour cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="validator_8cpp_a36359f86441c3ac6219a34f63b8c3da6_cgraph.png" border="0" usemap="#validator_8cpp_a36359f86441c3ac6219a34f63b8c3da6_cgraph" alt=""/></div>
+<map name="validator_8cpp_a36359f86441c3ac6219a34f63b8c3da6_cgraph" id="validator_8cpp_a36359f86441c3ac6219a34f63b8c3da6_cgraph">
+<area shape="rect" id="node2" href="validator_8cpp.html#a5223203a3dc856b4169ea2293035e57a" title="Alloue la mémoire de la table des données. " alt="" coords="136,31,288,57"/>
+<area shape="rect" id="node4" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="175,107,249,133"/>
+<area shape="rect" id="node22" href="validator_8cpp.html#aa054457564b0f4991283a511f01777e5" title="Fonction permettant de convertir très efficacement les caractères accentués UTF&#45;8 ou Latin&#45;1 en carac..." alt="" coords="145,157,279,184"/>
+<area shape="rect" id="node3" href="validator_8cpp.html#af23e7af258b590af3650be8ab06708be" title="Définit le besoin de mémoire en octets pour un bulletin de paye de données XML (Table) ..." alt="" coords="337,5,457,32"/>
+<area shape="rect" id="node5" href="validator_8h.html#ad164d34b6591a52b6e92b087582fe0cb" title="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..." alt="" coords="1135,157,1246,184"/>
+<area shape="rect" id="node6" href="ligne__paye_8h.html#a703180379a24b61c33f035b1b8a8f437" title="Affiche un message d&#39;avertissement sur la sortie d&#39;erreur lorsqu&#39;un noeud XML ne peut être atteint..." alt="" coords="929,376,1028,403"/>
+<area shape="rect" id="node7" href="fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="1100,532,1281,559"/>
+<area shape="rect" id="node8" href="validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="336,391,459,417"/>
+<area shape="rect" id="node21" href="fonctions__auxiliaires_8cpp.html#ab49257996eb9a8f23f7da4c66838be65" title="Produit un journal d&#39;exécution. " alt="" coords="358,56,437,83"/>
+<area shape="rect" id="node9" href="ligne__paye_8cpp.html#a1387e6beec261819622addf319a581c7" title="Concatène la propriété &quot;V&quot; du noeud cur passé en premier argument avec la chaîne contenue de la table..." alt="" coords="948,515,1009,541"/>
+<area shape="rect" id="node11" href="ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud. " alt="" coords="541,340,620,367"/>
+<area shape="rect" id="node19" href="ligne__paye_8cpp.html#a6703d71fd67ea3e020d421379d894d87" title="Teste si il y a un montant brut ou net payé ou remboursé non nul mais pas de ligne de paye détaillant..." alt="" coords="507,441,655,468"/>
+<area shape="rect" id="node20" href="ligne__paye_8cpp.html#a96d1e754fa36a716b5cd2fab2ab93fdc" title="Réalloue un ligne de paye en NA sur les variables propres aux lignes de paye (Code, Libellé, Base,...) " alt="" coords="521,492,641,519"/>
+<area shape="rect" id="node10" href="ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le &#160;caractère &#39;_&#39;..." alt="" coords="1157,405,1224,432"/>
+<area shape="rect" id="node12" href="ligne__paye_8h.html#a1918a95b8d7eafcb07bcf867242b3514" title="Vérifie que la taille des données de paye en nombre de lignes de paye au décodage effectif des fichie..." alt="" coords="733,441,827,468"/>
+<area shape="rect" id="node13" href="ligne__paye_8cpp.html#a45ce15888cd33c4753e852fce36fb56e" title="Appelle Bulletin et affiche l&#39;interprétation des erreurs. " alt="" coords="715,391,845,417"/>
+<area shape="rect" id="node15" href="ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580" title="Appelle Bulletin. " alt="" coords="719,274,841,315"/>
+<area shape="rect" id="node17" href="ligne__paye_8cpp.html#a8636e0f8d6d7fce58969c36956342c90" title="Appelle Bulletin. " alt="" coords="715,209,845,250"/>
+<area shape="rect" id="node18" href="ligne__paye_8cpp.html#a4a91586d82e91ad3e3c02355b57c9e09" title="Appelle Bulletin. " alt="" coords="703,340,857,367"/>
+<area shape="rect" id="node14" href="ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5" title="Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit. " alt="" coords="946,311,1011,337"/>
+<area shape="rect" id="node16" href="ligne__paye_8cpp.html#a5342d9b40b92c978ff404415b691e059" title="Substitue le séparateur décimal passé en paramètre au séparateur par défaut (.) " alt="" coords="905,242,1052,283"/>
+</map>
 </div>
-<div id="dynsection-7-content" class="dyncontent" style="display:none;">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="validator_8cpp_a36359f86441c3ac6219a34f63b8c3da6_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-<div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
-<div id="dynsection-8-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-8-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="validator_8cpp_a36359f86441c3ac6219a34f63b8c3da6_icgraph.svg" width="366" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="validator_8cpp_a36359f86441c3ac6219a34f63b8c3da6_icgraph.png" border="0" usemap="#validator_8cpp_a36359f86441c3ac6219a34f63b8c3da6_icgraph" alt=""/></div>
+<map name="validator_8cpp_a36359f86441c3ac6219a34f63b8c3da6_icgraph" id="validator_8cpp_a36359f86441c3ac6219a34f63b8c3da6_icgraph">
+<area shape="rect" id="node2" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="136,5,261,32"/>
+<area shape="rect" id="node3" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="309,5,360,32"/>
+</map>
 </div>
 
 </div>
@@ -495,23 +484,40 @@ ou bien <a class="el" href="validator_8h.html#ab56f9f937902b77e7d2b1e52e004ce84"
 sinon 0 en cas de succès. </dd></dl>
 
 <p class="definition">Définition à la ligne <a class="el" href="validator_8cpp_source.html#l00087">87</a> du fichier <a class="el" href="validator_8cpp_source.html">validator.cpp</a>.</p>
-
-<p class="reference">Références <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00192">afficher_environnement_xhl()</a>, <a class="el" href="validator_8h_source.html#l00230">AFFICHER_NOEUD</a>, <a class="el" href="validator_8h_source.html#l00136">Annee</a>, <a class="el" href="validator_8h_source.html#l00083">thread_t::argv</a>, <a class="el" href="validator_8h_source.html#l00296">atteindreNoeud()</a>, <a class="el" href="validator_8h_source.html#l00136">Budget</a>, <a class="el" href="validator_8h_source.html#l00167">info_t::chemin_log</a>, <a class="el" href="validator_8h_source.html#l00180">info_t::drapeau_cont</a>, <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00334">ecrire_log()</a>, <a class="el" href="validator_8h_source.html#l00136">Employeur</a>, <a class="el" href="tags_8h_source.html#l00084">ENDL</a>, <a class="el" href="tags_8h_source.html#l00082">ERROR_HTML_TAG</a>, <a class="el" href="lhx_2main_8cpp_source.html#l00091">errorLineStack</a>, <a class="el" href="validator_8h_source.html#l00136">Etablissement</a>, <a class="el" href="validator_8h_source.html#l00173">info_t::exclure_budget</a>, <a class="el" href="validator_8h_source.html#l00174">info_t::exclure_employeur</a>, <a class="el" href="validator_8h_source.html#l00172">info_t::exclure_siret</a>, <a class="el" href="validator_8h_source.html#l00176">info_t::fichier_courant</a>, <a class="el" href="validator_8h_source.html#l00183">info_t::generer_bulletins</a>, <a class="el" href="validator_8h_source.html#l00084">thread_t::in_memory_file</a>, <a class="el" href="validator_8h_source.html#l00157">info_t::ligne_debut</a>, <a class="el" href="validator_8h_source.html#l00158">info_t::ligne_fin</a>, <a class="el" href="fonctions__auxiliaires_8h_source.html#l00079">LOCK_GUARD</a>, <a class="el" href="validator_8h_source.html#l00137">Matricule</a>, <a class="el" href="validator_8cpp_source.html#l00067">memoire_p_ligne()</a>, <a class="el" href="validator_8h_source.html#l00136">Mois</a>, <a class="el" href="lhx_2main_8cpp_source.html#l00090">mut</a>, <a class="el" href="validator_8h_source.html#l00213">NA_STRING</a>, <a class="el" href="validator_8h_source.html#l00159">info_t::NAgent</a>, <a class="el" href="validator_8h_source.html#l00156">info_t::nbLigne</a>, <a class="el" href="validator_8h_source.html#l00161">info_t::NCumAgent</a>, <a class="el" href="validator_8h_source.html#l00162">info_t::NCumAgentXml</a>, <a class="el" href="validator_8h_source.html#l00165">info_t::NLigne</a>, <a class="el" href="ligne__paye_8cpp_source.html#l01075">parseLignesPaye()</a>, <a class="el" href="tags_8h_source.html#l00081">PROCESSING_HTML_TAG</a>, <a class="el" href="validator_8cpp.html#a55cdbf3585918d3446ab58c62cd89615">rang_global</a>, <a class="el" href="validator_8h_source.html#l00179">info_t::reduire_consommation_memoire</a>, <a class="el" href="validator_8h_source.html#l00199">RETRY</a>, <a class="el" href="validator_8h_source.html#l00136">Siret</a>, <a class="el" href="validator_8h_source.html#l00202">SKIP_FILE</a>, <a class="el" href="tags_8h_source.html#l00079">STATE_HTML_TAG</a>, <a class="el" href="validator_8h_source.html#l00155">info_t::Table</a>, <a class="el" href="validator_8h_source.html#l00082">thread_t::thread_num</a>, <a class="el" href="validator_8h_source.html#l00166">info_t::threads</a>, <a class="el" href="lhx_2main_8cpp_source.html#l00086">verbeux</a>, et <a class="el" href="ligne__paye_8h_source.html#l00063">warning_msg()</a>.</p>
-
-<p class="reference">Référencé par <a class="el" href="validator_8cpp_source.html#l01176">parse_info()</a>.</p>
-<div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-9-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
-<div id="dynsection-9-summary" class="dynsummary" style="display:block;">
+<div class="dynheader">
+Voici le graphe d'appel pour cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="validator_8cpp_ae1ac2699ac4449a4a9a16b0e37234b35_cgraph.png" border="0" usemap="#validator_8cpp_ae1ac2699ac4449a4a9a16b0e37234b35_cgraph" alt=""/></div>
+<map name="validator_8cpp_ae1ac2699ac4449a4a9a16b0e37234b35_cgraph" id="validator_8cpp_ae1ac2699ac4449a4a9a16b0e37234b35_cgraph">
+<area shape="rect" id="node2" href="validator_8h.html#ad164d34b6591a52b6e92b087582fe0cb" title="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..." alt="" coords="927,43,1038,69"/>
+<area shape="rect" id="node3" href="ligne__paye_8h.html#a703180379a24b61c33f035b1b8a8f437" title="Affiche un message d&#39;avertissement sur la sortie d&#39;erreur lorsqu&#39;un noeud XML ne peut être atteint..." alt="" coords="721,261,820,288"/>
+<area shape="rect" id="node4" href="fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="892,417,1073,444"/>
+<area shape="rect" id="node5" href="validator_8cpp.html#af23e7af258b590af3650be8ab06708be" title="Définit le besoin de mémoire en octets pour un bulletin de paye de données XML (Table) ..." alt="" coords="129,617,249,644"/>
+<area shape="rect" id="node6" href="validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="128,364,251,391"/>
+<area shape="rect" id="node19" href="fonctions__auxiliaires_8cpp.html#ab49257996eb9a8f23f7da4c66838be65" title="Produit un journal d&#39;exécution. " alt="" coords="150,668,229,695"/>
+<area shape="rect" id="node7" href="ligne__paye_8cpp.html#a1387e6beec261819622addf319a581c7" title="Concatène la propriété &quot;V&quot; du noeud cur passé en premier argument avec la chaîne contenue de la table..." alt="" coords="740,400,801,427"/>
+<area shape="rect" id="node9" href="ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud. " alt="" coords="333,251,412,277"/>
+<area shape="rect" id="node17" href="ligne__paye_8cpp.html#a6703d71fd67ea3e020d421379d894d87" title="Teste si il y a un montant brut ou net payé ou remboursé non nul mais pas de ligne de paye détaillant..." alt="" coords="299,364,447,391"/>
+<area shape="rect" id="node18" href="ligne__paye_8cpp.html#a96d1e754fa36a716b5cd2fab2ab93fdc" title="Réalloue un ligne de paye en NA sur les variables propres aux lignes de paye (Code, Libellé, Base,...) " alt="" coords="313,415,433,441"/>
+<area shape="rect" id="node8" href="ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le &#160;caractère &#39;_&#39;..." alt="" coords="949,291,1016,317"/>
+<area shape="rect" id="node10" href="ligne__paye_8h.html#a1918a95b8d7eafcb07bcf867242b3514" title="Vérifie que la taille des données de paye en nombre de lignes de paye au décodage effectif des fichie..." alt="" coords="525,327,619,353"/>
+<area shape="rect" id="node11" href="ligne__paye_8cpp.html#a45ce15888cd33c4753e852fce36fb56e" title="Appelle Bulletin et affiche l&#39;interprétation des erreurs. " alt="" coords="507,276,637,303"/>
+<area shape="rect" id="node13" href="ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580" title="Appelle Bulletin. " alt="" coords="511,159,633,201"/>
+<area shape="rect" id="node15" href="ligne__paye_8cpp.html#a8636e0f8d6d7fce58969c36956342c90" title="Appelle Bulletin. " alt="" coords="507,94,637,135"/>
+<area shape="rect" id="node16" href="ligne__paye_8cpp.html#a4a91586d82e91ad3e3c02355b57c9e09" title="Appelle Bulletin. " alt="" coords="495,225,649,252"/>
+<area shape="rect" id="node12" href="ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5" title="Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit. " alt="" coords="738,196,803,223"/>
+<area shape="rect" id="node14" href="ligne__paye_8cpp.html#a5342d9b40b92c978ff404415b691e059" title="Substitue le séparateur décimal passé en paramètre au séparateur par défaut (.) " alt="" coords="697,127,844,169"/>
+</map>
 </div>
-<div id="dynsection-9-content" class="dyncontent" style="display:none;">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="validator_8cpp_ae1ac2699ac4449a4a9a16b0e37234b35_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-<div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-10-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
-<div id="dynsection-10-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-10-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="validator_8cpp_ae1ac2699ac4449a4a9a16b0e37234b35_icgraph.svg" width="488" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="validator_8cpp_ae1ac2699ac4449a4a9a16b0e37234b35_icgraph.png" border="0" usemap="#validator_8cpp_ae1ac2699ac4449a4a9a16b0e37234b35_icgraph" alt=""/></div>
+<map name="validator_8cpp_ae1ac2699ac4449a4a9a16b0e37234b35_icgraph" id="validator_8cpp_ae1ac2699ac4449a4a9a16b0e37234b35_icgraph">
+<area shape="rect" id="node2" href="validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="128,5,211,32"/>
+<area shape="rect" id="node3" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="259,5,384,32"/>
+<area shape="rect" id="node4" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="432,5,483,32"/>
+</map>
 </div>
 
 </div>
@@ -554,23 +560,38 @@ sinon 0 en cas de succès. </dd></dl>
 <p>Commence par atteindre le noeud Agent. Vérifie son identification (Nom, Prenom, Matricule, NIR, NbEnfants, Statut, EmploiMetier, Grade, Echelon, Indice) Décode ensuite Evenement, Service, NBI, QuotiteTrav. Appelle ensuite la fonction lignePaye qui décode les lignes de paye de la balise Remuneration. Décode ensuite les champs de fin de fichier : NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer. </p>
 
 <p class="definition">Définition à la ligne <a class="el" href="ligne__paye_8cpp_source.html#l01075">1075</a> du fichier <a class="el" href="ligne__paye_8cpp_source.html">ligne_paye.cpp</a>.</p>
-
-<p class="reference">Références <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00192">afficher_environnement_xhl()</a>, <a class="el" href="ligne__paye_8cpp_source.html#l01048">allouer_ligne_NA()</a>, <a class="el" href="validator_8h_source.html#l00136">Annee</a>, <a class="el" href="validator_8h_source.html#l00083">thread_t::argv</a>, <a class="el" href="validator_8h_source.html#l00296">atteindreNoeud()</a>, <a class="el" href="ligne__paye_8cpp_source.html#l00932">BULLETIN_OBLIGATOIRE</a>, <a class="el" href="ligne__paye_8cpp_source.html#l00944">BULLETIN_OBLIGATOIRE_NUMERIQUE</a>, <a class="el" href="ligne__paye_8cpp_source.html#l00962">BULLETIN_OPTIONNEL_CHAR</a>, <a class="el" href="ligne__paye_8cpp_source.html#l00956">BULLETIN_OPTIONNEL_NUMERIQUE</a>, <a class="el" href="validator_8h_source.html#l00138">Code</a>, <a class="el" href="ligne__paye_8cpp_source.html#l00992">concat()</a>, <a class="el" href="validator_8h_source.html#l00138">Description</a>, <a class="el" href="validator_8h_source.html#l00180">info_t::drapeau_cont</a>, <a class="el" href="validator_8h_source.html#l00138">Echelon</a>, <a class="el" href="validator_8h_source.html#l00138">EmploiMetier</a>, <a class="el" href="tags_8h_source.html#l00084">ENDL</a>, <a class="el" href="tags_8h_source.html#l00082">ERROR_HTML_TAG</a>, <a class="el" href="validator_8h_source.html#l00176">info_t::fichier_courant</a>, <a class="el" href="validator_8h_source.html#l00138">Grade</a>, <a class="el" href="validator_8h_source.html#l00138">Indice</a>, <a class="el" href="validator_8h_source.html#l00157">info_t::ligne_debut</a>, <a class="el" href="validator_8h_source.html#l00158">info_t::ligne_fin</a>, <a class="el" href="ligne__paye_8cpp_source.html#l00678">lignePaye()</a>, <a class="el" href="fonctions__auxiliaires_8h_source.html#l00079">LOCK_GUARD</a>, <a class="el" href="validator_8h_source.html#l00137">Matricule</a>, <a class="el" href="validator_8h_source.html#l00195">LineCount::memoire_p_ligne_allouee</a>, <a class="el" href="validator_8h_source.html#l00136">Mois</a>, <a class="el" href="validator_8h_source.html#l00139">MtBrut</a>, <a class="el" href="validator_8h_source.html#l00139">MtNet</a>, <a class="el" href="validator_8h_source.html#l00139">MtNetAPayer</a>, <a class="el" href="ligne__paye_8cpp_source.html#l00059">NA_ASSIGN</a>, <a class="el" href="validator_8h_source.html#l00137">NbEnfants</a>, <a class="el" href="validator_8h_source.html#l00139">NbHeureSup</a>, <a class="el" href="validator_8h_source.html#l00139">NbHeureTotal</a>, <a class="el" href="validator_8h_source.html#l00138">NBI</a>, <a class="el" href="validator_8h_source.html#l00194">LineCount::nbLignePaye</a>, <a class="el" href="validator_8h_source.html#l00280">nbType</a>, <a class="el" href="validator_8h_source.html#l00162">info_t::NCumAgentXml</a>, <a class="el" href="validator_8h_source.html#l00137">NIR</a>, <a class="el" href="validator_8h_source.html#l00165">info_t::NLigne</a>, <a class="el" href="validator_8h_source.html#l00137">Nom</a>, <a class="el" href="validator_8h_source.html#l00137">Prenom</a>, <a class="el" href="fonctions__auxiliaires_8h_source.html#l00086">errorLine_t::pres</a>, <a class="el" href="validator_8h_source.html#l00138">QuotiteTrav</a>, <a class="el" href="validator_8h_source.html#l00138">Service</a>, <a class="el" href="validator_8h_source.html#l00137">Statut</a>, <a class="el" href="validator_8h_source.html#l00155">info_t::Table</a>, <a class="el" href="ligne__paye_8cpp_source.html#l01025">test_bulletin_irregulier()</a>, <a class="el" href="validator_8h_source.html#l00166">info_t::threads</a>, <a class="el" href="validator_8h_source.html#l00262">type_remuneration</a>, <a class="el" href="tools_8h_source.html#l00053">v</a>, <a class="el" href="lhx_2main_8cpp_source.html#l00086">verbeux</a>, <a class="el" href="tags_8h_source.html#l00083">WARNING_HTML_TAG</a>, et <a class="el" href="ligne__paye_8cpp_source.html#l00065">ZERO_ASSIGN</a>.</p>
-
-<p class="reference">Référencé par <a class="el" href="validator_8cpp_source.html#l00087">parseFile()</a>.</p>
-<div id="dynsection-11" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-11-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
-<div id="dynsection-11-summary" class="dynsummary" style="display:block;">
+<div class="dynheader">
+Voici le graphe d'appel pour cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="validator_8cpp_abdf1df3dd61991073a485a3e5d8addd2_cgraph.png" border="0" usemap="#validator_8cpp_abdf1df3dd61991073a485a3e5d8addd2_cgraph" alt=""/></div>
+<map name="validator_8cpp_abdf1df3dd61991073a485a3e5d8addd2_cgraph" id="validator_8cpp_abdf1df3dd61991073a485a3e5d8addd2_cgraph">
+<area shape="rect" id="node2" href="validator_8h.html#ad164d34b6591a52b6e92b087582fe0cb" title="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..." alt="" coords="805,166,915,193"/>
+<area shape="rect" id="node3" href="ligne__paye_8cpp.html#a1387e6beec261819622addf319a581c7" title="Concatène la propriété &quot;V&quot; du noeud cur passé en premier argument avec la chaîne contenue de la table..." alt="" coords="617,325,679,351"/>
+<area shape="rect" id="node5" href="ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud. " alt="" coords="211,194,289,221"/>
+<area shape="rect" id="node9" href="fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="769,274,951,301"/>
+<area shape="rect" id="node15" href="ligne__paye_8cpp.html#a6703d71fd67ea3e020d421379d894d87" title="Teste si il y a un montant brut ou net payé ou remboursé non nul mais pas de ligne de paye détaillant..." alt="" coords="176,426,324,453"/>
+<area shape="rect" id="node16" href="ligne__paye_8cpp.html#a96d1e754fa36a716b5cd2fab2ab93fdc" title="Réalloue un ligne de paye en NA sur les variables propres aux lignes de paye (Code, Libellé, Base,...) " alt="" coords="190,477,310,503"/>
+<area shape="rect" id="node4" href="ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le &#160;caractère &#39;_&#39;..." alt="" coords="827,221,893,247"/>
+<area shape="rect" id="node6" href="ligne__paye_8h.html#a1918a95b8d7eafcb07bcf867242b3514" title="Vérifie que la taille des données de paye en nombre de lignes de paye au décodage effectif des fichie..." alt="" coords="402,41,497,67"/>
+<area shape="rect" id="node7" href="ligne__paye_8cpp.html#a45ce15888cd33c4753e852fce36fb56e" title="Appelle Bulletin et affiche l&#39;interprétation des erreurs. " alt="" coords="385,274,514,301"/>
+<area shape="rect" id="node11" href="ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580" title="Appelle Bulletin. " alt="" coords="388,92,511,133"/>
+<area shape="rect" id="node13" href="ligne__paye_8cpp.html#a8636e0f8d6d7fce58969c36956342c90" title="Appelle Bulletin. " alt="" coords="385,157,514,199"/>
+<area shape="rect" id="node14" href="ligne__paye_8cpp.html#a4a91586d82e91ad3e3c02355b57c9e09" title="Appelle Bulletin. " alt="" coords="372,223,527,250"/>
+<area shape="rect" id="node8" href="ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5" title="Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit. " alt="" coords="615,167,681,194"/>
+<area shape="rect" id="node10" href="ligne__paye_8h.html#a703180379a24b61c33f035b1b8a8f437" title="Affiche un message d&#39;avertissement sur la sortie d&#39;erreur lorsqu&#39;un noeud XML ne peut être atteint..." alt="" coords="599,223,697,250"/>
+<area shape="rect" id="node12" href="ligne__paye_8cpp.html#a5342d9b40b92c978ff404415b691e059" title="Substitue le séparateur décimal passé en paramètre au séparateur par défaut (.) " alt="" coords="575,99,721,140"/>
+</map>
 </div>
-<div id="dynsection-11-content" class="dyncontent" style="display:none;">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="validator_8cpp_abdf1df3dd61991073a485a3e5d8addd2_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-<div id="dynsection-12" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-12-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
-<div id="dynsection-12-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-12-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="validator_8cpp_abdf1df3dd61991073a485a3e5d8addd2_icgraph.svg" width="659" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="validator_8cpp_abdf1df3dd61991073a485a3e5d8addd2_icgraph.png" border="0" usemap="#validator_8cpp_abdf1df3dd61991073a485a3e5d8addd2_icgraph" alt=""/></div>
+<map name="validator_8cpp_abdf1df3dd61991073a485a3e5d8addd2_icgraph" id="validator_8cpp_abdf1df3dd61991073a485a3e5d8addd2_icgraph">
+<area shape="rect" id="node2" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="176,5,251,32"/>
+<area shape="rect" id="node3" href="validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="299,5,381,32"/>
+<area shape="rect" id="node4" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="429,5,555,32"/>
+<area shape="rect" id="node5" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="603,5,653,32"/>
+</map>
 </div>
 
 </div>
@@ -588,9 +609,7 @@ sinon 0 en cas de succès. </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Définition à la ligne <a class="el" href="lhx_2main_8cpp_source.html#l00091">91</a> du fichier <a class="el" href="lhx_2main_8cpp_source.html">main.cpp</a>.</p>
-
-<p class="reference">Référencé par <a class="el" href="validator_8cpp_source.html#l00087">parseFile()</a>, et <a class="el" href="lhx_2main_8cpp_source.html#l01104">produire_segment()</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="lhx_2main_8cpp_source.html#l00099">99</a> du fichier <a class="el" href="lhx_2main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
@@ -606,9 +625,7 @@ sinon 0 en cas de succès. </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Définition à la ligne <a class="el" href="lhx_2main_8cpp_source.html#l00090">90</a> du fichier <a class="el" href="lhx_2main_8cpp_source.html">main.cpp</a>.</p>
-
-<p class="reference">Référencé par <a class="el" href="validator_8cpp_source.html#l00087">parseFile()</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="lhx_2main_8cpp_source.html#l00098">98</a> du fichier <a class="el" href="lhx_2main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
@@ -624,20 +641,14 @@ sinon 0 en cas de succès. </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p class="reference">Référencé par <a class="el" href="validator_8cpp_source.html#l00087">parseFile()</a>.</p>
-
 </div>
 </div>
 </div><!-- contents -->
-</div><!-- doc-content -->
 <!-- start footer part -->
-<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-  <ul>
-    <li class="navelem"><a class="el" href="dir_f92775b0174f2bb7a0fa78a915496faf.html">lhx</a></li><li class="navelem"><a class="el" href="validator_8cpp.html">validator.cpp</a></li>
-    <li class="footer">Généré par
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.15 </li>
-  </ul>
-</div>
+<hr class="footer"/><address class="footer"><small>
+Généré par &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.13
+</small></address>
 </body>
 </html>

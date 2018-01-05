@@ -625,10 +625,6 @@ void Altair::processFinished (exitCode code)
 
         default :
             textAppend (PROCESSING_HTML_TAG  + tr (" Terminé."));
-
-            // Réinitialiser le dialogue d'extraction des bulletins si celui-ci est rempli et actualiser le projet en fonction
-
-            if (parent->resetExtractionBulletins() == true)  updateProject(true);
         }
 
     if (process.exitStatus() == QProcess::CrashExit) return;
