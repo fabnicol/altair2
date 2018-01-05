@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['processpage',['processPage',['../classprocess_page.html',1,'']]]
+  ['standardpage',['standardPage',['../classstandard_page.html',1,'']]]
 ];

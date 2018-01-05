@@ -92,19 +92,37 @@ public:
     }
 
 private:
-    QDialogButtonBox *closeButton; ///< Bouton Quitter
-    FLineEdit *matrLineEdit;       ///< Première ligne de matricules
-    FLineEdit *matrLineEdit2;      ///< Deuxième ligne de matricules
-    FLineEdit *matrLineEdit3;      ///< Troisième ligne de matricules
+    QDialogButtonBox *closeButton; ///< Bouton Quitter.
+    FLineEdit *matrLineEdit;       ///< Première ligne de matricules.
+    FLineEdit *matrLineEdit2;      ///< Deuxième ligne de matricules.
+    FLineEdit *matrLineEdit3;      ///< Troisième ligne de matricules.
+    QList<FLineEdit*> matrLineEditList; ///< Liste de lignes de matricules ajoutées.
+    QList<QToolButton*> eraseButtonList; ///< Liste des boutons d'effacement de ligne.
     FLineFrame* dossier;           ///< Dossier d'export des bulletins extraits
     QString dirpath;         ///< Chemin du dossier par défaut.
 
-    /// Vérifie l'input (format de saisie)
-    /// \param l CHaîne de caractères formatée selon l'usage :\n
-    /// <ul><li>Pour un seul matricule : Matricule-Mois-Année</li>
-    ///  <li>Pour une plage de mois et d'années : Matricule-Mois.début...Mois.fin-Année.début...Année.fin</li>
-    /// </ul>\n
-    /// Les séquences de ce type peuvent être ajoutées les unes aux autres séparées par un point-virgule.
+    /// Vérifie l'input (format de saisie).
+    /// Pour extraire le bulletin d'un agent, rentrer son matricule, suivi d'un tiret \n
+    /// puis le numéro du mois (de 1 à 12), suivi d'un tiret, et l'année.\n
+    /// Utiliser ... pour indiquer une plage de valeurs.\n
+    /// Insérer un point-vigule avant la demande suivante, sans espace.\n
+    /// Lorsque les années sont données sur deux chiffres au lieu de 4, elles sont\n
+    /// réputées être postérieures à l'an 2000.\n
+    /// Il est possible de regrouper plusieurs matricules, pour une même valeur\n
+    /// du ou des mois et années. Les matricules sont alors séparés par des virgules.\n
+    /// Les séquences peuvent être ajoutées les unes aux autres, séparées par un point-virgule.
+    /// \param l Chaîne de caractères formatée.
+    /// \return Booléen : \em true si la formet est correct, \em false sinon.
+    /// \remarks
+    /// Par exemple : \n\n
+    ///  1058 N-3-2010;1010 B-7...9-2012...2014\n\n
+    ///  pour extraire les bulletins des agents de matricule :\n\n
+    ///  1058 N en mars 2010\n
+    ///  1010 B en juillet, août, septembre 2012 à 2014.\n\n
+    /// Autre exemple : \n\n
+    ///  1059,1092,1011-1...3-15...17\n\n
+    ///  pour extraire les bulletins des agents de matricule :\n\n
+    ///  1059, 1092 et 1011 en janvier, février et mars 2015, 2016 et 2017.
 
     bool checkInput (FLineEdit* l);
 

@@ -40,8 +40,8 @@ VERSION_TAG = $$system(cat ../../VERSION)
 DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
 
 message("Version :  $$VERSION_TAG")
-QMAKE_CXX = /usr/bin/g++
-QMAKE_LINK = /usr/bin/g++
+#QMAKE_CXX = /usr/bin/g++
+#QMAKE_LINK = /usr/bin/g++
 greaterThan(QT_MAJOR_VERSION, 5)
 
 # utiliser au moins Qt5 et g++-5.1
@@ -94,6 +94,8 @@ TARGET = Altair
 VPATH = .
 INCLUDEPATH += ../../fwidgets_lib
 LIBS += libfwidgets_lib.a
+
+DEFINES += HAS_CPP17
 
 DEFINES += SCRIPT_DIR=\\\"Tests/Exemple/\\\"  # Dossier des scripts R
 

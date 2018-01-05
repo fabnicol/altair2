@@ -1,14 +1,8 @@
 <map id="Interface/gui/altair.h" name="Interface/gui/altair.h">
-<area shape="rect" id="node2" href="$fstring_8h.html" title="fstring.h" alt="" coords="464,453,533,480"/>
-<area shape="rect" id="node4" href="$enums_8h.html" title="Enumérations et constantes permettant de paramétrer les fwidgets. " alt="" coords="549,528,621,555"/>
-<area shape="rect" id="node5" href="$flistframe_8h.html" title="flistframe.h" alt="" coords="231,229,318,256"/>
-<area shape="rect" id="node6" href="$fwidgets_8h.html" title="fwidgets.h" alt="" coords="641,379,724,405"/>
-<area shape="rect" id="node13" href="$common_8h.html" title="Code de la classe common, qui regroupe des utilitaires communs à l&#39;interface graphique MainWindow..." alt="" coords="840,229,923,256"/>
-<area shape="rect" id="node14" href="$altair-gui_8h.html" title="Code de la classe MainWindow qui construit l&#39;interface graphique. " alt="" coords="789,80,872,107"/>
-<area shape="rect" id="node9" href="$tools_8h.html" title="tools.h" alt="" coords="771,304,832,331"/>
-<area shape="rect" id="node8" href="$tags_8h.html" title="tags.h" alt="" coords="653,453,712,480"/>
-<area shape="rect" id="node21" href="$options_8h.html" title="Code des classes du dialogue d&#39;options. " alt="" coords="511,155,585,181"/>
-<area shape="rect" id="node23" href="$highlighter_8h.html" title="Code de l&#39;utilitaire de colorisation du code XML du projet .alt. " alt="" coords="394,155,486,181"/>
-<area shape="rect" id="node26" href="$gui__enums_8h.html" title="Code de constantes et de classes regroupant des constantes. " alt="" coords="884,155,980,181"/>
-<area shape="rect" id="node22" href="$flineframe_8h.html" title="Ce fichier contient la classe FLineFrame, dérivée fonctionnelle de FLineEdit. " alt="" coords="504,304,595,331"/>
+<area shape="rect" id="node5" href="$common_8h.html" title="Code de la classe common, qui regroupe des utilitaires communs à l&#39;interface graphique MainWindow..." alt="" coords="291,229,373,256"/>
+<area shape="rect" id="node9" href="$altair-gui_8h.html" title="Code de la classe MainWindow qui construit l&#39;interface graphique. " alt="" coords="636,80,719,107"/>
+<area shape="rect" id="node16" href="$options_8h.html" title="Code des classes du dialogue d&#39;options. " alt="" coords="363,155,437,181"/>
+<area shape="rect" id="node18" href="$highlighter_8h.html" title="Code de l&#39;utilitaire de colorisation du code XML du projet .alt. " alt="" coords="1190,155,1282,181"/>
+<area shape="rect" id="node21" href="$gui__enums_8h.html" title="Code de constantes et de classes regroupant des constantes. " alt="" coords="709,229,805,256"/>
+<area shape="rect" id="node23" href="$matricules_8h.html" title="Code de la classe MatriculeInput, qui construit un dialogue d&#39;extraction des bulletins. " alt="" coords="461,155,555,181"/>
 </map>
