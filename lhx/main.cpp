@@ -212,12 +212,23 @@ int main (int argc, char **argv)
 
             // Aide en ligne
 
-            else if (commandline_tab[start] ==  "-h")
+            else if (commandline_tab[start] ==  "-h" || commandline_tab[start] ==  "--help")
                 {
-                    string out = move (help()).str();
+                    string out = help().str();
                     out.erase (remove (out.begin(), out.end(), '*'), out.end());
                     cerr << out;
                     exit (0);
+                }
+
+            else if (commandline_tab[start] == "-v" || commandline_tab[start] == "--version")
+                {
+                    cerr << "Altaïr, module LHX version " << VERSION << "\n"
+                         << "  Copyright Cour des comptes 2013-2018.\n"
+                         << "  Auteur Fabrice Nicol <fabrice.nicol@crtc.ccomptes.fr> 2013-2018.n"
+                         << "  Cette application est placée sous licence CeCILL version 2.1.\n  Voir fichier LICENCE ou  LICENCE.html.\n"
+                         << "  L'application en ligne de commande LHX est un module du logiciel Altaïr.\n"
+                         << "  Elle extrait les données de paye des fichiers au format XHL/XML spécifié\n  par la convention-cadre nationale de dématérialisation.\n\n";
+                    exit(0);
                 }
 
             // Génération des bulletins de paye
@@ -274,7 +285,15 @@ int main (int argc, char **argv)
                              ENDL;
                         throw;
                     }
+
                     repertoire_bulletins = commandline_tab[start];
+
+                    // Nettoyage (sinon problèmes d'empilement de données cumulées en CSV)
+
+                    if (fs::exists(repertoire_bulletins))
+                    {
+                        //fs::remove_all(repertoire_bulletins);
+                    }
 
                     ++start;
                     continue;
@@ -1092,19 +1111,13 @@ int main (int argc, char **argv)
 
     if (info.generer_bulletins && ! info.chemins_bulletins_extraits.empty())
     {
-        // Nettoyage (sinon problèmes d'empilements de données cumulées en CSV)
-
-        if (fs::exists(repertoire_bulletins))
-        {
-            //fs::remove_all(repertoire_bulletins);
-        }
 
         // réajustement du répertoire de sortie
 
         string path = repertoire_bulletins + string ("/Bases/");
         fs::create_directories(path);
 
-        // On est maintenant en extraction standard :
+        // On est maintenant en extraction standard des données CSV, la "génération des bulletins" est déjà faite :
 
         info.generer_bulletins = false;
         generer_table = true;
@@ -1351,18 +1364,22 @@ pair<uint64_t, uint64_t> produire_segment (info_t& info, const vString& segment)
                                            annee));
             }
 
-        int res = chemins_bulletins_extraits.size();
+        static int res;
 
-        if (res)
-            {
-               LOCK_GUARD
-               cerr << STATE_HTML_TAG  << res << " bulletin" << (res > 1 ? "s ont " : " a ") << " extrait" << (res > 1 ? "s." : ".") << ENDL;
-            }
-        else
-            {
-               LOCK_GUARD
-               cerr << WARNING_HTML_TAG "Aucun bulletin n'a été extrait." << ENDL;
-            }
+        res += chemins_bulletins_extraits.size();
+
+        if (verbeux)
+        {
+            LOCK_GUARD
+            if (res)
+                {
+                   cerr << STATE_HTML_TAG  << res << " bulletin" << (res > 1 ? "s ont " : " a ") << " extrait" << (res > 1 ? "s." : ".") << ENDL;
+                }
+            else
+                {
+                   cerr << WARNING_HTML_TAG "Aucun bulletin n'a été extrait dans le segment " << nsegment << "." << ENDL;
+                }
+        }
 
         vect_concat(info.chemins_bulletins_extraits, chemins_bulletins_extraits);
     }
