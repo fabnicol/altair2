@@ -53,7 +53,7 @@ codes.primedeservice  <- NA
 codes.primedetechnicite <- NA  
 types.irs  <- c("IR", "S")
 
-controle<-c("SERVICE DEPARTEMENTAL INCENDIE SECOURS","28310001400028","SERVICE DEPART.INC.SECOURS 31.","BUDGET PRINCIPAL, 61BUDGET ANNEXE FORMATION")  
+controle<-c("Z","Z","Z","MULTIBUDGET")  
 
 codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IHTS", "VAC", "ASTREINTES", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(

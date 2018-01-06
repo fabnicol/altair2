@@ -199,6 +199,7 @@ vector<string> __scan_mois (const string &repertoire_bulletins,
 {
     size_t pos = 0;
     vector<string>chemins_bulletins_extraits;
+
     // Les mois peuvent être donnés en intervalles du type 02...11
     // ce qui signifie : tous les mois entre février et novembre inclus
 
@@ -224,7 +225,9 @@ vector<string> __scan_mois (const string &repertoire_bulletins,
                  vect_concat(chemins_bulletins_extraits, c);
             }
         }
+
     // Si pas d'intervalle, lancer la fonction bulletin_paye sur le seul mois donné.
+
     else
     {
         if (verbeux) cerr << PROCESSING_HTML_TAG "Année : " << annee << " Extraction du mois : " << mois  << ENDL;
@@ -247,8 +250,8 @@ vector<string> scan_mois (const string &repertoire_bulletins,
 {
 size_t pos = 0;
 vector<string> chemins_bulletins_extraits;
-// Les mois peuvent être donnés en intervalles du type 02...11
-// ce qui signifie : tous les mois entre février et novembre inclus
+
+// Les matricules peuvent être séparés par des virgules
 
 if ((pos = matricule.find_first_of (',')) != string::npos)
     {
