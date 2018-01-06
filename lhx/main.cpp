@@ -1092,12 +1092,19 @@ int main (int argc, char **argv)
 
     if (info.generer_bulletins && ! info.chemins_bulletins_extraits.empty())
     {
+        // Nettoyage (sinon problèmes d'empilements de données cumulées en CSV)
+
+        if (fs::exists(repertoire_bulletins))
+        {
+            //fs::remove_all(repertoire_bulletins);
+        }
+
         // réajustement du répertoire de sortie
 
         string path = repertoire_bulletins + string ("/Bases/");
-        if (! fs::exists(path)) fs::create_directories(path);
+        fs::create_directories(path);
 
-        // on est maintenant en extraction standard :
+        // On est maintenant en extraction standard :
 
         info.generer_bulletins = false;
         generer_table = true;
@@ -1315,8 +1322,11 @@ pair<uint64_t, uint64_t> produire_segment (info_t& info, const vString& segment)
                 if ((pos = annee.find_first_of ('.')) != string::npos)
                     {
                         int an0 = stoi (annee.substr (0, pos));
+                        if (an0 < 100 && an0 > 0) an0 += 2000;
+
                         pos = annee.find_last_of ('.');
                         int an1 = stoi (annee.substr (pos + 1));
+                        if (an1 < 100 && an1 > 0) an1 += 2000;
 
                         for (int an = an0; an <= an1; ++an)
                             {
@@ -1345,11 +1355,13 @@ pair<uint64_t, uint64_t> produire_segment (info_t& info, const vString& segment)
 
         if (res)
             {
-                cerr << STATE_HTML_TAG  << res << " bulletin" << (res > 1 ? "s ont " : " a ") << " extrait" << (res > 1 ? "s." : ".") << ENDL;
+               LOCK_GUARD
+               cerr << STATE_HTML_TAG  << res << " bulletin" << (res > 1 ? "s ont " : " a ") << " extrait" << (res > 1 ? "s." : ".") << ENDL;
             }
         else
             {
-                cerr << WARNING_HTML_TAG "Aucun bulletin n'a été extrait." << ENDL;
+               LOCK_GUARD
+               cerr << WARNING_HTML_TAG "Aucun bulletin n'a été extrait." << ENDL;
             }
 
         vect_concat(info.chemins_bulletins_extraits, chemins_bulletins_extraits);
@@ -1437,44 +1449,4 @@ pair<uint64_t, uint64_t> produire_segment (info_t& info, const vString& segment)
 }
 
 
-vector<string> scan_mois (const string &repertoire_bulletins,
-                const vector<info_t> &Info,
-                const string &matricule,
-                const string &mois,
-                const string &annee)
-{
-    size_t pos = 0;
-    vString chemins_bulletins_extraits;
-    // Les mois peuvent être donnés en intervalles du type 02...11
-    // ce qui signifie : tous les mois entre février et novembre inclus
 
-    if ((pos = mois.find_first_of ('.')) != string::npos)
-        {
-            int m0 = stoi (mois.substr (0, pos));
-            pos = mois.find_last_of ('.');
-            int m1 = stoi (mois.substr (pos + 1));
-
-            // Boucler entre les deux mois ainsi donnés en borne inf et max
-            // et lancer la fonction bulletin_paye sur chacun de ces mois
-
-            for (int m = m0; m <= m1; ++m)
-            {
-                 vector<string> c = bulletin_paye (repertoire_bulletins,
-                                                   Info,
-                                                   matricule,
-                                                   to_string (m),
-                                                   annee);
-
-                 vect_concat(chemins_bulletins_extraits, c);
-            }
-        }
-    // Si pas d'intervalle, lancer la fonction bulletin_paye sur le seul mois donné.
-    else
-        chemins_bulletins_extraits = bulletin_paye (repertoire_bulletins,
-                                                    Info,
-                                                    matricule,
-                                                    mois,
-                                                    annee);
-
-    return chemins_bulletins_extraits;
-}
