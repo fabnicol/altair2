@@ -96,7 +96,10 @@ VPATH = .
 
 TEMPLATE = app
 
-DEFINES +=    VERSION=\\\"17.09\\\"
+VERSION_TAG = $$system(cat ../VERSION)
+DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
+
+message("Version :  $$VERSION_TAG")
 
 DEFINES +=  WARNING_LIMIT=5  \         # nombre maximum d'avertissement par fichier
             MAX_NB_AGENTS=80000 \      # nombre maximum de bulletins par mois

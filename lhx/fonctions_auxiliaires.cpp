@@ -71,17 +71,22 @@ extern bool verbeux;
 #endif
 #endif
 
+#define RETRAIT "                        "
 
 ostringstream help()
 {
     ostringstream out;
     out <<  "**Usage** :  lhx OPTIONS fichiers.xhl  " << "\n\n"
         <<  "**OPTIONS :**  " << "\n\n"
-        <<  "**-h** *sans argument*        : affiche cette aide sur la sortie d'erreur (cerr)." << "\n\n"
+        <<  "**-h** *sans argument*        : affiche cette aide sur la sortie d'erreur (cerr).  " << "\n\n"
+        <<  "**--help** *sans argument*    : affiche cette aide sur la sortie d'erreur (cerr).  " << "\n\n"
+        <<  "**--v** *sans argument*       : affiche la version du logiciel, l'auteur et la date de création.  " << "\n\n"
+        <<  "**--version** *sans argument* : affiche la version du logiciel, l'auteur et la date de création.  " << "\n\n"
         <<  "**-n** *argument obligatoire* : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]  " << "\n\n"
         <<  "**-N** *argument obligatoire* : nombre maximum de lignes de paye attendues [calcul exact par défaut]  " << "\n\n"
         <<  "**-t** *argument optionnel*   : type de base en sortie, soit 'standard', soit 'bulletins' [défaut bulletins].  " << "\n\n"
-        <<  "**-T** *argument obligatoire* : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées.  " << "\n\n"
+        <<  "**-T** *argument obligatoire* : nombre de lignes maximum par base .csv [défaut illimité].\n  "
+            RETRAIT                          "Au plus 999 tables seront générées.  " << "\n\n"
         <<  "**-T AN**                   : générer une table par année  " << "\n\n"
         <<  "**-T A/AC/AV/C/D/I/IR/RE/S/T** : générer une table pour chaque catégorie de ligne :    \n\n"
         <<  "      A rémunérations diverse  \n\n"
@@ -112,24 +117,29 @@ ostringstream help()
         <<  "**--esiret** *argument obligatoire* : la liste des SIRET à exclure de la sortie, séparés par des blancs. " << "\n\n"
         <<  "**--ebudget** *argument obligatoire* : la liste des budgets à exclure de la sortie, séparés par des blancs. " << "\n\n"
         <<  "**--xhlmem** *arg. oblig.*    : taille des fichiers à  analyser en octets.  " << "\n\n"
-        <<  "**--memshare** *arg. oblig.*  : Part de la mémoire vive utilisée, en points de pourcentage.  " << "\n\n"
+        <<  "**--memshare** *arg. oblig.*  : part de la mémoire vive utilisée, en points de pourcentage.  " << "\n\n"
         <<  "**--segments** *arg. oblig.*  : nombre minimum de segments de base.  " << "\n\n"
         <<  "**--pretend** *sans argument* : exécution sans traitement des fichiers.  " << "\n\n"
         <<  "**--verifmem** *sans argument*: seulement vérifier la consommation mémoire.  " << "\n\n"
         <<  "**--hmarkdown** *sans argument*: aide en format markdown.  " << "\n\n"
         <<  "**--pdf**     *sans argument* : aide en format pdf.  " << "\n\n"
         <<  "**--cdrom**   *sans argument* : lire les données directement sur le disque optique.  " << "\n\n"
-        <<  "**--dossier-bulletins** *arg.oblig.*: dossier vers lequel seront exportés les bulletins extraits pour impression.  " << "\n\n"
-        <<  "**--bulletins** *arg.oblig.*  : suite de séquences séparées par des points-vigules sans espace.   Chaque séquence est de la forme matricule-mois(...mois)-année(...année).  Exemple: 1012A-3...5-2012...2015  " << "\n\n"
-        <<  "**--export** *arg.oblig.*     : modalité d'exportation (Standard, Cumulative, Distributive, Distributive+)  " << "\n\n "
+        <<  "**--dossier-bulletins** *arg.oblig.*: dossier vers lequel seront exportés les bulletins extraits.\n  "
+            RETRAIT                          "      " "Les dossiers sont nettoyés à chaque extraction de bulletins.  "     << "\n\n"
+        <<  "**--bulletins** *arg.oblig.*  : suite de séquences séparées par des points-vigules sans espace.\n  "
+            RETRAIT                          "Chaque séquence est de la forme matricule-mois(...mois)-année(...année).\n  "
+            RETRAIT                          "Les matricules peuvent eux-mêmes être séparés par des virgules.\n  "
+            RETRAIT                          "L'année peut être indiquée par ses deux derniers chiffres.\n  "
+            RETRAIT                          "Exemple: 1012A,1013B-3...5-12...15;1014C-6-16  " << "\n\n"
+        <<  "**--export** *arg.oblig.*     : modalité d'exportation (Standard, Cumulative, Distributive, Distributive+)  " << "\n\n"
         <<   "  *Standard* : bases à la racine du répertoire d'exportation. Ecrasement des bases à chaque exécution.  " << "\n\n"
-        <<   "  *Cumulative* : bases à la racine du répertoire d'exportation. Empilement des bases d'une exécution à l'autre.   " << "\n\n"
-        <<   "  *Distributive* : bases à la racine du sous-répertoire de même nom que celui d'entrée dans le répertoire d'exportation.   " << "\n\n"
-        <<   "  *Distributive+* : bases à la racine du sous-répertoire de même nom que celui d'entrée dans le répertoire d'exportation."
+        <<   "  *Cumulative* : bases à la racine du répertoire d'exportation. Empilement des bases d'une exécution à l'autre.  " << "\n\n"
+        <<   "  *Distributive* : bases à la racine du sous-répertoire de même nom que celui d'entrée dans le répertoire d'exportation.  " << "\n\n"
+        <<   "  *Distributive+* : bases à la racine du sous-répertoire de même nom que celui d'entrée dans le répertoire d'exportation.  "
         <<   " Empilement des bases d'une exécution à l'autre.  " << "\n\n";
 #ifdef GENERATE_RANK_SIGNAL
-    out  <<  "**-rank** *argument optionnel* : générer le fichier du rang de la base de paye en cours dans le fichier ";
-    // out  <<  "ou à  défaut dans " USERPROFILE "/" LOCALDATA ".\n\n";
+    out  <<  "**-rank** *argument optionnel* : générer le fichier du rang de la base de paye en cours dans le fichier.\n\n  ";
+
 #endif
     return out;
 }
