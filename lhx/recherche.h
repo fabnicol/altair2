@@ -37,7 +37,7 @@
 //
 #include <fstream>
 #include "validator.h"
-
+#include "fonctions_auxiliaires.h"
 
 
 
@@ -55,7 +55,24 @@
 
 vector<long long>  recherche (const vector<info_t> &Info, const xmlChar* annee, const xmlChar* mois, const xmlChar* matricule);
 
+
+/// Extrait le bulletin de paye correspondant à la ligne de début et de fin dans le fichier XML base de paye
+/// \param info Structure info_t contenant la partie pertinente des données de paye décodées
+/// \param debut Tableau de 3 entiers de 64 bits contenant l'indicatrice du début du bulletin particulier à extraire
+/// \param fin Tableau de 2 entiers de 64 bits contenant l'indicatrice du fin du bulletin particulier à extraire
+/// \return  Chaîne de caractères de type string contenant l'extraction du bulletin
+
 const string extraire_lignes (const info_t& info, const array<uint64_t, 3>& debut, const array<uint64_t, 2>& fin);
+
+/// Crée le répertoire d'exportation d'un bulletin de paye donné pour un matricule, un mois et une année donnés
+/// et le fichier XHL minimal encapsulant ce bulletin individuel
+/// \param chemin_repertoire Chemin compet du répertoire d'exportation contenant les bulletins extraits
+/// \param Info vecteur de structures info_t contenant les données de paye décodées
+/// \param matricule Matricule de l'agent
+/// \param mois Mois de la paye
+/// \param annee Année de la paye
+/// \return Liste des chemins des fichiers \em .xml exportés dans le répertoire chemin_repertoire.
+
 vector<string> bulletin_paye (const string& chemin_repertoire,
                     const vector<info_t> &Info,
                     const string& matricule,

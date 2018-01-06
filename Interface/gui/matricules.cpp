@@ -265,31 +265,46 @@ bool MatriculeInput::checkInput (FLineEdit* l)
                                           "Utiliser le format suivant : matricule-mois-année.<br>"
                                           "Un intervalle peut être utilisé pour le mois et l'année.<br>"
                                           "Exemple :<br>\t 1012B-1...7-2011...2013", QMessageBox::Ok);
-                    S.clear();
                 }
 
-            int cut = 0, cut2 = 0;
+
+            if (sublist.at(0).contains(QRegularExpression ("[;:]")))
+                QMessageBox::warning (nullptr, "Format de la requête " + S,
+                                      "Les matricules doivent être séparés par une virgule.",
+                                      QMessageBox::Ok);
+
+            int cut = 0, cut2 = 0, cut3 = 0, cut4 = 0;
             const QString s1 = sublist.at (1);
-            bool range = false;
+            const QString s2 = sublist.at (2);
+            bool range_month = false;
+            bool range_year  = false;
 
             if (s1.contains ("..."))
                 {
-                    cut  = s1.split ("...", QString::SkipEmptyParts).at (0).toInt();
-                    cut2 = s1.split ("...", QString::SkipEmptyParts).at (1).toInt();
-                    range = true;
+                    auto l1 = s1.split ("...", QString::SkipEmptyParts);
+                    cut  = l1.at (0).toInt();
+                    cut2 = l1.at (1).toInt();
+                    range_month = true;
                 }
 
-            if (! s1.contains (QRegularExpression ("[0-9]+(?:\\.\\.\\.[0-9]+|)"))
-                    || (range && (cut > 12 || cut < 1) && (cut2 > 12 || cut2 < 1)) || (! range  && (s1.toInt() > 12 || s1.toInt() < 1)))
+            if (s2.contains ("..."))
+                {
+                    auto l2 = s2.split ("...", QString::SkipEmptyParts);
+                    cut3 = l2.at (0).toInt();
+                    cut4 = l2.at (1).toInt();
+                    range_year = true;
+                }
+
+            if ((range_month && (cut > 12 || cut < 1 || cut2 > 12 || cut2 < 1)) || (! range_month  && (s1.toInt() > 12 || s1.toInt() < 1)))
                 {
                     QMessageBox::warning (nullptr, "Format de la requête " + S, "Le mois doit être compris entre 1 et 12.", QMessageBox::Ok);
-                    S.clear();
                 }
 
-            if (! sublist.at (2).contains (QRegularExpression ("[0-9]{4}(?:\\.\\.\\.[0-9]{4}|)")) || (! range  && sublist.at (2).toInt() < 2007))
+            if ((range_year && ((cut3 % 2000) < 8 || (cut4 % 2000) < 8)) || (! range_year && (s2.toInt() % 2000) < 8))
                 {
-                    QMessageBox::warning (nullptr, "Format de la requête " + S, "L'année doit être numérique, à compter de 2008.", QMessageBox::Ok);
-                    S.clear();
+                    QMessageBox::warning (nullptr, "Format de la requête " + S,
+                                          "L'année doit être numérique, à compter de 2008.",
+                                          QMessageBox::Ok);
                 }
 
             if (! S.isEmpty())

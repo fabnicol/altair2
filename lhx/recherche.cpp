@@ -39,12 +39,13 @@
 #include "recherche.h"
 using namespace std;
 
+extern bool verbeux;
+
 /// \file    recherche.cpp
 /// \author  Fabrice Nicol
 /// \brief   Ce fichier contient le code permettant de rechercher en mémoire, après décodage des bases XML,
 /// un bulletin de paye particulier correspondant à un matricule, un mois et une année. Il contient aussi le code
 /// permettant l'itération de cette fonctionnalité sur des intervalles temporels.
-
 
 vector<string>  recherche (const vector<info_t> &Info, const string& annee, const string& mois, const string& matricule)
 {
@@ -126,14 +127,6 @@ vector<string>  recherche (const vector<info_t> &Info, const string& annee, cons
     return bulletins;
 }
 
-
-
-/// Extrait le bulletin de paye correspondant à la ligne de début et de fin dans le fichier XML base de paye
-/// \param info Structure info_t contenant la partie pertinente des données de paye décodées
-/// \param debut Tableau de 3 entiers de 64 bits contenant l'indicatrice du début du bulletin particulier à extraire
-/// \param fin Tableau de 2 entiers de 64 bits contenant l'indicatrice du fin du bulletin particulier à extraire
-/// \return  Chaîne de caractères de type string contenant l'extraction du bulletin
-
 const string extraire_lignes (const info_t& info, const array<uint64_t, 3>& debut, const array <uint64_t, 2>& fin)
 {
 
@@ -148,15 +141,6 @@ const string extraire_lignes (const info_t& info, const array<uint64_t, 3>& debu
     return tab;
 }
 
-
-/// Crée le répertoire d'exportation d'un bulletin de paye donné pour un matricule, un mois et une année donnés
-/// et le fichier XHL minimal encapusalnt ce bulletin individuel
-/// \param chemin_repertoire Chemin compet du répertoire d'exportation contenant les bulletins extraits
-/// \param Info vecteur de structures info_t contenant les données de paye décodées
-/// \param matricule Matricule de l'agent
-/// \param mois Mois de la paye
-/// \param annee Année de la paye
-/// \return Liste des chemins des fichiers \em .xml exportés dans le répertoire chemin_repertoire.
 
 vector<string> bulletin_paye (const string& chemin_repertoire, const vector<info_t> &Info, const string& matricule, const string& mois, const string& annee)
 {
@@ -205,3 +189,88 @@ vector<string> bulletin_paye (const string& chemin_repertoire, const vector<info
 
     return chemins_bulletins;
 }
+
+inline
+vector<string> __scan_mois (const string &repertoire_bulletins,
+                const vector<info_t> &Info,
+                const string &matricule,
+                const string &mois,
+                const string &annee)
+{
+    size_t pos = 0;
+    vector<string>chemins_bulletins_extraits;
+    // Les mois peuvent être donnés en intervalles du type 02...11
+    // ce qui signifie : tous les mois entre février et novembre inclus
+
+    if ((pos = mois.find_first_of ('.')) != string::npos)
+        {
+            int m0 = stoi (mois.substr (0, pos));
+            pos = mois.find_last_of ('.');
+            int m1 = stoi (mois.substr (pos + 1));
+
+            // Boucler entre les deux mois ainsi donnés en borne inf et max
+            // et lancer la fonction bulletin_paye sur chacun de ces mois
+
+            for (int m = m0; m <= m1; ++m)
+            {
+                if (verbeux) cerr << PROCESSING_HTML_TAG "Année : " << annee << " Extraction du mois : " << m  << ENDL;
+
+                vector<string> c = bulletin_paye (repertoire_bulletins,
+                                                   Info,
+                                                   matricule,
+                                                   to_string (m),
+                                                   annee);
+
+                 vect_concat(chemins_bulletins_extraits, c);
+            }
+        }
+    // Si pas d'intervalle, lancer la fonction bulletin_paye sur le seul mois donné.
+    else
+    {
+        if (verbeux) cerr << PROCESSING_HTML_TAG "Année : " << annee << " Extraction du mois : " << mois  << ENDL;
+        chemins_bulletins_extraits = bulletin_paye (repertoire_bulletins,
+                                                    Info,
+                                                    matricule,
+                                                    mois,
+                                                    annee);
+
+    }
+
+    return chemins_bulletins_extraits;
+}
+
+vector<string> scan_mois (const string &repertoire_bulletins,
+                const vector<info_t> &Info,
+                const string &matricule,
+                const string &mois,
+                const string &annee)
+{
+size_t pos = 0;
+vector<string> chemins_bulletins_extraits;
+// Les mois peuvent être donnés en intervalles du type 02...11
+// ce qui signifie : tous les mois entre février et novembre inclus
+
+if ((pos = matricule.find_first_of (',')) != string::npos)
+    {
+        vector<string> matriculeList = split(matricule, ',');
+
+        for (auto &&m : matriculeList)
+        {
+             vect_concat(chemins_bulletins_extraits,
+                         __scan_mois (repertoire_bulletins,
+                                        Info,
+                                        m,
+                                        mois,
+                                        annee));
+        }
+    }
+else
+    chemins_bulletins_extraits = __scan_mois (repertoire_bulletins,
+                                                Info,
+                                                matricule,
+                                                mois,
+                                                annee);
+
+return chemins_bulletins_extraits;
+}
+
