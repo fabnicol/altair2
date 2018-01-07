@@ -1,6 +1,7 @@
 var fonctions__auxiliaires_8cpp =
 [
     [ "P", "fonctions__auxiliaires_8cpp.html#a2748566f4c443ee77aa831e63dbb5ebe", null ],
+    [ "RETRAIT", "fonctions__auxiliaires_8cpp.html#a6c0d34ab287add084724ef55c6d5fc7f", null ],
     [ "afficher_environnement_xhl", "fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d", null ],
     [ "calculer_maxima", "fonctions__auxiliaires_8cpp.html#a338490d76e4fe43668697f46d251600b", null ],
     [ "calculer_memoire_requise", "fonctions__auxiliaires_8cpp.html#a6a6eceeeb38bc24fd24e0acb226c1304", null ],
@@ -13,8 +14,8 @@ var fonctions__auxiliaires_8cpp =
     [ "getTotalSystemMemory", "fonctions__auxiliaires_8cpp.html#a7d549d61628c712fecf0f56bf64802ef", null ],
     [ "help", "fonctions__auxiliaires_8cpp.html#a2dff91c98bf5c4003e4d7b9b708b1ff0", null ],
     [ "lire_argument", "fonctions__auxiliaires_8cpp.html#a05213245e8ed5f9b5da98808698cede6", null ],
-    [ "ouvrir_fichier_base", "fonctions__auxiliaires_8cpp.html#a7a042e1e36b178756cfb3a5771debbcb", null ],
-    [ "ouvrir_fichier_base0", "fonctions__auxiliaires_8cpp.html#abe7e6d7a0d5d4f61a075b180408fb042", null ],
+    [ "ouvrir_fichier_base", "fonctions__auxiliaires_8cpp.html#aa3ac470d830a5989c8a77534a2d2c096", null ],
+    [ "ouvrir_fichier_base0", "fonctions__auxiliaires_8cpp.html#aeafedd27b99b9ca6eecd49ff027b3671", null ],
     [ "ouvrir_fichier_bulletins", "fonctions__auxiliaires_8cpp.html#a0f11a266115e98b2536637a1ad8b05f7", null ],
     [ "read_stream_into_string", "fonctions__auxiliaires_8cpp.html#a42b58b99a50fba87cf44db116b0eb56a", null ],
     [ "split", "fonctions__auxiliaires_8cpp.html#add313f0fe82466f4c1c4622307d928bc", null ],

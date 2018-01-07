@@ -1,6 +1,7 @@
 var class_altair =
 [
     [ "Altair", "class_altair.html#ae0975ced0a36e0ed889ae06043a4df66", null ],
+    [ "ajouterLigneMatricules", "class_altair.html#a1916d2c4bb1405564d58c3bdd5da1bc5", null ],
     [ "assignWidgetValues", "class_altair.html#a8b7b1fa3e0b567dc1d4721bf88087a68", null ],
     [ "checkAnnumSpan", "class_altair.html#abd55c8c0c2e48e64f5b1ae2442b87ade", null ],
     [ "checkEmptyProjectName", "class_altair.html#a9df2266cd3e2a9905e74bb41c1f9415d", null ],

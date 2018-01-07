@@ -33,6 +33,7 @@ var class_main_window =
     [ "on_printBase_clicked", "class_main_window.html#ae33ce4e52340c8b93f45c8ca2481002e", null ],
     [ "readFile", "class_main_window.html#afc3de174143a44ccebd7037e0794b916", null ],
     [ "resetCounter", "class_main_window.html#a4d18b8d8e1bf9eee2e452816c2021060", null ],
+    [ "resetExtractionBulletins", "class_main_window.html#a7f2aaeb01d8c0cdbe5d608ef8e866bb7", null ],
     [ "resetTableCheckBox", "class_main_window.html#aadcecb4f2db85eb1f5342a53387eb4b6", null ],
     [ "restoreProject", "class_main_window.html#ae11018a1c92bd7f20ff54a3f78eacb51", null ],
     [ "saveProjectAs", "class_main_window.html#acb0d089a9bd777962ddd3e7d30e81c1a", null ],

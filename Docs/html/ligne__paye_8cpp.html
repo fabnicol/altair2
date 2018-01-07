@@ -5,13 +5,23 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Référence du fichier lhx/ligne_paye.cpp</title>
+<title>My Project: Référence du fichier lhx/ligne_paye.cpp</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { init_search(); });
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -21,6 +31,25 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="altaïr.bmp"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">My Project
+   </div>
+  </td>
+   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -30,15 +59,21 @@
 <script type="text/javascript">
 var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
-$(function() {
-  initMenu('',true,false,'search.php','Recherche');
-  $(document).ready(function() { init_search(); });
-});
+$(document).ready(function(){initNavTree('ligne__paye_8cpp.html','');});
 </script>
-<div id="main-nav"></div>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -53,11 +88,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_f92775b0174f2bb7a0fa78a915496faf.html">lhx</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
@@ -69,20 +99,12 @@ $(function() {
 
 <p>Ce fichier contient le code relatif au traitement individuel des lignes de paye.  
 <a href="#details">Plus de détails...</a></p>
-<div class="textblock"><div class="dynheader">
-Graphe des dépendances par inclusion de ligne_paye.cpp:</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp__incl.png" border="0" usemap="#lhx_2ligne__paye_8cpp" alt=""/></div>
-<map name="lhx_2ligne__paye_8cpp" id="lhx_2ligne__paye_8cpp">
-<area shape="rect" id="node2" href="ligne__paye_8h.html" title="Définit deux fonctions auxiliaires utilisées dans lignes_paye.cpp. " alt="" coords="1550,80,1645,107"/>
-<area shape="rect" id="node7" href="validator_8h.html" title="Ce fichier contient notamment la structure info_t qui stocke les données de paye décodées ainsi que l..." alt="" coords="1224,229,1307,256"/>
-<area shape="rect" id="node6" href="fonctions__auxiliaires_8h.html" title="Diverses fonctions auxiliaires en inlining. " alt="" coords="1013,155,1163,181"/>
-<area shape="rect" id="node36" href="table_8h.html" title="table.h" alt="" coords="1567,155,1628,181"/>
-<area shape="rect" id="node24" href="expression__reg__elus_8h.html" title="Expressions régulières représentant les élus. " alt="" coords="896,379,1048,405"/>
-<area shape="rect" id="node26" href="expression__reg__cata_8h.html" title="Ce fichier contient les expressions rationnelles permettant d&#39;identifier les catégories statutaires A..." alt="" coords="1046,304,1199,331"/>
-<area shape="rect" id="node25" href="expression__reg__commun_8h.html" title="Elements constitutifs des expressions régulières. " alt="" coords="976,453,1155,480"/>
-<area shape="rect" id="node27" href="expression__reg__adjoints_8h.html" title="Expressions régulières de niveau adjoints / auxiliaires / aides (catégories C) " alt="" coords="1072,379,1245,405"/>
-</map>
+<div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Graphe des dépendances par inclusion de ligne_paye.cpp:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div>
 <p><a href="ligne__paye_8cpp_source.html">Aller au code source de ce fichier.</a></p>
@@ -480,17 +502,12 @@ de la table d'informations est donné (soit X = <a class="el" href="validator_8h
 <p>Modifie info.Table à l'index info.NCumAgentXml. Peut poser un problème en cas de préallocation insuffisante. </p>
 
 <p class="definition">Définition à la ligne <a class="el" href="ligne__paye_8cpp_source.html#l01048">1048</a> du fichier <a class="el" href="ligne__paye_8cpp_source.html">ligne_paye.cpp</a>.</p>
-<div class="dynheader">
-Voici le graphe des appelants de cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp_a96d1e754fa36a716b5cd2fab2ab93fdc_icgraph.png" border="0" usemap="#ligne__paye_8cpp_a96d1e754fa36a716b5cd2fab2ab93fdc_icgraph" alt=""/></div>
-<map name="ligne__paye_8cpp_a96d1e754fa36a716b5cd2fab2ab93fdc_icgraph" id="ligne__paye_8cpp_a96d1e754fa36a716b5cd2fab2ab93fdc_icgraph">
-<area shape="rect" id="node2" href="validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="173,5,296,32"/>
-<area shape="rect" id="node3" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="344,5,419,32"/>
-<area shape="rect" id="node4" href="validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="467,5,549,32"/>
-<area shape="rect" id="node5" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="597,5,723,32"/>
-<area shape="rect" id="node6" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="771,5,821,32"/>
-</map>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp_a96d1e754fa36a716b5cd2fab2ab93fdc_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -558,31 +575,19 @@ Sinon appelle <a class="el" href="ligne__paye_8cpp.html#a6044ec3fae81f42425539be
 </p><dl class="section return"><dt>Renvoie</dt><dd><b><a class="el" href="validator_8h.html#a7d8489d3b0e5a1b4910ed9051ac91cf5" title="Un noeud libxml2 XmlPtr a été trouvé ">NODE_FOUND</a></b> sauf si <b><a class="el" href="validator_8h.html#aaa499ffdded251dbf479c08bc9107521" title="Problème d&#39;allocation de mémoire pour une ligne de paye. ">LINE_MEMORY_EXCEPTION</a></b> ou <b><a class="el" href="validator_8h.html#a3cf5f9d21653a6756c07b3eeb8ef1e1e" title="Pas de noeud libxml2 suivant au même niveau de profondeur d&#39;arbre. ">NO_NEXT_ITEM</a></b>. </dd></dl>
 
 <p class="definition">Définition à la ligne <a class="el" href="ligne__paye_8cpp_source.html#l00174">174</a> du fichier <a class="el" href="ligne__paye_8cpp_source.html">ligne_paye.cpp</a>.</p>
-<div class="dynheader">
-Voici le graphe d'appel pour cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp_a8720dbeccf4eabbc5ffa9d7be551a7a5_cgraph.png" border="0" usemap="#ligne__paye_8cpp_a8720dbeccf4eabbc5ffa9d7be551a7a5_cgraph" alt=""/></div>
-<map name="ligne__paye_8cpp_a8720dbeccf4eabbc5ffa9d7be551a7a5_cgraph" id="ligne__paye_8cpp_a8720dbeccf4eabbc5ffa9d7be551a7a5_cgraph">
-<area shape="rect" id="node2" href="validator_8h.html#ad164d34b6591a52b6e92b087582fe0cb" title="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..." alt="" coords="119,5,229,32"/>
-<area shape="rect" id="node3" href="ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le &#160;caractère &#39;_&#39;..." alt="" coords="141,56,207,83"/>
-</map>
+<div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
 </div>
-<div class="dynheader">
-Voici le graphe des appelants de cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp_a8720dbeccf4eabbc5ffa9d7be551a7a5_icgraph.png" border="0" usemap="#ligne__paye_8cpp_a8720dbeccf4eabbc5ffa9d7be551a7a5_icgraph" alt=""/></div>
-<map name="ligne__paye_8cpp_a8720dbeccf4eabbc5ffa9d7be551a7a5_icgraph" id="ligne__paye_8cpp_a8720dbeccf4eabbc5ffa9d7be551a7a5_icgraph">
-<area shape="rect" id="node2" href="ligne__paye_8cpp.html#a45ce15888cd33c4753e852fce36fb56e" title="Appelle Bulletin et affiche l&#39;interprétation des erreurs. " alt="" coords="131,5,261,32"/>
-<area shape="rect" id="node9" href="ligne__paye_8cpp.html#a4a91586d82e91ad3e3c02355b57c9e09" title="Appelle Bulletin. " alt="" coords="119,56,273,83"/>
-<area shape="rect" id="node10" href="ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580" title="Appelle Bulletin. " alt="" coords="135,107,257,149"/>
-<area shape="rect" id="node11" href="ligne__paye_8cpp.html#a8636e0f8d6d7fce58969c36956342c90" title="Appelle Bulletin. " alt="" coords="131,173,261,214"/>
-<area shape="rect" id="node3" href="ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud. " alt="" coords="321,85,400,112"/>
-<area shape="rect" id="node4" href="validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="448,85,571,112"/>
-<area shape="rect" id="node5" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="619,85,693,112"/>
-<area shape="rect" id="node6" href="validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="741,85,824,112"/>
-<area shape="rect" id="node7" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="872,85,997,112"/>
-<area shape="rect" id="node8" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1045,85,1096,112"/>
-</map>
+<div id="dynsection-2-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp_a8720dbeccf4eabbc5ffa9d7be551a7a5_cgraph.svg" width="235" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-3-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp_a8720dbeccf4eabbc5ffa9d7be551a7a5_icgraph.svg" width="100%" height="465"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -649,30 +654,19 @@ Si Bulletin renvoie <a class="el" href="validator_8h.html#a3cf5f9d21653a6756c07b
 <dl class="section note"><dt>Note</dt><dd>Dans ce cas, si la compilation est définie avec STRICT, sortie du programme de code -1. </dd></dl>
 
 <p class="definition">Définition à la ligne <a class="el" href="ligne__paye_8cpp_source.html#l00228">228</a> du fichier <a class="el" href="ligne__paye_8cpp_source.html">ligne_paye.cpp</a>.</p>
-<div class="dynheader">
-Voici le graphe d'appel pour cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp_a45ce15888cd33c4753e852fce36fb56e_cgraph.png" border="0" usemap="#ligne__paye_8cpp_a45ce15888cd33c4753e852fce36fb56e_cgraph" alt=""/></div>
-<map name="ligne__paye_8cpp_a45ce15888cd33c4753e852fce36fb56e_cgraph" id="ligne__paye_8cpp_a45ce15888cd33c4753e852fce36fb56e_cgraph">
-<area shape="rect" id="node2" href="ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5" title="Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit. " alt="" coords="199,31,265,57"/>
-<area shape="rect" id="node5" href="fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="329,119,511,145"/>
-<area shape="rect" id="node6" href="ligne__paye_8h.html#a703180379a24b61c33f035b1b8a8f437" title="Affiche un message d&#39;avertissement sur la sortie d&#39;erreur lorsqu&#39;un noeud XML ne peut être atteint..." alt="" coords="183,132,281,159"/>
-<area shape="rect" id="node3" href="validator_8h.html#ad164d34b6591a52b6e92b087582fe0cb" title="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..." alt="" coords="365,5,475,32"/>
-<area shape="rect" id="node4" href="ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le &#160;caractère &#39;_&#39;..." alt="" coords="387,56,453,83"/>
-</map>
+<div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-4-summary" class="dynsummary" style="display:block;">
 </div>
-<div class="dynheader">
-Voici le graphe des appelants de cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp_a45ce15888cd33c4753e852fce36fb56e_icgraph.png" border="0" usemap="#ligne__paye_8cpp_a45ce15888cd33c4753e852fce36fb56e_icgraph" alt=""/></div>
-<map name="ligne__paye_8cpp_a45ce15888cd33c4753e852fce36fb56e_icgraph" id="ligne__paye_8cpp_a45ce15888cd33c4753e852fce36fb56e_icgraph">
-<area shape="rect" id="node2" href="ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud. " alt="" coords="183,5,261,32"/>
-<area shape="rect" id="node3" href="validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="309,5,432,32"/>
-<area shape="rect" id="node4" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="480,5,555,32"/>
-<area shape="rect" id="node5" href="validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="603,5,685,32"/>
-<area shape="rect" id="node6" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="733,5,859,32"/>
-<area shape="rect" id="node7" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="907,5,957,32"/>
-</map>
+<div id="dynsection-4-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp_a45ce15888cd33c4753e852fce36fb56e_cgraph.svg" width="516" height="164"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-5-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp_a45ce15888cd33c4753e852fce36fb56e_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -741,31 +735,19 @@ Si Bulletin renvoie <a class="el" href="validator_8h.html#a3cf5f9d21653a6756c07b
 <dl class="section note"><dt>Note</dt><dd>Dans ce cas, si la compilation est définie avec STRICT, sortie du programme de code -1. </dd></dl>
 
 <p class="definition">Définition à la ligne <a class="el" href="ligne__paye_8cpp_source.html#l00505">505</a> du fichier <a class="el" href="ligne__paye_8cpp_source.html">ligne_paye.cpp</a>.</p>
-<div class="dynheader">
-Voici le graphe d'appel pour cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp_a8636e0f8d6d7fce58969c36956342c90_cgraph.png" border="0" usemap="#ligne__paye_8cpp_a8636e0f8d6d7fce58969c36956342c90_cgraph" alt=""/></div>
-<map name="ligne__paye_8cpp_a8636e0f8d6d7fce58969c36956342c90_cgraph" id="ligne__paye_8cpp_a8636e0f8d6d7fce58969c36956342c90_cgraph">
-<area shape="rect" id="node2" href="ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5" title="Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit. " alt="" coords="223,31,289,57"/>
-<area shape="rect" id="node5" href="ligne__paye_8cpp.html#a5342d9b40b92c978ff404415b691e059" title="Substitue le séparateur décimal passé en paramètre au séparateur par défaut (.) " alt="" coords="183,82,329,123"/>
-<area shape="rect" id="node6" href="ligne__paye_8h.html#a703180379a24b61c33f035b1b8a8f437" title="Affiche un message d&#39;avertissement sur la sortie d&#39;erreur lorsqu&#39;un noeud XML ne peut être atteint..." alt="" coords="207,148,305,175"/>
-<area shape="rect" id="node3" href="validator_8h.html#ad164d34b6591a52b6e92b087582fe0cb" title="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..." alt="" coords="413,5,523,32"/>
-<area shape="rect" id="node4" href="ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le &#160;caractère &#39;_&#39;..." alt="" coords="435,56,501,83"/>
-<area shape="rect" id="node7" href="fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="377,148,559,175"/>
-</map>
+<div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-6-summary" class="dynsummary" style="display:block;">
 </div>
-<div class="dynheader">
-Voici le graphe des appelants de cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp_a8636e0f8d6d7fce58969c36956342c90_icgraph.png" border="0" usemap="#ligne__paye_8cpp_a8636e0f8d6d7fce58969c36956342c90_icgraph" alt=""/></div>
-<map name="ligne__paye_8cpp_a8636e0f8d6d7fce58969c36956342c90_icgraph" id="ligne__paye_8cpp_a8636e0f8d6d7fce58969c36956342c90_icgraph">
-<area shape="rect" id="node2" href="ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud. " alt="" coords="183,13,261,39"/>
-<area shape="rect" id="node3" href="validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="309,13,432,39"/>
-<area shape="rect" id="node4" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="480,13,555,39"/>
-<area shape="rect" id="node5" href="validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="603,13,685,39"/>
-<area shape="rect" id="node6" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="733,13,859,39"/>
-<area shape="rect" id="node7" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="907,13,957,39"/>
-</map>
+<div id="dynsection-6-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp_a8636e0f8d6d7fce58969c36956342c90_cgraph.svg" width="564" height="180"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-7-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp_a8636e0f8d6d7fce58969c36956342c90_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -832,30 +814,19 @@ et s'il n'y a pas de noeud suivant. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Dans ce cas, si la compilation est définie avec STRICT, sortie du programme de code -1. </dd></dl>
 
 <p class="definition">Définition à la ligne <a class="el" href="ligne__paye_8cpp_source.html#l00344">344</a> du fichier <a class="el" href="ligne__paye_8cpp_source.html">ligne_paye.cpp</a>.</p>
-<div class="dynheader">
-Voici le graphe d'appel pour cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp_a4a91586d82e91ad3e3c02355b57c9e09_cgraph.png" border="0" usemap="#ligne__paye_8cpp_a4a91586d82e91ad3e3c02355b57c9e09_cgraph" alt=""/></div>
-<map name="ligne__paye_8cpp_a4a91586d82e91ad3e3c02355b57c9e09_cgraph" id="ligne__paye_8cpp_a4a91586d82e91ad3e3c02355b57c9e09_cgraph">
-<area shape="rect" id="node2" href="ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5" title="Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit. " alt="" coords="225,56,290,83"/>
-<area shape="rect" id="node5" href="ligne__paye_8h.html#a703180379a24b61c33f035b1b8a8f437" title="Affiche un message d&#39;avertissement sur la sortie d&#39;erreur lorsqu&#39;un noeud XML ne peut être atteint..." alt="" coords="208,107,307,133"/>
-<area shape="rect" id="node3" href="validator_8h.html#ad164d34b6591a52b6e92b087582fe0cb" title="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..." alt="" coords="390,5,501,32"/>
-<area shape="rect" id="node4" href="ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le &#160;caractère &#39;_&#39;..." alt="" coords="412,56,479,83"/>
-<area shape="rect" id="node6" href="fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="355,107,536,133"/>
-</map>
+<div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-8-summary" class="dynsummary" style="display:block;">
 </div>
-<div class="dynheader">
-Voici le graphe des appelants de cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp_a4a91586d82e91ad3e3c02355b57c9e09_icgraph.png" border="0" usemap="#ligne__paye_8cpp_a4a91586d82e91ad3e3c02355b57c9e09_icgraph" alt=""/></div>
-<map name="ligne__paye_8cpp_a4a91586d82e91ad3e3c02355b57c9e09_icgraph" id="ligne__paye_8cpp_a4a91586d82e91ad3e3c02355b57c9e09_icgraph">
-<area shape="rect" id="node2" href="ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud. " alt="" coords="208,5,287,32"/>
-<area shape="rect" id="node3" href="validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="335,5,457,32"/>
-<area shape="rect" id="node4" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="505,5,580,32"/>
-<area shape="rect" id="node5" href="validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="628,5,711,32"/>
-<area shape="rect" id="node6" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="759,5,884,32"/>
-<area shape="rect" id="node7" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="932,5,983,32"/>
-</map>
+<div id="dynsection-8-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp_a4a91586d82e91ad3e3c02355b57c9e09_cgraph.svg" width="542" height="139"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-9-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-9-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-9-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp_a4a91586d82e91ad3e3c02355b57c9e09_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -925,31 +896,19 @@ et s'il n'y a pas de noeud suivant. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Dans ce cas, si la compilation est définie avec STRICT, sortie du programme de code -1. </dd></dl>
 
 <p class="definition">Définition à la ligne <a class="el" href="ligne__paye_8cpp_source.html#l00421">421</a> du fichier <a class="el" href="ligne__paye_8cpp_source.html">ligne_paye.cpp</a>.</p>
-<div class="dynheader">
-Voici le graphe d'appel pour cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp_a9ddbe10974c6bd265152624a68cd0580_cgraph.png" border="0" usemap="#ligne__paye_8cpp_a9ddbe10974c6bd265152624a68cd0580_cgraph" alt=""/></div>
-<map name="ligne__paye_8cpp_a9ddbe10974c6bd265152624a68cd0580_cgraph" id="ligne__paye_8cpp_a9ddbe10974c6bd265152624a68cd0580_cgraph">
-<area shape="rect" id="node2" href="ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5" title="Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit. " alt="" coords="217,31,282,57"/>
-<area shape="rect" id="node5" href="ligne__paye_8cpp.html#a5342d9b40b92c978ff404415b691e059" title="Substitue le séparateur décimal passé en paramètre au séparateur par défaut (.) " alt="" coords="176,82,323,123"/>
-<area shape="rect" id="node6" href="ligne__paye_8h.html#a703180379a24b61c33f035b1b8a8f437" title="Affiche un message d&#39;avertissement sur la sortie d&#39;erreur lorsqu&#39;un noeud XML ne peut être atteint..." alt="" coords="200,148,299,175"/>
-<area shape="rect" id="node3" href="validator_8h.html#ad164d34b6591a52b6e92b087582fe0cb" title="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..." alt="" coords="406,5,517,32"/>
-<area shape="rect" id="node4" href="ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le &#160;caractère &#39;_&#39;..." alt="" coords="428,56,495,83"/>
-<area shape="rect" id="node7" href="fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="371,148,552,175"/>
-</map>
+<div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-10-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-10-summary" class="dynsummary" style="display:block;">
 </div>
-<div class="dynheader">
-Voici le graphe des appelants de cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp_a9ddbe10974c6bd265152624a68cd0580_icgraph.png" border="0" usemap="#ligne__paye_8cpp_a9ddbe10974c6bd265152624a68cd0580_icgraph" alt=""/></div>
-<map name="ligne__paye_8cpp_a9ddbe10974c6bd265152624a68cd0580_icgraph" id="ligne__paye_8cpp_a9ddbe10974c6bd265152624a68cd0580_icgraph">
-<area shape="rect" id="node2" href="ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud. " alt="" coords="176,13,255,39"/>
-<area shape="rect" id="node3" href="validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="303,13,425,39"/>
-<area shape="rect" id="node4" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="473,13,548,39"/>
-<area shape="rect" id="node5" href="validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="596,13,679,39"/>
-<area shape="rect" id="node6" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="727,13,852,39"/>
-<area shape="rect" id="node7" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="900,13,951,39"/>
-</map>
+<div id="dynsection-10-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp_a9ddbe10974c6bd265152624a68cd0580_cgraph.svg" width="558" height="180"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-11" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-11-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-11-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-11-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp_a9ddbe10974c6bd265152624a68cd0580_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -999,25 +958,19 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Insère " - " entre les deux parties de la chaîne </p>
 
 <p class="definition">Définition à la ligne <a class="el" href="ligne__paye_8cpp_source.html#l00992">992</a> du fichier <a class="el" href="ligne__paye_8cpp_source.html">ligne_paye.cpp</a>.</p>
-<div class="dynheader">
-Voici le graphe d'appel pour cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp_a1387e6beec261819622addf319a581c7_cgraph.png" border="0" usemap="#ligne__paye_8cpp_a1387e6beec261819622addf319a581c7_cgraph" alt=""/></div>
-<map name="ligne__paye_8cpp_a1387e6beec261819622addf319a581c7_cgraph" id="ligne__paye_8cpp_a1387e6beec261819622addf319a581c7_cgraph">
-<area shape="rect" id="node2" href="ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le &#160;caractère &#39;_&#39;..." alt="" coords="115,5,181,32"/>
-</map>
+<div id="dynsection-12" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-12-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-12-summary" class="dynsummary" style="display:block;">
 </div>
-<div class="dynheader">
-Voici le graphe des appelants de cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp_a1387e6beec261819622addf319a581c7_icgraph.png" border="0" usemap="#ligne__paye_8cpp_a1387e6beec261819622addf319a581c7_icgraph" alt=""/></div>
-<map name="ligne__paye_8cpp_a1387e6beec261819622addf319a581c7_icgraph" id="ligne__paye_8cpp_a1387e6beec261819622addf319a581c7_icgraph">
-<area shape="rect" id="node2" href="validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="115,5,237,32"/>
-<area shape="rect" id="node3" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="285,5,360,32"/>
-<area shape="rect" id="node4" href="validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="408,5,491,32"/>
-<area shape="rect" id="node5" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="539,5,664,32"/>
-<area shape="rect" id="node6" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="712,5,763,32"/>
-</map>
+<div id="dynsection-12-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp_a1387e6beec261819622addf319a581c7_cgraph.svg" width="187" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-13" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-13-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-13-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-13-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp_a1387e6beec261819622addf319a581c7_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1068,35 +1021,19 @@ Voici le graphe des appelants de cette fonction :</div>
 lignes lues, sauf si #STRICT est définie (sortie de code -11) dans les circonstances décrites par <a class="el" href="page1.html#rebouclage">Rebouclage des noms de catégorie</a> ou s'il y a erreur d'allocation de la copie des drapeaux. </dd></dl>
 
 <p class="definition">Définition à la ligne <a class="el" href="ligne__paye_8cpp_source.html#l00678">678</a> du fichier <a class="el" href="ligne__paye_8cpp_source.html">ligne_paye.cpp</a>.</p>
-<div class="dynheader">
-Voici le graphe d'appel pour cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp_ab0033809d3d04a56bf668e6722da255c_cgraph.png" border="0" usemap="#ligne__paye_8cpp_ab0033809d3d04a56bf668e6722da255c_cgraph" alt=""/></div>
-<map name="ligne__paye_8cpp_ab0033809d3d04a56bf668e6722da255c_cgraph" id="ligne__paye_8cpp_ab0033809d3d04a56bf668e6722da255c_cgraph">
-<area shape="rect" id="node2" href="ligne__paye_8h.html#a1918a95b8d7eafcb07bcf867242b3514" title="Vérifie que la taille des données de paye en nombre de lignes de paye au décodage effectif des fichie..." alt="" coords="162,5,257,32"/>
-<area shape="rect" id="node3" href="ligne__paye_8cpp.html#a45ce15888cd33c4753e852fce36fb56e" title="Appelle Bulletin et affiche l&#39;interprétation des erreurs. " alt="" coords="145,56,274,83"/>
-<area shape="rect" id="node9" href="ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580" title="Appelle Bulletin. " alt="" coords="148,158,271,199"/>
-<area shape="rect" id="node11" href="ligne__paye_8cpp.html#a8636e0f8d6d7fce58969c36956342c90" title="Appelle Bulletin. " alt="" coords="145,223,274,265"/>
-<area shape="rect" id="node12" href="ligne__paye_8cpp.html#a4a91586d82e91ad3e3c02355b57c9e09" title="Appelle Bulletin. " alt="" coords="132,107,287,133"/>
-<area shape="rect" id="node4" href="ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5" title="Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit. " alt="" coords="375,161,441,188"/>
-<area shape="rect" id="node7" href="fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="529,79,711,105"/>
-<area shape="rect" id="node8" href="ligne__paye_8h.html#a703180379a24b61c33f035b1b8a8f437" title="Affiche un message d&#39;avertissement sur la sortie d&#39;erreur lorsqu&#39;un noeud XML ne peut être atteint..." alt="" coords="359,107,457,133"/>
-<area shape="rect" id="node5" href="validator_8h.html#ad164d34b6591a52b6e92b087582fe0cb" title="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..." alt="" coords="565,133,675,160"/>
-<area shape="rect" id="node6" href="ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le &#160;caractère &#39;_&#39;..." alt="" coords="587,184,653,211"/>
-<area shape="rect" id="node10" href="ligne__paye_8cpp.html#a5342d9b40b92c978ff404415b691e059" title="Substitue le séparateur décimal passé en paramètre au séparateur par défaut (.) " alt="" coords="335,221,481,262"/>
-</map>
+<div id="dynsection-14" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-14-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-14-summary" class="dynsummary" style="display:block;">
 </div>
-<div class="dynheader">
-Voici le graphe des appelants de cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp_ab0033809d3d04a56bf668e6722da255c_icgraph.png" border="0" usemap="#ligne__paye_8cpp_ab0033809d3d04a56bf668e6722da255c_icgraph" alt=""/></div>
-<map name="ligne__paye_8cpp_ab0033809d3d04a56bf668e6722da255c_icgraph" id="ligne__paye_8cpp_ab0033809d3d04a56bf668e6722da255c_icgraph">
-<area shape="rect" id="node2" href="validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="132,5,255,32"/>
-<area shape="rect" id="node3" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="303,5,377,32"/>
-<area shape="rect" id="node4" href="validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="425,5,508,32"/>
-<area shape="rect" id="node5" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="556,5,681,32"/>
-<area shape="rect" id="node6" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="729,5,780,32"/>
-</map>
+<div id="dynsection-14-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp_ab0033809d3d04a56bf668e6722da255c_cgraph.svg" width="100%" height="503"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div id="dynsection-15" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-15-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-15-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-15-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp_ab0033809d3d04a56bf668e6722da255c_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1139,38 +1076,19 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Commence par atteindre le noeud Agent. Vérifie son identification (Nom, Prenom, Matricule, NIR, NbEnfants, Statut, EmploiMetier, Grade, Echelon, Indice) Décode ensuite Evenement, Service, NBI, QuotiteTrav. Appelle ensuite la fonction lignePaye qui décode les lignes de paye de la balise Remuneration. Décode ensuite les champs de fin de fichier : NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer. </p>
 
 <p class="definition">Définition à la ligne <a class="el" href="ligne__paye_8cpp_source.html#l01075">1075</a> du fichier <a class="el" href="ligne__paye_8cpp_source.html">ligne_paye.cpp</a>.</p>
-<div class="dynheader">
-Voici le graphe d'appel pour cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp_abdf1df3dd61991073a485a3e5d8addd2_cgraph.png" border="0" usemap="#ligne__paye_8cpp_abdf1df3dd61991073a485a3e5d8addd2_cgraph" alt=""/></div>
-<map name="ligne__paye_8cpp_abdf1df3dd61991073a485a3e5d8addd2_cgraph" id="ligne__paye_8cpp_abdf1df3dd61991073a485a3e5d8addd2_cgraph">
-<area shape="rect" id="node2" href="validator_8h.html#ad164d34b6591a52b6e92b087582fe0cb" title="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..." alt="" coords="805,166,915,193"/>
-<area shape="rect" id="node3" href="ligne__paye_8cpp.html#a1387e6beec261819622addf319a581c7" title="Concatène la propriété &quot;V&quot; du noeud cur passé en premier argument avec la chaîne contenue de la table..." alt="" coords="617,325,679,351"/>
-<area shape="rect" id="node5" href="ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud. " alt="" coords="211,194,289,221"/>
-<area shape="rect" id="node9" href="fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d" title="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..." alt="" coords="769,274,951,301"/>
-<area shape="rect" id="node15" href="ligne__paye_8cpp.html#a6703d71fd67ea3e020d421379d894d87" title="Teste si il y a un montant brut ou net payé ou remboursé non nul mais pas de ligne de paye détaillant..." alt="" coords="176,426,324,453"/>
-<area shape="rect" id="node16" href="ligne__paye_8cpp.html#a96d1e754fa36a716b5cd2fab2ab93fdc" title="Réalloue un ligne de paye en NA sur les variables propres aux lignes de paye (Code, Libellé, Base,...) " alt="" coords="190,477,310,503"/>
-<area shape="rect" id="node4" href="ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le &#160;caractère &#39;_&#39;..." alt="" coords="827,221,893,247"/>
-<area shape="rect" id="node6" href="ligne__paye_8h.html#a1918a95b8d7eafcb07bcf867242b3514" title="Vérifie que la taille des données de paye en nombre de lignes de paye au décodage effectif des fichie..." alt="" coords="402,41,497,67"/>
-<area shape="rect" id="node7" href="ligne__paye_8cpp.html#a45ce15888cd33c4753e852fce36fb56e" title="Appelle Bulletin et affiche l&#39;interprétation des erreurs. " alt="" coords="385,274,514,301"/>
-<area shape="rect" id="node11" href="ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580" title="Appelle Bulletin. " alt="" coords="388,92,511,133"/>
-<area shape="rect" id="node13" href="ligne__paye_8cpp.html#a8636e0f8d6d7fce58969c36956342c90" title="Appelle Bulletin. " alt="" coords="385,157,514,199"/>
-<area shape="rect" id="node14" href="ligne__paye_8cpp.html#a4a91586d82e91ad3e3c02355b57c9e09" title="Appelle Bulletin. " alt="" coords="372,223,527,250"/>
-<area shape="rect" id="node8" href="ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5" title="Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit. " alt="" coords="615,167,681,194"/>
-<area shape="rect" id="node10" href="ligne__paye_8h.html#a703180379a24b61c33f035b1b8a8f437" title="Affiche un message d&#39;avertissement sur la sortie d&#39;erreur lorsqu&#39;un noeud XML ne peut être atteint..." alt="" coords="599,223,697,250"/>
-<area shape="rect" id="node12" href="ligne__paye_8cpp.html#a5342d9b40b92c978ff404415b691e059" title="Substitue le séparateur décimal passé en paramètre au séparateur par défaut (.) " alt="" coords="575,99,721,140"/>
-</map>
+<div id="dynsection-16" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-16-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-16-summary" class="dynsummary" style="display:block;">
 </div>
-<div class="dynheader">
-Voici le graphe des appelants de cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp_abdf1df3dd61991073a485a3e5d8addd2_icgraph.png" border="0" usemap="#ligne__paye_8cpp_abdf1df3dd61991073a485a3e5d8addd2_icgraph" alt=""/></div>
-<map name="ligne__paye_8cpp_abdf1df3dd61991073a485a3e5d8addd2_icgraph" id="ligne__paye_8cpp_abdf1df3dd61991073a485a3e5d8addd2_icgraph">
-<area shape="rect" id="node2" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="176,5,251,32"/>
-<area shape="rect" id="node3" href="validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="299,5,381,32"/>
-<area shape="rect" id="node4" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="429,5,555,32"/>
-<area shape="rect" id="node5" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="603,5,653,32"/>
-</map>
+<div id="dynsection-16-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp_abdf1df3dd61991073a485a3e5d8addd2_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div id="dynsection-17" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-17-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-17-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-17-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp_abdf1df3dd61991073a485a3e5d8addd2_icgraph.svg" width="659" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1243,24 +1161,12 @@ caractère '_'. </p>
 <div class="fragment"><div class="line"><span class="keywordflow">if</span> (info.Table[info.NCumAgentXml][l][i] == 0xB0)</div><div class="line">         info.Table[info.NCumAgentXml][l][i] = 0x65; </div></div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>A surveiller en cas de développement Windows. </dd></dl>
 
 <p class="definition">Définition à la ligne <a class="el" href="ligne__paye_8cpp_source.html#l00104">104</a> du fichier <a class="el" href="ligne__paye_8cpp_source.html">ligne_paye.cpp</a>.</p>
-<div class="dynheader">
-Voici le graphe des appelants de cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp_a6044ec3fae81f42425539be4d999edd4_icgraph.png" border="0" usemap="#ligne__paye_8cpp_a6044ec3fae81f42425539be4d999edd4_icgraph" alt=""/></div>
-<map name="ligne__paye_8cpp_a6044ec3fae81f42425539be4d999edd4_icgraph" id="ligne__paye_8cpp_a6044ec3fae81f42425539be4d999edd4_icgraph">
-<area shape="rect" id="node2" href="ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5" title="Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit. " alt="" coords="120,115,185,141"/>
-<area shape="rect" id="node13" href="ligne__paye_8cpp.html#a1387e6beec261819622addf319a581c7" title="Concatène la propriété &quot;V&quot; du noeud cur passé en premier argument avec la chaîne contenue de la table..." alt="" coords="445,208,506,235"/>
-<area shape="rect" id="node3" href="ligne__paye_8cpp.html#a45ce15888cd33c4753e852fce36fb56e" title="Appelle Bulletin et affiche l&#39;interprétation des erreurs. " alt="" coords="246,5,375,32"/>
-<area shape="rect" id="node10" href="ligne__paye_8cpp.html#a4a91586d82e91ad3e3c02355b57c9e09" title="Appelle Bulletin. " alt="" coords="233,56,388,83"/>
-<area shape="rect" id="node11" href="ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580" title="Appelle Bulletin. " alt="" coords="249,107,372,149"/>
-<area shape="rect" id="node12" href="ligne__paye_8cpp.html#a8636e0f8d6d7fce58969c36956342c90" title="Appelle Bulletin. " alt="" coords="246,173,375,214"/>
-<area shape="rect" id="node4" href="ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud. " alt="" coords="436,115,515,141"/>
-<area shape="rect" id="node5" href="validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="563,147,685,173"/>
-<area shape="rect" id="node6" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="733,147,808,173"/>
-<area shape="rect" id="node7" href="validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="856,147,939,173"/>
-<area shape="rect" id="node8" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="987,147,1112,173"/>
-<area shape="rect" id="node9" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1160,147,1211,173"/>
-</map>
+<div id="dynsection-18" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-18-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-18-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-18-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp_a6044ec3fae81f42425539be4d999edd4_icgraph.svg" width="100%" height="480"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1319,20 +1225,12 @@ feront le travail de substitution de la virgule au point lors de l'écriture de 
 <dl class="section note"><dt>Note</dt><dd>potentiellement optimisable </dd></dl>
 
 <p class="definition">Définition à la ligne <a class="el" href="ligne__paye_8cpp_source.html#l00315">315</a> du fichier <a class="el" href="ligne__paye_8cpp_source.html">ligne_paye.cpp</a>.</p>
-<div class="dynheader">
-Voici le graphe des appelants de cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp_a5342d9b40b92c978ff404415b691e059_icgraph.png" border="0" usemap="#ligne__paye_8cpp_a5342d9b40b92c978ff404415b691e059_icgraph" alt=""/></div>
-<map name="ligne__paye_8cpp_a5342d9b40b92c978ff404415b691e059_icgraph" id="ligne__paye_8cpp_a5342d9b40b92c978ff404415b691e059_icgraph">
-<area shape="rect" id="node2" href="ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580" title="Appelle Bulletin. " alt="" coords="203,5,326,47"/>
-<area shape="rect" id="node9" href="ligne__paye_8cpp.html#a8636e0f8d6d7fce58969c36956342c90" title="Appelle Bulletin. " alt="" coords="200,71,329,112"/>
-<area shape="rect" id="node3" href="ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud. " alt="" coords="377,46,456,73"/>
-<area shape="rect" id="node4" href="validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="504,46,627,73"/>
-<area shape="rect" id="node5" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="675,46,749,73"/>
-<area shape="rect" id="node6" href="validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="797,46,880,73"/>
-<area shape="rect" id="node7" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="928,46,1053,73"/>
-<area shape="rect" id="node8" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1101,46,1152,73"/>
-</map>
+<div id="dynsection-19" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-19-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-19-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-19-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp_a5342d9b40b92c978ff404415b691e059_icgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1371,27 +1269,26 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Génère seulement un effet de bord sur la sortie d'erreur </p>
 
 <p class="definition">Définition à la ligne <a class="el" href="ligne__paye_8cpp_source.html#l01025">1025</a> du fichier <a class="el" href="ligne__paye_8cpp_source.html">ligne_paye.cpp</a>.</p>
-<div class="dynheader">
-Voici le graphe des appelants de cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="ligne__paye_8cpp_a6703d71fd67ea3e020d421379d894d87_icgraph.png" border="0" usemap="#ligne__paye_8cpp_a6703d71fd67ea3e020d421379d894d87_icgraph" alt=""/></div>
-<map name="ligne__paye_8cpp_a6703d71fd67ea3e020d421379d894d87_icgraph" id="ligne__paye_8cpp_a6703d71fd67ea3e020d421379d894d87_icgraph">
-<area shape="rect" id="node2" href="validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="201,5,324,32"/>
-<area shape="rect" id="node3" href="validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="372,5,447,32"/>
-<area shape="rect" id="node4" href="validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="495,5,577,32"/>
-<area shape="rect" id="node5" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="625,5,751,32"/>
-<area shape="rect" id="node6" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="799,5,849,32"/>
-</map>
+<div id="dynsection-20" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-20-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-20-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-20-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="ligne__paye_8cpp_a6703d71fd67ea3e020d421379d894d87_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Généré par &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.13
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_f92775b0174f2bb7a0fa78a915496faf.html">lhx</a></li><li class="navelem"><a class="el" href="ligne__paye_8cpp.html">ligne_paye.cpp</a></li>
+    <li class="footer">Généré le Dimanche 7 Janvier 2018 23:20:31 pour My Project par
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
 </body>
 </html>
