@@ -469,7 +469,7 @@ void Altair::run()
                     for (const QString &s : q)
                         {
                             QString d = s.section ("xhl/", 1, 1, QString::SectionSkipEmpty);
-                            bool hasSubDir = false;
+                            bool hasSubDir;
 #            ifdef Q_OS_WIN
 
                             hasSubDir = d.count ('/') > 0;

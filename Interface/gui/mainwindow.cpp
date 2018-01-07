@@ -548,8 +548,6 @@ start:
             string::const_iterator iter1 = iter;
             string tag;
 
-            iter1 = iter;
-
             while (++iter != st.end())
                 {
                     ++i;
