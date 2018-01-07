@@ -149,31 +149,6 @@ void FListFrame::addParsedTreeToListWidget(const QStringList &strL)
     addStringListToListWidget();
 }
 
-void FListFrame::list_connect(FComboBox* w)
-{
-    if (w == nullptr) return;
-    isListConnected=true;
-    connect(w, SIGNAL(currentIndexChanged(int)), this, SLOT(setSlotListSize(int)));
-    setSlotListSize(0);
-}
-
-
-void FListFrame::list_connect(FListFrame* w)
-{
-    if (w == nullptr) return;
-    isListConnected=true;
-    connect(w, SIGNAL(is_ntabs_changed(int)), this, SLOT(setSlotListSize(int)));
-    setSlotListSize(0);
-}
-
-void FListFrame::total_connect(FListFrame* w)
-{
-    if (w == nullptr) return;
-    if (isListConnected) return;
-    isTotalConnected=true;
-    connect(w, SIGNAL(is_ntracks_changed(int)), this, SLOT(setSlotListSize(int)));
-    setSlotListSize(0);
-}
 
 void FListFrame::updateIndexInfo()
 {
@@ -816,14 +791,6 @@ void FListFrame::on_deleteItem_clicked()
    emit(is_ntabs_changed(currentIndex+1)); // emits signal of number of tabs/QListWidgets opened
 }
 
-
-void  FListFrame::setSlotListSize(int s)
-{
-    slotListSize=s;
-    mainTabWidget->setEnabled(s > 0);
-    //if (s== 0) deleteAllGroups();
-}
-
 //protected slots
 
 void FListFrame::on_importFromMainTree_clicked()
@@ -840,7 +807,6 @@ void FListFrame::on_importFromMainTree_clicked()
  if (indexList.isEmpty()) return;
 
  QStringList&& stringsToBeAdded = QStringList();
- int stringListSize=0;
 
 #ifdef DEBUG
  app->outputTextEdit->append(STATE_HTML_TAG "Parcours de l'arbre " );
@@ -848,6 +814,7 @@ void FListFrame::on_importFromMainTree_clicked()
 
  if (importType == flags::importFiles)
     {
+     int stringListSize=0;
         for (const QModelIndex& index : indexList)
           {
              const QString path = model->filePath(index);

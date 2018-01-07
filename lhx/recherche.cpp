@@ -141,7 +141,6 @@ const string extraire_lignes (const info_t& info, const array<uint64_t, 3>& debu
     return tab;
 }
 
-
 vector<string> bulletin_paye (const string& chemin_repertoire, const vector<info_t> &Info, const string& matricule, const string& mois, const string& annee)
 {
     cerr << ENDL;
@@ -154,8 +153,12 @@ vector<string> bulletin_paye (const string& chemin_repertoire, const vector<info
     for (auto &&bulletin : bulletins)
         {
             ++rang;
-            string nom_bulletin =  annee + string ("_") + mois + string ("_") + matricule
-                                   + (rang > 1 ? "_" + to_string (rang) : "") + string (".xml");
+
+            // Classement par Matricule - Année - Mois
+            // Cet ordre permet un lcassement automatique optimal dans les gestionnaires de fichiers des SE.
+            // Dans la pratique en effet on recherche d'abord les bulletins d'un agent, en triant ensuite par exercice et par mois.
+
+            string nom_bulletin =  "Paye-" + matricule + "-" + annee + "-" + mois + ".xml";
 
             ofstream f;
 

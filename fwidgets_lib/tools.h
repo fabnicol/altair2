@@ -91,7 +91,7 @@ public:
 static const QString ents(QString str, bool toUpper = true);
 QString dump(const QString &chaine);
 static bool zip (const QString& filename , const QString& zipfilename);
-static bool unzip (const QString& filename , const QString& zipfilename);
+static bool unzip (const QString& zipfilename , const QString& filename);
 static bool IOControl(const QString& in, const QString& out, const QString& comment="", bool require = false);
 static bool copyFile(const QString &in, const QString &out, const QString& comment = "", bool require = false);
 static bool copyDir(const QString &in, const QString &out, const QString& comment = "");

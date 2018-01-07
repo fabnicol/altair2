@@ -56,18 +56,15 @@ QString tools::cdRomMounted()
            {
                 if (ISOLIST.contains(storage.fileSystemType().toUpper()))
                 {
-                 // #ifdef Q_OS_LINUX
                     if (QDir(storage.rootPath()).entryList(QDir::Files|QDir::Dirs).isEmpty())
                         return ("");
 
-               //   #endif
                       // s'assure que se termine par un /
                       QString path = storage.rootPath();
                       if  (path.at(path.size() - 1) != '/')
                           path += "/";
 
                     return(path);
-                 break;
                 }
            }
     }
@@ -437,10 +434,10 @@ bool tools::zip (const QString& filename , const QString& zipfilename)
     QFile infile(filename);
     QFile outfile(zipfilename);
     qint64 n=0;
-    bool result = true;
+    bool result;
     
     result = infile.open(QIODevice::ReadOnly);
-    result = outfile.open(QIODevice::WriteOnly);
+    result &= outfile.open(QIODevice::WriteOnly);
     
     if (result == false) return false;
     n = infile.size();
@@ -517,10 +514,10 @@ bool tools::unzip (const QString& zipfilename , const QString& filename)
     QFile outfile(filename);
     
     qint64 n=0;
-    bool result = true;
+    bool result;
     
     result = infile.open(QIODevice::ReadOnly);
-    result = outfile.open(QIODevice::WriteOnly);
+    result &= outfile.open(QIODevice::WriteOnly);
     
     if (result == false) return false;
     n = infile.size();

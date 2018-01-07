@@ -364,7 +364,6 @@ public:
   const FString setXmlFromWidget();
   bool isAbstractEnabled() {return this->isEnabled();}
 
-  QStringList *signalList;
   QHash<QString, QString> comboBoxTranslationHash;
 
 private slots:

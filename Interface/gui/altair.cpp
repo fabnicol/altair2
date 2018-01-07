@@ -741,10 +741,10 @@ bool Altair::refreshProjectManager()
     // Step 1: prior to parsing
     checkEmptyProjectName();
     QFile file (projectName);
-    bool result = true;
 
     if ((RefreshFlag & interfaceStatus::saveTreeMask) == interfaceStatus::saveTree)
         {
+            bool result = true;
             if (!file.isOpen())
                 result = file.open (QIODevice::ReadWrite);
             else
