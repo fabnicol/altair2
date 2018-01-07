@@ -166,7 +166,9 @@ MainWindow::MainWindow (char* projectName)
     dialog = new options (altair);
     dialog->setParent (altair, Qt::Window);
     m = new MatriculeInput (width / 4, height / 6);
+
     connect(m, SIGNAL(updateProject(bool)), altair, SLOT(updateProject(bool)));
+    connect(altair, SIGNAL(ajouterLigneMatricules()), m, SLOT(ajouterLigneMatricules()));
 
     Altair::RefreshFlag =  Altair::RefreshFlag  | interfaceStatus::parseXml;
 

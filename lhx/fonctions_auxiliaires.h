@@ -113,74 +113,74 @@ typedef struct
 ostringstream help();
 
 
-/// Convertit un argument numérique donné en chaîne de caractères
-/// \param argc  Nombre d'arguments de la ligne de commande restante
-/// \param c_str  Pointeur vers une chaîne de caractères contenant un nombre
+/// Convertit un argument numérique donné en chaîne de caractères.
+/// \param argc  Nombre d'arguments de la ligne de commande restante.
+/// \param c_str  Pointeur vers une chaîne de caractères contenant un nombre.
 /// \return Entier positif de type 32 bits ou -1 si erreur.
 
 int32_t lire_argument (int argc, char* c_str);
 
 /// Calcule la mémoire requise pour l'exécution du programme. Met les fichiers XHL en mémoire dans info.threads->in_memory_file.
-/// \param info Structure de type info_t contenant les données formatées
+/// \param info Structure de type info_t contenant les données formatées.
 /// \return Retourne errno.
 
 int calculer_memoire_requise ( info_t &info);
 
-/// Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d'exécution donné
-/// \param info Référence vers une structure de type info_t contenant les données formatées
-/// \param type Type d'exportation de base (base monolithique, par indemnité, par année...)
-/// \param base Référence vers la base à générer de type \e ofstream
-/// \param segment segment d'exécution
+/// Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d'exécution donné.
+/// \param info Référence vers une structure de type info_t contenant les données formatées.
+/// \param type Type d'exportation de base (base monolithique, par indemnité, par année...).
+/// \param base Référence vers la base à générer de type \e ofstream.
+/// \param segment segment d'exécution.
+/// \param agent Rang de l'agent dans la table (pour le fil et le segment donné).
 
-void ouvrir_fichier_base (const info_t &info, BaseType type, ofstream& base, int segment);
+void ouvrir_fichier_base (const info_t &info, BaseType type, ofstream& base, int segment, uint32_t agent = 0);
 
 
-/// Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d'exécution donné
-/// \param info Référence vers une structure de type info_t contenant les données formatées
-/// \param cat Catégorie de base (Bulletins de paye ou Lignes de paye)
-/// \param type Type d'exportation de base (base monolithique, par indemnité, par année...)
-/// \param base Référence vers la base à générer de type \e ofstream
-/// \param segment segment d'exécution
+/// Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d'exécution donné.
+/// \param info Référence vers une structure de type info_t contenant les données formatées.
+/// \param cat Catégorie de base (Bulletins de paye ou Lignes de paye).
+/// \param type Type d'exportation de base (base monolithique, par indemnité, par année...).
+/// \param base Référence vers la base à générer de type \e ofstream.
+/// \param segment segment d'exécution.
+/// \param agent Rang de l'agent dans la table (pour le fil et le segment donné).
 
-void ouvrir_fichier_base0 (const info_t &info, BaseCategorie cat,  BaseType type, ofstream& base, int segment);
+void ouvrir_fichier_base0 (const info_t &info, BaseCategorie cat,  BaseType type, ofstream& base, int segment, uint32_t agent = 0);
 
-/// Ecrit les libellés des colonnes des bulletins
-/// \param info Référence vers une structure de type info_t contenant les données formatées
-/// \param base Référence vers la base à générer de type ofstream
+/// Ecrit les libellés des colonnes des bulletins.
+/// \param info Référence vers une structure de type info_t contenant les données formatées.
+/// \param base Référence vers la base à générer de type ofstream.
 
 void ecrire_entete_bulletins (const info_t &info, ofstream& base);
 
-/// Ecrit les libellés des colonnes de la table (bulletins + lignes de paye)
-/// \param info Référence vers une structure de type info_t contenant les données formatées
-/// \param base Référence vers la base à générer de type ofstream
+/// Ecrit les libellés des colonnes de la table (bulletins + lignes de paye).
+/// \param info Référence vers une structure de type info_t contenant les données formatées.
+/// \param base Référence vers la base à générer de type ofstream.
 
 void ecrire_entete (const info_t &info, ofstream& base);
 
-/// Ecrit les libellés des colonnes d'une base quelconque avec un tableau de libellés de taille donnée
-/// \param info Référence vers une structure de type info_t contenant les données formatées
-/// \param base Référence vers la base à générer de type ofstream
-/// \param entete Tableau des libellés de colonne
-/// \param N Taille de ce tableau
+/// Ecrit les libellés des colonnes d'une base quelconque avec un tableau de libellés de taille donnée.
+/// \param info Référence vers une structure de type info_t contenant les données formatées.
+/// \param base Référence vers la base à générer de type ofstream.
+/// \param entete Tableau des libellés de colonne.
+/// \param N Taille de ce tableau.
 
 void ecrire_entete0 (const info_t &info, ofstream& base, const char* entete[], int N);
 
-
-/// Ouvre une base de données de bulletins en écriture pour un segment d'exécution donné
-/// \param info Référence vers une structure de type info_t contenant les données formatées
-/// \param base Référence vers la base à générer de type ofstream
-/// \param segment segment d'exécution
+/// Ouvre une base de données de bulletins en écriture pour un segment d'exécution donné.
+/// \param info Référence vers une structure de type info_t contenant les données formatées.
+/// \param base Référence vers la base à générer de type ofstream.
+/// \param segment segment d'exécution.
 
 void ouvrir_fichier_bulletins (const info_t &info, ofstream& base, int segment);
 
-
-/// Taille du fichier en octets
-/// \param filename chemin du fichier
-/// \return Taille en octets au format off_t
+/// Taille du fichier en octets.
+/// \param filename chemin du fichier.
+/// \return Taille en octets au format off_t.
 
 off_t taille_fichier (const string& filename);
 
-/// Mémoire totale du système
-/// \return Mémoire totale en octets au format size_t
+/// Mémoire totale du système.
+/// \return Mémoire totale en octets au format size_t.
 
 size_t getTotalSystemMemory();
 

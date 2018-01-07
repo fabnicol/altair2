@@ -105,7 +105,7 @@ public :
     FComboBox* exportWidget;  ///< Modalités d'exportation (standard, cumulative, distributive etc.)
 
 private:
-    FComboBox  *baseTypeWidget;   ///< Type de base en sortie : "Standard", "Par année", "Toutes catégories", "Traitement" etc.
+    FComboBox  *baseTypeWidget;   ///< Type de base en sortie : "Standard", "Par année", "Par agent", "Toutes catégories", "Traitement" etc.
 
     FLineEdit *maxNLigneLineEdit; ///< Nombre maximal de lignes de la base
 

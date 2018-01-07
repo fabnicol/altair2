@@ -1,3 +1,4 @@
 <map id="MatriculeInput::MatriculeInput" name="MatriculeInput::MatriculeInput">
-<area shape="rect" id="node2" href="$class_matricule_input.html#ae46b914e11ae6cb17e6c581ea0b6f994" title="Vérifie l&#39;input (format de saisie). " alt="" coords="219,13,395,39"/>
+<area shape="rect" id="node2" href="$class_matricule_input.html#a570b775e6c896dba52da89945a7fd02c" title="Connecteur qui rajoute une ligne de saisie de matricules au dialogue Exportation des bulletins ..." alt="" coords="219,5,401,47"/>
+<area shape="rect" id="node3" href="$class_matricule_input.html#ae46b914e11ae6cb17e6c581ea0b6f994" title="Vérifie l&#39;input (format de saisie). " alt="" coords="222,71,398,98"/>
 </map>

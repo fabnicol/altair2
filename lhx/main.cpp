@@ -140,6 +140,7 @@ int main (int argc, char **argv)
     unsigned long long memoire_xhl = 0, memoire_disponible = 0;
     int nsegments = 0;
     float ajustement = MAX_MEMORY_SHARE;
+    bool exporter_bulletins_par_agent = false;
 
     thread_t mon_thread;
 
@@ -292,8 +293,18 @@ int main (int argc, char **argv)
 
                     if (fs::exists(repertoire_bulletins))
                     {
-                        //fs::remove_all(repertoire_bulletins);
+                        if (verbeux) cerr << PROCESSING_HTML_TAG << "Nettoyage du dossier " << repertoire_bulletins << ENDL;
+                        fs::remove_all(repertoire_bulletins);
+                        if (fs::exists(repertoire_bulletins) && verbeux)
+                            cerr << WARNING_HTML_TAG << "Le dossier n'a pas pu être nettoyé. Attention aux empilements de données de différents contrôles !" << ENDL;
                     }
+                    else
+                    {
+                        if (verbeux)
+                            cerr << PROCESSING_HTML_TAG << "Création du dossier " << repertoire_bulletins << ENDL;
+                    }
+
+                    fs::create_directories(repertoire_bulletins);
 
                     ++start;
                     continue;
@@ -413,17 +424,25 @@ int main (int argc, char **argv)
 
             else if (commandline_tab[start] == "-T")
                 {
-                    if (start + 1 == argc)
+                   if (start + 1 == argc)
                         {
                             cerr << ERROR_HTML_TAG "Option -T suivi d'un argument obligatoire (nombre de lignes)." ENDL ;
                             exit (-100);
                         }
+
+                    // Désactiver si --AG est déjà rencontré en ligne de commande (aucun bulletin de paye individuel n'atteindra des plafonds raisonnables en argument de -T)
+                    if (info.type_base == BaseType::PAR_AGENT)
+                    {
+                        start += 2;
+                        continue;
+                    }
 
                     map<string, BaseType> hashTable;
 
                     hashTable["AN"] = BaseType::PAR_ANNEE;
                     hashTable["A"]  = BaseType::PAR_REM_DIVERSES;
                     hashTable["AC"] = BaseType::PAR_ACOMPTE;
+                    hashTable["AG"] = BaseType::PAR_AGENT;
                     hashTable["AV"] = BaseType::PAR_AVANTAGE_NATURE;
                     hashTable["C"]  = BaseType::PAR_COTISATION;
                     hashTable["D"]  = BaseType::PAR_DEDUCTION;
@@ -450,7 +469,7 @@ int main (int argc, char **argv)
                             if (size_read < 0 || size_read > INT32_MAX - 1)
                                 {
                                     cerr << ERROR_HTML_TAG "Le nombre de lignes doit être compris entre 0 et INT64_MAX" ENDL;
-                                    exit (-908);
+                                    throw;
                                 }
                             else
                                 {
@@ -465,7 +484,14 @@ int main (int argc, char **argv)
                     start += 2;
                     continue;
                 }
+            else if (commandline_tab[start] == "--AG")
+                {
+                   exporter_bulletins_par_agent = true;
+                   cerr << PARAMETER_HTML_TAG "Exportation des lignes de paye : un fichier par agent, mois et année." << ENDL;
 
+                   ++start;
+                   continue;
+                }
             // Séparateur-délimiteur de champs du format CSV (en général ';' ou ',')
 
             else if (commandline_tab[start] == "-s")
@@ -1122,6 +1148,10 @@ int main (int argc, char **argv)
         info.generer_bulletins = false;
         generer_table = true;
 
+        // On exporte éventuellement par agent en fonction ou non de la présence de --AG :
+
+        info.type_base = exporter_bulletins_par_agent ? BaseType::PAR_AGENT : BaseType::MONOLITHIQUE;
+
         info.chemin_base = path + string (NOM_BASE) ;
         info.chemin_bulletins = path + string (NOM_BASE_BULLETINS);
 
@@ -1356,12 +1386,21 @@ pair<uint64_t, uint64_t> produire_segment (info_t& info, const vString& segment)
 
                     }
                 else
+                {
+                    int an = stoi (annee);
+                    if (an < 100 && an > 0)
+                    {
+                        an += 2000;
+                        annee = to_string(an);
+                    }
+
                     vect_concat(chemins_bulletins_extraits,
                                 scan_mois (repertoire_bulletins,
                                            Info,
                                            matricule,
                                            mois,
                                            annee));
+                }
             }
 
         static int res;
@@ -1373,7 +1412,7 @@ pair<uint64_t, uint64_t> produire_segment (info_t& info, const vString& segment)
             LOCK_GUARD
             if (res)
                 {
-                   cerr << STATE_HTML_TAG  << res << " bulletin" << (res > 1 ? "s ont " : " a ") << " extrait" << (res > 1 ? "s." : ".") << ENDL;
+                   cerr << STATE_HTML_TAG  << res << " bulletin" << (res > 1 ? "s ont " : " a ") << " été extrait" << (res > 1 ? "s." : ".") << ENDL;
                 }
             else
                 {
