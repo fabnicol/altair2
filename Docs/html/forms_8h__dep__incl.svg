@@ -11,34 +11,34 @@
 <polygon fill="white" stroke="none" points="-4,4 -4,-80 261.5,-80 261.5,4 -4,4"/>
 <!-- Node4 -->
 <g id="node1" class="node"><title>Node4</title>
-<polygon fill="#bfbfbf" stroke="black" points="79,-56.5 79,-75.5 183,-75.5 183,-56.5 79,-56.5"/>
-<text text-anchor="middle" x="131" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/forms.h</text>
+<polygon fill="#bfbfbf" stroke="black" points="74.5,-56.5 74.5,-75.5 178.5,-75.5 178.5,-56.5 74.5,-56.5"/>
+<text text-anchor="middle" x="126.5" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/forms.h</text>
 </g>
 <!-- Node5 -->
 <g id="node2" class="node"><title>Node5</title>
-<g id="a_node2"><a xlink:href="options_8cpp.html" target="_top" xlink:title="Implémentation des classes du dialogue d&#39;options. ">
-<polygon fill="white" stroke="black" points="0,-0.5 0,-19.5 124,-19.5 124,-0.5 0,-0.5"/>
-<text text-anchor="middle" x="62" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/options.cpp</text>
+<g id="a_node2"><a xlink:href="forms_8cpp.html" target="_top" xlink:title="fwidgets_lib/forms.cpp">
+<polygon fill="white" stroke="black" points="0,-0.5 0,-19.5 115,-19.5 115,-0.5 0,-0.5"/>
+<text text-anchor="middle" x="57.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/forms.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node4&#45;&gt;Node5 -->
 <g id="edge1" class="edge"><title>Node4&#45;&gt;Node5</title>
-<path fill="none" stroke="midnightblue" d="M111.962,-50.1008C99.5442,-40.3824 83.7566,-28.0269 73.2878,-19.8339"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="109.882,-52.9171 119.914,-56.324 114.196,-47.4046 109.882,-52.9171"/>
+<path fill="none" stroke="midnightblue" d="M107.462,-50.1008C95.0442,-40.3824 79.2566,-28.0269 68.7878,-19.8339"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="105.382,-52.9171 115.414,-56.324 109.696,-47.4046 105.382,-52.9171"/>
 </g>
 <!-- Node6 -->
 <g id="node3" class="node"><title>Node6</title>
-<g id="a_node3"><a xlink:href="forms_8cpp.html" target="_top" xlink:title="fwidgets_lib/forms.cpp">
-<polygon fill="white" stroke="black" points="142.5,-0.5 142.5,-19.5 257.5,-19.5 257.5,-0.5 142.5,-0.5"/>
-<text text-anchor="middle" x="200" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/forms.cpp</text>
+<g id="a_node3"><a xlink:href="options_8cpp.html" target="_top" xlink:title="Implémentation des classes du dialogue d&#39;options. ">
+<polygon fill="white" stroke="black" points="133.5,-0.5 133.5,-19.5 257.5,-19.5 257.5,-0.5 133.5,-0.5"/>
+<text text-anchor="middle" x="195.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/options.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node4&#45;&gt;Node6 -->
 <g id="edge2" class="edge"><title>Node4&#45;&gt;Node6</title>
-<path fill="none" stroke="midnightblue" d="M150.038,-50.1008C162.456,-40.3824 178.243,-28.0269 188.712,-19.8339"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="147.804,-47.4046 142.086,-56.324 152.118,-52.9171 147.804,-47.4046"/>
+<path fill="none" stroke="midnightblue" d="M145.538,-50.1008C157.956,-40.3824 173.743,-28.0269 184.212,-19.8339"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="143.304,-47.4046 137.586,-56.324 147.618,-52.9171 143.304,-47.4046"/>
 </g>
 </g>
 </svg>

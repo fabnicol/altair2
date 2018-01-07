@@ -1,5 +1,6 @@
 <map id="lhx/ligne_paye.h" name="lhx/ligne_paye.h">
 <area shape="rect" id="node5" href="$fonctions__auxiliaires_8h.html" title="Diverses fonctions auxiliaires en inlining. " alt="" coords="718,80,869,107"/>
+<area shape="rect" id="node22" href="$tags_8h.html" title="tags.h" alt="" coords="1825,229,1884,256"/>
 <area shape="rect" id="node35" href="$table_8h.html" title="table.h" alt="" coords="1589,80,1651,107"/>
 <area shape="rect" id="node6" href="$validator_8h.html" title="Ce fichier contient notamment la structure info_t qui stocke les données de paye décodées ainsi que l..." alt="" coords="1132,155,1215,181"/>
 <area shape="rect" id="node23" href="$expression__reg__elus_8h.html" title="Expressions régulières représentant les élus. " alt="" coords="1251,304,1403,331"/>

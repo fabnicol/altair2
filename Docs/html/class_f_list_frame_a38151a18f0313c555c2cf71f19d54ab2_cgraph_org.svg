@@ -9,34 +9,34 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>FListFrame::getCurrentRow</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-24 505,-24 505,4 -4,4"/>
-<!-- Node128 -->
-<g id="node1" class="node"><title>Node128</title>
+<!-- Node460 -->
+<g id="node1" class="node"><title>Node460</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-19.5 138,-19.5 138,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="69" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getCurrentRow</text>
 </g>
-<!-- Node129 -->
-<g id="node2" class="node"><title>Node129</title>
-<g id="a_node2"><a xlink:href="class_f_list_frame.html#a73aaa61fe9f56248049e96722c17b164" target="_top" xlink:title="Accesseur en lecture de /. ">
+<!-- Node461 -->
+<g id="node2" class="node"><title>Node461</title>
+<g id="a_node2"><a xlink:href="class_f_list_frame.html#a73aaa61fe9f56248049e96722c17b164" target="_top" xlink:title="Accesseur en lecture du composant (widget) courant dans le conteneur widgetContainer. ">
 <polygon fill="white" stroke="black" points="174,-0.5 174,-19.5 323,-19.5 323,-0.5 174,-0.5"/>
 <text text-anchor="middle" x="248.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getCurrentWidget</text>
 </a>
 </g>
 </g>
-<!-- Node128&#45;&gt;Node129 -->
-<g id="edge1" class="edge"><title>Node128&#45;&gt;Node129</title>
+<!-- Node460&#45;&gt;Node461 -->
+<g id="edge1" class="edge"><title>Node460&#45;&gt;Node461</title>
 <path fill="none" stroke="midnightblue" d="M138.118,-10C146.551,-10 155.246,-10 163.877,-10"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="163.959,-13.5001 173.959,-10 163.958,-6.5001 163.959,-13.5001"/>
 </g>
-<!-- Node130 -->
-<g id="node3" class="node"><title>Node130</title>
-<g id="a_node3"><a xlink:href="class_f_list_frame.html#a0037e19af552e7ccca67e2a01b700389" target="_top" xlink:title="Accesseur en lecture du rang (index) de l&#39;onglet courant (0&#45;based) ">
+<!-- Node462 -->
+<g id="node3" class="node"><title>Node462</title>
+<g id="a_node3"><a xlink:href="class_f_list_frame.html#a0037e19af552e7ccca67e2a01b700389" target="_top" xlink:title="Accesseur en lecture du rang (index) de l&#39;onglet courant (0&#45;based). ">
 <polygon fill="white" stroke="black" points="359,-0.5 359,-19.5 501,-19.5 501,-0.5 359,-0.5"/>
 <text text-anchor="middle" x="430" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getCurrentIndex</text>
 </a>
 </g>
 </g>
-<!-- Node129&#45;&gt;Node130 -->
-<g id="edge2" class="edge"><title>Node129&#45;&gt;Node130</title>
+<!-- Node461&#45;&gt;Node462 -->
+<g id="edge2" class="edge"><title>Node461&#45;&gt;Node462</title>
 <path fill="none" stroke="midnightblue" d="M323.027,-10C331.425,-10 340.019,-10 348.501,-10"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="348.771,-13.5001 358.771,-10 348.771,-6.5001 348.771,-13.5001"/>
 </g>

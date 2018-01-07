@@ -9,21 +9,21 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>FListWidget::getTabLabels</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-24 299,-24 299,4 -4,4"/>
-<!-- Node25 -->
-<g id="node1" class="node"><title>Node25</title>
+<!-- Node99 -->
+<g id="node1" class="node"><title>Node99</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-19.5 134,-19.5 134,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="67" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListWidget::getTabLabels</text>
 </g>
-<!-- Node26 -->
-<g id="node2" class="node"><title>Node26</title>
+<!-- Node100 -->
+<g id="node2" class="node"><title>Node100</title>
 <g id="a_node2"><a xlink:href="class_f_list_frame.html#a868a44b7df707f05fef3503d1472ed1d" target="_top" xlink:title="FListFrame::deleteGroup">
 <polygon fill="white" stroke="black" points="170,-0.5 170,-19.5 295,-19.5 295,-0.5 170,-0.5"/>
 <text text-anchor="middle" x="232.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::deleteGroup</text>
 </a>
 </g>
 </g>
-<!-- Node25&#45;&gt;Node26 -->
-<g id="edge1" class="edge"><title>Node25&#45;&gt;Node26</title>
+<!-- Node99&#45;&gt;Node100 -->
+<g id="edge1" class="edge"><title>Node99&#45;&gt;Node100</title>
 <path fill="none" stroke="midnightblue" d="M144.137,-10C152.799,-10 161.545,-10 169.984,-10"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="144.03,-6.5001 134.03,-10 144.03,-13.5001 144.03,-6.5001"/>
 </g>

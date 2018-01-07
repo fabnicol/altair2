@@ -1,9 +1,9 @@
 <map id="tools" name="tools">
-<area shape="rect" id="node3" href="$classcode_page.html" title="Classe de l&#39;onglet Codes permettant d&#39;exporter des codes de paye manuellement spécifiés vers les scri..." alt="" coords="5,1313,161,1727"/>
-<area shape="rect" id="node4" href="$classcommon.html" title="Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l&#39;interface vers l..." alt="" coords="407,667,568,861"/>
-<area shape="rect" id="node7" href="$classprocess_page.html" title="Classe de l&#39;onglet Traitement du dialgue d&#39;options. " alt="" coords="599,1393,746,1647"/>
-<area shape="rect" id="node8" href="$classstandard_page.html" title="Classe de l&#39;onglet &quot;Format des bases&quot; du dialogue d&#39;options. " alt="" coords="770,1386,917,1654"/>
+<area shape="rect" id="node3" href="$classcode_page.html" title="Classe de l&#39;onglet Codes permettant d&#39;exporter des codes de paye manuellement spécifiés vers les scri..." alt="" coords="5,1129,161,1544"/>
+<area shape="rect" id="node4" href="$classcommon.html" title="Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l&#39;interface vers l..." alt="" coords="407,579,568,773"/>
+<area shape="rect" id="node7" href="$classprocess_page.html" title="Classe de l&#39;onglet Traitement du dialgue d&#39;options. " alt="" coords="599,1210,746,1463"/>
+<area shape="rect" id="node8" href="$classstandard_page.html" title="Classe de l&#39;onglet &quot;Format des bases&quot; du dialogue d&#39;options. " alt="" coords="770,1203,917,1471"/>
 <area shape="rect" id="node2" href="$classflags.html" title="{flags\n||}" alt="" coords="543,5,594,83"/>
-<area shape="rect" id="node5" href="$class_altair.html" title="Classe Altair, agent de la classe MainWindow qui implémente les fonctions globales de l&#39;interface gra..." alt="" coords="357,909,575,2131"/>
-<area shape="rect" id="node6" href="$classoptions.html" title="Classe de l&#39;onglet Codes, qui permet de saisir manuellement les codes de paye de certaines catégories..." alt="" coords="186,1401,333,1639"/>
+<area shape="rect" id="node5" href="$class_altair.html" title="Classe Altair, agent de la classe MainWindow qui implémente les fonctions globales de l&#39;interface gra..." alt="" coords="357,821,575,1852"/>
+<area shape="rect" id="node6" href="$classoptions.html" title="Classe de l&#39;onglet Codes, qui permet de saisir manuellement les codes de paye de certaines catégories..." alt="" coords="186,1217,333,1456"/>
 </map>

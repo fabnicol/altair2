@@ -67,28 +67,27 @@
 </g>
 <!-- Node3 -->
 <g id="node4" class="node"><title>Node3</title>
-<g id="a_node4"><a xlink:href="class_f_combo_box.html" target="_top" xlink:title="{FComboBox\n|+ comboBoxTranslationHash\l+ signalList\l|+ FComboBox()\l+ FComboBox()\l+ FComboBox()\l+ FComboBox()\l+ FComboBox()\l+ isAbstractEnabled()\l+ setWidgetFromXml()\l+ setXmlFromWidget()\l&#45; fromCurrentIndex()\l}">
-<polygon fill="white" stroke="black" points="139,-243 139,-399 282,-399 282,-243 139,-243"/>
-<text text-anchor="middle" x="210.5" y="-387" font-family="Helvetica,sans-Serif" font-size="10.00">FComboBox</text>
-<polyline fill="none" stroke="black" points="139,-380 282,-380 "/>
-<text text-anchor="start" x="147" y="-368" font-family="Helvetica,sans-Serif" font-size="10.00">+ comboBoxTranslationHash</text>
-<text text-anchor="start" x="147" y="-357" font-family="Helvetica,sans-Serif" font-size="10.00">+ signalList</text>
-<polyline fill="none" stroke="black" points="139,-350 282,-350 "/>
-<text text-anchor="start" x="147" y="-338" font-family="Helvetica,sans-Serif" font-size="10.00">+ FComboBox()</text>
-<text text-anchor="start" x="147" y="-327" font-family="Helvetica,sans-Serif" font-size="10.00">+ FComboBox()</text>
-<text text-anchor="start" x="147" y="-316" font-family="Helvetica,sans-Serif" font-size="10.00">+ FComboBox()</text>
-<text text-anchor="start" x="147" y="-305" font-family="Helvetica,sans-Serif" font-size="10.00">+ FComboBox()</text>
-<text text-anchor="start" x="147" y="-294" font-family="Helvetica,sans-Serif" font-size="10.00">+ FComboBox()</text>
-<text text-anchor="start" x="147" y="-283" font-family="Helvetica,sans-Serif" font-size="10.00">+ isAbstractEnabled()</text>
-<text text-anchor="start" x="147" y="-272" font-family="Helvetica,sans-Serif" font-size="10.00">+ setWidgetFromXml()</text>
-<text text-anchor="start" x="147" y="-261" font-family="Helvetica,sans-Serif" font-size="10.00">+ setXmlFromWidget()</text>
-<text text-anchor="start" x="147" y="-250" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; fromCurrentIndex()</text>
+<g id="a_node4"><a xlink:href="class_f_combo_box.html" target="_top" xlink:title="{FComboBox\n|+ comboBoxTranslationHash\l|+ FComboBox()\l+ FComboBox()\l+ FComboBox()\l+ FComboBox()\l+ FComboBox()\l+ isAbstractEnabled()\l+ setWidgetFromXml()\l+ setXmlFromWidget()\l&#45; fromCurrentIndex()\l}">
+<polygon fill="white" stroke="black" points="139,-248.5 139,-393.5 282,-393.5 282,-248.5 139,-248.5"/>
+<text text-anchor="middle" x="210.5" y="-381.5" font-family="Helvetica,sans-Serif" font-size="10.00">FComboBox</text>
+<polyline fill="none" stroke="black" points="139,-374.5 282,-374.5 "/>
+<text text-anchor="start" x="147" y="-362.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ comboBoxTranslationHash</text>
+<polyline fill="none" stroke="black" points="139,-355.5 282,-355.5 "/>
+<text text-anchor="start" x="147" y="-343.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FComboBox()</text>
+<text text-anchor="start" x="147" y="-332.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FComboBox()</text>
+<text text-anchor="start" x="147" y="-321.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FComboBox()</text>
+<text text-anchor="start" x="147" y="-310.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FComboBox()</text>
+<text text-anchor="start" x="147" y="-299.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FComboBox()</text>
+<text text-anchor="start" x="147" y="-288.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isAbstractEnabled()</text>
+<text text-anchor="start" x="147" y="-277.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setWidgetFromXml()</text>
+<text text-anchor="start" x="147" y="-266.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setXmlFromWidget()</text>
+<text text-anchor="start" x="147" y="-255.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; fromCurrentIndex()</text>
 </a>
 </g>
 </g>
 <!-- Node0&#45;&gt;Node3 -->
 <g id="edge3" class="edge"><title>Node0&#45;&gt;Node3</title>
-<path fill="none" stroke="midnightblue" d="M244.721,-453.566C239.83,-434.76 235.003,-416.205 230.586,-399.224"/>
+<path fill="none" stroke="midnightblue" d="M244.702,-453.494C239.279,-432.642 233.936,-412.101 229.143,-393.675"/>
 <polygon fill="none" stroke="midnightblue" points="241.379,-454.62 247.283,-463.417 248.153,-452.857 241.379,-454.62"/>
 </g>
 <!-- Node4 -->

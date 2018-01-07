@@ -1,6 +1,6 @@
 var class_main_window =
 [
-    [ "MaxRecentFiles", "class_main_window.html#a0ee5fdf298d8f30b5e29418348ecaacfacffff941ca3da9119f465d531db6dc86", null ],
+    [ "MaxRecentFiles", "class_main_window.html#ac34d67abcc0525f07bdd73d2c2eba051acffff941ca3da9119f465d531db6dc86", null ],
     [ "MainWindow", "class_main_window.html#a0bedf238d5826befe80ac24cabcc34e9", null ],
     [ "anonymiser", "class_main_window.html#a695888bf3fc4b763866eb92176b6a5a7", null ],
     [ "archiveProject", "class_main_window.html#a34512b73d3342c5a5b59a8f420d4d4c4", null ],

@@ -16,7 +16,7 @@
 </g>
 <!-- Node1 -->
 <g id="node2" class="node"><title>Node1</title>
-<g id="a_node2"><a xlink:href="classcode_page.html#a6896b21cac9b9ab917b333a01530fce9" target="_top" xlink:title="Crée une ligne de codes pour un type donné d&#39;éléments de paye. ">
+<g id="a_node2"><a xlink:href="classcode_page.html#a6896b21cac9b9ab917b333a01530fce9" target="_top" xlink:title="codePage::ajouterVariable">
 <polygon fill="white" stroke="black" points="146,-358.868 146,-377.868 277,-377.868 277,-358.868 146,-358.868"/>
 <text text-anchor="middle" x="211.5" y="-365.868" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::ajouterVariable</text>
 </a>
@@ -42,7 +42,7 @@
 </g>
 <!-- Node3 -->
 <g id="node4" class="node"><title>Node3</title>
-<g id="a_node4"><a xlink:href="classcode_page.html#a8524212298b5473047c5c4f0cadc86a6" target="_top" xlink:title="Réinitialise l&#39;exportation des codes d&#39;éléments de paye Ecrase prologue_codes.R ( prologue_codes_path...">
+<g id="a_node4"><a xlink:href="classcode_page.html#a8524212298b5473047c5c4f0cadc86a6" target="_top" xlink:title="codePage::reinitialiser\l_prologue">
 <polygon fill="white" stroke="black" points="334,-271.368 334,-301.368 447,-301.368 447,-271.368 334,-271.368"/>
 <text text-anchor="start" x="342" y="-289.368" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::reinitialiser</text>
 <text text-anchor="middle" x="390.5" y="-278.368" font-family="Helvetica,sans-Serif" font-size="10.00">_prologue</text>
@@ -56,7 +56,7 @@
 </g>
 <!-- Node4 -->
 <g id="node5" class="node"><title>Node4</title>
-<g id="a_node5"><a xlink:href="classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" target="_top" xlink:title="Substitue certaines valeurs caractéristiques du contrôle dans le fichier prologue_codes.R dans exportpath, notamment le Siret, le budget et l&#39;employeur. ">
+<g id="a_node5"><a xlink:href="classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" target="_top" xlink:title="codePage::substituer\l_valeurs_dans_script_R">
 <polygon fill="white" stroke="black" points="150.5,-151.368 150.5,-181.368 272.5,-181.368 272.5,-151.368 150.5,-151.368"/>
 <text text-anchor="start" x="158.5" y="-169.368" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::substituer</text>
 <text text-anchor="middle" x="211.5" y="-158.368" font-family="Helvetica,sans-Serif" font-size="10.00">_valeurs_dans_script_R</text>

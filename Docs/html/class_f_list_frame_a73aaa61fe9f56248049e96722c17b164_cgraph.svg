@@ -9,21 +9,21 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>FListFrame::getCurrentWidget</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-24 331,-24 331,4 -4,4"/>
-<!-- Node137 -->
-<g id="node1" class="node"><title>Node137</title>
+<!-- Node502 -->
+<g id="node1" class="node"><title>Node502</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-19.5 149,-19.5 149,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="74.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getCurrentWidget</text>
 </g>
-<!-- Node138 -->
-<g id="node2" class="node"><title>Node138</title>
-<g id="a_node2"><a xlink:href="class_f_list_frame.html#a0037e19af552e7ccca67e2a01b700389" target="_top" xlink:title="Accesseur en lecture du rang (index) de l&#39;onglet courant (0&#45;based) ">
+<!-- Node503 -->
+<g id="node2" class="node"><title>Node503</title>
+<g id="a_node2"><a xlink:href="class_f_list_frame.html#a0037e19af552e7ccca67e2a01b700389" target="_top" xlink:title="Accesseur en lecture du rang (index) de l&#39;onglet courant (0&#45;based). ">
 <polygon fill="white" stroke="black" points="185,-0.5 185,-19.5 327,-19.5 327,-0.5 185,-0.5"/>
 <text text-anchor="middle" x="256" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getCurrentIndex</text>
 </a>
 </g>
 </g>
-<!-- Node137&#45;&gt;Node138 -->
-<g id="edge1" class="edge"><title>Node137&#45;&gt;Node138</title>
+<!-- Node502&#45;&gt;Node503 -->
+<g id="edge1" class="edge"><title>Node502&#45;&gt;Node503</title>
 <path fill="none" stroke="midnightblue" d="M149.027,-10C157.425,-10 166.019,-10 174.501,-10"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="174.771,-13.5001 184.771,-10 174.771,-6.5001 174.771,-13.5001"/>
 </g>

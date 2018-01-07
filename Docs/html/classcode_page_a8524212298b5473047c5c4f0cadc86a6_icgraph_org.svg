@@ -9,54 +9,54 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 57)">
 <title>codePage::reinitialiser_prologue</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-57 543,-57 543,4 -4,4"/>
-<!-- Node19 -->
-<g id="node1" class="node"><title>Node19</title>
+<!-- Node32 -->
+<g id="node1" class="node"><title>Node32</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-22.5 0,-52.5 113,-52.5 113,-22.5 0,-22.5"/>
 <text text-anchor="start" x="8" y="-40.5" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::reinitialiser</text>
 <text text-anchor="middle" x="56.5" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">_prologue</text>
 </g>
-<!-- Node20 -->
-<g id="node2" class="node"><title>Node20</title>
-<g id="a_node2"><a xlink:href="classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" target="_top" xlink:title="Constructeur de l&#39;onglet &quot;Code de paye des tests&quot;. ">
+<!-- Node33 -->
+<g id="node2" class="node"><title>Node33</title>
+<g id="a_node2"><a xlink:href="classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" target="_top" xlink:title="codePage::codePage">
 <polygon fill="white" stroke="black" points="307,-28 307,-47 417,-47 417,-28 307,-28"/>
 <text text-anchor="middle" x="362" y="-35" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::codePage</text>
 </a>
 </g>
 </g>
-<!-- Node19&#45;&gt;Node20 -->
-<g id="edge1" class="edge"><title>Node19&#45;&gt;Node20</title>
+<!-- Node32&#45;&gt;Node33 -->
+<g id="edge1" class="edge"><title>Node32&#45;&gt;Node33</title>
 <path fill="none" stroke="midnightblue" d="M123.233,-39.9145C131.898,-40.1567 140.662,-40.3633 149,-40.5 203.215,-41.3885 216.785,-41.4033 271,-40.5 282.567,-40.3073 294.967,-39.9753 306.752,-39.6007"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="123.237,-36.4131 113.138,-39.6158 123.03,-43.4101 123.237,-36.4131"/>
 </g>
-<!-- Node22 -->
-<g id="node4" class="node"><title>Node22</title>
-<g id="a_node4"><a xlink:href="classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" target="_top" xlink:title="Substitue certaines valeurs caractéristiques du contrôle dans le fichier prologue_codes.R dans exportpath, notamment le Siret, le budget et l&#39;employeur. ">
+<!-- Node35 -->
+<g id="node4" class="node"><title>Node35</title>
+<g id="a_node4"><a xlink:href="classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" target="_top" xlink:title="codePage::substituer\l_valeurs_dans_script_R">
 <polygon fill="white" stroke="black" points="149,-0.5 149,-30.5 271,-30.5 271,-0.5 149,-0.5"/>
 <text text-anchor="start" x="157" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::substituer</text>
 <text text-anchor="middle" x="210" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">_valeurs_dans_script_R</text>
 </a>
 </g>
 </g>
-<!-- Node19&#45;&gt;Node22 -->
-<g id="edge3" class="edge"><title>Node19&#45;&gt;Node22</title>
+<!-- Node32&#45;&gt;Node35 -->
+<g id="edge3" class="edge"><title>Node32&#45;&gt;Node35</title>
 <path fill="none" stroke="midnightblue" d="M123.022,-27.9853C131.607,-26.7385 140.371,-25.4659 148.861,-24.233"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="122.446,-24.5321 113.053,-29.4329 123.452,-31.4594 122.446,-24.5321"/>
 </g>
-<!-- Node21 -->
-<g id="node3" class="node"><title>Node21</title>
+<!-- Node34 -->
+<g id="node3" class="node"><title>Node34</title>
 <g id="a_node3"><a xlink:href="classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" target="_top" xlink:title="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair...">
 <polygon fill="white" stroke="black" points="453,-28 453,-47 539,-47 539,-28 453,-28"/>
 <text text-anchor="middle" x="496" y="-35" font-family="Helvetica,sans-Serif" font-size="10.00">options::options</text>
 </a>
 </g>
 </g>
-<!-- Node20&#45;&gt;Node21 -->
-<g id="edge2" class="edge"><title>Node20&#45;&gt;Node21</title>
+<!-- Node33&#45;&gt;Node34 -->
+<g id="edge2" class="edge"><title>Node33&#45;&gt;Node34</title>
 <path fill="none" stroke="midnightblue" d="M427.254,-37.5C435.977,-37.5 444.74,-37.5 452.934,-37.5"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="427.07,-34.0001 417.07,-37.5 427.07,-41.0001 427.07,-34.0001"/>
 </g>
-<!-- Node22&#45;&gt;Node20 -->
-<g id="edge4" class="edge"><title>Node22&#45;&gt;Node20</title>
+<!-- Node35&#45;&gt;Node33 -->
+<g id="edge4" class="edge"><title>Node35&#45;&gt;Node33</title>
 <path fill="none" stroke="midnightblue" d="M281.142,-25.7876C289.714,-27.0447 298.37,-28.3143 306.661,-29.5303"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="281.549,-22.3098 271.146,-24.3215 280.533,-29.2357 281.549,-22.3098"/>
 </g>

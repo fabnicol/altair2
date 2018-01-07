@@ -9,21 +9,21 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>FProgressBar::setToolTip</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-24 236,-24 236,4 -4,4"/>
-<!-- Node43 -->
-<g id="node1" class="node"><title>Node43</title>
+<!-- Node22 -->
+<g id="node1" class="node"><title>Node22</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-19.5 128,-19.5 128,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="64" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FProgressBar::setToolTip</text>
 </g>
-<!-- Node44 -->
-<g id="node2" class="node"><title>Node44</title>
+<!-- Node23 -->
+<g id="node2" class="node"><title>Node23</title>
 <g id="a_node2"><a xlink:href="class_altair.html#ae0975ced0a36e0ed889ae06043a4df66" target="_top" xlink:title="Constructeur. ">
 <polygon fill="white" stroke="black" points="164,-0.5 164,-19.5 232,-19.5 232,-0.5 164,-0.5"/>
 <text text-anchor="middle" x="198" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::Altair</text>
 </a>
 </g>
 </g>
-<!-- Node43&#45;&gt;Node44 -->
-<g id="edge1" class="edge"><title>Node43&#45;&gt;Node44</title>
+<!-- Node22&#45;&gt;Node23 -->
+<g id="edge1" class="edge"><title>Node22&#45;&gt;Node23</title>
 <path fill="none" stroke="midnightblue" d="M138.382,-10C147.281,-10 155.998,-10 163.876,-10"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="138.294,-6.5001 128.294,-10 138.294,-13.5001 138.294,-6.5001"/>
 </g>

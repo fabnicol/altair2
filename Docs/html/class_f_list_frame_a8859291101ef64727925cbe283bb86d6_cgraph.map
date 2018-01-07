@@ -1,9 +1,7 @@
 <map id="FListFrame::deleteAllGroups" name="FListFrame::deleteAllGroups">
-<area shape="rect" id="node2" href="$class_f_list_widget.html#af24de94813d9e1939dd98a7a2f5539fb" title="FListWidget::addGroup" alt="" coords="258,31,414,57"/>
-<area shape="rect" id="node5" href="$class_f_list_frame.html#a9353fe4926e97788a6462c3ee79f6a15" title="FListFrame::clearTabLabels" alt="" coords="244,81,428,108"/>
-<area shape="rect" id="node7" href="$struct_abstract.html#af7b700041c9d75de3f642f15ece3e6ae" title="Réinitialiser toutes les valeurs du de la table de hachage Hash::wrapper. " alt="" coords="283,132,389,159"/>
-<area shape="rect" id="node8" href="$class_f_list_frame.html#a356ad4309df1e931fb3ee12ad88054fb" title="Actualise currentWidget, row et currentIndex. " alt="" coords="241,183,431,209"/>
-<area shape="rect" id="node3" href="$class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" title="Récupère la taille courante (0&#45;based) du conteneur widgetContainer Cette taille doit en principe être..." alt="" coords="715,5,860,32"/>
-<area shape="rect" id="node4" href="$class_f_list_frame.html#a5c6ce884a0169251e359364921d1f89c" title="FListFrame::addNewTab" alt="" coords="489,31,656,57"/>
-<area shape="rect" id="node6" href="$class_f_list_widget.html#a74bf008958a87e9055b8ec6573d8e2e9" title="FListWidget::clearTabLabels" alt="" coords="479,81,667,108"/>
+<area shape="rect" id="node2" href="$class_f_list_widget.html#af24de94813d9e1939dd98a7a2f5539fb" title="FListWidget::addGroup" alt="" coords="258,5,414,32"/>
+<area shape="rect" id="node3" href="$class_f_list_frame.html#a9353fe4926e97788a6462c3ee79f6a15" title="FListFrame::clearTabLabels" alt="" coords="244,56,428,83"/>
+<area shape="rect" id="node5" href="$struct_abstract.html#af7b700041c9d75de3f642f15ece3e6ae" title="Réinitialiser toutes les valeurs du de la table de hachage Hash::wrapper. " alt="" coords="283,107,389,133"/>
+<area shape="rect" id="node6" href="$class_f_list_frame.html#a356ad4309df1e931fb3ee12ad88054fb" title="Actualise currentWidget, row et currentIndex. " alt="" coords="241,157,431,184"/>
+<area shape="rect" id="node4" href="$class_f_list_widget.html#a74bf008958a87e9055b8ec6573d8e2e9" title="FListWidget::clearTabLabels" alt="" coords="479,56,667,83"/>
 </map>

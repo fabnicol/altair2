@@ -9,21 +9,21 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>Altair::refreshModel</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-24 209,-24 209,4 -4,4"/>
-<!-- Node2533 -->
-<g id="node1" class="node"><title>Node2533</title>
+<!-- Node3517 -->
+<g id="node1" class="node"><title>Node3517</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-19.5 101,-19.5 101,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="50.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::refreshModel</text>
 </g>
-<!-- Node2534 -->
-<g id="node2" class="node"><title>Node2534</title>
+<!-- Node3518 -->
+<g id="node2" class="node"><title>Node3518</title>
 <g id="a_node2"><a xlink:href="class_altair.html#ae0975ced0a36e0ed889ae06043a4df66" target="_top" xlink:title="Constructeur. ">
 <polygon fill="white" stroke="black" points="137,-0.5 137,-19.5 205,-19.5 205,-0.5 137,-0.5"/>
 <text text-anchor="middle" x="171" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::Altair</text>
 </a>
 </g>
 </g>
-<!-- Node2533&#45;&gt;Node2534 -->
-<g id="edge1" class="edge"><title>Node2533&#45;&gt;Node2534</title>
+<!-- Node3517&#45;&gt;Node3518 -->
+<g id="edge1" class="edge"><title>Node3517&#45;&gt;Node3518</title>
 <path fill="none" stroke="midnightblue" d="M111.32,-10C120.085,-10 128.834,-10 136.799,-10"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="111.068,-6.5001 101.068,-10 111.068,-13.5001 111.068,-6.5001"/>
 </g>

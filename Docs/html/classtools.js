@@ -25,7 +25,7 @@ var classtools =
     [ "remAccents", "classtools.html#a156182bd3229ed5ad680fd6d154c912b", null ],
     [ "renommer", "classtools.html#a888a6211f6956005dba0132e1ee5fd92", null ],
     [ "substituer", "classtools.html#ab14f69ed6a8faa01674b93e798c612a4", null ],
-    [ "unzip", "classtools.html#aa7c6bc6eb08611b448cf5f2785853e63", null ],
+    [ "unzip", "classtools.html#a22819e1b381949304b8fde11a91a7de3", null ],
     [ "unzipDir", "classtools.html#ae821185bfd6650842559ef2f9d92f1ac", null ],
     [ "zip", "classtools.html#aae1cdbea84aed049937a52ceb9421794", null ],
     [ "zipDir", "classtools.html#aefd7e17f4eeb34a4ab3d254eb3bb0a03", null ],
