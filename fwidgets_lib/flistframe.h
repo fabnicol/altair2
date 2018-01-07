@@ -161,13 +161,6 @@ public:
  
  void setTabLabels(QStringList& tabLabels) { fileListWidget->setTabLabels(tabLabels);}
 
- inline bool listConnected() { return isListConnected; }
-
-/// Accesseur en lecture de
-/// \return Valeur de ine
-
-int  getSlotListSize() {  return (isListConnected == true || isTotalConnected == true)? slotListSize : -1; }
-
 FListFrame(QAbstractItemView* tree, short import_type,
            const QString &hashKey,
            const QStringList &description,
@@ -200,15 +193,9 @@ private:
 
  void clearTabLabels() {fileListWidget->clearTabLabels();}
 
- int row, currentIndex,  slotListSize;
- bool isListConnected=false;
- bool isTotalConnected=false;
- bool activateOnStart=false;
+ int row, currentIndex;
+  bool activateOnStart=false;
  bool isTerminated = false;
-
- void list_connect(FComboBox* w);
- void list_connect(FListFrame* w);
- void total_connect(FListFrame* w);
 
  /// Actualise  currentWidget,  row et  currentIndex
 
@@ -270,7 +257,6 @@ public slots:
     void addNewTab();
     void addNewTab(int r, const QString& label = "");
     void on_deleteItem_clicked();
-    void setSlotListSize(int s);
     void showContextMenu();
 
 protected slots:

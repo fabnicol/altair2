@@ -76,19 +76,58 @@ private:
 
 public:
 
+ /// Constructeur à valeur vide {2, "" }
+
+ FString()
+ {
+   x = 2;
+   p = "";
+ }
+
+ /// Constructeur à valeur quelconque QString donnée
+
+ explicit FString(QString s, flags::status flag = flags::status::defaultStatus) : QString(s)
+ {
+   p = s;
+   testBool(s, flag);
+ }
+
+ /// Constructeur à valeur quelconque const char* donnée
+
+ explicit FString(const char* s) : FString(QString(s))  { x = strcmp(s, "oui") ? (strcmp(s, "non") ? 2 : 0) : 1;}
+
+ explicit FString(bool value)
+ {
+   x = static_cast<int>(value);
+
+   p = (value == true) ? "oui" : "non";
+
+   this->append(p);
+ }
+
+ FString  operator * ();
+
+ /// Constructeur de copie
+
+ FString(const FString & v) : QString(v.p)
+ {
+   x = v.x;
+   p = v.p;
+ }
+
   /// Opérateur & : "oui" & "oui" -> "oui" etc.
 
   FString   operator & (FString  s)
   {
-    if (x * s.x == 1) return "oui";
-    else return "non";
+    if (x * s.x == 1) return FString("oui");
+    else return FString("non");
   }
 
   /// Opérateur & : "oui" & false -> false etc.
 
   FString   operator & (bool  s)
   {
-    return x * static_cast<int>(s) == 1 ?  "oui" : "non";
+    return x * static_cast<int>(s) == 1 ?  FString("oui") : FString("non");
   }
 
   /// Opérateur &= : s &= true a même valeur que s
@@ -121,7 +160,7 @@ public:
 
   FString   operator | (FString  s)
   {
-    return (x == 1 || s.x == 1 ) ? "oui" : "non";
+    return (x == 1 || s.x == 1 ) ? FString("oui") : FString("non");
   }
 
   /// Opérateur ! : ! "non" -> "oui" et autres cas "non"
@@ -131,7 +170,7 @@ public:
 
   FString   operator ! ()
   {
-    return x != 0 ? "non" : "oui";
+    return x != 0 ? FString("non") : FString("oui");
   }
 
   /// Accesseur de la partie QString p
@@ -216,45 +255,6 @@ public:
     return (x == 0 || x == 1);
   }
 
-  /// Constructeur à valeur vide {2, "" }
-
-  FString()
-  {
-    x = 2;
-    p = "";
-  }
-
-  /// Constructeur à valeur quelconque QString donnée
-
-  FString(QString s, flags::status flag = flags::status::defaultStatus) : QString(s)
-  {
-    p = s;
-    testBool(s, flag);
-  }
-
-  /// Constructeur à valeur quelconque const char* donnée
-
-  FString(const char* s) : FString(QString(s))  {  }
-
-  FString(bool value)
-  {
-    x = static_cast<int>(value);
-
-    p = (value == true) ? "oui" : "non";
-
-    this->append(p);
-  }
-
-  FString  operator * ();
-
-  /// Constructeur de copie
-
-  FString(const FString & v) : QString(v.p)
-  {
-    x = v.x;
-    p = v.p;
-  }
-
   const FStringList split(const QString &) const;
   const FStringList split(const QStringList &separator) const;
 };
@@ -290,7 +290,7 @@ public:
   const QStringList join() ;
   QString setEmptyTags(const QStringList &)const;
   const QString setTags(const QStringList &tags, const QVector<FStringList> *properties=nullptr) const;
-  FString toFString() const { return ((this->isEmpty()) || this->at(0).isEmpty())?  "" : FString(this->at(0).at(0)); }
+  FString toFString() const { return ((this->isEmpty()) || this->at(0).isEmpty())?  FString("") : FString(this->at(0).at(0)); }
   QString toQString() const { return ((this->isEmpty()) || this->at(0).isEmpty())?  "" : QString(this->at(0).at(0)); }
   int toInt() const {return ((this->isEmpty() || this->at(0).isEmpty())? 0: this->at(0).at(0).toInt());}
   bool hasNoString() const { return (isEmpty() || (this->at(0).isEmpty()) || (this->at(0).at(0).isEmpty())); }

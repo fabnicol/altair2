@@ -356,7 +356,7 @@ inline qint64 displaySecondLevelData (const QStringList &tags,
                                       const QVector<QStringList> &stackedInfo,
                                       const QVector<QStringList> &stackedSizeInfo)
 {
-    int count = 0, tagcount = 0, l;
+    int count = 0, tagcount = 0;
     qint64 filesizecount = 0;
 
     QString firstColumn,
@@ -382,7 +382,8 @@ inline qint64 displaySecondLevelData (const QStringList &tags,
             displayTextData ({firstColumn});
 
             QStringListIterator w (i.next()), y (j.next());
-            l = 0;
+
+            int l = 0;
 
             while (w.hasNext() && y.hasNext())
                 {
@@ -589,7 +590,6 @@ FStringList Altair::parseEntry (const QDomNode &node, QTreeWidgetItem *itemParen
 inline QVector<QStringList> Altair::processSecondLevelData (QVector<QStringList> &L, bool isFile)
 {
     QVectorIterator<QStringList> i (L);
-    int group_index = 0;
 
     QVector<QStringList> stackedSizeInfo2 ;
 
@@ -612,7 +612,6 @@ inline QVector<QStringList> Altair::processSecondLevelData (QVector<QStringList>
                 }
 
             stackedSizeInfo2 << stackedSizeInfo1;
-            group_index++;
         }
 
     return stackedSizeInfo2;
