@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 657;
+var viewWidth = 746;
 var viewHeight = 196;
 var sectionId = 'dynsection-1';
 </script>
@@ -54,186 +54,191 @@ var sectionId = 'dynsection-1';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>lhx/validator.h</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-192 653.487,-192 653.487,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-192 742,-192 742,4 -4,4"/>
 <!-- Node24 -->
 <g id="node1" class="node"><title>Node24</title>
-<polygon fill="#bfbfbf" stroke="black" points="393.886,-168.5 393.886,-187.5 470.886,-187.5 470.886,-168.5 393.886,-168.5"/>
-<text text-anchor="middle" x="432.386" y="-175.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/validator.h</text>
+<polygon fill="#bfbfbf" stroke="black" points="284.5,-168.5 284.5,-187.5 361.5,-187.5 361.5,-168.5 284.5,-168.5"/>
+<text text-anchor="middle" x="323" y="-175.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/validator.h</text>
 </g>
 <!-- Node25 -->
 <g id="node2" class="node"><title>Node25</title>
 <g id="a_node2"><a xlink:href="fonctions__auxiliaires_8h.html" target="_top" xlink:title="Diverses fonctions auxiliaires en inlining. ">
-<polygon fill="white" stroke="black" points="196.886,-112.5 196.886,-131.5 325.886,-131.5 325.886,-112.5 196.886,-112.5"/>
-<text text-anchor="middle" x="261.386" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/fonctions_auxiliaires.h</text>
+<polygon fill="white" stroke="black" points="322.5,-112.5 322.5,-131.5 451.5,-131.5 451.5,-112.5 322.5,-112.5"/>
+<text text-anchor="middle" x="387" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/fonctions_auxiliaires.h</text>
 </a>
 </g>
 </g>
 <!-- Node24&#45;&gt;Node25 -->
 <g id="edge1" class="edge"><title>Node24&#45;&gt;Node25</title>
-<path fill="none" stroke="midnightblue" d="M395.35,-165.304C363.129,-155.129 317.197,-140.625 288.355,-131.516"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="394.701,-168.77 405.291,-168.444 396.809,-162.095 394.701,-168.77"/>
+<path fill="none" stroke="midnightblue" d="M340.991,-161.82C352.458,-152.145 366.913,-139.948 376.53,-131.834"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="338.669,-159.2 333.283,-168.324 343.183,-164.55 338.669,-159.2"/>
 </g>
 <!-- Node28 -->
 <g id="node5" class="node"><title>Node28</title>
 <g id="a_node5"><a xlink:href="ligne__paye_8cpp.html" target="_top" xlink:title="Ce fichier contient le code relatif au traitement individuel des lignes de paye. ">
-<polygon fill="white" stroke="black" points="98.3863,-0.5 98.3863,-19.5 196.386,-19.5 196.386,-0.5 98.3863,-0.5"/>
-<text text-anchor="middle" x="147.386" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/ligne_paye.cpp</text>
+<polygon fill="white" stroke="black" points="0,-0.5 0,-19.5 98,-19.5 98,-0.5 0,-0.5"/>
+<text text-anchor="middle" x="49" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/ligne_paye.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node24&#45;&gt;Node28 -->
-<g id="edge14" class="edge"><title>Node24&#45;&gt;Node28</title>
-<path fill="none" stroke="midnightblue" d="M383.496,-173.116C281.345,-163.848 51.0337,-136.549 6.3863,-76 -20.2491,-39.8782 47.4065,-23.2474 97.9681,-16.0339"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="383.285,-176.61 393.555,-174.007 383.903,-169.638 383.285,-176.61"/>
+<g id="edge17" class="edge"><title>Node24&#45;&gt;Node28</title>
+<path fill="none" stroke="midnightblue" d="M274.355,-171.486C239.344,-165.78 192.119,-154.392 156,-132 106.903,-101.562 67.5365,-41.7598 54.032,-19.5609"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="273.929,-174.961 284.343,-173.015 274.988,-168.042 273.929,-174.961"/>
 </g>
 <!-- Node29 -->
 <g id="node6" class="node"><title>Node29</title>
 <g id="a_node6"><a xlink:href="validator_8cpp.html" target="_top" xlink:title="Ce fichier contient le code relatif au décoidage de la partie &quot;bulletins de paye&quot; (variables communes...">
-<polygon fill="white" stroke="black" points="337.386,-0.5 337.386,-19.5 425.386,-19.5 425.386,-0.5 337.386,-0.5"/>
-<text text-anchor="middle" x="381.386" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/validator.cpp</text>
+<polygon fill="white" stroke="black" points="134,-0.5 134,-19.5 222,-19.5 222,-0.5 134,-0.5"/>
+<text text-anchor="middle" x="178" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/validator.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node24&#45;&gt;Node29 -->
-<g id="edge19" class="edge"><title>Node24&#45;&gt;Node29</title>
-<path fill="none" stroke="midnightblue" d="M481.299,-168.056C556.777,-152.179 688.011,-115.069 638.386,-56 611.69,-24.2226 491.526,-14.8811 425.387,-12.138"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="480.138,-164.721 471.044,-170.156 481.542,-171.579 480.138,-164.721"/>
+<g id="edge20" class="edge"><title>Node24&#45;&gt;Node29</title>
+<path fill="none" stroke="midnightblue" d="M274.573,-167.803C226.971,-155.838 157.203,-129.742 127,-76 114.632,-53.9924 143.375,-31.5226 162.548,-19.6281"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="273.832,-171.225 284.372,-170.147 275.46,-164.417 273.832,-171.225"/>
 </g>
 <!-- Node30 -->
 <g id="node7" class="node"><title>Node30</title>
 <g id="a_node7"><a xlink:href="lhx_2main_8cpp.html" target="_top" xlink:title="Ce fichier contient le code relatif à l&#39;analyse de la ligne de commande, au découpage de la liste des...">
-<polygon fill="white" stroke="black" points="445.386,-56.5 445.386,-75.5 517.386,-75.5 517.386,-56.5 445.386,-56.5"/>
-<text text-anchor="middle" x="481.386" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/main.cpp</text>
+<polygon fill="white" stroke="black" points="550,-0.5 550,-19.5 622,-19.5 622,-0.5 550,-0.5"/>
+<text text-anchor="middle" x="586" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/main.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node24&#45;&gt;Node30 -->
-<g id="edge15" class="edge"><title>Node24&#45;&gt;Node30</title>
-<path fill="none" stroke="midnightblue" d="M440.405,-158.998C451.097,-134.997 469.596,-93.4683 477.559,-75.5914"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="437.103,-157.81 436.231,-168.368 443.498,-160.658 437.103,-157.81"/>
+<g id="edge18" class="edge"><title>Node24&#45;&gt;Node30</title>
+<path fill="none" stroke="midnightblue" d="M372.127,-174.347C434.145,-168.023 538.355,-146.81 585,-76 596.3,-58.8467 592.038,-33.2301 588.63,-19.8539"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="371.442,-170.895 361.807,-175.302 372.087,-177.866 371.442,-170.895"/>
 </g>
-<!-- Node32 -->
-<g id="node9" class="node"><title>Node32</title>
-<g id="a_node9"><a xlink:href="table_8h.html" target="_top" xlink:title="lhx/table.h">
-<polygon fill="white" stroke="black" points="372.386,-112.5 372.386,-131.5 434.386,-131.5 434.386,-112.5 372.386,-112.5"/>
-<text text-anchor="middle" x="403.386" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/table.h</text>
+<!-- Node31 -->
+<g id="node8" class="node"><title>Node31</title>
+<g id="a_node8"><a xlink:href="recherche_8h.html" target="_top" xlink:title="lhx/recherche.h">
+<polygon fill="white" stroke="black" points="649.5,-56.5 649.5,-75.5 732.5,-75.5 732.5,-56.5 649.5,-56.5"/>
+<text text-anchor="middle" x="691" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/recherche.h</text>
 </a>
 </g>
 </g>
-<!-- Node24&#45;&gt;Node32 -->
-<g id="edge9" class="edge"><title>Node24&#45;&gt;Node32</title>
-<path fill="none" stroke="midnightblue" d="M422.71,-158.983C417.788,-149.817 412.028,-139.092 408.086,-131.751"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="419.783,-160.929 427.598,-168.083 425.95,-157.617 419.783,-160.929"/>
+<!-- Node24&#45;&gt;Node31 -->
+<g id="edge19" class="edge"><title>Node24&#45;&gt;Node31</title>
+<path fill="none" stroke="midnightblue" d="M371.974,-174.115C448.108,-168.939 590.713,-156.277 635,-132 659.294,-118.682 677.848,-90.4039 686.178,-75.9348"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="371.436,-170.643 361.689,-174.796 371.899,-177.627 371.436,-170.643"/>
 </g>
-<!-- Node33 -->
-<g id="node10" class="node"><title>Node33</title>
-<g id="a_node10"><a xlink:href="recherche_8h.html" target="_top" xlink:title="lhx/recherche.h">
-<polygon fill="white" stroke="black" points="490.886,-112.5 490.886,-131.5 573.886,-131.5 573.886,-112.5 490.886,-112.5"/>
-<text text-anchor="middle" x="532.386" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/recherche.h</text>
+<!-- Node34 -->
+<g id="node11" class="node"><title>Node34</title>
+<g id="a_node11"><a xlink:href="table_8h.html" target="_top" xlink:title="lhx/table.h">
+<polygon fill="white" stroke="black" points="228,-112.5 228,-131.5 290,-131.5 290,-112.5 228,-112.5"/>
+<text text-anchor="middle" x="259" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/table.h</text>
 </a>
 </g>
 </g>
-<!-- Node24&#45;&gt;Node33 -->
-<g id="edge16" class="edge"><title>Node24&#45;&gt;Node33</title>
-<path fill="none" stroke="midnightblue" d="M457.474,-163.453C475.935,-153.483 500.483,-140.228 516.359,-131.655"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="455.589,-160.493 448.453,-168.324 458.915,-166.652 455.589,-160.493"/>
+<!-- Node24&#45;&gt;Node34 -->
+<g id="edge12" class="edge"><title>Node24&#45;&gt;Node34</title>
+<path fill="none" stroke="midnightblue" d="M305.009,-161.82C293.542,-152.145 279.087,-139.948 269.47,-131.834"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="302.817,-164.55 312.717,-168.324 307.331,-159.2 302.817,-164.55"/>
 </g>
 <!-- Node26 -->
 <g id="node3" class="node"><title>Node26</title>
 <g id="a_node3"><a xlink:href="fonctions__auxiliaires_8cpp.html" target="_top" xlink:title="Ce fichier contient le code relatif aux fonctions auxiliaires utilisées par les fonctions principales...">
-<polygon fill="white" stroke="black" points="15.3863,-56.5 15.3863,-75.5 155.386,-75.5 155.386,-56.5 15.3863,-56.5"/>
-<text text-anchor="middle" x="85.3863" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/fonctions_auxiliaires.cpp</text>
+<polygon fill="white" stroke="black" points="415,-56.5 415,-75.5 555,-75.5 555,-56.5 415,-56.5"/>
+<text text-anchor="middle" x="485" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/fonctions_auxiliaires.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node25&#45;&gt;Node26 -->
 <g id="edge2" class="edge"><title>Node25&#45;&gt;Node26</title>
-<path fill="none" stroke="midnightblue" d="M223.697,-109.436C190.514,-99.2551 142.958,-84.664 113.144,-75.5164"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="222.912,-112.856 233.499,-112.444 224.965,-106.164 222.912,-112.856"/>
+<path fill="none" stroke="midnightblue" d="M411.586,-107.453C429.678,-97.4835 453.735,-84.2279 469.294,-75.6545"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="409.815,-104.432 402.745,-112.324 413.193,-110.563 409.815,-104.432"/>
 </g>
 <!-- Node27 -->
 <g id="node4" class="node"><title>Node27</title>
 <g id="a_node4"><a xlink:href="ligne__paye_8h.html" target="_top" xlink:title="Définit deux fonctions auxiliaires utilisées dans lignes_paye.cpp. ">
-<polygon fill="white" stroke="black" points="301.886,-56.5 301.886,-75.5 388.886,-75.5 388.886,-56.5 301.886,-56.5"/>
-<text text-anchor="middle" x="345.386" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/ligne_paye.h</text>
+<polygon fill="white" stroke="black" points="143.5,-56.5 143.5,-75.5 230.5,-75.5 230.5,-56.5 143.5,-56.5"/>
+<text text-anchor="middle" x="187" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/ligne_paye.h</text>
 </a>
 </g>
 </g>
 <!-- Node25&#45;&gt;Node27 -->
 <g id="edge3" class="edge"><title>Node25&#45;&gt;Node27</title>
-<path fill="none" stroke="midnightblue" d="M283.319,-106.901C298.722,-96.9986 318.832,-84.0705 331.924,-75.6545"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="281.401,-103.972 274.882,-112.324 285.187,-109.86 281.401,-103.972"/>
+<path fill="none" stroke="midnightblue" d="M345.626,-109.829C307.864,-99.6333 252.86,-84.7823 218.542,-75.5164"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="344.743,-113.216 355.309,-112.444 346.567,-106.458 344.743,-113.216"/>
 </g>
 <!-- Node25&#45;&gt;Node29 -->
-<g id="edge8" class="edge"><title>Node25&#45;&gt;Node29</title>
-<path fill="none" stroke="midnightblue" d="M234.246,-107.299C212.514,-94.4957 187.873,-74.6138 202.386,-56 218.789,-34.963 289.574,-22.2552 337.063,-15.9409"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="232.822,-110.512 243.26,-112.328 236.232,-104.399 232.822,-110.512"/>
+<g id="edge11" class="edge"><title>Node25&#45;&gt;Node29</title>
+<path fill="none" stroke="midnightblue" d="M386.409,-102.085C384.924,-87.5031 380.513,-67.881 368,-56 347.289,-36.3353 271.528,-23.062 222.158,-16.2857"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="382.941,-102.699 387.072,-112.455 389.927,-102.252 382.941,-102.699"/>
 </g>
 <!-- Node25&#45;&gt;Node30 -->
 <g id="edge6" class="edge"><title>Node25&#45;&gt;Node30</title>
-<path fill="none" stroke="midnightblue" d="M306.104,-110.024C347.662,-99.8232 408.699,-84.8414 446.69,-75.5164"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="305.123,-106.661 296.246,-112.444 306.792,-113.459 305.123,-106.661"/>
-</g>
-<!-- Node31 -->
-<g id="node8" class="node"><title>Node31</title>
-<g id="a_node8"><a xlink:href="table_8cpp.html" target="_top" xlink:title="Ce fichier contient l&#39;ensemble du code permettant de générer les fichiers des bulletins de paye et li...">
-<polygon fill="white" stroke="black" points="211.386,-56.5 211.386,-75.5 283.386,-75.5 283.386,-56.5 211.386,-56.5"/>
-<text text-anchor="middle" x="247.386" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/table.cpp</text>
-</a>
-</g>
+<path fill="none" stroke="midnightblue" d="M462.031,-118.005C496.88,-112.932 536.572,-101.383 564,-76 580.263,-60.949 584.508,-33.4559 585.613,-19.546"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="461.335,-114.566 451.869,-119.325 462.237,-121.507 461.335,-114.566"/>
 </g>
 <!-- Node25&#45;&gt;Node31 -->
 <g id="edge7" class="edge"><title>Node25&#45;&gt;Node31</title>
-<path fill="none" stroke="midnightblue" d="M256.563,-102.396C254.221,-93.362 251.518,-82.936 249.655,-75.7511"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="253.177,-103.281 259.074,-112.083 259.953,-101.525 253.177,-103.281"/>
+<path fill="none" stroke="midnightblue" d="M445.212,-110.66C504.992,-100.041 596.542,-83.7787 649.406,-74.3884"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="444.403,-107.248 435.17,-112.444 445.628,-114.141 444.403,-107.248"/>
 </g>
-<!-- Node27&#45;&gt;Node28 -->
-<g id="edge4" class="edge"><title>Node27&#45;&gt;Node28</title>
-<path fill="none" stroke="midnightblue" d="M303.948,-53.6986C266.579,-43.507 212.443,-28.7429 178.613,-19.5164"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="303.444,-57.189 314.013,-56.4435 305.286,-50.4356 303.444,-57.189"/>
-</g>
-<!-- Node27&#45;&gt;Node29 -->
-<g id="edge5" class="edge"><title>Node27&#45;&gt;Node29</title>
-<path fill="none" stroke="midnightblue" d="M357.009,-47.5656C363.203,-38.2747 370.554,-27.2484 375.552,-19.7511"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="353.966,-45.821 351.331,-56.083 359.79,-49.7039 353.966,-45.821"/>
-</g>
-<!-- Node32&#45;&gt;Node27 -->
-<g id="edge10" class="edge"><title>Node32&#45;&gt;Node27</title>
-<path fill="none" stroke="midnightblue" d="M386.473,-105.253C376.183,-95.6731 363.421,-83.7906 354.875,-75.8339"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="384.364,-108.071 394.068,-112.324 389.134,-102.948 384.364,-108.071"/>
-</g>
-<!-- Node32&#45;&gt;Node29 -->
-<g id="edge13" class="edge"><title>Node32&#45;&gt;Node29</title>
-<path fill="none" stroke="midnightblue" d="M402.899,-102.381C402.258,-89.2807 400.781,-71.4078 397.386,-56 394.532,-43.044 388.996,-28.7049 385.245,-19.7725"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="399.405,-102.619 403.274,-112.482 406.4,-102.359 399.405,-102.619"/>
-</g>
-<!-- Node32&#45;&gt;Node30 -->
-<g id="edge11" class="edge"><title>Node32&#45;&gt;Node30</title>
-<path fill="none" stroke="midnightblue" d="M424.154,-106.622C438.403,-96.7574 456.842,-83.9919 468.885,-75.6545"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="422.148,-103.754 415.918,-112.324 426.133,-109.51 422.148,-103.754"/>
-</g>
-<!-- Node32&#45;&gt;Node31 -->
-<g id="edge12" class="edge"><title>Node32&#45;&gt;Node31</title>
-<path fill="none" stroke="midnightblue" d="M369.217,-109.172C339.842,-99.0039 298.188,-84.5852 271.989,-75.5164"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="368.073,-112.48 378.668,-112.444 370.363,-105.865 368.073,-112.48"/>
-</g>
-<!-- Node33&#45;&gt;Node30 -->
-<g id="edge17" class="edge"><title>Node33&#45;&gt;Node30</title>
-<path fill="none" stroke="midnightblue" d="M517.008,-104.718C508.019,-95.1997 497.027,-83.5608 489.651,-75.7511"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="514.554,-107.216 523.965,-112.083 519.643,-102.41 514.554,-107.216"/>
-</g>
-<!-- Node34 -->
-<g id="node11" class="node"><title>Node34</title>
-<g id="a_node11"><a xlink:href="recherche_8cpp.html" target="_top" xlink:title="Ce fichier contient le code permettant de rechercher en mémoire, après décodage des bases XML...">
-<polygon fill="white" stroke="black" points="535.386,-56.5 535.386,-75.5 629.386,-75.5 629.386,-56.5 535.386,-56.5"/>
-<text text-anchor="middle" x="582.386" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/recherche.cpp</text>
+<!-- Node33 -->
+<g id="node10" class="node"><title>Node33</title>
+<g id="a_node10"><a xlink:href="table_8cpp.html" target="_top" xlink:title="Ce fichier contient l&#39;ensemble du code permettant de générer les fichiers des bulletins de paye et li...">
+<polygon fill="white" stroke="black" points="287,-56.5 287,-75.5 359,-75.5 359,-56.5 287,-56.5"/>
+<text text-anchor="middle" x="323" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/table.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node33&#45;&gt;Node34 -->
-<g id="edge18" class="edge"><title>Node33&#45;&gt;Node34</title>
-<path fill="none" stroke="midnightblue" d="M547.463,-104.718C556.275,-95.1997 567.052,-83.5608 574.283,-75.7511"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="544.869,-102.367 540.643,-112.083 550.005,-107.123 544.869,-102.367"/>
+<!-- Node25&#45;&gt;Node33 -->
+<g id="edge10" class="edge"><title>Node25&#45;&gt;Node33</title>
+<path fill="none" stroke="midnightblue" d="M369.009,-105.82C357.542,-96.1452 343.087,-83.9481 333.47,-75.8339"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="366.817,-108.55 376.717,-112.324 371.331,-103.2 366.817,-108.55"/>
+</g>
+<!-- Node27&#45;&gt;Node28 -->
+<g id="edge4" class="edge"><title>Node27&#45;&gt;Node28</title>
+<path fill="none" stroke="midnightblue" d="M155.751,-52.772C129.829,-42.6287 93.6375,-28.4669 70.7642,-19.5164"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="154.546,-56.0588 165.133,-56.4435 157.096,-49.5401 154.546,-56.0588"/>
+</g>
+<!-- Node27&#45;&gt;Node29 -->
+<g id="edge5" class="edge"><title>Node27&#45;&gt;Node29</title>
+<path fill="none" stroke="midnightblue" d="M183.85,-46.1005C182.356,-37.1357 180.643,-26.8579 179.459,-19.7511"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="180.417,-46.7945 185.514,-56.083 187.322,-45.6436 180.417,-46.7945"/>
+</g>
+<!-- Node31&#45;&gt;Node30 -->
+<g id="edge8" class="edge"><title>Node31&#45;&gt;Node30</title>
+<path fill="none" stroke="midnightblue" d="M665.19,-51.7261C645.747,-41.7271 619.652,-28.3065 602.828,-19.6545"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="663.636,-54.8629 674.13,-56.324 666.838,-48.6379 663.636,-54.8629"/>
+</g>
+<!-- Node32 -->
+<g id="node9" class="node"><title>Node32</title>
+<g id="a_node9"><a xlink:href="recherche_8cpp.html" target="_top" xlink:title="Ce fichier contient le code permettant de rechercher en mémoire, après décodage des bases XML...">
+<polygon fill="white" stroke="black" points="644,-0.5 644,-19.5 738,-19.5 738,-0.5 644,-0.5"/>
+<text text-anchor="middle" x="691" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">lhx/recherche.cpp</text>
+</a>
+</g>
+</g>
+<!-- Node31&#45;&gt;Node32 -->
+<g id="edge9" class="edge"><title>Node31&#45;&gt;Node32</title>
+<path fill="none" stroke="midnightblue" d="M691,-45.8045C691,-36.9102 691,-26.7798 691,-19.7511"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="687.5,-46.083 691,-56.083 694.5,-46.083 687.5,-46.083"/>
+</g>
+<!-- Node34&#45;&gt;Node27 -->
+<g id="edge13" class="edge"><title>Node34&#45;&gt;Node27</title>
+<path fill="none" stroke="midnightblue" d="M239.134,-106.101C226.177,-96.3824 209.703,-84.0269 198.779,-75.8339"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="237.332,-109.124 247.432,-112.324 241.532,-103.524 237.332,-109.124"/>
+</g>
+<!-- Node34&#45;&gt;Node29 -->
+<g id="edge16" class="edge"><title>Node34&#45;&gt;Node29</title>
+<path fill="none" stroke="midnightblue" d="M217.68,-118.081C189.033,-113.65 152.781,-102.722 134,-76 119.974,-56.0434 147.074,-32.2159 164.646,-19.6877"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="217.469,-121.584 227.844,-119.437 218.394,-114.645 217.469,-121.584"/>
+</g>
+<!-- Node34&#45;&gt;Node30 -->
+<g id="edge14" class="edge"><title>Node34&#45;&gt;Node30</title>
+<path fill="none" stroke="midnightblue" d="M259.275,-102.217C260.558,-87.4175 264.85,-67.4346 278,-56 317.963,-21.2493 477.277,-13.3324 549.76,-11.5303"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="255.775,-102.138 258.784,-112.297 262.767,-102.479 255.775,-102.138"/>
+</g>
+<!-- Node34&#45;&gt;Node33 -->
+<g id="edge15" class="edge"><title>Node34&#45;&gt;Node33</title>
+<path fill="none" stroke="midnightblue" d="M276.991,-105.82C288.458,-96.1452 302.913,-83.9481 312.53,-75.8339"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="274.669,-103.2 269.283,-112.324 279.183,-108.55 274.669,-103.2"/>
 </g>
 </g>
 </svg>

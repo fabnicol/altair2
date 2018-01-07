@@ -9,21 +9,21 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>Altair::makeSystemString</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-24 291,-24 291,4 -4,4"/>
-<!-- Node355 -->
-<g id="node1" class="node"><title>Node355</title>
+<!-- Node1306 -->
+<g id="node1" class="node"><title>Node1306</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-19.5 128,-19.5 128,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="64" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::makeSystemString</text>
 </g>
-<!-- Node356 -->
-<g id="node2" class="node"><title>Node356</title>
+<!-- Node1307 -->
+<g id="node2" class="node"><title>Node1307</title>
 <g id="a_node2"><a xlink:href="class_altair.html#af73cbf33a9e3ff76896a8099b4b154fe" target="_top" xlink:title="Crée la chaîne QString permettant d&#39;écrire un projet XML d&#39;extension .alt Parcourt l&#39;ensemble de la l...">
 <polygon fill="white" stroke="black" points="164,-0.5 164,-19.5 287,-19.5 287,-0.5 164,-0.5"/>
 <text text-anchor="middle" x="225.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::makeParserString</text>
 </a>
 </g>
 </g>
-<!-- Node355&#45;&gt;Node356 -->
-<g id="edge1" class="edge"><title>Node355&#45;&gt;Node356</title>
+<!-- Node1306&#45;&gt;Node1307 -->
+<g id="edge1" class="edge"><title>Node1306&#45;&gt;Node1307</title>
 <path fill="none" stroke="midnightblue" d="M128.039,-10C136.396,-10 145.01,-10 153.49,-10"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="153.741,-13.5001 163.741,-10 153.741,-6.5001 153.741,-13.5001"/>
 </g>

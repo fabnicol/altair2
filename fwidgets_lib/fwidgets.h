@@ -422,9 +422,9 @@ private:
     QTimer *timer= new QTimer(this);
     QProgressBar *bar=new QProgressBar ;
     int startshift = 3;
-    inline void computeRProgressBar();
-    inline void computeLHXParsingProgressBar();
-    inline void computeLHXWritingProgressBar(bool = false);
+    void computeRProgressBar();
+    void computeLHXParsingProgressBar();
+    void computeLHXWritingProgressBar(bool = false);
 
     enum class  State {Parsing, WritingReady, WritingStarted};
     State internalState;
@@ -451,7 +451,7 @@ private:
     }
 
   private slots:
-    inline void setValue(int x, int y) { bar->setValue(x); bar->setMaximum(y);}
+    void setValue(int x, int y) { bar->setValue(x); bar->setMaximum(y);}
     void setValue(int x) { bar->setValue(x); }
 
   public slots:

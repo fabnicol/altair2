@@ -5,7 +5,6 @@ var dir_d07011c78e6521b599cb794ecf1ad27a =
     ] ],
     [ "altair.cpp", "altair_8cpp.html", "altair_8cpp" ],
     [ "altair.h", "altair_8h.html", "altair_8h" ],
-    [ "altair_plugin_import.cpp", "altair__plugin__import_8cpp.html", null ],
     [ "common.cpp", "common_8cpp.html", null ],
     [ "common.h", "common_8h.html", [
       [ "common", "classcommon.html", "classcommon" ]
@@ -24,10 +23,10 @@ var dir_d07011c78e6521b599cb794ecf1ad27a =
     ] ],
     [ "options.cpp", "options_8cpp.html", "options_8cpp" ],
     [ "options.h", "options_8h.html", [
-      [ "codePage", "classcode_page.html", "classcode_page" ],
-      [ "options", "classoptions.html", "classoptions" ],
       [ "processPage", "classprocess_page.html", "classprocess_page" ],
-      [ "standardPage", "classstandard_page.html", "classstandard_page" ]
+      [ "standardPage", "classstandard_page.html", "classstandard_page" ],
+      [ "codePage", "classcode_page.html", "classcode_page" ],
+      [ "options", "classoptions.html", "classoptions" ]
     ] ],
     [ "run.cpp", "run_8cpp.html", null ],
     [ "sommaire.h", "sommaire_8h.html", null ],

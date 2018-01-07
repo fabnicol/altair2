@@ -46,84 +46,97 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 597;
+var viewWidth = 707;
 var viewHeight = 28;
-var sectionId = 'dynsection-3';
+var sectionId = 'dynsection-5';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>extraire_lignes</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-24 593,-24 593,4 -4,4"/>
-<!-- Node8 -->
-<g id="node1" class="node"><title>Node8</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-24 703,-24 703,4 -4,4"/>
+<!-- Node17 -->
+<g id="node1" class="node"><title>Node17</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-19.5 80,-19.5 80,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="40" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">extraire_lignes</text>
 </g>
-<!-- Node9 -->
-<g id="node2" class="node"><title>Node9</title>
+<!-- Node18 -->
+<g id="node2" class="node"><title>Node18</title>
 <g id="a_node2"><a xlink:href="recherche_8cpp.html#a7c170acf1897b8bcf6e41e3853db1ae0" target="_top" xlink:title="recherche">
 <polygon fill="white" stroke="black" points="116,-0.5 116,-19.5 175,-19.5 175,-0.5 116,-0.5"/>
 <text text-anchor="middle" x="145.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">recherche</text>
 </a>
 </g>
 </g>
-<!-- Node8&#45;&gt;Node9 -->
-<g id="edge1" class="edge"><title>Node8&#45;&gt;Node9</title>
+<!-- Node17&#45;&gt;Node18 -->
+<g id="edge1" class="edge"><title>Node17&#45;&gt;Node18</title>
 <path fill="none" stroke="midnightblue" d="M90.3398,-10C99.1262,-10 108.005,-10 115.961,-10"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="90.1289,-6.5001 80.1289,-10 90.1289,-13.5001 90.1289,-6.5001"/>
 </g>
-<!-- Node10 -->
-<g id="node3" class="node"><title>Node10</title>
-<g id="a_node3"><a xlink:href="recherche_8h.html#a8eb57967b0fcb6142a1a81c75237e49c" target="_top" xlink:title="Crée le répertoire d&#39;exportation d&#39;un bulletin de paye donné pour un matricule, un mois et une année ...">
+<!-- Node19 -->
+<g id="node3" class="node"><title>Node19</title>
+<g id="a_node3"><a xlink:href="recherche_8h.html#a36576fe3eaca7bc6525c43d9bed05738" target="_top" xlink:title="Crée le répertoire d&#39;exportation d&#39;un bulletin de paye donné pour un matricule, un mois et une année ...">
 <polygon fill="white" stroke="black" points="211,-0.5 211,-19.5 285,-19.5 285,-0.5 211,-0.5"/>
 <text text-anchor="middle" x="248" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">bulletin_paye</text>
 </a>
 </g>
 </g>
-<!-- Node9&#45;&gt;Node10 -->
-<g id="edge2" class="edge"><title>Node9&#45;&gt;Node10</title>
+<!-- Node18&#45;&gt;Node19 -->
+<g id="edge2" class="edge"><title>Node18&#45;&gt;Node19</title>
 <path fill="none" stroke="midnightblue" d="M185.065,-10C193.54,-10 202.484,-10 210.859,-10"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="185.03,-6.5001 175.03,-10 185.03,-13.5001 185.03,-6.5001"/>
 </g>
-<!-- Node11 -->
-<g id="node4" class="node"><title>Node11</title>
-<g id="a_node4"><a xlink:href="recherche_8h.html#ad5938a1013575c56e8e4cad56866314f" target="_top" xlink:title="Lance l&#39;extraction d&#39;un bulletin de paye pour un matricule, un mois et une année donnés. ">
-<polygon fill="white" stroke="black" points="321,-0.5 321,-19.5 385,-19.5 385,-0.5 321,-0.5"/>
-<text text-anchor="middle" x="353" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">scan_mois</text>
+<!-- Node20 -->
+<g id="node4" class="node"><title>Node20</title>
+<g id="a_node4"><a xlink:href="recherche_8cpp.html#a142c86cfc71536c9cfaf6fa9e47a1611" target="_top" xlink:title="__scan_mois">
+<polygon fill="white" stroke="black" points="321,-0.5 321,-19.5 395,-19.5 395,-0.5 321,-0.5"/>
+<text text-anchor="middle" x="358" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">__scan_mois</text>
 </a>
 </g>
 </g>
-<!-- Node10&#45;&gt;Node11 -->
-<g id="edge3" class="edge"><title>Node10&#45;&gt;Node11</title>
-<path fill="none" stroke="midnightblue" d="M295.13,-10C303.873,-10 312.824,-10 320.961,-10"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="295.024,-6.5001 285.024,-10 295.024,-13.5001 295.024,-6.5001"/>
+<!-- Node19&#45;&gt;Node20 -->
+<g id="edge3" class="edge"><title>Node19&#45;&gt;Node20</title>
+<path fill="none" stroke="midnightblue" d="M295.387,-10C303.837,-10 312.541,-10 320.649,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="295.263,-6.5001 285.263,-10 295.263,-13.5001 295.263,-6.5001"/>
 </g>
-<!-- Node12 -->
-<g id="node5" class="node"><title>Node12</title>
-<g id="a_node5"><a xlink:href="lhx_2main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" target="_top" xlink:title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ...">
-<polygon fill="white" stroke="black" points="421,-0.5 421,-19.5 515,-19.5 515,-0.5 421,-0.5"/>
-<text text-anchor="middle" x="468" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">produire_segment</text>
+<!-- Node21 -->
+<g id="node5" class="node"><title>Node21</title>
+<g id="a_node5"><a xlink:href="recherche_8h.html#a713c0327e5f4e9113b4325d7375d5adf" target="_top" xlink:title="Lance l&#39;extraction d&#39;un bulletin de paye pour un matricule, un mois et une année donnés. ">
+<polygon fill="white" stroke="black" points="431,-0.5 431,-19.5 495,-19.5 495,-0.5 431,-0.5"/>
+<text text-anchor="middle" x="463" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">scan_mois</text>
 </a>
 </g>
 </g>
-<!-- Node11&#45;&gt;Node12 -->
-<g id="edge4" class="edge"><title>Node11&#45;&gt;Node12</title>
-<path fill="none" stroke="midnightblue" d="M395.318,-10C403.567,-10 412.283,-10 420.687,-10"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="395.177,-6.5001 385.177,-10 395.177,-13.5001 395.177,-6.5001"/>
+<!-- Node20&#45;&gt;Node21 -->
+<g id="edge4" class="edge"><title>Node20&#45;&gt;Node21</title>
+<path fill="none" stroke="midnightblue" d="M405.13,-10C413.873,-10 422.824,-10 430.961,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="405.024,-6.5001 395.024,-10 405.024,-13.5001 405.024,-6.5001"/>
 </g>
-<!-- Node13 -->
-<g id="node6" class="node"><title>Node13</title>
-<g id="a_node6"><a xlink:href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" target="_top" xlink:title="main">
-<polygon fill="white" stroke="black" points="551,-0.5 551,-19.5 589,-19.5 589,-0.5 551,-0.5"/>
-<text text-anchor="middle" x="570" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">main</text>
+<!-- Node22 -->
+<g id="node6" class="node"><title>Node22</title>
+<g id="a_node6"><a xlink:href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" target="_top" xlink:title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ...">
+<polygon fill="white" stroke="black" points="531,-0.5 531,-19.5 625,-19.5 625,-0.5 531,-0.5"/>
+<text text-anchor="middle" x="578" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">produire_segment</text>
 </a>
 </g>
 </g>
-<!-- Node12&#45;&gt;Node13 -->
-<g id="edge5" class="edge"><title>Node12&#45;&gt;Node13</title>
-<path fill="none" stroke="midnightblue" d="M525.316,-10C534.594,-10 543.577,-10 550.96,-10"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="525.195,-6.5001 515.195,-10 525.195,-13.5001 525.195,-6.5001"/>
+<!-- Node21&#45;&gt;Node22 -->
+<g id="edge5" class="edge"><title>Node21&#45;&gt;Node22</title>
+<path fill="none" stroke="midnightblue" d="M505.318,-10C513.567,-10 522.283,-10 530.687,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="505.177,-6.5001 495.177,-10 505.177,-13.5001 505.177,-6.5001"/>
+</g>
+<!-- Node23 -->
+<g id="node7" class="node"><title>Node23</title>
+<g id="a_node7"><a xlink:href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" target="_top" xlink:title="main">
+<polygon fill="white" stroke="black" points="661,-0.5 661,-19.5 699,-19.5 699,-0.5 661,-0.5"/>
+<text text-anchor="middle" x="680" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">main</text>
+</a>
+</g>
+</g>
+<!-- Node22&#45;&gt;Node23 -->
+<g id="edge6" class="edge"><title>Node22&#45;&gt;Node23</title>
+<path fill="none" stroke="midnightblue" d="M635.316,-10C644.594,-10 653.577,-10 660.96,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="635.195,-6.5001 625.195,-10 635.195,-13.5001 635.195,-6.5001"/>
 </g>
 </g>
 </svg>

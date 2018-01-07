@@ -59,13 +59,13 @@ public:
 
 // Membres données
 
- QVector<QListWidget*> widgetContainer;  ///< Conteneur des widgets listes composant les onglets
- FListWidget *fileListWidget;            ///< fwidget associé à QWidget représentant l'onglet courant
- QString frameHashKey;                   ///< Balise XML correspondant à la classe
- std::vector<QThread*> thread;           ///< Vecteur de fils d'exécution permettant de lance  parseXhlFile sur chaque fichier d'onglet
- int size = 0;                           ///< Nombre totalde fichiers dans  widgetContainer
- QToolButton *importFromMainTree=new QToolButton; ///< Bouton permettant d'importer des fichiers d'une arborescence de fichiers  fileTreeView
- QStringList tabLabels;                  ///< Liste des titres des onglets
+ QVector<QListWidget*> widgetContainer;  ///< Conteneur des widgets listes composant les onglets.
+ FListWidget *fileListWidget;            ///< fwidget associé à QWidget représentant l'onglet courant.
+ QString frameHashKey;                   ///< Balise XML correspondant à la classe.
+ std::vector<QThread*> thread;           ///< Vecteur de fils d'exécution permettant de lance  parseXhlFile sur chaque fichier d'onglet.
+ int size = 0;                           ///< Nombre totalde fichiers dans  widgetContainer.
+ QToolButton *importFromMainTree=new QToolButton; ///< Bouton permettant d'importer des fichiers d'une arborescence de fichiers  fileTreeView.
+ QStringList tabLabels;                  ///< Liste des titres des onglets.
 # ifndef USE_RIGHT_CLICK
 
      QToolButton  *retrieveItemButton=new QToolButton,
@@ -73,16 +73,16 @@ public:
                   *nppDisplayButton =  new QToolButton;
 # endif
 
- QTabWidget *mainTabWidget;                      ///< Onglet central matrice
- QAbstractItemView *fileTreeView;                ///< Arborescence de fichiers pour importation par  importFromMainTree
- QFileSystemModel *model = new QFileSystemModel; ///< Modèle de fichiers sous-jacent à  fileTreeView
- QGroupBox *controlButtonBox = new QGroupBox;    ///< Boîte permettant de regrouper divers boutons de contrôle (haut/bas etc.)
+ QTabWidget *mainTabWidget;                      ///< Onglet central matrice.
+ QAbstractItemView *fileTreeView;                ///< Arborescence de fichiers pour importation par  importFromMainTree.
+ QFileSystemModel *model = new QFileSystemModel; ///< Modèle de fichiers sous-jacent à  fileTreeView.
+ QGroupBox *controlButtonBox = new QGroupBox;    ///< Boîte permettant de regrouper divers boutons de contrôle (haut/bas etc.).
  bool use_threads = false;                       ///< Par défaut, les fils d'exécution ne seront pas utilisés. Seront activés en cas d'input disque optique.
 
  // Méthodes
 
- /// Récupère les titres d'onglet
- /// \return Liste de format \e QStringList des titres d'onglet
+ /// Récupère les titres d'onglet.
+ /// \return Liste de format \e QStringList des titres d'onglet.
 
  QStringList getTabLabels(){
                                 QStringList labels;
@@ -92,40 +92,40 @@ public:
                                 return labels;
                             }
 
- /// Récupère la taille courante (0-based) du conteneur  widgetContainer
- /// Cette taille doit en principe être alignée avec le nombre d'onglets en présence
+ /// Récupère la taille courante (0-based) du conteneur  widgetContainer.
+ /// Cette taille doit en principe être alignée avec le nombre d'onglets en présence.
  /// \return Taille du conteneur moins 1.
 
  int getRank() {return widgetContainer.size()-1;}
 
  /// Accesseur en lecture de  frameHashKey, balise XML du fwidget.
- /// \return Valeur de  frameHashKey
+ /// \return Valeur de  frameHashKey?
 
  const QString &getHashKey() const {return frameHashKey;}
 
- /// Accesseur en lecture de  widgetContainer
- /// \return Valeur de  widgetContainer
+ /// Accesseur en lecture de  widgetContainer.
+ /// \return Valeur de  widgetContainer.
 
  QVector<QListWidget*>  getWidgetContainer() {return widgetContainer;}
 
- /// Accesseur en lecture du nombre d'éléments (nombre d'onglets) du vecteur  widgetContainer
- /// \return Valeur de la méthode \e size() pour  widgetContainer
+ /// Accesseur en lecture du nombre d'éléments (nombre d'onglets) du vecteur  widgetContainer.
+ /// \return Valeur de la méthode \e size() pour  widgetContainer.
 
  int getWidgetContainerCount() {return widgetContainer.size();}
 
- /// Accesseur en lecture du nombre d'items (fichiers) dans l'élément (onglet) de rang donné de  widgetContainer
- /// \param g Rang (0-based) de l'élément (onglet) du vecteur  widgetContainer
- /// \return Valeur de la méthode count() pour  widgetContainer[g]
+ /// Accesseur en lecture du nombre d'items (fichiers) dans l'élément (onglet) de rang donné de  widgetContainer.
+ /// \param g Rang (0-based) de l'élément (onglet) du vecteur  widgetContainer.
+ /// \return Valeur de la méthode count() pour  widgetContainer[g].
 
  int getWidgetContainerCount(int g) {return widgetContainer.at(g)->count();}
 
- /// Accesseur en lecture d'un élément de rang donné du vecteur widgetContainer
- /// \param rank Rang (0-based) de l'élément du vecteur
+ /// Accesseur en lecture d'un élément de rang donné du vecteur widgetContainer.
+ /// \param rank Rang (0-based) de l'élément du vecteur.
  /// \return Si rank est inférieur à la taille du vecteur, valeur de l'élément de rang rank du vecteur widgetContainer, sinon \e nullptr.
 
  QListWidget*  getWidgetContainer(int rank) {if (rank < widgetContainer.count()) return widgetContainer[rank]; else return nullptr;}
 
- /// Accesseur en lecture du rang (index) de l'onglet courant (0-based)
+ /// Accesseur en lecture du rang (index) de l'onglet courant (0-based).
  /// \return Valeur de la méthode \e currentIndex() pour  mainTabWidget
 
  int getCurrentIndex() { return this->mainTabWidget->currentIndex(); }
@@ -135,33 +135,51 @@ public:
 
  QListWidget*  getCurrentWidget() { return widgetContainer.at(getCurrentIndex());}
 
- /// Accesseur en lecture de /
- /// \return Valeur de
+ /// Accesseur en lecture du titre de l'onglet courant.
+ /// \return Valeur du titre.
 
  QString  getCurrentLabel() { return this->mainTabWidget->tabText(getCurrentIndex());}
 
- /// Accesseur en lecture de /
- /// \return Valeur de
+ /// Accesseur en lecture du titre de l'onglet d'index donné.
+ /// \return Valeur du titre.
 
  QString  getLabel(int index) { return this->mainTabWidget->tabText(index);}
 
- /// Accesseur en lecture de /
- /// \return Valeur de
+ /// Accesseur en lecture de controlButtonBox.
+ /// \return Valeur de controlButtonBox.
 
  QGroupBox* getControlButtonBox() { return controlButtonBox;}
 
- void setControlButtonBoxVisible(bool x) {controlButtonBox->setVisible(x);}
-
- /// Accesseur en lecture de /
- /// \return Valeur de
+ /// Accesseur en lecture de la ligne courante
+ /// \return Valeur de l'index (\em 0-based) de la ligne courante.
  int getCurrentRow() { return getCurrentWidget()->currentRow(); }
 
- 
+ /// Assigne le séparateur qui permet de passer d'une liste d'items (chemins de fichiers) à une ligne de commande.
+ /// \param sep Séparateur (blanc en l'occurrence).
+
  void setSeparator(QStringList sep) { fileListWidget->separator[0]=sep[0]; fileListWidget->separator[1]=sep[1];}
  
+ /// Assigne les titres des onglets de l'onglet central
+ /// \param tabLabels Liste de chaînes de caractères.
+
  void setTabLabels(QStringList& tabLabels) { fileListWidget->setTabLabels(tabLabels);}
 
-FListFrame(QAbstractItemView* tree, short import_type,
+ /// Constructeur
+ /// \param tree
+ /// \param import_type,
+ /// \param QString &hashKey,
+ /// \param QStringList &description,
+ /// \param QString &command_line,
+ /// \param cli_type,
+ /// \param QStringList &separator,
+ /// \param QStringList &xml_tags,
+ /// \param QStringList &tabLabels,
+ /// \param mainTabWidgetRank,
+ /// \param terms
+ /// \param translation
+
+FListFrame(QAbstractItemView* tree,
+           short import_type,
            const QString &hashKey,
            const QStringList &description,
            const QString &command_line,
@@ -173,9 +191,16 @@ FListFrame(QAbstractItemView* tree, short import_type,
            QStringList* terms = nullptr,
            QStringList* translation = nullptr);
 
+/// Initialise le conteneur de composants widgetContainer à blanc.
 
 void initializeWidgetContainer() {   widgetContainer =  QVector<QListWidget*>() << new QListWidget; }
+
+/// Initialise le conteneur de composants widgetContainer à partir d'un composant de liste (pointeur vers QListWidget)
+/// \param listWidget Initialise widgetContainer.
 void initializeWidgetContainer(QListWidget* listWidget) {   widgetContainer =  QVector<QListWidget*>() << listWidget; }
+
+/// Ajoute les fichiers d'une portion d'arborescence de fichiers au composant courant de l'onglet central.
+/// \param QStringList liste des fichiers sélectionnés dans l'arborescence.
 
 void addParsedTreeToListWidget(const QStringList &strL);
 
