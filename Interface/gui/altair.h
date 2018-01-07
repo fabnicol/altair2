@@ -426,6 +426,12 @@ private:
     /// \sa  Altair::runWorkerDistributed, classe Hash
 
     void runWorker (const QString& = "");
+
+signals:
+
+    /// Ajout d'une ligne de saisie des matricules au dialogue \em Extraction des bulletins (classe MatriculeInput).
+
+    void ajouterLigneMatricules();
 };
 
 

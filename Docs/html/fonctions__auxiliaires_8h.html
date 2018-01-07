@@ -90,10 +90,12 @@ Ce graphe montre quels fichiers incluent directement ou indirectement ce fichier
 <map name="lhx_2fonctions__auxiliaires_8hdep" id="lhx_2fonctions__auxiliaires_8hdep">
 <area shape="rect" id="node2" href="fonctions__auxiliaires_8cpp.html" title="Ce fichier contient le code relatif aux fonctions auxiliaires utilisées par les fonctions principales..." alt="" coords="5,80,192,107"/>
 <area shape="rect" id="node3" href="ligne__paye_8h.html" title="Définit deux fonctions auxiliaires utilisées dans lignes_paye.cpp. " alt="" coords="217,80,333,107"/>
-<area shape="rect" id="node5" href="validator_8cpp.html" title="Ce fichier contient le code relatif au décoidage de la partie &quot;bulletins de paye&quot; (variables communes..." alt="" coords="312,155,429,181"/>
-<area shape="rect" id="node6" href="lhx_2main_8cpp.html" title="Ce fichier contient le code relatif à l&#39;analyse de la ligne de commande, au découpage de la liste des..." alt="" coords="408,80,504,107"/>
-<area shape="rect" id="node7" href="table_8cpp.html" title="Ce fichier contient l&#39;ensemble du code permettant de générer les fichiers des bulletins de paye et li..." alt="" coords="528,80,624,107"/>
-<area shape="rect" id="node4" href="ligne__paye_8cpp.html" title="Ce fichier contient le code relatif au traitement individuel des lignes de paye. " alt="" coords="157,155,288,181"/>
+<area shape="rect" id="node5" href="validator_8cpp.html" title="Ce fichier contient le code relatif au décoidage de la partie &quot;bulletins de paye&quot; (variables communes..." alt="" coords="272,155,389,181"/>
+<area shape="rect" id="node6" href="lhx_2main_8cpp.html" title="Ce fichier contient le code relatif à l&#39;analyse de la ligne de commande, au découpage de la liste des..." alt="" coords="413,155,509,181"/>
+<area shape="rect" id="node7" href="recherche_8h.html" title="lhx/recherche.h" alt="" coords="459,80,570,107"/>
+<area shape="rect" id="node9" href="table_8cpp.html" title="Ce fichier contient l&#39;ensemble du code permettant de générer les fichiers des bulletins de paye et li..." alt="" coords="595,80,691,107"/>
+<area shape="rect" id="node4" href="ligne__paye_8cpp.html" title="Ce fichier contient le code relatif au traitement individuel des lignes de paye. " alt="" coords="117,155,248,181"/>
+<area shape="rect" id="node8" href="recherche_8cpp.html" title="Ce fichier contient le code permettant de rechercher en mémoire, après décodage des bases XML..." alt="" coords="533,155,659,181"/>
 </map>
 </div>
 </div>
@@ -123,23 +125,23 @@ Fonctions</h2></td></tr>
 <tr class="memitem:a6a6eceeeb38bc24fd24e0acb226c1304"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonctions__auxiliaires_8h.html#a6a6eceeeb38bc24fd24e0acb226c1304">calculer_memoire_requise</a> (<a class="el" href="structinfo__t.html">info_t</a> &amp;info)</td></tr>
 <tr class="memdesc:a6a6eceeeb38bc24fd24e0acb226c1304"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcule la mémoire requise pour l'exécution du programme.  <a href="#a6a6eceeeb38bc24fd24e0acb226c1304">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a6a6eceeeb38bc24fd24e0acb226c1304"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a042e1e36b178756cfb3a5771debbcb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonctions__auxiliaires_8h.html#a7a042e1e36b178756cfb3a5771debbcb">ouvrir_fichier_base</a> (const <a class="el" href="structinfo__t.html">info_t</a> &amp;info, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742">BaseType</a> type, ofstream &amp;base, int segment)</td></tr>
-<tr class="memdesc:a7a042e1e36b178756cfb3a5771debbcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d'exécution donné  <a href="#a7a042e1e36b178756cfb3a5771debbcb">Plus de détails...</a><br /></td></tr>
-<tr class="separator:a7a042e1e36b178756cfb3a5771debbcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a431b684508f6cb26e36343e8a5383de1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonctions__auxiliaires_8h.html#a431b684508f6cb26e36343e8a5383de1">ouvrir_fichier_base0</a> (const <a class="el" href="structinfo__t.html">info_t</a> &amp;info, <a class="el" href="validator_8h.html#aa54f10b1a6207ad89b081fc06495cdc6">BaseCategorie</a> cat, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742">BaseType</a> type, ofstream &amp;base, int segment)</td></tr>
-<tr class="memdesc:a431b684508f6cb26e36343e8a5383de1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d'exécution donné  <a href="#a431b684508f6cb26e36343e8a5383de1">Plus de détails...</a><br /></td></tr>
-<tr class="separator:a431b684508f6cb26e36343e8a5383de1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d4a78ef3abcba5f8462b78f5c135650"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonctions__auxiliaires_8h.html#a9d4a78ef3abcba5f8462b78f5c135650">ouvrir_fichier_base</a> (const <a class="el" href="structinfo__t.html">info_t</a> &amp;info, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742">BaseType</a> type, ofstream &amp;base, int segment, uint32_t agent=0)</td></tr>
+<tr class="memdesc:a9d4a78ef3abcba5f8462b78f5c135650"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d'exécution donné.  <a href="#a9d4a78ef3abcba5f8462b78f5c135650">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a9d4a78ef3abcba5f8462b78f5c135650"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa23b720b129a327fe2cb677ab2c90a31"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonctions__auxiliaires_8h.html#aa23b720b129a327fe2cb677ab2c90a31">ouvrir_fichier_base0</a> (const <a class="el" href="structinfo__t.html">info_t</a> &amp;info, <a class="el" href="validator_8h.html#aa54f10b1a6207ad89b081fc06495cdc6">BaseCategorie</a> cat, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742">BaseType</a> type, ofstream &amp;base, int segment, uint32_t agent=0)</td></tr>
+<tr class="memdesc:aa23b720b129a327fe2cb677ab2c90a31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d'exécution donné.  <a href="#aa23b720b129a327fe2cb677ab2c90a31">Plus de détails...</a><br /></td></tr>
+<tr class="separator:aa23b720b129a327fe2cb677ab2c90a31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e2253f583a3358618441c2cba35742b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonctions__auxiliaires_8h.html#a5e2253f583a3358618441c2cba35742b">ecrire_entete_bulletins</a> (const <a class="el" href="structinfo__t.html">info_t</a> &amp;info, ofstream &amp;base)</td></tr>
 <tr class="memdesc:a5e2253f583a3358618441c2cba35742b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit les libellés des colonnes des bulletins.  <a href="#a5e2253f583a3358618441c2cba35742b">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a5e2253f583a3358618441c2cba35742b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab0fb51c8a9c44146469c1f0686870f77"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonctions__auxiliaires_8h.html#ab0fb51c8a9c44146469c1f0686870f77">ecrire_entete</a> (const <a class="el" href="structinfo__t.html">info_t</a> &amp;info, ofstream &amp;base)</td></tr>
-<tr class="memdesc:ab0fb51c8a9c44146469c1f0686870f77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit les libellés des colonnes de la table (bulletins + lignes de paye)  <a href="#ab0fb51c8a9c44146469c1f0686870f77">Plus de détails...</a><br /></td></tr>
+<tr class="memdesc:ab0fb51c8a9c44146469c1f0686870f77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit les libellés des colonnes de la table (bulletins + lignes de paye).  <a href="#ab0fb51c8a9c44146469c1f0686870f77">Plus de détails...</a><br /></td></tr>
 <tr class="separator:ab0fb51c8a9c44146469c1f0686870f77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca69dd2811b53b087f39810c114e7dde"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonctions__auxiliaires_8h.html#aca69dd2811b53b087f39810c114e7dde">ecrire_entete0</a> (const <a class="el" href="structinfo__t.html">info_t</a> &amp;info, ofstream &amp;base, const char *entete[], int N)</td></tr>
 <tr class="memdesc:aca69dd2811b53b087f39810c114e7dde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit les libellés des colonnes d'une base quelconque avec un tableau de libellés de taille donnée.  <a href="#aca69dd2811b53b087f39810c114e7dde">Plus de détails...</a><br /></td></tr>
 <tr class="separator:aca69dd2811b53b087f39810c114e7dde"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f11a266115e98b2536637a1ad8b05f7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonctions__auxiliaires_8h.html#a0f11a266115e98b2536637a1ad8b05f7">ouvrir_fichier_bulletins</a> (const <a class="el" href="structinfo__t.html">info_t</a> &amp;info, ofstream &amp;base, int segment)</td></tr>
-<tr class="memdesc:a0f11a266115e98b2536637a1ad8b05f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ouvre une base de données de bulletins en écriture pour un segment d'exécution donné  <a href="#a0f11a266115e98b2536637a1ad8b05f7">Plus de détails...</a><br /></td></tr>
+<tr class="memdesc:a0f11a266115e98b2536637a1ad8b05f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ouvre une base de données de bulletins en écriture pour un segment d'exécution donné.  <a href="#a0f11a266115e98b2536637a1ad8b05f7">Plus de détails...</a><br /></td></tr>
 <tr class="separator:a0f11a266115e98b2536637a1ad8b05f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4c818d49539c9dec49c5cf3144b8f53"><td class="memItemLeft" align="right" valign="top">off_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonctions__auxiliaires_8h.html#aa4c818d49539c9dec49c5cf3144b8f53">taille_fichier</a> (const string &amp;filename)</td></tr>
 <tr class="memdesc:aa4c818d49539c9dec49c5cf3144b8f53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Taille du fichier en octets.  <a href="#aa4c818d49539c9dec49c5cf3144b8f53">Plus de détails...</a><br /></td></tr>
@@ -261,7 +263,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Renvoie</dt><dd>structure de type <a class="el" href="structerror_line__t.html" title="Structure encapsulant les messages d&#39;erreurs sur décodage XML. ">errorLine_t</a> contenant la ligne du fichier où apparaît l'erreur ainsi qu'un message comprenant le fichier et le nom de la balise, s'il est analysable. Sinon affiche un message indiquant son absence et retourne pour le numéro de ligne. Retourne NA pour un noeud null. </dd></dl>
 
-<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00192">192</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00212">212</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
@@ -318,7 +320,7 @@ Voici le graphe des appelants de cette fonction :</div>
   </dd>
 </dl>
 
-<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00621">621</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00652">652</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
@@ -350,13 +352,13 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Calcule la mémoire requise pour l'exécution du programme. </p>
 <p>Met les fichiers XHL en mémoire dans info.threads-&gt;in_memory_file. </p><dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">info</td><td>Structure de type <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données formatées </td></tr>
+    <tr><td class="paramname">info</td><td>Structure de type <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données formatées. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Renvoie</dt><dd>Retourne errno. </dd></dl>
 
-<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00685">685</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00716">716</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
@@ -404,11 +406,11 @@ Voici le graphe des appelants de cette fonction :</div>
       </table>
 </div><div class="memdoc">
 
-<p>Ecrit les libellés des colonnes de la table (bulletins + lignes de paye) </p>
+<p>Ecrit les libellés des colonnes de la table (bulletins + lignes de paye). </p>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données formatées </td></tr>
-    <tr><td class="paramname">base</td><td>Référence vers la base à générer de type ofstream </td></tr>
+    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données formatées. </td></tr>
+    <tr><td class="paramname">base</td><td>Référence vers la base à générer de type ofstream. </td></tr>
   </table>
   </dd>
 </dl>
@@ -456,15 +458,15 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Ecrit les libellés des colonnes d'une base quelconque avec un tableau de libellés de taille donnée. </p>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données formatées </td></tr>
-    <tr><td class="paramname">base</td><td>Référence vers la base à générer de type ofstream </td></tr>
-    <tr><td class="paramname">entete</td><td>Tableau des libellés de colonne </td></tr>
-    <tr><td class="paramname">N</td><td>Taille de ce tableau </td></tr>
+    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données formatées. </td></tr>
+    <tr><td class="paramname">base</td><td>Référence vers la base à générer de type ofstream. </td></tr>
+    <tr><td class="paramname">entete</td><td>Tableau des libellés de colonne. </td></tr>
+    <tr><td class="paramname">N</td><td>Taille de ce tableau. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00401">401</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00421">421</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
@@ -472,9 +474,9 @@ Voici le graphe des appelants de cette fonction :</div>
 <map name="fonctions__auxiliaires_8h_aca69dd2811b53b087f39810c114e7dde_icgraph" id="fonctions__auxiliaires_8h_aca69dd2811b53b087f39810c114e7dde_icgraph">
 <area shape="rect" id="node2" href="fonctions__auxiliaires_8h.html#a5e2253f583a3358618441c2cba35742b" title="Ecrit les libellés des colonnes des bulletins. " alt="" coords="157,5,309,32"/>
 <area shape="rect" id="node9" href="fonctions__auxiliaires_8cpp.html#aff3c87803f64d34f00a30ef30bb74a9b" title="ecrire_entete_table" alt="" coords="167,56,299,83"/>
-<area shape="rect" id="node3" href="fonctions__auxiliaires_8h.html#a431b684508f6cb26e36343e8a5383de1" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="357,31,496,57"/>
-<area shape="rect" id="node4" href="fonctions__auxiliaires_8h.html#a0f11a266115e98b2536637a1ad8b05f7" title="Ouvre une base de données de bulletins en écriture pour un segment d&#39;exécution donné ..." alt="" coords="544,5,695,32"/>
-<area shape="rect" id="node8" href="fonctions__auxiliaires_8h.html#a7a042e1e36b178756cfb3a5771debbcb" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="554,56,685,83"/>
+<area shape="rect" id="node3" href="fonctions__auxiliaires_8h.html#aa23b720b129a327fe2cb677ab2c90a31" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="357,31,496,57"/>
+<area shape="rect" id="node4" href="fonctions__auxiliaires_8h.html#a0f11a266115e98b2536637a1ad8b05f7" title="Ouvre une base de données de bulletins en écriture pour un segment d&#39;exécution donné. " alt="" coords="544,5,695,32"/>
+<area shape="rect" id="node8" href="fonctions__auxiliaires_8h.html#a9d4a78ef3abcba5f8462b78f5c135650" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="554,56,685,83"/>
 <area shape="rect" id="node5" href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="Lance l&#39;écriture des fichiers Bulletins.paie.csv et Table....csv pour un segment des données de paye..." alt="" coords="743,31,853,57"/>
 <area shape="rect" id="node6" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="901,31,1027,57"/>
 <area shape="rect" id="node7" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1075,31,1125,57"/>
@@ -512,13 +514,13 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Ecrit les libellés des colonnes des bulletins. </p>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données formatées </td></tr>
-    <tr><td class="paramname">base</td><td>Référence vers la base à générer de type ofstream </td></tr>
+    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données formatées. </td></tr>
+    <tr><td class="paramname">base</td><td>Référence vers la base à générer de type ofstream. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00391">391</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00411">411</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
@@ -532,9 +534,9 @@ Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="fonctions__auxiliaires_8h_a5e2253f583a3358618441c2cba35742b_icgraph.png" border="0" usemap="#fonctions__auxiliaires_8h_a5e2253f583a3358618441c2cba35742b_icgraph" alt=""/></div>
 <map name="fonctions__auxiliaires_8h_a5e2253f583a3358618441c2cba35742b_icgraph" id="fonctions__auxiliaires_8h_a5e2253f583a3358618441c2cba35742b_icgraph">
-<area shape="rect" id="node2" href="fonctions__auxiliaires_8h.html#a431b684508f6cb26e36343e8a5383de1" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="205,31,344,57"/>
-<area shape="rect" id="node3" href="fonctions__auxiliaires_8h.html#a0f11a266115e98b2536637a1ad8b05f7" title="Ouvre une base de données de bulletins en écriture pour un segment d&#39;exécution donné ..." alt="" coords="392,5,543,32"/>
-<area shape="rect" id="node7" href="fonctions__auxiliaires_8h.html#a7a042e1e36b178756cfb3a5771debbcb" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="402,56,533,83"/>
+<area shape="rect" id="node2" href="fonctions__auxiliaires_8h.html#aa23b720b129a327fe2cb677ab2c90a31" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="205,31,344,57"/>
+<area shape="rect" id="node3" href="fonctions__auxiliaires_8h.html#a0f11a266115e98b2536637a1ad8b05f7" title="Ouvre une base de données de bulletins en écriture pour un segment d&#39;exécution donné. " alt="" coords="392,5,543,32"/>
+<area shape="rect" id="node7" href="fonctions__auxiliaires_8h.html#a9d4a78ef3abcba5f8462b78f5c135650" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="402,56,533,83"/>
 <area shape="rect" id="node4" href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="Lance l&#39;écriture des fichiers Bulletins.paie.csv et Table....csv pour un segment des données de paye..." alt="" coords="591,31,701,57"/>
 <area shape="rect" id="node5" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="749,31,875,57"/>
 <area shape="rect" id="node6" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="923,31,973,57"/>
@@ -588,7 +590,7 @@ Voici le graphe des appelants de cette fonction :</div>
 </p><pre> Année, Mois, Matricule, Rang global, Rang dans le fichier, Analseur C, Xml </pre><p> et la différence entre l'analyseur C et Xml. <br />
 Sépare les colonnes par la chaine " | ". </p><dl class="section note"><dt>Note</dt><dd>Le chemin du journal est donné par <a class="el" href="structinfo__t.html#a31c9b93172bd74621940f62ff64c3168" title="Chemin du log. ">info_t::chemin_log</a> </dd></dl>
 
-<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00334">334</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00354">354</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
@@ -621,7 +623,7 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Retourne la <em>current</em> resident set size (consommation de mémoire physique) mesurée en octets, ou zéro si la valeur ne peut pas être déterminée par ce système d'exploitation. </p>
 <p>Code adapté de source externe. Voir site internet indiqué pour la documentation Author: David Robert Nadeau Site: <a href="http://NadeauSoftware.com/">http://NadeauSoftware.com/</a> License: Creative Commons Attribution 3.0 Unported License <a href="http://creativecommons.org/licenses/by/3.0/deed.en_US">http://creativecommons.org/licenses/by/3.0/deed.en_US</a> </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00302">302</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00322">322</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
 
 </div>
 </div>
@@ -672,7 +674,7 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Mémoire libre du système. </p>
 <dl class="section return"><dt>Renvoie</dt><dd>Mémoire libre du système en octets au format size_t </dd></dl>
 
-<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00273">273</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00293">293</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
@@ -717,9 +719,9 @@ Voici le graphe des appelants de cette fonction :</div>
 </div><div class="memdoc">
 
 <p>Mémoire totale du système. </p>
-<dl class="section return"><dt>Renvoie</dt><dd>Mémoire totale en octets au format size_t </dd></dl>
+<dl class="section return"><dt>Renvoie</dt><dd>Mémoire totale en octets au format size_t. </dd></dl>
 
-<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00258">258</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00278">278</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
@@ -746,7 +748,7 @@ Voici le graphe des appelants de cette fonction :</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00075">75</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00078">78</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
@@ -795,14 +797,14 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Convertit un argument numérique donné en chaîne de caractères. </p>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">argc</td><td>Nombre d'arguments de la ligne de commande restante </td></tr>
-    <tr><td class="paramname">c_str</td><td>Pointeur vers une chaîne de caractères contenant un nombre </td></tr>
+    <tr><td class="paramname">argc</td><td>Nombre d'arguments de la ligne de commande restante. </td></tr>
+    <tr><td class="paramname">c_str</td><td>Pointeur vers une chaîne de caractères contenant un nombre. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Renvoie</dt><dd>Entier positif de type 32 bits ou -1 si erreur. </dd></dl>
 
-<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00579">579</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00610">610</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
@@ -814,8 +816,8 @@ Voici le graphe des appelants de cette fonction :</div>
 
 </div>
 </div>
-<a id="a7a042e1e36b178756cfb3a5771debbcb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a042e1e36b178756cfb3a5771debbcb">&#9670;&nbsp;</a></span>ouvrir_fichier_base()</h2>
+<a id="a9d4a78ef3abcba5f8462b78f5c135650"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d4a78ef3abcba5f8462b78f5c135650">&#9670;&nbsp;</a></span>ouvrir_fichier_base()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -842,7 +844,13 @@ Voici le graphe des appelants de cette fonction :</div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>segment</em>&#160;</td>
+          <td class="paramname"><em>segment</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em> = <code>0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -852,24 +860,25 @@ Voici le graphe des appelants de cette fonction :</div>
       </table>
 </div><div class="memdoc">
 
-<p>Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d'exécution donné </p>
+<p>Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d'exécution donné. </p>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données formatées </td></tr>
-    <tr><td class="paramname">type</td><td>Type d'exportation de base (base monolithique, par indemnité, par année...) </td></tr>
-    <tr><td class="paramname">base</td><td>Référence vers la base à générer de type <em>ofstream</em> </td></tr>
-    <tr><td class="paramname">segment</td><td>segment d'exécution </td></tr>
+    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données formatées. </td></tr>
+    <tr><td class="paramname">type</td><td>Type d'exportation de base (base monolithique, par indemnité, par année...). </td></tr>
+    <tr><td class="paramname">base</td><td>Référence vers la base à générer de type <em>ofstream</em>. </td></tr>
+    <tr><td class="paramname">segment</td><td>segment d'exécution. </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent dans la table (pour le fil et le segment donné). </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00445">445</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00465">465</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
-<div class="center"><img src="fonctions__auxiliaires_8h_a7a042e1e36b178756cfb3a5771debbcb_cgraph.png" border="0" usemap="#fonctions__auxiliaires_8h_a7a042e1e36b178756cfb3a5771debbcb_cgraph" alt=""/></div>
-<map name="fonctions__auxiliaires_8h_a7a042e1e36b178756cfb3a5771debbcb_cgraph" id="fonctions__auxiliaires_8h_a7a042e1e36b178756cfb3a5771debbcb_cgraph">
-<area shape="rect" id="node2" href="fonctions__auxiliaires_8cpp.html#abe7e6d7a0d5d4f61a075b180408fb042" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="184,56,323,83"/>
+<div class="center"><img src="fonctions__auxiliaires_8h_a9d4a78ef3abcba5f8462b78f5c135650_cgraph.png" border="0" usemap="#fonctions__auxiliaires_8h_a9d4a78ef3abcba5f8462b78f5c135650_cgraph" alt=""/></div>
+<map name="fonctions__auxiliaires_8h_a9d4a78ef3abcba5f8462b78f5c135650_cgraph" id="fonctions__auxiliaires_8h_a9d4a78ef3abcba5f8462b78f5c135650_cgraph">
+<area shape="rect" id="node2" href="fonctions__auxiliaires_8cpp.html#aeafedd27b99b9ca6eecd49ff027b3671" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="184,56,323,83"/>
 <area shape="rect" id="node3" href="fonctions__auxiliaires_8cpp.html#aa4c818d49539c9dec49c5cf3144b8f53" title="Taille du fichier en octets. " alt="" coords="401,5,492,32"/>
 <area shape="rect" id="node4" href="fonctions__auxiliaires_8cpp.html#aff3c87803f64d34f00a30ef30bb74a9b" title="ecrire_entete_table" alt="" coords="381,56,513,83"/>
 <area shape="rect" id="node6" href="fonctions__auxiliaires_8cpp.html#a5e2253f583a3358618441c2cba35742b" title="Ecrit les libellés des colonnes des bulletins. " alt="" coords="371,107,523,133"/>
@@ -879,8 +888,8 @@ Voici le graphe d'appel pour cette fonction :</div>
 <div class="dynheader">
 Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
-<div class="center"><img src="fonctions__auxiliaires_8h_a7a042e1e36b178756cfb3a5771debbcb_icgraph.png" border="0" usemap="#fonctions__auxiliaires_8h_a7a042e1e36b178756cfb3a5771debbcb_icgraph" alt=""/></div>
-<map name="fonctions__auxiliaires_8h_a7a042e1e36b178756cfb3a5771debbcb_icgraph" id="fonctions__auxiliaires_8h_a7a042e1e36b178756cfb3a5771debbcb_icgraph">
+<div class="center"><img src="fonctions__auxiliaires_8h_a9d4a78ef3abcba5f8462b78f5c135650_icgraph.png" border="0" usemap="#fonctions__auxiliaires_8h_a9d4a78ef3abcba5f8462b78f5c135650_icgraph" alt=""/></div>
+<map name="fonctions__auxiliaires_8h_a9d4a78ef3abcba5f8462b78f5c135650_icgraph" id="fonctions__auxiliaires_8h_a9d4a78ef3abcba5f8462b78f5c135650_icgraph">
 <area shape="rect" id="node2" href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="Lance l&#39;écriture des fichiers Bulletins.paie.csv et Table....csv pour un segment des données de paye..." alt="" coords="184,5,295,32"/>
 <area shape="rect" id="node3" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="343,5,468,32"/>
 <area shape="rect" id="node4" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="516,5,567,32"/>
@@ -889,8 +898,8 @@ Voici le graphe des appelants de cette fonction :</div>
 
 </div>
 </div>
-<a id="a431b684508f6cb26e36343e8a5383de1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a431b684508f6cb26e36343e8a5383de1">&#9670;&nbsp;</a></span>ouvrir_fichier_base0()</h2>
+<a id="aa23b720b129a327fe2cb677ab2c90a31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa23b720b129a327fe2cb677ab2c90a31">&#9670;&nbsp;</a></span>ouvrir_fichier_base0()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -923,7 +932,13 @@ Voici le graphe des appelants de cette fonction :</div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>segment</em>&#160;</td>
+          <td class="paramname"><em>segment</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em> = <code>0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -933,24 +948,25 @@ Voici le graphe des appelants de cette fonction :</div>
       </table>
 </div><div class="memdoc">
 
-<p>Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d'exécution donné </p>
+<p>Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d'exécution donné. </p>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données formatées </td></tr>
-    <tr><td class="paramname">cat</td><td>Catégorie de base (Bulletins de paye ou Lignes de paye) </td></tr>
-    <tr><td class="paramname">type</td><td>Type d'exportation de base (base monolithique, par indemnité, par année...) </td></tr>
-    <tr><td class="paramname">base</td><td>Référence vers la base à générer de type <em>ofstream</em> </td></tr>
-    <tr><td class="paramname">segment</td><td>segment d'exécution </td></tr>
+    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données formatées. </td></tr>
+    <tr><td class="paramname">cat</td><td>Catégorie de base (Bulletins de paye ou Lignes de paye). </td></tr>
+    <tr><td class="paramname">type</td><td>Type d'exportation de base (base monolithique, par indemnité, par année...). </td></tr>
+    <tr><td class="paramname">base</td><td>Référence vers la base à générer de type <em>ofstream</em>. </td></tr>
+    <tr><td class="paramname">segment</td><td>segment d'exécution. </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent dans la table (pour le fil et le segment donné). </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00451">451</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00471">471</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
-<div class="center"><img src="fonctions__auxiliaires_8h_a431b684508f6cb26e36343e8a5383de1_cgraph.png" border="0" usemap="#fonctions__auxiliaires_8h_a431b684508f6cb26e36343e8a5383de1_cgraph" alt=""/></div>
-<map name="fonctions__auxiliaires_8h_a431b684508f6cb26e36343e8a5383de1_cgraph" id="fonctions__auxiliaires_8h_a431b684508f6cb26e36343e8a5383de1_cgraph">
+<div class="center"><img src="fonctions__auxiliaires_8h_aa23b720b129a327fe2cb677ab2c90a31_cgraph.png" border="0" usemap="#fonctions__auxiliaires_8h_aa23b720b129a327fe2cb677ab2c90a31_cgraph" alt=""/></div>
+<map name="fonctions__auxiliaires_8h_aa23b720b129a327fe2cb677ab2c90a31_cgraph" id="fonctions__auxiliaires_8h_aa23b720b129a327fe2cb677ab2c90a31_cgraph">
 <area shape="rect" id="node2" href="fonctions__auxiliaires_8cpp.html#aa4c818d49539c9dec49c5cf3144b8f53" title="Taille du fichier en octets. " alt="" coords="223,5,313,32"/>
 <area shape="rect" id="node3" href="fonctions__auxiliaires_8cpp.html#aff3c87803f64d34f00a30ef30bb74a9b" title="ecrire_entete_table" alt="" coords="202,56,334,83"/>
 <area shape="rect" id="node5" href="fonctions__auxiliaires_8cpp.html#a5e2253f583a3358618441c2cba35742b" title="Ecrit les libellés des colonnes des bulletins. " alt="" coords="192,107,344,133"/>
@@ -960,10 +976,10 @@ Voici le graphe d'appel pour cette fonction :</div>
 <div class="dynheader">
 Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
-<div class="center"><img src="fonctions__auxiliaires_8h_a431b684508f6cb26e36343e8a5383de1_icgraph.png" border="0" usemap="#fonctions__auxiliaires_8h_a431b684508f6cb26e36343e8a5383de1_icgraph" alt=""/></div>
-<map name="fonctions__auxiliaires_8h_a431b684508f6cb26e36343e8a5383de1_icgraph" id="fonctions__auxiliaires_8h_a431b684508f6cb26e36343e8a5383de1_icgraph">
-<area shape="rect" id="node2" href="fonctions__auxiliaires_8h.html#a0f11a266115e98b2536637a1ad8b05f7" title="Ouvre une base de données de bulletins en écriture pour un segment d&#39;exécution donné ..." alt="" coords="192,5,343,32"/>
-<area shape="rect" id="node6" href="fonctions__auxiliaires_8h.html#a7a042e1e36b178756cfb3a5771debbcb" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="202,56,333,83"/>
+<div class="center"><img src="fonctions__auxiliaires_8h_aa23b720b129a327fe2cb677ab2c90a31_icgraph.png" border="0" usemap="#fonctions__auxiliaires_8h_aa23b720b129a327fe2cb677ab2c90a31_icgraph" alt=""/></div>
+<map name="fonctions__auxiliaires_8h_aa23b720b129a327fe2cb677ab2c90a31_icgraph" id="fonctions__auxiliaires_8h_aa23b720b129a327fe2cb677ab2c90a31_icgraph">
+<area shape="rect" id="node2" href="fonctions__auxiliaires_8h.html#a0f11a266115e98b2536637a1ad8b05f7" title="Ouvre une base de données de bulletins en écriture pour un segment d&#39;exécution donné. " alt="" coords="192,5,343,32"/>
+<area shape="rect" id="node6" href="fonctions__auxiliaires_8h.html#a9d4a78ef3abcba5f8462b78f5c135650" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="202,56,333,83"/>
 <area shape="rect" id="node3" href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="Lance l&#39;écriture des fichiers Bulletins.paie.csv et Table....csv pour un segment des données de paye..." alt="" coords="391,31,501,57"/>
 <area shape="rect" id="node4" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="549,31,675,57"/>
 <area shape="rect" id="node5" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="723,31,773,57"/>
@@ -1004,23 +1020,23 @@ Voici le graphe des appelants de cette fonction :</div>
       </table>
 </div><div class="memdoc">
 
-<p>Ouvre une base de données de bulletins en écriture pour un segment d'exécution donné </p>
+<p>Ouvre une base de données de bulletins en écriture pour un segment d'exécution donné. </p>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données formatées </td></tr>
-    <tr><td class="paramname">base</td><td>Référence vers la base à générer de type ofstream </td></tr>
-    <tr><td class="paramname">segment</td><td>segment d'exécution </td></tr>
+    <tr><td class="paramname">info</td><td>Référence vers une structure de type <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données formatées. </td></tr>
+    <tr><td class="paramname">base</td><td>Référence vers la base à générer de type ofstream. </td></tr>
+    <tr><td class="paramname">segment</td><td>segment d'exécution. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00438">438</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00458">458</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="fonctions__auxiliaires_8h_a0f11a266115e98b2536637a1ad8b05f7_cgraph.png" border="0" usemap="#fonctions__auxiliaires_8h_a0f11a266115e98b2536637a1ad8b05f7_cgraph" alt=""/></div>
 <map name="fonctions__auxiliaires_8h_a0f11a266115e98b2536637a1ad8b05f7_cgraph" id="fonctions__auxiliaires_8h_a0f11a266115e98b2536637a1ad8b05f7_cgraph">
-<area shape="rect" id="node2" href="fonctions__auxiliaires_8cpp.html#abe7e6d7a0d5d4f61a075b180408fb042" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="204,56,343,83"/>
+<area shape="rect" id="node2" href="fonctions__auxiliaires_8cpp.html#aeafedd27b99b9ca6eecd49ff027b3671" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="204,56,343,83"/>
 <area shape="rect" id="node3" href="fonctions__auxiliaires_8cpp.html#aa4c818d49539c9dec49c5cf3144b8f53" title="Taille du fichier en octets. " alt="" coords="421,5,512,32"/>
 <area shape="rect" id="node4" href="fonctions__auxiliaires_8cpp.html#aff3c87803f64d34f00a30ef30bb74a9b" title="ecrire_entete_table" alt="" coords="401,56,533,83"/>
 <area shape="rect" id="node6" href="fonctions__auxiliaires_8cpp.html#a5e2253f583a3358618441c2cba35742b" title="Ecrit les libellés des colonnes des bulletins. " alt="" coords="391,107,543,133"/>
@@ -1078,7 +1094,7 @@ template&lt;typename Allocator  = allocator&lt;char&gt;&gt; </div>
 </dl>
 <dl class="section return"><dt>Renvoie</dt><dd>Chaîne de caractères de type string </dd></dl>
 
-<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00651">651</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00682">682</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
@@ -1122,13 +1138,15 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Scinde une chaîne de caractères en ses composants séparées par un délimiteur. </p>
 <dl class="section return"><dt>Renvoie</dt><dd>vecteur des composants </dd></dl>
 
-<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00177">177</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00197">197</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="fonctions__auxiliaires_8h_add313f0fe82466f4c1c4622307d928bc_icgraph.png" border="0" usemap="#fonctions__auxiliaires_8h_add313f0fe82466f4c1c4622307d928bc_icgraph" alt=""/></div>
 <map name="fonctions__auxiliaires_8h_add313f0fe82466f4c1c4622307d928bc_icgraph" id="fonctions__auxiliaires_8h_add313f0fe82466f4c1c4622307d928bc_icgraph">
-<area shape="rect" id="node2" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="100,5,151,32"/>
+<area shape="rect" id="node2" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="407,5,457,32"/>
+<area shape="rect" id="node3" href="recherche_8h.html#a713c0327e5f4e9113b4325d7375d5adf" title="Lance l&#39;extraction d&#39;un bulletin de paye pour un matricule, un mois et une année donnés. " alt="" coords="100,31,185,57"/>
+<area shape="rect" id="node4" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="233,31,359,57"/>
 </map>
 </div>
 
@@ -1153,22 +1171,22 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Taille du fichier en octets. </p>
 <dl class="params"><dt>Paramètres</dt><dd>
   <table class="params">
-    <tr><td class="paramname">filename</td><td>chemin du fichier </td></tr>
+    <tr><td class="paramname">filename</td><td>chemin du fichier. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Renvoie</dt><dd>Taille en octets au format off_t </dd></dl>
+<dl class="section return"><dt>Renvoie</dt><dd>Taille en octets au format off_t. </dd></dl>
 
-<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00246">246</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00266">266</a> du fichier <a class="el" href="fonctions__auxiliaires_8cpp_source.html">fonctions_auxiliaires.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="fonctions__auxiliaires_8h_aa4c818d49539c9dec49c5cf3144b8f53_icgraph.png" border="0" usemap="#fonctions__auxiliaires_8h_aa4c818d49539c9dec49c5cf3144b8f53_icgraph" alt=""/></div>
 <map name="fonctions__auxiliaires_8h_aa4c818d49539c9dec49c5cf3144b8f53_icgraph" id="fonctions__auxiliaires_8h_aa4c818d49539c9dec49c5cf3144b8f53_icgraph">
-<area shape="rect" id="node2" href="fonctions__auxiliaires_8h.html#a431b684508f6cb26e36343e8a5383de1" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="144,56,283,83"/>
+<area shape="rect" id="node2" href="fonctions__auxiliaires_8h.html#aa23b720b129a327fe2cb677ab2c90a31" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="144,56,283,83"/>
 <area shape="rect" id="node6" href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="861,81,912,108"/>
-<area shape="rect" id="node3" href="fonctions__auxiliaires_8h.html#a0f11a266115e98b2536637a1ad8b05f7" title="Ouvre une base de données de bulletins en écriture pour un segment d&#39;exécution donné ..." alt="" coords="331,5,481,32"/>
-<area shape="rect" id="node7" href="fonctions__auxiliaires_8h.html#a7a042e1e36b178756cfb3a5771debbcb" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="341,56,471,83"/>
+<area shape="rect" id="node3" href="fonctions__auxiliaires_8h.html#a0f11a266115e98b2536637a1ad8b05f7" title="Ouvre une base de données de bulletins en écriture pour un segment d&#39;exécution donné. " alt="" coords="331,5,481,32"/>
+<area shape="rect" id="node7" href="fonctions__auxiliaires_8h.html#a9d4a78ef3abcba5f8462b78f5c135650" title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..." alt="" coords="341,56,471,83"/>
 <area shape="rect" id="node4" href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" title="Lance l&#39;écriture des fichiers Bulletins.paie.csv et Table....csv pour un segment des données de paye..." alt="" coords="529,56,640,83"/>
 <area shape="rect" id="node5" href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="688,56,813,83"/>
 </map>

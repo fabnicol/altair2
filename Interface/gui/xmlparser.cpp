@@ -485,9 +485,7 @@ void Altair::parseProjectFile (QIODevice* file)
 
     Altair::totalSize = 0;
 
-    for (const QString& maintag :
-    {"data", "systeme"
-    })
+    for (const QString& maintag : {"data", "systeme"})
     {
         if (node.toElement().tagName() != maintag) return;
 
@@ -496,6 +494,15 @@ void Altair::parseProjectFile (QIODevice* file)
         while (!subnode.isNull())
             {
                 const QString key   = subnode.toElement().tagName();
+
+                // Lorsque l'on a rajouté des lignes de saisie exceptionnelles au dialogue Extraction des bulletins
+                // émettre un signal pour que l'interface recrée ces lignes qui sinon seront par défaut absentes
+                // A insérer exactement ici : en effet le signal cause un réenregistrement automatique du projet
+                // qui va générer une valeur vide pour la balise <MatriculesX> concernée et un Hash::wrapper[key] vide.
+                // Insérer cette ligne plus loin n'aurait pas d'impact pour le fichier, qui est déjà chargé en mémoire
+                // et sera in fine réécrit avec les bonnes valeurs, mais cela fausserait l'actualisation de la ligne.
+
+                if (key.contains(QRegExp("Matricules[1-9]+"))) emit(ajouterLigneMatricules());
 
                 // Empiler les informations des différentes balises
                 // dans une FStringList et ajouter à la table de hashage Hash::wrapper
@@ -516,7 +523,7 @@ void Altair::parseProjectFile (QIODevice* file)
 
     // Parcourt l'ensemble des widgets fonctionnels  Abstract::abstractWidgetList
     // et actualise leur statut interne en fonction de l'état du projet .alt
-    // en appelant \e setWidgetFromXml
+    // en appelant setWidgetFromXml
 
     assignWidgetValues();
 

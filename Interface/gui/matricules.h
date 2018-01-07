@@ -91,7 +91,15 @@ public:
         }
     }
 
+public slots:
+
+    /// Connecteur qui rajoute une ligne de saisie de matricules au dialogue <b>Exportation des bulletins</b>
+
+    void ajouterLigneMatricules();
+
 private:
+
+    QGridLayout* layout;                 ///< Disposition graphique du dialogue (\em layout).
     QDialogButtonBox *closeButton; ///< Bouton Quitter.
     FLineEdit *matrLineEdit;       ///< Première ligne de matricules.
     FLineEdit *matrLineEdit2;      ///< Deuxième ligne de matricules.
@@ -127,6 +135,7 @@ private:
     bool checkInput (FLineEdit* l);
 
 signals:
+    /// Signal envoyé pour forcer l'enregistrement du projet .alt.
     void updateProject(bool);
 };
 

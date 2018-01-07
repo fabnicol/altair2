@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['importdata',['importData',['../class_altair.html#a750cc65076dd04ac4d34f486b84a7026',1,'Altair']]],
-  ['initialize',['initialize',['../class_altair.html#ab740db3e8d686d765dd8ad3e9f6aa19e',1,'Altair']]],
-  ['isdefaultsaveprojectchecked',['isDefaultSaveProjectChecked',['../class_main_window.html#ab58113ae4ed9a73ec3e3e5f83c98dfcc',1,'MainWindow']]]
+  ['help',['help',['../fonctions__auxiliaires_8cpp.html#a2dff91c98bf5c4003e4d7b9b708b1ff0',1,'help():&#160;fonctions_auxiliaires.cpp'],['../fonctions__auxiliaires_8h.html#a2dff91c98bf5c4003e4d7b9b708b1ff0',1,'help():&#160;fonctions_auxiliaires.cpp']]],
+  ['highlightblock',['highlightBlock',['../class_highlighter.html#ad07c7fd55d2ce2c675bca607b9370488',1,'Highlighter']]],
+  ['highlighter',['Highlighter',['../class_highlighter.html#af9fa54a58a9365e91e5f8eccf22f5153',1,'Highlighter']]]
 ];

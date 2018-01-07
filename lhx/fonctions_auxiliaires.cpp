@@ -73,6 +73,8 @@ extern bool verbeux;
 
 #define RETRAIT "                        "
 
+// Pour assurer l'exportation en pdf et html via markdown respecter la convention de DEUX blancs en fin de chaque ligne suivie d'un saut de ligne.
+
 ostringstream help()
 {
     ostringstream out;
@@ -88,18 +90,22 @@ ostringstream help()
         <<  "**-T** *argument obligatoire* : nombre de lignes maximum par base .csv [défaut illimité].\n  "
             RETRAIT                          "Au plus 999 tables seront générées.  " << "\n\n"
         <<  "**-T AN**                   : générer une table par année  " << "\n\n"
-        <<  "**-T A/AC/AV/C/D/I/IR/RE/S/T** : générer une table pour chaque catégorie de ligne :    \n\n"
-        <<  "      A rémunérations diverse  \n\n"
-        <<  "      AC acompte  \n\n"
-        <<  "      AV avantage en nature  \n\n"
-        <<  "      C cotisation  \n\n"
-        <<  "      D déduction  \n\n"
-        <<  "      I indemnités  \n\n"
-        <<  "      IR indemnité de résidence  \n\n"
-        <<  "      RE retenue  \n\n"
-        <<  "      S supplément familial  \n\n"
-        <<  "      T traitement brut  \n\n"
-        <<  "      X toutes catégories     \n\n\n"
+        <<  "**-T A/AC/AG/AV/C/D/I/IR/RE/S/T**: générer une table pour chaque catégorie de ligne ou bien par agent, mois et année :\n\n  "
+        <<  "      A rémunérations diverse\n\n  "
+        <<  "      AC acompte\n\n  "
+        <<  "      AG par agent, mois et année\n\n  "
+        <<  "      AV avantage en nature\n\n  "
+        <<  "      C cotisation\n\n  "
+        <<  "      D déduction\n\n  "
+        <<  "      I indemnités\n\n  "
+        <<  "      IR indemnité de résidence\n\n  "
+        <<  "      RE retenue\n\n  "
+        <<  "      S supplément familial\n\n  "
+        <<  "      T traitement brut\n\n  "
+        <<  "      X toutes catégories\n\n  " << "\n\n"
+        <<  "**--AG**                    : générer une table par agent, par mois et par année (bulletin de paye).\n  "
+            RETRAIT                         "Pour les seuls bulletins de paye exportés sous le répertoire\n  """
+            RETRAIT                         "en argument de --dossier-bulletins\n  " << "\n\n"
         <<  "**-o** *argument obligatoire* : fichier.csv, chemin complet du fichier de sortie [défaut 'Table.csv' avec -t].  " << "\n\n"
         <<  "**-D** *argument obligatoire* : répertoire complet du fichier de sortie [défaut '.' avec -t].  " << "\n\n"
         <<  "**-d** *argument obligatoire* : séparateur décimal [défaut ',' avec -t].  " << "\n\n"
@@ -126,11 +132,15 @@ ostringstream help()
         <<  "**--cdrom**   *sans argument* : lire les données directement sur le disque optique.  " << "\n\n"
         <<  "**--dossier-bulletins** *arg.oblig.*: dossier vers lequel seront exportés les bulletins extraits.\n  "
             RETRAIT                          "      " "Les dossiers sont nettoyés à chaque extraction de bulletins.  "     << "\n\n"
-        <<  "**--bulletins** *arg.oblig.*  : suite de séquences séparées par des points-vigules sans espace.\n  "
-            RETRAIT                          "Chaque séquence est de la forme matricule-mois(...mois)-année(...année).\n  "
-            RETRAIT                          "Les matricules peuvent eux-mêmes être séparés par des virgules.\n  "
-            RETRAIT                          "L'année peut être indiquée par ses deux derniers chiffres.\n  "
-            RETRAIT                          "Exemple: 1012A,1013B-3...5-12...15;1014C-6-16  " << "\n\n"
+        <<  "**--bulletins** *arg.oblig.*  : suite de séquences séparées par des points-vigules sans espace.\n\n  "
+            "      Chaque séquence est de la forme matricule-mois(...mois)-année(...année).\n  "
+            "      Les trois points séparent la borne inférieure de la borne supérieure.\n  "
+            "      Les matricules peuvent eux-mêmes être séparés par des virgules.\n  "
+            "      L'année peut être indiquée par ses deux derniers chiffres.\n  "
+            "      Exemple: 1012A,1013B-3...5-12...15;1014C-6-16\n  "
+            "      Les bulletins des matricules 1012A et 1013B seront exportés\n  "
+            "      pour les mois de mars à mai des années 2012 à 2015.\n  "
+            "      De même pour le matricule 1014C en juin 2016.\n  " << "\n\n"
         <<  "**--export** *arg.oblig.*     : modalité d'exportation (Standard, Cumulative, Distributive, Distributive+)  " << "\n\n"
         <<   "  *Standard* : bases à la racine du répertoire d'exportation. Ecrasement des bases à chaque exécution.  " << "\n\n"
         <<   "  *Cumulative* : bases à la racine du répertoire d'exportation. Empilement des bases d'une exécution à l'autre.  " << "\n\n"
@@ -452,13 +462,13 @@ void ouvrir_fichier_bulletins (const info_t &info, ofstream& base, int segment)
 
 
 
-void ouvrir_fichier_base (const info_t &info, BaseType type, ofstream& base, int segment)
+void ouvrir_fichier_base (const info_t &info, BaseType type, ofstream& base, int segment, uint32_t agent)
 {
-    ouvrir_fichier_base0 (info, BaseCategorie::BASE, type, base, segment);
+    ouvrir_fichier_base0 (info, BaseCategorie::BASE, type, base, segment, agent);
 }
 
 
-void ouvrir_fichier_base0 (const info_t &info, BaseCategorie categorie, BaseType type, ofstream& base, int segment)
+void ouvrir_fichier_base0 (const info_t &info, BaseCategorie categorie, BaseType type, ofstream& base, int segment, uint32_t agent)
 {
     string chemin_base = "";
 
@@ -479,6 +489,10 @@ void ouvrir_fichier_base0 (const info_t &info, BaseCategorie categorie, BaseType
             static int segment_ancien;
             bool nouveau_segment = (segment != segment_ancien);
             int increment = 1;
+            string matricule;
+            string annee;
+            string mois;
+
 
             if (segment_ancien > 0 && nouveau_segment)
                 {
@@ -504,6 +518,13 @@ void ouvrir_fichier_base0 (const info_t &info, BaseCategorie categorie, BaseType
                     chemin_base = chemin_base + CSV;
                     break;
 
+                case BaseType::PAR_AGENT:
+                    matricule = (char*) info.Table[agent][Matricule];
+                    mois      = (char*) info.Table[agent][Mois];
+                    annee     = (char*) info.Table[agent][Annee];
+                    chemin_base = chemin_base + index + matricule + index + annee + index + mois + CSV;
+                    break;
+
                 case BaseType::MAXIMUM_LIGNES:
                 case BaseType::PAR_ANNEE:
                 case BaseType::MAXIMUM_LIGNES_PAR_ANNEE:
@@ -515,7 +536,7 @@ void ouvrir_fichier_base0 (const info_t &info, BaseCategorie categorie, BaseType
 
                 case BaseType::NA:
                     ++Type;
-                   [[fallthrough]];
+                   [[fallthrough]];  // A partir de -std=c++17 ou c++1z
                 case BaseType::PAR_COMMENTAIRE:
                     ++Type;
                    [[fallthrough]];

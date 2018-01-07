@@ -56,6 +56,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-slots">Connecteurs publics</a> &#124;
 <a href="#signals">Signaux</a> &#124;
 <a href="#pub-methods">Fonctions membres publiques</a> &#124;
 <a href="#pub-attribs">Attributs publics</a> &#124;
@@ -80,9 +81,16 @@ Graphe de collaboration de MatriculeInput:</div>
 <div class="center"><img src="class_matricule_input__coll__graph.png" border="0" usemap="#_matricule_input_coll__map" alt="Collaboration graph"/></div>
 <center><span class="legend">[<a href="graph_legend.html">légende</a>]</span></center></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
+Connecteurs publics</h2></td></tr>
+<tr class="memitem:a570b775e6c896dba52da89945a7fd02c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_matricule_input.html#a570b775e6c896dba52da89945a7fd02c">ajouterLigneMatricules</a> ()</td></tr>
+<tr class="memdesc:a570b775e6c896dba52da89945a7fd02c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connecteur qui rajoute une ligne de saisie de matricules au dialogue <b>Exportation des bulletins</b>  <a href="#a570b775e6c896dba52da89945a7fd02c">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a570b775e6c896dba52da89945a7fd02c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
 Signaux</h2></td></tr>
 <tr class="memitem:af61a19dd23deeef80a2389ea61ad1014"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_matricule_input.html#af61a19dd23deeef80a2389ea61ad1014">updateProject</a> (bool)</td></tr>
+<tr class="memdesc:af61a19dd23deeef80a2389ea61ad1014"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signal envoyé pour forcer l'enregistrement du projet .alt.  <a href="#af61a19dd23deeef80a2389ea61ad1014">Plus de détails...</a><br /></td></tr>
 <tr class="separator:af61a19dd23deeef80a2389ea61ad1014"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -111,6 +119,9 @@ Fonctions membres privées</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Attributs privés</h2></td></tr>
+<tr class="memitem:afaae0acb989086fcf52fa0cee26a8311"><td class="memItemLeft" align="right" valign="top">QGridLayout *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_matricule_input.html#afaae0acb989086fcf52fa0cee26a8311">layout</a></td></tr>
+<tr class="memdesc:afaae0acb989086fcf52fa0cee26a8311"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disposition graphique du dialogue (<em>layout</em>).  <a href="#afaae0acb989086fcf52fa0cee26a8311">Plus de détails...</a><br /></td></tr>
+<tr class="separator:afaae0acb989086fcf52fa0cee26a8311"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2498102bcce2bbbf980b56fbd1c798c"><td class="memItemLeft" align="right" valign="top">QDialogButtonBox *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_matricule_input.html#ae2498102bcce2bbbf980b56fbd1c798c">closeButton</a></td></tr>
 <tr class="memdesc:ae2498102bcce2bbbf980b56fbd1c798c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bouton Quitter.  <a href="#ae2498102bcce2bbbf980b56fbd1c798c">Plus de détails...</a><br /></td></tr>
 <tr class="separator:ae2498102bcce2bbbf980b56fbd1c798c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -123,6 +134,12 @@ Attributs privés</h2></td></tr>
 <tr class="memitem:ac04a49b9bb15ff7172896e2f180795bd"><td class="memItemLeft" align="right" valign="top">FLineEdit *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_matricule_input.html#ac04a49b9bb15ff7172896e2f180795bd">matrLineEdit3</a></td></tr>
 <tr class="memdesc:ac04a49b9bb15ff7172896e2f180795bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Troisième ligne de matricules.  <a href="#ac04a49b9bb15ff7172896e2f180795bd">Plus de détails...</a><br /></td></tr>
 <tr class="separator:ac04a49b9bb15ff7172896e2f180795bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d87b08773d86388c0a5adca8761de8f"><td class="memItemLeft" align="right" valign="top">QList&lt; FLineEdit * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_matricule_input.html#a6d87b08773d86388c0a5adca8761de8f">matrLineEditList</a></td></tr>
+<tr class="memdesc:a6d87b08773d86388c0a5adca8761de8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Liste de lignes de matricules ajoutées.  <a href="#a6d87b08773d86388c0a5adca8761de8f">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a6d87b08773d86388c0a5adca8761de8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39a3f4c4f784dae24e9c41949cbfaa28"><td class="memItemLeft" align="right" valign="top">QList&lt; QToolButton * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_matricule_input.html#a39a3f4c4f784dae24e9c41949cbfaa28">eraseButtonList</a></td></tr>
+<tr class="memdesc:a39a3f4c4f784dae24e9c41949cbfaa28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Liste des boutons d'effacement de ligne.  <a href="#a39a3f4c4f784dae24e9c41949cbfaa28">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a39a3f4c4f784dae24e9c41949cbfaa28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb71f9a175b65721c3942dd213f37c06"><td class="memItemLeft" align="right" valign="top">FLineFrame *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_matricule_input.html#aeb71f9a175b65721c3942dd213f37c06">dossier</a></td></tr>
 <tr class="memdesc:aeb71f9a175b65721c3942dd213f37c06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dossier d'export des bulletins extraits.  <a href="#aeb71f9a175b65721c3942dd213f37c06">Plus de détails...</a><br /></td></tr>
 <tr class="separator:aeb71f9a175b65721c3942dd213f37c06"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -176,13 +193,52 @@ Voici le graphe d'appel pour cette fonction :</div>
 <div class="dyncontent">
 <div class="center"><img src="class_matricule_input_a4f670aeeae85155afbe9011c741791be_cgraph.png" border="0" usemap="#class_matricule_input_a4f670aeeae85155afbe9011c741791be_cgraph" alt=""/></div>
 <map name="class_matricule_input_a4f670aeeae85155afbe9011c741791be_cgraph" id="class_matricule_input_a4f670aeeae85155afbe9011c741791be_cgraph">
-<area shape="rect" id="node2" href="class_matricule_input.html#ae46b914e11ae6cb17e6c581ea0b6f994" title="Vérifie l&#39;input (format de saisie). " alt="" coords="219,13,395,39"/>
+<area shape="rect" id="node2" href="class_matricule_input.html#a570b775e6c896dba52da89945a7fd02c" title="Connecteur qui rajoute une ligne de saisie de matricules au dialogue Exportation des bulletins ..." alt="" coords="219,5,401,47"/>
+<area shape="rect" id="node3" href="class_matricule_input.html#ae46b914e11ae6cb17e6c581ea0b6f994" title="Vérifie l&#39;input (format de saisie). " alt="" coords="222,71,398,98"/>
 </map>
 </div>
 
 </div>
 </div>
 <h2 class="groupheader">Documentation des fonctions membres</h2>
+<a id="a570b775e6c896dba52da89945a7fd02c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a570b775e6c896dba52da89945a7fd02c">&#9670;&nbsp;</a></span>ajouterLigneMatricules</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MatriculeInput::ajouterLigneMatricules </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Connecteur qui rajoute une ligne de saisie de matricules au dialogue <b>Exportation des bulletins</b> </p>
+
+<p class="definition">Définition à la ligne <a class="el" href="matricules_8cpp_source.html#l00297">297</a> du fichier <a class="el" href="matricules_8cpp_source.html">matricules.cpp</a>.</p>
+<div class="dynheader">
+Voici le graphe des appelants de cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="class_matricule_input_a570b775e6c896dba52da89945a7fd02c_icgraph.png" border="0" usemap="#class_matricule_input_a570b775e6c896dba52da89945a7fd02c_icgraph" alt=""/></div>
+<map name="class_matricule_input_a570b775e6c896dba52da89945a7fd02c_icgraph" id="class_matricule_input_a570b775e6c896dba52da89945a7fd02c_icgraph">
+<area shape="rect" id="node2" href="class_matricule_input.html#a4f670aeeae85155afbe9011c741791be" title="Constructeur de la classe MatriculeInput. " alt="" coords="248,5,413,47"/>
+<area shape="rect" id="node3" href="class_matricule_input.html#a531419ed5d9ad186758b0ed44621a4e0" title="Vérifie qu&#39;à l&#39;ouverture du dialogue, le répertoire par défaut dirpath est bien renseigné. " alt="" coords="236,71,425,112"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="a531419ed5d9ad186758b0ed44621a4e0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a531419ed5d9ad186758b0ed44621a4e0">&#9670;&nbsp;</a></span>checkDefaultFolder()</h2>
 
@@ -209,6 +265,14 @@ Voici le graphe d'appel pour cette fonction :</div>
 <p>Vérifie qu'à l'ouverture du dialogue, le répertoire par défaut dirpath est bien renseigné. </p>
 
 <p class="definition">Définition à la ligne <a class="el" href="matricules_8h_source.html#l00085">85</a> du fichier <a class="el" href="matricules_8h_source.html">matricules.h</a>.</p>
+<div class="dynheader">
+Voici le graphe d'appel pour cette fonction :</div>
+<div class="dyncontent">
+<div class="center"><img src="class_matricule_input_a531419ed5d9ad186758b0ed44621a4e0_cgraph.png" border="0" usemap="#class_matricule_input_a531419ed5d9ad186758b0ed44621a4e0_cgraph" alt=""/></div>
+<map name="class_matricule_input_a531419ed5d9ad186758b0ed44621a4e0_cgraph" id="class_matricule_input_a531419ed5d9ad186758b0ed44621a4e0_cgraph">
+<area shape="rect" id="node2" href="class_matricule_input.html#a570b775e6c896dba52da89945a7fd02c" title="Connecteur qui rajoute une ligne de saisie de matricules au dialogue Exportation des bulletins ..." alt="" coords="243,5,425,47"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -269,7 +333,7 @@ Autre exemple : <br />
 <br />
  1059, 1092 et 1011 en janvier, février et mars 2015, 2016 et 2017. </dd></dl>
 
-<p class="definition">Définition à la ligne <a class="el" href="matricules_8cpp_source.html#l00199">199</a> du fichier <a class="el" href="matricules_8cpp_source.html">matricules.cpp</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="matricules_8cpp_source.html#l00227">227</a> du fichier <a class="el" href="matricules_8cpp_source.html">matricules.cpp</a>.</p>
 <div class="dynheader">
 Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
@@ -314,7 +378,6 @@ Voici le graphe des appelants de cette fonction :</div>
 <div class="center"><img src="class_matricule_input_a1b9d9f0c939a200f2643958749f7ec42_icgraph.png" border="0" usemap="#class_matricule_input_a1b9d9f0c939a200f2643958749f7ec42_icgraph" alt=""/></div>
 <map name="class_matricule_input_a1b9d9f0c939a200f2643958749f7ec42_icgraph" id="class_matricule_input_a1b9d9f0c939a200f2643958749f7ec42_icgraph">
 <area shape="rect" id="node2" href="class_main_window.html#a7f2aaeb01d8c0cdbe5d608ef8e866bb7" title="Réinitialise le dialogue d&#39;extraction des matricules. " alt="" coords="193,5,387,47"/>
-<area shape="rect" id="node3" href="class_altair.html#a16b8035c4383a789cd00b687fb105fe9" title="Traitement de la fin de l&#39;exécution de lhx. " alt="" coords="435,13,589,39"/>
 </map>
 </div>
 
@@ -343,6 +406,8 @@ Voici le graphe des appelants de cette fonction :</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Signal envoyé pour forcer l'enregistrement du projet .alt. </p>
 <div class="dynheader">
 Voici le graphe des appelants de cette fonction :</div>
 <div class="dyncontent">
@@ -350,9 +415,8 @@ Voici le graphe des appelants de cette fonction :</div>
 <map name="class_matricule_input_af61a19dd23deeef80a2389ea61ad1014_icgraph" id="class_matricule_input_af61a19dd23deeef80a2389ea61ad1014_icgraph">
 <area shape="rect" id="node2" href="class_matricule_input.html#a4f670aeeae85155afbe9011c741791be" title="Constructeur de la classe MatriculeInput. " alt="" coords="257,5,423,47"/>
 <area shape="rect" id="node3" href="class_matricule_input.html#a1b9d9f0c939a200f2643958749f7ec42" title="Réinitialisation de tous les champs. " alt="" coords="270,71,410,98"/>
-<area shape="rect" id="node6" href="class_matricule_input.html#a531419ed5d9ad186758b0ed44621a4e0" title="Vérifie qu&#39;à l&#39;ouverture du dialogue, le répertoire par défaut dirpath est bien renseigné. " alt="" coords="245,123,435,164"/>
+<area shape="rect" id="node5" href="class_matricule_input.html#a531419ed5d9ad186758b0ed44621a4e0" title="Vérifie qu&#39;à l&#39;ouverture du dialogue, le répertoire par défaut dirpath est bien renseigné. " alt="" coords="245,123,435,164"/>
 <area shape="rect" id="node4" href="class_main_window.html#a7f2aaeb01d8c0cdbe5d608ef8e866bb7" title="Réinitialise le dialogue d&#39;extraction des matricules. " alt="" coords="483,64,676,105"/>
-<area shape="rect" id="node5" href="class_altair.html#a16b8035c4383a789cd00b687fb105fe9" title="Traitement de la fin de l&#39;exécution de lhx. " alt="" coords="724,71,879,98"/>
 </map>
 </div>
 
@@ -381,7 +445,7 @@ Voici le graphe des appelants de cette fonction :</div>
 
 <p>Bouton Quitter. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="matricules_8h_source.html#l00095">95</a> du fichier <a class="el" href="matricules_8h_source.html">matricules.h</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="matricules_8h_source.html#l00103">103</a> du fichier <a class="el" href="matricules_8h_source.html">matricules.h</a>.</p>
 
 </div>
 </div>
@@ -407,7 +471,7 @@ Voici le graphe des appelants de cette fonction :</div>
 
 <p>Chemin du dossier par défaut. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="matricules_8h_source.html#l00100">100</a> du fichier <a class="el" href="matricules_8h_source.html">matricules.h</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="matricules_8h_source.html#l00110">110</a> du fichier <a class="el" href="matricules_8h_source.html">matricules.h</a>.</p>
 
 </div>
 </div>
@@ -433,7 +497,59 @@ Voici le graphe des appelants de cette fonction :</div>
 
 <p>Dossier d'export des bulletins extraits. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="matricules_8h_source.html#l00099">99</a> du fichier <a class="el" href="matricules_8h_source.html">matricules.h</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="matricules_8h_source.html#l00109">109</a> du fichier <a class="el" href="matricules_8h_source.html">matricules.h</a>.</p>
+
+</div>
+</div>
+<a id="a39a3f4c4f784dae24e9c41949cbfaa28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39a3f4c4f784dae24e9c41949cbfaa28">&#9670;&nbsp;</a></span>eraseButtonList</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QList&lt;QToolButton*&gt; MatriculeInput::eraseButtonList</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Liste des boutons d'effacement de ligne. </p>
+
+<p class="definition">Définition à la ligne <a class="el" href="matricules_8h_source.html#l00108">108</a> du fichier <a class="el" href="matricules_8h_source.html">matricules.h</a>.</p>
+
+</div>
+</div>
+<a id="afaae0acb989086fcf52fa0cee26a8311"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afaae0acb989086fcf52fa0cee26a8311">&#9670;&nbsp;</a></span>layout</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QGridLayout* MatriculeInput::layout</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Disposition graphique du dialogue (<em>layout</em>). </p>
+
+<p class="definition">Définition à la ligne <a class="el" href="matricules_8h_source.html#l00102">102</a> du fichier <a class="el" href="matricules_8h_source.html">matricules.h</a>.</p>
 
 </div>
 </div>
@@ -477,7 +593,7 @@ Voici le graphe des appelants de cette fonction :</div>
 
 <p>Première ligne de matricules. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="matricules_8h_source.html#l00096">96</a> du fichier <a class="el" href="matricules_8h_source.html">matricules.h</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="matricules_8h_source.html#l00104">104</a> du fichier <a class="el" href="matricules_8h_source.html">matricules.h</a>.</p>
 
 </div>
 </div>
@@ -503,7 +619,7 @@ Voici le graphe des appelants de cette fonction :</div>
 
 <p>Deuxième ligne de matricules. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="matricules_8h_source.html#l00097">97</a> du fichier <a class="el" href="matricules_8h_source.html">matricules.h</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="matricules_8h_source.html#l00105">105</a> du fichier <a class="el" href="matricules_8h_source.html">matricules.h</a>.</p>
 
 </div>
 </div>
@@ -529,7 +645,33 @@ Voici le graphe des appelants de cette fonction :</div>
 
 <p>Troisième ligne de matricules. </p>
 
-<p class="definition">Définition à la ligne <a class="el" href="matricules_8h_source.html#l00098">98</a> du fichier <a class="el" href="matricules_8h_source.html">matricules.h</a>.</p>
+<p class="definition">Définition à la ligne <a class="el" href="matricules_8h_source.html#l00106">106</a> du fichier <a class="el" href="matricules_8h_source.html">matricules.h</a>.</p>
+
+</div>
+</div>
+<a id="a6d87b08773d86388c0a5adca8761de8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d87b08773d86388c0a5adca8761de8f">&#9670;&nbsp;</a></span>matrLineEditList</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QList&lt;FLineEdit*&gt; MatriculeInput::matrLineEditList</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Liste de lignes de matricules ajoutées. </p>
+
+<p class="definition">Définition à la ligne <a class="el" href="matricules_8h_source.html#l00107">107</a> du fichier <a class="el" href="matricules_8h_source.html">matricules.h</a>.</p>
 
 </div>
 </div>

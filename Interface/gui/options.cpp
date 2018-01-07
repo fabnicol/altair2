@@ -54,10 +54,6 @@
 #include "flineframe.h"
 
 extern int fontsize;
-//extern template void createHash (QHash<QString, QString>&,
-//                                 const QList<QString>*,
-//                                 const QList<QString>*);
-
 
 int codePage::ajouterVariable (const QString& nom)
 {
@@ -90,8 +86,6 @@ int codePage::ajouterVariable (const QString& nom)
 
     return listeCodes.size();
 }
-
-
 
 codePage::codePage()
 {
@@ -327,12 +321,12 @@ standardPage::standardPage()
 {
     QList<QString> range = QList<QString>(), range2 = QList<QString>();
 
-    range << "Standard" << "Par année" << "Toutes catégories" << "Traitement" << "Indemnité"
+    range << "Standard" << "Par année" << "Par agent" << "Toutes catégories" << "Traitement" << "Indemnité"
           << "SFT"      << "Rémunérations diverses"           << "Rappel"     << "Acompte"
           << "Avantage en nature" << "Indemnité de résidence" << "Cotisations"
           << "Déductions"         << "Retenue";
 
-    range2 << ""   << "AN" << "X" << "T" << "I"
+    range2 << ""   << "AN" << "AG" << "X" << "T" << "I"
            << "S"  << "A"  << "R" << "AC"
            << "AV" << "IR" << "C"
            << "D"  << "RE";
@@ -345,7 +339,6 @@ standardPage::standardPage()
                                     {"Données csv",
                                      "Type de base par catégorie"}, // Présentation du gestionnaire de projets
                                     "T");                           // Ligne de commande -T valeur
-
 
     maxNLigneLabel = new QLabel ("Nombre maximum de lignes\npar segment de base  ");
 
@@ -375,7 +368,6 @@ standardPage::standardPage()
                                     " Employeur, Siret, Etablissement"                   // Présentation du gestionnaire de projets
                                   },
                                   "S");                                                  // Ligne de commande -S si cochée
-
 
     QList<QString> exportRange = QList<QString>();
     exportRange << "Standard" << "Cumulative" << "Distributive" << "Distributive+";
