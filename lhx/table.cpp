@@ -859,6 +859,76 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                         }
                 }
         }
+    else if (type_base == BaseType::PAR_AGENT)
+        {
+            for (unsigned i = 0; i < Info[0].nbfil; ++i)
+                {
+                    for (uint32_t agent = 0; agent < Info[i].NCumAgentXml; ++agent)
+                        {
+
+
+#ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
+                            base << t_base.str();
+                            t_base.str ("");
+#endif
+
+                            base.close();
+
+                            ouvrir_fichier_base (Info[i],  type_base, base, nsegment, agent);
+
+                            if (! base.is_open()) return make_pair (0, 0);
+
+                            unsigned l = BESOIN_MEMOIRE_ENTETE;
+                            uint16_t NLigneAgent = Info[i].NLigne[agent];
+
+                            compteur_lignes_bulletins +=  ecrire_ligne_bulletin (i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
+
+                            char* type = nullptr;
+
+                            while (ligne < NLigneAgent)
+                                {
+                                    int      test_drapeau_categorie;
+
+                                    // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
+                                    if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                        {
+                                            type = (char*) NA_STRING;
+                                        }
+                                    else
+                                        while (VAR (l) &&  (test_drapeau_categorie = VAR (l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+                                            {
+                                                type = const_cast<char*> (type_remuneration_traduit[test_drapeau_categorie - 1]);
+                                                ++l;
+                                                // NO BREAK !
+                                            }
+
+                                    compteur += ecrire_ligne_table (i, agent, l, type, t_base, sep, Info, compteur);
+
+                                    l += INDEX_MAX_COLONNNES + 1;
+                                    ++ligne;
+                                }
+
+                            ligne = 0;
+
+#ifdef GUI_TAG_MESSAGES
+#ifdef GENERATE_RANK_SIGNAL
+                            progression = ceil ((float) (compteur * 100) / (float) NCumLignes);
+
+                            ++step;
+
+                            if (step > Info[i].NCumAgentXml / 5)
+                                {
+
+                                    generate_rank_signal (progression);
+                                    cerr << " \n";
+                                    step = 0;
+                                }
+
+#endif
+#endif
+                        }
+                }
+        }
     else if (type_base == BaseType::MAXIMUM_LIGNES
              // soit : il existe un nombre de lignes maximal par base spécifié en ligne de commande après -T
              && taille_base > 0)
