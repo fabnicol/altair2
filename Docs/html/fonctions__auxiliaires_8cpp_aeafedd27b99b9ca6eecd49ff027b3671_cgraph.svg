@@ -16,60 +16,60 @@
 </g>
 <!-- Node83 -->
 <g id="node2" class="node"><title>Node83</title>
-<g id="a_node2"><a xlink:href="fonctions__auxiliaires_8cpp.html#aa4c818d49539c9dec49c5cf3144b8f53" target="_top" xlink:title="Taille du fichier en octets. ">
-<polygon fill="white" stroke="black" points="163,-76.5 163,-95.5 231,-95.5 231,-76.5 163,-76.5"/>
-<text text-anchor="middle" x="197" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">taille_fichier</text>
+<g id="a_node2"><a xlink:href="fonctions__auxiliaires_8cpp.html#a5e2253f583a3358618441c2cba35742b" target="_top" xlink:title="Ecrit les libellés des colonnes des bulletins. ">
+<polygon fill="white" stroke="black" points="140,-76.5 140,-95.5 254,-95.5 254,-76.5 140,-76.5"/>
+<text text-anchor="middle" x="197" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">ecrire_entete_bulletins</text>
 </a>
 </g>
 </g>
 <!-- Node82&#45;&gt;Node83 -->
 <g id="edge1" class="edge"><title>Node82&#45;&gt;Node83</title>
-<path fill="none" stroke="midnightblue" d="M89.0849,-57.589C108.567,-62.7662 132.743,-69.1905 153.175,-74.6199"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="152.304,-78.0098 162.867,-77.1955 154.102,-71.2446 152.304,-78.0098"/>
+<path fill="none" stroke="midnightblue" d="M89.0849,-57.589C107.63,-62.5169 130.426,-68.5749 150.199,-73.8291"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="149.363,-77.2284 159.927,-76.4141 151.161,-70.4632 149.363,-77.2284"/>
 </g>
-<!-- Node84 -->
-<g id="node3" class="node"><title>Node84</title>
-<g id="a_node3"><a xlink:href="fonctions__auxiliaires_8cpp.html#aff3c87803f64d34f00a30ef30bb74a9b" target="_top" xlink:title="ecrire_entete_table">
+<!-- Node85 -->
+<g id="node4" class="node"><title>Node85</title>
+<g id="a_node4"><a xlink:href="fonctions__auxiliaires_8cpp.html#aff3c87803f64d34f00a30ef30bb74a9b" target="_top" xlink:title="ecrire_entete_table">
 <polygon fill="white" stroke="black" points="147.5,-38.5 147.5,-57.5 246.5,-57.5 246.5,-38.5 147.5,-38.5"/>
 <text text-anchor="middle" x="197" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">ecrire_entete_table</text>
 </a>
 </g>
 </g>
-<!-- Node82&#45;&gt;Node84 -->
-<g id="edge2" class="edge"><title>Node82&#45;&gt;Node84</title>
+<!-- Node82&#45;&gt;Node85 -->
+<g id="edge3" class="edge"><title>Node82&#45;&gt;Node85</title>
 <path fill="none" stroke="midnightblue" d="M104.222,-48C114.79,-48 126.001,-48 136.824,-48"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="137.049,-51.5001 147.049,-48 137.048,-44.5001 137.049,-51.5001"/>
 </g>
 <!-- Node86 -->
 <g id="node5" class="node"><title>Node86</title>
-<g id="a_node5"><a xlink:href="fonctions__auxiliaires_8cpp.html#a5e2253f583a3358618441c2cba35742b" target="_top" xlink:title="Ecrit les libellés des colonnes des bulletins. ">
-<polygon fill="white" stroke="black" points="140,-0.5 140,-19.5 254,-19.5 254,-0.5 140,-0.5"/>
-<text text-anchor="middle" x="197" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">ecrire_entete_bulletins</text>
+<g id="a_node5"><a xlink:href="fonctions__auxiliaires_8cpp.html#aa4c818d49539c9dec49c5cf3144b8f53" target="_top" xlink:title="Taille du fichier en octets. ">
+<polygon fill="white" stroke="black" points="163,-0.5 163,-19.5 231,-19.5 231,-0.5 163,-0.5"/>
+<text text-anchor="middle" x="197" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">taille_fichier</text>
 </a>
 </g>
 </g>
 <!-- Node82&#45;&gt;Node86 -->
-<g id="edge4" class="edge"><title>Node82&#45;&gt;Node86</title>
-<path fill="none" stroke="midnightblue" d="M89.0849,-38.411C107.63,-33.4831 130.426,-27.4251 150.199,-22.1709"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="151.161,-25.5368 159.927,-19.5859 149.363,-18.7716 151.161,-25.5368"/>
+<g id="edge5" class="edge"><title>Node82&#45;&gt;Node86</title>
+<path fill="none" stroke="midnightblue" d="M89.0849,-38.411C108.567,-33.2338 132.743,-26.8095 153.175,-21.3801"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="154.102,-24.7554 162.867,-18.8045 152.304,-17.9902 154.102,-24.7554"/>
 </g>
-<!-- Node85 -->
-<g id="node4" class="node"><title>Node85</title>
-<g id="a_node4"><a xlink:href="fonctions__auxiliaires_8cpp.html#aca69dd2811b53b087f39810c114e7dde" target="_top" xlink:title="Ecrit les libellés des colonnes d&#39;une base quelconque avec un tableau de libellés de taille donnée...">
-<polygon fill="white" stroke="black" points="290,-19.5 290,-38.5 368,-38.5 368,-19.5 290,-19.5"/>
-<text text-anchor="middle" x="329" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">ecrire_entete0</text>
+<!-- Node84 -->
+<g id="node3" class="node"><title>Node84</title>
+<g id="a_node3"><a xlink:href="fonctions__auxiliaires_8cpp.html#aca69dd2811b53b087f39810c114e7dde" target="_top" xlink:title="Ecrit les libellés des colonnes d&#39;une base quelconque avec un tableau de libellés de taille donnée...">
+<polygon fill="white" stroke="black" points="290,-57.5 290,-76.5 368,-76.5 368,-57.5 290,-57.5"/>
+<text text-anchor="middle" x="329" y="-64.5" font-family="Helvetica,sans-Serif" font-size="10.00">ecrire_entete0</text>
 </a>
 </g>
 </g>
-<!-- Node84&#45;&gt;Node85 -->
-<g id="edge3" class="edge"><title>Node84&#45;&gt;Node85</title>
-<path fill="none" stroke="midnightblue" d="M246.777,-40.871C257.587,-39.2911 269.037,-37.6176 279.824,-36.0411"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="280.531,-39.4751 289.919,-34.5656 279.518,-32.5487 280.531,-39.4751"/>
+<!-- Node83&#45;&gt;Node84 -->
+<g id="edge2" class="edge"><title>Node83&#45;&gt;Node84</title>
+<path fill="none" stroke="midnightblue" d="M254.264,-77.7768C262.659,-76.5498 271.253,-75.2939 279.47,-74.0928"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="280.246,-77.5167 289.634,-72.6073 279.233,-70.5903 280.246,-77.5167"/>
 </g>
-<!-- Node86&#45;&gt;Node85 -->
-<g id="edge5" class="edge"><title>Node86&#45;&gt;Node85</title>
-<path fill="none" stroke="midnightblue" d="M254.264,-18.2232C262.659,-19.4502 271.253,-20.7061 279.47,-21.9072"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="279.233,-25.4097 289.634,-23.3927 280.246,-18.4833 279.233,-25.4097"/>
+<!-- Node85&#45;&gt;Node84 -->
+<g id="edge4" class="edge"><title>Node85&#45;&gt;Node84</title>
+<path fill="none" stroke="midnightblue" d="M246.777,-55.129C257.587,-56.7089 269.037,-58.3824 279.824,-59.9589"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="279.518,-63.4513 289.919,-61.4344 280.531,-56.5249 279.518,-63.4513"/>
 </g>
 </g>
 </svg>

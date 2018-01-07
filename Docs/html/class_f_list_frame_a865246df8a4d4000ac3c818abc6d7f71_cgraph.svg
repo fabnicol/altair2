@@ -101,7 +101,7 @@ var sectionId = 'dynsection-2';
 </g>
 <!-- Node10 -->
 <g id="node11" class="node"><title>Node10</title>
-<g id="a_node11"><a xlink:href="class_f_list_frame.html#a018583305b4464d69c66805aceb1a2ac" target="_top" xlink:title="FListFrame::initializeWidget\lContainer">
+<g id="a_node11"><a xlink:href="class_f_list_frame.html#a018583305b4464d69c66805aceb1a2ac" target="_top" xlink:title="Initialise le conteneur de composants widgetContainer à blanc. ">
 <polygon fill="white" stroke="black" points="158,-202 158,-232 296,-232 296,-202 158,-202"/>
 <text text-anchor="start" x="166" y="-220" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::initializeWidget</text>
 <text text-anchor="middle" x="227" y="-209" font-family="Helvetica,sans-Serif" font-size="10.00">Container</text>
@@ -214,7 +214,7 @@ var sectionId = 'dynsection-2';
 </g>
 <!-- Node5 -->
 <g id="node6" class="node"><title>Node5</title>
-<g id="a_node6"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur widgetContainer Cette taille doit en principe être...">
+<g id="a_node6"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur widgetContainer. ">
 <polygon fill="white" stroke="black" points="522.5,-282.5 522.5,-301.5 631.5,-301.5 631.5,-282.5 522.5,-282.5"/>
 <text text-anchor="middle" x="577" y="-289.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getRank</text>
 </a>
@@ -237,7 +237,7 @@ var sectionId = 'dynsection-2';
 </g>
 <!-- Node13 -->
 <g id="node14" class="node"><title>Node13</title>
-<g id="a_node14"><a xlink:href="class_f_list_frame.html#a4228ed10f2d800b92ff34e2f25edcd8c" target="_top" xlink:title="FListFrame::addParsedTree\lToListWidget">
+<g id="a_node14"><a xlink:href="class_f_list_frame.html#a4228ed10f2d800b92ff34e2f25edcd8c" target="_top" xlink:title="Ajoute les fichiers d&#39;une portion d&#39;arborescence de fichiers au composant courant de l&#39;onglet central...">
 <polygon fill="white" stroke="black" points="332,-104 332,-134 470,-134 470,-104 332,-104"/>
 <text text-anchor="start" x="340" y="-122" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::addParsedTree</text>
 <text text-anchor="middle" x="401" y="-111" font-family="Helvetica,sans-Serif" font-size="10.00">ToListWidget</text>

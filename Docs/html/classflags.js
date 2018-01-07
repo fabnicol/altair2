@@ -1,8 +1,8 @@
 var classflags =
 [
-    [ "importFiles", "classflags.html#a765fe08ff11cc9bd46d940b4f8835d30a5e7bc402eee0bd82820c486daf540ee0", null ],
-    [ "importNames", "classflags.html#a765fe08ff11cc9bd46d940b4f8835d30a0a43b2a13a74a08a4ae3230d8fbef73f", null ],
-    [ "typeIn", "classflags.html#a765fe08ff11cc9bd46d940b4f8835d30ab700638336aac97f147575527aa60b8a", null ],
+    [ "importFiles", "classflags.html#af110b02bc87630284dc5ec26ef7b1798a5e7bc402eee0bd82820c486daf540ee0", null ],
+    [ "importNames", "classflags.html#af110b02bc87630284dc5ec26ef7b1798a0a43b2a13a74a08a4ae3230d8fbef73f", null ],
+    [ "typeIn", "classflags.html#af110b02bc87630284dc5ec26ef7b1798ab700638336aac97f147575527aa60b8a", null ],
     [ "colors", "classflags.html#a22f456fbe733974e6aeee40e885ca2a7", [
       [ "yes", "classflags.html#a22f456fbe733974e6aeee40e885ca2a7aa6105c0a611b41b08f1209506350279e", null ],
       [ "no", "classflags.html#a22f456fbe733974e6aeee40e885ca2a7a7fa3b767c460b54a2be4d49030b349c7", null ]

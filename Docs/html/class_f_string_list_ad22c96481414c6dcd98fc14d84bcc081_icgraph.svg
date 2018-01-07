@@ -9,47 +9,47 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 100)">
 <title>FStringList::toFString</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-100 311,-100 311,4 -4,4"/>
-<!-- Node47 -->
-<g id="node1" class="node"><title>Node47</title>
+<!-- Node40 -->
+<g id="node1" class="node"><title>Node40</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-38.5 0,-57.5 110,-57.5 110,-38.5 0,-38.5"/>
 <text text-anchor="middle" x="55" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">FStringList::toFString</text>
 </g>
-<!-- Node48 -->
-<g id="node2" class="node"><title>Node48</title>
+<!-- Node41 -->
+<g id="node2" class="node"><title>Node41</title>
 <g id="a_node2"><a xlink:href="class_f_check_box.html#a75202b6fa1c642f772ed0f86e512c9ce" target="_top" xlink:title="FCheckBox::setWidgetFromXml">
 <polygon fill="white" stroke="black" points="147.5,-76.5 147.5,-95.5 305.5,-95.5 305.5,-76.5 147.5,-76.5"/>
 <text text-anchor="middle" x="226.5" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">FCheckBox::setWidgetFromXml</text>
 </a>
 </g>
 </g>
-<!-- Node47&#45;&gt;Node48 -->
-<g id="edge1" class="edge"><title>Node47&#45;&gt;Node48</title>
+<!-- Node40&#45;&gt;Node41 -->
+<g id="edge1" class="edge"><title>Node40&#45;&gt;Node41</title>
 <path fill="none" stroke="midnightblue" d="M108.742,-59.8243C132.639,-65.1816 160.515,-71.4311 183.036,-76.4799"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="109.295,-56.3614 98.772,-57.589 107.764,-63.1919 109.295,-56.3614"/>
 </g>
-<!-- Node49 -->
-<g id="node3" class="node"><title>Node49</title>
+<!-- Node42 -->
+<g id="node3" class="node"><title>Node42</title>
 <g id="a_node3"><a xlink:href="class_f_combo_box.html#a53a3573e42f8f0e8db2b66e687272dc3" target="_top" xlink:title="FComboBox::setWidgetFromXml">
 <polygon fill="white" stroke="black" points="146,-38.5 146,-57.5 307,-57.5 307,-38.5 146,-38.5"/>
 <text text-anchor="middle" x="226.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">FComboBox::setWidgetFromXml</text>
 </a>
 </g>
 </g>
-<!-- Node47&#45;&gt;Node49 -->
-<g id="edge2" class="edge"><title>Node47&#45;&gt;Node49</title>
+<!-- Node40&#45;&gt;Node42 -->
+<g id="edge2" class="edge"><title>Node40&#45;&gt;Node42</title>
 <path fill="none" stroke="midnightblue" d="M120.202,-48C128.624,-48 137.334,-48 145.971,-48"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="120.097,-44.5001 110.097,-48 120.097,-51.5001 120.097,-44.5001"/>
 </g>
-<!-- Node50 -->
-<g id="node4" class="node"><title>Node50</title>
+<!-- Node43 -->
+<g id="node4" class="node"><title>Node43</title>
 <g id="a_node4"><a xlink:href="class_f_line_edit.html#a67f8a1613abc720125857b45d077b33a" target="_top" xlink:title="FLineEdit::setWidgetFromXml">
 <polygon fill="white" stroke="black" points="152.5,-0.5 152.5,-19.5 300.5,-19.5 300.5,-0.5 152.5,-0.5"/>
 <text text-anchor="middle" x="226.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FLineEdit::setWidgetFromXml</text>
 </a>
 </g>
 </g>
-<!-- Node47&#45;&gt;Node50 -->
-<g id="edge3" class="edge"><title>Node47&#45;&gt;Node50</title>
+<!-- Node40&#45;&gt;Node43 -->
+<g id="edge3" class="edge"><title>Node40&#45;&gt;Node43</title>
 <path fill="none" stroke="midnightblue" d="M108.742,-36.1757C132.639,-30.8184 160.515,-24.5689 183.036,-19.5201"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="107.764,-32.8081 98.772,-38.411 109.295,-39.6386 107.764,-32.8081"/>
 </g>

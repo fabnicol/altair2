@@ -9,79 +9,79 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 176)">
 <title>standardPage::substituer_versant</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-176 387,-176 387,4 -4,4"/>
-<!-- Node13 -->
-<g id="node1" class="node"><title>Node13</title>
+<!-- Node5 -->
+<g id="node1" class="node"><title>Node5</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-71 0,-101 125,-101 125,-71 0,-71"/>
 <text text-anchor="start" x="8" y="-89" font-family="Helvetica,sans-Serif" font-size="10.00">standardPage::substituer</text>
 <text text-anchor="middle" x="62.5" y="-78" font-family="Helvetica,sans-Serif" font-size="10.00">_versant</text>
 </g>
-<!-- Node14 -->
-<g id="node2" class="node"><title>Node14</title>
+<!-- Node6 -->
+<g id="node2" class="node"><title>Node6</title>
 <g id="a_node2"><a xlink:href="classtools.html#a995219ca14bd1ddcb10cb2a3fffed5a5" target="_top" xlink:title="tools::dump">
 <polygon fill="white" stroke="black" points="170.5,-152.5 170.5,-171.5 238.5,-171.5 238.5,-152.5 170.5,-152.5"/>
 <text text-anchor="middle" x="204.5" y="-159.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::dump</text>
 </a>
 </g>
 </g>
-<!-- Node13&#45;&gt;Node14 -->
-<g id="edge1" class="edge"><title>Node13&#45;&gt;Node14</title>
+<!-- Node5&#45;&gt;Node6 -->
+<g id="edge1" class="edge"><title>Node5&#45;&gt;Node6</title>
 <path fill="none" stroke="midnightblue" d="M91.1595,-101.015C115.923,-114.458 152.009,-134.048 176.552,-147.371"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="175.204,-150.622 185.662,-152.317 178.544,-144.47 175.204,-150.622"/>
 </g>
-<!-- Node15 -->
-<g id="node3" class="node"><title>Node15</title>
+<!-- Node7 -->
+<g id="node3" class="node"><title>Node7</title>
 <g id="a_node3"><a xlink:href="classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" target="_top" xlink:title="tools::path_access">
 <polygon fill="white" stroke="black" points="284,-133.5 284,-152.5 383,-152.5 383,-133.5 284,-133.5"/>
 <text text-anchor="middle" x="333.5" y="-140.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::path_access</text>
 </a>
 </g>
 </g>
-<!-- Node13&#45;&gt;Node15 -->
-<g id="edge3" class="edge"><title>Node13&#45;&gt;Node15</title>
+<!-- Node5&#45;&gt;Node7 -->
+<g id="edge3" class="edge"><title>Node5&#45;&gt;Node7</title>
 <path fill="none" stroke="midnightblue" d="M125.214,-99.077C171.119,-108.804 233.212,-121.961 277.442,-131.333"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="276.928,-134.802 287.436,-133.451 278.379,-127.954 276.928,-134.802"/>
 </g>
-<!-- Node16 -->
-<g id="node4" class="node"><title>Node16</title>
+<!-- Node8 -->
+<g id="node4" class="node"><title>Node8</title>
 <g id="a_node4"><a xlink:href="classtools.html#af43fc30ac740fa0fa1d773afb2538c8c" target="_top" xlink:title="tools::readFile">
 <polygon fill="white" stroke="black" points="165.5,-76.5 165.5,-95.5 243.5,-95.5 243.5,-76.5 165.5,-76.5"/>
 <text text-anchor="middle" x="204.5" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::readFile</text>
 </a>
 </g>
 </g>
-<!-- Node13&#45;&gt;Node16 -->
-<g id="edge4" class="edge"><title>Node13&#45;&gt;Node16</title>
+<!-- Node5&#45;&gt;Node8 -->
+<g id="edge4" class="edge"><title>Node5&#45;&gt;Node8</title>
 <path fill="none" stroke="midnightblue" d="M125.314,-86C135.319,-86 145.551,-86 155.176,-86"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="155.343,-89.5001 165.343,-86 155.343,-82.5001 155.343,-89.5001"/>
 </g>
-<!-- Node17 -->
-<g id="node5" class="node"><title>Node17</title>
+<!-- Node9 -->
+<g id="node5" class="node"><title>Node9</title>
 <g id="a_node5"><a xlink:href="classtools.html#a888a6211f6956005dba0132e1ee5fd92" target="_top" xlink:title="tools::renommer">
 <polygon fill="white" stroke="black" points="161,-38.5 161,-57.5 248,-57.5 248,-38.5 161,-38.5"/>
 <text text-anchor="middle" x="204.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::renommer</text>
 </a>
 </g>
 </g>
-<!-- Node13&#45;&gt;Node17 -->
-<g id="edge5" class="edge"><title>Node13&#45;&gt;Node17</title>
+<!-- Node5&#45;&gt;Node9 -->
+<g id="edge5" class="edge"><title>Node5&#45;&gt;Node9</title>
 <path fill="none" stroke="midnightblue" d="M118.832,-70.9814C131.979,-67.4129 145.849,-63.6481 158.472,-60.2219"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="159.557,-63.5542 168.291,-57.5568 157.723,-56.7986 159.557,-63.5542"/>
 </g>
-<!-- Node18 -->
-<g id="node6" class="node"><title>Node18</title>
+<!-- Node10 -->
+<g id="node6" class="node"><title>Node10</title>
 <g id="a_node6"><a xlink:href="classtools.html#ab14f69ed6a8faa01674b93e798c612a4" target="_top" xlink:title="tools::substituer">
 <polygon fill="white" stroke="black" points="161.5,-0.5 161.5,-19.5 247.5,-19.5 247.5,-0.5 161.5,-0.5"/>
 <text text-anchor="middle" x="204.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::substituer</text>
 </a>
 </g>
 </g>
-<!-- Node13&#45;&gt;Node18 -->
-<g id="edge6" class="edge"><title>Node13&#45;&gt;Node18</title>
+<!-- Node5&#45;&gt;Node10 -->
+<g id="edge6" class="edge"><title>Node5&#45;&gt;Node10</title>
 <path fill="none" stroke="midnightblue" d="M87.5327,-70.9644C107.021,-59.0135 135.364,-42.1746 161,-29 164.361,-27.2729 167.911,-25.543 171.47,-23.8689"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="173.148,-26.9502 180.786,-19.6079 170.237,-20.5844 173.148,-26.9502"/>
 </g>
-<!-- Node14&#45;&gt;Node15 -->
-<g id="edge2" class="edge"><title>Node14&#45;&gt;Node15</title>
+<!-- Node6&#45;&gt;Node7 -->
+<g id="edge2" class="edge"><title>Node6&#45;&gt;Node7</title>
 <path fill="none" stroke="midnightblue" d="M238.536,-157.058C249.331,-155.443 261.665,-153.597 273.766,-151.787"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="274.466,-155.221 283.838,-150.28 273.43,-148.298 274.466,-155.221"/>
 </g>

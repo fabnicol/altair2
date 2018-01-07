@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['keepoptiontabs',['keepOptionTabs',['../classinterface_status.html#a8f2c55d98c3c55af4f54a6d58063cf60',1,'interfaceStatus']]],
-  ['keywordformat',['keywordFormat',['../class_highlighter.html#acf807339a8cd02097a81e455ef2686d2',1,'Highlighter']]],
-  ['killprocess',['killProcess',['../class_altair.html#a2f6882c170016e2d7729058b08896a1d',1,'Altair']]],
-  ['kine',['KINE',['../expression__reg__cata_8h.html#a24b7da1acb0f0a839585f328e7d2c00b',1,'expression_reg_cata.h']]]
+  ['join',['join',['../class_f_string_list.html#a1d9b84941af3c6931ea6d5614efdf109',1,'FStringList::join(const QStringList &amp;) const'],['../class_f_string_list.html#a13914292623e7d42f87ff011e264e1b6',1,'FStringList::join(const char *s) const'],['../class_f_string_list.html#aea8566ab3af01a2cbac69564aa724002',1,'FStringList::join()']]]
 ];

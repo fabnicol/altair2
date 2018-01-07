@@ -9,28 +9,28 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 122.5)">
 <title>FListFrame::on_importFromMainTree_clicked</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-122.5 852,-122.5 852,4 -4,4"/>
-<!-- Node315 -->
-<g id="node1" class="node"><title>Node315</title>
+<!-- Node1016 -->
+<g id="node1" class="node"><title>Node1016</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-24.5 0,-54.5 137,-54.5 137,-24.5 0,-24.5"/>
 <text text-anchor="start" x="8" y="-42.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::on_importFrom</text>
 <text text-anchor="middle" x="68.5" y="-31.5" font-family="Helvetica,sans-Serif" font-size="10.00">MainTree_clicked</text>
 </g>
-<!-- Node316 -->
-<g id="node2" class="node"><title>Node316</title>
-<g id="a_node2"><a xlink:href="class_f_list_frame.html#a4228ed10f2d800b92ff34e2f25edcd8c" target="_top" xlink:title="FListFrame::addParsedTree\lToListWidget">
+<!-- Node1017 -->
+<g id="node2" class="node"><title>Node1017</title>
+<g id="a_node2"><a xlink:href="class_f_list_frame.html#a4228ed10f2d800b92ff34e2f25edcd8c" target="_top" xlink:title="Ajoute les fichiers d&#39;une portion d&#39;arborescence de fichiers au composant courant de l&#39;onglet central...">
 <polygon fill="white" stroke="black" points="173,-24.5 173,-54.5 311,-54.5 311,-24.5 173,-24.5"/>
 <text text-anchor="start" x="181" y="-42.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::addParsedTree</text>
 <text text-anchor="middle" x="242" y="-31.5" font-family="Helvetica,sans-Serif" font-size="10.00">ToListWidget</text>
 </a>
 </g>
 </g>
-<!-- Node315&#45;&gt;Node316 -->
-<g id="edge1" class="edge"><title>Node315&#45;&gt;Node316</title>
+<!-- Node1016&#45;&gt;Node1017 -->
+<g id="edge1" class="edge"><title>Node1016&#45;&gt;Node1017</title>
 <path fill="none" stroke="midnightblue" d="M137.281,-39.5C145.602,-39.5 154.158,-39.5 162.619,-39.5"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="162.868,-43.0001 172.868,-39.5 162.868,-36.0001 162.868,-43.0001"/>
 </g>
-<!-- Node317 -->
-<g id="node3" class="node"><title>Node317</title>
+<!-- Node1018 -->
+<g id="node3" class="node"><title>Node1018</title>
 <g id="a_node3"><a xlink:href="class_f_list_frame.html#af8c91e66c02e4c6f1f0fb66097903b73" target="_top" xlink:title="FListFrame::addStringList\lToListWidget">
 <polygon fill="white" stroke="black" points="347.5,-49.5 347.5,-79.5 476.5,-79.5 476.5,-49.5 347.5,-49.5"/>
 <text text-anchor="start" x="355.5" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::addStringList</text>
@@ -38,13 +38,13 @@
 </a>
 </g>
 </g>
-<!-- Node316&#45;&gt;Node317 -->
-<g id="edge2" class="edge"><title>Node316&#45;&gt;Node317</title>
+<!-- Node1017&#45;&gt;Node1018 -->
+<g id="edge2" class="edge"><title>Node1017&#45;&gt;Node1018</title>
 <path fill="none" stroke="midnightblue" d="M311.332,-49.6685C319.885,-50.9413 328.664,-52.2476 337.295,-53.5319"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="336.93,-57.0162 347.337,-55.0263 337.961,-50.0924 336.93,-57.0162"/>
 </g>
-<!-- Node324 -->
-<g id="node10" class="node"><title>Node324</title>
+<!-- Node1025 -->
+<g id="node10" class="node"><title>Node1025</title>
 <g id="a_node10"><a xlink:href="class_f_list_frame.html#ae166a8e51ccbb22a5aa2f1d885507565" target="_top" xlink:title="FListFrame::parseTreeFor\lFilePaths">
 <polygon fill="white" stroke="black" points="347,-0.5 347,-30.5 477,-30.5 477,-0.5 347,-0.5"/>
 <text text-anchor="start" x="355" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::parseTreeFor</text>
@@ -52,26 +52,26 @@
 </a>
 </g>
 </g>
-<!-- Node316&#45;&gt;Node324 -->
-<g id="edge10" class="edge"><title>Node316&#45;&gt;Node324</title>
+<!-- Node1017&#45;&gt;Node1025 -->
+<g id="edge10" class="edge"><title>Node1017&#45;&gt;Node1025</title>
 <path fill="none" stroke="midnightblue" d="M311.332,-29.7383C319.663,-28.5481 328.208,-27.3274 336.622,-26.1254"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="337.393,-29.5509 346.797,-24.6718 336.403,-22.6213 337.393,-29.5509"/>
 </g>
-<!-- Node318 -->
-<g id="node4" class="node"><title>Node318</title>
+<!-- Node1019 -->
+<g id="node4" class="node"><title>Node1019</title>
 <g id="a_node4"><a xlink:href="class_f_list_frame.html#a9353fe4926e97788a6462c3ee79f6a15" target="_top" xlink:title="FListFrame::clearTabLabels">
 <polygon fill="white" stroke="black" points="523,-99 523,-118 661,-118 661,-99 523,-99"/>
 <text text-anchor="middle" x="592" y="-106" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::clearTabLabels</text>
 </a>
 </g>
 </g>
-<!-- Node317&#45;&gt;Node318 -->
-<g id="edge3" class="edge"><title>Node317&#45;&gt;Node318</title>
+<!-- Node1018&#45;&gt;Node1019 -->
+<g id="edge3" class="edge"><title>Node1018&#45;&gt;Node1019</title>
 <path fill="none" stroke="midnightblue" d="M473.003,-79.5634C486.177,-82.8532 500.056,-86.3056 513,-89.5 522.34,-91.805 532.314,-94.2483 541.901,-96.5878"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="541.164,-100.011 551.708,-98.9779 542.821,-93.2096 541.164,-100.011"/>
 </g>
-<!-- Node320 -->
-<g id="node6" class="node"><title>Node320</title>
+<!-- Node1021 -->
+<g id="node6" class="node"><title>Node1021</title>
 <g id="a_node6"><a xlink:href="class_f_list_frame.html#a0ebe3d7847101344e70c84aff2be39b0" target="_top" xlink:title="Accesseur en lecture du nombre d&#39;éléments (nombre d&#39;onglets) du vecteur widgetContainer. ">
 <polygon fill="white" stroke="black" points="513,-49.5 513,-79.5 671,-79.5 671,-49.5 513,-49.5"/>
 <text text-anchor="start" x="521" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getWidgetContainer</text>
@@ -79,52 +79,52 @@
 </a>
 </g>
 </g>
-<!-- Node317&#45;&gt;Node320 -->
-<g id="edge5" class="edge"><title>Node317&#45;&gt;Node320</title>
+<!-- Node1018&#45;&gt;Node1021 -->
+<g id="edge5" class="edge"><title>Node1018&#45;&gt;Node1021</title>
 <path fill="none" stroke="midnightblue" d="M476.508,-64.5C485.068,-64.5 493.972,-64.5 502.864,-64.5"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="502.879,-68.0001 512.879,-64.5 502.879,-61.0001 502.879,-68.0001"/>
 </g>
-<!-- Node321 -->
-<g id="node7" class="node"><title>Node321</title>
+<!-- Node1022 -->
+<g id="node7" class="node"><title>Node1022</title>
 <g id="a_node7"><a xlink:href="class_f_list_frame.html#a802475894ee1e30753faed81d9f9dc4b" target="_top" xlink:title="Appelle parseXhlFile(const QString&amp;) sur l&#39;ensemble de widgetContainer. ">
 <polygon fill="white" stroke="black" points="529,-11 529,-30 655,-30 655,-11 529,-11"/>
 <text text-anchor="middle" x="592" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::parseXhlFile</text>
 </a>
 </g>
 </g>
-<!-- Node317&#45;&gt;Node321 -->
-<g id="edge6" class="edge"><title>Node317&#45;&gt;Node321</title>
+<!-- Node1018&#45;&gt;Node1022 -->
+<g id="edge6" class="edge"><title>Node1018&#45;&gt;Node1022</title>
 <path fill="none" stroke="midnightblue" d="M473.003,-49.4366C486.177,-46.1468 500.056,-42.6944 513,-39.5 522.34,-37.195 532.314,-34.7517 541.901,-32.4122"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="542.821,-35.7904 551.708,-30.0221 541.164,-28.9894 542.821,-35.7904"/>
 </g>
-<!-- Node319 -->
-<g id="node5" class="node"><title>Node319</title>
+<!-- Node1020 -->
+<g id="node5" class="node"><title>Node1020</title>
 <g id="a_node5"><a xlink:href="class_f_list_widget.html#a74bf008958a87e9055b8ec6573d8e2e9" target="_top" xlink:title="FListWidget::clearTabLabels">
 <polygon fill="white" stroke="black" points="707,-99 707,-118 848,-118 848,-99 707,-99"/>
 <text text-anchor="middle" x="777.5" y="-106" font-family="Helvetica,sans-Serif" font-size="10.00">FListWidget::clearTabLabels</text>
 </a>
 </g>
 </g>
-<!-- Node318&#45;&gt;Node319 -->
-<g id="edge4" class="edge"><title>Node318&#45;&gt;Node319</title>
+<!-- Node1019&#45;&gt;Node1020 -->
+<g id="edge4" class="edge"><title>Node1019&#45;&gt;Node1020</title>
 <path fill="none" stroke="midnightblue" d="M661.068,-108.5C672.586,-108.5 684.638,-108.5 696.428,-108.5"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="696.702,-112 706.702,-108.5 696.702,-105 696.702,-112"/>
 </g>
-<!-- Node322 -->
-<g id="node8" class="node"><title>Node322</title>
+<!-- Node1023 -->
+<g id="node8" class="node"><title>Node1023</title>
 <g id="a_node8"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="tools::cdRomMounted">
 <polygon fill="white" stroke="black" points="721,-55 721,-74 834,-74 834,-55 721,-55"/>
 <text text-anchor="middle" x="777.5" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">tools::cdRomMounted</text>
 </a>
 </g>
 </g>
-<!-- Node321&#45;&gt;Node322 -->
-<g id="edge7" class="edge"><title>Node321&#45;&gt;Node322</title>
+<!-- Node1022&#45;&gt;Node1023 -->
+<g id="edge7" class="edge"><title>Node1022&#45;&gt;Node1023</title>
 <path fill="none" stroke="midnightblue" d="M632.817,-30.0473C660.35,-36.6492 697.186,-45.4819 726.667,-52.551"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="726.22,-56.043 736.761,-54.9713 727.853,-49.236 726.22,-56.043"/>
 </g>
-<!-- Node323 -->
-<g id="node9" class="node"><title>Node323</title>
+<!-- Node1024 -->
+<g id="node9" class="node"><title>Node1024</title>
 <g id="a_node9"><a xlink:href="class_f_list_frame.html#a22a50157e8c6d287c2b2c08d2b7deee9" target="_top" xlink:title="Lancer un fil d&#39;exécution pour lire l&#39;entête d&#39;un fichier XHL (Année, Mois,...) et classer les fichie...">
 <polygon fill="white" stroke="black" points="727,-5.5 727,-35.5 828,-35.5 828,-5.5 727,-5.5"/>
 <text text-anchor="start" x="735" y="-23.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::launch</text>
@@ -132,13 +132,13 @@
 </a>
 </g>
 </g>
-<!-- Node321&#45;&gt;Node323 -->
-<g id="edge8" class="edge"><title>Node321&#45;&gt;Node323</title>
+<!-- Node1022&#45;&gt;Node1024 -->
+<g id="edge8" class="edge"><title>Node1022&#45;&gt;Node1024</title>
 <path fill="none" stroke="midnightblue" d="M655.125,-14.073C675.046,-13.624 697.055,-13.6431 716.8,-14.1302"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="716.796,-17.6315 726.895,-14.4276 717.003,-10.6346 716.796,-17.6315"/>
 </g>
-<!-- Node323&#45;&gt;Node321 -->
-<g id="edge9" class="edge"><title>Node323&#45;&gt;Node321</title>
+<!-- Node1024&#45;&gt;Node1022 -->
+<g id="edge9" class="edge"><title>Node1024&#45;&gt;Node1022</title>
 <path fill="none" stroke="midnightblue" d="M726.895,-26.5724C707.9,-27.2286 685.826,-27.4082 665.145,-27.1111"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="665.187,-23.6114 655.125,-26.927 665.059,-30.6102 665.187,-23.6114"/>
 </g>

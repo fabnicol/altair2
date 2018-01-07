@@ -9,21 +9,21 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>FLineFrame::setPathCategory</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-24 325,-24 325,4 -4,4"/>
-<!-- Node15 -->
-<g id="node1" class="node"><title>Node15</title>
+<!-- Node17 -->
+<g id="node1" class="node"><title>Node17</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-19.5 148,-19.5 148,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="74" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FLineFrame::setPathCategory</text>
 </g>
-<!-- Node16 -->
-<g id="node2" class="node"><title>Node16</title>
-<g id="a_node2"><a xlink:href="classprocess_page.html#ae3ff114e2d797548b9e4e24958446a9a" target="_top" xlink:title="Constructeur de l&#39;onglet Traitement. ">
+<!-- Node18 -->
+<g id="node2" class="node"><title>Node18</title>
+<g id="a_node2"><a xlink:href="classprocess_page.html#ae3ff114e2d797548b9e4e24958446a9a" target="_top" xlink:title="processPage::processPage">
 <polygon fill="white" stroke="black" points="184,-0.5 184,-19.5 321,-19.5 321,-0.5 184,-0.5"/>
 <text text-anchor="middle" x="252.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">processPage::processPage</text>
 </a>
 </g>
 </g>
-<!-- Node15&#45;&gt;Node16 -->
-<g id="edge1" class="edge"><title>Node15&#45;&gt;Node16</title>
+<!-- Node17&#45;&gt;Node18 -->
+<g id="edge1" class="edge"><title>Node17&#45;&gt;Node18</title>
 <path fill="none" stroke="midnightblue" d="M158.135,-10C166.758,-10 175.445,-10 183.867,-10"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="158.063,-6.5001 148.063,-10 158.063,-13.5001 158.063,-6.5001"/>
 </g>

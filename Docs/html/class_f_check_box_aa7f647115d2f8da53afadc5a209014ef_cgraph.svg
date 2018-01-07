@@ -9,21 +9,21 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>FCheckBox::setXmlFromWidget</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-24 348,-24 348,4 -4,4"/>
-<!-- Node18 -->
-<g id="node1" class="node"><title>Node18</title>
+<!-- Node21 -->
+<g id="node1" class="node"><title>Node21</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-19.5 158,-19.5 158,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="79" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FCheckBox::setXmlFromWidget</text>
 </g>
-<!-- Node19 -->
-<g id="node2" class="node"><title>Node19</title>
+<!-- Node22 -->
+<g id="node2" class="node"><title>Node22</title>
 <g id="a_node2"><a xlink:href="class_f_abstract_widget.html#ae6ba84e8ed8a54dc8121245f35f568fe" target="_top" xlink:title="Retourne la clé de hashage de Hash::wrapper correspondant au composant. ">
 <polygon fill="white" stroke="black" points="194,-0.5 194,-19.5 344,-19.5 344,-0.5 194,-0.5"/>
 <text text-anchor="middle" x="269" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FAbstractWidget::getHashKey</text>
 </a>
 </g>
 </g>
-<!-- Node18&#45;&gt;Node19 -->
-<g id="edge1" class="edge"><title>Node18&#45;&gt;Node19</title>
+<!-- Node21&#45;&gt;Node22 -->
+<g id="edge1" class="edge"><title>Node21&#45;&gt;Node22</title>
 <path fill="none" stroke="midnightblue" d="M158.096,-10C166.487,-10 175.053,-10 183.515,-10"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="183.766,-13.5001 193.766,-10 183.766,-6.5001 183.766,-13.5001"/>
 </g>

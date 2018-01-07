@@ -54,155 +54,155 @@ var sectionId = 'dynsection-18';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>ECRIRE_LIGNE_l_COMMUN</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-238 701,-238 701,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-237.5 701,-237.5 701,4 -4,4"/>
 <!-- Node79 -->
 <g id="node1" class="node"><title>Node79</title>
-<polygon fill="#bfbfbf" stroke="black" points="0,-104.5 0,-123.5 150,-123.5 150,-104.5 0,-104.5"/>
-<text text-anchor="middle" x="75" y="-111.5" font-family="Helvetica,sans-Serif" font-size="10.00">ECRIRE_LIGNE_l_COMMUN</text>
+<polygon fill="#bfbfbf" stroke="black" points="0,-116 0,-135 150,-135 150,-116 0,-116"/>
+<text text-anchor="middle" x="75" y="-123" font-family="Helvetica,sans-Serif" font-size="10.00">ECRIRE_LIGNE_l_COMMUN</text>
 </g>
 <!-- Node80 -->
 <g id="node2" class="node"><title>Node80</title>
-<g id="a_node2"><a xlink:href="table_8cpp.html#a72acdb89510299d6bd8136ab10ccce65" target="_top" xlink:title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier &#160;Ajoute l&#39;Annee et le Mois comme deux premières colonnes Optionnellement ajoute le Budget, l&#39;Employeur, le Siret et l&#39;Etablissement comme colonnes suivantes Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes. ">
-<polygon fill="white" stroke="black" points="186,-214.5 186,-233.5 374,-233.5 374,-214.5 186,-214.5"/>
-<text text-anchor="middle" x="280" y="-221.5" font-family="Helvetica,sans-Serif" font-size="10.00">ECRIRE_LIGNE_l_GENERER_RANG</text>
+<g id="a_node2"><a xlink:href="table_8cpp.html#a76d65e4a709ff415979be1460608f6ab" target="_top" xlink:title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table &#160;Ajoute l&#39;Annee et le Mois comm...">
+<polygon fill="white" stroke="black" points="231,-214 231,-233 329,-233 329,-214 231,-214"/>
+<text text-anchor="middle" x="280" y="-221" font-family="Helvetica,sans-Serif" font-size="10.00">ECRIRE_LIGNE_l</text>
 </a>
 </g>
 </g>
 <!-- Node79&#45;&gt;Node80 -->
 <g id="edge1" class="edge"><title>Node79&#45;&gt;Node80</title>
-<path fill="none" stroke="midnightblue" d="M91.5912,-131.287C111.42,-152.141 147.71,-186.676 186,-205 194.176,-208.912 203.131,-212.021 212.154,-214.49"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="93.9743,-128.71 84.5989,-123.775 88.8505,-133.479 93.9743,-128.71"/>
+<path fill="none" stroke="midnightblue" d="M93.9253,-142.092C114.555,-160.25 150.214,-188.854 186,-204.5 200.042,-210.64 216.155,-214.826 230.982,-217.668"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="96.0734,-139.317 86.2933,-135.243 91.3981,-144.527 96.0734,-139.317"/>
 </g>
 <!-- Node84 -->
 <g id="node6" class="node"><title>Node84</title>
-<g id="a_node6"><a xlink:href="table_8cpp.html#ac4690b0ec4007e562e68502017efc011" target="_top" xlink:title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier Ajoute l&#39;Annee et le Mois comme deux premières colonnes Optionnellement ajoute le Budget, l&#39;Employeur, le Siret et l&#39;Etablissement comme colonnes suivantes Ajoute dans tous les cas l&#39;Echelon, la Categorie ainsi que le NIR en dernières colonnes. ">
-<polygon fill="white" stroke="black" points="203,-165 203,-195 357,-195 357,-165 203,-165"/>
-<text text-anchor="start" x="211" y="-183" font-family="Helvetica,sans-Serif" font-size="10.00">ECRIRE_LIGNE_l_GENERER</text>
-<text text-anchor="middle" x="280" y="-172" font-family="Helvetica,sans-Serif" font-size="10.00">_RANG_ECHELON</text>
+<g id="a_node6"><a xlink:href="table_8cpp.html#a2fee89611cf768d7f527283808fd5a83" target="_top" xlink:title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table Ajoute l&#39;Annee et le Mois comme...">
+<polygon fill="white" stroke="black" points="204,-176 204,-195 356,-195 356,-176 204,-176"/>
+<text text-anchor="middle" x="280" y="-183" font-family="Helvetica,sans-Serif" font-size="10.00">ECRIRE_LIGNE_l_ECHELON</text>
 </a>
 </g>
 </g>
 <!-- Node79&#45;&gt;Node84 -->
 <g id="edge5" class="edge"><title>Node79&#45;&gt;Node84</title>
-<path fill="none" stroke="midnightblue" d="M109.213,-127.311C130.891,-135.766 159.909,-146.651 186,-155 196.828,-158.465 208.466,-161.853 219.718,-164.961"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="110.393,-124.014 99.8061,-123.614 107.833,-130.529 110.393,-124.014"/>
+<path fill="none" stroke="midnightblue" d="M107.802,-138.851C129.537,-147.603 159.156,-158.806 186,-166.5 198.515,-170.087 212.162,-173.27 225.051,-175.956"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="108.991,-135.556 98.4092,-135.024 106.349,-142.039 108.991,-135.556"/>
 </g>
 <!-- Node85 -->
 <g id="node7" class="node"><title>Node85</title>
-<g id="a_node7"><a xlink:href="table_8cpp.html#a82d211f064919b7c49ce3afea746bd6c" target="_top" xlink:title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table &#160;Ajoute l&#39;Annee et le Mois comm...">
-<polygon fill="white" stroke="black" points="213,-126.5 213,-145.5 347,-145.5 347,-126.5 213,-126.5"/>
-<text text-anchor="middle" x="280" y="-133.5" font-family="Helvetica,sans-Serif" font-size="10.00">ECRIRE_LIGNE_l_SIRET</text>
+<g id="a_node7"><a xlink:href="table_8cpp.html#a72acdb89510299d6bd8136ab10ccce65" target="_top" xlink:title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier &#160;Ajoute l&#39;Annee et le Mois comme deux premières colonnes Optionnellement ajoute le Budget, l&#39;Employeur, le Siret et l&#39;Etablissement comme colonnes suivantes Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes. ">
+<polygon fill="white" stroke="black" points="186,-138 186,-157 374,-157 374,-138 186,-138"/>
+<text text-anchor="middle" x="280" y="-145" font-family="Helvetica,sans-Serif" font-size="10.00">ECRIRE_LIGNE_l_GENERER_RANG</text>
 </a>
 </g>
 </g>
 <!-- Node79&#45;&gt;Node85 -->
 <g id="edge7" class="edge"><title>Node79&#45;&gt;Node85</title>
-<path fill="none" stroke="midnightblue" d="M160.353,-123.142C177.848,-125.038 196.043,-127.01 212.777,-128.823"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="160.468,-119.634 150.149,-122.036 159.714,-126.593 160.468,-119.634"/>
+<path fill="none" stroke="midnightblue" d="M160.285,-134.634C170.517,-135.743 180.989,-136.878 191.27,-137.992"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="160.468,-131.134 150.149,-133.536 159.714,-138.093 160.468,-131.134"/>
 </g>
 <!-- Node86 -->
 <g id="node8" class="node"><title>Node86</title>
-<g id="a_node8"><a xlink:href="table_8cpp.html#a9227a92c4b8fb92bd91242d938be476d" target="_top" xlink:title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table &#160;Ajoute l&#39;Annee et le Mois comm...">
-<polygon fill="white" stroke="black" points="213,-77 213,-107 347,-107 347,-77 213,-77"/>
-<text text-anchor="start" x="221" y="-95" font-family="Helvetica,sans-Serif" font-size="10.00">ECRIRE_LIGNE_l_SIRET</text>
-<text text-anchor="middle" x="280" y="-84" font-family="Helvetica,sans-Serif" font-size="10.00">_ECHELON</text>
+<g id="a_node8"><a xlink:href="table_8cpp.html#ac4690b0ec4007e562e68502017efc011" target="_top" xlink:title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier Ajoute l&#39;Annee et le Mois comme deux premières colonnes Optionnellement ajoute le Budget, l&#39;Employeur, le Siret et l&#39;Etablissement comme colonnes suivantes Ajoute dans tous les cas l&#39;Echelon, la Categorie ainsi que le NIR en dernières colonnes. ">
+<polygon fill="white" stroke="black" points="203,-88.5 203,-118.5 357,-118.5 357,-88.5 203,-88.5"/>
+<text text-anchor="start" x="211" y="-106.5" font-family="Helvetica,sans-Serif" font-size="10.00">ECRIRE_LIGNE_l_GENERER</text>
+<text text-anchor="middle" x="280" y="-95.5" font-family="Helvetica,sans-Serif" font-size="10.00">_RANG_ECHELON</text>
 </a>
 </g>
 </g>
 <!-- Node79&#45;&gt;Node86 -->
 <g id="edge9" class="edge"><title>Node79&#45;&gt;Node86</title>
-<path fill="none" stroke="midnightblue" d="M160.353,-104.858C177.848,-102.962 196.043,-100.99 212.777,-99.1769"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="159.714,-101.407 150.149,-105.964 160.468,-108.366 159.714,-101.407"/>
+<path fill="none" stroke="midnightblue" d="M160.282,-116.366C174.331,-114.843 188.832,-113.272 202.667,-111.773"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="159.714,-112.907 150.149,-117.464 160.468,-119.866 159.714,-112.907"/>
 </g>
 <!-- Node87 -->
 <g id="node9" class="node"><title>Node87</title>
-<g id="a_node9"><a xlink:href="table_8cpp.html#a76d65e4a709ff415979be1460608f6ab" target="_top" xlink:title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table &#160;Ajoute l&#39;Annee et le Mois comm...">
-<polygon fill="white" stroke="black" points="231,-38.5 231,-57.5 329,-57.5 329,-38.5 231,-38.5"/>
-<text text-anchor="middle" x="280" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">ECRIRE_LIGNE_l</text>
+<g id="a_node9"><a xlink:href="table_8cpp.html#a82d211f064919b7c49ce3afea746bd6c" target="_top" xlink:title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table &#160;Ajoute l&#39;Annee et le Mois comm...">
+<polygon fill="white" stroke="black" points="213,-50 213,-69 347,-69 347,-50 213,-50"/>
+<text text-anchor="middle" x="280" y="-57" font-family="Helvetica,sans-Serif" font-size="10.00">ECRIRE_LIGNE_l_SIRET</text>
 </a>
 </g>
 </g>
 <!-- Node79&#45;&gt;Node87 -->
 <g id="edge11" class="edge"><title>Node79&#45;&gt;Node87</title>
-<path fill="none" stroke="midnightblue" d="M104.932,-100.173C126.804,-90.1482 157.784,-76.8507 186,-68 200.34,-63.502 216.236,-59.6746 230.77,-56.6095"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="103.456,-96.9996 95.8585,-104.384 106.403,-103.349 103.456,-96.9996"/>
+<path fill="none" stroke="midnightblue" d="M104.932,-111.673C126.804,-101.648 157.784,-88.3507 186,-79.5 198.922,-75.4469 213.107,-71.9383 226.421,-69.0412"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="103.456,-108.5 95.8585,-115.884 106.403,-114.849 103.456,-108.5"/>
 </g>
 <!-- Node88 -->
 <g id="node10" class="node"><title>Node88</title>
-<g id="a_node10"><a xlink:href="table_8cpp.html#a2fee89611cf768d7f527283808fd5a83" target="_top" xlink:title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table Ajoute l&#39;Annee et le Mois comme...">
-<polygon fill="white" stroke="black" points="204,-0.5 204,-19.5 356,-19.5 356,-0.5 204,-0.5"/>
-<text text-anchor="middle" x="280" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">ECRIRE_LIGNE_l_ECHELON</text>
+<g id="a_node10"><a xlink:href="table_8cpp.html#a9227a92c4b8fb92bd91242d938be476d" target="_top" xlink:title="Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table &#160;Ajoute l&#39;Annee et le Mois comm...">
+<polygon fill="white" stroke="black" points="213,-0.5 213,-30.5 347,-30.5 347,-0.5 213,-0.5"/>
+<text text-anchor="start" x="221" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">ECRIRE_LIGNE_l_SIRET</text>
+<text text-anchor="middle" x="280" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">_ECHELON</text>
 </a>
 </g>
 </g>
 <!-- Node79&#45;&gt;Node88 -->
 <g id="edge13" class="edge"><title>Node79&#45;&gt;Node88</title>
-<path fill="none" stroke="midnightblue" d="M92.4516,-97.2819C112.646,-77.78 148.811,-46.0424 186,-29 194.389,-25.1554 203.559,-22.0836 212.765,-19.6305"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="89.9564,-94.827 85.289,-104.338 94.869,-99.8136 89.9564,-94.827"/>
+<path fill="none" stroke="midnightblue" d="M92.9554,-108.868C113.388,-89.7156 149.54,-58.5755 186,-40.5 194.388,-36.3414 203.557,-32.8059 212.763,-29.8198"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="90.5056,-106.368 85.6858,-115.803 95.3374,-111.433 90.5056,-106.368"/>
 </g>
 <!-- Node81 -->
 <g id="node3" class="node"><title>Node81</title>
 <g id="a_node3"><a xlink:href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7" target="_top" xlink:title="Lance l&#39;écriture des fichiers Bulletins.paie.csv et Table....csv pour un segment des données de paye...">
-<polygon fill="white" stroke="black" points="410,-104.5 410,-123.5 493,-123.5 493,-104.5 410,-104.5"/>
-<text text-anchor="middle" x="451.5" y="-111.5" font-family="Helvetica,sans-Serif" font-size="10.00">boucle_ecriture</text>
+<polygon fill="white" stroke="black" points="410,-116 410,-135 493,-135 493,-116 410,-116"/>
+<text text-anchor="middle" x="451.5" y="-123" font-family="Helvetica,sans-Serif" font-size="10.00">boucle_ecriture</text>
 </a>
 </g>
 </g>
 <!-- Node80&#45;&gt;Node81 -->
 <g id="edge2" class="edge"><title>Node80&#45;&gt;Node81</title>
-<path fill="none" stroke="midnightblue" d="M362.458,-210.828C366.461,-209.113 370.335,-207.18 374,-205 408.59,-184.424 434.871,-142.395 445.431,-123.533"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="361.029,-207.626 352.919,-214.444 363.51,-214.172 361.029,-207.626"/>
+<path fill="none" stroke="midnightblue" d="M339.241,-217.17C351.212,-214.362 363.388,-210.318 374,-204.5 405.808,-187.061 432.54,-151.992 444.21,-135.068"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="338.347,-213.781 329.273,-219.25 339.778,-220.633 338.347,-213.781"/>
 </g>
 <!-- Node82 -->
 <g id="node4" class="node"><title>Node82</title>
 <g id="a_node4"><a xlink:href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" target="_top" xlink:title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ...">
-<polygon fill="white" stroke="black" points="529,-104.5 529,-123.5 623,-123.5 623,-104.5 529,-104.5"/>
-<text text-anchor="middle" x="576" y="-111.5" font-family="Helvetica,sans-Serif" font-size="10.00">produire_segment</text>
+<polygon fill="white" stroke="black" points="529,-116 529,-135 623,-135 623,-116 529,-116"/>
+<text text-anchor="middle" x="576" y="-123" font-family="Helvetica,sans-Serif" font-size="10.00">produire_segment</text>
 </a>
 </g>
 </g>
 <!-- Node81&#45;&gt;Node82 -->
 <g id="edge3" class="edge"><title>Node81&#45;&gt;Node82</title>
-<path fill="none" stroke="midnightblue" d="M503.413,-114C511.858,-114 520.572,-114 528.89,-114"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="503.291,-110.5 493.291,-114 503.291,-117.5 503.291,-110.5"/>
+<path fill="none" stroke="midnightblue" d="M503.413,-125.5C511.858,-125.5 520.572,-125.5 528.89,-125.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="503.291,-122 493.291,-125.5 503.291,-129 503.291,-122"/>
 </g>
 <!-- Node83 -->
 <g id="node5" class="node"><title>Node83</title>
 <g id="a_node5"><a xlink:href="lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" target="_top" xlink:title="main">
-<polygon fill="white" stroke="black" points="659,-104.5 659,-123.5 697,-123.5 697,-104.5 659,-104.5"/>
-<text text-anchor="middle" x="678" y="-111.5" font-family="Helvetica,sans-Serif" font-size="10.00">main</text>
+<polygon fill="white" stroke="black" points="659,-116 659,-135 697,-135 697,-116 659,-116"/>
+<text text-anchor="middle" x="678" y="-123" font-family="Helvetica,sans-Serif" font-size="10.00">main</text>
 </a>
 </g>
 </g>
 <!-- Node82&#45;&gt;Node83 -->
 <g id="edge4" class="edge"><title>Node82&#45;&gt;Node83</title>
-<path fill="none" stroke="midnightblue" d="M633.316,-114C642.594,-114 651.577,-114 658.96,-114"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="633.195,-110.5 623.195,-114 633.195,-117.5 633.195,-110.5"/>
+<path fill="none" stroke="midnightblue" d="M633.316,-125.5C642.594,-125.5 651.577,-125.5 658.96,-125.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="633.195,-122 623.195,-125.5 633.195,-129 633.195,-122"/>
 </g>
 <!-- Node84&#45;&gt;Node81 -->
 <g id="edge6" class="edge"><title>Node84&#45;&gt;Node81</title>
-<path fill="none" stroke="midnightblue" d="M354.464,-161.952C361.136,-159.804 367.734,-157.483 374,-155 396.134,-146.229 420.086,-132.667 435.182,-123.569"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="353.192,-158.682 344.669,-164.975 355.256,-165.371 353.192,-158.682"/>
+<path fill="none" stroke="midnightblue" d="M350.513,-173.621C358.528,-171.57 366.507,-169.208 374,-166.5 396.675,-158.306 420.889,-144.339 435.861,-135.016"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="349.653,-170.228 340.749,-175.971 351.291,-177.034 349.653,-170.228"/>
 </g>
 <!-- Node85&#45;&gt;Node81 -->
 <g id="edge8" class="edge"><title>Node85&#45;&gt;Node81</title>
-<path fill="none" stroke="midnightblue" d="M357.052,-126.129C375.251,-123.767 393.991,-121.335 409.867,-119.274"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="356.485,-122.673 347.018,-127.431 357.386,-129.615 356.485,-122.673"/>
+<path fill="none" stroke="midnightblue" d="M364.637,-136.644C380.322,-134.609 396.058,-132.566 409.695,-130.796"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="363.826,-133.22 354.359,-137.978 364.727,-140.162 363.826,-133.22"/>
 </g>
 <!-- Node86&#45;&gt;Node81 -->
 <g id="edge10" class="edge"><title>Node86&#45;&gt;Node81</title>
-<path fill="none" stroke="midnightblue" d="M357.052,-101.871C375.251,-104.233 393.991,-106.665 409.867,-108.726"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="357.386,-98.3851 347.018,-100.569 356.485,-105.327 357.386,-98.3851"/>
+<path fill="none" stroke="midnightblue" d="M367.535,-114.732C382.305,-116.649 397.002,-118.556 409.831,-120.221"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="367.688,-111.222 357.321,-113.406 366.787,-118.164 367.688,-111.222"/>
 </g>
 <!-- Node87&#45;&gt;Node81 -->
 <g id="edge12" class="edge"><title>Node87&#45;&gt;Node81</title>
-<path fill="none" stroke="midnightblue" d="M338.993,-57.3809C350.791,-60.1439 362.962,-63.6346 374,-68 397.923,-77.461 422.987,-93.9939 437.653,-104.449"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="339.723,-53.9578 329.204,-55.2279 338.219,-60.7943 339.723,-53.9578"/>
+<path fill="none" stroke="midnightblue" d="M349.671,-71.5681C357.991,-73.817 366.273,-76.4442 374,-79.5 397.923,-88.961 422.987,-105.494 437.653,-115.949"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="350.471,-68.1601 339.917,-69.0986 348.752,-74.946 350.471,-68.1601"/>
 </g>
 <!-- Node88&#45;&gt;Node81 -->
 <g id="edge14" class="edge"><title>Node88&#45;&gt;Node81</title>
-<path fill="none" stroke="midnightblue" d="M361.764,-23.0726C366.004,-24.8102 370.114,-26.7761 374,-29 407.085,-47.9323 433.574,-86.2786 444.75,-104.269"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="362.899,-19.7611 352.305,-19.6219 360.5,-26.3372 362.899,-19.7611"/>
+<path fill="none" stroke="midnightblue" d="M356.65,-31.7709C362.709,-34.2813 368.576,-37.1722 374,-40.5 406.491,-60.4337 433.277,-98.2793 444.639,-115.956"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="357.6,-28.3885 347.009,-28.1313 355.128,-34.9375 357.6,-28.3885"/>
 </g>
 </g>
 </svg>
