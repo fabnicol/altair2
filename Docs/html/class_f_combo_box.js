@@ -10,6 +10,5 @@ var class_f_combo_box =
     [ "setWidgetFromXml", "class_f_combo_box.html#a53a3573e42f8f0e8db2b66e687272dc3", null ],
     [ "setXmlFromWidget", "class_f_combo_box.html#a827eeaa2f5771e16a3f4cbc3aa18c454", null ],
     [ "FAbstractWidget", "class_f_combo_box.html#a27806e1419c4748c3ca1eca1d3519439", null ],
-    [ "comboBoxTranslationHash", "class_f_combo_box.html#a7319f1cebf41f202437cd657717d1caf", null ],
-    [ "signalList", "class_f_combo_box.html#a1d39950a2cf3d574764a527e03a9ccac", null ]
+    [ "comboBoxTranslationHash", "class_f_combo_box.html#a7319f1cebf41f202437cd657717d1caf", null ]
 ];

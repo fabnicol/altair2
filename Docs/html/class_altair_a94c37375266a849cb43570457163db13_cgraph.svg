@@ -48,59 +48,59 @@ if (edges && edges.length) {
 <script type="text/javascript">
 var viewWidth = 660;
 var viewHeight = 47;
-var sectionId = 'dynsection-70';
+var sectionId = 'dynsection-89';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>Altair::updateIndexInfo</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-43 656,-43 656,4 -4,4"/>
-<!-- Node1047 -->
-<g id="node1" class="node"><title>Node1047</title>
+<!-- Node4991 -->
+<g id="node1" class="node"><title>Node4991</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-19.5 0,-38.5 115,-38.5 115,-19.5 0,-19.5"/>
 <text text-anchor="middle" x="57.5" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::updateIndexInfo</text>
 </g>
-<!-- Node1048 -->
-<g id="node2" class="node"><title>Node1048</title>
-<g id="a_node2"><a xlink:href="class_f_list_frame.html#a0037e19af552e7ccca67e2a01b700389" target="_top" xlink:title="Accesseur en lecture du rang (index) de l&#39;onglet courant (0&#45;based) ">
+<!-- Node4992 -->
+<g id="node2" class="node"><title>Node4992</title>
+<g id="a_node2"><a xlink:href="class_f_list_frame.html#a0037e19af552e7ccca67e2a01b700389" target="_top" xlink:title="Accesseur en lecture du rang (index) de l&#39;onglet courant (0&#45;based). ">
 <polygon fill="white" stroke="black" points="510,-19.5 510,-38.5 652,-38.5 652,-19.5 510,-19.5"/>
 <text text-anchor="middle" x="581" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getCurrentIndex</text>
 </a>
 </g>
 </g>
-<!-- Node1047&#45;&gt;Node1048 -->
-<g id="edge1" class="edge"><title>Node1047&#45;&gt;Node1048</title>
+<!-- Node4991&#45;&gt;Node4992 -->
+<g id="edge1" class="edge"><title>Node4991&#45;&gt;Node4992</title>
 <path fill="none" stroke="midnightblue" d="M115.302,-29C208.263,-29 393.169,-29 499.572,-29"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="499.618,-32.5001 509.618,-29 499.618,-25.5001 499.618,-32.5001"/>
 </g>
-<!-- Node1049 -->
-<g id="node3" class="node"><title>Node1049</title>
-<g id="a_node3"><a xlink:href="class_f_list_frame.html#a38151a18f0313c555c2cf71f19d54ab2" target="_top" xlink:title="Accesseur en lecture de /. ">
+<!-- Node4993 -->
+<g id="node3" class="node"><title>Node4993</title>
+<g id="a_node3"><a xlink:href="class_f_list_frame.html#a38151a18f0313c555c2cf71f19d54ab2" target="_top" xlink:title="Accesseur en lecture de la ligne courante. ">
 <polygon fill="white" stroke="black" points="151,-0.5 151,-19.5 289,-19.5 289,-0.5 151,-0.5"/>
 <text text-anchor="middle" x="220" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getCurrentRow</text>
 </a>
 </g>
 </g>
-<!-- Node1047&#45;&gt;Node1049 -->
-<g id="edge2" class="edge"><title>Node1047&#45;&gt;Node1049</title>
+<!-- Node4991&#45;&gt;Node4993 -->
+<g id="edge2" class="edge"><title>Node4991&#45;&gt;Node4993</title>
 <path fill="none" stroke="midnightblue" d="M115.086,-22.3013C123.389,-21.3184 132.064,-20.2915 140.708,-19.2682"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="141.298,-22.7229 150.817,-18.0715 140.475,-15.7714 141.298,-22.7229"/>
 </g>
-<!-- Node1050 -->
-<g id="node4" class="node"><title>Node1050</title>
-<g id="a_node4"><a xlink:href="class_f_list_frame.html#a73aaa61fe9f56248049e96722c17b164" target="_top" xlink:title="Accesseur en lecture de /. ">
+<!-- Node4994 -->
+<g id="node4" class="node"><title>Node4994</title>
+<g id="a_node4"><a xlink:href="class_f_list_frame.html#a73aaa61fe9f56248049e96722c17b164" target="_top" xlink:title="Accesseur en lecture du composant (widget) courant dans le conteneur widgetContainer. ">
 <polygon fill="white" stroke="black" points="325,-0.5 325,-19.5 474,-19.5 474,-0.5 325,-0.5"/>
 <text text-anchor="middle" x="399.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getCurrentWidget</text>
 </a>
 </g>
 </g>
-<!-- Node1049&#45;&gt;Node1050 -->
-<g id="edge3" class="edge"><title>Node1049&#45;&gt;Node1050</title>
+<!-- Node4993&#45;&gt;Node4994 -->
+<g id="edge3" class="edge"><title>Node4993&#45;&gt;Node4994</title>
 <path fill="none" stroke="midnightblue" d="M289.118,-10C297.551,-10 306.246,-10 314.877,-10"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="314.959,-13.5001 324.959,-10 314.958,-6.5001 314.959,-13.5001"/>
 </g>
-<!-- Node1050&#45;&gt;Node1048 -->
-<g id="edge4" class="edge"><title>Node1050&#45;&gt;Node1048</title>
+<!-- Node4994&#45;&gt;Node4992 -->
+<g id="edge4" class="edge"><title>Node4994&#45;&gt;Node4992</title>
 <path fill="none" stroke="midnightblue" d="M474.027,-17.7828C482.517,-18.6815 491.207,-19.6013 499.78,-20.5088"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="499.458,-23.9942 509.771,-21.5663 500.195,-17.033 499.458,-23.9942"/>
 </g>

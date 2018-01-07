@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 1416;
+var viewWidth = 1480;
 var viewHeight = 375;
 var sectionId = 'dynsection-1';
 </script>
@@ -54,296 +54,278 @@ var sectionId = 'dynsection-1';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>fwidgets_lib/fwidgets.h</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-371 1411.5,-371 1411.5,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-371 1475.5,-371 1475.5,4 -4,4"/>
 <!-- Node6 -->
 <g id="node1" class="node"><title>Node6</title>
-<polygon fill="#bfbfbf" stroke="black" points="608,-347.5 608,-366.5 724,-366.5 724,-347.5 608,-347.5"/>
-<text text-anchor="middle" x="666" y="-354.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/fwidgets.h</text>
+<polygon fill="#bfbfbf" stroke="black" points="622,-347.5 622,-366.5 738,-366.5 738,-347.5 622,-347.5"/>
+<text text-anchor="middle" x="680" y="-354.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/fwidgets.h</text>
 </g>
 <!-- Node7 -->
 <g id="node2" class="node"><title>Node7</title>
-<g id="a_node2"><a xlink:href="common_8h.html" target="_top" xlink:title="Code de la classe common, qui regroupe des utilitaires communs à l&#39;interface graphique MainWindow...">
-<polygon fill="white" stroke="black" points="468.5,-235.5 468.5,-254.5 587.5,-254.5 587.5,-235.5 468.5,-235.5"/>
-<text text-anchor="middle" x="528" y="-242.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/common.h</text>
+<g id="a_node2"><a xlink:href="flineframe_8h.html" target="_top" xlink:title="Ce fichier contient la classe FLineFrame, dérivée fonctionnelle de FLineEdit. ">
+<polygon fill="white" stroke="black" points="195,-291.5 195,-310.5 317,-310.5 317,-291.5 195,-291.5"/>
+<text text-anchor="middle" x="256" y="-298.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/flineframe.h</text>
 </a>
 </g>
 </g>
 <!-- Node6&#45;&gt;Node7 -->
 <g id="edge1" class="edge"><title>Node6&#45;&gt;Node7</title>
-<path fill="none" stroke="midnightblue" d="M647.329,-341.118C618.037,-317.769 562.211,-273.27 538.778,-254.591"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="645.17,-343.872 655.171,-347.368 649.533,-338.398 645.17,-343.872"/>
+<path fill="none" stroke="midnightblue" d="M611.785,-347.312C530.333,-336.939 395.326,-319.744 317.136,-309.786"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="611.572,-350.813 621.934,-348.605 612.456,-343.869 611.572,-350.813"/>
 </g>
-<!-- Node10 -->
-<g id="node5" class="node"><title>Node10</title>
-<g id="a_node5"><a xlink:href="altair_8h.html" target="_top" xlink:title="Code de la classe principale Altair, qui joue le rôle d&#39;agent de l&#39;interface graphique. ">
-<polygon fill="white" stroke="black" points="453.5,-56.5 453.5,-75.5 556.5,-75.5 556.5,-56.5 453.5,-56.5"/>
-<text text-anchor="middle" x="505" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/altair.h</text>
+<!-- Node8 -->
+<g id="node3" class="node"><title>Node8</title>
+<g id="a_node3"><a xlink:href="flineframe_8cpp.html" target="_top" xlink:title="fwidgets_lib/flineframe.cpp">
+<polygon fill="white" stroke="black" points="284.5,-235.5 284.5,-254.5 417.5,-254.5 417.5,-235.5 284.5,-235.5"/>
+<text text-anchor="middle" x="351" y="-242.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/flineframe.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node6&#45;&gt;Node10 -->
-<g id="edge22" class="edge"><title>Node6&#45;&gt;Node10</title>
-<path fill="none" stroke="midnightblue" d="M607.239,-345.065C558.165,-332.498 491.21,-306.556 459,-255 420.899,-194.016 478.643,-103.617 498.615,-75.5961"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="606.565,-348.503 617.11,-347.476 608.226,-341.703 606.565,-348.503"/>
+<!-- Node6&#45;&gt;Node8 -->
+<g id="edge38" class="edge"><title>Node6&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M611.95,-352.701C560.541,-348.102 489.295,-337.129 432,-311 401.487,-297.084 372.554,-269.077 359.012,-254.801"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="611.7,-356.193 621.957,-353.539 612.283,-349.217 611.7,-356.193"/>
 </g>
-<!-- Node14 -->
-<g id="node9" class="node"><title>Node14</title>
-<g id="a_node9"><a xlink:href="run_8cpp.html" target="_top" xlink:title="Implémentation de la classe Altair agent de la classe MainWindow qui construit l&#39;interface graphique...">
-<polygon fill="white" stroke="black" points="988,-0.5 988,-19.5 1094,-19.5 1094,-0.5 988,-0.5"/>
-<text text-anchor="middle" x="1041" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/run.cpp</text>
+<!-- Node11 -->
+<g id="node6" class="node"><title>Node11</title>
+<g id="a_node6"><a xlink:href="altair_8h.html" target="_top" xlink:title="Code de la classe principale Altair, qui joue le rôle d&#39;agent de l&#39;interface graphique. ">
+<polygon fill="white" stroke="black" points="448.5,-56.5 448.5,-75.5 551.5,-75.5 551.5,-56.5 448.5,-56.5"/>
+<text text-anchor="middle" x="500" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/altair.h</text>
 </a>
 </g>
 </g>
-<!-- Node6&#45;&gt;Node14 -->
-<g id="edge24" class="edge"><title>Node6&#45;&gt;Node14</title>
-<path fill="none" stroke="midnightblue" d="M734.228,-355.278C819.685,-352.912 969.954,-343.905 1094,-311 1163.44,-292.58 1242,-317.842 1242,-246 1242,-246 1242,-246 1242,-126.5 1242,-58.1811 1153.62,-29.6814 1094.07,-18.2325"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="734.042,-351.781 724.134,-355.534 734.22,-358.779 734.042,-351.781"/>
+<!-- Node6&#45;&gt;Node11 -->
+<g id="edge42" class="edge"><title>Node6&#45;&gt;Node11</title>
+<path fill="none" stroke="midnightblue" d="M611.88,-352.211C542.799,-344.252 446,-319.912 446,-246 446,-246 446,-246 446,-188 446,-142.222 478.63,-94.4987 493.161,-75.5163"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="611.543,-355.694 621.857,-353.27 612.282,-348.733 611.543,-355.694"/>
+</g>
+<!-- Node15 -->
+<g id="node10" class="node"><title>Node15</title>
+<g id="a_node10"><a xlink:href="run_8cpp.html" target="_top" xlink:title="Implémentation de la classe Altair agent de la classe MainWindow qui construit l&#39;interface graphique...">
+<polygon fill="white" stroke="black" points="731,-0.5 731,-19.5 837,-19.5 837,-0.5 731,-0.5"/>
+<text text-anchor="middle" x="784" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/run.cpp</text>
+</a>
+</g>
+</g>
+<!-- Node6&#45;&gt;Node15 -->
+<g id="edge44" class="edge"><title>Node6&#45;&gt;Node15</title>
+<path fill="none" stroke="midnightblue" d="M681.734,-337.193C684.225,-313.184 689.585,-270.504 699,-235 721.923,-148.559 766.296,-49.3163 779.921,-19.7448"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="678.23,-337.072 680.737,-347.365 685.196,-337.755 678.23,-337.072"/>
 </g>
 <!-- Node20 -->
 <g id="node15" class="node"><title>Node20</title>
-<g id="a_node15"><a xlink:href="highlighter_8cpp.html" target="_top" xlink:title="Implémentation de la classe Highlighter qui sert à coloriser le code XML des projets ...">
-<polygon fill="white" stroke="black" points="1270.5,-291.5 1270.5,-310.5 1407.5,-310.5 1407.5,-291.5 1270.5,-291.5"/>
-<text text-anchor="middle" x="1339" y="-298.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/highlighter.cpp</text>
+<g id="a_node15"><a xlink:href="tools_8h.html" target="_top" xlink:title="fwidgets_lib/tools.h">
+<polygon fill="white" stroke="black" points="803.5,-291.5 803.5,-310.5 904.5,-310.5 904.5,-291.5 803.5,-291.5"/>
+<text text-anchor="middle" x="854" y="-298.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/tools.h</text>
 </a>
 </g>
 </g>
 <!-- Node6&#45;&gt;Node20 -->
-<g id="edge23" class="edge"><title>Node6&#45;&gt;Node20</title>
-<path fill="none" stroke="midnightblue" d="M734.546,-351.484C844.595,-344.074 1067.47,-328.407 1256,-311 1260.62,-310.574 1265.38,-310.113 1270.17,-309.634"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="733.996,-348.013 724.253,-352.175 734.465,-354.997 733.996,-348.013"/>
+<g id="edge20" class="edge"><title>Node6&#45;&gt;Node20</title>
+<path fill="none" stroke="midnightblue" d="M717.261,-344.436C750.067,-334.255 797.083,-319.664 826.558,-310.516"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="716.084,-341.137 707.571,-347.444 718.159,-347.822 716.084,-341.137"/>
 </g>
 <!-- Node21 -->
 <g id="node16" class="node"><title>Node21</title>
-<g id="a_node16"><a xlink:href="flineframe_8h.html" target="_top" xlink:title="Ce fichier contient la classe FLineFrame, dérivée fonctionnelle de FLineEdit. ">
-<polygon fill="white" stroke="black" points="189,-291.5 189,-310.5 311,-310.5 311,-291.5 189,-291.5"/>
-<text text-anchor="middle" x="250" y="-298.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/flineframe.h</text>
+<g id="a_node16"><a xlink:href="flistframe_8h.html" target="_top" xlink:title="fwidgets_lib/flistframe.h">
+<polygon fill="white" stroke="black" points="708,-235.5 708,-254.5 828,-254.5 828,-235.5 708,-235.5"/>
+<text text-anchor="middle" x="768" y="-242.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/flistframe.h</text>
 </a>
 </g>
 </g>
 <!-- Node6&#45;&gt;Node21 -->
-<g id="edge25" class="edge"><title>Node6&#45;&gt;Node21</title>
-<path fill="none" stroke="midnightblue" d="M597.793,-347.146C518.198,-336.814 387.759,-319.882 311.269,-309.953"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="597.352,-350.618 607.719,-348.435 598.253,-343.676 597.352,-350.618"/>
-</g>
-<!-- Node22 -->
-<g id="node17" class="node"><title>Node22</title>
-<g id="a_node17"><a xlink:href="flineframe_8cpp.html" target="_top" xlink:title="fwidgets_lib/flineframe.cpp">
-<polygon fill="white" stroke="black" points="278.5,-235.5 278.5,-254.5 411.5,-254.5 411.5,-235.5 278.5,-235.5"/>
-<text text-anchor="middle" x="345" y="-242.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/flineframe.cpp</text>
-</a>
-</g>
-</g>
-<!-- Node6&#45;&gt;Node22 -->
-<g id="edge41" class="edge"><title>Node6&#45;&gt;Node22</title>
-<path fill="none" stroke="midnightblue" d="M597.872,-352.104C548.305,-347.193 480.596,-336.091 426,-311 395.527,-296.995 366.576,-269.028 353.022,-254.781"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="597.566,-355.591 607.848,-353.034 598.215,-348.621 597.566,-355.591"/>
+<g id="edge39" class="edge"><title>Node6&#45;&gt;Node21</title>
+<path fill="none" stroke="midnightblue" d="M693.382,-339.272C712.405,-315.494 746.569,-272.789 761.127,-254.591"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="690.419,-337.373 686.905,-347.368 695.885,-341.746 690.419,-337.373"/>
 </g>
 <!-- Node23 -->
 <g id="node18" class="node"><title>Node23</title>
-<g id="a_node18"><a xlink:href="tools_8h.html" target="_top" xlink:title="fwidgets_lib/tools.h">
-<polygon fill="white" stroke="black" points="726.5,-291.5 726.5,-310.5 827.5,-310.5 827.5,-291.5 726.5,-291.5"/>
-<text text-anchor="middle" x="777" y="-298.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/tools.h</text>
+<g id="a_node18"><a xlink:href="fwidgets_8cpp.html" target="_top" xlink:title="fwidgets_lib/fwidgets.cpp">
+<polygon fill="white" stroke="black" points="1204.5,-179.5 1204.5,-198.5 1331.5,-198.5 1331.5,-179.5 1204.5,-179.5"/>
+<text text-anchor="middle" x="1268" y="-186.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/fwidgets.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node6&#45;&gt;Node23 -->
-<g id="edge30" class="edge"><title>Node6&#45;&gt;Node23</title>
-<path fill="none" stroke="midnightblue" d="M693.005,-342.862C713.588,-332.849 741.345,-319.346 759.21,-310.655"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="691.295,-339.802 683.834,-347.324 694.358,-346.097 691.295,-339.802"/>
+<g id="edge40" class="edge"><title>Node6&#45;&gt;Node23</title>
+<path fill="none" stroke="midnightblue" d="M748.27,-354.847C888.85,-350.879 1203.02,-333.254 1269,-255 1282.39,-239.124 1276.01,-212.49 1271.37,-198.765"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="747.951,-351.355 738.048,-355.12 748.138,-358.352 747.951,-351.355"/>
 </g>
-<!-- Node24 -->
-<g id="node19" class="node"><title>Node24</title>
-<g id="a_node19"><a xlink:href="flistframe_8h.html" target="_top" xlink:title="fwidgets_lib/flistframe.h">
-<polygon fill="white" stroke="black" points="606,-235.5 606,-254.5 726,-254.5 726,-235.5 606,-235.5"/>
-<text text-anchor="middle" x="666" y="-242.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/flistframe.h</text>
+<!-- Node27 -->
+<g id="node22" class="node"><title>Node27</title>
+<g id="a_node22"><a xlink:href="common_8h.html" target="_top" xlink:title="Code de la classe common, qui regroupe des utilitaires communs à l&#39;interface graphique MainWindow...">
+<polygon fill="white" stroke="black" points="517.5,-235.5 517.5,-254.5 636.5,-254.5 636.5,-235.5 517.5,-235.5"/>
+<text text-anchor="middle" x="577" y="-242.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/common.h</text>
 </a>
 </g>
 </g>
-<!-- Node6&#45;&gt;Node24 -->
-<g id="edge42" class="edge"><title>Node6&#45;&gt;Node24</title>
-<path fill="none" stroke="midnightblue" d="M666,-337.348C666,-313.254 666,-272.308 666,-254.591"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="662.5,-337.368 666,-347.368 669.5,-337.369 662.5,-337.368"/>
+<!-- Node6&#45;&gt;Node27 -->
+<g id="edge41" class="edge"><title>Node6&#45;&gt;Node27</title>
+<path fill="none" stroke="midnightblue" d="M664.921,-339.897C642.778,-316.249 602.234,-272.949 585.045,-254.591"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="662.528,-342.461 671.918,-347.368 667.638,-337.677 662.528,-342.461"/>
 </g>
-<!-- Node26 -->
-<g id="node21" class="node"><title>Node26</title>
-<g id="a_node21"><a xlink:href="fwidgets_8cpp.html" target="_top" xlink:title="fwidgets_lib/fwidgets.cpp">
-<polygon fill="white" stroke="black" points="1086.5,-179.5 1086.5,-198.5 1213.5,-198.5 1213.5,-179.5 1086.5,-179.5"/>
-<text text-anchor="middle" x="1150" y="-186.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/fwidgets.cpp</text>
+<!-- Node29 -->
+<g id="node24" class="node"><title>Node29</title>
+<g id="a_node24"><a xlink:href="highlighter_8cpp.html" target="_top" xlink:title="Implémentation de la classe Highlighter qui sert à coloriser le code XML des projets ...">
+<polygon fill="white" stroke="black" points="1334.5,-291.5 1334.5,-310.5 1471.5,-310.5 1471.5,-291.5 1334.5,-291.5"/>
+<text text-anchor="middle" x="1403" y="-298.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/highlighter.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node6&#45;&gt;Node26 -->
-<g id="edge43" class="edge"><title>Node6&#45;&gt;Node26</title>
-<path fill="none" stroke="midnightblue" d="M734.174,-352.517C857.832,-344.618 1111.32,-320.634 1165,-255 1178.49,-238.505 1164.84,-212.142 1156.09,-198.618"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="733.823,-349.031 724.06,-353.145 734.258,-356.018 733.823,-349.031"/>
-</g>
-<!-- Node8 -->
-<g id="node3" class="node"><title>Node8</title>
-<g id="a_node3"><a xlink:href="options_8h.html" target="_top" xlink:title="Code des classes du dialogue d&#39;options. ">
-<polygon fill="white" stroke="black" points="99.5,-179.5 99.5,-198.5 212.5,-198.5 212.5,-179.5 99.5,-179.5"/>
-<text text-anchor="middle" x="156" y="-186.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/options.h</text>
-</a>
-</g>
+<!-- Node6&#45;&gt;Node29 -->
+<g id="edge43" class="edge"><title>Node6&#45;&gt;Node29</title>
+<path fill="none" stroke="midnightblue" d="M748.554,-352.033C865.76,-345.06 1112.15,-329.569 1320,-311 1324.62,-310.587 1329.38,-310.137 1334.18,-309.665"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="748.075,-348.555 738.299,-352.641 748.489,-355.543 748.075,-348.555"/>
 </g>
 <!-- Node7&#45;&gt;Node8 -->
 <g id="edge2" class="edge"><title>Node7&#45;&gt;Node8</title>
-<path fill="none" stroke="midnightblue" d="M458.863,-233.964C387.832,-223.653 278.58,-207.794 212.536,-198.207"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="458.656,-237.471 469.055,-235.444 459.662,-230.543 458.656,-237.471"/>
+<path fill="none" stroke="midnightblue" d="M280.318,-286.177C297.799,-276.241 320.83,-263.149 335.774,-254.655"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="278.227,-283.339 271.263,-291.324 281.687,-289.425 278.227,-283.339"/>
 </g>
 <!-- Node9 -->
 <g id="node4" class="node"><title>Node9</title>
-<g id="a_node4"><a xlink:href="altair-gui_8h.html" target="_top" xlink:title="Code de la classe MainWindow qui construit l&#39;interface graphique. ">
+<g id="a_node4"><a xlink:href="options_8h.html" target="_top" xlink:title="Code des classes du dialogue d&#39;options. ">
+<polygon fill="white" stroke="black" points="104.5,-179.5 104.5,-198.5 217.5,-198.5 217.5,-179.5 104.5,-179.5"/>
+<text text-anchor="middle" x="161" y="-186.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/options.h</text>
+</a>
+</g>
+</g>
+<!-- Node7&#45;&gt;Node9 -->
+<g id="edge3" class="edge"><title>Node7&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M241.824,-283.586C221.343,-259.871 184.205,-216.869 168.42,-198.591"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="239.36,-286.088 248.546,-291.368 244.658,-281.513 239.36,-286.088"/>
+</g>
+<!-- Node14 -->
+<g id="node9" class="node"><title>Node14</title>
+<g id="a_node9"><a xlink:href="options_8cpp.html" target="_top" xlink:title="Implémentation des classes du dialogue d&#39;options. ">
+<polygon fill="white" stroke="black" points="0,-0.5 0,-19.5 124,-19.5 124,-0.5 0,-0.5"/>
+<text text-anchor="middle" x="62" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/options.cpp</text>
+</a>
+</g>
+</g>
+<!-- Node7&#45;&gt;Node14 -->
+<g id="edge19" class="edge"><title>Node7&#45;&gt;Node14</title>
+<path fill="none" stroke="midnightblue" d="M184.45,-295.522C116.288,-286.915 24,-261.973 24,-190 24,-190 24,-190 24,-126.5 24,-84.7033 46.7318,-38.4681 57.0322,-19.6633"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="184.403,-299.04 194.741,-296.722 185.214,-292.087 184.403,-299.04"/>
+</g>
+<!-- Node18 -->
+<g id="node13" class="node"><title>Node18</title>
+<g id="a_node13"><a xlink:href="matricules_8h.html" target="_top" xlink:title="Code de la classe MatriculeInput, qui construit un dialogue d&#39;extraction des bulletins. ">
+<polygon fill="white" stroke="black" points="235.5,-179.5 235.5,-198.5 362.5,-198.5 362.5,-179.5 235.5,-179.5"/>
+<text text-anchor="middle" x="299" y="-186.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/matricules.h</text>
+</a>
+</g>
+</g>
+<!-- Node7&#45;&gt;Node18 -->
+<g id="edge15" class="edge"><title>Node7&#45;&gt;Node18</title>
+<path fill="none" stroke="midnightblue" d="M260.295,-281.622C263.64,-268.413 268.758,-250.309 275,-235 280.349,-221.882 288.387,-207.583 293.663,-198.704"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="256.88,-280.852 257.917,-291.396 263.682,-282.507 256.88,-280.852"/>
+</g>
+<!-- Node10 -->
+<g id="node5" class="node"><title>Node10</title>
+<g id="a_node5"><a xlink:href="altair-gui_8h.html" target="_top" xlink:title="Code de la classe MainWindow qui construit l&#39;interface graphique. ">
 <polygon fill="white" stroke="black" points="322.5,-112.5 322.5,-142.5 417.5,-142.5 417.5,-112.5 322.5,-112.5"/>
 <text text-anchor="start" x="330.5" y="-130.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/altair</text>
 <text text-anchor="middle" x="370" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;gui.h</text>
 </a>
 </g>
 </g>
-<!-- Node7&#45;&gt;Node9 -->
-<g id="edge14" class="edge"><title>Node7&#45;&gt;Node9</title>
-<path fill="none" stroke="midnightblue" d="M507.237,-229.641C494.658,-220.882 478.326,-209.405 464,-199 437.592,-179.82 407.475,-157.076 388.601,-142.715"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="505.441,-232.655 515.651,-235.484 509.434,-226.905 505.441,-232.655"/>
-</g>
-<!-- Node7&#45;&gt;Node10 -->
-<g id="edge15" class="edge"><title>Node7&#45;&gt;Node10</title>
-<path fill="none" stroke="midnightblue" d="M513.025,-227.473C506.776,-219.479 500.229,-209.378 497,-199 483.087,-154.278 496.428,-97.0106 502.422,-75.5907"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="510.416,-229.81 519.517,-235.234 515.785,-225.318 510.416,-229.81"/>
+<!-- Node9&#45;&gt;Node10 -->
+<g id="edge4" class="edge"><title>Node9&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M200.707,-176.696C235.313,-166.844 285.577,-152.534 322.346,-142.067"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="199.604,-173.371 190.945,-179.475 201.521,-180.103 199.604,-173.371"/>
 </g>
 <!-- Node12 -->
 <g id="node7" class="node"><title>Node12</title>
-<g id="a_node7"><a xlink:href="mainwindow_8cpp.html" target="_top" xlink:title="Code de l&#39;implémentation de la classe MainWindow de l&#39;interface graphique. ">
-<polygon fill="white" stroke="black" points="432,-0.5 432,-19.5 578,-19.5 578,-0.5 432,-0.5"/>
-<text text-anchor="middle" x="505" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/mainwindow.cpp</text>
+<g id="a_node7"><a xlink:href="altair_8cpp.html" target="_top" xlink:title="Code implémentant la classe principale Altair, qui joue le rôle d&#39;agent de l&#39;interface graphique...">
+<polygon fill="white" stroke="black" points="212.5,-0.5 212.5,-19.5 325.5,-19.5 325.5,-0.5 212.5,-0.5"/>
+<text text-anchor="middle" x="269" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/altair.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node7&#45;&gt;Node12 -->
-<g id="edge17" class="edge"><title>Node7&#45;&gt;Node12</title>
-<path fill="none" stroke="midnightblue" d="M597.375,-232.294C615.885,-225.659 633.826,-215.27 645,-199 650.032,-191.673 647.528,-187.522 645,-179 626.457,-116.48 609.546,-103.627 565,-56 551.303,-41.3552 532.372,-28.0454 519.462,-19.7641"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="596.113,-229.023 587.676,-235.432 598.267,-235.683 596.113,-229.023"/>
+<!-- Node9&#45;&gt;Node12 -->
+<g id="edge13" class="edge"><title>Node9&#45;&gt;Node12</title>
+<path fill="none" stroke="midnightblue" d="M140.955,-172.528C132.469,-164.709 123.514,-154.452 119,-143 113.948,-130.182 112.527,-124.162 119,-112 145.329,-62.5305 207.868,-32.9436 243.321,-19.5635"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="138.915,-175.389 148.786,-179.236 143.469,-170.073 138.915,-175.389"/>
 </g>
-<!-- Node15 -->
-<g id="node10" class="node"><title>Node15</title>
-<g id="a_node10"><a xlink:href="xmlparser_8cpp.html" target="_top" xlink:title="Implémentation de la classe Altair agent de la classe MainWindow qui construit l&#39;interface graphique...">
-<polygon fill="white" stroke="black" points="634.5,-0.5 634.5,-19.5 769.5,-19.5 769.5,-0.5 634.5,-0.5"/>
-<text text-anchor="middle" x="702" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/xmlparser.cpp</text>
-</a>
+<!-- Node9&#45;&gt;Node14 -->
+<g id="edge14" class="edge"><title>Node9&#45;&gt;Node14</title>
+<path fill="none" stroke="midnightblue" d="M126.787,-175.125C112.033,-167.873 95.9202,-157.342 86,-143 58.7049,-103.538 59.7973,-42.1121 61.2653,-19.6231"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="125.656,-178.456 136.207,-179.424 128.563,-172.088 125.656,-178.456"/>
 </g>
-</g>
-<!-- Node7&#45;&gt;Node15 -->
-<g id="edge21" class="edge"><title>Node7&#45;&gt;Node15</title>
-<path fill="none" stroke="midnightblue" d="M597.439,-234.598C620.604,-228.147 644.649,-217.284 661,-199 708.877,-145.462 705.254,-49.2476 702.866,-19.8022"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="596.42,-231.246 587.59,-237.101 598.144,-238.03 596.42,-231.246"/>
+<!-- Node10&#45;&gt;Node11 -->
+<g id="edge5" class="edge"><title>Node10&#45;&gt;Node11</title>
+<path fill="none" stroke="midnightblue" d="M404.245,-107.94C426.904,-97.1595 455.931,-84.0843 476.154,-75.6578"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="402.465,-104.912 394.968,-112.399 405.497,-111.221 402.465,-104.912"/>
 </g>
 <!-- Node17 -->
 <g id="node12" class="node"><title>Node17</title>
-<g id="a_node12"><a xlink:href="common_8cpp.html" target="_top" xlink:title="Interface/gui/common.cpp">
-<polygon fill="white" stroke="black" points="506,-179.5 506,-198.5 636,-198.5 636,-179.5 506,-179.5"/>
-<text text-anchor="middle" x="571" y="-186.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/common.cpp</text>
+<g id="a_node12"><a xlink:href="_interface_2gui_2main_8cpp.html" target="_top" xlink:title="Lance l&#39;interface graphique en chargeant le bon contexte linguistique et la feuille de style...">
+<polygon fill="white" stroke="black" points="317.5,-56.5 317.5,-75.5 430.5,-75.5 430.5,-56.5 317.5,-56.5"/>
+<text text-anchor="middle" x="374" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/main.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node7&#45;&gt;Node17 -->
-<g id="edge16" class="edge"><title>Node7&#45;&gt;Node17</title>
-<path fill="none" stroke="midnightblue" d="M541.422,-227.144C548.914,-217.736 557.937,-206.405 564.032,-198.751"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="538.592,-225.08 535.101,-235.083 544.068,-229.44 538.592,-225.08"/>
+<!-- Node10&#45;&gt;Node17 -->
+<g id="edge12" class="edge"><title>Node10&#45;&gt;Node17</title>
+<path fill="none" stroke="midnightblue" d="M371.628,-102.289C372.262,-92.857 372.948,-82.6548 373.418,-75.6578"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="368.127,-102.187 370.948,-112.399 375.111,-102.657 368.127,-102.187"/>
 </g>
-<!-- Node18 -->
-<g id="node13" class="node"><title>Node18</title>
-<g id="a_node13"><a xlink:href="matricules_8h.html" target="_top" xlink:title="Code de la classe MatriculeInput, qui construit un dialogue d&#39;extraction des bulletins. ">
-<polygon fill="white" stroke="black" points="230.5,-179.5 230.5,-198.5 357.5,-198.5 357.5,-179.5 230.5,-179.5"/>
-<text text-anchor="middle" x="294" y="-186.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/matricules.h</text>
-</a>
+<!-- Node11&#45;&gt;Node10 -->
+<g id="edge6" class="edge"><title>Node11&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M476.915,-80.1826C457.374,-89.7373 429.226,-102.639 406.648,-112.399"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="478.618,-83.2445 486.013,-75.6578 475.501,-76.9768 478.618,-83.2445"/>
 </g>
-</g>
-<!-- Node7&#45;&gt;Node18 -->
-<g id="edge18" class="edge"><title>Node7&#45;&gt;Node18</title>
-<path fill="none" stroke="midnightblue" d="M480.996,-233.153C436.783,-222.95 371.484,-207.881 330.905,-198.516"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="480.391,-236.605 490.922,-235.444 481.965,-229.784 480.391,-236.605"/>
-</g>
-<!-- Node8&#45;&gt;Node9 -->
-<g id="edge3" class="edge"><title>Node8&#45;&gt;Node9</title>
-<path fill="none" stroke="midnightblue" d="M196.3,-176.795C232.127,-166.834 284.55,-152.258 322.426,-141.727"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="195.358,-173.424 186.661,-179.475 197.233,-180.168 195.358,-173.424"/>
-</g>
-<!-- Node11 -->
-<g id="node6" class="node"><title>Node11</title>
-<g id="a_node6"><a xlink:href="altair_8cpp.html" target="_top" xlink:title="Code implémentant la classe principale Altair, qui joue le rôle d&#39;agent de l&#39;interface graphique...">
-<polygon fill="white" stroke="black" points="221.5,-0.5 221.5,-19.5 334.5,-19.5 334.5,-0.5 221.5,-0.5"/>
-<text text-anchor="middle" x="278" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/altair.cpp</text>
-</a>
-</g>
-</g>
-<!-- Node8&#45;&gt;Node11 -->
-<g id="edge12" class="edge"><title>Node8&#45;&gt;Node11</title>
-<path fill="none" stroke="midnightblue" d="M138.36,-172.152C130.857,-164.231 122.941,-153.997 119,-143 114.352,-130.03 112.365,-124.075 119,-112 146.796,-61.4136 211.844,-32.5712 249.564,-19.5359"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="135.981,-174.722 145.562,-179.245 140.892,-169.734 135.981,-174.722"/>
+<!-- Node11&#45;&gt;Node12 -->
+<g id="edge7" class="edge"><title>Node11&#45;&gt;Node12</title>
+<path fill="none" stroke="midnightblue" d="M453.598,-54.1529C409.953,-43.95 345.49,-28.8809 305.431,-19.5164"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="452.863,-57.5753 463.397,-56.4435 454.457,-50.7591 452.863,-57.5753"/>
 </g>
 <!-- Node13 -->
 <g id="node8" class="node"><title>Node13</title>
-<g id="a_node8"><a xlink:href="options_8cpp.html" target="_top" xlink:title="Implémentation des classes du dialogue d&#39;options. ">
-<polygon fill="white" stroke="black" points="0,-0.5 0,-19.5 124,-19.5 124,-0.5 0,-0.5"/>
-<text text-anchor="middle" x="62" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/options.cpp</text>
+<g id="a_node8"><a xlink:href="mainwindow_8cpp.html" target="_top" xlink:title="Code de l&#39;implémentation de la classe MainWindow de l&#39;interface graphique. ">
+<polygon fill="white" stroke="black" points="413,-0.5 413,-19.5 559,-19.5 559,-0.5 413,-0.5"/>
+<text text-anchor="middle" x="486" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/mainwindow.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node8&#45;&gt;Node13 -->
-<g id="edge13" class="edge"><title>Node8&#45;&gt;Node13</title>
-<path fill="none" stroke="midnightblue" d="M124.521,-174.878C110.615,-167.508 95.3343,-156.951 86,-143 59.3182,-103.12 60.0369,-41.9491 61.3355,-19.5754"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="123.323,-178.189 133.839,-179.474 126.419,-171.911 123.323,-178.189"/>
+<!-- Node11&#45;&gt;Node13 -->
+<g id="edge8" class="edge"><title>Node11&#45;&gt;Node13</title>
+<path fill="none" stroke="midnightblue" d="M495.177,-46.3956C492.835,-37.362 490.132,-26.936 488.269,-19.7511"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="491.79,-47.2814 497.688,-56.083 498.566,-45.5246 491.79,-47.2814"/>
 </g>
-<!-- Node9&#45;&gt;Node10 -->
-<g id="edge4" class="edge"><title>Node9&#45;&gt;Node10</title>
-<path fill="none" stroke="midnightblue" d="M405.49,-108.084C429.101,-97.2763 459.402,-84.1219 480.427,-75.6578"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="403.762,-105.027 396.153,-112.399 406.699,-111.381 403.762,-105.027"/>
+<!-- Node11&#45;&gt;Node14 -->
+<g id="edge9" class="edge"><title>Node11&#45;&gt;Node14</title>
+<path fill="none" stroke="midnightblue" d="M438.199,-55.9267C320.97,-40.3828 196.769,-26.0488 124.108,-17.8799"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="438.055,-59.4384 448.429,-57.2888 438.979,-52.4996 438.055,-59.4384"/>
+</g>
+<!-- Node11&#45;&gt;Node15 -->
+<g id="edge10" class="edge"><title>Node11&#45;&gt;Node15</title>
+<path fill="none" stroke="midnightblue" d="M555.027,-54.5371C608.701,-44.3316 689.338,-28.9992 739.21,-19.5164"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="554.171,-51.1371 545.001,-56.4435 555.478,-58.0139 554.171,-51.1371"/>
 </g>
 <!-- Node16 -->
 <g id="node11" class="node"><title>Node16</title>
-<g id="a_node11"><a xlink:href="_interface_2gui_2main_8cpp.html" target="_top" xlink:title="Lance l&#39;interface graphique en chargeant le bon contexte linguistique et la feuille de style...">
-<polygon fill="white" stroke="black" points="322.5,-56.5 322.5,-75.5 435.5,-75.5 435.5,-56.5 322.5,-56.5"/>
-<text text-anchor="middle" x="379" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/main.cpp</text>
+<g id="a_node11"><a xlink:href="xmlparser_8cpp.html" target="_top" xlink:title="Implémentation de la classe Altair agent de la classe MainWindow qui construit l&#39;interface graphique...">
+<polygon fill="white" stroke="black" points="577.5,-0.5 577.5,-19.5 712.5,-19.5 712.5,-0.5 577.5,-0.5"/>
+<text text-anchor="middle" x="645" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/xmlparser.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node9&#45;&gt;Node16 -->
-<g id="edge11" class="edge"><title>Node9&#45;&gt;Node16</title>
-<path fill="none" stroke="midnightblue" d="M373.662,-102.289C375.089,-92.857 376.632,-82.6548 377.69,-75.6578"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="370.168,-101.988 372.133,-112.399 377.089,-103.035 370.168,-101.988"/>
+<!-- Node11&#45;&gt;Node16 -->
+<g id="edge11" class="edge"><title>Node11&#45;&gt;Node16</title>
+<path fill="none" stroke="midnightblue" d="M532.475,-52.9058C559.736,-42.7536 597.992,-28.5063 622.132,-19.5164"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="531.125,-49.6736 522.976,-56.4435 533.568,-56.2334 531.125,-49.6736"/>
 </g>
-<!-- Node10&#45;&gt;Node9 -->
-<g id="edge5" class="edge"><title>Node10&#45;&gt;Node9</title>
-<path fill="none" stroke="midnightblue" d="M481.085,-80.052C460.73,-89.6194 431.338,-102.595 407.833,-112.399"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="482.77,-83.1257 490.286,-75.6578 479.754,-76.8091 482.77,-83.1257"/>
+<!-- Node18&#45;&gt;Node10 -->
+<g id="edge16" class="edge"><title>Node18&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M316.993,-172.921C328.141,-163.579 342.362,-151.662 353.267,-142.523"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="314.589,-170.369 309.173,-179.475 319.085,-175.735 314.589,-170.369"/>
 </g>
-<!-- Node10&#45;&gt;Node11 -->
-<g id="edge6" class="edge"><title>Node10&#45;&gt;Node11</title>
-<path fill="none" stroke="midnightblue" d="M459.131,-54.0884C416.245,-43.8865 353.083,-28.8612 313.801,-19.5164"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="458.493,-57.5342 469.031,-56.4435 460.113,-50.7242 458.493,-57.5342"/>
-</g>
-<!-- Node10&#45;&gt;Node12 -->
-<g id="edge7" class="edge"><title>Node10&#45;&gt;Node12</title>
-<path fill="none" stroke="midnightblue" d="M505,-45.8045C505,-36.9102 505,-26.7798 505,-19.7511"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="501.5,-46.083 505,-56.083 508.5,-46.083 501.5,-46.083"/>
-</g>
-<!-- Node10&#45;&gt;Node13 -->
-<g id="edge8" class="edge"><title>Node10&#45;&gt;Node13</title>
-<path fill="none" stroke="midnightblue" d="M443.405,-55.9564C324.312,-40.2604 197.866,-25.8982 124.265,-17.7695"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="443.057,-59.4408 453.43,-57.2832 443.976,-52.5013 443.057,-59.4408"/>
-</g>
-<!-- Node10&#45;&gt;Node14 -->
-<g id="edge9" class="edge"><title>Node10&#45;&gt;Node14</title>
-<path fill="none" stroke="midnightblue" d="M567.127,-58.741C673.383,-48.0361 888.179,-26.3962 987.902,-16.3494"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="566.48,-55.2883 556.881,-59.7732 567.181,-62.2531 566.48,-55.2883"/>
-</g>
-<!-- Node10&#45;&gt;Node15 -->
-<g id="edge10" class="edge"><title>Node10&#45;&gt;Node15</title>
-<path fill="none" stroke="midnightblue" d="M546.229,-53.6986C583.409,-43.507 637.271,-28.7429 670.931,-19.5164"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="544.934,-50.4244 536.215,-56.4435 546.785,-57.1754 544.934,-50.4244"/>
-</g>
-<!-- Node18&#45;&gt;Node12 -->
-<g id="edge19" class="edge"><title>Node18&#45;&gt;Node12</title>
-<path fill="none" stroke="midnightblue" d="M290.705,-169.044C286.937,-140.639 284.542,-87.0561 313,-56 329.133,-38.3938 384.696,-26.6133 431.926,-19.5374"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="287.29,-169.872 292.263,-179.227 294.21,-168.812 287.29,-169.872"/>
+<!-- Node18&#45;&gt;Node13 -->
+<g id="edge17" class="edge"><title>Node18&#45;&gt;Node13</title>
+<path fill="none" stroke="midnightblue" d="M294.099,-169.302C287.957,-141.231 281.218,-88.0801 308,-56 322.453,-38.6882 375.31,-26.7659 419.701,-19.5641"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="290.775,-170.449 296.514,-179.355 297.581,-168.814 290.775,-170.449"/>
 </g>
 <!-- Node19 -->
 <g id="node14" class="node"><title>Node19</title>
@@ -354,111 +336,134 @@ var sectionId = 'dynsection-1';
 </g>
 </g>
 <!-- Node18&#45;&gt;Node19 -->
-<g id="edge20" class="edge"><title>Node18&#45;&gt;Node19</title>
-<path fill="none" stroke="midnightblue" d="M271.574,-174.244C252.836,-162.75 226.707,-146.723 210.872,-137.009"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="269.748,-177.23 280.102,-179.475 273.408,-171.263 269.748,-177.23"/>
+<g id="edge18" class="edge"><title>Node18&#45;&gt;Node19</title>
+<path fill="none" stroke="midnightblue" d="M275.687,-174.401C255.964,-162.896 228.314,-146.767 211.587,-137.009"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="273.985,-177.46 284.386,-179.475 277.512,-171.413 273.985,-177.46"/>
 </g>
-<!-- Node21&#45;&gt;Node8 -->
-<g id="edge26" class="edge"><title>Node21&#45;&gt;Node8</title>
-<path fill="none" stroke="midnightblue" d="M235.973,-283.586C215.708,-259.871 178.961,-216.869 163.342,-198.591"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="233.467,-286.04 242.624,-291.368 238.788,-281.492 233.467,-286.04"/>
+<!-- Node20&#45;&gt;Node8 -->
+<g id="edge21" class="edge"><title>Node20&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M793.471,-293.502C698.743,-283.332 516.143,-263.729 417.732,-253.164"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="793.151,-296.988 803.467,-294.575 793.898,-290.028 793.151,-296.988"/>
 </g>
-<!-- Node21&#45;&gt;Node13 -->
-<g id="edge28" class="edge"><title>Node21&#45;&gt;Node13</title>
-<path fill="none" stroke="midnightblue" d="M178.83,-294.698C112.582,-285.42 24,-259.938 24,-190 24,-190 24,-190 24,-126.5 24,-84.7033 46.7318,-38.4681 57.0322,-19.6633"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="178.473,-298.181 188.841,-296.002 179.377,-291.239 178.473,-298.181"/>
+<!-- Node20&#45;&gt;Node21 -->
+<g id="edge22" class="edge"><title>Node20&#45;&gt;Node21</title>
+<path fill="none" stroke="midnightblue" d="M831.545,-285.901C815.776,-275.999 795.186,-263.071 781.783,-254.655"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="829.852,-288.97 840.183,-291.324 833.575,-283.042 829.852,-288.97"/>
 </g>
-<!-- Node21&#45;&gt;Node18 -->
-<g id="edge27" class="edge"><title>Node21&#45;&gt;Node18</title>
-<path fill="none" stroke="midnightblue" d="M254.215,-281.589C257.522,-268.364 262.627,-250.255 269,-235 274.512,-221.806 282.9,-207.526 288.415,-198.672"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="250.796,-280.838 251.872,-291.378 257.604,-282.468 250.796,-280.838"/>
+<!-- Node20&#45;&gt;Node23 -->
+<g id="edge27" class="edge"><title>Node20&#45;&gt;Node23</title>
+<path fill="none" stroke="midnightblue" d="M914.581,-300.92C1012.27,-301.147 1198.63,-295.993 1248,-255 1264.89,-240.97 1267.8,-213.014 1268.12,-198.775"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="914.569,-297.42 904.554,-300.877 914.539,-304.42 914.569,-297.42"/>
 </g>
-<!-- Node21&#45;&gt;Node22 -->
-<g id="edge29" class="edge"><title>Node21&#45;&gt;Node22</title>
-<path fill="none" stroke="midnightblue" d="M274.318,-286.177C291.799,-276.241 314.83,-263.149 329.774,-254.655"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="272.227,-283.339 265.263,-291.324 275.687,-289.425 272.227,-283.339"/>
-</g>
-<!-- Node23&#45;&gt;Node7 -->
-<g id="edge31" class="edge"><title>Node23&#45;&gt;Node7</title>
-<path fill="none" stroke="midnightblue" d="M727.576,-289.281C680.521,-279.077 610.633,-263.92 567.27,-254.516"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="727.031,-292.745 737.545,-291.444 728.514,-285.904 727.031,-292.745"/>
-</g>
-<!-- Node23&#45;&gt;Node22 -->
-<g id="edge32" class="edge"><title>Node23&#45;&gt;Node22</title>
-<path fill="none" stroke="midnightblue" d="M716.203,-292.4C635.819,-282.352 494.668,-264.708 411.516,-254.314"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="715.817,-295.879 726.174,-293.647 716.685,-288.933 715.817,-295.879"/>
-</g>
-<!-- Node23&#45;&gt;Node24 -->
-<g id="edge33" class="edge"><title>Node23&#45;&gt;Node24</title>
-<path fill="none" stroke="midnightblue" d="M749.995,-286.862C729.412,-276.849 701.655,-263.346 683.79,-254.655"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="748.642,-290.097 759.166,-291.324 751.705,-283.802 748.642,-290.097"/>
-</g>
-<!-- Node23&#45;&gt;Node26 -->
-<g id="edge38" class="edge"><title>Node23&#45;&gt;Node26</title>
-<path fill="none" stroke="midnightblue" d="M838.074,-296.823C937.74,-291.021 1126.38,-277.221 1147,-255 1161.14,-239.762 1156.5,-212.85 1152.78,-198.917"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="837.622,-293.343 827.839,-297.409 838.022,-300.331 837.622,-293.343"/>
-</g>
-<!-- Node27 -->
-<g id="node22" class="node"><title>Node27</title>
-<g id="a_node22"><a xlink:href="fstring_8cpp.html" target="_top" xlink:title="fwidgets_lib/fstring.cpp">
-<polygon fill="white" stroke="black" points="1020.5,-235.5 1020.5,-254.5 1137.5,-254.5 1137.5,-235.5 1020.5,-235.5"/>
-<text text-anchor="middle" x="1079" y="-242.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/fstring.cpp</text>
+<!-- Node24 -->
+<g id="node19" class="node"><title>Node24</title>
+<g id="a_node19"><a xlink:href="fstring_8cpp.html" target="_top" xlink:title="fwidgets_lib/fstring.cpp">
+<polygon fill="white" stroke="black" points="1122.5,-235.5 1122.5,-254.5 1239.5,-254.5 1239.5,-235.5 1122.5,-235.5"/>
+<text text-anchor="middle" x="1181" y="-242.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/fstring.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node23&#45;&gt;Node27 -->
-<g id="edge37" class="edge"><title>Node23&#45;&gt;Node27</title>
-<path fill="none" stroke="midnightblue" d="M834.804,-289.664C891.877,-279.459 978.118,-264.039 1031.37,-254.516"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="834.081,-286.238 824.853,-291.444 835.313,-293.129 834.081,-286.238"/>
-</g>
-<!-- Node28 -->
-<g id="node23" class="node"><title>Node28</title>
-<g id="a_node23"><a xlink:href="gui__options_8h.html" target="_top" xlink:title="fwidgets_lib/gui_options.h">
-<polygon fill="white" stroke="black" points="744.5,-235.5 744.5,-254.5 873.5,-254.5 873.5,-235.5 744.5,-235.5"/>
-<text text-anchor="middle" x="809" y="-242.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/gui_options.h</text>
-</a>
-</g>
-</g>
-<!-- Node23&#45;&gt;Node28 -->
-<g id="edge39" class="edge"><title>Node23&#45;&gt;Node28</title>
-<path fill="none" stroke="midnightblue" d="M787.504,-282.275C792.973,-273.045 799.418,-262.17 803.814,-254.751"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="784.371,-280.696 782.284,-291.083 790.393,-284.264 784.371,-280.696"/>
-</g>
-<!-- Node29 -->
-<g id="node24" class="node"><title>Node29</title>
-<g id="a_node24"><a xlink:href="tools_8cpp.html" target="_top" xlink:title="fwidgets_lib/tools.cpp">
-<polygon fill="white" stroke="black" points="891.5,-235.5 891.5,-254.5 1002.5,-254.5 1002.5,-235.5 891.5,-235.5"/>
-<text text-anchor="middle" x="947" y="-242.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/tools.cpp</text>
-</a>
-</g>
-</g>
-<!-- Node23&#45;&gt;Node29 -->
-<g id="edge40" class="edge"><title>Node23&#45;&gt;Node29</title>
-<path fill="none" stroke="midnightblue" d="M813.819,-288.304C845.852,-278.129 891.515,-263.625 920.189,-254.516"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="812.408,-285.08 803.937,-291.444 814.527,-291.752 812.408,-285.08"/>
-</g>
-<!-- Node24&#45;&gt;Node10 -->
-<g id="edge34" class="edge"><title>Node24&#45;&gt;Node10</title>
-<path fill="none" stroke="midnightblue" d="M662.919,-225.109C659.997,-211.39 654.58,-192.876 645,-179 611.222,-130.077 549.915,-91.8107 520.961,-75.5327"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="659.546,-226.112 664.824,-235.299 666.427,-224.826 659.546,-226.112"/>
+<!-- Node20&#45;&gt;Node24 -->
+<g id="edge26" class="edge"><title>Node20&#45;&gt;Node24</title>
+<path fill="none" stroke="midnightblue" d="M914.728,-289.972C976.465,-279.776 1071.08,-264.151 1129.34,-254.532"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="914.031,-286.539 904.735,-291.622 915.172,-293.446 914.031,-286.539"/>
 </g>
 <!-- Node25 -->
 <g id="node20" class="node"><title>Node25</title>
-<g id="a_node20"><a xlink:href="flistframe_8cpp.html" target="_top" xlink:title="fwidgets_lib/flistframe.cpp">
-<polygon fill="white" stroke="black" points="768.5,-179.5 768.5,-198.5 899.5,-198.5 899.5,-179.5 768.5,-179.5"/>
-<text text-anchor="middle" x="834" y="-186.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/flistframe.cpp</text>
+<g id="a_node20"><a xlink:href="gui__options_8h.html" target="_top" xlink:title="fwidgets_lib/gui_options.h">
+<polygon fill="white" stroke="black" points="846.5,-235.5 846.5,-254.5 975.5,-254.5 975.5,-235.5 846.5,-235.5"/>
+<text text-anchor="middle" x="911" y="-242.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/gui_options.h</text>
 </a>
 </g>
 </g>
-<!-- Node24&#45;&gt;Node25 -->
-<g id="edge35" class="edge"><title>Node24&#45;&gt;Node25</title>
-<path fill="none" stroke="midnightblue" d="M702.386,-232.304C734.042,-222.129 779.168,-207.625 807.504,-198.516"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="701.069,-229.051 692.62,-235.444 703.211,-235.715 701.069,-229.051"/>
+<!-- Node20&#45;&gt;Node25 -->
+<g id="edge28" class="edge"><title>Node20&#45;&gt;Node25</title>
+<path fill="none" stroke="midnightblue" d="M870.621,-284.253C880.734,-274.673 893.277,-262.791 901.675,-254.834"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="868.01,-281.906 863.158,-291.324 872.825,-286.987 868.01,-281.906"/>
 </g>
-<!-- Node24&#45;&gt;Node26 -->
-<g id="edge36" class="edge"><title>Node24&#45;&gt;Node26</title>
-<path fill="none" stroke="midnightblue" d="M736.363,-234.859C866.658,-219.382 1006.89,-204.641 1086.32,-196.472"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="735.717,-231.411 726.201,-236.07 736.545,-238.362 735.717,-231.411"/>
+<!-- Node26 -->
+<g id="node21" class="node"><title>Node26</title>
+<g id="a_node21"><a xlink:href="tools_8cpp.html" target="_top" xlink:title="fwidgets_lib/tools.cpp">
+<polygon fill="white" stroke="black" points="993.5,-235.5 993.5,-254.5 1104.5,-254.5 1104.5,-235.5 993.5,-235.5"/>
+<text text-anchor="middle" x="1049" y="-242.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/tools.cpp</text>
+</a>
+</g>
+</g>
+<!-- Node20&#45;&gt;Node26 -->
+<g id="edge29" class="edge"><title>Node20&#45;&gt;Node26</title>
+<path fill="none" stroke="midnightblue" d="M894.81,-288.699C931.613,-278.507 984.929,-263.743 1018.25,-254.516"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="893.602,-285.402 884.898,-291.444 895.47,-292.148 893.602,-285.402"/>
+</g>
+<!-- Node20&#45;&gt;Node27 -->
+<g id="edge30" class="edge"><title>Node20&#45;&gt;Node27</title>
+<path fill="none" stroke="midnightblue" d="M800.003,-289.473C747.652,-279.268 669.228,-263.979 620.686,-254.516"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="799.624,-292.965 810.109,-291.444 800.963,-286.095 799.624,-292.965"/>
+</g>
+<!-- Node21&#45;&gt;Node11 -->
+<g id="edge25" class="edge"><title>Node21&#45;&gt;Node11</title>
+<path fill="none" stroke="midnightblue" d="M746.4,-229.735C693.018,-194.479 556.09,-104.044 513.11,-75.6588"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="744.801,-232.872 755.074,-235.463 748.658,-227.031 744.801,-232.872"/>
+</g>
+<!-- Node22 -->
+<g id="node17" class="node"><title>Node22</title>
+<g id="a_node17"><a xlink:href="flistframe_8cpp.html" target="_top" xlink:title="fwidgets_lib/flistframe.cpp">
+<polygon fill="white" stroke="black" points="812.5,-179.5 812.5,-198.5 943.5,-198.5 943.5,-179.5 812.5,-179.5"/>
+<text text-anchor="middle" x="878" y="-186.5" font-family="Helvetica,sans-Serif" font-size="10.00">fwidgets_lib/flistframe.cpp</text>
+</a>
+</g>
+</g>
+<!-- Node21&#45;&gt;Node22 -->
+<g id="edge23" class="edge"><title>Node21&#45;&gt;Node22</title>
+<path fill="none" stroke="midnightblue" d="M794.762,-230.862C815.159,-220.849 842.666,-207.346 860.37,-198.655"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="793.108,-227.775 785.673,-235.324 796.192,-234.059 793.108,-227.775"/>
+</g>
+<!-- Node21&#45;&gt;Node23 -->
+<g id="edge24" class="edge"><title>Node21&#45;&gt;Node23</title>
+<path fill="none" stroke="midnightblue" d="M838.417,-234.859C974.811,-218.947 1122.33,-204.144 1204.41,-196.124"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="837.724,-231.416 828.199,-236.055 838.539,-238.368 837.724,-231.416"/>
+</g>
+<!-- Node27&#45;&gt;Node9 -->
+<g id="edge31" class="edge"><title>Node27&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M507.213,-235.263C436.362,-226.344 323.512,-212.001 226,-199 223.29,-198.639 220.516,-198.266 217.716,-197.887"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="506.996,-238.763 517.355,-236.539 507.87,-231.818 506.996,-238.763"/>
+</g>
+<!-- Node27&#45;&gt;Node10 -->
+<g id="edge32" class="edge"><title>Node27&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M543.133,-231.917C521.638,-223.727 493.539,-212.046 470,-199 439.53,-182.113 407.06,-157.929 387.657,-142.728"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="541.912,-235.197 552.504,-235.426 544.367,-228.641 541.912,-235.197"/>
+</g>
+<!-- Node27&#45;&gt;Node11 -->
+<g id="edge33" class="edge"><title>Node27&#45;&gt;Node11</title>
+<path fill="none" stroke="midnightblue" d="M541.239,-231.22C526.741,-224.092 511.449,-213.634 503,-199 479.505,-158.304 491.715,-98.1401 497.512,-75.7837"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="540.018,-234.509 550.572,-235.434 542.898,-228.129 540.018,-234.509"/>
+</g>
+<!-- Node27&#45;&gt;Node13 -->
+<g id="edge36" class="edge"><title>Node27&#45;&gt;Node13</title>
+<path fill="none" stroke="midnightblue" d="M613.237,-231.154C627.669,-224.046 642.779,-213.622 651,-199 655.357,-191.252 653.783,-187.442 651,-179 629.707,-114.418 610.213,-101.857 560,-56 543.124,-40.5876 520.2,-27.6131 504.36,-19.6151"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="611.603,-228.051 603.929,-235.356 614.484,-234.431 611.603,-228.051"/>
+</g>
+<!-- Node27&#45;&gt;Node16 -->
+<g id="edge37" class="edge"><title>Node27&#45;&gt;Node16</title>
+<path fill="none" stroke="midnightblue" d="M637.245,-232.254C655.338,-225.608 673.225,-215.221 684,-199 719.167,-146.06 706.213,-115.547 684,-56 678.436,-41.0832 665.453,-27.8287 655.99,-19.6346"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="635.896,-229.014 627.509,-235.487 638.102,-235.657 635.896,-229.014"/>
+</g>
+<!-- Node27&#45;&gt;Node18 -->
+<g id="edge34" class="edge"><title>Node27&#45;&gt;Node18</title>
+<path fill="none" stroke="midnightblue" d="M522.808,-233.473C470.268,-223.268 391.561,-207.979 342.844,-198.516"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="522.466,-236.972 532.95,-235.444 523.801,-230.101 522.466,-236.972"/>
+</g>
+<!-- Node28 -->
+<g id="node23" class="node"><title>Node28</title>
+<g id="a_node23"><a xlink:href="common_8cpp.html" target="_top" xlink:title="Interface/gui/common.cpp">
+<polygon fill="white" stroke="black" points="512,-179.5 512,-198.5 642,-198.5 642,-179.5 512,-179.5"/>
+<text text-anchor="middle" x="577" y="-186.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/common.cpp</text>
+</a>
+</g>
+</g>
+<!-- Node27&#45;&gt;Node28 -->
+<g id="edge35" class="edge"><title>Node27&#45;&gt;Node28</title>
+<path fill="none" stroke="midnightblue" d="M577,-224.805C577,-215.91 577,-205.78 577,-198.751"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="573.5,-225.083 577,-235.083 580.5,-225.083 573.5,-225.083"/>
 </g>
 </g>
 </svg>

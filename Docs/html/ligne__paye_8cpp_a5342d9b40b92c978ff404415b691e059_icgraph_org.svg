@@ -17,30 +17,30 @@
 </g>
 <!-- Node138 -->
 <g id="node2" class="node"><title>Node138</title>
-<g id="a_node2"><a xlink:href="ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580" target="_top" xlink:title="Appelle Bulletin. ">
-<polygon fill="white" stroke="black" points="148.5,-49.5 148.5,-79.5 240.5,-79.5 240.5,-49.5 148.5,-49.5"/>
-<text text-anchor="start" x="156.5" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00">bulletin_optionnel</text>
+<g id="a_node2"><a xlink:href="ligne__paye_8cpp.html#a8636e0f8d6d7fce58969c36956342c90" target="_top" xlink:title="Appelle Bulletin. ">
+<polygon fill="white" stroke="black" points="146,-49.5 146,-79.5 243,-79.5 243,-49.5 146,-49.5"/>
+<text text-anchor="start" x="154" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00">bulletin_obligatoire</text>
 <text text-anchor="middle" x="194.5" y="-56.5" font-family="Helvetica,sans-Serif" font-size="10.00">_numerique</text>
 </a>
 </g>
 </g>
 <!-- Node137&#45;&gt;Node138 -->
 <g id="edge1" class="edge"><title>Node137&#45;&gt;Node138</title>
-<path fill="none" stroke="midnightblue" d="M120.202,-51.173C129.732,-52.9057 139.379,-54.6598 148.406,-56.3011"/>
+<path fill="none" stroke="midnightblue" d="M120.331,-51.1965C128.901,-52.7548 137.564,-54.3298 145.783,-55.8242"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="120.808,-47.7261 110.344,-49.3807 119.556,-54.6131 120.808,-47.7261"/>
 </g>
 <!-- Node145 -->
 <g id="node9" class="node"><title>Node145</title>
-<g id="a_node9"><a xlink:href="ligne__paye_8cpp.html#a8636e0f8d6d7fce58969c36956342c90" target="_top" xlink:title="Appelle Bulletin. ">
-<polygon fill="white" stroke="black" points="146,-0.5 146,-30.5 243,-30.5 243,-0.5 146,-0.5"/>
-<text text-anchor="start" x="154" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">bulletin_obligatoire</text>
+<g id="a_node9"><a xlink:href="ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580" target="_top" xlink:title="Appelle Bulletin. ">
+<polygon fill="white" stroke="black" points="148.5,-0.5 148.5,-30.5 240.5,-30.5 240.5,-0.5 148.5,-0.5"/>
+<text text-anchor="start" x="156.5" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">bulletin_optionnel</text>
 <text text-anchor="middle" x="194.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">_numerique</text>
 </a>
 </g>
 </g>
 <!-- Node137&#45;&gt;Node145 -->
 <g id="edge8" class="edge"><title>Node137&#45;&gt;Node145</title>
-<path fill="none" stroke="midnightblue" d="M120.331,-28.2714C128.901,-26.7754 137.564,-25.2634 145.783,-23.8288"/>
+<path fill="none" stroke="midnightblue" d="M120.202,-28.2939C129.732,-26.6305 139.379,-24.9466 148.406,-23.371"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="119.593,-24.8472 110.344,-30.0146 120.797,-31.7429 119.593,-24.8472"/>
 </g>
 <!-- Node139 -->
@@ -53,8 +53,8 @@
 </g>
 <!-- Node138&#45;&gt;Node139 -->
 <g id="edge2" class="edge"><title>Node138&#45;&gt;Node139</title>
-<path fill="none" stroke="midnightblue" d="M250.795,-52.1574C260.508,-49.9893 270.25,-47.8148 278.85,-45.895"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="249.729,-48.8091 240.732,-54.4036 251.254,-55.6409 249.729,-48.8091"/>
+<path fill="none" stroke="midnightblue" d="M253.342,-51.5889C262.235,-49.6038 271.066,-47.6326 278.937,-45.8758"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="252.32,-48.2307 243.323,-53.8252 253.845,-55.0626 252.32,-48.2307"/>
 </g>
 <!-- Node140 -->
 <g id="node4" class="node"><title>Node140</title>
@@ -123,8 +123,8 @@
 </g>
 <!-- Node145&#45;&gt;Node139 -->
 <g id="edge9" class="edge"><title>Node145&#45;&gt;Node139</title>
-<path fill="none" stroke="midnightblue" d="M253.342,-27.8947C262.235,-29.8003 271.066,-31.6927 278.937,-33.3793"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="253.834,-24.4208 243.323,-25.7478 252.368,-31.2655 253.834,-24.4208"/>
+<path fill="none" stroke="midnightblue" d="M250.795,-27.3489C260.508,-29.4303 270.25,-31.5178 278.85,-33.3608"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="251.243,-23.8656 240.732,-25.1925 249.776,-30.7102 251.243,-23.8656"/>
 </g>
 </g>
 </svg>

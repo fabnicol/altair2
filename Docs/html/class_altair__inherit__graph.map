@@ -1,3 +1,7 @@
 <map id="Altair" name="Altair">
-<area shape="rect" id="node3" href="$classcommon.html" title="Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l&#39;interface vers l..." alt="" coords="103,131,265,325"/>
+<area shape="rect" id="node2" href="$class_f_dialog.html" title="{FDialog\n|+ fileRank\l+ outputType\l+ process\l|+ killProcess()\l+ textAppend()\l}" alt="" coords="29,615,137,737"/>
+<area shape="rect" id="node3" href="$class_f_dialog_connections.html" title="{FDialogConnections\n||}" alt="" coords="5,292,145,369"/>
+<area shape="rect" id="node5" href="$classcommon.html" title="Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l&#39;interface vers l..." alt="" coords="165,579,327,773"/>
+<area shape="rect" id="node6" href="$classtools.html" title="{tools\n|+ htmlLogPath\l+ systemPathPrefix\l+ tempdir\l+ userdatadir\l|+ tools()\l+ dump()\l+ getEmbeddedPath()\l+ readFile()\l+ readFile()\l+ readFile()\l+ readFile()\l+ renommer()\l+ substituer()\l+ cdRomMounted()\l+ copyDir()\l+ copyFile()\l+ ents()\l+ generateDatadirPath()\l+ generateDatadirPath()\l+ getDirectorySize()\l+ getFileSize()\l+ IOControl()\l+ openDir()\let 7 de plus...\l}" alt="" coords="169,131,331,531"/>
+<area shape="rect" id="node7" href="$classflags.html" title="{flags\n||}" alt="" coords="225,5,275,83"/>
 </map>

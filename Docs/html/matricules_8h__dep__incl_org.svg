@@ -9,13 +9,13 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 203)">
 <title>Interface/gui/matricules.h</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-203 772,-203 772,4 -4,4"/>
-<!-- Node9 -->
-<g id="node1" class="node"><title>Node9</title>
+<!-- Node13 -->
+<g id="node1" class="node"><title>Node13</title>
 <polygon fill="#bfbfbf" stroke="black" points="539,-179.5 539,-198.5 666,-198.5 666,-179.5 539,-179.5"/>
 <text text-anchor="middle" x="602.5" y="-186.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/matricules.h</text>
 </g>
-<!-- Node10 -->
-<g id="node2" class="node"><title>Node10</title>
+<!-- Node14 -->
+<g id="node2" class="node"><title>Node14</title>
 <g id="a_node2"><a xlink:href="altair-gui_8h.html" target="_top" xlink:title="Code de la classe MainWindow qui construit l&#39;interface graphique. ">
 <polygon fill="white" stroke="black" points="364,-112.5 364,-142.5 459,-142.5 459,-112.5 364,-112.5"/>
 <text text-anchor="start" x="372" y="-130.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/altair</text>
@@ -23,122 +23,122 @@
 </a>
 </g>
 </g>
-<!-- Node9&#45;&gt;Node10 -->
-<g id="edge1" class="edge"><title>Node9&#45;&gt;Node10</title>
+<!-- Node13&#45;&gt;Node14 -->
+<g id="edge1" class="edge"><title>Node13&#45;&gt;Node14</title>
 <path fill="none" stroke="midnightblue" d="M565.53,-176.483C534.389,-166.782 489.733,-152.871 456.515,-142.523"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="564.546,-179.842 575.134,-179.475 566.628,-173.159 564.546,-179.842"/>
 </g>
-<!-- Node13 -->
-<g id="node5" class="node"><title>Node13</title>
+<!-- Node17 -->
+<g id="node5" class="node"><title>Node17</title>
 <g id="a_node5"><a xlink:href="mainwindow_8cpp.html" target="_top" xlink:title="Code de l&#39;implémentation de la classe MainWindow de l&#39;interface graphique. ">
 <polygon fill="white" stroke="black" points="551.5,-0.5 551.5,-19.5 697.5,-19.5 697.5,-0.5 551.5,-0.5"/>
 <text text-anchor="middle" x="624.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/mainwindow.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node9&#45;&gt;Node13 -->
-<g id="edge10" class="edge"><title>Node9&#45;&gt;Node13</title>
+<!-- Node13&#45;&gt;Node17 -->
+<g id="edge10" class="edge"><title>Node13&#45;&gt;Node17</title>
 <path fill="none" stroke="midnightblue" d="M604.818,-169.352C609.511,-131.597 619.98,-47.3648 623.398,-19.8684"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="601.321,-169.108 603.561,-179.463 608.268,-169.971 601.321,-169.108"/>
 </g>
-<!-- Node18 -->
-<g id="node10" class="node"><title>Node18</title>
+<!-- Node22 -->
+<g id="node10" class="node"><title>Node22</title>
 <g id="a_node10"><a xlink:href="matricules_8cpp.html" target="_top" xlink:title="Implémentation de la classe MatriculeInput, qui construit un dialogue d&#39;extraction des bulletins...">
 <polygon fill="white" stroke="black" points="631,-118 631,-137 768,-137 768,-118 631,-118"/>
 <text text-anchor="middle" x="699.5" y="-125" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/matricules.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node9&#45;&gt;Node18 -->
-<g id="edge11" class="edge"><title>Node9&#45;&gt;Node18</title>
+<!-- Node13&#45;&gt;Node22 -->
+<g id="edge11" class="edge"><title>Node13&#45;&gt;Node22</title>
 <path fill="none" stroke="midnightblue" d="M624.926,-174.244C643.664,-162.75 669.793,-146.723 685.628,-137.009"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="623.092,-171.263 616.398,-179.475 626.752,-177.23 623.092,-171.263"/>
 </g>
-<!-- Node11 -->
-<g id="node3" class="node"><title>Node11</title>
+<!-- Node15 -->
+<g id="node3" class="node"><title>Node15</title>
 <g id="a_node3"><a xlink:href="altair_8h.html" target="_top" xlink:title="Code de la classe principale Altair, qui joue le rôle d&#39;agent de l&#39;interface graphique. ">
 <polygon fill="white" stroke="black" points="297,-56.5 297,-75.5 400,-75.5 400,-56.5 297,-56.5"/>
 <text text-anchor="middle" x="348.5" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/altair.h</text>
 </a>
 </g>
 </g>
-<!-- Node10&#45;&gt;Node11 -->
-<g id="edge2" class="edge"><title>Node10&#45;&gt;Node11</title>
+<!-- Node14&#45;&gt;Node15 -->
+<g id="edge2" class="edge"><title>Node14&#45;&gt;Node15</title>
 <path fill="none" stroke="midnightblue" d="M382.89,-105.597C371.352,-95.3153 359.339,-83.4824 352.738,-75.6578"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="380.883,-108.489 390.73,-112.399 385.47,-103.202 380.883,-108.489"/>
 </g>
-<!-- Node17 -->
-<g id="node9" class="node"><title>Node17</title>
+<!-- Node21 -->
+<g id="node9" class="node"><title>Node21</title>
 <g id="a_node9"><a xlink:href="_interface_2gui_2main_8cpp.html" target="_top" xlink:title="Lance l&#39;interface graphique en chargeant le bon contexte linguistique et la feuille de style...">
 <polygon fill="white" stroke="black" points="418,-56.5 418,-75.5 531,-75.5 531,-56.5 418,-56.5"/>
 <text text-anchor="middle" x="474.5" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/main.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node10&#45;&gt;Node17 -->
-<g id="edge9" class="edge"><title>Node10&#45;&gt;Node17</title>
+<!-- Node14&#45;&gt;Node21 -->
+<g id="edge9" class="edge"><title>Node14&#45;&gt;Node21</title>
 <path fill="none" stroke="midnightblue" d="M433.947,-105.3C444.76,-95.0881 457.128,-83.4072 465.333,-75.6578"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="431.297,-102.989 426.43,-112.399 436.103,-108.078 431.297,-102.989"/>
 </g>
-<!-- Node11&#45;&gt;Node10 -->
-<g id="edge3" class="edge"><title>Node11&#45;&gt;Node10</title>
+<!-- Node15&#45;&gt;Node14 -->
+<g id="edge3" class="edge"><title>Node15&#45;&gt;Node14</title>
 <path fill="none" stroke="midnightblue" d="M370.558,-82.1909C381.482,-91.4899 393.951,-103.308 402.41,-112.399"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="372.547,-79.2959 362.596,-75.6578 368.106,-84.7071 372.547,-79.2959"/>
 </g>
-<!-- Node12 -->
-<g id="node4" class="node"><title>Node12</title>
+<!-- Node16 -->
+<g id="node4" class="node"><title>Node16</title>
 <g id="a_node4"><a xlink:href="altair_8cpp.html" target="_top" xlink:title="Code implémentant la classe principale Altair, qui joue le rôle d&#39;agent de l&#39;interface graphique...">
 <polygon fill="white" stroke="black" points="0,-0.5 0,-19.5 113,-19.5 113,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="56.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/altair.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node11&#45;&gt;Node12 -->
-<g id="edge4" class="edge"><title>Node11&#45;&gt;Node12</title>
+<!-- Node15&#45;&gt;Node16 -->
+<g id="edge4" class="edge"><title>Node15&#45;&gt;Node16</title>
 <path fill="none" stroke="midnightblue" d="M292.267,-54.6007C237.082,-44.3953 153.935,-29.0189 102.552,-19.5164"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="291.762,-58.0666 302.232,-56.4435 293.035,-51.1833 291.762,-58.0666"/>
 </g>
-<!-- Node11&#45;&gt;Node13 -->
-<g id="edge5" class="edge"><title>Node11&#45;&gt;Node13</title>
+<!-- Node15&#45;&gt;Node17 -->
+<g id="edge5" class="edge"><title>Node15&#45;&gt;Node17</title>
 <path fill="none" stroke="midnightblue" d="M402.303,-54.4734C454.464,-44.2678 532.605,-28.9794 580.972,-19.5164"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="401.375,-51.0885 392.233,-56.4435 402.719,-57.9582 401.375,-51.0885"/>
 </g>
-<!-- Node14 -->
-<g id="node6" class="node"><title>Node14</title>
+<!-- Node18 -->
+<g id="node6" class="node"><title>Node18</title>
 <g id="a_node6"><a xlink:href="options_8cpp.html" target="_top" xlink:title="Implémentation des classes du dialogue d&#39;options. ">
 <polygon fill="white" stroke="black" points="131.5,-0.5 131.5,-19.5 255.5,-19.5 255.5,-0.5 131.5,-0.5"/>
 <text text-anchor="middle" x="193.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/options.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node11&#45;&gt;Node14 -->
-<g id="edge6" class="edge"><title>Node11&#45;&gt;Node14</title>
+<!-- Node15&#45;&gt;Node18 -->
+<g id="edge6" class="edge"><title>Node15&#45;&gt;Node18</title>
 <path fill="none" stroke="midnightblue" d="M314.168,-53.0392C285.003,-42.8786 243.863,-28.5457 217.945,-19.5164"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="313.345,-56.4587 323.94,-56.4435 315.648,-49.8484 313.345,-56.4587"/>
 </g>
-<!-- Node15 -->
-<g id="node7" class="node"><title>Node15</title>
+<!-- Node19 -->
+<g id="node7" class="node"><title>Node19</title>
 <g id="a_node7"><a xlink:href="run_8cpp.html" target="_top" xlink:title="Implémentation de la classe Altair agent de la classe MainWindow qui construit l&#39;interface graphique...">
 <polygon fill="white" stroke="black" points="273.5,-0.5 273.5,-19.5 379.5,-19.5 379.5,-0.5 273.5,-0.5"/>
 <text text-anchor="middle" x="326.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/run.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node11&#45;&gt;Node15 -->
-<g id="edge7" class="edge"><title>Node11&#45;&gt;Node15</title>
+<!-- Node15&#45;&gt;Node19 -->
+<g id="edge7" class="edge"><title>Node15&#45;&gt;Node19</title>
 <path fill="none" stroke="midnightblue" d="M341.04,-46.6897C337.333,-37.589 333.024,-27.0141 330.065,-19.7511"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="337.853,-48.1426 344.867,-56.083 344.335,-45.5015 337.853,-48.1426"/>
 </g>
-<!-- Node16 -->
-<g id="node8" class="node"><title>Node16</title>
+<!-- Node20 -->
+<g id="node8" class="node"><title>Node20</title>
 <g id="a_node8"><a xlink:href="xmlparser_8cpp.html" target="_top" xlink:title="Implémentation de la classe Altair agent de la classe MainWindow qui construit l&#39;interface graphique...">
 <polygon fill="white" stroke="black" points="398,-0.5 398,-19.5 533,-19.5 533,-0.5 398,-0.5"/>
 <text text-anchor="middle" x="465.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Interface/gui/xmlparser.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node11&#45;&gt;Node16 -->
-<g id="edge8" class="edge"><title>Node11&#45;&gt;Node16</title>
+<!-- Node15&#45;&gt;Node20 -->
+<g id="edge8" class="edge"><title>Node15&#45;&gt;Node20</title>
 <path fill="none" stroke="midnightblue" d="M376.164,-52.2321C398.049,-42.1312 427.997,-28.3091 447.048,-19.5164"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="374.652,-49.075 367.039,-56.4435 377.585,-55.4308 374.652,-49.075"/>
 </g>

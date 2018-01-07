@@ -14,8 +14,8 @@
 <polygon fill="#bfbfbf" stroke="black" points="-3.55271e-15,-0.5 -3.55271e-15,-79.5 62,-79.5 62,-0.5 -3.55271e-15,-0.5"/>
 <text text-anchor="middle" x="31" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00">errorLine_t</text>
 <polyline fill="none" stroke="black" points="-3.55271e-15,-60.5 62,-60.5 "/>
-<text text-anchor="start" x="8" y="-48.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ lineN</text>
-<text text-anchor="start" x="8" y="-37.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ filePath</text>
+<text text-anchor="start" x="8" y="-48.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ filePath</text>
+<text text-anchor="start" x="8" y="-37.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ lineN</text>
 <text text-anchor="start" x="8" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ pres</text>
 <polyline fill="none" stroke="black" points="-3.55271e-15,-19.5 62,-19.5 "/>
 <text text-anchor="middle" x="31" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
