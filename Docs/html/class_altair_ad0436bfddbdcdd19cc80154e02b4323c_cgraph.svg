@@ -9,13 +9,13 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 35)">
 <title>Altair::setCurrentFile</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-35 287,-35 287,4 -4,4"/>
-<!-- Node973 -->
-<g id="node1" class="node"><title>Node973</title>
+<!-- Node3346 -->
+<g id="node1" class="node"><title>Node3346</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-6 0,-25 107,-25 107,-6 0,-6"/>
 <text text-anchor="middle" x="53.5" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::setCurrentFile</text>
 </g>
-<!-- Node974 -->
-<g id="node2" class="node"><title>Node974</title>
+<!-- Node3347 -->
+<g id="node2" class="node"><title>Node3347</title>
 <g id="a_node2"><a xlink:href="class_main_window.html#affa76730fa370a3466b62a4caee721e3" target="_top" xlink:title="Actualise la liste des fichiers de projet .alt récents dans le menu Fichier. ">
 <polygon fill="white" stroke="black" points="143,-0.5 143,-30.5 283,-30.5 283,-0.5 143,-0.5"/>
 <text text-anchor="start" x="151" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::updateRecent</text>
@@ -23,8 +23,8 @@
 </a>
 </g>
 </g>
-<!-- Node973&#45;&gt;Node974 -->
-<g id="edge1" class="edge"><title>Node973&#45;&gt;Node974</title>
+<!-- Node3346&#45;&gt;Node3347 -->
+<g id="edge1" class="edge"><title>Node3346&#45;&gt;Node3347</title>
 <path fill="none" stroke="midnightblue" d="M107.383,-15.5C115.541,-15.5 124.115,-15.5 132.698,-15.5"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="132.753,-19.0001 142.753,-15.5 132.753,-12.0001 132.753,-19.0001"/>
 </g>

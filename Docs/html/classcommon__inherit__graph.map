@@ -1,7 +1,7 @@
 <map id="common" name="common">
-<area shape="rect" id="node3" href="$class_altair.html" title="Classe Altair, agent de la classe MainWindow qui implémente les fonctions globales de l&#39;interface gra..." alt="" coords="5,155,57,181"/>
-<area shape="rect" id="node4" href="$classcode_page.html" title="Classe de l&#39;onglet Codes permettant d&#39;exporter des codes de paye manuellement spécifiés vers les scri..." alt="" coords="82,155,162,181"/>
-<area shape="rect" id="node5" href="$classoptions.html" title="Classe de l&#39;onglet Codes, qui permet de saisir manuellement les codes de paye de certaines catégories..." alt="" coords="186,155,250,181"/>
-<area shape="rect" id="node6" href="$classprocess_page.html" title="Classe de l&#39;onglet Traitement du dialgue d&#39;options. " alt="" coords="274,155,373,181"/>
-<area shape="rect" id="node7" href="$classstandard_page.html" title="Classe de l&#39;onglet &quot;Format des bases&quot; du dialogue d&#39;options. " alt="" coords="397,155,500,181"/>
+<area shape="rect" id="node3" href="$class_altair.html" title="Classe Altair, agent de la classe MainWindow qui implémente les fonctions globales de l&#39;interface gra..." alt="" coords="5,373,224,1404"/>
+<area shape="rect" id="node4" href="$classcode_page.html" title="Classe de l&#39;onglet Codes permettant d&#39;exporter des codes de paye manuellement spécifiés vers les scri..." alt="" coords="249,733,405,1045"/>
+<area shape="rect" id="node5" href="$classoptions.html" title="Classe de l&#39;onglet Codes, qui permet de saisir manuellement les codes de paye de certaines catégories..." alt="" coords="429,769,576,1008"/>
+<area shape="rect" id="node6" href="$classprocess_page.html" title="Classe de l&#39;onglet Traitement du dialgue d&#39;options. " alt="" coords="600,791,747,986"/>
+<area shape="rect" id="node7" href="$classstandard_page.html" title="Classe de l&#39;onglet &quot;Format des bases&quot; du dialogue d&#39;options. " alt="" coords="771,784,917,993"/>
 </map>

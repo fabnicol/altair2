@@ -5,6 +5,7 @@ var structinfo__t =
     [ "chemin_base", "structinfo__t.html#a185e587cea00465045f96926997e018f", null ],
     [ "chemin_bulletins", "structinfo__t.html#a2aa87a7459f3931055fa0f044b531e6b", null ],
     [ "chemin_log", "structinfo__t.html#a31c9b93172bd74621940f62ff64c3168", null ],
+    [ "chemins_bulletins_extraits", "structinfo__t.html#a36c7c7d3252b5ac1ff2d00e821f3f64f", null ],
     [ "decimal", "structinfo__t.html#a5357bb15cac6a7416cb1c1222ff11e5e", null ],
     [ "drapeau_cont", "structinfo__t.html#af8427570e851fdf2dc402f6ad739461b", null ],
     [ "exclure_budget", "structinfo__t.html#aa36daba217c17f2c5de7bf33630eca4a", null ],

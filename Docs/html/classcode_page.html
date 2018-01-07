@@ -5,13 +5,23 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Référence de la classe codePage</title>
+<title>My Project: Référence de la classe codePage</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { init_search(); });
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -21,6 +31,25 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="altaïr.bmp"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">My Project
+   </div>
+  </td>
+   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -30,15 +59,21 @@
 <script type="text/javascript">
 var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
-$(function() {
-  initMenu('',true,false,'search.php','Recherche');
-  $(document).ready(function() { init_search(); });
-});
+$(document).ready(function(){initNavTree('classcode_page.html','');});
 </script>
-<div id="main-nav"></div>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -53,7 +88,6 @@ $(function() {
 </iframe>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Fonctions membres publiques</a> &#124;
@@ -68,22 +102,20 @@ $(function() {
 
 <p>Classe de l'onglet Codes permettant d'exporter des codes de paye manuellement spécifiés vers les scripts R.  
  <a href="classcode_page.html#details">Plus de détails...</a></p>
-<div class="dynheader">
-Graphe d'héritage de codePage:</div>
-<div class="dyncontent">
-<div class="center"><img src="classcode_page__inherit__graph.png" border="0" usemap="#code_page_inherit__map" alt="Inheritance graph"/></div>
-<map name="code_page_inherit__map" id="code_page_inherit__map">
-<area shape="rect" id="node3" href="classcommon.html" title="Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l&#39;interface vers l..." alt="" coords="99,80,171,107"/>
-</map>
-<center><span class="legend">[<a href="graph_legend.html">légende</a>]</span></center></div>
-<div class="dynheader">
-Graphe de collaboration de codePage:</div>
-<div class="dyncontent">
-<div class="center"><img src="classcode_page__coll__graph.png" border="0" usemap="#code_page_coll__map" alt="Collaboration graph"/></div>
-<map name="code_page_coll__map" id="code_page_coll__map">
-<area shape="rect" id="node3" href="classcommon.html" title="Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l&#39;interface vers l..." alt="" coords="99,80,171,107"/>
-</map>
-<center><span class="legend">[<a href="graph_legend.html">légende</a>]</span></center></div>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Graphe d'héritage de codePage:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classcode_page__inherit__graph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Graphe de collaboration de codePage:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classcode_page__coll__graph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Fonctions membres publiques</h2></td></tr>
@@ -198,26 +230,19 @@ Membres hérités additionnels</h2></td></tr>
 <p>Constructeur de l'onglet "Code de paye des tests". </p>
 
 <p class="definition">Définition à la ligne <a class="el" href="options_8cpp_source.html#l00090">90</a> du fichier <a class="el" href="options_8cpp_source.html">options.cpp</a>.</p>
-<div class="dynheader">
-Voici le graphe d'appel pour cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="classcode_page_a927a6bef8cac0406a49225bc72894a1f_cgraph.png" border="0" usemap="#classcode_page_a927a6bef8cac0406a49225bc72894a1f_cgraph" alt=""/></div>
-<map name="classcode_page_a927a6bef8cac0406a49225bc72894a1f_cgraph" id="classcode_page_a927a6bef8cac0406a49225bc72894a1f_cgraph">
-<area shape="rect" id="node2" href="classcode_page.html#a6896b21cac9b9ab917b333a01530fce9" title="Crée une ligne de codes pour un type donné d&#39;éléments de paye. " alt="" coords="200,5,375,32"/>
-<area shape="rect" id="node3" href="classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" title="Substitue certaines valeurs caractéristiques du contrôle dans le fichier prologue_codes.R dans exportpath, notamment le Siret, le budget et l&#39;employeur. " alt="" coords="206,110,369,151"/>
-<area shape="rect" id="node4" href="classcode_page.html#a8524212298b5473047c5c4f0cadc86a6" title="Réinitialise l&#39;exportation des codes d&#39;éléments de paye Ecrase prologue_codes.R ( prologue_codes_path..." alt="" coords="451,45,601,86"/>
-<area shape="rect" id="node5" href="classcommon.html#a3149ba29e04e6e5f7f85a2894434bf9e" title="Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement. " alt="" coords="423,110,629,151"/>
-<area shape="rect" id="node6" href="options_8cpp.html#aa5399073540b3e6a7a9d60a70ef4dd88" title="regexp" alt="" coords="495,176,557,203"/>
-<area shape="rect" id="node7" href="options_8cpp.html#aed1be66fe9ab34423b676aa409402c42" title="rempl_str" alt="" coords="488,227,564,253"/>
-</map>
+<div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
 </div>
-<div class="dynheader">
-Voici le graphe des appelants de cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="classcode_page_a927a6bef8cac0406a49225bc72894a1f_icgraph.png" border="0" usemap="#classcode_page_a927a6bef8cac0406a49225bc72894a1f_icgraph" alt=""/></div>
-<map name="classcode_page_a927a6bef8cac0406a49225bc72894a1f_icgraph" id="classcode_page_a927a6bef8cac0406a49225bc72894a1f_icgraph">
-<area shape="rect" id="node2" href="classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" title="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair..." alt="" coords="200,5,315,32"/>
-</map>
+<div id="dynsection-2-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcode_page_a927a6bef8cac0406a49225bc72894a1f_cgraph.svg" width="635" height="259"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-3-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcode_page_a927a6bef8cac0406a49225bc72894a1f_icgraph.svg" width="320" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -250,21 +275,19 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Active les contrôles réglementaires sur la fonction publique hospitalière (FPH) même s'ils n'ont pas été activés par reconnaissnce automatique. </p>
 
 <p class="definition">Définition à la ligne <a class="el" href="options_8cpp_source.html#l00181">181</a> du fichier <a class="el" href="options_8cpp_source.html">options.cpp</a>.</p>
-<div class="dynheader">
-Voici le graphe d'appel pour cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="classcode_page_a3b8692dcc8d9bd11272f65d00f8f10ab_cgraph.png" border="0" usemap="#classcode_page_a3b8692dcc8d9bd11272f65d00f8f10ab_cgraph" alt=""/></div>
-<map name="classcode_page_a3b8692dcc8d9bd11272f65d00f8f10ab_cgraph" id="classcode_page_a3b8692dcc8d9bd11272f65d00f8f10ab_cgraph">
-<area shape="rect" id="node2" href="classcode_page.html#a6896b21cac9b9ab917b333a01530fce9" title="Crée une ligne de codes pour un type donné d&#39;éléments de paye. " alt="" coords="205,5,380,32"/>
-</map>
+<div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-4-summary" class="dynsummary" style="display:block;">
 </div>
-<div class="dynheader">
-Voici le graphe des appelants de cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="classcode_page_a3b8692dcc8d9bd11272f65d00f8f10ab_icgraph.png" border="0" usemap="#classcode_page_a3b8692dcc8d9bd11272f65d00f8f10ab_icgraph" alt=""/></div>
-<map name="classcode_page_a3b8692dcc8d9bd11272f65d00f8f10ab_icgraph" id="classcode_page_a3b8692dcc8d9bd11272f65d00f8f10ab_icgraph">
-<area shape="rect" id="node2" href="classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" title="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair..." alt="" coords="205,5,320,32"/>
-</map>
+<div id="dynsection-4-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcode_page_a3b8692dcc8d9bd11272f65d00f8f10ab_cgraph.svg" width="386" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-5-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcode_page_a3b8692dcc8d9bd11272f65d00f8f10ab_icgraph.svg" width="326" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -303,15 +326,12 @@ Voici le graphe des appelants de cette fonction :</div>
 <dl class="section return"><dt>Renvoie</dt><dd>Nombre d'éléments de paye empilés </dd></dl>
 
 <p class="definition">Définition à la ligne <a class="el" href="options_8cpp_source.html#l00058">58</a> du fichier <a class="el" href="options_8cpp_source.html">options.cpp</a>.</p>
-<div class="dynheader">
-Voici le graphe des appelants de cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="classcode_page_a6896b21cac9b9ab917b333a01530fce9_icgraph.png" border="0" usemap="#classcode_page_a6896b21cac9b9ab917b333a01530fce9_icgraph" alt=""/></div>
-<map name="classcode_page_a6896b21cac9b9ab917b333a01530fce9_icgraph" id="classcode_page_a6896b21cac9b9ab917b333a01530fce9_icgraph">
-<area shape="rect" id="node2" href="classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" title="Constructeur de l&#39;onglet &quot;Code de paye des tests&quot;. " alt="" coords="231,5,377,32"/>
-<area shape="rect" id="node4" href="classcode_page.html#a3b8692dcc8d9bd11272f65d00f8f10ab" title="Active les contrôles réglementaires sur la fonction publique hospitalière (FPH) même s&#39;ils n&#39;ont pas ..." alt="" coords="228,56,380,83"/>
-<area shape="rect" id="node3" href="classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" title="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair..." alt="" coords="428,31,543,57"/>
-</map>
+<div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-6-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-6-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcode_page_a6896b21cac9b9ab917b333a01530fce9_icgraph.svg" width="548" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -343,15 +363,12 @@ Voici le graphe des appelants de cette fonction :</div>
 <dl class="section return"><dt>Renvoie</dt><dd><em>true</em> si la réinitialisation par écrasement a réussi, <em>false</em> sinon. </dd></dl>
 
 <p class="definition">Définition à la ligne <a class="el" href="options_8cpp_source.html#l00314">314</a> du fichier <a class="el" href="options_8cpp_source.html">options.cpp</a>.</p>
-<div class="dynheader">
-Voici le graphe des appelants de cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="classcode_page_a8524212298b5473047c5c4f0cadc86a6_icgraph.png" border="0" usemap="#classcode_page_a8524212298b5473047c5c4f0cadc86a6_icgraph" alt=""/></div>
-<map name="classcode_page_a8524212298b5473047c5c4f0cadc86a6_icgraph" id="classcode_page_a8524212298b5473047c5c4f0cadc86a6_icgraph">
-<area shape="rect" id="node2" href="classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" title="Constructeur de l&#39;onglet &quot;Code de paye des tests&quot;. " alt="" coords="415,13,561,39"/>
-<area shape="rect" id="node4" href="classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" title="Substitue certaines valeurs caractéristiques du contrôle dans le fichier prologue_codes.R dans exportpath, notamment le Siret, le budget et l&#39;employeur. " alt="" coords="204,35,367,76"/>
-<area shape="rect" id="node3" href="classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" title="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair..." alt="" coords="609,13,724,39"/>
-</map>
+<div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-7-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classcode_page_a8524212298b5473047c5c4f0cadc86a6_icgraph.svg" width="100%" height="361"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -382,49 +399,12 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Réinitialisation de l'élément de texte variable de l'onglet. </p>
 
 <p class="definition">Définition à la ligne <a class="el" href="options_8h_source.html#l00139">139</a> du fichier <a class="el" href="options_8h_source.html">options.h</a>.</p>
-<div class="dynheader">
-Voici le graphe des appelants de cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="classcode_page_ad89c8fd4b641a2b884ac3980759fe329_icgraph.png" border="0" usemap="#classcode_page_ad89c8fd4b641a2b884ac3980759fe329_icgraph" alt=""/></div>
-<map name="classcode_page_ad89c8fd4b641a2b884ac3980759fe329_icgraph" id="classcode_page_ad89c8fd4b641a2b884ac3980759fe329_icgraph">
-<area shape="rect" id="node2" href="class_altair.html#a5b3c33b6ae4f6b57b5593245751ef203" title="Efface toutes les données du projet .alt et réinitialise l&#39;interface et les conteneurs de données int..." alt="" coords="201,1107,359,1133"/>
-<area shape="rect" id="node3" href="class_altair.html#ab67e3285c4a6c8fb48d12381ea6ac6bd" title="Ferme le projet et réinitialise l&#39;interface (gestionnaire de projet inclus) " alt="" coords="407,1056,539,1083"/>
-<area shape="rect" id="node4" href="class_altair.html#ae0975ced0a36e0ed889ae06043a4df66" title="Constructeur. " alt="" coords="3827,321,3917,348"/>
-<area shape="rect" id="node5" href="class_altair.html#a2e9b932b1dbf45bf9ad0db41dce474b6" title="Crée un nouveau projet défaut.alt. " alt="" coords="587,939,771,981"/>
-<area shape="rect" id="node6" href="class_altair.html#a19ef4b530e210642e2e71c94a2b14bef" title="Lit le fichier rankFile pour l&#39;index de la barre progression, le lit dans &#160;&#160;fileRank &#160;&#160;et ajuste la b..." alt="" coords="819,448,971,475"/>
-<area shape="rect" id="node22" href="class_altair.html#ab98d384297c6b94ff65a683eb5f99633" title="Ouvre le projet, le décode en appelant parseProjectFile et actualise l&#39;interface &#160;en conséquence..." alt="" coords="3388,1107,3576,1149"/>
-<area shape="rect" id="node23" href="class_altair.html#a84cf34107cd413ab33800b583bdef59e" title="Ouvre le projet .alt et décode le projet pour actualiser l&#39;interface. " alt="" coords="3407,976,3557,1003"/>
-<area shape="rect" id="node26" href="class_altair.html#a1afa285a65e0bdff4c761ad05ec9f8df" title="Fonction réimplémentée : fin du déplacement de la souris. " alt="" coords="2636,600,2755,627"/>
-<area shape="rect" id="node36" href="class_altair.html#a2f6882c170016e2d7729058b08896a1d" title="Tuer l&#39;application en ligne de commande lhx. " alt="" coords="1746,904,1870,931"/>
-<area shape="rect" id="node7" href="class_altair.html#a08b5e402c9a694af09110afe33219080" title="Construction de la ligne de commande pour des bases de paye dans un répertoire donné ..." alt="" coords="1019,448,1139,475"/>
-<area shape="rect" id="node8" href="class_altair.html#ae04f2a5771d47bbe2e0cc3a11b72d6bf" title="Parcourt le répertoire en cours du mode distributif, un à chaque appel Exporte l&#39;identification dans ..." alt="" coords="1187,423,1369,449"/>
-<area shape="rect" id="node9" href="class_altair.html#a7d10f8ecf4097577885172afb6c2e9c6" title="Lance l&#39;exécution de l&#39;application en ligne de commande lhx. " alt="" coords="1417,473,1496,500"/>
-<area shape="rect" id="node35" href="class_altair.html#a16b8035c4383a789cd00b687fb105fe9" title="Traitement de la fin de l&#39;exécution de lhx. " alt="" coords="1945,549,2100,576"/>
-<area shape="rect" id="node10" href="class_altair.html#a4995cdc9462838289b5b1df75edba552" title="Ajouter du texte à l&#39;onglet des messages. " alt="" coords="1544,600,1671,627"/>
-<area shape="rect" id="node11" href="class_altair.html#a750cc65076dd04ac4d34f486b84a7026" title="Importer les données du répertoire userdatadir ou du disque optique s&#39;il est monté, &#160;au lancement de l&#39;interface, si l&#39;option est cochée. " alt="" coords="1746,397,1870,424"/>
-<area shape="rect" id="node12" href="class_altair.html#a4fad8882e9af3420d9815a123597d33f" title="Lancer l&#39;aide (menu ou barre) " alt="" coords="2172,563,2315,605"/>
-<area shape="rect" id="node14" href="class_altair.html#a16c9e4332678b243ec200e215d03a643" title="Afficher la taille des bases de paye dans l&#39;onglet Messages. " alt="" coords="2387,144,2543,171"/>
-<area shape="rect" id="node17" href="class_altair.html#a8b7b1fa3e0b567dc1d4721bf88087a68" title="Parcourt l&#39;ensemble des widgets fonctionnels Abstract::abstractWidgetList et actualise leur statut in..." alt="" coords="1719,853,1897,880"/>
-<area shape="rect" id="node19" href="class_altair.html#ac9d7d8e7cebf70212818f1a8ba7d7d78" title="Rafraîchit le gestionnaire de projet à la droite de l&#39;interface. Fonction globale par défaut..." alt="" coords="2148,701,2339,728"/>
-<area shape="rect" id="node34" href="class_altair.html#afd71c35a3a71291b0d4eece1058de4f0" title="Lance l&#39;application Rstudio et les scripts R. " alt="" coords="1749,549,1867,576"/>
-<area shape="rect" id="node37" href="class_altair.html#add0ab6760227a6edc57f4153f407d982" title="Affiche la taille des bases du projet. " alt="" coords="1753,499,1863,525"/>
-<area shape="rect" id="node13" href="class_altair.html#a52076f38f63affb6f08acf787dcfea09" title="Traitement de la fin de l&#39;exécution de lhx. " alt="" coords="3624,524,3779,551"/>
-<area shape="rect" id="node15" href="class_altair.html#ab913abfdd0c6fbbceb9a051a4443d5fa" title="Supprimer un onglet central. " alt="" coords="2630,397,2761,424"/>
-<area shape="rect" id="node16" href="class_altair.html#a299584936cc20c9a1451977264eba1f5" title="Ecrase un item d&#39;un onglet donné " alt="" coords="2624,119,2767,161"/>
-<area shape="rect" id="node18" href="class_altair.html#a41b6c8a35ed8ba14c7c0ce2e6994655f" title="Décode le projet représenté par un pointeur vers QFile ou similaire. " alt="" coords="1945,840,2100,867"/>
-<area shape="rect" id="node20" href="class_altair.html#acaa583766e1c062ea311847fcdd35374" title="Efface les onglets, le gestionnaire de projet et lit le projet .alt en cours. " alt="" coords="2871,939,3034,981"/>
-<area shape="rect" id="node24" href="class_altair.html#a2eb0a89c3223b2df1c01d2b3b7d1c0eb" title="Rafraichir le projet .alt après avoir actualisé l&#39;interface. " alt="" coords="2395,296,2535,323"/>
-<area shape="rect" id="node30" href="class_altair.html#a78a2870bb9b316c5ad6bcbd64471eeb8" title="Renvoie la taille des données exportées. " alt="" coords="2423,828,2507,855"/>
-<area shape="rect" id="node21" href="class_altair.html#aa341707131924eff160bcab41422d1ec" title="Code commun à différentes fonctions lancées pour l&#39;analyse des projets. " alt="" coords="3105,976,3340,1003"/>
-<area shape="rect" id="node25" href="class_altair.html#aab5da600c227ac7eb604fa24a9308d26" title="Enregistre le projet .alt en actualisant projectName et l&#39;état de l&#39;interface &#160;. " alt="" coords="2865,499,3040,525"/>
-<area shape="rect" id="node29" href="classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" title="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair..." alt="" coords="2638,245,2753,272"/>
-<area shape="rect" id="node27" href="class_altair.html#a9df2266cd3e2a9905e74bb41c1f9415d" title="Remplace un nom de projet vide par un nom par défaut. " alt="" coords="2848,600,3057,627"/>
-<area shape="rect" id="node28" href="class_altair.html#a43120f9909d0284074119529a03df85b" title="Ecrit le projet XML d&#39;extension .alt contenant les références des donnéees de paye. " alt="" coords="3147,195,3298,221"/>
-<area shape="rect" id="node31" href="class_altair.html#aebac84e0cf9914bcb5220c44d853091d" title="Raccourcit les chemins dans les onglets en se limitant au non de fichier et les présente &#160;en surligna..." alt="" coords="2595,904,2795,931"/>
-<area shape="rect" id="node32" href="class_altair.html#adc79f280e4f580298a8dd80e2f7cf712" title="Parcourt la table de chachage Hash::wrapper dans laquelle sont stockés à la clé &quot;XHL&quot; les chemins des..." alt="" coords="2591,853,2800,880"/>
-<area shape="rect" id="node33" href="class_altair.html#abf7d1895e52f7b8d7d26e4b5a0e6146a" title="Rafraîchit le gestionnaire de projet à la droite de l&#39;interface. " alt="" coords="2857,795,3048,837"/>
-<area shape="rect" id="node38" href="class_altair.html#abeafd88b78402bf56667663d6c05d367" title="Appelle printMsg une première fois. " alt="" coords="1952,499,2093,525"/>
-</map>
+<div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-8-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-8-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classcode_page_ad89c8fd4b641a2b884ac3980759fe329_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -455,25 +435,19 @@ Voici le graphe des appelants de cette fonction :</div>
 <p>Substitue certaines valeurs caractéristiques du contrôle dans le fichier <em>prologue_codes.R</em> dans exportpath, notamment le Siret, le budget et l'employeur. </p>
 
 <p class="definition">Définition à la ligne <a class="el" href="options_8cpp_source.html#l00211">211</a> du fichier <a class="el" href="options_8cpp_source.html">options.cpp</a>.</p>
-<div class="dynheader">
-Voici le graphe d'appel pour cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="classcode_page_a7f3fcb4b6f622b1c11a7b39e245b76b6_cgraph.png" border="0" usemap="#classcode_page_a7f3fcb4b6f622b1c11a7b39e245b76b6_cgraph" alt=""/></div>
-<map name="classcode_page_a7f3fcb4b6f622b1c11a7b39e245b76b6_cgraph" id="classcode_page_a7f3fcb4b6f622b1c11a7b39e245b76b6_cgraph">
-<area shape="rect" id="node2" href="classcode_page.html#a8524212298b5473047c5c4f0cadc86a6" title="Réinitialise l&#39;exportation des codes d&#39;éléments de paye Ecrase prologue_codes.R ( prologue_codes_path..." alt="" coords="244,5,395,47"/>
-<area shape="rect" id="node3" href="classcommon.html#a3149ba29e04e6e5f7f85a2894434bf9e" title="Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement. " alt="" coords="216,71,423,112"/>
-<area shape="rect" id="node4" href="options_8cpp.html#aa5399073540b3e6a7a9d60a70ef4dd88" title="regexp" alt="" coords="289,137,350,163"/>
-<area shape="rect" id="node5" href="options_8cpp.html#aed1be66fe9ab34423b676aa409402c42" title="rempl_str" alt="" coords="281,187,357,214"/>
-</map>
+<div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-9-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-9-summary" class="dynsummary" style="display:block;">
 </div>
-<div class="dynheader">
-Voici le graphe des appelants de cette fonction :</div>
-<div class="dyncontent">
-<div class="center"><img src="classcode_page_a7f3fcb4b6f622b1c11a7b39e245b76b6_icgraph.png" border="0" usemap="#classcode_page_a7f3fcb4b6f622b1c11a7b39e245b76b6_icgraph" alt=""/></div>
-<map name="classcode_page_a7f3fcb4b6f622b1c11a7b39e245b76b6_icgraph" id="classcode_page_a7f3fcb4b6f622b1c11a7b39e245b76b6_icgraph">
-<area shape="rect" id="node2" href="classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" title="Constructeur de l&#39;onglet &quot;Code de paye des tests&quot;. " alt="" coords="216,13,363,39"/>
-<area shape="rect" id="node3" href="classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" title="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair..." alt="" coords="411,13,525,39"/>
-</map>
+<div id="dynsection-9-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcode_page_a7f3fcb4b6f622b1c11a7b39e245b76b6_cgraph.svg" width="428" height="220"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-10-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-10-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-10-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcode_page_a7f3fcb4b6f622b1c11a7b39e245b76b6_icgraph.svg" width="531" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -770,11 +744,15 @@ Voici le graphe des appelants de cette fonction :</div>
 <li>Interface/gui/<a class="el" href="options_8cpp_source.html">options.cpp</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Généré par &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.13
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="classcode_page.html">codePage</a></li>
+    <li class="footer">Généré le Dimanche 7 Janvier 2018 23:20:31 pour My Project par
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
 </body>
 </html>

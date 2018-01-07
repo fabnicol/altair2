@@ -16,7 +16,7 @@
 </g>
 <!-- Node45 -->
 <g id="node2" class="node"><title>Node45</title>
-<g id="a_node2"><a xlink:href="fonctions__auxiliaires_8h.html#a431b684508f6cb26e36343e8a5383de1" target="_top" xlink:title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ...">
+<g id="a_node2"><a xlink:href="fonctions__auxiliaires_8h.html#aa23b720b129a327fe2cb677ab2c90a31" target="_top" xlink:title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ...">
 <polygon fill="white" stroke="black" points="135,-19.5 135,-38.5 239,-38.5 239,-19.5 135,-19.5"/>
 <text text-anchor="middle" x="187" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">ouvrir_fichier_base0</text>
 </a>
@@ -29,7 +29,7 @@
 </g>
 <!-- Node46 -->
 <g id="node3" class="node"><title>Node46</title>
-<g id="a_node3"><a xlink:href="fonctions__auxiliaires_8h.html#a0f11a266115e98b2536637a1ad8b05f7" target="_top" xlink:title="Ouvre une base de données de bulletins en écriture pour un segment d&#39;exécution donné ...">
+<g id="a_node3"><a xlink:href="fonctions__auxiliaires_8h.html#a0f11a266115e98b2536637a1ad8b05f7" target="_top" xlink:title="Ouvre une base de données de bulletins en écriture pour un segment d&#39;exécution donné. ">
 <polygon fill="white" stroke="black" points="275,-38.5 275,-57.5 388,-57.5 388,-38.5 275,-38.5"/>
 <text text-anchor="middle" x="331.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">ouvrir_fichier_bulletins</text>
 </a>
@@ -42,7 +42,7 @@
 </g>
 <!-- Node50 -->
 <g id="node7" class="node"><title>Node50</title>
-<g id="a_node7"><a xlink:href="fonctions__auxiliaires_8h.html#a7a042e1e36b178756cfb3a5771debbcb" target="_top" xlink:title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ...">
+<g id="a_node7"><a xlink:href="fonctions__auxiliaires_8h.html#a9d4a78ef3abcba5f8462b78f5c135650" target="_top" xlink:title="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ...">
 <polygon fill="white" stroke="black" points="282.5,-0.5 282.5,-19.5 380.5,-19.5 380.5,-0.5 282.5,-0.5"/>
 <text text-anchor="middle" x="331.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">ouvrir_fichier_base</text>
 </a>
@@ -68,7 +68,7 @@
 </g>
 <!-- Node48 -->
 <g id="node5" class="node"><title>Node48</title>
-<g id="a_node5"><a xlink:href="lhx_2main_8cpp.html#ae310350c218de4ee80cbf65bc27bcd1b" target="_top" xlink:title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ...">
+<g id="a_node5"><a xlink:href="lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" target="_top" xlink:title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ...">
 <polygon fill="white" stroke="black" points="543,-19.5 543,-38.5 637,-38.5 637,-19.5 543,-19.5"/>
 <text text-anchor="middle" x="590" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">produire_segment</text>
 </a>

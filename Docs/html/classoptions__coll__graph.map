@@ -1,6 +1,6 @@
 <map id="options" name="options">
-<area shape="rect" id="node5" href="$classprocess_page.html" title="Classe de l&#39;onglet Traitement du dialgue d&#39;options. " alt="" coords="22,157,121,184"/>
-<area shape="rect" id="node6" href="$classstandard_page.html" title="Classe de l&#39;onglet &quot;Format des bases&quot; du dialogue d&#39;options. " alt="" coords="146,157,248,184"/>
-<area shape="rect" id="node7" href="$classcode_page.html" title="Classe de l&#39;onglet Codes permettant d&#39;exporter des codes de paye manuellement spécifiés vers les scri..." alt="" coords="273,157,353,184"/>
-<area shape="rect" id="node3" href="$classcommon.html" title="Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l&#39;interface vers l..." alt="" coords="221,81,293,108"/>
+<area shape="rect" id="node5" href="$classprocess_page.html" title="Classe de l&#39;onglet Traitement du dialgue d&#39;options. " alt="" coords="62,435,208,629"/>
+<area shape="rect" id="node6" href="$classstandard_page.html" title="Classe de l&#39;onglet &quot;Format des bases&quot; du dialogue d&#39;options. " alt="" coords="233,427,378,637"/>
+<area shape="rect" id="node7" href="$classcode_page.html" title="Classe de l&#39;onglet Codes permettant d&#39;exporter des codes de paye manuellement spécifiés vers les scri..." alt="" coords="402,376,558,688"/>
+<area shape="rect" id="node3" href="$classcommon.html" title="Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l&#39;interface vers l..." alt="" coords="294,132,456,327"/>
 </map>

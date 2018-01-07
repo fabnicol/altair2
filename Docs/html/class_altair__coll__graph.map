@@ -1,10 +1,10 @@
 <map id="Altair" name="Altair">
-<area shape="rect" id="node5" href="$class_main_window.html" title="Classe principale de l&#39;interface graphique utilisateur. " alt="" coords="225,348,322,375"/>
-<area shape="rect" id="node3" href="$classcommon.html" title="Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l&#39;interface vers l..." alt="" coords="373,81,445,108"/>
-<area shape="rect" id="node9" href="$classoptions.html" title="Classe de l&#39;onglet Codes, qui permet de saisir manuellement les codes de paye de certaines catégories..." alt="" coords="452,259,516,285"/>
-<area shape="rect" id="node11" href="$classprocess_page.html" title="Classe de l&#39;onglet Traitement du dialgue d&#39;options. " alt="" coords="485,157,584,184"/>
-<area shape="rect" id="node12" href="$classstandard_page.html" title="Classe de l&#39;onglet &quot;Format des bases&quot; du dialogue d&#39;options. " alt="" coords="358,157,461,184"/>
-<area shape="rect" id="node13" href="$classcode_page.html" title="Classe de l&#39;onglet Codes permettant d&#39;exporter des codes de paye manuellement spécifiés vers les scri..." alt="" coords="608,157,688,184"/>
-<area shape="rect" id="node7" href="$class_highlighter.html" title="Highlighter" alt="" coords="302,259,386,285"/>
-<area shape="rect" id="node14" href="$class_matricule_input.html" title="Classe permettant de construire un dialogue d&#39;extraction des bulletins de paye par matricule..." alt="" coords="745,208,849,235"/>
+<area shape="rect" id="node5" href="$class_main_window.html" title="Classe principale de l&#39;interface graphique utilisateur. " alt="" coords="241,2083,458,2864"/>
+<area shape="rect" id="node3" href="$classcommon.html" title="Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l&#39;interface vers l..." alt="" coords="369,132,530,327"/>
+<area shape="rect" id="node9" href="$classoptions.html" title="Classe de l&#39;onglet Codes, qui permet de saisir manuellement les codes de paye de certaines catégories..." alt="" coords="547,1415,693,1609"/>
+<area shape="rect" id="node11" href="$classprocess_page.html" title="Classe de l&#39;onglet Traitement du dialgue d&#39;options. " alt="" coords="547,435,693,629"/>
+<area shape="rect" id="node12" href="$classstandard_page.html" title="Classe de l&#39;onglet &quot;Format des bases&quot; du dialogue d&#39;options. " alt="" coords="377,427,522,637"/>
+<area shape="rect" id="node13" href="$classcode_page.html" title="Classe de l&#39;onglet Codes permettant d&#39;exporter des codes de paye manuellement spécifiés vers les scri..." alt="" coords="718,376,874,688"/>
+<area shape="rect" id="node7" href="$class_highlighter.html" title="{Highlighter\n|&#45; highlightingRules\l&#45; keywordFormat\l|+ Highlighter()\l# highlightBlock()\l&#45; createRulePattern()\l}" alt="" coords="379,1451,522,1573"/>
+<area shape="rect" id="node14" href="$class_matricule_input.html" title="Classe permettant de construire un dialogue d&#39;extraction des bulletins de paye par matricule..." alt="" coords="933,712,1105,980"/>
 </map>

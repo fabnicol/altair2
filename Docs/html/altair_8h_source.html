@@ -5,13 +5,23 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title> Fichier source de Interface/gui/altair.h</title>
+<title>My Project:  Fichier source de Interface/gui/altair.h</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { init_search(); });
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -21,6 +31,25 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="altaïr.bmp"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">My Project
+   </div>
+  </td>
+   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+</td>
  </tr>
  </tbody>
 </table>
@@ -30,15 +59,21 @@
 <script type="text/javascript">
 var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
 </script>
-<script type="text/javascript" src="menudata.js"></script>
-<script type="text/javascript" src="menu.js"></script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
 <script type="text/javascript">
-$(function() {
-  initMenu('',true,false,'search.php','Recherche');
-  $(document).ready(function() { init_search(); });
-});
+$(document).ready(function(){initNavTree('altair_8h_source.html','');});
 </script>
-<div id="main-nav"></div>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -53,11 +88,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_b7263c2df3abed61e1897d5e9e534860.html">Interface</a></li><li class="navelem"><a class="el" href="dir_d07011c78e6521b599cb794ecf1ad27a.html">gui</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">altair.h</div>  </div>
@@ -88,7 +118,7 @@ $(function() {
 <div class="ttc" id="class_altair_html_aaab0c55eb819fc2d3ceab88e4eda9a6f"><div class="ttname"><a href="class_altair.html#aaab0c55eb819fc2d3ceab88e4eda9a6f">Altair::allLayout</a></div><div class="ttdeci">QHBoxLayout * allLayout</div><div class="ttdoc">Layout global. </div><div class="ttdef"><b>Definition:</b> <a href="altair_8h_source.html#l00306">altair.h:306</a></div></div>
 <div class="ttc" id="class_altair_html_a8c98931e844ab425bfd24246fcafc049"><div class="ttname"><a href="class_altair.html#a8c98931e844ab425bfd24246fcafc049">Altair::iconShowNormal</a></div><div class="ttdeci">QIcon iconShowNormal</div><div class="ttdoc">Etat de l&amp;#39;icone de la barre d&amp;#39;outils d&amp;#39;édition qui indique que l&amp;#39;interface est en format réduit...</div><div class="ttdef"><b>Definition:</b> <a href="altair_8h_source.html#l00298">altair.h:298</a></div></div>
 <div class="ttc" id="class_altair_html_a19ef4b530e210642e2e71c94a2b14bef"><div class="ttname"><a href="class_altair.html#a19ef4b530e210642e2e71c94a2b14bef">Altair::readRankSignal</a></div><div class="ttdeci">void GCC_INLINE readRankSignal()</div><div class="ttdoc">Lit le fichier rankFile pour l&amp;#39;index de la barre progression, le lit dans   fileRank   et ajuste la b...</div><div class="ttdef"><b>Definition:</b> <a href="altair_8h_source.html#l00164">altair.h:164</a></div></div>
-<div class="ttc" id="class_altair_html_abf7d1895e52f7b8d7d26e4b5a0e6146a"><div class="ttname"><a href="class_altair.html#abf7d1895e52f7b8d7d26e4b5a0e6146a">Altair::refreshProjectManagerValues</a></div><div class="ttdeci">void refreshProjectManagerValues(std::uint16_t statut=manager::refreshAllZones)</div><div class="ttdoc">Rafraîchit le gestionnaire de projet à la droite de l&amp;#39;interface. </div><div class="ttdef"><b>Definition:</b> <a href="xmlparser_8cpp_source.html#l00621">xmlparser.cpp:621</a></div></div>
+<div class="ttc" id="class_altair_html_abf7d1895e52f7b8d7d26e4b5a0e6146a"><div class="ttname"><a href="class_altair.html#abf7d1895e52f7b8d7d26e4b5a0e6146a">Altair::refreshProjectManagerValues</a></div><div class="ttdeci">void refreshProjectManagerValues(std::uint16_t statut=manager::refreshAllZones)</div><div class="ttdoc">Rafraîchit le gestionnaire de projet à la droite de l&amp;#39;interface. </div><div class="ttdef"><b>Definition:</b> <a href="xmlparser_8cpp_source.html#l00620">xmlparser.cpp:620</a></div></div>
 <div class="ttc" id="class_altair_html_afd71c35a3a71291b0d4eece1058de4f0"><div class="ttname"><a href="class_altair.html#afd71c35a3a71291b0d4eece1058de4f0">Altair::runRAltair</a></div><div class="ttdeci">void runRAltair()</div><div class="ttdoc">Lance l&amp;#39;application Rstudio et les scripts R. </div><div class="ttdef"><b>Definition:</b> <a href="run_8cpp_source.html#l00527">run.cpp:527</a></div></div>
 <div class="ttc" id="class_altair_html_ac9d7d8e7cebf70212818f1a8ba7d7d78"><div class="ttname"><a href="class_altair.html#ac9d7d8e7cebf70212818f1a8ba7d7d78">Altair::refreshProjectManager</a></div><div class="ttdeci">bool refreshProjectManager()</div><div class="ttdoc">Rafraîchit le gestionnaire de projet à la droite de l&amp;#39;interface. Fonction globale par défaut...</div><div class="ttdef"><b>Definition:</b> <a href="altair_8cpp_source.html#l00739">altair.cpp:739</a></div></div>
 <div class="ttc" id="class_altair_html_a7738014547e1d130248f6c412474b58b"><div class="ttname"><a href="class_altair.html#a7738014547e1d130248f6c412474b58b">Altair::getFileCount</a></div><div class="ttdeci">int getFileCount()</div><div class="ttdoc">Accesseur en lecture de fileCount. </div><div class="ttdef"><b>Definition:</b> <a href="altair_8h_source.html#l00156">altair.h:156</a></div></div>
@@ -113,7 +143,7 @@ $(function() {
 <div class="ttc" id="class_altair_html_aab5da600c227ac7eb604fa24a9308d26"><div class="ttname"><a href="class_altair.html#aab5da600c227ac7eb604fa24a9308d26">Altair::requestSaveProject</a></div><div class="ttdeci">void requestSaveProject()</div><div class="ttdoc">Enregistre le projet .alt en actualisant projectName et l&amp;#39;état de l&amp;#39;interface  . </div><div class="ttdef"><b>Definition:</b> <a href="altair_8cpp_source.html#l00614">altair.cpp:614</a></div></div>
 <div class="ttc" id="class_altair_html_af3039bccac1355d7b47640b8a626d509"><div class="ttname"><a href="class_altair.html#af3039bccac1355d7b47640b8a626d509">Altair::row</a></div><div class="ttdeci">int row</div><div class="ttdoc">Ligne courante de l&amp;#39;onglet sélectionné </div><div class="ttdef"><b>Definition:</b> <a href="altair_8h_source.html#l00292">altair.h:292</a></div></div>
 <div class="ttc" id="class_altair_html_a1916d2c4bb1405564d58c3bdd5da1bc5"><div class="ttname"><a href="class_altair.html#a1916d2c4bb1405564d58c3bdd5da1bc5">Altair::ajouterLigneMatricules</a></div><div class="ttdeci">void ajouterLigneMatricules()</div><div class="ttdoc">Ajout d&amp;#39;une ligne de saisie des matricules au dialogue Extraction des bulletins (classe MatriculeInpu...</div></div>
-<div class="ttc" id="class_altair_html_a41b6c8a35ed8ba14c7c0ce2e6994655f"><div class="ttname"><a href="class_altair.html#a41b6c8a35ed8ba14c7c0ce2e6994655f">Altair::parseProjectFile</a></div><div class="ttdeci">void parseProjectFile(QIODevice *file)</div><div class="ttdoc">Décode le projet représenté par un pointeur vers QFile ou similaire. </div><div class="ttdef"><b>Definition:</b> <a href="xmlparser_8cpp_source.html#l00451">xmlparser.cpp:451</a></div></div>
+<div class="ttc" id="class_altair_html_a41b6c8a35ed8ba14c7c0ce2e6994655f"><div class="ttname"><a href="class_altair.html#a41b6c8a35ed8ba14c7c0ce2e6994655f">Altair::parseProjectFile</a></div><div class="ttdeci">void parseProjectFile(QIODevice *file)</div><div class="ttdoc">Décode le projet représenté par un pointeur vers QFile ou similaire. </div><div class="ttdef"><b>Definition:</b> <a href="xmlparser_8cpp_source.html#l00452">xmlparser.cpp:452</a></div></div>
 <div class="ttc" id="class_altair_html_a3335254a35dba3e52590616616a43aa0"><div class="ttname"><a href="class_altair.html#a3335254a35dba3e52590616616a43aa0">Altair::projectName</a></div><div class="ttdeci">QString projectName</div><div class="ttdoc">Nom du projet .alt. </div><div class="ttdef"><b>Definition:</b> <a href="altair_8h_source.html#l00088">altair.h:88</a></div></div>
 <div class="ttc" id="class_altair_html_a830a875daeadb24dfa5fc988bd584130"><div class="ttname"><a href="class_altair.html#a830a875daeadb24dfa5fc988bd584130">Altair::startDrag</a></div><div class="ttdeci">void startDrag()</div><div class="ttdoc">Début du glisser-déplacer. </div></div>
 <div class="ttc" id="class_altair_html_ab98d384297c6b94ff65a683eb5f99633"><div class="ttname"><a href="class_altair.html#ab98d384297c6b94ff65a683eb5f99633">Altair::on_openProjectButton_clicked</a></div><div class="ttdeci">void on_openProjectButton_clicked()</div><div class="ttdoc">Ouvre le projet, le décode en appelant parseProjectFile et actualise l&amp;#39;interface  en conséquence...</div><div class="ttdef"><b>Definition:</b> <a href="altair_8cpp_source.html#l00407">altair.cpp:407</a></div></div>
@@ -135,7 +165,7 @@ $(function() {
 <div class="ttc" id="class_altair_html_a2f8d129da914d8b9ab3cdaf195f92bd1"><div class="ttname"><a href="class_altair.html#a2f8d129da914d8b9ab3cdaf195f92bd1">Altair::makeDataString</a></div><div class="ttdeci">const QString makeDataString()</div><div class="ttdoc">Lance Altair::makeParserString sur le premier item courant de abstractWidgetList (celui des données d...</div><div class="ttdef"><b>Definition:</b> <a href="xmlparser_8cpp_source.html#l00093">xmlparser.cpp:93</a></div></div>
 <div class="ttc" id="class_altair_html_a26e961c8c8a8b8cc0f181b36d0cd61fc"><div class="ttname"><a href="class_altair.html#a26e961c8c8a8b8cc0f181b36d0cd61fc">Altair::progressLayout</a></div><div class="ttdeci">QVBoxLayout * progressLayout</div><div class="ttdoc">Layout de la barre de progression. </div><div class="ttdef"><b>Definition:</b> <a href="altair_8h_source.html#l00304">altair.h:304</a></div></div>
 <div class="ttc" id="class_altair_html"><div class="ttname"><a href="class_altair.html">Altair</a></div><div class="ttdoc">Classe Altair, agent de la classe MainWindow qui implémente les fonctions globales de l&amp;#39;interface gra...</div><div class="ttdef"><b>Definition:</b> <a href="altair_8h_source.html#l00066">altair.h:66</a></div></div>
-<div class="ttc" id="class_altair_html_a3f6193de22ed2034c9b6dbe7a8ac4d97"><div class="ttname"><a href="class_altair.html#a3f6193de22ed2034c9b6dbe7a8ac4d97">Altair::parseEntry</a></div><div class="ttdeci">FStringList parseEntry(const QDomNode &amp;noeud, QTreeWidgetItem *parent=0)</div><div class="ttdoc">Lors du décodage du projet XML .alt, décoder le noed courant et renvoyer l&amp;#39;empilement des valeurs en ...</div><div class="ttdef"><b>Definition:</b> <a href="xmlparser_8cpp_source.html#l00557">xmlparser.cpp:557</a></div></div>
+<div class="ttc" id="class_altair_html_a3f6193de22ed2034c9b6dbe7a8ac4d97"><div class="ttname"><a href="class_altair.html#a3f6193de22ed2034c9b6dbe7a8ac4d97">Altair::parseEntry</a></div><div class="ttdeci">FStringList parseEntry(const QDomNode &amp;noeud, QTreeWidgetItem *parent=0)</div><div class="ttdoc">Lors du décodage du projet XML .alt, décoder le noed courant et renvoyer l&amp;#39;empilement des valeurs en ...</div><div class="ttdef"><b>Definition:</b> <a href="xmlparser_8cpp_source.html#l00558">xmlparser.cpp:558</a></div></div>
 <div class="ttc" id="class_main_window_html"><div class="ttname"><a href="class_main_window.html">MainWindow</a></div><div class="ttdoc">Classe principale de l&amp;#39;interface graphique utilisateur. </div><div class="ttdef"><b>Definition:</b> <a href="altair-gui_8h_source.html#l00086">altair-gui.h:86</a></div></div>
 <div class="ttc" id="class_altair_html_a27b23804b24cf3e0e1d7d89e3f00da00"><div class="ttname"><a href="class_altair.html#a27b23804b24cf3e0e1d7d89e3f00da00">Altair::fileTreeView</a></div><div class="ttdeci">QTreeView * fileTreeView</div><div class="ttdoc">Vue associée. </div><div class="ttdef"><b>Definition:</b> <a href="altair_8h_source.html#l00084">altair.h:84</a></div></div>
 <div class="ttc" id="class_altair_html_a7f4260db2b81ab44ceb6ba3e324c793f"><div class="ttname"><a href="class_altair.html#a7f4260db2b81ab44ceb6ba3e324c793f">Altair::fileSizeDataBase</a></div><div class="ttdeci">QHash&lt; int, QVector&lt; QStringList &gt; &gt; fileSizeDataBase</div><div class="ttdoc">Table de hashage contenant les tailles de fichier. </div><div class="ttdef"><b>Definition:</b> <a href="altair_8h_source.html#l00296">altair.h:296</a></div></div>
@@ -145,14 +175,18 @@ $(function() {
 <div class="ttc" id="class_altair_html_a040b286c162f1c102540401b78fe8488"><div class="ttname"><a href="class_altair.html#a040b286c162f1c102540401b78fe8488">Altair::managerWidget</a></div><div class="ttdeci">QTreeWidget * managerWidget</div><div class="ttdoc">Arbre du gestionnaire de projet à droite de l&amp;#39;interface. </div><div class="ttdef"><b>Definition:</b> <a href="altair_8h_source.html#l00085">altair.h:85</a></div></div>
 <div class="ttc" id="class_altair_html_a0251bd01be686b604b1d2c4cb8c00ae9"><div class="ttname"><a href="class_altair.html#a0251bd01be686b604b1d2c4cb8c00ae9">Altair::username</a></div><div class="ttdeci">QString username</div><div class="ttdoc">Nom de l&amp;#39;utilisateur Unix. </div><div class="ttdef"><b>Definition:</b> <a href="altair_8h_source.html#l00090">altair.h:90</a></div></div>
 <div class="ttc" id="class_altair_html_adb7f94af778c4b6874abab74c8ef4016"><div class="ttname"><a href="class_altair.html#adb7f94af778c4b6874abab74c8ef4016">Altair::makeSystemString</a></div><div class="ttdeci">const QString makeSystemString()</div><div class="ttdoc">Lance Altair::makeParserString sur l&amp;#39;ensemble de la liste des FWidgets sauf le premier (tous les widg...</div><div class="ttdef"><b>Definition:</b> <a href="xmlparser_8cpp_source.html#l00098">xmlparser.cpp:98</a></div></div>
-<div class="ttc" id="class_altair_html_adc79f280e4f580298a8dd80e2f7cf712"><div class="ttname"><a href="class_altair.html#adc79f280e4f580298a8dd80e2f7cf712">Altair::processSecondLevelData</a></div><div class="ttdeci">QVector&lt; QStringList &gt; processSecondLevelData(QVector&lt; QStringList &gt; &amp;L, bool isFile=true)</div><div class="ttdoc">Parcourt la table de chachage Hash::wrapper dans laquelle sont stockés à la clé &quot;XHL&quot; les chemins des...</div><div class="ttdef"><b>Definition:</b> <a href="xmlparser_8cpp_source.html#l00589">xmlparser.cpp:589</a></div></div>
+<div class="ttc" id="class_altair_html_adc79f280e4f580298a8dd80e2f7cf712"><div class="ttname"><a href="class_altair.html#adc79f280e4f580298a8dd80e2f7cf712">Altair::processSecondLevelData</a></div><div class="ttdeci">QVector&lt; QStringList &gt; processSecondLevelData(QVector&lt; QStringList &gt; &amp;L, bool isFile=true)</div><div class="ttdoc">Parcourt la table de chachage Hash::wrapper dans laquelle sont stockés à la clé &quot;XHL&quot; les chemins des...</div><div class="ttdef"><b>Definition:</b> <a href="xmlparser_8cpp_source.html#l00590">xmlparser.cpp:590</a></div></div>
 <div class="ttc" id="class_altair_html_a43120f9909d0284074119529a03df85b"><div class="ttname"><a href="class_altair.html#a43120f9909d0284074119529a03df85b">Altair::writeProjectFile</a></div><div class="ttdeci">void writeProjectFile()</div><div class="ttdoc">Ecrit le projet XML d&amp;#39;extension .alt contenant les références des donnéees de paye. </div><div class="ttdef"><b>Definition:</b> <a href="xmlparser_8cpp_source.html#l00104">xmlparser.cpp:104</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Généré par &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.13
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b7263c2df3abed61e1897d5e9e534860.html">Interface</a></li><li class="navelem"><a class="el" href="dir_d07011c78e6521b599cb794ecf1ad27a.html">gui</a></li><li class="navelem"><a class="el" href="altair_8h.html">altair.h</a></li>
+    <li class="footer">Généré le Dimanche 7 Janvier 2018 23:20:31 pour My Project par
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
 </body>
 </html>

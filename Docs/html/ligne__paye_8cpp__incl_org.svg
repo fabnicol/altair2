@@ -85,11 +85,8 @@
 </g>
 <!-- Node22 -->
 <g id="node23" class="node"><title>Node22</title>
-<g id="a_node23"><a xlink:href="tags_8h.html" target="_top" xlink:title="tags.h">
-<polygon fill="white" stroke="black" points="1365,-112.5 1365,-131.5 1409,-131.5 1409,-112.5 1365,-112.5"/>
+<polygon fill="white" stroke="#bfbfbf" points="1365,-112.5 1365,-131.5 1409,-131.5 1409,-112.5 1365,-112.5"/>
 <text text-anchor="middle" x="1387" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00">tags.h</text>
-</a>
-</g>
 </g>
 <!-- Node1&#45;&gt;Node22 -->
 <g id="edge54" class="edge"><title>Node1&#45;&gt;Node22</title>
