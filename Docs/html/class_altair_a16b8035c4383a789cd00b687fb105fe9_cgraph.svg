@@ -62,7 +62,7 @@ var sectionId = 'dynsection-59';
 </g>
 <!-- Node3146 -->
 <g id="node2" class="node"><title>Node3146</title>
-<g id="a_node2"><a xlink:href="classtools.html#a507c567954c39f293c8ab884a0fbcc32" target="_top" xlink:title="tools::getDirectorySize">
+<g id="a_node2"><a xlink:href="classtools.html#a507c567954c39f293c8ab884a0fbcc32" target="_top" xlink:title="Calcule le cumul de la taille des fichiers, éventuellement restreints à une extension donnée...">
 <polygon fill="white" stroke="black" points="152,-1075.5 152,-1094.5 268,-1094.5 268,-1075.5 152,-1075.5"/>
 <text text-anchor="middle" x="210" y="-1082.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::getDirectorySize</text>
 </a>
@@ -199,7 +199,7 @@ var sectionId = 'dynsection-59';
 </g>
 <!-- Node3153 -->
 <g id="node9" class="node"><title>Node3153</title>
-<g id="a_node9"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur widgetContainer. ">
+<g id="a_node9"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="1741,-322.5 1741,-341.5 1850,-341.5 1850,-322.5 1741,-322.5"/>
 <text text-anchor="middle" x="1795.5" y="-329.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getRank</text>
 </a>
@@ -225,7 +225,7 @@ var sectionId = 'dynsection-59';
 </g>
 <!-- Node3219 -->
 <g id="node12" class="node"><title>Node3219</title>
-<g id="a_node12"><a xlink:href="class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" target="_top" xlink:title="Accesseur en lecture de widgetContainer. ">
+<g id="a_node12"><a xlink:href="class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" target="_top" xlink:title="Accesseur en lecture de FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="1525,-227.5 1525,-246.5 1683,-246.5 1683,-227.5 1525,-227.5"/>
 <text text-anchor="middle" x="1604" y="-234.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getWidgetContainer</text>
 </a>
@@ -353,7 +353,7 @@ var sectionId = 'dynsection-59';
 </g>
 <!-- Node3173 -->
 <g id="node34" class="node"><title>Node3173</title>
-<g id="a_node34"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="tools::cdRomMounted">
+<g id="a_node34"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="Détecte si un disque optique est monté. ">
 <polygon fill="white" stroke="black" points="1344.5,-557.5 1344.5,-576.5 1457.5,-576.5 1457.5,-557.5 1344.5,-557.5"/>
 <text text-anchor="middle" x="1401" y="-564.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::cdRomMounted</text>
 </a>
@@ -664,7 +664,7 @@ var sectionId = 'dynsection-59';
 </g>
 <!-- Node3233 -->
 <g id="node38" class="node"><title>Node3233</title>
-<g id="a_node38"><a xlink:href="classtools.html#ab14f69ed6a8faa01674b93e798c612a4" target="_top" xlink:title="tools::substituer">
+<g id="a_node38"><a xlink:href="classtools.html#a7cba03deaa6e1311c2d0e5fb9fdcfa5c" target="_top" xlink:title="Remplace des chaînes de caractères, lorsqu&#39;elles correspondent à une expression rationnelle, dans une chaîne de caractères donnée par une chaîne de caractères donnée. ">
 <polygon fill="white" stroke="black" points="966.5,-923.5 966.5,-942.5 1052.5,-942.5 1052.5,-923.5 966.5,-923.5"/>
 <text text-anchor="middle" x="1009.5" y="-930.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::substituer</text>
 </a>

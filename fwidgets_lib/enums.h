@@ -82,8 +82,8 @@ public:
                                              };
 
    enum class status : std::uint32_t {
-       enabled = 0x100,              ///< Activer le fwidget par défaut
-       disabled = 0x200,             ///< Désactiver fwidget par défaut
+       enabled = 0x100,              ///< Activer le composant fonctionnelpar défaut
+       disabled = 0x200,             ///< Désactiver composant fonctionnelpar défaut
        checked = 0x1000,             ///< Cocher par défaut
        unchecked = 0x2000,           ///< Décocher par défaut
        multimodal = 0x3000,          ///< composant multi-modes
@@ -91,7 +91,7 @@ public:
        enabledUnchecked = 0x2100,    ///< Raccourci pour enabled & unchecked
        hasListCommandLine = 0x4000,  ///< Profondeur au moins 2
        defaultStatus = enabled,      ///< Statut par défaut
-       excluded = 0x10000,           ///< Exclure le fwidget de la liste Abstract::abstractWidgetList
+       excluded = 0x10000,           ///< Exclure le composant fonctionnelde la liste Abstract::abstractWidgetList
        enabledMask = 0xF00,          ///< Masque permettant de récupérer enabled
        widgetMask = 0xF000,          ///< Masque permettant de récupérer checked
        statusMask = 0xFFF0,          ///< Masque permettant de récupérer checked et enabled

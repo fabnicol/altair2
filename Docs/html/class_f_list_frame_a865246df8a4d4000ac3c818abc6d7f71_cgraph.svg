@@ -214,7 +214,7 @@ var sectionId = 'dynsection-2';
 </g>
 <!-- Node5 -->
 <g id="node6" class="node"><title>Node5</title>
-<g id="a_node6"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur widgetContainer. ">
+<g id="a_node6"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="522.5,-282.5 522.5,-301.5 631.5,-301.5 631.5,-282.5 522.5,-282.5"/>
 <text text-anchor="middle" x="577" y="-289.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getRank</text>
 </a>
@@ -332,7 +332,7 @@ var sectionId = 'dynsection-2';
 </g>
 <!-- Node20 -->
 <g id="node21" class="node"><title>Node20</title>
-<g id="a_node21"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="tools::cdRomMounted">
+<g id="a_node21"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="Détecte si un disque optique est monté. ">
 <polygon fill="white" stroke="black" points="892,-0.5 892,-19.5 1005,-19.5 1005,-0.5 892,-0.5"/>
 <text text-anchor="middle" x="948.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::cdRomMounted</text>
 </a>

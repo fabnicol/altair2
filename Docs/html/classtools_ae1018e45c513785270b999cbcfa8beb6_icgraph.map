@@ -1,6 +1,6 @@
 <map id="tools::IOControl" name="tools::IOControl">
 <area shape="rect" id="node2" href="$classtools.html#a0765c68c41d7c957f1fb0f0da8b4a9c9" title="tools::copyFile" alt="" coords="168,70,275,96"/>
-<area shape="rect" id="node5" href="$classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" title="tools::readFile" alt="" coords="519,272,623,299"/>
+<area shape="rect" id="node5" href="$classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" title="List un fichier entre deux lignes données et sur une largeur donnée. " alt="" coords="519,272,623,299"/>
 <area shape="rect" id="node7" href="$classtools.html#a22819e1b381949304b8fde11a91a7de3" title="tools::unzip" alt="" coords="177,222,266,248"/>
 <area shape="rect" id="node9" href="$classtools.html#aae1cdbea84aed049937a52ceb9421794" title="tools::zip" alt="" coords="184,399,259,426"/>
 <area shape="rect" id="node3" href="$classtools.html#a37c9c486d90129b0d6a4ac93f29fd5bb" title="tools::copyDir" alt="" coords="325,120,427,147"/>

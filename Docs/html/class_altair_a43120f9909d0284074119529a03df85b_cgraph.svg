@@ -313,7 +313,7 @@ var sectionId = 'dynsection-93';
 </g>
 <!-- Node5183 -->
 <g id="node13" class="node"><title>Node5183</title>
-<g id="a_node13"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur widgetContainer. ">
+<g id="a_node13"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="1295,-837.5 1295,-856.5 1404,-856.5 1404,-837.5 1295,-837.5"/>
 <text text-anchor="middle" x="1349.5" y="-844.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getRank</text>
 </a>
@@ -380,7 +380,7 @@ var sectionId = 'dynsection-93';
 </g>
 <!-- Node5258 -->
 <g id="node30" class="node"><title>Node5258</title>
-<g id="a_node30"><a xlink:href="class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" target="_top" xlink:title="Accesseur en lecture de widgetContainer. ">
+<g id="a_node30"><a xlink:href="class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" target="_top" xlink:title="Accesseur en lecture de FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="687,-546.5 687,-565.5 845,-565.5 845,-546.5 687,-546.5"/>
 <text text-anchor="middle" x="766" y="-553.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getWidgetContainer</text>
 </a>

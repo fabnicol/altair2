@@ -17,7 +17,7 @@
 </g>
 <!-- Node80 -->
 <g id="node2" class="node"><title>Node80</title>
-<g id="a_node2"><a xlink:href="classtools.html#a995219ca14bd1ddcb10cb2a3fffed5a5" target="_top" xlink:title="tools::dump">
+<g id="a_node2"><a xlink:href="classtools.html#a995219ca14bd1ddcb10cb2a3fffed5a5" target="_top" xlink:title="Créer un fichier temporaire temp dans le répertoire racine et le remplit avec une chaîone de caractèr...">
 <polygon fill="white" stroke="black" points="201.5,-202.5 201.5,-221.5 269.5,-221.5 269.5,-202.5 201.5,-202.5"/>
 <text text-anchor="middle" x="235.5" y="-209.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::dump</text>
 </a>
@@ -44,7 +44,7 @@
 </g>
 <!-- Node84 -->
 <g id="node6" class="node"><title>Node84</title>
-<g id="a_node6"><a xlink:href="classtools.html#ab14f69ed6a8faa01674b93e798c612a4" target="_top" xlink:title="tools::substituer">
+<g id="a_node6"><a xlink:href="classtools.html#a7cba03deaa6e1311c2d0e5fb9fdcfa5c" target="_top" xlink:title="Remplace des chaînes de caractères, lorsqu&#39;elles correspondent à une expression rationnelle, dans une chaîne de caractères donnée par une chaîne de caractères donnée. ">
 <polygon fill="white" stroke="black" points="355.5,-243.5 355.5,-262.5 441.5,-262.5 441.5,-243.5 355.5,-243.5"/>
 <text text-anchor="middle" x="398.5" y="-250.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::substituer</text>
 </a>
@@ -57,7 +57,7 @@
 </g>
 <!-- Node85 -->
 <g id="node7" class="node"><title>Node85</title>
-<g id="a_node7"><a xlink:href="classtools.html#af43fc30ac740fa0fa1d773afb2538c8c" target="_top" xlink:title="tools::readFile">
+<g id="a_node7"><a xlink:href="classtools.html#af43fc30ac740fa0fa1d773afb2538c8c" target="_top" xlink:title="Liste un fichier entre deux lignes données et sur une largeur donnée. ">
 <polygon fill="white" stroke="black" points="196.5,-164.5 196.5,-183.5 274.5,-183.5 274.5,-164.5 196.5,-164.5"/>
 <text text-anchor="middle" x="235.5" y="-171.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::readFile</text>
 </a>
@@ -110,7 +110,7 @@
 </g>
 <!-- Node89 -->
 <g id="node11" class="node"><title>Node89</title>
-<g id="a_node11"><a xlink:href="classtools.html#a888a6211f6956005dba0132e1ee5fd92" target="_top" xlink:title="tools::renommer">
+<g id="a_node11"><a xlink:href="classtools.html#a888a6211f6956005dba0132e1ee5fd92" target="_top" xlink:title="Renomme un fichier. ">
 <polygon fill="white" stroke="black" points="192,-0.5 192,-19.5 279,-19.5 279,-0.5 192,-0.5"/>
 <text text-anchor="middle" x="235.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::renommer</text>
 </a>

@@ -126,7 +126,7 @@ var sectionId = 'dynsection-2';
 </g>
 <!-- Node5 -->
 <g id="node6" class="node"><title>Node5</title>
-<g id="a_node6"><a xlink:href="classtools.html#af43fc30ac740fa0fa1d773afb2538c8c" target="_top" xlink:title="tools::readFile">
+<g id="a_node6"><a xlink:href="classtools.html#af43fc30ac740fa0fa1d773afb2538c8c" target="_top" xlink:title="Liste un fichier entre deux lignes données et sur une largeur donnée. ">
 <polygon fill="white" stroke="black" points="351.5,-156.868 351.5,-175.868 429.5,-175.868 429.5,-156.868 351.5,-156.868"/>
 <text text-anchor="middle" x="390.5" y="-163.868" font-family="Helvetica,sans-Serif" font-size="10.00">tools::readFile</text>
 </a>
@@ -153,7 +153,7 @@ var sectionId = 'dynsection-2';
 </g>
 <!-- Node8 -->
 <g id="node9" class="node"><title>Node8</title>
-<g id="a_node9"><a xlink:href="classtools.html#ab14f69ed6a8faa01674b93e798c612a4" target="_top" xlink:title="tools::substituer">
+<g id="a_node9"><a xlink:href="classtools.html#a7cba03deaa6e1311c2d0e5fb9fdcfa5c" target="_top" xlink:title="Remplace des chaînes de caractères, lorsqu&#39;elles correspondent à une expression rationnelle, dans une chaîne de caractères donnée par une chaîne de caractères donnée. ">
 <polygon fill="white" stroke="black" points="510.5,-14.8681 510.5,-33.8681 596.5,-33.8681 596.5,-14.8681 510.5,-14.8681"/>
 <text text-anchor="middle" x="553.5" y="-21.8681" font-family="Helvetica,sans-Serif" font-size="10.00">tools::substituer</text>
 </a>
@@ -166,7 +166,7 @@ var sectionId = 'dynsection-2';
 </g>
 <!-- Node9 -->
 <g id="node10" class="node"><title>Node9</title>
-<g id="a_node10"><a xlink:href="classtools.html#a888a6211f6956005dba0132e1ee5fd92" target="_top" xlink:title="tools::renommer">
+<g id="a_node10"><a xlink:href="classtools.html#a888a6211f6956005dba0132e1ee5fd92" target="_top" xlink:title="Renomme un fichier. ">
 <polygon fill="white" stroke="black" points="347,-30.8681 347,-49.8681 434,-49.8681 434,-30.8681 347,-30.8681"/>
 <text text-anchor="middle" x="390.5" y="-37.8681" font-family="Helvetica,sans-Serif" font-size="10.00">tools::renommer</text>
 </a>
@@ -179,7 +179,7 @@ var sectionId = 'dynsection-2';
 </g>
 <!-- Node10 -->
 <g id="node11" class="node"><title>Node10</title>
-<g id="a_node11"><a xlink:href="classtools.html#a995219ca14bd1ddcb10cb2a3fffed5a5" target="_top" xlink:title="tools::dump">
+<g id="a_node11"><a xlink:href="classtools.html#a995219ca14bd1ddcb10cb2a3fffed5a5" target="_top" xlink:title="Créer un fichier temporaire temp dans le répertoire racine et le remplit avec une chaîone de caractèr...">
 <polygon fill="white" stroke="black" points="356.5,-118.868 356.5,-137.868 424.5,-137.868 424.5,-118.868 356.5,-118.868"/>
 <text text-anchor="middle" x="390.5" y="-125.868" font-family="Helvetica,sans-Serif" font-size="10.00">tools::dump</text>
 </a>

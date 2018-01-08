@@ -17,14 +17,14 @@
 <area shape="rect" id="node10" href="$namespace_xml_method.html#ac0a708c4bc4c55df24e60816d69a90cf" title="XmlMethod::displaySecond\lLevelData" alt="" coords="2494,629,2675,670"/>
 <area shape="rect" id="node11" href="$namespace_xml_method.html#aad1e553eb1ec6f1bb128cc6744cba9e3" title="XmlMethod::displayTextData" alt="" coords="2744,577,2935,604"/>
 <area shape="rect" id="node12" href="$namespace_xml_method.html#a796c4f03d9e7a8057f0102b87eecbd3e" title="XmlMethod::displayFirstLevelData" alt="" coords="2473,577,2696,604"/>
-<area shape="rect" id="node8" href="$class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" title="Récupère la taille courante (0&#45;based) du conteneur widgetContainer. " alt="" coords="2767,325,2912,352"/>
+<area shape="rect" id="node8" href="$class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" title="Récupère la taille courante (0&#45;based) du conteneur FListFrame::widgetContainer. " alt="" coords="2767,325,2912,352"/>
 <area shape="rect" id="node14" href="$class_altair.html#a4995cdc9462838289b5b1df75edba552" title="Ajouter du texte à l&#39;onglet des messages. " alt="" coords="1428,705,1555,732"/>
 <area shape="rect" id="node36" href="$class_altair.html#a41b6c8a35ed8ba14c7c0ce2e6994655f" title="Décode le projet représenté par un pointeur vers QFile ou similaire. " alt="" coords="960,756,1115,783"/>
 <area shape="rect" id="node15" href="$class_altair.html#a2f6882c170016e2d7729058b08896a1d" title="Tuer l&#39;application en ligne de commande lhx. " alt="" coords="1603,655,1727,681"/>
 <area shape="rect" id="node23" href="$class_altair.html#a7d10f8ecf4097577885172afb6c2e9c6" title="Lance l&#39;exécution de l&#39;application en ligne de commande lhx. " alt="" coords="1625,756,1704,783"/>
 <area shape="rect" id="node35" href="$class_altair.html#afd71c35a3a71291b0d4eece1058de4f0" title="Lance l&#39;application Rstudio et les scripts R. " alt="" coords="1605,705,1724,732"/>
 <area shape="rect" id="node17" href="$class_altair.html#a5b3c33b6ae4f6b57b5593245751ef203" title="Efface toutes les données du projet .alt et réinitialise l&#39;interface et les conteneurs de données int..." alt="" coords="1989,452,2147,479"/>
-<area shape="rect" id="node21" href="$class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" title="Accesseur en lecture de widgetContainer. " alt="" coords="1963,503,2173,529"/>
+<area shape="rect" id="node21" href="$class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" title="Accesseur en lecture de FListFrame::widgetContainer. " alt="" coords="1963,503,2173,529"/>
 <area shape="rect" id="node22" href="$class_f_list_frame.html#a5c6ce884a0169251e359364921d1f89c" title="FListFrame::addNewTab" alt="" coords="2501,351,2668,377"/>
 <area shape="rect" id="node18" href="$struct_abstract.html#af7b700041c9d75de3f642f15ece3e6ae" title="Réinitialiser toutes les valeurs du de la table de hachage Hash::wrapper. " alt="" coords="2270,676,2377,703"/>
 <area shape="rect" id="node19" href="$class_f_list_frame.html#a018583305b4464d69c66805aceb1a2ac" title="Initialise le conteneur de composants widgetContainer à blanc. " alt="" coords="2231,453,2415,494"/>

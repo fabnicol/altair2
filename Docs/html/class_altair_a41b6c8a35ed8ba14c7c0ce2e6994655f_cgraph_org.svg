@@ -232,7 +232,7 @@
 </g>
 <!-- Node2681 -->
 <g id="node9" class="node"><title>Node2681</title>
-<g id="a_node9"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur widgetContainer. ">
+<g id="a_node9"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="1804,-519.23 1804,-538.23 1913,-538.23 1913,-519.23 1804,-519.23"/>
 <text text-anchor="middle" x="1858.5" y="-526.23" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getRank</text>
 </a>
@@ -420,7 +420,7 @@
 </g>
 <!-- Node2707 -->
 <g id="node24" class="node"><title>Node2707</title>
-<g id="a_node24"><a xlink:href="class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" target="_top" xlink:title="Accesseur en lecture de widgetContainer. ">
+<g id="a_node24"><a xlink:href="class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" target="_top" xlink:title="Accesseur en lecture de FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="1211,-595.23 1211,-614.23 1369,-614.23 1369,-595.23 1211,-595.23"/>
 <text text-anchor="middle" x="1290" y="-602.23" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getWidgetContainer</text>
 </a>
@@ -565,7 +565,7 @@
 </g>
 <!-- Node2698 -->
 <g id="node34" class="node"><title>Node2698</title>
-<g id="a_node34"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="tools::cdRomMounted">
+<g id="a_node34"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="Détecte si un disque optique est monté. ">
 <polygon fill="white" stroke="black" points="1050,-785.23 1050,-804.23 1163,-804.23 1163,-785.23 1050,-785.23"/>
 <text text-anchor="middle" x="1106.5" y="-792.23" font-family="Helvetica,sans-Serif" font-size="10.00">tools::cdRomMounted</text>
 </a>

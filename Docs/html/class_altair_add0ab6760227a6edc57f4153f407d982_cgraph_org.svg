@@ -99,7 +99,7 @@
 </g>
 <!-- Node2914 -->
 <g id="node6" class="node"><title>Node2914</title>
-<g id="a_node6"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur widgetContainer. ">
+<g id="a_node6"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="1361,-564.5 1361,-583.5 1470,-583.5 1470,-564.5 1361,-564.5"/>
 <text text-anchor="middle" x="1415.5" y="-571.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getRank</text>
 </a>
@@ -125,7 +125,7 @@
 </g>
 <!-- Node2981 -->
 <g id="node12" class="node"><title>Node2981</title>
-<g id="a_node12"><a xlink:href="class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" target="_top" xlink:title="Accesseur en lecture de widgetContainer. ">
+<g id="a_node12"><a xlink:href="class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" target="_top" xlink:title="Accesseur en lecture de FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="1136,-546.5 1136,-565.5 1294,-565.5 1294,-546.5 1136,-546.5"/>
 <text text-anchor="middle" x="1215" y="-553.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getWidgetContainer</text>
 </a>
@@ -335,7 +335,7 @@
 </g>
 <!-- Node2934 -->
 <g id="node38" class="node"><title>Node2934</title>
-<g id="a_node38"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="tools::cdRomMounted">
+<g id="a_node38"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="Détecte si un disque optique est monté. ">
 <polygon fill="white" stroke="black" points="391,-453.5 391,-472.5 504,-472.5 504,-453.5 391,-453.5"/>
 <text text-anchor="middle" x="447.5" y="-460.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::cdRomMounted</text>
 </a>
@@ -685,7 +685,7 @@
 </g>
 <!-- Node2995 -->
 <g id="node42" class="node"><title>Node2995</title>
-<g id="a_node42"><a xlink:href="classtools.html#ab14f69ed6a8faa01674b93e798c612a4" target="_top" xlink:title="tools::substituer">
+<g id="a_node42"><a xlink:href="classtools.html#a7cba03deaa6e1311c2d0e5fb9fdcfa5c" target="_top" xlink:title="Remplace des chaînes de caractères, lorsqu&#39;elles correspondent à une expression rationnelle, dans une chaîne de caractères donnée par une chaîne de caractères donnée. ">
 <polygon fill="white" stroke="black" points="781.5,-731.5 781.5,-750.5 867.5,-750.5 867.5,-731.5 781.5,-731.5"/>
 <text text-anchor="middle" x="824.5" y="-738.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::substituer</text>
 </a>

@@ -9,34 +9,34 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
 <title>tools::openDirDialog</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-62 271,-62 271,4 -4,4"/>
-<!-- Node130 -->
-<g id="node1" class="node"><title>Node130</title>
+<!-- Node127 -->
+<g id="node1" class="node"><title>Node127</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-19.5 0,-38.5 105,-38.5 105,-19.5 0,-19.5"/>
 <text text-anchor="middle" x="52.5" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::openDirDialog</text>
 </g>
-<!-- Node131 -->
-<g id="node2" class="node"><title>Node131</title>
+<!-- Node128 -->
+<g id="node2" class="node"><title>Node128</title>
 <g id="a_node2"><a xlink:href="class_f_line_frame.html#aa9a7fa64c39944439b905d70fd740e3b" target="_top" xlink:title="FLineFrame::FLineFrame">
 <polygon fill="white" stroke="black" points="141,-38.5 141,-57.5 267,-57.5 267,-38.5 141,-38.5"/>
 <text text-anchor="middle" x="204" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">FLineFrame::FLineFrame</text>
 </a>
 </g>
 </g>
-<!-- Node130&#45;&gt;Node131 -->
-<g id="edge1" class="edge"><title>Node130&#45;&gt;Node131</title>
+<!-- Node127&#45;&gt;Node128 -->
+<g id="edge1" class="edge"><title>Node127&#45;&gt;Node128</title>
 <path fill="none" stroke="midnightblue" d="M115.484,-36.8776C123.892,-37.9461 132.522,-39.0429 140.931,-40.1116"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="115.73,-33.3807 105.368,-35.592 114.847,-40.3249 115.73,-33.3807"/>
 </g>
-<!-- Node132 -->
-<g id="node3" class="node"><title>Node132</title>
-<g id="a_node3"><a xlink:href="classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" target="_top" xlink:title="tools::readFile">
+<!-- Node129 -->
+<g id="node3" class="node"><title>Node129</title>
+<g id="a_node3"><a xlink:href="classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" target="_top" xlink:title="List un fichier entre deux lignes données et sur une largeur donnée. ">
 <polygon fill="white" stroke="black" points="165,-0.5 165,-19.5 243,-19.5 243,-0.5 165,-0.5"/>
 <text text-anchor="middle" x="204" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::readFile</text>
 </a>
 </g>
 </g>
-<!-- Node130&#45;&gt;Node132 -->
-<g id="edge2" class="edge"><title>Node130&#45;&gt;Node132</title>
+<!-- Node127&#45;&gt;Node129 -->
+<g id="edge2" class="edge"><title>Node127&#45;&gt;Node129</title>
 <path fill="none" stroke="midnightblue" d="M115.631,-21.1038C132.343,-18.9798 149.922,-16.7458 164.894,-14.8429"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="114.847,-17.6751 105.368,-22.408 115.73,-24.6193 114.847,-17.6751"/>
 </g>

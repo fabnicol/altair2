@@ -14,9 +14,9 @@
 <area shape="rect" id="node44" href="$class_altair.html#a8a329bbe1b7429dae0386afc0b423712" title="Rafraichit la vue d&#39;arbre fileTreeView de l&#39;exporateur de fichiers à gauche de &#160;&#160;l&#39;interface. " alt="" coords="175,1347,330,1374"/>
 <area shape="rect" id="node45" href="$class_f_progress_bar.html#a458c507d192c350186a43482272c7e42" title="FProgressBar::setToolTip" alt="" coords="167,1398,338,1424"/>
 <area shape="rect" id="node46" href="$class_f_list_frame.html#a404f9f839864aecceba585397c7c882f" title="FListFrame::showContextMenu" alt="" coords="1549,1388,1754,1415"/>
-<area shape="rect" id="node3" href="$class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" title="Récupère la taille courante (0&#45;based) du conteneur widgetContainer. " alt="" coords="2107,339,2253,366"/>
+<area shape="rect" id="node3" href="$class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" title="Récupère la taille courante (0&#45;based) du conteneur FListFrame::widgetContainer. " alt="" coords="2107,339,2253,366"/>
 <area shape="rect" id="node4" href="$class_altair.html#a5b3c33b6ae4f6b57b5593245751ef203" title="Efface toutes les données du projet .alt et réinitialise l&#39;interface et les conteneurs de données int..." alt="" coords="685,224,842,251"/>
-<area shape="rect" id="node9" href="$class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" title="Accesseur en lecture de widgetContainer. " alt="" coords="409,334,620,360"/>
+<area shape="rect" id="node9" href="$class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" title="Accesseur en lecture de FListFrame::widgetContainer. " alt="" coords="409,334,620,360"/>
 <area shape="rect" id="node10" href="$class_altair.html#a78a2870bb9b316c5ad6bcbd64471eeb8" title="Renvoie la taille des données exportées. " alt="" coords="473,388,557,415"/>
 <area shape="rect" id="node37" href="$class_f_list_frame.html#a5c6ce884a0169251e359364921d1f89c" title="FListFrame::addNewTab" alt="" coords="431,14,598,40"/>
 <area shape="rect" id="node5" href="$struct_abstract.html#af7b700041c9d75de3f642f15ece3e6ae" title="Réinitialiser toutes les valeurs du de la table de hachage Hash::wrapper. " alt="" coords="2127,390,2233,416"/>
@@ -27,7 +27,7 @@
 <area shape="rect" id="node13" href="$class_altair.html#a2f6882c170016e2d7729058b08896a1d" title="Tuer l&#39;application en ligne de commande lhx. " alt="" coords="1145,536,1269,563"/>
 <area shape="rect" id="node14" href="$class_altair.html#a7d10f8ecf4097577885172afb6c2e9c6" title="Lance l&#39;exécution de l&#39;application en ligne de commande lhx. " alt="" coords="1168,587,1247,614"/>
 <area shape="rect" id="node36" href="$class_altair.html#afd71c35a3a71291b0d4eece1058de4f0" title="Lance l&#39;application Rstudio et les scripts R. " alt="" coords="1148,790,1267,816"/>
-<area shape="rect" id="node32" href="$classtools.html#a0aa994303a938a76300767d2251b9f85" title="tools::cdRomMounted" alt="" coords="1333,587,1484,614"/>
+<area shape="rect" id="node32" href="$classtools.html#a0aa994303a938a76300767d2251b9f85" title="Détecte si un disque optique est monté. " alt="" coords="1333,587,1484,614"/>
 <area shape="rect" id="node33" href="$class_altair.html#ae04f2a5771d47bbe2e0cc3a11b72d6bf" title="Parcourt le répertoire en cours du mode distributif, un à chaque appel Exporte l&#39;identification dans ..." alt="" coords="1317,536,1500,563"/>
 <area shape="rect" id="node34" href="$classcommon.html#a3149ba29e04e6e5f7f85a2894434bf9e" title="Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement. " alt="" coords="1548,508,1755,549"/>
 <area shape="rect" id="node35" href="$class_altair.html#a08b5e402c9a694af09110afe33219080" title="Construction de la ligne de commande pour des bases de paye dans un répertoire donné ..." alt="" coords="1591,606,1711,632"/>
