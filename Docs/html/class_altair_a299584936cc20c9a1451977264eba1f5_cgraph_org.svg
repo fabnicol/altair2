@@ -139,7 +139,7 @@
 </g>
 <!-- Node1804 -->
 <g id="node7" class="node"><title>Node1804</title>
-<g id="a_node7"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur widgetContainer. ">
+<g id="a_node7"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="2405,-328.5 2405,-347.5 2514,-347.5 2514,-328.5 2405,-328.5"/>
 <text text-anchor="middle" x="2459.5" y="-335.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getRank</text>
 </a>
@@ -165,7 +165,7 @@
 </g>
 <!-- Node1871 -->
 <g id="node16" class="node"><title>Node1871</title>
-<g id="a_node16"><a xlink:href="class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" target="_top" xlink:title="Accesseur en lecture de widgetContainer. ">
+<g id="a_node16"><a xlink:href="class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" target="_top" xlink:title="Accesseur en lecture de FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="1806,-366.5 1806,-385.5 1964,-385.5 1964,-366.5 1806,-366.5"/>
 <text text-anchor="middle" x="1885" y="-373.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getWidgetContainer</text>
 </a>
@@ -309,7 +309,7 @@
 </g>
 <!-- Node1824 -->
 <g id="node46" class="node"><title>Node1824</title>
-<g id="a_node46"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="tools::cdRomMounted">
+<g id="a_node46"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="Détecte si un disque optique est monté. ">
 <polygon fill="white" stroke="black" points="568,-290.5 568,-309.5 681,-309.5 681,-290.5 568,-290.5"/>
 <text text-anchor="middle" x="624.5" y="-297.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::cdRomMounted</text>
 </a>

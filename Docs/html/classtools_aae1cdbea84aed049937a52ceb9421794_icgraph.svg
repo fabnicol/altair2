@@ -9,57 +9,57 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 71)">
 <title>tools::zip</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-71 342,-71 342,4 -4,4"/>
-<!-- Node294 -->
-<g id="node1" class="node"><title>Node294</title>
+<!-- Node290 -->
+<g id="node1" class="node"><title>Node290</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-28.5 0,-47.5 56,-47.5 56,-28.5 0,-28.5"/>
 <text text-anchor="middle" x="28" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::zip</text>
 </g>
-<!-- Node295 -->
-<g id="node2" class="node"><title>Node295</title>
+<!-- Node291 -->
+<g id="node2" class="node"><title>Node291</title>
 <g id="a_node2"><a xlink:href="class_main_window.html#a34512b73d3342c5a5b59a8f420d4d4c4" target="_top" xlink:title="Archiver le projet courant. ">
 <polygon fill="white" stroke="black" points="197,-47.5 197,-66.5 338,-66.5 338,-47.5 197,-47.5"/>
 <text text-anchor="middle" x="267.5" y="-54.5" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::archiveProject</text>
 </a>
 </g>
 </g>
-<!-- Node294&#45;&gt;Node295 -->
-<g id="edge1" class="edge"><title>Node294&#45;&gt;Node295</title>
+<!-- Node290&#45;&gt;Node291 -->
+<g id="edge1" class="edge"><title>Node290&#45;&gt;Node291</title>
 <path fill="none" stroke="midnightblue" d="M64.3527,-50.6386C73.261,-53.2724 82.8853,-55.6555 92,-57 126.317,-62.0621 164.844,-62.596 196.951,-61.6397"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="65.2537,-47.2532 54.6646,-47.6004 63.1591,-53.9324 65.2537,-47.2532"/>
 </g>
-<!-- Node296 -->
-<g id="node3" class="node"><title>Node296</title>
-<g id="a_node3"><a xlink:href="classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" target="_top" xlink:title="tools::readFile">
+<!-- Node292 -->
+<g id="node3" class="node"><title>Node292</title>
+<g id="a_node3"><a xlink:href="classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" target="_top" xlink:title="List un fichier entre deux lignes données et sur une largeur donnée. ">
 <polygon fill="white" stroke="black" points="228.5,-0.5 228.5,-19.5 306.5,-19.5 306.5,-0.5 228.5,-0.5"/>
 <text text-anchor="middle" x="267.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::readFile</text>
 </a>
 </g>
 </g>
-<!-- Node294&#45;&gt;Node296 -->
-<g id="edge2" class="edge"><title>Node294&#45;&gt;Node296</title>
+<!-- Node290&#45;&gt;Node292 -->
+<g id="edge2" class="edge"><title>Node290&#45;&gt;Node292</title>
 <path fill="none" stroke="midnightblue" d="M65.4104,-25.3948C74.0324,-22.8647 83.2632,-20.5197 92,-19 138.474,-10.9162 192.873,-9.33226 228.422,-9.33453"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="64.1579,-22.1184 55.6346,-28.4116 66.222,-28.8072 64.1579,-22.1184"/>
 </g>
-<!-- Node297 -->
-<g id="node4" class="node"><title>Node297</title>
+<!-- Node293 -->
+<g id="node4" class="node"><title>Node293</title>
 <g id="a_node4"><a xlink:href="classtools.html#aefd7e17f4eeb34a4ab3d254eb3bb0a03" target="_top" xlink:title="tools::zipDir">
 <polygon fill="white" stroke="black" points="92,-28.5 92,-47.5 161,-47.5 161,-28.5 92,-28.5"/>
 <text text-anchor="middle" x="126.5" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::zipDir</text>
 </a>
 </g>
 </g>
-<!-- Node294&#45;&gt;Node297 -->
-<g id="edge3" class="edge"><title>Node294&#45;&gt;Node297</title>
+<!-- Node290&#45;&gt;Node293 -->
+<g id="edge3" class="edge"><title>Node290&#45;&gt;Node293</title>
 <path fill="none" stroke="midnightblue" d="M66.3732,-38C74.7104,-38 83.5047,-38 91.6886,-38"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="66.1375,-34.5001 56.1374,-38 66.1374,-41.5001 66.1375,-34.5001"/>
 </g>
-<!-- Node297&#45;&gt;Node295 -->
-<g id="edge5" class="edge"><title>Node297&#45;&gt;Node295</title>
+<!-- Node293&#45;&gt;Node291 -->
+<g id="edge5" class="edge"><title>Node293&#45;&gt;Node291</title>
 <path fill="none" stroke="midnightblue" d="M171.191,-43.9721C179.388,-45.0926 188.144,-46.2894 196.901,-47.4865"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="171.53,-40.486 161.148,-42.5994 170.582,-47.4215 171.53,-40.486"/>
 </g>
-<!-- Node297&#45;&gt;Node296 -->
-<g id="edge4" class="edge"><title>Node297&#45;&gt;Node296</title>
+<!-- Node293&#45;&gt;Node292 -->
+<g id="edge4" class="edge"><title>Node293&#45;&gt;Node292</title>
 <path fill="none" stroke="midnightblue" d="M171.009,-29.2357C189.352,-25.5406 210.517,-21.2771 228.253,-17.7044"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="170.26,-25.8161 161.148,-31.222 171.642,-32.6783 170.26,-25.8161"/>
 </g>

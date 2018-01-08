@@ -9,34 +9,34 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
 <title>tools::unzipDir</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-62 260,-62 260,4 -4,4"/>
-<!-- Node287 -->
-<g id="node1" class="node"><title>Node287</title>
+<!-- Node283 -->
+<g id="node1" class="node"><title>Node283</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-19.5 0,-38.5 80,-38.5 80,-19.5 0,-19.5"/>
 <text text-anchor="middle" x="40" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::unzipDir</text>
 </g>
-<!-- Node288 -->
-<g id="node2" class="node"><title>Node288</title>
-<g id="a_node2"><a xlink:href="classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" target="_top" xlink:title="tools::readFile">
+<!-- Node284 -->
+<g id="node2" class="node"><title>Node284</title>
+<g id="a_node2"><a xlink:href="classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" target="_top" xlink:title="List un fichier entre deux lignes données et sur une largeur donnée. ">
 <polygon fill="white" stroke="black" points="147,-38.5 147,-57.5 225,-57.5 225,-38.5 147,-38.5"/>
 <text text-anchor="middle" x="186" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::readFile</text>
 </a>
 </g>
 </g>
-<!-- Node287&#45;&gt;Node288 -->
-<g id="edge1" class="edge"><title>Node287&#45;&gt;Node288</title>
+<!-- Node283&#45;&gt;Node284 -->
+<g id="edge1" class="edge"><title>Node283&#45;&gt;Node284</title>
 <path fill="none" stroke="midnightblue" d="M90.3268,-35.5084C108.76,-37.9406 129.401,-40.6641 146.694,-42.9458"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="90.7206,-32.0301 80.3486,-34.1918 89.8048,-38.97 90.7206,-32.0301"/>
 </g>
-<!-- Node289 -->
-<g id="node3" class="node"><title>Node289</title>
+<!-- Node285 -->
+<g id="node3" class="node"><title>Node285</title>
 <g id="a_node3"><a xlink:href="class_main_window.html#ae11018a1c92bd7f20ff54a3f78eacb51" target="_top" xlink:title="Désarchiver le projet. ">
 <polygon fill="white" stroke="black" points="116,-0.5 116,-19.5 256,-19.5 256,-0.5 116,-0.5"/>
 <text text-anchor="middle" x="186" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::restoreProject</text>
 </a>
 </g>
 </g>
-<!-- Node287&#45;&gt;Node289 -->
-<g id="edge2" class="edge"><title>Node287&#45;&gt;Node289</title>
+<!-- Node283&#45;&gt;Node285 -->
+<g id="edge2" class="edge"><title>Node283&#45;&gt;Node285</title>
 <path fill="none" stroke="midnightblue" d="M90.4425,-22.4763C98.6226,-21.397 107.235,-20.2607 115.794,-19.1313"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="89.8048,-19.03 80.3486,-23.8082 90.7206,-25.9699 89.8048,-19.03"/>
 </g>

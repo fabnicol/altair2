@@ -9,60 +9,60 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 81)">
 <title>tools::getDirectorySize</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-81 434,-81 434,4 -4,4"/>
-<!-- Node98 -->
-<g id="node1" class="node"><title>Node98</title>
+<!-- Node95 -->
+<g id="node1" class="node"><title>Node95</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-19.5 0,-38.5 116,-38.5 116,-19.5 0,-19.5"/>
 <text text-anchor="middle" x="58" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::getDirectorySize</text>
 </g>
-<!-- Node99 -->
-<g id="node2" class="node"><title>Node99</title>
+<!-- Node96 -->
+<g id="node2" class="node"><title>Node96</title>
 <g id="a_node2"><a xlink:href="classtools.html#ae23a9d29a31142e239d5d72e8201ebf4" target="_top" xlink:title="tools::openDirDialog">
 <polygon fill="white" stroke="black" points="157.5,-38.5 157.5,-57.5 262.5,-57.5 262.5,-38.5 157.5,-38.5"/>
 <text text-anchor="middle" x="210" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::openDirDialog</text>
 </a>
 </g>
 </g>
-<!-- Node98&#45;&gt;Node99 -->
-<g id="edge1" class="edge"><title>Node98&#45;&gt;Node99</title>
+<!-- Node95&#45;&gt;Node96 -->
+<g id="edge1" class="edge"><title>Node95&#45;&gt;Node96</title>
 <path fill="none" stroke="midnightblue" d="M126.12,-37.5019C136.629,-38.833 147.346,-40.1905 157.434,-41.4683"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="126.497,-34.0217 116.136,-36.2373 125.617,-40.9663 126.497,-34.0217"/>
 </g>
-<!-- Node102 -->
-<g id="node5" class="node"><title>Node102</title>
+<!-- Node99 -->
+<g id="node5" class="node"><title>Node99</title>
 <g id="a_node5"><a xlink:href="class_altair.html#a16b8035c4383a789cd00b687fb105fe9" target="_top" xlink:title="Traitement de la fin de l&#39;exécution de lhx. ">
 <polygon fill="white" stroke="black" points="152,-0.5 152,-19.5 268,-19.5 268,-0.5 152,-0.5"/>
 <text text-anchor="middle" x="210" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::processFinished</text>
 </a>
 </g>
 </g>
-<!-- Node98&#45;&gt;Node102 -->
-<g id="edge4" class="edge"><title>Node98&#45;&gt;Node102</title>
+<!-- Node95&#45;&gt;Node99 -->
+<g id="edge4" class="edge"><title>Node95&#45;&gt;Node99</title>
 <path fill="none" stroke="midnightblue" d="M126.311,-20.474C134.728,-19.4077 143.277,-18.3249 151.525,-17.2801"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="125.617,-17.0337 116.136,-21.7627 126.497,-23.9783 125.617,-17.0337"/>
 </g>
-<!-- Node100 -->
-<g id="node3" class="node"><title>Node100</title>
+<!-- Node97 -->
+<g id="node3" class="node"><title>Node97</title>
 <g id="a_node3"><a xlink:href="class_f_line_frame.html#aa9a7fa64c39944439b905d70fd740e3b" target="_top" xlink:title="FLineFrame::FLineFrame">
 <polygon fill="white" stroke="black" points="304,-57.5 304,-76.5 430,-76.5 430,-57.5 304,-57.5"/>
 <text text-anchor="middle" x="367" y="-64.5" font-family="Helvetica,sans-Serif" font-size="10.00">FLineFrame::FLineFrame</text>
 </a>
 </g>
 </g>
-<!-- Node99&#45;&gt;Node100 -->
-<g id="edge2" class="edge"><title>Node99&#45;&gt;Node100</title>
+<!-- Node96&#45;&gt;Node97 -->
+<g id="edge2" class="edge"><title>Node96&#45;&gt;Node97</title>
 <path fill="none" stroke="midnightblue" d="M272.705,-55.5638C282.953,-56.82 293.586,-58.1234 303.845,-59.381"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="272.964,-52.0695 262.613,-54.3267 272.113,-59.0175 272.964,-52.0695"/>
 </g>
-<!-- Node101 -->
-<g id="node4" class="node"><title>Node101</title>
-<g id="a_node4"><a xlink:href="classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" target="_top" xlink:title="tools::readFile">
+<!-- Node98 -->
+<g id="node4" class="node"><title>Node98</title>
+<g id="a_node4"><a xlink:href="classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" target="_top" xlink:title="List un fichier entre deux lignes données et sur une largeur donnée. ">
 <polygon fill="white" stroke="black" points="328,-19.5 328,-38.5 406,-38.5 406,-19.5 328,-19.5"/>
 <text text-anchor="middle" x="367" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::readFile</text>
 </a>
 </g>
 </g>
-<!-- Node99&#45;&gt;Node101 -->
-<g id="edge3" class="edge"><title>Node99&#45;&gt;Node101</title>
+<!-- Node96&#45;&gt;Node98 -->
+<g id="edge3" class="edge"><title>Node96&#45;&gt;Node98</title>
 <path fill="none" stroke="midnightblue" d="M272.79,-40.4257C291.394,-38.1452 311.26,-35.7101 327.85,-33.6764"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="272.113,-36.9825 262.613,-41.6733 272.964,-43.9305 272.113,-36.9825"/>
 </g>

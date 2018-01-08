@@ -42,7 +42,7 @@
 </g>
 <!-- Node73 -->
 <g id="node7" class="node"><title>Node73</title>
-<g id="a_node7"><a xlink:href="classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" target="_top" xlink:title="tools::readFile">
+<g id="a_node7"><a xlink:href="classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" target="_top" xlink:title="List un fichier entre deux lignes données et sur une largeur donnée. ">
 <polygon fill="white" stroke="black" points="652.5,-180.5 652.5,-199.5 730.5,-199.5 730.5,-180.5 652.5,-180.5"/>
 <text text-anchor="middle" x="691.5" y="-187.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::readFile</text>
 </a>

@@ -17,7 +17,7 @@
 </g>
 <!-- Node53 -->
 <g id="node2" class="node"><title>Node53</title>
-<g id="a_node2"><a xlink:href="classtools.html#a995219ca14bd1ddcb10cb2a3fffed5a5" target="_top" xlink:title="tools::dump">
+<g id="a_node2"><a xlink:href="classtools.html#a995219ca14bd1ddcb10cb2a3fffed5a5" target="_top" xlink:title="Créer un fichier temporaire temp dans le répertoire racine et le remplit avec une chaîone de caractèr...">
 <polygon fill="white" stroke="black" points="234.5,-164.5 234.5,-183.5 302.5,-183.5 302.5,-164.5 234.5,-164.5"/>
 <text text-anchor="middle" x="268.5" y="-171.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::dump</text>
 </a>
@@ -57,7 +57,7 @@
 </g>
 <!-- Node58 -->
 <g id="node7" class="node"><title>Node58</title>
-<g id="a_node7"><a xlink:href="classtools.html#af43fc30ac740fa0fa1d773afb2538c8c" target="_top" xlink:title="tools::readFile">
+<g id="a_node7"><a xlink:href="classtools.html#af43fc30ac740fa0fa1d773afb2538c8c" target="_top" xlink:title="Liste un fichier entre deux lignes données et sur une largeur donnée. ">
 <polygon fill="white" stroke="black" points="229.5,-38.5 229.5,-57.5 307.5,-57.5 307.5,-38.5 229.5,-38.5"/>
 <text text-anchor="middle" x="268.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::readFile</text>
 </a>
@@ -70,7 +70,7 @@
 </g>
 <!-- Node59 -->
 <g id="node8" class="node"><title>Node59</title>
-<g id="a_node8"><a xlink:href="classtools.html#a888a6211f6956005dba0132e1ee5fd92" target="_top" xlink:title="tools::renommer">
+<g id="a_node8"><a xlink:href="classtools.html#a888a6211f6956005dba0132e1ee5fd92" target="_top" xlink:title="Renomme un fichier. ">
 <polygon fill="white" stroke="black" points="225,-0.5 225,-19.5 312,-19.5 312,-0.5 225,-0.5"/>
 <text text-anchor="middle" x="268.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::renommer</text>
 </a>
@@ -101,7 +101,7 @@
 </g>
 <!-- Node57 -->
 <g id="node6" class="node"><title>Node57</title>
-<g id="a_node6"><a xlink:href="classtools.html#ab14f69ed6a8faa01674b93e798c612a4" target="_top" xlink:title="tools::substituer">
+<g id="a_node6"><a xlink:href="classtools.html#a7cba03deaa6e1311c2d0e5fb9fdcfa5c" target="_top" xlink:title="Remplace des chaînes de caractères, lorsqu&#39;elles correspondent à une expression rationnelle, dans une chaîne de caractères donnée par une chaîne de caractères donnée. ">
 <polygon fill="white" stroke="black" points="388.5,-56.5 388.5,-75.5 474.5,-75.5 474.5,-56.5 388.5,-56.5"/>
 <text text-anchor="middle" x="431.5" y="-63.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::substituer</text>
 </a>

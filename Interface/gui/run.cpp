@@ -74,7 +74,7 @@ QStringList Altair::createCommandLineString (const QStringList& files)
             FAbstractWidget* item = w.previous();
             QStringList commandLineChunk;
 
-            // Les onglets correspondent au fwidget FListFrame de balise "XHL"
+            // Les onglets correspondent au composant fonctionnelFListFrame de balise "XHL"
 
             if (! files.isEmpty() && item->getHashKey() == "XHL")
                 {
@@ -88,7 +88,7 @@ QStringList Altair::createCommandLineString (const QStringList& files)
                             || v(MatriculesB).isFilled()
                             || v(MatriculesC).isFilled())
 
-                        // Cas général : on récupère le bout de ligne de commande généré par chaque fwidget :
+                        // Cas général : on récupère le bout de ligne de commande généré par chaque composant fonctionnel:
 
                         commandLineChunk = item->commandLineStringList();
                 }

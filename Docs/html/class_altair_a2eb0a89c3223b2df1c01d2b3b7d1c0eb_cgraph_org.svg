@@ -317,7 +317,7 @@
 </g>
 <!-- Node5055 -->
 <g id="node15" class="node"><title>Node5055</title>
-<g id="a_node15"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur widgetContainer. ">
+<g id="a_node15"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="1777,-420.5 1777,-439.5 1886,-439.5 1886,-420.5 1777,-420.5"/>
 <text text-anchor="middle" x="1831.5" y="-427.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getRank</text>
 </a>
@@ -616,7 +616,7 @@
 </g>
 <!-- Node5052 -->
 <g id="node36" class="node"><title>Node5052</title>
-<g id="a_node36"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="tools::cdRomMounted">
+<g id="a_node36"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="Détecte si un disque optique est monté. ">
 <polygon fill="white" stroke="black" points="1019,-656.5 1019,-675.5 1132,-675.5 1132,-656.5 1019,-656.5"/>
 <text text-anchor="middle" x="1075.5" y="-663.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::cdRomMounted</text>
 </a>

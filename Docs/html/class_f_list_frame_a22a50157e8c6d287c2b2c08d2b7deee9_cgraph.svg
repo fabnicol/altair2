@@ -35,7 +35,7 @@
 </g>
 <!-- Node920 -->
 <g id="node3" class="node"><title>Node920</title>
-<g id="a_node3"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="tools::cdRomMounted">
+<g id="a_node3"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="Détecte si un disque optique est monté. ">
 <polygon fill="white" stroke="black" points="299,-6 299,-25 412,-25 412,-6 299,-6"/>
 <text text-anchor="middle" x="355.5" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00">tools::cdRomMounted</text>
 </a>

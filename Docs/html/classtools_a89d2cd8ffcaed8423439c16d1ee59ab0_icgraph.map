@@ -2,7 +2,7 @@
 <area shape="rect" id="node2" href="$classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" title="codePage::codePage" alt="" coords="689,414,836,440"/>
 <area shape="rect" id="node4" href="$classcommon.html#a72a97430e48d45c877b5612d44a79edb" title="common::common" alt="" coords="213,708,343,735"/>
 <area shape="rect" id="node5" href="$class_main_window.html#a62cd8712fb41a754298f6f60eead2cb0" title="Crée les actions correspondant aux entrées des menus et barre d&#39;outils. " alt="" coords="185,759,371,786"/>
-<area shape="rect" id="node6" href="$classtools.html#a995219ca14bd1ddcb10cb2a3fffed5a5" title="tools::dump" alt="" coords="233,186,323,212"/>
+<area shape="rect" id="node6" href="$classtools.html#a995219ca14bd1ddcb10cb2a3fffed5a5" title="Créer un fichier temporaire temp dans le répertoire racine et le remplit avec une chaîone de caractèr..." alt="" coords="233,186,323,212"/>
 <area shape="rect" id="node7" href="$classcommon.html#a7900f8a5d7ebd42770ce8c366dd4b933" title="Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement. " alt="" coords="419,104,625,145"/>
 <area shape="rect" id="node10" href="$classstandard_page.html#abb37a1fff677f91ad2418b07593aa40d" title="standardPage::substituer\l_versant" alt="" coords="439,221,605,262"/>
 <area shape="rect" id="node11" href="$class_altair.html#ab740db3e8d686d765dd8ad3e9f6aa19e" title="Inititalise les variables utilisateur et de localisation ( userdatadir) " alt="" coords="1145,144,1251,171"/>
@@ -15,7 +15,7 @@
 <area shape="rect" id="node28" href="$class_altair.html#a08b5e402c9a694af09110afe33219080" title="Construction de la ligne de commande pour des bases de paye dans un répertoire donné ..." alt="" coords="3243,1088,3363,1115"/>
 <area shape="rect" id="node38" href="$class_altair.html#a2eb0a89c3223b2df1c01d2b3b7d1c0eb" title="Rafraichir le projet .alt après avoir actualisé l&#39;interface. " alt="" coords="2605,759,2745,786"/>
 <area shape="rect" id="node3" href="$classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" title="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair..." alt="" coords="2847,540,2962,567"/>
-<area shape="rect" id="node8" href="$classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" title="tools::readFile" alt="" coords="470,170,574,196"/>
+<area shape="rect" id="node8" href="$classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" title="List un fichier entre deux lignes données et sur une largeur donnée. " alt="" coords="470,170,574,196"/>
 <area shape="rect" id="node9" href="$classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" title="codePage::substituer\l_valeurs_dans_script_R" alt="" coords="441,338,603,380"/>
 <area shape="rect" id="node12" href="$class_altair.html#ae0975ced0a36e0ed889ae06043a4df66" title="Constructeur. " alt="" coords="3257,522,3348,548"/>
 <area shape="rect" id="node15" href="$class_f_list_frame.html#a404f9f839864aecceba585397c7c882f" title="FListFrame::showContextMenu" alt="" coords="2043,338,2249,364"/>

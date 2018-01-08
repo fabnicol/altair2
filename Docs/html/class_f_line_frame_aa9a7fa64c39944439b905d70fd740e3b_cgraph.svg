@@ -83,7 +83,7 @@
 </g>
 <!-- Node6 -->
 <g id="node7" class="node"><title>Node6</title>
-<g id="a_node7"><a xlink:href="classtools.html#a507c567954c39f293c8ab884a0fbcc32" target="_top" xlink:title="tools::getDirectorySize">
+<g id="a_node7"><a xlink:href="classtools.html#a507c567954c39f293c8ab884a0fbcc32" target="_top" xlink:title="Calcule le cumul de la taille des fichiers, éventuellement restreints à une extension donnée...">
 <polygon fill="white" stroke="black" points="319.5,-0.5 319.5,-19.5 435.5,-19.5 435.5,-0.5 319.5,-0.5"/>
 <text text-anchor="middle" x="377.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::getDirectorySize</text>
 </a>

@@ -40,17 +40,18 @@
 #include "flistframe.h"
 #include "custom.h"
 
-FListFrame::FListFrame(QAbstractItemView* tree, short import_type,
-           const QString &hashKey,
-           const QStringList &description,
-           const QString &command_line,
-           int cli_type,
-           const QStringList &separator,
-           const QStringList &xml_tags,
-           const QStringList &tabLabels,
-           tools::TabWidgetTrait mainTabWidgetRank,
-           QStringList* terms,
-           QStringList* translation)
+FListFrame::FListFrame(QAbstractItemView* tree,
+                       short import_type,
+                       const QString &hashKey,
+                       const QStringList &description,
+                       const QString &command_line,
+                       int cli_type,
+                       const QStringList &separator,
+                       const QStringList &xml_tags,
+                       const QStringList &tabLabels,
+                       tools::TabWidgetTrait mainTabWidgetRank,
+                       QStringList* terms,
+                       QStringList* translation)
 {
  setAcceptDrops(true);
 

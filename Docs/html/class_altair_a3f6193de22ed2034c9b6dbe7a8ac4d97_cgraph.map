@@ -18,11 +18,11 @@
 <area shape="rect" id="node16" href="$class_f_list_frame.html#a0ebe3d7847101344e70c84aff2be39b0" title="Accesseur en lecture du nombre d&#39;éléments (nombre d&#39;onglets) du vecteur widgetContainer. " alt="" coords="1311,71,1521,112"/>
 <area shape="rect" id="node17" href="$class_f_list_frame.html#a802475894ee1e30753faed81d9f9dc4b" title="Appelle parseXhlFile(const QString&amp;) sur l&#39;ensemble de widgetContainer. " alt="" coords="1332,137,1500,163"/>
 <area shape="rect" id="node15" href="$class_f_list_widget.html#a74bf008958a87e9055b8ec6573d8e2e9" title="FListWidget::clearTabLabels" alt="" coords="1569,19,1757,46"/>
-<area shape="rect" id="node18" href="$classtools.html#a0aa994303a938a76300767d2251b9f85" title="tools::cdRomMounted" alt="" coords="1588,195,1739,222"/>
+<area shape="rect" id="node18" href="$classtools.html#a0aa994303a938a76300767d2251b9f85" title="Détecte si un disque optique est monté. " alt="" coords="1588,195,1739,222"/>
 <area shape="rect" id="node19" href="$class_f_list_frame.html#a22a50157e8c6d287c2b2c08d2b7deee9" title="Lancer un fil d&#39;exécution pour lire l&#39;entête d&#39;un fichier XHL (Année, Mois,...) et classer les fichie..." alt="" coords="1596,129,1731,171"/>
 <area shape="rect" id="node21" href="$class_f_list_frame.html#a5c6ce884a0169251e359364921d1f89c" title="FListFrame::addNewTab" alt="" coords="850,381,1017,407"/>
 <area shape="rect" id="node23" href="$class_hash.html#a2ac10203aa8b32a04d9088e08ddbaab4" title="Hash::createReference" alt="" coords="855,330,1012,357"/>
 <area shape="rect" id="node24" href="$class_f_list_frame.html#a560addf9867fbd5d05fbdb024e5b272c" title="FListFrame::setStrikeOut\lFileNames" alt="" coords="849,264,1018,305"/>
-<area shape="rect" id="node22" href="$class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" title="Récupère la taille courante (0&#45;based) du conteneur widgetContainer. " alt="" coords="1095,381,1241,407"/>
+<area shape="rect" id="node22" href="$class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" title="Récupère la taille courante (0&#45;based) du conteneur FListFrame::widgetContainer. " alt="" coords="1095,381,1241,407"/>
 <area shape="rect" id="node26" href="$namespace_xml_method.html#a40cfba405dd7bb3e66fef711fe47be4a" title="XmlMethod::stackData" alt="" coords="402,487,558,514"/>
 </map>

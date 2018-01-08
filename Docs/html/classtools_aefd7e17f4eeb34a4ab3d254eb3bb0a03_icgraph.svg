@@ -9,34 +9,34 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
 <title>tools::zipDir</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-62 250,-62 250,4 -4,4"/>
-<!-- Node303 -->
-<g id="node1" class="node"><title>Node303</title>
+<!-- Node299 -->
+<g id="node1" class="node"><title>Node299</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-19.5 0,-38.5 69,-38.5 69,-19.5 0,-19.5"/>
 <text text-anchor="middle" x="34.5" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::zipDir</text>
 </g>
-<!-- Node304 -->
-<g id="node2" class="node"><title>Node304</title>
+<!-- Node300 -->
+<g id="node2" class="node"><title>Node300</title>
 <g id="a_node2"><a xlink:href="class_main_window.html#a34512b73d3342c5a5b59a8f420d4d4c4" target="_top" xlink:title="Archiver le projet courant. ">
 <polygon fill="white" stroke="black" points="105,-38.5 105,-57.5 246,-57.5 246,-38.5 105,-38.5"/>
 <text text-anchor="middle" x="175.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::archiveProject</text>
 </a>
 </g>
 </g>
-<!-- Node303&#45;&gt;Node304 -->
-<g id="edge1" class="edge"><title>Node303&#45;&gt;Node304</title>
+<!-- Node299&#45;&gt;Node300 -->
+<g id="edge1" class="edge"><title>Node299&#45;&gt;Node300</title>
 <path fill="none" stroke="midnightblue" d="M79.1908,-34.9721C87.3881,-36.0926 96.1437,-37.2894 104.901,-38.4865"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="79.5299,-31.486 69.148,-33.5994 78.5819,-38.4215 79.5299,-31.486"/>
 </g>
-<!-- Node305 -->
-<g id="node3" class="node"><title>Node305</title>
-<g id="a_node3"><a xlink:href="classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" target="_top" xlink:title="tools::readFile">
+<!-- Node301 -->
+<g id="node3" class="node"><title>Node301</title>
+<g id="a_node3"><a xlink:href="classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" target="_top" xlink:title="List un fichier entre deux lignes données et sur une largeur donnée. ">
 <polygon fill="white" stroke="black" points="136.5,-0.5 136.5,-19.5 214.5,-19.5 214.5,-0.5 136.5,-0.5"/>
 <text text-anchor="middle" x="175.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::readFile</text>
 </a>
 </g>
 </g>
-<!-- Node303&#45;&gt;Node305 -->
-<g id="edge2" class="edge"><title>Node303&#45;&gt;Node305</title>
+<!-- Node299&#45;&gt;Node301 -->
+<g id="edge2" class="edge"><title>Node299&#45;&gt;Node301</title>
 <path fill="none" stroke="midnightblue" d="M79.2637,-23.0179C97.5479,-20.5186 118.6,-17.6411 136.253,-15.228"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="78.5819,-19.5785 69.148,-24.4006 79.5299,-26.514 78.5819,-19.5785"/>
 </g>

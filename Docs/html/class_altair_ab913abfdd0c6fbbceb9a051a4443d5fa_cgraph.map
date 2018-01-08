@@ -1,6 +1,6 @@
 <map id="Altair::deleteGroup" name="Altair::deleteGroup">
 <area shape="rect" id="node2" href="$class_altair.html#a16c9e4332678b243ec200e215d03a643" title="Afficher la taille des bases de paye dans l&#39;onglet Messages. " alt="" coords="184,233,340,260"/>
-<area shape="rect" id="node7" href="$class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" title="Récupère la taille courante (0&#45;based) du conteneur widgetContainer. " alt="" coords="1652,461,1797,488"/>
+<area shape="rect" id="node7" href="$class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" title="Récupère la taille courante (0&#45;based) du conteneur FListFrame::widgetContainer. " alt="" coords="1652,461,1797,488"/>
 <area shape="rect" id="node13" href="$class_altair.html#a78a2870bb9b316c5ad6bcbd64471eeb8" title="Renvoie la taille des données exportées. " alt="" coords="1683,715,1767,741"/>
 <area shape="rect" id="node19" href="$class_altair.html#a94c37375266a849cb43570457163db13" title="Raffraîchit la valeur de row et currentIndex en fonction de l&#39;état de l&#39;onglet. " alt="" coords="2619,1187,2772,1213"/>
 <area shape="rect" id="node23" href="$class_altair.html#a2eb0a89c3223b2df1c01d2b3b7d1c0eb" title="Rafraichir le projet .alt après avoir actualisé l&#39;interface. " alt="" coords="2625,385,2765,412"/>
@@ -44,7 +44,7 @@
 <area shape="rect" id="node39" href="$class_altair.html#a20528df591deee5ad32f28996ba8dc35" title="Raccourcit les chemins dans les onglets en se limitant au non de fichier et les présente &#160;en surligna..." alt="" coords="2367,867,2567,893"/>
 <area shape="rect" id="node40" href="$class_hash.html#a2ac10203aa8b32a04d9088e08ddbaab4" title="Hash::createReference" alt="" coords="2389,816,2546,843"/>
 <area shape="rect" id="node45" href="$class_altair.html#a52076f38f63affb6f08acf787dcfea09" title="Traitement de la fin de l&#39;exécution de lhx. " alt="" coords="2134,867,2289,893"/>
-<area shape="rect" id="node46" href="$classtools.html#a0aa994303a938a76300767d2251b9f85" title="tools::cdRomMounted" alt="" coords="2136,259,2287,285"/>
+<area shape="rect" id="node46" href="$classtools.html#a0aa994303a938a76300767d2251b9f85" title="Détecte si un disque optique est monté. " alt="" coords="2136,259,2287,285"/>
 <area shape="rect" id="node47" href="$class_altair.html#ae04f2a5771d47bbe2e0cc3a11b72d6bf" title="Parcourt le répertoire en cours du mode distributif, un à chaque appel Exporte l&#39;identification dans ..." alt="" coords="2120,157,2303,184"/>
 <area shape="rect" id="node48" href="$classcommon.html#a3149ba29e04e6e5f7f85a2894434bf9e" title="Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement. " alt="" coords="2364,201,2571,242"/>
 <area shape="rect" id="node49" href="$class_altair.html#a08b5e402c9a694af09110afe33219080" title="Construction de la ligne de commande pour des bases de paye dans un répertoire donné ..." alt="" coords="2407,149,2527,176"/>

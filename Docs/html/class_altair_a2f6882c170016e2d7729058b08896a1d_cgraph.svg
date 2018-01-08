@@ -101,7 +101,7 @@ var sectionId = 'dynsection-30';
 </g>
 <!-- Node1533 -->
 <g id="node4" class="node"><title>Node1533</title>
-<g id="a_node4"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur widgetContainer. ">
+<g id="a_node4"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="2182,-705.09 2182,-724.09 2291,-724.09 2291,-705.09 2182,-705.09"/>
 <text text-anchor="middle" x="2236.5" y="-712.09" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getRank</text>
 </a>
@@ -140,7 +140,7 @@ var sectionId = 'dynsection-30';
 </g>
 <!-- Node1627 -->
 <g id="node50" class="node"><title>Node1627</title>
-<g id="a_node50"><a xlink:href="class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" target="_top" xlink:title="Accesseur en lecture de widgetContainer. ">
+<g id="a_node50"><a xlink:href="class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" target="_top" xlink:title="Accesseur en lecture de FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="264,-686.09 264,-705.09 422,-705.09 422,-686.09 264,-686.09"/>
 <text text-anchor="middle" x="343" y="-693.09" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getWidgetContainer</text>
 </a>
@@ -567,7 +567,7 @@ var sectionId = 'dynsection-30';
 </g>
 <!-- Node1553 -->
 <g id="node33" class="node"><title>Node1553</title>
-<g id="a_node33"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="tools::cdRomMounted">
+<g id="a_node33"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="Détecte si un disque optique est monté. ">
 <polygon fill="white" stroke="black" points="1803,-256.09 1803,-275.09 1916,-275.09 1916,-256.09 1803,-256.09"/>
 <text text-anchor="middle" x="1859.5" y="-263.09" font-family="Helvetica,sans-Serif" font-size="10.00">tools::cdRomMounted</text>
 </a>
@@ -739,7 +739,7 @@ var sectionId = 'dynsection-30';
 </g>
 <!-- Node1593 -->
 <g id="node37" class="node"><title>Node1593</title>
-<g id="a_node37"><a xlink:href="classtools.html#ab14f69ed6a8faa01674b93e798c612a4" target="_top" xlink:title="tools::substituer">
+<g id="a_node37"><a xlink:href="classtools.html#a7cba03deaa6e1311c2d0e5fb9fdcfa5c" target="_top" xlink:title="Remplace des chaînes de caractères, lorsqu&#39;elles correspondent à une expression rationnelle, dans une chaîne de caractères donnée par une chaîne de caractères donnée. ">
 <polygon fill="white" stroke="black" points="2193.5,-66.0902 2193.5,-85.0902 2279.5,-85.0902 2279.5,-66.0902 2193.5,-66.0902"/>
 <text text-anchor="middle" x="2236.5" y="-73.0902" font-family="Helvetica,sans-Serif" font-size="10.00">tools::substituer</text>
 </a>

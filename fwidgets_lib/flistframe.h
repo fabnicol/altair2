@@ -60,11 +60,11 @@ public:
 // Membres données
 
  QVector<QListWidget*> widgetContainer;  ///< Conteneur des widgets listes composant les onglets.
- FListWidget *fileListWidget;            ///< fwidget associé à QWidget représentant l'onglet courant.
+ FListWidget *fileListWidget;            ///< composant fonctionnelassocié à QWidget représentant l'onglet courant.
  QString frameHashKey;                   ///< Balise XML correspondant à la classe.
  std::vector<QThread*> thread;           ///< Vecteur de fils d'exécution permettant de lance  parseXhlFile sur chaque fichier d'onglet.
- int size = 0;                           ///< Nombre totalde fichiers dans  widgetContainer.
- QToolButton *importFromMainTree=new QToolButton; ///< Bouton permettant d'importer des fichiers d'une arborescence de fichiers  fileTreeView.
+ int size = 0;                           ///< Nombre total de fichiers dans  FListFrame::widgetContainer.
+ QToolButton *importFromMainTree=new QToolButton; ///< Bouton permettant d'importer des fichiers d'une arborescence de fichiers FListFrame::fileTreeView.
  QStringList tabLabels;                  ///< Liste des titres des onglets.
 # ifndef USE_RIGHT_CLICK
 
@@ -74,8 +74,8 @@ public:
 # endif
 
  QTabWidget *mainTabWidget;                      ///< Onglet central matrice.
- QAbstractItemView *fileTreeView;                ///< Arborescence de fichiers pour importation par  importFromMainTree.
- QFileSystemModel *model = new QFileSystemModel; ///< Modèle de fichiers sous-jacent à  fileTreeView.
+ QAbstractItemView *fileTreeView;                ///< Arborescence de fichiers pour importation par  FListFrame::importFromMainTree.
+ QFileSystemModel *model = new QFileSystemModel; ///< Modèle de fichiers sous-jacent à  FListFrame::fileTreeView.
  QGroupBox *controlButtonBox = new QGroupBox;    ///< Boîte permettant de regrouper divers boutons de contrôle (haut/bas etc.).
  bool use_threads = false;                       ///< Par défaut, les fils d'exécution ne seront pas utilisés. Seront activés en cas d'input disque optique.
 
@@ -92,19 +92,19 @@ public:
                                 return labels;
                             }
 
- /// Récupère la taille courante (0-based) du conteneur  widgetContainer.
+ /// Récupère la taille courante (0-based) du conteneur  FListFrame::widgetContainer.
  /// Cette taille doit en principe être alignée avec le nombre d'onglets en présence.
  /// \return Taille du conteneur moins 1.
 
  int getRank() {return widgetContainer.size()-1;}
 
- /// Accesseur en lecture de  frameHashKey, balise XML du fwidget.
+ /// Accesseur en lecture de  FListFrame::frameHashKey, balise XML du composant fonctionnel .
  /// \return Valeur de  frameHashKey?
 
  const QString &getHashKey() const {return frameHashKey;}
 
- /// Accesseur en lecture de  widgetContainer.
- /// \return Valeur de  widgetContainer.
+ /// Accesseur en lecture de  FListFrame::widgetContainer.
+ /// \return Valeur de  FListFrame::widgetContainer.
 
  QVector<QListWidget*>  getWidgetContainer() {return widgetContainer;}
 
@@ -165,7 +165,7 @@ public:
  void setTabLabels(QStringList& tabLabels) { fileListWidget->setTabLabels(tabLabels);}
 
  /// Constructeur
- /// \param tree
+ /// \param tree  Identifie FListFrame::fileTreeView
  /// \param import_type,
  /// \param QString &hashKey,
  /// \param QStringList &description,

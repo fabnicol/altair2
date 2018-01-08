@@ -214,7 +214,7 @@ void MainWindow::on_displayLogButton_clicked()
     tempLog.open (QIODevice::ReadWrite);
     tempLog.write (
         qobject_cast<QTextEdit*> (bottomTabWidget->currentWidget())->toHtml()
-        .replace (":/images", common::generateDatadirPath ("") + "/images")
+        .replace (":/images", common::generateDatadirPath ("/images"))
 #                  ifndef Q_OS_WIN
         .replace ("<html>", "<html>\n<meta charset=\"UTF-8\" content=\"text/html\">")
         .toUtf8());
