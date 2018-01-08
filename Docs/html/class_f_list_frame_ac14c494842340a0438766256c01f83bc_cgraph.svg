@@ -158,7 +158,7 @@ var sectionId = 'dynsection-42';
 </g>
 <!-- Node1023 -->
 <g id="node8" class="node"><title>Node1023</title>
-<g id="a_node8"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="tools::cdRomMounted">
+<g id="a_node8"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="Détecte si un disque optique est monté. ">
 <polygon fill="white" stroke="black" points="721,-55 721,-74 834,-74 834,-55 721,-55"/>
 <text text-anchor="middle" x="777.5" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">tools::cdRomMounted</text>
 </a>

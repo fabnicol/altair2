@@ -21,11 +21,11 @@
 <area shape="rect" id="node13" href="$namespace_xml_method.html#ac0a708c4bc4c55df24e60816d69a90cf" title="XmlMethod::displaySecond\lLevelData" alt="" coords="2090,452,2271,493"/>
 <area shape="rect" id="node14" href="$namespace_xml_method.html#aad1e553eb1ec6f1bb128cc6744cba9e3" title="XmlMethod::displayTextData" alt="" coords="2340,518,2531,545"/>
 <area shape="rect" id="node15" href="$namespace_xml_method.html#a796c4f03d9e7a8057f0102b87eecbd3e" title="XmlMethod::displayFirstLevelData" alt="" coords="2069,518,2292,545"/>
-<area shape="rect" id="node11" href="$class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" title="Récupère la taille courante (0&#45;based) du conteneur widgetContainer. " alt="" coords="2363,270,2508,297"/>
+<area shape="rect" id="node11" href="$class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" title="Récupère la taille courante (0&#45;based) du conteneur FListFrame::widgetContainer. " alt="" coords="2363,270,2508,297"/>
 <area shape="rect" id="node17" href="$class_f_list_frame.html#a0037e19af552e7ccca67e2a01b700389" title="Accesseur en lecture du rang (index) de l&#39;onglet courant (0&#45;based). " alt="" coords="1583,71,1772,98"/>
 <area shape="rect" id="node18" href="$class_f_list_frame.html#a38151a18f0313c555c2cf71f19d54ab2" title="Accesseur en lecture de la ligne courante. " alt="" coords="1585,122,1769,149"/>
 <area shape="rect" id="node20" href="$class_altair.html#a5b3c33b6ae4f6b57b5593245751ef203" title="Efface toutes les données du projet .alt et réinitialise l&#39;interface et les conteneurs de données int..." alt="" coords="1599,375,1756,402"/>
-<area shape="rect" id="node21" href="$class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" title="Accesseur en lecture de widgetContainer. " alt="" coords="1572,426,1783,453"/>
+<area shape="rect" id="node21" href="$class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" title="Accesseur en lecture de FListFrame::widgetContainer. " alt="" coords="1572,426,1783,453"/>
 <area shape="rect" id="node22" href="$class_f_list_frame.html#a5c6ce884a0169251e359364921d1f89c" title="FListFrame::addNewTab" alt="" coords="1843,223,2009,250"/>
 <area shape="rect" id="node24" href="$class_f_list_frame.html#ae166a8e51ccbb22a5aa2f1d885507565" title="FListFrame::parseTreeFor\lFilePaths" alt="" coords="1591,5,1764,47"/>
 <area shape="rect" id="node29" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="tools::path_access" alt="" coords="2115,986,2247,1013"/>
@@ -34,7 +34,7 @@
 <area shape="rect" id="node33" href="$class_altair.html#a7d10f8ecf4097577885172afb6c2e9c6" title="Lance l&#39;exécution de l&#39;application en ligne de commande lhx. " alt="" coords="1177,897,1256,923"/>
 <area shape="rect" id="node40" href="$class_altair.html#afd71c35a3a71291b0d4eece1058de4f0" title="Lance l&#39;application Rstudio et les scripts R. " alt="" coords="1157,1098,1276,1125"/>
 <area shape="rect" id="node34" href="$class_altair.html#a52076f38f63affb6f08acf787dcfea09" title="Traitement de la fin de l&#39;exécution de lhx. " alt="" coords="1355,743,1509,770"/>
-<area shape="rect" id="node36" href="$classtools.html#a0aa994303a938a76300767d2251b9f85" title="tools::cdRomMounted" alt="" coords="1357,845,1507,871"/>
+<area shape="rect" id="node36" href="$classtools.html#a0aa994303a938a76300767d2251b9f85" title="Détecte si un disque optique est monté. " alt="" coords="1357,845,1507,871"/>
 <area shape="rect" id="node37" href="$class_altair.html#ae04f2a5771d47bbe2e0cc3a11b72d6bf" title="Parcourt le répertoire en cours du mode distributif, un à chaque appel Exporte l&#39;identification dans ..." alt="" coords="1341,946,1523,973"/>
 <area shape="rect" id="node38" href="$classcommon.html#a3149ba29e04e6e5f7f85a2894434bf9e" title="Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement. " alt="" coords="1574,899,1781,940"/>
 <area shape="rect" id="node39" href="$class_altair.html#a08b5e402c9a694af09110afe33219080" title="Construction de la ligne de commande pour des bases de paye dans un répertoire donné ..." alt="" coords="1617,986,1737,1013"/>

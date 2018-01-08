@@ -362,7 +362,7 @@ var sectionId = 'dynsection-10';
 </g>
 <!-- Node468 -->
 <g id="node11" class="node"><title>Node468</title>
-<g id="a_node11"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur widgetContainer. ">
+<g id="a_node11"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="1768,-621.5 1768,-640.5 1877,-640.5 1877,-621.5 1768,-621.5"/>
 <text text-anchor="middle" x="1822.5" y="-628.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getRank</text>
 </a>
@@ -439,7 +439,7 @@ var sectionId = 'dynsection-10';
 </g>
 <!-- Node482 -->
 <g id="node21" class="node"><title>Node482</title>
-<g id="a_node21"><a xlink:href="class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" target="_top" xlink:title="Accesseur en lecture de widgetContainer. ">
+<g id="a_node21"><a xlink:href="class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" target="_top" xlink:title="Accesseur en lecture de FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="1175,-504.5 1175,-523.5 1333,-523.5 1333,-504.5 1175,-504.5"/>
 <text text-anchor="middle" x="1254" y="-511.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getWidgetContainer</text>
 </a>
@@ -603,7 +603,7 @@ var sectionId = 'dynsection-10';
 </g>
 <!-- Node491 -->
 <g id="node36" class="node"><title>Node491</title>
-<g id="a_node36"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="tools::cdRomMounted">
+<g id="a_node36"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="Détecte si un disque optique est monté. ">
 <polygon fill="white" stroke="black" points="1013.5,-190.5 1013.5,-209.5 1126.5,-209.5 1126.5,-190.5 1013.5,-190.5"/>
 <text text-anchor="middle" x="1070" y="-197.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::cdRomMounted</text>
 </a>

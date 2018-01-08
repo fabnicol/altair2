@@ -163,7 +163,7 @@
 </g>
 <!-- Node3384 -->
 <g id="node4" class="node"><title>Node3384</title>
-<g id="a_node4"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur widgetContainer. ">
+<g id="a_node4"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="750,-515.5 750,-534.5 859,-534.5 859,-515.5 750,-515.5"/>
 <text text-anchor="middle" x="804.5" y="-522.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getRank</text>
 </a>
@@ -189,7 +189,7 @@
 </g>
 <!-- Node3473 -->
 <g id="node10" class="node"><title>Node3473</title>
-<g id="a_node10"><a xlink:href="class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" target="_top" xlink:title="Accesseur en lecture de widgetContainer. ">
+<g id="a_node10"><a xlink:href="class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" target="_top" xlink:title="Accesseur en lecture de FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="539,-439.5 539,-458.5 697,-458.5 697,-439.5 539,-439.5"/>
 <text text-anchor="middle" x="618" y="-446.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getWidgetContainer</text>
 </a>
@@ -642,7 +642,7 @@
 </g>
 <!-- Node3404 -->
 <g id="node35" class="node"><title>Node3404</title>
-<g id="a_node35"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="tools::cdRomMounted">
+<g id="a_node35"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="Détecte si un disque optique est monté. ">
 <polygon fill="white" stroke="black" points="1285,-891.5 1285,-910.5 1398,-910.5 1398,-891.5 1285,-891.5"/>
 <text text-anchor="middle" x="1341.5" y="-898.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::cdRomMounted</text>
 </a>

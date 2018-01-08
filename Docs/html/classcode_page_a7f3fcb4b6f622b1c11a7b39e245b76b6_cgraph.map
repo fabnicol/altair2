@@ -1,12 +1,12 @@
 <map id="codePage::substituer_valeurs_dans_script_R" name="codePage::substituer_valeurs_dans_script_R">
-<area shape="rect" id="node2" href="$classtools.html#a995219ca14bd1ddcb10cb2a3fffed5a5" title="tools::dump" alt="" coords="274,122,365,149"/>
+<area shape="rect" id="node2" href="$classtools.html#a995219ca14bd1ddcb10cb2a3fffed5a5" title="Créer un fichier temporaire temp dans le répertoire racine et le remplit avec une chaîone de caractèr..." alt="" coords="274,122,365,149"/>
 <area shape="rect" id="node4" href="$classcommon.html#a3149ba29e04e6e5f7f85a2894434bf9e" title="Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement. " alt="" coords="216,5,423,47"/>
-<area shape="rect" id="node6" href="$classtools.html#ab14f69ed6a8faa01674b93e798c612a4" title="tools::substituer" alt="" coords="479,67,594,94"/>
-<area shape="rect" id="node7" href="$classtools.html#af43fc30ac740fa0fa1d773afb2538c8c" title="tools::readFile" alt="" coords="267,173,371,199"/>
+<area shape="rect" id="node6" href="$classtools.html#a7cba03deaa6e1311c2d0e5fb9fdcfa5c" title="Remplace des chaînes de caractères, lorsqu&#39;elles correspondent à une expression rationnelle, dans une chaîne de caractères donnée par une chaîne de caractères donnée. " alt="" coords="479,67,594,94"/>
+<area shape="rect" id="node7" href="$classtools.html#af43fc30ac740fa0fa1d773afb2538c8c" title="Liste un fichier entre deux lignes données et sur une largeur donnée. " alt="" coords="267,173,371,199"/>
 <area shape="rect" id="node8" href="$options_8cpp.html#aa5399073540b3e6a7a9d60a70ef4dd88" title="regexp" alt="" coords="289,223,350,250"/>
 <area shape="rect" id="node9" href="$classcode_page.html#a8524212298b5473047c5c4f0cadc86a6" title="codePage::reinitialiser\l_prologue" alt="" coords="244,275,395,316"/>
 <area shape="rect" id="node10" href="$options_8cpp.html#aed1be66fe9ab34423b676aa409402c42" title="rempl_str" alt="" coords="281,341,357,367"/>
-<area shape="rect" id="node11" href="$classtools.html#a888a6211f6956005dba0132e1ee5fd92" title="tools::renommer" alt="" coords="261,391,377,418"/>
+<area shape="rect" id="node11" href="$classtools.html#a888a6211f6956005dba0132e1ee5fd92" title="Renomme un fichier. " alt="" coords="261,391,377,418"/>
 <area shape="rect" id="node3" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="tools::path_access" alt="" coords="471,202,603,229"/>
 <area shape="rect" id="node5" href="$class_hash.html#a9c6832c663082e153e74bf3fb0c5720a" title="Hash::aplatir" alt="" coords="489,13,585,39"/>
 </map>

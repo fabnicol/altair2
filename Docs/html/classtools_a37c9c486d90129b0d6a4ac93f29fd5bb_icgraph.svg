@@ -88,7 +88,7 @@ var sectionId = 'dynsection-4';
 </g>
 <!-- Node57 -->
 <g id="node5" class="node"><title>Node57</title>
-<g id="a_node5"><a xlink:href="classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" target="_top" xlink:title="tools::readFile">
+<g id="a_node5"><a xlink:href="classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" target="_top" xlink:title="List un fichier entre deux lignes données et sur une largeur donnée. ">
 <polygon fill="white" stroke="black" points="555.5,-135.242 555.5,-154.242 633.5,-154.242 633.5,-135.242 555.5,-135.242"/>
 <text text-anchor="middle" x="594.5" y="-142.242" font-family="Helvetica,sans-Serif" font-size="10.00">tools::readFile</text>
 </a>

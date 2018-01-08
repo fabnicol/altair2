@@ -48,72 +48,72 @@ if (edges && edges.length) {
 <script type="text/javascript">
 var viewWidth = 542;
 var viewHeight = 47;
-var sectionId = 'dynsection-28';
+var sectionId = 'dynsection-27';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>tools::unzipDir</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-43 538,-43 538,4 -4,4"/>
-<!-- Node282 -->
-<g id="node1" class="node"><title>Node282</title>
+<!-- Node278 -->
+<g id="node1" class="node"><title>Node278</title>
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-19.5 80,-19.5 80,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="40" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::unzipDir</text>
 </g>
-<!-- Node283 -->
-<g id="node2" class="node"><title>Node283</title>
+<!-- Node279 -->
+<g id="node2" class="node"><title>Node279</title>
 <g id="a_node2"><a xlink:href="classtools.html#a22819e1b381949304b8fde11a91a7de3" target="_top" xlink:title="tools::unzip">
 <polygon fill="white" stroke="black" points="116,-0.5 116,-19.5 183,-19.5 183,-0.5 116,-0.5"/>
 <text text-anchor="middle" x="149.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::unzip</text>
 </a>
 </g>
 </g>
-<!-- Node282&#45;&gt;Node283 -->
-<g id="edge1" class="edge"><title>Node282&#45;&gt;Node283</title>
+<!-- Node278&#45;&gt;Node279 -->
+<g id="edge1" class="edge"><title>Node278&#45;&gt;Node279</title>
 <path fill="none" stroke="midnightblue" d="M80.1141,-10C88.4793,-10 97.3565,-10 105.847,-10"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="105.952,-13.5001 115.952,-10 105.952,-6.5001 105.952,-13.5001"/>
 </g>
-<!-- Node284 -->
-<g id="node3" class="node"><title>Node284</title>
+<!-- Node280 -->
+<g id="node3" class="node"><title>Node280</title>
 <g id="a_node3"><a xlink:href="classtools.html#ae1018e45c513785270b999cbcfa8beb6" target="_top" xlink:title="tools::IOControl">
 <polygon fill="white" stroke="black" points="219,-0.5 219,-19.5 305,-19.5 305,-0.5 219,-0.5"/>
 <text text-anchor="middle" x="262" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::IOControl</text>
 </a>
 </g>
 </g>
-<!-- Node283&#45;&gt;Node284 -->
-<g id="edge2" class="edge"><title>Node283&#45;&gt;Node284</title>
+<!-- Node279&#45;&gt;Node280 -->
+<g id="edge2" class="edge"><title>Node279&#45;&gt;Node280</title>
 <path fill="none" stroke="midnightblue" d="M183.056,-10C191.109,-10 199.941,-10 208.675,-10"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="208.831,-13.5001 218.831,-10 208.831,-6.5001 208.831,-13.5001"/>
 </g>
-<!-- Node285 -->
-<g id="node4" class="node"><title>Node285</title>
+<!-- Node281 -->
+<g id="node4" class="node"><title>Node281</title>
 <g id="a_node4"><a xlink:href="classtools.html#a37c9c486d90129b0d6a4ac93f29fd5bb" target="_top" xlink:title="tools::copyDir">
 <polygon fill="white" stroke="black" points="341,-19.5 341,-38.5 418,-38.5 418,-19.5 341,-19.5"/>
 <text text-anchor="middle" x="379.5" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::copyDir</text>
 </a>
 </g>
 </g>
-<!-- Node284&#45;&gt;Node285 -->
-<g id="edge3" class="edge"><title>Node284&#45;&gt;Node285</title>
+<!-- Node280&#45;&gt;Node281 -->
+<g id="edge3" class="edge"><title>Node280&#45;&gt;Node281</title>
 <path fill="none" stroke="midnightblue" d="M305.025,-16.9132C313.462,-18.3012 322.385,-19.7689 330.993,-21.185"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="330.471,-24.6462 340.907,-22.8159 331.608,-17.739 330.471,-24.6462"/>
 </g>
-<!-- Node286 -->
-<g id="node5" class="node"><title>Node286</title>
+<!-- Node282 -->
+<g id="node5" class="node"><title>Node282</title>
 <g id="a_node5"><a xlink:href="classtools.html#a0765c68c41d7c957f1fb0f0da8b4a9c9" target="_top" xlink:title="tools::copyFile">
 <polygon fill="white" stroke="black" points="454,-0.5 454,-19.5 534,-19.5 534,-0.5 454,-0.5"/>
 <text text-anchor="middle" x="494" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::copyFile</text>
 </a>
 </g>
 </g>
-<!-- Node285&#45;&gt;Node286 -->
-<g id="edge4" class="edge"><title>Node285&#45;&gt;Node286</title>
+<!-- Node281&#45;&gt;Node282 -->
+<g id="edge4" class="edge"><title>Node281&#45;&gt;Node282</title>
 <path fill="none" stroke="midnightblue" d="M418.274,-22.6204C426.532,-21.2257 435.388,-19.73 444.013,-18.2734"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="444.704,-21.7064 453.981,-16.5899 443.538,-14.8041 444.704,-21.7064"/>
 </g>
-<!-- Node286&#45;&gt;Node284 -->
-<g id="edge5" class="edge"><title>Node286&#45;&gt;Node284</title>
+<!-- Node282&#45;&gt;Node280 -->
+<g id="edge5" class="edge"><title>Node282&#45;&gt;Node280</title>
 <path fill="none" stroke="midnightblue" d="M453.768,-10C415.589,-10 357.336,-10 315.247,-10"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="315.186,-6.5001 305.186,-10 315.186,-13.5001 315.186,-6.5001"/>
 </g>

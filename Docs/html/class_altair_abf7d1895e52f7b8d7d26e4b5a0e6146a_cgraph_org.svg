@@ -93,7 +93,7 @@
 </g>
 <!-- Node3659 -->
 <g id="node6" class="node"><title>Node3659</title>
-<g id="a_node6"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur widgetContainer. ">
+<g id="a_node6"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="1772,-201.5 1772,-220.5 1881,-220.5 1881,-201.5 1772,-201.5"/>
 <text text-anchor="middle" x="1826.5" y="-208.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getRank</text>
 </a>
@@ -391,7 +391,7 @@
 </g>
 <!-- Node3683 -->
 <g id="node21" class="node"><title>Node3683</title>
-<g id="a_node21"><a xlink:href="class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" target="_top" xlink:title="Accesseur en lecture de widgetContainer. ">
+<g id="a_node21"><a xlink:href="class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" target="_top" xlink:title="Accesseur en lecture de FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="1578,-365.5 1578,-384.5 1736,-384.5 1736,-365.5 1578,-365.5"/>
 <text text-anchor="middle" x="1657" y="-372.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getWidgetContainer</text>
 </a>
@@ -665,7 +665,7 @@
 </g>
 <!-- Node3674 -->
 <g id="node41" class="node"><title>Node3674</title>
-<g id="a_node41"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="tools::cdRomMounted">
+<g id="a_node41"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="Détecte si un disque optique est monté. ">
 <polygon fill="white" stroke="black" points="1416.5,-638.5 1416.5,-657.5 1529.5,-657.5 1529.5,-638.5 1416.5,-638.5"/>
 <text text-anchor="middle" x="1473" y="-645.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::cdRomMounted</text>
 </a>

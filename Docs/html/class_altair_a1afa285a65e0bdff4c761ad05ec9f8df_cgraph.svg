@@ -222,7 +222,7 @@ var sectionId = 'dynsection-24';
 </g>
 <!-- Node1260 -->
 <g id="node9" class="node"><title>Node1260</title>
-<g id="a_node9"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="tools::cdRomMounted">
+<g id="a_node9"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="Détecte si un disque optique est monté. ">
 <polygon fill="white" stroke="black" points="1529,-612.403 1529,-631.403 1642,-631.403 1642,-612.403 1529,-612.403"/>
 <text text-anchor="middle" x="1585.5" y="-619.403" font-family="Helvetica,sans-Serif" font-size="10.00">tools::cdRomMounted</text>
 </a>
@@ -254,7 +254,7 @@ var sectionId = 'dynsection-24';
 </g>
 <!-- Node1263 -->
 <g id="node12" class="node"><title>Node1263</title>
-<g id="a_node12"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur widgetContainer. ">
+<g id="a_node12"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="907,-201.403 907,-220.403 1016,-220.403 1016,-201.403 907,-201.403"/>
 <text text-anchor="middle" x="961.5" y="-208.403" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getRank</text>
 </a>
@@ -321,7 +321,7 @@ var sectionId = 'dynsection-24';
 </g>
 <!-- Node1349 -->
 <g id="node46" class="node"><title>Node1349</title>
-<g id="a_node46"><a xlink:href="class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" target="_top" xlink:title="Accesseur en lecture de widgetContainer. ">
+<g id="a_node46"><a xlink:href="class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1" target="_top" xlink:title="Accesseur en lecture de FListFrame::widgetContainer. ">
 <polygon fill="white" stroke="black" points="299,-220.403 299,-239.403 457,-239.403 457,-220.403 299,-220.403"/>
 <text text-anchor="middle" x="378" y="-227.403" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getWidgetContainer</text>
 </a>

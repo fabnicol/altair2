@@ -28,7 +28,7 @@
 </g>
 <!-- Node9 -->
 <g id="node2" class="node"><title>Node9</title>
-<g id="a_node2"><a xlink:href="classtools.html" target="_top" xlink:title="{tools\n|+ systemPathPrefix\l+ tempdir\l+ userdatadir\l|+ tools()\l+ dump()\l+ getEmbeddedPath()\l+ readFile()\l+ readFile()\l+ readFile()\l+ readFile()\l+ renommer()\l+ substituer()\l+ cdRomMounted()\l+ copyDir()\l+ copyFile()\l+ ents()\l+ generateDatadirPath()\l+ generateDatadirPath()\l+ getDirectorySize()\l+ getFileSize()\l+ IOControl()\l+ openDir()\let 7 de plus...\l}">
+<g id="a_node2"><a xlink:href="classtools.html" target="_top" xlink:title="{tools\n|+ systemPathPrefix\l+ tempdir\l+ userdatadir\l|+ tools()\l+ dump()\l+ getEmbeddedPath()\l+ readFile()\l+ readFile()\l+ readFile()\l+ readFile()\l+ renommer()\l+ substituer()\l+ cdRomMounted()\l+ copyDir()\l+ copyFile()\l+ generateDatadirPath()\l+ generateDatadirPath()\l+ getDirectorySize()\l+ getFileSize()\l+ IOControl()\l+ openDir()\l+ openDirDialog()\let 6 de plus...\l}">
 <polygon fill="white" stroke="black" points="-7.10543e-15,-183.5 -7.10543e-15,-471.5 121,-471.5 121,-183.5 -7.10543e-15,-183.5"/>
 <text text-anchor="middle" x="60.5" y="-459.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools</text>
 <polyline fill="none" stroke="black" points="-7.10543e-15,-452.5 121,-452.5 "/>
@@ -48,14 +48,14 @@
 <text text-anchor="start" x="8" y="-300.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ cdRomMounted()</text>
 <text text-anchor="start" x="8" y="-289.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ copyDir()</text>
 <text text-anchor="start" x="8" y="-278.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ copyFile()</text>
-<text text-anchor="start" x="8" y="-267.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ ents()</text>
+<text text-anchor="start" x="8" y="-267.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ generateDatadirPath()</text>
 <text text-anchor="start" x="8" y="-256.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ generateDatadirPath()</text>
-<text text-anchor="start" x="8" y="-245.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ generateDatadirPath()</text>
-<text text-anchor="start" x="8" y="-234.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getDirectorySize()</text>
-<text text-anchor="start" x="8" y="-223.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getFileSize()</text>
-<text text-anchor="start" x="8" y="-212.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ IOControl()</text>
-<text text-anchor="start" x="8" y="-201.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ openDir()</text>
-<text text-anchor="start" x="8" y="-190.5" font-family="Helvetica,sans-Serif" font-size="10.00">et 7 de plus...</text>
+<text text-anchor="start" x="8" y="-245.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getDirectorySize()</text>
+<text text-anchor="start" x="8" y="-234.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getFileSize()</text>
+<text text-anchor="start" x="8" y="-223.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ IOControl()</text>
+<text text-anchor="start" x="8" y="-212.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ openDir()</text>
+<text text-anchor="start" x="8" y="-201.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ openDirDialog()</text>
+<text text-anchor="start" x="8" y="-190.5" font-family="Helvetica,sans-Serif" font-size="10.00">et 6 de plus...</text>
 </a>
 </g>
 </g>

@@ -30,7 +30,7 @@
 </g>
 <!-- Node4 -->
 <g id="node5" class="node"><title>Node4</title>
-<g id="a_node5"><a xlink:href="classtools.html#acba8057b8c8527f6a2df7a372e944abb" target="_top" xlink:title="tools::generateDatadirPath">
+<g id="a_node5"><a xlink:href="classtools.html#acba8057b8c8527f6a2df7a372e944abb" target="_top" xlink:title="Crée le chemin vers le dossier local de paramétrage. ">
 <polygon fill="white" stroke="black" points="145,-38.5 145,-57.5 278,-57.5 278,-38.5 145,-38.5"/>
 <text text-anchor="middle" x="211.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::generateDatadirPath</text>
 </a>
@@ -69,7 +69,7 @@
 </g>
 <!-- Node3 -->
 <g id="node4" class="node"><title>Node3</title>
-<g id="a_node4"><a xlink:href="classtools.html#ab14f69ed6a8faa01674b93e798c612a4" target="_top" xlink:title="tools::substituer">
+<g id="a_node4"><a xlink:href="classtools.html#a7cba03deaa6e1311c2d0e5fb9fdcfa5c" target="_top" xlink:title="Remplace des chaînes de caractères, lorsqu&#39;elles correspondent à une expression rationnelle, dans une chaîne de caractères donnée par une chaîne de caractères donnée. ">
 <polygon fill="white" stroke="black" points="325,-63.5 325,-82.5 411,-82.5 411,-63.5 325,-63.5"/>
 <text text-anchor="middle" x="368" y="-70.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::substituer</text>
 </a>
