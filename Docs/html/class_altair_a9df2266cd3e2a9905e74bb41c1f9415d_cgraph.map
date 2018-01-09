@@ -31,7 +31,7 @@
 <area shape="rect" id="node20" href="$classcode_page.html#ad89c8fd4b641a2b884ac3980759fe329" title="codePage::resetLabel" alt="" coords="2249,519,2397,545"/>
 <area shape="rect" id="node27" href="$class_main_window.html#ab58113ae4ed9a73ec3e3e5f83c98dfcc" title="Vérifie si par défaut le projet .alt doit être enregistré à chaque modification de l&#39;état de l&#39;interf..." alt="" coords="1975,885,2161,926"/>
 <area shape="rect" id="node31" href="$class_altair.html#a43120f9909d0284074119529a03df85b" title="Ecrit le projet XML d&#39;extension .alt contenant les références des donnéees de paye. " alt="" coords="1993,1015,2143,1041"/>
-<area shape="rect" id="node34" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="tools::path_access" alt="" coords="2002,725,2134,752"/>
+<area shape="rect" id="node34" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="Renvoie le chemin d&#39;un fichier ou d&#39;un répertoire du répertoire racine de la distribution (adjacent a..." alt="" coords="2002,725,2134,752"/>
 <area shape="rect" id="node26" href="$class_main_window.html#affa76730fa370a3466b62a4caee721e3" title="Actualise la liste des fichiers de projet .alt récents dans le menu Fichier. " alt="" coords="2230,950,2417,991"/>
 <area shape="rect" id="node28" href="$class_main_window.html#acb0d089a9bd777962ddd3e7d30e81c1a" title="Sauvegarde du projet .alt selon un chemin à spécifier. " alt="" coords="2228,768,2419,795"/>
 <area shape="rect" id="node29" href="$class_main_window.html#a7ca647c33971b09cd6ef4af33937369e" title="Envoie du texte formaté HTML dans l&#39;onglet Console. " alt="" coords="2221,819,2425,861"/>

@@ -29,7 +29,7 @@
 </g>
 <!-- Node4 -->
 <g id="node5" class="node"><title>Node4</title>
-<g id="a_node5"><a xlink:href="classtools.html#a52d51b78e3c488a3364006d4e493b3d2" target="_top" xlink:title="tools::openDir">
+<g id="a_node5"><a xlink:href="classtools.html#a87e526e69a91b82f7db7a462a921847c" target="_top" xlink:title="Vérifie l&#39;existence d&#39;un dossier et l&#39;ouvre avec le gestionnaire de fichier du système d&#39;exploitation...">
 <polygon fill="white" stroke="black" points="176,-38.5 176,-57.5 253,-57.5 253,-38.5 176,-38.5"/>
 <text text-anchor="middle" x="214.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::openDir</text>
 </a>
@@ -42,7 +42,7 @@
 </g>
 <!-- Node5 -->
 <g id="node6" class="node"><title>Node5</title>
-<g id="a_node6"><a xlink:href="classtools.html#ae23a9d29a31142e239d5d72e8201ebf4" target="_top" xlink:title="tools::openDirDialog">
+<g id="a_node6"><a xlink:href="classtools.html#ae23a9d29a31142e239d5d72e8201ebf4" target="_top" xlink:title="Sélectionne un répertoire et renvoie son chemin. ">
 <polygon fill="white" stroke="black" points="162,-0.5 162,-19.5 267,-19.5 267,-0.5 162,-0.5"/>
 <text text-anchor="middle" x="214.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::openDirDialog</text>
 </a>

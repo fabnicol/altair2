@@ -677,7 +677,7 @@ var sectionId = 'dynsection-24';
 </g>
 <!-- Node1296 -->
 <g id="node40" class="node"><title>Node1296</title>
-<g id="a_node40"><a xlink:href="classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" target="_top" xlink:title="tools::path_access">
+<g id="a_node40"><a xlink:href="classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" target="_top" xlink:title="Renvoie le chemin d&#39;un fichier ou d&#39;un répertoire du répertoire racine de la distribution (adjacent a...">
 <polygon fill="white" stroke="black" points="1698.5,-615.403 1698.5,-634.403 1797.5,-634.403 1797.5,-615.403 1698.5,-615.403"/>
 <text text-anchor="middle" x="1748" y="-622.403" font-family="Helvetica,sans-Serif" font-size="10.00">tools::path_access</text>
 </a>

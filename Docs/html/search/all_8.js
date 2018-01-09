@@ -19,6 +19,5 @@ var searchData=
   ['highlighter_2ecpp',['highlighter.cpp',['../highlighter_8cpp.html',1,'']]],
   ['highlighter_2eh',['highlighter.h',['../highlighter_8h.html',1,'']]],
   ['highlightingrule',['HighlightingRule',['../struct_highlighter_1_1_highlighting_rule.html',1,'Highlighter']]],
-  ['highlightingrules',['highlightingRules',['../class_highlighter.html#aa23f8b3f4ddd1354f508b46d77897fe5',1,'Highlighter']]],
-  ['htmllogpath',['htmlLogPath',['../classtools.html#a7830132e1d70918dd6c74464a5f682b8',1,'tools']]]
+  ['highlightingrules',['highlightingRules',['../class_highlighter.html#aa23f8b3f4ddd1354f508b46d77897fe5',1,'Highlighter']]]
 ];

@@ -16,7 +16,7 @@
 </g>
 <!-- Node13 -->
 <g id="node2" class="node"><title>Node13</title>
-<g id="a_node2"><a xlink:href="classtools.html#ab8c0afc91fe0b36c3c2a66d1daa44f4b" target="_top" xlink:title="tools::getFileSize">
+<g id="a_node2"><a xlink:href="classtools.html#af8dd668ff2d13b46cc2d7cf95d19b297" target="_top" xlink:title="Renvoie la taille d&#39;un fichier en octets. ">
 <polygon fill="white" stroke="black" points="178,-0.5 178,-19.5 270,-19.5 270,-0.5 178,-0.5"/>
 <text text-anchor="middle" x="224" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::getFileSize</text>
 </a>

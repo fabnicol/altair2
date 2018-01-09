@@ -57,6 +57,10 @@ private:
 
  QString p; ///< si "oui" alors positif; si "non" alors négatif;
 
+ /// Transforme 'oui', 'non' et autres chaines en FString (fixation de la valeur de \em x)
+ /// \param s Chaîne entrante.
+ /// \param flag Autre valeur que 2 pour \em x par défaut pour les chaines quelconques.
+
  void testBool(QString &s, flags::status flag = flags::status::defaultStatus)
  {
  if (s.isEmpty())
@@ -85,8 +89,9 @@ public:
  }
 
  /// Constructeur à valeur quelconque QString donnée
+ /// \param s Chaîne FString.
 
- explicit FString(QString s, flags::status flag = flags::status::defaultStatus) : QString(s)
+ FString(QString s, flags::status flag = flags::status::defaultStatus)
  {
    p = s;
    testBool(s, flag);
@@ -94,9 +99,13 @@ public:
 
  /// Constructeur à valeur quelconque const char* donnée
 
- explicit FString(const char* s) : FString(QString(s))  { x = strcmp(s, "oui") ? (strcmp(s, "non") ? 2 : 0) : 1;}
+ FString(const char* s, flags::status flag = flags::status::defaultStatus)
+ {
+     p = QString(s);
+     testBool(p, flag);
+ }
 
- explicit FString(bool value)
+ FString(bool value)
  {
    x = static_cast<int>(value);
 
@@ -108,33 +117,36 @@ public:
  FString  operator * ();
 
  /// Constructeur de copie
+ /// \param s Chaîne FString.
+ /// \return Copie du FString.
 
- FString(const FString & v) : QString(v.p)
- {
-   x = v.x;
-   p = v.p;
- }
+ FString(const FString &s) : QString(s.p), x{x}, p{s.p} {}
 
   /// Opérateur & : "oui" & "oui" -> "oui" etc.
+  /// \param s Chaîne FString.
+  /// \return Chaîne de caractères FString résultant de l'opération logique.
 
-  FString   operator & (FString  s)
+ FString   operator & (FString  s)
   {
     if (x * s.x == 1) return FString("oui");
     else return FString("non");
   }
 
-  /// Opérateur & : "oui" & false -> false etc.
+ /// Opérateur & : s & b == FString("oui") <=> s == FString("oui") && b == true
+ /// \param b Booléen.
+ /// \return Chaîne de caractères FString résultant de l'opération logique.
 
-  FString   operator & (bool  s)
+ FString   operator & (bool  s)
   {
     return x * static_cast<int>(s) == 1 ?  FString("oui") : FString("non");
   }
 
-  /// Opérateur &= : s &= true a même valeur que s
+  /// Opérateur &= : s &= true a même valeur que s, sinon FString("non").
+  /// \param b Booléen.
 
-  void   operator &= (bool  s)
+  void   operator &= (bool  b)
   {
-    x = x * static_cast<int>(s);
+    x = x * static_cast<int>(b);
     p = x == 1 ? "oui" : "non";
   }
 
@@ -144,6 +156,7 @@ public:
   /// s &= FString("") -> FString("non")
   /// FString("")    | FString("oui") -> FString("non")
   /// FString("non") | FString("")    -> FString("non")
+  /// \param s Chaîne FString.
 
   void   operator &= (FString  s)
   {
@@ -157,6 +170,8 @@ public:
   /// FString("non") | FString("oui") -> FString("non")
   /// FString("")    | FString("oui") -> FString("non")
   /// FString("non") | FString("")    -> FString("non")
+  /// \param s Chaîne FString.
+  /// \return Chaîne de caractères FString résultant de l'opération logique.
 
   FString   operator | (FString  s)
   {
@@ -167,6 +182,7 @@ public:
   /// ! FString("oui") -> {0, "non"}
   /// ! FString("non") -> {1, "oui"}
   /// ! FString("")    -> {0, "non"}
+  /// \return Chaîne de caractère de polarité inversée.
 
   FString   operator ! ()
   {
@@ -174,6 +190,7 @@ public:
   }
 
   /// Accesseur de la partie QString p
+  /// \return Partie chaîne de caractères.
 
   QString toQString() const
   {
@@ -181,6 +198,7 @@ public:
   }
 
   /// Accesseur de la partie QString& p
+  /// \return Partie chaîne de caractères.
 
   QString& toQStringRef()
   {
@@ -191,6 +209,7 @@ public:
   /// FString("oui").toBool() -> false
   /// FString("non").toBool() -> true
   /// FString("").toBool()    -> false
+  /// \return Booléen.
 
   bool toBool()
   {
@@ -213,6 +232,7 @@ public:
   }
 
   /// Inverse de isEmpty()
+  /// \return \em false si la chaîne est vide, \em true sinon.
 
   bool isFilled()
   {
@@ -220,6 +240,8 @@ public:
   }
 
   /// Conversion depuis un booléen : true -> {1, "oui"} ; false -> {0, "non"}
+  /// \param value Valeur booléenne à convertir en FString.
+  /// \return FString converti.
 
   const FString  fromBool(bool value)
   {
@@ -285,9 +307,9 @@ public:
   }
 
   FStringList(const QString& a, const QString& b, const QString& c):QVector<QStringList>()  { this->append(QStringList() << a << b << c);}
-  const FString join(const QStringList &) const ;
-  const FString join(const char* s) const {return join(QStringList((QString(s)))); }
-  const QStringList join() ;
+  FString join(const QStringList &) const ;
+  FString join(const char* s) const {return join(QStringList((QString(s)))); }
+  QStringList join() ;
   QString setEmptyTags(const QStringList &)const;
   const QString setTags(const QStringList &tags, const QVector<FStringList> *properties=nullptr) const;
   FString toFString() const { return ((this->isEmpty()) || this->at(0).isEmpty())?  FString("") : FString(this->at(0).at(0)); }

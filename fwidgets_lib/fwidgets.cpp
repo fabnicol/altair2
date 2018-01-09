@@ -327,7 +327,8 @@ const FString& FListWidget::translate(const FStringList &s)
         L[j++]= std::move(applyHashToStringList(listWidgetTranslationHash, translation));
     }
 
-    return commandLineList[0]=L.join(separator);
+    commandLineList[0] = L.join(separator);
+    return commandLineList[0] ;
 }
 
 

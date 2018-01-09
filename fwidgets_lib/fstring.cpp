@@ -90,7 +90,7 @@ const FStringList FString::split(const QStringList &separator) const
 
 
 
-const QStringList FStringList::join()
+QStringList FStringList::join()
 {
   // Flattens FStringList into QStringList
 
@@ -103,7 +103,7 @@ const QStringList FStringList::join()
   return S;
 }
 
-const FString  FStringList::join(const QStringList &separator) const
+FString  FStringList::join(const QStringList &separator) const
 {
 
   if (this->size() == 0) return FString("");

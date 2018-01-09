@@ -38,7 +38,7 @@
 <area shape="rect" id="node33" href="$class_f_list_frame.html#a38151a18f0313c555c2cf71f19d54ab2" title="Accesseur en lecture de la ligne courante. " alt="" coords="935,31,1119,57"/>
 <area shape="rect" id="node34" href="$class_f_list_frame.html#a73aaa61fe9f56248049e96722c17b164" title="Accesseur en lecture du composant (widget) courant dans le conteneur widgetContainer. " alt="" coords="1186,31,1385,57"/>
 <area shape="rect" id="node36" href="$class_main_window.html#ab58113ae4ed9a73ec3e3e5f83c98dfcc" title="Vérifie si par défaut le projet .alt doit être enregistré à chaque modification de l&#39;état de l&#39;interf..." alt="" coords="933,975,1120,1017"/>
-<area shape="rect" id="node40" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="tools::path_access" alt="" coords="961,924,1093,951"/>
+<area shape="rect" id="node40" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="Renvoie le chemin d&#39;un fichier ou d&#39;un répertoire du répertoire racine de la distribution (adjacent a..." alt="" coords="961,924,1093,951"/>
 <area shape="rect" id="node37" href="$class_main_window.html#acb0d089a9bd777962ddd3e7d30e81c1a" title="Sauvegarde du projet .alt selon un chemin à spécifier. " alt="" coords="1190,924,1381,951"/>
 <area shape="rect" id="node38" href="$class_main_window.html#a7ca647c33971b09cd6ef4af33937369e" title="Envoie du texte formaté HTML dans l&#39;onglet Console. " alt="" coords="1183,975,1387,1017"/>
 <area shape="rect" id="node39" href="$class_main_window.html#ad5413bb37042daa28f5fd7d72b4b616c" title="Envoie du texte formaté HTML dans l&#39;onglet Console. " alt="" coords="1191,1041,1379,1082"/>

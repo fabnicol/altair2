@@ -34,7 +34,7 @@
 <area shape="rect" id="node16" href="$class_altair.html#ad0436bfddbdcdd19cc80154e02b4323c" title="Assigner le fichier courant. " alt="" coords="2109,440,2251,467"/>
 <area shape="rect" id="node18" href="$class_main_window.html#ab58113ae4ed9a73ec3e3e5f83c98dfcc" title="Vérifie si par défaut le projet .alt doit être enregistré à chaque modification de l&#39;état de l&#39;interf..." alt="" coords="2087,542,2273,584"/>
 <area shape="rect" id="node19" href="$class_altair.html#a43120f9909d0284074119529a03df85b" title="Ecrit le projet XML d&#39;extension .alt contenant les références des donnéees de paye. " alt="" coords="2105,491,2255,518"/>
-<area shape="rect" id="node20" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="tools::path_access" alt="" coords="2114,992,2246,1019"/>
+<area shape="rect" id="node20" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="Renvoie le chemin d&#39;un fichier ou d&#39;un répertoire du répertoire racine de la distribution (adjacent a..." alt="" coords="2114,992,2246,1019"/>
 <area shape="rect" id="node17" href="$class_main_window.html#affa76730fa370a3466b62a4caee721e3" title="Actualise la liste des fichiers de projet .alt récents dans le menu Fichier. " alt="" coords="2323,433,2509,474"/>
 <area shape="rect" id="node27" href="$class_altair.html#a4fad8882e9af3420d9815a123597d33f" title="Lancer l&#39;aide (menu ou barre) " alt="" coords="1580,657,1723,698"/>
 <area shape="rect" id="node28" href="$class_altair.html#aab5da600c227ac7eb604fa24a9308d26" title="Enregistre le projet .alt en actualisant projectName et l&#39;état de l&#39;interface &#160;. " alt="" coords="1564,723,1739,750"/>
