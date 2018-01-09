@@ -16,7 +16,7 @@
 </g>
 <!-- Node110 -->
 <g id="node2" class="node"><title>Node110</title>
-<g id="a_node2"><a xlink:href="classtools.html#a0765c68c41d7c957f1fb0f0da8b4a9c9" target="_top" xlink:title="tools::copyFile">
+<g id="a_node2"><a xlink:href="classtools.html#a0765c68c41d7c957f1fb0f0da8b4a9c9" target="_top" xlink:title="Copie un fichier de manière sécurisée. ">
 <polygon fill="white" stroke="black" points="122,-285.5 122,-304.5 202,-304.5 202,-285.5 122,-285.5"/>
 <text text-anchor="middle" x="162" y="-292.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::copyFile</text>
 </a>
@@ -42,7 +42,7 @@
 </g>
 <!-- Node115 -->
 <g id="node7" class="node"><title>Node115</title>
-<g id="a_node7"><a xlink:href="classtools.html#a22819e1b381949304b8fde11a91a7de3" target="_top" xlink:title="tools::unzip">
+<g id="a_node7"><a xlink:href="classtools.html#a22819e1b381949304b8fde11a91a7de3" target="_top" xlink:title="Décompresser un fichier au format zip. ">
 <polygon fill="white" stroke="black" points="128.5,-171.5 128.5,-190.5 195.5,-190.5 195.5,-171.5 128.5,-171.5"/>
 <text text-anchor="middle" x="162" y="-178.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::unzip</text>
 </a>
@@ -55,7 +55,7 @@
 </g>
 <!-- Node117 -->
 <g id="node9" class="node"><title>Node117</title>
-<g id="a_node9"><a xlink:href="classtools.html#aae1cdbea84aed049937a52ceb9421794" target="_top" xlink:title="tools::zip">
+<g id="a_node9"><a xlink:href="classtools.html#aae1cdbea84aed049937a52ceb9421794" target="_top" xlink:title="Compresser un fichier au format zip. ">
 <polygon fill="white" stroke="black" points="134,-38.5 134,-57.5 190,-57.5 190,-38.5 134,-38.5"/>
 <text text-anchor="middle" x="162" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::zip</text>
 </a>
@@ -68,7 +68,7 @@
 </g>
 <!-- Node111 -->
 <g id="node3" class="node"><title>Node111</title>
-<g id="a_node3"><a xlink:href="classtools.html#a37c9c486d90129b0d6a4ac93f29fd5bb" target="_top" xlink:title="tools::copyDir">
+<g id="a_node3"><a xlink:href="classtools.html#a37c9c486d90129b0d6a4ac93f29fd5bb" target="_top" xlink:title="Copie un répertoire de manière sécurisée. ">
 <polygon fill="white" stroke="black" points="239.5,-247.5 239.5,-266.5 316.5,-266.5 316.5,-247.5 239.5,-247.5"/>
 <text text-anchor="middle" x="278" y="-254.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::copyDir</text>
 </a>
@@ -137,7 +137,7 @@
 </g>
 <!-- Node116 -->
 <g id="node8" class="node"><title>Node116</title>
-<g id="a_node8"><a xlink:href="classtools.html#ae821185bfd6650842559ef2f9d92f1ac" target="_top" xlink:title="tools::unzipDir">
+<g id="a_node8"><a xlink:href="classtools.html#ae821185bfd6650842559ef2f9d92f1ac" target="_top" xlink:title="Décompresse l&#39;intégralité d&#39;un répertoire au format zip, et copie le dossier décompressé dans un chem...">
 <polygon fill="white" stroke="black" points="238,-171.5 238,-190.5 318,-190.5 318,-171.5 238,-171.5"/>
 <text text-anchor="middle" x="278" y="-178.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::unzipDir</text>
 </a>
@@ -165,7 +165,7 @@
 </g>
 <!-- Node118 -->
 <g id="node10" class="node"><title>Node118</title>
-<g id="a_node10"><a xlink:href="classtools.html#aefd7e17f4eeb34a4ab3d254eb3bb0a03" target="_top" xlink:title="tools::zipDir">
+<g id="a_node10"><a xlink:href="classtools.html#aefd7e17f4eeb34a4ab3d254eb3bb0a03" target="_top" xlink:title="Compresse l&#39;intégralité d&#39;un répertoire au format zip, et copie le dossier compressé dans un chemin d...">
 <polygon fill="white" stroke="black" points="243.5,-19.5 243.5,-38.5 312.5,-38.5 312.5,-19.5 243.5,-19.5"/>
 <text text-anchor="middle" x="278" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::zipDir</text>
 </a>

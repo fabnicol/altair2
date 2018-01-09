@@ -28,7 +28,7 @@
 <area shape="rect" id="node23" href="$class_f_list_frame.html#a0037e19af552e7ccca67e2a01b700389" title="Accesseur en lecture du rang (index) de l&#39;onglet courant (0&#45;based). " alt="" coords="2120,1201,2309,1228"/>
 <area shape="rect" id="node24" href="$class_f_list_frame.html#a38151a18f0313c555c2cf71f19d54ab2" title="Accesseur en lecture de la ligne courante. " alt="" coords="2123,1252,2307,1278"/>
 <area shape="rect" id="node28" href="$class_main_window.html#ab58113ae4ed9a73ec3e3e5f83c98dfcc" title="Vérifie si par défaut le projet .alt doit être enregistré à chaque modification de l&#39;état de l&#39;interf..." alt="" coords="2561,316,2748,358"/>
-<area shape="rect" id="node29" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="tools::path_access" alt="" coords="2589,382,2721,409"/>
+<area shape="rect" id="node29" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="Renvoie le chemin d&#39;un fichier ou d&#39;un répertoire du répertoire racine de la distribution (adjacent a..." alt="" coords="2589,382,2721,409"/>
 <area shape="rect" id="node27" href="$class_main_window.html#affa76730fa370a3466b62a4caee721e3" title="Actualise la liste des fichiers de projet .alt récents dans le menu Fichier. " alt="" coords="2796,110,2983,151"/>
 <area shape="rect" id="node32" href="$class_altair.html#a8b7b1fa3e0b567dc1d4721bf88087a68" title="Parcourt l&#39;ensemble des widgets fonctionnels Abstract::abstractWidgetList et actualise leur statut in..." alt="" coords="1195,569,1373,596"/>
 <area shape="rect" id="node40" href="$class_altair.html#a20528df591deee5ad32f28996ba8dc35" title="Raccourcit les chemins dans les onglets en se limitant au non de fichier et les présente &#160;en surligna..." alt="" coords="2115,654,2315,681"/>

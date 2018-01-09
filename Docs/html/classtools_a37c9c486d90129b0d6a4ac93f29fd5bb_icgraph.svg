@@ -75,7 +75,7 @@ var sectionId = 'dynsection-4';
 </g>
 <!-- Node55 -->
 <g id="node3" class="node"><title>Node55</title>
-<g id="a_node3"><a xlink:href="classtools.html#ae1018e45c513785270b999cbcfa8beb6" target="_top" xlink:title="tools::IOControl">
+<g id="a_node3"><a xlink:href="classtools.html#ae1018e45c513785270b999cbcfa8beb6" target="_top" xlink:title="Procédure de contrôle des entrées&#45;sorties. ">
 <polygon fill="white" stroke="black" points="113,-211.242 113,-230.242 199,-230.242 199,-211.242 113,-211.242"/>
 <text text-anchor="middle" x="156" y="-218.242" font-family="Helvetica,sans-Serif" font-size="10.00">tools::IOControl</text>
 </a>
@@ -101,7 +101,7 @@ var sectionId = 'dynsection-4';
 </g>
 <!-- Node56 -->
 <g id="node4" class="node"><title>Node56</title>
-<g id="a_node4"><a xlink:href="classtools.html#a0765c68c41d7c957f1fb0f0da8b4a9c9" target="_top" xlink:title="tools::copyFile">
+<g id="a_node4"><a xlink:href="classtools.html#a0765c68c41d7c957f1fb0f0da8b4a9c9" target="_top" xlink:title="Copie un fichier de manière sécurisée. ">
 <polygon fill="white" stroke="black" points="235,-287.242 235,-306.242 315,-306.242 315,-287.242 235,-287.242"/>
 <text text-anchor="middle" x="275" y="-294.242" font-family="Helvetica,sans-Serif" font-size="10.00">tools::copyFile</text>
 </a>
@@ -119,7 +119,7 @@ var sectionId = 'dynsection-4';
 </g>
 <!-- Node59 -->
 <g id="node7" class="node"><title>Node59</title>
-<g id="a_node7"><a xlink:href="classtools.html#aae1cdbea84aed049937a52ceb9421794" target="_top" xlink:title="tools::zip">
+<g id="a_node7"><a xlink:href="classtools.html#aae1cdbea84aed049937a52ceb9421794" target="_top" xlink:title="Compresser un fichier au format zip. ">
 <polygon fill="white" stroke="black" points="247,-40.2419 247,-59.2419 303,-59.2419 303,-40.2419 247,-40.2419"/>
 <text text-anchor="middle" x="275" y="-47.2419" font-family="Helvetica,sans-Serif" font-size="10.00">tools::zip</text>
 </a>
@@ -132,7 +132,7 @@ var sectionId = 'dynsection-4';
 </g>
 <!-- Node62 -->
 <g id="node10" class="node"><title>Node62</title>
-<g id="a_node10"><a xlink:href="classtools.html#a22819e1b381949304b8fde11a91a7de3" target="_top" xlink:title="tools::unzip">
+<g id="a_node10"><a xlink:href="classtools.html#a22819e1b381949304b8fde11a91a7de3" target="_top" xlink:title="Décompresser un fichier au format zip. ">
 <polygon fill="white" stroke="black" points="241.5,-211.242 241.5,-230.242 308.5,-230.242 308.5,-211.242 241.5,-211.242"/>
 <text text-anchor="middle" x="275" y="-218.242" font-family="Helvetica,sans-Serif" font-size="10.00">tools::unzip</text>
 </a>
@@ -178,7 +178,7 @@ var sectionId = 'dynsection-4';
 </g>
 <!-- Node60 -->
 <g id="node8" class="node"><title>Node60</title>
-<g id="a_node8"><a xlink:href="classtools.html#aefd7e17f4eeb34a4ab3d254eb3bb0a03" target="_top" xlink:title="tools::zipDir">
+<g id="a_node8"><a xlink:href="classtools.html#aefd7e17f4eeb34a4ab3d254eb3bb0a03" target="_top" xlink:title="Compresse l&#39;intégralité d&#39;un répertoire au format zip, et copie le dossier compressé dans un chemin d...">
 <polygon fill="white" stroke="black" points="385,-21.2419 385,-40.2419 454,-40.2419 454,-21.2419 385,-21.2419"/>
 <text text-anchor="middle" x="419.5" y="-28.2419" font-family="Helvetica,sans-Serif" font-size="10.00">tools::zipDir</text>
 </a>
@@ -224,7 +224,7 @@ var sectionId = 'dynsection-4';
 </g>
 <!-- Node63 -->
 <g id="node11" class="node"><title>Node63</title>
-<g id="a_node11"><a xlink:href="classtools.html#ae821185bfd6650842559ef2f9d92f1ac" target="_top" xlink:title="tools::unzipDir">
+<g id="a_node11"><a xlink:href="classtools.html#ae821185bfd6650842559ef2f9d92f1ac" target="_top" xlink:title="Décompresse l&#39;intégralité d&#39;un répertoire au format zip, et copie le dossier décompressé dans un chem...">
 <polygon fill="white" stroke="black" points="379.5,-211.242 379.5,-230.242 459.5,-230.242 459.5,-211.242 379.5,-211.242"/>
 <text text-anchor="middle" x="419.5" y="-218.242" font-family="Helvetica,sans-Serif" font-size="10.00">tools::unzipDir</text>
 </a>

@@ -40,8 +40,7 @@
 //
 #include "tools.h"
 
-FString tools::htmlLogPath;
-QString tools::tempdir=QDir::homePath ()+QDir::separator()+"tempdir";  // should be equal to main app globals.settings.tempdir=TEMPDIR;
+
 QString  const tools::systemPathPrefix = "/../../../";
 QString tools::userdatadir;
 
@@ -188,7 +187,7 @@ QString tools::dump(const QString &chaine)
     return temp_path;
 }
 
-const QString tools::remAccents(QString str, bool toUpper)
+const QString tools::remAccents(QString &&str, bool toUpper)
   {
       QRegExp rem("[éèê]");
       str.replace(rem, "e").replace("à", "a").replace("ô","o").replace("\'", " ");
@@ -370,7 +369,7 @@ QString tools::generateDatadirPath(const char* path)
 }
 
 
-void tools::openDir(QString path)
+void tools::openDir(const QString& path)
 {
   if (path.isEmpty()) return;
   if (! QFileInfo(path).isDir())

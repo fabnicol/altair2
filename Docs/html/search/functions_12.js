@@ -11,7 +11,7 @@ var searchData=
   ['refreshtreeview',['refreshTreeView',['../class_altair.html#a8a329bbe1b7429dae0386afc0b423712',1,'Altair']]],
   ['regexp',['regexp',['../options_8cpp.html#aa5399073540b3e6a7a9d60a70ef4dd88',1,'options.cpp']]],
   ['reinitialiser_5fprologue',['reinitialiser_prologue',['../classcode_page.html#a8524212298b5473047c5c4f0cadc86a6',1,'codePage::reinitialiser_prologue()'],['../classcode_page.html#a8524212298b5473047c5c4f0cadc86a6',1,'codePage::reinitialiser_prologue()']]],
-  ['remaccents',['remAccents',['../classtools.html#a156182bd3229ed5ad680fd6d154c912b',1,'tools']]],
+  ['remaccents',['remAccents',['../classtools.html#ab3072ad07df18e4e7e3c4b903fa3d11e',1,'tools']]],
   ['rempl_5fstr',['rempl_str',['../options_8cpp.html#aed1be66fe9ab34423b676aa409402c42',1,'options.cpp']]],
   ['renommer',['renommer',['../classtools.html#a888a6211f6956005dba0132e1ee5fd92',1,'tools']]],
   ['requestsaveproject',['requestSaveProject',['../class_altair.html#aab5da600c227ac7eb604fa24a9308d26',1,'Altair']]],

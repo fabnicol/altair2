@@ -82,7 +82,7 @@
 </g>
 <!-- Node4033 -->
 <g id="node35" class="node"><title>Node4033</title>
-<g id="a_node35"><a xlink:href="classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" target="_top" xlink:title="tools::path_access">
+<g id="a_node35"><a xlink:href="classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" target="_top" xlink:title="Renvoie le chemin d&#39;un fichier ou d&#39;un répertoire du répertoire racine de la distribution (adjacent a...">
 <polygon fill="white" stroke="black" points="2019,-332.5 2019,-351.5 2118,-351.5 2118,-332.5 2019,-332.5"/>
 <text text-anchor="middle" x="2068.5" y="-339.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::path_access</text>
 </a>

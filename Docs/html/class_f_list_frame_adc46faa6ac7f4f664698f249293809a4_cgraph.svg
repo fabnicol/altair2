@@ -16,7 +16,7 @@
 </g>
 <!-- Node1162 -->
 <g id="node2" class="node"><title>Node1162</title>
-<g id="a_node2"><a xlink:href="classtools.html#a156182bd3229ed5ad680fd6d154c912b" target="_top" xlink:title="tools::remAccents">
+<g id="a_node2"><a xlink:href="classtools.html#ab3072ad07df18e4e7e3c4b903fa3d11e" target="_top" xlink:title="Remplace les caractères accentués par des caractères proches mains non accentué ">
 <polygon fill="white" stroke="black" points="162,-0.5 162,-19.5 258,-19.5 258,-0.5 162,-0.5"/>
 <text text-anchor="middle" x="210" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::remAccents</text>
 </a>
