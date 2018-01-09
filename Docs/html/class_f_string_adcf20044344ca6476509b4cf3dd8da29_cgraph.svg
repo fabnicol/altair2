@@ -16,7 +16,7 @@
 </g>
 <!-- Node13 -->
 <g id="node2" class="node"><title>Node13</title>
-<g id="a_node2"><a xlink:href="class_f_string.html#a0a4df74dbb571547046f83be3d7fef34" target="_top" xlink:title="FString::testBool">
+<g id="a_node2"><a xlink:href="class_f_string.html#a0a4df74dbb571547046f83be3d7fef34" target="_top" xlink:title="Transforme &#39;oui&#39;, &#39;non&#39; et autres chaines en FString (fixation de la valeur de x) ...">
 <polygon fill="white" stroke="black" points="122,-0.5 122,-19.5 212,-19.5 212,-0.5 122,-0.5"/>
 <text text-anchor="middle" x="167" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FString::testBool</text>
 </a>

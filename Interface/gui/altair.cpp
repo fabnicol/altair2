@@ -635,7 +635,7 @@ bool Altair::updateProject (bool requestSave)
 
 
     Abstract::initH ("base", path_access (DONNEES_SORTIE));
-    Q(v(base).toQString())
+
     Abstract::initH ("lhxDir", path_access (System));
 
     return refreshProjectManager();
