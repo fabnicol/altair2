@@ -730,7 +730,7 @@ void Altair::assignWidgetValues()
 
             textAppend (STATE_HTML_TAG "Version du projet : "
                         + (Hash::wrapper["version"]->isEmpty() ? "non référencée." :
-                           v(version)));
+                           v(version).toQString()));
             textAppend (STATE_HTML_TAG "Version de l'interface : " VERSION);
 
         }

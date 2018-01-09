@@ -91,7 +91,7 @@ public:
  /// Constructeur à valeur quelconque QString donnée
  /// \param s Chaîne FString.
 
- FString(QString s, flags::status flag = flags::status::defaultStatus)
+ explicit FString(QString s, flags::status flag = flags::status::defaultStatus)
  {
    p = s;
    testBool(s, flag);
@@ -99,13 +99,13 @@ public:
 
  /// Constructeur à valeur quelconque const char* donnée
 
- FString(const char* s, flags::status flag = flags::status::defaultStatus)
+ explicit FString(const char* s, flags::status flag = flags::status::defaultStatus)
  {
      p = QString(s);
      testBool(p, flag);
  }
 
- FString(bool value)
+ explicit FString(bool value)
  {
    x = static_cast<int>(value);
 
@@ -120,7 +120,7 @@ public:
  /// \param s Chaîne FString.
  /// \return Copie du FString.
 
- FString(const FString &s) : QString(s.p), x{x}, p{s.p} {}
+ explicit FString(const FString &s) : QString(s.p), x{x}, p{s.p} {}
 
   /// Opérateur & : "oui" & "oui" -> "oui" etc.
   /// \param s Chaîne FString.
@@ -312,8 +312,8 @@ public:
   QStringList join() ;
   QString setEmptyTags(const QStringList &)const;
   const QString setTags(const QStringList &tags, const QVector<FStringList> *properties=nullptr) const;
-  FString toFString() const { return ((this->isEmpty()) || this->at(0).isEmpty())?  FString("") : FString(this->at(0).at(0)); }
-  QString toQString() const { return ((this->isEmpty()) || this->at(0).isEmpty())?  "" : QString(this->at(0).at(0)); }
+  FString toFString() const { return ((this->isEmpty()) || this->at(0).isEmpty())?  FString() : FString(this->at(0).at(0)); }
+  QString toQString() const { return ((this->isEmpty()) || this->at(0).isEmpty())?  "" : this->at(0).at(0); }
   int toInt() const {return ((this->isEmpty() || this->at(0).isEmpty())? 0: this->at(0).at(0).toInt());}
   bool hasNoString() const { return (isEmpty() || (this->at(0).isEmpty()) || (this->at(0).at(0).isEmpty())); }
   bool  isFilled() const { return (!isEmpty() && (!this->at(0).isEmpty()) && (!this->at(0).at(0).isEmpty())); }
