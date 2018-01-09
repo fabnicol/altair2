@@ -99,11 +99,12 @@ public:
 
  /// Constructeur à valeur quelconque const char* donnée
 
- explicit FString(const char* s, flags::status flag = flags::status::defaultStatus)
- {
-     p = QString(s);
-     testBool(p, flag);
- }
+  explicit FString(const char* s) : FString(QString(s))  { x = strcmp(s, "oui") ? (strcmp(s, "non") ? 2 : 0) : 1;}
+// explicit FString(const char* s, flags::status flag = flags::status::defaultStatus)
+// {
+//     p = QString(s);
+//     testBool(p, flag);
+// }
 
  explicit FString(bool value)
  {
@@ -120,7 +121,14 @@ public:
  /// \param s Chaîne FString.
  /// \return Copie du FString.
 
- explicit FString(const FString &s) : QString(s.p), x{x}, p{s.p} {}
+
+ FString(const FString & v) : QString(v.p)
+ {
+   x = v.x;
+   p = v.p;
+ }
+
+ //explicit FString(const FString &s) : QString(s.p), x{x}, p{s.p} {}
 
   /// Opérateur & : "oui" & "oui" -> "oui" etc.
   /// \param s Chaîne FString.
@@ -307,9 +315,9 @@ public:
   }
 
   FStringList(const QString& a, const QString& b, const QString& c):QVector<QStringList>()  { this->append(QStringList() << a << b << c);}
-  FString join(const QStringList &) const ;
-  FString join(const char* s) const {return join(QStringList((QString(s)))); }
-  QStringList join() ;
+  const FString join(const QStringList &) const ;
+  const FString join(const char* s) const {return join(QStringList((QString(s)))); }
+  const QStringList join() ;
   QString setEmptyTags(const QStringList &)const;
   const QString setTags(const QStringList &tags, const QVector<FStringList> *properties=nullptr) const;
   FString toFString() const { return ((this->isEmpty()) || this->at(0).isEmpty())?  FString() : FString(this->at(0).at(0)); }
