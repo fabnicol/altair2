@@ -16,7 +16,7 @@
 </g>
 <!-- Node271 -->
 <g id="node2" class="node"><title>Node271</title>
-<g id="a_node2"><a xlink:href="classtools.html#ae1018e45c513785270b999cbcfa8beb6" target="_top" xlink:title="tools::IOControl">
+<g id="a_node2"><a xlink:href="classtools.html#ae1018e45c513785270b999cbcfa8beb6" target="_top" xlink:title="Procédure de contrôle des entrées&#45;sorties. ">
 <polygon fill="white" stroke="black" points="103,-0.5 103,-19.5 189,-19.5 189,-0.5 103,-0.5"/>
 <text text-anchor="middle" x="146" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::IOControl</text>
 </a>
@@ -29,7 +29,7 @@
 </g>
 <!-- Node272 -->
 <g id="node3" class="node"><title>Node272</title>
-<g id="a_node3"><a xlink:href="classtools.html#a37c9c486d90129b0d6a4ac93f29fd5bb" target="_top" xlink:title="tools::copyDir">
+<g id="a_node3"><a xlink:href="classtools.html#a37c9c486d90129b0d6a4ac93f29fd5bb" target="_top" xlink:title="Copie un répertoire de manière sécurisée. ">
 <polygon fill="white" stroke="black" points="225,-19.5 225,-38.5 302,-38.5 302,-19.5 225,-19.5"/>
 <text text-anchor="middle" x="263.5" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::copyDir</text>
 </a>
@@ -42,7 +42,7 @@
 </g>
 <!-- Node273 -->
 <g id="node4" class="node"><title>Node273</title>
-<g id="a_node4"><a xlink:href="classtools.html#a0765c68c41d7c957f1fb0f0da8b4a9c9" target="_top" xlink:title="tools::copyFile">
+<g id="a_node4"><a xlink:href="classtools.html#a0765c68c41d7c957f1fb0f0da8b4a9c9" target="_top" xlink:title="Copie un fichier de manière sécurisée. ">
 <polygon fill="white" stroke="black" points="338,-0.5 338,-19.5 418,-19.5 418,-0.5 338,-0.5"/>
 <text text-anchor="middle" x="378" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::copyFile</text>
 </a>

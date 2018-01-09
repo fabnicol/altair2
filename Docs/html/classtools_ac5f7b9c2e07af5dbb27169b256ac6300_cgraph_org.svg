@@ -16,7 +16,7 @@
 </g>
 <!-- Node198 -->
 <g id="node2" class="node"><title>Node198</title>
-<g id="a_node2"><a xlink:href="classtools.html#a37c9c486d90129b0d6a4ac93f29fd5bb" target="_top" xlink:title="tools::copyDir">
+<g id="a_node2"><a xlink:href="classtools.html#a37c9c486d90129b0d6a4ac93f29fd5bb" target="_top" xlink:title="Copie un répertoire de manière sécurisée. ">
 <polygon fill="white" stroke="black" points="128,-418.5 128,-437.5 205,-437.5 205,-418.5 128,-418.5"/>
 <text text-anchor="middle" x="166.5" y="-425.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::copyDir</text>
 </a>
@@ -29,7 +29,7 @@
 </g>
 <!-- Node199 -->
 <g id="node3" class="node"><title>Node199</title>
-<g id="a_node3"><a xlink:href="classtools.html#a0765c68c41d7c957f1fb0f0da8b4a9c9" target="_top" xlink:title="tools::copyFile">
+<g id="a_node3"><a xlink:href="classtools.html#a0765c68c41d7c957f1fb0f0da8b4a9c9" target="_top" xlink:title="Copie un fichier de manière sécurisée. ">
 <polygon fill="white" stroke="black" points="273,-456.5 273,-475.5 353,-475.5 353,-456.5 273,-456.5"/>
 <text text-anchor="middle" x="313" y="-463.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::copyFile</text>
 </a>
@@ -42,7 +42,7 @@
 </g>
 <!-- Node200 -->
 <g id="node4" class="node"><title>Node200</title>
-<g id="a_node4"><a xlink:href="classtools.html#ae1018e45c513785270b999cbcfa8beb6" target="_top" xlink:title="tools::IOControl">
+<g id="a_node4"><a xlink:href="classtools.html#ae1018e45c513785270b999cbcfa8beb6" target="_top" xlink:title="Procédure de contrôle des entrées&#45;sorties. ">
 <polygon fill="white" stroke="black" points="407,-380.5 407,-399.5 493,-399.5 493,-380.5 407,-380.5"/>
 <text text-anchor="middle" x="450" y="-387.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::IOControl</text>
 </a>
@@ -68,7 +68,7 @@
 </g>
 <!-- Node203 -->
 <g id="node7" class="node"><title>Node203</title>
-<g id="a_node7"><a xlink:href="classtools.html#ab8c0afc91fe0b36c3c2a66d1daa44f4b" target="_top" xlink:title="tools::getFileSize">
+<g id="a_node7"><a xlink:href="classtools.html#af8dd668ff2d13b46cc2d7cf95d19b297" target="_top" xlink:title="Renvoie la taille d&#39;un fichier en octets. ">
 <polygon fill="white" stroke="black" points="120.5,-304.5 120.5,-323.5 212.5,-323.5 212.5,-304.5 120.5,-304.5"/>
 <text text-anchor="middle" x="166.5" y="-311.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::getFileSize</text>
 </a>
@@ -81,7 +81,7 @@
 </g>
 <!-- Node204 -->
 <g id="node8" class="node"><title>Node204</title>
-<g id="a_node8"><a xlink:href="classtools.html#a52d51b78e3c488a3364006d4e493b3d2" target="_top" xlink:title="tools::openDir">
+<g id="a_node8"><a xlink:href="classtools.html#a87e526e69a91b82f7db7a462a921847c" target="_top" xlink:title="Vérifie l&#39;existence d&#39;un dossier et l&#39;ouvre avec le gestionnaire de fichier du système d&#39;exploitation...">
 <polygon fill="white" stroke="black" points="128,-266.5 128,-285.5 205,-285.5 205,-266.5 128,-266.5"/>
 <text text-anchor="middle" x="166.5" y="-273.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::openDir</text>
 </a>
@@ -94,7 +94,7 @@
 </g>
 <!-- Node205 -->
 <g id="node9" class="node"><title>Node205</title>
-<g id="a_node9"><a xlink:href="classtools.html#ae23a9d29a31142e239d5d72e8201ebf4" target="_top" xlink:title="tools::openDirDialog">
+<g id="a_node9"><a xlink:href="classtools.html#ae23a9d29a31142e239d5d72e8201ebf4" target="_top" xlink:title="Sélectionne un répertoire et renvoie son chemin. ">
 <polygon fill="white" stroke="black" points="114,-228.5 114,-247.5 219,-247.5 219,-228.5 114,-228.5"/>
 <text text-anchor="middle" x="166.5" y="-235.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::openDirDialog</text>
 </a>
@@ -120,7 +120,7 @@
 </g>
 <!-- Node208 -->
 <g id="node12" class="node"><title>Node208</title>
-<g id="a_node12"><a xlink:href="classtools.html#a156182bd3229ed5ad680fd6d154c912b" target="_top" xlink:title="tools::remAccents">
+<g id="a_node12"><a xlink:href="classtools.html#ab3072ad07df18e4e7e3c4b903fa3d11e" target="_top" xlink:title="Remplace les caractères accentués par des caractères proches mains non accentué ">
 <polygon fill="white" stroke="black" points="118.5,-152.5 118.5,-171.5 214.5,-171.5 214.5,-152.5 118.5,-152.5"/>
 <text text-anchor="middle" x="166.5" y="-159.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::remAccents</text>
 </a>
@@ -133,7 +133,7 @@
 </g>
 <!-- Node209 -->
 <g id="node13" class="node"><title>Node209</title>
-<g id="a_node13"><a xlink:href="classtools.html#a22819e1b381949304b8fde11a91a7de3" target="_top" xlink:title="tools::unzip">
+<g id="a_node13"><a xlink:href="classtools.html#a22819e1b381949304b8fde11a91a7de3" target="_top" xlink:title="Décompresser un fichier au format zip. ">
 <polygon fill="white" stroke="black" points="279.5,-114.5 279.5,-133.5 346.5,-133.5 346.5,-114.5 279.5,-114.5"/>
 <text text-anchor="middle" x="313" y="-121.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::unzip</text>
 </a>
@@ -146,7 +146,7 @@
 </g>
 <!-- Node210 -->
 <g id="node14" class="node"><title>Node210</title>
-<g id="a_node14"><a xlink:href="classtools.html#ae821185bfd6650842559ef2f9d92f1ac" target="_top" xlink:title="tools::unzipDir">
+<g id="a_node14"><a xlink:href="classtools.html#ae821185bfd6650842559ef2f9d92f1ac" target="_top" xlink:title="Décompresse l&#39;intégralité d&#39;un répertoire au format zip, et copie le dossier décompressé dans un chem...">
 <polygon fill="white" stroke="black" points="126.5,-76.5 126.5,-95.5 206.5,-95.5 206.5,-76.5 126.5,-76.5"/>
 <text text-anchor="middle" x="166.5" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::unzipDir</text>
 </a>
@@ -159,7 +159,7 @@
 </g>
 <!-- Node211 -->
 <g id="node15" class="node"><title>Node211</title>
-<g id="a_node15"><a xlink:href="classtools.html#aae1cdbea84aed049937a52ceb9421794" target="_top" xlink:title="tools::zip">
+<g id="a_node15"><a xlink:href="classtools.html#aae1cdbea84aed049937a52ceb9421794" target="_top" xlink:title="Compresser un fichier au format zip. ">
 <polygon fill="white" stroke="black" points="285,-38.5 285,-57.5 341,-57.5 341,-38.5 285,-38.5"/>
 <text text-anchor="middle" x="313" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::zip</text>
 </a>
@@ -172,7 +172,7 @@
 </g>
 <!-- Node212 -->
 <g id="node16" class="node"><title>Node212</title>
-<g id="a_node16"><a xlink:href="classtools.html#aefd7e17f4eeb34a4ab3d254eb3bb0a03" target="_top" xlink:title="tools::zipDir">
+<g id="a_node16"><a xlink:href="classtools.html#aefd7e17f4eeb34a4ab3d254eb3bb0a03" target="_top" xlink:title="Compresse l&#39;intégralité d&#39;un répertoire au format zip, et copie le dossier compressé dans un chemin d...">
 <polygon fill="white" stroke="black" points="132,-0.5 132,-19.5 201,-19.5 201,-0.5 132,-0.5"/>
 <text text-anchor="middle" x="166.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::zipDir</text>
 </a>
@@ -200,7 +200,7 @@
 </g>
 <!-- Node202 -->
 <g id="node6" class="node"><title>Node202</title>
-<g id="a_node6"><a xlink:href="classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" target="_top" xlink:title="tools::path_access">
+<g id="a_node6"><a xlink:href="classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" target="_top" xlink:title="Renvoie le chemin d&#39;un fichier ou d&#39;un répertoire du répertoire racine de la distribution (adjacent a...">
 <polygon fill="white" stroke="black" points="263.5,-342.5 263.5,-361.5 362.5,-361.5 362.5,-342.5 263.5,-342.5"/>
 <text text-anchor="middle" x="313" y="-349.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::path_access</text>
 </a>

@@ -1,6 +1,6 @@
 <map id="Altair::processFinished" name="Altair::processFinished">
 <area shape="rect" id="node2" href="$classtools.html#a507c567954c39f293c8ab884a0fbcc32" title="Calcule le cumul de la taille des fichiers, éventuellement restreints à une extension donnée..." alt="" coords="208,5,363,32"/>
-<area shape="rect" id="node3" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="tools::path_access" alt="" coords="2078,157,2210,184"/>
+<area shape="rect" id="node3" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="Renvoie le chemin d&#39;un fichier ou d&#39;un répertoire du répertoire racine de la distribution (adjacent a..." alt="" coords="2078,157,2210,184"/>
 <area shape="rect" id="node4" href="$class_altair.html#afd71c35a3a71291b0d4eece1058de4f0" title="Lance l&#39;application Rstudio et les scripts R. " alt="" coords="226,393,345,420"/>
 <area shape="rect" id="node5" href="$class_altair.html#a4995cdc9462838289b5b1df75edba552" title="Ajouter du texte à l&#39;onglet des messages. " alt="" coords="411,696,537,723"/>
 <area shape="rect" id="node35" href="$class_altair.html#ae04f2a5771d47bbe2e0cc3a11b72d6bf" title="Parcourt le répertoire en cours du mode distributif, un à chaque appel Exporte l&#39;identification dans ..." alt="" coords="757,228,940,255"/>

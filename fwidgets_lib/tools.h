@@ -81,114 +81,132 @@ class tools : public flags
 
 public:
 
-  static QString userdatadir; ///< Répertoire d'importation des données de paye (\b xhl).
-  static QString tempdir;
+static QString userdatadir; ///< Répertoire d'importation des données de paye (\b xhl).
 
+static const QString   systemPathPrefix; ///< permet de remonter de l'application \em Altair à la racine de la distribution.
 
-  /// Constructeur par défaut.
+#ifdef Q_OS_WIN
 
-  tools()   { }
+    QString   System = "win" + QString(CORE2);
+    QString   systemSuffix = ".exe";
 
-  /// Reliquat de la forme générale de la bibliothèque, qui permet aussi d'enchâsser des onglets.
+    #ifndef LOCAL_BINPATH
+    #define LOCAL_BINPATH
+   #endif
+#else
+  #ifdef Q_OS_LINUX
+      QString System = "linux";  ///< Type de système d'exploitation.
+      QString   systemSuffix = ""; ///< Extension des exécutables.
+      #ifndef PREFIX
+       #define PREFIX "/usr"  ///< Répertoire usuel d'installation du répertoire bin/... des exécutables. Non-utilisé.
+      #endif
+  #endif
+#endif
 
-  enum class TabWidgetTrait {NO_EMBEDDING_TAB_WIDGET=-1};
+/// Constructeur par défaut.
 
-  /// Extrait le nom du sous-dossier d'un dossier de paye dans le cas d'une exportation de paye distributive.
-  /// \param s Chemin du fichier
-  /// \param subDir Répertoire global d'exportation
-  /// \return Nom du sous-dossier de \em s dans \em subDir
+tools()   { }
 
-  const QString getEmbeddedPath(QString s, QString subDir = "");
+/// Reliquat de la forme générale de la bibliothèque, qui permet aussi d'enchâsser des onglets.
 
-  /// Détecte si un disque optique est monté.
-  /// \return Chemin du disque optique s'il est monté, blanc sinon.
-  static QString cdRomMounted();
+enum class TabWidgetTrait {NO_EMBEDDING_TAB_WIDGET=-1};
 
-  /// Crée le chemin vers le dossier local de paramétrage
-  /// \param path Sous répertoire créé. Si path est vide, le chemin par défaut.
-  /// \return Chemin correspondant à ce sous-répertoire.\n
-  ///         Sous linux : ~/.local/share/Altair/path
+/// Extrait le nom du sous-dossier d'un dossier de paye dans le cas d'une exportation de paye distributive.
+/// \param s Chemin du fichier.
+/// \param subDir Répertoire global d'exportation.
+/// \return Nom du sous-dossier de \em s dans \em subDir.
 
-  static QString generateDatadirPath(const char* path = "");
+const QString getEmbeddedPath(QString s, QString subDir = "");
 
-  /// Crée le chemin vers le dossier local de paramétrage
-  /// \param path Sous répertoire créé. Si path est vide, le chemin par défaut.
-  /// \return Chemin correspondant à ce sous-répertoire.\n
-  ///         Sous linux : ~/.local/share/Altair/path
+/// Détecte si un disque optique est monté.
+/// \return Chemin du disque optique s'il est monté, blanc sinon.
+static QString cdRomMounted();
 
-  static QString generateDatadirPath(const QString &path);
+/// Crée le chemin vers le dossier local de paramétrage
+/// \param path Sous répertoire créé. Si path est vide, le chemin par défaut.
+/// \return Chemin correspondant à ce sous-répertoire.\n
+///         Sous linux : ~/.local/share/Altair/path
 
-  /// Calcule le cumul de la taille des fichiers, éventuellement restreints à une extension donnée, sans un répertoire.
-  /// \param path Chemin du répertoire.
-  /// \param extension Extension de fichier servant à filtrer le calcul.
+static QString generateDatadirPath(const char* path = "");
 
-  static qint64 getDirectorySize(const QString &path, const QString &extension="");
+/// Crée le chemin vers le dossier local de paramétrage
+/// \param path Sous répertoire créé. Si path est vide, le chemin par défaut.
+/// \return Chemin correspondant à ce sous-répertoire.\n
+///         Sous linux : ~/.local/share/Altair/path
 
-  /// Renomme un fichier
-  /// \param ancien Ancien nom.
-  /// \param nouveau Nouveau nom.
-  /// \bool \em true si réussit, \em false sinon.
+static QString generateDatadirPath(const QString &path);
 
-  bool renommer(const QString& ancien, const QString& nouveau);
+/// Calcule le cumul de la taille des fichiers, éventuellement restreints à une extension donnée, sans un répertoire.
+/// \param path Chemin du répertoire.
+/// \param extension Extension de fichier servant à filtrer le calcul.
 
-  /// Remplace des chaînes de caractères, lorsqu'elles correspondent à une expression rationnelle, dans une chaîne de caractères donnée par une chaîne de caractères donnée.
-  /// \param reg Expression rationnelle.
-  /// \param repl Chaîne de caractère de remplacement.
-  /// \param str Chaîne de caractères à modifier par référence.
-  /// \return Booléen : \em true si la chaîne str est non vide après modification, \em false sinon.
+static qint64 getDirectorySize(const QString &path, const QString &extension="");
 
-  bool substituer(const QString &reg, const QString &repl, QString &str);
+/// Renomme un fichier
+/// \param ancien Ancien nom.
+/// \param nouveau Nouveau nom.
+/// \bool \em true si réussit, \em false sinon.
 
-  /// Liste un fichier entre deux lignes données et sur une largeur donnée.
-  /// \param path Chemin du fichier.
-  /// \param list Liste des lignes du fichier lues et empilées.
-  /// \param start Rang de la ligne de départ de la lecture du fichier (\em 1-based).
-  /// \param start Rang de la ligne de fin de la lecture du fichier (\em 1-based).
-  /// \param width Largeur de la lecture en nombre de caractères
-  /// \return Rang (\em 1-based) de la dernière ligne lue.
-  /// \note l'argument list est la sortie réelle de la fonction.
+bool renommer(const QString& ancien, const QString& nouveau);
 
-  int readFile(const QString &path, QStringList &list, int start=0, int stop=-1, int width=0);
+/// Remplace des chaînes de caractères, lorsqu'elles correspondent à une expression rationnelle, dans une chaîne de caractères donnée par une chaîne de caractères donnée.
+/// \param reg Expression rationnelle.
+/// \param repl Chaîne de caractère de remplacement.
+/// \param str Chaîne de caractères à modifier par référence.
+/// \return Booléen : \em true si la chaîne str est non vide après modification, \em false sinon.
 
-  /// List un fichier entre deux lignes données et sur une largeur donnée.
-  /// \param path Chemin du fichier.
-  /// \param list Liste des lignes du fichier lues et empilées.
-  /// \param start Rang de la ligne de départ de la lecture du fichier (\em 1-based).
-  /// \param start Rang de la ligne de fin de la lecture du fichier (\em 1-based).
-  /// \param width Largeur de la lecture en nombre de caractères
-  /// \return Rang (\em 1-based) de la dernière ligne lue.
-  /// \note l'argument \em list est la sortie réelle de la fonction.\n
-  /// Surcharge de la méthode précédente.
+bool substituer(const QString &reg, const QString &repl, QString &str);
 
-  int readFile(const char* path, QStringList &list, int start=0, int stop=-1, int width=0)
-  {
-    QString pathstr=QString(path);
-    return readFile(pathstr, list, start, stop, width);
-  }
+/// Liste un fichier entre deux lignes données et sur une largeur donnée.
+/// \param path Chemin du fichier.
+/// \param list Liste des lignes du fichier lues et empilées.
+/// \param start Rang de la ligne de départ de la lecture du fichier (\em 1-based).
+/// \param start Rang de la ligne de fin de la lecture du fichier (\em 1-based).
+/// \param width Largeur de la lecture en nombre de caractères.
+/// \return Rang (\em 1-based) de la dernière ligne lue.
+/// \note l'argument list est la sortie réelle de la fonction.
 
-  /// List un fichier entre deux lignes données et sur une largeur donnée.
-  /// \param path Chemin du fichier.
-  /// \param start Rang de la ligne de départ de la lecture du fichier (\em 1-based).
-  /// \param start Rang de la ligne de fin de la lecture du fichier (\em 1-based).
-  /// \param width Largeur de la lecture en nombre de caractères
-  /// \return Chaîne de caractères correspondant aux lignes lues et extraites.
-  /// \note Surcharge des méthodes précédentes.
+int readFile(const QString &path, QStringList &list, int start=0, int stop=-1, int width=0);
 
-  QString readFile(const QString &path,  int start=0, int stop=-1, int width=0);
+/// List un fichier entre deux lignes données et sur une largeur donnée.
+/// \param path Chemin du fichier.
+/// \param list Liste des lignes du fichier lues et empilées.
+/// \param start Rang de la ligne de départ de la lecture du fichier (\em 1-based).
+/// \param start Rang de la ligne de fin de la lecture du fichier (\em 1-based).
+/// \param width Largeur de la lecture en nombre de caractères
+/// \return Rang (\em 1-based) de la dernière ligne lue.
+/// \note l'argument \em list est la sortie réelle de la fonction.\n
+/// Surcharge de la méthode précédente.
 
-  /// List un fichier entre deux lignes données et sur une largeur donnée.
-  /// \param path Chemin du fichier.
-  /// \param start Rang de la ligne de départ de la lecture du fichier (\em 1-based).
-  /// \param start Rang de la ligne de fin de la lecture du fichier (\em 1-based).
-  /// \param width Largeur de la lecture en nombre de caractères
-  /// \return Chaîne de caractères correspondant aux lignes lues et extraites.
-  /// \note Surcharge de la méthode précédente.
+int readFile(const char* path, QStringList &list, int start=0, int stop=-1, int width=0)
+{
+QString pathstr=QString(path);
+return readFile(pathstr, list, start, stop, width);
+}
 
-  QString readFile(const char* path,  int start=0, int stop=-1, int width=0)
-  {
-    QString pathstr=QString(path);
-    return readFile(pathstr, start, stop, width);
-  }
+/// Lit un fichier entre deux lignes données et sur une largeur donnée.
+/// \param path Chemin du fichier.
+/// \param start Rang de la ligne de départ de la lecture du fichier (\em 1-based).
+/// \param start Rang de la ligne de fin de la lecture du fichi.er (\em 1-based).
+/// \param width Largeur de la lecture en nombre de caractères
+/// \return Chaîne de caractères correspondant aux lignes lues et extraites.
+/// \note Surcharge des méthodes précédentes.
+
+QString readFile(const QString &path,  int start=0, int stop=-1, int width=0);
+
+/// List un fichier entre deux lignes données et sur une largeur donnée.
+/// \param path Chemin du fichier.
+/// \param start Rang de la ligne de départ de la lecture du fichier (\em 1-based).
+/// \param start Rang de la ligne de fin de la lecture du fichier (\em 1-based).
+/// \param width Largeur de la lecture en nombre de caractères.
+/// \return Chaîne de caractères correspondant aux lignes lues et extraites.
+/// \note Surcharge de la méthode précédente.
+
+QString readFile(const char* path,  int start=0, int stop=-1, int width=0)
+{
+QString pathstr=QString(path);
+return readFile(pathstr, start, stop, width);
+}
 
 /// Créer un fichier temporaire temp dans le répertoire racine et le remplit avec une chaîone de caractères.
 /// \param chaine La chaîne de caractères en entrant.
@@ -197,64 +215,107 @@ public:
 QString dump(const QString &chaine);
 
 
+/// Compresser un fichier au format zip.
+/// \param filename Chemin du fichier entrant.
+/// \param zipfinename Chemin du fichier sortant.
+/// \return Booléen : \em true si l'opération a réussi, \em false sinon.
+
 static bool zip (const QString& filename , const QString& zipfilename);
 
+/// Décompresser un fichier au format zip.
+/// \param zipfilename Chemin du fichier entrant.
+/// \param finename Chemin du fichier sortant.
+/// \return Booléen : \em true si l'opération a réussi, \em false sinon.
 
 static bool unzip (const QString& zipfilename , const QString& filename);
 
+/// Procédure de contrôle des entrées-sorties.
+/// Vérifie que le fichier entrant existe, que le fichier sortant a pu être créé.
+/// En cas de réécriture d'un fichier existant résultant de l'écrasement par un fichier sortant,\n
+/// vérifie que la réécriture est autorisée et effective.
+/// \param in Chemin du fichier entrant.
+/// \param out Chemin du fichier sortant.
+/// \param comment Commentaire préposé devant le message "va être écrasé" en cas de réécriture d'un fichier existant.
+/// \param require Si \em require vaut \em true, alors si le fichier entrant n'existe pas, un dialogue d'erreur critique est déclenché.
+/// \return Booléen : \em true si la vérification est réussie, \em false sinon.
+/// \warning \em require =  \em true est à éviter pour les traitements de masse.
 
-static bool IOControl(const QString& in, const QString& out, const QString& comment="", bool require = false);
+static bool IOControl(const QString& in, const QString& out, const QString& comment = "", bool require = false);
+
+/// Copie un fichier de manière sécurisée.
+/// Appelle tools::IOControl.
+/// Vérifie que le fichier entrant existe, que le fichier sortant a pu être créé.
+/// En cas de réécriture d'un fichier existant résultant de l'écrasement par un fichier sortant,\n
+/// vérifie que la réécriture est autorisée et effective.
+/// \param in Chemin du fichier entrant.
+/// \param out Chemin du fichier sortant.
+/// \param comment Commentaire préposé devant le message "va être écrasé" en cas de réécriture d'un fichier existant.
+/// \param require Si \em require vaut \em true, alors si le fichier entrant n'existe pas, un dialogue d'erreur critique est déclenché.
+/// \return Booléen : \em true si la vérification est réussie, \em false sinon.
+/// \warning \em require =  \em true est à éviter pour les traitements de masse.
 
 
 static bool copyFile(const QString &in, const QString &out, const QString& comment = "", bool require = false);
 
+/// Copie un répertoire de manière sécurisée.
+/// Vérifie que les fichiers sortants ont pu être créés.
+/// En cas de réécriture d'un fichier existant résultant de l'écrasement par un fichier sortant,\n
+/// vérifie que la réécriture est autorisée et effective.
+/// \param in Chemin du répertoire entrant.
+/// \param out Chemin du répertoire sortant.
+/// \param comment Commentaire préposé devant le message "va être écrasé" en cas de réécriture d'un fichier existant.
+/// \return Booléen : \em true si la vérification est réussie, \em false sinon.
+/// \note Appelle tools::IOControl avec le paramètre \em require fixé à \em false.
 
 static bool copyDir(const QString &in, const QString &out, const QString& comment = "");
 
+/// Compresse l'intégralité d'un répertoire au format \b zip, et copie le dossier compressé dans un chemin donné.
+/// \param in Chemin du répertoire entrant.
+/// \param out Chemin du fichier sortant.
+/// \return Booléen : \em true si l'opération a réussi, \em false sinon.
 
 static bool zipDir (const QString& inPath , const QString& outPath);
 
+/// Décompresse l'intégralité d'un répertoire au format \b zip, et copie le dossier décompressé dans un chemin donné.
+/// \param in Chemin du fichier \b.zip entrant.
+/// \param out Chemin du répertoire décompressé sortant.
+/// \return Booléen : \em true si l'opération a réussi, \em false sinon.
 
 static bool unzipDir (const QString& inPath , const QString& outPath);
 
+/// Remplace les caractères accentués par des caractères proches mains non accentué
+/// \param str Chaîne de caractères à modifier.
+/// \param toUpper Booléen : \em true si la chaîne doit être aussi mis en lettres majuscules, \em false sinon.
+/// \return La chaîne de caractères modifiée.
+/// \warning La chaîne à modifier est du type <i>r-value reference</i> et doit donc résulter d'un retour d'une autre fonction (par exemple).
 
-static const QString remAccents(QString str, bool toUpper = false);
+static const QString remAccents(QString &&str, bool toUpper = false);
+
+/// Vérifie l'existence d'un dossier et l'ouvre avec le gestionnaire de fichier du système d'exploitation.
+/// \param path Chemin du dossier.
+
+static void openDir(const QString& path);
+
+/// Renvoie la taille d'un fichier en octets.
+/// \param path Chemin du fichier.
+/// \return Taille du fichier.
+
+static qint64 getFileSize(const QString &path);
 
 
-static void openDir(QString path);
-
-
-static qint64 getFileSize(const QString &);
-
+/// Sélectionne un répertoire et renvoie son chemin.
+/// Vérifie que le répertoire est vide optionnellement, et dans ce cas le nettoie après s'être assuré de l'accord de l'utilisateur.
+/// \param checkEmptyness Vérifie si le répertoire est vide (si vaut directory::checkEmptyness) et alors le nettoie avec l'accord de l'utilisateur. Si vaut directory::noCheck, ne fait rien.
+/// \return Chemin du répertoire sélectionné.
 
 static const QString openDirDialog(flags::directory checkEmptyness = directory::noCheck);
 
+/// Renvoie le chemin d'un fichier ou d'un répertoire du répertoire racine de la distribution (adjacent au répertoire \em Interface)
+/// \param s Nom du fichier ou répertoire.
+/// \return Chemin complet du fichier ou répertoire.
+
 static const QString path_access(const QString& s) {return QDir::toNativeSeparators(QDir::cleanPath(QCoreApplication::applicationDirPath()+ systemPathPrefix +  s)); }
 
-
-static FString  htmlLogPath;
-
-
-static const QString   systemPathPrefix;
-
-#ifdef Q_OS_WIN
-
-      QString   System = "win" + QString(CORE2);
-      QString   systemSuffix = ".exe";
-
-      #ifndef LOCAL_BINPATH
-      #define LOCAL_BINPATH
-     #endif
-#else
-    #ifdef Q_OS_LINUX
-        QString System = "linux";
-        QString   systemSuffix = "";
-        #ifndef PREFIX
-         #define PREFIX "/usr"
-        #endif
-    #endif
-#endif
- 
 };
 
 #endif // tools_H

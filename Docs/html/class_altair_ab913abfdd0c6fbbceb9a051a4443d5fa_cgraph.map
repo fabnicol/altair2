@@ -31,7 +31,7 @@
 <area shape="rect" id="node22" href="$class_f_list_frame.html#a73aaa61fe9f56248049e96722c17b164" title="Accesseur en lecture du composant (widget) courant dans le conteneur widgetContainer. " alt="" coords="3057,1199,3256,1225"/>
 <area shape="rect" id="node26" href="$class_main_window.html#ab58113ae4ed9a73ec3e3e5f83c98dfcc" title="Vérifie si par défaut le projet .alt doit être enregistré à chaque modification de l&#39;état de l&#39;interf..." alt="" coords="2820,277,3007,318"/>
 <area shape="rect" id="node30" href="$class_altair.html#a43120f9909d0284074119529a03df85b" title="Ecrit le projet XML d&#39;extension .alt contenant les références des donnéees de paye. " alt="" coords="2838,567,2989,593"/>
-<area shape="rect" id="node34" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="tools::path_access" alt="" coords="2847,175,2979,201"/>
+<area shape="rect" id="node34" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="Renvoie le chemin d&#39;un fichier ou d&#39;un répertoire du répertoire racine de la distribution (adjacent a..." alt="" coords="2847,175,2979,201"/>
 <area shape="rect" id="node25" href="$class_main_window.html#affa76730fa370a3466b62a4caee721e3" title="Actualise la liste des fichiers de projet .alt récents dans le menu Fichier. " alt="" coords="3063,429,3250,470"/>
 <area shape="rect" id="node27" href="$class_main_window.html#acb0d089a9bd777962ddd3e7d30e81c1a" title="Sauvegarde du projet .alt selon un chemin à spécifier. " alt="" coords="3061,284,3252,311"/>
 <area shape="rect" id="node28" href="$class_main_window.html#a7ca647c33971b09cd6ef4af33937369e" title="Envoie du texte formaté HTML dans l&#39;onglet Console. " alt="" coords="3055,135,3259,177"/>

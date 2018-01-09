@@ -633,8 +633,9 @@ bool Altair::updateProject (bool requestSave)
     if (parent->isDefaultSaveProjectChecked() || requestSave)
         writeProjectFile();
 
-    // Les
+
     Abstract::initH ("base", path_access (DONNEES_SORTIE));
+    Q(v(base).toQString())
     Abstract::initH ("lhxDir", path_access (System));
 
     return refreshProjectManager();
@@ -729,7 +730,7 @@ void Altair::assignWidgetValues()
 
             textAppend (STATE_HTML_TAG "Version du projet : "
                         + (Hash::wrapper["version"]->isEmpty() ? "non référencée." :
-                           v(version).toQString()));
+                           v(version)));
             textAppend (STATE_HTML_TAG "Version de l'interface : " VERSION);
 
         }

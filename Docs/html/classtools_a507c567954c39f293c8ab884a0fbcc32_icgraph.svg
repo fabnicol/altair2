@@ -16,7 +16,7 @@
 </g>
 <!-- Node96 -->
 <g id="node2" class="node"><title>Node96</title>
-<g id="a_node2"><a xlink:href="classtools.html#ae23a9d29a31142e239d5d72e8201ebf4" target="_top" xlink:title="tools::openDirDialog">
+<g id="a_node2"><a xlink:href="classtools.html#ae23a9d29a31142e239d5d72e8201ebf4" target="_top" xlink:title="Sélectionne un répertoire et renvoie son chemin. ">
 <polygon fill="white" stroke="black" points="157.5,-38.5 157.5,-57.5 262.5,-57.5 262.5,-38.5 157.5,-38.5"/>
 <text text-anchor="middle" x="210" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::openDirDialog</text>
 </a>

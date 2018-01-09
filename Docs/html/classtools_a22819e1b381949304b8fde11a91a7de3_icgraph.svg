@@ -42,7 +42,7 @@
 </g>
 <!-- Node277 -->
 <g id="node4" class="node"><title>Node277</title>
-<g id="a_node4"><a xlink:href="classtools.html#ae821185bfd6650842559ef2f9d92f1ac" target="_top" xlink:title="tools::unzipDir">
+<g id="a_node4"><a xlink:href="classtools.html#ae821185bfd6650842559ef2f9d92f1ac" target="_top" xlink:title="Décompresse l&#39;intégralité d&#39;un répertoire au format zip, et copie le dossier décompressé dans un chem...">
 <polygon fill="white" stroke="black" points="103,-28.5 103,-47.5 183,-47.5 183,-28.5 103,-28.5"/>
 <text text-anchor="middle" x="143" y="-35.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::unzipDir</text>
 </a>

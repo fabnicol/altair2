@@ -1,7 +1,7 @@
 <map id="MainWindow::restoreProject" name="MainWindow::restoreProject">
-<area shape="rect" id="node2" href="$classtools.html#a0765c68c41d7c957f1fb0f0da8b4a9c9" title="tools::copyFile" alt="" coords="395,5,501,32"/>
-<area shape="rect" id="node5" href="$classtools.html#a22819e1b381949304b8fde11a91a7de3" title="tools::unzip" alt="" coords="403,56,493,83"/>
-<area shape="rect" id="node6" href="$classtools.html#ae821185bfd6650842559ef2f9d92f1ac" title="tools::unzipDir" alt="" coords="240,107,347,133"/>
-<area shape="rect" id="node3" href="$classtools.html#ae1018e45c513785270b999cbcfa8beb6" title="tools::IOControl" alt="" coords="549,56,664,83"/>
-<area shape="rect" id="node4" href="$classtools.html#a37c9c486d90129b0d6a4ac93f29fd5bb" title="tools::copyDir" alt="" coords="712,31,815,57"/>
+<area shape="rect" id="node2" href="$classtools.html#a0765c68c41d7c957f1fb0f0da8b4a9c9" title="Copie un fichier de manière sécurisée. " alt="" coords="395,5,501,32"/>
+<area shape="rect" id="node5" href="$classtools.html#a22819e1b381949304b8fde11a91a7de3" title="Décompresser un fichier au format zip. " alt="" coords="403,56,493,83"/>
+<area shape="rect" id="node6" href="$classtools.html#ae821185bfd6650842559ef2f9d92f1ac" title="Décompresse l&#39;intégralité d&#39;un répertoire au format zip, et copie le dossier décompressé dans un chem..." alt="" coords="240,107,347,133"/>
+<area shape="rect" id="node3" href="$classtools.html#ae1018e45c513785270b999cbcfa8beb6" title="Procédure de contrôle des entrées&#45;sorties. " alt="" coords="549,56,664,83"/>
+<area shape="rect" id="node4" href="$classtools.html#a37c9c486d90129b0d6a4ac93f29fd5bb" title="Copie un répertoire de manière sécurisée. " alt="" coords="712,31,815,57"/>
 </map>

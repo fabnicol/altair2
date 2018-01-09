@@ -8,6 +8,5 @@ var searchData=
   ['height',['height',['../class_main_window.html#af1d653658cae4585c7124a33bda496ed',1,'MainWindow']]],
   ['helpaction',['helpAction',['../class_main_window.html#add8f4264db92b536da73c849e14bd3c7',1,'MainWindow']]],
   ['highlighter',['highlighter',['../class_main_window.html#ae653e799d7c4b702ad23f9a5f5b134e7',1,'MainWindow']]],
-  ['highlightingrules',['highlightingRules',['../class_highlighter.html#aa23f8b3f4ddd1354f508b46d77897fe5',1,'Highlighter']]],
-  ['htmllogpath',['htmlLogPath',['../classtools.html#a7830132e1d70918dd6c74464a5f682b8',1,'tools']]]
+  ['highlightingrules',['highlightingRules',['../class_highlighter.html#aa23f8b3f4ddd1354f508b46d77897fe5',1,'Highlighter']]]
 ];

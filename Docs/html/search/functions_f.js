@@ -13,7 +13,7 @@ var searchData=
   ['on_5fopenprojectbutton_5fclicked',['on_openProjectButton_clicked',['../class_altair.html#ab98d384297c6b94ff65a683eb5f99633',1,'Altair']]],
   ['on_5foptionsbutton_5fclicked',['on_optionsButton_clicked',['../class_main_window.html#ada819642366cdebf4f9e63ecf8191a37',1,'MainWindow']]],
   ['on_5fprintbase_5fclicked',['on_printBase_clicked',['../class_main_window.html#ae33ce4e52340c8b93f45c8ca2481002e',1,'MainWindow']]],
-  ['opendir',['openDir',['../classtools.html#a52d51b78e3c488a3364006d4e493b3d2',1,'tools']]],
+  ['opendir',['openDir',['../classtools.html#a87e526e69a91b82f7db7a462a921847c',1,'tools']]],
   ['opendirdialog',['openDirDialog',['../classtools.html#ae23a9d29a31142e239d5d72e8201ebf4',1,'tools']]],
   ['openprojectfile',['openProjectFile',['../class_altair.html#a84cf34107cd413ab33800b583bdef59e',1,'Altair']]],
   ['openprojectfilecommoncode',['openProjectFileCommonCode',['../class_altair.html#aa341707131924eff160bcab41422d1ec',1,'Altair']]],

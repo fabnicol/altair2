@@ -1,12 +1,12 @@
 <map id="tools::copyFile" name="tools::copyFile">
-<area shape="rect" id="node2" href="$classtools.html#a37c9c486d90129b0d6a4ac93f29fd5bb" title="tools::copyDir" alt="" coords="160,183,263,209"/>
+<area shape="rect" id="node2" href="$classtools.html#a37c9c486d90129b0d6a4ac93f29fd5bb" title="Copie un répertoire de manière sécurisée. " alt="" coords="160,183,263,209"/>
 <area shape="rect" id="node3" href="$class_main_window.html#a0931b2b0fde3d9c2b983d7eded8724a0" title="Enregistrer l&#39;ensemble des données d&#39;output (bases CSV, rapports...) dans un répertoire. " alt="" coords="311,233,493,260"/>
 <area shape="rect" id="node7" href="$classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" title="List un fichier entre deux lignes données et sur une largeur donnée. " alt="" coords="875,183,979,209"/>
 <area shape="rect" id="node11" href="$class_main_window.html#ae11018a1c92bd7f20ff54a3f78eacb51" title="Désarchiver le projet. " alt="" coords="834,385,1021,412"/>
-<area shape="rect" id="node4" href="$classtools.html#ae1018e45c513785270b999cbcfa8beb6" title="tools::IOControl" alt="" coords="345,132,459,159"/>
-<area shape="rect" id="node5" href="$classtools.html#aae1cdbea84aed049937a52ceb9421794" title="tools::zip" alt="" coords="549,56,623,83"/>
-<area shape="rect" id="node9" href="$classtools.html#a22819e1b381949304b8fde11a91a7de3" title="tools::unzip" alt="" coords="541,335,631,361"/>
-<area shape="rect" id="node6" href="$classtools.html#aefd7e17f4eeb34a4ab3d254eb3bb0a03" title="tools::zipDir" alt="" coords="686,31,778,57"/>
+<area shape="rect" id="node4" href="$classtools.html#ae1018e45c513785270b999cbcfa8beb6" title="Procédure de contrôle des entrées&#45;sorties. " alt="" coords="345,132,459,159"/>
+<area shape="rect" id="node5" href="$classtools.html#aae1cdbea84aed049937a52ceb9421794" title="Compresser un fichier au format zip. " alt="" coords="549,56,623,83"/>
+<area shape="rect" id="node9" href="$classtools.html#a22819e1b381949304b8fde11a91a7de3" title="Décompresser un fichier au format zip. " alt="" coords="541,335,631,361"/>
+<area shape="rect" id="node6" href="$classtools.html#aefd7e17f4eeb34a4ab3d254eb3bb0a03" title="Compresse l&#39;intégralité d&#39;un répertoire au format zip, et copie le dossier compressé dans un chemin d..." alt="" coords="686,31,778,57"/>
 <area shape="rect" id="node8" href="$class_main_window.html#a34512b73d3342c5a5b59a8f420d4d4c4" title="Archiver le projet courant. " alt="" coords="833,5,1021,32"/>
-<area shape="rect" id="node10" href="$classtools.html#ae821185bfd6650842559ef2f9d92f1ac" title="tools::unzipDir" alt="" coords="679,335,785,361"/>
+<area shape="rect" id="node10" href="$classtools.html#ae821185bfd6650842559ef2f9d92f1ac" title="Décompresse l&#39;intégralité d&#39;un répertoire au format zip, et copie le dossier décompressé dans un chem..." alt="" coords="679,335,785,361"/>
 </map>

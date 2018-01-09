@@ -16,7 +16,7 @@
 </g>
 <!-- Node25 -->
 <g id="node2" class="node"><title>Node25</title>
-<g id="a_node2"><a xlink:href="classtools.html#a52d51b78e3c488a3364006d4e493b3d2" target="_top" xlink:title="tools::openDir">
+<g id="a_node2"><a xlink:href="classtools.html#a87e526e69a91b82f7db7a462a921847c" target="_top" xlink:title="Vérifie l&#39;existence d&#39;un dossier et l&#39;ouvre avec le gestionnaire de fichier du système d&#39;exploitation...">
 <polygon fill="white" stroke="black" points="186,-38.5 186,-57.5 263,-57.5 263,-38.5 186,-38.5"/>
 <text text-anchor="middle" x="224.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::openDir</text>
 </a>
@@ -29,7 +29,7 @@
 </g>
 <!-- Node26 -->
 <g id="node3" class="node"><title>Node26</title>
-<g id="a_node3"><a xlink:href="classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" target="_top" xlink:title="tools::path_access">
+<g id="a_node3"><a xlink:href="classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" target="_top" xlink:title="Renvoie le chemin d&#39;un fichier ou d&#39;un répertoire du répertoire racine de la distribution (adjacent a...">
 <polygon fill="white" stroke="black" points="175,-0.5 175,-19.5 274,-19.5 274,-0.5 175,-0.5"/>
 <text text-anchor="middle" x="224.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::path_access</text>
 </a>
