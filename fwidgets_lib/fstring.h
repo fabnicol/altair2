@@ -91,7 +91,7 @@ public:
  /// Constructeur à valeur quelconque QString donnée
  /// \param s Chaîne FString.
 
- explicit FString(QString s, flags::status flag = flags::status::defaultStatus)
+ explicit FString(QString s, flags::status flag = flags::status::defaultStatus) : QString(s)
  {
    p = s;
    testBool(s, flag);
@@ -99,12 +99,11 @@ public:
 
  /// Constructeur à valeur quelconque const char* donnée
 
-  explicit FString(const char* s) : FString(QString(s))  { x = strcmp(s, "oui") ? (strcmp(s, "non") ? 2 : 0) : 1;}
-// explicit FString(const char* s, flags::status flag = flags::status::defaultStatus)
-// {
-//     p = QString(s);
-//     testBool(p, flag);
-// }
+ explicit FString(const char* s, flags::status flag = flags::status::defaultStatus) :  QString(s)
+  {
+      p = s;
+      testBool(p, flag);
+  }
 
  explicit FString(bool value)
  {
@@ -121,14 +120,7 @@ public:
  /// \param s Chaîne FString.
  /// \return Copie du FString.
 
-
- FString(const FString & v) : QString(v.p)
- {
-   x = v.x;
-   p = v.p;
- }
-
- //explicit FString(const FString &s) : QString(s.p), x{x}, p{s.p} {}
+ explicit FString(FString &s) : QString(s.p), x{s.x}, p{std::move(s.p)} {}
 
   /// Opérateur & : "oui" & "oui" -> "oui" etc.
   /// \param s Chaîne FString.
