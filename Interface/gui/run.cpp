@@ -404,7 +404,7 @@ void Altair::run()
             return;
         }
 
-    QString path { Hash::wrapper["base"]->toQString()};
+    QString path {v(base)};
 
     if (path.isEmpty())
         {
