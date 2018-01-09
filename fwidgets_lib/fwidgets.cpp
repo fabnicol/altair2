@@ -150,7 +150,7 @@ inline void FAbstractWidget::FCore(const QVector<QWidget*>& w, FString defaultCo
     else
         *dObjects << disabledObjects;
 
-    FCore(w, defaultCommandLine, commandLineType, hashKey, description, option, eObjects, dObjects);
+    FCore(w, FString(defaultCommandLine), commandLineType, hashKey, description, option, eObjects, dObjects);
 }
 
 inline void FAbstractWidget::FCore(const QVector<QWidget*>& w, FString defaultCommandLine, int commandLineType, const QString &hashKey, const QStringList & description,
@@ -588,7 +588,7 @@ const FString FComboBox::setXmlFromWidget()
 void FComboBox::setWidgetFromXml(const FStringList &s)
 {
     commandLineList[0] = s.toFString();
-    FString str = commandLineList[0];
+    FString str {commandLineList[0]};
     if (str.isEmpty()) return;
 
     if (!comboBoxTranslationHash.isEmpty())
