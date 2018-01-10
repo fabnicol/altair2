@@ -14,6 +14,5 @@ var searchData=
   ['isdefaultsaveprojectchecked',['isDefaultSaveProjectChecked',['../class_main_window.html#ab58113ae4ed9a73ec3e3e5f83c98dfcc',1,'MainWindow']]],
   ['isfalse',['isFalse',['../class_f_string.html#a442e8409a21e0ac81f2032d6148c9be6',1,'FString']]],
   ['isfilled',['isFilled',['../class_f_string.html#abdd413b304a390ae2b2f858b82de6020',1,'FString::isFilled()'],['../class_f_string_list.html#a873bf272c3bdc81b8f84cb231785f8bb',1,'FStringList::isFilled()']]],
-  ['ismultimodal',['isMultimodal',['../class_f_string.html#a80a19ba4fbe3d3630364f1023e8eed73',1,'FString']]],
   ['istrue',['isTrue',['../class_f_string.html#a10fcb2e5cf3742b40fdb3eacbe8ccb98',1,'FString']]]
 ];

@@ -106,7 +106,7 @@ const QStringList FStringList::join()
 const FString  FStringList::join(const QStringList &separator) const
 {
 
-  if (this->size() == 0) return FString("");
+  if (this->size() == 0) return FString();
 
   QStringList S;
   QString sep, str;
@@ -124,7 +124,7 @@ const FString  FStringList::join(const QStringList &separator) const
     case 1:
        if (size() == 1)
           return FString(this->at(0).join(separator[0]));
-      return FString("");
+      return FString();
 
    case 2:
       sep = QString(separator[0]);
@@ -139,7 +139,7 @@ const FString  FStringList::join(const QStringList &separator) const
       return FString(S.join(sep));
    }
 
-   return FString("");
+   return FString();
 }
 
 // version simplifiée

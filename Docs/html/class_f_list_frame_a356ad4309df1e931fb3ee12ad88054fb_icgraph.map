@@ -4,7 +4,7 @@
 <area shape="rect" id="node44" href="$class_f_list_frame.html#a3b18347a90f89b4423e8a543f0c1c47c" title="FListFrame::on_deleteItem\l_clicked" alt="" coords="492,842,671,883"/>
 <area shape="rect" id="node45" href="$class_f_list_frame.html#a404f9f839864aecceba585397c7c882f" title="FListFrame::showContextMenu" alt="" coords="479,959,684,985"/>
 <area shape="rect" id="node46" href="$class_f_list_frame.html#aa993bd2e0b975a839c6f8b46dea4690c" title="FListFrame::finalise" alt="" coords="513,791,650,817"/>
-<area shape="rect" id="node4" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur. " alt="" coords="732,843,895,869"/>
+<area shape="rect" id="node4" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur de la classe. " alt="" coords="732,843,895,869"/>
 <area shape="rect" id="node5" href="$class_f_list_frame.html#a7ecbe60018d55d1a1352c5fd24c5e72e" title="Assigne les titres des onglets de l&#39;onglet central. " alt="" coords="943,744,1117,771"/>
 <area shape="rect" id="node6" href="$class_altair.html#a3f6193de22ed2034c9b6dbe7a8ac4d97" title="Lors du décodage du projet XML .alt, décoder le noed courant et renvoyer l&#39;empilement des valeurs en ..." alt="" coords="1165,695,1288,721"/>
 <area shape="rect" id="node7" href="$class_altair.html#a41b6c8a35ed8ba14c7c0ce2e6994655f" title="Décode le projet représenté par un pointeur vers QFile ou similaire. " alt="" coords="1336,669,1491,696"/>

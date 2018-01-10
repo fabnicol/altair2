@@ -61,7 +61,6 @@ FListFrame::FListFrame(QAbstractItemView* tree,
  tags = xml_tags;
  fileTreeView = tree;
  this->tabLabels = tabLabels;
-
  frameHashKey = hashKey;
 
  fileListWidget = new FListWidget(this,
@@ -140,7 +139,6 @@ FListFrame::FListFrame(QAbstractItemView* tree,
  connect(importFromMainTree, SIGNAL(clicked()), this,  SLOT(on_importFromMainTree_clicked()));
 
  connect(this, SIGNAL(imported()), this, SLOT(finalise()));
-
 }
 
 void FListFrame::addParsedTreeToListWidget(const QStringList &strL)

@@ -38,7 +38,7 @@
 <area shape="rect" id="node25" href="$classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" title="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair..." alt="" coords="3193,523,3307,549"/>
 <area shape="rect" id="node26" href="$class_altair.html#aab5da600c227ac7eb604fa24a9308d26" title="Enregistre le projet .alt en actualisant projectName et l&#39;état de l&#39;interface &#160;. " alt="" coords="3163,632,3337,659"/>
 <area shape="rect" id="node33" href="$class_altair.html#abeafd88b78402bf56667663d6c05d367" title="Appelle printMsg une première fois. " alt="" coords="2500,616,2641,643"/>
-<area shape="rect" id="node40" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur. " alt="" coords="609,1376,771,1403"/>
+<area shape="rect" id="node40" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur de la classe. " alt="" coords="609,1376,771,1403"/>
 <area shape="rect" id="node41" href="$class_f_list_frame.html#a7ecbe60018d55d1a1352c5fd24c5e72e" title="Assigne les titres des onglets de l&#39;onglet central. " alt="" coords="873,1376,1047,1403"/>
 <area shape="rect" id="node42" href="$class_altair.html#a3f6193de22ed2034c9b6dbe7a8ac4d97" title="Lors du décodage du projet XML .alt, décoder le noed courant et renvoyer l&#39;empilement des valeurs en ..." alt="" coords="1376,1376,1499,1403"/>
 <area shape="rect" id="node44" href="$flistframe_8cpp.html#a1dfc6277dce182d91d605c721a585c7a" title="finalise_macro" alt="" coords="415,1427,522,1453"/>

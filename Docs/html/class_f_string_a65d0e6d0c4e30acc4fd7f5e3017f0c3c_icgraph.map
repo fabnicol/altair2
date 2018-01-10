@@ -1,6 +1,6 @@
 <map id="FString::toQString" name="FString::toQString">
 <area shape="rect" id="node2" href="$class_altair.html#af73cbf33a9e3ff76896a8099b4b154fe" title="Crée la chaîne QString permettant d&#39;écrire un projet XML d&#39;extension .alt Parcourt l&#39;ensemble de la l..." alt="" coords="180,904,344,931"/>
-<area shape="rect" id="node42" href="$class_f_string.html#a9113132f323093d362a5d95709147d4d" title="FString::split" alt="" coords="214,955,310,982"/>
+<area shape="rect" id="node42" href="$class_f_string.html#ab5849d7c95c4e812b34836358d12224a" title="Sépare un FString en composants de liste délimités par un ou deux séparateurs. " alt="" coords="214,955,310,982"/>
 <area shape="rect" id="node3" href="$class_altair.html#a2f8d129da914d8b9ab3cdaf195f92bd1" title="Lance Altair::makeParserString sur le premier item courant de abstractWidgetList (celui des données d..." alt="" coords="400,879,555,906"/>
 <area shape="rect" id="node41" href="$class_altair.html#adb7f94af778c4b6874abab74c8ef4016" title="Lance Altair::makeParserString sur l&#39;ensemble de la liste des FWidgets sauf le premier (tous les widg..." alt="" coords="392,930,563,956"/>
 <area shape="rect" id="node4" href="$class_altair.html#a43120f9909d0284074119529a03df85b" title="Ecrit le projet XML d&#39;extension .alt contenant les références des donnéees de paye. " alt="" coords="611,904,761,931"/>

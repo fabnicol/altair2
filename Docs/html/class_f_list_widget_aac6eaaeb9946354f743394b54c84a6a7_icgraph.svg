@@ -101,7 +101,7 @@ var sectionId = 'dynsection-7';
 </g>
 <!-- Node109 -->
 <g id="node4" class="node"><title>Node109</title>
-<g id="a_node4"><a xlink:href="class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" target="_top" xlink:title="Constructeur. ">
+<g id="a_node4"><a xlink:href="class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" target="_top" xlink:title="Constructeur de la classe. ">
 <polygon fill="white" stroke="black" points="331,-341.5 331,-360.5 453,-360.5 453,-341.5 331,-341.5"/>
 <text text-anchor="middle" x="392" y="-348.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::FListFrame</text>
 </a>

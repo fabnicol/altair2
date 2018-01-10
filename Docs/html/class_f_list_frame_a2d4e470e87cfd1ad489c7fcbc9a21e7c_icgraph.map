@@ -1,5 +1,5 @@
 <map id="FListFrame::imported" name="FListFrame::imported">
-<area shape="rect" id="node2" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur. " alt="" coords="1100,612,1263,639"/>
+<area shape="rect" id="node2" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur de la classe. " alt="" coords="1100,612,1263,639"/>
 <area shape="rect" id="node42" href="$class_f_list_frame.html#a802475894ee1e30753faed81d9f9dc4b" title="Appelle parseXhlFile(const QString&amp;) sur l&#39;ensemble de widgetContainer. " alt="" coords="200,671,368,697"/>
 <area shape="rect" id="node3" href="$class_f_list_frame.html#a7ecbe60018d55d1a1352c5fd24c5e72e" title="Assigne les titres des onglets de l&#39;onglet central. " alt="" coords="1311,515,1485,541"/>
 <area shape="rect" id="node4" href="$class_altair.html#a3f6193de22ed2034c9b6dbe7a8ac4d97" title="Lors du décodage du projet XML .alt, décoder le noed courant et renvoyer l&#39;empilement des valeurs en ..." alt="" coords="1533,465,1656,492"/>

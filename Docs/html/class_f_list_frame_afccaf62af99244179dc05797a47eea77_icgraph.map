@@ -42,7 +42,7 @@
 <area shape="rect" id="node41" href="$class_f_list_frame.html#a4228ed10f2d800b92ff34e2f25edcd8c" title="Ajoute les fichiers d&#39;une portion d&#39;arborescence de fichiers au composant courant de l&#39;onglet central..." alt="" coords="647,1031,831,1073"/>
 <area shape="rect" id="node42" href="$class_f_list_frame.html#a53cd3267ca217525fa83450c5e7dc25a" title="Initialise le conteneur de composants widgetContainer à partir d&#39;un composant de liste (pointeur vers..." alt="" coords="879,1130,1063,1171"/>
 <area shape="rect" id="node43" href="$class_f_list_frame.html#ac14c494842340a0438766256c01f83bc" title="FListFrame::on_importFrom\lMainTree_clicked" alt="" coords="879,991,1062,1033"/>
-<area shape="rect" id="node44" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur. " alt="" coords="1111,988,1273,1015"/>
+<area shape="rect" id="node44" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur de la classe. " alt="" coords="1111,988,1273,1015"/>
 <area shape="rect" id="node45" href="$class_f_list_frame.html#a7ecbe60018d55d1a1352c5fd24c5e72e" title="Assigne les titres des onglets de l&#39;onglet central. " alt="" coords="1321,983,1496,1009"/>
 <area shape="rect" id="node46" href="$class_altair.html#a3f6193de22ed2034c9b6dbe7a8ac4d97" title="Lors du décodage du projet XML .alt, décoder le noed courant et renvoyer l&#39;empilement des valeurs en ..." alt="" coords="1572,977,1695,1004"/>
 </map>
