@@ -42,7 +42,7 @@
 </g>
 <!-- Node1617 -->
 <g id="node3" class="node"><title>Node1617</title>
-<g id="a_node3"><a xlink:href="class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" target="_top" xlink:title="Constructeur. ">
+<g id="a_node3"><a xlink:href="class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" target="_top" xlink:title="Constructeur de la classe. ">
 <polygon fill="white" stroke="black" points="323,-68.5 323,-87.5 445,-87.5 445,-68.5 323,-68.5"/>
 <text text-anchor="middle" x="384" y="-75.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::FListFrame</text>
 </a>

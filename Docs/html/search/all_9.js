@@ -34,7 +34,6 @@ var searchData=
   ['isfalse',['isFalse',['../class_f_string.html#a442e8409a21e0ac81f2032d6148c9be6',1,'FString']]],
   ['isfilepath',['isFilePath',['../classflags.html#a63bbc6582bdb497673a0189f5d9c655eac168706b058e7b99ff1a1f280e251d2a',1,'flags']]],
   ['isfilled',['isFilled',['../class_f_string.html#abdd413b304a390ae2b2f858b82de6020',1,'FString::isFilled()'],['../class_f_string_list.html#a873bf272c3bdc81b8f84cb231785f8bb',1,'FStringList::isFilled()']]],
-  ['ismultimodal',['isMultimodal',['../class_f_string.html#a80a19ba4fbe3d3630364f1023e8eed73',1,'FString']]],
   ['isterminated',['isTerminated',['../class_f_list_frame.html#adb3105e52de9f00dbf3b5c066b83e0f9',1,'FListFrame']]],
   ['istrue',['isTrue',['../class_f_string.html#a10fcb2e5cf3742b40fdb3eacbe8ccb98',1,'FString']]],
   ['italictitle',['italicTitle',['../classflags.html#aaade999d13c60d05836adbe81c510e1ba2ff5f73d0345b68cf8e71191f06370b9',1,'flags']]],

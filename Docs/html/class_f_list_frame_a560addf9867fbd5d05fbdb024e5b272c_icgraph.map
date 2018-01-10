@@ -1,7 +1,7 @@
 <map id="FListFrame::setStrikeOutFileNames" name="FListFrame::setStrikeOutFileNames">
 <area shape="rect" id="node2" href="$class_f_list_frame.html#aa993bd2e0b975a839c6f8b46dea4690c" title="FListFrame::finalise" alt="" coords="223,1068,360,1095"/>
 <area shape="rect" id="node43" href="$class_f_list_frame.html#a404f9f839864aecceba585397c7c882f" title="FListFrame::showContextMenu" alt="" coords="408,1129,613,1156"/>
-<area shape="rect" id="node3" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur. " alt="" coords="429,1053,592,1080"/>
+<area shape="rect" id="node3" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur de la classe. " alt="" coords="429,1053,592,1080"/>
 <area shape="rect" id="node4" href="$class_f_list_frame.html#a7ecbe60018d55d1a1352c5fd24c5e72e" title="Assigne les titres des onglets de l&#39;onglet central. " alt="" coords="661,1049,836,1076"/>
 <area shape="rect" id="node5" href="$class_altair.html#a3f6193de22ed2034c9b6dbe7a8ac4d97" title="Lors du décodage du projet XML .alt, décoder le noed courant et renvoyer l&#39;empilement des valeurs en ..." alt="" coords="884,936,1007,963"/>
 <area shape="rect" id="node6" href="$class_altair.html#a41b6c8a35ed8ba14c7c0ce2e6994655f" title="Décode le projet représenté par un pointeur vers QFile ou similaire. " alt="" coords="1055,879,1209,905"/>

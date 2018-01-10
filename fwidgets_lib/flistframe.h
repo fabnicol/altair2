@@ -164,19 +164,23 @@ public:
 
  void setTabLabels(QStringList& tabLabels) { fileListWidget->setTabLabels(tabLabels);}
 
- /// Constructeur
+ /// Constructeur de la classe.
+ /// La classe comprend une série d'onglets comprenant des lignes de texte chacun.\n
+ /// Elle gouverne aussi l'importation des fichiers entrants et le déroulement de la barre de progression.\n
+ /// Elle réalise un premier tri des fichiers de paye en les classant dans l'ordre année-mois, en identifiant les Siret, Etablissements et Budgets.\n
+ /// Elle correspond à la balise <XHL> des fichiers de projet et aux informations sur fichiers de paye dans le gestionnaire de projets.
  /// \param tree  Identifie FListFrame::fileTreeView
- /// \param import_type,
- /// \param QString &hashKey,
- /// \param QStringList &description,
- /// \param QString &command_line,
- /// \param cli_type,
- /// \param QStringList &separator,
- /// \param QStringList &xml_tags,
- /// \param QStringList &tabLabels,
- /// \param mainTabWidgetRank,
- /// \param terms
- /// \param translation
+ /// \param import_type Identifie FListFrame::importType
+ /// \param QString &hashKey Identifie FListFrame::frameHashKey
+ /// \param QStringList &description Description à afficher dans le gestionnaire de projets (paramètre aussi de FListFrame::fileListWidget).
+ /// \param QString &command_line Paramètre d eligne de commande de FListFrame::fileListWidget.
+ /// \param cli_type Paramètre transmis à FListFrame::fileListWidget permetant de contrôler que la ligne de commande est bien associée à tel ou tel exécutable.
+ /// \param QStringList &separator Liste de deux séparateurs permettant de dérouler en ligne de commande la hiérarchie sur deux niveaux d'un onglet (niveau 1 : onglets; niveau 2 : éléments de chaque onglet).
+ /// \param QStringList &xml_tags Idem pour les balises correspondant aux onglets et aux items.
+ /// \param QStringList &tabLabels Titres des onglets.
+ /// \param mainTabWidgetRank Dans cette application, fixé à tools::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET.
+ /// \param terms Transmis à FlistFrame::fileListWidget.
+ /// \param translation  Transmis à FlistFrame::fileListWidget.
 
 FListFrame(QAbstractItemView* tree,
            short import_type,

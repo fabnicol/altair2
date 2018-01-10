@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 1457;
+var viewWidth = 1454;
 var viewHeight = 3520;
 var sectionId = 'dynsection-1';
 </script>
@@ -54,7 +54,7 @@ var sectionId = 'dynsection-1';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>MainWindow</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-3516 1452.78,-3516 1452.78,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-3516 1449.98,-3516 1449.98,4 -4,4"/>
 <!-- Node2 -->
 <g id="node1" class="node"><title>Node2</title>
 <polygon fill="#bfbfbf" stroke="black" points="338,-787.5 338,-1328.5 501,-1328.5 501,-787.5 338,-787.5"/>
@@ -533,40 +533,40 @@ var sectionId = 'dynsection-1';
 <!-- Node14 -->
 <g id="node13" class="node"><title>Node14</title>
 <g id="a_node13"><a xlink:href="class_f_abstract_widget.html" target="_top" xlink:title="{FAbstractWidget\n|+ commandLineList\l+ commandLineType\l+ disabledObjects\l+ enabledObjects\l+ optionLabel\l+ status\l# componentList\l# description\l# hashKey\l# widgetDepth\l|+ commandLineStringList()\l+ getComponentList()\l+ getDepth()\l+ getDescription()\l+ getHashKey()\l+ isAbstractDisabled()\l+ isAbstractEnabled()\l+ setDisableObjects()\l+ setHashKey()\l+ setWidgetFromXml()\l+ setXmlFromWidget()\l# FCore()\l# FCore()\l}">
-<polygon fill="white" stroke="black" points="958.5,-3128.5 958.5,-3416.5 1092.5,-3416.5 1092.5,-3128.5 958.5,-3128.5"/>
-<text text-anchor="middle" x="1025.5" y="-3404.5" font-family="Helvetica,sans-Serif" font-size="10.00">FAbstractWidget</text>
-<polyline fill="none" stroke="black" points="958.5,-3397.5 1092.5,-3397.5 "/>
-<text text-anchor="start" x="966.5" y="-3385.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ commandLineList</text>
-<text text-anchor="start" x="966.5" y="-3374.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ commandLineType</text>
-<text text-anchor="start" x="966.5" y="-3363.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ disabledObjects</text>
-<text text-anchor="start" x="966.5" y="-3352.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ enabledObjects</text>
-<text text-anchor="start" x="966.5" y="-3341.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ optionLabel</text>
-<text text-anchor="start" x="966.5" y="-3330.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ status</text>
-<text text-anchor="start" x="966.5" y="-3319.5" font-family="Helvetica,sans-Serif" font-size="10.00"># componentList</text>
-<text text-anchor="start" x="966.5" y="-3308.5" font-family="Helvetica,sans-Serif" font-size="10.00"># description</text>
-<text text-anchor="start" x="966.5" y="-3297.5" font-family="Helvetica,sans-Serif" font-size="10.00"># hashKey</text>
-<text text-anchor="start" x="966.5" y="-3286.5" font-family="Helvetica,sans-Serif" font-size="10.00"># widgetDepth</text>
-<polyline fill="none" stroke="black" points="958.5,-3279.5 1092.5,-3279.5 "/>
-<text text-anchor="start" x="966.5" y="-3267.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ commandLineStringList()</text>
-<text text-anchor="start" x="966.5" y="-3256.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getComponentList()</text>
-<text text-anchor="start" x="966.5" y="-3245.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getDepth()</text>
-<text text-anchor="start" x="966.5" y="-3234.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getDescription()</text>
-<text text-anchor="start" x="966.5" y="-3223.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getHashKey()</text>
-<text text-anchor="start" x="966.5" y="-3212.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isAbstractDisabled()</text>
-<text text-anchor="start" x="966.5" y="-3201.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isAbstractEnabled()</text>
-<text text-anchor="start" x="966.5" y="-3190.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setDisableObjects()</text>
-<text text-anchor="start" x="966.5" y="-3179.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setHashKey()</text>
-<text text-anchor="start" x="966.5" y="-3168.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setWidgetFromXml()</text>
-<text text-anchor="start" x="966.5" y="-3157.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setXmlFromWidget()</text>
-<text text-anchor="start" x="966.5" y="-3146.5" font-family="Helvetica,sans-Serif" font-size="10.00"># FCore()</text>
-<text text-anchor="start" x="966.5" y="-3135.5" font-family="Helvetica,sans-Serif" font-size="10.00"># FCore()</text>
+<polygon fill="white" stroke="black" points="957.5,-3128.5 957.5,-3416.5 1091.5,-3416.5 1091.5,-3128.5 957.5,-3128.5"/>
+<text text-anchor="middle" x="1024.5" y="-3404.5" font-family="Helvetica,sans-Serif" font-size="10.00">FAbstractWidget</text>
+<polyline fill="none" stroke="black" points="957.5,-3397.5 1091.5,-3397.5 "/>
+<text text-anchor="start" x="965.5" y="-3385.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ commandLineList</text>
+<text text-anchor="start" x="965.5" y="-3374.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ commandLineType</text>
+<text text-anchor="start" x="965.5" y="-3363.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ disabledObjects</text>
+<text text-anchor="start" x="965.5" y="-3352.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ enabledObjects</text>
+<text text-anchor="start" x="965.5" y="-3341.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ optionLabel</text>
+<text text-anchor="start" x="965.5" y="-3330.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ status</text>
+<text text-anchor="start" x="965.5" y="-3319.5" font-family="Helvetica,sans-Serif" font-size="10.00"># componentList</text>
+<text text-anchor="start" x="965.5" y="-3308.5" font-family="Helvetica,sans-Serif" font-size="10.00"># description</text>
+<text text-anchor="start" x="965.5" y="-3297.5" font-family="Helvetica,sans-Serif" font-size="10.00"># hashKey</text>
+<text text-anchor="start" x="965.5" y="-3286.5" font-family="Helvetica,sans-Serif" font-size="10.00"># widgetDepth</text>
+<polyline fill="none" stroke="black" points="957.5,-3279.5 1091.5,-3279.5 "/>
+<text text-anchor="start" x="965.5" y="-3267.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ commandLineStringList()</text>
+<text text-anchor="start" x="965.5" y="-3256.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getComponentList()</text>
+<text text-anchor="start" x="965.5" y="-3245.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getDepth()</text>
+<text text-anchor="start" x="965.5" y="-3234.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getDescription()</text>
+<text text-anchor="start" x="965.5" y="-3223.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getHashKey()</text>
+<text text-anchor="start" x="965.5" y="-3212.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isAbstractDisabled()</text>
+<text text-anchor="start" x="965.5" y="-3201.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isAbstractEnabled()</text>
+<text text-anchor="start" x="965.5" y="-3190.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setDisableObjects()</text>
+<text text-anchor="start" x="965.5" y="-3179.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setHashKey()</text>
+<text text-anchor="start" x="965.5" y="-3168.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setWidgetFromXml()</text>
+<text text-anchor="start" x="965.5" y="-3157.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setXmlFromWidget()</text>
+<text text-anchor="start" x="965.5" y="-3146.5" font-family="Helvetica,sans-Serif" font-size="10.00"># FCore()</text>
+<text text-anchor="start" x="965.5" y="-3135.5" font-family="Helvetica,sans-Serif" font-size="10.00"># FCore()</text>
 </a>
 </g>
 </g>
 <!-- Node10&#45;&gt;Node14 -->
 <g id="edge17" class="edge"><title>Node10&#45;&gt;Node14</title>
-<path fill="none" stroke="midnightblue" d="M893.884,-3448.29C911.386,-3425.05 935.521,-3392.99 958.349,-3362.68"/>
-<polygon fill="none" stroke="midnightblue" points="890.971,-3446.34 887.751,-3456.43 896.563,-3450.55 890.971,-3446.34"/>
+<path fill="none" stroke="midnightblue" d="M893.693,-3448.33C910.995,-3425.2 934.832,-3393.34 957.422,-3363.15"/>
+<polygon fill="none" stroke="midnightblue" points="890.817,-3446.33 887.629,-3456.43 896.422,-3450.52 890.817,-3446.33"/>
 </g>
 <!-- Node11&#45;&gt;Node6 -->
 <g id="edge9" class="edge"><title>Node11&#45;&gt;Node6</title>
@@ -612,22 +612,22 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node13 -->
 <g id="node12" class="node"><title>Node13</title>
-<polygon fill="white" stroke="#bfbfbf" points="1054,-2923.5 1054,-2980.5 1127,-2980.5 1127,-2923.5 1054,-2923.5"/>
-<text text-anchor="middle" x="1090.5" y="-2968.5" font-family="Helvetica,sans-Serif" font-size="10.00">QComboBox</text>
-<polyline fill="none" stroke="#bfbfbf" points="1054,-2961.5 1127,-2961.5 "/>
-<text text-anchor="middle" x="1090.5" y="-2949.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="#bfbfbf" points="1054,-2942.5 1127,-2942.5 "/>
-<text text-anchor="middle" x="1090.5" y="-2930.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polygon fill="white" stroke="#bfbfbf" points="1053,-2923.5 1053,-2980.5 1126,-2980.5 1126,-2923.5 1053,-2923.5"/>
+<text text-anchor="middle" x="1089.5" y="-2968.5" font-family="Helvetica,sans-Serif" font-size="10.00">QComboBox</text>
+<polyline fill="none" stroke="#bfbfbf" points="1053,-2961.5 1126,-2961.5 "/>
+<text text-anchor="middle" x="1089.5" y="-2949.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polyline fill="none" stroke="#bfbfbf" points="1053,-2942.5 1126,-2942.5 "/>
+<text text-anchor="middle" x="1089.5" y="-2930.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 </g>
 <!-- Node13&#45;&gt;Node12 -->
 <g id="edge15" class="edge"><title>Node13&#45;&gt;Node12</title>
-<path fill="none" stroke="midnightblue" d="M1087.65,-2913.41C1084.19,-2867.79 1078.28,-2789.88 1073.94,-2732.66"/>
-<polygon fill="none" stroke="midnightblue" points="1084.16,-2913.75 1088.41,-2923.46 1091.14,-2913.22 1084.16,-2913.75"/>
+<path fill="none" stroke="midnightblue" d="M1086.78,-2913.41C1083.47,-2867.79 1077.83,-2789.88 1073.69,-2732.66"/>
+<polygon fill="none" stroke="midnightblue" points="1083.29,-2913.73 1087.51,-2923.46 1090.27,-2913.23 1083.29,-2913.73"/>
 </g>
 <!-- Node14&#45;&gt;Node12 -->
 <g id="edge16" class="edge"><title>Node14&#45;&gt;Node12</title>
-<path fill="none" stroke="midnightblue" d="M1028.1,-3118.26C1030.64,-3029.03 1035.64,-2914.46 1045.5,-2813 1048.06,-2786.7 1052.07,-2758.01 1056.04,-2732.71"/>
-<polygon fill="none" stroke="midnightblue" points="1024.6,-3118.37 1027.82,-3128.47 1031.6,-3118.57 1024.6,-3118.37"/>
+<path fill="none" stroke="midnightblue" d="M1026.86,-3118.24C1029.31,-3029 1034.31,-2914.43 1044.5,-2813 1047.14,-2786.68 1051.33,-2757.99 1055.47,-2732.69"/>
+<polygon fill="none" stroke="midnightblue" points="1023.36,-3118.35 1026.59,-3128.44 1030.35,-3118.54 1023.36,-3118.35"/>
 </g>
 <!-- Node16 -->
 <g id="node15" class="node"><title>Node16</title>
@@ -651,34 +651,34 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node14&#45;&gt;Node16 -->
 <g id="edge21" class="edge"><title>Node14&#45;&gt;Node16</title>
-<path fill="none" stroke="midnightblue" d="M949.031,-3237.9C866.984,-3201.79 732.892,-3142.63 617.5,-3091 531.424,-3052.49 431.941,-3007.36 370.621,-2979.47"/>
-<polygon fill="none" stroke="midnightblue" points="947.718,-3241.14 958.281,-3241.97 950.537,-3234.74 947.718,-3241.14"/>
+<path fill="none" stroke="midnightblue" d="M948.227,-3237.88C866.389,-3201.75 732.632,-3142.58 617.5,-3091 531.442,-3052.45 431.954,-3007.33 370.628,-2979.46"/>
+<polygon fill="none" stroke="midnightblue" points="946.892,-3241.11 957.454,-3241.95 949.718,-3234.71 946.892,-3241.11"/>
 </g>
 <!-- Node22 -->
 <g id="node21" class="node"><title>Node22</title>
 <g id="a_node21"><a xlink:href="class_f_check_box.html" target="_top" xlink:title="{FCheckBox\n||+ FCheckBox()\l+ FCheckBox()\l+ FCheckBox()\l+ FCheckBox()\l+ FCheckBox()\l+ FCheckBox()\l+ isAbstractEnabled()\l+ setWidgetFromXml()\l+ setXmlFromWidget()\l&#45; uncheckDisabledBox()\l}">
-<polygon fill="white" stroke="black" points="1263,-2582 1263,-2738 1384,-2738 1384,-2582 1263,-2582"/>
-<text text-anchor="middle" x="1323.5" y="-2726" font-family="Helvetica,sans-Serif" font-size="10.00">FCheckBox</text>
-<polyline fill="none" stroke="black" points="1263,-2719 1384,-2719 "/>
-<text text-anchor="middle" x="1323.5" y="-2707" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="1263,-2700 1384,-2700 "/>
-<text text-anchor="start" x="1271" y="-2688" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
-<text text-anchor="start" x="1271" y="-2677" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
-<text text-anchor="start" x="1271" y="-2666" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
-<text text-anchor="start" x="1271" y="-2655" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
-<text text-anchor="start" x="1271" y="-2644" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
-<text text-anchor="start" x="1271" y="-2633" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
-<text text-anchor="start" x="1271" y="-2622" font-family="Helvetica,sans-Serif" font-size="10.00">+ isAbstractEnabled()</text>
-<text text-anchor="start" x="1271" y="-2611" font-family="Helvetica,sans-Serif" font-size="10.00">+ setWidgetFromXml()</text>
-<text text-anchor="start" x="1271" y="-2600" font-family="Helvetica,sans-Serif" font-size="10.00">+ setXmlFromWidget()</text>
-<text text-anchor="start" x="1271" y="-2589" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; uncheckDisabledBox()</text>
+<polygon fill="white" stroke="black" points="1259,-2582 1259,-2738 1380,-2738 1380,-2582 1259,-2582"/>
+<text text-anchor="middle" x="1319.5" y="-2726" font-family="Helvetica,sans-Serif" font-size="10.00">FCheckBox</text>
+<polyline fill="none" stroke="black" points="1259,-2719 1380,-2719 "/>
+<text text-anchor="middle" x="1319.5" y="-2707" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="1259,-2700 1380,-2700 "/>
+<text text-anchor="start" x="1267" y="-2688" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
+<text text-anchor="start" x="1267" y="-2677" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
+<text text-anchor="start" x="1267" y="-2666" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
+<text text-anchor="start" x="1267" y="-2655" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
+<text text-anchor="start" x="1267" y="-2644" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
+<text text-anchor="start" x="1267" y="-2633" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
+<text text-anchor="start" x="1267" y="-2622" font-family="Helvetica,sans-Serif" font-size="10.00">+ isAbstractEnabled()</text>
+<text text-anchor="start" x="1267" y="-2611" font-family="Helvetica,sans-Serif" font-size="10.00">+ setWidgetFromXml()</text>
+<text text-anchor="start" x="1267" y="-2600" font-family="Helvetica,sans-Serif" font-size="10.00">+ setXmlFromWidget()</text>
+<text text-anchor="start" x="1267" y="-2589" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; uncheckDisabledBox()</text>
 </a>
 </g>
 </g>
 <!-- Node14&#45;&gt;Node22 -->
 <g id="edge29" class="edge"><title>Node14&#45;&gt;Node22</title>
-<path fill="none" stroke="midnightblue" d="M1102.27,-3247.2C1171.37,-3220.81 1268.86,-3171.31 1314.5,-3091 1376.84,-2981.28 1360.8,-2829.03 1342.69,-2738.22"/>
-<polygon fill="none" stroke="midnightblue" points="1100.85,-3243.99 1092.71,-3250.77 1103.3,-3250.55 1100.85,-3243.99"/>
+<path fill="none" stroke="midnightblue" d="M1101.11,-3246.95C1169.76,-3220.44 1266.38,-3170.92 1311.5,-3091 1373.54,-2981.12 1357.15,-2828.92 1338.85,-2738.16"/>
+<polygon fill="none" stroke="midnightblue" points="1099.73,-3243.73 1091.62,-3250.54 1102.21,-3250.28 1099.73,-3243.73"/>
 </g>
 <!-- Node33 -->
 <g id="node32" class="node"><title>Node33</title>
@@ -707,8 +707,8 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node14&#45;&gt;Node33 -->
 <g id="edge61" class="edge"><title>Node14&#45;&gt;Node33</title>
-<path fill="none" stroke="midnightblue" d="M1102.36,-3251C1178.62,-3226.36 1292.28,-3177.16 1350.5,-3091 1497.39,-2873.62 1448.13,-2761.36 1402.5,-2503 1305.92,-1956.09 1143.15,-1858.14 974.5,-1329 956.641,-1272.97 939.132,-1209.58 925.633,-1158.32"/>
-<polygon fill="none" stroke="midnightblue" points="1101.27,-3247.67 1092.79,-3254.03 1103.38,-3254.35 1101.27,-3247.67"/>
+<path fill="none" stroke="midnightblue" d="M1101.63,-3250.64C1177.31,-3225.84 1289.44,-3176.62 1346.5,-3091 1492.06,-2872.58 1447.05,-2761.49 1401.5,-2503 1305.15,-1956.21 1142.91,-1858.06 974.5,-1329 956.662,-1272.96 939.154,-1209.58 925.65,-1158.31"/>
+<polygon fill="none" stroke="midnightblue" points="1100.11,-3247.45 1091.66,-3253.83 1102.25,-3254.11 1100.11,-3247.45"/>
 </g>
 <!-- Node15 -->
 <g id="node14" class="node"><title>Node15</title>
@@ -818,56 +818,56 @@ var sectionId = 'dynsection-1';
 <!-- Node20 -->
 <g id="node19" class="node"><title>Node20</title>
 <g id="a_node19"><a xlink:href="class_f_string.html" target="_top" xlink:title="Chaîne de caractères fonctionnelle. ">
-<polygon fill="white" stroke="black" points="1158.5,-2565.5 1158.5,-2754.5 1244.5,-2754.5 1244.5,-2565.5 1158.5,-2565.5"/>
-<text text-anchor="middle" x="1201.5" y="-2742.5" font-family="Helvetica,sans-Serif" font-size="10.00">FString</text>
-<polyline fill="none" stroke="black" points="1158.5,-2735.5 1244.5,-2735.5 "/>
+<polygon fill="white" stroke="black" points="1158.5,-2565.5 1158.5,-2754.5 1240.5,-2754.5 1240.5,-2565.5 1158.5,-2565.5"/>
+<text text-anchor="middle" x="1199.5" y="-2742.5" font-family="Helvetica,sans-Serif" font-size="10.00">FString</text>
+<polyline fill="none" stroke="black" points="1158.5,-2735.5 1240.5,-2735.5 "/>
 <text text-anchor="start" x="1166.5" y="-2723.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; p</text>
 <text text-anchor="start" x="1166.5" y="-2712.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; x</text>
-<polyline fill="none" stroke="black" points="1158.5,-2705.5 1244.5,-2705.5 "/>
+<polyline fill="none" stroke="black" points="1158.5,-2705.5 1240.5,-2705.5 "/>
 <text text-anchor="start" x="1166.5" y="-2693.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
 <text text-anchor="start" x="1166.5" y="-2682.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
 <text text-anchor="start" x="1166.5" y="-2671.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
 <text text-anchor="start" x="1166.5" y="-2660.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
 <text text-anchor="start" x="1166.5" y="-2649.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
-<text text-anchor="start" x="1166.5" y="-2638.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ fromBool()</text>
-<text text-anchor="start" x="1166.5" y="-2627.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isBoolean()</text>
-<text text-anchor="start" x="1166.5" y="-2616.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isFalse()</text>
-<text text-anchor="start" x="1166.5" y="-2605.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isFilled()</text>
-<text text-anchor="start" x="1166.5" y="-2594.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isMultimodal()</text>
-<text text-anchor="start" x="1166.5" y="-2583.5" font-family="Helvetica,sans-Serif" font-size="10.00">et 15 de plus...</text>
+<text text-anchor="start" x="1166.5" y="-2638.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
+<text text-anchor="start" x="1166.5" y="-2627.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ fromBool()</text>
+<text text-anchor="start" x="1166.5" y="-2616.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isBoolean()</text>
+<text text-anchor="start" x="1166.5" y="-2605.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isFalse()</text>
+<text text-anchor="start" x="1166.5" y="-2594.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isFilled()</text>
+<text text-anchor="start" x="1166.5" y="-2583.5" font-family="Helvetica,sans-Serif" font-size="10.00">et 16 de plus...</text>
 <text text-anchor="start" x="1166.5" y="-2572.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; testBool()</text>
 </a>
 </g>
 </g>
 <!-- Node20&#45;&gt;Node11 -->
 <g id="edge25" class="edge"><title>Node20&#45;&gt;Node11</title>
-<path fill="none" stroke="#404040" d="M1158.4,-2571.77C1155.6,-2569.29 1152.64,-2567.02 1149.5,-2565 1105.81,-2536.92 964.76,-2566.18 916.5,-2547 827.359,-2511.57 744.729,-2435.57 695.435,-2383.73"/>
+<path fill="none" stroke="#404040" d="M1158.25,-2571.79C1155.51,-2569.31 1152.59,-2567.02 1149.5,-2565 1106.05,-2536.56 964.76,-2566.18 916.5,-2547 827.359,-2511.57 744.729,-2435.57 695.435,-2383.73"/>
 <polygon fill="none" stroke="#404040" points="695.138,-2383.41 688.115,-2381.78 686.922,-2374.67 693.946,-2376.3 695.138,-2383.41"/>
 <text text-anchor="middle" x="948" y="-2522.5" font-family="Helvetica,sans-Serif" font-size="10.00"> &#45;standardMsg</text>
 </g>
 <!-- Node20&#45;&gt;Node24 -->
 <g id="edge36" class="edge"><title>Node20&#45;&gt;Node24</title>
-<path fill="none" stroke="#404040" d="M1211.49,-2565.38C1210.3,-2543.98 1206.11,-2521.98 1196.5,-2503 1163.73,-2438.33 1094.3,-2390.4 1042.15,-2361.69"/>
-<polygon fill="none" stroke="#404040" points="1041.87,-2361.54 1034.69,-2362.22 1031.3,-2355.86 1038.48,-2355.17 1041.87,-2361.54"/>
+<path fill="none" stroke="#404040" d="M1210.86,-2565.46C1209.94,-2544.06 1205.99,-2522.03 1196.5,-2503 1164.15,-2438.12 1094.65,-2390.22 1042.37,-2361.58"/>
+<polygon fill="none" stroke="#404040" points="1042.07,-2361.42 1034.89,-2362.12 1031.49,-2355.76 1038.67,-2355.06 1042.07,-2361.42"/>
 <text text-anchor="middle" x="1240" y="-2522.5" font-family="Helvetica,sans-Serif" font-size="10.00"> &#45;standardMsg</text>
 </g>
 <!-- Node21 -->
 <g id="node20" class="node"><title>Node21</title>
-<polygon fill="white" stroke="#bfbfbf" points="1167.5,-2923.5 1167.5,-2980.5 1217.5,-2980.5 1217.5,-2923.5 1167.5,-2923.5"/>
-<text text-anchor="middle" x="1192.5" y="-2968.5" font-family="Helvetica,sans-Serif" font-size="10.00">QString</text>
-<polyline fill="none" stroke="#bfbfbf" points="1167.5,-2961.5 1217.5,-2961.5 "/>
-<text text-anchor="middle" x="1192.5" y="-2949.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="#bfbfbf" points="1167.5,-2942.5 1217.5,-2942.5 "/>
-<text text-anchor="middle" x="1192.5" y="-2930.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polygon fill="white" stroke="#bfbfbf" points="1164.5,-2923.5 1164.5,-2980.5 1214.5,-2980.5 1214.5,-2923.5 1164.5,-2923.5"/>
+<text text-anchor="middle" x="1189.5" y="-2968.5" font-family="Helvetica,sans-Serif" font-size="10.00">QString</text>
+<polyline fill="none" stroke="#bfbfbf" points="1164.5,-2961.5 1214.5,-2961.5 "/>
+<text text-anchor="middle" x="1189.5" y="-2949.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polyline fill="none" stroke="#bfbfbf" points="1164.5,-2942.5 1214.5,-2942.5 "/>
+<text text-anchor="middle" x="1189.5" y="-2930.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 </g>
 <!-- Node21&#45;&gt;Node20 -->
 <g id="edge26" class="edge"><title>Node21&#45;&gt;Node20</title>
-<path fill="none" stroke="midnightblue" d="M1193.67,-2913.35C1194.91,-2873.33 1196.92,-2808.51 1198.6,-2754.59"/>
-<polygon fill="none" stroke="midnightblue" points="1190.17,-2913.35 1193.35,-2923.46 1197.16,-2913.57 1190.17,-2913.35"/>
+<path fill="none" stroke="midnightblue" d="M1190.8,-2913.35C1192.18,-2873.33 1194.41,-2808.51 1196.27,-2754.59"/>
+<polygon fill="none" stroke="midnightblue" points="1187.3,-2913.34 1190.45,-2923.46 1194.29,-2913.58 1187.3,-2913.34"/>
 </g>
 <!-- Node22&#45;&gt;Node2 -->
 <g id="edge48" class="edge"><title>Node22&#45;&gt;Node2</title>
-<path fill="none" stroke="#404040" d="M1381.79,-2581.99C1394.54,-2555.58 1399.95,-2526.73 1383.5,-2503 1370.52,-2484.27 1354.49,-2497.59 1335.5,-2485 1176.7,-2379.75 1212.57,-2255.77 1040.5,-2174 992.595,-2151.23 842.052,-2191.34 802.5,-2156 761.68,-2119.53 817.707,-2074.2 779.5,-2035 753.155,-2007.97 721.253,-2045.5 696.5,-2017 602.837,-1909.17 730.419,-1493.69 649.5,-1376 621.677,-1335.53 584.387,-1363.56 549.5,-1329 533.992,-1313.64 520.076,-1296.06 507.645,-1277.4"/>
+<path fill="none" stroke="#404040" d="M1380.01,-2581.83C1393.18,-2555.55 1398.89,-2526.82 1382.5,-2503 1369.82,-2484.57 1354.1,-2497.42 1335.5,-2485 1177.06,-2379.2 1212.57,-2255.77 1040.5,-2174 992.595,-2151.23 842.052,-2191.34 802.5,-2156 761.68,-2119.53 817.707,-2074.2 779.5,-2035 753.155,-2007.97 721.253,-2045.5 696.5,-2017 602.837,-1909.17 730.419,-1493.69 649.5,-1376 621.677,-1335.53 584.387,-1363.56 549.5,-1329 533.992,-1313.64 520.076,-1296.06 507.645,-1277.4"/>
 <polygon fill="none" stroke="#404040" points="507.596,-1277.32 500.981,-1274.45 501.087,-1267.24 507.702,-1270.11 507.596,-1277.32"/>
 <text text-anchor="middle" x="884" y="-2148" font-family="Helvetica,sans-Serif" font-size="10.00"> &#45;defaultFileToolBarBox</text>
 <text text-anchor="middle" x="884" y="-2137" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;defaultOptionsToolBarBox</text>
@@ -883,7 +883,7 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node22&#45;&gt;Node11 -->
 <g id="edge27" class="edge"><title>Node22&#45;&gt;Node11</title>
-<path fill="none" stroke="#404040" d="M1275.6,-2581.65C1268.9,-2575.15 1261.53,-2569.39 1253.5,-2565 1203.66,-2537.74 1044.84,-2579.86 998.5,-2547 981.124,-2534.68 995.588,-2516.96 979.5,-2503 956.536,-2483.07 941.539,-2496.76 913.5,-2485 838.681,-2453.63 759.064,-2404.88 706.856,-2370.55"/>
+<path fill="none" stroke="#404040" d="M1271.59,-2581.66C1264.9,-2575.16 1257.53,-2569.4 1249.5,-2565 1200.46,-2538.13 1044.1,-2579.37 998.5,-2547 981.131,-2534.67 995.588,-2516.96 979.5,-2503 956.536,-2483.07 941.539,-2496.76 913.5,-2485 838.681,-2453.63 759.064,-2404.88 706.856,-2370.55"/>
 <polygon fill="none" stroke="#404040" points="706.796,-2370.51 699.585,-2370.53 696.79,-2363.88 704.001,-2363.86 706.796,-2370.51"/>
 <text text-anchor="middle" x="1044" y="-2539" font-family="Helvetica,sans-Serif" font-size="10.00"> +enchainerRapports</text>
 <text text-anchor="middle" x="1044" y="-2528" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;consoleCheckBox</text>
@@ -892,26 +892,26 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node22&#45;&gt;Node24 -->
 <g id="edge38" class="edge"><title>Node22&#45;&gt;Node24</title>
-<path fill="none" stroke="#404040" d="M1315.23,-2581.99C1308.59,-2553.86 1296.71,-2523.87 1275.5,-2503 1255.05,-2482.87 1239.58,-2496.96 1213.5,-2485 1151.53,-2456.57 1087.08,-2413.54 1041.06,-2380.11"/>
+<path fill="none" stroke="#404040" d="M1313.27,-2581.69C1307.35,-2553.7 1296.21,-2523.87 1275.5,-2503 1255.29,-2482.63 1239.58,-2496.96 1213.5,-2485 1151.53,-2456.57 1087.08,-2413.54 1041.06,-2380.11"/>
 <polygon fill="none" stroke="#404040" points="1040.92,-2380.01 1033.72,-2379.69 1031.24,-2372.92 1038.44,-2373.23 1040.92,-2380.01"/>
-<text text-anchor="middle" x="1341.5" y="-2539" font-family="Helvetica,sans-Serif" font-size="10.00"> +tableCheckBox</text>
-<text text-anchor="middle" x="1341.5" y="-2528" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;etabCheckBox</text>
-<text text-anchor="middle" x="1341.5" y="-2517" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;rangCheckBox</text>
-<text text-anchor="middle" x="1341.5" y="-2506" font-family="Helvetica,sans-Serif" font-size="10.00">+FPHCheckBox</text>
+<text text-anchor="middle" x="1340.5" y="-2539" font-family="Helvetica,sans-Serif" font-size="10.00"> +tableCheckBox</text>
+<text text-anchor="middle" x="1340.5" y="-2528" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;etabCheckBox</text>
+<text text-anchor="middle" x="1340.5" y="-2517" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;rangCheckBox</text>
+<text text-anchor="middle" x="1340.5" y="-2506" font-family="Helvetica,sans-Serif" font-size="10.00">+FPHCheckBox</text>
 </g>
 <!-- Node23 -->
 <g id="node22" class="node"><title>Node23</title>
-<polygon fill="white" stroke="#bfbfbf" points="1235.5,-2923.5 1235.5,-2980.5 1305.5,-2980.5 1305.5,-2923.5 1235.5,-2923.5"/>
-<text text-anchor="middle" x="1270.5" y="-2968.5" font-family="Helvetica,sans-Serif" font-size="10.00">QCheckBox</text>
-<polyline fill="none" stroke="#bfbfbf" points="1235.5,-2961.5 1305.5,-2961.5 "/>
-<text text-anchor="middle" x="1270.5" y="-2949.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="#bfbfbf" points="1235.5,-2942.5 1305.5,-2942.5 "/>
-<text text-anchor="middle" x="1270.5" y="-2930.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polygon fill="white" stroke="#bfbfbf" points="1232.5,-2923.5 1232.5,-2980.5 1302.5,-2980.5 1302.5,-2923.5 1232.5,-2923.5"/>
+<text text-anchor="middle" x="1267.5" y="-2968.5" font-family="Helvetica,sans-Serif" font-size="10.00">QCheckBox</text>
+<polyline fill="none" stroke="#bfbfbf" points="1232.5,-2961.5 1302.5,-2961.5 "/>
+<text text-anchor="middle" x="1267.5" y="-2949.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polyline fill="none" stroke="#bfbfbf" points="1232.5,-2942.5 1302.5,-2942.5 "/>
+<text text-anchor="middle" x="1267.5" y="-2930.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 </g>
 <!-- Node23&#45;&gt;Node22 -->
 <g id="edge28" class="edge"><title>Node23&#45;&gt;Node22</title>
-<path fill="none" stroke="midnightblue" d="M1277.36,-2913.44C1285.44,-2869.27 1299.05,-2794.79 1309.4,-2738.14"/>
-<polygon fill="none" stroke="midnightblue" points="1273.89,-2912.99 1275.53,-2923.46 1280.77,-2914.25 1273.89,-2912.99"/>
+<path fill="none" stroke="midnightblue" d="M1274.23,-2913.44C1282.16,-2869.27 1295.51,-2794.79 1305.67,-2738.14"/>
+<polygon fill="none" stroke="midnightblue" points="1270.76,-2913 1272.44,-2923.46 1277.65,-2914.23 1270.76,-2913"/>
 </g>
 <!-- Node24&#45;&gt;Node6 -->
 <g id="edge30" class="edge"><title>Node24&#45;&gt;Node6</title>

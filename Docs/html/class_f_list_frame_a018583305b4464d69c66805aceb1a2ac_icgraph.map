@@ -1,6 +1,6 @@
 <map id="FListFrame::initializeWidgetContainer" name="FListFrame::initializeWidgetContainer">
 <area shape="rect" id="node2" href="$class_altair.html#a5b3c33b6ae4f6b57b5593245751ef203" title="Efface toutes les données du projet .alt et réinitialise l&#39;interface et les conteneurs de données int..." alt="" coords="237,59,395,85"/>
-<area shape="rect" id="node39" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur. " alt="" coords="443,8,605,35"/>
+<area shape="rect" id="node39" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur de la classe. " alt="" coords="443,8,605,35"/>
 <area shape="rect" id="node3" href="$class_altair.html#ab67e3285c4a6c8fb48d12381ea6ac6bd" title="Ferme le projet et réinitialise l&#39;interface (gestionnaire de projet inclus) " alt="" coords="458,312,590,339"/>
 <area shape="rect" id="node4" href="$class_altair.html#ae0975ced0a36e0ed889ae06043a4df66" title="Constructeur. " alt="" coords="3932,833,4023,860"/>
 <area shape="rect" id="node5" href="$class_altair.html#a1afa285a65e0bdff4c761ad05ec9f8df" title="Fonction réimplémentée : fin du déplacement de la souris. " alt="" coords="681,596,800,623"/>

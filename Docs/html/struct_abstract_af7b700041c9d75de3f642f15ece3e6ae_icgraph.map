@@ -2,7 +2,7 @@
 <area shape="rect" id="node2" href="$class_altair.html#a5b3c33b6ae4f6b57b5593245751ef203" title="Efface toutes les données du projet .alt et réinitialise l&#39;interface et les conteneurs de données int..." alt="" coords="175,1120,333,1147"/>
 <area shape="rect" id="node24" href="$class_altair.html#a2eb0a89c3223b2df1c01d2b3b7d1c0eb" title="Rafraichir le projet .alt après avoir actualisé l&#39;interface. " alt="" coords="2415,321,2555,348"/>
 <area shape="rect" id="node39" href="$class_f_list_frame.html#a8859291101ef64727925cbe283bb86d6" title="Efface tous les onglets et, selon la valeur des paramètres, insère un onglet vierge (ou pas) et effac..." alt="" coords="160,1171,348,1197"/>
-<area shape="rect" id="node40" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur. " alt="" coords="396,1335,559,1361"/>
+<area shape="rect" id="node40" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur de la classe. " alt="" coords="396,1335,559,1361"/>
 <area shape="rect" id="node43" href="$class_f_list_widget.html#a79c2abb392dbbc6984fb54029769240c" title="FListWidget::FListWidget" alt="" coords="169,1272,339,1299"/>
 <area shape="rect" id="node44" href="$class_main_window.html#a0bedf238d5826befe80ac24cabcc34e9" title="Constructeur de l&#39;interface graphique. " alt="" coords="164,1323,344,1349"/>
 <area shape="rect" id="node3" href="$class_altair.html#ab67e3285c4a6c8fb48d12381ea6ac6bd" title="Ferme le projet et réinitialise l&#39;interface (gestionnaire de projet inclus) " alt="" coords="411,1005,543,1032"/>

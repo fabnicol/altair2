@@ -2,7 +2,7 @@
 <area shape="rect" id="node2" href="$class_f_list_frame.html#aa993bd2e0b975a839c6f8b46dea4690c" title="FListFrame::finalise" alt="" coords="211,508,348,535"/>
 <area shape="rect" id="node6" href="$class_altair.html#a41b6c8a35ed8ba14c7c0ce2e6994655f" title="Décode le projet représenté par un pointeur vers QFile ou similaire. " alt="" coords="1000,457,1155,484"/>
 <area shape="rect" id="node9" href="$class_altair.html#aa341707131924eff160bcab41422d1ec" title="Code commun à différentes fonctions lancées pour l&#39;analyse des projets. " alt="" coords="2879,563,3113,589"/>
-<area shape="rect" id="node3" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur. " alt="" coords="396,508,559,535"/>
+<area shape="rect" id="node3" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur de la classe. " alt="" coords="396,508,559,535"/>
 <area shape="rect" id="node4" href="$class_f_list_frame.html#a7ecbe60018d55d1a1352c5fd24c5e72e" title="Assigne les titres des onglets de l&#39;onglet central. " alt="" coords="607,508,781,535"/>
 <area shape="rect" id="node5" href="$class_altair.html#a3f6193de22ed2034c9b6dbe7a8ac4d97" title="Lors du décodage du projet XML .alt, décoder le noed courant et renvoyer l&#39;empilement des valeurs en ..." alt="" coords="829,508,952,535"/>
 <area shape="rect" id="node7" href="$class_altair.html#ac9d7d8e7cebf70212818f1a8ba7d7d78" title="Rafraîchit le gestionnaire de projet à la droite de l&#39;interface. Fonction globale par défaut..." alt="" coords="1203,453,1393,480"/>

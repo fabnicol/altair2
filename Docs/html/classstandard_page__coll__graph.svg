@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 777;
+var viewWidth = 773;
 var viewHeight = 801;
 var sectionId = 'dynsection-1';
 </script>
@@ -54,7 +54,7 @@ var sectionId = 'dynsection-1';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>standardPage</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-797 773,-797 773,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-797 769,-797 769,4 -4,4"/>
 <!-- Node5 -->
 <g id="node1" class="node"><title>Node5</title>
 <polygon fill="#bfbfbf" stroke="black" points="171.5,-0.5 171.5,-101.5 280.5,-101.5 280.5,-0.5 171.5,-0.5"/>
@@ -157,242 +157,242 @@ var sectionId = 'dynsection-1';
 <!-- Node9 -->
 <g id="node5" class="node"><title>Node9</title>
 <g id="a_node5"><a xlink:href="classflags.html" target="_top" xlink:title="{flags\n||}">
-<polygon fill="white" stroke="black" points="354,-735.5 354,-792.5 392,-792.5 392,-735.5 354,-735.5"/>
-<text text-anchor="middle" x="373" y="-780.5" font-family="Helvetica,sans-Serif" font-size="10.00">flags</text>
-<polyline fill="none" stroke="black" points="354,-773.5 392,-773.5 "/>
-<text text-anchor="middle" x="373" y="-761.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="354,-754.5 392,-754.5 "/>
-<text text-anchor="middle" x="373" y="-742.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polygon fill="white" stroke="black" points="352,-735.5 352,-792.5 390,-792.5 390,-735.5 352,-735.5"/>
+<text text-anchor="middle" x="371" y="-780.5" font-family="Helvetica,sans-Serif" font-size="10.00">flags</text>
+<polyline fill="none" stroke="black" points="352,-773.5 390,-773.5 "/>
+<text text-anchor="middle" x="371" y="-761.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="352,-754.5 390,-754.5 "/>
+<text text-anchor="middle" x="371" y="-742.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 </a>
 </g>
 </g>
 <!-- Node9&#45;&gt;Node8 -->
 <g id="edge4" class="edge"><title>Node9&#45;&gt;Node8</title>
-<path fill="none" stroke="midnightblue" d="M344.442,-751.918C319.214,-741.062 282.563,-722.576 257,-698 247.204,-688.582 238.063,-677.85 229.662,-666.594"/>
-<polygon fill="none" stroke="midnightblue" points="343.256,-755.215 353.832,-755.834 345.95,-748.755 343.256,-755.215"/>
+<path fill="none" stroke="midnightblue" d="M342.382,-751.98C317.113,-741.166 280.437,-722.706 255,-698 245.937,-689.197 237.471,-679.243 229.66,-668.782"/>
+<polygon fill="none" stroke="midnightblue" points="341.211,-755.284 351.789,-755.879 343.891,-748.817 341.211,-755.284"/>
 </g>
 <!-- Node12 -->
 <g id="node8" class="node"><title>Node12</title>
 <g id="a_node8"><a xlink:href="class_f_abstract_widget.html" target="_top" xlink:title="{FAbstractWidget\n|+ commandLineList\l+ commandLineType\l+ disabledObjects\l+ enabledObjects\l+ optionLabel\l+ status\l# componentList\l# description\l# hashKey\l# widgetDepth\l|+ commandLineStringList()\l+ getComponentList()\l+ getDepth()\l+ getDescription()\l+ getHashKey()\l+ isAbstractDisabled()\l+ isAbstractEnabled()\l+ setDisableObjects()\l+ setHashKey()\l+ setWidgetFromXml()\l+ setXmlFromWidget()\l# FCore()\l# FCore()\l}">
-<polygon fill="white" stroke="black" points="434,-409.5 434,-697.5 568,-697.5 568,-409.5 434,-409.5"/>
-<text text-anchor="middle" x="501" y="-685.5" font-family="Helvetica,sans-Serif" font-size="10.00">FAbstractWidget</text>
-<polyline fill="none" stroke="black" points="434,-678.5 568,-678.5 "/>
-<text text-anchor="start" x="442" y="-666.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ commandLineList</text>
-<text text-anchor="start" x="442" y="-655.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ commandLineType</text>
-<text text-anchor="start" x="442" y="-644.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ disabledObjects</text>
-<text text-anchor="start" x="442" y="-633.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ enabledObjects</text>
-<text text-anchor="start" x="442" y="-622.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ optionLabel</text>
-<text text-anchor="start" x="442" y="-611.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ status</text>
-<text text-anchor="start" x="442" y="-600.5" font-family="Helvetica,sans-Serif" font-size="10.00"># componentList</text>
-<text text-anchor="start" x="442" y="-589.5" font-family="Helvetica,sans-Serif" font-size="10.00"># description</text>
-<text text-anchor="start" x="442" y="-578.5" font-family="Helvetica,sans-Serif" font-size="10.00"># hashKey</text>
-<text text-anchor="start" x="442" y="-567.5" font-family="Helvetica,sans-Serif" font-size="10.00"># widgetDepth</text>
-<polyline fill="none" stroke="black" points="434,-560.5 568,-560.5 "/>
-<text text-anchor="start" x="442" y="-548.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ commandLineStringList()</text>
-<text text-anchor="start" x="442" y="-537.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getComponentList()</text>
-<text text-anchor="start" x="442" y="-526.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getDepth()</text>
-<text text-anchor="start" x="442" y="-515.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getDescription()</text>
-<text text-anchor="start" x="442" y="-504.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getHashKey()</text>
-<text text-anchor="start" x="442" y="-493.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isAbstractDisabled()</text>
-<text text-anchor="start" x="442" y="-482.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isAbstractEnabled()</text>
-<text text-anchor="start" x="442" y="-471.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setDisableObjects()</text>
-<text text-anchor="start" x="442" y="-460.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setHashKey()</text>
-<text text-anchor="start" x="442" y="-449.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setWidgetFromXml()</text>
-<text text-anchor="start" x="442" y="-438.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setXmlFromWidget()</text>
-<text text-anchor="start" x="442" y="-427.5" font-family="Helvetica,sans-Serif" font-size="10.00"># FCore()</text>
-<text text-anchor="start" x="442" y="-416.5" font-family="Helvetica,sans-Serif" font-size="10.00"># FCore()</text>
+<polygon fill="white" stroke="black" points="431,-409.5 431,-697.5 565,-697.5 565,-409.5 431,-409.5"/>
+<text text-anchor="middle" x="498" y="-685.5" font-family="Helvetica,sans-Serif" font-size="10.00">FAbstractWidget</text>
+<polyline fill="none" stroke="black" points="431,-678.5 565,-678.5 "/>
+<text text-anchor="start" x="439" y="-666.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ commandLineList</text>
+<text text-anchor="start" x="439" y="-655.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ commandLineType</text>
+<text text-anchor="start" x="439" y="-644.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ disabledObjects</text>
+<text text-anchor="start" x="439" y="-633.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ enabledObjects</text>
+<text text-anchor="start" x="439" y="-622.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ optionLabel</text>
+<text text-anchor="start" x="439" y="-611.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ status</text>
+<text text-anchor="start" x="439" y="-600.5" font-family="Helvetica,sans-Serif" font-size="10.00"># componentList</text>
+<text text-anchor="start" x="439" y="-589.5" font-family="Helvetica,sans-Serif" font-size="10.00"># description</text>
+<text text-anchor="start" x="439" y="-578.5" font-family="Helvetica,sans-Serif" font-size="10.00"># hashKey</text>
+<text text-anchor="start" x="439" y="-567.5" font-family="Helvetica,sans-Serif" font-size="10.00"># widgetDepth</text>
+<polyline fill="none" stroke="black" points="431,-560.5 565,-560.5 "/>
+<text text-anchor="start" x="439" y="-548.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ commandLineStringList()</text>
+<text text-anchor="start" x="439" y="-537.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getComponentList()</text>
+<text text-anchor="start" x="439" y="-526.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getDepth()</text>
+<text text-anchor="start" x="439" y="-515.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getDescription()</text>
+<text text-anchor="start" x="439" y="-504.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getHashKey()</text>
+<text text-anchor="start" x="439" y="-493.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isAbstractDisabled()</text>
+<text text-anchor="start" x="439" y="-482.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isAbstractEnabled()</text>
+<text text-anchor="start" x="439" y="-471.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setDisableObjects()</text>
+<text text-anchor="start" x="439" y="-460.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setHashKey()</text>
+<text text-anchor="start" x="439" y="-449.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setWidgetFromXml()</text>
+<text text-anchor="start" x="439" y="-438.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setXmlFromWidget()</text>
+<text text-anchor="start" x="439" y="-427.5" font-family="Helvetica,sans-Serif" font-size="10.00"># FCore()</text>
+<text text-anchor="start" x="439" y="-416.5" font-family="Helvetica,sans-Serif" font-size="10.00"># FCore()</text>
 </a>
 </g>
 </g>
 <!-- Node9&#45;&gt;Node12 -->
 <g id="edge10" class="edge"><title>Node9&#45;&gt;Node12</title>
-<path fill="none" stroke="midnightblue" d="M398.508,-732.735C407.03,-722.054 416.308,-709.768 424,-698 427.326,-692.912 430.636,-687.666 433.91,-682.325"/>
-<polygon fill="none" stroke="midnightblue" points="395.749,-730.58 392.178,-740.555 401.19,-734.985 395.749,-730.58"/>
+<path fill="none" stroke="midnightblue" d="M396.413,-732.103C404.641,-721.553 413.557,-709.508 421,-698 424.301,-692.896 427.591,-687.637 430.848,-682.285"/>
+<polygon fill="none" stroke="midnightblue" points="393.463,-730.191 390.003,-740.205 398.953,-734.534 393.463,-730.191"/>
 </g>
 <!-- Node10 -->
 <g id="node6" class="node"><title>Node10</title>
 <g id="a_node6"><a xlink:href="class_f_combo_box.html" target="_top" xlink:title="{FComboBox\n|+ comboBoxTranslationHash\l|+ FComboBox()\l+ FComboBox()\l+ FComboBox()\l+ FComboBox()\l+ FComboBox()\l+ isAbstractEnabled()\l+ setWidgetFromXml()\l+ setXmlFromWidget()\l&#45; fromCurrentIndex()\l}">
-<polygon fill="white" stroke="black" points="352.5,-204.5 352.5,-349.5 495.5,-349.5 495.5,-204.5 352.5,-204.5"/>
-<text text-anchor="middle" x="424" y="-337.5" font-family="Helvetica,sans-Serif" font-size="10.00">FComboBox</text>
-<polyline fill="none" stroke="black" points="352.5,-330.5 495.5,-330.5 "/>
-<text text-anchor="start" x="360.5" y="-318.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ comboBoxTranslationHash</text>
-<polyline fill="none" stroke="black" points="352.5,-311.5 495.5,-311.5 "/>
-<text text-anchor="start" x="360.5" y="-299.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FComboBox()</text>
-<text text-anchor="start" x="360.5" y="-288.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FComboBox()</text>
-<text text-anchor="start" x="360.5" y="-277.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FComboBox()</text>
-<text text-anchor="start" x="360.5" y="-266.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FComboBox()</text>
-<text text-anchor="start" x="360.5" y="-255.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FComboBox()</text>
-<text text-anchor="start" x="360.5" y="-244.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isAbstractEnabled()</text>
-<text text-anchor="start" x="360.5" y="-233.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setWidgetFromXml()</text>
-<text text-anchor="start" x="360.5" y="-222.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setXmlFromWidget()</text>
-<text text-anchor="start" x="360.5" y="-211.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; fromCurrentIndex()</text>
+<polygon fill="white" stroke="black" points="348.5,-204.5 348.5,-349.5 491.5,-349.5 491.5,-204.5 348.5,-204.5"/>
+<text text-anchor="middle" x="420" y="-337.5" font-family="Helvetica,sans-Serif" font-size="10.00">FComboBox</text>
+<polyline fill="none" stroke="black" points="348.5,-330.5 491.5,-330.5 "/>
+<text text-anchor="start" x="356.5" y="-318.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ comboBoxTranslationHash</text>
+<polyline fill="none" stroke="black" points="348.5,-311.5 491.5,-311.5 "/>
+<text text-anchor="start" x="356.5" y="-299.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FComboBox()</text>
+<text text-anchor="start" x="356.5" y="-288.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FComboBox()</text>
+<text text-anchor="start" x="356.5" y="-277.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FComboBox()</text>
+<text text-anchor="start" x="356.5" y="-266.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FComboBox()</text>
+<text text-anchor="start" x="356.5" y="-255.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FComboBox()</text>
+<text text-anchor="start" x="356.5" y="-244.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isAbstractEnabled()</text>
+<text text-anchor="start" x="356.5" y="-233.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setWidgetFromXml()</text>
+<text text-anchor="start" x="356.5" y="-222.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setXmlFromWidget()</text>
+<text text-anchor="start" x="356.5" y="-211.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; fromCurrentIndex()</text>
 </a>
 </g>
 </g>
 <!-- Node10&#45;&gt;Node5 -->
 <g id="edge7" class="edge"><title>Node10&#45;&gt;Node5</title>
-<path fill="none" stroke="#404040" d="M387.423,-204.406C370.971,-176.221 349.867,-144.749 326,-120 315.535,-109.149 303.074,-99.0348 290.559,-90.0986"/>
-<polygon fill="none" stroke="#404040" points="290.426,-90.0067 283.215,-89.8923 280.548,-83.1927 287.758,-83.3071 290.426,-90.0067"/>
-<text text-anchor="middle" x="408" y="-150.5" font-family="Helvetica,sans-Serif" font-size="10.00"> &#45;processTypeWidget</text>
-<text text-anchor="middle" x="408" y="-139.5" font-family="Helvetica,sans-Serif" font-size="10.00">+exportWidget</text>
-<text text-anchor="middle" x="408" y="-128.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;baseTypeWidget</text>
+<path fill="none" stroke="#404040" d="M384.842,-204.413C368.939,-176.229 348.434,-144.756 325,-120 314.921,-109.353 302.911,-99.4242 290.79,-90.6231"/>
+<polygon fill="none" stroke="#404040" points="290.452,-90.3869 283.243,-90.2223 280.622,-83.5043 287.831,-83.6689 290.452,-90.3869"/>
+<text text-anchor="middle" x="407" y="-150.5" font-family="Helvetica,sans-Serif" font-size="10.00"> &#45;processTypeWidget</text>
+<text text-anchor="middle" x="407" y="-139.5" font-family="Helvetica,sans-Serif" font-size="10.00">+exportWidget</text>
+<text text-anchor="middle" x="407" y="-128.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;baseTypeWidget</text>
 </g>
 <!-- Node11 -->
 <g id="node7" class="node"><title>Node11</title>
-<polygon fill="white" stroke="#bfbfbf" points="342.5,-525 342.5,-582 415.5,-582 415.5,-525 342.5,-525"/>
-<text text-anchor="middle" x="379" y="-570" font-family="Helvetica,sans-Serif" font-size="10.00">QComboBox</text>
-<polyline fill="none" stroke="#bfbfbf" points="342.5,-563 415.5,-563 "/>
-<text text-anchor="middle" x="379" y="-551" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="#bfbfbf" points="342.5,-544 415.5,-544 "/>
-<text text-anchor="middle" x="379" y="-532" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polygon fill="white" stroke="#bfbfbf" points="339.5,-525 339.5,-582 412.5,-582 412.5,-525 339.5,-525"/>
+<text text-anchor="middle" x="376" y="-570" font-family="Helvetica,sans-Serif" font-size="10.00">QComboBox</text>
+<polyline fill="none" stroke="#bfbfbf" points="339.5,-563 412.5,-563 "/>
+<text text-anchor="middle" x="376" y="-551" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polyline fill="none" stroke="#bfbfbf" points="339.5,-544 412.5,-544 "/>
+<text text-anchor="middle" x="376" y="-532" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 </g>
 <!-- Node11&#45;&gt;Node10 -->
 <g id="edge8" class="edge"><title>Node11&#45;&gt;Node10</title>
-<path fill="none" stroke="midnightblue" d="M385.144,-515.019C392.098,-472.6 403.587,-402.522 412.272,-349.541"/>
-<polygon fill="none" stroke="midnightblue" points="381.685,-514.489 383.521,-524.923 388.593,-515.621 381.685,-514.489"/>
+<path fill="none" stroke="midnightblue" d="M382.008,-515.019C388.807,-472.6 400.04,-402.522 408.533,-349.541"/>
+<polygon fill="none" stroke="midnightblue" points="378.547,-514.495 380.42,-524.923 385.459,-515.603 378.547,-514.495"/>
 </g>
 <!-- Node12&#45;&gt;Node10 -->
 <g id="edge9" class="edge"><title>Node12&#45;&gt;Node10</title>
-<path fill="none" stroke="midnightblue" d="M458.097,-399.552C453.229,-382.199 448.457,-365.186 444.096,-349.641"/>
-<polygon fill="none" stroke="midnightblue" points="454.738,-400.537 460.809,-409.22 461.478,-398.647 454.738,-400.537"/>
+<path fill="none" stroke="midnightblue" d="M454.539,-399.552C449.609,-382.199 444.774,-365.186 440.357,-349.641"/>
+<polygon fill="none" stroke="midnightblue" points="451.187,-400.558 457.287,-409.22 457.92,-398.644 451.187,-400.558"/>
 </g>
 <!-- Node15 -->
 <g id="node11" class="node"><title>Node15</title>
 <g id="a_node11"><a xlink:href="class_f_line_edit.html" target="_top" xlink:title="{FLineEdit\n||+ FLineEdit()\l+ FLineEdit()\l+ FLineEdit()\l+ FLineEdit()\l+ FLineEdit()\l+ FLineEdit()\l+ isAbstractEnabled()\l+ setWidgetFromXml()\l+ setXmlFromWidget()\l}">
-<polygon fill="white" stroke="black" points="653,-204.5 653,-349.5 769,-349.5 769,-204.5 653,-204.5"/>
-<text text-anchor="middle" x="711" y="-337.5" font-family="Helvetica,sans-Serif" font-size="10.00">FLineEdit</text>
-<polyline fill="none" stroke="black" points="653,-330.5 769,-330.5 "/>
-<text text-anchor="middle" x="711" y="-318.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="653,-311.5 769,-311.5 "/>
-<text text-anchor="start" x="661" y="-299.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FLineEdit()</text>
-<text text-anchor="start" x="661" y="-288.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FLineEdit()</text>
-<text text-anchor="start" x="661" y="-277.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FLineEdit()</text>
-<text text-anchor="start" x="661" y="-266.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FLineEdit()</text>
-<text text-anchor="start" x="661" y="-255.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FLineEdit()</text>
-<text text-anchor="start" x="661" y="-244.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FLineEdit()</text>
-<text text-anchor="start" x="661" y="-233.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isAbstractEnabled()</text>
-<text text-anchor="start" x="661" y="-222.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setWidgetFromXml()</text>
-<text text-anchor="start" x="661" y="-211.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setXmlFromWidget()</text>
+<polygon fill="white" stroke="black" points="649,-204.5 649,-349.5 765,-349.5 765,-204.5 649,-204.5"/>
+<text text-anchor="middle" x="707" y="-337.5" font-family="Helvetica,sans-Serif" font-size="10.00">FLineEdit</text>
+<polyline fill="none" stroke="black" points="649,-330.5 765,-330.5 "/>
+<text text-anchor="middle" x="707" y="-318.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="649,-311.5 765,-311.5 "/>
+<text text-anchor="start" x="657" y="-299.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FLineEdit()</text>
+<text text-anchor="start" x="657" y="-288.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FLineEdit()</text>
+<text text-anchor="start" x="657" y="-277.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FLineEdit()</text>
+<text text-anchor="start" x="657" y="-266.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FLineEdit()</text>
+<text text-anchor="start" x="657" y="-255.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FLineEdit()</text>
+<text text-anchor="start" x="657" y="-244.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FLineEdit()</text>
+<text text-anchor="start" x="657" y="-233.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isAbstractEnabled()</text>
+<text text-anchor="start" x="657" y="-222.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setWidgetFromXml()</text>
+<text text-anchor="start" x="657" y="-211.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setXmlFromWidget()</text>
 </a>
 </g>
 </g>
 <!-- Node12&#45;&gt;Node15 -->
 <g id="edge15" class="edge"><title>Node12&#45;&gt;Node15</title>
-<path fill="none" stroke="midnightblue" d="M575.01,-411.073C575.669,-410.375 576.332,-409.684 577,-409 600.493,-384.939 617.89,-394.369 643,-372 650.52,-365.301 657.696,-357.633 664.376,-349.63"/>
-<polygon fill="none" stroke="midnightblue" points="572.166,-409.003 568.115,-418.793 577.387,-413.665 572.166,-409.003"/>
+<path fill="none" stroke="midnightblue" d="M572.016,-411.079C572.673,-410.379 573.334,-409.686 574,-409 597.145,-385.14 614.252,-394.193 639,-372 646.498,-365.276 653.661,-357.593 660.334,-349.582"/>
+<polygon fill="none" stroke="midnightblue" points="569.166,-409.018 565.142,-418.819 574.4,-413.666 569.166,-409.018"/>
 </g>
 <!-- Node17 -->
 <g id="node13" class="node"><title>Node17</title>
 <g id="a_node13"><a xlink:href="class_f_check_box.html" target="_top" xlink:title="{FCheckBox\n||+ FCheckBox()\l+ FCheckBox()\l+ FCheckBox()\l+ FCheckBox()\l+ FCheckBox()\l+ FCheckBox()\l+ isAbstractEnabled()\l+ setWidgetFromXml()\l+ setXmlFromWidget()\l&#45; uncheckDisabledBox()\l}">
-<polygon fill="white" stroke="black" points="513.5,-199 513.5,-355 634.5,-355 634.5,-199 513.5,-199"/>
-<text text-anchor="middle" x="574" y="-343" font-family="Helvetica,sans-Serif" font-size="10.00">FCheckBox</text>
-<polyline fill="none" stroke="black" points="513.5,-336 634.5,-336 "/>
-<text text-anchor="middle" x="574" y="-324" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="513.5,-317 634.5,-317 "/>
-<text text-anchor="start" x="521.5" y="-305" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
-<text text-anchor="start" x="521.5" y="-294" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
-<text text-anchor="start" x="521.5" y="-283" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
-<text text-anchor="start" x="521.5" y="-272" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
-<text text-anchor="start" x="521.5" y="-261" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
-<text text-anchor="start" x="521.5" y="-250" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
-<text text-anchor="start" x="521.5" y="-239" font-family="Helvetica,sans-Serif" font-size="10.00">+ isAbstractEnabled()</text>
-<text text-anchor="start" x="521.5" y="-228" font-family="Helvetica,sans-Serif" font-size="10.00">+ setWidgetFromXml()</text>
-<text text-anchor="start" x="521.5" y="-217" font-family="Helvetica,sans-Serif" font-size="10.00">+ setXmlFromWidget()</text>
-<text text-anchor="start" x="521.5" y="-206" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; uncheckDisabledBox()</text>
+<polygon fill="white" stroke="black" points="509.5,-199 509.5,-355 630.5,-355 630.5,-199 509.5,-199"/>
+<text text-anchor="middle" x="570" y="-343" font-family="Helvetica,sans-Serif" font-size="10.00">FCheckBox</text>
+<polyline fill="none" stroke="black" points="509.5,-336 630.5,-336 "/>
+<text text-anchor="middle" x="570" y="-324" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="509.5,-317 630.5,-317 "/>
+<text text-anchor="start" x="517.5" y="-305" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
+<text text-anchor="start" x="517.5" y="-294" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
+<text text-anchor="start" x="517.5" y="-283" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
+<text text-anchor="start" x="517.5" y="-272" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
+<text text-anchor="start" x="517.5" y="-261" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
+<text text-anchor="start" x="517.5" y="-250" font-family="Helvetica,sans-Serif" font-size="10.00">+ FCheckBox()</text>
+<text text-anchor="start" x="517.5" y="-239" font-family="Helvetica,sans-Serif" font-size="10.00">+ isAbstractEnabled()</text>
+<text text-anchor="start" x="517.5" y="-228" font-family="Helvetica,sans-Serif" font-size="10.00">+ setWidgetFromXml()</text>
+<text text-anchor="start" x="517.5" y="-217" font-family="Helvetica,sans-Serif" font-size="10.00">+ setXmlFromWidget()</text>
+<text text-anchor="start" x="517.5" y="-206" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; uncheckDisabledBox()</text>
 </a>
 </g>
 </g>
 <!-- Node12&#45;&gt;Node17 -->
 <g id="edge18" class="edge"><title>Node12&#45;&gt;Node17</title>
-<path fill="none" stroke="midnightblue" d="M541.763,-399.222C545.797,-384.052 549.76,-369.148 553.453,-355.263"/>
-<polygon fill="none" stroke="midnightblue" points="538.291,-398.657 539.104,-409.22 545.056,-400.456 538.291,-398.657"/>
+<path fill="none" stroke="midnightblue" d="M538.204,-399.222C542.183,-384.052 546.092,-369.148 549.734,-355.263"/>
+<polygon fill="none" stroke="midnightblue" points="534.733,-398.659 535.582,-409.22 541.504,-400.435 534.733,-398.659"/>
 </g>
 <!-- Node13 -->
 <g id="node9" class="node"><title>Node13</title>
 <g id="a_node9"><a xlink:href="class_f_string.html" target="_top" xlink:title="Chaîne de caractères fonctionnelle. ">
-<polygon fill="white" stroke="black" points="248,-182.5 248,-371.5 334,-371.5 334,-182.5 248,-182.5"/>
-<text text-anchor="middle" x="291" y="-359.5" font-family="Helvetica,sans-Serif" font-size="10.00">FString</text>
-<polyline fill="none" stroke="black" points="248,-352.5 334,-352.5 "/>
+<polygon fill="white" stroke="black" points="248,-182.5 248,-371.5 330,-371.5 330,-182.5 248,-182.5"/>
+<text text-anchor="middle" x="289" y="-359.5" font-family="Helvetica,sans-Serif" font-size="10.00">FString</text>
+<polyline fill="none" stroke="black" points="248,-352.5 330,-352.5 "/>
 <text text-anchor="start" x="256" y="-340.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; p</text>
 <text text-anchor="start" x="256" y="-329.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; x</text>
-<polyline fill="none" stroke="black" points="248,-322.5 334,-322.5 "/>
+<polyline fill="none" stroke="black" points="248,-322.5 330,-322.5 "/>
 <text text-anchor="start" x="256" y="-310.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
 <text text-anchor="start" x="256" y="-299.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
 <text text-anchor="start" x="256" y="-288.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
 <text text-anchor="start" x="256" y="-277.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
 <text text-anchor="start" x="256" y="-266.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
-<text text-anchor="start" x="256" y="-255.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ fromBool()</text>
-<text text-anchor="start" x="256" y="-244.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isBoolean()</text>
-<text text-anchor="start" x="256" y="-233.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isFalse()</text>
-<text text-anchor="start" x="256" y="-222.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isFilled()</text>
-<text text-anchor="start" x="256" y="-211.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isMultimodal()</text>
-<text text-anchor="start" x="256" y="-200.5" font-family="Helvetica,sans-Serif" font-size="10.00">et 15 de plus...</text>
+<text text-anchor="start" x="256" y="-255.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
+<text text-anchor="start" x="256" y="-244.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ fromBool()</text>
+<text text-anchor="start" x="256" y="-233.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isBoolean()</text>
+<text text-anchor="start" x="256" y="-222.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isFalse()</text>
+<text text-anchor="start" x="256" y="-211.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isFilled()</text>
+<text text-anchor="start" x="256" y="-200.5" font-family="Helvetica,sans-Serif" font-size="10.00">et 16 de plus...</text>
 <text text-anchor="start" x="256" y="-189.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; testBool()</text>
 </a>
 </g>
 </g>
 <!-- Node13&#45;&gt;Node5 -->
 <g id="edge11" class="edge"><title>Node13&#45;&gt;Node5</title>
-<path fill="none" stroke="#404040" d="M263.811,-182.302C257.062,-159.043 249.999,-134.703 243.828,-113.439"/>
-<polygon fill="none" stroke="#404040" points="243.748,-113.164 238.235,-108.516 240.404,-101.639 245.918,-106.287 243.748,-113.164"/>
-<text text-anchor="middle" x="290.5" y="-139.5" font-family="Helvetica,sans-Serif" font-size="10.00"> &#45;standardMsg</text>
+<path fill="none" stroke="#404040" d="M262.647,-182.302C256.106,-159.043 249.26,-134.703 243.28,-113.439"/>
+<polygon fill="none" stroke="#404040" points="243.21,-113.191 237.735,-108.498 239.961,-101.639 245.436,-106.332 243.21,-113.191"/>
+<text text-anchor="middle" x="289.5" y="-139.5" font-family="Helvetica,sans-Serif" font-size="10.00"> &#45;standardMsg</text>
 </g>
 <!-- Node14 -->
 <g id="node10" class="node"><title>Node14</title>
-<polygon fill="white" stroke="#bfbfbf" points="266,-525 266,-582 316,-582 316,-525 266,-525"/>
-<text text-anchor="middle" x="291" y="-570" font-family="Helvetica,sans-Serif" font-size="10.00">QString</text>
-<polyline fill="none" stroke="#bfbfbf" points="266,-563 316,-563 "/>
-<text text-anchor="middle" x="291" y="-551" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="#bfbfbf" points="266,-544 316,-544 "/>
-<text text-anchor="middle" x="291" y="-532" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polygon fill="white" stroke="#bfbfbf" points="264,-525 264,-582 314,-582 314,-525 264,-525"/>
+<text text-anchor="middle" x="289" y="-570" font-family="Helvetica,sans-Serif" font-size="10.00">QString</text>
+<polyline fill="none" stroke="#bfbfbf" points="264,-563 314,-563 "/>
+<text text-anchor="middle" x="289" y="-551" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polyline fill="none" stroke="#bfbfbf" points="264,-544 314,-544 "/>
+<text text-anchor="middle" x="289" y="-532" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 </g>
 <!-- Node14&#45;&gt;Node13 -->
 <g id="edge12" class="edge"><title>Node14&#45;&gt;Node13</title>
-<path fill="none" stroke="midnightblue" d="M291,-514.667C291,-477.915 291,-420.642 291,-371.644"/>
-<polygon fill="none" stroke="midnightblue" points="287.5,-514.923 291,-524.923 294.5,-514.923 287.5,-514.923"/>
+<path fill="none" stroke="midnightblue" d="M289,-514.667C289,-477.915 289,-420.642 289,-371.644"/>
+<polygon fill="none" stroke="midnightblue" points="285.5,-514.923 289,-524.923 292.5,-514.923 285.5,-514.923"/>
 </g>
 <!-- Node15&#45;&gt;Node5 -->
 <g id="edge13" class="edge"><title>Node15&#45;&gt;Node5</title>
-<path fill="none" stroke="#404040" d="M671.039,-204.2C649.908,-173.12 621.041,-139.465 586,-120 493.168,-68.4339 368.303,-55.2053 292.671,-52.2416"/>
-<polygon fill="none" stroke="#404040" points="292.505,-52.2361 286.375,-56.0345 280.512,-51.8372 286.641,-48.0389 292.505,-52.2361"/>
-<text text-anchor="middle" x="681.5" y="-139.5" font-family="Helvetica,sans-Serif" font-size="10.00"> &#45;maxNLigneLineEdit</text>
+<path fill="none" stroke="#404040" d="M667.822,-204.385C647.06,-173.345 618.64,-139.67 584,-120 492.282,-67.9195 368.191,-54.8331 292.792,-52.0399"/>
+<polygon fill="none" stroke="#404040" points="292.66,-52.0359 286.539,-55.8481 280.666,-51.6641 286.787,-47.8519 292.66,-52.0359"/>
+<text text-anchor="middle" x="678.5" y="-139.5" font-family="Helvetica,sans-Serif" font-size="10.00"> &#45;maxNLigneLineEdit</text>
 </g>
 <!-- Node16 -->
 <g id="node12" class="node"><title>Node16</title>
-<polygon fill="white" stroke="#bfbfbf" points="681.5,-525 681.5,-582 740.5,-582 740.5,-525 681.5,-525"/>
-<text text-anchor="middle" x="711" y="-570" font-family="Helvetica,sans-Serif" font-size="10.00">QLineEdit</text>
-<polyline fill="none" stroke="#bfbfbf" points="681.5,-563 740.5,-563 "/>
-<text text-anchor="middle" x="711" y="-551" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="#bfbfbf" points="681.5,-544 740.5,-544 "/>
-<text text-anchor="middle" x="711" y="-532" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polygon fill="white" stroke="#bfbfbf" points="677.5,-525 677.5,-582 736.5,-582 736.5,-525 677.5,-525"/>
+<text text-anchor="middle" x="707" y="-570" font-family="Helvetica,sans-Serif" font-size="10.00">QLineEdit</text>
+<polyline fill="none" stroke="#bfbfbf" points="677.5,-563 736.5,-563 "/>
+<text text-anchor="middle" x="707" y="-551" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polyline fill="none" stroke="#bfbfbf" points="677.5,-544 736.5,-544 "/>
+<text text-anchor="middle" x="707" y="-532" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 </g>
 <!-- Node16&#45;&gt;Node15 -->
 <g id="edge14" class="edge"><title>Node16&#45;&gt;Node15</title>
-<path fill="none" stroke="midnightblue" d="M711,-514.75C711,-472.304 711,-402.41 711,-349.541"/>
-<polygon fill="none" stroke="midnightblue" points="707.5,-514.923 711,-524.923 714.5,-514.923 707.5,-514.923"/>
+<path fill="none" stroke="midnightblue" d="M707,-514.75C707,-472.304 707,-402.41 707,-349.541"/>
+<polygon fill="none" stroke="midnightblue" points="703.5,-514.923 707,-524.923 710.5,-514.923 703.5,-514.923"/>
 </g>
 <!-- Node17&#45;&gt;Node5 -->
 <g id="edge16" class="edge"><title>Node17&#45;&gt;Node5</title>
-<path fill="none" stroke="#404040" d="M531.668,-198.723C512.747,-170.396 488.1,-140.328 459,-120 409.374,-85.3338 342.074,-68.161 292.562,-59.7647"/>
-<polygon fill="none" stroke="#404040" points="292.546,-59.7623 285.988,-62.7617 280.697,-57.862 287.255,-54.8626 292.546,-59.7623"/>
-<text text-anchor="middle" x="544" y="-156" font-family="Helvetica,sans-Serif" font-size="10.00"> +tableCheckBox</text>
-<text text-anchor="middle" x="544" y="-145" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;etabCheckBox</text>
-<text text-anchor="middle" x="544" y="-134" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;rangCheckBox</text>
-<text text-anchor="middle" x="544" y="-123" font-family="Helvetica,sans-Serif" font-size="10.00">+FPHCheckBox</text>
+<path fill="none" stroke="#404040" d="M529.14,-198.736C510.762,-170.41 486.696,-140.341 458,-120 408.913,-85.206 342.053,-68.0567 292.717,-59.7013"/>
+<polygon fill="none" stroke="#404040" points="292.423,-59.6544 285.867,-62.6577 280.573,-57.7611 287.129,-54.7578 292.423,-59.6544"/>
+<text text-anchor="middle" x="542" y="-156" font-family="Helvetica,sans-Serif" font-size="10.00"> +tableCheckBox</text>
+<text text-anchor="middle" x="542" y="-145" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;etabCheckBox</text>
+<text text-anchor="middle" x="542" y="-134" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;rangCheckBox</text>
+<text text-anchor="middle" x="542" y="-123" font-family="Helvetica,sans-Serif" font-size="10.00">+FPHCheckBox</text>
 </g>
 <!-- Node18 -->
 <g id="node14" class="node"><title>Node18</title>
-<polygon fill="white" stroke="#bfbfbf" points="586,-525 586,-582 656,-582 656,-525 586,-525"/>
-<text text-anchor="middle" x="621" y="-570" font-family="Helvetica,sans-Serif" font-size="10.00">QCheckBox</text>
-<polyline fill="none" stroke="#bfbfbf" points="586,-563 656,-563 "/>
-<text text-anchor="middle" x="621" y="-551" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="#bfbfbf" points="586,-544 656,-544 "/>
-<text text-anchor="middle" x="621" y="-532" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polygon fill="white" stroke="#bfbfbf" points="583,-525 583,-582 653,-582 653,-525 583,-525"/>
+<text text-anchor="middle" x="618" y="-570" font-family="Helvetica,sans-Serif" font-size="10.00">QCheckBox</text>
+<polyline fill="none" stroke="#bfbfbf" points="583,-563 653,-563 "/>
+<text text-anchor="middle" x="618" y="-551" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polyline fill="none" stroke="#bfbfbf" points="583,-544 653,-544 "/>
+<text text-anchor="middle" x="618" y="-532" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 </g>
 <!-- Node18&#45;&gt;Node17 -->
 <g id="edge17" class="edge"><title>Node18&#45;&gt;Node17</title>
-<path fill="none" stroke="midnightblue" d="M614.55,-514.832C607.534,-473.855 596.127,-407.23 587.195,-355.067"/>
-<polygon fill="none" stroke="midnightblue" points="611.141,-515.657 616.278,-524.923 618.04,-514.476 611.141,-515.657"/>
+<path fill="none" stroke="midnightblue" d="M611.413,-514.832C604.248,-473.855 592.598,-407.23 583.476,-355.067"/>
+<polygon fill="none" stroke="midnightblue" points="608.008,-515.675 613.178,-524.923 614.903,-514.47 608.008,-515.675"/>
 </g>
 </g>
 </svg>

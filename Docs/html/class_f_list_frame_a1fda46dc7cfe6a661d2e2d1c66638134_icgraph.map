@@ -1,5 +1,5 @@
 <map id="FListFrame::deleteGroup" name="FListFrame::deleteGroup">
-<area shape="rect" id="node2" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur. " alt="" coords="468,849,631,876"/>
+<area shape="rect" id="node2" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur de la classe. " alt="" coords="468,849,631,876"/>
 <area shape="rect" id="node42" href="$class_f_list_frame.html#a3b18347a90f89b4423e8a543f0c1c47c" title="FListFrame::on_deleteItem\l_clicked" alt="" coords="220,842,399,883"/>
 <area shape="rect" id="node43" href="$class_f_list_frame.html#a404f9f839864aecceba585397c7c882f" title="FListFrame::showContextMenu" alt="" coords="447,984,652,1011"/>
 <area shape="rect" id="node3" href="$class_f_list_frame.html#a7ecbe60018d55d1a1352c5fd24c5e72e" title="Assigne les titres des onglets de l&#39;onglet central. " alt="" coords="700,763,875,789"/>

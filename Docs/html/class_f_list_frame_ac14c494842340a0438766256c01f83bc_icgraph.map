@@ -1,5 +1,5 @@
 <map id="FListFrame::on_importFromMainTree_clicked" name="FListFrame::on_importFromMainTree_clicked">
-<area shape="rect" id="node2" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur. " alt="" coords="236,565,399,592"/>
+<area shape="rect" id="node2" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur de la classe. " alt="" coords="236,565,399,592"/>
 <area shape="rect" id="node3" href="$class_f_list_frame.html#a7ecbe60018d55d1a1352c5fd24c5e72e" title="Assigne les titres des onglets de l&#39;onglet central. " alt="" coords="447,565,621,592"/>
 <area shape="rect" id="node4" href="$class_altair.html#a3f6193de22ed2034c9b6dbe7a8ac4d97" title="Lors du décodage du projet XML .alt, décoder le noed courant et renvoyer l&#39;empilement des valeurs en ..." alt="" coords="669,565,792,592"/>
 <area shape="rect" id="node5" href="$class_altair.html#a41b6c8a35ed8ba14c7c0ce2e6994655f" title="Décode le projet représenté par un pointeur vers QFile ou similaire. " alt="" coords="840,565,995,592"/>
