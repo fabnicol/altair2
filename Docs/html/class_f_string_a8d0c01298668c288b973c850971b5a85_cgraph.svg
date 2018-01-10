@@ -16,7 +16,7 @@
 </g>
 <!-- Node19 -->
 <g id="node2" class="node"><title>Node19</title>
-<g id="a_node2"><a xlink:href="class_f_string.html#ac896b4ce38bd1e4c7f14b41f6f4d7f92" target="_top" xlink:title="FString::operator*">
+<g id="a_node2"><a xlink:href="class_f_string.html#ac896b4ce38bd1e4c7f14b41f6f4d7f92" target="_top" xlink:title="Opérateur de déréférencement. ">
 <polygon fill="white" stroke="black" points="122,-0.5 122,-19.5 215,-19.5 215,-0.5 122,-0.5"/>
 <text text-anchor="middle" x="168.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FString::operator*</text>
 </a>

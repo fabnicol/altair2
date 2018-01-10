@@ -793,8 +793,8 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node18&#45;&gt;Node34 -->
 <g id="edge43" class="edge"><title>Node18&#45;&gt;Node34</title>
-<path fill="none" stroke="midnightblue" d="M956.788,-3557.53C1000.66,-3524.97 1053.98,-3478.97 1088.5,-3427 1108.43,-3397 1172.59,-3189.62 1207.44,-3074.17"/>
-<polygon fill="none" stroke="midnightblue" points="954.707,-3554.71 948.712,-3563.45 958.846,-3560.36 954.707,-3554.71"/>
+<path fill="none" stroke="midnightblue" d="M957.121,-3556.88C1000.63,-3524.32 1053.28,-3478.54 1087.5,-3427 1107.44,-3396.97 1172.1,-3189.6 1207.25,-3074.17"/>
+<polygon fill="none" stroke="midnightblue" points="954.792,-3554.25 948.831,-3563 958.953,-3559.87 954.792,-3554.25"/>
 </g>
 <!-- Node19&#45;&gt;Node7 -->
 <g id="edge17" class="edge"><title>Node19&#45;&gt;Node7</title>
@@ -1001,52 +1001,52 @@ var sectionId = 'dynsection-1';
 <!-- Node32 -->
 <g id="node26" class="node"><title>Node32</title>
 <g id="a_node26"><a xlink:href="class_f_string.html" target="_top" xlink:title="Chaîne de caractères fonctionnelle. ">
-<polygon fill="white" stroke="black" points="1011.5,-2901.5 1011.5,-3090.5 1097.5,-3090.5 1097.5,-2901.5 1011.5,-2901.5"/>
-<text text-anchor="middle" x="1054.5" y="-3078.5" font-family="Helvetica,sans-Serif" font-size="10.00">FString</text>
-<polyline fill="none" stroke="black" points="1011.5,-3071.5 1097.5,-3071.5 "/>
-<text text-anchor="start" x="1019.5" y="-3059.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; p</text>
-<text text-anchor="start" x="1019.5" y="-3048.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; x</text>
-<polyline fill="none" stroke="black" points="1011.5,-3041.5 1097.5,-3041.5 "/>
-<text text-anchor="start" x="1019.5" y="-3029.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
-<text text-anchor="start" x="1019.5" y="-3018.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
-<text text-anchor="start" x="1019.5" y="-3007.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
-<text text-anchor="start" x="1019.5" y="-2996.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
-<text text-anchor="start" x="1019.5" y="-2985.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
-<text text-anchor="start" x="1019.5" y="-2974.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ fromBool()</text>
-<text text-anchor="start" x="1019.5" y="-2963.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isBoolean()</text>
-<text text-anchor="start" x="1019.5" y="-2952.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isFalse()</text>
-<text text-anchor="start" x="1019.5" y="-2941.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isFilled()</text>
-<text text-anchor="start" x="1019.5" y="-2930.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isMultimodal()</text>
-<text text-anchor="start" x="1019.5" y="-2919.5" font-family="Helvetica,sans-Serif" font-size="10.00">et 15 de plus...</text>
-<text text-anchor="start" x="1019.5" y="-2908.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; testBool()</text>
+<polygon fill="white" stroke="black" points="1012.5,-2901.5 1012.5,-3090.5 1094.5,-3090.5 1094.5,-2901.5 1012.5,-2901.5"/>
+<text text-anchor="middle" x="1053.5" y="-3078.5" font-family="Helvetica,sans-Serif" font-size="10.00">FString</text>
+<polyline fill="none" stroke="black" points="1012.5,-3071.5 1094.5,-3071.5 "/>
+<text text-anchor="start" x="1020.5" y="-3059.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; p</text>
+<text text-anchor="start" x="1020.5" y="-3048.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; x</text>
+<polyline fill="none" stroke="black" points="1012.5,-3041.5 1094.5,-3041.5 "/>
+<text text-anchor="start" x="1020.5" y="-3029.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
+<text text-anchor="start" x="1020.5" y="-3018.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
+<text text-anchor="start" x="1020.5" y="-3007.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
+<text text-anchor="start" x="1020.5" y="-2996.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
+<text text-anchor="start" x="1020.5" y="-2985.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
+<text text-anchor="start" x="1020.5" y="-2974.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FString()</text>
+<text text-anchor="start" x="1020.5" y="-2963.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ fromBool()</text>
+<text text-anchor="start" x="1020.5" y="-2952.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isBoolean()</text>
+<text text-anchor="start" x="1020.5" y="-2941.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isFalse()</text>
+<text text-anchor="start" x="1020.5" y="-2930.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ isFilled()</text>
+<text text-anchor="start" x="1020.5" y="-2919.5" font-family="Helvetica,sans-Serif" font-size="10.00">et 16 de plus...</text>
+<text text-anchor="start" x="1020.5" y="-2908.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; testBool()</text>
 </a>
 </g>
 </g>
 <!-- Node32&#45;&gt;Node24 -->
 <g id="edge39" class="edge"><title>Node32&#45;&gt;Node24</title>
-<path fill="none" stroke="#404040" d="M1011.47,-2914.26C1007.7,-2909.55 1003.71,-2905.08 999.5,-2901 987.51,-2889.37 977.759,-2895.34 966.5,-2883 952.144,-2867.26 964.733,-2851.52 947.5,-2839 912.831,-2813.81 792.766,-2842.16 755.5,-2821 716.125,-2798.64 686.653,-2756.32 667.697,-2721.61"/>
+<path fill="none" stroke="#404040" d="M1012.42,-2915.63C1008.39,-2910.42 1004.07,-2905.47 999.5,-2901 987.557,-2889.32 977.759,-2895.34 966.5,-2883 952.144,-2867.26 964.733,-2851.52 947.5,-2839 912.831,-2813.81 792.766,-2842.16 755.5,-2821 716.125,-2798.64 686.653,-2756.32 667.697,-2721.61"/>
 <polygon fill="none" stroke="#404040" points="667.512,-2721.26 661.174,-2717.82 661.913,-2710.65 668.25,-2714.09 667.512,-2721.26"/>
 <text text-anchor="middle" x="998" y="-2858.5" font-family="Helvetica,sans-Serif" font-size="10.00"> &#45;standardMsg</text>
 </g>
 <!-- Node32&#45;&gt;Node36 -->
 <g id="edge50" class="edge"><title>Node32&#45;&gt;Node36</title>
-<path fill="none" stroke="#404040" d="M1053.46,-2901.37C1050.15,-2879.87 1044.1,-2857.81 1033.5,-2839 999.238,-2778.19 934.267,-2730.55 884.864,-2700.89"/>
-<polygon fill="none" stroke="#404040" points="884.603,-2700.74 877.403,-2701.14 874.259,-2694.65 881.459,-2694.25 884.603,-2700.74"/>
+<path fill="none" stroke="#404040" d="M1053.14,-2901.4C1049.96,-2879.89 1044.03,-2857.83 1033.5,-2839 999.43,-2778.08 934.432,-2730.46 884.97,-2700.83"/>
+<polygon fill="none" stroke="#404040" points="884.702,-2700.68 877.502,-2701.09 874.351,-2694.6 881.551,-2694.19 884.702,-2700.68"/>
 <text text-anchor="middle" x="1082" y="-2858.5" font-family="Helvetica,sans-Serif" font-size="10.00"> &#45;standardMsg</text>
 </g>
 <!-- Node33 -->
 <g id="node27" class="node"><title>Node33</title>
-<polygon fill="white" stroke="#bfbfbf" points="1029.5,-3259.5 1029.5,-3316.5 1079.5,-3316.5 1079.5,-3259.5 1029.5,-3259.5"/>
-<text text-anchor="middle" x="1054.5" y="-3304.5" font-family="Helvetica,sans-Serif" font-size="10.00">QString</text>
-<polyline fill="none" stroke="#bfbfbf" points="1029.5,-3297.5 1079.5,-3297.5 "/>
-<text text-anchor="middle" x="1054.5" y="-3285.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="#bfbfbf" points="1029.5,-3278.5 1079.5,-3278.5 "/>
-<text text-anchor="middle" x="1054.5" y="-3266.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polygon fill="white" stroke="#bfbfbf" points="1028.5,-3259.5 1028.5,-3316.5 1078.5,-3316.5 1078.5,-3259.5 1028.5,-3259.5"/>
+<text text-anchor="middle" x="1053.5" y="-3304.5" font-family="Helvetica,sans-Serif" font-size="10.00">QString</text>
+<polyline fill="none" stroke="#bfbfbf" points="1028.5,-3297.5 1078.5,-3297.5 "/>
+<text text-anchor="middle" x="1053.5" y="-3285.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polyline fill="none" stroke="#bfbfbf" points="1028.5,-3278.5 1078.5,-3278.5 "/>
+<text text-anchor="middle" x="1053.5" y="-3266.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 </g>
 <!-- Node33&#45;&gt;Node32 -->
 <g id="edge40" class="edge"><title>Node33&#45;&gt;Node32</title>
-<path fill="none" stroke="midnightblue" d="M1054.5,-3249.35C1054.5,-3209.33 1054.5,-3144.51 1054.5,-3090.59"/>
-<polygon fill="none" stroke="midnightblue" points="1051,-3249.46 1054.5,-3259.46 1058,-3249.46 1051,-3249.46"/>
+<path fill="none" stroke="midnightblue" d="M1053.5,-3249.35C1053.5,-3209.33 1053.5,-3144.51 1053.5,-3090.59"/>
+<polygon fill="none" stroke="midnightblue" points="1050,-3249.46 1053.5,-3259.46 1057,-3249.46 1050,-3249.46"/>
 </g>
 <!-- Node34&#45;&gt;Node19 -->
 <g id="edge62" class="edge"><title>Node34&#45;&gt;Node19</title>

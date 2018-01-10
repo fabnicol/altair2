@@ -42,7 +42,7 @@
 <area shape="rect" id="node48" href="$namespace_xml_method.html#abe26f53c2028527b0ebea361faa85221" title="Empile les données pour un noeud donné, pour une profondeur d&#39;enchâssement donnée. " alt="" coords="948,1112,1104,1139"/>
 <area shape="rect" id="node50" href="$class_f_string_list.html#a71ec48a52b6ca4ffe89400d66f3ff634" title="FStringList::toInt" alt="" coords="967,1187,1085,1213"/>
 <area shape="rect" id="node42" href="$class_f_list_widget.html#aac6eaaeb9946354f743394b54c84a6a7" title="FListWidget::setTabLabels" alt="" coords="1636,1095,1815,1121"/>
-<area shape="rect" id="node43" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur. " alt="" coords="1179,1120,1341,1147"/>
+<area shape="rect" id="node43" href="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" title="Constructeur de la classe. " alt="" coords="1179,1120,1341,1147"/>
 <area shape="rect" id="node44" href="$class_f_list_frame.html#a1fda46dc7cfe6a661d2e2d1c66638134" title="FListFrame::deleteGroup" alt="" coords="1642,1325,1809,1352"/>
 <area shape="rect" id="node45" href="$class_f_list_frame.html#a3b18347a90f89b4423e8a543f0c1c47c" title="FListFrame::on_deleteItem\l_clicked" alt="" coords="1391,1289,1570,1330"/>
 <area shape="rect" id="node46" href="$class_f_list_frame.html#ac14c494842340a0438766256c01f83bc" title="FListFrame::on_importFrom\lMainTree_clicked" alt="" coords="1389,1171,1572,1213"/>
