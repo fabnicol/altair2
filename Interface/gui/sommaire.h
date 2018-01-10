@@ -23,29 +23,49 @@
 
 /// \page page_modules L'organisation modulaire du logiciel Altaïr
 /// \section sec1_modules Les modules du logiciel
-/// Le logiciel comprend <b>trois modules</b> :\n
+/// Le logiciel comprend <b>trois modules exécutable et un module externe sous forme de bibliotèque statique</b> :\n
 /// <ul>
-/// <li>une <b>interface graphique utilisateur</b> qui produit une ligne de commande ;</li>
+/// <li>une <b>interface graphique utilisateur</b> qui produit une ligne de commande<br>Le code source de cette interface est distribué dans le répertoire \b Interface ;</li>
+/// <li>cette interface est développée en utilisant les composants (\em widgets) fonctionnels du module externe \b fwidgets_lib, réutilisé pour consolider les fonctionnalités de l'interface graphique et réduire le volume de code propre. <br>
+/// Le code source de ce module externe est distribué dans le répertoire \b fwidgets_lib ;</li>
 /// <li>une <b>application-noyau</b> nommée \b \em lhx, qui :</li>
 ///   <ul>
 ///   <li>exécute cette ligne de commande ;</li>
 ///   <li>extrait les données de paye pour produire des bases (bulletins et lignes de paye) au format CSV, équivalentes à celles qui sont exportées par le logiciel <a href="http:///www.xemelios.org">Xemelios</a> de la DGFIP ;</li>
-///   </ul> 
-/// <li>un <b>ensemble de scripts</b> en <a href="http://www.r-project.org">langage R</a>, qui sont exécutés :
+///   </ul>
+/// Le code source de cette application-noyau est distribué dans le répertoire \b lhx.
+/// </li>
+/// <li>un analyseur de données, constitué d'un <b>ensemble de scripts</b> en <a href="http://www.r-project.org">langage R</a>, qui sont exécutés :
 ///   <ul>
 ///   <li>soit directement depuis l'interface graphique ;</li>
 ///   <li>soit en utilisant l'interface de développement <a href="http://www.rstudio.com">RStudio</a>.</li>
 ///   </ul>
-///   En entrée, ces scripts réimportent en mémoire les bases de paye précédemment exportées au format CSV. \n
-///   En sortie, ils produisent des rapports d'analyse de la paye, aux formats Microsoft Word, Libreoffice Writer ou Adobe PDF. \n
-///   Ces analyses portent sur la démographie des structures étudiées, les rémunérations des personnels et le respect du cadre statutaire et réglementaires de la paye. \n
+///   En entrée, ces scripts réimportent en mémoire les bases de paye précédemment exportées au format CSV. <br>
+///   En sortie, ils produisent des rapports d'analyse de la paye, aux formats Microsoft Word, Libreoffice Writer ou Adobe PDF.<br>
+///   Ces analyses portent sur la démographie des structures étudiées, les rémunérations des personnels et le respect du cadre statutaire et réglementaires de la paye.<br>
 ///   Une annexe propose quelques indicateurs d'appréciation de la fiabilité des bases de paye et des tableaux auxiliaires en lien, qui peuvent faciliter l'analyse personnalisée de certains aspects qui ne font pas l'objet d'un traitement automatisé.\n
-///   Les rapports d'analyse sont accompagnés d'un dossier documentaire, qui comprend des notices méthodologiques et des documents de référence. \n
-///   Ils contiennent des liens hypertextes vers des fichiers auxiliaires au format CSV, qui précisent les analyses statistiques et réglementaires présentées dans le rapport.
+///   Les rapports d'analyse sont accompagnés d'un dossier documentaire, qui comprend des notices méthodologiques et des documents de référence.<br>
+///   Ils contiennent des liens hypertextes vers des fichiers auxiliaires au format CSV, qui précisent les analyses statistiques et réglementaires présentées dans le rapport.<br>
+/// Ces scripts d'extension .R sont distribués, pour certains, dans le répertoire racine et, pour la plupart d'entre eux, dans le répertoire \b Tests/Exemple.
+/// </li>
 /// </ul>
 /// \section sec2_docum La documentation des modules
-/// 
-///
+/// Les modules sont documentés dans le répertoire \b Docs.\n
+/// En particulier :\n
+/// - Pour les modules <i>interface graphique</i> et <i>application-noyau</i> la documentation \em Doxygen est générée dans le répertoire \b Docs/html
+/// - la [documentation PDF](../Scripts_R/sommaire_pdf.pdf) et la [documentation html](../Scripts_R/sommaire_html.pdf) du <i>module analyseur</i> est générée dans le répertoire \b Docs/Scripts_R.      
+///   Les deux sommaires doivent être lus dans ce même répertoire pour que leurs liens relatifs vers des fichiers auxiliaires puissent s'ouvrir.     
+/// - le [guide utilisateurs](../Guide utilisateurs.pptx)  pour les modules <i> Interface graphique </i>et <i>application-noyau</i> (extraction des données) est le fichier <b>Docs/Guide utilisateurs.pptx</b>
+/// - un guide utilisateurs relatif au module <i>analyseur</i> (rapports d'analyse) a été produit à l'automne 2017 mais n'a pas été, à ce jour, validé par le CAM ; sa diffusion est suspendue.<br>
+///   Une [version provisoire](../Guide_Altaïr.docx) est enregistrée sous \b Docs/Guide_Altaïr.docx
+/// - la [documentation méthodologique](../méthodologie.pdf) à caractère statistique relative au calcul des rémunérations est le fichier \b Docs/méthodologie.pdf
+/// - le [rapprochement](../Guide utilisateurs.pptx) entre les requêtes réalisées par l'analyseur de données est actualisé dans le fichier <b>Docs/requetes ALTAIR.xlsx (\em Auteure : Mme Vitalia le Boudec)</b>
+/// - le [guide d'installation](../projet/INSTALLATION DU LOGICIEL ALTAÏR.pptx)  est le fichier <b> Docs/projet/INSTALLATION DU LOGICIEL ALTAÏR.pptx</b>
+/// - une [notice à l'attention](../projet/MANTIS-suivi des bogues.pdf) des testeurs pour le suivi des bogues est proposée dans le fichier <b> projet/MANTIS-suivi des bogues.pdf</b>
+/// Le répertoire \b Docs contient par ailleurs des documents utiles :
+///     - soit à la poursuite du développement : volumétrie de codage, guide de développement sous Windows (peut être utile en cas de nécessité)
+///     - soit à l'interprétation des sorties : documents juridiques et statistiques de référence, copie de la documentation en ligne de la DGFIP sur le modèle de données \b Xemelios, qui est globalement suivi par le module <i>application-noyau</i>, copie de la convention-cadre nartionale de dématérialisation.
+
 
 /// \page page_alt Documentation des paramètres de l'interface graphique et des projets Altaïr d'extension .alt
 /// \tableofcontents
@@ -120,24 +140,39 @@
 /// </quiet>
 /// \endcode
 /// \n
-/// \section sec_alt1 Balises XML des projets Altaïr
+/// \section sec_alt1 Balises XML des projets Altaïr et composants (\em widgets) associés de la bibliothèque \b fwidgets_lib
 /// \note Lorsque qu'une notation {valeur1, valeur2,...} est rencontrée, comprendre qu'est choisie une valeur parmi valeur1, valeur2, etc.\n
 /// La valeur est donnée soit littéralement (en extension) soit en intension (année -> 2011, 2012, etc.).
 ///
-/// <table style="width:100%;">
+/// <style type="text/css" media="screen">
+/// table {
+/// border-width:1px;
+/// border-style:solid;
+/// border-color:black;
+/// width:100%;
+/// }
+/// td {
+/// border-width:1px;
+/// border-style:solid;
+/// border-color:red;
+/// width:50%;
+/// }
+/// </style>
+///
+/// <table>
 /// <tr><th>Balise XML</th><th>Attributs</th><th>Valeur</th><th>Dialogue/Onglet</th><th>Génération de ligne de commande pour <i>lhx</i></th><th>Commentaires</th><th>Composant</th></tr>
-/// <tr><td style="font-weight:bold;">projet</td><td>version="..."</td><td></td><td></td><td></td><td>Début du projet et version de l'application.</td></tr>
-/// <tr><td style="font-weight:bold;">data</td><td></td><td></td><td></td><td></td><td>Début des données de paye</td></tr>
+/// <tr><td style="font-weight:bold;">projet</td><td>version="..."</td><td></td><td></td><td></td><td>Début du projet et version de l'application.</td><td></td></tr>
+/// <tr><td style="font-weight:bold;">data</td><td></td><td></td><td></td><td></td><td>Début des données de paye</td><td></td></tr>
 /// <tr><td style="font-weight:bold;">XHL</td><td>profondeur="2"</td><td>Enchâsse les balise <i>onglet</i></td><td>Onglet central</td><td></td><td>Données de paye : 2 niveaux d'enchâssement ("onglet" et "item").</td><td>Altair::project</td></tr>
-/// <tr><td style="font-weight:bold;">onglet</td><td>V="{année}"</td><td>Enchâsse les balises <i>item</i></td><td>Onglets annuels centraux</td><td></td><td>Onglet pour chaque année de paye (sauf trois derniers).</td></tr>
-/// <tr><td style="font-weight:bold;">item</td><td>V="..." S="..." B="..." E="..." EM="..."</td><td>Chaîne de caractères</td><td>Elément des onglets annuels centraux</td><td>Chemin du fichier.</td><td>Chemin du fichier mensuel de paye pour le mois V, le Siret S, l'établissement E et l'employeur EM</td></tr>
-/// <tr><td style="font-weight:bold;">onglet</td><td>V="Siret"</td><td></td><td>3ème onglet en partant de droite.</td><td>Si barré(s) : &ndash;&ndash;esiret <i>Siret(s) exclus(s)</i></td><td>Onglet des Siret.</td></tr>
-/// <tr><td style="font-weight:bold;">item</td><td>V="" S="" B="" E="" EM=""</td><td>Chaîne de caractères du Siret.</td><td></td><td></td><td>Siret détecté (éventuellement : exclu).</td></tr>
-/// <tr><td style="font-weight:bold;">onglet</td><td>V="Budget"</td><td></td><td>2ème onglet en partant de droite.</td><td>Si barré(s) : &ndash;&ndash;ebudget <i>Budget(s) exclus(s)</i></td><td>Onglet des Budgets.</td></tr>
-/// <tr><td style="font-weight:bold;">item</td><td>V="" S="" B="" E="" EM=""</td><td>Chaîne de caractères du Budget.</td><td></td><td></td><td>Budget détecté (éventuellement : exclu).</td></tr>
-/// <tr><td style="font-weight:bold;">onglet</td><td>V="Employeur"</td><td></td><td>1er onglet en partant de droite</td><td>Si barré(s) : &ndash;&ndash;employeur <i>Employeur(s) exclus(s)</i></td><td>Onglet des Employeurs.</td></tr>
-/// <tr><td style="font-weight:bold;">item</td><td>V="" S="" B="" E="" EM=""</td><td>Chaîne de caractères de l'employeur.</td><td></td><td></td><td>Employeur détecté (éventuellement : exclu).</td></tr>
-/// <tr><td style="font-weight:bold;">systeme</td><td></td><td></td><td></td><td></td><td>Paramètres système (paramétrage de l'interface, dialogues d'options et de configuration de l'interface)</td></tr>
+/// <tr><td style="font-weight:bold;">onglet</td><td>V="{année}"</td><td>Enchâsse les balises <i>item</i></td><td>Onglets annuels centraux</td><td></td><td>Onglet pour chaque année de paye (sauf trois derniers).</td><td></td></tr>
+/// <tr><td style="font-weight:bold;">item</td><td>V="..." S="..." B="..." E="..." EM="..."</td><td>Chaîne de caractères</td><td>Elément des onglets annuels centraux</td><td>Chemin du fichier.</td><td>Chemin du fichier mensuel de paye pour le mois V, le Siret S, l'établissement E et l'employeur EM</td><td></td></tr>
+/// <tr><td style="font-weight:bold;">onglet</td><td>V="Siret"</td><td></td><td>3ème onglet en partant de droite.</td><td>Si barré(s) : &ndash;&ndash;esiret <i>Siret(s) exclus(s)</i></td><td>Onglet des Siret.</td><td></td></tr>
+/// <tr><td style="font-weight:bold;">item</td><td>V="" S="" B="" E="" EM=""</td><td>Chaîne de caractères du Siret.</td><td></td><td></td><td>Siret détecté (éventuellement : exclu).</td><td></td></tr>
+/// <tr><td style="font-weight:bold;">onglet</td><td>V="Budget"</td><td></td><td>2ème onglet en partant de droite.</td><td>Si barré(s) : &ndash;&ndash;ebudget <i>Budget(s) exclus(s)</i></td><td>Onglet des Budgets.</td><td></td></tr>
+/// <tr><td style="font-weight:bold;">item</td><td>V="" S="" B="" E="" EM=""</td><td>Chaîne de caractères du Budget.</td><td></td><td></td><td>Budget détecté (éventuellement : exclu).</td><td></td></tr>
+/// <tr><td style="font-weight:bold;">onglet</td><td>V="Employeur"</td><td></td><td>1er onglet en partant de droite</td><td>Si barré(s) : &ndash;&ndash;employeur <i>Employeur(s) exclus(s)</i></td><td>Onglet des Employeurs.</td><td></td></tr>
+/// <tr><td style="font-weight:bold;">item</td><td>V="" S="" B="" E="" EM=""</td><td>Chaîne de caractères de l'employeur.</td><td></td><td></td><td>Employeur détecté (éventuellement : exclu).</td><td></td></tr>
+/// <tr><td style="font-weight:bold;">systeme</td><td></td><td></td><td></td><td></td><td>Paramètres système (paramétrage de l'interface, dialogues d'options et de configuration de l'interface)</td><td></td></tr>
 /// <tr><td style="font-weight:bold;">projectManagerDisplay</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher le gestionnaire de projets à droite de l'interface.<br>La profondeur 0 indique une balise sans enchâssement : la valeur est lue dans le texte de la balise</td><td>MainWindow::defaultProjectManagerWidgetLayoutBox</td></tr>
 /// <tr><td style="font-weight:bold;">fileManagerDisplay</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher le gestionnaire (ou explorateur ou arbre) de fichiers à gauche de l'interface.</td><td>MainWindow::defaultFileManagerWidgetLayoutBox</td></tr>
 /// <tr><td style="font-weight:bold;">fullScreenDisplay</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Plein écran ("oui" ou "non")</td><td>MainWindow::defaultFullScreenLayoutBox</td></tr>
@@ -181,13 +216,13 @@
 /// <tr><td style="font-weight:bold;">archiveXML</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td></td><td>Archiver les données de paye.</td><td>Pointeur local <i>archiveXhlBox</i> vers FCheckBox dans le constructeur standardPage::standardPage()</td></tr>
 /// <tr><td style="font-weight:bold;">exportXML</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td></td><td>Exporter les données de paye vers un répertoire donné.</td><td>Pointeur local <i>exportXhlBox</i> vers FCheckBox dans le constructeur standardPage::standardPage()</td></tr>
 /// <tr><td style="font-weight:bold;">processType</td><td>profondeur="0"</td><td>{'1',...,'11'}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td>-j <i>argument</i></td><td>Utiliser autant de fils d'exécution qu'indiqué dans le menu déroulant.</td><td>processPage::processTypeWidget</td></tr>
-/// <tr><td style="font-weight:bold;">log</td><td>profondeur="0"</td><td>Chemin du fichier altair.log</td><td>Dialogue d'options &rarr; onglet Traitement</td><td>-L <i>argument</i></td><td>Chemin du log d’exécution du test de cohérence entre analyseurs C et XML.</td></tr>
-/// <tr><td style="font-weight:bold;">genererLog</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Autoriser la génération du log.</td></tr>
-/// <tr><td style="font-weight:bold;">activerConsole</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Activer les sorties Console.</td></tr>
-/// <tr><td style="font-weight:bold;">memoryUse</td><td>profondeur="0"</td><td>Nombre entre 1 et 100</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Part maximum de la RAM utilisée.</td></tr>
-/// <tr><td style="font-weight:bold;">rapportType</td><td>profondeur="0"</td><td>{'PDF', 'WORD et ODT', 'WORD, ODT et PDF'</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Activé uniquement si enchainerRapports vaut 'oui'. Rapports d'analyse de type PDF, MS Word (.docx) et Libreoffice Writer (.odt)</td></tr>
-/// <tr><td style="font-weight:bold;">enchainerRapports</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Lancer automatiquement les scripts R depuis l'interface graphique sans utiliser RStudio.</td></tr>
-/// <tr><td style="font-weight:bold;">rapportEntier</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td><i>Interne à l'interface graphique. Non exporté vers le fichier de projet Altaïr .alt.</i><br>Version expérimentale (code de développement).</td></tr></table>
+/// <tr><td style="font-weight:bold;">log</td><td>profondeur="0"</td><td>Chemin du fichier altair.log</td><td>Dialogue d'options &rarr; onglet Traitement</td><td>-L <i>argument</i></td><td>Chemin du log d’exécution du test de cohérence entre analyseurs C et XML.</td><td>processPage::logFrame</td></tr>
+/// <tr><td style="font-weight:bold;">genererLog</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Autoriser la génération du log.</td><td>processPage::logCheckBox</td></tr>
+/// <tr><td style="font-weight:bold;">activerConsole</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Activer les sorties Console.</td><td>processPage::consoleCheckBox</td></tr>
+/// <tr><td style="font-weight:bold;">memoryUse</td><td>profondeur="0"</td><td>Nombre entre 1 et 100</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Part maximum de la RAM utilisée.</td><td>processPage::memoryUseWidget</td></tr>
+/// <tr><td style="font-weight:bold;">rapportType</td><td>profondeur="0"</td><td>{'PDF', 'WORD et ODT', 'WORD, ODT et PDF'</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Activé uniquement si enchainerRapports vaut 'oui'. Rapports d'analyse de type PDF, MS Word (.docx) et Libreoffice Writer (.odt)</td><td>processPage::rapportTypeWidget</td></tr>
+/// <tr><td style="font-weight:bold;">enchainerRapports</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Lancer automatiquement les scripts R depuis l'interface graphique sans utiliser RStudio.</td><td>processPage::enchainerRapports</td></tr>
+/// <tr><td style="font-weight:bold;">rapportEntier</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td><i>Interne à l'interface graphique. Non exporté vers le fichier de projet Altaïr .alt.</i><br>Version expérimentale (code de développement).</td><td>processPage::rapportEntier</td></tr></table>
 /// \n\n
 /// \section  sec_alt2 Exemple commenté de projet .alt
 /// <table style="width:35%;"><tr><th>Code XML</th><th>Commentaires</th></tr></table>

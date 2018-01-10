@@ -11,7 +11,7 @@ var NAVTREE =
       [ "Chargement automatique d'un projet Altaïr dans l'interface graphique", "page_alt.html#lancement_alt", null ],
       [ "Chargement manuel d'un projet Altaïr dans l'interface graphique", "page_alt.html#lancement_alt_manu", null ],
       [ "Génération de la ligne de commande de l'application-noyau lhx", "page_alt.html#cli_lhx", null ],
-      [ "Balises XML des projets Altaïr", "page_alt.html#sec_alt1", null ],
+      [ "Balises XML des projets Altaïr et composants (\\em widgets) associés de la bibliothèque \\b fwidgets_lib", "page_alt.html#sec_alt1", null ],
       [ "Exemple commenté de projet .alt", "page_alt.html#sec_alt2", null ]
     ] ],
     [ "La documentation de la ligne de commande de l'application-noyau lhx", "page_lhx.html", [
