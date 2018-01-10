@@ -2,7 +2,6 @@
 
 export("%+%")
 export(FR)
-export(Read.csv)
 export(Résumé)
 export(Sauv.base)
 export(Tableau)
