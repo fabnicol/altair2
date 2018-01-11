@@ -64,7 +64,7 @@
 /// - une [notice à l'attention](../projet/MANTIS-suivi des bogues.pdf) des testeurs pour le suivi des bogues est proposée dans le fichier <b> projet/MANTIS-suivi des bogues.pdf</b>
 /// Le répertoire \b Docs contient par ailleurs des documents utiles :
 ///     - soit à la poursuite du développement : volumétrie de codage, guide de développement sous Windows (peut être utile en cas de nécessité)
-///     - soit à l'interprétation des sorties : documents juridiques et statistiques de référence, copie de la documentation en ligne de la DGFIP sur le modèle de données \b Xemelios, qui est globalement suivi par le module <i>application-noyau</i>, copie de la convention-cadre nartionale de dématérialisation.
+///     - soit à l'interprétation des sorties : documents juridiques et statistiques de référence, copie de la documentation en ligne de la DGFIP sur le modèle de données \b Xemelios, qui est globalement suivi par le module <i>application-noyau</i>, copie de la convention-cadre nationale de dématérialisation.
 
 
 /// \page page_alt Documentation des paramètres de l'interface graphique et des projets Altaïr d'extension .alt
