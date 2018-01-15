@@ -88,10 +88,21 @@ public:
    p = "";
  }
 
+ /// Constructeur de copie.
+ /// \param s Chaîne FString.
+
+  FString(const FString &s) : QString(s.p), x {s.x}, p {s.p} {}
+
+ /// Constructeur par déplacement.
+ /// \param s Chaîne FString.
+
+  FString(FString &&s) : QString(s.p), x{s.x} { std::swap(p, s.p);}
+
+
  /// Constructeur à valeur quelconque QString donnée
  /// \param s Chaîne FString.
 
- explicit FString(QString s, flags::status flag = flags::status::defaultStatus) : QString(s)
+  FString(QString s, flags::status flag = flags::status::defaultStatus) : QString(s)
  {
    p = s;
    testBool(s, flag);
@@ -101,7 +112,7 @@ public:
  /// \param s Chaîne de caractères simple.
  /// \param flag Non utilisé.
 
- explicit FString(const char* s, flags::status flag = flags::status::defaultStatus) :  QString(s)
+  FString(const char* s, flags::status flag = flags::status::defaultStatus) :  QString(s)
   {
       p = s;
       testBool(p, flag);
@@ -110,7 +121,7 @@ public:
  /// Constructeur à valeur booléenne.
  /// \param  value Booléen : \em true -> "oui" et \em false -> "non"
 
- explicit FString(bool value)
+  FString(bool value)
  {
    x = static_cast<int>(value);
 
@@ -124,16 +135,6 @@ public:
  /// \note Example : *FString("base") -> chemin du répertoire de sortie
 
  FString  operator * ();
-
- /// Constructeur de copie.
- /// \param s Chaîne FString.
-
- explicit FString(const FString &s) : QString(s.p), x {s.x}, p {s.p} {}
-
- /// Constructeur par déplacement.
- /// \param s Chaîne FString.
-
- explicit FString(FString &&s) : QString(s.p), x{s.x} { std::swap(p, s.p);}
 
  /// Assignation par copie.
  /// \param s Chaîne FString.
