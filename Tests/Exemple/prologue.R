@@ -83,6 +83,8 @@ utiliser.cplusplus.sft         <- FALSE
 sécuriser.types.sortie         <- TRUE
 utiliser.variable.Heures.Sup.  <- FALSE  # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unité
 noria.sur.base.de.paie         <- FALSE  # calculer effet de noria sur base de paie uniquement (pas de fichier E/S)
+sauter.tests.statutaires       <- FALSE
+
 
 numéro.tableau                 <- 0  # Numérotation de départ des tableaux
 chapitre                       <- 0  # Numérotation de départ des chapitres

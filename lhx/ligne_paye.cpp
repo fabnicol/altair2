@@ -613,7 +613,7 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique (const char* tag, x
 /// \subsubsection cor Correspondance drapeau-nom de catégorie
 /// Correspondance drapeaux-libellés des catégories de ligne de paye.\n
 /// A chaque drapeau est associé une valeur du tableau de caractères #type_remuneration \n
-/// Une boucle parcours #type_remuneration jusqu'à trouver la chaîne qui correspond à la
+/// Une boucle parcourt #type_remuneration jusqu'à trouver la chaîne qui correspond à la
 /// valeur du nom du noeud courant. l'indice de la chaîne dans #type_remuneration est
 /// celui du drapeau du tableau #drapeau copié dans la table d'informations.
 /// \subsubsection rebouclage Rebouclage des noms de catégorie
