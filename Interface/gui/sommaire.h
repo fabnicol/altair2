@@ -1,5 +1,18 @@
 
-
+/// <style type="text/css" media="screen">
+/// table {
+/// 
+/// border-style:solid;
+/// border-color:black;
+/// width:100%;
+/// }
+/// td {
+/// border-width:1px;
+/// border-style:solid;
+/// width:50%;
+/// }
+/// </style>
+///
 /// \mainpage Sommaire
 /// La documentation du projet comprend :
 /// - \subpage   page_modules "la présentation de l'organisation modulaire du logiciel"
@@ -140,24 +153,12 @@
 /// </quiet>
 /// \endcode
 /// \n
-/// \section sec_alt1 Balises XML des projets Altaïr et composants (\em widgets) associés de la bibliothèque \b fwidgets_lib
+/// \section sec_alt1 Balises XML des projets Altaïr et composants (widgets) associés de la bibliothèque fwidgets_lib
 /// \note Lorsque qu'une notation {valeur1, valeur2,...} est rencontrée, comprendre qu'est choisie une valeur parmi valeur1, valeur2, etc.\n
 /// La valeur est donnée soit littéralement (en extension) soit en intension (année -> 2011, 2012, etc.).
+/// 
+/// <div>
 ///
-/// <style type="text/css" media="screen">
-/// table {
-/// border-width:1px;
-/// border-style:solid;
-/// border-color:black;
-/// width:100%;
-/// }
-/// td {
-/// border-width:1px;
-/// border-style:solid;
-/// border-color:red;
-/// width:50%;
-/// }
-/// </style>
 ///
 /// <table>
 /// <tr><th>Balise XML</th><th>Attributs</th><th>Valeur</th><th>Dialogue/Onglet</th><th>Génération de ligne de commande pour <i>lhx</i></th><th>Commentaires</th><th>Composant</th></tr>
@@ -223,7 +224,8 @@
 /// <tr><td style="font-weight:bold;">rapportType</td><td>profondeur="0"</td><td>{'PDF', 'WORD et ODT', 'WORD, ODT et PDF'</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Activé uniquement si enchainerRapports vaut 'oui'. Rapports d'analyse de type PDF, MS Word (.docx) et Libreoffice Writer (.odt)</td><td>processPage::rapportTypeWidget</td></tr>
 /// <tr><td style="font-weight:bold;">enchainerRapports</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Lancer automatiquement les scripts R depuis l'interface graphique sans utiliser RStudio.</td><td>processPage::enchainerRapports</td></tr>
 /// <tr><td style="font-weight:bold;">rapportEntier</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td><i>Interne à l'interface graphique. Non exporté vers le fichier de projet Altaïr .alt.</i><br>Version expérimentale (code de développement).</td><td>processPage::rapportEntier</td></tr></table>
-/// \n\n
+/// </div> 
+///\n\n
 /// \section  sec_alt2 Exemple commenté de projet .alt
 /// <table style="width:35%;"><tr><th>Code XML</th><th>Commentaires</th></tr></table>
 /// \code
