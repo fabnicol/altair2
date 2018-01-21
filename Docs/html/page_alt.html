@@ -95,7 +95,7 @@ $(document).ready(function(){initNavTree('page_alt.html','');});
 <li class="level1"><a href="#lancement_alt">Chargement automatique d&#39;un projet Altaïr dans l&#39;interface graphique</a></li>
 <li class="level1"><a href="#lancement_alt_manu">Chargement manuel d&#39;un projet Altaïr dans l&#39;interface graphique</a></li>
 <li class="level1"><a href="#cli_lhx">Génération de la ligne de commande de l&#39;application-noyau lhx</a></li>
-<li class="level1"><a href="#sec_alt1">Balises XML des projets Altaïr et composants (\em widgets) associés de la bibliothèque \b fwidgets_lib</a></li>
+<li class="level1"><a href="#sec_alt1">Balises XML des projets Altaïr et composants (widgets) associés de la bibliothèque fwidgets_lib</a></li>
 <li class="level1"><a href="#sec_alt2">Exemple commenté de projet .alt</a></li>
 </ul>
 </div>
@@ -113,7 +113,7 @@ Génération automatique du projet par défaut</h1>
 <li>dans ~/Dev/altair/<a class="el" href="gui__enums_8h.html#a917e765cc41bbe05562e484e7e7db6b3">DONNEES_XHL</a>/<em>login</em> pour les autres utilisateurs.</li>
 </ul>
 <p>Le répertoire de génération de <em>défaut.alt</em> est celui dans lequel sont placées les données de paye du gestionnaire de fichiers (partie gauche de l'interface).<br />
-Sauf spécification contraire de la constante de compilation <a class="el" href="gui__enums_8h.html#a917e765cc41bbe05562e484e7e7db6b3">DONNEES_XHL</a>, ce répertoire est en général :</p><ul>
+ Sauf spécification contraire de la constante de compilation <a class="el" href="gui__enums_8h.html#a917e765cc41bbe05562e484e7e7db6b3">DONNEES_XHL</a>, ce répertoire est en général :</p><ul>
 <li><b>~/Dev/altair/Tests/Exemple/Donnees/xhl</b> pour l'administrateur</li>
 <li><b>~/Dev/altair/Tests/Exemple/Donnees/xhl/<em>login</em></b> pour les autres utilisateurs.</li>
 </ul>
@@ -121,18 +121,18 @@ Sauf spécification contraire de la constante de compilation <a class="el" href=
 Chargement automatique d'un projet Altaïr dans l'interface graphique</h1>
 <ul>
 <li>Il est possible d'utiliser les fichiers de projet .alt pour lancer directement l'interface graphique, chargée des paramètres et données contenus dans le projet.<br />
-L'utilisateur retrouve ainsi exactement l'état de l'interface et du traitement des données qui était en cours lors d'une utilisation précédente. A cette fin :<ul>
+ L'utilisateur retrouve ainsi exactement l'état de l'interface et du traitement des données qui était en cours lors d'une utilisation précédente. A cette fin :<ul>
 <li>vérifier que l'ensemble des dépendances de bibliothèques est dans le chemin d'exécution par défaut (sous Linux, LD_LIBRARY_PATH des fichiers .desktop est exporté en variable globale)</li>
 <li>sous Linux (KDE) : Clic droit sur un fichier .alt &rarr; Ouvrir avec &rarr; Autres &rarr; renseigner le chemin de l'interface Altaïr et cocher Mémoriser l'association...<br />
-Un clic (ou deux, selon les bureaux) sur un fichier .alt permet de charger automatiquement le projet en lançant l'interface graphique.</li>
+ Un clic (ou deux, selon les bureaux) sur un fichier .alt permet de charger automatiquement le projet en lançant l'interface graphique.</li>
 </ul>
 </li>
 <li>Une autre façon de charger automatiquement le projet en ligne de commande est d'indiquer le chemin du projet en premier argument du chemin de l'interface : <div class="fragment"><div class="line">~/Dev/altair/Interface_linux/gui/x64$ ./<a class="code" href="class_altair.html">Altair</a> ~/projet.alt</div></div><!-- fragment --></li>
 <li>Une dernière façon de charger automatiquement un projet est d'utiliser le projet par défaut.<br />
-Il est possible de charger automatiquement le projet par défaut en cochant la case <b>Charger le projet par défaut au lancement</b> du dialogue de configuration.<br />
-Si la case <b>Sauvegarder le projet .alt automatiquement</b> est aussi cochée, le projet par défaut <em>défaut.alt</em> a sauvegardé l'ensemble des paramètres de l'interface décrits dans le <a class="el" href="page_alt.html#sec_alt1">tableau des paramètres</a> avant sa dernière fermeture.<br />
-Au lancement suivant, l'état antérieur de l'interface est alors automatiquement restauré. <dl class="section warning"><dt>Avertissement</dt><dd>Ce paramétrage peut occasionner des plantages de l'interface si les fichiers de paye présents dans le projet automatiquement sauvegardé à la dernière exécution de l'interface ne sont plus présents sur le disque à l'emplacement indiqué par le projet .alt.<br />
-Dans ce cas, écraser le projet <em>défaut.alt</em> et relancer.</dd></dl>
+ Il est possible de charger automatiquement le projet par défaut en cochant la case <b>Charger le projet par défaut au lancement</b> du dialogue de configuration.<br />
+ Si la case <b>Sauvegarder le projet .alt automatiquement</b> est aussi cochée, le projet par défaut <em>défaut.alt</em> a sauvegardé l'ensemble des paramètres de l'interface décrits dans le <a class="el" href="page_alt.html#sec_alt1">tableau des paramètres</a> avant sa dernière fermeture.<br />
+ Au lancement suivant, l'état antérieur de l'interface est alors automatiquement restauré. <dl class="section warning"><dt>Avertissement</dt><dd>Ce paramétrage peut occasionner des plantages de l'interface si les fichiers de paye présents dans le projet automatiquement sauvegardé à la dernière exécution de l'interface ne sont plus présents sur le disque à l'emplacement indiqué par le projet .alt.<br />
+ Dans ce cas, écraser le projet <em>défaut.alt</em> et relancer.</dd></dl>
 </li>
 </ul>
 <h1><a class="anchor" id="lancement_alt_manu"></a>
@@ -169,17 +169,16 @@ Génération de la ligne de commande de l'application-noyau lhx</h1>
 &ndash;&ndash;eemployeur employeurs séparés par blancs : si des employeurs sont excus (barrés) dans l'onglet Employeur </li>
 </ul>
 <p>Elle contient en outre des valeurs qui dépendent de l'état des composants (<em>widgets</em>) de l'interface graphique.<br />
-En fonction des valeurs d'un des composants identifiés dans le tableau suivant, un ou plusieurs éléments sont ajoutés à la ligne de commande de <b>lhx</b>.<br />
-En miroir, une valeur (ou une série de valeurs) est générée entre la paire de balises XML correspondantes dans le projet .alt.<br />
-Par exemple, si la case du dialogue de configuration <b> Limiter la verbosité </b> est cochée, le composant <a class="el" href="class_main_window.html#a9a8262985c1b47bf1c6b49a7d77cb875" title="Case à cocher du dialogue de configuration : réduire la verbosité par défaut. ">MainWindow::defaultQuietBox</a> génère l'option de ligne de commande <b>-q</b>.<br />
-En parallèle, une paire de balises <em>quiet</em> est munie de la valeur positive <em>oui</em> dans le projet XML d'extension .alt : </p><div class="fragment"><div class="line">&lt;quiet&gt;</div><div class="line"> oui</div><div class="line">&lt;/quiet&gt;</div></div><!-- fragment --><p> Si la même case est décochée, l'option <b>-q</b> n'est pas insérée en ligne de commande. La paire de balises du projet .alt est alors renseignée par <em>non</em> : </p><div class="fragment"><div class="line">&lt;quiet&gt;</div><div class="line"> non</div><div class="line">&lt;/quiet&gt;</div></div><!-- fragment --><p> <br />
+ En fonction des valeurs d'un des composants identifiés dans le tableau suivant, un ou plusieurs éléments sont ajoutés à la ligne de commande de <b>lhx</b>.<br />
+ En miroir, une valeur (ou une série de valeurs) est générée entre la paire de balises XML correspondantes dans le projet .alt.<br />
+ Par exemple, si la case du dialogue de configuration <b> Limiter la verbosité </b> est cochée, le composant <a class="el" href="class_main_window.html#a9a8262985c1b47bf1c6b49a7d77cb875" title="Case à cocher du dialogue de configuration : réduire la verbosité par défaut. ">MainWindow::defaultQuietBox</a> génère l'option de ligne de commande <b>-q</b>.<br />
+ En parallèle, une paire de balises <em>quiet</em> est munie de la valeur positive <em>oui</em> dans le projet XML d'extension .alt : </p><div class="fragment"><div class="line">&lt;quiet&gt;</div><div class="line"> oui</div><div class="line">&lt;/quiet&gt;</div></div><!-- fragment --><p> Si la même case est décochée, l'option <b>-q</b> n'est pas insérée en ligne de commande. La paire de balises du projet .alt est alors renseignée par <em>non</em> : </p><div class="fragment"><div class="line">&lt;quiet&gt;</div><div class="line"> non</div><div class="line">&lt;/quiet&gt;</div></div><!-- fragment --><p> <br />
 </p>
 <h1><a class="anchor" id="sec_alt1"></a>
-Balises XML des projets Altaïr et composants (\em widgets) associés de la bibliothèque \b fwidgets_lib</h1>
+Balises XML des projets Altaïr et composants (widgets) associés de la bibliothèque fwidgets_lib</h1>
 <dl class="section note"><dt>Note</dt><dd>Lorsque qu'une notation {valeur1, valeur2,...} est rencontrée, comprendre qu'est choisie une valeur parmi valeur1, valeur2, etc.<br />
-La valeur est donnée soit littéralement (en extension) soit en intension (année -&gt; 2011, 2012, etc.).</dd></dl>
-<p>&lt;style type="text/css" media="screen"&gt; table { border-width:1px; border-style:solid; border-color:black; width:100%; } td { border-width:1px; border-style:solid; border-color:red; width:50%; } &lt;/style&gt;</p>
-<table class="doxtable">
+ La valeur est donnée soit littéralement (en extension) soit en intension (année -&gt; 2011, 2012, etc.).</dd></dl>
+<div></div><div> <table class="doxtable">
 <tr>
 <th>Balise XML</th><th>Attributs</th><th>Valeur</th><th>Dialogue/Onglet</th><th>Génération de ligne de commande pour <em>lhx</em></th><th>Commentaires</th><th>Composant </th></tr>
 <tr>
@@ -312,7 +311,7 @@ Argument de format : matricule-mois_début...mois_fin-année_début...année_fin
 <td style="font-weight:bold;">rapportEntier</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td><em>Interne à l'interface graphique. Non exporté vers le fichier de projet Altaïr .alt.</em><br />
 Version expérimentale (code de développement).</td><td><a class="el" href="classprocess_page.html#a339062229a8e757ec7b28b334194039f" title="Case à cocher indiquant si le rapport doit être dans sa version longue (ou courte si non cochée)...">processPage::rapportEntier</a></td></tr>
 </table>
-<p><br />
+</div><p> <br />
 <br />
 </p>
 <h1><a class="anchor" id="sec_alt2"></a>
@@ -326,7 +325,7 @@ Exemple commenté de projet .alt</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Généré le Mercredi 10 Janvier 2018 16:19:55 par
+    <li class="footer">Généré le Lundi 22 Janvier 2018 00:06:24 par
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>
