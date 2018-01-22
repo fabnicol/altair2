@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 545;
+var viewWidth = 571;
 var viewHeight = 176;
 var sectionId = 'dynsection-18';
 </script>
@@ -54,92 +54,92 @@ var sectionId = 'dynsection-18';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>tools::readFile</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-172 541,-172 541,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-172 567,-172 567,4 -4,4"/>
 <!-- Node184 -->
 <g id="node1" class="node"><title>Node184</title>
-<polygon fill="#bfbfbf" stroke="black" points="0,-77 0,-96 78,-96 78,-77 0,-77"/>
-<text text-anchor="middle" x="39" y="-84" font-family="Helvetica,sans-Serif" font-size="10.00">tools::readFile</text>
+<polygon fill="#bfbfbf" stroke="black" points="0,-77 0,-96 82,-96 82,-77 0,-77"/>
+<text text-anchor="middle" x="41" y="-84" font-family="Helvetica,sans-Serif" font-size="10.00">tools::readFile</text>
 </g>
 <!-- Node185 -->
 <g id="node2" class="node"><title>Node185</title>
 <g id="a_node2"><a xlink:href="classcommon.html#a7900f8a5d7ebd42770ce8c366dd4b933" target="_top" xlink:title="Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement. ">
-<polygon fill="white" stroke="black" points="114,-137.5 114,-167.5 269,-167.5 269,-137.5 114,-137.5"/>
-<text text-anchor="start" x="122" y="-155.5" font-family="Helvetica,sans-Serif" font-size="10.00">common::exporter_identification</text>
-<text text-anchor="middle" x="191.5" y="-144.5" font-family="Helvetica,sans-Serif" font-size="10.00">_controle</text>
+<polygon fill="white" stroke="black" points="118,-137.5 118,-167.5 284,-167.5 284,-137.5 118,-137.5"/>
+<text text-anchor="start" x="126" y="-155.5" font-family="Helvetica,sans-Serif" font-size="10.00">common::exporter_identification</text>
+<text text-anchor="middle" x="201" y="-144.5" font-family="Helvetica,sans-Serif" font-size="10.00">_controle</text>
 </a>
 </g>
 </g>
 <!-- Node184&#45;&gt;Node185 -->
 <g id="edge1" class="edge"><title>Node184&#45;&gt;Node185</title>
-<path fill="none" stroke="midnightblue" d="M63.8119,-101.213C78.037,-109.614 96.6589,-119.944 114,-127.5 122.198,-131.072 131.078,-134.42 139.787,-137.434"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="65.5322,-98.1639 55.1565,-96.02 61.9306,-104.166 65.5322,-98.1639"/>
+<path fill="none" stroke="midnightblue" d="M66.4487,-101.302C81.056,-109.733 100.181,-120.064 118,-127.5 126.653,-131.111 136.013,-134.459 145.209,-137.454"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="67.9571,-98.1292 57.5612,-96.0856 64.4137,-104.166 67.9571,-98.1292"/>
 </g>
 <!-- Node186 -->
 <g id="node3" class="node"><title>Node186</title>
 <g id="a_node3"><a xlink:href="classtools.html#a13fc801ee004227bea7e8d1602b04d26" target="_top" xlink:title="Lit un fichier entre deux lignes données et sur une largeur donnée. ">
-<polygon fill="white" stroke="black" points="152.5,-99 152.5,-118 230.5,-118 230.5,-99 152.5,-99"/>
-<text text-anchor="middle" x="191.5" y="-106" font-family="Helvetica,sans-Serif" font-size="10.00">tools::readFile</text>
+<polygon fill="white" stroke="black" points="160,-99 160,-118 242,-118 242,-99 160,-99"/>
+<text text-anchor="middle" x="201" y="-106" font-family="Helvetica,sans-Serif" font-size="10.00">tools::readFile</text>
 </a>
 </g>
 </g>
 <!-- Node184&#45;&gt;Node186 -->
 <g id="edge2" class="edge"><title>Node184&#45;&gt;Node186</title>
-<path fill="none" stroke="midnightblue" d="M88.2767,-93.5571C109.048,-96.5935 132.98,-100.092 152.464,-102.94"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="88.768,-90.0918 78.3669,-92.1085 87.7555,-97.0182 88.768,-90.0918"/>
+<path fill="none" stroke="midnightblue" d="M92.3456,-93.5101C114.133,-96.5439 139.284,-100.046 159.795,-102.902"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="92.666,-90.0211 82.2789,-92.1085 91.7006,-96.9542 92.666,-90.0211"/>
 </g>
 <!-- Node187 -->
 <g id="node4" class="node"><title>Node187</title>
 <g id="a_node4"><a xlink:href="classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" target="_top" xlink:title="codePage::substituer\l_valeurs_dans_script_R">
-<polygon fill="white" stroke="black" points="130.5,-49.5 130.5,-79.5 252.5,-79.5 252.5,-49.5 130.5,-49.5"/>
-<text text-anchor="start" x="138.5" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::substituer</text>
-<text text-anchor="middle" x="191.5" y="-56.5" font-family="Helvetica,sans-Serif" font-size="10.00">_valeurs_dans_script_R</text>
+<polygon fill="white" stroke="black" points="135.5,-49.5 135.5,-79.5 266.5,-79.5 266.5,-49.5 135.5,-49.5"/>
+<text text-anchor="start" x="143.5" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::substituer</text>
+<text text-anchor="middle" x="201" y="-56.5" font-family="Helvetica,sans-Serif" font-size="10.00">_valeurs_dans_script_R</text>
 </a>
 </g>
 </g>
 <!-- Node184&#45;&gt;Node187 -->
 <g id="edge3" class="edge"><title>Node184&#45;&gt;Node187</title>
-<path fill="none" stroke="midnightblue" d="M88.2941,-79.4404C101.652,-77.4877 116.317,-75.3441 130.264,-73.3053"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="87.7555,-75.9818 78.3669,-80.8915 88.768,-82.9082 87.7555,-75.9818"/>
+<path fill="none" stroke="midnightblue" d="M92.4047,-79.4816C106.023,-77.5855 120.951,-75.5068 135.237,-73.5177"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="91.7006,-76.0458 82.2789,-80.8915 92.666,-82.9789 91.7006,-76.0458"/>
 </g>
 <!-- Node190 -->
 <g id="node7" class="node"><title>Node190</title>
 <g id="a_node7"><a xlink:href="classstandard_page.html#abb37a1fff677f91ad2418b07593aa40d" target="_top" xlink:title="standardPage::substituer\l_versant">
-<polygon fill="white" stroke="black" points="129,-0.5 129,-30.5 254,-30.5 254,-0.5 129,-0.5"/>
-<text text-anchor="start" x="137" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">standardPage::substituer</text>
-<text text-anchor="middle" x="191.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">_versant</text>
+<polygon fill="white" stroke="black" points="135,-0.5 135,-30.5 267,-30.5 267,-0.5 135,-0.5"/>
+<text text-anchor="start" x="143" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">standardPage::substituer</text>
+<text text-anchor="middle" x="201" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">_versant</text>
 </a>
 </g>
 </g>
 <!-- Node184&#45;&gt;Node190 -->
 <g id="edge6" class="edge"><title>Node184&#45;&gt;Node190</title>
-<path fill="none" stroke="midnightblue" d="M61.9744,-70.886C76.2961,-61.2102 95.6657,-49.0422 114,-40.5 121.852,-36.8414 130.388,-33.4886 138.816,-30.508"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="59.6053,-68.2677 53.3535,-76.8214 63.5749,-74.0333 59.6053,-68.2677"/>
+<path fill="none" stroke="midnightblue" d="M63.879,-71.2522C78.6521,-61.4683 98.8749,-49.0431 118,-40.5 126.153,-36.8579 134.989,-33.5498 143.74,-30.6191"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="61.7751,-68.4495 55.4435,-76.9443 65.6905,-74.252 61.7751,-68.4495"/>
 </g>
 <!-- Node188 -->
 <g id="node5" class="node"><title>Node188</title>
 <g id="a_node5"><a xlink:href="classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" target="_top" xlink:title="codePage::codePage">
-<polygon fill="white" stroke="black" points="305,-55 305,-74 415,-74 415,-55 305,-55"/>
-<text text-anchor="middle" x="360" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::codePage</text>
+<polygon fill="white" stroke="black" points="320,-55 320,-74 437,-74 437,-55 320,-55"/>
+<text text-anchor="middle" x="378.5" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::codePage</text>
 </a>
 </g>
 </g>
 <!-- Node187&#45;&gt;Node188 -->
 <g id="edge4" class="edge"><title>Node187&#45;&gt;Node188</title>
-<path fill="none" stroke="midnightblue" d="M262.735,-64.5C276.797,-64.5 291.366,-64.5 304.784,-64.5"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="262.61,-61.0001 252.61,-64.5 262.61,-68.0001 262.61,-61.0001"/>
+<path fill="none" stroke="midnightblue" d="M277.16,-64.5C291.459,-64.5 306.214,-64.5 319.862,-64.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="276.851,-61.0001 266.851,-64.5 276.851,-68.0001 276.851,-61.0001"/>
 </g>
 <!-- Node189 -->
 <g id="node6" class="node"><title>Node189</title>
 <g id="a_node6"><a xlink:href="classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" target="_top" xlink:title="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair...">
-<polygon fill="white" stroke="black" points="451,-55 451,-74 537,-74 537,-55 451,-55"/>
-<text text-anchor="middle" x="494" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">options::options</text>
+<polygon fill="white" stroke="black" points="473,-55 473,-74 563,-74 563,-55 473,-55"/>
+<text text-anchor="middle" x="518" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">options::options</text>
 </a>
 </g>
 </g>
 <!-- Node188&#45;&gt;Node189 -->
 <g id="edge5" class="edge"><title>Node188&#45;&gt;Node189</title>
-<path fill="none" stroke="midnightblue" d="M425.254,-64.5C433.977,-64.5 442.74,-64.5 450.934,-64.5"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="425.07,-61.0001 415.07,-64.5 425.07,-68.0001 425.07,-61.0001"/>
+<path fill="none" stroke="midnightblue" d="M447.151,-64.5C455.823,-64.5 464.518,-64.5 472.684,-64.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="447.016,-61.0001 437.016,-64.5 447.016,-68.0001 447.016,-61.0001"/>
 </g>
 </g>
 </svg>

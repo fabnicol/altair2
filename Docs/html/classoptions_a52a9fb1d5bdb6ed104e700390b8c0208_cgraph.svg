@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 1497;
+var viewWidth = 1567;
 var viewHeight = 888;
 var sectionId = 'dynsection-2';
 </script>
@@ -54,758 +54,758 @@ var sectionId = 'dynsection-2';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>options::options</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-884 1493,-884 1493,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-884 1563,-884 1563,4 -4,4"/>
 <!-- Node0 -->
 <g id="node1" class="node"><title>Node0</title>
-<polygon fill="#bfbfbf" stroke="black" points="0,-790.5 0,-809.5 86,-809.5 86,-790.5 0,-790.5"/>
-<text text-anchor="middle" x="43" y="-797.5" font-family="Helvetica,sans-Serif" font-size="10.00">options::options</text>
+<polygon fill="#bfbfbf" stroke="black" points="0,-790.5 0,-809.5 90,-809.5 90,-790.5 0,-790.5"/>
+<text text-anchor="middle" x="45" y="-797.5" font-family="Helvetica,sans-Serif" font-size="10.00">options::options</text>
 </g>
 <!-- Node1 -->
 <g id="node2" class="node"><title>Node1</title>
 <g id="a_node2"><a xlink:href="classcode_page.html#a3b8692dcc8d9bd11272f65d00f8f10ab" target="_top" xlink:title="codePage::activer_fph">
-<polygon fill="white" stroke="black" points="122,-828.5 122,-847.5 236,-847.5 236,-828.5 122,-828.5"/>
-<text text-anchor="middle" x="179" y="-835.5" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::activer_fph</text>
+<polygon fill="white" stroke="black" points="126,-828.5 126,-847.5 248,-847.5 248,-828.5 126,-828.5"/>
+<text text-anchor="middle" x="187" y="-835.5" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::activer_fph</text>
 </a>
 </g>
 </g>
 <!-- Node0&#45;&gt;Node1 -->
 <g id="edge1" class="edge"><title>Node0&#45;&gt;Node1</title>
-<path fill="none" stroke="midnightblue" d="M77.8139,-809.589C95.0326,-814.472 116.164,-820.464 134.573,-825.685"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="133.621,-829.053 144.197,-828.414 135.531,-822.319 133.621,-829.053"/>
+<path fill="none" stroke="midnightblue" d="M81.3279,-809.589C99.4006,-814.494 121.598,-820.52 140.895,-825.757"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="140.116,-829.172 150.683,-828.414 141.949,-822.417 140.116,-829.172"/>
 </g>
 <!-- Node3 -->
 <g id="node4" class="node"><title>Node3</title>
 <g id="a_node4"><a xlink:href="classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" target="_top" xlink:title="codePage::codePage">
-<polygon fill="white" stroke="black" points="664,-790.5 664,-809.5 774,-809.5 774,-790.5 664,-790.5"/>
-<text text-anchor="middle" x="719" y="-797.5" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::codePage</text>
+<polygon fill="white" stroke="black" points="695.5,-790.5 695.5,-809.5 812.5,-809.5 812.5,-790.5 695.5,-790.5"/>
+<text text-anchor="middle" x="754" y="-797.5" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::codePage</text>
 </a>
 </g>
 </g>
 <!-- Node0&#45;&gt;Node3 -->
 <g id="edge3" class="edge"><title>Node0&#45;&gt;Node3</title>
-<path fill="none" stroke="midnightblue" d="M86.1617,-800C200.478,-800 516.906,-800 653.663,-800"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="653.979,-803.5 663.979,-800 653.979,-796.5 653.979,-803.5"/>
+<path fill="none" stroke="midnightblue" d="M90.226,-800C210.085,-800 541.756,-800 685.316,-800"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="685.321,-803.5 695.321,-800 685.321,-796.5 685.321,-803.5"/>
 </g>
 <!-- Node15 -->
 <g id="node16" class="node"><title>Node15</title>
 <g id="a_node16"><a xlink:href="class_altair.html#a2eb0a89c3223b2df1c01d2b3b7d1c0eb" target="_top" xlink:title="Rafraichir le projet .alt après avoir actualisé l&#39;interface. ">
-<polygon fill="white" stroke="black" points="126.5,-297.5 126.5,-316.5 231.5,-316.5 231.5,-297.5 126.5,-297.5"/>
-<text text-anchor="middle" x="179" y="-304.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::updateProject</text>
+<polygon fill="white" stroke="black" points="132,-297.5 132,-316.5 242,-316.5 242,-297.5 132,-297.5"/>
+<text text-anchor="middle" x="187" y="-304.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::updateProject</text>
 </a>
 </g>
 </g>
 <!-- Node0&#45;&gt;Node15 -->
 <g id="edge20" class="edge"><title>Node0&#45;&gt;Node15</title>
-<path fill="none" stroke="midnightblue" d="M46.6767,-790.152C63.092,-729.759 150.183,-409.343 172.688,-326.542"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="176.071,-327.439 175.317,-316.871 169.316,-325.603 176.071,-327.439"/>
+<path fill="none" stroke="midnightblue" d="M48.7966,-790.152C65.9468,-729.759 156.937,-409.343 180.451,-326.542"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="183.832,-327.447 183.197,-316.871 177.098,-325.535 183.832,-327.447"/>
 </g>
 <!-- Node2 -->
 <g id="node3" class="node"><title>Node2</title>
 <g id="a_node3"><a xlink:href="classcode_page.html#a6896b21cac9b9ab917b333a01530fce9" target="_top" xlink:title="codePage::ajouterVariable">
-<polygon fill="white" stroke="black" points="848,-860.5 848,-879.5 979,-879.5 979,-860.5 848,-860.5"/>
-<text text-anchor="middle" x="913.5" y="-867.5" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::ajouterVariable</text>
+<polygon fill="white" stroke="black" points="888,-860.5 888,-879.5 1028,-879.5 1028,-860.5 888,-860.5"/>
+<text text-anchor="middle" x="958" y="-867.5" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::ajouterVariable</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node2 -->
 <g id="edge2" class="edge"><title>Node1&#45;&gt;Node2</title>
-<path fill="none" stroke="midnightblue" d="M236.262,-840.458C366.797,-846.16 690.306,-860.293 837.468,-866.722"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="837.611,-870.232 847.754,-867.172 837.916,-863.238 837.611,-870.232"/>
+<path fill="none" stroke="midnightblue" d="M248.022,-840.498C385.461,-846.217 723.022,-860.264 877.497,-866.692"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="877.713,-870.204 887.85,-867.123 878.004,-863.21 877.713,-870.204"/>
 </g>
 <!-- Node3&#45;&gt;Node2 -->
 <g id="edge4" class="edge"><title>Node3&#45;&gt;Node2</title>
-<path fill="none" stroke="midnightblue" d="M740.812,-809.533C762.73,-819.376 798.381,-834.83 830,-846 841.757,-850.154 854.633,-854.154 866.643,-857.657"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="865.907,-861.087 876.484,-860.476 867.835,-854.358 865.907,-861.087"/>
+<path fill="none" stroke="midnightblue" d="M776.775,-809.555C799.704,-819.415 836.987,-834.882 870,-846 882.42,-850.183 896.011,-854.194 908.682,-857.7"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="908.039,-861.152 918.607,-860.396 909.875,-854.397 908.039,-861.152"/>
 </g>
 <!-- Node4 -->
 <g id="node5" class="node"><title>Node4</title>
 <g id="a_node5"><a xlink:href="classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" target="_top" xlink:title="Renvoie le chemin d&#39;un fichier ou d&#39;un répertoire du répertoire racine de la distribution (adjacent a...">
-<polygon fill="white" stroke="black" points="1240,-696.5 1240,-715.5 1339,-715.5 1339,-696.5 1240,-696.5"/>
-<text text-anchor="middle" x="1289.5" y="-703.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::path_access</text>
+<polygon fill="white" stroke="black" points="1300,-696.5 1300,-715.5 1404,-715.5 1404,-696.5 1300,-696.5"/>
+<text text-anchor="middle" x="1352" y="-703.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::path_access</text>
 </a>
 </g>
 </g>
 <!-- Node3&#45;&gt;Node4 -->
 <g id="edge5" class="edge"><title>Node3&#45;&gt;Node4</title>
-<path fill="none" stroke="midnightblue" d="M753.612,-809.555C831.316,-829.835 1028.05,-870.722 1176,-812 1220.65,-794.278 1257.87,-749.508 1276.21,-724.184"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1279.2,-726.013 1282.1,-715.82 1273.48,-721.986 1279.2,-726.013"/>
+<path fill="none" stroke="midnightblue" d="M789.531,-809.538C870.355,-830.05 1076.81,-871.853 1233,-812 1279.26,-794.272 1318.78,-749.111 1338.18,-723.83"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1341.22,-725.61 1344.4,-715.503 1335.61,-721.424 1341.22,-725.61"/>
 </g>
 <!-- Node5 -->
 <g id="node6" class="node"><title>Node5</title>
 <g id="a_node6"><a xlink:href="classcode_page.html#a8524212298b5473047c5c4f0cadc86a6" target="_top" xlink:title="codePage::reinitialiser\l_prologue">
-<polygon fill="white" stroke="black" points="1048,-773 1048,-803 1161,-803 1161,-773 1048,-773"/>
-<text text-anchor="start" x="1056" y="-791" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::reinitialiser</text>
-<text text-anchor="middle" x="1104.5" y="-780" font-family="Helvetica,sans-Serif" font-size="10.00">_prologue</text>
+<polygon fill="white" stroke="black" points="1097.5,-773 1097.5,-803 1217.5,-803 1217.5,-773 1097.5,-773"/>
+<text text-anchor="start" x="1105.5" y="-791" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::reinitialiser</text>
+<text text-anchor="middle" x="1157.5" y="-780" font-family="Helvetica,sans-Serif" font-size="10.00">_prologue</text>
 </a>
 </g>
 </g>
 <!-- Node3&#45;&gt;Node5 -->
 <g id="edge6" class="edge"><title>Node3&#45;&gt;Node5</title>
-<path fill="none" stroke="midnightblue" d="M774.133,-798.306C843.348,-796.14 963.125,-792.392 1037.58,-790.063"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1037.89,-793.555 1047.78,-789.744 1037.67,-786.558 1037.89,-793.555"/>
+<path fill="none" stroke="midnightblue" d="M812.525,-798.281C885.052,-796.113 1009.62,-792.39 1087.28,-790.069"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1087.56,-793.562 1097.45,-789.765 1087.35,-786.565 1087.56,-793.562"/>
 </g>
 <!-- Node6 -->
 <g id="node7" class="node"><title>Node6</title>
 <g id="a_node7"><a xlink:href="classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" target="_top" xlink:title="codePage::substituer\l_valeurs_dans_script_R">
-<polygon fill="white" stroke="black" points="852.5,-653 852.5,-683 974.5,-683 974.5,-653 852.5,-653"/>
-<text text-anchor="start" x="860.5" y="-671" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::substituer</text>
-<text text-anchor="middle" x="913.5" y="-660" font-family="Helvetica,sans-Serif" font-size="10.00">_valeurs_dans_script_R</text>
+<polygon fill="white" stroke="black" points="892.5,-653 892.5,-683 1023.5,-683 1023.5,-653 892.5,-653"/>
+<text text-anchor="start" x="900.5" y="-671" font-family="Helvetica,sans-Serif" font-size="10.00">codePage::substituer</text>
+<text text-anchor="middle" x="958" y="-660" font-family="Helvetica,sans-Serif" font-size="10.00">_valeurs_dans_script_R</text>
 </a>
 </g>
 </g>
 <!-- Node3&#45;&gt;Node6 -->
 <g id="edge8" class="edge"><title>Node3&#45;&gt;Node6</title>
-<path fill="none" stroke="midnightblue" d="M734.155,-790.294C765.201,-769.005 839.867,-717.805 882.085,-688.856"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="884.306,-691.577 890.574,-683.035 880.347,-685.804 884.306,-691.577"/>
+<path fill="none" stroke="midnightblue" d="M769.854,-790.294C802.5,-768.96 881.111,-717.591 925.361,-688.675"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="927.535,-691.435 933.992,-683.035 923.706,-685.576 927.535,-691.435"/>
 </g>
 <!-- Node5&#45;&gt;Node4 -->
 <g id="edge7" class="edge"><title>Node5&#45;&gt;Node4</title>
-<path fill="none" stroke="midnightblue" d="M1150.59,-772.982C1159.1,-769.873 1167.88,-766.478 1176,-763 1206.29,-750.02 1239.85,-732.602 1262.36,-720.449"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1264.18,-723.445 1271.29,-715.592 1260.83,-717.295 1264.18,-723.445"/>
+<path fill="none" stroke="midnightblue" d="M1206.52,-772.88C1215.4,-769.805 1224.53,-766.449 1233,-763 1264.85,-750.023 1300.23,-732.496 1323.87,-720.318"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1325.67,-723.328 1332.93,-715.615 1322.44,-717.115 1325.67,-723.328"/>
 </g>
 <!-- Node6&#45;&gt;Node5 -->
 <g id="edge16" class="edge"><title>Node6&#45;&gt;Node5</title>
-<path fill="none" stroke="midnightblue" d="M929.742,-683.068C951.188,-703.568 992.229,-740.287 1033,-763 1036.87,-765.156 1040.96,-767.181 1045.14,-769.072"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1043.83,-772.315 1054.4,-772.996 1046.56,-765.87 1043.83,-772.315"/>
+<path fill="none" stroke="midnightblue" d="M974.877,-683.127C997.203,-703.696 1039.88,-740.494 1082,-763 1086.14,-765.214 1090.52,-767.285 1094.99,-769.211"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1093.68,-772.456 1104.26,-772.96 1096.31,-765.966 1093.68,-772.456"/>
 </g>
 <!-- Node7 -->
 <g id="node8" class="node"><title>Node7</title>
 <g id="a_node8"><a xlink:href="classtools.html#a995219ca14bd1ddcb10cb2a3fffed5a5" target="_top" xlink:title="Créer un fichier temporaire temp dans le répertoire racine et le remplit avec une chaîone de caractèr...">
-<polygon fill="white" stroke="black" points="1070.5,-696.5 1070.5,-715.5 1138.5,-715.5 1138.5,-696.5 1070.5,-696.5"/>
-<text text-anchor="middle" x="1104.5" y="-703.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::dump</text>
+<polygon fill="white" stroke="black" points="1123,-696.5 1123,-715.5 1192,-715.5 1192,-696.5 1123,-696.5"/>
+<text text-anchor="middle" x="1157.5" y="-703.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::dump</text>
 </a>
 </g>
 </g>
 <!-- Node6&#45;&gt;Node7 -->
 <g id="edge9" class="edge"><title>Node6&#45;&gt;Node7</title>
-<path fill="none" stroke="midnightblue" d="M974.56,-680.076C1002.4,-685.672 1034.85,-692.197 1060.23,-697.301"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1059.8,-700.784 1070.29,-699.323 1061.18,-693.921 1059.8,-700.784"/>
+<path fill="none" stroke="midnightblue" d="M1023.67,-680.443C1052.87,-686.061 1086.6,-692.55 1112.76,-697.584"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1112.27,-701.054 1122.75,-699.507 1113.59,-694.18 1112.27,-701.054"/>
 </g>
 <!-- Node8 -->
 <g id="node9" class="node"><title>Node8</title>
 <g id="a_node9"><a xlink:href="classcommon.html#a3149ba29e04e6e5f7f85a2894434bf9e" target="_top" xlink:title="Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement. ">
-<polygon fill="white" stroke="black" points="1212,-463 1212,-493 1367,-493 1367,-463 1212,-463"/>
-<text text-anchor="start" x="1220" y="-481" font-family="Helvetica,sans-Serif" font-size="10.00">common::exporter_identification</text>
-<text text-anchor="middle" x="1289.5" y="-470" font-family="Helvetica,sans-Serif" font-size="10.00">_controle</text>
+<polygon fill="white" stroke="black" points="1269,-463 1269,-493 1435,-493 1435,-463 1269,-463"/>
+<text text-anchor="start" x="1277" y="-481" font-family="Helvetica,sans-Serif" font-size="10.00">common::exporter_identification</text>
+<text text-anchor="middle" x="1352" y="-470" font-family="Helvetica,sans-Serif" font-size="10.00">_controle</text>
 </a>
 </g>
 </g>
 <!-- Node6&#45;&gt;Node8 -->
 <g id="edge11" class="edge"><title>Node6&#45;&gt;Node8</title>
-<path fill="none" stroke="midnightblue" d="M924.174,-652.673C942.142,-625.531 983.385,-569.137 1033,-540 1084.38,-509.825 1149.8,-494.303 1201.58,-486.336"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1202.36,-489.758 1211.75,-484.841 1201.34,-482.833 1202.36,-489.758"/>
+<path fill="none" stroke="midnightblue" d="M969.154,-652.624C987.983,-625.403 1031.07,-568.888 1082,-540 1136.16,-509.284 1204.62,-493.776 1258.93,-485.951"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1259.47,-489.41 1268.9,-484.578 1258.51,-482.476 1259.47,-489.41"/>
 </g>
 <!-- Node10 -->
 <g id="node11" class="node"><title>Node10</title>
 <g id="a_node11"><a xlink:href="classtools.html#a7cba03deaa6e1311c2d0e5fb9fdcfa5c" target="_top" xlink:title="Remplace des chaînes de caractères, lorsqu&#39;elles correspondent à une expression rationnelle, dans une chaîne de caractères donnée par une chaîne de caractères donnée. ">
-<polygon fill="white" stroke="black" points="1403,-525.5 1403,-544.5 1489,-544.5 1489,-525.5 1403,-525.5"/>
-<text text-anchor="middle" x="1446" y="-532.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::substituer</text>
+<polygon fill="white" stroke="black" points="1471,-525.5 1471,-544.5 1559,-544.5 1559,-525.5 1471,-525.5"/>
+<text text-anchor="middle" x="1515" y="-532.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::substituer</text>
 </a>
 </g>
 </g>
 <!-- Node6&#45;&gt;Node10 -->
 <g id="edge19" class="edge"><title>Node6&#45;&gt;Node10</title>
-<path fill="none" stroke="midnightblue" d="M927.659,-652.918C947.833,-630.963 988.748,-590.874 1033,-573 1154.43,-523.954 1311.86,-525.493 1392.43,-530.442"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1392.6,-533.961 1402.81,-531.125 1393.06,-526.976 1392.6,-533.961"/>
+<path fill="none" stroke="midnightblue" d="M972.774,-652.895C993.862,-630.91 1036.52,-590.783 1082,-573 1210.74,-522.668 1377.01,-524.984 1460.77,-530.321"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1460.59,-533.817 1470.81,-531.001 1461.07,-526.833 1460.59,-533.817"/>
 </g>
 <!-- Node11 -->
 <g id="node12" class="node"><title>Node11</title>
 <g id="a_node12"><a xlink:href="classtools.html#af43fc30ac740fa0fa1d773afb2538c8c" target="_top" xlink:title="Liste un fichier entre deux lignes données et sur une largeur donnée. ">
-<polygon fill="white" stroke="black" points="1065.5,-658.5 1065.5,-677.5 1143.5,-677.5 1143.5,-658.5 1065.5,-658.5"/>
-<text text-anchor="middle" x="1104.5" y="-665.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::readFile</text>
+<polygon fill="white" stroke="black" points="1116.5,-658.5 1116.5,-677.5 1198.5,-677.5 1198.5,-658.5 1116.5,-658.5"/>
+<text text-anchor="middle" x="1157.5" y="-665.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::readFile</text>
 </a>
 </g>
 </g>
 <!-- Node6&#45;&gt;Node11 -->
 <g id="edge14" class="edge"><title>Node6&#45;&gt;Node11</title>
-<path fill="none" stroke="midnightblue" d="M974.56,-668C1000.57,-668 1030.61,-668 1055.15,-668"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1055.3,-671.5 1065.3,-668 1055.3,-664.5 1055.3,-671.5"/>
+<path fill="none" stroke="midnightblue" d="M1023.67,-668C1050.56,-668 1081.3,-668 1106.43,-668"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1106.47,-671.5 1116.47,-668 1106.47,-664.5 1106.47,-671.5"/>
 </g>
 <!-- Node12 -->
 <g id="node13" class="node"><title>Node12</title>
 <g id="a_node13"><a xlink:href="options_8cpp.html#aa5399073540b3e6a7a9d60a70ef4dd88" target="_top" xlink:title="regexp">
-<polygon fill="white" stroke="black" points="1081.5,-620.5 1081.5,-639.5 1127.5,-639.5 1127.5,-620.5 1081.5,-620.5"/>
-<text text-anchor="middle" x="1104.5" y="-627.5" font-family="Helvetica,sans-Serif" font-size="10.00">regexp</text>
+<polygon fill="white" stroke="black" points="1132.5,-620.5 1132.5,-639.5 1182.5,-639.5 1182.5,-620.5 1132.5,-620.5"/>
+<text text-anchor="middle" x="1157.5" y="-627.5" font-family="Helvetica,sans-Serif" font-size="10.00">regexp</text>
 </a>
 </g>
 </g>
 <!-- Node6&#45;&gt;Node12 -->
 <g id="edge15" class="edge"><title>Node6&#45;&gt;Node12</title>
-<path fill="none" stroke="midnightblue" d="M974.56,-655.924C1006.62,-649.478 1044.81,-641.8 1071.27,-636.481"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1072.03,-639.898 1081.14,-634.495 1070.65,-633.035 1072.03,-639.898"/>
+<path fill="none" stroke="midnightblue" d="M1023.67,-655.557C1056.44,-649.251 1094.93,-641.847 1122.01,-636.636"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1122.99,-640.011 1132.15,-634.685 1121.67,-633.137 1122.99,-640.011"/>
 </g>
 <!-- Node13 -->
 <g id="node14" class="node"><title>Node13</title>
 <g id="a_node14"><a xlink:href="options_8cpp.html#aed1be66fe9ab34423b676aa409402c42" target="_top" xlink:title="rempl_str">
-<polygon fill="white" stroke="black" points="1076,-582.5 1076,-601.5 1133,-601.5 1133,-582.5 1076,-582.5"/>
-<text text-anchor="middle" x="1104.5" y="-589.5" font-family="Helvetica,sans-Serif" font-size="10.00">rempl_str</text>
+<polygon fill="white" stroke="black" points="1127,-582.5 1127,-601.5 1188,-601.5 1188,-582.5 1127,-582.5"/>
+<text text-anchor="middle" x="1157.5" y="-589.5" font-family="Helvetica,sans-Serif" font-size="10.00">rempl_str</text>
 </a>
 </g>
 </g>
 <!-- Node6&#45;&gt;Node13 -->
 <g id="edge17" class="edge"><title>Node6&#45;&gt;Node13</title>
-<path fill="none" stroke="midnightblue" d="M942.115,-652.911C965.734,-640.448 1000.9,-622.928 1033,-611 1043.45,-607.118 1055.03,-603.662 1065.74,-600.797"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1066.86,-604.122 1075.67,-598.236 1065.12,-597.343 1066.86,-604.122"/>
+<path fill="none" stroke="midnightblue" d="M987.693,-652.862C1012.23,-640.37 1048.74,-622.834 1082,-611 1093.19,-607.02 1105.59,-603.512 1117.02,-600.629"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1117.87,-604.025 1126.76,-598.259 1116.21,-597.223 1117.87,-604.025"/>
 </g>
 <!-- Node14 -->
 <g id="node15" class="node"><title>Node14</title>
 <g id="a_node15"><a xlink:href="classtools.html#a888a6211f6956005dba0132e1ee5fd92" target="_top" xlink:title="Renomme un fichier. ">
-<polygon fill="white" stroke="black" points="1061,-734.5 1061,-753.5 1148,-753.5 1148,-734.5 1061,-734.5"/>
-<text text-anchor="middle" x="1104.5" y="-741.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::renommer</text>
+<polygon fill="white" stroke="black" points="1111.5,-734.5 1111.5,-753.5 1203.5,-753.5 1203.5,-734.5 1111.5,-734.5"/>
+<text text-anchor="middle" x="1157.5" y="-741.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::renommer</text>
 </a>
 </g>
 </g>
 <!-- Node6&#45;&gt;Node14 -->
 <g id="edge18" class="edge"><title>Node6&#45;&gt;Node14</title>
-<path fill="none" stroke="midnightblue" d="M942.115,-683.089C965.734,-695.552 1000.9,-713.072 1033,-725 1039.39,-727.373 1046.2,-729.588 1052.98,-731.605"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1052.25,-735.038 1062.83,-734.416 1054.17,-728.307 1052.25,-735.038"/>
+<path fill="none" stroke="midnightblue" d="M987.693,-683.138C1012.23,-695.63 1048.74,-713.166 1082,-725 1088.92,-727.461 1096.3,-729.741 1103.63,-731.805"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1102.98,-735.255 1113.54,-734.482 1104.8,-728.497 1102.98,-735.255"/>
 </g>
 <!-- Node7&#45;&gt;Node4 -->
 <g id="edge10" class="edge"><title>Node7&#45;&gt;Node4</title>
-<path fill="none" stroke="midnightblue" d="M1138.64,-706C1163.89,-706 1199.3,-706 1229.37,-706"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1229.75,-709.5 1239.75,-706 1229.75,-702.5 1229.75,-709.5"/>
+<path fill="none" stroke="midnightblue" d="M1192.03,-706C1218.86,-706 1257.2,-706 1289.51,-706"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1289.76,-709.5 1299.76,-706 1289.76,-702.5 1289.76,-709.5"/>
 </g>
 <!-- Node9 -->
 <g id="node10" class="node"><title>Node9</title>
 <g id="a_node10"><a xlink:href="class_hash.html#a9c6832c663082e153e74bf3fb0c5720a" target="_top" xlink:title="Hash::aplatir">
-<polygon fill="white" stroke="black" points="1410,-468.5 1410,-487.5 1482,-487.5 1482,-468.5 1410,-468.5"/>
-<text text-anchor="middle" x="1446" y="-475.5" font-family="Helvetica,sans-Serif" font-size="10.00">Hash::aplatir</text>
+<polygon fill="white" stroke="black" points="1477.5,-468.5 1477.5,-487.5 1552.5,-487.5 1552.5,-468.5 1477.5,-468.5"/>
+<text text-anchor="middle" x="1515" y="-475.5" font-family="Helvetica,sans-Serif" font-size="10.00">Hash::aplatir</text>
 </a>
 </g>
 </g>
 <!-- Node8&#45;&gt;Node9 -->
 <g id="edge12" class="edge"><title>Node8&#45;&gt;Node9</title>
-<path fill="none" stroke="midnightblue" d="M1367.3,-478C1378.31,-478 1389.34,-478 1399.49,-478"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1399.7,-481.5 1409.7,-478 1399.7,-474.5 1399.7,-481.5"/>
+<path fill="none" stroke="midnightblue" d="M1435.39,-478C1446.3,-478 1457.16,-478 1467.18,-478"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1467.27,-481.5 1477.27,-478 1467.27,-474.5 1467.27,-481.5"/>
 </g>
 <!-- Node8&#45;&gt;Node10 -->
 <g id="edge13" class="edge"><title>Node8&#45;&gt;Node10</title>
-<path fill="none" stroke="midnightblue" d="M1331.5,-493.125C1355.75,-502.072 1386.16,-513.292 1409.4,-521.865"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1408.29,-525.186 1418.88,-525.363 1410.71,-518.618 1408.29,-525.186"/>
+<path fill="none" stroke="midnightblue" d="M1395.72,-493.125C1421.1,-502.111 1452.97,-513.392 1477.22,-521.98"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1476.19,-525.325 1486.78,-525.363 1478.52,-518.727 1476.19,-525.325"/>
 </g>
 <!-- Node15&#45;&gt;Node4 -->
 <g id="edge26" class="edge"><title>Node15&#45;&gt;Node4</title>
-<path fill="none" stroke="midnightblue" d="M184.499,-316.731C195.801,-340.123 227.686,-399.934 272,-432 369.183,-502.323 408.543,-516 528.5,-516 528.5,-516 528.5,-516 914.5,-516 1033.45,-516 1074.08,-511.673 1176,-573 1223.96,-601.857 1261.37,-658.505 1278.42,-687.677"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1275.42,-689.478 1283.41,-696.437 1281.51,-686.015 1275.42,-689.478"/>
+<path fill="none" stroke="midnightblue" d="M192.547,-316.602C204.244,-340.261 237.734,-401.773 284,-434 387.431,-506.047 429.45,-516 555.5,-516 555.5,-516 555.5,-516 959,-516 1083.38,-516 1125.37,-510.646 1233,-573 1282.43,-601.639 1322.07,-658.384 1340.23,-687.627"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1337.38,-689.67 1345.55,-696.409 1343.36,-686.043 1337.38,-689.67"/>
 </g>
 <!-- Node16 -->
 <g id="node17" class="node"><title>Node16</title>
 <g id="a_node17"><a xlink:href="struct_abstract.html#af7b700041c9d75de3f642f15ece3e6ae" target="_top" xlink:title="Réinitialiser toutes les valeurs du de la table de hachage Hash::wrapper. ">
-<polygon fill="white" stroke="black" points="303.5,-33.5 303.5,-52.5 383.5,-52.5 383.5,-33.5 303.5,-33.5"/>
-<text text-anchor="middle" x="343.5" y="-40.5" font-family="Helvetica,sans-Serif" font-size="10.00">Abstract::initH</text>
+<polygon fill="white" stroke="black" points="321.5,-33.5 321.5,-52.5 401.5,-52.5 401.5,-33.5 321.5,-33.5"/>
+<text text-anchor="middle" x="361.5" y="-40.5" font-family="Helvetica,sans-Serif" font-size="10.00">Abstract::initH</text>
 </a>
 </g>
 </g>
 <!-- Node15&#45;&gt;Node16 -->
 <g id="edge21" class="edge"><title>Node15&#45;&gt;Node16</title>
-<path fill="none" stroke="midnightblue" d="M180.594,-297.318C183.382,-260.637 198.348,-128.903 272,-62 278.137,-56.4253 285.74,-52.4589 293.66,-49.6429"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="294.811,-52.9521 303.399,-46.7478 292.817,-46.2423 294.811,-52.9521"/>
+<path fill="none" stroke="midnightblue" d="M188.724,-297.262C192.01,-260.375 208.81,-127.999 284,-62 291.714,-55.2293 301.473,-50.7951 311.419,-47.9093"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="312.457,-51.2593 321.357,-45.5106 310.815,-44.4547 312.457,-51.2593"/>
 </g>
 <!-- Node17 -->
 <g id="node18" class="node"><title>Node17</title>
 <g id="a_node18"><a xlink:href="class_main_window.html#ab58113ae4ed9a73ec3e3e5f83c98dfcc" target="_top" xlink:title="Vérifie si par défaut le projet .alt doit être enregistré à chaque modification de l&#39;état de l&#39;interf...">
-<polygon fill="white" stroke="black" points="273.5,-564 273.5,-594 413.5,-594 413.5,-564 273.5,-564"/>
-<text text-anchor="start" x="281.5" y="-582" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::isDefaultSave</text>
-<text text-anchor="middle" x="343.5" y="-571" font-family="Helvetica,sans-Serif" font-size="10.00">ProjectChecked</text>
+<polygon fill="white" stroke="black" points="288.5,-564 288.5,-594 434.5,-594 434.5,-564 288.5,-564"/>
+<text text-anchor="start" x="296.5" y="-582" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::isDefaultSave</text>
+<text text-anchor="middle" x="361.5" y="-571" font-family="Helvetica,sans-Serif" font-size="10.00">ProjectChecked</text>
 </a>
 </g>
 </g>
 <!-- Node15&#45;&gt;Node17 -->
 <g id="edge22" class="edge"><title>Node15&#45;&gt;Node17</title>
-<path fill="none" stroke="midnightblue" d="M181.981,-316.928C189.033,-350.235 215.567,-459.835 272,-530 280.859,-541.014 292.828,-550.592 304.388,-558.286"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="302.768,-561.404 313.09,-563.796 306.513,-555.489 302.768,-561.404"/>
+<path fill="none" stroke="midnightblue" d="M189.984,-316.548C197.244,-349.552 225.082,-460.589 284,-530 293.609,-541.321 306.498,-550.942 318.953,-558.583"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="317.491,-561.782 327.893,-563.792 321.015,-555.734 317.491,-561.782"/>
 </g>
 <!-- Node21 -->
 <g id="node22" class="node"><title>Node21</title>
 <g id="a_node22"><a xlink:href="class_altair.html#ac9d7d8e7cebf70212818f1a8ba7d7d78" target="_top" xlink:title="Rafraîchit le gestionnaire de projet à la droite de l&#39;interface. Fonction globale par défaut...">
-<polygon fill="white" stroke="black" points="272,-297.5 272,-316.5 415,-316.5 415,-297.5 272,-297.5"/>
-<text text-anchor="middle" x="343.5" y="-304.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::refreshProjectManager</text>
+<polygon fill="white" stroke="black" points="284,-297.5 284,-316.5 439,-316.5 439,-297.5 284,-297.5"/>
+<text text-anchor="middle" x="361.5" y="-304.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::refreshProjectManager</text>
 </a>
 </g>
 </g>
 <!-- Node15&#45;&gt;Node21 -->
 <g id="edge27" class="edge"><title>Node15&#45;&gt;Node21</title>
-<path fill="none" stroke="midnightblue" d="M231.863,-307C241.407,-307 251.576,-307 261.735,-307"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="261.867,-310.5 271.867,-307 261.867,-303.5 261.867,-310.5"/>
+<path fill="none" stroke="midnightblue" d="M242.107,-307C252.14,-307 262.851,-307 273.575,-307"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="273.84,-310.5 283.84,-307 273.84,-303.5 273.84,-310.5"/>
 </g>
 <!-- Node54 -->
 <g id="node30" class="node"><title>Node54</title>
 <g id="a_node30"><a xlink:href="class_altair.html#ad0436bfddbdcdd19cc80154e02b4323c" target="_top" xlink:title="Assigner le fichier courant. ">
-<polygon fill="white" stroke="black" points="665.5,-240.5 665.5,-259.5 772.5,-259.5 772.5,-240.5 665.5,-240.5"/>
-<text text-anchor="middle" x="719" y="-247.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::setCurrentFile</text>
+<polygon fill="white" stroke="black" points="698.5,-240.5 698.5,-259.5 809.5,-259.5 809.5,-240.5 698.5,-240.5"/>
+<text text-anchor="middle" x="754" y="-247.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::setCurrentFile</text>
 </a>
 </g>
 </g>
 <!-- Node15&#45;&gt;Node54 -->
 <g id="edge63" class="edge"><title>Node15&#45;&gt;Node54</title>
-<path fill="none" stroke="midnightblue" d="M221.033,-297.44C236.884,-294.033 255.215,-290.44 272,-288 407.79,-268.265 568.439,-257.676 655.055,-253.005"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="655.444,-256.489 665.245,-252.464 655.073,-249.499 655.444,-256.489"/>
+<path fill="none" stroke="midnightblue" d="M230.832,-297.432C247.373,-294.025 266.499,-290.433 284,-288 427.549,-268.046 597.382,-257.499 688.126,-252.903"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="688.446,-256.392 698.259,-252.398 688.098,-249.4 688.446,-256.392"/>
 </g>
 <!-- Node87 -->
 <g id="node47" class="node"><title>Node87</title>
 <g id="a_node47"><a xlink:href="class_altair.html#a43120f9909d0284074119529a03df85b" target="_top" xlink:title="Ecrit le projet XML d&#39;extension .alt contenant les références des donnéees de paye. ">
-<polygon fill="white" stroke="black" points="287,-71.5 287,-90.5 400,-90.5 400,-71.5 287,-71.5"/>
-<text text-anchor="middle" x="343.5" y="-78.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::writeProjectFile</text>
+<polygon fill="white" stroke="black" points="303,-71.5 303,-90.5 420,-90.5 420,-71.5 303,-71.5"/>
+<text text-anchor="middle" x="361.5" y="-78.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::writeProjectFile</text>
 </a>
 </g>
 </g>
 <!-- Node15&#45;&gt;Node87 -->
 <g id="edge64" class="edge"><title>Node15&#45;&gt;Node87</title>
-<path fill="none" stroke="midnightblue" d="M181.597,-297.395C187.436,-265.29 210.581,-160.606 272,-105 276.482,-100.942 281.68,-97.5654 287.181,-94.7571"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="288.938,-97.8067 296.655,-90.5473 286.095,-91.4099 288.938,-97.8067"/>
+<path fill="none" stroke="midnightblue" d="M189.75,-297.33C196.106,-265.021 220.995,-159.768 284,-105 288.757,-100.865 294.224,-97.4419 300.002,-94.6082"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="301.473,-97.7857 309.28,-90.6229 298.71,-91.354 301.473,-97.7857"/>
 </g>
 <!-- Node18 -->
 <g id="node19" class="node"><title>Node18</title>
 <g id="a_node19"><a xlink:href="class_main_window.html#a7ca647c33971b09cd6ef4af33937369e" target="_top" xlink:title="Envoie du texte formaté HTML dans l&#39;onglet Console. ">
-<polygon fill="white" stroke="black" points="453,-632 453,-662 606,-662 606,-632 453,-632"/>
-<text text-anchor="start" x="461" y="-650" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::feedLHXConsole</text>
-<text text-anchor="middle" x="529.5" y="-639" font-family="Helvetica,sans-Serif" font-size="10.00">WithHtml</text>
+<polygon fill="white" stroke="black" points="475.5,-632 475.5,-662 637.5,-662 637.5,-632 475.5,-632"/>
+<text text-anchor="start" x="483.5" y="-650" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::feedLHXConsole</text>
+<text text-anchor="middle" x="556.5" y="-639" font-family="Helvetica,sans-Serif" font-size="10.00">WithHtml</text>
 </a>
 </g>
 </g>
 <!-- Node17&#45;&gt;Node18 -->
 <g id="edge23" class="edge"><title>Node17&#45;&gt;Node18</title>
-<path fill="none" stroke="midnightblue" d="M380.239,-594.175C400.797,-602.717 427.194,-613.367 451,-622 457.251,-624.267 463.821,-626.544 470.381,-628.753"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="469.355,-632.1 479.948,-631.928 471.56,-625.456 469.355,-632.1"/>
+<path fill="none" stroke="midnightblue" d="M400.036,-594.037C421.802,-602.583 449.806,-613.283 475,-622 481.504,-624.25 488.336,-626.518 495.155,-628.72"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="494.506,-632.187 505.096,-631.89 496.632,-625.517 494.506,-632.187"/>
 </g>
 <!-- Node19 -->
 <g id="node20" class="node"><title>Node19</title>
 <g id="a_node20"><a xlink:href="class_main_window.html#ad5413bb37042daa28f5fd7d72b4b616c" target="_top" xlink:title="Envoie du texte formaté HTML dans l&#39;onglet Console. ">
-<polygon fill="white" stroke="black" points="459,-583 459,-613 600,-613 600,-583 459,-583"/>
-<text text-anchor="start" x="467" y="-601" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::feedRConsole</text>
-<text text-anchor="middle" x="529.5" y="-590" font-family="Helvetica,sans-Serif" font-size="10.00">WithHtml</text>
+<polygon fill="white" stroke="black" points="482,-583 482,-613 631,-613 631,-583 482,-583"/>
+<text text-anchor="start" x="490" y="-601" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::feedRConsole</text>
+<text text-anchor="middle" x="556.5" y="-590" font-family="Helvetica,sans-Serif" font-size="10.00">WithHtml</text>
 </a>
 </g>
 </g>
 <!-- Node17&#45;&gt;Node19 -->
 <g id="edge24" class="edge"><title>Node17&#45;&gt;Node19</title>
-<path fill="none" stroke="midnightblue" d="M413.538,-586.129C424.975,-587.31 436.916,-588.543 448.594,-589.749"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="448.462,-593.254 458.768,-590.799 449.181,-586.291 448.462,-593.254"/>
+<path fill="none" stroke="midnightblue" d="M434.641,-586.102C446.686,-587.288 459.273,-588.527 471.582,-589.739"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="471.543,-593.252 481.838,-590.748 472.229,-586.285 471.543,-593.252"/>
 </g>
 <!-- Node20 -->
 <g id="node21" class="node"><title>Node20</title>
 <g id="a_node21"><a xlink:href="class_main_window.html#acb0d089a9bd777962ddd3e7d30e81c1a" target="_top" xlink:title="Sauvegarde du projet .alt selon un chemin à spécifier. ">
-<polygon fill="white" stroke="black" points="458,-544.5 458,-563.5 601,-563.5 601,-544.5 458,-544.5"/>
-<text text-anchor="middle" x="529.5" y="-551.5" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::saveProjectAs</text>
+<polygon fill="white" stroke="black" points="482,-544.5 482,-563.5 631,-563.5 631,-544.5 482,-544.5"/>
+<text text-anchor="middle" x="556.5" y="-551.5" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::saveProjectAs</text>
 </a>
 </g>
 </g>
 <!-- Node17&#45;&gt;Node20 -->
 <g id="edge25" class="edge"><title>Node17&#45;&gt;Node20</title>
-<path fill="none" stroke="midnightblue" d="M413.538,-569.62C424.896,-568.077 436.752,-566.466 448.352,-564.89"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="449.024,-568.331 458.462,-563.516 448.082,-561.394 449.024,-568.331"/>
+<path fill="none" stroke="midnightblue" d="M434.641,-569.655C446.686,-568.095 459.273,-566.465 471.582,-564.87"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="472.371,-568.297 481.838,-563.542 471.471,-561.355 472.371,-568.297"/>
 </g>
 <!-- Node22 -->
 <g id="node23" class="node"><title>Node22</title>
 <g id="a_node23"><a xlink:href="class_altair.html#a9df2266cd3e2a9905e74bb41c1f9415d" target="_top" xlink:title="Remplace un nom de projet vide par un nom par défaut. ">
-<polygon fill="white" stroke="black" points="451,-147.5 451,-166.5 608,-166.5 608,-147.5 451,-147.5"/>
-<text text-anchor="middle" x="529.5" y="-154.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::checkEmptyProjectName</text>
+<polygon fill="white" stroke="black" points="475,-147.5 475,-166.5 638,-166.5 638,-147.5 475,-147.5"/>
+<text text-anchor="middle" x="556.5" y="-154.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::checkEmptyProjectName</text>
 </a>
 </g>
 </g>
 <!-- Node21&#45;&gt;Node22 -->
 <g id="edge28" class="edge"><title>Node21&#45;&gt;Node22</title>
-<path fill="none" stroke="midnightblue" d="M356.29,-297.389C387.114,-272.261 470.354,-204.401 508.686,-173.153"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="511.031,-175.757 516.57,-166.725 506.608,-170.331 511.031,-175.757"/>
+<path fill="none" stroke="midnightblue" d="M374.867,-297.389C407.266,-272.208 494.877,-204.116 534.969,-172.956"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="537.239,-175.626 542.987,-166.725 532.943,-170.099 537.239,-175.626"/>
 </g>
 <!-- Node57 -->
 <g id="node33" class="node"><title>Node57</title>
 <g id="a_node33"><a xlink:href="class_altair.html#a41b6c8a35ed8ba14c7c0ce2e6994655f" target="_top" xlink:title="Décode le projet représenté par un pointeur vers QFile ou similaire. ">
-<polygon fill="white" stroke="black" points="471.5,-316.5 471.5,-335.5 587.5,-335.5 587.5,-316.5 471.5,-316.5"/>
-<text text-anchor="middle" x="529.5" y="-323.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::parseProjectFile</text>
+<polygon fill="white" stroke="black" points="495.5,-316.5 495.5,-335.5 617.5,-335.5 617.5,-316.5 495.5,-316.5"/>
+<text text-anchor="middle" x="556.5" y="-323.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::parseProjectFile</text>
 </a>
 </g>
 </g>
 <!-- Node21&#45;&gt;Node57 -->
 <g id="edge39" class="edge"><title>Node21&#45;&gt;Node57</title>
-<path fill="none" stroke="midnightblue" d="M415.113,-314.292C430.264,-315.856 446.235,-317.505 461.254,-319.056"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="461.172,-322.566 471.479,-320.112 461.891,-315.603 461.172,-322.566"/>
+<path fill="none" stroke="midnightblue" d="M439.056,-314.537C454.277,-316.035 470.19,-317.602 485.189,-319.078"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="485.113,-322.588 495.408,-320.084 485.799,-315.621 485.113,-322.588"/>
 </g>
 <!-- Node62 -->
 <g id="node35" class="node"><title>Node62</title>
 <g id="a_node35"><a xlink:href="class_altair.html#a4995cdc9462838289b5b1df75edba552" target="_top" xlink:title="Ajouter du texte à l&#39;onglet des messages. ">
-<polygon fill="white" stroke="black" points="866,-392.5 866,-411.5 961,-411.5 961,-392.5 866,-392.5"/>
-<text text-anchor="middle" x="913.5" y="-399.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::textAppend</text>
+<polygon fill="white" stroke="black" points="908.5,-392.5 908.5,-411.5 1007.5,-411.5 1007.5,-392.5 908.5,-392.5"/>
+<text text-anchor="middle" x="958" y="-399.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::textAppend</text>
 </a>
 </g>
 </g>
 <!-- Node21&#45;&gt;Node62 -->
 <g id="edge62" class="edge"><title>Node21&#45;&gt;Node62</title>
-<path fill="none" stroke="midnightblue" d="M362.735,-316.659C408.467,-340.27 532.374,-400.474 644,-421 709.567,-433.057 727.544,-426.294 794,-421 814.34,-419.38 836.459,-416.219 856.02,-412.933"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="856.734,-416.361 865.992,-411.211 855.542,-409.463 856.734,-416.361"/>
+<path fill="none" stroke="midnightblue" d="M381.518,-316.662C429.201,-340.28 558.324,-400.498 674,-421 744.02,-433.41 763.098,-426.444 834,-421 855.103,-419.38 878.064,-416.218 898.372,-412.931"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="899.125,-416.354 908.416,-411.261 897.977,-409.449 899.125,-416.354"/>
 </g>
 <!-- Node42 -->
 <g id="node41" class="node"><title>Node42</title>
 <g id="a_node41"><a xlink:href="class_altair.html#abf7d1895e52f7b8d7d26e4b5a0e6146a" target="_top" xlink:title="Rafraîchit le gestionnaire de projet à la droite de l&#39;interface. ">
-<polygon fill="white" stroke="black" points="647.5,-191 647.5,-221 790.5,-221 790.5,-191 647.5,-191"/>
-<text text-anchor="start" x="655.5" y="-209" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::refreshProjectManager</text>
-<text text-anchor="middle" x="719" y="-198" font-family="Helvetica,sans-Serif" font-size="10.00">Values</text>
+<polygon fill="white" stroke="black" points="676.5,-191 676.5,-221 831.5,-221 831.5,-191 676.5,-191"/>
+<text text-anchor="start" x="684.5" y="-209" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::refreshProjectManager</text>
+<text text-anchor="middle" x="754" y="-198" font-family="Helvetica,sans-Serif" font-size="10.00">Values</text>
 </a>
 </g>
 </g>
 <!-- Node21&#45;&gt;Node42 -->
 <g id="edge61" class="edge"><title>Node21&#45;&gt;Node42</title>
-<path fill="none" stroke="midnightblue" d="M379.638,-297.498C441.983,-280.639 572.854,-245.25 652.32,-223.761"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="653.486,-227.071 662.225,-221.082 651.658,-220.314 653.486,-227.071"/>
+<path fill="none" stroke="midnightblue" d="M399.237,-297.498C464.553,-280.605 601.805,-245.105 684.838,-223.63"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="685.882,-226.975 694.687,-221.082 684.129,-220.198 685.882,-226.975"/>
 </g>
 <!-- Node23 -->
 <g id="node24" class="node"><title>Node23</title>
 <g id="a_node24"><a xlink:href="class_altair.html#aeffceb66ecb03f73fda93abc601a5d40" target="_top" xlink:title="Fonction réimplémentée : début du déplacement de la souris. ">
-<polygon fill="white" stroke="black" points="662.5,-76.5 662.5,-95.5 775.5,-95.5 775.5,-76.5 662.5,-76.5"/>
-<text text-anchor="middle" x="719" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::dragEnterEvent</text>
+<polygon fill="white" stroke="black" points="694.5,-76.5 694.5,-95.5 813.5,-95.5 813.5,-76.5 694.5,-76.5"/>
+<text text-anchor="middle" x="754" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::dragEnterEvent</text>
 </a>
 </g>
 </g>
 <!-- Node22&#45;&gt;Node23 -->
 <g id="edge29" class="edge"><title>Node22&#45;&gt;Node23</title>
-<path fill="none" stroke="midnightblue" d="M571.02,-147.448C583.269,-143.776 596.51,-138.992 608,-133 625.973,-123.628 625.803,-113.929 644,-105 648.837,-102.626 654.003,-100.527 659.271,-98.676"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="660.368,-102 668.815,-95.6047 658.223,-95.3364 660.368,-102"/>
+<path fill="none" stroke="midnightblue" d="M600.427,-147.391C612.916,-143.757 626.33,-139.007 638,-133 656.022,-123.723 655.735,-113.79 674,-105 679.005,-102.591 684.339,-100.474 689.783,-98.6158"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="691.145,-101.857 699.653,-95.5431 689.065,-95.1739 691.145,-101.857"/>
 </g>
 <!-- Node24 -->
 <g id="node25" class="node"><title>Node24</title>
 <g id="a_node25"><a xlink:href="class_altair.html#a1d5064d3e77d72efca82b6ffba3beafb" target="_top" xlink:title="Fonction réimplémentée : événement du déplacement de la souris. ">
-<polygon fill="white" stroke="black" points="662.5,-152.5 662.5,-171.5 775.5,-171.5 775.5,-152.5 662.5,-152.5"/>
-<text text-anchor="middle" x="719" y="-159.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::dragMoveEvent</text>
+<polygon fill="white" stroke="black" points="694,-152.5 694,-171.5 814,-171.5 814,-152.5 694,-152.5"/>
+<text text-anchor="middle" x="754" y="-159.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::dragMoveEvent</text>
 </a>
 </g>
 </g>
 <!-- Node22&#45;&gt;Node24 -->
 <g id="edge30" class="edge"><title>Node22&#45;&gt;Node24</title>
-<path fill="none" stroke="midnightblue" d="M608.117,-159.07C622.791,-159.461 638.008,-159.867 652.272,-160.247"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="652.379,-163.751 662.469,-160.519 652.566,-156.754 652.379,-163.751"/>
+<path fill="none" stroke="midnightblue" d="M638.146,-159.063C653.272,-159.449 668.963,-159.851 683.707,-160.228"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="683.658,-163.728 693.745,-160.485 683.837,-156.73 683.658,-163.728"/>
 </g>
 <!-- Node25 -->
 <g id="node26" class="node"><title>Node25</title>
 <g id="a_node26"><a xlink:href="class_altair.html#a1afa285a65e0bdff4c761ad05ec9f8df" target="_top" xlink:title="Fonction réimplémentée : fin du déplacement de la souris. ">
-<polygon fill="white" stroke="red" points="674.5,-38.5 674.5,-57.5 763.5,-57.5 763.5,-38.5 674.5,-38.5"/>
-<text text-anchor="middle" x="719" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::dropEvent</text>
+<polygon fill="white" stroke="red" points="707,-38.5 707,-57.5 801,-57.5 801,-38.5 707,-38.5"/>
+<text text-anchor="middle" x="754" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::dropEvent</text>
 </a>
 </g>
 </g>
 <!-- Node22&#45;&gt;Node25 -->
 <g id="edge31" class="edge"><title>Node22&#45;&gt;Node25</title>
-<path fill="none" stroke="midnightblue" d="M581.298,-147.437C590.853,-144.001 600.261,-139.334 608,-133 633.857,-111.838 617.632,-87.5229 644,-67 649.973,-62.3512 656.96,-58.8308 664.212,-56.1668"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="665.698,-59.3688 674.195,-53.0393 663.606,-52.6889 665.698,-59.3688"/>
+<path fill="none" stroke="midnightblue" d="M611.089,-147.427C620.726,-143.994 630.179,-139.332 638,-133 663.969,-111.974 647.476,-87.3205 674,-67 680.761,-61.8205 688.727,-58.0273 696.953,-55.2545"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="698.038,-58.5844 706.673,-52.4464 696.095,-51.8594 698.038,-58.5844"/>
 </g>
 <!-- Node22&#45;&gt;Node54 -->
 <g id="edge36" class="edge"><title>Node22&#45;&gt;Node54</title>
-<path fill="none" stroke="midnightblue" d="M542.707,-166.673C562.752,-182.123 604.385,-212.415 644,-230 650.293,-232.793 657.064,-235.274 663.864,-237.455"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="663.21,-240.913 673.794,-240.438 665.223,-234.209 663.21,-240.913"/>
+<path fill="none" stroke="midnightblue" d="M570.043,-166.727C590.637,-182.252 633.396,-212.648 674,-230 680.708,-232.867 687.919,-235.39 695.158,-237.592"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="694.425,-241.022 705.002,-240.397 696.344,-234.29 694.425,-241.022"/>
 </g>
 <!-- Node56 -->
 <g id="node32" class="node"><title>Node56</title>
 <g id="a_node32"><a xlink:href="class_altair.html#a830a875daeadb24dfa5fc988bd584130" target="_top" xlink:title="Début du glisser&#45;déplacer. ">
-<polygon fill="white" stroke="black" points="676,-114.5 676,-133.5 762,-133.5 762,-114.5 676,-114.5"/>
-<text text-anchor="middle" x="719" y="-121.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::startDrag</text>
+<polygon fill="white" stroke="black" points="709.5,-114.5 709.5,-133.5 798.5,-133.5 798.5,-114.5 709.5,-114.5"/>
+<text text-anchor="middle" x="754" y="-121.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::startDrag</text>
 </a>
 </g>
 </g>
 <!-- Node22&#45;&gt;Node56 -->
 <g id="edge38" class="edge"><title>Node22&#45;&gt;Node56</title>
-<path fill="none" stroke="midnightblue" d="M584.481,-147.499C610.059,-142.998 640.485,-137.643 665.828,-133.182"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="666.746,-136.575 675.987,-131.394 665.532,-129.681 666.746,-136.575"/>
+<path fill="none" stroke="midnightblue" d="M613.784,-147.499C640.691,-142.958 672.742,-137.547 699.305,-133.064"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="699.917,-136.51 709.195,-131.394 698.752,-129.608 699.917,-136.51"/>
 </g>
 <!-- Node25&#45;&gt;Node15 -->
 <g id="edge35" class="edge"><title>Node25&#45;&gt;Node15</title>
-<path fill="none" stroke="midnightblue" d="M674.283,-56.0686C664.055,-58.8075 653.407,-62.3839 644,-67 625.803,-75.9294 626.125,-85.9253 608,-95 543.308,-127.39 517.28,-108.998 451,-138 350.963,-181.773 244.466,-258.209 200.647,-291.152"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="198.366,-288.489 192.506,-297.316 202.591,-294.07 198.366,-288.489"/>
+<path fill="none" stroke="midnightblue" d="M706.742,-55.6541C695.697,-58.4157 684.169,-62.1063 674,-67 655.735,-75.7899 656.167,-86.0106 638,-95 570.848,-128.227 544.152,-109.165 475,-138 369.679,-181.916 256.188,-258.552 209.709,-291.366"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="207.453,-288.675 201.329,-297.321 211.508,-294.381 207.453,-288.675"/>
 </g>
 <!-- Node26 -->
 <g id="node27" class="node"><title>Node26</title>
 <g id="a_node27"><a xlink:href="class_f_list_frame.html#a4228ed10f2d800b92ff34e2f25edcd8c" target="_top" xlink:title="Ajoute les fichiers d&#39;une portion d&#39;arborescence de fichiers au composant courant de l&#39;onglet central...">
-<polygon fill="white" stroke="red" points="844.5,-8 844.5,-38 982.5,-38 982.5,-8 844.5,-8"/>
-<text text-anchor="start" x="852.5" y="-26" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::addParsedTree</text>
-<text text-anchor="middle" x="913.5" y="-15" font-family="Helvetica,sans-Serif" font-size="10.00">ToListWidget</text>
+<polygon fill="white" stroke="red" points="884,-8 884,-38 1032,-38 1032,-8 884,-8"/>
+<text text-anchor="start" x="892" y="-26" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::addParsedTree</text>
+<text text-anchor="middle" x="958" y="-15" font-family="Helvetica,sans-Serif" font-size="10.00">ToListWidget</text>
 </a>
 </g>
 </g>
 <!-- Node25&#45;&gt;Node26 -->
 <g id="edge32" class="edge"><title>Node25&#45;&gt;Node26</title>
-<path fill="none" stroke="midnightblue" d="M763.681,-42.3271C784.55,-39.6169 810.174,-36.2891 834.242,-33.1634"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="834.977,-36.5973 844.443,-31.8385 834.076,-29.6556 834.977,-36.5973"/>
+<path fill="none" stroke="midnightblue" d="M801.09,-42.2958C822.581,-39.636 848.839,-36.3863 873.633,-33.3176"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="874.288,-36.7634 883.782,-32.0616 873.428,-29.8165 874.288,-36.7634"/>
 </g>
 <!-- Node35 -->
 <g id="node28" class="node"><title>Node35</title>
 <g id="a_node28"><a xlink:href="class_altair.html#abd55c8c0c2e48e64f5b1ae2442b87ade" target="_top" xlink:title="Vérifie que les onglets de contiennent pas des années incomplètes et signale les mois manquants...">
-<polygon fill="white" stroke="red" points="851,-57.5 851,-76.5 976,-76.5 976,-57.5 851,-57.5"/>
-<text text-anchor="middle" x="913.5" y="-64.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::checkAnnumSpan</text>
+<polygon fill="white" stroke="red" points="893,-57.5 893,-76.5 1023,-76.5 1023,-57.5 893,-57.5"/>
+<text text-anchor="middle" x="958" y="-64.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::checkAnnumSpan</text>
 </a>
 </g>
 </g>
 <!-- Node25&#45;&gt;Node35 -->
 <g id="edge33" class="edge"><title>Node25&#45;&gt;Node35</title>
-<path fill="none" stroke="midnightblue" d="M763.681,-52.3114C786.401,-54.5538 814.758,-57.3527 840.606,-59.904"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="840.452,-63.4057 850.748,-60.905 841.14,-56.4396 840.452,-63.4057"/>
+<path fill="none" stroke="midnightblue" d="M801.09,-52.3352C825.147,-54.598 855.176,-57.4225 882.441,-59.987"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="882.452,-63.5035 892.736,-60.9554 883.108,-56.5342 882.452,-63.5035"/>
 </g>
 <!-- Node37 -->
 <g id="node29" class="node"><title>Node37</title>
 <g id="a_node29"><a xlink:href="class_f_list_frame.html#a58337134c45f052ad6bb45c014fd5c3f" target="_top" xlink:title="Récupère les titres d&#39;onglet. ">
-<polygon fill="white" stroke="red" points="1039,-76.5 1039,-95.5 1170,-95.5 1170,-76.5 1039,-76.5"/>
-<text text-anchor="middle" x="1104.5" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getTabLabels</text>
+<polygon fill="white" stroke="red" points="1089,-76.5 1089,-95.5 1226,-95.5 1226,-76.5 1089,-76.5"/>
+<text text-anchor="middle" x="1157.5" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getTabLabels</text>
 </a>
 </g>
 </g>
 <!-- Node35&#45;&gt;Node37 -->
 <g id="edge34" class="edge"><title>Node35&#45;&gt;Node37</title>
-<path fill="none" stroke="midnightblue" d="M976.124,-73.195C992.873,-74.8788 1011.2,-76.7208 1028.59,-78.4697"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1028.41,-81.9688 1038.71,-79.4867 1029.11,-75.0039 1028.41,-81.9688"/>
+<path fill="none" stroke="midnightblue" d="M1023.12,-73.1688C1040.89,-74.8784 1060.38,-76.7529 1078.83,-78.5283"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1078.67,-82.0289 1088.96,-79.5027 1079.34,-75.0611 1078.67,-82.0289"/>
 </g>
 <!-- Node55 -->
 <g id="node31" class="node"><title>Node55</title>
 <g id="a_node31"><a xlink:href="class_main_window.html#affa76730fa370a3466b62a4caee721e3" target="_top" xlink:title="Actualise la liste des fichiers de projet .alt récents dans le menu Fichier. ">
-<polygon fill="white" stroke="black" points="843.5,-298 843.5,-328 983.5,-328 983.5,-298 843.5,-298"/>
-<text text-anchor="start" x="851.5" y="-316" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::updateRecent</text>
-<text text-anchor="middle" x="913.5" y="-305" font-family="Helvetica,sans-Serif" font-size="10.00">FileActions</text>
+<polygon fill="white" stroke="black" points="884,-298 884,-328 1032,-328 1032,-298 884,-298"/>
+<text text-anchor="start" x="892" y="-316" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::updateRecent</text>
+<text text-anchor="middle" x="958" y="-305" font-family="Helvetica,sans-Serif" font-size="10.00">FileActions</text>
 </a>
 </g>
 </g>
 <!-- Node54&#45;&gt;Node55 -->
 <g id="edge37" class="edge"><title>Node54&#45;&gt;Node55</title>
-<path fill="none" stroke="midnightblue" d="M760.962,-259.587C771.78,-262.371 783.393,-265.589 794,-269 810.343,-274.255 813.932,-276.955 830,-283 839.945,-286.741 850.592,-290.67 860.821,-294.406"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="859.87,-297.785 870.464,-297.917 862.265,-291.207 859.87,-297.785"/>
+<path fill="none" stroke="midnightblue" d="M799.164,-259.51C810.594,-262.274 822.827,-265.501 834,-269 850.383,-274.13 853.882,-277.09 870,-283 880.451,-286.832 891.657,-290.801 902.434,-294.547"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="901.581,-297.956 912.176,-297.915 903.868,-291.34 901.581,-297.956"/>
 </g>
 <!-- Node58 -->
 <g id="node34" class="node"><title>Node58</title>
 <g id="a_node34"><a xlink:href="class_altair.html#a8b7b1fa3e0b567dc1d4721bf88087a68" target="_top" xlink:title="Parcourt l&#39;ensemble des widgets fonctionnels Abstract::abstractWidgetList et actualise leur statut in...">
-<polygon fill="white" stroke="red" points="652,-392.5 652,-411.5 786,-411.5 786,-392.5 652,-392.5"/>
-<text text-anchor="middle" x="719" y="-399.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::assignWidgetValues</text>
+<polygon fill="white" stroke="red" points="684,-392.5 684,-411.5 824,-411.5 824,-392.5 684,-392.5"/>
+<text text-anchor="middle" x="754" y="-399.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::assignWidgetValues</text>
 </a>
 </g>
 </g>
 <!-- Node57&#45;&gt;Node58 -->
 <g id="edge40" class="edge"><title>Node57&#45;&gt;Node58</title>
-<path fill="none" stroke="midnightblue" d="M546.916,-335.656C568.548,-348.046 608.07,-369.543 644,-383 650.51,-385.438 657.455,-387.674 664.385,-389.689"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="663.904,-393.187 674.475,-392.48 665.77,-386.44 663.904,-393.187"/>
+<path fill="none" stroke="midnightblue" d="M574.355,-335.714C596.564,-348.167 637.136,-369.73 674,-383 681.014,-385.525 688.498,-387.817 695.96,-389.864"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="695.155,-393.272 705.715,-392.415 696.925,-386.499 695.155,-393.272"/>
 </g>
 <!-- Node73 -->
 <g id="node39" class="node"><title>Node73</title>
 <g id="a_node39"><a xlink:href="class_hash.html#a2ac10203aa8b32a04d9088e08ddbaab4" target="_top" xlink:title="Hash::createReference">
-<polygon fill="white" stroke="black" points="660,-354.5 660,-373.5 778,-373.5 778,-354.5 660,-354.5"/>
-<text text-anchor="middle" x="719" y="-361.5" font-family="Helvetica,sans-Serif" font-size="10.00">Hash::createReference</text>
+<polygon fill="white" stroke="black" points="691.5,-354.5 691.5,-373.5 816.5,-373.5 816.5,-354.5 691.5,-354.5"/>
+<text text-anchor="middle" x="754" y="-361.5" font-family="Helvetica,sans-Serif" font-size="10.00">Hash::createReference</text>
 </a>
 </g>
 </g>
 <!-- Node57&#45;&gt;Node73 -->
 <g id="edge50" class="edge"><title>Node57&#45;&gt;Node73</title>
-<path fill="none" stroke="midnightblue" d="M577.814,-335.589C603.114,-340.716 634.45,-347.067 661.075,-352.463"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="660.53,-355.924 671.026,-354.48 661.921,-349.063 660.53,-355.924"/>
+<path fill="none" stroke="midnightblue" d="M606.581,-335.54C633.074,-340.69 665.972,-347.084 693.869,-352.506"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="693.415,-355.984 703.899,-354.456 694.751,-349.112 693.415,-355.984"/>
 </g>
 <!-- Node96 -->
 <g id="node40" class="node"><title>Node96</title>
 <g id="a_node40"><a xlink:href="class_altair.html#a3f6193de22ed2034c9b6dbe7a8ac4d97" target="_top" xlink:title="Lors du décodage du projet XML .alt, décoder le noed courant et renvoyer l&#39;empilement des valeurs en ...">
-<polygon fill="white" stroke="red" points="673,-316.5 673,-335.5 765,-335.5 765,-316.5 673,-316.5"/>
-<text text-anchor="middle" x="719" y="-323.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::parseEntry</text>
+<polygon fill="white" stroke="red" points="705.5,-316.5 705.5,-335.5 802.5,-335.5 802.5,-316.5 705.5,-316.5"/>
+<text text-anchor="middle" x="754" y="-323.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::parseEntry</text>
 </a>
 </g>
 </g>
 <!-- Node57&#45;&gt;Node96 -->
 <g id="edge51" class="edge"><title>Node57&#45;&gt;Node96</title>
-<path fill="none" stroke="midnightblue" d="M587.52,-326C611.358,-326 638.961,-326 662.622,-326"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="662.842,-329.5 672.842,-326 662.842,-322.5 662.842,-329.5"/>
+<path fill="none" stroke="midnightblue" d="M617.752,-326C642.392,-326 670.779,-326 695.165,-326"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="695.348,-329.5 705.348,-326 695.348,-322.5 695.348,-329.5"/>
 </g>
 <!-- Node57&#45;&gt;Node42 -->
 <g id="edge52" class="edge"><title>Node57&#45;&gt;Node42</title>
-<path fill="none" stroke="midnightblue" d="M581.852,-316.472C591.256,-313.034 600.465,-308.359 608,-302 635.039,-279.183 617.254,-254.16 644,-231 645.973,-229.291 648.068,-227.698 650.256,-226.213"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="652.252,-229.098 659.087,-221.003 648.695,-223.07 652.252,-229.098"/>
+<path fill="none" stroke="midnightblue" d="M611.661,-316.463C621.139,-313.028 630.387,-308.355 638,-302 665.159,-279.326 647.031,-253.901 674,-231 676.015,-229.289 678.148,-227.695 680.371,-226.21"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="682.446,-229.052 689.336,-221.003 678.931,-222.998 682.446,-229.052"/>
 </g>
 <!-- Node74 -->
 <g id="node46" class="node"><title>Node74</title>
 <g id="a_node46"><a xlink:href="class_altair.html#a20528df591deee5ad32f28996ba8dc35" target="_top" xlink:title="Raccourcit les chemins dans les onglets en se limitant au non de fichier et les présente &#160;en surligna...">
-<polygon fill="white" stroke="black" points="644,-278.5 644,-297.5 794,-297.5 794,-278.5 644,-278.5"/>
-<text text-anchor="middle" x="719" y="-285.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::refreshRowPresentation</text>
+<polygon fill="white" stroke="black" points="674,-278.5 674,-297.5 834,-297.5 834,-278.5 674,-278.5"/>
+<text text-anchor="middle" x="754" y="-285.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::refreshRowPresentation</text>
 </a>
 </g>
 </g>
 <!-- Node57&#45;&gt;Node74 -->
 <g id="edge60" class="edge"><title>Node57&#45;&gt;Node74</title>
-<path fill="none" stroke="midnightblue" d="M577.814,-316.411C603.114,-311.284 634.45,-304.933 661.075,-299.537"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="661.921,-302.937 671.026,-297.52 660.53,-296.076 661.921,-302.937"/>
+<path fill="none" stroke="midnightblue" d="M606.581,-316.46C633.074,-311.31 665.972,-304.916 693.869,-299.494"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="694.751,-302.888 703.899,-297.544 693.415,-296.016 694.751,-302.888"/>
 </g>
 <!-- Node58&#45;&gt;Node62 -->
 <g id="edge41" class="edge"><title>Node58&#45;&gt;Node62</title>
-<path fill="none" stroke="midnightblue" d="M786.248,-402C808.874,-402 833.959,-402 855.768,-402"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="855.861,-405.5 865.861,-402 855.861,-398.5 855.861,-405.5"/>
+<path fill="none" stroke="midnightblue" d="M824.234,-402C848.31,-402 875.067,-402 898.216,-402"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="898.235,-405.5 908.235,-402 898.235,-398.5 898.235,-405.5"/>
 </g>
 <!-- Node63 -->
 <g id="node36" class="node"><title>Node63</title>
 <g id="a_node36"><a xlink:href="class_altair.html#a2f6882c170016e2d7729058b08896a1d" target="_top" xlink:title="Tuer l&#39;application en ligne de commande lhx. ">
-<polygon fill="white" stroke="red" points="1058,-354.5 1058,-373.5 1151,-373.5 1151,-354.5 1058,-354.5"/>
-<text text-anchor="middle" x="1104.5" y="-361.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::killProcess</text>
+<polygon fill="white" stroke="red" points="1110,-354.5 1110,-373.5 1205,-373.5 1205,-354.5 1110,-354.5"/>
+<text text-anchor="middle" x="1157.5" y="-361.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::killProcess</text>
 </a>
 </g>
 </g>
 <!-- Node62&#45;&gt;Node63 -->
 <g id="edge42" class="edge"><title>Node62&#45;&gt;Node63</title>
-<path fill="none" stroke="midnightblue" d="M938.822,-392.408C966.252,-384.827 1011.76,-375.175 1047.99,-368.95"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1048.65,-372.388 1057.94,-367.29 1047.5,-365.484 1048.65,-372.388"/>
+<path fill="none" stroke="midnightblue" d="M984.415,-392.408C1013.39,-384.744 1061.67,-374.964 1099.73,-368.747"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1100.34,-372.194 1109.67,-367.17 1099.24,-365.281 1100.34,-372.194"/>
 </g>
 <!-- Node64 -->
 <g id="node37" class="node"><title>Node64</title>
 <g id="a_node37"><a xlink:href="class_altair.html#a7d10f8ecf4097577885172afb6c2e9c6" target="_top" xlink:title="Lance l&#39;exécution de l&#39;application en ligne de commande lhx. ">
-<polygon fill="white" stroke="red" points="1075,-430.5 1075,-449.5 1134,-449.5 1134,-430.5 1075,-430.5"/>
-<text text-anchor="middle" x="1104.5" y="-437.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::run</text>
+<polygon fill="white" stroke="red" points="1127.5,-430.5 1127.5,-449.5 1187.5,-449.5 1187.5,-430.5 1127.5,-430.5"/>
+<text text-anchor="middle" x="1157.5" y="-437.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::run</text>
 </a>
 </g>
 </g>
 <!-- Node62&#45;&gt;Node64 -->
 <g id="edge44" class="edge"><title>Node62&#45;&gt;Node64</title>
-<path fill="none" stroke="midnightblue" d="M961.219,-411.393C993.097,-417.803 1034.82,-426.191 1064.83,-432.225"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1064.43,-435.714 1074.92,-434.254 1065.81,-428.851 1064.43,-435.714"/>
+<path fill="none" stroke="midnightblue" d="M1007.57,-411.345C1041.33,-417.84 1085.75,-426.386 1117.26,-432.451"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1116.94,-435.953 1127.42,-434.405 1118.26,-429.079 1116.94,-435.953"/>
 </g>
 <!-- Node95 -->
 <g id="node38" class="node"><title>Node95</title>
 <g id="a_node38"><a xlink:href="class_altair.html#afd71c35a3a71291b0d4eece1058de4f0" target="_top" xlink:title="Lance l&#39;application Rstudio et les scripts R. ">
-<polygon fill="white" stroke="black" points="1060,-392.5 1060,-411.5 1149,-411.5 1149,-392.5 1060,-392.5"/>
-<text text-anchor="middle" x="1104.5" y="-399.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::runRAltair</text>
+<polygon fill="white" stroke="black" points="1111.5,-392.5 1111.5,-411.5 1203.5,-411.5 1203.5,-392.5 1111.5,-392.5"/>
+<text text-anchor="middle" x="1157.5" y="-399.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::runRAltair</text>
 </a>
 </g>
 </g>
 <!-- Node62&#45;&gt;Node95 -->
 <g id="edge47" class="edge"><title>Node62&#45;&gt;Node95</title>
-<path fill="none" stroke="midnightblue" d="M961.219,-396.084C988.09,-395.058 1021.95,-394.979 1049.9,-395.847"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1049.79,-399.345 1059.91,-396.209 1050.04,-392.349 1049.79,-399.345"/>
+<path fill="none" stroke="midnightblue" d="M1007.57,-396.094C1035.87,-395.052 1071.66,-394.975 1101.06,-395.864"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1101.05,-399.366 1111.17,-396.218 1101.3,-392.37 1101.05,-399.366"/>
 </g>
 <!-- Node63&#45;&gt;Node62 -->
 <g id="edge43" class="edge"><title>Node63&#45;&gt;Node62</title>
-<path fill="none" stroke="midnightblue" d="M1079.48,-373.508C1052.37,-381.021 1007.34,-390.597 971.165,-396.851"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="970.501,-393.414 961.219,-398.522 971.661,-400.317 970.501,-393.414"/>
+<path fill="none" stroke="midnightblue" d="M1131.34,-373.525C1102.82,-381.085 1055.37,-390.727 1017.48,-396.973"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1016.89,-393.523 1007.57,-398.562 1017.99,-400.434 1016.89,-393.523"/>
 </g>
 <!-- Node64&#45;&gt;Node8 -->
 <g id="edge45" class="edge"><title>Node64&#45;&gt;Node8</title>
-<path fill="none" stroke="midnightblue" d="M1134.09,-445.938C1153.53,-449.973 1180.29,-455.531 1206.09,-460.887"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1205.41,-464.321 1215.91,-462.927 1206.83,-457.467 1205.41,-464.321"/>
+<path fill="none" stroke="midnightblue" d="M1187.74,-445.771C1208.34,-449.84 1237.09,-455.514 1264.73,-460.969"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1264.35,-464.463 1274.84,-462.966 1265.71,-457.596 1264.35,-464.463"/>
 </g>
 <!-- Node64&#45;&gt;Node15 -->
 <g id="edge46" class="edge"><title>Node64&#45;&gt;Node15</title>
-<path fill="none" stroke="midnightblue" d="M1074.73,-444.813C1011.03,-455.038 853.143,-478 720,-478 528.5,-478 528.5,-478 528.5,-478 388.978,-478 247.205,-366.171 198.066,-323.382"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="200.297,-320.683 190.486,-316.684 195.662,-325.928 200.297,-320.683"/>
+<path fill="none" stroke="midnightblue" d="M1127.37,-444.66C1061.32,-454.807 895.033,-478 755,-478 555.5,-478 555.5,-478 555.5,-478 409.515,-478 258.801,-365.708 206.887,-323.117"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="209.08,-320.388 199.153,-316.684 204.603,-325.77 209.08,-320.388"/>
 </g>
 <!-- Node95&#45;&gt;Node4 -->
 <g id="edge48" class="edge"><title>Node95&#45;&gt;Node4</title>
-<path fill="none" stroke="midnightblue" d="M1149.29,-407.121C1158.96,-409.966 1168.53,-414.329 1176,-421 1186.64,-430.505 1258.49,-624.323 1281.46,-686.784"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1278.2,-688.063 1284.93,-696.244 1284.77,-685.65 1278.2,-688.063"/>
+<path fill="none" stroke="midnightblue" d="M1203.5,-406.467C1214.11,-409.307 1224.73,-413.832 1233,-421 1238.44,-425.714 1318.02,-623.638 1343.33,-686.825"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1340.19,-688.392 1347.15,-696.375 1346.68,-685.791 1340.19,-688.392"/>
 </g>
 <!-- Node95&#45;&gt;Node62 -->
 <g id="edge49" class="edge"><title>Node95&#45;&gt;Node62</title>
-<path fill="none" stroke="midnightblue" d="M1059.91,-407.791C1033.61,-408.891 999.805,-409.045 971.411,-408.251"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="971.329,-404.747 961.219,-407.916 971.099,-411.743 971.329,-404.747"/>
+<path fill="none" stroke="midnightblue" d="M1111.17,-407.782C1083.47,-408.898 1047.74,-409.049 1017.87,-408.235"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1017.67,-404.727 1007.57,-407.906 1017.45,-411.723 1017.67,-404.727"/>
 </g>
 <!-- Node42&#45;&gt;Node37 -->
 <g id="edge58" class="edge"><title>Node42&#45;&gt;Node37</title>
-<path fill="none" stroke="midnightblue" d="M777.794,-190.918C783.568,-188.135 789.098,-184.857 794,-181 817.548,-162.472 804.819,-140.239 830,-124 861.968,-103.385 959.402,-93.7258 1028.85,-89.3615"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1029.11,-92.8521 1038.89,-88.7553 1028.69,-85.8648 1029.11,-92.8521"/>
+<path fill="none" stroke="midnightblue" d="M817.489,-190.915C823.365,-188.141 828.988,-184.866 834,-181 857.726,-162.701 844.769,-140.161 870,-124 903.594,-102.483 1006,-93.0348 1078.77,-88.9645"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1079.03,-92.4556 1088.83,-88.4252 1078.66,-85.4656 1079.03,-92.4556"/>
 </g>
 <!-- Node43 -->
 <g id="node42" class="node"><title>Node43</title>
 <g id="a_node42"><a xlink:href="namespace_xml_method.html#a796c4f03d9e7a8057f0102b87eecbd3e" target="_top" xlink:title="XmlMethod::displayFirstLevelData">
-<polygon fill="white" stroke="black" points="830,-221.5 830,-240.5 997,-240.5 997,-221.5 830,-221.5"/>
-<text text-anchor="middle" x="913.5" y="-228.5" font-family="Helvetica,sans-Serif" font-size="10.00">XmlMethod::displayFirstLevelData</text>
+<polygon fill="white" stroke="black" points="870,-221.5 870,-240.5 1046,-240.5 1046,-221.5 870,-221.5"/>
+<text text-anchor="middle" x="958" y="-228.5" font-family="Helvetica,sans-Serif" font-size="10.00">XmlMethod::displayFirstLevelData</text>
 </a>
 </g>
 </g>
 <!-- Node42&#45;&gt;Node43 -->
 <g id="edge53" class="edge"><title>Node42&#45;&gt;Node43</title>
-<path fill="none" stroke="midnightblue" d="M790.587,-215.167C803.118,-216.795 816.275,-218.503 829.121,-220.172"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="828.97,-223.681 839.338,-221.498 829.872,-216.74 828.97,-223.681"/>
+<path fill="none" stroke="midnightblue" d="M831.656,-215.487C844.161,-217.035 857.196,-218.648 869.93,-220.224"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="869.708,-223.723 880.062,-221.478 870.567,-216.776 869.708,-223.723"/>
 </g>
 <!-- Node44 -->
 <g id="node43" class="node"><title>Node44</title>
 <g id="a_node43"><a xlink:href="namespace_xml_method.html#aad1e553eb1ec6f1bb128cc6744cba9e3" target="_top" xlink:title="XmlMethod::displayTextData">
-<polygon fill="white" stroke="black" points="1033,-221.5 1033,-240.5 1176,-240.5 1176,-221.5 1033,-221.5"/>
-<text text-anchor="middle" x="1104.5" y="-228.5" font-family="Helvetica,sans-Serif" font-size="10.00">XmlMethod::displayTextData</text>
+<polygon fill="white" stroke="black" points="1082,-221.5 1082,-240.5 1233,-240.5 1233,-221.5 1082,-221.5"/>
+<text text-anchor="middle" x="1157.5" y="-228.5" font-family="Helvetica,sans-Serif" font-size="10.00">XmlMethod::displayTextData</text>
 </a>
 </g>
 </g>
 <!-- Node42&#45;&gt;Node44 -->
 <g id="edge57" class="edge"><title>Node42&#45;&gt;Node44</title>
-<path fill="none" stroke="midnightblue" d="M768.191,-221.035C776.875,-224.095 785.777,-227.468 794,-231 810.623,-238.14 812.439,-245.65 830,-250 908.071,-269.338 1002.24,-254.868 1057.24,-242.796"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1058.06,-246.199 1067.04,-240.579 1056.52,-239.372 1058.06,-246.199"/>
+<path fill="none" stroke="midnightblue" d="M807.322,-221.1C816.321,-224.11 825.506,-227.448 834,-231 850.691,-237.979 852.439,-245.65 870,-250 952.619,-270.465 1052.48,-255.178 1109.83,-242.726"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1110.69,-246.12 1119.69,-240.523 1109.17,-239.289 1110.69,-246.12"/>
 </g>
 <!-- Node45 -->
 <g id="node44" class="node"><title>Node45</title>
 <g id="a_node44"><a xlink:href="namespace_xml_method.html#ac0a708c4bc4c55df24e60816d69a90cf" target="_top" xlink:title="XmlMethod::displaySecond\lLevelData">
-<polygon fill="white" stroke="black" points="845.5,-172 845.5,-202 981.5,-202 981.5,-172 845.5,-172"/>
-<text text-anchor="start" x="853.5" y="-190" font-family="Helvetica,sans-Serif" font-size="10.00">XmlMethod::displaySecond</text>
-<text text-anchor="middle" x="913.5" y="-179" font-family="Helvetica,sans-Serif" font-size="10.00">LevelData</text>
+<polygon fill="white" stroke="black" points="886.5,-172 886.5,-202 1029.5,-202 1029.5,-172 886.5,-172"/>
+<text text-anchor="start" x="894.5" y="-190" font-family="Helvetica,sans-Serif" font-size="10.00">XmlMethod::displaySecond</text>
+<text text-anchor="middle" x="958" y="-179" font-family="Helvetica,sans-Serif" font-size="10.00">LevelData</text>
 </a>
 </g>
 </g>
 <!-- Node42&#45;&gt;Node45 -->
 <g id="edge55" class="edge"><title>Node42&#45;&gt;Node45</title>
-<path fill="none" stroke="midnightblue" d="M790.587,-199.033C805.147,-197.596 820.552,-196.075 835.331,-194.617"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="835.837,-198.084 845.445,-193.618 835.15,-191.118 835.837,-198.084"/>
+<path fill="none" stroke="midnightblue" d="M831.656,-198.79C846.256,-197.417 861.577,-195.975 876.299,-194.591"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="876.75,-198.064 886.378,-193.643 876.095,-191.095 876.75,-198.064"/>
 </g>
 <!-- Node46 -->
 <g id="node45" class="node"><title>Node46</title>
 <g id="a_node45"><a xlink:href="class_altair.html#adc79f280e4f580298a8dd80e2f7cf712" target="_top" xlink:title="Parcourt la table de chachage Hash::wrapper dans laquelle sont stockés à la clé &quot;XHL&quot; les chemins des...">
-<polygon fill="white" stroke="red" points="835,-133.5 835,-152.5 992,-152.5 992,-133.5 835,-133.5"/>
-<text text-anchor="middle" x="913.5" y="-140.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::processSecondLevelData</text>
+<polygon fill="white" stroke="red" points="874.5,-133.5 874.5,-152.5 1041.5,-152.5 1041.5,-133.5 874.5,-133.5"/>
+<text text-anchor="middle" x="958" y="-140.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::processSecondLevelData</text>
 </a>
 </g>
 </g>
 <!-- Node42&#45;&gt;Node46 -->
 <g id="edge59" class="edge"><title>Node42&#45;&gt;Node46</title>
-<path fill="none" stroke="midnightblue" d="M768.191,-190.965C776.875,-187.905 785.777,-184.532 794,-181 810.623,-173.86 813.043,-168.305 830,-162 836.993,-159.4 844.456,-157.084 851.927,-155.042"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="852.909,-158.403 861.716,-152.514 851.159,-151.625 852.909,-158.403"/>
+<path fill="none" stroke="midnightblue" d="M807.322,-190.9C816.321,-187.89 825.506,-184.552 834,-181 850.691,-174.021 853.007,-168.209 870,-162 877.249,-159.351 884.98,-157.013 892.728,-154.965"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="893.66,-158.34 902.517,-152.524 891.967,-151.547 893.66,-158.34"/>
 </g>
 <!-- Node43&#45;&gt;Node44 -->
 <g id="edge54" class="edge"><title>Node43&#45;&gt;Node44</title>
-<path fill="none" stroke="midnightblue" d="M997.123,-231C1005.6,-231 1014.2,-231 1022.66,-231"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1022.88,-234.5 1032.88,-231 1022.88,-227.5 1022.88,-234.5"/>
+<path fill="none" stroke="midnightblue" d="M1046.2,-231C1054.65,-231 1063.21,-231 1071.64,-231"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1071.83,-234.5 1081.83,-231 1071.83,-227.5 1071.83,-234.5"/>
 </g>
 <!-- Node45&#45;&gt;Node44 -->
 <g id="edge56" class="edge"><title>Node45&#45;&gt;Node44</title>
-<path fill="none" stroke="midnightblue" d="M979.014,-202.019C1003.14,-207.636 1030.18,-213.93 1052.87,-219.214"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1052.11,-222.629 1062.64,-221.488 1053.69,-215.811 1052.11,-222.629"/>
+<path fill="none" stroke="midnightblue" d="M1026.42,-202.019C1051.74,-207.661 1080.13,-213.986 1103.91,-219.285"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1103.28,-222.729 1113.8,-221.488 1104.8,-215.897 1103.28,-222.729"/>
 </g>
 <!-- Node87&#45;&gt;Node22 -->
 <g id="edge65" class="edge"><title>Node87&#45;&gt;Node22</title>
-<path fill="none" stroke="midnightblue" d="M367.804,-90.6255C400.294,-104.045 459.34,-128.434 496.1,-143.617"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="494.807,-146.87 505.385,-147.453 497.479,-140.4 494.807,-146.87"/>
+<path fill="none" stroke="midnightblue" d="M386.944,-90.6255C421.023,-104.045 482.957,-128.434 521.515,-143.617"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="520.668,-147.045 531.255,-147.453 523.233,-140.532 520.668,-147.045"/>
 </g>
 <!-- Node88 -->
 <g id="node48" class="node"><title>Node88</title>
 <g id="a_node48"><a xlink:href="class_altair.html#a2f8d129da914d8b9ab3cdaf195f92bd1" target="_top" xlink:title="Lance Altair::makeParserString sur le premier item courant de abstractWidgetList (celui des données d...">
-<polygon fill="white" stroke="black" points="471.5,-66.5 471.5,-85.5 587.5,-85.5 587.5,-66.5 471.5,-66.5"/>
-<text text-anchor="middle" x="529.5" y="-73.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::makeDataString</text>
+<polygon fill="white" stroke="black" points="496,-66.5 496,-85.5 617,-85.5 617,-66.5 496,-66.5"/>
+<text text-anchor="middle" x="556.5" y="-73.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::makeDataString</text>
 </a>
 </g>
 </g>
 <!-- Node87&#45;&gt;Node88 -->
 <g id="edge66" class="edge"><title>Node87&#45;&gt;Node88</title>
-<path fill="none" stroke="midnightblue" d="M400.205,-79.4863C419.479,-78.9625 441.283,-78.37 461.376,-77.824"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="461.492,-81.3223 471.393,-77.5518 461.302,-74.3248 461.492,-81.3223"/>
+<path fill="none" stroke="midnightblue" d="M420.145,-79.5066C440.761,-78.9725 464.218,-78.3648 485.746,-77.8071"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="485.904,-81.3043 495.81,-77.5464 485.723,-74.3066 485.904,-81.3043"/>
 </g>
 <!-- Node93 -->
 <g id="node50" class="node"><title>Node93</title>
 <g id="a_node50"><a xlink:href="class_altair.html#adb7f94af778c4b6874abab74c8ef4016" target="_top" xlink:title="Lance Altair::makeParserString sur l&#39;ensemble de la liste des FWidgets sauf le premier (tous les widg...">
-<polygon fill="white" stroke="black" points="465.5,-9.5 465.5,-28.5 593.5,-28.5 593.5,-9.5 465.5,-9.5"/>
-<text text-anchor="middle" x="529.5" y="-16.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::makeSystemString</text>
+<polygon fill="white" stroke="black" points="490,-9.5 490,-28.5 623,-28.5 623,-9.5 490,-9.5"/>
+<text text-anchor="middle" x="556.5" y="-16.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::makeSystemString</text>
 </a>
 </g>
 </g>
 <!-- Node87&#45;&gt;Node93 -->
 <g id="edge68" class="edge"><title>Node87&#45;&gt;Node93</title>
-<path fill="none" stroke="midnightblue" d="M382.754,-71.4287C393.267,-68.5983 404.627,-65.3536 415,-62 442.595,-53.0784 473.325,-41.3209 495.843,-32.3556"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="497.285,-35.5483 505.263,-28.5771 494.679,-29.0514 497.285,-35.5483"/>
+<path fill="none" stroke="midnightblue" d="M404.418,-71.4721C415.714,-68.6649 427.882,-65.421 439,-62 467.488,-53.2341 499.183,-41.3954 522.313,-32.3593"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="523.645,-35.5964 531.667,-28.6754 521.08,-29.0833 523.645,-35.5964"/>
 </g>
 <!-- Node89 -->
 <g id="node49" class="node"><title>Node89</title>
 <g id="a_node49"><a xlink:href="class_altair.html#af73cbf33a9e3ff76896a8099b4b154fe" target="_top" xlink:title="Crée la chaîne QString permettant d&#39;écrire un projet XML d&#39;extension .alt Parcourt l&#39;ensemble de la l...">
-<polygon fill="white" stroke="red" points="657.5,-0.5 657.5,-19.5 780.5,-19.5 780.5,-0.5 657.5,-0.5"/>
-<text text-anchor="middle" x="719" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::makeParserString</text>
+<polygon fill="white" stroke="red" points="689,-0.5 689,-19.5 819,-19.5 819,-0.5 689,-0.5"/>
+<text text-anchor="middle" x="754" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Altair::makeParserString</text>
 </a>
 </g>
 </g>
 <!-- Node88&#45;&gt;Node89 -->
 <g id="edge67" class="edge"><title>Node88&#45;&gt;Node89</title>
-<path fill="none" stroke="midnightblue" d="M551.084,-66.4409C573.572,-56.2438 610.82,-40.0678 644,-29 651.343,-26.5506 659.184,-24.2306 666.914,-22.1082"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="667.836,-25.4846 676.6,-19.5307 666.036,-18.72 667.836,-25.4846"/>
+<path fill="none" stroke="midnightblue" d="M578.625,-66.3769C601.704,-56.125 639.934,-39.9025 674,-29 681.832,-26.4933 690.194,-24.143 698.438,-22.0079"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="699.542,-25.3394 708.392,-19.5141 697.841,-18.5493 699.542,-25.3394"/>
 </g>
 <!-- Node93&#45;&gt;Node89 -->
 <g id="edge69" class="edge"><title>Node93&#45;&gt;Node89</title>
-<path fill="none" stroke="midnightblue" d="M593.718,-15.9656C610.87,-15.1422 629.553,-14.2455 647.099,-13.4032"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="647.458,-16.8902 657.278,-12.9146 647.122,-9.8982 647.458,-16.8902"/>
+<path fill="none" stroke="midnightblue" d="M623.143,-15.9781C641.019,-15.1551 660.508,-14.258 678.822,-13.4149"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="679.03,-16.9091 688.858,-12.9528 678.708,-9.9165 679.03,-16.9091"/>
 </g>
 </g>
 </svg>

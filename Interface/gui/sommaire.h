@@ -1,18 +1,4 @@
 
-/// <style type="text/css" media="screen">
-/// table {
-/// 
-/// border-style:solid;
-/// border-color:black;
-/// width:100%;
-/// }
-/// td {
-/// border-width:1px;
-/// border-style:solid;
-/// width:50%;
-/// }
-/// </style>
-///
 /// \mainpage Sommaire
 /// La documentation du projet comprend :
 /// - \subpage   page_modules "la présentation de l'organisation modulaire du logiciel"
