@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 1194;
+var viewWidth = 1247;
 var viewHeight = 386;
 var sectionId = 'dynsection-52';
 </script>
@@ -54,331 +54,331 @@ var sectionId = 'dynsection-52';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>FListFrame::setTabLabels</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-382 1190,-382 1190,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-382 1243,-382 1243,4 -4,4"/>
 <!-- Node1352 -->
 <g id="node1" class="node"><title>Node1352</title>
-<polygon fill="#bfbfbf" stroke="black" points="0,-63.5 0,-82.5 131,-82.5 131,-63.5 0,-63.5"/>
-<text text-anchor="middle" x="65.5" y="-70.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::setTabLabels</text>
+<polygon fill="#bfbfbf" stroke="black" points="0,-63.5 0,-82.5 137,-82.5 137,-63.5 0,-63.5"/>
+<text text-anchor="middle" x="68.5" y="-70.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::setTabLabels</text>
 </g>
 <!-- Node1353 -->
 <g id="node2" class="node"><title>Node1353</title>
 <g id="a_node2"><a xlink:href="class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71" target="_top" xlink:title="Constructeur de la classe. ">
-<polygon fill="white" stroke="black" points="167,-126.5 167,-145.5 289,-145.5 289,-126.5 167,-126.5"/>
-<text text-anchor="middle" x="228" y="-133.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::FListFrame</text>
+<polygon fill="white" stroke="black" points="173,-126.5 173,-145.5 299,-145.5 299,-126.5 173,-126.5"/>
+<text text-anchor="middle" x="236" y="-133.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::FListFrame</text>
 </a>
 </g>
 </g>
 <!-- Node1352&#45;&gt;Node1353 -->
 <g id="edge1" class="edge"><title>Node1352&#45;&gt;Node1353</title>
-<path fill="none" stroke="midnightblue" d="M90.8765,-82.5683C118.176,-93.2842 162.602,-110.722 193.236,-122.747"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="192.07,-126.049 202.658,-126.445 194.628,-119.533 192.07,-126.049"/>
+<path fill="none" stroke="midnightblue" d="M94.6359,-82.5683C122.786,-93.2842 168.596,-110.722 200.184,-122.747"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="199.308,-126.158 209.899,-126.445 201.799,-119.616 199.308,-126.158"/>
 </g>
 <!-- Node1361 -->
 <g id="node10" class="node"><title>Node1361</title>
 <g id="a_node10"><a xlink:href="class_f_list_widget.html#aac6eaaeb9946354f743394b54c84a6a7" target="_top" xlink:title="FListWidget::setTabLabels">
-<polygon fill="white" stroke="black" points="501,-0.5 501,-19.5 635,-19.5 635,-0.5 501,-0.5"/>
-<text text-anchor="middle" x="568" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListWidget::setTabLabels</text>
+<polygon fill="white" stroke="black" points="520,-0.5 520,-19.5 660,-19.5 660,-0.5 520,-0.5"/>
+<text text-anchor="middle" x="590" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListWidget::setTabLabels</text>
 </a>
 </g>
 </g>
 <!-- Node1352&#45;&gt;Node1361 -->
 <g id="edge27" class="edge"><title>Node1352&#45;&gt;Node1361</title>
-<path fill="none" stroke="midnightblue" d="M114.903,-63.4169C166.698,-53.4781 251.361,-38.139 325,-29 380.231,-22.1456 442.878,-17.3069 490.592,-14.2283"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="491.086,-17.7041 500.845,-13.5789 490.644,-10.7181 491.086,-17.7041"/>
+<path fill="none" stroke="midnightblue" d="M118.733,-63.4831C171.891,-53.5261 259.153,-38.1031 335,-29 393.327,-21.9996 459.519,-17.1481 509.706,-14.1004"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="510.069,-17.5851 519.843,-13.4961 509.652,-10.5975 510.069,-17.5851"/>
 </g>
 <!-- Node1354 -->
 <g id="node3" class="node"><title>Node1354</title>
 <g id="a_node3"><a xlink:href="class_f_list_frame.html#a1fda46dc7cfe6a661d2e2d1c66638134" target="_top" xlink:title="FListFrame::deleteGroup">
-<polygon fill="white" stroke="black" points="505.5,-202.5 505.5,-221.5 630.5,-221.5 630.5,-202.5 505.5,-202.5"/>
-<text text-anchor="middle" x="568" y="-209.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::deleteGroup</text>
+<polygon fill="white" stroke="black" points="524,-202.5 524,-221.5 656,-221.5 656,-202.5 524,-202.5"/>
+<text text-anchor="middle" x="590" y="-209.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::deleteGroup</text>
 </a>
 </g>
 </g>
 <!-- Node1353&#45;&gt;Node1354 -->
 <g id="edge2" class="edge"><title>Node1353&#45;&gt;Node1354</title>
-<path fill="none" stroke="midnightblue" d="M271.466,-145.548C333.275,-159.446 447.92,-185.225 514.8,-200.263"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="514.184,-203.711 524.708,-202.491 515.719,-196.882 514.184,-203.711"/>
+<path fill="none" stroke="midnightblue" d="M281.225,-145.548C345.726,-159.475 465.479,-185.331 535.066,-200.355"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="534.443,-203.801 544.956,-202.491 535.92,-196.959 534.443,-203.801"/>
 </g>
 <!-- Node1356 -->
 <g id="node5" class="node"><title>Node1356</title>
 <g id="a_node5"><a xlink:href="class_f_list_frame.html#aa993bd2e0b975a839c6f8b46dea4690c" target="_top" xlink:title="FListFrame::finalise">
-<polygon fill="white" stroke="black" points="342.5,-126.5 342.5,-145.5 445.5,-145.5 445.5,-126.5 342.5,-126.5"/>
-<text text-anchor="middle" x="394" y="-133.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::finalise</text>
+<polygon fill="white" stroke="black" points="354,-126.5 354,-145.5 461,-145.5 461,-126.5 354,-126.5"/>
+<text text-anchor="middle" x="407.5" y="-133.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::finalise</text>
 </a>
 </g>
 </g>
 <!-- Node1353&#45;&gt;Node1356 -->
 <g id="edge4" class="edge"><title>Node1353&#45;&gt;Node1356</title>
-<path fill="none" stroke="midnightblue" d="M289.136,-136C303.187,-136 318.161,-136 332.238,-136"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="332.304,-139.5 342.304,-136 332.304,-132.5 332.304,-139.5"/>
+<path fill="none" stroke="midnightblue" d="M299.153,-136C313.599,-136 328.989,-136 343.472,-136"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="343.831,-139.5 353.831,-136 343.831,-132.5 343.831,-139.5"/>
 </g>
 <!-- Node1362 -->
 <g id="node11" class="node"><title>Node1362</title>
 <g id="a_node11"><a xlink:href="struct_abstract.html#af7b700041c9d75de3f642f15ece3e6ae" target="_top" xlink:title="Réinitialiser toutes les valeurs du de la table de hachage Hash::wrapper. ">
-<polygon fill="white" stroke="black" points="354,-88.5 354,-107.5 434,-107.5 434,-88.5 354,-88.5"/>
-<text text-anchor="middle" x="394" y="-95.5" font-family="Helvetica,sans-Serif" font-size="10.00">Abstract::initH</text>
+<polygon fill="white" stroke="black" points="367.5,-88.5 367.5,-107.5 447.5,-107.5 447.5,-88.5 367.5,-88.5"/>
+<text text-anchor="middle" x="407.5" y="-95.5" font-family="Helvetica,sans-Serif" font-size="10.00">Abstract::initH</text>
 </a>
 </g>
 </g>
 <!-- Node1353&#45;&gt;Node1362 -->
 <g id="edge11" class="edge"><title>Node1353&#45;&gt;Node1362</title>
-<path fill="none" stroke="midnightblue" d="M270.384,-126.411C292.802,-121.217 320.638,-114.767 344.119,-109.326"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="344.935,-112.73 353.887,-107.063 343.355,-105.91 344.935,-112.73"/>
+<path fill="none" stroke="midnightblue" d="M279.772,-126.411C303.39,-121.116 332.826,-114.517 357.383,-109.011"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="358.235,-112.407 367.227,-106.805 356.704,-105.577 358.235,-112.407"/>
 </g>
 <!-- Node1363 -->
 <g id="node12" class="node"><title>Node1363</title>
 <g id="a_node12"><a xlink:href="class_f_list_frame.html#a018583305b4464d69c66805aceb1a2ac" target="_top" xlink:title="Initialise le conteneur de composants widgetContainer à blanc. ">
-<polygon fill="white" stroke="black" points="325,-39 325,-69 463,-69 463,-39 325,-39"/>
-<text text-anchor="start" x="333" y="-57" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::initializeWidget</text>
-<text text-anchor="middle" x="394" y="-46" font-family="Helvetica,sans-Serif" font-size="10.00">Container</text>
+<polygon fill="white" stroke="black" points="335.5,-39 335.5,-69 479.5,-69 479.5,-39 335.5,-39"/>
+<text text-anchor="start" x="343.5" y="-57" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::initializeWidget</text>
+<text text-anchor="middle" x="407.5" y="-46" font-family="Helvetica,sans-Serif" font-size="10.00">Container</text>
 </a>
 </g>
 </g>
 <!-- Node1353&#45;&gt;Node1363 -->
 <g id="edge12" class="edge"><title>Node1353&#45;&gt;Node1363</title>
-<path fill="none" stroke="midnightblue" d="M243.181,-126.453C261.524,-114.372 294.719,-93.406 325,-79 329.384,-76.9145 333.991,-74.8896 338.655,-72.9545"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="340.268,-76.0792 348.254,-69.1177 337.67,-69.5791 340.268,-76.0792"/>
+<path fill="none" stroke="midnightblue" d="M251.471,-126.402C270.19,-114.267 304.072,-93.2437 335,-79 339.731,-76.8212 344.71,-74.7181 349.746,-72.7194"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="351.36,-75.8498 359.453,-69.0123 348.862,-69.3105 351.36,-75.8498"/>
 </g>
 <!-- Node1364 -->
 <g id="node13" class="node"><title>Node1364</title>
 <g id="a_node13"><a xlink:href="class_f_list_frame.html#a3b18347a90f89b4423e8a543f0c1c47c" target="_top" xlink:title="FListFrame::on_deleteItem\l_clicked">
-<polygon fill="white" stroke="black" points="327,-203 327,-233 461,-233 461,-203 327,-203"/>
-<text text-anchor="start" x="335" y="-221" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::on_deleteItem</text>
-<text text-anchor="middle" x="394" y="-210" font-family="Helvetica,sans-Serif" font-size="10.00">_clicked</text>
+<polygon fill="white" stroke="black" points="337,-203 337,-233 478,-233 478,-203 337,-203"/>
+<text text-anchor="start" x="345" y="-221" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::on_deleteItem</text>
+<text text-anchor="middle" x="407.5" y="-210" font-family="Helvetica,sans-Serif" font-size="10.00">_clicked</text>
 </a>
 </g>
 </g>
 <!-- Node1353&#45;&gt;Node1364 -->
 <g id="edge13" class="edge"><title>Node1353&#45;&gt;Node1364</title>
-<path fill="none" stroke="midnightblue" d="M245.778,-145.625C264.771,-156.394 296.75,-174.145 325,-188 332.413,-191.635 340.368,-195.328 348.131,-198.821"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="346.897,-202.103 357.457,-202.967 349.741,-195.706 346.897,-202.103"/>
+<path fill="none" stroke="midnightblue" d="M254.108,-145.685C273.479,-156.508 306.108,-174.308 335,-188 342.782,-191.688 351.139,-195.406 359.298,-198.908"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="358.165,-202.23 368.739,-202.907 360.895,-195.784 358.165,-202.23"/>
 </g>
 <!-- Node1365 -->
 <g id="node14" class="node"><title>Node1365</title>
 <g id="a_node14"><a xlink:href="class_f_list_frame.html#ac14c494842340a0438766256c01f83bc" target="_top" xlink:title="FListFrame::on_importFrom\lMainTree_clicked">
-<polygon fill="white" stroke="black" points="325.5,-265 325.5,-295 462.5,-295 462.5,-265 325.5,-265"/>
-<text text-anchor="start" x="333.5" y="-283" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::on_importFrom</text>
-<text text-anchor="middle" x="394" y="-272" font-family="Helvetica,sans-Serif" font-size="10.00">MainTree_clicked</text>
+<polygon fill="white" stroke="black" points="335,-265 335,-295 480,-295 480,-265 335,-265"/>
+<text text-anchor="start" x="343" y="-283" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::on_importFrom</text>
+<text text-anchor="middle" x="407.5" y="-272" font-family="Helvetica,sans-Serif" font-size="10.00">MainTree_clicked</text>
 </a>
 </g>
 </g>
 <!-- Node1353&#45;&gt;Node1365 -->
 <g id="edge16" class="edge"><title>Node1353&#45;&gt;Node1365</title>
-<path fill="none" stroke="midnightblue" d="M236.074,-145.745C250.878,-165.66 286.924,-211.696 325,-242 333.34,-248.637 342.989,-254.79 352.352,-260.126"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="350.739,-263.233 361.188,-264.982 354.11,-257.099 350.739,-263.233"/>
+<path fill="none" stroke="midnightblue" d="M244.214,-145.798C259.315,-165.81 296.09,-212.016 335,-242 343.781,-248.766 353.937,-254.97 363.787,-260.316"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="362.216,-263.443 372.699,-264.975 365.459,-257.24 362.216,-263.443"/>
 </g>
 <!-- Node1355 -->
 <g id="node4" class="node"><title>Node1355</title>
 <g id="a_node4"><a xlink:href="class_f_list_frame.html#a356ad4309df1e931fb3ee12ad88054fb" target="_top" xlink:title="Actualise currentWidget, row et currentIndex. ">
-<polygon fill="white" stroke="black" points="673,-202.5 673,-221.5 815,-221.5 815,-202.5 673,-202.5"/>
-<text text-anchor="middle" x="744" y="-209.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::updateIndexInfo</text>
+<polygon fill="white" stroke="black" points="700,-202.5 700,-221.5 850,-221.5 850,-202.5 700,-202.5"/>
+<text text-anchor="middle" x="775" y="-209.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::updateIndexInfo</text>
 </a>
 </g>
 </g>
 <!-- Node1354&#45;&gt;Node1355 -->
 <g id="edge3" class="edge"><title>Node1354&#45;&gt;Node1355</title>
-<path fill="none" stroke="midnightblue" d="M630.836,-212C641.125,-212 651.928,-212 662.598,-212"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="662.766,-215.5 672.766,-212 662.766,-208.5 662.766,-215.5"/>
+<path fill="none" stroke="midnightblue" d="M656.034,-212C666.889,-212 678.287,-212 689.542,-212"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="689.818,-215.5 699.818,-212 689.818,-208.5 689.818,-215.5"/>
 </g>
 <!-- Node1356&#45;&gt;Node1355 -->
 <g id="edge10" class="edge"><title>Node1356&#45;&gt;Node1355</title>
-<path fill="none" stroke="midnightblue" d="M438.722,-145.548C502.491,-159.475 620.882,-185.331 689.679,-200.355"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="688.94,-203.776 699.457,-202.491 690.434,-196.937 688.94,-203.776"/>
+<path fill="none" stroke="midnightblue" d="M454.421,-145.548C521.533,-159.503 646.251,-185.437 718.441,-200.447"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="717.764,-203.881 728.267,-202.491 719.189,-197.028 717.764,-203.881"/>
 </g>
 <!-- Node1357 -->
 <g id="node6" class="node"><title>Node1357</title>
 <g id="a_node6"><a xlink:href="class_f_list_frame.html#a5c6ce884a0169251e359364921d1f89c" target="_top" xlink:title="FListFrame::addNewTab">
-<polygon fill="white" stroke="black" points="505.5,-38.5 505.5,-57.5 630.5,-57.5 630.5,-38.5 505.5,-38.5"/>
-<text text-anchor="middle" x="568" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::addNewTab</text>
+<polygon fill="white" stroke="black" points="524.5,-38.5 524.5,-57.5 655.5,-57.5 655.5,-38.5 524.5,-38.5"/>
+<text text-anchor="middle" x="590" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::addNewTab</text>
 </a>
 </g>
 </g>
 <!-- Node1356&#45;&gt;Node1357 -->
 <g id="edge5" class="edge"><title>Node1356&#45;&gt;Node1357</title>
-<path fill="none" stroke="midnightblue" d="M444.71,-126.393C451.182,-123.938 457.473,-120.86 463,-117 485.45,-101.322 476.55,-82.6782 499,-67 501.85,-65.0097 504.903,-63.2272 508.079,-61.6308"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="509.527,-64.8177 517.29,-57.6071 506.725,-58.4031 509.527,-64.8177"/>
+<path fill="none" stroke="midnightblue" d="M461.13,-126.529C467.805,-124.055 474.288,-120.935 480,-117 502.55,-101.465 493.411,-82.4774 516,-67 518.897,-65.0153 521.987,-63.238 525.2,-61.6463"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="526.715,-64.8046 534.514,-57.6341 523.945,-58.3757 526.715,-64.8046"/>
 </g>
 <!-- Node1359 -->
 <g id="node8" class="node"><title>Node1359</title>
 <g id="a_node8"><a xlink:href="class_hash.html#a2ac10203aa8b32a04d9088e08ddbaab4" target="_top" xlink:title="Hash::createReference">
-<polygon fill="white" stroke="black" points="509,-126.5 509,-145.5 627,-145.5 627,-126.5 509,-126.5"/>
-<text text-anchor="middle" x="568" y="-133.5" font-family="Helvetica,sans-Serif" font-size="10.00">Hash::createReference</text>
+<polygon fill="white" stroke="black" points="527.5,-126.5 527.5,-145.5 652.5,-145.5 652.5,-126.5 527.5,-126.5"/>
+<text text-anchor="middle" x="590" y="-133.5" font-family="Helvetica,sans-Serif" font-size="10.00">Hash::createReference</text>
 </a>
 </g>
 </g>
 <!-- Node1356&#45;&gt;Node1359 -->
 <g id="edge7" class="edge"><title>Node1356&#45;&gt;Node1359</title>
-<path fill="none" stroke="midnightblue" d="M445.675,-136C462.243,-136 480.927,-136 498.578,-136"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="498.829,-139.5 508.829,-136 498.829,-132.5 498.829,-139.5"/>
+<path fill="none" stroke="midnightblue" d="M461.193,-136C478.665,-136 498.422,-136 517.087,-136"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="517.323,-139.5 527.323,-136 517.323,-132.5 517.323,-139.5"/>
 </g>
 <!-- Node1360 -->
 <g id="node9" class="node"><title>Node1360</title>
 <g id="a_node9"><a xlink:href="class_f_list_frame.html#a560addf9867fbd5d05fbdb024e5b272c" target="_top" xlink:title="FListFrame::setStrikeOut\lFileNames">
-<polygon fill="white" stroke="black" points="504.5,-77 504.5,-107 631.5,-107 631.5,-77 504.5,-77"/>
-<text text-anchor="start" x="512.5" y="-95" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::setStrikeOut</text>
-<text text-anchor="middle" x="568" y="-84" font-family="Helvetica,sans-Serif" font-size="10.00">FileNames</text>
+<polygon fill="white" stroke="black" points="524.5,-77 524.5,-107 655.5,-107 655.5,-77 524.5,-77"/>
+<text text-anchor="start" x="532.5" y="-95" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::setStrikeOut</text>
+<text text-anchor="middle" x="590" y="-84" font-family="Helvetica,sans-Serif" font-size="10.00">FileNames</text>
 </a>
 </g>
 </g>
 <!-- Node1356&#45;&gt;Node1360 -->
 <g id="edge8" class="edge"><title>Node1356&#45;&gt;Node1360</title>
-<path fill="none" stroke="midnightblue" d="M432.321,-126.453C451.6,-121.521 475.745,-115.344 498.247,-109.588"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="499.288,-112.935 508.108,-107.065 497.553,-106.153 499.288,-112.935"/>
+<path fill="none" stroke="midnightblue" d="M447.666,-126.453C467.988,-121.499 493.463,-115.289 517.167,-109.51"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="518.311,-112.834 527.198,-107.065 516.653,-106.033 518.311,-112.834"/>
 </g>
 <!-- Node1356&#45;&gt;Node1361 -->
 <g id="edge9" class="edge"><title>Node1356&#45;&gt;Node1361</title>
-<path fill="none" stroke="midnightblue" d="M445.62,-127.545C451.955,-124.917 457.965,-121.483 463,-117 494.56,-88.8996 467.44,-57.1004 499,-29 500.748,-27.4436 502.614,-26.0137 504.569,-24.7001"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="506.602,-27.5745 513.638,-19.6535 503.198,-21.4578 506.602,-27.5745"/>
+<path fill="none" stroke="midnightblue" d="M461.341,-128.025C468.138,-125.329 474.598,-121.749 480,-117 511.738,-89.1011 484.19,-56.8178 516,-29 517.941,-27.3028 520.015,-25.7542 522.19,-24.3415"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="523.904,-27.3934 531.015,-19.5389 520.558,-21.2449 523.904,-27.3934"/>
 </g>
 <!-- Node1358 -->
 <g id="node7" class="node"><title>Node1358</title>
 <g id="a_node7"><a xlink:href="class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" target="_top" xlink:title="Récupère la taille courante (0&#45;based) du conteneur FListFrame::widgetContainer. ">
-<polygon fill="white" stroke="black" points="689.5,-38.5 689.5,-57.5 798.5,-57.5 798.5,-38.5 689.5,-38.5"/>
-<text text-anchor="middle" x="744" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getRank</text>
+<polygon fill="white" stroke="black" points="718.5,-38.5 718.5,-57.5 831.5,-57.5 831.5,-38.5 718.5,-38.5"/>
+<text text-anchor="middle" x="775" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getRank</text>
 </a>
 </g>
 </g>
 <!-- Node1357&#45;&gt;Node1358 -->
 <g id="edge6" class="edge"><title>Node1357&#45;&gt;Node1358</title>
-<path fill="none" stroke="midnightblue" d="M630.836,-48C646.541,-48 663.443,-48 679.242,-48"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="679.441,-51.5001 689.441,-48 679.441,-44.5001 679.441,-51.5001"/>
+<path fill="none" stroke="midnightblue" d="M655.519,-48C672.477,-48 690.793,-48 707.836,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="708.26,-51.5001 718.26,-48 708.26,-44.5001 708.26,-51.5001"/>
 </g>
 <!-- Node1364&#45;&gt;Node1354 -->
 <g id="edge14" class="edge"><title>Node1364&#45;&gt;Node1354</title>
-<path fill="none" stroke="midnightblue" d="M461.008,-215.697C472.178,-215.308 483.824,-214.901 495.135,-214.507"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="495.533,-217.995 505.405,-214.149 495.289,-211 495.533,-217.995"/>
+<path fill="none" stroke="midnightblue" d="M478.028,-215.689C489.703,-215.301 501.868,-214.896 513.681,-214.504"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="514.073,-217.993 523.951,-214.162 513.84,-210.997 514.073,-217.993"/>
 </g>
 <!-- Node1364&#45;&gt;Node1355 -->
 <g id="edge15" class="edge"><title>Node1364&#45;&gt;Node1355</title>
-<path fill="none" stroke="midnightblue" d="M461.183,-227.524C473.717,-228.972 486.741,-230.237 499,-231 560.215,-234.811 575.908,-236.432 637,-231 654.272,-229.464 672.943,-226.547 689.732,-223.452"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="690.744,-226.822 699.912,-221.512 689.434,-219.945 690.744,-226.822"/>
+<path fill="none" stroke="midnightblue" d="M478.07,-227.652C490.67,-229.047 503.709,-230.26 516,-231 581.659,-234.956 598.463,-236.618 664,-231 682.078,-229.45 701.646,-226.493 719.196,-223.364"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="720.067,-226.763 729.269,-221.512 718.801,-219.878 720.067,-226.763"/>
 </g>
 <!-- Node1366 -->
 <g id="node15" class="node"><title>Node1366</title>
 <g id="a_node15"><a xlink:href="class_f_list_frame.html#a4228ed10f2d800b92ff34e2f25edcd8c" target="_top" xlink:title="Ajoute les fichiers d&#39;une portion d&#39;arborescence de fichiers au composant courant de l&#39;onglet central...">
-<polygon fill="white" stroke="black" points="499,-279 499,-309 637,-309 637,-279 499,-279"/>
-<text text-anchor="start" x="507" y="-297" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::addParsedTree</text>
-<text text-anchor="middle" x="568" y="-286" font-family="Helvetica,sans-Serif" font-size="10.00">ToListWidget</text>
+<polygon fill="white" stroke="black" points="516,-279 516,-309 664,-309 664,-279 516,-279"/>
+<text text-anchor="start" x="524" y="-297" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::addParsedTree</text>
+<text text-anchor="middle" x="590" y="-286" font-family="Helvetica,sans-Serif" font-size="10.00">ToListWidget</text>
 </a>
 </g>
 </g>
 <!-- Node1365&#45;&gt;Node1366 -->
 <g id="edge17" class="edge"><title>Node1365&#45;&gt;Node1366</title>
-<path fill="none" stroke="midnightblue" d="M462.979,-285.533C471.483,-286.225 480.233,-286.938 488.876,-287.641"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="488.701,-291.138 498.952,-288.461 489.269,-284.161 488.701,-291.138"/>
+<path fill="none" stroke="midnightblue" d="M480.098,-285.553C488.516,-286.206 497.161,-286.877 505.722,-287.541"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="505.474,-291.032 515.714,-288.316 506.015,-284.053 505.474,-291.032"/>
 </g>
 <!-- Node1367 -->
 <g id="node16" class="node"><title>Node1367</title>
 <g id="a_node16"><a xlink:href="class_f_list_frame.html#af8c91e66c02e4c6f1f0fb66097903b73" target="_top" xlink:title="FListFrame::addStringList\lToListWidget">
-<polygon fill="white" stroke="black" points="679.5,-309 679.5,-339 808.5,-339 808.5,-309 679.5,-309"/>
-<text text-anchor="start" x="687.5" y="-327" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::addStringList</text>
-<text text-anchor="middle" x="744" y="-316" font-family="Helvetica,sans-Serif" font-size="10.00">ToListWidget</text>
+<polygon fill="white" stroke="black" points="707,-309 707,-339 843,-339 843,-309 707,-309"/>
+<text text-anchor="start" x="715" y="-327" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::addStringList</text>
+<text text-anchor="middle" x="775" y="-316" font-family="Helvetica,sans-Serif" font-size="10.00">ToListWidget</text>
 </a>
 </g>
 </g>
 <!-- Node1366&#45;&gt;Node1367 -->
 <g id="edge18" class="edge"><title>Node1366&#45;&gt;Node1367</title>
-<path fill="none" stroke="midnightblue" d="M637.27,-305.771C647.804,-307.587 658.723,-309.469 669.368,-311.305"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="669.019,-314.796 679.468,-313.046 670.209,-307.898 669.019,-314.796"/>
+<path fill="none" stroke="midnightblue" d="M664.115,-305.986C674.939,-307.76 686.121,-309.594 697.02,-311.38"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="696.498,-314.841 706.932,-313.005 697.63,-307.934 696.498,-314.841"/>
 </g>
 <!-- Node1374 -->
 <g id="node23" class="node"><title>Node1374</title>
 <g id="a_node23"><a xlink:href="class_f_list_frame.html#ae166a8e51ccbb22a5aa2f1d885507565" target="_top" xlink:title="FListFrame::parseTreeFor\lFilePaths">
-<polygon fill="white" stroke="black" points="679,-260 679,-290 809,-290 809,-260 679,-260"/>
-<text text-anchor="start" x="687" y="-278" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::parseTreeFor</text>
-<text text-anchor="middle" x="744" y="-267" font-family="Helvetica,sans-Serif" font-size="10.00">FilePaths</text>
+<polygon fill="white" stroke="black" points="705.5,-260 705.5,-290 844.5,-290 844.5,-260 705.5,-260"/>
+<text text-anchor="start" x="713.5" y="-278" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::parseTreeFor</text>
+<text text-anchor="middle" x="775" y="-267" font-family="Helvetica,sans-Serif" font-size="10.00">FilePaths</text>
 </a>
 </g>
 </g>
 <!-- Node1366&#45;&gt;Node1374 -->
 <g id="edge26" class="edge"><title>Node1366&#45;&gt;Node1374</title>
-<path fill="none" stroke="midnightblue" d="M637.27,-286.545C647.66,-285.411 658.424,-284.235 668.93,-283.088"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="669.343,-286.564 678.904,-281.999 668.583,-279.605 669.343,-286.564"/>
+<path fill="none" stroke="midnightblue" d="M664.115,-286.409C674.345,-285.347 684.894,-284.251 695.222,-283.179"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="695.872,-286.631 705.457,-282.116 695.149,-279.668 695.872,-286.631"/>
 </g>
 <!-- Node1368 -->
 <g id="node17" class="node"><title>Node1368</title>
 <g id="a_node17"><a xlink:href="class_f_list_frame.html#a9353fe4926e97788a6462c3ee79f6a15" target="_top" xlink:title="FListFrame::clearTabLabels">
-<polygon fill="white" stroke="black" points="861,-358.5 861,-377.5 999,-377.5 999,-358.5 861,-358.5"/>
-<text text-anchor="middle" x="930" y="-365.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::clearTabLabels</text>
+<polygon fill="white" stroke="black" points="897,-358.5 897,-377.5 1043,-377.5 1043,-358.5 897,-358.5"/>
+<text text-anchor="middle" x="970" y="-365.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::clearTabLabels</text>
 </a>
 </g>
 </g>
 <!-- Node1367&#45;&gt;Node1368 -->
 <g id="edge19" class="edge"><title>Node1367&#45;&gt;Node1368</title>
-<path fill="none" stroke="midnightblue" d="M807.808,-339.019C831.191,-344.611 857.38,-350.874 879.414,-356.143"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="878.681,-359.566 889.221,-358.488 880.309,-352.758 878.681,-359.566"/>
+<path fill="none" stroke="midnightblue" d="M841.88,-339.019C866.517,-344.636 894.125,-350.93 917.301,-356.214"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="916.747,-359.677 927.275,-358.488 918.303,-352.852 916.747,-359.677"/>
 </g>
 <!-- Node1370 -->
 <g id="node19" class="node"><title>Node1370</title>
 <g id="a_node19"><a xlink:href="class_f_list_frame.html#a0ebe3d7847101344e70c84aff2be39b0" target="_top" xlink:title="Accesseur en lecture du nombre d&#39;éléments (nombre d&#39;onglets) du vecteur widgetContainer. ">
-<polygon fill="white" stroke="black" points="851,-309 851,-339 1009,-339 1009,-309 851,-309"/>
-<text text-anchor="start" x="859" y="-327" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getWidgetContainer</text>
-<text text-anchor="middle" x="930" y="-316" font-family="Helvetica,sans-Serif" font-size="10.00">Count</text>
+<polygon fill="white" stroke="black" points="886,-309 886,-339 1054,-339 1054,-309 886,-309"/>
+<text text-anchor="start" x="894" y="-327" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getWidgetContainer</text>
+<text text-anchor="middle" x="970" y="-316" font-family="Helvetica,sans-Serif" font-size="10.00">Count</text>
 </a>
 </g>
 </g>
 <!-- Node1367&#45;&gt;Node1370 -->
 <g id="edge21" class="edge"><title>Node1367&#45;&gt;Node1370</title>
-<path fill="none" stroke="midnightblue" d="M808.58,-324C818.892,-324 829.732,-324 840.509,-324"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="840.801,-327.5 850.801,-324 840.801,-320.5 840.801,-327.5"/>
+<path fill="none" stroke="midnightblue" d="M843.231,-324C853.726,-324 864.731,-324 875.681,-324"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="875.705,-327.5 885.705,-324 875.705,-320.5 875.705,-327.5"/>
 </g>
 <!-- Node1371 -->
 <g id="node20" class="node"><title>Node1371</title>
 <g id="a_node20"><a xlink:href="class_f_list_frame.html#a802475894ee1e30753faed81d9f9dc4b" target="_top" xlink:title="Appelle parseXhlFile(const QString&amp;) sur l&#39;ensemble de widgetContainer. ">
-<polygon fill="white" stroke="black" points="867,-270.5 867,-289.5 993,-289.5 993,-270.5 867,-270.5"/>
-<text text-anchor="middle" x="930" y="-277.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::parseXhlFile</text>
+<polygon fill="white" stroke="black" points="904,-270.5 904,-289.5 1036,-289.5 1036,-270.5 904,-270.5"/>
+<text text-anchor="middle" x="970" y="-277.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::parseXhlFile</text>
 </a>
 </g>
 </g>
 <!-- Node1367&#45;&gt;Node1371 -->
 <g id="edge22" class="edge"><title>Node1367&#45;&gt;Node1371</title>
-<path fill="none" stroke="midnightblue" d="M807.808,-308.981C831.191,-303.389 857.38,-297.126 879.414,-291.857"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="880.309,-295.242 889.221,-289.512 878.681,-288.434 880.309,-295.242"/>
+<path fill="none" stroke="midnightblue" d="M841.88,-308.981C866.517,-303.364 894.125,-297.07 917.301,-291.786"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="918.303,-295.148 927.275,-289.512 916.747,-288.323 918.303,-295.148"/>
 </g>
 <!-- Node1369 -->
 <g id="node18" class="node"><title>Node1369</title>
 <g id="a_node18"><a xlink:href="class_f_list_widget.html#a74bf008958a87e9055b8ec6573d8e2e9" target="_top" xlink:title="FListWidget::clearTabLabels">
-<polygon fill="white" stroke="black" points="1045,-358.5 1045,-377.5 1186,-377.5 1186,-358.5 1045,-358.5"/>
-<text text-anchor="middle" x="1115.5" y="-365.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListWidget::clearTabLabels</text>
+<polygon fill="white" stroke="black" points="1090,-358.5 1090,-377.5 1239,-377.5 1239,-358.5 1090,-358.5"/>
+<text text-anchor="middle" x="1164.5" y="-365.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListWidget::clearTabLabels</text>
 </a>
 </g>
 </g>
 <!-- Node1368&#45;&gt;Node1369 -->
 <g id="edge20" class="edge"><title>Node1368&#45;&gt;Node1369</title>
-<path fill="none" stroke="midnightblue" d="M999.068,-368C1010.59,-368 1022.64,-368 1034.43,-368"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1034.7,-371.5 1044.7,-368 1034.7,-364.5 1034.7,-371.5"/>
+<path fill="none" stroke="midnightblue" d="M1043.23,-368C1055.15,-368 1067.59,-368 1079.76,-368"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1079.91,-371.5 1089.91,-368 1079.91,-364.5 1079.91,-371.5"/>
 </g>
 <!-- Node1372 -->
 <g id="node21" class="node"><title>Node1372</title>
 <g id="a_node21"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="Détecte si un disque optique est monté. ">
-<polygon fill="white" stroke="black" points="1059,-226.5 1059,-245.5 1172,-245.5 1172,-226.5 1059,-226.5"/>
-<text text-anchor="middle" x="1115.5" y="-233.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::cdRomMounted</text>
+<polygon fill="white" stroke="black" points="1105.5,-226.5 1105.5,-245.5 1223.5,-245.5 1223.5,-226.5 1105.5,-226.5"/>
+<text text-anchor="middle" x="1164.5" y="-233.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::cdRomMounted</text>
 </a>
 </g>
 </g>
 <!-- Node1371&#45;&gt;Node1372 -->
 <g id="edge23" class="edge"><title>Node1371&#45;&gt;Node1372</title>
-<path fill="none" stroke="midnightblue" d="M970.817,-270.453C998.35,-263.851 1035.19,-255.018 1064.67,-247.949"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1065.85,-251.264 1074.76,-245.529 1064.22,-244.457 1065.85,-251.264"/>
+<path fill="none" stroke="midnightblue" d="M1012.77,-270.453C1041.91,-263.793 1080.97,-254.864 1112.03,-247.764"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1112.84,-251.169 1121.81,-245.529 1111.28,-244.345 1112.84,-251.169"/>
 </g>
 <!-- Node1373 -->
 <g id="node22" class="node"><title>Node1373</title>
 <g id="a_node22"><a xlink:href="class_f_list_frame.html#a22a50157e8c6d287c2b2c08d2b7deee9" target="_top" xlink:title="Lancer un fil d&#39;exécution pour lire l&#39;entête d&#39;un fichier XHL (Année, Mois,...) et classer les fichie...">
-<polygon fill="white" stroke="black" points="1065,-265 1065,-295 1166,-295 1166,-265 1065,-265"/>
-<text text-anchor="start" x="1073" y="-283" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::launch</text>
-<text text-anchor="middle" x="1115.5" y="-272" font-family="Helvetica,sans-Serif" font-size="10.00">_thread</text>
+<polygon fill="white" stroke="black" points="1112.5,-265 1112.5,-295 1216.5,-295 1216.5,-265 1112.5,-265"/>
+<text text-anchor="start" x="1120.5" y="-283" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::launch</text>
+<text text-anchor="middle" x="1164.5" y="-272" font-family="Helvetica,sans-Serif" font-size="10.00">_thread</text>
 </a>
 </g>
 </g>
 <!-- Node1371&#45;&gt;Node1373 -->
 <g id="edge24" class="edge"><title>Node1371&#45;&gt;Node1373</title>
-<path fill="none" stroke="midnightblue" d="M993.125,-273.573C1013.05,-273.124 1035.06,-273.143 1054.8,-273.63"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1054.8,-277.132 1064.9,-273.928 1055,-270.135 1054.8,-277.132"/>
+<path fill="none" stroke="midnightblue" d="M1036.17,-273.573C1057.54,-273.114 1081.21,-273.144 1102.27,-273.664"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1102.29,-277.166 1112.39,-273.958 1102.49,-270.169 1102.29,-277.166"/>
 </g>
 <!-- Node1373&#45;&gt;Node1371 -->
 <g id="edge25" class="edge"><title>Node1373&#45;&gt;Node1371</title>
-<path fill="none" stroke="midnightblue" d="M1064.9,-286.072C1045.9,-286.729 1023.83,-286.908 1003.15,-286.611"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1003.19,-283.111 993.125,-286.427 1003.06,-290.11 1003.19,-283.111"/>
+<path fill="none" stroke="midnightblue" d="M1112.39,-286.042C1092.11,-286.728 1068.39,-286.915 1046.23,-286.605"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1046.23,-283.104 1036.17,-286.427 1046.11,-290.103 1046.23,-283.104"/>
 </g>
 </g>
 </svg>

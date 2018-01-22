@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 503;
+var viewWidth = 519;
 var viewHeight = 361;
 var sectionId = 'dynsection-13';
 </script>
@@ -54,196 +54,196 @@ var sectionId = 'dynsection-13';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>tools::IOControl</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-357.318 499,-357.318 499,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-357.453 515,-357.453 515,4 -4,4"/>
 <!-- Node109 -->
 <g id="node1" class="node"><title>Node109</title>
-<polygon fill="#bfbfbf" stroke="black" points="0,-171.5 0,-190.5 86,-190.5 86,-171.5 0,-171.5"/>
-<text text-anchor="middle" x="43" y="-178.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::IOControl</text>
+<polygon fill="#bfbfbf" stroke="black" points="0,-171.5 0,-190.5 89,-190.5 89,-171.5 0,-171.5"/>
+<text text-anchor="middle" x="44.5" y="-178.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::IOControl</text>
 </g>
 <!-- Node110 -->
 <g id="node2" class="node"><title>Node110</title>
 <g id="a_node2"><a xlink:href="classtools.html#a0765c68c41d7c957f1fb0f0da8b4a9c9" target="_top" xlink:title="Copie un fichier de manière sécurisée. ">
-<polygon fill="white" stroke="black" points="122,-285.5 122,-304.5 202,-304.5 202,-285.5 122,-285.5"/>
-<text text-anchor="middle" x="162" y="-292.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::copyFile</text>
+<polygon fill="white" stroke="black" points="125,-285.5 125,-304.5 208,-304.5 208,-285.5 125,-285.5"/>
+<text text-anchor="middle" x="166.5" y="-292.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::copyFile</text>
 </a>
 </g>
 </g>
 <!-- Node109&#45;&gt;Node110 -->
 <g id="edge1" class="edge"><title>Node109&#45;&gt;Node110</title>
-<path fill="none" stroke="midnightblue" d="M61.2747,-197.832C86.116,-222.036 131.125,-265.891 151.05,-285.305"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="63.5802,-195.191 53.9754,-190.72 58.6951,-200.205 63.5802,-195.191"/>
+<path fill="none" stroke="midnightblue" d="M63.2176,-197.832C88.6959,-222.036 134.859,-265.891 155.295,-285.305"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="65.3918,-195.07 55.7311,-190.72 60.5705,-200.145 65.3918,-195.07"/>
 </g>
 <!-- Node113 -->
 <g id="node5" class="node"><title>Node113</title>
 <g id="a_node5"><a xlink:href="classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" target="_top" xlink:title="List un fichier entre deux lignes données et sur une largeur donnée. ">
-<polygon fill="white" stroke="black" points="385.5,-133.5 385.5,-152.5 463.5,-152.5 463.5,-133.5 385.5,-133.5"/>
-<text text-anchor="middle" x="424.5" y="-140.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::readFile</text>
+<polygon fill="white" stroke="black" points="395.5,-133.5 395.5,-152.5 477.5,-152.5 477.5,-133.5 395.5,-133.5"/>
+<text text-anchor="middle" x="436.5" y="-140.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::readFile</text>
 </a>
 </g>
 </g>
 <!-- Node109&#45;&gt;Node113 -->
 <g id="edge9" class="edge"><title>Node109&#45;&gt;Node113</title>
-<path fill="none" stroke="midnightblue" d="M89.4769,-169.028C100.101,-166.481 111.408,-163.969 122,-162 173.11,-152.501 186.162,-150.899 238,-147 288.913,-143.17 347.89,-142.55 385.429,-142.632"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="88.4232,-165.683 79.5455,-171.466 90.0915,-172.481 88.4232,-165.683"/>
+<path fill="none" stroke="midnightblue" d="M91.5224,-169.1C102.448,-166.526 114.097,-163.984 125,-162 177.446,-152.457 190.835,-150.895 244,-147 296.235,-143.173 356.682,-142.541 395.464,-142.621"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="90.6364,-165.713 81.7345,-171.458 92.2762,-172.518 90.6364,-165.713"/>
 </g>
 <!-- Node115 -->
 <g id="node7" class="node"><title>Node115</title>
 <g id="a_node7"><a xlink:href="classtools.html#a22819e1b381949304b8fde11a91a7de3" target="_top" xlink:title="Décompresser un fichier au format zip. ">
-<polygon fill="white" stroke="black" points="128.5,-171.5 128.5,-190.5 195.5,-190.5 195.5,-171.5 128.5,-171.5"/>
-<text text-anchor="middle" x="162" y="-178.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::unzip</text>
+<polygon fill="white" stroke="black" points="132.5,-171.5 132.5,-190.5 200.5,-190.5 200.5,-171.5 132.5,-171.5"/>
+<text text-anchor="middle" x="166.5" y="-178.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::unzip</text>
 </a>
 </g>
 </g>
 <!-- Node109&#45;&gt;Node115 -->
 <g id="edge10" class="edge"><title>Node109&#45;&gt;Node115</title>
-<path fill="none" stroke="midnightblue" d="M96.5058,-181C107.354,-181 118.48,-181 128.37,-181"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="96.2397,-177.5 86.2397,-181 96.2397,-184.5 96.2397,-177.5"/>
+<path fill="none" stroke="midnightblue" d="M99.324,-181C110.527,-181 122.021,-181 132.22,-181"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="99.1622,-177.5 89.1622,-181 99.1622,-184.5 99.1622,-177.5"/>
 </g>
 <!-- Node117 -->
 <g id="node9" class="node"><title>Node117</title>
 <g id="a_node9"><a xlink:href="classtools.html#aae1cdbea84aed049937a52ceb9421794" target="_top" xlink:title="Compresser un fichier au format zip. ">
-<polygon fill="white" stroke="black" points="134,-38.5 134,-57.5 190,-57.5 190,-38.5 134,-38.5"/>
-<text text-anchor="middle" x="162" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::zip</text>
+<polygon fill="white" stroke="black" points="138,-38.5 138,-57.5 195,-57.5 195,-38.5 138,-38.5"/>
+<text text-anchor="middle" x="166.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::zip</text>
 </a>
 </g>
 </g>
 <!-- Node109&#45;&gt;Node117 -->
 <g id="edge16" class="edge"><title>Node109&#45;&gt;Node117</title>
-<path fill="none" stroke="midnightblue" d="M58.9648,-163.498C74.5825,-145.288 99.8383,-115.996 122,-91 132.297,-79.3866 144.318,-66.1848 152.264,-57.5083"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="55.9751,-161.608 52.128,-171.48 61.2915,-166.162 55.9751,-161.608"/>
+<path fill="none" stroke="midnightblue" d="M60.7071,-163.453C76.5885,-145.206 102.301,-115.885 125,-91 135.505,-79.4836 147.813,-66.4837 156.08,-57.822"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="57.6733,-161.608 53.7569,-171.453 62.9575,-166.199 57.6733,-161.608"/>
 </g>
 <!-- Node111 -->
 <g id="node3" class="node"><title>Node111</title>
 <g id="a_node3"><a xlink:href="classtools.html#a37c9c486d90129b0d6a4ac93f29fd5bb" target="_top" xlink:title="Copie un répertoire de manière sécurisée. ">
-<polygon fill="white" stroke="black" points="239.5,-247.5 239.5,-266.5 316.5,-266.5 316.5,-247.5 239.5,-247.5"/>
-<text text-anchor="middle" x="278" y="-254.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::copyDir</text>
+<polygon fill="white" stroke="black" points="245,-247.5 245,-266.5 325,-266.5 325,-247.5 245,-247.5"/>
+<text text-anchor="middle" x="285" y="-254.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::copyDir</text>
 </a>
 </g>
 </g>
 <!-- Node110&#45;&gt;Node111 -->
 <g id="edge2" class="edge"><title>Node110&#45;&gt;Node111</title>
-<path fill="none" stroke="midnightblue" d="M201.478,-282.174C216.774,-277.075 234.067,-271.311 248.242,-266.586"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="200.147,-278.928 191.767,-285.411 202.361,-285.569 200.147,-278.928"/>
+<path fill="none" stroke="midnightblue" d="M206.822,-282.174C222.453,-277.075 240.126,-271.311 254.612,-266.586"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="205.32,-278.982 196.898,-285.411 207.49,-285.637 205.32,-278.982"/>
 </g>
 <!-- Node112 -->
 <g id="node4" class="node"><title>Node112</title>
 <g id="a_node4"><a xlink:href="class_main_window.html#a0931b2b0fde3d9c2b983d7eded8724a0" target="_top" xlink:title="Enregistrer l&#39;ensemble des données d&#39;output (bases CSV, rapports...) dans un répertoire. ">
-<polygon fill="white" stroke="black" points="356,-304.5 356,-323.5 493,-323.5 493,-304.5 356,-304.5"/>
-<text text-anchor="middle" x="424.5" y="-311.5" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::exportProject</text>
+<polygon fill="white" stroke="black" points="364,-304.5 364,-323.5 509,-323.5 509,-304.5 364,-304.5"/>
+<text text-anchor="middle" x="436.5" y="-311.5" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::exportProject</text>
 </a>
 </g>
 </g>
 <!-- Node110&#45;&gt;Node112 -->
 <g id="edge6" class="edge"><title>Node110&#45;&gt;Node112</title>
-<path fill="none" stroke="midnightblue" d="M180.086,-311.44C194.304,-323.906 215.752,-340.042 238,-347 296.848,-365.405 369.607,-338.814 403.885,-323.512"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="182.348,-308.767 172.598,-304.622 177.635,-313.943 182.348,-308.767"/>
+<path fill="none" stroke="midnightblue" d="M184.988,-311.446C199.525,-323.915 221.418,-340.052 244,-347 304.781,-365.702 379.88,-338.97 415.257,-323.574"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="187.124,-308.662 177.329,-304.625 182.469,-313.89 187.124,-308.662"/>
 </g>
 <!-- Node110&#45;&gt;Node113 -->
 <g id="edge7" class="edge"><title>Node110&#45;&gt;Node113</title>
-<path fill="none" stroke="midnightblue" d="M212.381,-300.577C245.235,-301.685 287.75,-297.834 318,-276 348.306,-254.126 330.992,-229.455 354,-200 369.466,-180.201 392.968,-162.76 408.28,-152.543"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="212.245,-297.066 202.082,-300.06 211.893,-304.057 212.245,-297.066"/>
+<path fill="none" stroke="midnightblue" d="M218.211,-300.871C251.77,-302.079 295.117,-298.228 326,-276 356.335,-254.166 338.592,-229.138 362,-200 378.181,-179.858 402.847,-162.628 419.07,-152.538"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="218.303,-297.371 208.135,-300.348 217.94,-304.361 218.303,-297.371"/>
 </g>
 <!-- Node114 -->
 <g id="node6" class="node"><title>Node114</title>
 <g id="a_node6"><a xlink:href="class_main_window.html#ae11018a1c92bd7f20ff54a3f78eacb51" target="_top" xlink:title="Désarchiver le projet. ">
-<polygon fill="white" stroke="black" points="354.5,-209.5 354.5,-228.5 494.5,-228.5 494.5,-209.5 354.5,-209.5"/>
-<text text-anchor="middle" x="424.5" y="-216.5" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::restoreProject</text>
+<polygon fill="white" stroke="black" points="362,-209.5 362,-228.5 511,-228.5 511,-209.5 362,-209.5"/>
+<text text-anchor="middle" x="436.5" y="-216.5" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::restoreProject</text>
 </a>
 </g>
 </g>
 <!-- Node110&#45;&gt;Node114 -->
 <g id="edge8" class="edge"><title>Node110&#45;&gt;Node114</title>
-<path fill="none" stroke="midnightblue" d="M200.713,-307.307C232.863,-315.734 279.797,-323.081 318,-309 362.501,-292.597 400.987,-248.143 416.363,-228.524"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="201.397,-303.864 190.825,-304.558 199.522,-310.608 201.397,-303.864"/>
+<path fill="none" stroke="midnightblue" d="M205.577,-307.175C238.423,-315.635 286.641,-323.099 326,-309 371.637,-292.652 411.879,-248.168 428.005,-228.533"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="206.472,-303.792 195.903,-304.541 204.632,-310.546 206.472,-303.792"/>
 </g>
 <!-- Node111&#45;&gt;Node109 -->
 <g id="edge4" class="edge"><title>Node111&#45;&gt;Node109</title>
-<path fill="none" stroke="midnightblue" d="M238.032,-244.289C191.657,-229.163 115.264,-204.245 73.5096,-190.625"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="237.138,-247.679 247.73,-247.453 239.308,-241.024 237.138,-247.679"/>
+<path fill="none" stroke="midnightblue" d="M244.41,-244.384C196.97,-229.267 118.536,-204.274 75.7062,-190.625"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="243.448,-247.751 254.039,-247.453 245.574,-241.082 243.448,-247.751"/>
 </g>
 <!-- Node111&#45;&gt;Node112 -->
 <g id="edge3" class="edge"><title>Node111&#45;&gt;Node112</title>
-<path fill="none" stroke="midnightblue" d="M312.82,-270.341C339.322,-280.795 375.555,-295.087 399.235,-304.428"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="313.773,-266.954 303.186,-266.541 311.204,-273.466 313.773,-266.954"/>
+<path fill="none" stroke="midnightblue" d="M320.629,-270.203C348.079,-280.669 385.788,-295.046 410.395,-304.428"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="321.614,-266.833 311.023,-266.541 319.12,-273.373 321.614,-266.833"/>
 </g>
 <!-- Node111&#45;&gt;Node113 -->
 <g id="edge5" class="edge"><title>Node111&#45;&gt;Node113</title>
-<path fill="none" stroke="midnightblue" d="M299.544,-240.792C330.05,-216.725 386.39,-172.277 411.211,-152.695"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="297.003,-238.339 291.32,-247.28 301.339,-243.834 297.003,-238.339"/>
+<path fill="none" stroke="midnightblue" d="M306.557,-241.325C337.927,-217.403 396.83,-172.488 422.729,-152.738"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="304.319,-238.63 298.489,-247.477 308.563,-244.196 304.319,-238.63"/>
 </g>
 <!-- Node115&#45;&gt;Node113 -->
 <g id="edge14" class="edge"><title>Node115&#45;&gt;Node113</title>
-<path fill="none" stroke="midnightblue" d="M205.471,-169.093C216.034,-166.45 227.375,-163.88 238,-162 288.527,-153.062 347.596,-147.908 385.261,-145.279"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="204.442,-165.744 195.632,-171.629 206.189,-172.523 204.442,-165.744"/>
+<path fill="none" stroke="midnightblue" d="M210.495,-169.165C221.363,-166.494 233.056,-163.892 244,-162 295.851,-153.037 356.387,-147.911 395.294,-145.293"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="209.628,-165.774 200.792,-171.62 211.345,-172.56 209.628,-165.774"/>
 </g>
 <!-- Node115&#45;&gt;Node114 -->
 <g id="edge15" class="edge"><title>Node115&#45;&gt;Node114</title>
-<path fill="none" stroke="midnightblue" d="M205.471,-192.907C216.034,-195.55 227.375,-198.12 238,-200 276.254,-206.767 319.404,-211.365 354.455,-214.34"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="206.189,-189.477 195.632,-190.371 204.442,-196.256 206.189,-189.477"/>
+<path fill="none" stroke="midnightblue" d="M210.495,-192.835C221.363,-195.506 233.056,-198.108 244,-200 282.683,-206.687 326.199,-211.238 361.962,-214.205"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="211.345,-189.44 200.792,-190.38 209.628,-196.226 211.345,-189.44"/>
 </g>
 <!-- Node116 -->
 <g id="node8" class="node"><title>Node116</title>
 <g id="a_node8"><a xlink:href="classtools.html#ae821185bfd6650842559ef2f9d92f1ac" target="_top" xlink:title="Décompresse l&#39;intégralité d&#39;un répertoire au format zip, et copie le dossier décompressé dans un chem...">
-<polygon fill="white" stroke="black" points="238,-171.5 238,-190.5 318,-190.5 318,-171.5 238,-171.5"/>
-<text text-anchor="middle" x="278" y="-178.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::unzipDir</text>
+<polygon fill="white" stroke="black" points="244,-171.5 244,-190.5 326,-190.5 326,-171.5 244,-171.5"/>
+<text text-anchor="middle" x="285" y="-178.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::unzipDir</text>
 </a>
 </g>
 </g>
 <!-- Node115&#45;&gt;Node116 -->
 <g id="edge11" class="edge"><title>Node115&#45;&gt;Node116</title>
-<path fill="none" stroke="midnightblue" d="M205.879,-181C216.375,-181 227.552,-181 237.862,-181"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="205.668,-177.5 195.668,-181 205.668,-184.5 205.668,-177.5"/>
+<path fill="none" stroke="midnightblue" d="M210.685,-181C221.526,-181 233.116,-181 243.805,-181"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="210.573,-177.5 200.573,-181 210.573,-184.5 210.573,-177.5"/>
 </g>
 <!-- Node116&#45;&gt;Node113 -->
 <g id="edge12" class="edge"><title>Node116&#45;&gt;Node113</title>
-<path fill="none" stroke="midnightblue" d="M325.333,-168.816C345.394,-163.54 368.529,-157.456 387.299,-152.52"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="324.244,-165.483 315.463,-171.411 326.025,-172.253 324.244,-165.483"/>
+<path fill="none" stroke="midnightblue" d="M333.652,-168.888C354.473,-163.596 378.538,-157.479 398.046,-152.52"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="332.555,-165.555 323.725,-171.411 334.279,-172.34 332.555,-165.555"/>
 </g>
 <!-- Node116&#45;&gt;Node114 -->
 <g id="edge13" class="edge"><title>Node116&#45;&gt;Node114</title>
-<path fill="none" stroke="midnightblue" d="M325.333,-193.184C345.394,-198.46 368.529,-204.544 387.299,-209.48"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="326.025,-189.747 315.463,-190.589 324.244,-196.517 326.025,-189.747"/>
+<path fill="none" stroke="midnightblue" d="M333.652,-193.112C354.473,-198.404 378.538,-204.521 398.046,-209.48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="334.279,-189.66 323.725,-190.589 332.555,-196.445 334.279,-189.66"/>
 </g>
 <!-- Node117&#45;&gt;Node113 -->
 <g id="edge20" class="edge"><title>Node117&#45;&gt;Node113</title>
-<path fill="none" stroke="midnightblue" d="M199.861,-56.164C231.663,-63.6925 278.562,-75.9623 318,-91 350.245,-103.295 385.894,-122.019 406.4,-133.325"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="200.628,-52.749 190.094,-53.8888 199.04,-59.5664 200.628,-52.749"/>
+<path fill="none" stroke="midnightblue" d="M205.148,-56.2111C237.639,-63.7692 285.58,-76.0559 326,-91 359.359,-103.334 396.395,-122.045 417.714,-133.338"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="205.699,-52.7469 195.17,-53.926 204.136,-59.5702 205.699,-52.7469"/>
 </g>
 <!-- Node118 -->
 <g id="node10" class="node"><title>Node118</title>
 <g id="a_node10"><a xlink:href="classtools.html#aefd7e17f4eeb34a4ab3d254eb3bb0a03" target="_top" xlink:title="Compresse l&#39;intégralité d&#39;un répertoire au format zip, et copie le dossier compressé dans un chemin d...">
-<polygon fill="white" stroke="black" points="243.5,-19.5 243.5,-38.5 312.5,-38.5 312.5,-19.5 243.5,-19.5"/>
-<text text-anchor="middle" x="278" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::zipDir</text>
+<polygon fill="white" stroke="black" points="249.5,-19.5 249.5,-38.5 320.5,-38.5 320.5,-19.5 249.5,-19.5"/>
+<text text-anchor="middle" x="285" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools::zipDir</text>
 </a>
 </g>
 </g>
 <!-- Node117&#45;&gt;Node118 -->
 <g id="edge17" class="edge"><title>Node117&#45;&gt;Node118</title>
-<path fill="none" stroke="midnightblue" d="M200.203,-41.7996C214.062,-39.4897 229.704,-36.8827 243.237,-34.6271"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="199.305,-38.4008 190.016,-43.4973 200.456,-45.3056 199.305,-38.4008"/>
+<path fill="none" stroke="midnightblue" d="M205.102,-41.8674C219.368,-39.5409 235.531,-36.9048 249.497,-34.6271"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="204.415,-38.4332 195.109,-43.4973 205.542,-45.3419 204.415,-38.4332"/>
 </g>
 <!-- Node119 -->
 <g id="node11" class="node"><title>Node119</title>
 <g id="a_node11"><a xlink:href="class_main_window.html#a34512b73d3342c5a5b59a8f420d4d4c4" target="_top" xlink:title="Archiver le projet courant. ">
-<polygon fill="white" stroke="black" points="354,-0.5 354,-19.5 495,-19.5 495,-0.5 354,-0.5"/>
-<text text-anchor="middle" x="424.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::archiveProject</text>
+<polygon fill="white" stroke="black" points="362,-0.5 362,-19.5 511,-19.5 511,-0.5 362,-0.5"/>
+<text text-anchor="middle" x="436.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::archiveProject</text>
 </a>
 </g>
 </g>
 <!-- Node117&#45;&gt;Node119 -->
 <g id="edge21" class="edge"><title>Node117&#45;&gt;Node119</title>
-<path fill="none" stroke="midnightblue" d="M185.529,-33.055C199.884,-24.4504 219.25,-14.4791 238,-10 275.588,-1.02101 318.697,-0.45982 353.891,-2.39767"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="183.517,-30.1851 176.876,-38.4406 187.215,-36.128 183.517,-30.1851"/>
+<path fill="none" stroke="midnightblue" d="M190.521,-33.0521C205.178,-24.4463 224.933,-14.4749 244,-10 282.193,-1.03657 325.864,-0.336301 361.848,-2.18599"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="188.4,-30.2454 181.683,-38.4385 192.043,-36.2228 188.4,-30.2454"/>
 </g>
 <!-- Node118&#45;&gt;Node113 -->
 <g id="edge18" class="edge"><title>Node118&#45;&gt;Node113</title>
-<path fill="none" stroke="midnightblue" d="M304.937,-44.1822C309.373,-46.9982 313.878,-50.0008 318,-53 354.795,-79.7694 394.763,-116.067 413.164,-133.234"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="306.422,-40.9863 296.071,-38.7247 302.753,-46.9474 306.422,-40.9863"/>
+<path fill="none" stroke="midnightblue" d="M311.957,-43.8114C316.708,-46.7359 321.564,-49.8715 326,-53 364.009,-79.8027 405.579,-116.085 424.735,-133.24"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="313.466,-40.6354 303.087,-38.5051 309.872,-46.6425 313.466,-40.6354"/>
 </g>
 <!-- Node118&#45;&gt;Node119 -->
 <g id="edge19" class="edge"><title>Node118&#45;&gt;Node119</title>
-<path fill="none" stroke="midnightblue" d="M322.515,-23.2783C332.451,-21.9718 343.253,-20.5515 353.975,-19.1417"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="321.973,-19.8194 312.514,-24.5933 322.885,-26.7596 321.973,-19.8194"/>
+<path fill="none" stroke="midnightblue" d="M330.901,-23.2935C340.656,-22.0537 351.223,-20.7108 361.763,-19.3713"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="330.153,-19.8603 320.674,-24.5933 331.036,-26.8045 330.153,-19.8603"/>
 </g>
 </g>
 </svg>

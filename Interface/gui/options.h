@@ -168,7 +168,7 @@ private:
 
 private slots:
     
-    /// Substitue certaines valeurs caractéristiques du contrôle dans le fichier \em prologue_codes.R dans \ref exportpath, notamment le Siret, le budget et l'employeur
+    /// Substitue certaines valeurs caractéristiques du contrôle dans le fichier \em prologue_codes.R dans common::exportpath, notamment le Siret, le budget et l'employeur
     
     void substituer_valeurs_dans_script_R();
     
@@ -180,7 +180,7 @@ private slots:
 
 /// Classe de l'onglet Codes, qui permet de saisir manuellement les codes de paye de certaines catégories de lignes de paye.
 /// 
-/// Les codes différents, pour la même ligne, sont séparés par des points-virgules. Ils doivent être exportés dans le fichier \ref exportpath en cliquant sur la flèche verte de l'onglet.
+/// Les codes différents, pour la même ligne, sont séparés par des points-virgules. Ils doivent être exportés dans le fichier common::exportpath en cliquant sur la flèche verte de l'onglet.
 
 class options :   public QDialog, public common
 {
@@ -206,7 +206,7 @@ private:
 
     /// Méthode permettant d'ajouter les icônes.
     /// 
-    /// Appelle \createIcons sur une liste prédéterminée d'arguments.
+    /// Appelle options::createIcons sur une liste prédéterminée d'arguments.
     
     void createIcons();                        
     

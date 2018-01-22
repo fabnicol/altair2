@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 243;
+var viewWidth = 260;
 var viewHeight = 909;
 var sectionId = 'dynsection-1';
 </script>
@@ -54,12 +54,12 @@ var sectionId = 'dynsection-1';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>codePage</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-905 239,-905 239,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-905 255.5,-905 255.5,4 -4,4"/>
 <!-- Node5 -->
 <g id="node1" class="node"><title>Node5</title>
-<polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-310.5 117,-310.5 117,-0.5 0,-0.5"/>
-<text text-anchor="middle" x="58.5" y="-298.5" font-family="Helvetica,sans-Serif" font-size="10.00">codePage</text>
-<polyline fill="none" stroke="black" points="0,-291.5 117,-291.5 "/>
+<polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-310.5 128,-310.5 128,-0.5 0,-0.5"/>
+<text text-anchor="middle" x="64" y="-298.5" font-family="Helvetica,sans-Serif" font-size="10.00">codePage</text>
+<polyline fill="none" stroke="black" points="0,-291.5 128,-291.5 "/>
 <text text-anchor="start" x="8" y="-279.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; appliquerCodes</text>
 <text text-anchor="start" x="8" y="-268.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; baseBox</text>
 <text text-anchor="start" x="8" y="-257.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; init_label_text</text>
@@ -71,7 +71,7 @@ var sectionId = 'dynsection-1';
 <text text-anchor="start" x="8" y="-191.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; prologue_codes_path</text>
 <text text-anchor="start" x="8" y="-180.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; variables</text>
 <text text-anchor="start" x="8" y="-169.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; vLayout</text>
-<polyline fill="none" stroke="black" points="0,-162.5 117,-162.5 "/>
+<polyline fill="none" stroke="black" points="0,-162.5 128,-162.5 "/>
 <text text-anchor="start" x="8" y="-150.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ codePage()</text>
 <text text-anchor="start" x="8" y="-139.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ codePage()</text>
 <text text-anchor="start" x="8" y="-128.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ resetLabel()</text>
@@ -89,106 +89,106 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node6 -->
 <g id="node2" class="node"><title>Node6</title>
-<polygon fill="white" stroke="#bfbfbf" points="5.5,-391.5 5.5,-448.5 57.5,-448.5 57.5,-391.5 5.5,-391.5"/>
-<text text-anchor="middle" x="31.5" y="-436.5" font-family="Helvetica,sans-Serif" font-size="10.00">QDialog</text>
-<polyline fill="none" stroke="#bfbfbf" points="5.5,-429.5 57.5,-429.5 "/>
-<text text-anchor="middle" x="31.5" y="-417.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="#bfbfbf" points="5.5,-410.5 57.5,-410.5 "/>
-<text text-anchor="middle" x="31.5" y="-398.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polygon fill="white" stroke="#bfbfbf" points="8.5,-391.5 8.5,-448.5 63.5,-448.5 63.5,-391.5 8.5,-391.5"/>
+<text text-anchor="middle" x="36" y="-436.5" font-family="Helvetica,sans-Serif" font-size="10.00">QDialog</text>
+<polyline fill="none" stroke="#bfbfbf" points="8.5,-429.5 63.5,-429.5 "/>
+<text text-anchor="middle" x="36" y="-417.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polyline fill="none" stroke="#bfbfbf" points="8.5,-410.5 63.5,-410.5 "/>
+<text text-anchor="middle" x="36" y="-398.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 </g>
 <!-- Node6&#45;&gt;Node5 -->
 <g id="edge1" class="edge"><title>Node6&#45;&gt;Node5</title>
-<path fill="none" stroke="midnightblue" d="M30.4745,-381.266C31.5105,-361.924 33.4963,-336.944 35.9819,-310.701"/>
-<polygon fill="none" stroke="midnightblue" points="26.9714,-381.251 29.9995,-391.404 33.9638,-381.579 26.9714,-381.251"/>
+<path fill="none" stroke="midnightblue" d="M35.1182,-381.266C36.2279,-361.924 38.3089,-336.944 40.8945,-310.701"/>
+<polygon fill="none" stroke="midnightblue" points="31.6152,-381.24 34.6046,-391.404 38.6062,-381.594 31.6152,-381.24"/>
 </g>
 <!-- Node6&#45;&gt;Node5 -->
 <g id="edge5" class="edge"><title>Node6&#45;&gt;Node5</title>
-<path fill="none" stroke="midnightblue" d="M40.2879,-381.266C43.2308,-361.924 46.3838,-336.944 49.2968,-310.701"/>
-<polygon fill="none" stroke="midnightblue" points="36.7898,-380.979 38.6774,-391.404 43.7031,-382.077 36.7898,-380.979"/>
+<path fill="none" stroke="midnightblue" d="M44.9316,-381.266C47.9483,-361.924 51.1964,-336.944 54.2093,-310.701"/>
+<polygon fill="none" stroke="midnightblue" points="41.4336,-380.972 43.2825,-391.404 48.3428,-382.096 41.4336,-380.972"/>
 </g>
 <!-- Node7 -->
 <g id="node3" class="node"><title>Node7</title>
 <g id="a_node3"><a xlink:href="classcommon.html" target="_top" xlink:title="Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l&#39;interface vers l...">
-<polygon fill="white" stroke="black" points="114,-347.5 114,-492.5 235,-492.5 235,-347.5 114,-347.5"/>
-<text text-anchor="middle" x="174.5" y="-480.5" font-family="Helvetica,sans-Serif" font-size="10.00">common</text>
-<polyline fill="none" stroke="black" points="114,-473.5 235,-473.5 "/>
-<text text-anchor="start" x="122" y="-461.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ altairCommandStr</text>
-<text text-anchor="start" x="122" y="-450.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ execPath</text>
-<text text-anchor="start" x="122" y="-439.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ RAltairCommandStr</text>
-<text text-anchor="start" x="122" y="-428.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ RAltairDirStr</text>
-<text text-anchor="start" x="122" y="-417.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ sharedir</text>
-<polyline fill="none" stroke="black" points="114,-410.5 235,-410.5 "/>
-<text text-anchor="start" x="122" y="-398.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ common()</text>
-<text text-anchor="start" x="122" y="-387.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ exporter_identification</text>
-<text text-anchor="start" x="122" y="-376.5" font-family="Helvetica,sans-Serif" font-size="10.00">_controle()</text>
-<text text-anchor="start" x="122" y="-365.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ exporter_identification</text>
-<text text-anchor="start" x="122" y="-354.5" font-family="Helvetica,sans-Serif" font-size="10.00">_controle()</text>
+<polygon fill="white" stroke="black" points="120.5,-347.5 120.5,-492.5 251.5,-492.5 251.5,-347.5 120.5,-347.5"/>
+<text text-anchor="middle" x="186" y="-480.5" font-family="Helvetica,sans-Serif" font-size="10.00">common</text>
+<polyline fill="none" stroke="black" points="120.5,-473.5 251.5,-473.5 "/>
+<text text-anchor="start" x="128.5" y="-461.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ altairCommandStr</text>
+<text text-anchor="start" x="128.5" y="-450.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ execPath</text>
+<text text-anchor="start" x="128.5" y="-439.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ RAltairCommandStr</text>
+<text text-anchor="start" x="128.5" y="-428.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ RAltairDirStr</text>
+<text text-anchor="start" x="128.5" y="-417.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ sharedir</text>
+<polyline fill="none" stroke="black" points="120.5,-410.5 251.5,-410.5 "/>
+<text text-anchor="start" x="128.5" y="-398.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ common()</text>
+<text text-anchor="start" x="128.5" y="-387.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ exporter_identification</text>
+<text text-anchor="start" x="128.5" y="-376.5" font-family="Helvetica,sans-Serif" font-size="10.00">_controle()</text>
+<text text-anchor="start" x="128.5" y="-365.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ exporter_identification</text>
+<text text-anchor="start" x="128.5" y="-354.5" font-family="Helvetica,sans-Serif" font-size="10.00">_controle()</text>
 </a>
 </g>
 </g>
 <!-- Node7&#45;&gt;Node5 -->
 <g id="edge2" class="edge"><title>Node7&#45;&gt;Node5</title>
-<path fill="none" stroke="midnightblue" d="M138.598,-337.756C131.738,-322.232 124.393,-305.611 117.036,-288.964"/>
-<polygon fill="none" stroke="midnightblue" points="135.559,-339.539 142.802,-347.271 141.962,-336.709 135.559,-339.539"/>
+<path fill="none" stroke="midnightblue" d="M148.263,-337.804C141.807,-323.913 134.943,-309.143 128.026,-294.26"/>
+<polygon fill="none" stroke="midnightblue" points="145.274,-339.677 152.663,-347.271 151.622,-336.727 145.274,-339.677"/>
 </g>
 <!-- Node8 -->
 <g id="node4" class="node"><title>Node8</title>
 <g id="a_node4"><a xlink:href="classtools.html" target="_top" xlink:title="{tools\n|+ systemPathPrefix\l+ userdatadir\l|+ tools()\l+ dump()\l+ getEmbeddedPath()\l+ readFile()\l+ readFile()\l+ readFile()\l+ readFile()\l+ renommer()\l+ substituer()\l+ cdRomMounted()\l+ copyDir()\l+ copyFile()\l+ generateDatadirPath()\l+ generateDatadirPath()\l+ getDirectorySize()\l+ getFileSize()\l+ IOControl()\l+ openDir()\l+ openDirDialog()\let 6 de plus...\l}">
-<polygon fill="white" stroke="black" points="69,-529.5 69,-806.5 190,-806.5 190,-529.5 69,-529.5"/>
-<text text-anchor="middle" x="129.5" y="-794.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools</text>
-<polyline fill="none" stroke="black" points="69,-787.5 190,-787.5 "/>
-<text text-anchor="start" x="77" y="-775.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ systemPathPrefix</text>
-<text text-anchor="start" x="77" y="-764.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ userdatadir</text>
-<polyline fill="none" stroke="black" points="69,-757.5 190,-757.5 "/>
-<text text-anchor="start" x="77" y="-745.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ tools()</text>
-<text text-anchor="start" x="77" y="-734.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ dump()</text>
-<text text-anchor="start" x="77" y="-723.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getEmbeddedPath()</text>
-<text text-anchor="start" x="77" y="-712.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ readFile()</text>
-<text text-anchor="start" x="77" y="-701.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ readFile()</text>
-<text text-anchor="start" x="77" y="-690.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ readFile()</text>
-<text text-anchor="start" x="77" y="-679.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ readFile()</text>
-<text text-anchor="start" x="77" y="-668.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ renommer()</text>
-<text text-anchor="start" x="77" y="-657.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ substituer()</text>
-<text text-anchor="start" x="77" y="-646.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ cdRomMounted()</text>
-<text text-anchor="start" x="77" y="-635.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ copyDir()</text>
-<text text-anchor="start" x="77" y="-624.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ copyFile()</text>
-<text text-anchor="start" x="77" y="-613.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ generateDatadirPath()</text>
-<text text-anchor="start" x="77" y="-602.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ generateDatadirPath()</text>
-<text text-anchor="start" x="77" y="-591.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getDirectorySize()</text>
-<text text-anchor="start" x="77" y="-580.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getFileSize()</text>
-<text text-anchor="start" x="77" y="-569.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ IOControl()</text>
-<text text-anchor="start" x="77" y="-558.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ openDir()</text>
-<text text-anchor="start" x="77" y="-547.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ openDirDialog()</text>
-<text text-anchor="start" x="77" y="-536.5" font-family="Helvetica,sans-Serif" font-size="10.00">et 6 de plus...</text>
+<polygon fill="white" stroke="black" points="72.5,-529.5 72.5,-806.5 205.5,-806.5 205.5,-529.5 72.5,-529.5"/>
+<text text-anchor="middle" x="139" y="-794.5" font-family="Helvetica,sans-Serif" font-size="10.00">tools</text>
+<polyline fill="none" stroke="black" points="72.5,-787.5 205.5,-787.5 "/>
+<text text-anchor="start" x="80.5" y="-775.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ systemPathPrefix</text>
+<text text-anchor="start" x="80.5" y="-764.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ userdatadir</text>
+<polyline fill="none" stroke="black" points="72.5,-757.5 205.5,-757.5 "/>
+<text text-anchor="start" x="80.5" y="-745.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ tools()</text>
+<text text-anchor="start" x="80.5" y="-734.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ dump()</text>
+<text text-anchor="start" x="80.5" y="-723.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getEmbeddedPath()</text>
+<text text-anchor="start" x="80.5" y="-712.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ readFile()</text>
+<text text-anchor="start" x="80.5" y="-701.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ readFile()</text>
+<text text-anchor="start" x="80.5" y="-690.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ readFile()</text>
+<text text-anchor="start" x="80.5" y="-679.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ readFile()</text>
+<text text-anchor="start" x="80.5" y="-668.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ renommer()</text>
+<text text-anchor="start" x="80.5" y="-657.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ substituer()</text>
+<text text-anchor="start" x="80.5" y="-646.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ cdRomMounted()</text>
+<text text-anchor="start" x="80.5" y="-635.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ copyDir()</text>
+<text text-anchor="start" x="80.5" y="-624.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ copyFile()</text>
+<text text-anchor="start" x="80.5" y="-613.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ generateDatadirPath()</text>
+<text text-anchor="start" x="80.5" y="-602.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ generateDatadirPath()</text>
+<text text-anchor="start" x="80.5" y="-591.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getDirectorySize()</text>
+<text text-anchor="start" x="80.5" y="-580.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getFileSize()</text>
+<text text-anchor="start" x="80.5" y="-569.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ IOControl()</text>
+<text text-anchor="start" x="80.5" y="-558.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ openDir()</text>
+<text text-anchor="start" x="80.5" y="-547.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ openDirDialog()</text>
+<text text-anchor="start" x="80.5" y="-536.5" font-family="Helvetica,sans-Serif" font-size="10.00">et 6 de plus...</text>
 </a>
 </g>
 </g>
 <!-- Node8&#45;&gt;Node5 -->
 <g id="edge6" class="edge"><title>Node8&#45;&gt;Node5</title>
-<path fill="none" stroke="midnightblue" d="M108.945,-519.206C99.8459,-453.783 89.1444,-376.837 79.9447,-310.69"/>
-<polygon fill="none" stroke="midnightblue" points="105.489,-519.765 110.333,-529.188 112.422,-518.801 105.489,-519.765"/>
+<path fill="none" stroke="midnightblue" d="M115.946,-519.252C114.6,-510.371 113.276,-501.568 112,-493 103.135,-433.465 93.7142,-367.951 85.5878,-310.675"/>
+<polygon fill="none" stroke="midnightblue" points="112.511,-519.943 117.474,-529.303 119.431,-518.891 112.511,-519.943"/>
 </g>
 <!-- Node8&#45;&gt;Node7 -->
 <g id="edge3" class="edge"><title>Node8&#45;&gt;Node7</title>
-<path fill="none" stroke="midnightblue" d="M156.527,-519.251C158.203,-510.089 159.844,-501.118 161.411,-492.553"/>
-<polygon fill="none" stroke="midnightblue" points="153.053,-518.791 154.697,-529.257 159.939,-520.05 153.053,-518.791"/>
+<path fill="none" stroke="midnightblue" d="M167.229,-519.251C168.979,-510.089 170.693,-501.118 172.329,-492.553"/>
+<polygon fill="none" stroke="midnightblue" points="163.756,-518.778 165.317,-529.257 170.631,-520.092 163.756,-518.778"/>
 </g>
 <!-- Node9 -->
 <g id="node5" class="node"><title>Node9</title>
 <g id="a_node5"><a xlink:href="classflags.html" target="_top" xlink:title="{flags\n||}">
-<polygon fill="white" stroke="black" points="110.5,-843.5 110.5,-900.5 148.5,-900.5 148.5,-843.5 110.5,-843.5"/>
-<text text-anchor="middle" x="129.5" y="-888.5" font-family="Helvetica,sans-Serif" font-size="10.00">flags</text>
-<polyline fill="none" stroke="black" points="110.5,-881.5 148.5,-881.5 "/>
-<text text-anchor="middle" x="129.5" y="-869.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="110.5,-862.5 148.5,-862.5 "/>
-<text text-anchor="middle" x="129.5" y="-850.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polygon fill="white" stroke="black" points="119.5,-843.5 119.5,-900.5 158.5,-900.5 158.5,-843.5 119.5,-843.5"/>
+<text text-anchor="middle" x="139" y="-888.5" font-family="Helvetica,sans-Serif" font-size="10.00">flags</text>
+<polyline fill="none" stroke="black" points="119.5,-881.5 158.5,-881.5 "/>
+<text text-anchor="middle" x="139" y="-869.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="119.5,-862.5 158.5,-862.5 "/>
+<text text-anchor="middle" x="139" y="-850.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 </a>
 </g>
 </g>
 <!-- Node9&#45;&gt;Node8 -->
 <g id="edge4" class="edge"><title>Node9&#45;&gt;Node8</title>
-<path fill="none" stroke="midnightblue" d="M129.5,-833.265C129.5,-825.182 129.5,-816.193 129.5,-806.704"/>
-<polygon fill="none" stroke="midnightblue" points="126,-833.336 129.5,-843.336 133,-833.336 126,-833.336"/>
+<path fill="none" stroke="midnightblue" d="M139,-833.265C139,-825.182 139,-816.193 139,-806.704"/>
+<polygon fill="none" stroke="midnightblue" points="135.5,-833.336 139,-843.336 142.5,-833.336 135.5,-833.336"/>
 </g>
 </g>
 </svg>

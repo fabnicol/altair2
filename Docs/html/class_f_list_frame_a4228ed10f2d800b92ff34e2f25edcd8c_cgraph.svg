@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 683;
+var viewWidth = 720;
 var viewHeight = 127;
 var sectionId = 'dynsection-6';
 </script>
@@ -54,125 +54,125 @@ var sectionId = 'dynsection-6';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>FListFrame::addParsedTreeToListWidget</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-122.5 679,-122.5 679,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-122.5 716,-122.5 716,4 -4,4"/>
 <!-- Node110 -->
 <g id="node1" class="node"><title>Node110</title>
-<polygon fill="#bfbfbf" stroke="black" points="0,-24.5 0,-54.5 138,-54.5 138,-24.5 0,-24.5"/>
+<polygon fill="#bfbfbf" stroke="black" points="0,-24.5 0,-54.5 148,-54.5 148,-24.5 0,-24.5"/>
 <text text-anchor="start" x="8" y="-42.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::addParsedTree</text>
-<text text-anchor="middle" x="69" y="-31.5" font-family="Helvetica,sans-Serif" font-size="10.00">ToListWidget</text>
+<text text-anchor="middle" x="74" y="-31.5" font-family="Helvetica,sans-Serif" font-size="10.00">ToListWidget</text>
 </g>
 <!-- Node111 -->
 <g id="node2" class="node"><title>Node111</title>
 <g id="a_node2"><a xlink:href="class_f_list_frame.html#af8c91e66c02e4c6f1f0fb66097903b73" target="_top" xlink:title="FListFrame::addStringList\lToListWidget">
-<polygon fill="white" stroke="black" points="174.5,-49.5 174.5,-79.5 303.5,-79.5 303.5,-49.5 174.5,-49.5"/>
-<text text-anchor="start" x="182.5" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::addStringList</text>
-<text text-anchor="middle" x="239" y="-56.5" font-family="Helvetica,sans-Serif" font-size="10.00">ToListWidget</text>
+<polygon fill="white" stroke="black" points="185.5,-49.5 185.5,-79.5 321.5,-79.5 321.5,-49.5 185.5,-49.5"/>
+<text text-anchor="start" x="193.5" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::addStringList</text>
+<text text-anchor="middle" x="253.5" y="-56.5" font-family="Helvetica,sans-Serif" font-size="10.00">ToListWidget</text>
 </a>
 </g>
 </g>
 <!-- Node110&#45;&gt;Node111 -->
 <g id="edge1" class="edge"><title>Node110&#45;&gt;Node111</title>
-<path fill="none" stroke="midnightblue" d="M138.332,-49.6685C146.885,-50.9413 155.664,-52.2476 164.295,-53.5319"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="163.93,-57.0162 174.337,-55.0263 164.961,-50.0924 163.93,-57.0162"/>
+<path fill="none" stroke="midnightblue" d="M148.221,-49.8128C157.171,-51.0734 166.34,-52.3647 175.346,-53.6332"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="175.034,-57.1238 185.425,-55.0527 176.01,-50.1922 175.034,-57.1238"/>
 </g>
 <!-- Node118 -->
 <g id="node9" class="node"><title>Node118</title>
 <g id="a_node9"><a xlink:href="class_f_list_frame.html#ae166a8e51ccbb22a5aa2f1d885507565" target="_top" xlink:title="FListFrame::parseTreeFor\lFilePaths">
-<polygon fill="white" stroke="black" points="174,-0.5 174,-30.5 304,-30.5 304,-0.5 174,-0.5"/>
-<text text-anchor="start" x="182" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::parseTreeFor</text>
-<text text-anchor="middle" x="239" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FilePaths</text>
+<polygon fill="white" stroke="black" points="184,-0.5 184,-30.5 323,-30.5 323,-0.5 184,-0.5"/>
+<text text-anchor="start" x="192" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::parseTreeFor</text>
+<text text-anchor="middle" x="253.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">FilePaths</text>
 </a>
 </g>
 </g>
 <!-- Node110&#45;&gt;Node118 -->
 <g id="edge9" class="edge"><title>Node110&#45;&gt;Node118</title>
-<path fill="none" stroke="midnightblue" d="M138.332,-29.7383C146.663,-28.5481 155.208,-27.3274 163.622,-26.1254"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="164.393,-29.5509 173.797,-24.6718 163.403,-22.6213 164.393,-29.5509"/>
+<path fill="none" stroke="midnightblue" d="M148.221,-29.5997C156.663,-28.4582 165.299,-27.2905 173.81,-26.1397"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="174.284,-29.6076 183.725,-24.7992 173.346,-22.6707 174.284,-29.6076"/>
 </g>
 <!-- Node112 -->
 <g id="node3" class="node"><title>Node112</title>
 <g id="a_node3"><a xlink:href="class_f_list_frame.html#a9353fe4926e97788a6462c3ee79f6a15" target="_top" xlink:title="FListFrame::clearTabLabels">
-<polygon fill="white" stroke="black" points="350,-99 350,-118 488,-118 488,-99 350,-99"/>
-<text text-anchor="middle" x="419" y="-106" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::clearTabLabels</text>
+<polygon fill="white" stroke="black" points="370,-99 370,-118 516,-118 516,-99 370,-99"/>
+<text text-anchor="middle" x="443" y="-106" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::clearTabLabels</text>
 </a>
 </g>
 </g>
 <!-- Node111&#45;&gt;Node112 -->
 <g id="edge2" class="edge"><title>Node111&#45;&gt;Node112</title>
-<path fill="none" stroke="midnightblue" d="M300.003,-79.5634C313.177,-82.8532 327.056,-86.3056 340,-89.5 349.34,-91.805 359.314,-94.2483 368.901,-96.5878"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="368.164,-100.011 378.708,-98.9779 369.821,-93.2096 368.164,-100.011"/>
+<path fill="none" stroke="midnightblue" d="M316.918,-79.5381C330.768,-82.8453 345.377,-86.3114 359,-89.5 368.931,-91.8246 379.539,-94.2765 389.737,-96.618"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="389.228,-100.092 399.757,-98.914 390.792,-93.269 389.228,-100.092"/>
 </g>
 <!-- Node114 -->
 <g id="node5" class="node"><title>Node114</title>
 <g id="a_node5"><a xlink:href="class_f_list_frame.html#a0ebe3d7847101344e70c84aff2be39b0" target="_top" xlink:title="Accesseur en lecture du nombre d&#39;éléments (nombre d&#39;onglets) du vecteur widgetContainer. ">
-<polygon fill="white" stroke="black" points="340,-49.5 340,-79.5 498,-79.5 498,-49.5 340,-49.5"/>
-<text text-anchor="start" x="348" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getWidgetContainer</text>
-<text text-anchor="middle" x="419" y="-56.5" font-family="Helvetica,sans-Serif" font-size="10.00">Count</text>
+<polygon fill="white" stroke="black" points="359,-49.5 359,-79.5 527,-79.5 527,-49.5 359,-49.5"/>
+<text text-anchor="start" x="367" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::getWidgetContainer</text>
+<text text-anchor="middle" x="443" y="-56.5" font-family="Helvetica,sans-Serif" font-size="10.00">Count</text>
 </a>
 </g>
 </g>
 <!-- Node111&#45;&gt;Node114 -->
 <g id="edge4" class="edge"><title>Node111&#45;&gt;Node114</title>
-<path fill="none" stroke="midnightblue" d="M303.508,-64.5C312.068,-64.5 320.972,-64.5 329.864,-64.5"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="329.879,-68.0001 339.879,-64.5 329.879,-61.0001 329.879,-68.0001"/>
+<path fill="none" stroke="midnightblue" d="M321.662,-64.5C330.442,-64.5 339.561,-64.5 348.675,-64.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="348.944,-68.0001 358.944,-64.5 348.944,-61.0001 348.944,-68.0001"/>
 </g>
 <!-- Node115 -->
 <g id="node6" class="node"><title>Node115</title>
 <g id="a_node6"><a xlink:href="class_f_list_frame.html#a802475894ee1e30753faed81d9f9dc4b" target="_top" xlink:title="Appelle parseXhlFile(const QString&amp;) sur l&#39;ensemble de widgetContainer. ">
-<polygon fill="white" stroke="black" points="356,-11 356,-30 482,-30 482,-11 356,-11"/>
-<text text-anchor="middle" x="419" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::parseXhlFile</text>
+<polygon fill="white" stroke="black" points="377,-11 377,-30 509,-30 509,-11 377,-11"/>
+<text text-anchor="middle" x="443" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::parseXhlFile</text>
 </a>
 </g>
 </g>
 <!-- Node111&#45;&gt;Node115 -->
 <g id="edge5" class="edge"><title>Node111&#45;&gt;Node115</title>
-<path fill="none" stroke="midnightblue" d="M300.003,-49.4366C313.177,-46.1468 327.056,-42.6944 340,-39.5 349.34,-37.195 359.314,-34.7517 368.901,-32.4122"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="369.821,-35.7904 378.708,-30.0221 368.164,-28.9894 369.821,-35.7904"/>
+<path fill="none" stroke="midnightblue" d="M316.918,-49.4619C330.768,-46.1547 345.377,-42.6886 359,-39.5 368.931,-37.1754 379.539,-34.7235 389.737,-32.382"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="390.792,-35.731 399.757,-30.086 389.228,-28.9078 390.792,-35.731"/>
 </g>
 <!-- Node113 -->
 <g id="node4" class="node"><title>Node113</title>
 <g id="a_node4"><a xlink:href="class_f_list_widget.html#a74bf008958a87e9055b8ec6573d8e2e9" target="_top" xlink:title="FListWidget::clearTabLabels">
-<polygon fill="white" stroke="black" points="534,-99 534,-118 675,-118 675,-99 534,-99"/>
-<text text-anchor="middle" x="604.5" y="-106" font-family="Helvetica,sans-Serif" font-size="10.00">FListWidget::clearTabLabels</text>
+<polygon fill="white" stroke="black" points="563,-99 563,-118 712,-118 712,-99 563,-99"/>
+<text text-anchor="middle" x="637.5" y="-106" font-family="Helvetica,sans-Serif" font-size="10.00">FListWidget::clearTabLabels</text>
 </a>
 </g>
 </g>
 <!-- Node112&#45;&gt;Node113 -->
 <g id="edge3" class="edge"><title>Node112&#45;&gt;Node113</title>
-<path fill="none" stroke="midnightblue" d="M488.068,-108.5C499.586,-108.5 511.638,-108.5 523.428,-108.5"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="523.702,-112 533.702,-108.5 523.702,-105 523.702,-112"/>
+<path fill="none" stroke="midnightblue" d="M516.228,-108.5C528.146,-108.5 540.59,-108.5 552.762,-108.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="552.905,-112 562.905,-108.5 552.905,-105 552.905,-112"/>
 </g>
 <!-- Node116 -->
 <g id="node7" class="node"><title>Node116</title>
 <g id="a_node7"><a xlink:href="classtools.html#a0aa994303a938a76300767d2251b9f85" target="_top" xlink:title="Détecte si un disque optique est monté. ">
-<polygon fill="white" stroke="black" points="548,-55 548,-74 661,-74 661,-55 548,-55"/>
-<text text-anchor="middle" x="604.5" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">tools::cdRomMounted</text>
+<polygon fill="white" stroke="black" points="578.5,-55 578.5,-74 696.5,-74 696.5,-55 578.5,-55"/>
+<text text-anchor="middle" x="637.5" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">tools::cdRomMounted</text>
 </a>
 </g>
 </g>
 <!-- Node115&#45;&gt;Node116 -->
 <g id="edge6" class="edge"><title>Node115&#45;&gt;Node116</title>
-<path fill="none" stroke="midnightblue" d="M459.817,-30.0473C487.35,-36.6492 524.186,-45.4819 553.667,-52.551"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="553.22,-56.043 563.761,-54.9713 554.853,-49.236 553.22,-56.043"/>
+<path fill="none" stroke="midnightblue" d="M485.77,-30.0473C514.905,-36.7069 553.972,-45.6363 585.032,-52.7358"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="584.283,-56.155 594.812,-54.9713 585.843,-49.331 584.283,-56.155"/>
 </g>
 <!-- Node117 -->
 <g id="node8" class="node"><title>Node117</title>
 <g id="a_node8"><a xlink:href="class_f_list_frame.html#a22a50157e8c6d287c2b2c08d2b7deee9" target="_top" xlink:title="Lancer un fil d&#39;exécution pour lire l&#39;entête d&#39;un fichier XHL (Année, Mois,...) et classer les fichie...">
-<polygon fill="white" stroke="black" points="554,-5.5 554,-35.5 655,-35.5 655,-5.5 554,-5.5"/>
-<text text-anchor="start" x="562" y="-23.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::launch</text>
-<text text-anchor="middle" x="604.5" y="-12.5" font-family="Helvetica,sans-Serif" font-size="10.00">_thread</text>
+<polygon fill="white" stroke="black" points="585.5,-5.5 585.5,-35.5 689.5,-35.5 689.5,-5.5 585.5,-5.5"/>
+<text text-anchor="start" x="593.5" y="-23.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame::launch</text>
+<text text-anchor="middle" x="637.5" y="-12.5" font-family="Helvetica,sans-Serif" font-size="10.00">_thread</text>
 </a>
 </g>
 </g>
 <!-- Node115&#45;&gt;Node117 -->
 <g id="edge7" class="edge"><title>Node115&#45;&gt;Node117</title>
-<path fill="none" stroke="midnightblue" d="M482.125,-14.073C502.046,-13.624 524.055,-13.6431 543.8,-14.1302"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="543.796,-17.6315 553.895,-14.4276 544.003,-10.6346 543.796,-17.6315"/>
+<path fill="none" stroke="midnightblue" d="M509.172,-14.073C530.543,-13.6139 554.205,-13.6442 575.274,-14.164"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="575.29,-17.6658 585.387,-14.4585 575.494,-10.6688 575.29,-17.6658"/>
 </g>
 <!-- Node117&#45;&gt;Node115 -->
 <g id="edge8" class="edge"><title>Node117&#45;&gt;Node115</title>
-<path fill="none" stroke="midnightblue" d="M553.895,-26.5724C534.9,-27.2286 512.826,-27.4082 492.145,-27.1111"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="492.187,-23.6114 482.125,-26.927 492.059,-30.6102 492.187,-23.6114"/>
+<path fill="none" stroke="midnightblue" d="M585.387,-26.5415C565.115,-27.2277 541.389,-27.4154 519.226,-27.1048"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="519.232,-23.6044 509.172,-26.927 519.108,-30.6033 519.232,-23.6044"/>
 </g>
 </g>
 </svg>

@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 163;
+var viewWidth = 178;
 var viewHeight = 848;
 var sectionId = 'dynsection-0';
 </script>
@@ -54,12 +54,12 @@ var sectionId = 'dynsection-0';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>FListFrame</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-844 159,-844 159,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-844 174,-844 174,4 -4,4"/>
 <!-- Node0 -->
 <g id="node1" class="node"><title>Node0</title>
-<polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-651.5 155,-651.5 155,-0.5 0,-0.5"/>
-<text text-anchor="middle" x="77.5" y="-639.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame</text>
-<polyline fill="none" stroke="black" points="0,-632.5 155,-632.5 "/>
+<polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-651.5 170,-651.5 170,-0.5 0,-0.5"/>
+<text text-anchor="middle" x="85" y="-639.5" font-family="Helvetica,sans-Serif" font-size="10.00">FListFrame</text>
+<polyline fill="none" stroke="black" points="0,-632.5 170,-632.5 "/>
 <text text-anchor="start" x="8" y="-620.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ controlButtonBox</text>
 <text text-anchor="start" x="8" y="-609.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ deleteGroupButton</text>
 <text text-anchor="start" x="8" y="-598.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ fileListWidget</text>
@@ -85,7 +85,7 @@ var sectionId = 'dynsection-0';
 <text text-anchor="start" x="8" y="-378.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; launch</text>
 <text text-anchor="start" x="8" y="-367.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; row</text>
 <text text-anchor="start" x="8" y="-356.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; stringList</text>
-<polyline fill="none" stroke="black" points="0,-349.5 155,-349.5 "/>
+<polyline fill="none" stroke="black" points="0,-349.5 170,-349.5 "/>
 <text text-anchor="start" x="8" y="-337.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ FListFrame()</text>
 <text text-anchor="start" x="8" y="-326.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ addParsedTreeToListWidget()</text>
 <text text-anchor="start" x="8" y="-315.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ getControlButtonBox()</text>
@@ -121,33 +121,33 @@ var sectionId = 'dynsection-0';
 <!-- Node1 -->
 <g id="node2" class="node"><title>Node1</title>
 <g id="a_node2"><a xlink:href="class_f_dialog_connections.html" target="_top" xlink:title="{FDialogConnections\n||}">
-<polygon fill="white" stroke="black" points="25,-688.5 25,-745.5 130,-745.5 130,-688.5 25,-688.5"/>
-<text text-anchor="middle" x="77.5" y="-733.5" font-family="Helvetica,sans-Serif" font-size="10.00">FDialogConnections</text>
-<polyline fill="none" stroke="black" points="25,-726.5 130,-726.5 "/>
-<text text-anchor="middle" x="77.5" y="-714.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="25,-707.5 130,-707.5 "/>
-<text text-anchor="middle" x="77.5" y="-695.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polygon fill="white" stroke="black" points="29,-688.5 29,-745.5 141,-745.5 141,-688.5 29,-688.5"/>
+<text text-anchor="middle" x="85" y="-733.5" font-family="Helvetica,sans-Serif" font-size="10.00">FDialogConnections</text>
+<polyline fill="none" stroke="black" points="29,-726.5 141,-726.5 "/>
+<text text-anchor="middle" x="85" y="-714.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="29,-707.5 141,-707.5 "/>
+<text text-anchor="middle" x="85" y="-695.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node0 -->
 <g id="edge1" class="edge"><title>Node1&#45;&gt;Node0</title>
-<path fill="none" stroke="midnightblue" d="M77.5,-678.228C77.5,-670.339 77.5,-661.434 77.5,-651.729"/>
-<polygon fill="none" stroke="midnightblue" points="74.0001,-678.336 77.5,-688.336 81.0001,-678.336 74.0001,-678.336"/>
+<path fill="none" stroke="midnightblue" d="M85,-678.228C85,-670.339 85,-661.434 85,-651.729"/>
+<polygon fill="none" stroke="midnightblue" points="81.5001,-678.336 85,-688.336 88.5001,-678.336 81.5001,-678.336"/>
 </g>
 <!-- Node2 -->
 <g id="node3" class="node"><title>Node2</title>
-<polygon fill="white" stroke="#bfbfbf" points="51.5,-782.5 51.5,-839.5 103.5,-839.5 103.5,-782.5 51.5,-782.5"/>
-<text text-anchor="middle" x="77.5" y="-827.5" font-family="Helvetica,sans-Serif" font-size="10.00">QDialog</text>
-<polyline fill="none" stroke="#bfbfbf" points="51.5,-820.5 103.5,-820.5 "/>
-<text text-anchor="middle" x="77.5" y="-808.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
-<polyline fill="none" stroke="#bfbfbf" points="51.5,-801.5 103.5,-801.5 "/>
-<text text-anchor="middle" x="77.5" y="-789.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polygon fill="white" stroke="#bfbfbf" points="57.5,-782.5 57.5,-839.5 112.5,-839.5 112.5,-782.5 57.5,-782.5"/>
+<text text-anchor="middle" x="85" y="-827.5" font-family="Helvetica,sans-Serif" font-size="10.00">QDialog</text>
+<polyline fill="none" stroke="#bfbfbf" points="57.5,-820.5 112.5,-820.5 "/>
+<text text-anchor="middle" x="85" y="-808.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<polyline fill="none" stroke="#bfbfbf" points="57.5,-801.5 112.5,-801.5 "/>
+<text text-anchor="middle" x="85" y="-789.5" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
 </g>
 <!-- Node2&#45;&gt;Node1 -->
 <g id="edge2" class="edge"><title>Node2&#45;&gt;Node1</title>
-<path fill="none" stroke="midnightblue" d="M77.5,-772.209C77.5,-763.293 77.5,-753.951 77.5,-745.584"/>
-<polygon fill="none" stroke="midnightblue" points="74.0001,-772.397 77.5,-782.397 81.0001,-772.397 74.0001,-772.397"/>
+<path fill="none" stroke="midnightblue" d="M85,-772.209C85,-763.293 85,-753.951 85,-745.584"/>
+<polygon fill="none" stroke="midnightblue" points="81.5001,-772.397 85,-782.397 88.5001,-772.397 81.5001,-772.397"/>
 </g>
 </g>
 </svg>
