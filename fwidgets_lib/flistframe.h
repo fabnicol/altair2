@@ -168,7 +168,7 @@ public:
  /// La classe comprend une série d'onglets comprenant des lignes de texte chacun.\n
  /// Elle gouverne aussi l'importation des fichiers entrants et le déroulement de la barre de progression.\n
  /// Elle réalise un premier tri des fichiers de paye en les classant dans l'ordre année-mois, en identifiant les Siret, Etablissements et Budgets.\n
- /// Elle correspond à la balise <XHL> des fichiers de projet et aux informations sur fichiers de paye dans le gestionnaire de projets.
+ /// Elle correspond à la balise XHL des fichiers de projet et aux informations sur fichiers de paye dans le gestionnaire de projets.
  /// \param tree  Identifie FListFrame::fileTreeView
  /// \param import_type Identifie FListFrame::importType
  /// \param QString &hashKey Identifie FListFrame::frameHashKey

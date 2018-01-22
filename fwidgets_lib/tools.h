@@ -49,12 +49,12 @@
 #endif
 
 /// Macro de débogage
-/// \X Texte
+/// \param X Texte
 
 #define Q(X) QMessageBox::about(nullptr, "test", X);
 
 /// Macro de débogage
-/// \X Nombre
+/// \param X Nombre
 
 #define q(X) QMessageBox::about(nullptr, "test", QString::number(X));
 
@@ -145,7 +145,7 @@ static qint64 getDirectorySize(const QString &path, const QString &extension="")
 /// Renomme un fichier
 /// \param ancien Ancien nom.
 /// \param nouveau Nouveau nom.
-/// \bool \em true si réussit, \em false sinon.
+/// \return Taille en octets.
 
 bool renommer(const QString& ancien, const QString& nouveau);
 
