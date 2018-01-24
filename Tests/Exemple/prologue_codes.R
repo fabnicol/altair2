@@ -53,7 +53,7 @@ codes.primedeservice  <- NA
 codes.primedetechnicite <- NA  
 types.irs  <- c("IR", "S")
 
-controle<-c("XXX","XXX","XXX","MULTIBUDGET")  
+controle<-c("","","","")  
 
 codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IHTS", "VAC", "ASTREINTES", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(
