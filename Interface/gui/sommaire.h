@@ -5,6 +5,7 @@
 /// - \subpage   page_alt "la documentation des paramètres de l'interface graphique et des projets Altaïr d'extension .alt"
 /// - \subpage   page_lhx "la documentation de la ligne de commande de l'application-noyau lhx"
 /// - \subpage   page1 "la documentation de l'algorithme d'analyse des noeuds Remuneration"
+/// - \subpage   page_compil  "la documentation de la procédure de compilation sous Linux"
 /// - \ref todo "la liste des choses à faire"
 /// - l'onglet <a href="namespaces.html"><b>Espaces de nommage</b></a>
 /// - l'onglet <a href="annotated.html"><b>Classes</b></a>
@@ -19,6 +20,39 @@
 /// <li> graphe d'appel d'une fonction</li>
 /// <li> liste des types, connecteurs, signaux, fonctions et attributs hérités par une classe.</li></ul> \n
 /// Il est possible de naviguer dans les graphes en utilisant la fonctionnalité de navigation (+/- pour zoomer, flèches de direction) en haut à droite des graphes.
+
+
+/// \page page_compil La documentation de la procédure de compilation sous Linux
+/// \section prereq Prérequis
+/// Altaïr est compilé avec les outils suivants :
+/// - une version recompilée sous forme statique des bibliothèques Qt5.7
+/// - le compilateur C++ GNU GCC 6.2
+/// L'ensemble des dépendances requises est livré avec la plateforme elle-même.
+///
+/// \section proc_qtcreator   Avec Qt creator
+/// La procédure standard de compilation sous Linux (et avec quelques ajustements sous Windows) utilise l'IDE (interface de développement intégrée) Qt creator.
+/// de l'entreprise [Digia](https://en.wikipedia.org/wiki/Main_Page) (propriétaire des bibliothèques [Qt5](https://fr.wikipedia.org/wiki/Qt)).
+/// Il est possible de télécharger Qt creator sur le [site de téléchargement](https://www1.qt.io/offline-installers/) de Digia.
+/// L'IDE Qt creator est livrée avec le compte administrateur de la plateforme. Une icône verte (Qt) est disposée sur le bureau et permet de lancer l'IDE.
+/// Il est paramétré pour utiliser les bibliothèques et le compilateur indiqués dans les prérequis.
+/// Au lancement de l'IDE :
+/// - cliquer sur Fichier > Ouvrir un fichier ou un projet > Sélectionner le fichier de projet altair.linux.pro dans le dossier `~/Dev/altair/Interface/gui`
+/// - cliquer sur Fichier > Ouvrir un fichier ou un projet > Sélectionner le fichier de projet lhx.linux.pro dans le dossier `~/Dev/altair/lhx`
+/// - cliquer sur Fichier > Ouvrir un fichier ou un projet > Sélectionner le fichier de projet fwidgets_lib.pro dans le dossier `~/Dev/altair/fwidgets_lib`
+/// - cliquer sur Compiler > Exéxcuter qmake
+/// - cliquer sur Compiler > Tout recompiler
+/// Une barre de progression verte en bas à droite de l'IDE témoigne de la progression de la compilation. A la fin de cette progression, la fenêtre "Sortie de compilation"
+/// en bas de l'IDE indique que les processus de compilation se sont terminés normalement (ou pas).
+/// L'ensemble du logiciel est alors recompilé à partir des sources.
+///
+/// \section proc_other Avec les Makefile
+/// Les Makefile sont générés à chaque invocation de qmake.
+/// Cet outil peut être utilisé manuellement comme suit :
+/// "/home/fab/Qt5.7/5.7/Src/qtbase/bin/qmake" /home/fab/Dev/altair/Interface/gui/altair.linux.pro -r -spec linux-g++
+/// "/home/fab/Qt5.7/5.7/Src/qtbase/bin/qmake" /home/fab/Dev/altair/lhx/lhx.linux.pro -r -spec linux-g++
+/// "/home/fab/Qt5.7/5.7/Src/qtbase/bin/qmake" /home/fab/Dev/altair/fwidgets_lib/fwidgets_lib.pro -r -spec linux-g++
+/// Puis, dans chaque répertoire contenant les fichiers .pro des trois lignes de commande ci-dessus, lancer `make -j8`.
+/// La compilation est alors terminée.
 
 /// \page page_modules L'organisation modulaire du logiciel Altaïr
 /// \section sec1_modules Les modules du logiciel

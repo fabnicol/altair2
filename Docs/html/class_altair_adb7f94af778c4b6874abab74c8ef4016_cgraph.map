@@ -1,7 +1,0 @@
-<map id="Altair::makeSystemString" name="Altair::makeSystemString">
-<area shape="rect" id="node2" href="$class_altair.html#af73cbf33a9e3ff76896a8099b4b154fe" title="Crée la chaîne QString permettant d&#39;écrire un projet XML d&#39;extension .alt Parcourt l&#39;ensemble de la l..." alt="" coords="231,85,404,112"/>
-<area shape="rect" id="node3" href="$class_f_abstract_widget.html#a79fefba42897657d8a76d0298e524303" title="Accesseur en lecture de la profondeur du composant. " alt="" coords="461,5,651,32"/>
-<area shape="rect" id="node4" href="$class_f_abstract_widget.html#ae6ba84e8ed8a54dc8121245f35f568fe" title="Retourne la clé de hashage de Hash::wrapper correspondant au composant. " alt="" coords="452,56,660,83"/>
-<area shape="rect" id="node5" href="$class_f_abstract_widget.html#a821c87067fa5f6b48267d6ffb20e5c97" title="FAbstractWidget::setXmlFrom\lWidget" alt="" coords="453,107,659,149"/>
-<area shape="rect" id="node6" href="$class_f_string.html#a65d0e6d0c4e30acc4fd7f5e3017f0c3c" title="Accesseur de la partie QString p. " alt="" coords="489,173,623,200"/>
-</map>

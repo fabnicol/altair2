@@ -1,6 +1,0 @@
-<map id="FAbstractWidget::getComponentList" name="FAbstractWidget::getComponentList">
-<area shape="rect" id="node2" href="$class_f_abstract_connection.html#afbf1c1d7d9f7f8c39659cff4ce05f87f" title="FAbstractConnection\l::meta_connect" alt="" coords="300,27,453,69"/>
-<area shape="rect" id="node3" href="$class_f_abstract_widget.html#aa147737576be8ca1fcf75d06f362b2b2" title="FAbstractWidget::FCore" alt="" coords="514,5,685,32"/>
-<area shape="rect" id="node4" href="$class_f_abstract_widget.html#ac95a769d8e274582de7bf014a3289a39" title="FAbstractWidget::setDisable\lObjects" alt="" coords="501,57,697,98"/>
-<area shape="rect" id="node5" href="$class_main_window.html#ab7fcfafb1f92c51e6452893672775d41" title="Créer le dialogue de configuration de l&#39;interface graphique. " alt="" coords="745,64,961,91"/>
-</map>

@@ -1,9 +1,0 @@
-<map id="Interface/gui/options.h" name="Interface/gui/options.h">
-<area shape="rect" id="node2" href="$flineframe_8h.html" title="Ce fichier contient la classe FLineFrame, dérivée fonctionnelle de FLineEdit. " alt="" coords="69,155,163,181"/>
-<area shape="rect" id="node9" href="$common_8h.html" title="Code de la classe common, qui regroupe des utilitaires communs à l&#39;interface graphique MainWindow..." alt="" coords="193,80,279,107"/>
-<area shape="rect" id="node3" href="$fwidgets_8h.html" title="fwidgets.h" alt="" coords="161,229,247,256"/>
-<area shape="rect" id="node5" href="$fstring_8h.html" title="fstring.h" alt="" coords="80,304,152,331"/>
-<area shape="rect" id="node7" href="$enums_8h.html" title="Enumérations et constantes permettant de paramétrer les fwidgets. " alt="" coords="5,379,80,405"/>
-<area shape="rect" id="node8" href="$tags_8h.html" title="tags.h" alt="" coords="177,304,237,331"/>
-<area shape="rect" id="node10" href="$tools_8h.html" title="tools.h" alt="" coords="239,155,302,181"/>
-</map>
