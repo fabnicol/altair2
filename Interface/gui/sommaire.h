@@ -6,11 +6,12 @@
 /// - \subpage   page_lhx "la documentation de la ligne de commande de l'application-noyau lhx"
 /// - \subpage   page1 "la documentation de l'algorithme d'analyse des noeuds Remuneration"
 /// - \subpage   page_compil  "la documentation de la procédure de compilation sous Linux"
+/// - \subpage   page_recover
 /// - \ref todo "la liste des choses à faire"
 /// - l'onglet <a href="namespaces.html"><b>Espaces de nommage</b></a>
 /// - l'onglet <a href="annotated.html"><b>Classes</b></a>
 /// - et l'onglet <a href="files.html"><b>Fichiers</b></a>
-///\n\n
+/// \n\n
 /// \note Dans toute la documentation, un petit triangle bleu en marge gauche indique un lien dynamique. \n
 /// Les éléments suivants sont accessibles en cliquant sur ces liens : \n
 /// <ul>
@@ -22,6 +23,89 @@
 /// Il est possible de naviguer dans les graphes en utilisant la fonctionnalité de navigation (+/- pour zoomer, flèches de direction) en haut à droite des graphes.
 
 
+/// \page page_recover Procédure de récupération
+/// \section connexion_blank En cas d'impossibilité de se connecter
+/// Si l’écran graphique de connexion aux comptes (login) n’apparaît pas, le système est sérieusement compromis, ce qui peut arriver en cas de redémarrage forcé au cours d'une actualisation automatique non terminée.\n
+/// Il faut recloner l'ensemble du système.\n
+/// 
+/// \section connexion_ok Cas général
+/// Si cet écran apparaît, ce qui est le plus souvent le cas, mais qu’il y a seulement un problème de connexion à un ou plusieurs comptes (login), procéder comme suit :\n
+/// **EtapeA**\n   
+/// 1. Préalablement, télécharger sous Windows le paquet altair.zip à l’[adresse](https://www.dropbox.com/s/35696fw5w0upleo/altair.zip?dl=0) ou sur toute adresse réseau indiquée par le gestionnaire du logiciel.\n
+/// 2. Copier ce paquet sur la clé USB3 préalablement complètement nettoyée.<pre></pre>
+/// 
+/// **Etape B**\n   
+/// 3. Aller sur le PC linux.
+/// 4. Déconnecter tous les périphériques éventuels (autres clés, cdrom, etc.)
+/// 5. Démarrer sans la clé USB3 dans son port USB. Attendre que l’écran de login apparaisse. Puis taper ensemble les touches :  **Ctrl + Alt + F1**
+/// 6. Puis au login : \n
+///       fabpc login : \n
+///       rentrer : root \n
+///       Puis rentrer le mot de passe root \n
+///       On obtient l’invite  <pre style="color:red;">fabpc ~#</pre>
+/// 
+/// **Etape C**\n
+/// 7. Une fois l’invite en ligne de commande comme ci-dessus on est en mode administrateur root.
+/// 8. Insérer alors la clé USB3 dans un port USB de façade.
+/// 9. La monter : \n
+///       <span style="color:red;">fabpc ~#</span> mkdir /mnt \n
+///       <span style="color:red;">fabpc ~#</span> mount –o nonempty /dev/sdb1  /mnt
+/// 10. Vérifier si altair.zip est bien reconnue sur la clé :\n
+///       <span style="color:red;">fabpc ~#</span> ls /mnt    
+/// 11. Aller sur la clé :\n 
+///       <span style="color:red;">fabpc ~#</span> cd /mnt
+/// 12. Décompresser le paquet :\n
+///       <span style="color:red;">fabpc ~#</span> unzip –o altair.zip
+/// 13. Détruire le répertoire altair déficient :\n
+///       <span style="color:red;">fabpc ~#</span> rm –rvf /home/fab/Dev/altair
+/// 14. Copier les fichiers de la clé vers le PC :\n
+///       <span style="color:red;">fabpc ~#</span> cp –rvf altair /home/fab/Dev
+/// 15. Eteindre : \n 
+///       <span style="color:red;">fabpc ~#</span> shutdown –h now <pre></pre> 
+/// 
+/// **Etape D**\n
+/// 16. Enlever la clé.
+/// 17. Connecter le port Ethernet (vérifier la connexion préalablement sous Windows etc.).
+/// 18. Redémarrer. Le PC est alors en mode d’actualisation automatique.\n Le laisser impérativement s’éteindre seul.
+/// 19. Redémarrer lorsqu’il est éteint et surtout pas avant.
+/// 20. Tester. <pre></pre>
+/// 
+/// **Etapes optionnelles**\n
+/// En cas d’échec à l’actualisation du PC.
+/// 21. Répéter B.\n
+/// 22. Insérer la clé. Répéter les deux premières lignes de commande de C.\n
+/// 23. Copier le fichier version.log sur la clé :\n
+/// <span style="color:red;">fabpc ~#</span> cp  /home/Public/version.log   /mnt \n
+/// Ce fichier est un log des procédures d’actualisation. \n
+/// 24. Pour vérifier qu’une actualisation automatique est en cours (ou non) :\n
+/// <span style="color:red;">fabpc ~#</span> tail  /home/Public/version.log   \n
+/// Si oui s’affiche un message :\n
+///  *  Actualisation de l’application Altaïr…\n
+///  *  Actualisation du dépôt fab… \n
+/// Puis du dépôt jf puis quelques autres messages.\n
+/// Sinon s’affiche :\n
+/// "***" Pas de mise à jour "***"
+/// 25. Copier le fichier log sur la clé :\n
+/// <span style="color:red;">fabpc ~#</span> cp  /home/Public/log   /mnt \n
+/// Ce fichier est un log des connexions.
+/// 26. Copier le fichier VERSION sur la clé :\n
+/// <span style="color:red;">fabpc ~#</span> cp  /home/Public/VERSION   /mnt \n
+/// Ce fichier est  le numéro de version normalement téléchargé depuis le dépôt Gitlabjf.
+/// S’il n’est pas aligné, cela signifie que la connexion internet est dysfonctionnelle.
+/// 
+/// \section connexion_desktop Si la connexion au compte d'administration est possible
+/// Il est alors possible d'utiliser les fonctionnalités de KDE pour simplifier les manipulations précédentes.\n
+/// 1. Mettre le paquet `altair.zip` sur la clé USB.
+/// 2. Avec la clé connectée au port USB, se connecter au compte **fab** (administrateur)
+/// 3. Ouvrir le gestionnaire de données et allez dans **Clé USB3**.
+/// 4. Copier-coller `altair.zip` de **Clé USB3** dans `/home/fab/Dev` (=répertoire Dev dans Dossier personnel). On peut faire **Ctrl+C** puis **Ctrl+V** comme sous windows.
+/// 5. Ecraser `/home/fab/Dev/altair` (**Shift + suppr + confirmer**)
+/// 6. Décompresser `/home/fab/Dev/altair.zip` ce qui donnera un nouveau `/home/fab/Dev/altair` \n
+///    Il suffit pour cela de faire clic droit sur **altair.zip > Extraire > Extraire l’archive ici, détecter le sous-dossier**.
+/// 7. Refaire une actualisation automatique sans clé, sans connexion à aucun compte.
+
+
+
 /// \page page_compil La documentation de la procédure de compilation sous Linux
 /// \section prereq Prérequis
 /// Altaïr est compilé avec les outils suivants :
@@ -30,29 +114,29 @@
 /// L'ensemble des dépendances requises est livré avec la plateforme elle-même.
 ///
 /// \section proc_qtcreator   Avec Qt creator
-/// La procédure standard de compilation sous Linux (et avec quelques ajustements sous Windows) utilise l'IDE (interface de développement intégrée) Qt creator.
-/// de l'entreprise [Digia](https://en.wikipedia.org/wiki/Main_Page) (propriétaire des bibliothèques [Qt5](https://fr.wikipedia.org/wiki/Qt)).
-/// Il est possible de télécharger Qt creator sur le [site de téléchargement](https://www1.qt.io/offline-installers/) de Digia.
-/// L'IDE Qt creator est livrée avec le compte administrateur de la plateforme. Une icône verte (Qt) est disposée sur le bureau et permet de lancer l'IDE.
-/// Il est paramétré pour utiliser les bibliothèques et le compilateur indiqués dans les prérequis.
+/// La procédure standard de compilation sous Linux (et avec quelques ajustements sous Windows) utilise l'IDE (interface de développement intégrée) Qt creator
+/// de l'entreprise [Digia](https://en.wikipedia.org/wiki/Main_Page) (propriétaire des bibliothèques [Qt5](https://fr.wikipedia.org/wiki/Qt)).\n       
+/// Il est possible de télécharger Qt creator sur le [site de téléchargement](https://www1.qt.io/offline-installers/) de Digia.\n     
+/// L'IDE Qt creator est livrée avec le compte administrateur de la plateforme. Une icône verte (Qt) est disposée sur le bureau et permet de lancer l'IDE.\n    
+/// Il est paramétré pour utiliser les bibliothèques et le compilateur indiqués dans les prérequis.\n    
 /// Au lancement de l'IDE :
 /// - cliquer sur Fichier > Ouvrir un fichier ou un projet > Sélectionner le fichier de projet altair.linux.pro dans le dossier `~/Dev/altair/Interface/gui`
 /// - cliquer sur Fichier > Ouvrir un fichier ou un projet > Sélectionner le fichier de projet lhx.linux.pro dans le dossier `~/Dev/altair/lhx`
 /// - cliquer sur Fichier > Ouvrir un fichier ou un projet > Sélectionner le fichier de projet fwidgets_lib.pro dans le dossier `~/Dev/altair/fwidgets_lib`
-/// - cliquer sur Compiler > Exéxcuter qmake
+/// - cliquer sur Compiler > Exécuter qmake
 /// - cliquer sur Compiler > Tout recompiler
-/// Une barre de progression verte en bas à droite de l'IDE témoigne de la progression de la compilation. A la fin de cette progression, la fenêtre "Sortie de compilation"
-/// en bas de l'IDE indique que les processus de compilation se sont terminés normalement (ou pas).
-/// L'ensemble du logiciel est alors recompilé à partir des sources.
+/// Une barre de progression verte en bas à droite de l'IDE témoigne de la progression de la compilation.\n A la fin de cette progression, la fenêtre "Sortie de compilation"
+/// en bas de l'IDE indique que les processus de compilation se sont terminés normalement (ou pas).\n     
+/// L'ensemble du logiciel est alors recompilé à partir des sources.    
 ///
 /// \section proc_other Avec les Makefile
-/// Les Makefile sont générés à chaque invocation de qmake.
-/// Cet outil peut être utilisé manuellement comme suit :
-/// "/home/fab/Qt5.7/5.7/Src/qtbase/bin/qmake" /home/fab/Dev/altair/Interface/gui/altair.linux.pro -r -spec linux-g++
-/// "/home/fab/Qt5.7/5.7/Src/qtbase/bin/qmake" /home/fab/Dev/altair/lhx/lhx.linux.pro -r -spec linux-g++
-/// "/home/fab/Qt5.7/5.7/Src/qtbase/bin/qmake" /home/fab/Dev/altair/fwidgets_lib/fwidgets_lib.pro -r -spec linux-g++
-/// Puis, dans chaque répertoire contenant les fichiers .pro des trois lignes de commande ci-dessus, lancer `make -j8`.
-/// La compilation est alors terminée.
+/// Les Makefile sont générés à chaque invocation de qmake.\n    
+/// Cet outil peut être utilisé manuellement comme suit :      
+/// - "/home/fab/Qt5.7/5.7/Src/qtbase/bin/qmake" /home/fab/Dev/altair/Interface/gui/altair.linux.pro -r -spec linux-g++     
+/// - "/home/fab/Qt5.7/5.7/Src/qtbase/bin/qmake" /home/fab/Dev/altair/lhx/lhx.linux.pro -r -spec linux-g++    
+/// - "/home/fab/Qt5.7/5.7/Src/qtbase/bin/qmake" /home/fab/Dev/altair/fwidgets_lib/fwidgets_lib.pro -r -spec linux-g++ \n     
+/// Puis, dans chaque répertoire contenant les fichiers .pro des trois lignes de commande ci-dessus, lancer `make -j8`.\n     
+/// La compilation est alors terminée.      
 
 /// \page page_modules L'organisation modulaire du logiciel Altaïr
 /// \section sec1_modules Les modules du logiciel
