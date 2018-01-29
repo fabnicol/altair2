@@ -1,9 +1,0 @@
-<map id="common::exporter_identification_controle" name="common::exporter_identification_controle">
-<area shape="rect" id="node2" href="$classtools.html#a995219ca14bd1ddcb10cb2a3fffed5a5" title="Créer un fichier temporaire temp dans le répertoire racine et le remplit avec une chaîone de caractèr..." alt="" coords="339,5,431,32"/>
-<area shape="rect" id="node3" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="Renvoie le chemin d&#39;un fichier ou d&#39;un répertoire du répertoire racine de la distribution (adjacent a..." alt="" coords="544,31,683,57"/>
-<area shape="rect" id="node4" href="$classcommon.html#a3149ba29e04e6e5f7f85a2894434bf9e" title="Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement. " alt="" coords="275,107,496,149"/>
-<area shape="rect" id="node7" href="$classtools.html#af43fc30ac740fa0fa1d773afb2538c8c" title="Liste un fichier entre deux lignes données et sur une largeur donnée. " alt="" coords="331,173,440,200"/>
-<area shape="rect" id="node8" href="$classtools.html#a888a6211f6956005dba0132e1ee5fd92" title="Renomme un fichier. " alt="" coords="324,224,447,251"/>
-<area shape="rect" id="node5" href="$class_hash.html#a9c6832c663082e153e74bf3fb0c5720a" title="Hash::aplatir" alt="" coords="563,99,663,125"/>
-<area shape="rect" id="node6" href="$classtools.html#a7cba03deaa6e1311c2d0e5fb9fdcfa5c" title="Remplace des chaînes de caractères, lorsqu&#39;elles correspondent à une expression rationnelle, dans une chaîne de caractères donnée par une chaîne de caractères donnée. " alt="" coords="555,149,672,176"/>
-</map>

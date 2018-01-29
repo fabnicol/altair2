@@ -1,4 +1,0 @@
-<map id="FListWidget" name="FListWidget">
-<area shape="rect" id="node3" href="$class_f_abstract_widget.html" title="{FAbstractWidget\n|+ commandLineList\l+ commandLineType\l+ disabledObjects\l+ enabledObjects\l+ optionLabel\l+ status\l# componentList\l# description\l# hashKey\l# widgetDepth\l|+ commandLineStringList()\l+ getComponentList()\l+ getDepth()\l+ getDescription()\l+ getHashKey()\l+ isAbstractDisabled()\l+ isAbstractEnabled()\l+ setDisableObjects()\l+ setHashKey()\l+ setWidgetFromXml()\l+ setXmlFromWidget()\l# FCore()\l# FCore()\l}" alt="" coords="107,131,299,516"/>
-<area shape="rect" id="node4" href="$classflags.html" title="{flags\n||}" alt="" coords="177,5,229,83"/>
-</map>

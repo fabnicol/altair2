@@ -1,6 +1,0 @@
-<map id="processPage::processPage" name="processPage::processPage">
-<area shape="rect" id="node2" href="$templates_8h.html#af9e9a83f3128fefbef4968186ae6aa6b" title="Crée une table de hachage entre deux listes de même longueur. " alt="" coords="305,5,400,32"/>
-<area shape="rect" id="node3" href="$classtools.html#acba8057b8c8527f6a2df7a372e944abb" title="Crée le chemin vers le dossier local de paramétrage. " alt="" coords="257,56,448,83"/>
-<area shape="rect" id="node4" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="Renvoie le chemin d&#39;un fichier ou d&#39;un répertoire du répertoire racine de la distribution (adjacent a..." alt="" coords="283,107,422,133"/>
-<area shape="rect" id="node5" href="$class_f_line_frame.html#ab34e6d28c51608cfdf2e4dae14501159" title="Accesseur en écriture de pathCategory, type de chemin représenté par lineEdit. " alt="" coords="248,157,457,184"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="Altair::makeParserString" name="Altair::makeParserString">
-<area shape="rect" id="node2" href="$class_f_abstract_widget.html#a79fefba42897657d8a76d0298e524303" title="Accesseur en lecture de la profondeur du composant. " alt="" coords="236,5,425,32"/>
-<area shape="rect" id="node3" href="$class_f_abstract_widget.html#ae6ba84e8ed8a54dc8121245f35f568fe" title="Retourne la clé de hashage de Hash::wrapper correspondant au composant. " alt="" coords="227,56,435,83"/>
-<area shape="rect" id="node4" href="$class_f_abstract_widget.html#a821c87067fa5f6b48267d6ffb20e5c97" title="FAbstractWidget::setXmlFrom\lWidget" alt="" coords="228,107,433,149"/>
-<area shape="rect" id="node5" href="$class_f_string.html#a65d0e6d0c4e30acc4fd7f5e3017f0c3c" title="Accesseur de la partie QString p. " alt="" coords="264,173,397,200"/>
-</map>

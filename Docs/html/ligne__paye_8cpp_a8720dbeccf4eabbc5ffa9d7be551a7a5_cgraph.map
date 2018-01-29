@@ -1,4 +1,0 @@
-<map id="Bulletin" name="Bulletin">
-<area shape="rect" id="node2" href="$validator_8h.html#a5e23405e20d220ba90a7b2213f7a70fb" title="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..." alt="" coords="120,5,239,32"/>
-<area shape="rect" id="node3" href="$ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4" title="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le &#160;caractère &#39;_&#39;..." alt="" coords="144,56,215,83"/>
-</map>
