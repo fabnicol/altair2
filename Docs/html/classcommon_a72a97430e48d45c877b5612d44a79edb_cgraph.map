@@ -1,7 +1,0 @@
-<map id="common::common" name="common::common">
-<area shape="rect" id="node2" href="$classcommon.html#a3149ba29e04e6e5f7f85a2894434bf9e" title="Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement. " alt="" coords="188,23,409,65"/>
-<area shape="rect" id="node5" href="$classtools.html#acba8057b8c8527f6a2df7a372e944abb" title="Crée le chemin vers le dossier local de paramétrage. " alt="" coords="203,89,394,116"/>
-<area shape="rect" id="node6" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="Renvoie le chemin d&#39;un fichier ou d&#39;un répertoire du répertoire racine de la distribution (adjacent a..." alt="" coords="229,140,368,167"/>
-<area shape="rect" id="node3" href="$class_hash.html#a9c6832c663082e153e74bf3fb0c5720a" title="Hash::aplatir" alt="" coords="466,5,566,32"/>
-<area shape="rect" id="node4" href="$classtools.html#a7cba03deaa6e1311c2d0e5fb9fdcfa5c" title="Remplace des chaînes de caractères, lorsqu&#39;elles correspondent à une expression rationnelle, dans une chaîne de caractères donnée par une chaîne de caractères donnée. " alt="" coords="457,56,575,83"/>
-</map>

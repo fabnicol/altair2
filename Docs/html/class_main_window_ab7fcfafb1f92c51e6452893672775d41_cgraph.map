@@ -1,5 +1,0 @@
-<map id="MainWindow::configureOptions" name="MainWindow::configureOptions">
-<area shape="rect" id="node2" href="$class_f_abstract_widget.html#ac95a769d8e274582de7bf014a3289a39" title="FAbstractWidget::setDisable\lObjects" alt="" coords="269,5,465,47"/>
-<area shape="rect" id="node3" href="$class_f_abstract_connection.html#afbf1c1d7d9f7f8c39659cff4ce05f87f" title="FAbstractConnection\l::meta_connect" alt="" coords="513,5,667,47"/>
-<area shape="rect" id="node4" href="$class_f_abstract_widget.html#a0275be1c2f0cc30e047cd75d207b59e0" title="FAbstractWidget::getComponentList" alt="" coords="715,13,961,39"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="FListFrame" name="FListFrame">
-<area shape="rect" id="node4" href="$class_f_list_widget.html" title="{FListWidget\n|+ currentListWidget\l+ separator\l&#45; listWidgetTranslationHash\l&#45; tabLabels\l&#45; tags\l|+ FListWidget()\l+ addGroup()\l+ clearTabLabels()\l+ getTabLabels()\l+ isAbstractEnabled()\l+ setSeparator()\l+ setTabLabels()\l+ setWidgetFromXml()\l+ setXmlFromWidget()\l&#45; translate()\l}" alt="" coords="168,1176,363,1444"/>
-<area shape="rect" id="node2" href="$class_f_dialog_connections.html" title="{FDialogConnections\n||}" alt="" coords="361,132,511,209"/>
-<area shape="rect" id="node6" href="$class_f_abstract_widget.html" title="{FAbstractWidget\n|+ commandLineList\l+ commandLineType\l+ disabledObjects\l+ enabledObjects\l+ optionLabel\l+ status\l# componentList\l# description\l# hashKey\l# widgetDepth\l|+ commandLineStringList()\l+ getComponentList()\l+ getDepth()\l+ getDescription()\l+ getHashKey()\l+ isAbstractDisabled()\l+ isAbstractEnabled()\l+ setDisableObjects()\l+ setHashKey()\l+ setWidgetFromXml()\l+ setXmlFromWidget()\l# FCore()\l# FCore()\l}" alt="" coords="107,493,299,879"/>
-<area shape="rect" id="node7" href="$classflags.html" title="{flags\n||}" alt="" coords="177,132,229,209"/>
-</map>

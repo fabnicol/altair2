@@ -1,6 +1,0 @@
-<map id="MatriculeInput::MatriculeInput" name="MatriculeInput::MatriculeInput">
-<area shape="rect" id="node2" href="$class_matricule_input.html#a570b775e6c896dba52da89945a7fd02c" title="Connecteur qui rajoute une ligne de saisie de matricules au dialogue Exportation des bulletins ..." alt="" coords="227,5,421,47"/>
-<area shape="rect" id="node3" href="$class_matricule_input.html#ae46b914e11ae6cb17e6c581ea0b6f994" title="Vérifie l&#39;input (format de saisie). " alt="" coords="232,71,416,98"/>
-<area shape="rect" id="node4" href="$class_f_line_frame.html#a6e3d6e8099f01f197a41b85d076ac386" title="Accesseur en lecture de la disposition (Layout) " alt="" coords="241,122,407,149"/>
-<area shape="rect" id="node5" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="Renvoie le chemin d&#39;un fichier ou d&#39;un répertoire du répertoire racine de la distribution (adjacent a..." alt="" coords="255,173,393,199"/>
-</map>

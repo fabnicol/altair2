@@ -1,5 +1,0 @@
-<map id="MatriculeInput::checkDefaultFolder" name="MatriculeInput::checkDefaultFolder">
-<area shape="rect" id="node2" href="$class_matricule_input.html#a570b775e6c896dba52da89945a7fd02c" title="Connecteur qui rajoute une ligne de saisie de matricules au dialogue Exportation des bulletins ..." alt="" coords="251,5,445,47"/>
-<area shape="rect" id="node3" href="$class_f_line_frame.html#a63a8e07ab4bbff07da779f45e86e1721" title="Accesseur en lecture : retourne le texte de la ligne. " alt="" coords="273,71,423,98"/>
-<area shape="rect" id="node4" href="$class_f_line_frame.html#a532228c9d7ad141dda66d081df38b48a" title="Accesseur en écriture : édite le texte de la ligne. " alt="" coords="273,122,423,149"/>
-</map>

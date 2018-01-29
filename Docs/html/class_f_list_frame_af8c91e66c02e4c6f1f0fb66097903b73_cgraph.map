@@ -1,8 +1,0 @@
-<map id="FListFrame::addStringListToListWidget" name="FListFrame::addStringListToListWidget">
-<area shape="rect" id="node2" href="$class_f_list_frame.html#a9353fe4926e97788a6462c3ee79f6a15" title="FListFrame::clearTabLabels" alt="" coords="249,5,444,32"/>
-<area shape="rect" id="node4" href="$class_f_list_frame.html#a0ebe3d7847101344e70c84aff2be39b0" title="Accesseur en lecture du nombre d&#39;éléments (nombre d&#39;onglets) du vecteur widgetContainer. " alt="" coords="235,57,459,98"/>
-<area shape="rect" id="node5" href="$class_f_list_frame.html#a802475894ee1e30753faed81d9f9dc4b" title="Appelle parseXhlFile(const QString&amp;) sur l&#39;ensemble de widgetContainer. " alt="" coords="259,123,435,149"/>
-<area shape="rect" id="node3" href="$class_f_list_widget.html#a74bf008958a87e9055b8ec6573d8e2e9" title="FListWidget::clearTabLabels" alt="" coords="507,5,705,32"/>
-<area shape="rect" id="node6" href="$classtools.html#a0aa994303a938a76300767d2251b9f85" title="Détecte si un disque optique est monté. " alt="" coords="527,64,685,91"/>
-<area shape="rect" id="node7" href="$class_f_list_frame.html#a22a50157e8c6d287c2b2c08d2b7deee9" title="Lancer un fil d&#39;exécution pour lire l&#39;entête d&#39;un fichier XHL (Année, Mois,...) et classer les fichie..." alt="" coords="537,115,675,157"/>
-</map>

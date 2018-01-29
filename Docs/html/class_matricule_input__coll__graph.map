@@ -1,7 +1,0 @@
-<map id="MatriculeInput" name="MatriculeInput">
-<area shape="rect" id="node3" href="$class_f_line_frame.html" title="Ligne de saisie de texte FLineEdit enrichie de fonctionnalités. " alt="" coords="247,839,407,1033"/>
-<area shape="rect" id="node4" href="$class_f_line_edit.html" title="{FLineEdit\n||+ FLineEdit()\l+ FLineEdit()\l+ FLineEdit()\l+ FLineEdit()\l+ FLineEdit()\l+ FLineEdit()\l+ isAbstractEnabled()\l+ setWidgetFromXml()\l+ setXmlFromWidget()\l}" alt="" coords="138,567,301,761"/>
-<area shape="rect" id="node6" href="$class_f_abstract_widget.html" title="{FAbstractWidget\n|+ commandLineList\l+ commandLineType\l+ disabledObjects\l+ enabledObjects\l+ optionLabel\l+ status\l# componentList\l# description\l# hashKey\l# widgetDepth\l|+ commandLineStringList()\l+ getComponentList()\l+ getDepth()\l+ getDescription()\l+ getHashKey()\l+ isAbstractDisabled()\l+ isAbstractEnabled()\l+ setDisableObjects()\l+ setHashKey()\l+ setWidgetFromXml()\l+ setXmlFromWidget()\l# FCore()\l# FCore()\l}" alt="" coords="129,132,321,517"/>
-<area shape="rect" id="node7" href="$classflags.html" title="{flags\n||}" alt="" coords="199,5,251,83"/>
-<area shape="rect" id="node8" href="$class_q_tool_dir_button.html" title="{QToolDirButton\n||+ QToolDirButton()\l+ QToolDirButton()\l}" alt="" coords="325,618,468,710"/>
-</map>
