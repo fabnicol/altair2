@@ -204,7 +204,7 @@ void initializeWidgetContainer() {   widgetContainer =  QVector<QListWidget*>() 
 void initializeWidgetContainer(QListWidget* listWidget) {   widgetContainer =  QVector<QListWidget*>() << listWidget; }
 
 /// Ajoute les fichiers d'une portion d'arborescence de fichiers au composant courant de l'onglet central.
-/// \param QStringList liste des fichiers sélectionnés dans l'arborescence.
+/// \param strL liste des fichiers sélectionnés dans l'arborescence.
 
 void addParsedTreeToListWidget(const QStringList &strL);
 
