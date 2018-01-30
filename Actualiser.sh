@@ -67,7 +67,7 @@ rm -f sys/install.*
 
 git fetch -p -n --depth=1 origin master-jf
 
-for i in altair.linux sft data Docs Interface lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
+for i in altair.linux sft data Docs Interface fwidgets_lib lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
 do
 rm -rf "$i"
 git checkout FETCH_HEAD -- "$i" 
@@ -101,7 +101,6 @@ echo "****"
   
 for i in altair.linux data Docs Interface_linux linux *.txt  *.R  *.sh  *.desktop  VERSION LICENCE *.ico  *.bmp  *.png  postinstall.sh altaïr.Rproj Tests
 do
-rm -rf "/home/fab/Dev/altair/$i"
 sudo cp -rvf "/home/fab/Dev/altair/$i" /home/jf/Dev/altair
 sudo chown -R jf "/home/jf/Dev/altair/$i"
 done
