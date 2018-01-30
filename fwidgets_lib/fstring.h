@@ -101,6 +101,7 @@ public:
 
  /// Constructeur à valeur quelconque QString donnée
  /// \param s Chaîne FString.
+ /// \param flag Non utilisé.
 
   FString(QString s, flags::status flag = flags::status::defaultStatus) : QString(s)
  {
@@ -161,7 +162,7 @@ public:
 
  /// Opérateur & .
  ///  s & b == FString("oui") <=> s == FString("oui") && b == true
- /// \param b Booléen.
+ /// \param s Booléen.
  /// \return Chaîne de caractères FString résultant de l'opération logique.
 
  FString   operator & (bool  s)

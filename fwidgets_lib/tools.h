@@ -161,7 +161,7 @@ bool substituer(const QString &reg, const QString &repl, QString &str);
 /// \param path Chemin du fichier.
 /// \param list Liste des lignes du fichier lues et empilées.
 /// \param start Rang de la ligne de départ de la lecture du fichier (\em 1-based).
-/// \param start Rang de la ligne de fin de la lecture du fichier (\em 1-based).
+/// \param stop  Rang de la ligne de fin de la lecture du fichier (\em 1-based). -1 pour "pas de fin".
 /// \param width Largeur de la lecture en nombre de caractères.
 /// \return Rang (\em 1-based) de la dernière ligne lue.
 /// \note l'argument list est la sortie réelle de la fonction.
@@ -172,7 +172,7 @@ int readFile(const QString &path, QStringList &list, int start=0, int stop=-1, i
 /// \param path Chemin du fichier.
 /// \param list Liste des lignes du fichier lues et empilées.
 /// \param start Rang de la ligne de départ de la lecture du fichier (\em 1-based).
-/// \param start Rang de la ligne de fin de la lecture du fichier (\em 1-based).
+/// \param stop  Rang de la ligne de fin de la lecture du fichier (\em 1-based). -1 pour "pas de fin".
 /// \param width Largeur de la lecture en nombre de caractères
 /// \return Rang (\em 1-based) de la dernière ligne lue.
 /// \note l'argument \em list est la sortie réelle de la fonction.\n
@@ -187,7 +187,7 @@ return readFile(pathstr, list, start, stop, width);
 /// Lit un fichier entre deux lignes données et sur une largeur donnée.
 /// \param path Chemin du fichier.
 /// \param start Rang de la ligne de départ de la lecture du fichier (\em 1-based).
-/// \param start Rang de la ligne de fin de la lecture du fichi.er (\em 1-based).
+/// \param stop  Rang de la ligne de fin de la lecture du fichi.er (\em 1-based). -1 pour "pas de fin".
 /// \param width Largeur de la lecture en nombre de caractères
 /// \return Chaîne de caractères correspondant aux lignes lues et extraites.
 /// \note Surcharge des méthodes précédentes.
@@ -197,7 +197,7 @@ QString readFile(const QString &path,  int start=0, int stop=-1, int width=0);
 /// List un fichier entre deux lignes données et sur une largeur donnée.
 /// \param path Chemin du fichier.
 /// \param start Rang de la ligne de départ de la lecture du fichier (\em 1-based).
-/// \param start Rang de la ligne de fin de la lecture du fichier (\em 1-based).
+/// \param stop Rang de la ligne de fin de la lecture du fichier (\em 1-based). -1 pour "pas de fin".
 /// \param width Largeur de la lecture en nombre de caractères.
 /// \return Chaîne de caractères correspondant aux lignes lues et extraites.
 /// \note Surcharge de la méthode précédente.
@@ -217,14 +217,14 @@ QString dump(const QString &chaine);
 
 /// Compresser un fichier au format zip.
 /// \param filename Chemin du fichier entrant.
-/// \param zipfinename Chemin du fichier sortant.
+/// \param zipfilename Chemin du fichier sortant.
 /// \return Booléen : \em true si l'opération a réussi, \em false sinon.
 
 static bool zip (const QString& filename , const QString& zipfilename);
 
 /// Décompresser un fichier au format zip.
 /// \param zipfilename Chemin du fichier entrant.
-/// \param finename Chemin du fichier sortant.
+/// \param filename Chemin du fichier sortant.
 /// \return Booléen : \em true si l'opération a réussi, \em false sinon.
 
 static bool unzip (const QString& zipfilename , const QString& filename);
@@ -270,15 +270,15 @@ static bool copyFile(const QString &in, const QString &out, const QString& comme
 static bool copyDir(const QString &in, const QString &out, const QString& comment = "");
 
 /// Compresse l'intégralité d'un répertoire au format \b zip, et copie le dossier compressé dans un chemin donné.
-/// \param in Chemin du répertoire entrant.
-/// \param out Chemin du fichier sortant.
+/// \param inPath Chemin du répertoire entrant.
+/// \param outPath Chemin du fichier sortant.
 /// \return Booléen : \em true si l'opération a réussi, \em false sinon.
 
 static bool zipDir (const QString& inPath , const QString& outPath);
 
 /// Décompresse l'intégralité d'un répertoire au format \b zip, et copie le dossier décompressé dans un chemin donné.
-/// \param in Chemin du fichier \b.zip entrant.
-/// \param out Chemin du répertoire décompressé sortant.
+/// \param inPath Chemin du fichier \b .zip entrant.
+/// \param outPath Chemin du répertoire décompressé sortant.
 /// \return Booléen : \em true si l'opération a réussi, \em false sinon.
 
 static bool unzipDir (const QString& inPath , const QString& outPath);
