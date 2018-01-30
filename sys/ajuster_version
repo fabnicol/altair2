@@ -101,6 +101,7 @@ start() {
         
         for i in altair.linux sft data Docs Interface lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
         do
+            rm -rf "$i
             git checkout FETCH_HEAD -- "$i" 
             git add .
         done
@@ -133,11 +134,9 @@ start() {
         
         for i in altair.linux sft data Docs Interface_linux linux *.txt  *.R  *.sh  *.desktop VERSION LICENCE *.ico  *.bmp  *.png  postinstall.sh altaïr.Rproj Tests
         do
+             rm -rf "/home/fab/Dev/altair/$i"
              cp -rvf "/home/fab/Dev/altair/$i" /home/jf/Dev/altair
              chown -R jf "/home/jf/Dev/altair/$i"
-             if test -d "/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot"; then
-                chown -R fab "/home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot"
-             fi   
         done
   
         chmod 0770 /home/jf/Dev/altair/Tests/Exemple/*.*
@@ -190,6 +189,9 @@ echo "* Fin de l'opération."  | tee -a /home/Public/version.log
 echo "****"
 echo  | tee -a /home/Public/version.log
 
+# Uniquement pour le développement
+
+chown -R fab /home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot 
 
 shutdown -h now
 
