@@ -171,13 +171,13 @@ public:
  /// Elle correspond à la balise XHL des fichiers de projet et aux informations sur fichiers de paye dans le gestionnaire de projets.
  /// \param tree  Identifie FListFrame::fileTreeView
  /// \param import_type Identifie FListFrame::importType
- /// \param QString &hashKey Identifie FListFrame::frameHashKey
- /// \param QStringList &description Description à afficher dans le gestionnaire de projets (paramètre aussi de FListFrame::fileListWidget).
- /// \param QString &command_line Paramètre d eligne de commande de FListFrame::fileListWidget.
+ /// \param hashKey Identifie FListFrame::frameHashKey
+ /// \param description Description à afficher dans le gestionnaire de projets (paramètre aussi de FListFrame::fileListWidget).
+ /// \param command_line Paramètre d eligne de commande de FListFrame::fileListWidget.
  /// \param cli_type Paramètre transmis à FListFrame::fileListWidget permetant de contrôler que la ligne de commande est bien associée à tel ou tel exécutable.
- /// \param QStringList &separator Liste de deux séparateurs permettant de dérouler en ligne de commande la hiérarchie sur deux niveaux d'un onglet (niveau 1 : onglets; niveau 2 : éléments de chaque onglet).
- /// \param QStringList &xml_tags Idem pour les balises correspondant aux onglets et aux items.
- /// \param QStringList &tabLabels Titres des onglets.
+ /// \param separator Liste de deux séparateurs permettant de dérouler en ligne de commande la hiérarchie sur deux niveaux d'un onglet (niveau 1 : onglets; niveau 2 : éléments de chaque onglet).
+ /// \param xml_tags Idem pour les balises correspondant aux onglets et aux items.
+ /// \param tabLabels Titres des onglets.
  /// \param mainTabWidgetRank Dans cette application, fixé à tools::TabWidgetTrait::NO_EMBEDDING_TAB_WIDGET.
  /// \param terms Transmis à FlistFrame::fileListWidget.
  /// \param translation  Transmis à FlistFrame::fileListWidget.
@@ -204,7 +204,7 @@ void initializeWidgetContainer() {   widgetContainer =  QVector<QListWidget*>() 
 void initializeWidgetContainer(QListWidget* listWidget) {   widgetContainer =  QVector<QListWidget*>() << listWidget; }
 
 /// Ajoute les fichiers d'une portion d'arborescence de fichiers au composant courant de l'onglet central.
-/// \param QStringList liste des fichiers sélectionnés dans l'arborescence.
+/// \param strL liste des fichiers sélectionnés dans l'arborescence.
 
 void addParsedTreeToListWidget(const QStringList &strL);
 
