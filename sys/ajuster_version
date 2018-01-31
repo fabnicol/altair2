@@ -103,12 +103,16 @@ start() {
         do
             rm -rf "$i"
             git checkout FETCH_HEAD -- "$i" 
-            git add .
         done
-        if ! test -d  lhx
+        
+        
+	if ! test -d  lhx
         then
             mkdir lhx    
         fi
+	
+	git add -f .
+        git commit -am "Sauvegarde master-jf $(date)" | tee -a /home/Public/version.log
 
         if test -f sys/install.sys -a -f sys/sysinstall.sh; then
 
@@ -124,7 +128,7 @@ start() {
             fi
         fi
 
-        git commit -am "Sauvegarde $(date)" | tee -a /home/Public/version.log
+        git commit -am "Sauvegarde release $(date)" | tee -a /home/Public/version.log
 
 	        
         echo "****"
