@@ -6,7 +6,7 @@
 // fabrnicol@gmail.com
 //
 // Ce logiciel est régi par les dispositions du code de la propriété
-// intellectuelle. 
+// intellectuelle (CPI). 
 
 // L'auteur se réserve le droit d'exploitation du présent logiciel, 
 // et notamment de reproduire et de modifier le logiciel, conformément aux 
@@ -31,10 +31,10 @@
 // pris connaissance de ces stipulations et que vous en avez accepté les
 // termes.
 
-// Pour l'année 2017, une autorisation d'usage, de modification et de 
+// Sans préjudice des dispositions du CPI, une autorisation d'usage et de 
 // reproduction du présent code est donnée à tout agent employé par les
-// juridictions financières. Cette autorisation est temporaire et peut être 
-// révoquée.
+// juridictions financières pour l'exercice de leurs fonctions publiques. 
+// Le code ainsi mis à disposition ne peut être transmis à d'autres utilisateurs.
 //
 //
 #include "fstring.h"
@@ -106,7 +106,7 @@ const QStringList FStringList::join()
 const FString  FStringList::join(const QStringList &separator) const
 {
 
-  if (this->size() == 0) return "";
+  if (this->size() == 0) return FString();
 
   QStringList S;
   QString sep, str;
@@ -123,14 +123,14 @@ const FString  FStringList::join(const QStringList &separator) const
 
     case 1:
        if (size() == 1)
-          return this->at(0).join(separator[0]);
-      return "";
+          return FString(this->at(0).join(separator[0]));
+      return FString();
 
    case 2:
-      sep=QString(separator[0]);
+      sep = QString(separator[0]);
       if (size() == 1)
         {
-          return this->at(0).join(sep);
+          return FString(this->at(0).join(sep));
         }
       S=QStringList();
       while (i.hasNext())
@@ -139,7 +139,7 @@ const FString  FStringList::join(const QStringList &separator) const
       return FString(S.join(sep));
    }
 
-   return ("");
+   return FString();
 }
 
 // version simplifiée

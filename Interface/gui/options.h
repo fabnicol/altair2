@@ -35,13 +35,19 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////////////
+
+
+/// \file options.h
+/// \author Fabrice Nicol
+/// \date 2015-2017
+/// \brief Code des classes du dialogue d'options
 
 
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
-#include "flineframe.hpp"
+#include "flineframe.h"
 #include "common.h"
 
 
@@ -52,108 +58,129 @@ class QToolDirButton;
 class FListFrame;
 class FLineFrame;
 
+/// Classe de l'onglet Traitement du dialgue d'options
+/// 
+/// Cette classe précise les modalités d'exécution de l'application-noyau \em lhx (nombre de fils d'exécution, consommation mémoire, log, mode d'exécution cumulatif, distributif ou standard, etc.;) et le type de rapports d'analyse produits (version avancée ou standard).
 
 class processPage :  public QDialog, public common
 {
     Q_OBJECT
 
 public :
-    processPage();
-    FLineFrame *logFrame;
-    FCheckBox  *rapportEntier;
-    FCheckBox  *enchainerRapports;
-
+    processPage();                 ///< Constructeur de l'onglet Traitement.
+    FLineFrame *logFrame;          ///< composant fonctionnelde type QLineEdit augmenté de fonctionnalités spéciales. Enregistre le chemin du log d'exécution.
+    FCheckBox  *rapportEntier;     ///< Case à cocher indiquant si le rapport doit être dans sa version longue (ou courte si non cochée).
+    FCheckBox  *enchainerRapports; ///< Cas à cocher indiquant si la génération des rapports est automatiquement lancée par l'interface sans passer par RStudio.
 
 private:
     FComboBox
-      *processTypeWidget,
-      *memoryUseWidget,
-      *rapportTypeWidget;
-    
-      
+        *processTypeWidget,    ///< Sélectionne le nombre de fils d'exécution.
+        *memoryUseWidget,      ///< Sélectionne le pourcentage d'utilisation de la RAM disponible.
+        *rapportTypeWidget;    ///< Sélectionne le type de rapport en sortie (PDF, DOCX et ODT ou les trois formats).
+
     QGroupBox
-      *processTypeBox;
+        *processTypeBox;       ///< Groupe "Mode d'exécution"
 
     FCheckBox
-      *logCheckBox,
-      *consoleCheckBox;
-
-
-    FString
-      standardMsg;
-
-    QLabel *nLineLabel, *NLineLabel;
-
+        *logCheckBox,          ///< Case à cocher permettant d'activer/de désactiver logFrame.
+        *consoleCheckBox;      ///< Case à cocher permettant d'activer la console (cochée par défaut).
 };
 
 
+/// Classe de l'onglet "Format des bases" du dialogue d'options
 
 class standardPage :  public QDialog, public common
 {
     Q_OBJECT
 
 public :
+
+    /// Constructeur de l'onglet "Format des bases"
+
     standardPage();
+
     FCheckBox
-      *tableCheckBox, *FPHCheckBox;
-    FComboBox* exportWidget;
+      *tableCheckBox,         ///< Exporter la table ou pas
+      *FPHCheckBox;           ///< Données Fonction publique hospitalière ou pas
+    FComboBox* exportWidget;  ///< Modalités d'exportation (standard, cumulative, distributive etc.)
 
 private:
-    FComboBox
-      *baseTypeWidget,
-      *processTypeWidget;
+    FComboBox  *baseTypeWidget;   ///< Type de base en sortie : "Standard", "Par année", "Par agent", "Toutes catégories", "Traitement" etc.
 
-    FLineEdit
-     *maxNLigneLineEdit;
+    FLineEdit *maxNLigneLineEdit; ///< Nombre maximal de lignes de la base
 
-    QGroupBox
-      *baseTypeBox;
+    QGroupBox  *baseTypeBox;      ///< Boîte de présentation Type de base
 
     FCheckBox
-      *etabCheckBox,
-      *rangCheckBox;
+      *etabCheckBox,              ///< Exporter l'établissement ou pas
+      *rangCheckBox;              ///< Numéroter les lignes ou pas
 
-    FString
-      standardMsg;
-
-    QLabel *maxNLigneLabel;
+    QLabel *maxNLigneLabel;       ///< Titre de  maxNLigneLineEdit
 
 private slots:
-    void substituer_versant();
+    void substituer_versant();    ///< Exporter le versant FPH ou FPT dans le script R pour générer les tests adéquats
 
 };
 
+
+/// Classe de l'onglet Codes permettant d'exporter des codes de paye manuellement spécifiés vers les scripts R.
 
 class codePage :  public QDialog, public common
 {
     Q_OBJECT
 
 public :
+    /// Constructeur de l'onglet "Code de paye des tests"
+
     codePage();
-    void resetLabel() {label->setText("") ;}
+
+    /// Réinitialisation de l'élément de texte variable de l'onglet.
+    
+    void resetLabel()
+    {
+        label->setText ("") ;
+    }
 
 private:
-    QString prologue_codes_path;
-    QStringList variables;
-    QList<FLineEdit*> listeCodes;
-    QList<QString> listeLabels;
-    QList<QLabel*> listeDialogueLabels;
-    QLabel *label;
-    QString init_label_text ;
-    QToolButton* appliquerCodes ;
-    QGridLayout *vLayout = new QGridLayout;
-    QVBoxLayout *mainLayout = new QVBoxLayout;
-    QGroupBox *baseBox;
+    QString prologue_codes_path;  ///< Chemin initial de \em prologue_codes.R sous #SCRIPT_DIR. Ce fichier contient les exportations de valeurs de l'onglet \b Codes de l'interface graphique.
+    QStringList variables;        ///< Libellés des éléments de paye faisant l'objet d'une ligne dans l'onglet.
+    QList<FLineEdit*> listeCodes; ///< Liste des pointeurs vers des composants fonctionnels de classe FLineEdit, qui rassemble l'ensemble des lignes correspondant à variables.
+    QList<QString> listeLabels;   ///< Elements de variables dont les espaces ont été retirées.
+    QList<QLabel*> listeDialogueLabels;        ///< Mise en forme des éléments de listeLabels au format QLabel.
+    QLabel *label;                             ///< Elément de texte variable servant à afficher des messaes d'erreur ou de réussite de l'exportation des codes.
+    QString init_label_text ;                  ///< Message "Appuyer pour exporter..."
+    QToolButton* appliquerCodes ;              ///< Bouton "Exporter" (flèche verte) .
+    QGridLayout *vLayout = new QGridLayout;    ///< Disposition secondaire.
+    QVBoxLayout *mainLayout = new QVBoxLayout; ///< Disposition principale.
+    QGroupBox *baseBox;                        ///< Boite regroupant les codes.
 
+    /// Crée une ligne de codes pour un type donné d'éléments de paye
+    /// \param nom Nom de l'élément de paye
+    /// \return Nombre d'éléments de paye empilés
 
-    inline int ajouterVariable(const QString& nom);
+    int ajouterVariable (const QString& nom);
+
+    /// Réinitialise l'exportation des codes d'éléments de paye
+    /// Ecrase prologue_codes.R ( prologue_codes_path) par sa valeur d'initialisation prologue_init.R
+    /// \return \e true si la réinitialisation par écrasement a réussi, \e false sinon.
+
     bool reinitialiser_prologue();
 
 private slots:
+    
+    /// Substitue certaines valeurs caractéristiques du contrôle dans le fichier \em prologue_codes.R dans common::exportpath, notamment le Siret, le budget et l'employeur
+    
     void substituer_valeurs_dans_script_R();
-    void activer_fph(bool);
+    
+    /// Active les contrôles réglementaires sur la fonction publique hospitalière (FPH) même s'ils n'ont pas été activés par reconnaissnce automatique.
+    
+    void activer_fph (bool);
 };
 
+
+/// Classe de l'onglet Codes, qui permet de saisir manuellement les codes de paye de certaines catégories de lignes de paye.
+/// 
+/// Les codes différents, pour la même ligne, sont séparés par des points-virgules. Ils doivent être exportés dans le fichier common::exportpath en cliquant sur la flèche verte de l'onglet.
 
 class options :   public QDialog, public common
 {
@@ -161,31 +188,43 @@ class options :   public QDialog, public common
 
 public:
 
-    options(Altair* parent=0);
-    standardPage* standardTab;
-    processPage* processTab;
-    codePage* codeTab;
-    static std::uint16_t RefreshFlag;
-    QListWidget *contentsWidget;
-    void clearOptionData();
-
-signals:
-
-    void defaultClick(bool);
-
+    options (Altair* parent = 0);      ///< Constructeur de l'onglet correspondant à un pointeur \em parent vers une instance de la classe Altair
+    standardPage* standardTab;         ///< Onglet d'accueil Format : type de base en sortie, modalité d'extraction des données, exportation/archivage
+    processPage* processTab;           ///< Onglet de Traitement : nombre de fils, utilisation de la mémoire, log et enchainement avec la production des rapports
+    codePage* codeTab;                 ///< Onglet des codes de paye : renseignement manuel des codes de paye utilisés pour certains types d'éléments de paye
+    static std::uint16_t RefreshFlag;  ///< Drapeau indiquant si si l'interface a été actualisée ou doit l'être
+    QListWidget *optionWidget;         ///< composant du dialogue d'options
+    
+    /// Efface les données de  Hash::wrapper et de  Hash::Reference
+    
+    void clearOptionData();            
 
 private:
 
-    QDialogButtonBox *closeButton;
-    QStackedWidget *pagesWidget;
+    QDialogButtonBox *closeButton;     ///< Bouton "Quitter"
+    QStackedWidget *pagesWidget;       ///< composant permettant d'empiler les onglets du dialogue d'options (standardPage,  processPage,  codePage)
 
-    void createIcons();
-    void createIcon(const char* path, const char* text);
+    /// Méthode permettant d'ajouter les icônes.
+    /// 
+    /// Appelle options::createIcons sur une liste prédéterminée d'arguments.
+    
+    void createIcons();                        
+    
+    /// Méthode permettant d'ajouter une icône particulière
+    ///
+    /// \param path  Chemin de l'icône
+    /// \param text  Libellé de  l'icône
+    
+    void createIcon (const char* path, const char* text);   
 
 private slots:
-    void changePage(QListWidgetItem *current, QListWidgetItem *previous);
-    void enchainerRapports(int index);
-
-
+    
+    /// Changement d'onglet du dialogue d'options
+    
+    void changePage(QListWidgetItem *current, QListWidgetItem *previous); 
+    
+    /// Coche la case "Enchainer les rapports" qui permet de lancer R pour produire des rapports d'analyse à partir de l'interface sans lancer RStudio
+    
+    void enchainerRapports (int index);                                   
 };
 #endif // OPTIONS_H

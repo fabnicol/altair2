@@ -6,7 +6,7 @@
 // fabrnicol@gmail.com
 //
 // Ce logiciel est régi par les dispositions du code de la propriété
-// intellectuelle. 
+// intellectuelle (CPI).
 
 // L'auteur se réserve le droit d'exploitation du présent logiciel, 
 // et notamment de reproduire et de modifier le logiciel, conformément aux 
@@ -31,18 +31,25 @@
 // pris connaissance de ces stipulations et que vous en avez accepté les
 // termes.
 
-// Pour l'année 2017, une autorisation d'usage, de modification et de 
+// Sans préjudice des dispositions du CPI, une autorisation d'usage et de
 // reproduction du présent code est donnée à tout agent employé par les
-// juridictions financières. Cette autorisation est temporaire et peut être 
-// révoquée.
+// juridictions financières pour l'exercice de leurs fonctions publiques.
+// Le code ainsi mis à disposition ne peut être transmis à d'autres utilisateurs.
 //
 
 #ifndef TEMPLATES_H
 #define TEMPLATES_H
 #include <QHash>
 
-
-template <typename T, typename U> void createHash(QHash<T, U > &H, const QList<T> *L, const QList<U> *M)
+/// Crée une table de hachage entre deux listes de même longueur. Si les listes ne sont pas de même longueur, tronque la table à la dimension de la plus courte
+/// \param H Table de hachage
+/// \param L liste des clés de type T, où T est le premier argument du \e template
+/// \param M Liste des valeurs de type U, où U est le second argument du \e template
+/// \details \b Exemple
+/// \code createHash<QString, QString>(H, L, M); \endcode
+/// \sa  FListWidget,  FComboBox
+template <typename T, typename U>
+void createHash(QHash<T, U > &H, const QList<T> *L, const QList<U> *M)
 {
     if ((L == nullptr) || (M == nullptr)) return;
     QListIterator<T> i(*L);

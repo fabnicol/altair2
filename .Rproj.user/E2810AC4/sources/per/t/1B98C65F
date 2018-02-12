@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1505602222213.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1202411707",
+    "id" : "1B98C65F",
+    "lastKnownWriteTime" : 1505343219,
+    "last_content_update" : 1505343219,
+    "path" : "~/Dev/altair/Tests/Exemple/rapport_pdf.R",
+    "project_path" : "Tests/Exemple/rapport_pdf.R",
+    "properties" : {
+        "cursorPosition" : "20,2",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -39,6 +39,13 @@
 **
 ****************************************************************************/
 
+
+/// \file highlighter.h
+/// \author Digia Plc
+/// \brief Code de l'utilitaire de colorisation du code XML du projet \b .alt
+/// \note Ce code est emprunté tel quel, avec quelques adaptations mineures,
+///  à l'éditeur Digia sous licence BSD dans le cadre de l'usage de <i>fair use</i>.<br><b>Il n'est pas documenté.</b>
+
 #ifndef HIGHLIGHTER_H
 #define HIGHLIGHTER_H
 
@@ -54,10 +61,10 @@ class Highlighter : public QSyntaxHighlighter
     Q_OBJECT
 
 public:
-    Highlighter(QTextDocument *parent = 0);
+    Highlighter (QTextDocument *parent = 0);
 
 protected:
-    void highlightBlock(const QString &text);
+    void highlightBlock (const QString &text);
 
 private:
     struct HighlightingRule
@@ -69,7 +76,7 @@ private:
 
     QTextCharFormat keywordFormat;
 
-    void createRulePattern(const QColor& color,  QFont::Weight weight,  const QStringList& list);
+    void createRulePattern (const QColor& color,  QFont::Weight weight,  const QStringList& list);
 };
 
 #endif // HIGHLIGHTER_H

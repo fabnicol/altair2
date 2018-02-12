@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1507034609191.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1470564401",
+    "id" : "77C1546A",
+    "lastKnownWriteTime" : 1505553387,
+    "last_content_update" : 1505553387,
+    "path" : "~/Dev/altair/Tests/Exemple/analyse.statique.R",
+    "project_path" : "Tests/Exemple/analyse.statique.R",
+    "properties" : {
+        "cursorPosition" : "117,0",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

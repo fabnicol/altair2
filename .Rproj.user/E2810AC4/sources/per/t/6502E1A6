@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1507034488245.000,
+    "dirty" : false,
+    "encoding" : "ISO-8859-1",
+    "folds" : "",
+    "hash" : "923684637",
+    "id" : "6502E1A6",
+    "lastKnownWriteTime" : 1505343219,
+    "last_content_update" : 1505343219,
+    "path" : "~/Dev/altair/Tests/Exemple/import.R",
+    "project_path" : "Tests/Exemple/import.R",
+    "properties" : {
+        "cursorPosition" : "524,59",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

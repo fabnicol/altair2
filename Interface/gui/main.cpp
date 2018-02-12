@@ -35,8 +35,12 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////////////
 
+
+/// \file gui/main.cpp
+/// \author Fabrice Nicol
+/// \brief Lance l'interface graphique en chargeant le bon contexte linguistique et la feuille de style
 
 #include <QApplication>
 #include <QTranslator>
@@ -44,52 +48,60 @@
 #include <QTextCodec>
 #include "altair-gui.h"
 
+int  fontsize;
 
-int main(int argc, char *argv[])
+int main (int argc, char *argv[])
 {
-    QApplication app(argc, argv);
-    app.setFont(QFont("Verdana", 10));
-   
-    QString translationsPath(QCoreApplication::applicationDirPath() + "/../translations");
+    QApplication app (argc, argv);
+    QRect rec = QApplication::desktop()->screenGeometry();
+    int width0 = rec.width();
+    int fontsize = (width0 > 2000) ? width0 / 1920 * 10 : 10;
+    app.setFont (QFont ("Verdana", fontsize));
+
+    QString translationsPath (QCoreApplication::applicationDirPath() + "/../translations");
     QLocale locale = QLocale::system();
 
-    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+    QTextCodec::setCodecForLocale (QTextCodec::codecForName ("UTF-8"));
     QTranslator qtTranslator;
-    bool res=false;
-    if ((res = qtTranslator.load(locale, "qt", "_", translationsPath)))
-      {
-        res = app.installTranslator(&qtTranslator);
-      }
+    bool res = false;
+
+    if ((res = qtTranslator.load (locale, "qt", "_", translationsPath)))
+        {
+            res = app.installTranslator (&qtTranslator);
+        }
 
     if (res == false)
-        QMessageBox::critical(nullptr, "Erreur", "Traductions qt non chargées", QMessageBox::Cancel);
+        QMessageBox::critical (nullptr, "Erreur", "Traductions qt non chargées", QMessageBox::Cancel);
 
     QTranslator qtBaseTranslator;
-    if ((res = qtBaseTranslator.load(locale, "qtbase", "_", translationsPath)))
-    {
-        res=app.installTranslator(&qtBaseTranslator);
-    }
+
+    if ((res = qtBaseTranslator.load (locale, "qtbase", "_", translationsPath)))
+        {
+            res = app.installTranslator (&qtBaseTranslator);
+        }
 
     if (res == false)
-        QMessageBox::critical(nullptr, "Erreur", "Traductions qtbase non chargées", QMessageBox::Cancel);
+        QMessageBox::critical (nullptr, "Erreur", "Traductions qtbase non chargées", QMessageBox::Cancel);
 
     QTranslator qtXmlTranslator;
-    if ((res = qtXmlTranslator.load(locale, "qtxmlpatterns", "_", translationsPath)))
-    {
-        res=app.installTranslator(&qtXmlTranslator);
-    }
+
+    if ((res = qtXmlTranslator.load (locale, "qtxmlpatterns", "_", translationsPath)))
+        {
+            res = app.installTranslator (&qtXmlTranslator);
+        }
 
     if (res == false)
-        QMessageBox::critical(nullptr, 
-                                          "Erreur", 
-                                          "Traductions qtxmlpatterns non chargées",
-                                          QMessageBox::Cancel);
+        QMessageBox::critical (nullptr,
+                               "Erreur",
+                               "Traductions qtxmlpatterns non chargées",
+                               QMessageBox::Cancel);
 
     char* s;
-    if (argc > 1) s=argv[1];
-    else s=(char*)"";
 
-    app.setStyleSheet("\
+    if (argc > 1) s = argv[1];
+    else s = (char*)"";
+
+    app.setStyleSheet ("\
     QGroupBox {\
         border: 1px solid silver;\
         border-radius: 5px;\
@@ -104,10 +116,10 @@ int main(int argc, char *argv[])
     }");
 
 
-    MainWindow *mainWin = new MainWindow(s);
+    MainWindow *mainWin = new MainWindow (s);
 
-    QObject::connect(mainWin, &MainWindow::exitSignal, [&] { app.quit();});
+    QObject::connect (mainWin, &MainWindow::exitSignal, [&] { app.quit();});
     mainWin->show();
-        
+
     return app.exec();
 }
