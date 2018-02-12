@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<projet version="17.10-4">
+<projet version="18.01-11">
  <data>
   <XHL profondeur="2">
    <onglet V="2009">
@@ -127,7 +127,7 @@
    oui
   </quiet>
   <baseType profondeur="0">
-     
+   
   </baseType>
   <maxLigne profondeur="0">
    1000000
@@ -187,46 +187,49 @@
    non
   </enchainerRapports>
   <TRAITEMENT profondeur="0">
-     
+   
   </TRAITEMENT>
   <NBI profondeur="0">
-     
+   
   </NBI>
   <PFI profondeur="0">
-     
+   
   </PFI>
   <PFR profondeur="0">
-     
+   
   </PFR>
   <IPF profondeur="0">
-     
+   
   </IPF>
   <PSR profondeur="0">
-     
+   
   </PSR>
   <IFTS profondeur="0">
-     
+   
   </IFTS>
   <IAT profondeur="0">
-     
+   
   </IAT>
   <IHTS profondeur="0">
-     
+   
   </IHTS>
   <VACATAIRES profondeur="0">
-     
+   
   </VACATAIRES>
   <ASTREINTES profondeur="0">
-     
+   
   </ASTREINTES>
+  <exporterParAgent profondeur="0">
+   non
+  </exporterParAgent>
   <Matricules profondeur="0">
-     
+   
   </Matricules>
   <MatriculesB profondeur="0">
-     
+   
   </MatriculesB>
   <MatriculesC profondeur="0">
-     
+   
   </MatriculesC>
   <dossierBulletins profondeur="0">
    /home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot/Tests/Exemple/Donnees/Bulletins

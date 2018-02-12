@@ -44,7 +44,7 @@
 #'css: style.css
 #'---     
 #'   
-#'![Image_Altair](altair.png)
+#'![Image_Altair](Altair.png)
 #'   
 #'   
 #'## Logiciel Altaïr version `r readLines(file.path(currentDir, "VERSION"))`
@@ -62,17 +62,27 @@
 
 #+ début
   
-  
+# Utiliser la compilation JIT
+
 library(compiler, warn.conflicts = FALSE)
-library(altair)
+
 invisible(setCompilerOptions(suppressAll = TRUE, optimize = 3))
-invisible(enableJIT(0))
+invisible(enableJIT(3))
+
+# Options générales
 
 options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE, datatable.integer64 = "numeric")
 
-source("bibliotheque.fonctions.paie.R", encoding = encodage.code.source)
+# Sourcer la biblio de fonctions auxiliaires
+
+source("bibliotheque.fonctions.paie.R", encoding = "UTF-8")
+
+# Importer les données --> bases Paie et Bulletins.paie
 
 source("import.R", encoding = encodage.code.source)
+
+# En-tête du rapport
+# Les caractéristiques du contrôle sont contenues dans controle[1], controle[2], controle[3], controle[4]
 
 #'
 #'### Employeur : `r controle[1]`      
@@ -92,13 +102,20 @@ source("import.R", encoding = encodage.code.source)
 
 #+ analyse-rémunérations
 
+# Cette fonction permet de sauter une page dans le PDF ou dans le html (pas dans le docx)
+
 newpage()
+
+# Analyser les rémunérations à partir des données importées --> bases Analyse.XXX
 
 source("analyse.rémunérations.R", encoding = encodage.code.source)
 
-incrémenter.chapitre()
+########### 1.1 Effectifs ########################
 
-#'# `r chapitre`. Statistiques de population
+# Cette fonction incrémente le chapitre du rapport
+
+
+#'# 1. Statistiques de population
 #'
 
 #+ pyramides-des-âges
@@ -107,6 +124,9 @@ incrémenter.chapitre()
 e <- new.env()
 
 fichiers.pyr <- list.files(path= file.path(currentDir, "data"), pattern = "*.csv", full.names = TRUE)
+
+# Lecture des fichiers de référence des pyramides (fichiers listés dans fichiers.pyr), comportant les statistiques INSEE
+
 for (f in fichiers.pyr) {
   base <- basename(f)
   assign(substr(base, 1, attr(regexec("(.*)\\.csv", base)[[1]], "match.length")[2]),
@@ -120,7 +140,7 @@ source("analyse.bulletins.R", local = TRUE, encoding = encodage.code.source)
 
 ########### 1.1 Pyramides ########################
 
-#'## `r chapitre`.1 Pyramide des âges, ensemble des personnels
+#'## 1.1 Pyramide des âges, ensemble des personnels
 
 #' 
 #+fig.height=8, fig.width=7
@@ -148,7 +168,7 @@ newpage()
 ########### 1.2 Pyramides fonctionnaires ########################
 
 #'
-#'## `r chapitre`.2 Pyramide des âges des fonctionnaires  
+#'## 1.2 Pyramide des âges des fonctionnaires  
 #' 
 #+fig.height=8, fig.width=7    
 essayer(produire_pyramides(c("TITULAIRE", "STAGIAIRE"), 
@@ -174,7 +194,7 @@ newpage()
 
 ########### 1.3 Pyramides non Tit ########################
 
-#'## `r chapitre`.3 Pyramide des âges, personnels non titulaires   
+#'## 1.3 Pyramide des âges, personnels non titulaires   
 
 #+fig.height=8, fig.width=7
 essayer(produire_pyramides(c("NON_TITULAIRE"), "Pyramide des âges des non titulaires", 
@@ -200,12 +220,12 @@ newpage()
 
 ########### 1.4 Pyramides Autres statut ########################
 
-#'## `r chapitre`.4 Pyramide des âges, autres statuts
+#'## 1.4 Pyramide des âges, autres statuts
 
 
 #' 
 #+fig.height=8, fig.width=7
-Filtre_bulletins <- setdiff(unique(Bulletins.paie$Statut), c("TITULAIRE", "NON_TITULAIRE", "STAGIAIRE")) 
+Filtre_bulletins <<- setdiff(unique(Bulletins.paie$Statut), c("TITULAIRE", "NON_TITULAIRE", "STAGIAIRE")) 
 
 essayer(produire_pyramides(Filtre_bulletins,
                            "Pyramide des âges des autres personnels"),
@@ -228,6 +248,8 @@ print(e$res)
 #'*Source des comparaisons avec les données nationales*      
 #'         
 #'Rapport annuel sur l'état de la fonction publique pour 2016      
+#'[Pyramide 2013 FPH](Docs/insee_pyramide_fph_2013.csv)   
+#'[Pyramide 2013 FPT](Docs/insee_pyramide_fpt_2013.csv)     
 
 
 #'*Toutes les pyramides des âges sont établies au 31 décembre de l'année considérée.*   
@@ -237,7 +259,7 @@ newpage()
 
 ########### 1.5 Effectifs par durée ########################
 
-#'## `r chapitre`.5 Effectifs des personnels par durée de service
+#'## 1.5 Effectifs des personnels par durée de service
 #'
 #'**Personnels en fonction (hors élus) des exercices `r début.période.sous.revue` à `r fin.période.sous.revue` inclus :**
 #'
@@ -306,7 +328,7 @@ kable(tableau.effectifs.var, row.names = TRUE, align='c')
 #'
 
 
-incrémenter.chapitre()
+
 
 newpage()
 
@@ -1453,6 +1475,28 @@ beneficiaires.IPF <- beneficiaires.IPF[Matricule %chin% matricules.IPF,
 
 ft <- filtre("TRAITEMENT")
 
+# if (! is.na(ft)) {
+#   
+#   corriger_T <- function(x, y) {
+#     ifelse(x != "T",
+#            x,
+#            ifelse(y %chin% ft, "T", "NT"))   # pour des raisons non comprises if...else ne fonctionne pas !
+#   }
+#   
+#   Paie[ ,  Type_cor := corriger_T(Type, Code)]  
+#    
+# } else {
+# 
+#   corriger_T <- function(x, z) {
+#     ifelse(x != "T",
+#            x,
+#           ifelse(grepl(expression.rég.traitement, z, ignore.case = TRUE, perl = TRUE) 
+#               | grepl(expression.rég.nbi, z, ignore.case = TRUE, perl = TRUE) , "T", "NT"))
+#   }
+#   
+#   Paie[ ,  Type_cor := corriger_T(Type, Libellé)]
+# }
+
 colonnes <- c(étiquette.matricule,
               étiquette.année,
               "Mois",
@@ -1728,7 +1772,7 @@ if (générer.table.élus)   {
 #### 2.11 SFT ####
 
 #'
-#'## `r chapitre`.11 Contrôle du supplément familial de traitement   
+#'## 2.11 Contrôle du supplément familial de traitement   
 #'  
 
 ## La biblitothèque SFT est à revoir
@@ -1861,9 +1905,10 @@ message("Analyse du SFT")
 #### 2.12 ASTREINTES ####
 
 #'
-#'## `r chapitre`.12 Contrôle des astreintes
+#'## 2.12 Contrôle des astreintes
 #'  
 
+essayer({
 Paie_astreintes <- filtrer_Paie("ASTREINTES", portée = "Mois", indic = TRUE)
 
 libelles.astreintes <- unique(Paie_astreintes[indic == TRUE, .(Code, Libellé)], by = NULL)
@@ -1888,6 +1933,8 @@ if (nrow(Controle_astreintes)) {
 Cum_astreintes <- rbind(Controle_astreintes[, round(sum(Montant.astreinte), 1),
                                                   by = "Année"],
                                             list("Total", Controle_astreintes[, round(sum(Montant.astreinte), 1)]))
+},
+"Le contrôle Astreintes-NBI n'a pas pu être réalisé.")
 
 #'  
 #'&nbsp;*Tableau `r incrément()` : Cumuls irréguliers NBI et astreintes (responsabilité supérieure)*   
@@ -1909,7 +1956,7 @@ Tableau.vertical2(c("Année", "Montant astreintes irrégulières (euros)"),
 #'[Lien vers les libellés et codes astreintes](Bases/Reglementation/libelles.astreintes.csv)     
 #'   
 
-
+essayer({
 setnames(Paie_astreintes, "indic", "indic_astr")
 setnames(Base.IHTS, "indic", "indic_IHTS")
 
@@ -1930,6 +1977,10 @@ Cum_astreintes_HS_irreg <- rbind(Controle_astreintes_HS_irreg[, .(round(sum(Mont
                                 list("Total",
                                      Controle_astreintes_HS_irreg[indic_astr == TRUE, round(sum(Montant), 1)],
                                      Controle_astreintes_HS_irreg[indic_IHTS == TRUE, round(sum(Montant), 1)]))
+
+
+}, 
+"Le contrôle du cumul astreintes IHTS n'a pas pu être réalisé")
 
 #'  
 #'&nbsp;*Tableau `r incrément()` : Cumuls potentiellement irréguliers IHTS et astreintes*   
@@ -1953,7 +2004,7 @@ rm(Base.IHTS)
 #### 2.13 RETRAITES ####
 
 #'
-#'## `r chapitre`.13 Contrôle des cotisations de retraite    
+#'## 2.13 Contrôle des cotisations de retraite    
 #'  
 
 #'**Non titulaires**   
@@ -2030,7 +2081,7 @@ Tableau(c("Cotisations salarié", "Cotisations employeur"),
 #### 2.14 PRIMES FPH ####     
 
 #'   
-#'## `r chapitre`.14 Primes de la fonction publique hospitalière          
+#'## 2.14 Primes de la fonction publique hospitalière          
 #'    
 #'     
 #'*Les primes qui suivent ne peuvent être octroyées qu'à des fontionnaires.*    
@@ -2407,8 +2458,6 @@ envir <- environment()
 
 if (sauvegarder.bases.analyse) {
 
-######### + Rémunérations #######  
-  
   sauv.bases(file.path(chemin.dossier.bases, "Remunerations"),
              env = envir,
              "Analyse.remunerations",
@@ -2421,16 +2470,12 @@ if (sauvegarder.bases.analyse) {
              "beneficiaires.PSR.Variation",
              "beneficiaires.IPF.Variation")
 
-######### + Effectifs #######  
-  
   sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
              env = envir,
              "matricules",
              "grades.categories",
              "tableau.effectifs")
 
-######### + Réglementation #######  
-  
   sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
              env = envir,
              "personnels.iat.ifts",
@@ -2488,10 +2533,6 @@ if (sauvegarder.bases.analyse) {
              "personnels.prime.tech.nt",
              "personnels.ps.nt")
   
-  
-######### --Fiabilité #######  
-  
-    
   sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"),
              env = envir,
               "base.heures.nulles.salaire.nonnull",

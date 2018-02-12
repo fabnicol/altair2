@@ -81,10 +81,14 @@ if (! exists("PDF"))       PDF <- FALSE
 keep_md                        <- FALSE
 utiliser.cplusplus.sft         <- FALSE
 sécuriser.types.sortie         <- TRUE
-utiliser.variable.Heures.Sup. <- FALSE  # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unité
+utiliser.variable.Heures.Sup.  <- FALSE  # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unité
+noria.sur.base.de.paie         <- FALSE  # calculer effet de noria sur base de paie uniquement (pas de fichier E/S)
+sauter.tests.statutaires       <- FALSE
 
 
-seuil.troncature               <- 1 # jours
+numéro.tableau                 <- 0  # Numérotation de départ des tableaux
+chapitre                       <- 0  # Numérotation de départ des chapitres
+seuil.troncature               <- 2  # jours
 taux.tolérance.homonymie       <- 2  # en %
 quantile.cut                   <- 1  # en %
 minimum.positif                <- 0.5
@@ -184,22 +188,12 @@ date.format                      <- "%d/%m/%Y"
 # A priori les deux modes de lectures de tables (rapide et standard) lisent aussi bien le Windows ANSI/ISO-8859-1 que
 # l'UTF-8 à condition que le Windows ANSI soit encodé par Excel ou l'éditeur de RStudio.
 
-encodage.entrée <-  "ISO-8859-1"
+encodage.entrée                <-  "ISO-8859-1"
   # "WINDOWS-1252"
   # "UTF-8"
-  
-encodage.entrée.xhl2csv <-  "ISO-8859-1"
-
-encodage.sortie <- "ISO-8859-15"
-
-modalité.traitement            <- "TRAITEMENT"     # s'applique aussi aux NBI
-modalité.indemnitaire          <- "INDEMNITAIRE"   # hors vacations
-
-modalité.principal.contractuel <- "PRINCIPAL.CONTRACTUEL" # contractuels qui ne sont pas payés par référénece à un traitement indiciaire.
-modalité.élu                   <- "ELU"
-modalité.vacations             <- "VACATIONS"
-modalité.autres                <- "AUTRES"         # notamment les remboursements de frais professionnels, de transport et les restitutions/régularisations
-
+encodage.entrée.xhl2csv        <-   encodage.entrée
+encodage.sortie                <- "UTF-8" #ISO-8859-15"
+convertir.latin                <- grepl("ISO.*8859-1.*", encodage.sortie, ignore.case = TRUE)
 
 # expressions régulières
 
@@ -254,3 +248,4 @@ source("versant.R", encoding = "UTF-8")
 source("point.im.R", encoding = "UTF-8")
 source("plafonds.R", encoding = "UTF-8")
 
+fichier.es <- "/home/fab/Desktop/SDIS/Bases/ES.csv"

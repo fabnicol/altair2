@@ -12,7 +12,7 @@ noria(Bulletins = Bulletins.paie, Base = Analyse.variations.par.exercice,
 \arguments{
 \item{Bulletins}{Base mensuelle des bulletins de paie, comportant pour l'ensemble de la période
 \enumerate{
-  \item{ les variables caractère suivantes :
+  \item{ les variables charactère suivantes :
      \itemize{
          \item \code{Année}
          \item \code{Matricule}
@@ -25,7 +25,7 @@ noria(Bulletins = Bulletins.paie, Base = Analyse.variations.par.exercice,
 
 \item{Base}{Base de paye, ou extraction de cette base, comportant pour l'ensemble de la période
 \enumerate{
-  \item{ les variables caractère suivantes :
+  \item{ les variables charactère suivantes :
      \itemize{
          \item \code{Année}
          \item \code{Matricule}
@@ -164,7 +164,7 @@ et l'approximation reste valable pour l'évaluation du GVT.
 }
 \examples{
  noria()
- 
+
  | Année | ETPT  | ETPT entrants | ETPT sortants | Entrants | Sortants | Var. effectifs | Taux de rotation \% |
  |-------|-------|---------------|---------------|----------|----------|----------------|--------------------|
  | 2011  | 789,6 |     14,8      |     10,0      |   30,0   |   23,0   |      7,0       |        3,6         |
@@ -173,9 +173,9 @@ et l'approximation reste valable pour l'évaluation du GVT.
  | 2014  | 958,1 |     17,5      |     18,1      |   38,0   |   37,0   |      1,0       |        4,2         |
 
  Lecture : 
- Cet organisme comptait 939 ETPT en 2013, dont 11,5 ETPT entrants et 16,7 ETPT sortants. 
+ L'organisme comptait 939 ETPT en 2013, dont 11,5 ETPT entrant et 16,7 ETPT sortants
  correspondant respectivement à 27 entrants physiques et 32 sortants physiques. 
- Le taux de rotation était de 3,4 \% au cours de cette année. 
+ Le taux de rotation était de 3,4 \% au cours de cette année.
  
  | Année | Effet noria | \% SMPT | Effet var. effectifs | \% SMPT | Effet vacances | \% SMPT |   Total    | \% SMPT |
  |-------|-------------|--------|----------------------|--------|----------------|--------|------------|--------|
@@ -185,7 +185,7 @@ et l'approximation reste valable pour l'évaluation du GVT.
  | 2014  |  -88 795,8  |  -0,3  |       11 441,7       |  0,0   |   -46 453,6    |  -0,1  | -123 807,6 |  -0,4  |
  
  Lecture : 
- L'effet de noria en 2013 était de -0,3 \% en valeur relative en proportion de
+ L'effet de l'effet de noria en 2013 était de -0,3 \% en valeur relative en proportion de
  la masse des rémunérations brutes 2013 (autrement dit en points de SMPT). 
  Le total des effets d'entrées-sorties était de -0,6 point de SMPT, soit une économie 
  sur rémunérations brutes versées de 214 418,3 euros.  
@@ -201,9 +201,9 @@ et l'approximation reste valable pour l'évaluation du GVT.
  Le salaire brut moyen 2013 serait égal à la RMPP (rémunération des personnes présentes tout au long de 2012 et 2013)
  sans les effets d'entrées et de sorties en 2012 et 2013.
  Ces effets interviennent en 2012 (seulement les entrées, première colonne) et en 2013 (colonnes suivantes).
- L'effet relatif des entrées 2012 est de -0,63 \% : les entrants en 2012 encore présents en 2013 ont des salaires 
- moins élevés que les présents-présents en moyenne.
- L'effet de noria 2013 (remplacement des sortants 2013 par un même nombre d'entrants) est de -0,3 \% de variation relative :
+ L'effet relatif des entrées 2012 est de -0,4 \% : les entrants en 2012 encore présents en 2013 ont des salaires moins élevés 
+ que les présents-présents en moyenne.
+ L'effet de noria 2013 (emplacement des sortants 2013 par un même nombre d'entrants) est de -0,3 \% de variation relative :
  les sortants avaient en moyenne des salaires plus élevés que les entrants.
  L'effet relatif de la variation des effectifs 2013 est de -0,18 \% : il y a eu un peu plus de sortants que d'entrants.
  L'effet des vacances d'emploi est de -0,15 \% : tous les sortants ne sont pas remplacés au moment de leur départ.
@@ -220,9 +220,8 @@ et l'approximation reste valable pour l'évaluation du GVT.
  Le GVT positif se déduit de la variation de la RMPP en retranchant l'effet, estimé par d'autres moyens,
  des mesures catégorielles et générales. Le GVT négatif total, défini comme la somme de l'effet de noria
  et des différents effets d'entrées-sorties (en n et n-1) est égal à la colonne "Variation des effets d'entrées-sorties".
- Le cumul de la variation de la RMPP et des effets E/S doit être égal à la variation du SMPT. 
- Les deux dernières colonnes doivent être égales.
-   
+ 
+ 
 noria(champ = "net", classe = "SPP", filtre = "A")
 
 Lecture : Produit des tableaux analogues aux précédents pour la rémunération des agents SPP de catégorie A.
