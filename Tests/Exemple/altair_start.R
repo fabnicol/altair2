@@ -121,6 +121,10 @@ source("analyse.rémunérations.R", encoding = encodage.code.source)
 #+ pyramides-des-âges
 
 
+# Appel de la biblio altair, où sont regroupées des fonctions d'analyse des rémunérations et les pyramides
+
+library("altair", lib.loc=c("/usr/lib64/R/library", "/usr/local/lib64/R/library"))
+
 e <- new.env()
 
 fichiers.pyr <- list.files(path= file.path(currentDir, "data"), pattern = "*.csv", full.names = TRUE)
