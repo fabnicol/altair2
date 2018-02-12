@@ -6,7 +6,7 @@
 // fabrnicol@gmail.com
 //
 // Ce logiciel est régi par les dispositions du code de la propriété
-// intellectuelle. 
+// intellectuelle (CPI).
 
 // L'auteur se réserve le droit d'exploitation du présent logiciel, 
 // et notamment de reproduire et de modifier le logiciel, conformément aux 
@@ -31,10 +31,10 @@
 // pris connaissance de ces stipulations et que vous en avez accepté les
 // termes.
 
-// Pour l'année 2017, une autorisation d'usage, de modification et de 
+// Sans préjudice des dispositions du CPI, une autorisation d'usage et de
 // reproduction du présent code est donnée à tout agent employé par les
-// juridictions financières. Cette autorisation est temporaire et peut être 
-// révoquée.
+// juridictions financières pour l'exercice de leurs fonctions publiques.
+// Le code ainsi mis à disposition ne peut être transmis à d'autres utilisateurs.
 //
 //
 #ifndef FWIDGETS_H
@@ -131,11 +131,14 @@ public:
 
 class FAbstractWidget : public flags
 {
-
 public:
- Q2VectorWidget* enabledObjects = nullptr;
- Q2VectorWidget* disabledObjects = nullptr;
 
+ Q2VectorWidget* enabledObjects = nullptr; ///< Pointeur vers un vecteur de vecteurs de widgets activés par le composant courant
+
+ Q2VectorWidget* disabledObjects = nullptr; ///< Pointeur vers un vecteur de vecteurs de widgets désactivés par le composant courant
+ // command-line interface type
+ flags::commandLineType commandLineType;
+ flags::status  status;
 
   /* is used for .alt Xml project writing: refresh Widget information and injects current Widget state into Hash::qstring as left-valued of <...hashKey=...> */
  virtual const FString setXmlFromWidget()=0 ;
@@ -143,20 +146,26 @@ public:
   /* does the reverse of setXmlFromWidget : reads left value of <...hashKey=...> and injects it into commandLineList. Refreshes Widget state accordingly */
   virtual void setWidgetFromXml(const FStringList& )=0;
 
-  /* Refreshes widget state from current value of commandLineList member to ensure coherence betwenn internal object state and on-screen display */
- virtual void refreshWidgetDisplay()=0 ;
+
+ /// Retourne la clé de hashage de  Hash::wrapper correspondant au composant
+ /// \return QString correspondant à la clé  hashKey
+
  const QString& getHashKey() const {return hashKey; }
+
  QVector<QWidget*>& getComponentList() { return componentList;}
+
+ /// Accesseur en lecture de la \e profondeur du composant
+ /// \return Retourne  widgetDepth
+
  const QString& getDepth() const {return widgetDepth; }
+
+ /// Accesseur en lecture de la \e description du composant
+ /// \return Retourne  description
+
  const QStringList& getDescription() const { return description; }
 
-
-  /* command-line interface maker */
+  // command-line interface maker
   virtual const QStringList commandLineStringList();
-
-  /* command-line interface type */
-  flags::commandLineType commandLineType;
-  flags::status  status;
 
   // isEnabled() cannot be used as it would trigger lexical ambiguity with QWidget-inherited isEnabled() in subclasses
   // yet using virtual derivation makes it possible to invoke the QWidget-inherited isEnabled().
@@ -182,42 +191,69 @@ protected:
 
   QVector<QWidget*> componentList;
 
-  inline void FCore(const QVector<QWidget*>& , FString, int, const QString&, const QStringList& , const QString&,  QVector<QWidget*> =QVector<QWidget*>(), QVector<QWidget*> =QVector<QWidget*>());
+  void FCore(const QVector<QWidget*>& , FString, int, const QString&, const QStringList& , const QString&,  const QVector<QWidget*> =QVector<QWidget*>(), const QVector<QWidget*> =QVector<QWidget*>());
 
-  inline void FCore(const QVector<QWidget*>&, FString, int, const QString &, const QStringList &, const QString&, Q2VectorWidget*, Q2VectorWidget*);
+  void FCore(const QVector<QWidget*>&, FString, int, const QString &, const QStringList &, const QString&, Q2VectorWidget*, Q2VectorWidget*);
   
 };
 
 
 struct Abstract
 {
-    static QVector<FAbstractWidget*> abstractWidgetList;
-    static void refreshOptionFields();
+    static QVector<FAbstractWidget*> abstractWidgetList; ///< englobe tous les widgets fonctionnels utilisés
+
+
+    /// Détruire la valeur allouée de  Hash::wrapper pour la clé \e hashKey si elle existe
+    /// et si elle est allouée et réallouer une nouvelle
+    /// \param hashKey Clé à réallouer
+    /// \param value Nouvelle valeur
+
     static void initH(const QString &hashKey, const QString& value)
     {
-        *(Hash::wrapper[hashKey]=new FStringList) = value;
+       if (! Hash::wrapper.isEmpty()
+                && Hash::wrapper.value(hashKey, nullptr) != nullptr)
+                 delete(Hash::wrapper[hashKey]);
+
+        *(Hash::wrapper[hashKey] = new FStringList) = value;
     }
+
+    /// Détruire la valeur allouée de  Hash::wrapper pour la clé \e hashKey si elle existe
+    /// et si elle est allouée et réallouer une nouvelle
+    /// \param hashKey Clé à réallouer
 
     static void initH(const QString &hashKey)
     {
-        Hash::wrapper[hashKey]=new FStringList;
+        // Détruire la valeur allouée de Hash::wrapper[hashKey] si elle existe
+        // et si elle est allouée et réallouer une nouvelle à blanc
+
+        if (! Hash::wrapper.isEmpty()
+                && Hash::wrapper.value(hashKey, nullptr) != nullptr)
+                 delete(Hash::wrapper[hashKey]);
+
+        Hash::wrapper[hashKey] = new FStringList;
     }
+
+    /// Réinitialiser toutes les valeurs du de la table de hachage  Hash::wrapper
 
     static void initH()
     {
         for (const QString& hashKey: Hash::wrapper.keys()) initH(hashKey);
     }
 
+    /// Récupère toutes les clés de hachage (de Hash::wrapper) des FWidgets qui
+    /// sont dans le vecteur FAbstractWidget::abstractWidgetList, qui englobe tous
+    /// les widgets fonctionnels utilisés
+    /// \return Une QStringList de toutes les clés
+
     static QStringList hashKeys()
     {
         QStringList L;
         for (const FAbstractWidget* a : abstractWidgetList)
             L << a->getHashKey();
+
         return L;
     }
-
 };
-
 
 class FListWidget : public QWidget, public FAbstractWidget
 {
@@ -233,7 +269,6 @@ public:
   void setWidgetFromXml(const FStringList & );
   const FString setXmlFromWidget();
 
-  void refreshWidgetDisplay();
   bool isAbstractEnabled() {return this->isEnabled();}
 
   QListWidget* currentListWidget;
@@ -296,7 +331,6 @@ public:
 
   void setWidgetFromXml(const FStringList& );
   const FString setXmlFromWidget();
-  void refreshWidgetDisplay();
   bool isAbstractEnabled() {return this->QCheckBox::isEnabled();}
 
 private slots:
@@ -328,10 +362,8 @@ public:
 
   void setWidgetFromXml(const FStringList&);
   const FString setXmlFromWidget();
-  void refreshWidgetDisplay();
   bool isAbstractEnabled() {return this->isEnabled();}
 
-  QStringList *signalList;
   QHash<QString, QString> comboBoxTranslationHash;
 
 private slots:
@@ -358,7 +390,6 @@ public:
   FLineEdit() {}
   void setWidgetFromXml(const FStringList&);
   const FString setXmlFromWidget();
-  void refreshWidgetDisplay();
   bool isAbstractEnabled() {return this->isEnabled();}
 
   FLineEdit(const FLineEdit* f) :  FLineEdit(f->commandLineList[0].toQString(), f->status, f->hashKey, f->description, f->optionLabel) {}
@@ -391,9 +422,9 @@ private:
     QTimer *timer= new QTimer(this);
     QProgressBar *bar=new QProgressBar ;
     int startshift = 3;
-    inline void computeRProgressBar();
-    inline void computeLHXParsingProgressBar();
-    inline void computeLHXWritingProgressBar(bool = false);
+    void computeRProgressBar();
+    void computeLHXParsingProgressBar();
+    void computeLHXWritingProgressBar(bool = false);
 
     enum class  State {Parsing, WritingReady, WritingStarted};
     State internalState;
@@ -420,7 +451,7 @@ private:
     }
 
   private slots:
-    inline void setValue(int x, int y) { bar->setValue(x); bar->setMaximum(y);}
+    void setValue(int x, int y) { bar->setValue(x); bar->setMaximum(y);}
     void setValue(int x) { bar->setValue(x); }
 
   public slots:

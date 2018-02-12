@@ -6,7 +6,7 @@
 // fabrnicol@gmail.com
 //
 // Ce logiciel est régi par les dispositions du code de la propriété
-// intellectuelle. 
+// intellectuelle (CPI). 
 
 // L'auteur se réserve le droit d'exploitation du présent logiciel, 
 // et notamment de reproduire et de modifier le logiciel, conformément aux 
@@ -31,10 +31,10 @@
 // pris connaissance de ces stipulations et que vous en avez accepté les
 // termes.
 
-// Pour l'année 2017, une autorisation d'usage, de modification et de 
+// Sans préjudice des dispositions du CPI, une autorisation d'usage et de 
 // reproduction du présent code est donnée à tout agent employé par les
-// juridictions financières. Cette autorisation est temporaire et peut être 
-// révoquée.
+// juridictions financières pour l'exercice de leurs fonctions publiques. 
+// Le code ainsi mis à disposition ne peut être transmis à d'autres utilisateurs.
 //
 #include "fwidgets.h"
 #include "tools.h"
@@ -131,38 +131,44 @@ void FAbstractConnection::meta_connect(FAbstractWidget* w,  const Q2VectorWidget
 inline void FAbstractWidget::FCore(const QVector<QWidget*>& w, FString defaultCommandLine, int commandLineType, const QString &hashKey, const QStringList & description,
                   const QString &option, const QVector<QWidget*>enabledObjects, const QVector<QWidget*>disabledObjects)
 {
-    Q2VectorWidget *dObjects=new Q2VectorWidget, *eObjects=new Q2VectorWidget;
-    if (enabledObjects.isEmpty()) eObjects=nullptr;
+    Q2VectorWidget *dObjects = new Q2VectorWidget,
+                   *eObjects = new Q2VectorWidget;
+
+    if (enabledObjects.isEmpty())
+    {
+        delete(eObjects);
+        eObjects = nullptr;
+    }
     else
         *eObjects << enabledObjects;
-    if (disabledObjects.isEmpty()) dObjects=nullptr;
+
+    if (disabledObjects.isEmpty())
+    {
+        delete(dObjects);
+        dObjects = nullptr;
+    }
     else
         *dObjects << disabledObjects;
 
-    FCore(w, defaultCommandLine, commandLineType, hashKey, description, option, eObjects, dObjects);
+    FCore(w, FString(defaultCommandLine), commandLineType, hashKey, description, option, eObjects, dObjects);
 }
 
 inline void FAbstractWidget::FCore(const QVector<QWidget*>& w, FString defaultCommandLine, int commandLineType, const QString &hashKey, const QStringList & description,
                   const QString &option,  Q2VectorWidget *enabledObjects, Q2VectorWidget *disabledObjects)
 {
-    this->enabledObjects=enabledObjects;
-    this->disabledObjects=disabledObjects;
+    this->enabledObjects = enabledObjects;
+    this->disabledObjects = disabledObjects;
 
     w.at(0)->setToolTip(description.at(1));
-
     w.at(0)->setEnabled((commandLineType & flags::status::enabledMask) ==  flags::status::enabled);
 
-    if ((status & flags::status::widgetMask) == flags::status::multimodal && ! this->commandLineList.empty())
-    {
-        this->commandLineList[0].setMultimodal();
-    }
-    this->status=static_cast<flags::status>(commandLineType & static_cast<int>(flags::status::statusMask));
+    this->status = static_cast<flags::status>(commandLineType & static_cast<int>(flags::status::statusMask));
 
-    this->commandLineList= QList<FString>() << defaultCommandLine;
+    this->commandLineList = QList<FString>() << defaultCommandLine;
     this->componentList= w;
-    this->hashKey=hashKey;
-    this->commandLineType=static_cast<flags::commandLineType>(commandLineType & static_cast<int>(flags::commandLineType::commandLineMask));
-    this->optionLabel=option;
+    this->hashKey = hashKey;
+    this->commandLineType = static_cast<flags::commandLineType>(commandLineType & static_cast<int>(flags::commandLineType::commandLineMask));
+    this->optionLabel = option;
 
     if (!hashKey.isEmpty())
             {
@@ -182,7 +188,6 @@ inline void FAbstractWidget::FCore(const QVector<QWidget*>& w, FString defaultCo
 
     if ((commandLineType & flags::status::widgetMask) ==  flags::status::checked)
        static_cast<FCheckBox*>(w.at(0))->toggle();
-
 }
 
 
@@ -213,7 +218,7 @@ const QStringList FAbstractWidget::commandLineStringList()
         }
         else
         {
-          if (commandLineList[0].isTrue() | commandLineList[0].isMultimodal())
+          if (commandLineList[0].isTrue())
             {
                 if  (optionLabel.size() == 1)
                    strL = QStringList("-"+optionLabel);
@@ -256,20 +261,7 @@ const QStringList FAbstractWidget::commandLineStringList()
        return QStringList(strL);
 }
 
-/* caution : abstractWidgetList must have its first two elements as respectively being with "DVD-A" and "DVD-V" hashKeys. */
-
 QVector<FAbstractWidget*> Abstract::abstractWidgetList = QVector<FAbstractWidget*>();
-
-
-void Abstract::refreshOptionFields()
-{
-    QVectorIterator<FAbstractWidget*>  j(Abstract::abstractWidgetList);
-    while (j.hasNext())
-    {
-        j.next()->refreshWidgetDisplay();
-    }
-}
-
 
 FListWidget::FListWidget(QWidget* par,
                          const QString& hashKey,
@@ -298,7 +290,7 @@ FListWidget::FListWidget(QWidget* par,
     
     componentList=QVector<QWidget*>() << currentListWidget;
 
-    FCore({this}, "", commandLineType, hashKey, description, commandLine, QVector<QWidget*>() << controlledWidget);
+    FCore({this}, FString(), commandLineType, hashKey, description, commandLine, QVector<QWidget*>() << controlledWidget);
 
     separator=sep;
 
@@ -329,7 +321,8 @@ const FString& FListWidget::translate(const FStringList &s)
         L[j++]= std::move(applyHashToStringList(listWidgetTranslationHash, translation));
     }
 
-    return commandLineList[0]=L.join(separator);
+    commandLineList[0] = L.join(separator);
+    return commandLineList[0] ;
 }
 
 
@@ -361,7 +354,7 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
     }
     else
     {
-        commandLineList={""};
+        commandLineList = {FString()};
         return;
     }
 
@@ -388,7 +381,7 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
                 for (const QString &s : strL)
                 {
                     if (QFileInfo(s).exists())
-                        commandLineList << s;
+                        commandLineList << FString(s);
 //                    else
 //                    {
 //                        QMessageBox::critical(nullptr,
@@ -428,9 +421,9 @@ void FListWidget::addGroup(const QString &label)
 
 const FString FListWidget::setXmlFromWidget()
 {
-    if (Hash::wrapper[hashKey] == nullptr) return "";
+    if (Hash::wrapper[hashKey] == nullptr) return FString();
 
-    if (!Hash::wrapper.contains(hashKey)) return FStringList().setEmptyTags(tags);
+    if (!Hash::wrapper.contains(hashKey)) return FString(FStringList().setEmptyTags(tags));
 
     if (!listWidgetTranslationHash.isEmpty())
         commandLineList=QList<FString>() << translate(*Hash::wrapper[hashKey]);
@@ -446,12 +439,12 @@ const FString FListWidget::setXmlFromWidget()
                 const QStringList strL = Hash::wrapper[hashKey]->at(k);
                 if (strL.isEmpty()) continue;
                 for (const QString &s : strL)
-                    commandLineList << s;
+                    commandLineList << FString(s);
             }
 
         }
         else
-            commandLineList[0]=Hash::wrapper[hashKey]->join(separator);
+            commandLineList[0] = Hash::wrapper[hashKey]->join(separator);
     }
 
     QVector<FStringList>* properties = new QVector<FStringList>;
@@ -462,13 +455,18 @@ const FString FListWidget::setXmlFromWidget()
       for (const QString &str : strL)
       {
           QStringList qstrl = QStringList() << Hash::Mois[str]
-                                                         << (Hash::Siret[str].isEmpty()? "": Hash::Siret[str].at(0))
-                                                         << Hash::Budget[str]
-                                                         << (Hash::Etablissement[str].isEmpty()? "" :Hash::Etablissement[str].at(0));
+                                            << (Hash::Siret[str].isEmpty()? "": Hash::Siret[str].at(0))
+                                            << Hash::Budget[str]
+                                            << (Hash::Etablissement[str].isEmpty()? "" : Hash::Etablissement[str].at(0));
 
           if  (Hash::Siret[str].size() > 1 && Hash::Etablissement[str].size() > 1)
+          {
               for (int j = 1; j < Hash::Siret[str].size() && j < Hash::Etablissement[str].size(); ++j)
-                   qstrl  << Hash::Siret[str].at(j) << Hash::Etablissement[str].at(j);
+              {
+                   qstrl  << Hash::Siret[str].at(j)
+                          << Hash::Etablissement[str].at(j);
+              }
+          }
 
           qstrl << Hash::Employeur[str];
 
@@ -487,15 +485,7 @@ const FString FListWidget::setXmlFromWidget()
 
     *properties << fstrl;
 
-    return Hash::wrapper[hashKey]->setTags(tags, properties);
-}
-
-
-void FListWidget::refreshWidgetDisplay()
-{
-//    currentListWidget->clear();
-//    if ((Hash::wrapper.contains(hashKey)) && (Hash::wrapper[hashKey]->count() > rank ))
-//         currentListWidget->addItems(Hash::wrapper[hashKey]->at(getank));
+    return FString(Hash::wrapper[hashKey]->setTags(tags, properties));
 }
 
 
@@ -516,41 +506,11 @@ void FCheckBox::uncheckDisabledBox()
 }
 
 
-void FCheckBox::refreshWidgetDisplay()
-{
-    bool checked=commandLineList[0].isTrue();
-
-    setChecked(checked);
-
-    if ((enabledObjects) && (enabledObjects->size()))
-    {
-        QVectorIterator<QWidget*> i(enabledObjects->at(0));
-
-        while (i.hasNext())
-        {
-            QWidget *item=i.next();
-            if (item == nullptr) continue;
-            item->setEnabled(checked);
-        }
-    }
-
-    if ((disabledObjects) && (disabledObjects->size()))
-    {
-        QVectorIterator<QWidget*> i(disabledObjects->at(0));
-        while (i.hasNext())
-        {
-            QWidget* item=i.next();
-            if (item == nullptr) continue;
-            item->setDisabled(checked);
-        }
-    }
-}
-
 const FString FCheckBox::setXmlFromWidget()
 {
-    if (Hash::wrapper[getHashKey()] == nullptr) return "";
+    if (Hash::wrapper[getHashKey()] == nullptr) return FString();
        *Hash::wrapper[getHashKey()] = commandLineList[0].fromBool(this->isChecked());
-    return commandLineList[0].toQStringRef();
+    return FString(commandLineList[0].toQStringRef());
 }
 
 void FCheckBox::setWidgetFromXml(const FStringList &s)
@@ -580,7 +540,7 @@ FComboBox::FComboBox(const QStringList &labelList,
     if (labelList.isEmpty())
         return;
 
-    FCore({this}, labelList.at(0), status, hashKey, description, commandLine);
+    FCore({this}, FString(labelList.at(0)), status, hashKey, description, commandLine);
 
     if (iconList)
     {
@@ -591,10 +551,7 @@ FComboBox::FComboBox(const QStringList &labelList,
     }
     setIconSize(QSize(48,24));
 
-    signalList=new QStringList;
-    *signalList=QStringList() << labelList.at(0);
-
-    /* if a Hash has been activated, build the terms-translation Hash table so that translated terms
+   /* if a Hash has been activated, build the terms-translation Hash table so that translated terms
    * can be translated back to original terms later on, so as to get the correct command line string chunks */
     
     if ((!labelList.isEmpty()) && (!translation.isEmpty()))
@@ -607,47 +564,37 @@ FComboBox::FComboBox(const QStringList &labelList,
 
 void FComboBox::fromCurrentIndex(const QString &text)
 {
-    commandLineList[0]= (!comboBoxTranslationHash.isEmpty())? comboBoxTranslationHash.value(text) : text;
-    if (commandLineList[0].isEmpty()) commandLineList[0]="  ";
-    signalList->clear();
-    for (int i=0; i < text.toInt() ; i++)
-        *signalList << QString::number(i+1);
-}
-
-
-void FComboBox::refreshWidgetDisplay()
-{
-    FString str = commandLineList[0];
-    if (str.isFilled())
-    {
-        if (!comboBoxTranslationHash.isEmpty()) 
-            str = comboBoxTranslationHash.key(str);
-        
-        if (findText(str.remove('\'')) != -1)
-            setCurrentIndex(findText(str));
-        else
-            if (isEditable())
-            {
-                addItem(commandLineList[0]);
-            }
-    }
+    commandLineList[0] = FString((!comboBoxTranslationHash.isEmpty())? comboBoxTranslationHash.value(text) : text);
+    if (commandLineList[0].isEmpty()) commandLineList[0] = FString("  ");
 }
 
 const FString FComboBox::setXmlFromWidget()
 {
-    if (Hash::wrapper[hashKey] == nullptr) return "";
+    if (Hash::wrapper[hashKey] == nullptr) return FString();
     QString str=currentText();
     *Hash::wrapper[getHashKey()]=FStringList(str);
-    commandLineList[0]=  (!comboBoxTranslationHash.isEmpty())? comboBoxTranslationHash.value(str) : "'"+str+"'";
-    if (commandLineList[0].isEmpty()) commandLineList[0]="  ";
-    return commandLineList[0].toQStringRef();
+    commandLineList[0] =  FString(! comboBoxTranslationHash.isEmpty() ? comboBoxTranslationHash.value(str) : "'" + str+ "'");
+    if (commandLineList[0].isEmpty()) commandLineList[0] = FString("  ");
+    return FString(commandLineList[0].toQStringRef());
 }
 
 
 void FComboBox::setWidgetFromXml(const FStringList &s)
 {
     commandLineList[0] = s.toFString();
-    refreshWidgetDisplay();
+    FString str {commandLineList[0]};
+    if (str.isEmpty()) return;
+
+    if (!comboBoxTranslationHash.isEmpty())
+        str = FString(comboBoxTranslationHash.key(str));
+
+    if (findText(str.remove('\'')) != -1)
+        setCurrentIndex(findText(str));
+    else
+        if (isEditable())
+        {
+            addItem(commandLineList[0]);
+        }
 }
 
 
@@ -655,24 +602,21 @@ FLineEdit::FLineEdit(const QString &defaultString, int status, const QString &ha
 {
     widgetDepth="0";
 
-    FCore({this}, defaultString, status, hashKey, description, commandLine);
+    FCore({this}, FString(defaultString), status, hashKey, description, commandLine);
     this->setText(defaultString);
-}
-
-
-void FLineEdit::refreshWidgetDisplay()
-{
-    this->setText(commandLineList[0].toQString());
 }
 
 const FString FLineEdit::setXmlFromWidget()
 {
-    if (Hash::wrapper[hashKey] == nullptr) return "";
+    if (Hash::wrapper[hashKey] == nullptr) return FString();
 
-    commandLineList[0]=FString(this->text());
-    *Hash::wrapper[getHashKey()]=FStringList(this->text());
-    if (commandLineList[0].isEmpty()) commandLineList[0]="  ";
-    return commandLineList[0].toQStringRef();
+    const QString& T0 = this->text();  // Attention le constructeur d'assignation par défaut sera le constructeur par déplacement
+    const QString& T1 = this->text();  // Il faut donc copier en forçant un typage const QString&
+
+    commandLineList[0] = FString(T0);
+    *Hash::wrapper[getHashKey()] = FString(T1);
+
+    return FString(T0);
 }
 
 void FLineEdit::setWidgetFromXml(const FStringList &s)
@@ -688,7 +632,7 @@ void FProgressBar::stop()
         ||
         (parent->process.exitStatus() == QProcess::NormalExit))
         {
-            if (bar->value() < bar->maximum()) bar->setValue(bar->maximum());
+            bar->setValue(bar->maximum());
         }
         else
         {

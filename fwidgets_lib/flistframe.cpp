@@ -6,7 +6,7 @@
 // fabrnicol@gmail.com
 //
 // Ce logiciel est régi par les dispositions du code de la propriété
-// intellectuelle. 
+// intellectuelle (CPI).
 
 // L'auteur se réserve le droit d'exploitation du présent logiciel, 
 // et notamment de reproduire et de modifier le logiciel, conformément aux 
@@ -31,26 +31,27 @@
 // pris connaissance de ces stipulations et que vous en avez accepté les
 // termes.
 
-// Pour l'année 2017, une autorisation d'usage, de modification et de 
+// Sans préjudice des dispositions du CPI, une autorisation d'usage et de
 // reproduction du présent code est donnée à tout agent employé par les
-// juridictions financières. Cette autorisation est temporaire et peut être 
-// révoquée.
+// juridictions financières pour l'exercice de leurs fonctions publiques.
+// Le code ainsi mis à disposition ne peut être transmis à d'autres utilisateurs.
 //
 
 #include "flistframe.h"
 #include "custom.h"
 
-FListFrame::FListFrame(QAbstractItemView* tree, short import_type,
-           const QString &hashKey,
-           const QStringList &description,
-           const QString &command_line,
-           int cli_type,
-           const QStringList &separator,
-           const QStringList &xml_tags,
-           const QStringList &tabLabels,
-           tools::TabWidgetTrait mainTabWidgetRank,
-           QStringList* terms,
-           QStringList* translation)
+FListFrame::FListFrame(QAbstractItemView* tree,
+                       short import_type,
+                       const QString &hashKey,
+                       const QStringList &description,
+                       const QString &command_line,
+                       int cli_type,
+                       const QStringList &separator,
+                       const QStringList &xml_tags,
+                       const QStringList &tabLabels,
+                       tools::TabWidgetTrait mainTabWidgetRank,
+                       QStringList* terms,
+                       QStringList* translation)
 {
  setAcceptDrops(true);
 
@@ -60,7 +61,6 @@ FListFrame::FListFrame(QAbstractItemView* tree, short import_type,
  tags = xml_tags;
  fileTreeView = tree;
  this->tabLabels = tabLabels;
-
  frameHashKey = hashKey;
 
  fileListWidget = new FListWidget(this,
@@ -139,7 +139,6 @@ FListFrame::FListFrame(QAbstractItemView* tree, short import_type,
  connect(importFromMainTree, SIGNAL(clicked()), this,  SLOT(on_importFromMainTree_clicked()));
 
  connect(this, SIGNAL(imported()), this, SLOT(finalise()));
-
 }
 
 void FListFrame::addParsedTreeToListWidget(const QStringList &strL)
@@ -149,38 +148,13 @@ void FListFrame::addParsedTreeToListWidget(const QStringList &strL)
     addStringListToListWidget();
 }
 
-void FListFrame::list_connect(FComboBox* w)
-{
-    if (w == nullptr) return;
-    isListConnected=true;
-    connect(w, SIGNAL(currentIndexChanged(int)), this, SLOT(setSlotListSize(int)));
-    setSlotListSize(0);
-}
-
-
-void FListFrame::list_connect(FListFrame* w)
-{
-    if (w == nullptr) return;
-    isListConnected=true;
-    connect(w, SIGNAL(is_ntabs_changed(int)), this, SLOT(setSlotListSize(int)));
-    setSlotListSize(0);
-}
-
-void FListFrame::total_connect(FListFrame* w)
-{
-    if (w == nullptr) return;
-    if (isListConnected) return;
-    isTotalConnected=true;
-    connect(w, SIGNAL(is_ntracks_changed(int)), this, SLOT(setSlotListSize(int)));
-    setSlotListSize(0);
-}
 
 void FListFrame::updateIndexInfo()
 {
-  currentListWidget=qobject_cast<QListWidget*>(mainTabWidget->currentWidget());
+  currentListWidget = qobject_cast<QListWidget*>(mainTabWidget->currentWidget());
   if (currentListWidget == nullptr) return;
-  row=currentListWidget->currentRow();
-  currentIndex=mainTabWidget->currentIndex();
+  row = currentListWidget->currentRow();
+  currentIndex = mainTabWidget->currentIndex();
 }
 
 void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
@@ -228,19 +202,28 @@ void FListFrame::launch_thread(int rank)
 {
     if (isTerminated || size == 0 || rank >= size) return;
 
+    // Ajouter un fil d'exécution à la liste des fils thread
+
     thread.push_back(new QThread);
 
     const QString& fileName = stringList.at(rank);
 
-    thread[rank]->start();
+    // Démarrer le fil et lui faire lire l'entête du fichier XHL en cours
 
+    thread[rank]->start();
     connect(thread[rank], &QThread::started, [this, fileName] {
         parseXhlFile(fileName);
     });
 
+    // Lorsque le fil a fini de lire l'année, le mois etc. le signal parsed() est émis et le fil doit être arrêté
+
     connect(this, SIGNAL(parsed()), thread[rank], SLOT(quit()), Qt::DirectConnection);
+
+    // Dès lors on peut passer au fil suivant et au fichier suivant
+
     connect(thread[rank], &QThread::finished, [this, rank] { if (! isTerminated) launch_thread(rank + 1); });
 
+    // Cette fonction pourrait être optimisée en ne lançant pas les fils d'exécution de manière successive mais par par groupe avec plusieurs fils parallèles dans chaque groupe
 }
 
 
@@ -409,7 +392,11 @@ void FListFrame::parseXhlFile()
               emit(setProgressBar(++rank));
 #           endif
         }
+
+        // N'utiliser des threads que si un disque optique est en input de données
+
         use_threads = false;
+
         importFromMainTree->show();
         emit(imported());
         return;
@@ -662,7 +649,7 @@ void FListFrame::setStrikeOutFileNames(flags::colors color)
         if (size_j > listWidget->count())
         {
             QMessageBox::critical(nullptr, "Erreur", "Incohérence des tailles de la table de référence : "
-                                                                       + QString::number(size_j) + " et du widget : " + QString::number(listWidget->count()) + " pour l'onglet "
+                                                                       + QString::number(size_j) + " et du composant : " + QString::number(listWidget->count()) + " pour l'onglet "
                                                                        + QString::number(j +1) + ".", QMessageBox::Cancel);
             return;
         }
@@ -803,14 +790,6 @@ void FListFrame::on_deleteItem_clicked()
    emit(is_ntabs_changed(currentIndex+1)); // emits signal of number of tabs/QListWidgets opened
 }
 
-
-void  FListFrame::setSlotListSize(int s)
-{
-    slotListSize=s;
-    mainTabWidget->setEnabled(s > 0);
-    //if (s== 0) deleteAllGroups();
-}
-
 //protected slots
 
 void FListFrame::on_importFromMainTree_clicked()
@@ -821,21 +800,12 @@ void FListFrame::on_importFromMainTree_clicked()
     emit(appRepaint());
  #endif
 
- if (isListConnected || isTotalConnected)
-   {
-     if(getSlotListSize() == 0)
-       {
-         return;
-       }
-   }
-
  QItemSelectionModel *selectionModel = fileTreeView->selectionModel();
  QModelIndexList  indexList=selectionModel->selectedIndexes();
 
  if (indexList.isEmpty()) return;
 
  QStringList&& stringsToBeAdded = QStringList();
- int stringListSize=0;
 
 #ifdef DEBUG
  app->outputTextEdit->append(STATE_HTML_TAG "Parcours de l'arbre " );
@@ -843,6 +813,7 @@ void FListFrame::on_importFromMainTree_clicked()
 
  if (importType == flags::importFiles)
     {
+     int stringListSize=0;
         for (const QModelIndex& index : indexList)
           {
              const QString path = model->filePath(index);
@@ -895,17 +866,20 @@ void FListFrame::on_file_display(const QString& file)
 constexpr const int colorListSize = 9;
 constexpr const  std::array<const char*, colorListSize > &colorList = { "tomato", "navy", "yellowgreen", "marroon", "orange", "green",  "darkcyan", "blue", "black"};
 
-inline void finalise_macro(FListFrame* listFrame, const QStringList& pairs, const QString& label, const int rank)
+inline void finalise_macro(FListFrame* listFrame, QStringList& pairs, const QString& label, const int rank)
 {
+
+    pairs.removeDuplicates();
+    pairs.removeAll("");
 
     QStringList tabList;
     for (int i=0; i < pairs.size(); i++)
            tabList <<  pairs[i].left(60);
 
-    QListWidget* widget = new QListWidget;
-    widget->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    widget->setSelectionBehavior(QAbstractItemView::SelectRows);
-    listFrame->widgetContainer.insert(rank, widget);
+    QListWidget* composant = new QListWidget;
+    composant->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    composant->setSelectionBehavior(QAbstractItemView::SelectRows);
+    listFrame->widgetContainer.insert(rank, composant);
 
      listFrame->addNewTab(rank, label);
      Hash::wrapper[listFrame->frameHashKey]->insert(rank, pairs);
@@ -926,8 +900,6 @@ inline void finalise_macro(FListFrame* listFrame, const T &hash, const QString& 
     QStringList pairs;
     pairs = hash.values();
     pairs.sort();
-    pairs.removeDuplicates();
-    pairs.removeAll("");
 
     finalise_macro(listFrame, pairs, label, rank);
 }
@@ -941,6 +913,8 @@ void FListFrame::finalise()
 
     if (use_threads)
     {
+        // Terminer les fils d'exécutiion s'il y en a.
+
         for (QThread* t : thread)
         {
           t->terminate();

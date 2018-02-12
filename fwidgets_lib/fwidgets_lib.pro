@@ -10,6 +10,7 @@ VERSION_TAG = $$system(cat ../VERSION)
 DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
 message("Version :  $$VERSION_TAG")
 #QMAKE_CXX = /usr/bin/g++
+#QMAKE_LINK = /usr/bin/g++-5
 greaterThan(QT_MAJOR_VERSION, 5)
 
 # utiliser au moins Qt5 et g++-5.1
@@ -60,7 +61,8 @@ DEFINES += QT_DEPRECATED_WARNINGS \
 
 
 QMAKE_CXXFLAGS += -std=gnu++17  -O3 -fomit-frame-pointer -fexpensive-optimizations                        # obligatoire
-QMAKE_CXXFLAGS += -march=core-avx2  -pipe -m64         # facultatif
+QMAKE_CXXFLAGS += -march=core-avx2  -pipe -m64 -std=c++17        # facultatif
+LIBS += -lstdc++fs
 
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -77,7 +79,7 @@ SOURCES += \
 
 HEADERS += \
         fwidgets_lib_global.h \ 
-    flineframe.hpp \
+    flineframe.h \
     flistframe.h \
     forms.h \
     fstring.h \
