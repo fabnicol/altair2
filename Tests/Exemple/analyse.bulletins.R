@@ -36,6 +36,9 @@
 # 
 # 
 
+# Extraire les matricules et Nir des mois de décembre, sauf pour les élus
+# Pour les statuts listés dans L si L non null
+
 extraire_paye <- function(an, L) {
   
   if (! is.null(L)) return(unique(Bulletins.paie[Année == an
@@ -51,26 +54,42 @@ extraire_paye <- function(an, L) {
                                c(clé.fusion, "Nir"), with=FALSE], by = NULL))
 }
 
+# Produire les pyramides des âges par versant de la fonction publique
+# Filtre_bulletins : fonction permettant de filtrer les bulletins sur les lignes de data.table
+# titre : 
+# versant : versant de la fonction publique ("FPT" ou "FPH")
+
 
 produire_pyramides <- function(Filtre_bulletins, titre, versant = "") {
 
-  
   année.fin.comp <- if (versant != "") {
                       max(début.période.sous.revue,
                       min(altair::année_comparaison(versant)$année, fin.période.sous.revue))
                   } else fin.période.sous.revue
-  
-  
+
+  # Extraire les matricules et Nir du début et de la fin de la période sous revue
   
   Bulletins.début.psr <- extraire_paye(début.période.sous.revue, Filtre_bulletins)
   
   Bulletins.fin.psr   <- extraire_paye(fin.période.sous.revue, Filtre_bulletins)
   
+  # Répartition par âge et sexe des individus ayant un NIR en début et fin de période sous revue
+  
        ages.début.psr <- extraire.nir(Bulletins.début.psr, début.période.sous.revue)
   
          ages.fin.psr <- extraire.nir(Bulletins.fin.psr, fin.période.sous.revue)
   
-  
+  # Extrait la répartition par âge et sexe des individus ayant un NIR.
+  #    extraire.nir(Base, année)
+         # 
+         # Base	
+         #    data.table contenant au moins une variable nommée Nir décrivant le NIR.
+         # année	
+         #    Année civile à la fin de laquelle est évalué l'âge de l'individu. 
+         # 
+
+  # Produire les pyramides
+         
   source("pyramides.R", local = TRUE, encoding = encodage.code.source)
   
   pyramides(Bulletins.début.psr, 
@@ -80,13 +99,18 @@ produire_pyramides <- function(Filtre_bulletins, titre, versant = "") {
             titre,
             versant,
             envir = envir)
-   
+  
+  # ajustement des contraintes ASCII
+  
   stub <- gsub(" ", "-", sub("â", "a", titre)) %+% "_"
+  
+  # Utilisation de l'environnement e pour récupérer les noms de fichier des âges début et fin de période sous revue
   
   e$nom.fichier.avant <- stub %+% début.période.sous.revue
   e$nom.fichier.après <- stub %+% fin.période.sous.revue
   
-
+  # Sauvegarde des bases des âges début et fin de période sous revue
+  
   Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "ages.début.psr", e$nom.fichier.avant, environment = environment())
   Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "ages.fin.psr", e$nom.fichier.après, environment = environment())
   

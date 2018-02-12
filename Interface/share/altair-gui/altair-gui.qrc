@@ -4,7 +4,6 @@
         <file>images/arrow-down.png</file>
         <file>images/arrow-up.png</file>
         <file>images/document-import.png</file>
-        <file>images/altair.png</file>
         <file>images/edit-delete.png</file>
         <file>images/folder-new.png</file>
         <file>images/help-contents.png</file>
@@ -51,5 +50,6 @@
         <file>images/clean.png</file>
         <file>images/print.png</file>
         <file>images/internet-web-browser.png</file>
+        <file>images/altair.png</file>
     </qresource>
 </RCC>

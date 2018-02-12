@@ -1,4 +1,4 @@
-/// Copyright Cour des comptes, 2017
+// Copyright Cour des comptes, 2017
 // Contributeur :
 // Fabrice Nicol, années 2012 à 2017
 // fabrice.nicol@crtc.ccomptes.fr
@@ -35,7 +35,11 @@
 // pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
-////////////////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////////////////
+
+/// \file common.h
+/// \author Fabrice Nicol
+/// \brief Code de la classe common, qui regroupe des utilitaires communs à l'interface graphique  MainWindow, à son agent  Altair et à d'autres classes
 
 #ifndef COMMON_H
 #define COMMON_H
@@ -48,47 +52,67 @@
 #include "config.h"
 #endif
 
+/// Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l'interface vers les scripts R
 
 class common : public tools
 {
 
 public:
 
- common()   {  whatsThisPath=generateDatadirPath("/whatsthis.info");  }
+    common() {}
 
- void exporter_identification_controle(QString & file_str, const QString &subdir = "");
- void exporter_identification_controle(const QString &subdir = "");
+    /// Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement
+    /// \param  file_str Chaîne de caractères dans laquelle insérer ces informations
+    /// \param  subdir Répertoire du rapport
+
+    void exporter_identification_controle (QString & file_str, const QString &subdir = "");
+
+    /// Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement
+    /// \note utilise le fichier #SCRIPT_DIR "prologue_codes.R"
+    /// \param subdir Répertoire du rapport
+
+    void exporter_identification_controle (const QString &subdir = "");
 
 #ifdef LOCAL_BINPATH
- /* insert executable at root of windows package */
 
-  QString execPath = path_access(System);
-  const QString sharedir = generateDatadirPath();
-  QString altairCommandStr = execPath + QDir::separator()+("lhx"+ QString(systemSuffix));
+   QString execPath = path_access (System); ///< Chemin du répertoire lhx, soit ~/Dev/altair/linux/lhx sous linux et ~/Dev/altair/win/lhx sous Windows
+   const QString sharedir = generateDatadirPath(); ///< Chemin ~/.local/share/Altair
+   QString altairCommandStr = execPath + QDir::separator() + ("lhx" + QString (systemSuffix)); ///< Ligne de commande permettant de lancer lhx
+   QString exportpath;
 
-    #ifdef MINIMAL
-      QString RAltairDirStr = path_access("R/bin/x64");
-      // Passer les '/' soit avec QDir::toNativeSeparators() soit utiliser QDir::separator() sous Windows.
-      QString RAltairCommandStr = RAltairDirStr + QDir::separator() + "Rscript" + QString(systemSuffix);
-    #else
-      #ifdef __WIN32__
-         QString RAltairDirStr = path_access("RStudio");
-         QString RAltairCommandStr = RAltairDirStr + QDir::separator() + "bin" + QDir::separator() + "rstudio" + QString(systemSuffix) ;
-      #else
-         QString RAltairCommandStr = QString("/usr/bin/rstudio");
-      #endif
-    #endif
+#  ifdef MINIMAL
+
+     QString RAltairDirStr = path_access ("R/bin/x64");
+     // Passer les '/' soit avec QDir::toNativeSeparators() soit utiliser QDir::separator() sous Windows.
+     QString RAltairCommandStr = RAltairDirStr + QDir::separator() + "Rscript" + QString (systemSuffix);
+
+#  else
+
+#    ifdef __WIN32__
+
+        /// Ligne de commande permettant de lancer RStudio
+        QString RAltairDirStr = path_access ("RStudio");
+        QString RAltairCommandStr = RAltairDirStr + QDir::separator() + "bin" + QDir::separator() + "rstudio" + QString (systemSuffix) ;
+
+#    else
+
+        /// Ligne de commande permettant de lancer RStudio
+        QString RAltairCommandStr = QString ("/usr/bin/rstudio");
+
+#    endif
+#  endif
 
 #else
 
-   QString execPath = PREFIX+QString("/bin");
-   QString sharedir = PREFIX+QString("/share/applications/altair");
-   QString RAltairCommandStr = PREFIX+QString("/lib/rstudio/bin/rstudio");
-   QString RAltairDirStr = QString("/lib/rstudio/bin");
-   QString altairCommandStr = PREFIX+QString("/bin/lhx");
+    QString execPath = PREFIX + QString ("/bin"); ///< Chemin du répertoire contenant lhx
+    QString sharedir = PREFIX + QString ("/share/applications/altair");
+    /// Ligne de commande permettant de lancer RStudio
+    QString RAltairDirStr = QString ("/lib/rstudio/bin");
+    QString RAltairCommandStr = PREFIX + RAltairDirStr + QString ("rstudio"); ///< Ligne de commande permettant de lancer RStudio
+    QString altairCommandStr = PREFIX + QString ("/bin/lhx"); ///< Ligne de commande permettant de lancer lhx
 
 #endif
- 
+
 };
 
 #endif // COMMON_H

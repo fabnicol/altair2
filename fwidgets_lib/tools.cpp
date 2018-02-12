@@ -6,7 +6,7 @@
 // fabrnicol@gmail.com
 //
 // Ce logiciel est régi par les dispositions du code de la propriété
-// intellectuelle. 
+// intellectuelle (CPI). 
 
 // L'auteur se réserve le droit d'exploitation du présent logiciel, 
 // et notamment de reproduire et de modifier le logiciel, conformément aux 
@@ -31,17 +31,16 @@
 // pris connaissance de ces stipulations et que vous en avez accepté les
 // termes.
 
-// Pour l'année 2017, une autorisation d'usage, de modification et de 
+// Sans préjudice des dispositions du CPI, une autorisation d'usage et de 
 // reproduction du présent code est donnée à tout agent employé par les
-// juridictions financières. Cette autorisation est temporaire et peut être 
-// révoquée.
+// juridictions financières pour l'exercice de leurs fonctions publiques. 
+// Le code ainsi mis à disposition ne peut être transmis à d'autres utilisateurs.
 //
 
 //
 #include "tools.h"
 
-FString tools::htmlLogPath;
-QString tools::tempdir=QDir::homePath ()+QDir::separator()+"tempdir";  // should be equal to main app globals.settings.tempdir=TEMPDIR;
+
 QString  const tools::systemPathPrefix = "/../../../";
 QString tools::userdatadir;
 
@@ -56,18 +55,15 @@ QString tools::cdRomMounted()
            {
                 if (ISOLIST.contains(storage.fileSystemType().toUpper()))
                 {
-                 // #ifdef Q_OS_LINUX
                     if (QDir(storage.rootPath()).entryList(QDir::Files|QDir::Dirs).isEmpty())
                         return ("");
 
-               //   #endif
                       // s'assure que se termine par un /
                       QString path = storage.rootPath();
                       if  (path.at(path.size() - 1) != '/')
                           path += "/";
 
                     return(path);
-                 break;
                 }
            }
     }
@@ -158,7 +154,7 @@ if (file.open(QIODevice::ReadOnly | QIODevice::Text))
       QString line = in.readLine(width);
       list << line;
       if  (j == stop) break;
-      j++;
+      ++j;
   }
 }
 else
@@ -191,7 +187,7 @@ QString tools::dump(const QString &chaine)
     return temp_path;
 }
 
-const QString tools::remAccents(QString str, bool toUpper)
+const QString tools::remAccents(QString &&str, bool toUpper)
   {
       QRegExp rem("[éèê]");
       str.replace(rem, "e").replace("à", "a").replace("ô","o").replace("\'", " ");
@@ -369,23 +365,14 @@ QString tools::generateDatadirPath(const QString &path)
 
 QString tools::generateDatadirPath(const char* path)
 {
-  const QString str= QString(path);
-  QString pathstr= QDir::cleanPath(QStandardPaths::writableLocation(QStandardPaths::DataLocation)
-                                   + ((path[0]=='\0') ? "" : "/") + str);
-  return pathstr;
+  return generateDatadirPath(QString(path));
 }
 
-void tools::setWhatsThisText(QWidget* widget, int start, int stop)
-{
-  widget->setWhatsThis("<html>"+readFile(whatsThisPath, 2, 2)
-                       + readFile(whatsThisPath, start, stop)
-                       + "</html>");
-}
 
-void tools::openDir(QString path)
+void tools::openDir(const QString& path)
 {
   if (path.isEmpty()) return;
-  if (!QFileInfo(path).isDir())
+  if (! QFileInfo(path).isDir())
     {
       Warning("", path + " n'est pas un répertoire.");
       return;
@@ -446,10 +433,10 @@ bool tools::zip (const QString& filename , const QString& zipfilename)
     QFile infile(filename);
     QFile outfile(zipfilename);
     qint64 n=0;
-    bool result = true;
+    bool result;
     
     result = infile.open(QIODevice::ReadOnly);
-    result = outfile.open(QIODevice::WriteOnly);
+    result &= outfile.open(QIODevice::WriteOnly);
     
     if (result == false) return false;
     n = infile.size();
@@ -526,10 +513,10 @@ bool tools::unzip (const QString& zipfilename , const QString& filename)
     QFile outfile(filename);
     
     qint64 n=0;
-    bool result = true;
+    bool result;
     
     result = infile.open(QIODevice::ReadOnly);
-    result = outfile.open(QIODevice::WriteOnly);
+    result &= outfile.open(QIODevice::WriteOnly);
     
     if (result == false) return false;
     n = infile.size();

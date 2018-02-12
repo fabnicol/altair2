@@ -97,9 +97,11 @@ VPATH = .
 
 #DEFINES += MINIMAL
 
+DEFINES += MAX_FICHIERS_RECENTS=5     # Nombre de fichiers récents maximum
+
 DEFINES += PROGRESSBAR_TIMEOUT=400    # Intervalle d'incrémentation de la barre de progression en millisecondes
-                            # Un timeout plus élevé diminue l'overhead mais rend la la progression moins fluide.
-                            # Le minimum (timeout = 0) donne des progressions fluides mais augmente de 10 % la durée d'exec.
+                                      # Un timeout plus élevé diminue l'overhead mais rend la la progression moins fluide.
+                                      # Le minimum (timeout = 0) donne des progressions fluides mais augmente de 10 % la durée d'exec.
 
 DEFINES += MAXIMUM_CONSOLE_OUTPUT=800   #Pour limiter le volume de lignes de la cosole et éviter des plantages ou ralentissements en cas de verbosité excessive
 
