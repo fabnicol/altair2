@@ -8,4 +8,4 @@ Description: R utility functions.
 License: Part of R 3.4.3
 Suggests: methods, XML
 NeedsCompilation: yes
-Built: R 3.4.3; x86_64-pc-linux-gnu; 2017-12-22 14:42:43 UTC; unix
+Built: R 3.4.3; x86_64-pc-linux-gnu; 2018-02-14 01:11:35 UTC; unix
