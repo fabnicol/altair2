@@ -24,7 +24,7 @@
 /// Il est possible de naviguer dans les graphes en utilisant la fonctionnalité de navigation (+/- pour zoomer, flèches de direction) en haut à droite des graphes.
 
 
-/// \page page_clone "La procédure de clonage"
+/// \page page_clone La procédure de clonage
 /// \section a Matériel utilisé
 /// - une clé USB d'au moins 16 Go, de préférence de type USB3
 /// - une version du [logiciel Clonezilla](http://www.clonezilla.org), au moins 2.5.4, entreposée à fins d'archivage sur le dépôt gitlabjf [à cette adresse](https://gitlabjf.ccomptes.fr/fnicol/clonezilla/blob/master/clonezilla.zip) 
@@ -42,8 +42,8 @@
 ///    <pre># unzip -o ~/clonezilla.zip /mnt   </pre>
 /// 3. Remplacer le fichier /mnt/syslinux/syslinux.cfg de cette première partition par le fichier clonage/création/syslinux.cfg du dépôt GIT (branche master-jf).
 /// 4. Sur la plateforme Linux auxiliaire, exécuter le fichier utils/makeboot.sh comme suit dans une console d'administration :
-///    <pre># cd /mnt/utils/linux
-///    # ./makeboot.sh /dev/sdb1 </pre> 
+///    <pre># cd /mnt/utils/linux</pre>
+///    <pre># ./makeboot.sh /dev/sdb1 </pre> 
 /// 5. Démarrer la plateforme Linux fonctionnelle sur la clé USB (utiliser F12 au démarrage pour choisir la clé plutôt que le disque dur principal).  
 /// 6. Le PC s'éteindra à l'achèvement du clonage. La seconde partition /dev/sdb2 de la clé USB contient alors un répertoire image/ contenant l'ensemble des fichiers de clonage.
 /// 7. Remplacer le fichier /mnt/syslinux/syslinux.cfg par le fichier clonage/copie/syslinux.sfg du dépôt GIT.    
@@ -62,7 +62,7 @@
 ///
 
 
-/// \page clonezilla_doc "Documentation technique : la ligne de commande de clonezilla"   
+/// \page clonezilla_doc Documentation technique : la ligne de commande de clonezilla
 /// ### The boot parameters for Clonezilla live    
 /// Cette page a été archivée en février 2018 à partir du site clonezilla(http://www.clonezilla.org/fine-print-live-doc.php?path=clonezilla-live/doc/99_Misc/00_live-boot-parameters.doc)   \n   
 /// Kernel boot parameters are text strings which are interpreted by the system to change specific behaviors and enable or disable certain features. Different boot loaders use different config files for the boot     parameters:    \n
