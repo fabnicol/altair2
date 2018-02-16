@@ -46,8 +46,8 @@
 ///    # ./makeboot.sh /dev/sdb1  
 /// 5. Démarrer la plateforme Linux fonctionnelle sur la clé USB (utiliser F12 au démarrage pour choisir la clé plutôt que le disque dur principal).  
 /// 6. Le PC s'éteindra à l'achèvement du clonage. La seconde partition /dev/sdb2 de la clé USB contient alors un répertoire image/ contenant l'ensemble des fichiers de clonage.
-/// 7. Remplacer le fichier /mnt/live/system.cfg par le fichier clonage/copie/syslinux.sfg du dépôt GIT.    
-///    La clé ainsi paramétrée est un dispositif autonome complet pour la création d'un clone de la plateforme Altaïr.   
+/// 7. Remplacer le fichier /mnt/syslinux/syslinux.cfg par le fichier clonage/copie/syslinux.sfg du dépôt GIT.    
+///    La clé ainsi paramétrée est un dispositif autonome complet pour la création d'un clone de la plateforme Altaïr sur le PC cible.   
 /// 8. Pour reproduire aisément ce dispositif sur d'autres clés, il est conseillé de préserver une image de clonage :   
 ///    <pre># dd if=/dev/sdb of=image.img bs=1G count=11 status=progress   </pre>
 ///    qui pourra être reproduite sur une autre clé /dev/sdc comme suit :
