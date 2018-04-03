@@ -211,8 +211,13 @@ essayer(produire_pyramides(NULL,
                            versant = VERSANT_FP),
         "La pyramide des âges de l'ensemble des personnels n'a pas pu être générée.")
 
+#'   
+#'[Notice](Docs/Notices/fiche_2.odt)       
+#'[Notice](Docs/Notices/fiche_3.odt)     
+#'
 
 newpage()
+
 
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
@@ -220,12 +225,11 @@ newpage()
 
 print(e$res)
 
-
 #'  
 #'[Lien vers la base des âges - début de période](Bases/Effectifs/`r e$nom.fichier.avant`.csv)  
 #'  
 #'[Lien vers la base des âges - fin de période](Bases/Effectifs/`r e$nom.fichier.après`.csv)  
-#' 
+#'[Notice](Docs/Notices/fiche_1.odt)   
 
 
 newpage()
@@ -243,6 +247,12 @@ essayer(produire_pyramides(c("TITULAIRE", "STAGIAIRE"),
                            versant = "TIT_" %+% VERSANT_FP),
       "La pyramide des âges des fonctionnaires n'a pas pu être générée.")
 
+
+#'   
+#'[Notice](Docs/Notices/fiche_2.odt)       
+#'[Notice](Docs/Notices/fiche_3.odt)     
+#'  
+
 newpage()
 
 #'  
@@ -255,7 +265,7 @@ print(e$res)
 #'[Lien vers la base des âges - début de période](Bases/Effectifs/`r e$nom.fichier.avant`.csv)  
 #'  
 #'[Lien vers la base des âges - fin de période](Bases/Effectifs/`r e$nom.fichier.après`.csv)  
-#'   
+#'[Notice](Docs/Notices/fiche_1.odt)      
 
 newpage()
 
@@ -268,6 +278,12 @@ essayer(produire_pyramides(c("NON_TITULAIRE"), "Pyramide des âges des non titul
                            versant = "NONTIT_" %+% VERSANT_FP),
         "La pyramide des âges des non titulaires n'a pas pu être générée." )
 
+
+#'   
+#'[Notice](Docs/Notices/fiche_2.odt)       
+#'[Notice](Docs/Notices/fiche_3.odt)     
+#'  
+
 newpage()
 
 #'  
@@ -281,7 +297,7 @@ print(e$res)
 #'[Lien vers la base des âges - début de période](Bases/Effectifs/`r e$nom.fichier.avant`.csv)  
 #'  
 #'[Lien vers la base des âges - fin de période](Bases/Effectifs/`r e$nom.fichier.après`.csv)  
-#'   
+#'[Notice](Docs/Notices/fiche_1.odt)      
 
 newpage()
 
@@ -298,6 +314,12 @@ essayer(produire_pyramides(Filtre_bulletins,
                            "Pyramide des âges des autres personnels"),
         "La pyramide des âges des autres personnels n'a pas pu être générée.")
 
+
+#'   
+#'[Notice](Docs/Notices/fiche_3.odt)       
+#'[Notice](Docs/Notices/fiche_2.odt)     
+#'  
+
 newpage()
 
 #'  
@@ -310,7 +332,7 @@ print(e$res)
 #'[Lien vers la base des âges - début de période](Bases/Effectifs/`r e$nom.fichier.avant`.csv)  
 #'  
 #'[Lien vers la base des âges - fin de période](Bases/Effectifs/`r e$nom.fichier.après`.csv)  
-#' 
+#'[Notice](Docs/Notices/fiche_1.odt)    
 #'  
 #'*Source des comparaisons avec les données nationales*      
 #'         
@@ -3587,6 +3609,9 @@ Evenements.mat <- setcolorder(setkey(copy(Evenements.ind),
 #'  
 #'## Codes et libellés de paye   
 #'         
+#'         
+#'[Notice](Docs/Notices/fiche_individualisation.odt)  
+#'   
 
 code.libelle <- unique(Paie[Montant != 0, .(Code, Libellé), by = "Type"][ , Libellé := toupper(Libellé)], by = NULL)
 code.libelle$Type <- remplacer_type(code.libelle$Type)
@@ -3598,7 +3623,7 @@ if (afficher.table.codes) {
 
 #'Certains libellés ou codes de paye peuvent être équivoques et entraîner des erreurs de requête.       
 #'Les liens ci-après donnent les codes correspondant à au moins deux libellés distincts, les libellés correspondant à au moins deux codes et les codes ou libellés correspondant à au moins deux types de ligne de paye distincts.           
-#'L'équivocité des codes est particulièrement préjudiciable lorsque les libellés correspondent à des types de ligne de paye distincts.    
+#'L'association d'un même code à plusieurs libellés de paye peut induire des erreurs d'analyse comptable et financière lorsque les libellés correspondent à des types de ligne de paye distincts.    
 #'
 cl1 <- code.libelle[ , .(Multiplicité = .N, Libellé, Type), by = "Code"][Multiplicité > 1]
 cl2 <- code.libelle[ , .(Multiplicité = .N,  Code, Type), by = "Libellé"][Multiplicité > 1]
