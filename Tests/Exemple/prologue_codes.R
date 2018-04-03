@@ -42,7 +42,7 @@ codes.pfi        <- NA
 codes.pfr        <- NA
 codes.psr        <- NA
 codes.ipf        <- NA
-codes.ifts       <- NA
+codes.ifts <- c("9990")
 codes.iat        <- NA
 codes.ihts       <- NA
 codes.vacataires <- NA
