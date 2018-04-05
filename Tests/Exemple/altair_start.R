@@ -1408,7 +1408,8 @@ if (nombre.personnels.nbi.nontit <- uniqueN(NBI.aux.non.titulaires$Matricule)) {
 
 #'   
 #'[Lien vers la base de données NBI aux non titulaires](Bases/Reglementation/NBI.aux.non.titulaires.csv)   
-#'   
+#'[Notice](Docs/Notices/fiche_NBI.odt)      
+#'     
 
 # On calcule tout d'abord la somme de points de NBI par matricule et par année
 # On calcule ensuite, sur les traitements et éventuellement (par abus ou erreur de codage) les indemnités, la somme des paiements au titre de la NBI, par matricule et par année
@@ -1664,8 +1665,8 @@ primes.informatiques.potentielles <- if (nombre.personnels.pfi == 0) "aucune" el
 
 #'   
 #'[Lien vers la base de données Primes informatiques](Bases/Reglementation/personnels.prime.informatique.csv)   
-#'   
-
+#'[Notice](Docs/Notices/fiche_PFI.odt)       
+#'     
 
 
 #### 5.3 VACATIONS ####
