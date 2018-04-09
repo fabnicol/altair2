@@ -1813,7 +1813,7 @@ if (exists("nombre.contractuels.et.vacations")) {
 #### 5.5 IAT/IFTS ####  
   
 #'
-#'## `r chapitre`.5 Contrôle sur les indemnités IAT et IFTS    [![Notice](notice.png)](Docs/Notices/fiche_IAT_IFTS.odt)  
+#'## `r chapitre`.5 Contrôle sur les indemnités IAT et IFTS  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_IAT_IFTS.odt)   
 
 #+ IAT-et-IFTS
 
@@ -2007,10 +2007,8 @@ if (! résultat.ifts.manquant) {
 #'
 #'[Lien vers la base de données Lignes IFTS pour contractuels](Bases/Reglementation/ifts.et.contractuel.csv)    
 #'[Lien vers la base de données Lignes IFTS pour IB < 380](Bases/Reglementation/lignes.ifts.anormales.csv)     
-#'[![Notice](Notice.png)](Docs/Notices/fiche_IAT_IFTS.odt)   
-#'**Nota :**
-#'IB < 380 : fonctionnaire percevant un indice brut inférieur à 380
-#'
+#'       
+#'     
 
 #### 5.6 PFR ####
 

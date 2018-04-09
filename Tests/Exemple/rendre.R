@@ -115,7 +115,8 @@ ajuster_chemins_odt <- function(V) {
   if (! is.null(V))  {
     con <- file("altair.2.md", open = "a", encoding = "UTF-8")
   
-    writeLines(text = "\n---\ntitle: false\nauthor: false\ndate: false\n---\n", con)     
+    writeLines(text = "\n---\ntitle: false\nauthor: false\ndate: false\n---\n", con)   
+    V <- gsub("![Notice](Notice.png)", "Notice", V, fixed = TRUE)
     writeLines(gsub("]\\((Docs|Bases)", "]\\(../\\1", V, perl = TRUE), con)
   
     close(con)
