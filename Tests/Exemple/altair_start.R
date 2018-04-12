@@ -2013,7 +2013,7 @@ if (! résultat.ifts.manquant) {
 #### 5.6 PFR ####
 
 #'
-#'## `r chapitre`.6 Contrôle de la prime de fonctions et de résultats (PFR)   
+#'## `r chapitre`.6 Contrôle de la prime de fonctions et de résultats (PFR)   &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_PFR.odt)   
 #'   
 
 #+ pfr
