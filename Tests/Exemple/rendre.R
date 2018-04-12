@@ -51,7 +51,17 @@ rendre <- function(fw = fig.width,
           rm(list = ls(), envir = globalenv())
           render_env <- new.env(parent = globalenv())
           
-          render("altair_start.R",
+          altair_start <- ifelse(to == "docx", "temp.R", "altair_start.R")
+          
+          if (to == "docx") {
+            if (file.exists("temp.R")) file.remove("temp.R")
+            V <- readLines("altair_start.R", encoding = "UTF-8")
+            V <- gsub("![Notice](Notice.png)", "Notice", V, fixed = TRUE)
+            
+            writeLines(V,  "temp.R")
+          }
+          
+          render(altair_start,
                  encoding = "UTF-8",
                  output_format = output_format(knitr_options(opts_chunk = list(fig.width = fw, 
                                                                                fig.height = fh,
@@ -66,6 +76,8 @@ rendre <- function(fw = fig.width,
                                                                        args = args)),
                  envir = render_env,
                  output_file = output_file)
+          
+          if (to == "docx") file.remove("temp.R")
           
           invisible(render_env)
 }
@@ -116,7 +128,7 @@ ajuster_chemins_odt <- function(V) {
     con <- file("altair.2.md", open = "a", encoding = "UTF-8")
   
     writeLines(text = "\n---\ntitle: false\nauthor: false\ndate: false\n---\n", con)   
-    V <- gsub("![Notice](Notice.png)", "Notice", V, fixed = TRUE)
+ 
     writeLines(gsub("]\\((Docs|Bases)", "]\\(../\\1", V, perl = TRUE), con)
   
     close(con)

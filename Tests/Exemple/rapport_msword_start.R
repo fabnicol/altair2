@@ -37,7 +37,7 @@
 # 
 
 source("syspaths.R", encoding = encodage.code.source)
-source ("rendre.R", encoding = encodage.code.source)
+source("rendre.R", encoding = encodage.code.source)
 
 envir <- rendre()
 

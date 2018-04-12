@@ -42,6 +42,18 @@
 source("syspaths.R", encoding = encodage.code.source)
 source("corps_rapport_pdf.R", encoding = encodage.code.source)  
 
+  if (file.exists("temp.R")) 
+  {
+      file.remove("temp.R")
+  }
+
+  V <- readLines("altair.md", encoding = "UTF-8")
+  V <- gsub("![Notice](Notice.png)", "Notice", V, fixed = TRUE)
+  
+  writeLines(V,  "temp.R")
+  file.remove("altair.md")
+  file.rename("temp.R", "altair.md")
+  
   V <- hack_md()
   
   system(
