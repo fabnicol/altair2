@@ -3186,7 +3186,7 @@ message("Analyse du SFT")
 #### 5.13 ASTREINTES ####
 
 #'
-#'## `r chapitre`.13 Contrôle des astreintes
+#'## `r chapitre`.13 Contrôle des indemnités pour astreintes &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_astreintes.odt)    
 #'  
 
 essayer({
