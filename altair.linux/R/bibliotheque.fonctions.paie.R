@@ -229,20 +229,20 @@ Sauv.base <- function(chemin.dossier, nom, nom.sauv, Latin = convertir.latin, se
 #' Sauvegarde d'une base data.table sous forme de fichier CSV
 #'
 #' @param chemin.dossier Chemin du dossier dans lequel la base sera sauvegardée
-#' @param Latin (= convertir.latin) Convertir en encodage latin ISO-8859-15
-#' @param env (= .GlobalEnv) Environnement
+#' @param Latin Convertir en encodage latin ISO-8859-15
+#' @param env  Environnement
 #' @param nom Nom de l'objet à sauvegarder
 #' @param ... Autres noms d'objets à sauvegarder
 #' @return Liste de booléens résultant de l'application de \link{Sauv.base}
 #' @examples
 #' envir <- environment()
 #' # Générer Bulletins.paie et Paie dans envir
-#' sauv.bases("données", env = envir, c("Bulletins.paie", "Paie"))
+#' sauv.bases("données", Latin = convertir.latin, env = envir, c("Bulletins.paie", "Paie"))
 #' @export
 #'
 
 
-sauv.bases <- function(chemin.dossier, Latin = convertir.latin, env = .GlobalEnv, ...)
+sauv.bases <- function(chemin.dossier, Latin, env, ...)
 {
   if (! dir.exists(chemin.dossier))
   {
@@ -251,18 +251,23 @@ sauv.bases <- function(chemin.dossier, Latin = convertir.latin, env = .GlobalEnv
 
   skiplist <- 3
   
-  if (missing(env)) skiplist <- skiplist - 1
-  if (missing(Latin)) sliplist <- skiplist -1
+  
   tmp <- as.list(match.call())
   tmp[1] <- NULL
 
   message("Dans le dossier ", chemin.dossier," :")
   invisible(lapply(tmp[-c(1:skiplist)], function(x) {
-    if (exists(x, where = env)) Sauv.base(chemin.dossier,
-                                           x,
-                                           x,
-                                           Latin,
-                                           environment = env)
+    if (exists(x, where = env)) 
+    {
+        Sauv.base(chemin.dossier,
+                               x,
+                               x,
+                           Latin,
+               environment = env)
+    }  else {
+      cat("Pas de base", x)
+    }
+    
   }))
 }
 
