@@ -261,22 +261,37 @@ avant.redressement <- 0
 après.redressement <- 0
 
 if (éliminer.duplications) {
+  
   avant.redressement <- nrow(Paie)
   duplications.vecteur <- duplicated(Paie, by=NULL)
   duplications.paie <- Paie[duplications.vecteur & Montant != 0]
   Paie <- Paie[! duplications.vecteur] 
+  
   if (sauvegarder.bases.origine)
-      sauv.bases(chemin.dossier.bases, "duplications.paie")
+      sauv.bases(chemin.dossier.bases, 
+      Latin = convertir.latin,
+      env = environment(),
+      "duplications.paie")
+      
   après.redressement <- nrow(Paie)
   
   avant.redressement.bull <- nrow(Bulletins.paie)
-  duplications.vecteur   <- duplicated(Bulletins.paie, by=NULL)
-  duplications.paie.bull <- Bulletins.paie[duplications.vecteur & Montant != 0]
+  duplications.vecteur    <- duplicated(Bulletins.paie, by=NULL)
+  duplications.paie.bull  <- Bulletins.paie[duplications.vecteur & Montant != 0]
   Bulletins.paie <- Bulletins.paie[! duplications.vecteur] 
+  
   if (sauvegarder.bases.origine) {
-    sauv.bases(chemin.dossier.bases, "duplications.paie")
-    sauv.bases(chemin.dossier.bases, "duplications.paie.bull")
+    sauv.bases(chemin.dossier.bases, 
+      Latin = convertir.latin,
+      env = environment(),
+      "duplications.paie")
+      
+    sauv.bases(chemin.dossier.bases,
+      Latin = convertir.latin,
+      env = environment(),
+      "duplications.paie.bull")
   }
+  
   après.redressement.bull <- nrow(Bulletins.paie)
   rm(duplications.vecteur)
   

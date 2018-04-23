@@ -3764,6 +3764,7 @@ envir <- environment()
 if (sauvegarder.bases.analyse) {
 
   sauv.bases(file.path(chemin.dossier.bases, "Remunerations"),
+             Latin = convertir.latin,
              env = envir,
              "Analyse.remunerations",
              "Anavar.synthese",
@@ -3776,12 +3777,14 @@ if (sauvegarder.bases.analyse) {
              "beneficiaires.IPF.Variation")
 
   sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
+             Latin = convertir.latin,             
              env = envir,
              "matricules",
              "grades.categories",
              "tableau.effectifs")
 
   sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
+             Latin = convertir.latin,
              env = envir,
              "personnels.iat.ifts",
              "Paie_IAT.non.tit",
@@ -3845,6 +3848,7 @@ if (sauvegarder.bases.analyse) {
              "personnels.ps.nt")
   
   sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"),
+             Latin = convertir.latin,
              env = envir,
               "base.heures.nulles.salaire.nonnull",
               "base.quotite.indefinie.salaire.non.nul",
@@ -3863,12 +3867,15 @@ if (sauvegarder.bases.analyse) {
               "Evenements.mat")
   
   if (test.delta) 
-    sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"), env = envir, "Delta")
+    sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"), 
+               Latin = convertir.latin,
+               env = envir, "Delta")
   
 }
 
 if (sauvegarder.bases.origine)
   sauv.bases(file.path(chemin.dossier.bases, "Paiements"),
+             Latin = convertir.latin,
              env = envir,
              "Paie",
              "Bulletins.paie")
