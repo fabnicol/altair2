@@ -2995,46 +2995,107 @@ if (générer.table.élus)   {
 
 #'## `r chapitre`.11 Lien avec le compte de gestion
  
+# deprecated
+# cumul.lignes.paie <- Paie[Type %chin% c("T", "I", "R", "IR", "S", "A", "AC") , 
+#                         .(Total = sum(Montant, na.rm = TRUE)), keyby="Année,Type,Libellé,Code"]
+# 
+# cumul.lignes.paie <- cumul.lignes.paie[Total != 0]
+# 
+# cumul.lignes.paie$Type <- remplacer_type(cumul.lignes.paie$Type)
+#                    
+# cumul.lignes.paie <- cumul.lignes.paie[ , Total2  := formatC(Total, big.mark = " ", format = "f", decimal.mark = ",", digits = 2)]
+# 
+# cumul.total.lignes.paie <- cumul.lignes.paie[ , .(`Cumul annuel`= formatC(sum(Total, na.rm = TRUE),
+#                                                                           big.mark = " ",
+#                                                                           format = "f",
+#                                                                           decimal.mark = ",",
+#                                                                           digits = 2)), 
+#                                                keyby = "Année,Type"]
+# 
+# setnames(cumul.lignes.paie[ , Total := NULL], "Total2", "Total")
 
-cumul.lignes.paie <- Paie[Type %chin% c("T", "I", "R", "IR", "S", "A", "AC") , 
-                        .(Total = sum(Montant, na.rm = TRUE)), keyby="Année,Type,Libellé,Code"]
+code.libelle <- unique(Paie[Montant != 0, .(Code, Libellé, Statut), by = "Type"][ , Libellé := toupper(Libellé)], by = NULL)
 
-cumul.lignes.paie <- cumul.lignes.paie[Total != 0]
+if (file.exists("paye_budget.csv"))
+{
+  corresp <- fread("paye_budget.csv", # Code, Libellé,  Statut, Type, Compte
+                 sep=";",
+                 encoding="Latin-1",
+                 colClasses = c("character", "character", "character", "character", "character"))  
 
-cumul.lignes.paie$Type <- remplacer_type(cumul.lignes.paie$Type)
-                   
+  cumul.lignes.paie <- merge(Paie[, .(Année, Code, Libellé, Statut, Type, Montant)], corresp, all.x = TRUE)
+  
+} else {
+  
+  code.libelle[grepl(expression.rég.traitement, Libellé, ignore.case = TRUE, perl = TRUE),
+               `:=`(Compte.tit    = "64111",
+                    Compte.nontit = "64131")]
+  
+  code.libelle[Type == "IR" | Type == "S" | grepl(expression.rég.nbi, Libellé, ignore.case = TRUE, perl = TRUE),
+               `:=`(Compte.tit    = "64112",
+                    Compte.nontit = "64132")]
+  
+  code.libelle[grepl("(?:ind|prim).*(?:pr[e,é]avis|licen)", Libellé, ignore.case = TRUE, perl = TRUE), 
+               `:=`(Compte.tit    = "64116",
+                    Compte.nontit = "64136")]
+  
+  code.libelle[is.na(Compte.tit) 
+               & Statut != "ELU"
+               & ! Type %chin% c("D", "C", "RE", "CO") 
+               & grepl("(?:prim|indem)", Libellé, ignore.case = TRUE, perl = TRUE), 
+               `:=`(Compte.tit    = "64118",
+                    Compte.nontit = "64138")]
+  
+  code.libelle[ , Compte := ifelse(Statut == "TITULAIRE" | Statut == "STAGIAIRE", Compte.tit, Compte.nontit)
+              ][ , Compte.tit := NULL
+              ][ , Compte.nontit := NULL]
+  
+  cumul.lignes.paie <- merge(Paie[ , .(Année, Code, Libellé, Statut, Type, Montant)], 
+                             code.libelle,
+                             all.x = TRUE)
+  
+}
+
+code.libelle <- unique(code.libelle[, .(Code, Libellé, Type, Compte)], by = NULL)
+
+cumul.lignes.paie <- cumul.lignes.paie[ , .(Total = sum(Montant, na.rm = TRUE)), keyby="Année,Compte,Libellé,Code"][Total != 0]
+
 cumul.lignes.paie <- cumul.lignes.paie[ , Total2  := formatC(Total, big.mark = " ", format = "f", decimal.mark = ",", digits = 2)]
 
-
-cumul.total.lignes.paie <- cumul.lignes.paie[ , .(`Cumul annuel`= formatC(sum(Total, na.rm = TRUE), big.mark = " ", format = "f", decimal.mark = ",", digits = 2)), 
-                                                keyby = "Année,Type"]
+cumul.total.lignes.paie <- cumul.lignes.paie[ , .(`Cumul annuel`= formatC(sum(Total, na.rm = TRUE),
+                                                                          big.mark = " ",
+                                                                          format = "f",
+                                                                          decimal.mark = ",",
+                                                                          digits = 2)), 
+                                              keyby = "Année,Compte"]
 
 setnames(cumul.lignes.paie[ , Total := NULL], "Total2", "Total")
 
-L <- split(cumul.lignes.paie, cumul.lignes.paie$Année)
-
-  
-
 if (afficher.cumuls.détaillés.lignes.paie) {
+  
+  L <- split(cumul.lignes.paie, cumul.lignes.paie$Année)
+  
   for (i in 1:durée.sous.revue) {
     
     cat("\nTableau ", incrément(), " Année ", début.période.sous.revue + i - 1)
-    print(kable(L[[i]][, .(Catégorie = Type, Code, Libellé, Total)], row.names = FALSE, align = 'r'))
+    print(kable(L[[i]][, .(Compte, Code, Libellé, Total)], row.names = FALSE, align = 'r'))
     incrément()
     
   }
 }
 
+cumul.total.lignes.paie[is.na(Compte), Compte := "Autres"]
+
 L <- split(cumul.total.lignes.paie, cumul.total.lignes.paie$Année)
 
 #'  
-#'Cumul des lignes de paie par exercice et catégorie de ligne de paie   
+#'Cumul des lignes de paie par exercice et compte   
 #'  
 
 
 for (i in 1:durée.sous.revue) {
   cat("\nTableau ", incrément(), " Année ", début.période.sous.revue + i - 1)
-  print(kable(L[[i]][, .(Catégorie = Type, `Cumul annuel`)], row.names = FALSE, align = 'r'))
+  print(kable(L[[i]][, .(Compte, `Cumul annuel`)], row.names = FALSE, align = 'r'))
 
 }
 
@@ -3612,10 +3673,9 @@ Evenements.mat <- setcolorder(setkey(copy(Evenements.ind),
 #'[Notice](Docs/Notices/fiche_individualisation.odt)  
 #'   
 
-code.libelle <- unique(Paie[Montant != 0, .(Code, Libellé), by = "Type"][ , Libellé := toupper(Libellé)], by = NULL)
 code.libelle$Type <- remplacer_type(code.libelle$Type)
 
-setcolorder(code.libelle, c("Code", "Libellé", "Type"))
+setcolorder(code.libelle, c("Code", "Libellé", "Type", "Compte"))
 if (afficher.table.codes) {
    kable(code.libelle, align="c")
 }
