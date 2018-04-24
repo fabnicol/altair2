@@ -561,7 +561,6 @@ processPage::processPage()
 
     for (int i = 1; i < 12; i++) range3 << QString::number (i);
 
-
     QLabel* processTypeLabel = new QLabel ("Nombre de fils d'exécution  ");
     processTypeWidget = new FComboBox (range3,
                                        "processType",
@@ -578,9 +577,9 @@ processPage::processPage()
                                QDir::toNativeSeparators (common::generateDatadirPath()
                                        + "/altair.log"),
                                "log",
-                                {2, 1},
-                                v3Layout,
-                                "L");
+                               {2, 1},
+                               v3Layout,
+                               "L");
 
     logFrame->setPathCategory (flags::flineframe::isFilePath);
 
@@ -588,7 +587,10 @@ processPage::processPage()
                                  flags::status::enabledUnchecked
                                  | flags::commandLineType::noCommandLine,
                                  "genererLog",
-                                {"Générer un log d'exécution", "application noyau"},
+                                { 
+                                  "Générer un log d'exécution", 
+                                  "application noyau"
+                                 },
                                 logFrame->getComponentList());
 
     consoleCheckBox = new FCheckBox ("Activer la console  ",
@@ -599,7 +601,6 @@ processPage::processPage()
                                         "Générer un log d'exécution",
                                         "Utiliser l'onglet console"
                                     });
-
 
     QList<QString> ecoRange = QList<QString>(), ecoRange2 = QList<QString>();
     ecoRange << "Intensive (100 %)" << "Standard (80 %)" << "Modérée (60 %)"
@@ -619,7 +620,6 @@ processPage::processPage()
                                         "Pourcentage d'utilisation de la mémoire libre"
                                     },
                                     "%memshare");
-
 
     createHash (memoryUseWidget->comboBoxTranslationHash, &ecoRange, &ecoRange2);
     memoryUseWidget->status = flags::status::defaultStatus;
@@ -692,7 +692,6 @@ processPage::processPage()
     // La version expérimentale n'est accessible que sous compte administrateur
 
     if (QCoreApplication::applicationDirPath() != "/home/fab/Dev/altair/Interface_linux/gui/x64") rapportEntier->setVisible (false);
-
 
     connect (rapportEntier, &FCheckBox::toggled, [this]
     {
@@ -780,25 +779,27 @@ std::uint16_t options::RefreshFlag;
 
 extraPage::extraPage()
 {
-
     QGridLayout *v3Layout = new QGridLayout;
     
     budgetFrame = new FLineFrame ({"Utiliser la correspondance budgétaire", "Chemin de la table de correspondance"},
-                               QDir::toNativeSeparators (common::generateDatadirPath()
-                                       + "/budget.csv"),
-                               "budget",
-                                {2, 1},
-                                v3Layout,
-                                "",   // pas de ligne de commande
-                               directory::noCheck, // ne pas vérifier que le chemin est vide
-                               flags::flineframe::isFilePath); // il s'agit d'un chemin de fichier
-
+                                   QDir::toNativeSeparators (userdatadir + "paye_budget.csv"),
+                                   "budget",
+                                   {2, 1},
+                                   v3Layout,
+                                   "",   // pas de ligne de commande
+                                   directory::noCheck, // ne pas vérifier que le chemin est vide
+                                   flags::flineframe::isFilePath,
+                                   "Fichier CSV (*.csv)"); // il s'agit d'un chemin de fichier
+   
     budgetCheckBox = new FCheckBox ("Correspondance budgétaire  ",
-                                 flags::status::enabledUnchecked
-                                 | flags::commandLineType::noCommandLine,
-                                 "genererBudget",
-                                {"Générer une correspondance budgétaire", ""},
-                                budgetFrame->getComponentList());
+                                    flags::status::enabledUnchecked
+                                     | flags::commandLineType::noCommandLine,
+                                    "genererBudget",
+                                    {
+                                       "Générer une correspondance budgétaire", 
+                                        ""
+                                    },
+                                    budgetFrame->getComponentList());
     
     v3Layout->addWidget (budgetCheckBox,       1, 0, Qt::AlignLeft);
 
@@ -808,7 +809,6 @@ extraPage::extraPage()
     //QGridLayout *v4Layout = new QGridLayout;
     //QGroupBox* rapportBox = new QGroupBox (tr ("Rapports"));
 
-
     QVBoxLayout* mainLayout = new QVBoxLayout;
     FRichLabel *mainLabel = new FRichLabel ("Fichiers externes");
     mainLayout->addWidget (mainLabel);
@@ -816,7 +816,6 @@ extraPage::extraPage()
     mainLayout->addSpacing (450);
 
     setLayout (mainLayout);
-
 }
 
 
@@ -860,7 +859,19 @@ options::options (Altair* parent)
                     parent->execPath = execPath;
                     parent->altairCommandStr =  parent->execPath +  QDir::separator()
                     + ("lhx" + QString (systemSuffix));
-
+                    
+                    if (extraTab->budgetFrame->isEnabled())
+                    {
+                        QString budgetFile = extraTab->budgetFrame->getText();
+                        if (! budgetFile.isEmpty() && QFileInfo(budgetFile).exists())
+                        {
+                          tools::copyFile(budgetFile, 
+                                          path_access (SCRIPT_DIR "paye_budget.csv"),
+                                          "Le fichier de correspondance paye-budget",  // message d'erreur fenêtre
+                                          REQUIRE);                                    // force ce message en cas d'échec
+                        }
+                    }
+                    
                     parent->updateProject (true);
 
                 });
@@ -874,7 +885,6 @@ options::options (Altair* parent)
     connect (standardTab->exportWidget, SIGNAL (currentIndexChanged (int)),
              this,
              SLOT (enchainerRapports (int)));
-
 
     createIcons();
     optionWidget->setCurrentRow (0);
