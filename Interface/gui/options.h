@@ -178,6 +178,25 @@ private slots:
 };
 
 
+/// Classe de l'onglet Extra permettant d'importer les fichiers auxiliaires optionnels (correspondance budgétaire, fichier des catégories statutaires rectifié)     
+
+class extraPage: public QDialog, public common
+{
+
+Q_OBJECT
+
+public:
+    /// Constructeur de la classe extraPage
+    
+    extraPage();
+    
+private:   
+    
+FLineFrame* budgetFrame;  ///< Groupe ligne de chemin + navigateur de fichiers
+FCheckBox*  budgetCheckBox;  ///< Case à cocher de contrôle
+};
+
+
 /// Classe de l'onglet Codes, qui permet de saisir manuellement les codes de paye de certaines catégories de lignes de paye.
 /// 
 /// Les codes différents, pour la même ligne, sont séparés par des points-virgules. Ils doivent être exportés dans le fichier common::exportpath en cliquant sur la flèche verte de l'onglet.
@@ -192,6 +211,7 @@ public:
     standardPage* standardTab;         ///< Onglet d'accueil Format : type de base en sortie, modalité d'extraction des données, exportation/archivage
     processPage* processTab;           ///< Onglet de Traitement : nombre de fils, utilisation de la mémoire, log et enchainement avec la production des rapports
     codePage* codeTab;                 ///< Onglet des codes de paye : renseignement manuel des codes de paye utilisés pour certains types d'éléments de paye
+    extraPage* extraTab;               ///< Onglet des fichiers auxiliaires : importation de fichiers externes optionnels permetant de préciser/corriger la génération des rapports d'analyse.  
     static std::uint16_t RefreshFlag;  ///< Drapeau indiquant si si l'interface a été actualisée ou doit l'être
     QListWidget *optionWidget;         ///< composant du dialogue d'options
     

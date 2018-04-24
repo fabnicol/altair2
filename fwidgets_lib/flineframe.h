@@ -62,7 +62,7 @@ FLineFrame(const QStringList& ={"", ""},                                   ///< 
            QGridLayout* inputLayout = nullptr,                             ///< Disposition de rattachement s'il y a lieu
            const QString& commandLine ="",                                 ///< Ligne de commande générée par  lineEdit, s'il y en a une
            flags::directory check = directory::checkEmptyness,             ///< Vérifier que le répertoire indiqué dans  lineEdit est vide
-           flags::flineframe category = flags::flineframe::isDirectoryPath ///< Chemin de répertoire par défaut dans  lineEdit
+           flags::flineframe category = flags::flineframe::isDirectoryPath ///< Chemin par défaut = chemin de répertoire dans  lineEdit
         );
 
 /// Accesseur en lecture : retourne le texte de la ligne

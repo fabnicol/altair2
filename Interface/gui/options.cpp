@@ -523,7 +523,6 @@ standardPage::standardPage()
     FRichLabel *mainLabel = new FRichLabel ("Format des bases");
 
     mainLayout->addWidget (mainLabel);
-
     mainLayout->addWidget (baseTypeBox,      1, 0);
     mainLayout->addWidget (optionalFieldBox, 2, 0);
     mainLayout->addWidget (exportBox,        3, 0);
@@ -778,6 +777,49 @@ processPage::processPage()
 
 std::uint16_t options::RefreshFlag;
 
+
+extraPage::extraPage()
+{
+
+    QGridLayout *v3Layout = new QGridLayout;
+    
+    budgetFrame = new FLineFrame ({"Utiliser la correspondance budgétaire", "Chemin de la table de correspondance"},
+                               QDir::toNativeSeparators (common::generateDatadirPath()
+                                       + "/budget.csv"),
+                               "budget",
+                                {2, 1},
+                                v3Layout,
+                                "",   // pas de ligne de commande
+                               directory::noCheck, // ne pas vérifier que le chemin est vide
+                               flags::flineframe::isFilePath); // il s'agit d'un chemin de fichier
+
+    budgetCheckBox = new FCheckBox ("Correspondance budgétaire  ",
+                                 flags::status::enabledUnchecked
+                                 | flags::commandLineType::noCommandLine,
+                                 "genererBudget",
+                                {"Générer une correspondance budgétaire", ""},
+                                budgetFrame->getComponentList());
+    
+    v3Layout->addWidget (budgetCheckBox,       1, 0, Qt::AlignLeft);
+
+    QGroupBox* budgetBox = new QGroupBox (tr ("Budget"));
+    budgetBox->setLayout (v3Layout);
+
+    //QGridLayout *v4Layout = new QGridLayout;
+    //QGroupBox* rapportBox = new QGroupBox (tr ("Rapports"));
+
+
+    QVBoxLayout* mainLayout = new QVBoxLayout;
+    FRichLabel *mainLabel = new FRichLabel ("Fichiers externes");
+    mainLayout->addWidget (mainLabel);
+    mainLayout->addWidget (budgetBox, 1, 0);
+    mainLayout->addSpacing (450);
+
+    setLayout (mainLayout);
+
+}
+
+
 options::options (Altair* parent)
 {
     /* plain old data types must be 0-initialised even though the class instance was new-initialised. */
@@ -795,12 +837,16 @@ options::options (Altair* parent)
     pagesWidget = new QStackedWidget;
     standardTab = new standardPage;
     processTab  = new processPage;
+    
     pagesWidget->addWidget (standardTab);
     pagesWidget->addWidget (processTab);
 
     codeTab  = new codePage;
     pagesWidget->addWidget (codeTab);
 
+    extraTab  = new extraPage;
+    pagesWidget->addWidget (extraTab);
+    
     closeButton = new QDialogButtonBox (QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     closeButton->button (QDialogButtonBox::Ok)->setText ("Accepter");
     closeButton->button (QDialogButtonBox::Cancel)->setText ("Annuler");
@@ -883,9 +929,10 @@ void options::createIcons()
     QList<const char*> iconList = QList<const char*>()
                                   << ":/images/csv.png" << "   Format  "
                                   << ":/images/configure-toolbars.png" << "Traitement "
-                                  << ":/images/data-icon.png" << "   Codes   ";
+                                  << ":/images/data-icon.png" << "   Codes   "
+                                  << ":/images/extra.png" << "   Extra   ";   
 
-    for (int i = 0; i < iconList.size() / 2 ; i++) createIcon (iconList[2 * i], iconList[2 * i + 1]);
+    for (int i = 0; i < iconList.size() / 2 ; ++i) createIcon (iconList[2 * i], iconList[2 * i + 1]);
 
 }
 
