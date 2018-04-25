@@ -3014,18 +3014,29 @@ if (générer.table.élus)   {
 # 
 # setnames(cumul.lignes.paie[ , Total := NULL], "Total2", "Total")
 
-code.libelle <- unique(Paie[Montant != 0, .(Code, Libellé, Statut), by = "Type"][ , Libellé := toupper(Libellé)], by = NULL)
+
 
 if (file.exists("paye_budget.csv"))
 {
-  corresp <- fread("paye_budget.csv", # Code, Libellé,  Statut, Type, Compte
+  code.libelle <- fread("paye_budget.csv", # Code, Libellé,  Statut, Type, Compte
                  sep=";",
                  encoding="Latin-1",
+                 col.names=c("Code", "Libellé", "Statut", "Type", "Compte"),
                  colClasses = c("character", "character", "character", "character", "character"))  
 
-  cumul.lignes.paie <- merge(Paie[, .(Année, Code, Libellé, Statut, Type, Montant)], corresp, all.x = TRUE)
+  message("*****")
+  message("Importation de la table des codes et libellés par compte (paye_budget.csv)")
+  message("*****")
+  
+  code.libelle$Type <- résumer_type(code.libelle$Type)
+  
+  code.libelle <- unique(code.libelle, by = NULL)
+  cumul.lignes.paie <- merge(Paie[, .(Année, Code, Libellé, Statut, Type, Montant)],
+                             code.libelle,  by = c("Code", "Libellé", "Statut", "Type"), all.x = TRUE)
   
 } else {
+  
+  code.libelle <- unique(Paie[Montant != 0, .(Code, Libellé, Statut), by = "Type"], by = NULL)[ , Libellé := toupper(Libellé)]
   
   code.libelle[grepl(expression.rég.traitement, Libellé, ignore.case = TRUE, perl = TRUE),
                `:=`(Compte.tit    = "64111",
@@ -3042,7 +3053,7 @@ if (file.exists("paye_budget.csv"))
   code.libelle[is.na(Compte.tit) 
                & Statut != "ELU"
                & ! Type %chin% c("D", "C", "RE", "CO") 
-               & grepl("(?:prim|indem)", Libellé, ignore.case = TRUE, perl = TRUE), 
+               & (Type == "I" | grepl("(?:prim|indem)", Libellé, ignore.case = TRUE, perl = TRUE)), 
                `:=`(Compte.tit    = "64118",
                     Compte.nontit = "64138")]
   
@@ -3050,13 +3061,13 @@ if (file.exists("paye_budget.csv"))
               ][ , Compte.tit := NULL
               ][ , Compte.nontit := NULL]
   
-  cumul.lignes.paie <- merge(Paie[ , .(Année, Code, Libellé, Statut, Type, Montant)], 
+  cumul.lignes.paie <- merge(Paie[ , .(Année, Code, Libellé, Statut, Type, Montant)][ , Libellé := toupper(Libellé)], 
                              code.libelle,
                              all.x = TRUE)
   
 }
 
-code.libelle <- unique(code.libelle[, .(Code, Libellé, Type, Compte)], by = NULL)
+setkey(code.libelle, Type, Compte, Statut, Code, Libellé)
 
 cumul.lignes.paie <- cumul.lignes.paie[ , .(Total = sum(Montant, na.rm = TRUE)), keyby="Année,Compte,Libellé,Code"][Total != 0]
 
@@ -3675,7 +3686,7 @@ Evenements.mat <- setcolorder(setkey(copy(Evenements.ind),
 
 code.libelle$Type <- remplacer_type(code.libelle$Type)
 
-setcolorder(code.libelle, c("Code", "Libellé", "Type", "Compte"))
+setcolorder(code.libelle, c("Code", "Libellé", "Statut", "Type", "Compte"))
 if (afficher.table.codes) {
    kable(code.libelle, align="c")
 }
@@ -3684,8 +3695,8 @@ if (afficher.table.codes) {
 #'Les liens ci-après donnent les codes correspondant à au moins deux libellés distincts, les libellés correspondant à au moins deux codes et les codes ou libellés correspondant à au moins deux types de ligne de paye distincts.           
 #'L'association d'un même code à plusieurs libellés de paye peut induire des erreurs d'analyse comptable et financière lorsque les libellés correspondent à des types de ligne de paye distincts.    
 #'
-cl1 <- code.libelle[ , .(Multiplicité = .N, Libellé, Type), by = "Code"][Multiplicité > 1]
-cl2 <- code.libelle[ , .(Multiplicité = .N,  Code, Type), by = "Libellé"][Multiplicité > 1]
+cl1 <- code.libelle[ , .(Libellé, Type, Code)][, Multiplicité := .N, by = Code][Multiplicité > 1]
+cl2 <- code.libelle[ , .(Libellé,  Code, Type)][, Multiplicité := .N, by = Libellé][Multiplicité > 1]
 
 cl3 <- unique(code.libelle[, .(Code, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), by = "Code"][Multiplicité > 1]
 cl4 <- unique(code.libelle[, .(Libellé, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), by = "Libellé"][Multiplicité > 1]
@@ -3824,7 +3835,6 @@ envir <- environment()
 if (sauvegarder.bases.analyse) {
 
   sauv.bases(file.path(chemin.dossier.bases, "Remunerations"),
-             Latin = convertir.latin,
              env = envir,
              "Analyse.remunerations",
              "Anavar.synthese",
@@ -3837,14 +3847,12 @@ if (sauvegarder.bases.analyse) {
              "beneficiaires.IPF.Variation")
 
   sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
-             Latin = convertir.latin,             
              env = envir,
              "matricules",
              "grades.categories",
              "tableau.effectifs")
 
   sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
-             Latin = convertir.latin,
              env = envir,
              "personnels.iat.ifts",
              "Paie_IAT.non.tit",
@@ -3908,7 +3916,6 @@ if (sauvegarder.bases.analyse) {
              "personnels.ps.nt")
   
   sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"),
-             Latin = convertir.latin,
              env = envir,
               "base.heures.nulles.salaire.nonnull",
               "base.quotite.indefinie.salaire.non.nul",
@@ -3928,19 +3935,20 @@ if (sauvegarder.bases.analyse) {
   
   if (test.delta) 
     sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"), 
-               Latin = convertir.latin,
                env = envir, "Delta")
   
 }
 
 if (sauvegarder.bases.origine)
   sauv.bases(file.path(chemin.dossier.bases, "Paiements"),
-             Latin = convertir.latin,
              env = envir,
              "Paie",
              "Bulletins.paie")
 
+system2("find", c("Donnees/R-Altair/Bases", "-name", "'*.csv'", "-exec", "iconv -f UTF-8 -t ISO-8859-15 -c -o {}.2  {} \\;", "-exec",  "mv {}.2 {} \\;"))
 
+if (file.exists("paye_budget.csv")) file.remove("paye_budget.csv")
+  
 if (! dir.exists(chemin.dossier.docs)) 
    dir.create(chemin.dossier.docs, recursive = TRUE, mode="0777")
 

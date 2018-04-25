@@ -269,7 +269,6 @@ if (éliminer.duplications) {
   
   if (sauvegarder.bases.origine)
       sauv.bases(chemin.dossier.bases, 
-      Latin = convertir.latin,
       env = environment(),
       "duplications.paie")
       
@@ -282,12 +281,10 @@ if (éliminer.duplications) {
   
   if (sauvegarder.bases.origine) {
     sauv.bases(chemin.dossier.bases, 
-      Latin = convertir.latin,
       env = environment(),
       "duplications.paie")
       
     sauv.bases(chemin.dossier.bases,
-      Latin = convertir.latin,
       env = environment(),
       "duplications.paie.bull")
   }

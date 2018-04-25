@@ -201,7 +201,7 @@ return(T)
 #' @export
 #'
 
-Sauv.base <- function(chemin.dossier, nom, nom.sauv, Latin = convertir.latin, sep = séparateur.liste.sortie, dec = séparateur.décimal.sortie, environment = .GlobalEnv)
+Sauv.base <- function(chemin.dossier, nom, nom.sauv, Latin = TRUE, sep = séparateur.liste.sortie, dec = séparateur.décimal.sortie, environment = .GlobalEnv)
 {
   message("Sauvegarde de ", nom.sauv)
  
@@ -216,7 +216,7 @@ Sauv.base <- function(chemin.dossier, nom, nom.sauv, Latin = convertir.latin, se
              sep = sep,
              dec = dec)
 
-  if (Latin == convertir.latin) {
+  if (Latin) {
     file2Latin(filepath)
     message("Conversion de ", nom.sauv, " en encodage ISO-8859-15")
   }
@@ -229,7 +229,6 @@ Sauv.base <- function(chemin.dossier, nom, nom.sauv, Latin = convertir.latin, se
 #' Sauvegarde d'une base data.table sous forme de fichier CSV
 #'
 #' @param chemin.dossier Chemin du dossier dans lequel la base sera sauvegardée
-#' @param Latin Convertir en encodage latin ISO-8859-15
 #' @param env  Environnement
 #' @param nom Nom de l'objet à sauvegarder
 #' @param ... Autres noms d'objets à sauvegarder
@@ -237,12 +236,12 @@ Sauv.base <- function(chemin.dossier, nom, nom.sauv, Latin = convertir.latin, se
 #' @examples
 #' envir <- environment()
 #' # Générer Bulletins.paie et Paie dans envir
-#' sauv.bases("données", Latin = convertir.latin, env = envir, c("Bulletins.paie", "Paie"))
+#' sauv.bases("données",  env = envir, c("Bulletins.paie", "Paie"))
 #' @export
 #'
 
 
-sauv.bases <- function(chemin.dossier, Latin, env, ...)
+sauv.bases <- function(chemin.dossier, env, ...)
 {
   if (! dir.exists(chemin.dossier))
   {
@@ -262,7 +261,7 @@ sauv.bases <- function(chemin.dossier, Latin, env, ...)
         Sauv.base(chemin.dossier,
                                x,
                                x,
-                           Latin,
+                           FALSE,
                environment = env)
     }  else {
       cat("Pas de base", x)
