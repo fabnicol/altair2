@@ -4,12 +4,10 @@
 \alias{sauv.bases}
 \title{sauv.bases}
 \usage{
-sauv.bases(chemin.dossier, Latin, env, ...)
+sauv.bases(chemin.dossier, env, ...)
 }
 \arguments{
 \item{chemin.dossier}{Chemin du dossier dans lequel la base sera sauvegardée}
-
-\item{Latin}{ Convertir en encodage latin ISO-8859-15}
 
 \item{env}{ Environnement}
 
@@ -26,5 +24,5 @@ Sauvegarde d'une base data.table sous forme de fichier CSV
 \examples{
 envir <- environment()
 # Générer Bulletins.paie et Paie dans envir
-sauv.bases("données", Latin = convertir.latin, env = envir, c("Bulletins.paie", "Paie"))
+sauv.bases("données", env = envir, c("Bulletins.paie", "Paie"))
 }

@@ -78,3 +78,17 @@ remplacer_type <- function(v) unlist(sapply(v, function(x) switch(x,
                    "S" = "Supplément familial",
                    "RE"= "Retenues",
                    "C" = "Commentaire")))
+
+résumer_type <- function(v) unlist(sapply(v, function(x) switch(x,
+                                                                  "Indemnité" = "I",
+                                                                  "Rappels" = "R",
+                                                                  "Indemnité de résidence" = "IR",
+                                                                  "Traitement" = "T",
+                                                                  "Avantage en nature" = "AV",
+                                                                  "Autres rémunérations" = "A",
+                                                                  "Cotisations" = "C",
+                                                                  "Déductions" = "D",
+                                                                  "Supplément familial" = "S",
+                                                                  "Retenues" = "RE",
+                                                                  "Commentaire" = "C")))
+
