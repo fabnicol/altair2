@@ -114,8 +114,7 @@ DEFINES += COMMANDLINE_CONSOLE_OUTPUT          \        # Générer la ligne de 
            GUI_OUTPUT      \                             # Balises d'identification des lignes de la console : mode GUI
            HAVE_APPLICATION
 
-DEFINES += QT_NO_OPENGL \
-           LOCAL_BINPATH \                              # chemins d'exécution définis par rapport l'emplacement de l'exécutable
+DEFINES += LOCAL_BINPATH \                              # chemins d'exécution définis par rapport l'emplacement de l'exécutable
            USE_RIGHT_CLICK  \                           # utiliser un clic droit sur les fichiers pour ajouter, supprimer etc.
            #REGEX_ANONYM   \                            # Utiliser en cas de problème avec l'analyse des données sensibles dans l'anonymisation
 
