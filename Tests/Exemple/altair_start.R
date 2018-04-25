@@ -3014,23 +3014,21 @@ if (générer.table.élus)   {
 # 
 # setnames(cumul.lignes.paie[ , Total := NULL], "Total2", "Total")
 
-
-
 if (file.exists("paye_budget.csv"))
 {
   code.libelle <- fread("paye_budget.csv", # Code, Libellé,  Statut, Type, Compte
-                 sep=";",
-                 encoding="Latin-1",
-                 col.names=c("Code", "Libellé", "Statut", "Type", "Compte"),
-                 colClasses = c("character", "character", "character", "character", "character"))  
+                         sep = ";",
+                         encoding   = "Latin-1",
+                         col.names  = c("Code", "Libellé", "Statut", "Type", "Compte"),
+                         colClasses = c("character", "character", "character", "character", "character"))  
 
   message("*****")
   message("Importation de la table des codes et libellés par compte (paye_budget.csv)")
   message("*****")
   
-  code.libelle$Type <- résumer_type(code.libelle$Type)
+  code.libelle <- résumer_type(code.libelle)
   
-  code.libelle <- unique(code.libelle, by = NULL)
+  code.libelle      <- unique(code.libelle, by = NULL)
   cumul.lignes.paie <- merge(Paie[, .(Année, Code, Libellé, Statut, Type, Montant)],
                              code.libelle,  by = c("Code", "Libellé", "Statut", "Type"), all.x = TRUE)
   
@@ -3069,6 +3067,8 @@ if (file.exists("paye_budget.csv"))
 
 setkey(code.libelle, Type, Compte, Statut, Code, Libellé)
 
+cumul.lignes.paie[is.na(Compte) | Compte == "", Compte := "Autres"]
+
 cumul.lignes.paie <- cumul.lignes.paie[ , .(Total = sum(Montant, na.rm = TRUE)), keyby="Année,Compte,Libellé,Code"][Total != 0]
 
 cumul.lignes.paie <- cumul.lignes.paie[ , Total2  := formatC(Total, big.mark = " ", format = "f", decimal.mark = ",", digits = 2)]
@@ -3095,7 +3095,7 @@ if (afficher.cumuls.détaillés.lignes.paie) {
   }
 }
 
-cumul.total.lignes.paie[is.na(Compte), Compte := "Autres"]
+
 
 L <- split(cumul.total.lignes.paie, cumul.total.lignes.paie$Année)
 
@@ -3684,7 +3684,7 @@ Evenements.mat <- setcolorder(setkey(copy(Evenements.ind),
 #'[Notice](Docs/Notices/fiche_individualisation.odt)  
 #'   
 
-code.libelle$Type <- remplacer_type(code.libelle$Type)
+code.libelle <- remplacer_type(code.libelle)
 
 setcolorder(code.libelle, c("Code", "Libellé", "Statut", "Type", "Compte"))
 if (afficher.table.codes) {

@@ -66,29 +66,32 @@ colonnes.bulletins.classes.input <- c(rang.classe, "integer", "integer",
                                       "character", "character", "character", échelon.classe, "character", "character")
 
 
-remplacer_type <- function(v) unlist(sapply(v, function(x) switch(x,
-                   "I" = "Indemnité",
-                   "R" = "Rappels",
-                   "IR"= "Indemnité de résidence",
-                   "T" = "Traitement",
-                   "AV"= "Avantage en nature",
-                   "A" = "Autres rémunérations",
-                   "C" = "Cotisations",
-                   "D" = "Déductions",
-                   "S" = "Supplément familial",
-                   "RE"= "Retenues",
-                   "C" = "Commentaire")))
+trans <- data.table(t(matrix( c("I",  "Indemnité",
+                                "R" , "Rappels",
+                                "IR", "Indemnité de résidence",
+                                "T" , "Traitement",
+                                "AV", "Avantage en nature",
+                                "A" , "Autres rémunérations",
+                                "C" , "Cotisations",
+                                "D" , "Déductions",
+                                "S" , "Supplément familial",
+                                "RE", "Retenues",
+                                "CO" , "Commentaire"), nrow = 2)))
 
-résumer_type <- function(v) unlist(sapply(v, function(x) switch(x,
-                                                                  "Indemnité" = "I",
-                                                                  "Rappels" = "R",
-                                                                  "Indemnité de résidence" = "IR",
-                                                                  "Traitement" = "T",
-                                                                  "Avantage en nature" = "AV",
-                                                                  "Autres rémunérations" = "A",
-                                                                  "Cotisations" = "C",
-                                                                  "Déductions" = "D",
-                                                                  "Supplément familial" = "S",
-                                                                  "Retenues" = "RE",
-                                                                  "Commentaire" = "C")))
+
+remplacer_type <- function(M) {
+  trans2 <- data.table::copy(trans)
+  setnames(trans2, c("V1", "V2"), c("Type", "Type_long"))
+  M <- unique(M, by = NULL)
+  M <- merge(M, trans2, by = "Type", all.x = TRUE)[, Type := NULL]
+  setnames(M, "Type_long", "Type")
+}
+
+résumer_type <- function(M) {
+  trans2 <- data.table::copy(trans)
+  setnames(trans2, c("V1", "V2"), c("Type_court", "Type"))
+  M <- unique(M, by = NULL)
+  M <- merge(M, trans2, by = "Type", all.x = TRUE)[, Type := NULL]
+  setnames(M, "Type_court", "Type")
+}
 
