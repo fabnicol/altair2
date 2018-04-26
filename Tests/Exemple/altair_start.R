@@ -199,7 +199,7 @@ newpage()
 ########### 1.2 Pyramides ########################
 
 
-#'## `r chapitre`.2 Pyramide des âges, ensemble des personnels
+#'## `r chapitre`.2 Pyramide des âges, ensemble des personnels  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_2.odt)    
 
 #' 
 #+fig.height=8, fig.width=7
@@ -212,8 +212,7 @@ essayer(produire_pyramides(NULL,
         "La pyramide des âges de l'ensemble des personnels n'a pas pu être générée.")
 
 #'   
-#'[Notice](Docs/Notices/fiche_2.odt)       
-#'[Notice](Docs/Notices/fiche_3.odt)     
+#'[![Notice](Notice.png)](Docs/Notices/fiche_3.odt)     
 #'
 
 newpage()
@@ -224,12 +223,12 @@ newpage()
 #'    
 
 print(e$res)
-
-#'  
+#'   
+#'[![Notice](Notice.png)](Docs/Notices/fiche_1.odt)   
 #'[Lien vers la base des âges - début de période](Bases/Effectifs/`r e$nom.fichier.avant`.csv)  
-#'  
+#'    
 #'[Lien vers la base des âges - fin de période](Bases/Effectifs/`r e$nom.fichier.après`.csv)  
-#'[Notice](Docs/Notices/fiche_1.odt)   
+#'     
 
 
 newpage()
@@ -237,7 +236,7 @@ newpage()
 ########### 1.3 Pyramides fonctionnaires ########################
 
 #'
-#'## `r chapitre`.3 Pyramide des âges des fonctionnaires  
+#'## `r chapitre`.3 Pyramide des âges des fonctionnaires  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_2.odt)    
 
 
 #' 
@@ -249,8 +248,7 @@ essayer(produire_pyramides(c("TITULAIRE", "STAGIAIRE"),
 
 
 #'   
-#'[Notice](Docs/Notices/fiche_2.odt)       
-#'[Notice](Docs/Notices/fiche_3.odt)     
+#'[![Notice](Notice.png)](Docs/Notices/fiche_3.odt)     
 #'  
 
 newpage()
@@ -265,13 +263,13 @@ print(e$res)
 #'[Lien vers la base des âges - début de période](Bases/Effectifs/`r e$nom.fichier.avant`.csv)  
 #'  
 #'[Lien vers la base des âges - fin de période](Bases/Effectifs/`r e$nom.fichier.après`.csv)  
-#'[Notice](Docs/Notices/fiche_1.odt)      
+#'[![Notice](Notice.png)](Docs/Notices/fiche_1.odt)      
 
 newpage()
 
 ########### 1.4 Pyramides non Tit ########################
 
-#'## `r chapitre`.4 Pyramide des âges, personnels non titulaires   
+#'## `r chapitre`.4 Pyramide des âges, personnels non titulaires   &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_2.odt)     
 
 #+fig.height=8, fig.width=7
 essayer(produire_pyramides(c("NON_TITULAIRE"), "Pyramide des âges des non titulaires", 
@@ -280,8 +278,7 @@ essayer(produire_pyramides(c("NON_TITULAIRE"), "Pyramide des âges des non titul
 
 
 #'   
-#'[Notice](Docs/Notices/fiche_2.odt)       
-#'[Notice](Docs/Notices/fiche_3.odt)     
+#'[![Notice](Notice.png)](Docs/Notices/fiche_3.odt)     
 #'  
 
 newpage()
@@ -297,13 +294,13 @@ print(e$res)
 #'[Lien vers la base des âges - début de période](Bases/Effectifs/`r e$nom.fichier.avant`.csv)  
 #'  
 #'[Lien vers la base des âges - fin de période](Bases/Effectifs/`r e$nom.fichier.après`.csv)  
-#'[Notice](Docs/Notices/fiche_1.odt)      
+#'[![Notice](Notice.png)](Docs/Notices/fiche_1.odt)      
 
 newpage()
 
 ########### 1.5 Pyramides Autres statut ########################
 
-#'## `r chapitre`.5 Pyramide des âges, autres statuts
+#'## `r chapitre`.5 Pyramide des âges, autres statuts  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_3.odt)  
 
 
 #' 
@@ -316,8 +313,7 @@ essayer(produire_pyramides(Filtre_bulletins,
 
 
 #'   
-#'[Notice](Docs/Notices/fiche_3.odt)       
-#'[Notice](Docs/Notices/fiche_2.odt)     
+#'[![Notice](Notice.png)](Docs/Notices/fiche_2.odt)     
 #'  
 
 newpage()
@@ -332,7 +328,7 @@ print(e$res)
 #'[Lien vers la base des âges - début de période](Bases/Effectifs/`r e$nom.fichier.avant`.csv)  
 #'  
 #'[Lien vers la base des âges - fin de période](Bases/Effectifs/`r e$nom.fichier.après`.csv)  
-#'[Notice](Docs/Notices/fiche_1.odt)    
+#'[![Notice](Notice.png)](Docs/Notices/fiche_1.odt)    
 #'  
 #'*Source des comparaisons avec les données nationales*      
 #'         
@@ -1373,7 +1369,7 @@ newpage()
 #'Les agents non actifs ou dont le poste est annexe sont réintroduits dans le périmètre.   
 #'    
 #'    
-#'## `r chapitre`.1 Contrôle des nouvelles bonifications indiciaires (NBI) 
+#'## `r chapitre`.1 Contrôle des nouvelles bonifications indiciaires (NBI) &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NBI.odt)    
 
 #+ tests-statutaires-nbi
 
@@ -1391,7 +1387,10 @@ colonnes <-  c("Matricule",
                "Mois",
                "Montant")
 
-Paie_NBI <- filtrer_Paie("NBI", portée = "Mois", indic = TRUE)[Type == "T" | Type == "I" | Type == "R"]
+Paie_NBI   <- filtrer_Paie("NBI", 
+                           portée = "Mois", 
+                           indic = TRUE)[Type %chin% c("T", "I", "R")]
+
 lignes_NBI <- Paie_NBI[indic == TRUE][ , indic :=  NULL]
 
 NBI.aux.non.titulaires <- lignes_NBI[Statut != "TITULAIRE" 
@@ -1411,7 +1410,6 @@ if (nombre.personnels.nbi.nontit <- uniqueN(NBI.aux.non.titulaires$Matricule)) {
 
 #'   
 #'[Lien vers la base de données NBI aux non titulaires](Bases/Reglementation/NBI.aux.non.titulaires.csv)   
-#'[Notice](Docs/Notices/fiche_NBI.odt)      
 #'     
 
 # On calcule tout d'abord la somme de points de NBI par matricule et par année
@@ -1672,7 +1670,7 @@ Tableau(
 
 #'   
 #'[Lien vers les NBI dépassant les seuils par catégorie statutaire](Bases/Reglementation/NBI.cat.irreg.csv)   
-#'[Notice](Docs/Notices/fiche_plafonds_NBI.odt)      
+#'[![Notice](Notice.png)](Docs/Notices/fiche_plafonds_NBI.odt)      
 
 rm(T, T1, T2, NBI.cat, NBI.cat.irrég)
 
@@ -1682,7 +1680,7 @@ rm(T, T1, T2, NBI.cat, NBI.cat.irrég)
 #     Filtre    : filtre expression rationnelle expression.rég.pfi dans Libellé.   
 
 #'  
-#'## `r chapitre`.2 Contrôle de la prime de fonctions informatiques (PFI)   
+#'## `r chapitre`.2 Contrôle de la prime de fonctions informatiques (PFI)   &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_PFI.odt)   
 
 Matrice.PFI <- filtrer_Paie("PFI")
 
@@ -1703,7 +1701,6 @@ primes.informatiques.potentielles <- if (nombre.personnels.pfi == 0) "aucune" el
 
 #'   
 #'[Lien vers la base de données Primes informatiques](Bases/Reglementation/personnels.prime.informatique.csv)   
-#'[Notice](Docs/Notices/fiche_PFI.odt)       
 #'     
 
 
@@ -1860,9 +1857,12 @@ résultat.iat.manquant  <- FALSE
 
 Paie_I <- Paie[Type == "I" | Type == "A" | Type == "R", 
                  .(Nom, 
+                   Prénom,
                    Matricule, 
                    Année, 
                    Mois, 
+                   Début,
+                   Fin,
                    Code,
                    Libellé,
                    Montant,
@@ -2056,10 +2056,10 @@ if (! résultat.ifts.manquant) {
 
 #+ pfr
 
-prime <- list(nom = "PFR",                     # Nom en majuscules
-              catégorie = "A",                 # restreint aux catégories A
-              restreint_fonctionnaire = TRUE,  # fonctionnaires
-              prime_B = "IFTS")                # à comparer à IFTS
+prime_PFR <- list(nom = "PFR",                     # Nom en majuscules
+                  catégorie = "A",                 # restreint aux catégories A
+                  restreint_fonctionnaire = TRUE,  # fonctionnaires
+                  prime_B = "IFTS")                # à comparer à IFTS
 
 #'    
 #'&nbsp;*Tableau `r incrément()` : Cumul PFR/IFTS*   
@@ -2068,10 +2068,12 @@ prime <- list(nom = "PFR",                     # Nom en majuscules
 # Paie_A, Lignes_A, personnels.A.B, nombre.mois.cumuls, nombre.agents.cumulant.A.B
 
 # Passer les caractéristiques de prime, la matrice de référence Paie_I et celle de comparaison en dernier argument
-source("test.R")
-résultat   <- test(prime, Paie_I, Paie_IFTS)
 
-Lignes_PFR <- résultat[["Lignes"]]
+source("test.R")
+
+résultat_PFR   <- test(prime_PFR, Paie_I, Paie_IFTS, afficher.table.effectifs)
+
+Lignes_PFR     <- résultat_PFR[["Lignes"]]
 
 #'      
 #'[Lien vers la base de données cumuls pfr/ifts](Bases/Reglementation/personnels.pfr.ifts.csv)    
@@ -3653,10 +3655,9 @@ Evenements.mat <- setcolorder(setkey(copy(Evenements.ind),
 #'  
 
 #'  
-#'## Codes et libellés de paye   
+#'## Codes et libellés de paye  &nbsp;  [![Notice](Notice.png)](Docs/Notices/fiche_individualisation.odt)     
 #'         
 #'         
-#'[Notice](Docs/Notices/fiche_individualisation.odt)  
 #'   
 
 code.libelle <- remplacer_type(code.libelle)
