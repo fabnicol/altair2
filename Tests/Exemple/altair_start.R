@@ -1381,6 +1381,9 @@ newpage()
 #     Filtre    : Statut != "TITULAIRE" & Statut != "STAGIAIRE" & NBI != 0  grepl(expression.rég.nbi, Libellé)
 
 colonnes <-  c("Matricule",
+               "Nom",
+               "Prénom",
+               "Grade",
                "Statut",
                "Code",
                "Libellé",
@@ -1394,8 +1397,8 @@ lignes_NBI <- Paie_NBI[indic == TRUE][ , indic :=  NULL]
 NBI.aux.non.titulaires <- lignes_NBI[Statut != "TITULAIRE" 
                                      & Statut != "STAGIAIRE" 
                                      & NBI != 0,
-                                           c(colonnes, "NBI"),
-                                               with = FALSE] 
+                                        c(colonnes, "NBI"),
+                                            with = FALSE] 
            
 if (nombre.personnels.nbi.nontit <- uniqueN(NBI.aux.non.titulaires$Matricule)) {
     cat("Il existe ", 
@@ -1420,8 +1423,22 @@ if (nombre.personnels.nbi.nontit <- uniqueN(NBI.aux.non.titulaires$Matricule)) {
 adm <- function(quotité) ifelse(quotité == 0.8,  6/7, ifelse (quotité == 0.9,  32/35, quotité))
 
 T1 <- lignes_NBI[! is.na(NBI)
-                & NBI != 0,  c("Matricule", "Année", "Mois", "Montant", "Début", "quotité", "NBI", "Type"), with = FALSE][ , `:=` (Année.rappel = as.numeric(substr(Début, 0, 4)),
-                                   Mois.rappel  = as.numeric(substr(Début, 6, 7))) ][ , Début := NULL]
+                & NBI != 0,  c("Matricule", 
+                               "Nom",
+                               "Prénom",
+                               "Grade",
+                               "Statut",
+                               "Année",
+                               "Mois",
+                               "Montant",
+                               "Début",
+                               "quotité",
+                               "NBI",
+                               "Type"),
+                                with = FALSE
+                ][ , `:=` (Année.rappel = as.numeric(substr(Début, 0, 4)),
+                           Mois.rappel  = as.numeric(substr(Début, 6, 7))) 
+                ][ , Début := NULL]
                
 if (nrow(T1) == 0) cat("Aucune NBI n'a été attribuée ou les points de NBI n'ont pas été rencensés en base de paye. ")
 
@@ -1436,7 +1453,16 @@ T2a <- T1[! is.na(quotité)
          ][Année.rappel >= début.période.sous.revue 
                  & Mois.rappel >=1 
                  & Mois.rappel <= 12
-         ][ , .(Matricule, Année, Mois, Année.rappel, Mois.rappel, nbi.cum.rappels)]
+         ][ , .(Matricule, 
+                Nom,
+                Prénom,
+                Grade,
+                Statut,
+                Année,
+                Mois,
+                Année.rappel,
+                Mois.rappel,
+                nbi.cum.rappels)]
 
 setnames(T2a, "Année", "Année.R")
 setnames(T2a, "Mois", "Mois.R")
@@ -1557,8 +1583,8 @@ essayer(
                                        ][ , Différence.payé.calculé := Montant.NBI.payé - Montant.NBI.calculé
                                        ][abs(Différence.payé.calculé) > tolérance.nbi]
   
-  lignes.paie.nbi.anormales.mensuel <- merge(Paie_NBI[, .(Matricule, Année, Mois, Statut, 
-                                                            Grade, Echelon, Catégorie, 
+  lignes.paie.nbi.anormales.mensuel <- merge(Paie_NBI[, .(Matricule, Nom, Prénom, Grade, Statut, 
+                                                            Année, Mois, Echelon, Catégorie, 
                                                             Emploi, Service, quotité,
                                                             NBI, Code, Libellé,
                                                             Base, Taux,Type, Montant)],
@@ -1587,7 +1613,18 @@ Tableau(
 
 setkey(Bulletins.paie, Catégorie, Matricule, Année, Mois)
 
-NBI.cat <- Bulletins.paie[! is.na(NBI) & NBI > 0, .(Matricule, Année, Mois, Catégorie, NBI, quotité, Emploi, Grade)]
+NBI.cat <- Bulletins.paie[! is.na(NBI) & NBI > 0, 
+                            .(Matricule,
+                              Nom,
+                              Prénom,
+                              Grade,
+                              Statut,
+                              Emploi,
+                              Catégorie,
+                              Année,
+                              Mois,
+                              NBI,
+                              quotité)]
 
 NBI.cat[ , Contrôle := { a <- grepl("d(?:\\.|ir)\\w*\\s*\\bg(?:\\.|\\w*n)\\w*\\s*\\bs\\w*", paste(Emploi, Grade), ignore.case = TRUE, perl = TRUE)
                          b <- grepl("d(?:\\.ir)\\w*\\s*\\bg(?:\\.|\\w*n)\\w*\\s*\\ba(?:\\.|d)\\w*", paste(Emploi, Grade), ignore.case = TRUE, perl = TRUE)
@@ -1606,7 +1643,8 @@ NBI.cat.irreg <- NBI.cat[Contrôle == "Rouge",
                              Coût := { a <- adm(quotité)
                                       (NBI - ifelse(Catégorie == "A", 50, ifelse(Catégorie == "B", 30, 20))) *
                                             PointMensuelIM[Année - 2007, Mois] * ifelse(is.na(a), 1, a)}
-                        ][! is.na(Coût)][ , Contrôle := NULL] 
+                        ][! is.na(Coût)
+                        ][ , Contrôle := NULL] 
   
 nombre.mat.NBI.irrég <- NBI.cat.irreg[ , uniqueN(Matricule)]
 coût.total <- NBI.cat.irreg[ , sum(Coût, na.rm = TRUE)]
@@ -3584,6 +3622,7 @@ Evenements.ind <- setkey(Bulletins.paie[Evenement != "" & Evenement != "NA NA",
                                          Année,
                                          Mois,
                                          Grade,
+                                         Statut,
                                          Emploi,
                                          Service)],
                                        Evenement,
@@ -3603,6 +3642,7 @@ Evenements.mat <- setcolorder(setkey(copy(Evenements.ind),
                                "Mois",
                                "Evenement",
                                "Grade",
+                               "Statut",
                                "Emploi",
                                "Service"))
 
