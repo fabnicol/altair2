@@ -6,7 +6,7 @@
 # si non null Paie_B doit avoir indic_B
 
 
-test <- function(prime, Paie_I, Paie_B = NULL) {
+test <- function(prime, Paie_I, Paie_B = NULL, verbeux) {
 
 ident_prime <- prime$nom
 
@@ -25,7 +25,7 @@ if (prime$restreint_fonctionnaire) {
    if ((N.A.non.tit <<- uniqueN(A.non.tit$Matricule)) > 0) {
      
      cat(N.A.non.tit, "attributaire" %s% N.A.non.tit, ident_prime, "sont des non-titulaires.")
-     print(kable(A.non.tit, align = 'r', row.names = FALSE))
+     if (verbeux) print(kable(A.non.tit, align = 'r', row.names = FALSE))
      
    } else {
      
@@ -40,7 +40,7 @@ if (prime$catégorie != ""){
   if ((N.A.non.cat <<- uniqueN(A.non.cat$Matricule)) > 0) {
     
     cat(N.A.non.cat, "attributaires de", ident_prime, "ne sont pas identifiés en catégorie", prime$catégorie)
-    print(kable(A.non.cat, align = 'r', row.names = FALSE))
+    if (verbeux)  print(kable(A.non.cat, align = 'r', row.names = FALSE))
     
   } else {
     
@@ -50,7 +50,6 @@ if (prime$catégorie != ""){
 
 K <- "codes." %+% tolower(ident_prime)
 
-            
 if (exists(K) && is.na(get(K))) {
   
   assign(K, list(K = unique(Lignes_A$Code)))
@@ -70,11 +69,22 @@ if (! is.null(Paie_B) && ! résultat.manquant) {
   
   indic_B <- "indic_"  %+% prime$prime_B
   
-  personnels.A.B <- merge(Paie_A, Paie_B)[ ,c("Nom",	"Matricule",	"Année",	"Mois",	"Code",
-                                              "Libellé",	"Montant",	"Type",	"Emploi",	"Grade",
-                                              "Indice",	"Statut",	"Catégorie", indic_B, "indic")
-                                           , with = FALSE
-                                         ][indic == TRUE | get(indic_B) == TRUE]
+  période.fusion <- merge(Paie_A[indic == TRUE],
+                          Paie_B[get(indic_B) == TRUE],
+                          by = c("Nom", "Prénom", "Matricule",
+                                 "Année", "Mois", "Emploi", "Grade",
+                                 "Indice", "Statut",
+                                 "Catégorie"))[ , .(Matricule, Année, Mois)]
+
+  période.fusion <- unique(période.fusion)
+  
+  A_ <- merge(Paie_A, période.fusion)
+  B_ <- merge(Paie_B, période.fusion)
+  B_$indic <- A_$indic
+  
+  personnels.A.B <- B_[indic == TRUE | get(indic_B) == TRUE
+                      ][ , indic := NULL
+                      ][ , indic_B := NULL, with = FALSE]
   
   nombre.mois.cumuls <- uniqueN(personnels.A.B[ , .(Matricule, Année, Mois)], by = NULL)
   
@@ -87,7 +97,8 @@ L <- length(get(K))
 
 if (L < 6) {
   
-  print(Tableau(c("Codes " %+% ident_prime, "Agents cumulant " %+% ident_prime %+% " et " %+% prime$prime_B),
+  print(Tableau(c("Codes " %+% ident_prime,
+                  "Agents cumulant " %+% ident_prime %+% " et " %+% prime$prime_B),
           sep.milliers = "",
           paste(unlist(get(K)), collapse = " "),
           nombre.agents.cumulant.A.B))
@@ -98,6 +109,27 @@ if (L < 6) {
   
 }
 
-list(Paie = Paie_A, Lignes = Lignes_A, personnels = personnels.A.B, mois = nombre.mois.cumuls, N = nombre.agents.cumulant.A.B)
+env <- environment()
+
+sauvebase <- function(x, y) {
+  Sauv.base(file.path(chemin.dossier.bases, "Reglementation"),
+  x,
+  y,
+  FALSE,
+  sep = ";",
+  dec = ",",
+  environment = env)
+}
+
+sauvebase("personnels.A.B" , "personnels.pfr.ifts")
+sauvebase("A.non.cat" , "PFR.non.catA")
+sauvebase("A.non.tit" , "PFR.non.tit")
+
+list(Paie = Paie_A, 
+     Lignes = Lignes_A, 
+     personnels = personnels.A.B, 
+     non.cat = A.non.cat, 
+     mois = nombre.mois.cumuls, 
+     N = nombre.agents.cumulant.A.B)
 
 }
