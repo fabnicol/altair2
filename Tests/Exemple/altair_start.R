@@ -2018,90 +2018,23 @@ if (! résultat.ifts.manquant) {
 
 #+ pfr
 
-résultat.pfr.manquant <- FALSE
-nombre.agents.cumulant.pfr.ifts <- 0
+prime <- list(nom = "PFR",                     # Nom en majuscules
+              catégorie = "A",                 # restreint aux catégories A
+              restreint_fonctionnaire = TRUE,  # fonctionnaires
+              prime_B = "IFTS")                # à comparer à IFTS
 
-# L'expression régulière capte la PFR et la PR 
-# Le cumul de la PR et de l'IFTS est régulier, de même que celui de la PR et de la PFR
-# le cumul de la PFR et de l'IFTS est irrrégulier
-
-Paie_PFR <- filtrer_Paie("PFR", portée = "Mois", Base = Paie_I, indic = TRUE)
-Lignes_PFR <- Paie_PFR[indic == TRUE][ , indic := NULL]
-
-PFR.non.tit  <- Lignes_PFR[Statut != "TITULAIRE" & Statut != "STAGIAIRE"]
-PFR.non.catA <- Lignes_PFR[Catégorie != "A"]
-
-if ((N.PFR.non.tit <<- uniqueN(PFR.non.tit$Matricule)) > 0) {
-  
-  cat(N.PFR.non.tit, "attributaire" %s% N.PFR.non.tit, " de la PFR sont des non-titulaires. ")
-  kable(PFR.non.tit, align = 'r', row.names = FALSE)
-  
-} else {
-  
-  cat("Tous les attributaires de la PFR sont titulaires ou stagiaires.")
-}
-
-
-if ((N.PFR.non.catA <<- uniqueN(PFR.non.catA$Matricule)) > 0) {
-  
-  cat(N.PFR.non.catA, "attributaires de la PFR ne sont pas identifiés en catégorie A. ")
-  kable(PFR.non.catA, align = 'r', row.names = FALSE)
-  
-} else {
-  
-  cat("Tous les attributaires de la PFR sont identifiés en catégorie A. ")
-}
-
-if (is.na(codes.pfr)) {
-   codes.pfr  <- list("codes PFR" = unique(Lignes_PFR$Code))
-
-  if (length(codes.pfr) == 0) {
-    cat("Il n'a pas été possible d'identifier la PFR par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique. ")
-    résultat.pfr.manquant <- TRUE
-  }
-}
-
-setnames(Paie_PFR, "indic", "indic_PFR")
-
-if (! résultat.ifts.manquant && ! résultat.pfr.manquant) {
-  
-  # on exclut les rappels !
-  
-  personnels.pfr.ifts <- merge(Paie_PFR, Paie_IFTS)[ ,.(Nom,	Matricule,	Année,	Mois,	Code,
-                                                        Libellé,	Montant,	Type,	Emploi,	Grade,
-                                                        Indice,	Statut,	Catégorie, indic_IFTS, indic_PFR)
-                                                   ][indic_PFR == TRUE | indic_IFTS == TRUE]
-
-  nombre.mois.cumuls <- uniqueN(personnels.pfr.ifts[ , .(Matricule, Année, Mois)], by = NULL)
-  
-  nombre.agents.cumulant.pfr.ifts <- uniqueN(personnels.pfr.ifts$Matricule)
-  
-  personnels.pfr.ifts <- personnels.pfr.ifts[order(Année, Mois, Matricule)]
-}
-
-#'   
 #'    
 #'&nbsp;*Tableau `r incrément()` : Cumul PFR/IFTS*   
 #'      
-if (length(codes.pfr) < 6) {
-  
-  Tableau(c("Codes PFR", "Agents cumulant PFR et IFTS"),
-          sep.milliers = "",
-          paste(unlist(codes.pfr), collapse = " "),
-          nombre.agents.cumulant.pfr.ifts)
-  
-} else {
-  
-  cat("Codes PFR : ", paste(unlist(codes.pfr), collapse = " "))
-  
-}
 
-#'     
-#'     
+# Paie_A, Lignes_A, personnels.A.B, nombre.mois.cumuls, nombre.agents.cumulant.A.B
 
-cat("Nombre d'agents cumulant PFR et IFTS : ", nombre.agents.cumulant.pfr.ifts)
+# Passer les caractéristiques de prime, la matrice de référence Paie_I et celle de comparaison en dernier argument
+source("test.R")
+résultat   <- test(prime, Paie_I, Paie_IFTS)
 
-#'      
+Lignes_PFR <- résultat[["Lignes"]]
+
 #'      
 #'[Lien vers la base de données cumuls pfr/ifts](Bases/Reglementation/personnels.pfr.ifts.csv)    
 #'[Lien vers la base de données PFR non cat.A](Bases/Reglementation/PFR.non.catA.csv)      
@@ -3036,11 +2969,13 @@ if (file.exists("paye_budget.csv"))
   
   code.libelle <- unique(Paie[Montant != 0, .(Code, Libellé, Statut), by = "Type"], by = NULL)[ , Libellé := toupper(Libellé)]
   
-  code.libelle[grepl(expression.rég.traitement, Libellé, ignore.case = TRUE, perl = TRUE),
+  # Note : des traitements et NBI sont parfois improprement codés comme indemnités.
+  
+  code.libelle[Type %chin% c("T", "I", "R", "AC") & grepl(expression.rég.traitement, Libellé, ignore.case = TRUE, perl = TRUE),
                `:=`(Compte.tit    = "64111",
                     Compte.nontit = "64131")]
   
-  code.libelle[Type == "IR" | Type == "S" | grepl(expression.rég.nbi, Libellé, ignore.case = TRUE, perl = TRUE),
+  code.libelle[Type == "IR" | Type == "S" | (Type %chin% c("T", "I", "R") & grepl(expression.rég.nbi, Libellé, ignore.case = TRUE, perl = TRUE)),
                `:=`(Compte.tit    = "64112",
                     Compte.nontit = "64132")]
   
