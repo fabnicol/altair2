@@ -2048,6 +2048,8 @@ if (! résultat.ifts.manquant) {
 #'       
 #'     
 
+Lignes_IFTS[, IFTS := TRUE]
+
 #### 5.6 PFR ####
 
 #'
@@ -2059,21 +2061,30 @@ if (! résultat.ifts.manquant) {
 prime_PFR <- list(nom = "PFR",                     # Nom en majuscules
                   catégorie = "A",                 # restreint aux catégories A
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
-                  prime_B = "IFTS")                # à comparer à IFTS
+                  prime_B = "IFTS",                # à comparer à IFTS
+                  dossier = "Reglementation")      # dossier de bases
 
 #'    
 #'&nbsp;*Tableau `r incrément()` : Cumul PFR/IFTS*   
 #'      
 
-# Paie_A, Lignes_A, personnels.A.B, nombre.mois.cumuls, nombre.agents.cumulant.A.B
-
-# Passer les caractéristiques de prime, la matrice de référence Paie_I et celle de comparaison en dernier argument
-
 source("test.R")
 
-résultat_PFR   <- test(prime_PFR, Paie_I, Paie_IFTS, afficher.table.effectifs)
+résultat_PFR   <- test(prime_PFR, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
+
+beneficiaires.PFR <- résultat_PFR$cumuls                         
+
+#'  
+#'&nbsp;*Tableau `r incrément()` : Cumuls PFR/IFTS*   
+#'      
+
+if (nrow(beneficiaires.PFR)) {
+  kable(beneficiaires.PFR[c != 0, .(Matricule, Année, Grade, Régime)])
+} else cat("Pas de cumuls.")
 
 Lignes_PFR     <- résultat_PFR[["Lignes"]]
+beneficiaires.PFR <- résultat_PFR$cumuls    
+beneficiaires.PFR.Variation <- résultat_PFR$variations
 
 #'      
 #'[Lien vers la base de données cumuls pfr/ifts](Bases/Reglementation/personnels.pfr.ifts.csv)    
@@ -2081,35 +2092,6 @@ Lignes_PFR     <- résultat_PFR[["Lignes"]]
 #'[Lien vers la base de données PFR non tit](Bases/Reglementation/PFR.non.tit.csv)       
 #'   
 
-# Attention keyby = et pas seulement by = !
-
-Lignes_PFR[ , PFR := TRUE]
-Lignes_IFTS[ , IFTS := TRUE]
-
-beneficiaires.PFR <- merge(Lignes_PFR, Lignes_IFTS, all = TRUE)
-
-beneficiaires.PFR[ , Régime := if (all(is.na(PFR))) { if (any(IFTS)) "I" else NA } else { if (all(is.na(IFTS))) "P" else "C" },
-                     by = .(Matricule, Année, Mois)][ , `:=`(PFR = NULL, 
-                                                             IFTS = NULL)]
-
-matricules.PFR <- unique(Lignes_PFR$Matricule)
-
-beneficiaires.PFR <- beneficiaires.PFR[Matricule %chin% matricules.PFR,
-                  .(Agrégat = sum(Montant, na.rm = TRUE),
-                    Régime = { c <- uniqueN(Mois[Régime == "C"])
-                    
-                               if (c == 0) {  
-                                 
-                                 "IFTS " %+% uniqueN(Mois[Régime == "I"]) %+% " mois-PFR " %+% uniqueN(Mois[Régime == "P"]) %+% " mois"
-                                 
-                               } else {
-                                 
-                                 "IFTS " %+% uniqueN(Mois[Régime == "I"]) %+% " mois-PFR " %+% uniqueN(Mois[Régime == "P"]) %+% " mois" %+% "-Cumul " %+% c %+% " mois"
-                               }},
-                    nb.mois = uniqueN(Mois),
-                    Grade = Grade[1]),
-                        keyby= .(Matricule, Année)]
-                         
 
 # Plafonds annuels (plafonds mensuels reste à implémenter)
 # AG 58 800
@@ -2157,45 +2139,44 @@ test.PFR <- function(i, grade, cumul) {
     cat("\nLes plafonds annuels de la PFR ne sont pas dépassés.\n")
   }
     
-  beneficiaires.PFR.Variation <- beneficiaires.PFR[ , 
-                                    { 
-                                       L <- length(Année)
-                                       q <- Agrégat[L]/Agrégat[1] * nb.mois[1]/nb.mois[L]                   
-                                       .(Années = paste(Année, collapse = ", "), 
-                                         `Variation (%)` = round((q - 1) * 100, 1),
-                                         `Moyenne géométrique annuelle(%)` = round((q^(1/(L - 1)) - 1) * 100, 1)) 
-                                    }, by="Matricule"]
   
-  beneficiaires.PFR.Variation <- beneficiaires.PFR.Variation[`Variation (%)` != 0.00]
 
 #'  
 #'&nbsp;*Tableau `r incrément()` : Valeurs de l'agrégat annuel (PFR ou IFTS) pour les bénéficiaires de la PFR*        
 #'          
 
-  if (nrow(beneficiaires.PFR)) {
-    
-    beneficiaires.PFR$Agrégat <- formatC(beneficiaires.PFR$Agrégat, big.mark = " ", format="fg")
-    
-    kable(beneficiaires.PFR, align = 'r', row.names = FALSE)
-    
-  } else {
-    cat("\nAucun bénéficiaire de la PFR détecté.\n")
-  }
+  beneficiaires.PFR <- beneficiaires.PFR[, .(Matricule, Année, nb.mois, Grade, Agrégat)]
   
-#'  
-#'&nbsp;*Tableau `r incrément()` : Variations de l'agrégat mensuel moyen (PFR ou IFTS) pour les bénéficiaires de la PFR*   
-#'          
-  if (nrow(beneficiaires.PFR.Variation)) {
-    
-    kable(beneficiaires.PFR.Variation, align = 'r', row.names = FALSE)
-    
-  } else {
-    cat("\nAucun tableau de variation.\n")
+  if (afficher.table.effectifs) {
+    if (nrow(beneficiaires.PFR)) {
+      
+      beneficiaires.PFR$Agrégat <- formatC(beneficiaires.PFR$Agrégat, big.mark = " ", format="fg")
+      
+      kable(beneficiaires.PFR, align = 'r', row.names = FALSE)
+      
+    } else {
+      cat("\nAucun bénéficiaire de la PFR détecté.\n")
+    }
   }
   
 #'   
 #'[Lien vers la base de données agrégat PFR-IFTS](Bases/Remunerations/beneficiaires.PFR.csv)    
 #'    
+  
+#'  
+#'&nbsp;*Tableau `r incrément()` : Variations de l'agrégat mensuel moyen (PFR ou IFTS) pour les bénéficiaires de la PFR*   
+#'          
+  
+  if (afficher.table.effectifs) {
+    if (nrow(beneficiaires.PFR.Variation)) {
+      
+      kable(beneficiaires.PFR.Variation, align = 'r', row.names = FALSE)
+      
+    } else {
+      cat("\nAucun tableau de variation.\n")
+    }
+  }
+
 #'   
 #'[Lien vers la base de données variations agrégat PFR-IFTS](Bases/Remunerations/beneficiaires.PFR.Variation.csv)    
 #'   
@@ -2966,29 +2947,11 @@ if (générer.table.élus)   {
 
 #### 5.11 COMPTE DE GESTION ####
 
-#'## `r chapitre`.11 Lien avec le compte de gestion
- 
-# deprecated
-# cumul.lignes.paie <- Paie[Type %chin% c("T", "I", "R", "IR", "S", "A", "AC") , 
-#                         .(Total = sum(Montant, na.rm = TRUE)), keyby="Année,Type,Libellé,Code"]
-# 
-# cumul.lignes.paie <- cumul.lignes.paie[Total != 0]
-# 
-# cumul.lignes.paie$Type <- remplacer_type(cumul.lignes.paie$Type)
-#                    
-# cumul.lignes.paie <- cumul.lignes.paie[ , Total2  := formatC(Total, big.mark = " ", format = "f", decimal.mark = ",", digits = 2)]
-# 
-# cumul.total.lignes.paie <- cumul.lignes.paie[ , .(`Cumul annuel`= formatC(sum(Total, na.rm = TRUE),
-#                                                                           big.mark = " ",
-#                                                                           format = "f",
-#                                                                           decimal.mark = ",",
-#                                                                           digits = 2)), 
-#                                                keyby = "Année,Type"]
-# 
-# setnames(cumul.lignes.paie[ , Total := NULL], "Total2", "Total")
 
-if (file.exists("paye_budget.csv"))
-{
+essayer({
+  
+if (file.exists("paye_budget.csv")){
+  
   code.libelle <- fread("paye_budget.csv", # Code, Libellé,  Statut, Type, Compte
                          sep = ";",
                          encoding   = "Latin-1",
@@ -3007,7 +2970,9 @@ if (file.exists("paye_budget.csv"))
   
 } else {
   
-  code.libelle <- unique(Paie[Montant != 0, .(Code, Libellé, Statut), by = "Type"], by = NULL)[ , Libellé := toupper(Libellé)]
+  # Ne pas prendre les capitales ni simplifier les libellés
+  
+  code.libelle <- unique(Paie[Montant != 0, .(Code, Libellé, Statut), by = "Type"], by = NULL)
   
   # Note : des traitements et NBI sont parfois improprement codés comme indemnités.
   
@@ -3034,7 +2999,7 @@ if (file.exists("paye_budget.csv"))
               ][ , Compte.tit := NULL
               ][ , Compte.nontit := NULL]
   
-  cumul.lignes.paie <- merge(Paie[ , .(Année, Code, Libellé, Statut, Type, Montant)][ , Libellé := toupper(Libellé)], 
+  cumul.lignes.paie <- merge(Paie[ , .(Année, Code, Libellé, Statut, Type, Montant)], 
                              code.libelle,
                              all.x = TRUE)
   
@@ -3070,20 +3035,30 @@ if (afficher.cumuls.détaillés.lignes.paie) {
   }
 }
 
-
-
 L <- split(cumul.total.lignes.paie, cumul.total.lignes.paie$Année)
 
-#'  
-#'Cumul des lignes de paie par exercice et compte   
-#'  
+}, "La correspondance avec le compte de gestion n'a pas pu être établie.")
 
 
-for (i in 1:durée.sous.revue) {
-  cat("\nTableau ", incrément(), " Année ", début.période.sous.revue + i - 1)
-  print(kable(L[[i]][, .(Compte, `Cumul annuel`)], row.names = FALSE, align = 'r'))
+#'    
+#'## `r chapitre`.11 Lien avec le compte 64        
+#' 
+#'     
+#'*Cumul des lignes de paie par exercice et sous-compte de compte 64*     
+#'     
 
-}
+if (exists("L")) {
+  for (i in 1:durée.sous.revue) {
+    essayer({
+      cat("\nTableau ",
+          incrément(),
+          " Année ",
+          début.période.sous.revue + i - 1)
+      
+      print(kable(L[[i]][, .(Compte, `Cumul annuel`)], row.names = FALSE, align = 'r'))
+    }, "Tableaux des correspondances bases de paye-budget : génération impossible pour l'année " %+% (début.période.sous.revue + i - 1))
+  }
+} else cat("Tableaux des correspondances bases de paye-budget : génération impossible.")
 
 rm(L)
 
