@@ -248,7 +248,7 @@ sauv.bases <- function(chemin.dossier, env, ...)
     stop("Pas de dossier de travail spécifié")
   }
 
-  skiplist <- 3
+  skiplist <- 2
   
   
   tmp <- as.list(match.call())
