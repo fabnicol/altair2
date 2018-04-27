@@ -1852,126 +1852,48 @@ if (exists("nombre.contractuels.et.vacations")) {
 
 #+ IAT-et-IFTS
 
-résultat.ifts.manquant <- FALSE
-résultat.iat.manquant  <- FALSE
+source("test.R")  
 
 Paie_I <- Paie[Type == "I" | Type == "A" | Type == "R", 
-                 .(Nom, 
-                   Prénom,
-                   Matricule, 
-                   Année, 
-                   Mois, 
-                   Début,
-                   Fin,
-                   Code,
-                   Libellé,
-                   Montant,
-                   Type,
-                   Emploi,
-                   Grade, 
-                   Indice,
-                   Statut,
-                   Catégorie)]
-
-
+               .(Nom, 
+                 Prénom,
+                 Matricule, 
+                 Année, 
+                 Mois, 
+                 Début,
+                 Fin,
+                 Code,
+                 Libellé,
+                 Montant,
+                 Type,
+                 Emploi,
+                 Grade, 
+                 Indice,
+                 Statut,
+                 Catégorie)]
   
-Paie_IFTS <- filtrer_Paie("IFTS", portée = "Mois", Base = Paie_I, indic = TRUE)
-Paie_IAT  <- filtrer_Paie("IAT", portée = "Mois", Base = Paie_I, indic = TRUE)
-Lignes_IFTS <- Paie_IFTS[indic == TRUE][ , indic := NULL]
-Lignes_IAT  <- Paie_IAT[indic == TRUE][ , indic := NULL]
-Lignes_IAT[ , IAT := TRUE]
+prime_IAT <- list(nom = "IAT",                       # Nom en majuscules
+                    catégorie = c("B", "C"),         # restreint aux catégories B et C
+                    restreint_fonctionnaire = TRUE,  # fonctionnaires
+                    prime_B = "IFTS",                # comparer à IFTS
+                    dossier = "Reglementation",      # dossier de bases
+                    indice  = c("-", 350))           # inférieur à INM 350
 
-if (is.na(codes.ifts)) {          
- codes.ifts  <- list("codes IFTS" = unique(Lignes_IFTS$Code))
+prime_IFTS <- list(nom = "IFTS",                     # Nom en majuscules
+                    catégorie = c("A", "B"),         # restreint aux catégories A et B
+                    restreint_fonctionnaire = TRUE,  # fonctionnaires
+                    prime_B = "",                    # pas de comparaison vers autre chose
+                    dossier = "Reglementation",      # dossier de bases  
+                    indice  = c("+", 350))           # supérieur à INM 350.
 
-  if (length(codes.ifts) == 0) {
-    cat("Il n'a pas été possible d'identifier les IFTS par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique. ")
-    résultat.ifts.manquant <- TRUE
-  }
-}
+test2(prime_IAT, prime_IFTS, Paie_I, verbeux = FALSE)
 
-if (is.na(codes.iat)) {          
-  codes.iat  <- list("codes IAT" = unique(filtrer_Paie("IAT", Base = Paie_IAT)$Code))
-  if (length(codes.iat) == 0) {
-    cat("Il n'a pas été possible d'identifier les IAT par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique. ")
-    résultat.iat.manquant <- TRUE
-  }
-}
-
-
-Paie_IAT.non.tit <- Paie_IAT[Statut != "TITULAIRE" & Statut != "STAGIAIRE" & indic == TRUE]
-
-if ((N.IAT.non.tit <<- uniqueN(Paie_IAT.non.tit$Matricule)) > 0) {
-  
-  cat(N.IAT.non.tit, "attributaire" %s% N.IAT.non.tit, " de l'IAT sont des non-titulaires. Vérifier l'existence d'une délibération le prévoyant expressément. ")
-  
-} else {
-  
-  cat("Tous les attributaires de l'IAT sont titulaires ou stagiaires. ")
-}
-
-Paie_IAT.irreg <- Paie_IAT[(Statut == "TITULAIRE" | Statut == "STAGIAIRE") & ( Catégorie == "A" | (Catégorie == "B" & Indice > 350)) & indic == TRUE]
-
-if ((N.IAT.irreg <<- uniqueN(Paie_IAT.irreg$Matricule)) > 0) {
-  
-  cat(N.IAT.irreg, "attributaire" %s% N.IAT.irreg, " de l'IAT sont des titulaires non éligibles (cat. A ou B d'IB > 380). ")
-  
-} else {
-  
-  cat("Tous les attributaires de l'IAT titulaires sont de catégorie C ou B d'IB <= 380. ")
-}
-
-nombre.agents.cumulant.iat.ifts <- 0
-
-setnames(Paie_IAT, "indic", "indic_IAT")
-setnames(Paie_IFTS, "indic", "indic_IFTS")
-
-if (! résultat.ifts.manquant && ! résultat.iat.manquant) {
-
-  personnels.iat.ifts <- merge(Paie_IAT,
-                               Paie_IFTS)[
-                                 ,.(Nom,	Matricule,	Année,	Mois,	Code,
-                                    Libellé,	Montant,	Type,	Emploi,	Grade,
-                                    Indice,	Statut,	Catégorie, indic_IAT, indic_IFTS)
-                                 ][indic_IAT == TRUE | indic_IFTS == TRUE]
-  
-  # on exclut les rappels !
-  
-  nombre.mois.cumuls <- uniqueN(personnels.iat.ifts[ , .(Matricule, Année, Mois)], 
-                                    by = NULL)
-  
-  nombre.agents.cumulant.iat.ifts <- uniqueN(personnels.iat.ifts$Matricule)
-  
-  personnels.iat.ifts <- personnels.iat.ifts[order(Année, Mois, Matricule)]
-}
-
-#'
 #'  
 #'&nbsp;*Tableau `r incrément()` : Cumul IAT/IFTS*   
 #'      
-if (nombre.agents.cumulant.iat.ifts) {
-  if (length(codes.ifts) < 10) {
-    Tableau(c("Codes IFTS", " "),
-            sep.milliers = "",
-            paste(unlist(codes.ifts), collapse=" "), " ")
-  } else {
-    
-    cat ("Nombre de personnels percevant IAT et IFTS : ", paste(unlist(codes.ifts), collapse=" "), "\n")
-  }
-}
-
-# Pour de mystérieuses raisons liées à Tableau() il faut répéter la condition.
-
-if (nombre.agents.cumulant.iat.ifts) {
-  
-  Tableau(c("Nombre de personnels percevant IAT et IFTS", " "), nombre.agents.cumulant.iat.ifts, " ")
-       
-} else {
-  cat("Tests IAT/IFTS sans résultat positif.")
-}
 
 #'   
-#'[Lien vers la base de données iat à des titulaires non éligibles](Bases/Reglementation/Paie_IAT.irreg.csv)         
+#'[Lien vers la base de données iat à des titulaires non éligibles](Bases/Reglementation/IAT.indice.anormal.csv)         
 #'[Lien vers la base de données iat aux non-titulaires](Bases/Reglementation/Paie_IAT.non.tit.csv)            
 #'[Codes IFTS retenus](Bases/Reglementation/codes.ifts.csv)      
 #'[Lien vers la base de données cumuls iat/ifts](Bases/Reglementation/personnels.iat.ifts.csv)      
@@ -1981,7 +1903,8 @@ if (nombre.agents.cumulant.iat.ifts) {
 
 #IFTS et IB >= 380 (IM >= 350)
 #'  
-if (! résultat.ifts.manquant) {
+
+  if (! résultat.ifts.manquant) {
     lignes.ifts.anormales <- na.omit(Lignes_IFTS[Indice < 350
                                                   & Catégorie != "A",     # Le pied de corps Attaché est en INM 349
                                                     c(clé.fusion,
@@ -2007,48 +1930,16 @@ nombre.lignes.ifts.anormales <- nrow(lignes.ifts.anormales)
 
 ifts.et.contractuel <- NULL 
 
-if (! résultat.ifts.manquant) {
-  
-  ifts.et.contractuel <- Lignes_IFTS[ Statut != "TITULAIRE"
-                                      & Statut != "STAGIAIRE",
-                                       c(étiquette.matricule,
-                                         étiquette.année,
-                                         "Mois",
-                                         "Statut",
-                                         "Catégorie",
-                                         étiquette.code,
-                                         étiquette.libellé,
-                                         "Indice",
-                                         étiquette.montant),
-                                       with=FALSE]
-  }
-
-nombre.lignes.ifts.et.contractuel <- nrow(ifts.et.contractuel)
-
-if (! résultat.ifts.manquant && nombre.lignes.ifts.et.contractuel > 0) {
- 
-  cat("Les IFTS ne peuvent être attribuées à des non-tituliares que si uen délibration prévoit un tableau d'assimilation. ") 
-}
-
 #'     
 #'    
 #'&nbsp;*Tableau `r incrément()` : IFTS et non-titulaires*     
 #'    
-
-if (! résultat.ifts.manquant) {
-   Tableau(c("Nombre de lignes de paie de non-titulaires percevant des IFTS", 
-             "Nombre de lignes IFTS pour IB < 380"),
-           nombre.lignes.ifts.et.contractuel,
-           nombre.lignes.ifts.anormales)
-}
 
 #'
 #'[Lien vers la base de données Lignes IFTS pour contractuels](Bases/Reglementation/ifts.et.contractuel.csv)    
 #'[Lien vers la base de données Lignes IFTS pour IB < 380](Bases/Reglementation/lignes.ifts.anormales.csv)     
 #'       
 #'     
-
-Lignes_IFTS[, IFTS := TRUE]
 
 #### 5.6 PFR ####
 
@@ -2068,9 +1959,8 @@ prime_PFR <- list(nom = "PFR",                     # Nom en majuscules
 #'&nbsp;*Tableau `r incrément()` : Cumul PFR/IFTS*   
 #'      
 
-source("test.R")
 
-résultat_PFR                <- test(prime_PFR, Paie_I, Paie_IFTS, Lignes_IFTS, "", afficher.table.effectifs)
+résultat_PFR                <- test(prime_PFR, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
 beneficiaires.PFR           <- résultat_PFR$cumuls                         
 beneficiaires.PFR.Variation <- résultat_PFR$variations
 Lignes_PFR <- résultat_PFR$Lignes
@@ -3742,12 +3632,7 @@ if (sauvegarder.bases.analyse) {
 
   sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
              env = envir,
-             "Paie_IAT.non.tit",
-             "Paie_IAT.irreg",  
-             "codes.ifts",
              "personnels.ipf.ifts",
-             "codes.pfr",
-             "codes.psr",
              "codes.ipf",
              "HS.sup.25",
              "Base.IHTS.non.tit",
@@ -3759,7 +3644,6 @@ if (sauvegarder.bases.analyse) {
              "CumHS",
              "Depassement.seuil.180h",
              "Depassement.seuil.220h",
-             "ifts.et.contractuel",
              "ihts.cat.A",
              "Controle_astreintes",
              "Controle_astreintes_HS_irreg",
@@ -3780,7 +3664,6 @@ if (sauvegarder.bases.analyse) {
              "NBI.aux.non.titulaires",
              "NBI.cat.irreg",
              "personnels.prime.informatique",
-             "personnels.iat.ifts",
              "remunerations.elu",
              "RI.et.vacations",
              "traitement.et.vacations",
