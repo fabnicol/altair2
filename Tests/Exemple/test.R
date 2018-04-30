@@ -1,9 +1,55 @@
+# Copyright Cour des comptes, 2017
+# Contributeur :
+# Fabrice Nicol, années 2018
+# fabrice.nicol@crtc.ccomptes.fr
+# 
+# Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
+# produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
+# en vigueur à compter de l'année 2008.
+# 
+# Ce logiciel est régi par la licence CeCILL soumise au droit français et
+# respectant les principes de diffusion des logiciels libres. Vous pouvez
+# utiliser, modifier et/ou redistribuer ce programme sous les conditions
+# de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
+# sur le site "http://www.cecill.info".
+# 
+# En contrepartie de l'accessibilité au code source et des droits de copie,
+# de modification et de redistribution accordés par cette licence, il n'est
+# offert aux utilisateurs qu'une garantie limitée. Pour les mêmes raisons,
+# seule une responsabilité restreinte pèse sur l'auteur du programme, le
+# titulaire des droits patrimoniaux et les concédants successifs.
+# 
+# A cet égard l'attention de l'utilisateur est attirée sur les risques
+# associés au chargement, à l'utilisation, à la modification et/ou au
+# développement et à la reproduction du logiciel par l'utilisateur étant
+# donné sa spécificité de logiciel libre, qui peut le rendre complexe à
+# manipuler et qui le réserve donc à des développeurs et des professionnels
+# avertis possédant des connaissances informatiques approfondies. Les
+# utilisateurs sont donc invités à charger et tester l'adéquation du
+# logiciel à leurs besoins dans des conditions permettant d'assurer la
+# sécurité de leurs systèmes et ou de leurs données et, plus généralement,
+# à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+# 
+# Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
+# pris connaissance de la licence CeCILL, et que vous en avez accepté les
+# termes.
+# 
+# 
 
 # prime$nom
 # prime$catégorie
 # prime$restreint_fonctionnaire
 # prime$prime_B  : prime contre laquelle comparer A
 # si non null Paie_B doit avoir indic_B
+
+#' Sauvegarde une base dans le dossier des bases
+#' 
+#' Sauvegarde paramétrée par environnement
+#' 
+#' @param x  Objet à sauvegarder (vecteur de caractères)    
+#' @param y  Nom du fichier de sauvegarde CSV.   
+#' @param z  Nom du sous-dossier du dossier des bases.   
+#' @param env  Environnement
 
 sauvebase <- function(x, y, z, env) {
   Sauv.base(file.path(chemin.dossier.bases, z),
@@ -15,14 +61,10 @@ sauvebase <- function(x, y, z, env) {
             environment = env)
 }
 
-test2 <- function(prime, prime_B, Paie_I, verbeux = FALSE) {
-
-  Paie_B <- NULL 
-  Lignes_B <- NULL 
-  résultat <- analyser(prime_B, Paie_I, verbeux)
-  test(prime, Paie_I, résultat$Paye, résultat$Lignes, verbeux)
-}
-
+#' Affichage du tableau des cumuls de primes
+#' 
+#' @param résultat  Résultat retourné par la fonction \link{analyse}
+#' @export
 
 tableau_cumuls <- function(résultat) {
   
@@ -31,6 +73,12 @@ tableau_cumuls <- function(résultat) {
   } else cat("Pas de cumuls.")
   
 }
+
+#' Affichage du tableau des agrégats des primes A et B, pour chaque année de période 
+#' 
+#' @param résultat  Résultat retourné par la fonction \link{analyser}
+#' @param verbeux   [FALSE] Le résultat n'est affiché que si  \code{verbeux} vaut  \code{TRUE}
+#' @export
 
 agrégat_annuel<- function(résultat, verbeux) {
   
@@ -51,6 +99,11 @@ agrégat_annuel<- function(résultat, verbeux) {
   
 }
 
+#' Affichage du tableau des variations des agrégats des primes A et B sur l'ensemble de la période
+#' 
+#' @param résultat  Résultat retourné par la fonction \link{analyse}
+#' @param verbeux   [FALSE] Le résultat n'est affiché que si  \code{verbeux} vaut  \code{TRUE}
+#' @export
 
 évolution_agrégat <- function(résultat, verbeux) {
   
@@ -66,8 +119,51 @@ agrégat_annuel<- function(résultat, verbeux) {
   }
 }
 
+#' Analyse des contraintes principales associées à une indemnité 
+#' @param prime     Prime au format data.table comportant les arguments :
+#'   \describe{
+#'   \item{nom}{Nom de la prime en majuscules. Une expression régulière en décrivant le libellé doit être enregistrée dans l'espace global sous le nom : expression.rég.nom}
+#'   \item{catégorie}{"A", "B", "C" ou tout vecteur d'une à deux lettres comprises dans ces trois valeurs. Décrit les catégories statutaires auxquelles la prime est attribuable.}
+#'   \item{restreint_fonctionnaire}{Booléen. Par défaut FALSE. Préciser TRUE si la prime est uniquement attrubuable aux fonctionnaires. Dans certains cas (mais pas pour tous), la prime peut aussi être attribuable aux non-titulaires, sous réserve d'un acte réglementaire interne à l'organisme.}
+#'   \item{prime_B}{Prime avec laquelle analyser les cumuls. Le libellé doit respecter les mêmes contraintes que le paramètre \code{prime}.}
+#'   \item{dossier}{Chaîne de caractères. Sous-dossier du dossier Bases dans lequel le fichier auxiliaire CSV doit être généré. Par exemple : "Reglementation".}
+#'   \item{expr.rég.}{Chaîne de caractères. Expression régulière filtrant sur champs \code{Grade}, décriuvant une contrainte limitant l'accès de la prime à un certain sous-ensemble de grades.}
+#'   \item{indice}{Liste. Couple d'un caractère "+" ou "-" et d'un entier, ou triplet correspondant au couple augmenté d'un vecteur d'une ou deux lettres statutaires. Exemple : list("+", 350, c("A","B)). La liste décrit un critère limitatif pour la prime : 
+#'   elle ne peut être attribuée qu'aux indices supérieurs ("+") ou inférieurs ("-") au nombre donné en deuxième position pour les fonctionnaires de catégorie précisée en troisième prosition.}}
+#'   
+#' @param Paie_I    Base data.table des indemnités comportant les colonnes :
+#' \enumerate{
+#'   \item{Nom} 
+#'   \item{Prénom}
+#'   \item{Matricule} 
+#'   \item{Année} 
+#'   \item{Mois} 
+#'   \item{Début}
+#'   \item{Fin}
+#'   \item{Code}
+#'   \item{Libellé}
+#'   \item{Montant}
+#'   \item{Type}
+#'   \item{Emploi}
+#'   \item{Grade} 
+#'   \item{Indice}
+#'   \item{Statut}
+#'   \item{Catégorie}}
+#' @param verbeux   [FALSE] Le résultat des tableaux "non titulaires" et "catégories" n'est affiché que si \code{verbeux} vaut \code{TRUE}
+#' @return  Liste constituée de :
+#'  \describe{
+#'   \item{Paye}{La base data.table de paye correspondant à la prime en premier argument, toutes primes confondues.}
+#'   \item{Lignes}{Les lignes de paye correspondant à la prime en premier argument seulement.}
+#'   \item{K}{Codes de paye correspondant à la prime.}
+#'   \item{manquant}{Booléen. TRUE si absence de résultat, FALSE sinon.}}
+#' @note  Sauvegarde deux fichiers dans le sous-dossier prime$dossier : 
+#' \enumerate{
+#' {prime$nom.non.tit.csv} {Recense les attributaires non titulaires}
+#' {prime$nom.cat.A (ou AB ou B ou BC...)} {Recense les attributaires de catégorie A, B, C ou toute combinaison de ces lettres.}
+#' }   
+#' @export
 
-analyser <- function(prime, Paie_I,verbeux) {
+analyser <- function(prime, Paie_I, verbeux) {
   
   Paie_A <- NULL
   Lignes_A <- NULL
@@ -230,9 +326,17 @@ analyser <- function(prime, Paie_I,verbeux) {
   list(Paye = Paie_A, Lignes = Lignes_A, K = get(K), manquant = résultat.manquant)
 }
 
+#' Teste les primes
+#' @export
 
-test <- function(prime, Paie_I, Paie_B = NULL, Lignes_B = NULL, verbeux = FALSE) {
+test_prime <- function(prime, prime_B, Paie_I, Paie_B = NULL, Lignes_B = NULL, verbeux = FALSE) {
 
+if (! is.null(prime_B)) {
+  res      <- analyser(prime_B, Paie_I, verbeux)
+  Paie_B   <- res$Paye
+  Lignes_B <- res$Lignes
+}
+  
 # Initialisation
   
 Paie_A <- NULL 
@@ -319,6 +423,7 @@ essayer({
 }, "Pas de sauvegarde des fichiers auxiliaires.")
 
 indic <- "indic_"  %+% prime$nom
+indic_B <- "indic_"  %+% prime$prime_B
 
 Lignes_A[ , indic := TRUE, with = FALSE]
 Lignes_B[ , indic_B := TRUE, with = FALSE]
@@ -382,56 +487,5 @@ list(Paie = Paie_A,
      matricules = matricules.A,
      indices = lignes.indice.anormal,
      manquant = résultat.manquant)
-}
-
-tableau_bénéficiaires <- function(résultats) {
-
-  essayer({
-  res <- résultats$cumuls[, .(Matricule, Année, nb.mois, Grade, Agrégat)]
-  
-  if (afficher.table.effectifs) {
-    if (nrow(res)) {
-      
-      res$Agrégat <- formatC(res$Agrégat, big.mark = " ", format="fg")
-      
-      kable(res, align = 'r', row.names = FALSE)
-      
-    } else {
-      cat("\nAucun bénéficiaire détecté.\n")
-    }
-  }
-  }, "Impossible d'afficher le tableau des bénéficiaires. ")
-  
-}
-
-tableau_bénéficiaires_variation <- function(résultats) {
-  
-  essayer({
-  res <- résultats$variations
-  
-  if (afficher.table.effectifs) {
-    if (nrow(res)) {
-      
-      kable(res, align = 'r', row.names = FALSE)
-      
-    } else {
-      
-      cat("\nAucun tableau de variation.\n")
-    }
-  }
-  }, "Impossible d'afficher le tableau des variations. ")
-  
-}
-
-
-tableau_cumuls <- function(résultats) {
-  
-  res <- résultats$cumuls
-  
-  if (nrow(res[c != 0])) {
-    
-    kable(res[c != 0, .(Matricule, Année, Grade, Régime)])
-    
-  } else cat("Pas de cumuls.")
 }
 
