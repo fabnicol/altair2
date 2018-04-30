@@ -23,11 +23,56 @@ test2 <- function(prime, prime_B, Paie_I, verbeux = FALSE) {
   test(prime, Paie_I, résultat$Paye, résultat$Lignes, verbeux)
 }
 
+
+tableau_cumuls <- function(résultat) {
+  
+  if (nrow(résultat$cumuls[c != 0])) {
+    kable(résultat$cumuls[c != 0, .(Matricule, Année, Grade, Régime)])
+  } else cat("Pas de cumuls.")
+  
+}
+
+agrégat_annuel<- function(résultat, verbeux) {
+  
+  beneficiaires <- résultat$cumuls[, .(Matricule, Année, nb.mois, Grade, Agrégat)]
+  
+  if (verbeux) {
+    
+    if (nrow(beneficiaires)) {
+      
+      beneficiaires$Agrégat <- formatC(beneficiaires$Agrégat, big.mark = " ", format="fg")
+      
+      kable(beneficiaires, align = 'r', row.names = FALSE)
+      
+    } else {
+      cat("\nAucun bénéficiaire détecté.\n")
+    }
+  }
+  
+}
+
+
+évolution_agrégat <- function(résultat, verbeux) {
+  
+  if (verbeux) {
+    
+    if (nrow(résultat$variations)) {
+      
+      kable(résultat$variations, align = 'r', row.names = FALSE)
+      
+    } else {
+      cat("\nAucun tableau de variation.\n")
+    }
+  }
+}
+
+
 analyser <- function(prime, verbeux) {
   
   Paie_A <- NULL
   Lignes_A <- NULL
   résultat.manquant <- FALSE
+  lignes.indice.anormal <- NULL
   
   essayer({
     
@@ -45,9 +90,8 @@ analyser <- function(prime, verbeux) {
     
     essayer({
       
-      lignes.indice.anormal <- ifelse(prime$indice[1] == "+", 
-                                      Lignes_A[Indice < prime$indice[2]],
-                                      Lignes_A[Indice >= prime$indice[2]])
+      lignes.indice.anormal <- if (prime$indice[1] == "+")    Lignes_A[Indice < prime$indice[2]] else  Lignes_A[Indice >= prime$indice[2]]
+    
       nr <- nrow(lignes.indice.anormal)
       
       if (! is.null(nr) && nr > 0) {
@@ -92,7 +136,7 @@ analyser <- function(prime, verbeux) {
       }
     }
     
-    if (prime$catégorie != ""){
+    if (!is.null(prime$catégorie)){
       
       if (! is.null(prime$expr.rég)) {
         
@@ -128,6 +172,7 @@ analyser <- function(prime, verbeux) {
       if (! is.null(prime$expr.rég)) {
         
         A.non.cat <- Lignes_A[! grepl(prime$expr.rég, Grade, ignore.case = TRUE, perl = TRUE)] 
+        
         if ((N.A.non.cat <<- uniqueN(A.non.cat$Matricule)) > 0) {
           
           cat(N.A.non.cat,
@@ -140,7 +185,7 @@ analyser <- function(prime, verbeux) {
         }
         
       } else {
-        
+        A.non.cat <- NULL
         cat("La détection des incompatibilités statutaires n'a pas pu être réalisée. ")
       }
     }
@@ -167,10 +212,10 @@ analyser <- function(prime, verbeux) {
   
   env <- environment()
   
-  sauvebase("A.non.cat", ident_prime %+% ".non.cat" %+% paste0("", prime$catégorie, collapse = ""), prime$dossier, env)
-  sauvebase("A.non.tit", ident_prime %+% ".non.tit", prime$dossier, env)
+  sauvebase("A.non.cat", prime$nom %+% ".non.cat" %+% paste0("", prime$catégorie, collapse = ""), prime$dossier, env)
+  sauvebase("A.non.tit", prime$nom %+% ".non.tit", prime$dossier, env)
   if (! is.null(prime$indice)) {
-    sauvebase("lignes.indice.anormal", ident_prime %+% ".indice.anormal", prime$dossier, env)
+    sauvebase("lignes.indice.anormal", prime$nom %+% ".indice.anormal", prime$dossier, env)
   }
   
   list(Paye = Paie_A, Lignes = Lignes_A, K = get(K), manquant = résultat.manquant)
@@ -206,7 +251,9 @@ if (! is.null(Paie_B) && ! résultat.manquant) {
   
     indic_B <- "indic_"  %+% prime$prime_B
     
-    setnames(Paie_B, "indic", indic_B)
+    NAMES <- names(Paie_B)
+    
+    if (! indic_B %chin% NAMES && "indic" %chin% NAMES) setnames(Paie_B, "indic", indic_B)
     
     période.fusion <- merge(Paie_A[indic == TRUE],
                             Paie_B[get(indic_B) == TRUE],
@@ -233,8 +280,8 @@ if (! is.null(Paie_B) && ! résultat.manquant) {
     setkey(personnels.A.B, Matricule,Année, Mois)
   
 }
-},
-  "La détection des cumuls d'indemnités " %+% ident_prime %+% " et " %+% prime$prime_B %+% " n'a pas pu être réalisée. ")
+ },
+   "La détection des cumuls d'indemnités " %+% ident_prime %+% " et " %+% prime$prime_B %+% " n'a pas pu être réalisée. ")
 
 
 essayer({
@@ -262,13 +309,15 @@ essayer({
   
 }, "Pas de sauvegarde des fichiers auxiliaires.")
 
-Lignes_A[ , A_ := TRUE]
+indic <- "indic_"  %+% prime$nom
+
+Lignes_A[ , indic := TRUE, with = FALSE]
+Lignes_B[ , indic_B := TRUE, with = FALSE]
 
 beneficiaires.A <- merge(Lignes_A, Lignes_B, all = TRUE)
 
-beneficiaires.A[ , Régime := if (all(is.na(A_))) { if (any(get(prime$prime_B))) "I" else NA } else { if (all(is.na(get(prime$prime_B)))) "P" else "C" },
-                   by = .(Matricule, Année, Mois)][ , `:=`(A_ = NULL, 
-                                                           B_ = NULL)]
+beneficiaires.A[ , Régime := if (all(is.na(get(indic)))) { if (any(get(indic_B))) "I" else NA } else { if (all(is.na(get(indic_B)))) "P" else "C" },
+                   by = .(Matricule, Année, Mois)][ , indic := NULL, with = FALSE][ , indic_B := NULL, with = FALSE]
 
 matricules.A <- unique(Lignes_A$Matricule)
 
@@ -313,6 +362,8 @@ essayer({
 
 list(Paie = Paie_A, 
      Lignes = Lignes_A, 
+     Paie_B = Paie_B,
+     Lignes_B = Lignes_B,
      personnels = personnels.A.B, 
      non.cat = A.non.cat, 
      mois = nombre.mois.cumuls, 
@@ -320,5 +371,6 @@ list(Paie = Paie_A,
      cumuls = beneficiaires.A,
      variations = beneficiaires.A.Variation,
      matricules = matricules.A,
-     indices = lignes.indice.anormal)
+     indices = lignes.indice.anormal,
+     manquant = résultat.manquant)
 }
