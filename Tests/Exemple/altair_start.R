@@ -1876,15 +1876,14 @@ prime_IAT <- list(nom = "IAT",                       # Nom en majuscules
                     catégorie = c("B", "C"),         # restreint aux catégories B et C
                     restreint_fonctionnaire = TRUE,  # fonctionnaires
                     prime_B = "IFTS",                # comparer à IFTS
-                    dossier = "Reglementation",      # dossier de bases
-                    indice  = c("-", 350))           # inférieur à INM 350
+                    dossier = "Reglementation")      # dossier de bases
 
 prime_IFTS <- list(nom = "IFTS",                     # Nom en majuscules
                     catégorie = c("A", "B"),         # restreint aux catégories A et B
                     restreint_fonctionnaire = TRUE,  # fonctionnaires
                     prime_B = "",                    # pas de comparaison vers autre chose
                     dossier = "Reglementation",      # dossier de bases  
-                    indice  = c("+", 350))           # supérieur à INM 350.
+                    indice  = c("+", 350, "B"))      # supérieur à INM 350 pour catégorie B.
 
 résultat_IAT_IFTS <- test2(prime_IAT, prime_IFTS, Paie_I, verbeux = FALSE)
 
@@ -1897,9 +1896,9 @@ Lignes_IFTS <- résultat_IAT_IFTS$Lignes_B
 #'### Contrôle sur les IAT pour catégories B C et non-titulaires      
 
 #'   
-#'[Lien vers la base de données IAT à des titulaires non éligibles](Bases/Reglementation/IAT.indice.anormal.csv)         
-#'[Lien vers la base de données IAT aux non-titulaires](Bases/Reglementation/IAT.non.tit.csv) 
-#'[Lien vers la base de données IAT non cat B-C](Bases/Reglementation/IAT.non.catBC.csv) 
+  
+#'[Lien vers la base de données IAT aux non-titulaires](Bases/Reglementation/IAT.non.tit.csv)    
+#'[Lien vers la base de données IAT non cat B-C](Bases/Reglementation/IAT.non.catBC.csv)   
 #'     
 #'     
 #'### Contrôle sur les IFTS pour catégories B et non-titulaires      
@@ -1907,9 +1906,9 @@ Lignes_IFTS <- résultat_IAT_IFTS$Lignes_B
 #IFTS et IB >= 380 (IM >= 350)
 #'  
 #'   
-#'[Lien vers la base de données IFTS à des titulaires non éligibles](Bases/Reglementation/IFTS.indice.anormal.csv)         
-#'[Lien vers la base de données IFTS aux non-titulaires](Bases/Reglementation/IFTS.non.tit.csv) 
-#'[Lien vers la base de données IFTS non cat A](Bases/Reglementation/IFTS.non.catAB.csv) 
+#'[Lien vers la base de données IFTS à des catég. B INM inférieur à 350](Bases/Reglementation/IFTS.indice.anormal.csv)         
+#'[Lien vers la base de données IFTS aux non-titulaires](Bases/Reglementation/IFTS.non.tit.csv)   
+#'[Lien vers la base de données IFTS non cat A-B](Bases/Reglementation/IFTS.non.catAB.csv)    
 #' 
 #'  
 #'&nbsp;*Tableau `r incrément()` : Cumul IAT/IFTS*   
