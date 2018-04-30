@@ -19,7 +19,7 @@ analyser(prime, Paie_I, verbeux)
 elle ne peut être attribuée qu'aux indices supérieurs ("+") ou inférieurs ("-") au nombre donné en deuxième position pour les fonctionnaires de catégorie précisée en troisième prosition.}}}
 
 \item{Paie_I}{Base data.table des indemnités comportant les colonnes :
-\enumerate{
+\itemize{
   \item{Nom} 
   \item{Prénom}
   \item{Matricule} 
@@ -52,7 +52,7 @@ Analyse des contraintes principales associées à une indemnité
 }
 \note{
 Sauvegarde deux fichiers dans le sous-dossier prime$dossier : 
-\enumerate{
+\itemize{
 {prime$nom.non.tit.csv} {Recense les attributaires non titulaires}
 {prime$nom.cat.A (ou AB ou B ou BC...)} {Recense les attributaires de catégorie A, B, C ou toute combinaison de ces lettres.}
 }

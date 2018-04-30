@@ -63,7 +63,16 @@ sauvebase <- function(x, y, z, env) {
 
 #' Affichage du tableau des cumuls de primes
 #' 
-#' @param résultat  Résultat retourné par la fonction \link{analyse}
+#' @param résultat  Résultat retourné par la fonction \link{test_prime}
+#' @examples
+#' tableau_cumuls(test_prime(prime_IAT, prime_B = prime_IFTS, Paie_I, verbeux = FALSE))
+#' 
+#' |Matricule |Année |       Grade          |                  Régime                     |
+#' |----------|------|----------------------|---------------------------------------------|
+#' |010843    |2009  |ANIMATEUR TERRITORIAL |   IFTS 1 mois-IAT 10 mois-Cumul 1 mois      |
+#' |010843    |2010  |ANIMATEUR TERRITORIAL |   IFTS 11 mois-IAT 0 mois-Cumul 1 mois      |
+#' |010854    |2009  |REDACTEUR TERRITORIAL |   IFTS 9 mois-IAT 2 mois-Cumul 1 mois       | 
+#' 
 #' @export
 
 tableau_cumuls <- function(résultat) {
@@ -76,8 +85,9 @@ tableau_cumuls <- function(résultat) {
 
 #' Affichage du tableau des agrégats des primes A et B, pour chaque année de période 
 #' 
-#' @param résultat  Résultat retourné par la fonction \link{analyser}
+#' @param résultat  Résultat retourné par la fonction \link{test_prime}
 #' @param verbeux   [FALSE] Le résultat n'est affiché que si  \code{verbeux} vaut  \code{TRUE}
+#' @examples 
 #' @export
 
 agrégat_annuel<- function(résultat, verbeux) {
@@ -101,7 +111,7 @@ agrégat_annuel<- function(résultat, verbeux) {
 
 #' Affichage du tableau des variations des agrégats des primes A et B sur l'ensemble de la période
 #' 
-#' @param résultat  Résultat retourné par la fonction \link{analyse}
+#' @param résultat  Résultat retourné par la fonction \link{test_prime}
 #' @param verbeux   [FALSE] Le résultat n'est affiché que si  \code{verbeux} vaut  \code{TRUE}
 #' @export
 
@@ -120,7 +130,7 @@ agrégat_annuel<- function(résultat, verbeux) {
 }
 
 #' Analyse des contraintes principales associées à une indemnité 
-#' @param prime     Prime au format data.table comportant les arguments :
+#' @param prime     Prime au format liste comportant les arguments :
 #'   \describe{
 #'   \item{nom}{Nom de la prime en majuscules. Une expression régulière en décrivant le libellé doit être enregistrée dans l'espace global sous le nom : expression.rég.nom}
 #'   \item{catégorie}{"A", "B", "C" ou tout vecteur d'une à deux lettres comprises dans ces trois valeurs. Décrit les catégories statutaires auxquelles la prime est attribuable.}
@@ -132,7 +142,7 @@ agrégat_annuel<- function(résultat, verbeux) {
 #'   elle ne peut être attribuée qu'aux indices supérieurs ("+") ou inférieurs ("-") au nombre donné en deuxième position pour les fonctionnaires de catégorie précisée en troisième prosition.}}
 #'   
 #' @param Paie_I    Base data.table des indemnités comportant les colonnes :
-#' \enumerate{
+#' \itemize{
 #'   \item{Nom} 
 #'   \item{Prénom}
 #'   \item{Matricule} 
@@ -157,7 +167,7 @@ agrégat_annuel<- function(résultat, verbeux) {
 #'   \item{K}{Codes de paye correspondant à la prime.}
 #'   \item{manquant}{Booléen. TRUE si absence de résultat, FALSE sinon.}}
 #' @note  Sauvegarde deux fichiers dans le sous-dossier prime$dossier : 
-#' \enumerate{
+#' \itemize{
 #' {prime$nom.non.tit.csv} {Recense les attributaires non titulaires}
 #' {prime$nom.cat.A (ou AB ou B ou BC...)} {Recense les attributaires de catégorie A, B, C ou toute combinaison de ces lettres.}
 #' }   
@@ -326,7 +336,51 @@ analyser <- function(prime, Paie_I, verbeux) {
   list(Paye = Paie_A, Lignes = Lignes_A, K = get(K), manquant = résultat.manquant)
 }
 
-#' Teste les primes
+#' Teste les primes et indemnités   
+#' 
+#' Analyse les contraintes relatives aux non titulaires, à la catégorie statutaire, au grade, à l'indice, aux cumuls avec d'autres indemnités.   
+#' 
+#' @param prime     Prime au format liste comportant les arguments :
+#'   \describe{
+#'   \item{nom}{Nom de la prime en majuscules. Une expression régulière en décrivant le libellé doit être enregistrée dans l'espace global sous le nom : expression.rég.nom}
+#'   \item{catégorie}{"A", "B", "C" ou tout vecteur d'une à deux lettres comprises dans ces trois valeurs. Décrit les catégories statutaires auxquelles la prime est attribuable.}
+#'   \item{restreint_fonctionnaire}{Booléen. Par défaut FALSE. Préciser TRUE si la prime est uniquement attrubuable aux fonctionnaires. Dans certains cas (mais pas pour tous), la prime peut aussi être attribuable aux non-titulaires, sous réserve d'un acte réglementaire interne à l'organisme.}
+#'   \item{prime_B}{Prime avec laquelle analyser les cumuls. Le libellé doit respecter les mêmes contraintes que le paramètre \code{prime}.}
+#'   \item{dossier}{Chaîne de caractères. Sous-dossier du dossier Bases dans lequel le fichier auxiliaire CSV doit être généré. Par exemple : "Reglementation".}
+#'   \item{expr.rég.}{Chaîne de caractères. Expression régulière filtrant sur champs \code{Grade}, décriuvant une contrainte limitant l'accès de la prime à un certain sous-ensemble de grades.}
+#'   \item{indice}{Liste. Couple d'un caractère "+" ou "-" et d'un entier, ou triplet correspondant au couple augmenté d'un vecteur d'une ou deux lettres statutaires. Exemple : list("+", 350, c("A","B)). La liste décrit un critère limitatif pour la prime : 
+#'   elle ne peut être attribuée qu'aux indices supérieurs ("+") ou inférieurs ("-") au nombre donné en deuxième position pour les fonctionnaires de catégorie précisée en troisième prosition.}}
+#' @param prime_B     Prime au format liste comportant les mêmes types d'arguments. Les cumuls de \code{prime} et de \code{prime_B} seront analysés.   
+#' @param Paie_I    Base data.table des indemnités comportant les colonnes :
+#' \itemize{
+#'   \item{Nom} 
+#'   \item{Prénom}
+#'   \item{Matricule} 
+#'   \item{Année} 
+#'   \item{Mois} 
+#'   \item{Début}
+#'   \item{Fin}
+#'   \item{Code}
+#'   \item{Libellé}
+#'   \item{Montant}
+#'   \item{Type}
+#'   \item{Emploi}
+#'   \item{Grade} 
+#'   \item{Indice}
+#'   \item{Statut}
+#'   \item{Catégorie}}
+#' @param verbeux   [FALSE] Le résultat des tableaux "non titulaires" et "catégories" n'est affiché que si \code{verbeux} vaut \code{TRUE}
+#' @return  Liste constituée de :
+#'  \describe{
+#'   \item{Paye}{La base data.table de paye correspondant à la prime en premier argument, toutes primes confondues.}
+#'   \item{Lignes}{Les lignes de paye correspondant à la prime en premier argument seulement.}
+#'   \item{K}{Codes de paye correspondant à la prime.}
+#'   \item{manquant}{Booléen. TRUE si absence de résultat, FALSE sinon.}}
+#' @note  Sauvegarde deux fichiers dans le sous-dossier prime$dossier : 
+#' \itemize{
+#' {prime$nom.non.tit.csv} {Recense les attributaires non titulaires}
+#' {prime$nom.cat.A (ou AB ou B ou BC...)} {Recense les attributaires de catégorie A, B, C ou toute combinaison de ces lettres.}
+#' }   
 #' @export
 
 test_prime <- function(prime, prime_B, Paie_I, Paie_B = NULL, Lignes_B = NULL, verbeux = FALSE) {
