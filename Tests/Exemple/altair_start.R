@@ -1886,60 +1886,38 @@ prime_IFTS <- list(nom = "IFTS",                     # Nom en majuscules
                     dossier = "Reglementation",      # dossier de bases  
                     indice  = c("+", 350))           # supérieur à INM 350.
 
-test2(prime_IAT, prime_IFTS, Paie_I, verbeux = FALSE)
+résultat_IAT_IFTS <- test2(prime_IAT, prime_IFTS, Paie_I, verbeux = FALSE)
 
-#'  
-#'&nbsp;*Tableau `r incrément()` : Cumul IAT/IFTS*   
-#'      
+Paie_IAT <- résultat_IAT_IFTS$Paie
+Paie_IFTS <- résultat_IAT_IFTS$Paie_B
+Lignes_IAT <- résultat_IAT_IFTS$Lignes
+Lignes_IFTS <- résultat_IAT_IFTS$Lignes_B
+
+
+#'### Contrôle sur les IAT pour catégories B C et non-titulaires      
 
 #'   
-#'[Lien vers la base de données iat à des titulaires non éligibles](Bases/Reglementation/IAT.indice.anormal.csv)         
-#'[Lien vers la base de données iat aux non-titulaires](Bases/Reglementation/Paie_IAT.non.tit.csv)            
-#'[Codes IFTS retenus](Bases/Reglementation/codes.ifts.csv)      
-#'[Lien vers la base de données cumuls iat/ifts](Bases/Reglementation/personnels.iat.ifts.csv)      
+#'[Lien vers la base de données IAT à des titulaires non éligibles](Bases/Reglementation/IAT.indice.anormal.csv)         
+#'[Lien vers la base de données IAT aux non-titulaires](Bases/Reglementation/IAT.non.tit.csv) 
+#'[Lien vers la base de données IAT non cat B-C](Bases/Reglementation/IAT.non.catBC.csv) 
 #'     
 #'     
 #'### Contrôle sur les IFTS pour catégories B et non-titulaires      
 
 #IFTS et IB >= 380 (IM >= 350)
 #'  
-
-  if (! résultat.ifts.manquant) {
-    lignes.ifts.anormales <- na.omit(Lignes_IFTS[Indice < 350
-                                                  & Catégorie != "A",     # Le pied de corps Attaché est en INM 349
-                                                    c(clé.fusion,
-                                                      étiquette.année,
-                                                      "Mois",
-                                                      "Statut",
-                                                      "Grade",
-                                                      "Catégorie",
-                                                      étiquette.code,
-                                                      étiquette.libellé,
-                                                      "Indice",
-                                                      étiquette.montant), 
-                                                    with=FALSE])
-} else {
-
-    lignes.ifts.anormales <- NULL
-    cat("Il n'a pas été possible de déterminer les lignes IFTS anormales faute d'indentification des libellés IFTS.")
-}
+#'   
+#'[Lien vers la base de données IFTS à des titulaires non éligibles](Bases/Reglementation/IFTS.indice.anormal.csv)         
+#'[Lien vers la base de données IFTS aux non-titulaires](Bases/Reglementation/IFTS.non.tit.csv) 
+#'[Lien vers la base de données IFTS non cat A](Bases/Reglementation/IFTS.non.catAB.csv) 
+#' 
 #'  
-nombre.lignes.ifts.anormales <- nrow(lignes.ifts.anormales)
+#'&nbsp;*Tableau `r incrément()` : Cumul IAT/IFTS*   
+#'      
 
-#+ IFTS-et-non-tit
+tableau_cumuls(résultat_IAT_IFTS)
 
-ifts.et.contractuel <- NULL 
-
-#'     
-#'    
-#'&nbsp;*Tableau `r incrément()` : IFTS et non-titulaires*     
-#'    
-
-#'
-#'[Lien vers la base de données Lignes IFTS pour contractuels](Bases/Reglementation/ifts.et.contractuel.csv)    
-#'[Lien vers la base de données Lignes IFTS pour IB < 380](Bases/Reglementation/lignes.ifts.anormales.csv)     
-#'       
-#'     
+#'[Lien vers la base de données cumuls IAT/IFTS](Bases/Reglementation/personnels.iat.ifts.csv)          
 
 #### 5.6 PFR ####
 
@@ -1961,17 +1939,15 @@ prime_PFR <- list(nom = "PFR",                     # Nom en majuscules
 
 
 résultat_PFR                <- test(prime_PFR, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
-beneficiaires.PFR           <- résultat_PFR$cumuls                         
-beneficiaires.PFR.Variation <- résultat_PFR$variations
+
+Paie_PFR <- résultat_PFR$Paie
 Lignes_PFR <- résultat_PFR$Lignes
 
 #'  
 #'&nbsp;*Tableau `r incrément()` : Cumuls PFR/IFTS*   
 #'      
 
-if (nrow(beneficiaires.PFR[c != 0])) {
-  kable(beneficiaires.PFR[c != 0, .(Matricule, Année, Grade, Régime)])
-} else cat("Pas de cumuls.")
+tableau_cumuls(résultat_PFR)
 
 #'      
 #'[Lien vers la base de données cumuls pfr/ifts](Bases/Reglementation/personnels.pfr.ifts.csv)    
@@ -2003,10 +1979,10 @@ test.PFR <- function(i, grade, cumul) {
 
   test.PFR.all <- function(grade, cumul) any(sapply(1:length(e), function(i) test.PFR(i, grade, cumul)))
   
-  cumuls.PFR <- Lignes_PFR[, .(PFR_annuel = sum(Montant, na.rm = TRUE),
-                               nb.mois = uniqueN(Mois),
-                               Grade = Grade[1]),
-                                  by=.(Matricule,Année)][ , PFR_annuel := PFR_annuel * 12 / nb.mois]   # proratisation mensuelle
+  cumuls.PFR <- résultat_PFR$Lignes[, .(PFR_annuel = sum(Montant, na.rm = TRUE),
+                                        nb.mois = uniqueN(Mois),
+                                        Grade = Grade[1]),
+                                          by=.(Matricule,Année)][ , PFR_annuel := PFR_annuel * 12 / nb.mois]   # proratisation mensuelle
   
   dépassements.PFR.boolean <- mapply(test.PFR.all, cumuls.PFR$Grade, cumuls.PFR$PFR_annuel, USE.NAMES=FALSE)
 
@@ -2029,40 +2005,20 @@ test.PFR <- function(i, grade, cumul) {
 #'&nbsp;*Tableau `r incrément()` : Valeurs de l'agrégat annuel (PFR ou IFTS) pour les bénéficiaires de la PFR*        
 #'          
 
-  beneficiaires.PFR <- beneficiaires.PFR[, .(Matricule, Année, nb.mois, Grade, Agrégat)]
-  
-  if (afficher.table.effectifs) {
-    if (nrow(beneficiaires.PFR)) {
-      
-      beneficiaires.PFR$Agrégat <- formatC(beneficiaires.PFR$Agrégat, big.mark = " ", format="fg")
-      
-      kable(beneficiaires.PFR, align = 'r', row.names = FALSE)
-      
-    } else {
-      cat("\nAucun bénéficiaire de la PFR détecté.\n")
-    }
-  }
+  agrégat_annuel(résultat_PFR, afficher.table.effectifs)  
   
 #'   
-#'[Lien vers la base de données agrégat PFR-IFTS](Bases/Remunerations/beneficiaires.PFR.csv)    
+#'[Lien vers la base de données agrégat PFR-IFTS](Bases/Remunerations/beneficiaires.PFR.IFTS.csv)    
 #'    
   
 #'  
 #'&nbsp;*Tableau `r incrément()` : Variations de l'agrégat mensuel moyen (PFR ou IFTS) pour les bénéficiaires de la PFR*   
 #'          
   
-  if (afficher.table.effectifs) {
-    if (nrow(beneficiaires.PFR.Variation)) {
-      
-      kable(beneficiaires.PFR.Variation, align = 'r', row.names = FALSE)
-      
-    } else {
-      cat("\nAucun tableau de variation.\n")
-    }
-  }
+  évolution_agrégat(résultat_PFR, afficher.table.effectifs)
 
 #'   
-#'[Lien vers la base de données variations agrégat PFR-IFTS](Bases/Remunerations/beneficiaires.PFR.Variation.csv)    
+#'[Lien vers la base de données variations agrégat PFR-IFTS](Bases/Remunerations/beneficiaires.PFR.IFTS.Variation.csv)    
 #'   
 
 #### 5.7 PSR ####
@@ -2080,20 +2036,26 @@ prime_PSR <- list(nom = "PSR",                     # Nom en majuscules
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   prime_B = "IFTS",                # à comparer à IFTS
                   dossier = "Reglementation",      # dossier de bases
-                  expr.rég = ".*(?:ing|tech|d.*g.*s.*t|v..?t|biol|phar).*")  # Contrainte sur le grade (expression régulière)
-
+                  expr.rég = ".*(?:ing|tech|d.*g.*s.*t|dessin|biol|phar).*")  # Contrainte sur le grade (expression régulière)
+  
+# -ingénieurs des ponts, des eaux et des forêts relevant du ministère chargé du développement durable ;
+# -ingénieurs des travaux publics de l'Etat ;
+# -techniciens supérieurs du développement durable ;
+# -conducteur des travaux publics de l'Etat ;
+# -experts techniques des services techniques ;
+# -dessinateurs de l'équipement ;
+# -inspecteurs du permis de conduire et de la sécurité routière ;
+# -chargés de recherche relevant du ministère chargé du développement durable ;
+# -directeurs de recherche relevant du ministère chargé du développement durable.
+  
 résultat_PSR   <- test(prime_PSR, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
   
-beneficiaires.PSR.IFTS <- résultat_PSR$cumuls                         
-beneficiaires.PSR.IFTS.Variation <- résultat_PSR$variations
-  
+
 #'    
 #'&nbsp;*Tableau `r incrément()` : Cumul PSR/IFTS*   
 #'      
 
-if (nrow(beneficiaires.PSR.IFTS[c != 0])) {
-  kable(beneficiaires.PSR.IFTS[c != 0, .(Matricule, Année, Grade, Régime)])
-} else cat("Pas de cumuls.")
+tableau_cumuls(résultat_PSR)
 
 #'      
 #'[Lien vers la base de données cumuls psr/ifts](Bases/Reglementation/personnels.psr.ifts.csv)       
@@ -2105,19 +2067,7 @@ if (nrow(beneficiaires.PSR.IFTS[c != 0])) {
 #'&nbsp;*Tableau `r incrément()` : Valeurs de l'agrégat annuel (PSR ou IFTS) pour les bénéficiaires de la PSR*        
 #'          
 
-beneficiaires.PSR.IFTS <- beneficiaires.PSR.IFTS[, .(Matricule, Année, nb.mois, Grade, Agrégat)]
-
-if (afficher.table.effectifs) {
-  if (nrow(beneficiaires.PSR.IFTS)) {
-    
-    beneficiaires.PSR.IFTS$Agrégat <- formatC(beneficiaires.PSR.IFTS$Agrégat, big.mark = " ", format="fg")
-    
-    kable(beneficiaires.PSR.IFTS, align = 'r', row.names = FALSE)
-    
-  } else {
-    cat("\nAucun bénéficiaire de la PSR détecté.\n")
-  }
-}
+agrégat_annuel(résultat_PSR, afficher.table.effectifs)
 
 #'   
 #'[Lien vers la base de données agrégat PSR-IFTS](Bases/Remunerations/beneficiaires.PSR.IFTS.csv)    
@@ -2127,37 +2077,22 @@ if (afficher.table.effectifs) {
 #'&nbsp;*Tableau `r incrément()` : Variations de l'agrégat mensuel moyen (PSR ou IFTS) pour les bénéficiaires de la PSR*   
 #'          
 
-if (afficher.table.effectifs) {
-  if (nrow(beneficiaires.PSR.IFTS.Variation)) {
-    
-    kable(beneficiaires.PSR.IFTS.Variation, align = 'r', row.names = FALSE)
-    
-  } else {
-    cat("\nAucun tableau de variation.\n")
-  }
-}
+évolution_agrégat(résultat_PSR, afficher.table.effectifs)
 
 #'   
 #'[Lien vers la base de données variations agrégat PSR-IFTS](Bases/Remunerations/beneficiaires.PSR.IFTS.Variation.csv)    
 #'   
 
-
 prime_PSR$prime_B <- "IAT"
 
 résultat_PSR   <- test(prime_PSR, Paie_I, Paie_IAT, Lignes_IAT, afficher.table.effectifs)
-
-beneficiaires.PSR.IAT <- résultat_PSR$cumuls                         
-beneficiaires.PSR.IAT.Variation <- résultat_PSR$variations
 
 #'   
 #'    
 #'&nbsp;*Tableau `r incrément()` : Cumul PSR/IAT*   
 #'      
 
-if (nrow(beneficiaires.PSR.IAT[c != 0])) {
-  kable(beneficiaires.PSR.IAT[c != 0, .(Matricule, Année, Grade, Régime)])
-} else cat("Pas de cumuls.")
-
+tableau_cumuls(résultat_PSR)
 
 #'      
 #'[Lien vers la base de données cumuls psr/iat](Bases/Reglementation/personnels.psr.iat.csv)       
@@ -2168,19 +2103,7 @@ if (nrow(beneficiaires.PSR.IAT[c != 0])) {
 #'&nbsp;*Tableau `r incrément()` : Valeurs de l'agrégat annuel (PSR ou IAT) pour les bénéficiaires de la PSR*        
 #'          
 
-beneficiaires.PSR.IAT <- beneficiaires.PSR.IAT[, .(Matricule, Année, nb.mois, Grade, Agrégat)]
-
-if (afficher.table.effectifs) {
-  if (nrow(beneficiaires.PSR.IAT)) {
-    
-    beneficiaires.PSR.IAT$Agrégat <- formatC(beneficiaires.PSR.IAT$Agrégat, big.mark = " ", format="fg")
-    
-    kable(beneficiaires.PSR.IAT, align = 'r', row.names = FALSE)
-    
-  } else {
-    cat("\nAucun bénéficiaire de la PSR détecté.\n")
-  }
-}
+agrégat_annuel(résultat_PSR, afficher.table.effectifs)
 
 #'   
 #'[Lien vers la base de données agrégat PSR-IAT](Bases/Remunerations/beneficiaires.PSR.IAT.csv)    
@@ -2190,15 +2113,7 @@ if (afficher.table.effectifs) {
 #'&nbsp;*Tableau `r incrément()` : Variations de l'agrégat mensuel moyen (PSR ou IAT) pour les bénéficiaires de la PSR*   
 #'          
 
-if (afficher.table.effectifs) {
-  if (nrow(beneficiaires.PSR.IAT.Variation)) {
-    
-    kable(beneficiaires.PSR.IAT.Variation, align = 'r', row.names = FALSE)
-    
-  } else {
-    cat("\nAucun tableau de variation.\n")
-  }
-}
+évolution_agrégat(résultat_PSR, afficher.table.effectifs)
 
 #'   
 #'[Lien vers la base de données variations agrégat PSR-IAT](Bases/Remunerations/beneficiaires.PSR.IAT.Variation.csv)    
@@ -2215,85 +2130,23 @@ if (afficher.table.effectifs) {
   
 #+ ipf
 
-résultat.ipf.manquant <- FALSE
-nombre.agents.cumulant.ipf.ifts <- 0
 
-# L'expression régulière capte l'IPF
-# le cumul de l'IPF et de l'IFTS est irrrégulier
 
-Paie_IPF <- filtrer_Paie("IPF", portée = "Mois", Base = Paie_I, indic = TRUE)
-Lignes_IPF <- Paie_IPF[indic == TRUE][ , indic := NULL]
+prime_IPF <- list(nom = "IPF",                     # Nom en majuscules
+                  catégorie = "A",                 # restreint aux catégories A et B
+                  restreint_fonctionnaire = TRUE,  # fonctionnaires
+                  prime_B = "IFTS",                # à comparer à IFTS
+                  dossier = "Reglementation",      # dossier de bases
+                  expr.rég = ".*(?:ing.*chef).*")  # Contrainte sur le grade (expression régulière)
 
-IPF.non.tit  <- Lignes_IPF[Statut != "TITULAIRE" & Statut != "STAGIAIRE"]
-IPF.non.catA <- Lignes_IPF[Catégorie != "A" | grepl("ing.*ch", Grade, ignore.case = TRUE) == FALSE]
-
-if ((N.IPF.non.tit <<- uniqueN(IPF.non.tit$Matricule)) > 0) {
-  
-  cat(N.IPF.non.tit, "attributaire" %s% N.IPF.non.tit, " de l'IPF", ifelse(N.IPF.non.tit > 1, "sont", "est"), "non-titulaire" %s% N.IPF.non.tit, ". ")
-
-} else {
-  
-  cat("Tous les attributaires de l'IPF sont titulaires ou stagiaires.")
-}
-
-if ((N.IPF.non.catA <<- uniqueN(IPF.non.catA$Matricule)) > 0) {
-  
-  cat(N.IPF.non.catA, "attributaires de l'IPF ne sont pas identifiés en catégorie A comme ingénieur en chef. ")
-
-} else {
-  
-  cat("Tous les attributaires de l'IPF sont identifiés en catégorie A. ")
-}
-
-if (is.na(codes.ipf)) {
-   codes.pfr  <- list("codes IPF" = unique(Lignes_IPF$Code))
-
-  if (length(codes.ipf) == 0) {
-    cat("Il n'a pas été possible d'identifier l'IPF par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique. ")
-    résultat.ipf.manquant <- TRUE
-  }
-}
-
-setnames(Paie_IPF, "indic", "indic_IPF")
-
-if (! résultat.ifts.manquant && ! résultat.ipf.manquant) {
-  
-  # on exclut les rappels !
-  
-  personnels.ipf.ifts <- merge(Paie_IPF, Paie_IFTS)[ ,.(Nom,	Matricule,	Année,	Mois,	Code,
-                                                        Libellé,	Montant,	Type,	Emploi,	Grade,
-                                                        Indice,	Statut,	Catégorie, indic_IFTS, indic_IPF)
-                                                   ][indic_IPF == TRUE | indic_IFTS == TRUE]
-
-  nombre.mois.cumuls <- uniqueN(personnels.ipf.ifts[ , .(Matricule, Année, Mois)], by = NULL)
-  
-  nombre.agents.cumulant.ipf.ifts <- uniqueN(personnels.ipf.ifts$Matricule)
-  
-  personnels.ipf.ifts <- personnels.ipf.ifts[order(Année, Mois, Matricule)]
-}
+résultat_IPF   <- test(prime_IPF, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
 
 #'   
 #'    
 #'&nbsp;*Tableau `r incrément()` : Cumul IPF/IFTS*   
 #'      
 
-if (length(codes.ipf) < 6) {
-  
-  Tableau(c("Codes IPF", "Agents cumulant IPF et IFTS"),
-          sep.milliers = "",
-          paste(unlist(codes.ipf), collapse = " "),
-          nombre.agents.cumulant.ipf.ifts)
-  
-} else {
-  
-  cat("Codes PFR : ", paste(unlist(codes.ipf), collapse = " "))
-  
-}
-
-#'     
-#'     
-
-cat("Nombre d'agents cumulant IPF et IFTS : ", nombre.agents.cumulant.ipf.ifts)
+tableau_cumuls(résultat_IPF)
 
 #'      
 #'      
@@ -2304,80 +2157,121 @@ cat("Nombre d'agents cumulant IPF et IFTS : ", nombre.agents.cumulant.ipf.ifts)
 
 # Attention keyby = et pas seulement by = !
 
-Lignes_IPF[ , IPF := TRUE]
-
-beneficiaires.IPF <- merge(Lignes_IPF, Lignes_IFTS, all = TRUE)
-
-beneficiaires.IPF[ , Régime := if (all(is.na(IPF))) { if (any(IFTS)) "I" else NA } else { if (all(is.na(IFTS))) "P" else "C" },
-                     by = .(Matricule, Année, Mois)][ , `:=`(IPF = NULL, 
-                                                             IFTS = NULL)]
-
-matricules.IPF <- unique(Lignes_IPF$Matricule)
-
-beneficiaires.IPF <- beneficiaires.IPF[Matricule %chin% matricules.IPF,
-                  .(Agrégat = sum(Montant, na.rm = TRUE),
-                    Régime = { c <- uniqueN(Mois[Régime == "C"])
-                    
-                               if (c == 0) {  
-                                 
-                                 "IFTS " %+% uniqueN(Mois[Régime == "I"]) %+% " mois-IPF " %+% uniqueN(Mois[Régime == "P"]) %+% " mois"
-                                 
-                               } else {
-                                 
-                                 "IFTS " %+% uniqueN(Mois[Régime == "I"]) %+% " mois-IPF " %+% uniqueN(Mois[Régime == "P"]) %+% " mois" %+% "-Cumul " %+% c %+% " mois"
-                               }},
-                    nb.mois = uniqueN(Mois),
-                    Grade = Grade[1]),
-                        keyby= .(Matricule, Année)]
-                         
-
-  beneficiaires.IPF.Variation <- beneficiaires.IPF[ , 
-                                    { 
-                                       L <- length(Année)
-                                       q <- Agrégat[L]/Agrégat[1] * nb.mois[1]/nb.mois[L]                   
-                                       .(Années = paste(Année, collapse = ", "), 
-                                         `Variation (%)` = round((q - 1) * 100, 1),
-                                         `Moyenne géométrique annuelle(%)` = round((q^(1/(L - 1)) - 1) * 100, 1)) 
-                                    }, by="Matricule"]
-  
-  beneficiaires.IPF.Variation <- beneficiaires.IPF.Variation[`Variation (%)` != 0.00]
-
 #'  
 #'&nbsp;*Tableau `r incrément()` : Valeurs de l'agrégat annuel (IPF ou IFTS) pour les bénéficiaires de l'IPF*        
 #'          
 
-  if (nrow(beneficiaires.IPF)) {
-    
-    beneficiaires.IPF$Agrégat <- formatC(beneficiaires.IPF$Agrégat, big.mark = " ", format="fg")
-    
-    kable(beneficiaires.IPF, align = 'r', row.names = FALSE)
-    
-  } else {
-    cat("\nAucun bénéficiaire de l'IPF détecté.\n")
-  }
-  
+agrégat_annuel(résultat_IPF, afficher.table.effectifs)
+
 #'  
 #'&nbsp;*Tableau `r incrément()` : Variations de l'agrégat mensuel moyen (IPF ou IFTS) pour les bénéficiaires de l'IPF*   
 #'          
-  if (nrow(beneficiaires.IPF.Variation)) {
-    
-    kable(beneficiaires.IPF.Variation, align = 'r', row.names = FALSE)
-    
-  } else {
-    cat("\nAucun tableau de variation.\n")
-  }
-  
+
+évolution_agrégat(résultat_IPF, afficher.table.effectifs)
+
 #'   
-#'[Lien vers la base de données agrégat IPF-IFTS](Bases/Remunerations/beneficiaires.IPF.csv)    
+#'[Lien vers la base de données agrégat IPF-IFTS](Bases/Remunerations/beneficiaires.IPF.IFTS.csv)    
 #'    
 #'   
-#'[Lien vers la base de données variations agrégat IPF-IFTS](Bases/Remunerations/beneficiaires.IPF.Variation.csv)    
+#'[Lien vers la base de données variations agrégat IPF-IFTS](Bases/Remunerations/beneficiaires.IPF.IFTS.Variation.csv)    
 #'   
-  
-  
-#### 5.9 HEURES SUP ####
+
+
+#### 5.9 RIFSEEP ####
+
+#'
+#'## `r chapitre`.9 Contrôle du RIFSEEP (IFSE)
+#'   
+
+# article 88 de la Loi 2016-483 du 20 avril 2016
+# Décret n°2014-513 du 20 mai 2014 portant création de la RIFSEEP
+
+# non cumuleable entre autres avec :
+# - l'indemnité forfaitaire pour travaux supplémentaires
+# - la prime de rendement
+# - l'indemnité de fonctions et de résultats
+# - la prime de fonctions informatiques
+# - l'indemnité d'administration et de technicité
+# - l'indemnité d'exercice de mission des préfectures
+
+#+ rifseep
+
+
+prime_IFSE <- list(nom = "IFSE",                   # Nom en majuscules
+                  restreint_fonctionnaire = TRUE,  # fonctionnaires
+                  prime_B = "IFTS",                # à comparer à IFTS
+                  dossier = "Reglementation")       # dossier de bases
+                  
+
+résultat_IFSE   <- test(prime_IFSE, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
+
+#'   
 #'    
-#'## `r chapitre`.9 Contrôle sur les heures supplémentaires
+#'&nbsp;*Tableau `r incrément()` : Cumul IFSE/IFTS*   
+#'      
+
+tableau_cumuls(résultat_IFSE)
+
+#'      
+#'[Lien vers la base de données cumuls ifse/ifts](Bases/Reglementation/personnels.ifse.ifts.csv)    
+#'[Lien vers la base de données IFSE non tit](Bases/Reglementation/IFSE.non.tit.csv)       
+#'   
+
+#'    
+#'&nbsp;*Tableau `r incrément()` : Cumul IFSE/IAT*   
+#'      
+
+prime_IFSE$prime_B <- "IAT"
+résultat_IFSE   <- test(prime_IFSE, Paie_I, Paie_IAT, Lignes_IAT, afficher.table.effectifs)
+
+tableau_cumuls(résultat_IFSE)
+
+#'      
+#'      
+#'[Lien vers la base de données cumuls ifse/ifts](Bases/Reglementation/personnels.ifse.iat.csv)    
+#'   
+
+prime_IFSE$prime_B <- "PFR"
+
+résultat_IFSE   <- test(prime_IFSE, Paie_I, Paie_PFR, Lignes_PFR, afficher.table.effectifs)
+
+#'   
+#'    
+#'&nbsp;*Tableau `r incrément()` : Cumul IFSE/PFR*   
+#'      
+
+tableau_cumuls(résultat_IFSE)
+
+#'      
+#'      
+#'[Lien vers la base de données cumuls ifse/ifts](Bases/Reglementation/personnels.ifse.pfr.csv)    
+#'   
+
+#'  
+#'&nbsp;*Tableau `r incrément()` : Valeurs de l'agrégat annuel (IFSE ou PFR) pour les bénéficiaires de l'IFSE*        
+#'          
+
+agrégat_annuel(résultat_IFSE, afficher.table.effectifs)
+
+#'  
+#'&nbsp;*Tableau `r incrément()` : Variations de l'agrégat mensuel moyen (IFSE ou PFR) pour les bénéficiaires de l'IFSE*   
+#'          
+
+évolution_agrégat(résultat_IFSE, afficher.table.effectifs)
+
+#'   
+#'[Lien vers la base de données agrégat IFSE-PFR](Bases/Remunerations/beneficiaires.IFSE.PFR.csv)    
+#'    
+#'   
+#'[Lien vers la base de données variations agrégat IFSE-PFR](Bases/Remunerations/beneficiaires.IFSE.PFR.Variation.csv)    
+#'   
+
+
+# Attention keyby = et pas seulement by = !
+
+#### 5.10 HEURES SUP ####
+#'    
+#'## `r chapitre`.10 Contrôle sur les heures supplémentaires
 
 # Sont repérées comme heures supplémentaires ou complémentaires les heures dont le libellé obéissent à
 # l'expression régulière expression.rég.heures.sup donnée par le fichier prologue.R
@@ -2724,10 +2618,10 @@ essayer({
 #'Dans les tableaux en lien les grades, emplois et service sont ceux connus en fin d'année.    
 
 
-#### 5.10 ELUS ####
+#### 5.11 ELUS ####
 
 #' 
-#'## `r chapitre`.10 Contrôle sur les indemnités des élus
+#'## `r chapitre`.11 Contrôle sur les indemnités des élus
 #'   
 
 
@@ -2777,8 +2671,10 @@ if (générer.table.élus)   {
 #'[Lien vers la base de données Rémunérations des élus](Bases/Reglementation/remunerations.elu.csv)
 #'
 
-#### 5.11 COMPTE DE GESTION ####
-
+#### 5.12 COMPTE DE GESTION ####
+#' 
+#'## `r chapitre`.12 Lien avec le compte de gestion    
+#'
 
 essayer({
   
@@ -2904,10 +2800,10 @@ rm(L)
 #'*Avertissement : les rappels comprennent également les rappels de cotisations et déductions diverses.*    
 #'   
 
-#### 5.12 SFT ####
+#### 5.13 SFT ####
 
 #'
-#'## `r chapitre`.12 Contrôle du supplément familial de traitement   
+#'## `r chapitre`.13 Contrôle du supplément familial de traitement   
 #'  
 
 ## La biblitothèque SFT est à revoir
@@ -3037,10 +2933,10 @@ message("Analyse du SFT")
 # data.table here overallocates memory hence inefficient !
 # Bulletins.paie[Nb.Enfants > 0 , SFT.controle := sft(Nb.Enfants, Indice, Heures, Année, Mois)]
     
-#### 5.13 ASTREINTES ####
+#### 5.14 ASTREINTES ####
 
 #'
-#'## `r chapitre`.13 Contrôle des indemnités pour astreintes &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_astreintes.odt)    
+#'## `r chapitre`.14 Contrôle des indemnités pour astreintes &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_astreintes.odt)    
 #'  
 
 essayer({
@@ -3136,10 +3032,10 @@ Tableau.vertical2(c("Année", "Montant astreintes potentiellement irrégulières
 
 rm(Base.IHTS)
   
-#### 5.14 RETRAITES ####
+#### 5.15 RETRAITES ####
 
 #'
-#'## `r chapitre`.14 Contrôle des cotisations de retraite    
+#'## `r chapitre`.15 Contrôle des cotisations de retraite    
 #'  
 
 #'**Non titulaires**   
@@ -3213,10 +3109,10 @@ Tableau(c("Cotisations salarié", "Cotisations employeur"),
 #'[Lien vers la base des cotisations irrégulières](Bases/Reglementation/Cotisations.irreg.ircantec.csv)   
 #'   
 
-#### 5.15 PRIMES FPH ####     
+#### 5.16 PRIMES FPH ####     
 
 #'   
-#'## `r chapitre`.15 Primes de la fonction publique hospitalière          
+#'## `r chapitre`.16 Primes de la fonction publique hospitalière          
 #'    
 #'     
 #'*Les primes qui suivent ne peuvent être octroyées qu'à des fontionnaires.*    
