@@ -1852,7 +1852,6 @@ if (exists("nombre.contractuels.et.vacations")) {
 
 #+ IAT-et-IFTS
 
-source("test.R")  
 
 Paie_I <- Paie[Type == "I" | Type == "A" | Type == "R", 
                .(Nom, 
@@ -1873,30 +1872,31 @@ Paie_I <- Paie[Type == "I" | Type == "A" | Type == "R",
                  Catégorie)]
   
 prime_IAT <- list(nom = "IAT",                       # Nom en majuscules
-                    catégorie = c("B", "C"),         # restreint aux catégories B et C
-                    restreint_fonctionnaire = TRUE,  # fonctionnaires
-                    prime_B = "IFTS",                # comparer à IFTS
-                    dossier = "Reglementation")      # dossier de bases
+                  catégorie = c("B", "C"),         # restreint aux catégories B et C
+                  restreint_fonctionnaire = TRUE,  # fonctionnaires
+                  prime_B = "IFTS",                # comparer à IFTS
+                  dossier = "Reglementation")      # dossier de bases
 
 prime_IFTS <- list(nom = "IFTS",                     # Nom en majuscules
-                    catégorie = c("A", "B"),         # restreint aux catégories A et B
-                    restreint_fonctionnaire = TRUE,  # fonctionnaires
-                    prime_B = "",                    # pas de comparaison vers autre chose
-                    dossier = "Reglementation",      # dossier de bases  
-                    indice  = c("+", 350, "B"))      # supérieur à INM 350 pour catégorie B.
+                   catégorie = c("A", "B"),         # restreint aux catégories A et B
+                   restreint_fonctionnaire = TRUE,  # fonctionnaires
+                   prime_B = "",                    # pas de comparaison vers autre chose
+                   dossier = "Reglementation",      # dossier de bases  
+                   indice  = c("+", 350, "B"))      # supérieur à INM 350 pour catégorie B.
 
-résultat_IAT_IFTS <- test2(prime_IAT, prime_IFTS, Paie_I, verbeux = FALSE)
+résultat_IAT_IFTS <- test_prime(prime_IAT,
+                                prime_B = prime_IFTS,
+                                Paie_I,
+                                verbeux = FALSE)
 
-Paie_IAT <- résultat_IAT_IFTS$Paie
-Paie_IFTS <- résultat_IAT_IFTS$Paie_B
-Lignes_IAT <- résultat_IAT_IFTS$Lignes
+Paie_IAT    <- résultat_IAT_IFTS$Paie
+Paie_IFTS   <- résultat_IAT_IFTS$Paie_B
+Lignes_IAT  <- résultat_IAT_IFTS$Lignes
 Lignes_IFTS <- résultat_IAT_IFTS$Lignes_B
-
 
 #'### Contrôle sur les IAT pour catégories B C et non-titulaires      
 
 #'   
-  
 #'[Lien vers la base de données IAT aux non-titulaires](Bases/Reglementation/IAT.non.tit.csv)    
 #'[Lien vers la base de données IAT non cat B-C](Bases/Reglementation/IAT.non.catBC.csv)   
 #'     
@@ -1937,8 +1937,7 @@ prime_PFR <- list(nom = "PFR",                     # Nom en majuscules
 #'&nbsp;*Tableau `r incrément()` : Cumul PFR/IFTS*   
 #'      
 
-
-résultat_PFR                <- test(prime_PFR, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
+résultat_PFR  <- test_prime(prime_PFR, prime_B = NULL, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
 
 Paie_PFR <- résultat_PFR$Paie
 Lignes_PFR <- résultat_PFR$Lignes
@@ -2050,9 +2049,8 @@ prime_PSR <- list(nom = "PSR",                     # Nom en majuscules
 # -chargés de recherche relevant du ministère chargé du développement durable ;
 # -directeurs de recherche relevant du ministère chargé du développement durable.
   
-résultat_PSR   <- test(prime_PSR, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
+résultat_PSR   <- test_prime(prime_PSR, prime_B = NULL, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
   
-
 #'    
 #'&nbsp;*Tableau `r incrément()` : Cumul PSR/IFTS*   
 #'      
@@ -2086,7 +2084,7 @@ agrégat_annuel(résultat_PSR, afficher.table.effectifs)
 #'   
 
 prime_PSR$prime_B <- "IAT"
-résultat_PSR   <- test(prime_PSR, Paie_I, Paie_IAT, Lignes_IAT, afficher.table.effectifs)
+résultat_PSR   <- test_prime(prime_PSR, prime_B = NULL, Paie_I, Paie_IAT, Lignes_IAT, afficher.table.effectifs)
 
 #'   
 #'    
@@ -2132,8 +2130,6 @@ rm(résultat_PSR)
   
 #+ ipf
 
-
-
 prime_IPF <- list(nom = "IPF",                     # Nom en majuscules
                   catégorie = "A",                 # restreint aux catégories A et B
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
@@ -2141,7 +2137,7 @@ prime_IPF <- list(nom = "IPF",                     # Nom en majuscules
                   dossier = "Reglementation",      # dossier de bases
                   expr.rég = ".*(?:ing.*chef).*")  # Contrainte sur le grade (expression régulière)
 
-résultat_IPF   <- test(prime_IPF, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
+résultat_IPF   <- test_prime(prime_IPF, prime_B = NULL, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
 
 #'   
 #'    
@@ -2205,7 +2201,7 @@ prime_IFSE <- list(nom = "IFSE",                   # Nom en majuscules
                   dossier = "Reglementation")       # dossier de bases
                   
 
-résultat_IFSE   <- test(prime_IFSE, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
+résultat_IFSE   <- test_prime(prime_IFSE, prime_B = NULL, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
 
 #'   
 #'    
@@ -2224,7 +2220,7 @@ tableau_cumuls(résultat_IFSE)
 #'      
 
 prime_IFSE$prime_B <- "IAT"
-résultat_IFSE   <- test(prime_IFSE, Paie_I, Paie_IAT, Lignes_IAT, afficher.table.effectifs)
+résultat_IFSE   <- test_prime(prime_IFSE, prime_B = NULL, Paie_I, Paie_IAT, Lignes_IAT, afficher.table.effectifs)
 
 tableau_cumuls(résultat_IFSE)
 
@@ -2235,7 +2231,7 @@ tableau_cumuls(résultat_IFSE)
 
 prime_IFSE$prime_B <- "PFR"
 
-résultat_IFSE   <- test(prime_IFSE, Paie_I, Paie_PFR, Lignes_PFR, afficher.table.effectifs)
+résultat_IFSE   <- test_prime(prime_IFSE, prime_B = NULL, Paie_I, Paie_PFR, Lignes_PFR, afficher.table.effectifs)
 
 #'   
 #'    
@@ -2327,7 +2323,6 @@ colonnes <- c(étiquette.matricule,
               "Service",
               "Emploi",
               "Grade")
-
 
 Base.IHTS <- filtrer_Paie("IHTS",
                           Base = Paie[Type %chin% c("I", "T", "R", "IR", "A"), ..colonnes],
@@ -2468,8 +2463,6 @@ essayer(
 #'[Lien vers la base de données calcul des taux horaires individuels](Bases/Reglementation/Taux.horaires.csv)        
 #'       
 
-
-  
 #'*Le cumul des heures supplémentaires déclarées (colonne Heures.Sup. des bases) est, par année, comparé au cumul des bases de liquidation IHTS, pour l'année et en régularisation l'année suivante au titre du même exercice*    
 #'*Le volume d'heures supplémentaires déclarées et non liquidées sous forme d'IHTS peut correspondre à d'autres régimes d'heures supplémentaires (enseignants, élections) ou à des heures supplémentaires non effectuées ou sous-déclarées*   
 #'*Des différences importantes peuvent indiquer une mauvaise fiabilité des déclarations d'heures supplémentaires et/ou des bases de liquidation IHTS*             

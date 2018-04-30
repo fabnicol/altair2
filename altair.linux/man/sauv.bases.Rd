@@ -9,7 +9,7 @@ sauv.bases(chemin.dossier, env, ...)
 \arguments{
 \item{chemin.dossier}{Chemin du dossier dans lequel la base sera sauvegardée}
 
-\item{env}{ Environnement}
+\item{env}{Environnement}
 
 \item{...}{Autres noms d'objets à sauvegarder}
 
@@ -24,5 +24,5 @@ Sauvegarde d'une base data.table sous forme de fichier CSV
 \examples{
 envir <- environment()
 # Générer Bulletins.paie et Paie dans envir
-sauv.bases("données", env = envir, c("Bulletins.paie", "Paie"))
+sauv.bases("données",  env = envir, c("Bulletins.paie", "Paie"))
 }
