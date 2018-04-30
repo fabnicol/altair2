@@ -7,7 +7,7 @@
 évolution_agrégat(résultat, verbeux)
 }
 \arguments{
-\item{résultat}{Résultat retourné par la fonction \link{analyse}}
+\item{résultat}{Résultat retourné par la fonction \link{test_prime}}
 
 \item{verbeux}{[FALSE] Le résultat n'est affiché que si  \code{verbeux} vaut  \code{TRUE}}
 }
