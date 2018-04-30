@@ -1931,7 +1931,8 @@ prime_PFR <- list(nom = "PFR",                     # Nom en majuscules
                   catégorie = "A",                 # restreint aux catégories A
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   prime_B = "IFTS",                # à comparer à IFTS
-                  dossier = "Reglementation")      # dossier de bases
+                  dossier = "Reglementation",      # dossier de bases
+                  expr.rég = "")  
 
 #'    
 #'&nbsp;*Tableau `r incrément()` : Cumul PFR/IFTS*   
@@ -2021,6 +2022,8 @@ test.PFR <- function(i, grade, cumul) {
 #'[Lien vers la base de données variations agrégat PFR-IFTS](Bases/Remunerations/beneficiaires.PFR.IFTS.Variation.csv)    
 #'   
 
+rm(résultat_PFR)  
+  
 #### 5.7 PSR ####
 
 #'
@@ -2084,7 +2087,6 @@ agrégat_annuel(résultat_PSR, afficher.table.effectifs)
 #'   
 
 prime_PSR$prime_B <- "IAT"
-
 résultat_PSR   <- test(prime_PSR, Paie_I, Paie_IAT, Lignes_IAT, afficher.table.effectifs)
 
 #'   
@@ -2119,6 +2121,7 @@ agrégat_annuel(résultat_PSR, afficher.table.effectifs)
 #'[Lien vers la base de données variations agrégat PSR-IAT](Bases/Remunerations/beneficiaires.PSR.IAT.Variation.csv)    
 #'   
 
+rm(résultat_PSR)
 
 #### 5.8 IPF ####
 

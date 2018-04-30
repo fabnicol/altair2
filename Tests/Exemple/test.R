@@ -374,3 +374,55 @@ list(Paie = Paie_A,
      indices = lignes.indice.anormal,
      manquant = résultat.manquant)
 }
+
+tableau_bénéficiaires <- function(résultats) {
+
+  essayer({
+  res <- résultats$cumuls[, .(Matricule, Année, nb.mois, Grade, Agrégat)]
+  
+  if (afficher.table.effectifs) {
+    if (nrow(res)) {
+      
+      res$Agrégat <- formatC(res$Agrégat, big.mark = " ", format="fg")
+      
+      kable(res, align = 'r', row.names = FALSE)
+      
+    } else {
+      cat("\nAucun bénéficiaire détecté.\n")
+    }
+  }
+  }, "Impossible d'afficher le tableau des bénéficiaires. ")
+  
+}
+
+tableau_bénéficiaires_variation <- function(résultats) {
+  
+  essayer({
+  res <- résultats$variations
+  
+  if (afficher.table.effectifs) {
+    if (nrow(res)) {
+      
+      kable(res, align = 'r', row.names = FALSE)
+      
+    } else {
+      
+      cat("\nAucun tableau de variation.\n")
+    }
+  }
+  }, "Impossible d'afficher le tableau des variations. ")
+  
+}
+
+
+tableau_cumuls <- function(résultats) {
+  
+  res <- résultats$cumuls
+  
+  if (nrow(res[c != 0])) {
+    
+    kable(res[c != 0, .(Matricule, Année, Grade, Régime)])
+    
+  } else cat("Pas de cumuls.")
+}
+
