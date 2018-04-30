@@ -1287,7 +1287,7 @@ void* parse_info (info_t& info)
             normaliser_accents (em);
             normaliser_accents (gr);
 
-            if (regex_match ((const char*)em, pat) || regex_match ((const char*) VAR (Service), pat))
+            if (regex_match ((const char*)em, pat))
                 {
                     xmlFree (VAR (Statut)) ;
                     VAR (Statut) =  xmlStrdup ((const xmlChar*)"ELU");
