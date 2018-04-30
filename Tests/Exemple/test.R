@@ -19,7 +19,7 @@ test2 <- function(prime, prime_B, Paie_I, verbeux = FALSE) {
 
   Paie_B <- NULL 
   Lignes_B <- NULL 
-  résultat <- analyser(prime_B, verbeux)
+  résultat <- analyser(prime_B, Paie_I, verbeux)
   test(prime, Paie_I, résultat$Paye, résultat$Lignes, verbeux)
 }
 
@@ -67,7 +67,7 @@ agrégat_annuel<- function(résultat, verbeux) {
 }
 
 
-analyser <- function(prime, verbeux) {
+analyser <- function(prime, Paie_I,verbeux) {
   
   Paie_A <- NULL
   Lignes_A <- NULL
@@ -90,8 +90,17 @@ analyser <- function(prime, verbeux) {
     
     essayer({
       
-      lignes.indice.anormal <- if (prime$indice[1] == "+")    Lignes_A[Indice < prime$indice[2]] else  Lignes_A[Indice >= prime$indice[2]]
+      lignes.indice.anormal <- if (prime$indice[1] == "+"){
+        
+        Lignes_A[Indice < prime$indice[2]] } else  { Lignes_A[Indice >= prime$indice[2]]
+      } 
     
+      if (length(prime$indice) >= 3 && prime$indice[3] %chin% c("A", "B", "C")) {
+        
+        lignes.indice.anormal <-lignes.indice.anormal[Catégorie %chin% prime$indice[3]]
+          
+      } 
+          
       nr <- nrow(lignes.indice.anormal)
       
       if (! is.null(nr) && nr > 0) {
@@ -237,7 +246,7 @@ ident_prime <- prime$nom
 
 nombre.agents.cumulant.A.B <- 0
 
-résultat <- analyser(prime, verbeux)
+résultat <- analyser(prime, Paie_I, verbeux)
 
 Paie_A   <- résultat$Paye
 Lignes_A <- résultat$Lignes
