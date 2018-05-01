@@ -2269,7 +2269,7 @@ agrégat_annuel(résultat_IFSE, afficher.table.effectifs)
 
 #### 5.10 HEURES SUP ####
 #'    
-#'## `r chapitre`.10 Contrôle sur les heures supplémentaires
+#'## `r chapitre`.10 Contrôle sur les heures supplémentaires    &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_IHTS.odt)   
 
 # Sont repérées comme heures supplémentaires ou complémentaires les heures dont le libellé obéissent à
 # l'expression régulière expression.rég.heures.sup donnée par le fichier prologue.R
@@ -2767,7 +2767,7 @@ L <- split(cumul.total.lignes.paie, cumul.total.lignes.paie$Année)
 #'## `r chapitre`.11 Lien avec le compte 64        
 #' 
 #'     
-#'*Cumul des lignes de paie par exercice et sous-compte de compte 64*     
+#'*Cumul des lignes de paie par exercice et sous-compte du compte 64*     
 #'     
 
 if (exists("L")) {
