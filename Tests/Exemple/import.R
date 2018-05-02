@@ -94,7 +94,7 @@ if (grades.categories.existe) {
                                                  sep = séparateur.liste.entrée,
                                                  header = TRUE,
                                                  colClasses = c("character", "character"),
-                                                 encoding = ifelse(setOSWindows, "Latin-1", "UTF-8"),
+                                                 encoding = "Latin-1",
                                                  showProgress = FALSE) 
   
   message("Chargement du fichier des grades et catégories statutaires des personnels.")

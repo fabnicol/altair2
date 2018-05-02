@@ -189,11 +189,11 @@ public:
     /// Constructeur de la classe extraPage
     
     extraPage();
-    FLineFrame* budgetFrame;  ///< Groupe ligne de chemin + navigateur de fichiers
+    FLineFrame *budgetFrame, *gradesFrame;  ///< Groupe ligne de chemin + navigateur de fichiers
     
 private:   
     
-    FCheckBox*  budgetCheckBox;  ///< Case à cocher de contrôle
+    FCheckBox *budgetCheckBox, *gradesCheckBox;  ///< Case à cocher de contrôle
 };
 
 
