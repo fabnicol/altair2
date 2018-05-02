@@ -793,6 +793,36 @@ extraPage::extraPage()
                                    flags::flineframe::isFilePath,
                                    "Fichier CSV (*.csv)"); // il s'agit d'un chemin de fichier
    
+    constexpr const char* budgetTip = "Le fichier importé donne la correspondance entre <br>"
+                                      "le code de paye et le sous-compte du compte 64 <br>"
+                                      "utilisé par les comptes administratifs et de gestion.<br>"
+                                      "Il doit être au format CSV (séparateur point-virgule)<br>"
+                                      "et encodé en caractères Latin-1 ou Windows-1252.<br>"
+                                      "Les colonnes doivent comporter les intitulés Code,<br>"
+                                      "Libellé, Statut, Type et Compte, dans cet ordre : <br>"
+                                      "<ul><li>Code : code de  paye de la base dématérialisée.</li>"
+                                      "<li>Libellé : libellé de  paye associé au code.</li>"
+                                      "<li>Statut : statut éligible à ce code. Si plusieurs<br>"
+                                      "statuts sont éligibles, utiliser une ligne par statut.<br>"
+                                      "Valeurs possibles : <br>"
+                                      "<ul><li>TITULAIRE</li>"
+                                      "<li>STAGIAIRE</li>"
+                                      "<li>NON_TITULAIRE</li>"
+                                      "<li>AUTRE_STATUT</li>"
+                                      "<li>EMPLOI_AIDE</li></ul></li><br>"
+                                      "<li>Type : Type de ligne de paye. Valeurs possibles :"
+                                      "<ul><li>Traitement</li>"
+                                      "<li> Indemnité </li>"
+                                      "<li> Autres rémunérations</li>"
+                                      "<li> Rappels.</li>"
+                                      "<li>Compte : sous-compte du 64 (à 5 chiffres).</li></ul></li></ul><br>"
+                                      "A défaut d'importation manuelle de ce fichier, le <br>"
+                                      "logiciel réalise une interpolation imparfaite de la <br>"
+                                      "table de correspondance et peut produire des résultats<br>"
+                                      "relativement éloignés des agrégats comptables. Cette <br>"
+                                      "table par défaut est générée sous <b>Bases/Fiabilite</b> <br>"
+                                      "sous le nom de fichier <b>code.libelle.csv</b>.";
+    
     budgetCheckBox = new FCheckBox ("Correspondance budgétaire  ",
                                     flags::status::enabledUnchecked
                                      | flags::commandLineType::noCommandLine,
@@ -806,6 +836,8 @@ extraPage::extraPage()
     v3Layout->addWidget (budgetCheckBox,       1, 0, Qt::AlignLeft);
 
     QGroupBox* budgetBox = new QGroupBox (tr ("Budget"));
+    
+    budgetBox->setToolTip(budgetTip);
     budgetBox->setLayout (v3Layout);
 
     gradesFrame = new FLineFrame ({"Utiliser un fichier grade/catégorie", "Chemin du fichier de correspondance"},
@@ -831,7 +863,32 @@ extraPage::extraPage()
     v4Layout->addWidget(gradesCheckBox,       1, 0, Qt::AlignLeft);
 
     QGroupBox* gradesBox = new QGroupBox(tr("Grade et catégorie statutaire"));
+    
+    constexpr const char* gradesTip = "Le fichier importé donne la correspondance entre les<br>"
+                                      "libellés de grade des bases de paye et les catégories <br>"
+                                      "statutaires (A, B, C à l'exclusion de toute autre <br>"
+                                      "possibilité).<br>"
+                                      "Pour les non-titulaires, le renseignement est <br>"
+                                      "optionnel. <br>"
+                                      "En cas de grade à cheval sur deux catégories, il<br>"
+                                      "convient de distinguer les libellés de chaque grade<br>"
+                                      "correspondant à chacune des deux catégories, dans ce <br>"
+                                      "fichier et dans toute les bases de paye produites par<br>"
+                                      "l'extracteur de données.<br>"
+                                      "Le fichier importé doit être de type CSV à séparateur<br>"
+                                      "point-virgule et encodé en Latin-1 ou Windows-1252.<br>"
+                                      "Il doit comporter une ligne d'intitulés de colonnes.<br>"
+                                      "La première colonne est intitulée <b>Grade</b> et la seconde <br>"
+                                      "<b>Catégorie</b>.<br>"
+                                      "A défaut d'importation manuelle de ce fichier, le logiciel<br>"
+                                      "réalise une interpolation relativement exacte de la <br>"
+                                      "correspondance entre grade et catégorie statutaire.<br>"
+                                      "Ce fichier est généré sous le dossier <b>Bases/Effectifs</b><br>"
+                                      "sous le nom de fichier <b>grades.catégories.csv</b><br>"; 
+            
+            
     gradesBox->setLayout(v4Layout);
+    gradesBox->setToolTip(gradesTip);
     
     QVBoxLayout* mainLayout = new QVBoxLayout;
     FRichLabel *mainLabel = new FRichLabel ("Fichiers externes");
