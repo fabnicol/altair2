@@ -780,6 +780,8 @@ std::uint16_t options::RefreshFlag;
 extraPage::extraPage()
 {
     QGridLayout *v3Layout = new QGridLayout;
+
+    QGridLayout *v4Layout = new QGridLayout;
     
     budgetFrame = new FLineFrame ({"Utiliser la correspondance budgétaire", "Chemin de la table de correspondance"},
                                    QDir::toNativeSeparators (userdatadir + "paye_budget.csv"),
@@ -806,13 +808,36 @@ extraPage::extraPage()
     QGroupBox* budgetBox = new QGroupBox (tr ("Budget"));
     budgetBox->setLayout (v3Layout);
 
-    //QGridLayout *v4Layout = new QGridLayout;
-    //QGroupBox* rapportBox = new QGroupBox (tr ("Rapports"));
+    gradesFrame = new FLineFrame ({"Utiliser un fichier grade/catégorie", "Chemin du fichier de correspondance"},
+                                   QDir::toNativeSeparators (userdatadir + "grades.categories.csv"),
+                                   "gradeCategorie",
+                                   {2, 1},
+                                   v4Layout,
+                                   "",   // pas de ligne de commande
+                                   directory::noCheck, // ne pas vérifier que le chemin est vide
+                                   flags::flineframe::isFilePath,
+                                   "Fichier CSV (*.csv)"); // il s'agit d'un chemin de fichier
+   
+    gradesCheckBox = new FCheckBox ("Correspondance grade-catégorie  ",
+                                    flags::status::enabledUnchecked
+                                     | flags::commandLineType::noCommandLine,
+                                    "genererGradeCategorie",
+                                    {
+                                       "Générer une correspondance grade-catégorie", 
+                                        ""
+                                    },
+                                    gradesFrame->getComponentList());
+    
+    v4Layout->addWidget(gradesCheckBox,       1, 0, Qt::AlignLeft);
 
+    QGroupBox* gradesBox = new QGroupBox(tr("Grade et catégorie statutaire"));
+    gradesBox->setLayout(v4Layout);
+    
     QVBoxLayout* mainLayout = new QVBoxLayout;
     FRichLabel *mainLabel = new FRichLabel ("Fichiers externes");
     mainLayout->addWidget (mainLabel);
     mainLayout->addWidget (budgetBox, 1, 0);
+    mainLayout->addWidget (gradesBox, 2, 0);
     mainLayout->addSpacing (450);
 
     setLayout (mainLayout);
@@ -868,6 +893,18 @@ options::options (Altair* parent)
                           tools::copyFile(budgetFile, 
                                           path_access (SCRIPT_DIR "paye_budget.csv"),
                                           "Le fichier de correspondance paye-budget",  // message d'erreur fenêtre
+                                          REQUIRE);                                    // force ce message en cas d'échec
+                        }
+                    }
+                    
+                    if (extraTab->gradesFrame->isEnabled())
+                    {
+                        QString gradesFile = extraTab->gradesFrame->getText();
+                        if (! gradesFile.isEmpty() && QFileInfo(gradesFile).exists())
+                        {
+                          tools::copyFile(gradesFile, 
+                                          path_access (SCRIPT_DIR "grades.categories.csv"),
+                                          "Le fichier de correspondance grade-catégorie",  // message d'erreur fenêtre
                                           REQUIRE);                                    // force ce message en cas d'échec
                         }
                     }
