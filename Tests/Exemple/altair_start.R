@@ -3602,7 +3602,9 @@ if (sauvegarder.bases.origine)
 system2("find", c("Donnees/R-Altair/Bases", "-name", "'*.csv'", "-exec", "iconv -f UTF-8 -t ISO-8859-15 -c -o {}.2  {} \\;", "-exec",  "mv {}.2 {} \\;"))
 
 if (file.exists("paye_budget.csv")) file.remove("paye_budget.csv")
-  
+
+if (file.exists("grades.categories.csv")) file.remove("grades.categories.csv")
+
 if (! dir.exists(chemin.dossier.docs)) 
    dir.create(chemin.dossier.docs, recursive = TRUE, mode="0777")
 
