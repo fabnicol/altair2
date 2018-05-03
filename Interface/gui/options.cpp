@@ -886,7 +886,7 @@ extraPage::extraPage()
                                       "réalise une interpolation relativement exacte de la <br>"
                                       "correspondance entre grade et catégorie statutaire.<br>"
                                       "Ce fichier est généré sous le dossier <b>Bases/Effectifs</b><br>"
-                                      "sous le nom de fichier <b>grades.catégories.csv</b><br>"; 
+                                      "sous le nom de fichier <b>grades.categories.csv</b><br>";
             
             
     gradesBox->setLayout(v4Layout);
