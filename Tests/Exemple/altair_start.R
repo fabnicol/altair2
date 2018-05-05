@@ -75,7 +75,7 @@ options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE, dat
 
 # Sourcer la biblio de fonctions auxiliaires
 
-source("bibliotheque.fonctions.paie.R", encoding = "UTF-8")
+source("bibliotheque.fonctions.paie.R", encoding = encodage.code.source)
 
 # Importer les données --> bases Paie et Bulletins.paie
 
@@ -442,13 +442,13 @@ invisible(lapply(années.analyse.statique, function(x) {
                  incrémenter.chapitre()
                  if (! générer.rapport) {
 
-                   source('analyse.statique.R', encoding = "UTF-8") 
+                   source('analyse.statique.R', encoding = encodage.code.source) 
                    
                  } else {
                    if (setOSWindows)  {                 
                       cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.Rmd'), encoding = encodage.code.source), quiet = TRUE), sep = '\n')
                    } else {
-                     cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.utf8.Rmd'), encoding = "UTF-8"), quiet = TRUE), sep = '\n')
+                     cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.utf8.Rmd'), encoding = encodage.code.source), quiet = TRUE), sep = '\n')
                    }
                  }
                }))
@@ -2826,11 +2826,13 @@ if (! utiliser.cplusplus.sft)
                               Année,
                               Mois,
                               PACKAGE="sft")
-
 }
 
 essayer({
-Paie.sans.enfant.reduit <- Paie[Type == "S" & (is.na(Nb.Enfants) | Nb.Enfants == 0) , .(SFT.versé = sum(Montant, na.rm = TRUE)), keyby = "Matricule,Année,Mois"] 
+Paie.sans.enfant.reduit <- Paie[Type == "S" 
+                                & (is.na(Nb.Enfants) | Nb.Enfants == 0),
+                                 .(SFT.versé = sum(Montant, na.rm = TRUE)),
+                                      keyby = "Matricule,Année,Mois"] 
 
 Paie.sans.enfant.reduit <- Paie.sans.enfant.reduit[SFT.versé > 0]
 
@@ -3491,7 +3493,7 @@ if (test.delta) {
     cat("   ")
     source("delta.R", encoding=encodage.code.source)
 } else {
-  cat("Base de vérification des écarts lignes de paie-bulletins de paie non générée.")
+    cat("Base de vérification des écarts lignes de paie-bulletins de paie non générée.")
 }
 
   

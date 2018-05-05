@@ -192,8 +192,7 @@ encodage.entrée                <-  "ISO-8859-1"
   # "WINDOWS-1252"
   # "UTF-8"
 encodage.entrée.xhl2csv        <-   encodage.entrée
-encodage.sortie                <- "UTF-8" #ISO-8859-15"
-convertir.latin                <- grepl("ISO.*8859-1.*", encodage.sortie, ignore.case = TRUE)
+convertir.latin                <-   FALSE
 
 # expressions régulières
 
