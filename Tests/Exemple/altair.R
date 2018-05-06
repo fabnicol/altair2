@@ -1,4 +1,6 @@
- 
+
+encodage.code.source <- "UTF-8" 
+
 source("prologue_source.R", encoding = encodage.code.source)
 
 for (rep in reps) {

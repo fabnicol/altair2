@@ -14,3 +14,6 @@ agrégat_annuel(résultat, verbeux)
 \description{
 Affichage du tableau des agrégats des primes A et B, pour chaque année de période
 }
+\examples{
+agrégat_annuel(test_prime(prime_IAT, prime_B = prime_IFTS, Paie_I, verbeux = FALSE), verbeux = TRUE)
+}
