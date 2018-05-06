@@ -7,7 +7,7 @@
 analyser(prime, Paie_I, verbeux)
 }
 \arguments{
-\item{prime}{Prime au format data.table comportant les arguments :
+\item{prime}{Prime au format liste comportant les arguments :
 \describe{
 \item{nom}{Nom de la prime en majuscules. Une expression régulière en décrivant le libellé doit être enregistrée dans l'espace global sous le nom : expression.rég.nom}
 \item{catégorie}{"A", "B", "C" ou tout vecteur d'une à deux lettres comprises dans ces trois valeurs. Décrit les catégories statutaires auxquelles la prime est attribuable.}

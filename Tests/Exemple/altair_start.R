@@ -75,7 +75,7 @@ options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE, dat
 
 # Sourcer la biblio de fonctions auxiliaires
 
-source("bibliotheque.fonctions.paie.R", encoding = encodage.code.source)
+library(altair)
 
 # Importer les données --> bases Paie et Bulletins.paie
 
@@ -368,7 +368,7 @@ Tableau(c("Plus de 2 ans",
 #'
 
 if (nrow(Analyse.variations) > 0)
-  qplot(factor(Année),
+  ggplot2::qplot(factor(Année),
         data = Analyse.variations,
         geom = "bar",
         fill = factor(!Analyse.variations$plus.2.ans),
@@ -376,7 +376,7 @@ if (nrow(Analyse.variations) > 0)
         xlab = étiquette.année,
         ylab = "Effectif",
         asp = 1.4)        +
-  scale_fill_discrete(name = "Personnels (non élus) en fonction",
+  ggplot2::scale_fill_discrete(name = "Personnels (non élus) en fonction",
                       breaks = c(TRUE, FALSE),
                       labels = c("Moins de deux ans", "Plus de deux ans"))
 

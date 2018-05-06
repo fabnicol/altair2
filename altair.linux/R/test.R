@@ -88,6 +88,7 @@ tableau_cumuls <- function(résultat) {
 #' @param résultat  Résultat retourné par la fonction \link{test_prime}
 #' @param verbeux   [FALSE] Le résultat n'est affiché que si  \code{verbeux} vaut  \code{TRUE}
 #' @examples 
+#' agrégat_annuel(test_prime(prime_IAT, prime_B = prime_IFTS, Paie_I, verbeux = FALSE), verbeux = TRUE)
 #' @export
 
 agrégat_annuel<- function(résultat, verbeux) {

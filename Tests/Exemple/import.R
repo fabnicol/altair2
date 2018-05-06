@@ -38,7 +38,6 @@
 # 
 
 library(knitr, warn.conflicts = FALSE)
-library(ggplot2, warn.conflicts = FALSE)
 
 # Il importe que de ne pas confondre le séparateur décimal et le séparateur de champ CSV
 
@@ -105,7 +104,6 @@ if (grades.categories.existe) {
     stop(" ")
   }
 }
-
 
 fichiers.table <- list.files(chemin.clé, pattern = nom.table %+% "(-)?[^.]*[.]csv", full.names  = TRUE)
 fichiers.bulletins <- list.files(chemin.clé, pattern = nom.bulletins %+% "(-)?[^.]*[.]csv", full.names  = TRUE)
@@ -224,14 +222,12 @@ Paie[ , Grade := toupper(Grade)]
     fin.période.sous.revue   <- max(Bulletins.paie[ , Année])
   }
   
-  
-  Paie[is.na(Grade),  Grade  := ""]
-  Paie[is.na(Statut), Statut := "AUTRE_STATUT"]
-  Paie[is.na(NBI),    NBI    := 0]
-  Bulletins.paie[is.na(Grade),  Grade  := ""]
-  Bulletins.paie[is.na(Statut), Statut := "AUTRE_STATUT"]
-  Bulletins.paie[is.na(NBI),    NBI    := 0]
-
+Paie[is.na(Grade),  Grade  := ""]
+Paie[is.na(Statut), Statut := "AUTRE_STATUT"]
+Paie[is.na(NBI),    NBI    := 0]
+Bulletins.paie[is.na(Grade),  Grade  := ""]
+Bulletins.paie[is.na(Statut), Statut := "AUTRE_STATUT"]
+Bulletins.paie[is.na(NBI),    NBI    := 0]
 
 période                 <- début.période.sous.revue:fin.période.sous.revue
 durée.sous.revue        <- fin.période.sous.revue - début.période.sous.revue + 1
@@ -251,7 +247,6 @@ if (! analyse.statique.totale) {
   
   années.analyse.statique <- période
 }
-
 
 # Le format est jour/mois/année avec deux chiffres-séparateur-deux chiffres-séparateur-4 chiffres.
 # Le séparateur peut être changé en un autre en modifiant le "/" dans date.format
@@ -292,7 +287,6 @@ if (éliminer.duplications) {
   rm(duplications.vecteur)
   
 } 
-  
 
 # calcul du temps complet mensuel de référence en h/mois
 
