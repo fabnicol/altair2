@@ -101,6 +101,7 @@ codePage::codePage()
 
     variables << "traitement" << "nbi" << "pfi" <<
               "pfr" <<  "ipf" << "psr" << "ifts" << "iat" <<
+              "ifse" << "iemp" << "iss" <<    
               "ihts" << "vacataires" << "astreintes";
 
     short index = 0;

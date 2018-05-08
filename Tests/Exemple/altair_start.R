@@ -2050,7 +2050,11 @@ prime_PSR <- list(nom = "PSR",                     # Nom en majuscules
 # -directeurs de recherche relevant du ministère chargé du développement durable.
   
 résultat_PSR   <- test_prime(prime_PSR, prime_B = NULL, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
-  
+
+Lignes_PSR <- résultat_PSR$Lignes
+Paie_PSR <- résultat_PSR$Paye
+
+
 #'    
 #'&nbsp;*Tableau `r incrément()` : Cumul PSR/IFTS*   
 #'      
@@ -2186,11 +2190,12 @@ agrégat_annuel(résultat_IPF, afficher.table.effectifs)
 
 # non cumuleable entre autres avec :
 # - l'indemnité forfaitaire pour travaux supplémentaires
-# - la prime de rendement
+# - la prime de service et de rendement
 # - l'indemnité de fonctions et de résultats
 # - la prime de fonctions informatiques
 # - l'indemnité d'administration et de technicité
 # - l'indemnité d'exercice de mission des préfectures
+# - l'indemnité spécifique de service (I.S.S.)
 
 #+ rifseep
 
@@ -2229,6 +2234,84 @@ tableau_cumuls(résultat_IFSE)
 #'[Lien vers la base de données cumuls ifse/ifts](Bases/Reglementation/personnels.ifse.iat.csv)    
 #'   
 
+prime_IFSE$prime_B <- "ISS"
+prime_ISS <- list(nom = "ISS",                     # Nom en majuscules
+                  restreint_fonctionnaire = TRUE,  # fonctionnaires
+                  prime_B = "IFSE",                # à comparer à IFTS
+                  dossier = "Reglementation")
+
+résultat_IFSE   <- test_prime(prime_IFSE, prime_ISS, Paie_I, verbeux = afficher.table.effectifs)
+
+#'   
+#'    
+#'&nbsp;*Tableau `r incrément()` : Cumul IFSE/ISS*   
+#'      
+
+tableau_cumuls(résultat_IFSE)
+
+#'      
+#'      
+#'[Lien vers la base de données cumuls ifse/iss](Bases/Reglementation/personnels.ifse.iss.csv)    
+#'   
+
+prime_IFSE$prime_B <- "IEMP"
+prime_IEMP <- list(nom = "IEMP",                     # Nom en majuscules
+                    restreint_fonctionnaire = TRUE,  # fonctionnaires
+                    prime_B = "IFSE",                # à comparer à IFTS
+                    dossier = "Reglementation")
+
+résultat_IFSE   <- test_prime(prime_IFSE, prime_IEMP, Paie_I, verbeux = afficher.table.effectifs)
+
+#'   
+#'    
+#'&nbsp;*Tableau `r incrément()` : Cumul IFSE/IEMP*   
+#'      
+
+tableau_cumuls(résultat_IFSE)
+
+#'      
+#'      
+#'[Lien vers la base de données cumuls ifse/iemp](Bases/Reglementation/personnels.ifse.iemp.csv)    
+#'   
+
+prime_IFSE$prime_B <- "PFI"
+prime_PFI <- list(nom = "PFI",                      # Nom en majuscules
+                   restreint_fonctionnaire = TRUE,  # fonctionnaires
+                   prime_B = "IFSE",                # à comparer à IFTS
+                   dossier = "Reglementation")
+
+résultat_IFSE   <- test_prime(prime_IFSE, prime_PFI, Paie_I, verbeux = afficher.table.effectifs)
+
+#'   
+#'    
+#'&nbsp;*Tableau `r incrément()` : Cumul IFSE/PFI*   
+#'      
+
+tableau_cumuls(résultat_IFSE)
+
+#'      
+#'      
+#'[Lien vers la base de données cumuls ifse/pfi](Bases/Reglementation/personnels.ifse.pfi.csv)    
+#'   
+
+prime_IFSE$prime_B <- "PSR"
+
+résultat_IFSE   <- test_prime(prime_IFSE, prime_B = NULL, Paie_I, Paie_PSR, Lignes_PSR, afficher.table.effectifs)
+
+#'   
+#'    
+#'&nbsp;*Tableau `r incrément()` : Cumul IFSE/PSR*   
+#'      
+
+tableau_cumuls(résultat_IFSE)
+
+#'      
+#'      
+#'[Lien vers la base de données cumuls ifse/psr](Bases/Reglementation/personnels.ifse.psr.csv)    
+#'   
+
+
+
 prime_IFSE$prime_B <- "PFR"
 
 résultat_IFSE   <- test_prime(prime_IFSE, prime_B = NULL, Paie_I, Paie_PFR, Lignes_PFR, afficher.table.effectifs)
@@ -2244,6 +2327,7 @@ tableau_cumuls(résultat_IFSE)
 #'      
 #'[Lien vers la base de données cumuls ifse/ifts](Bases/Reglementation/personnels.ifse.pfr.csv)    
 #'   
+
 
 #'  
 #'&nbsp;*Tableau `r incrément()` : Valeurs de l'agrégat annuel (IFSE ou PFR) pour les bénéficiaires de l'IFSE*        

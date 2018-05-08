@@ -11,3 +11,4 @@ Interface/gui/altair.windows.pro
 Makefile
 *.directory
 lhx/lhx
+*/*/*.user
