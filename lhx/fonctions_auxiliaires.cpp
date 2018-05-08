@@ -678,18 +678,9 @@ void calculer_maxima (const vector<info_t> &Info, ofstream* LOG)
 }
 
 
-template <typename Allocator = allocator<char>>
-string read_stream_into_string (
-    ifstream& in,
-    Allocator alloc)
+string read_stream_into_string (ifstream& in)
 {
-    basic_ostringstream<char, char_traits<char>, Allocator>
-    ss (basic_string<char, char_traits<char>, Allocator> (move (alloc)));
-
-    if (! (ss << in.rdbuf()))
-        throw ios_base::failure{"[ERR] Erreur d'allocation de lecture de fichier.\n"};
-
-    return ss.str();
+    return { istreambuf_iterator<char>(in),  istreambuf_iterator<char>()    } ;
 }
 
 #ifdef USE_STRING_EXEC
@@ -783,34 +774,28 @@ int calculer_memoire_requise (info_t& info)
 
 #ifdef FGETC_PARSING
 
+            d = c.get();
+            
             while (! c.eof())
                 {
-                    bool remuneration_xml_open = false;
-
-                    if ((d = c.get()) == '\n')
+                    if (d == '\n')
                         {
                             ++compteur_ligne;
-                            d = c.get();
-
-                            if (d == c.eof()) break;
                         }
-                    else
-                        {
-                            if  (d != '<')
-                                continue;
-                            else
-                                d = c.get();
-                        }
+                    
+                    bool remuneration_xml_open = false;
+                    
+                    if  ((d = c.get()) != '<')  continue;
 
-                    if  (d != 'P') continue;
+                    if  ((d = c.get()) != 'P')  continue;
 
-                    if  (c.get() != 'a') continue;
+                    if  ((d = c.get()) != 'a')  continue;
 
-                    if  (c.get() != 'y') continue;
+                    if  ((d = c.get()) != 'y')  continue;
 
-                    if  (c.get() != 'e') continue;
+                    if  ((d = c.get()) != 'e')  continue;
 
-                    if  (c.get() != 'I') continue;
+                    if  ((d = c.get()) != 'I')  continue;
 
                     for (int i = 0; i < 7; ++i) c.get();
 
@@ -825,7 +810,7 @@ int calculer_memoire_requise (info_t& info)
 
                     remuneration_xml_open = true;
 
-                    if  (c.get()  == '/')
+                    if  ((d = c.get())  == '/')
                         {
                             remuneration_xml_open = false;
                             continue;  // Balise simple vide
@@ -833,16 +818,21 @@ int calculer_memoire_requise (info_t& info)
 
                     while (! c.eof())
                         {
-                            if (c.get() != '<') continue;
+                            if (d == '\n')
+                              {
+                                ++compteur_ligne;
+                              }
+                            
+                            if ((d = c.get()) != '<') continue;
 
                             if ((d = c.get())  != 'C')
                                 {
                                     if (d != '/') continue;
-                                    else if (c.get()  != 'P')   continue;
-                                    else if (c.get()  != 'a')   continue;
-                                    else if (c.get()  != 'y')   continue;
-                                    else if (c.get()  != 'e')   continue;
-                                    else if (c.get()  != 'I')   continue;
+                                    else if ((d = c.get())  != 'P')   continue;
+                                    else if ((d = c.get())  != 'a')   continue;
+                                    else if ((d = c.get())  != 'y')   continue;
+                                    else if ((d = c.get())  != 'e')   continue;
+                                    else if ((d = c.get())  != 'I')   continue;
 
                                     if (info.generer_bulletins || verbeux)
                                         {
@@ -859,13 +849,13 @@ int calculer_memoire_requise (info_t& info)
                                 }
                             else
                                 {
-                                    if (c.get() != 'o') continue;
+                                    if ((d = c.get()) != 'o') continue;
                                     else
                                         {
-                                            if (c.get() != 'd')   continue;
+                                            if ( (d = c.get()) != 'd')   continue;
                                             else
                                                 {
-                                                    if (c.get() != 'e')   continue;
+                                                    if ( (d = c.get()) != 'e')   continue;
                                                     else
                                                         {
                                                             // Il va y avoir un peu de surgénération ici
@@ -878,7 +868,7 @@ int calculer_memoire_requise (info_t& info)
                                                             // par le parseur XML doit être inférieure ou égale à
                                                             // la préallocation par cette fonction
 
-                                                            if (c.get() != ' ')   continue;
+                                                            if ((d = c.get()) != ' ')   continue;
 
                                                             ++tab[info.NCumAgent];
                                                         }
@@ -892,22 +882,22 @@ int calculer_memoire_requise (info_t& info)
                             LOCK_GUARD
                             cerr << "Erreur XML : la balise PayeIndivMensuel n'est pas refermée pour le fichier " << info.threads->argv[i]
                                  << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
-                            exit (0);
-
-#ifndef STRICT
-                            continue;
-#else
-                            exit (-100);
-#endif
+                            throw;
                         }
 
                 }
 
 #else   // STRINGSTREAM_PARSING
 
-            auto ss = read_stream_into_string (c);
+#ifdef ss
+#  undef ss
+#endif
+            
+#define ss info.threads->in_memory_file[i]
+            
+            ss = read_stream_into_string (c);
 
-            string::iterator iter = ss.begin();
+            string::const_iterator iter = ss.begin();
 
 
             while (iter != ss.end())
@@ -1009,21 +999,14 @@ int calculer_memoire_requise (info_t& info)
                             LOCK_GUARD
                             cerr << "Erreur XML : la balise PayeIndivMensuel n'est pas refermée pour le fichier " << info.threads->argv[i]
                                  << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
-                            exit (0);
+                            throw;
 
-#ifndef STRICT
-                            continue;
-#else
-                            exit (-100);
-#endif
                         }
 
                 }
 
-            info.threads->in_memory_file[i] = move (ss);
-
+#undef ss            
 #endif
-
             c.clear();
             c.close();
 
