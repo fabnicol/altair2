@@ -301,8 +301,10 @@ analyser <- function(prime, Paie_I, verbeux) {
         }
         
       } else {
-        A.non.cat <- NULL
+       
         cat("La détection des incompatibilités statutaires n'a pas pu être réalisée. ")
+        stop("La prime " %+% prime$nom %+% " doit être renseignée soit pour sa catagorie statutaire (prime$catégorie) soit par une expression régulière sur libellé (prime$expr.rég).")
+        
       }
     }
   },

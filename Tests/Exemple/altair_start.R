@@ -2052,7 +2052,7 @@ prime_PSR <- list(nom = "PSR",                     # Nom en majuscules
 résultat_PSR   <- test_prime(prime_PSR, prime_B = NULL, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
 
 Lignes_PSR <- résultat_PSR$Lignes
-Paie_PSR <- résultat_PSR$Paye
+Paie_PSR <- résultat_PSR$Paie
 
 
 #'    
@@ -2202,6 +2202,7 @@ agrégat_annuel(résultat_IPF, afficher.table.effectifs)
 
 prime_IFSE <- list(nom = "IFSE",                   # Nom en majuscules
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
+                  catégorie = c("A", "B", "C"),
                   prime_B = "IFTS",                # à comparer à IFTS
                   dossier = "Reglementation")       # dossier de bases
                   
@@ -2236,6 +2237,7 @@ tableau_cumuls(résultat_IFSE)
 
 prime_IFSE$prime_B <- "ISS"
 prime_ISS <- list(nom = "ISS",                     # Nom en majuscules
+                  catégorie = c("A", "B"),         # Techniciens A, B
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   prime_B = "IFSE",                # à comparer à IFTS
                   dossier = "Reglementation")
@@ -2257,6 +2259,7 @@ tableau_cumuls(résultat_IFSE)
 prime_IFSE$prime_B <- "IEMP"
 prime_IEMP <- list(nom = "IEMP",                     # Nom en majuscules
                     restreint_fonctionnaire = TRUE,  # fonctionnaires
+                    catégorie = c("A", "B", "C"),
                     prime_B = "IFSE",                # à comparer à IFTS
                     dossier = "Reglementation")
 
@@ -2277,6 +2280,7 @@ tableau_cumuls(résultat_IFSE)
 prime_IFSE$prime_B <- "PFI"
 prime_PFI <- list(nom = "PFI",                      # Nom en majuscules
                    restreint_fonctionnaire = TRUE,  # fonctionnaires
+                   catégorie = c("A", "B", "C"),
                    prime_B = "IFSE",                # à comparer à IFTS
                    dossier = "Reglementation")
 
