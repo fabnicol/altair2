@@ -56,7 +56,7 @@ codes.primedeservice  <- NA
 codes.primedetechnicite <- NA  
 types.irs  <- c("IR", "S")
 
-controle<-c("VILLE DE MONTARGIS","21450208000226","VILLE DE MONTARGIS","BUDGET PRINCIPAL")  
+controle<-c("","","","")  
 
 codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IFSE", "IEMP", "ISS", "IHTS", "VAC", "ASTREINTES", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(
