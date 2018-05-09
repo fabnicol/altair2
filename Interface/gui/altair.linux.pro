@@ -52,7 +52,7 @@ if (linux) {
 } else {
   error("Le système d'exploitation doit être linux")
 }
-
+QMAKE_CXX=/usr/bin/g++-8.1.0
 GIT_VERSION = $$system(git --version | grep -e \"git version\")
 CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
 
@@ -78,7 +78,7 @@ CONFIG(debug, debug|release) {
 } else {
   CONFIG += static
   QMAKE_CXXFLAGS += -O3 -fomit-frame-pointer -fexpensive-optimizations -Wall -Wextra
-  QMAKE_LFLAGS += -s -licui18n -licuuc -licudata
+  QMAKE_LFLAGS += -s -licui18n -licuuc -licudata  -static-libgcc -static-libstdc++
 }
 
 
@@ -93,7 +93,7 @@ TARGET = Altair
 
 VPATH = .
 INCLUDEPATH += ../../fwidgets_lib
-LIBS += libfwidgets_lib.a
+LIBS += libfwidgets_lib.a 
 
 DEFINES += HAS_CPP17
 

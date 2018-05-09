@@ -784,6 +784,8 @@ extraPage::extraPage()
 
     QGridLayout *v4Layout = new QGridLayout;
     
+    QGridLayout *v5Layout = new QGridLayout;
+    
     budgetFrame = new FLineFrame ({"Utiliser la correspondance budgétaire", "Chemin de la table de correspondance"},
                                    QDir::toNativeSeparators (userdatadir + "paye_budget.csv"),
                                    "budget",
@@ -892,12 +894,61 @@ extraPage::extraPage()
             
     gradesBox->setLayout(v4Layout);
     gradesBox->setToolTip(gradesTip);
+        
+    logtFrame = new FLineFrame ({"Concessions de logement", "Chemin de la table Matricules-Dates"},
+                                   QDir::toNativeSeparators (userdatadir + "logements.csv"),
+                                   "logement",
+                                   {2, 1},
+                                   v5Layout,
+                                   "",   // pas de ligne de commande
+                                   directory::noCheck, // ne pas vérifier que le chemin est vide
+                                   flags::flineframe::isFilePath,
+                                   "Fichier CSV (*.csv)"); // il s'agit d'un chemin de fichier
+   
+    constexpr const char* logtTip = "Le fichier importé énumère la liste des matricules  <br>"
+                                      "bénéficiant d'une concession de logement, pour chaque <br>"
+                                      "année et mois.<br>"
+                                      "Il doit être au format CSV (séparateur point-virgule)<br>"
+                                      "et encodé en caractères Latin-1 ou Windows-1252.<br>"
+                                      "Les colonnes doivent comporter les intitulés Matricule,<br>"
+                                      "Année, Mois, Logement, dans cet ordre : <br>"
+                                      "<ul><li>Matricule : Matricule de l'agent au mois concerné.</li>"
+                                      "<li>Année : année de la période sous revue.</li>"
+                                      "<li>Mois : mois de la période sous revue.</li>"
+                                      "<li>Logement : type du logement, par nécessité absolue de<br>"
+                                      "service ou par utilité de service.<br>"
+                                      "Valeurs possibles : <br>"
+                                      "<ul><li>NAS : nécessité absolue de service</li>"
+                                      "<li>US : utilité de service</li>"
+                                      "<li>AUTRE : autre cas</li>"
+                                      "</ul></li></ul><br>"
+                                      "Ces données sont utilisées pour contrôler le cumul des <br>"
+                                      "concessions de logement et de certaines indemnité.<br>";
+    
+    logtCheckBox = new FCheckBox ("Concessions de logement  ",
+                                    flags::status::enabledUnchecked
+                                     | flags::commandLineType::noCommandLine,
+                                    "genererLogt",
+                                    {
+                                       "Contrôler les concessions de logement", 
+                                       ""
+                                    },
+                                    logtFrame->getComponentList());
+    
+    v5Layout->addWidget (logtCheckBox,       1, 0, Qt::AlignLeft);
+
+    QGroupBox* logtBox = new QGroupBox (tr ("Logement"));
+    
+    logtBox->setToolTip(logtTip);
+    logtBox->setLayout (v5Layout);
+        
     
     QVBoxLayout* mainLayout = new QVBoxLayout;
     FRichLabel *mainLabel = new FRichLabel ("Fichiers externes");
     mainLayout->addWidget (mainLabel);
     mainLayout->addWidget (budgetBox, 1, 0);
     mainLayout->addWidget (gradesBox, 2, 0);
+    mainLayout->addWidget (logtBox,   3, 0);
     mainLayout->addSpacing (450);
 
     setLayout (mainLayout);
