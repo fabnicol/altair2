@@ -189,11 +189,15 @@ public:
     /// Constructeur de la classe extraPage
     
     extraPage();
-    FLineFrame *budgetFrame, *gradesFrame;  ///< Groupe ligne de chemin + navigateur de fichiers
+    FLineFrame *budgetFrame, ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre codes, libellés de paye et sous-comptes du 64 (données externes à importer)
+               *gradesFrame, ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre grades et catégorie statutaire (données externes à importer)
+               *logtFrame;   ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre matricule et concession de logement, par année et mois (données externes à importer)
     
 private:   
     
-    FCheckBox *budgetCheckBox, *gradesCheckBox;  ///< Case à cocher de contrôle
+    FCheckBox *budgetCheckBox,  ///< Case à cocher de contrôle de \link budgetFrame
+               *gradesCheckBox, ///< Case à cocher de contrôle de \link gradesFrame
+               *logtCheckBox;   ///< Case à cocher de contrôle de \link logtFrame
 };
 
 
