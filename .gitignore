@@ -12,3 +12,4 @@ Makefile
 *.directory
 lhx/lhx
 */*/*.user
+*/*.user
