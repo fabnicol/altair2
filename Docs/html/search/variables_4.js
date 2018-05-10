@@ -28,5 +28,6 @@ var searchData=
   ['expression_5freg_5fcat_5fa',['EXPRESSION_REG_CAT_A',['../expression__reg__cata_8h.html#a137151c90949e69fb769ebb30241ab16',1,'expression_reg_cata.h']]],
   ['expression_5freg_5fcat_5fb',['EXPRESSION_REG_CAT_B',['../expression__reg__cata_8h.html#a47cf78843237ae1d1e5c2e0845061e4f',1,'expression_reg_cata.h']]],
   ['expression_5freg_5felus',['expression_reg_elus',['../structinfo__t.html#ac67703da1f6f9d07f54ddd2c1a69b626',1,'info_t::expression_reg_elus()'],['../expression__reg__elus_8h.html#a805b10297afcd242e0d0fd1b6f5f5116',1,'EXPRESSION_REG_ELUS():&#160;expression_reg_elus.h']]],
-  ['expression_5freg_5fvacations',['EXPRESSION_REG_VACATIONS',['../expression__reg__cata_8h.html#a998cdcc857c5a627149ac147c1951abd',1,'expression_reg_cata.h']]]
+  ['expression_5freg_5fvacations',['EXPRESSION_REG_VACATIONS',['../expression__reg__cata_8h.html#a998cdcc857c5a627149ac147c1951abd',1,'expression_reg_cata.h']]],
+  ['extratab',['extraTab',['../classoptions.html#a48f9654a22ec3cb155df3d559dfd9478',1,'options']]]
 ];

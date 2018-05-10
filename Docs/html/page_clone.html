@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>&quot;La procédure de clonage&quot;</title>
+<title>La procédure de clonage</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -86,7 +86,7 @@ $(document).ready(function(){initNavTree('page_clone.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">"La procédure de clonage" </div>  </div>
+<div class="title">La procédure de clonage </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="a"></a>
@@ -101,8 +101,7 @@ Procédure de création de l'image de la plateforme</h1>
 <li>Repérer la lettre de <em>device</em> de la clé grâce à l'instruction : <pre># fdisk -l</pre> dans une console d'administration. Créer deux partitions EXT4 sur la clé USB sous une plateforme Linux auxiliaire (Live CD ou autre), soit /dev/sdb1 et /dev/sdb2 (remplacer b par la lettre adéquate). La première partition doit être d'au moins 300 Mo. La deuxième doit être d'au moins 9 Go. Il est possible d'utiliser des logiciels comme gparted (Gnome) ou partitionmanager (KDE).</li>
 <li>Décompresser le logiciel Clonezilla entreposé dans un paquet zip sur la première partition /dev/sdb1 dans une console d'administration: <pre># mount /dev/sdb1 /mnt</pre> <pre># unzip -o ~/clonezilla.zip /mnt   </pre></li>
 <li>Remplacer le fichier /mnt/syslinux/syslinux.cfg de cette première partition par le fichier clonage/création/syslinux.cfg du dépôt GIT (branche master-jf).</li>
-<li>Sur la plateforme Linux auxiliaire, exécuter le fichier utils/makeboot.sh comme suit dans une console d'administration : <pre># cd /mnt/utils/linux
-   # ./makeboot.sh /dev/sdb1 </pre></li>
+<li>Sur la plateforme Linux auxiliaire, exécuter le fichier utils/makeboot.sh comme suit dans une console d'administration : <pre># cd /mnt/utils/linux</pre> <pre># ./makeboot.sh /dev/sdb1 </pre></li>
 <li>Démarrer la plateforme Linux fonctionnelle sur la clé USB (utiliser F12 au démarrage pour choisir la clé plutôt que le disque dur principal).</li>
 <li>Le PC s'éteindra à l'achèvement du clonage. La seconde partition /dev/sdb2 de la clé USB contient alors un répertoire image/ contenant l'ensemble des fichiers de clonage.</li>
 <li>Remplacer le fichier /mnt/syslinux/syslinux.cfg par le fichier clonage/copie/syslinux.sfg du dépôt GIT. La clé ainsi paramétrée est un dispositif autonome complet pour la création d'un clone de la plateforme Altaïr sur le PC cible.</li>
@@ -113,13 +112,13 @@ Procédure de clonage de la plateforme</h1>
 <p>Une fois la clé de clonage produite par la procédure décrite ci-dessus, il suffit de démarrer un PC cible sur cette clé et d'attendre l'extinction. Le PC est opérationnel dès le redémarrage.</p>
 <h1><a class="anchor" id="d"></a>
 Références</h1>
-<p>La documentation originale du site de l'application est archivée : <a class="el" href="clonezilla_doc.html">"Documentation technique : la ligne de commande de clonezilla"</a> </p>
+<p>La documentation originale du site de l'application est archivée : <a class="el" href="clonezilla_doc.html">Documentation technique : la ligne de commande de clonezilla</a> </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Généré le Vendredi 16 Février 2018 20:59:33 par
+    <li class="footer">Généré le Jeudi 10 Mai 2018 02:08:46 par
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>
