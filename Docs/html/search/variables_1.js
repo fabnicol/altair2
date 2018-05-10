@@ -8,5 +8,7 @@ var searchData=
   ['bottomdockwidget',['bottomDockWidget',['../class_main_window.html#a65d62b3495b46c80202af90080382cb7',1,'MainWindow']]],
   ['bottomtabwidget',['bottomTabWidget',['../class_main_window.html#aed82722dabd9d58bbde3fcc02e79f708',1,'MainWindow']]],
   ['budget',['Budget',['../class_hash.html#ae1ac3747a87a235de52ff8dc23367db1',1,'Hash']]],
+  ['budgetcheckbox',['budgetCheckBox',['../classextra_page.html#a7a1fadd6df3a4a76b117dd4c5575b4e5',1,'extraPage']]],
+  ['budgetframe',['budgetFrame',['../classextra_page.html#ad243aa0eeb8e9c46235b830adde80fbb',1,'extraPage']]],
   ['buffer_5fsize',['BUFFER_SIZE',['../enums_8h.html#adf261954779e694ad997533c5da9ad5a',1,'enums.h']]]
 ];

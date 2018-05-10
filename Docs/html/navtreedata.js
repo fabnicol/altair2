@@ -48,13 +48,13 @@ var NAVTREE =
       [ "Cas général", "page_recover.html#connexion_ok", null ],
       [ "Si la connexion au compte d'administration est possible", "page_recover.html#connexion_desktop", null ]
     ] ],
-    [ "\"La procédure de clonage\"", "page_clone.html", [
+    [ "La procédure de clonage", "page_clone.html", [
       [ "Matériel utilisé", "page_clone.html#a", null ],
       [ "Procédure de création de l'image de la plateforme", "page_clone.html#b", null ],
       [ "Procédure de clonage de la plateforme", "page_clone.html#c", null ],
       [ "Références", "page_clone.html#d", null ]
     ] ],
-    [ "\"Documentation technique : la ligne de commande de clonezilla\"", "clonezilla_doc.html", null ],
+    [ "Documentation technique : la ligne de commande de clonezilla", "clonezilla_doc.html", null ],
     [ "Liste des choses à faire", "todo.html", null ],
     [ "Espaces de nommage", null, [
       [ "Liste des espaces de nommage", "namespaces.html", "namespaces" ],
@@ -87,7 +87,7 @@ var NAVTREE =
         [ "Définitions de type", "globals_type.html", null ],
         [ "Énumérations", "globals_enum.html", null ],
         [ "Valeurs énumérées", "globals_eval.html", null ],
-        [ "Macros", "globals_defs.html", null ]
+        [ "Macros", "globals_defs.html", "globals_defs" ]
       ] ]
     ] ]
   ] ]
@@ -98,9 +98,11 @@ var NAVTREEINDEX =
 "_interface_2gui_2main_8cpp.html",
 "class_f_list_frame.html#af0a380ae370106f806746edbfe2f10fd",
 "class_main_window.html#ae992f3aff208dd4df67d18108daf8150",
-"expression__reg__adjoints_8h.html#abcf0f221872409c23ad70845093815f1",
-"fwidgets_8h.html#aad96ee6c3443e61d7815d4bd34e9f41b",
-"table_8cpp.html#a57a4f130db7a35f46be02c36d8235550"
+"expression__reg__adjoints_8h.html#a63957fdd1e2d6079a00b6b9b2005f9d4",
+"functions_vars_w.html",
+"moc__predefs_8h.html#a279ff83df60f2c8ff459cda12dfad97d",
+"moc__predefs_8h.html#ab61dd6e368adb90e2eff5739188b0bcb",
+"structqt__meta__stringdata___f_dialog__t.html#a50c13a049022e23645796bdefd0cd797"
 ];
 
 var SYNCONMSG = 'cliquez pour désactiver la synchronisation du panel';
