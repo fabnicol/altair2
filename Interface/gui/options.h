@@ -189,15 +189,18 @@ public:
     /// Constructeur de la classe extraPage
     
     extraPage();
+    
     FLineFrame *budgetFrame, ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre codes, libellés de paye et sous-comptes du 64 (données externes à importer)
                *gradesFrame, ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre grades et catégorie statutaire (données externes à importer)
                *logtFrame;   ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre matricule et concession de logement, par année et mois (données externes à importer)
-    
+
+    void do_copies();        ///< Réalise les copies des fichiers auxiliaires paye_budget.csv, grades.catégories.csv et logements.csv dans Tests/Exemple pour importation par le script R.  
+   
 private:   
     
     FCheckBox *budgetCheckBox,  ///< Case à cocher de contrôle de \link budgetFrame
-               *gradesCheckBox, ///< Case à cocher de contrôle de \link gradesFrame
-               *logtCheckBox;   ///< Case à cocher de contrôle de \link logtFrame
+              *gradesCheckBox,  ///< Case à cocher de contrôle de \link gradesFrame
+              *logtCheckBox;    ///< Case à cocher de contrôle de \link logtFrame
 };
 
 
@@ -218,6 +221,7 @@ public:
     extraPage* extraTab;               ///< Onglet des fichiers auxiliaires : importation de fichiers externes optionnels permetant de préciser/corriger la génération des rapports d'analyse.  
     static std::uint16_t RefreshFlag;  ///< Drapeau indiquant si si l'interface a été actualisée ou doit l'être
     QListWidget *optionWidget;         ///< composant du dialogue d'options
+    QDialogButtonBox *closeButton;     ///< Bouton "Quitter"    
     
     /// Efface les données de  Hash::wrapper et de  Hash::Reference
     
@@ -225,7 +229,6 @@ public:
 
 private:
 
-    QDialogButtonBox *closeButton;     ///< Bouton "Quitter"
     QStackedWidget *pagesWidget;       ///< composant permettant d'empiler les onglets du dialogue d'options (standardPage,  processPage,  codePage)
 
     /// Méthode permettant d'ajouter les icônes.

@@ -5,7 +5,7 @@
 \title{Teste les primes et indemnités}
 \usage{
 test_prime(prime, prime_B, Paie_I, Paie_B = NULL, Lignes_B = NULL,
-  verbeux = FALSE)
+  verbeux = FALSE, NAS = "")
 }
 \arguments{
 \item{prime}{Prime au format liste comportant les arguments :
@@ -41,6 +41,8 @@ elle ne peut être attribuée qu'aux indices supérieurs ("+") ou inférieurs ("
   \item{Catégorie}}}
 
 \item{verbeux}{[FALSE] Le résultat des tableaux "non titulaires" et "catégories" n'est affiché que si \code{verbeux} vaut \code{TRUE}}
+
+\item{NAS}{[""] Si vaut "non", la prime est incompatible avec le ligement par nécessité absolue de service (NAS). Si vaut un nombre, la prime doit être inférieure à ce seuil pour bénéficier d'un logement par NAS.}
 }
 \value{
 Liste constituée de :
@@ -49,6 +51,7 @@ Liste constituée de :
   \item{Lignes}{Les lignes de paye correspondant à la prime en premier argument seulement.}
   \item{K}{Codes de paye correspondant à la prime.}
   \item{manquant}{Booléen. TRUE si absence de résultat, FALSE sinon.}}
+  \item{NAS}{Base des cumuls irréguliers de \code{prime} et d'un logement par NAS, si \link{NAS} vaut "non", sinon NULL}
 }
 \description{
 Analyse les contraintes relatives aux non titulaires, à la catégorie statutaire, au grade, à l'indice, aux cumuls avec d'autres indemnités.

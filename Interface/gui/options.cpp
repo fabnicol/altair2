@@ -45,6 +45,7 @@
 #include <QFile>
 #include <thread>
 #include <fstream>
+#include <vector>
 #include "fstring.h"
 #include "altair.h"
 #include "forms.h"
@@ -952,8 +953,39 @@ extraPage::extraPage()
     mainLayout->addSpacing (450);
 
     setLayout (mainLayout);
+    
+    
 }
 
+
+void extraPage::do_copies()
+{
+    short i = 0;
+    FLineFrame* frameList[] = {budgetFrame, gradesFrame, logtFrame};
+    const char* pathList[] = {"paye_budget.csv",
+                     "grades.categories.csv",
+                     "logements.csv"};
+    const char* msgList[]  = {"Le fichier de correspondance paye-budget",
+                     "Le fichier de correspondance grade-catégorie",
+                     "Le fichier des concessions de logement"};
+    
+    for (FLineFrame *a : frameList) 
+        {
+                if (! a->isEnabled()) continue;
+                const QString &file = a->getText();
+                if (! file.isEmpty() && QFileInfo(file).exists())
+                {
+                      
+            
+                      tools::copyFile(file, 
+                      path_access (SCRIPT_DIR + QString(pathList[i])),
+                      msgList[i],  // message d'erreur fenêtre
+                      REQUIRE);    // force ce message en cas d'échec
+                }
+            
+            ++i;
+        }
+}
 
 options::options (Altair* parent)
 {
@@ -979,7 +1011,7 @@ options::options (Altair* parent)
     codeTab  = new codePage;
     pagesWidget->addWidget (codeTab);
 
-    extraTab  = new extraPage;
+    extraTab  = new extraPage();
     pagesWidget->addWidget (extraTab);
     
     closeButton = new QDialogButtonBox (QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
@@ -996,31 +1028,9 @@ options::options (Altair* parent)
                     parent->altairCommandStr =  parent->execPath +  QDir::separator()
                     + ("lhx" + QString (systemSuffix));
                     
-                    if (extraTab->budgetFrame->isEnabled())
-                    {
-                        QString budgetFile = extraTab->budgetFrame->getText();
-                        if (! budgetFile.isEmpty() && QFileInfo(budgetFile).exists())
-                        {
-                          tools::copyFile(budgetFile, 
-                                          path_access (SCRIPT_DIR "paye_budget.csv"),
-                                          "Le fichier de correspondance paye-budget",  // message d'erreur fenêtre
-                                          REQUIRE);                                    // force ce message en cas d'échec
-                        }
-                    }
-                    
-                    if (extraTab->gradesFrame->isEnabled())
-                    {
-                        QString gradesFile = extraTab->gradesFrame->getText();
-                        if (! gradesFile.isEmpty() && QFileInfo(gradesFile).exists())
-                        {
-                          tools::copyFile(gradesFile, 
-                                          path_access (SCRIPT_DIR "grades.categories.csv"),
-                                          "Le fichier de correspondance grade-catégorie",  // message d'erreur fenêtre
-                                          REQUIRE);                                    // force ce message en cas d'échec
-                        }
-                    }
-                    
                     parent->updateProject (true);
+                    
+                    extraTab->do_copies();
 
                 });
 

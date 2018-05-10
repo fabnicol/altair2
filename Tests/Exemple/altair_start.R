@@ -1882,6 +1882,7 @@ prime_IFTS <- list(nom = "IFTS",                     # Nom en majuscules
                    restreint_fonctionnaire = TRUE,  # fonctionnaires
                    prime_B = "",                    # pas de comparaison vers autre chose
                    dossier = "Reglementation",      # dossier de bases  
+                   NAS = "non",                      # logement par NAS
                    indice  = c("+", 350, "B"))      # supérieur à INM 350 pour catégorie B.
 
 résultat_IAT_IFTS <- test_prime(prime_IAT,
@@ -1917,6 +1918,16 @@ Lignes_IFTS <- résultat_IAT_IFTS$Lignes_B
 tableau_cumuls(résultat_IAT_IFTS)
 
 #'[Lien vers la base de données cumuls IAT/IFTS](Bases/Reglementation/personnels.iat.ifts.csv)          
+
+#'     
+#'### Contrôle sur le cumul logement par NAS et IFTS
+#'      
+
+#'  
+#'&nbsp;*Tableau `r incrément()` : Cumul logement par NAS/IFTS*   
+#'      
+
+tableau_NAS(résultat_IAT_IFTS)
 
 #### 5.6 PFR ####
 
@@ -3692,8 +3703,8 @@ if (sauvegarder.bases.origine)
 system2("find", c("Donnees/R-Altair/Bases", "-name", "'*.csv'", "-exec", "iconv -f UTF-8 -t ISO-8859-15 -c -o {}.2  {} \\;", "-exec",  "mv {}.2 {} \\;"))
 
 if (file.exists("paye_budget.csv")) file.remove("paye_budget.csv")
-
 if (file.exists("grades.categories.csv")) file.remove("grades.categories.csv")
+if (file.exists("logements.csv")) file.remove("logements.csv")
 
 if (! dir.exists(chemin.dossier.docs)) 
    dir.create(chemin.dossier.docs, recursive = TRUE, mode="0777")

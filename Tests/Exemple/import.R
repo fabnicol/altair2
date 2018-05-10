@@ -66,9 +66,11 @@ knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = 
  
 fichier.personnels.existe <- (charger.catégories.personnel == TRUE) & file.exists(chemin("matricules.csv"))
 grades.categories.existe <- (charger.catégories.personnel == TRUE) & file.exists(chemin("grades.categories.csv"))
+logements.existe <- file.exists(chemin("logements.csv"))
 
 base.personnels.catégorie <- NULL
 base.grades.categories    <- NULL
+base.logements <- NULL
 
 if (fichier.personnels.existe) {
   base.personnels.catégorie <- data.table::fread(chemin("matricules.csv"),
@@ -101,6 +103,23 @@ if (grades.categories.existe) {
     message("Importé.")
   else {
     message("Impossible d'importer les grades et catégories.")
+    stop(" ")
+  }
+}
+
+if (logements.existe) {
+  base.logements <- data.table::fread(chemin("logements.csv"),
+                                              sep = séparateur.liste.entrée,
+                                              header = TRUE,
+                                              colClasses = c("character", "integer", "integer", "character"),
+                                              encoding = "Latin-1",
+                                              showProgress = FALSE) 
+  
+  message("Chargement du fichier des concessions de logement des personnels.")
+  if (!is.null(base.logements))
+    message("Importé.")
+  else {
+    message("Impossible d'importer les concessions de logement.")
     stop(" ")
   }
 }

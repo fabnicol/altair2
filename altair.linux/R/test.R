@@ -77,10 +77,30 @@ sauvebase <- function(x, y, z, env) {
 
 tableau_cumuls <- function(résultat) {
   
-  if (nrow(résultat$cumuls[c != 0])) {
+  if (! is.null(résultat) && ! is.null(résultat$cumuls) && nrow(résultat$cumuls[c != 0]) > 0) {
     kable(résultat$cumuls[c != 0, .(Matricule, Année, Grade, Régime)])
   } else cat("Pas de cumuls.")
+}
+
+#' Affichage du tableau des cumuls de primes et du logement par NAS
+#' 
+#' @param résultat  Résultat retourné par la fonction \link{test_prime}
+#' @examples
+#' tableau_NAS(test_prime(prime_IFTS, Paie_I, verbeux = FALSE, NAS = "non"))
+#' 
+#' |Matricule |Année | Mois |       Grade            |       Emploi            |    Montant |
+#' |----------|------|-------------------------------|-------------------------|------------|
+#' |010843    |2009  |   8  |  ATTACHE PRINCIPAL     |   CHEF DE DIVISION      |    785,25  |
+#' |010843    |2009  |   9  |  ATTACHE PRINCIPAL     |   CHEF DE DIVISION      |    785,25  |
+#' |010854    |2009  |   9  |  ADMINISTRATEUR        |   CHEF DE SERVICE       |    995,20  |
+#' 
+#' @export
+
+tableau_NAS <- function(résultat) {
   
+  if (! is.null(résultat) && ! is.null(résultat$NAS) && nrow(résultat$NAS) > 0) {
+    kable(résultat$NAS[ , .(Matricule, Année, Mois, Grade, Emploi, Montant)])
+  } else cat("Pas de cumuls prime-NAS.")
 }
 
 #' Affichage du tableau des agrégats des primes A et B, pour chaque année de période 
@@ -373,12 +393,14 @@ analyser <- function(prime, Paie_I, verbeux) {
 #'   \item{Statut}
 #'   \item{Catégorie}}
 #' @param verbeux   [FALSE] Le résultat des tableaux "non titulaires" et "catégories" n'est affiché que si \code{verbeux} vaut \code{TRUE}
+#' @param NAS       [""] Si vaut "non", la prime est incompatible avec le ligement par nécessité absolue de service (NAS). Si vaut un nombre, la prime doit être inférieure à ce seuil pour bénéficier d'un logement par NAS.  
 #' @return  Liste constituée de :
 #'  \describe{
 #'   \item{Paye}{La base data.table de paye correspondant à la prime en premier argument, toutes primes confondues.}
 #'   \item{Lignes}{Les lignes de paye correspondant à la prime en premier argument seulement.}
 #'   \item{K}{Codes de paye correspondant à la prime.}
 #'   \item{manquant}{Booléen. TRUE si absence de résultat, FALSE sinon.}}
+#'   \item{NAS}{Base des cumuls irréguliers de \code{prime} et d'un logement par NAS, si \link{NAS} vaut "non", sinon NULL}
 #' @note  Sauvegarde deux fichiers dans le sous-dossier prime$dossier : 
 #' \itemize{
 #' {prime$nom.non.tit.csv} {Recense les attributaires non titulaires}
@@ -386,7 +408,7 @@ analyser <- function(prime, Paie_I, verbeux) {
 #' }   
 #' @export
 
-test_prime <- function(prime, prime_B, Paie_I, Paie_B = NULL, Lignes_B = NULL, verbeux = FALSE) {
+test_prime <- function(prime, prime_B, Paie_I, Paie_B = NULL, Lignes_B = NULL, verbeux = FALSE, NAS = "") {
 
 if (! is.null(prime_B)) {
   res      <- analyser(prime_B, Paie_I, verbeux)
@@ -524,12 +546,27 @@ beneficiaires.A.Variation <- beneficiaires.A[ ,
 
 beneficiaires.A.Variation <- beneficiaires.A.Variation[`Variation (%)` != 0.00]
 
+cumul.prime.NAS <- NULL
+
+if (NAS == "non") {
+  if (is.null(base.logements)) {
+    cat("Lorsque le paramètre NAS = \"non\" est utilisé, il faut pouvoir importer la base des concessions de logements.")
+    cat("Cette base n'est pas détectée. Le test de compatibilité de la prime avec les concessions de logements ne sera pas réalisé.")
+  } else {
+    essayer({
+    cumul.prime.NAS <- merge(unique(base.logements[Logement == "NAS", .(Matricule, Année, Mois)]), Lignes_A[ ,  .(Matricule, Nom, Prénom, Statut, Emploi, Année, Mois, Code, Libellé, Montant)])
+    }, "Le test des cumuls de " %+% ident_prime %+% " et du logement par NAS n'a pas pu être réalisé.")
+  }
+}
+
 env <- environment()
 
 essayer({
   sauvebase("beneficiaires.A", "beneficiaires." %+% ident_prime %+% "." %+% prime$prime_B, "Remunerations", env)
   sauvebase("beneficiaires.A.Variation", "beneficiaires." %+% ident_prime %+% "." %+% prime$prime_B %+% ".Variation", "Remunerations", env)
+  sauvebase("cumul.prime.NAS", "cumul." %+% ident_prime %+% ".NAS", "Reglementation", env)
 }, "Pas de sauvegarde des fichiers auxiliaires. ")
+
 
 list(Paie = Paie_A, 
      Lignes = Lignes_A, 
@@ -543,6 +580,7 @@ list(Paie = Paie_A,
      variations = beneficiaires.A.Variation,
      matricules = matricules.A,
      indices = lignes.indice.anormal,
-     manquant = résultat.manquant)
+     manquant = résultat.manquant,
+     NAS = cumul.prime.NAS)
 }
 
