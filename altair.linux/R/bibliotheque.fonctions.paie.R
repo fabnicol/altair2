@@ -133,7 +133,7 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, drop = N
     if (encodage != "UTF-8" && convertir.encodage) {
       message("La table en entrée doit être encodée en UTF-8")
       if (convertir.encodage) message("Conversion via iconv du format " %+% encodage %+% " au format UTF-8...") else stop("Arrêt : convertir l'encodage de la table en UTF-8.")
-      file2utf8(chemin(x), encodage.in = encodage)
+      file2utf8(x, encodage.in = encodage)
   }
       
     # data.table n'admet d'argument dec qu'à partir de la version 1.9.5 

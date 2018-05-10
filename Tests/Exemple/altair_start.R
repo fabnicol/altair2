@@ -1929,6 +1929,8 @@ tableau_cumuls(résultat_IAT_IFTS)
 
 tableau_NAS(résultat_IAT_IFTS)
 
+#'[Lien vers la base de données cumuls NAS/IFTS](Bases/Reglementation/cumul.IFTS.NAS.csv)          
+
 #### 5.6 PFR ####
 
 #'
@@ -2772,9 +2774,11 @@ if (générer.table.élus)   {
 
 essayer({
   
-if (file.exists("paye_budget.csv")){
+paye.budget.existe <-  file.exists(chemin("paye_budget.csv"))  
+
+if (paye.budget.existe){
   
-  code.libelle <- fread("paye_budget.csv", # Code, Libellé,  Statut, Type, Compte
+  code.libelle <- fread(chemin("paye_budget.csv"), # Code, Libellé,  Statut, Type, Compte
                          sep = ";",
                          encoding   = "Latin-1",
                          col.names  = c("Code", "Libellé", "Statut", "Type", "Compte"),
@@ -3702,9 +3706,10 @@ if (sauvegarder.bases.origine)
 
 system2("find", c("Donnees/R-Altair/Bases", "-name", "'*.csv'", "-exec", "iconv -f UTF-8 -t ISO-8859-15 -c -o {}.2  {} \\;", "-exec",  "mv {}.2 {} \\;"))
 
-if (file.exists("paye_budget.csv")) file.remove("paye_budget.csv")
-if (file.exists("grades.categories.csv")) file.remove("grades.categories.csv")
-if (file.exists("logements.csv")) file.remove("logements.csv")
+if (paye.budget.existe) file.remove(chemin("paye_budget.csv"))
+if (fichier.personnels.existe) file.remove(chemin("matricules.csv"))
+if (grades.categories.existe) file.remove(chemin("grades.categories.csv"))
+if (logements.existe) file.remove(chemin("logements.csv"))
 
 if (! dir.exists(chemin.dossier.docs)) 
    dir.create(chemin.dossier.docs, recursive = TRUE, mode="0777")
