@@ -100,10 +100,11 @@ codePage::codePage()
                                 "pour la génération des rapports d'analyse.   ");
     appliquerCodes->setCheckable (true);
 
-    variables << "traitement" << "nbi" << "pfi" <<
-              "pfr" <<  "ipf" << "psr" << "ifts" << "iat" <<
-              "ifse" << "iemp" << "iss" <<    
-              "ihts" << "vacataires" << "astreintes";
+    variables << "traitement" << "nbi" << "pfi" 
+              << "pfr" <<  "ipf" << "psr" << "ifts" << "iat" 
+              << "ifse" << "iemp" << "iss" 
+              << "ihts" << "vacataires" << "astreintes" 
+              << "nas";
 
     short index = 0;
 
