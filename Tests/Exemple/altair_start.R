@@ -1844,11 +1844,29 @@ if (exists("nombre.contractuels.et.vacations")) {
 #'[Lien vers les lignes SFT/IR à vérifier](Bases/Reglementation/SFT_IR.et.vacations.csv)   
 #'[Lien vers les bulletins de paye correspondants](Bases/Reglementation/Paie_vac_sft_ir.csv)    
 #'   
+
+#### 5.5 Logements par NAS ####    
+
+#'
+#'## `r chapitre`.5 Contrôle sur les logements par nécessité absolue de service (NAS)    
+
+#+ NAS
   
-#### 5.5 IAT/IFTS ####  
+base.logements <- test_avn("NAS", Paie, logements = base.logements)  # base des avantages en nature déclarés en paye pour logt par NAS
+
+#'   
+#'   
+#'### Contrôle sur les logements par NAS    
+#'   
+#'   
+#'[Lien vers la base des logements par NAS non déclarés en base de paye](Bases/Reglementation/NAS.non.declares.paye.csv)    
+#'[Lien vers la base des logements par NAS non importés dans le fichier auxiliaire](Bases/Reglementation/NAS.non.importes.csv)    
+#'       
+
+#### 5.6 IAT/IFTS ####  
   
 #'
-#'## `r chapitre`.5 Contrôle sur les indemnités IAT et IFTS  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_IAT_IFTS.odt)   
+#'## `r chapitre`.6 Contrôle sur les indemnités IAT et IFTS  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_IAT_IFTS.odt)   
 
 #+ IAT-et-IFTS
 
@@ -1871,18 +1889,18 @@ Paie_I <- Paie[Type == "I" | Type == "A" | Type == "R",
                  Statut,
                  Catégorie)]
   
-prime_IAT <- list(nom = "IAT",                       # Nom en majuscules
+prime_IAT <- list(nom = "IAT",                     # Nom en majuscules
                   catégorie = c("B", "C"),         # restreint aux catégories B et C
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   prime_B = "IFTS",                # comparer à IFTS
                   dossier = "Reglementation")      # dossier de bases
 
-prime_IFTS <- list(nom = "IFTS",                     # Nom en majuscules
+prime_IFTS <- list(nom = "IFTS",                    # Nom en majuscules
                    catégorie = c("A", "B"),         # restreint aux catégories A et B
                    restreint_fonctionnaire = TRUE,  # fonctionnaires
                    prime_B = "",                    # pas de comparaison vers autre chose
                    dossier = "Reglementation",      # dossier de bases  
-                   NAS = "non",                      # logement par NAS
+                   NAS = "non",                     # logement par NAS
                    indice  = c("+", 350, "B"))      # supérieur à INM 350 pour catégorie B.
 
 résultat_IAT_IFTS <- test_prime(prime_IAT,
@@ -1895,8 +1913,10 @@ Paie_IFTS   <- résultat_IAT_IFTS$Paie_B
 Lignes_IAT  <- résultat_IAT_IFTS$Lignes
 Lignes_IFTS <- résultat_IAT_IFTS$Lignes_B
 
+#'   
+#'   
 #'### Contrôle sur les IAT pour catégories B C et non-titulaires      
-
+#'   
 #'   
 #'[Lien vers la base de données IAT aux non-titulaires](Bases/Reglementation/IAT.non.tit.csv)    
 #'[Lien vers la base de données IAT non cat B-C](Bases/Reglementation/IAT.non.catBC.csv)   
@@ -1931,10 +1951,10 @@ tableau_NAS(résultat_IAT_IFTS)
 
 #'[Lien vers la base de données cumuls NAS/IFTS](Bases/Reglementation/cumul.IFTS.NAS.csv)          
 
-#### 5.6 PFR ####
+#### 5.7 PFR ####
 
 #'
-#'## `r chapitre`.6 Contrôle de la prime de fonctions et de résultats (PFR)   &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_PFR.odt)   
+#'## `r chapitre`.7 Contrôle de la prime de fonctions et de résultats (PFR)   &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_PFR.odt)   
 #'   
 
 #+ pfr
@@ -2035,10 +2055,10 @@ test.PFR <- function(i, grade, cumul) {
 
 rm(résultat_PFR)  
   
-#### 5.7 PSR ####
+#### 5.8 PSR ####
 
 #'
-#'## `r chapitre`.7 Contrôle de la prime de service et de rendement (PSR)   
+#'## `r chapitre`.8 Contrôle de la prime de service et de rendement (PSR)   
 #'   
 
 # décret n°2009-1558 du 15 décembre 2009    
@@ -2137,10 +2157,10 @@ agrégat_annuel(résultat_PSR, afficher.table.effectifs)
 
 rm(résultat_PSR)
 
-#### 5.8 IPF ####
+#### 5.9 IPF ####
 
 #'
-#'## `r chapitre`.8 Contrôle de l'indemnité de performance et de fonctions (IPF)   
+#'## `r chapitre`.9 Contrôle de l'indemnité de performance et de fonctions (IPF)   
 #'   
 
 # décret n°2010-1705 du 30 décembre 2010
@@ -2192,10 +2212,10 @@ agrégat_annuel(résultat_IPF, afficher.table.effectifs)
 #'   
 
 
-#### 5.9 RIFSEEP ####
+#### 5.10 RIFSEEP ####
 
 #'
-#'## `r chapitre`.9 Contrôle du RIFSEEP (IFSE)
+#'## `r chapitre`.10 Contrôle du RIFSEEP (IFSE)
 #'   
 
 # article 88 de la Loi 2016-483 du 20 avril 2016
@@ -2368,9 +2388,9 @@ agrégat_annuel(résultat_IFSE, afficher.table.effectifs)
 
 # Attention keyby = et pas seulement by = !
 
-#### 5.10 HEURES SUP ####
+#### 5.11 HEURES SUP ####
 #'    
-#'## `r chapitre`.10 Contrôle sur les heures supplémentaires    &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_IHTS.odt)   
+#'## `r chapitre`.11 Contrôle sur les heures supplémentaires    &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_IHTS.odt)   
 
 # Sont repérées comme heures supplémentaires ou complémentaires les heures dont le libellé obéissent à
 # l'expression régulière expression.rég.heures.sup donnée par le fichier prologue.R
@@ -2714,10 +2734,10 @@ essayer({
 #'Dans les tableaux en lien les grades, emplois et service sont ceux connus en fin d'année.    
 
 
-#### 5.11 ELUS ####
+#### 5.12 ELUS ####
 
 #' 
-#'## `r chapitre`.11 Contrôle sur les indemnités des élus
+#'## `r chapitre`.12 Contrôle sur les indemnités des élus
 #'   
 
 
@@ -2767,9 +2787,9 @@ if (générer.table.élus)   {
 #'[Lien vers la base de données Rémunérations des élus](Bases/Reglementation/remunerations.elu.csv)
 #'
 
-#### 5.12 COMPTE DE GESTION ####
+#### 5.13 COMPTE DE GESTION ####
 #' 
-#'## `r chapitre`.12 Lien avec le compte de gestion    
+#'## `r chapitre`.13 Lien avec le compte de gestion    
 #'
 
 essayer({
@@ -2898,10 +2918,10 @@ rm(L)
 #'*Avertissement : les rappels comprennent également les rappels de cotisations et déductions diverses.*    
 #'   
 
-#### 5.13 SFT ####
+#### 5.14 SFT ####
 
 #'
-#'## `r chapitre`.13 Contrôle du supplément familial de traitement   
+#'## `r chapitre`.14 Contrôle du supplément familial de traitement   
 #'  
 
 ## La biblitothèque SFT est à revoir
@@ -3033,10 +3053,10 @@ message("Analyse du SFT")
 # data.table here overallocates memory hence inefficient !
 # Bulletins.paie[Nb.Enfants > 0 , SFT.controle := sft(Nb.Enfants, Indice, Heures, Année, Mois)]
     
-#### 5.14 ASTREINTES ####
+#### 5.15 ASTREINTES ####
 
 #'
-#'## `r chapitre`.14 Contrôle des indemnités pour astreintes &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_astreintes.odt)    
+#'## `r chapitre`.15 Contrôle des indemnités pour astreintes &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_astreintes.odt)    
 #'  
 
 essayer({
@@ -3132,10 +3152,10 @@ Tableau.vertical2(c("Année", "Montant astreintes potentiellement irrégulières
 
 rm(Base.IHTS)
   
-#### 5.15 RETRAITES ####
+#### 5.16 RETRAITES ####
 
 #'
-#'## `r chapitre`.15 Contrôle des cotisations de retraite    
+#'## `r chapitre`.16 Contrôle des cotisations de retraite    
 #'  
 
 #'**Non titulaires**   
@@ -3209,10 +3229,10 @@ Tableau(c("Cotisations salarié", "Cotisations employeur"),
 #'[Lien vers la base des cotisations irrégulières](Bases/Reglementation/Cotisations.irreg.ircantec.csv)   
 #'   
 
-#### 5.16 PRIMES FPH ####     
+#### 5.17 PRIMES FPH ####     
 
 #'   
-#'## `r chapitre`.16 Primes de la fonction publique hospitalière          
+#'## `r chapitre`.17 Primes de la fonction publique hospitalière          
 #'    
 #'     
 #'*Les primes qui suivent ne peuvent être octroyées qu'à des fontionnaires.*    

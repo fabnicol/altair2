@@ -549,9 +549,10 @@ beneficiaires.A.Variation <- beneficiaires.A.Variation[`Variation (%)` != 0.00]
 cumul.prime.NAS <- NULL
 
 if ((! is.null(prime$NAS) && prime$NAS == "non") || (! is.null(prime_B$NAS) && prime_B$NAS == "non")) {
+  
   if (is.null(base.logements)) {
-    cat("Lorsque le paramètre NAS = \"non\" est utilisé, il faut pouvoir importer la base des concessions de logements.")
-    cat("Cette base n'est pas détectée. Le test de compatibilité de la prime avec les concessions de logements ne sera pas réalisé.")
+    message("Lorsque le paramètre NAS = \"non\" est utilisé, il faut pouvoir importer la base des concessions de logements.")
+    message("Cette base n'est pas détectée. Le test de compatibilité de la prime avec les concessions de logements ne sera pas réalisé.")
   } else {
     essayer({
     if (! is.null(prime$NAS) && prime$NAS == "non" && is.null(prime_B$NAS)) {
@@ -606,5 +607,81 @@ list(Paie = Paie_A,
      indices = lignes.indice.anormal,
      manquant = résultat.manquant,
      NAS = cumul.prime.NAS)
+}
+
+#' Teste les logements par NAS
+#' 
+#' @param avantage Vecteur de caractères indiquant le type de logement (actuellement seul "NAS" est actif)
+#' @param Paie Base de Paye principale comportant les variables \code{Statut, Grade, Emploi, Type, Code, Libellé, Montant}
+#' @param logements La base de logements facultative importée par l'onglet Extra de l'interface graphique 
+#' @return verbeux 
+#' @export
+
+test_avn <- function(avantage, Paie, logements = NULL) {
+  
+  val <- codes[type == avantage, valeur]
+  
+  essayer({
+    
+  if (! is.na(val)) {
+      Paie_AV <- Paie[Code %chin% val, .(Matricule, Année, Mois, Statut, Grade, Emploi, Type, Code, Libellé, Montant)]
+  } else {
+      Paie_AV <- Paie[grepl(codes[type == avantage, expression], Libellé, ignore.case = TRUE, perl = TRUE), .(Matricule, Année, Mois, Statut, Grade, Emploi, Code, Type, Libellé, Montant)]
+  }
+  
+  if ((n1 <- nrow(Paie_AV[Type == "AV"])) < (n2 <- nrow(Paie_AV))) {
+    newline()
+    cat("Tous les avantages en nature pour logement par NAS (", n2, " lignes) ne sont pas déclarés comme type \"Avantage en nature\", soit ", n1, " lignes."  )
+    newline()
+  }
+  
+  NAS.non.importes      <- NULL
+  NAS.non.declares.paye <- NULL
+  newline()  
+  
+  if (is.null(logements) || is.null(logements[Logement == "NAS"]) || nrow(logements[Logement == "NAS"]) == 0) {
+    
+    logements <- Paie_AV[ , .(Matricule, Année, Mois)]   # on prend ceux de la base de paye à défaut de déclarations explicites dans fichier auxiliaire importé
+    logements[ , Logement := "NAS"]
+    cat("En l'absence de fichier auxiliaire importé des logements par NAS, il a été trouvé ", nrow(logements), " lignes d'avantage en nature de logement par NAS.")
+
+  } else {
+    
+    if (is.null(Paie_AV) || nrow(Paie_AV) == 0)  {  # il y a donc des logements par NAS non déclarés en base de paye...
+      
+      cat("Aucun des logements par NAS déclarés dans le fichier auxiliaire importé n'est mentionné comme avantage en nature (Type == \"AV\") en base de paye. ")
+      cat("Il peut en résulter des anomalies dans les déclarations fiscales ou de cotisations sociales. ")
+
+    } else {
+      
+      cat("Il existe à la fois des avantages en nature déclarés en base de paye (", nrow(Paie_AV), " lignes) et un fichier de déclaration de logements par NAS importé (", n1, " lignes. ")
+      
+      logements <- merge(Paie_AV, base.logements[Logement == "NAS"], by = c("Matricule", "Année", "Mois"), all = TRUE)
+      NAS.non.importes <- logements[is.na(Logement)]
+      NAS.non.declares.paye <- logements[! is.na(Logement) & is.na(Code)]
+    }      
+  }
+  }, "Il n'a pas été possible d'extraire les logements par NAS déclarés en base de paye. ")
+
+  newline()
+  
+  env <- environment()
+  
+  essayer({
+    sauvebase("NAS.non.importes", "NAS.non.importes", "Reglementation", env)
+    sauvebase("NAS.non.declares.paye", "NAS.non.declares.paye", "Reglementation", env)
+  }, 
+  "Pas de sauvegarde des fichiers logements par NAS. ")
+
+  if (! is.null(logements) && nrow(logements) > 0) {
+    
+    message("Détection d'avantages en nature liés à un logement par NAS.")
+    return(logements[, .(Matricule, Année, Mois, Logement)])
+    
+  } else {
+    
+    message("Pas de détection d'avantage en nature lié à un logement par NAS.")
+    return(NULL)
+  }
 }
 
