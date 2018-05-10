@@ -788,7 +788,7 @@ extraPage::extraPage()
     QGridLayout *v5Layout = new QGridLayout;
     
     budgetFrame = new FLineFrame ({"Utiliser la correspondance budgétaire", "Chemin de la table de correspondance"},
-                                   QDir::toNativeSeparators (userdatadir + "paye_budget.csv"),
+                                   QDir::toNativeSeparators (DONNEES_SORTIE  "/paye_budget.csv"),
                                    "budget",
                                    {2, 1},
                                    v3Layout,
@@ -847,7 +847,7 @@ extraPage::extraPage()
     budgetBox->setLayout (v3Layout);
 
     gradesFrame = new FLineFrame ({"Utiliser un fichier grade/catégorie", "Chemin du fichier de correspondance"},
-                                   QDir::toNativeSeparators (userdatadir + "grades.categories.csv"),
+                                   QDir::toNativeSeparators (DONNEES_SORTIE "/grades.categories.csv"),
                                    "gradeCategorie",
                                    {2, 1},
                                    v4Layout,
@@ -897,7 +897,7 @@ extraPage::extraPage()
     gradesBox->setToolTip(gradesTip);
         
     logtFrame = new FLineFrame ({"Concessions de logement", "Chemin de la table Matricules-Dates"},
-                                   QDir::toNativeSeparators (userdatadir + "logements.csv"),
+                                   QDir::toNativeSeparators (DONNEES_SORTIE  "/logements.csv"),
                                    "logement",
                                    {2, 1},
                                    v5Layout,
@@ -976,11 +976,10 @@ void extraPage::do_copies()
                 if (! file.isEmpty() && QFileInfo(file).exists())
                 {
                       
-            
                       tools::copyFile(file, 
-                      path_access (SCRIPT_DIR + QString(pathList[i])),
-                      msgList[i],  // message d'erreur fenêtre
-                      REQUIRE);    // force ce message en cas d'échec
+                          userdatadir + (QDir::separator() + QString(pathList[i])),
+                          msgList[i],  // message d'erreur fenêtre
+                          REQUIRE);    // force ce message en cas d'échec
                 }
             
             ++i;

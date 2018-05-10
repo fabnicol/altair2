@@ -41,7 +41,8 @@
 chemin.clé <- get("chemin.cle", envir = env)
 chemin.dossier.bases        <- file.path(chemin.clé, "Bases")
 chemin.dossier.outils       <- file.path(chemin.clé, "..", "..", "Outils")
-chemin.dossier.données      <- file.path(chemin.clé, "Donnees")
+user <- if (setOSWindows) Sys.getenv("USERNAME") else Sys.getenv("USER")
+chemin.dossier.données      <- file.path(chemin.clé, "..", "xhl", ifelse(user == "fab", "", user))
 chemin.dossier.docs <- file.path(chemin.clé, "Docs")
 if (basename(chemin.clé) == basename(racine)) {
     source("prologue_codes.R", encoding = encodage.code.source)
