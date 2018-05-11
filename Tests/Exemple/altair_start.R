@@ -1863,6 +1863,78 @@ base.logements <- test_avn("NAS", Paie, logements = base.logements)  # base des 
 #'[Lien vers la base des logements par NAS non importés dans le fichier auxiliaire](Bases/Reglementation/NAS.non.importes.csv)    
 #'       
 
+##### Prologue indemnitaire #####  
+
+# Description des données indemnitaires
+  
+  Paie_I <- Paie[Type == "I" | Type == "A" | Type == "R", 
+                 .(Nom, 
+                   Prénom,
+                   Matricule, 
+                   Année, 
+                   Mois, 
+                   Début,
+                   Fin,
+                   Code,
+                   Libellé,
+                   Montant,
+                   Type,
+                   Emploi,
+                   Grade, 
+                   Indice,
+                   Statut,
+                   Catégorie)]
+  
+  prime_IAT <- list(nom = "IAT",                     # Nom en majuscules
+                    catégorie = c("B", "C"),         # restreint aux catégories B et C
+                    restreint_fonctionnaire = TRUE,  # fonctionnaires
+                    dossier = "Reglementation")      # dossier de bases
+  
+  prime_IFTS <- list(nom = "IFTS",                   # Nom en majuscules
+                     catégorie = c("A", "B"),        # restreint aux catégories A et B
+                     restreint_fonctionnaire = TRUE, # fonctionnaires
+                     dossier = "Reglementation",     # dossier de bases  
+                     NAS = "non",                    # logement par NAS
+                     indice  = c("+", 350, "B"))     # supérieur à INM 350 pour catégorie B.
+  
+  prime_PFR <- list(nom = "PFR",                     # Nom en majuscules
+                    catégorie = "A",                 # restreint aux catégories A
+                    restreint_fonctionnaire = TRUE,  # fonctionnaires
+                    dossier = "Reglementation",      # dossier de bases
+                    expr.rég = "")  
+  
+  prime_PSR <- list(nom = "PSR",                     # Nom en majuscules
+                    catégorie = c("A","B"),          # restreint aux catégories A et B
+                    restreint_fonctionnaire = TRUE,  # fonctionnaires
+                    dossier = "Reglementation",      # dossier de bases
+                    expr.rég = ".*(?:ing|tech|d.*g.*s.*t|dessin|biol|phar).*")  # Contrainte sur le grade (expression régulière)
+  
+  prime_IPF <- list(nom = "IPF",                     # Nom en majuscules
+                    catégorie = "A",                 # restreint aux catégories A et B
+                    restreint_fonctionnaire = TRUE,  # fonctionnaires
+                    dossier = "Reglementation",      # dossier de bases
+                    expr.rég = ".*(?:ing.*chef).*")  # Contrainte sur le grade (expression régulière)
+  
+  prime_IFSE <- list(nom = "IFSE",                   # Nom en majuscules
+                     restreint_fonctionnaire = TRUE, # fonctionnaires
+                     catégorie = c("A", "B", "C"),   # toutes les catégories
+                     dossier = "Reglementation")     # dossier de bases
+  
+  prime_ISS <- list(nom = "ISS",                     # Nom en majuscules
+                    catégorie = c("A", "B"),         # Techniciens A, B
+                    restreint_fonctionnaire = TRUE,  # fonctionnaires
+                    dossier = "Reglementation")      # dossier de bases
+  
+  prime_IEMP <- list(nom = "IEMP",                   # Nom en majuscules
+                     restreint_fonctionnaire = TRUE, # fonctionnaires
+                     catégorie = c("A", "B", "C"),   # toutes les catégories
+                     dossier = "Reglementation")     # dossier de bases
+  
+  prime_PFI <- list(nom = "PFI",                      # Nom en majuscules
+                    restreint_fonctionnaire = TRUE,   # fonctionnaires
+                    catégorie = c("A", "B", "C"),     # toutes les catégories
+                    dossier = "Reglementation")       # dossier de bases
+  
 #### 5.6 IAT/IFTS ####  
   
 #'
@@ -1871,42 +1943,10 @@ base.logements <- test_avn("NAS", Paie, logements = base.logements)  # base des 
 #+ IAT-et-IFTS
 
 
-Paie_I <- Paie[Type == "I" | Type == "A" | Type == "R", 
-               .(Nom, 
-                 Prénom,
-                 Matricule, 
-                 Année, 
-                 Mois, 
-                 Début,
-                 Fin,
-                 Code,
-                 Libellé,
-                 Montant,
-                 Type,
-                 Emploi,
-                 Grade, 
-                 Indice,
-                 Statut,
-                 Catégorie)]
-  
-prime_IAT <- list(nom = "IAT",                     # Nom en majuscules
-                  catégorie = c("B", "C"),         # restreint aux catégories B et C
-                  restreint_fonctionnaire = TRUE,  # fonctionnaires
-                  prime_B = "IFTS",                # comparer à IFTS
-                  dossier = "Reglementation")      # dossier de bases
-
-prime_IFTS <- list(nom = "IFTS",                    # Nom en majuscules
-                   catégorie = c("A", "B"),         # restreint aux catégories A et B
-                   restreint_fonctionnaire = TRUE,  # fonctionnaires
-                   prime_B = "",                    # pas de comparaison vers autre chose
-                   dossier = "Reglementation",      # dossier de bases  
-                   NAS = "non",                     # logement par NAS
-                   indice  = c("+", 350, "B"))      # supérieur à INM 350 pour catégorie B.
-
 résultat_IAT_IFTS <- test_prime(prime_IAT,
                                 prime_B = prime_IFTS,
                                 Paie_I,
-                                verbeux = FALSE)
+                                verbeux = afficher.table.effectifs)
 
 Paie_IAT    <- résultat_IAT_IFTS$Paie
 Paie_IFTS   <- résultat_IAT_IFTS$Paie_B
@@ -1951,6 +1991,8 @@ tableau_NAS(résultat_IAT_IFTS)
 
 #'[Lien vers la base de données cumuls NAS/IFTS](Bases/Reglementation/cumul.IFTS.NAS.csv)          
 
+rm(résultat_IAT_IFTS)  
+
 #### 5.7 PFR ####
 
 #'
@@ -1959,18 +2001,11 @@ tableau_NAS(résultat_IAT_IFTS)
 
 #+ pfr
 
-prime_PFR <- list(nom = "PFR",                     # Nom en majuscules
-                  catégorie = "A",                 # restreint aux catégories A
-                  restreint_fonctionnaire = TRUE,  # fonctionnaires
-                  prime_B = "IFTS",                # à comparer à IFTS
-                  dossier = "Reglementation",      # dossier de bases
-                  expr.rég = "")  
-
 #'    
 #'&nbsp;*Tableau `r incrément()` : Cumul PFR/IFTS*   
 #'      
 
-résultat_PFR  <- test_prime(prime_PFR, prime_B = NULL, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
+résultat_PFR  <- test_prime(prime_PFR, prime_IFTS, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
 
 Paie_PFR <- résultat_PFR$Paie
 Lignes_PFR <- résultat_PFR$Lignes
@@ -1986,6 +2021,39 @@ tableau_cumuls(résultat_PFR)
 #'[Lien vers la base de données PFR non cat.A](Bases/Reglementation/PFR.non.catA.csv)      
 #'[Lien vers la base de données PFR non tit](Bases/Reglementation/PFR.non.tit.csv)       
 #'   
+
+résultat_PFR   <- test_prime(prime_PFR, prime_ISS, Paie_I, verbeux = afficher.table.effectifs)
+
+Paie_ISS   <- résultat_PFR$Paie
+Lignes_ISS <- résultat_PFR$Lignes
+
+#'    
+#'&nbsp;*Tableau `r incrément()` : Cumul PFR/ISS*   
+#'      
+
+tableau_cumuls(résultat_PFR)
+
+#'      
+#'      
+#'[Lien vers la base de données cumuls pfr/iss](Bases/Reglementation/personnels.pfr.iss.csv)    
+#'   
+
+résultat_PFR   <- test_prime(prime_PFR, prime_IEMP, Paie_I, verbeux = afficher.table.effectifs)
+
+Paie_IEMP   <- résultat_PFR$Paie
+Lignes_IEMP <- résultat_PFR$Lignes
+
+#'    
+#'&nbsp;*Tableau `r incrément()` : Cumul PFR/IEMP*   
+#'      
+
+tableau_cumuls(résultat_PFR)
+
+#'      
+#'      
+#'[Lien vers la base de données cumuls pfr/iemp](Bases/Reglementation/personnels.pfr.iemp.csv)    
+#'   
+
 
 # Plafonds annuels (plafonds mensuels reste à implémenter)
 # AG 58 800
@@ -2065,12 +2133,7 @@ rm(résultat_PFR)
   
 #+ psr
 
-prime_PSR <- list(nom = "PSR",                     # Nom en majuscules
-                  catégorie = c("A","B"),                 # restreint aux catégories A et B
-                  restreint_fonctionnaire = TRUE,  # fonctionnaires
-                  prime_B = "IFTS",                # à comparer à IFTS
-                  dossier = "Reglementation",      # dossier de bases
-                  expr.rég = ".*(?:ing|tech|d.*g.*s.*t|dessin|biol|phar).*")  # Contrainte sur le grade (expression régulière)
+
   
 # -ingénieurs des ponts, des eaux et des forêts relevant du ministère chargé du développement durable ;
 # -ingénieurs des travaux publics de l'Etat ;
@@ -2082,7 +2145,7 @@ prime_PSR <- list(nom = "PSR",                     # Nom en majuscules
 # -chargés de recherche relevant du ministère chargé du développement durable ;
 # -directeurs de recherche relevant du ministère chargé du développement durable.
   
-résultat_PSR   <- test_prime(prime_PSR, prime_B = NULL, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
+résultat_PSR   <- test_prime(prime_PSR, prime_IFTS, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
 
 Lignes_PSR <- résultat_PSR$Lignes
 Paie_PSR <- résultat_PSR$Paie
@@ -2120,8 +2183,7 @@ agrégat_annuel(résultat_PSR, afficher.table.effectifs)
 #'[Lien vers la base de données variations agrégat PSR-IFTS](Bases/Remunerations/beneficiaires.PSR.IFTS.Variation.csv)    
 #'   
 
-prime_PSR$prime_B <- "IAT"
-résultat_PSR   <- test_prime(prime_PSR, prime_B = NULL, Paie_I, Paie_IAT, Lignes_IAT, afficher.table.effectifs)
+résultat_PSR   <- test_prime(prime_PSR, prime_IAT, Paie_I, Paie_IAT, Lignes_IAT, afficher.table.effectifs)
 
 #'   
 #'    
@@ -2167,14 +2229,7 @@ rm(résultat_PSR)
   
 #+ ipf
 
-prime_IPF <- list(nom = "IPF",                     # Nom en majuscules
-                  catégorie = "A",                 # restreint aux catégories A et B
-                  restreint_fonctionnaire = TRUE,  # fonctionnaires
-                  prime_B = "IFTS",                # à comparer à IFTS
-                  dossier = "Reglementation",      # dossier de bases
-                  expr.rég = ".*(?:ing.*chef).*")  # Contrainte sur le grade (expression régulière)
-
-résultat_IPF   <- test_prime(prime_IPF, prime_B = NULL, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
+résultat_IPF   <- test_prime(prime_IPF, prime_IFTS, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
 
 #'   
 #'    
@@ -2189,6 +2244,33 @@ tableau_cumuls(résultat_IPF)
 #'[Lien vers la base de données IPF non cat.A](Bases/Reglementation/IPF.non.catA.csv)      
 #'[Lien vers la base de données IPF non tit](Bases/Reglementation/IPF.non.tit.csv)       
 #'   
+
+résultat_IPF   <- test_prime(prime_IPF, prime_PFR, Paie_I, Paie_PFR, Lignes_PFR, verbeux = afficher.table.effectifs)
+
+#'    
+#'&nbsp;*Tableau `r incrément()` : Cumul IPF/PFR*   
+#'      
+
+tableau_cumuls(résultat_IPF)
+
+#'      
+#'      
+#'[Lien vers la base de données cumuls ipf/pfr](Bases/Reglementation/personnels.ipf.pfr.csv)    
+#'   
+
+résultat_IPF   <- test_prime(prime_IPF, prime_ISS, Paie_I, Paie_ISS, Lignes_ISS, verbeux = afficher.table.effectifs)
+
+#'    
+#'&nbsp;*Tableau `r incrément()` : Cumul IPF/ISS*   
+#'      
+
+tableau_cumuls(résultat_IPF)
+
+#'      
+#'      
+#'[Lien vers la base de données cumuls ipf/iss](Bases/Reglementation/personnels.ipf.iss.csv)    
+#'   
+
 
 # Attention keyby = et pas seulement by = !
 
@@ -2211,6 +2293,7 @@ agrégat_annuel(résultat_IPF, afficher.table.effectifs)
 #'[Lien vers la base de données variations agrégat IPF-IFTS](Bases/Remunerations/beneficiaires.IPF.IFTS.Variation.csv)    
 #'   
 
+rm(résultat_IPF)  
 
 #### 5.10 RIFSEEP ####
 
@@ -2233,14 +2316,7 @@ agrégat_annuel(résultat_IPF, afficher.table.effectifs)
 #+ rifseep
 
 
-prime_IFSE <- list(nom = "IFSE",                   # Nom en majuscules
-                  restreint_fonctionnaire = TRUE,  # fonctionnaires
-                  catégorie = c("A", "B", "C"),
-                  prime_B = "IFTS",                # à comparer à IFTS
-                  dossier = "Reglementation")       # dossier de bases
-                  
-
-résultat_IFSE   <- test_prime(prime_IFSE, prime_B = NULL, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
+résultat_IFSE   <- test_prime(prime_IFSE, prime_IFTS, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
 
 #'   
 #'    
@@ -2258,8 +2334,7 @@ tableau_cumuls(résultat_IFSE)
 #'&nbsp;*Tableau `r incrément()` : Cumul IFSE/IAT*   
 #'      
 
-prime_IFSE$prime_B <- "IAT"
-résultat_IFSE   <- test_prime(prime_IFSE, prime_B = NULL, Paie_I, Paie_IAT, Lignes_IAT, afficher.table.effectifs)
+résultat_IFSE   <- test_prime(prime_IFSE, prime_IAT, Paie_I, Paie_IAT, Lignes_IAT, afficher.table.effectifs)
 
 tableau_cumuls(résultat_IFSE)
 
@@ -2268,12 +2343,6 @@ tableau_cumuls(résultat_IFSE)
 #'[Lien vers la base de données cumuls ifse/ifts](Bases/Reglementation/personnels.ifse.iat.csv)    
 #'   
 
-prime_IFSE$prime_B <- "ISS"
-prime_ISS <- list(nom = "ISS",                     # Nom en majuscules
-                  catégorie = c("A", "B"),         # Techniciens A, B
-                  restreint_fonctionnaire = TRUE,  # fonctionnaires
-                  prime_B = "IFSE",                # à comparer à IFTS
-                  dossier = "Reglementation")
 
 résultat_IFSE   <- test_prime(prime_IFSE, prime_ISS, Paie_I, verbeux = afficher.table.effectifs)
 
@@ -2289,13 +2358,6 @@ tableau_cumuls(résultat_IFSE)
 #'[Lien vers la base de données cumuls ifse/iss](Bases/Reglementation/personnels.ifse.iss.csv)    
 #'   
 
-prime_IFSE$prime_B <- "IEMP"
-prime_IEMP <- list(nom = "IEMP",                     # Nom en majuscules
-                    restreint_fonctionnaire = TRUE,  # fonctionnaires
-                    catégorie = c("A", "B", "C"),
-                    prime_B = "IFSE",                # à comparer à IFTS
-                    dossier = "Reglementation")
-
 résultat_IFSE   <- test_prime(prime_IFSE, prime_IEMP, Paie_I, verbeux = afficher.table.effectifs)
 
 #'   
@@ -2309,13 +2371,6 @@ tableau_cumuls(résultat_IFSE)
 #'      
 #'[Lien vers la base de données cumuls ifse/iemp](Bases/Reglementation/personnels.ifse.iemp.csv)    
 #'   
-
-prime_IFSE$prime_B <- "PFI"
-prime_PFI <- list(nom = "PFI",                      # Nom en majuscules
-                   restreint_fonctionnaire = TRUE,  # fonctionnaires
-                   catégorie = c("A", "B", "C"),
-                   prime_B = "IFSE",                # à comparer à IFTS
-                   dossier = "Reglementation")
 
 résultat_IFSE   <- test_prime(prime_IFSE, prime_PFI, Paie_I, verbeux = afficher.table.effectifs)
 
@@ -2331,9 +2386,7 @@ tableau_cumuls(résultat_IFSE)
 #'[Lien vers la base de données cumuls ifse/pfi](Bases/Reglementation/personnels.ifse.pfi.csv)    
 #'   
 
-prime_IFSE$prime_B <- "PSR"
-
-résultat_IFSE   <- test_prime(prime_IFSE, prime_B = NULL, Paie_I, Paie_PSR, Lignes_PSR, afficher.table.effectifs)
+résultat_IFSE   <- test_prime(prime_IFSE, prime_PSR, Paie_I, Paie_PSR, Lignes_PSR, afficher.table.effectifs)
 
 #'   
 #'    
@@ -2348,10 +2401,7 @@ tableau_cumuls(résultat_IFSE)
 #'   
 
 
-
-prime_IFSE$prime_B <- "PFR"
-
-résultat_IFSE   <- test_prime(prime_IFSE, prime_B = NULL, Paie_I, Paie_PFR, Lignes_PFR, afficher.table.effectifs)
+résultat_IFSE   <- test_prime(prime_IFSE, prime_PFR, Paie_I, Paie_PFR, Lignes_PFR, afficher.table.effectifs)
 
 #'   
 #'    
@@ -2385,8 +2435,7 @@ agrégat_annuel(résultat_IFSE, afficher.table.effectifs)
 #'[Lien vers la base de données variations agrégat IFSE-PFR](Bases/Remunerations/beneficiaires.IFSE.PFR.Variation.csv)    
 #'   
 
-
-# Attention keyby = et pas seulement by = !
+rm(résultat_IFSE)  
 
 #### 5.11 HEURES SUP ####
 #'    

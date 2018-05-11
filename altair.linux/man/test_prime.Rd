@@ -4,7 +4,7 @@
 \alias{test_prime}
 \title{Teste les primes et indemnités}
 \usage{
-test_prime(prime, prime_B, Paie_I, Paie_B = NULL, Lignes_B = NULL,
+test_prime(prime, prime_B, Paie_I = NULL, Paie_B = NULL, Lignes_B = NULL,
   verbeux = FALSE)
 }
 \arguments{
@@ -13,7 +13,6 @@ test_prime(prime, prime_B, Paie_I, Paie_B = NULL, Lignes_B = NULL,
 \item{nom}{Nom de la prime en majuscules. Une expression régulière en décrivant le libellé doit être enregistrée dans l'espace global sous le nom : expression.rég.nom}
 \item{catégorie}{"A", "B", "C" ou tout vecteur d'une à deux lettres comprises dans ces trois valeurs. Décrit les catégories statutaires auxquelles la prime est attribuable.}
 \item{restreint_fonctionnaire}{Booléen. Par défaut FALSE. Préciser TRUE si la prime est uniquement attrubuable aux fonctionnaires. Dans certains cas (mais pas pour tous), la prime peut aussi être attribuable aux non-titulaires, sous réserve d'un acte réglementaire interne à l'organisme.}
-\item{prime_B}{Prime avec laquelle analyser les cumuls. Le libellé doit respecter les mêmes contraintes que le paramètre \code{prime}.}
 \item{dossier}{Chaîne de caractères. Sous-dossier du dossier Bases dans lequel le fichier auxiliaire CSV doit être généré. Par exemple : "Reglementation".}
 \item{expr.rég.}{Chaîne de caractères. Expression régulière filtrant sur champs \code{Grade}, décriuvant une contrainte limitant l'accès de la prime à un certain sous-ensemble de grades.}
 \item{indice}{Liste. Couple d'un caractère "+" ou "-" et d'un entier, ou triplet correspondant au couple augmenté d'un vecteur d'une ou deux lettres statutaires. Exemple : list("+", 350, c("A","B)). La liste décrit un critère limitatif pour la prime : 

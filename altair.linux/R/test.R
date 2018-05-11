@@ -39,7 +39,6 @@
 # prime$nom
 # prime$catégorie
 # prime$restreint_fonctionnaire
-# prime$prime_B  : prime contre laquelle comparer A
 # si non null Paie_B doit avoir indic_B
 
 #' Sauvegarde une base dans le dossier des bases
@@ -156,7 +155,6 @@ agrégat_annuel<- function(résultat, verbeux) {
 #'   \item{nom}{Nom de la prime en majuscules. Une expression régulière en décrivant le libellé doit être enregistrée dans l'espace global sous le nom : expression.rég.nom}
 #'   \item{catégorie}{"A", "B", "C" ou tout vecteur d'une à deux lettres comprises dans ces trois valeurs. Décrit les catégories statutaires auxquelles la prime est attribuable.}
 #'   \item{restreint_fonctionnaire}{Booléen. Par défaut FALSE. Préciser TRUE si la prime est uniquement attrubuable aux fonctionnaires. Dans certains cas (mais pas pour tous), la prime peut aussi être attribuable aux non-titulaires, sous réserve d'un acte réglementaire interne à l'organisme.}
-#'   \item{prime_B}{Prime avec laquelle analyser les cumuls. Le libellé doit respecter les mêmes contraintes que le paramètre \code{prime}.}
 #'   \item{dossier}{Chaîne de caractères. Sous-dossier du dossier Bases dans lequel le fichier auxiliaire CSV doit être généré. Par exemple : "Reglementation".}
 #'   \item{expr.rég.}{Chaîne de caractères. Expression régulière filtrant sur champs \code{Grade}, décriuvant une contrainte limitant l'accès de la prime à un certain sous-ensemble de grades.}
 #'   \item{indice}{Liste. Couple d'un caractère "+" ou "-" et d'un entier, ou triplet correspondant au couple augmenté d'un vecteur d'une ou deux lettres statutaires. Exemple : list("+", 350, c("A","B)). La liste décrit un critère limitatif pour la prime : 
@@ -368,7 +366,6 @@ analyser <- function(prime, Paie_I, verbeux) {
 #'   \item{nom}{Nom de la prime en majuscules. Une expression régulière en décrivant le libellé doit être enregistrée dans l'espace global sous le nom : expression.rég.nom}
 #'   \item{catégorie}{"A", "B", "C" ou tout vecteur d'une à deux lettres comprises dans ces trois valeurs. Décrit les catégories statutaires auxquelles la prime est attribuable.}
 #'   \item{restreint_fonctionnaire}{Booléen. Par défaut FALSE. Préciser TRUE si la prime est uniquement attrubuable aux fonctionnaires. Dans certains cas (mais pas pour tous), la prime peut aussi être attribuable aux non-titulaires, sous réserve d'un acte réglementaire interne à l'organisme.}
-#'   \item{prime_B}{Prime avec laquelle analyser les cumuls. Le libellé doit respecter les mêmes contraintes que le paramètre \code{prime}.}
 #'   \item{dossier}{Chaîne de caractères. Sous-dossier du dossier Bases dans lequel le fichier auxiliaire CSV doit être généré. Par exemple : "Reglementation".}
 #'   \item{expr.rég.}{Chaîne de caractères. Expression régulière filtrant sur champs \code{Grade}, décriuvant une contrainte limitant l'accès de la prime à un certain sous-ensemble de grades.}
 #'   \item{indice}{Liste. Couple d'un caractère "+" ou "-" et d'un entier, ou triplet correspondant au couple augmenté d'un vecteur d'une ou deux lettres statutaires. Exemple : list("+", 350, c("A","B)). La liste décrit un critère limitatif pour la prime : 
@@ -408,9 +405,12 @@ analyser <- function(prime, Paie_I, verbeux) {
 #' }   
 #' @export
 
-test_prime <- function(prime, prime_B, Paie_I, Paie_B = NULL, Lignes_B = NULL, verbeux = FALSE) {
+test_prime <- function(prime, prime_B, Paie_I = NULL, Paie_B = NULL, Lignes_B = NULL, verbeux = FALSE) {
 
-if (! is.null(prime_B)) {
+if (is.null(Paie_B) || is.null(Lignes_B)) {
+  
+  if (is.null(prime_B)) stop("prime_B ne doit pas être NULL si Paie_B ou Lignes_B est NULL.")
+  
   res      <- analyser(prime_B, Paie_I, verbeux)
   Paie_B   <- res$Paye
   Lignes_B <- res$Lignes
@@ -441,7 +441,7 @@ if (! is.null(Paie_B) && ! résultat.manquant) {
   
   # on exclut les rappels !
   
-    indic_B <- "indic_"  %+% prime$prime_B
+    indic_B <- "indic_"  %+% prime_B$nom
     
     NAMES <- names(Paie_B)
     
@@ -473,7 +473,7 @@ if (! is.null(Paie_B) && ! résultat.manquant) {
   
 }
  },
-   "La détection des cumuls d'indemnités " %+% ident_prime %+% " et " %+% prime$prime_B %+% " n'a pas pu être réalisée. ")
+   "La détection des cumuls d'indemnités " %+% ident_prime %+% " et " %+% prime_B$nom %+% " n'a pas pu être réalisée. ")
 
 
 essayer({
@@ -483,7 +483,7 @@ essayer({
   if (L < 6) {
     
     print(Tableau(c("Codes " %+% ident_prime,
-                    "Agents cumulant " %+% ident_prime %+% " et " %+% prime$prime_B),
+                    "Agents cumulant " %+% ident_prime %+% " et " %+% prime_B$nom),
             sep.milliers = "",
             paste(unlist(K), collapse = " "),
             nombre.agents.cumulant.A.B))
@@ -497,12 +497,12 @@ essayer({
 
 
 essayer({
-  sauvebase("personnels.A.B", "personnels." %+% tolower(ident_prime) %+% "." %+% tolower(prime$prime_B), prime$dossier, environment())
+  sauvebase("personnels.A.B", "personnels." %+% tolower(ident_prime) %+% "." %+% tolower(prime_B$nom), prime$dossier, environment())
   
 }, "Pas de sauvegarde des fichiers auxiliaires.")
 
 indic <- "indic_"  %+% prime$nom
-indic_B <- "indic_"  %+% prime$prime_B
+indic_B <- "indic_"  %+% prime_B$nom
 
 Lignes_A[ , indic := TRUE, with = FALSE]
 Lignes_B[ , indic_B := TRUE, with = FALSE]
@@ -529,7 +529,7 @@ beneficiaires.A <- beneficiaires.A[Matricule %chin% matricules.A,
                                         nb.mois,
                                         Régime = {
                                        
-                                       prime$prime_B %+% " " %+% uniqueN(Mois[Régime == "I"]) %+% " mois-" %+% ident_prime %+% " " %+% uniqueN(Mois[Régime == "P"]) %+% " mois" %+% "-Cumul " %+% c %+% " mois"
+                                       prime_B$nom %+% " " %+% uniqueN(Mois[Régime == "I"]) %+% " mois-" %+% ident_prime %+% " " %+% uniqueN(Mois[Régime == "P"]) %+% " mois" %+% "-Cumul " %+% c %+% " mois"
                                      }),
                                       keyby= .(Matricule, Année)]
 
@@ -587,8 +587,8 @@ if ((! is.null(prime$NAS) && prime$NAS == "non") || (! is.null(prime_B$NAS) && p
 env <- environment()
 
 essayer({
-  sauvebase("beneficiaires.A", "beneficiaires." %+% ident_prime %+% "." %+% prime$prime_B, "Remunerations", env)
-  sauvebase("beneficiaires.A.Variation", "beneficiaires." %+% ident_prime %+% "." %+% prime$prime_B %+% ".Variation", "Remunerations", env)
+  sauvebase("beneficiaires.A", "beneficiaires." %+% ident_prime %+% "." %+% prime_B$nom, "Remunerations", env)
+  sauvebase("beneficiaires.A.Variation", "beneficiaires." %+% ident_prime %+% "." %+% prime_B$nom %+% ".Variation", "Remunerations", env)
   if (! is.null(cumul.prime.NAS)) sauvebase("cumul.prime.NAS", "cumul." %+% prime_NAS %+% ".NAS", "Reglementation", env)
 }, "Pas de sauvegarde des fichiers auxiliaires. ")
 
