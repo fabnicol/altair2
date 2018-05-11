@@ -1848,7 +1848,7 @@ if (exists("nombre.contractuels.et.vacations")) {
 #### 5.5 Logements par NAS ####    
 
 #'
-#'## `r chapitre`.5 Contrôle sur les logements par nécessité absolue de service (NAS)    
+#'## `r chapitre`.5 Contrôle sur les logements par nécessité absolue de service (NAS) &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NAS.odt)        
 
 #+ NAS
   
