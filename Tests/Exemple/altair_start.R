@@ -74,8 +74,9 @@ invisible(enableJIT(3))
 options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE, datatable.integer64 = "numeric")
 
 # Sourcer la biblio de fonctions auxiliaires
+# Appel de la biblio altair, où sont regroupées des fonctions d'analyse des rémunérations et les pyramides
 
-library(altair)
+library("altair", lib.loc=c("/usr/lib64/R/library", "/usr/local/lib64/R/library"))
 
 # Importer les données --> bases Paie et Bulletins.paie
 
@@ -126,9 +127,6 @@ message("Démographie...")
 
 # Rappel Analyse.variations.par.exercice comprend uniquement les actifs non annexes non assist. mat., non vacataires, non élus.
 
-# Appel de la biblio altair, où sont regroupées des fonctions d'analyse des rémunérations et les pyramides
-
-library("altair", lib.loc=c("/usr/lib64/R/library", "/usr/local/lib64/R/library"))
 
 # Calcul du tableau des effectifs, qui nécessite les deux bases d'analyse (mensuelle, Analyse.remunerations et annuelle Analyse.variations)
 # Utilisation de la fonction effectifs() de la biblio altair.
