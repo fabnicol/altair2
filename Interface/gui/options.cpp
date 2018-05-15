@@ -783,13 +783,9 @@ std::uint16_t options::RefreshFlag;
 extraPage::extraPage()
 {
     QGridLayout *v3Layout = new QGridLayout;
-
-    QGridLayout *v4Layout = new QGridLayout;
-    
-    QGridLayout *v5Layout = new QGridLayout;
-    
+        
     budgetFrame = new FLineFrame ({"Utiliser la correspondance budgétaire", "Chemin de la table de correspondance"},
-                                   QDir::toNativeSeparators (DONNEES_SORTIE  "/paye_budget.csv"),
+                                   QDir::toNativeSeparators (path_access(DONNEES_SORTIE  "/paye_budget.csv")),
                                    "budget",
                                    {2, 1},
                                    v3Layout,
@@ -847,8 +843,10 @@ extraPage::extraPage()
     budgetBox->setToolTip(budgetTip);
     budgetBox->setLayout (v3Layout);
 
+    QGridLayout *v4Layout = new QGridLayout;
+    
     gradesFrame = new FLineFrame ({"Utiliser un fichier grade/catégorie", "Chemin du fichier de correspondance"},
-                                   QDir::toNativeSeparators (DONNEES_SORTIE "/grades.categories.csv"),
+                                   QDir::toNativeSeparators (path_access(DONNEES_SORTIE "/grades.categories.csv")),
                                    "gradeCategorie",
                                    {2, 1},
                                    v4Layout,
@@ -896,9 +894,11 @@ extraPage::extraPage()
             
     gradesBox->setLayout(v4Layout);
     gradesBox->setToolTip(gradesTip);
-        
+    
+    QGridLayout *v5Layout = new QGridLayout;    
+    
     logtFrame = new FLineFrame ({"Concessions de logement", "Chemin de la table Matricules-Dates"},
-                                   QDir::toNativeSeparators (DONNEES_SORTIE  "/logements.csv"),
+                                   QDir::toNativeSeparators (path_access(DONNEES_SORTIE  "/logements.csv")),
                                    "logement",
                                    {2, 1},
                                    v5Layout,
@@ -943,14 +943,59 @@ extraPage::extraPage()
     
     logtBox->setToolTip(logtTip);
     logtBox->setLayout (v5Layout);
-        
     
+    QGridLayout *v6Layout = new QGridLayout;    
+    
+    ifseFrame = new FLineFrame ({"IFSE", "Chemin de la table Plafonds IFSE"},
+                                   QDir::toNativeSeparators (path_access(DONNEES_SORTIE  "/plafonds_ifse.csv")),
+                                   "ifse",
+                                   {2, 1},
+                                   v6Layout,
+                                   "",   // pas de ligne de commande
+                                   directory::noCheck, // ne pas vérifier que le chemin est vide
+                                   flags::flineframe::isFilePath,
+                                   "Fichier CSV (*.csv)"); // il s'agit d'un chemin de fichier
+   
+    constexpr const char* ifseTip = "Le fichier importé énumère la liste des plafonds  <br>"
+                                    "de l'IFSE (RIFSEEP), pour chaque groupe de grades <br>"
+                                    "logé ou pas.<br>"
+                                    "Il doit être au format CSV (séparateur point-virgule)<br>"
+                                    "et encodé en caractères Latin-1 ou Windows-1252.<br>"
+                                    "Les colonnes doivent comporter les intitulés Grade,<br>"
+                                    "Groupe, Plafond, dans cet ordre : <br>"
+                                    "<ul><li>Grade : Tous les grades de la base de paye sans omission.<br>"
+                                    "Pour remplir cette colonne on utilisera la première colonne de la<br> " 
+                                    "table <b>grade.categories.csv</b> du dossier Bases/Effectifs.</li>"
+                                    "<li>Groupe : groupe défini par délibération de l'organisme.<br>"
+                                    "Il y a en général un groupe logé et un groupe non logé distinct.</li>"
+                                    "<li>Plafond : Maximum de l'IFSE pour le grade et le groupe, <br>"
+                                    "<b>en euros</b>.</li>"
+                                    "</ul><br>";
+    
+    ifseCheckBox = new FCheckBox ("IFSE  ",
+                                    flags::status::enabledUnchecked
+                                     | flags::commandLineType::noCommandLine,
+                                    "genererIFSE",
+                                    {
+                                       "Contrôler l'IFSE (RIFSEEP)", 
+                                       ""
+                                    },
+                                    ifseFrame->getComponentList());
+    
+    v6Layout->addWidget (ifseCheckBox,       1, 0, Qt::AlignLeft);
+
+    QGroupBox* ifseBox = new QGroupBox (tr ("IFSE"));
+    
+    ifseBox->setToolTip(ifseTip);
+    ifseBox->setLayout (v6Layout);
+        
     QVBoxLayout* mainLayout = new QVBoxLayout;
     FRichLabel *mainLabel = new FRichLabel ("Fichiers externes");
     mainLayout->addWidget (mainLabel);
     mainLayout->addWidget (budgetBox, 1, 0);
     mainLayout->addWidget (gradesBox, 2, 0);
     mainLayout->addWidget (logtBox,   3, 0);
+    mainLayout->addWidget (ifseBox,   4, 0);
     mainLayout->addSpacing (450);
 
     setLayout (mainLayout);
@@ -962,13 +1007,16 @@ extraPage::extraPage()
 void extraPage::do_copies()
 {
     short i = 0;
-    FLineFrame* frameList[] = {budgetFrame, gradesFrame, logtFrame};
+    FLineFrame* frameList[] = {budgetFrame, gradesFrame, logtFrame, ifseFrame};
     const char* pathList[] = {"paye_budget.csv",
                      "grades.categories.csv",
-                     "logements.csv"};
+                     "logements.csv",
+                     "grades.plafonds.csv"};
+    
     const char* msgList[]  = {"Le fichier de correspondance paye-budget",
                      "Le fichier de correspondance grade-catégorie",
-                     "Le fichier des concessions de logement"};
+                     "Le fichier des concessions de logement",
+                     "Le fichier des plafonds IFSE"};
     
     for (FLineFrame *a : frameList) 
         {

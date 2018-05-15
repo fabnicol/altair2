@@ -469,25 +469,27 @@
 <g id="node12" class="node">
 <title>Node11</title>
 <g id="a_node12"><a xlink:href="classextra_page.html" target="_top" xlink:title="Classe de l&#39;onglet Extra permettant d&#39;importer les fichiers auxiliaires optionnels (correspondance bu...">
-<polygon fill="#ffffff" stroke="#000000" points="720.5,-325 720.5,-448 818.5,-448 818.5,-325 720.5,-325"/>
-<text text-anchor="middle" x="769.5" y="-436" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">extraPage</text>
-<polyline fill="none" stroke="#000000" points="720.5,-429 818.5,-429 "/>
-<text text-anchor="start" x="728.5" y="-417" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+ budgetFrame</text>
-<text text-anchor="start" x="728.5" y="-406" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+ gradesFrame</text>
+<polygon fill="#ffffff" stroke="#000000" points="720.5,-314 720.5,-459 818.5,-459 818.5,-314 720.5,-314"/>
+<text text-anchor="middle" x="769.5" y="-447" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">extraPage</text>
+<polyline fill="none" stroke="#000000" points="720.5,-440 818.5,-440 "/>
+<text text-anchor="start" x="728.5" y="-428" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+ budgetFrame</text>
+<text text-anchor="start" x="728.5" y="-417" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+ gradesFrame</text>
+<text text-anchor="start" x="728.5" y="-406" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+ ifseFrame</text>
 <text text-anchor="start" x="728.5" y="-395" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+ logtFrame</text>
 <text text-anchor="start" x="728.5" y="-384" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45; budgetCheckBox</text>
 <text text-anchor="start" x="728.5" y="-373" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45; gradesCheckBox</text>
-<text text-anchor="start" x="728.5" y="-362" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45; logtCheckBox</text>
-<polyline fill="none" stroke="#000000" points="720.5,-355 818.5,-355 "/>
-<text text-anchor="start" x="728.5" y="-343" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+ extraPage()</text>
-<text text-anchor="start" x="728.5" y="-332" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+ do_copies()</text>
+<text text-anchor="start" x="728.5" y="-362" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45; ifseCheckBox</text>
+<text text-anchor="start" x="728.5" y="-351" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45; logtCheckBox</text>
+<polyline fill="none" stroke="#000000" points="720.5,-344 818.5,-344 "/>
+<text text-anchor="start" x="728.5" y="-332" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+ extraPage()</text>
+<text text-anchor="start" x="728.5" y="-321" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+ do_copies()</text>
 </a>
 </g>
 </g>
 <!-- Node9&#45;&gt;Node11 -->
 <g id="edge12" class="edge">
 <title>Node9&#45;&gt;Node11</title>
-<path fill="none" stroke="#191970" d="M840.8143,-832.5783C836.0755,-813.1186 831.3359,-792.3902 827.5,-773 804.9499,-659.0125 786.6151,-524.5738 776.9469,-448.0533"/>
+<path fill="none" stroke="#191970" d="M840.8143,-832.5783C836.0755,-813.1186 831.3359,-792.3902 827.5,-773 806.0034,-664.3375 788.3373,-537.0899 778.3581,-459.1486"/>
 <polygon fill="none" stroke="#191970" points="837.4234,-833.4464 843.2117,-842.3202 844.2206,-831.7736 837.4234,-833.4464"/>
 </g>
 <!-- Node12 -->
