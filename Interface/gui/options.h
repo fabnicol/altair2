@@ -178,7 +178,7 @@ private slots:
 };
 
 
-/// Classe de l'onglet Extra permettant d'importer les fichiers auxiliaires optionnels (correspondance budgétaire, fichier des catégories statutaires rectifié)     
+/// Classe de l'onglet Extra permettant d'importer les fichiers auxiliaires optionnels (correspondance budgétaire, fichier des catégories statutaires rectifié, concessions de logement, plafonds IFSE)     
 
 class extraPage: public QDialog, public common
 {
@@ -192,15 +192,17 @@ public:
     
     FLineFrame *budgetFrame, ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre codes, libellés de paye et sous-comptes du 64 (données externes à importer)
                *gradesFrame, ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre grades et catégorie statutaire (données externes à importer)
-               *logtFrame;   ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre matricule et concession de logement, par année et mois (données externes à importer)
-
+               *logtFrame,   ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre matricule et concession de logement, par année et mois (données externes à importer)
+               *ifseFrame;   ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre grade, groupe fonctionnel et plafond en euros pour l'IFSE (RIFSEEP)  
+    
     void do_copies();        ///< Réalise les copies des fichiers auxiliaires paye_budget.csv, grades.catégories.csv et logements.csv dans Tests/Exemple pour importation par le script R.  
    
 private:   
     
     FCheckBox *budgetCheckBox,  ///< Case à cocher de contrôle de \link budgetFrame
               *gradesCheckBox,  ///< Case à cocher de contrôle de \link gradesFrame
-              *logtCheckBox;    ///< Case à cocher de contrôle de \link logtFrame
+              *logtCheckBox,    ///< Case à cocher de contrôle de \link logtFrame
+              *ifseCheckBox;    ///< Case à cocher de contrôle de \link ifsetFrame
 };
 
 

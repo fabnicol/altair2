@@ -1,5 +1,7 @@
 var NAVTREEINDEX7 =
 {
+"structqt__meta__stringdata___f_dialog__t.html":[10,0,36],
+"structqt__meta__stringdata___f_dialog__t.html#a311bca27d6df3cedfc6255f65b631460":[10,0,36,0],
 "structqt__meta__stringdata___f_dialog__t.html#a50c13a049022e23645796bdefd0cd797":[10,0,36,1],
 "structqt__meta__stringdata___f_dialog_connections__t.html":[10,0,37],
 "structqt__meta__stringdata___f_dialog_connections__t.html#a4204dc951966f78c3cc3bc5601275e66":[10,0,37,1],

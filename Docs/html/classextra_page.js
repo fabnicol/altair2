@@ -6,6 +6,8 @@ var classextra_page =
     [ "budgetFrame", "classextra_page.html#ad243aa0eeb8e9c46235b830adde80fbb", null ],
     [ "gradesCheckBox", "classextra_page.html#a5882214a82974d6251283733e2447367", null ],
     [ "gradesFrame", "classextra_page.html#a3435ca04aa417cd8bd1ebda679b503cd", null ],
+    [ "ifseCheckBox", "classextra_page.html#a96026027a5256da51cec39b46ea98006", null ],
+    [ "ifseFrame", "classextra_page.html#a020b4a1cbc6fd53b462a43e114286d15", null ],
     [ "logtCheckBox", "classextra_page.html#ad4a80f0dc2039142579365dd4f9d8695", null ],
     [ "logtFrame", "classextra_page.html#a1523758af2dfa66add7905830c561995", null ]
 ];

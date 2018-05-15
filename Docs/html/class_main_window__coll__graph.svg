@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 2019;
+var viewWidth = 2016;
 var viewHeight = 3520;
 var sectionId = 'dynsection-1';
 </script>
@@ -54,7 +54,7 @@ var sectionId = 'dynsection-1';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>MainWindow</title>
-<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-3516 2014.9923,-3516 2014.9923,4 -4,4"/>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-3516 2011.9923,-3516 2011.9923,4 -4,4"/>
 <!-- Node2 -->
 <g id="node1" class="node">
 <title>Node2</title>
@@ -419,28 +419,28 @@ var sectionId = 'dynsection-1';
 <g id="node26" class="node">
 <title>Node27</title>
 <g id="a_node26"><a xlink:href="class_matricule_input.html" target="_top" xlink:title="Classe permettant de construire un dialogue d&#39;extraction des bulletins de paye par matricule...">
-<polygon fill="#ffffff" stroke="#000000" points="1863.4923,-2251.5 1863.4923,-2407.5 1992.4923,-2407.5 1992.4923,-2251.5 1863.4923,-2251.5"/>
-<text text-anchor="middle" x="1927.9923" y="-2395.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">MatriculeInput</text>
-<polyline fill="none" stroke="#000000" points="1863.4923,-2388.5 1992.4923,-2388.5 "/>
-<text text-anchor="start" x="1871.4923" y="-2376.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+ matricules</text>
-<text text-anchor="start" x="1871.4923" y="-2365.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45; closeButton</text>
-<text text-anchor="start" x="1871.4923" y="-2354.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45; dirpath</text>
-<text text-anchor="start" x="1871.4923" y="-2343.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45; eraseButtonList</text>
-<text text-anchor="start" x="1871.4923" y="-2332.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45; layout</text>
-<text text-anchor="start" x="1871.4923" y="-2321.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45; matrLineEditList</text>
-<polyline fill="none" stroke="#000000" points="1863.4923,-2314.5 1992.4923,-2314.5 "/>
-<text text-anchor="start" x="1871.4923" y="-2302.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+ MatriculeInput()</text>
-<text text-anchor="start" x="1871.4923" y="-2291.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+ checkDefaultFolder()</text>
-<text text-anchor="start" x="1871.4923" y="-2280.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+ clear()</text>
-<text text-anchor="start" x="1871.4923" y="-2269.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+ ajouterLigneMatricules()</text>
-<text text-anchor="start" x="1871.4923" y="-2258.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45; checkInput()</text>
+<polygon fill="#ffffff" stroke="#000000" points="1860.4923,-2251.5 1860.4923,-2407.5 1989.4923,-2407.5 1989.4923,-2251.5 1860.4923,-2251.5"/>
+<text text-anchor="middle" x="1924.9923" y="-2395.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">MatriculeInput</text>
+<polyline fill="none" stroke="#000000" points="1860.4923,-2388.5 1989.4923,-2388.5 "/>
+<text text-anchor="start" x="1868.4923" y="-2376.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+ matricules</text>
+<text text-anchor="start" x="1868.4923" y="-2365.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45; closeButton</text>
+<text text-anchor="start" x="1868.4923" y="-2354.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45; dirpath</text>
+<text text-anchor="start" x="1868.4923" y="-2343.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45; eraseButtonList</text>
+<text text-anchor="start" x="1868.4923" y="-2332.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45; layout</text>
+<text text-anchor="start" x="1868.4923" y="-2321.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45; matrLineEditList</text>
+<polyline fill="none" stroke="#000000" points="1860.4923,-2314.5 1989.4923,-2314.5 "/>
+<text text-anchor="start" x="1868.4923" y="-2302.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+ MatriculeInput()</text>
+<text text-anchor="start" x="1868.4923" y="-2291.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+ checkDefaultFolder()</text>
+<text text-anchor="start" x="1868.4923" y="-2280.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+ clear()</text>
+<text text-anchor="start" x="1868.4923" y="-2269.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+ ajouterLigneMatricules()</text>
+<text text-anchor="start" x="1868.4923" y="-2258.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45; checkInput()</text>
 </a>
 </g>
 </g>
 <!-- Node7&#45;&gt;Node27 -->
 <g id="edge50" class="edge">
 <title>Node7&#45;&gt;Node27</title>
-<path fill="none" stroke="#191970" d="M777.9452,-2623.7533C798.0748,-2602.3132 826.5963,-2577.0593 857.9923,-2565 946.4876,-2531.0086 1627.6507,-2592.1774 1710.9923,-2547 1731.8003,-2535.7205 1725.5532,-2520.9397 1740.9923,-2503 1778.2584,-2459.6983 1825.4506,-2415.9812 1863.1026,-2383.2626"/>
+<path fill="none" stroke="#191970" d="M777.9452,-2623.7533C798.0748,-2602.3132 826.5963,-2577.0593 857.9923,-2565 946.4876,-2531.0086 1627.6507,-2592.1774 1710.9923,-2547 1731.8003,-2535.7205 1725.6257,-2521.0018 1740.9923,-2503 1777.4798,-2460.2554 1823.4798,-2416.8804 1860.3579,-2384.1916"/>
 <polygon fill="none" stroke="#191970" points="775.3476,-2621.4075 771.1841,-2631.15 780.5144,-2626.1302 775.3476,-2621.4075"/>
 </g>
 <!-- Node30 -->
@@ -823,16 +823,17 @@ var sectionId = 'dynsection-1';
 <title>Node15&#45;&gt;Node25</title>
 <path fill="none" stroke="#404040" d="M1708.8484,-2587.2695C1720.4966,-2559.7398 1725.9207,-2528.8357 1710.9923,-2503 1656.7209,-2409.0754 1530.1484,-2361.4903 1459.6461,-2341.4909"/>
 <polygon fill="none" stroke="#404040" points="1459.5699,-2341.4701 1452.725,-2343.739 1447.998,-2338.2933 1454.8429,-2336.0244 1459.5699,-2341.4701"/>
-<text text-anchor="middle" x="1753.4923" y="-2533.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000"> +gradesFrame</text>
-<text text-anchor="middle" x="1753.4923" y="-2522.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+budgetFrame</text>
-<text text-anchor="middle" x="1753.4923" y="-2511.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+logtFrame</text>
+<text text-anchor="middle" x="1751.9923" y="-2539" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000"> +ifseFrame</text>
+<text text-anchor="middle" x="1751.9923" y="-2528" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+gradesFrame</text>
+<text text-anchor="middle" x="1751.9923" y="-2517" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+budgetFrame</text>
+<text text-anchor="middle" x="1751.9923" y="-2506" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">+logtFrame</text>
 </g>
 <!-- Node15&#45;&gt;Node27 -->
 <g id="edge51" class="edge">
 <title>Node15&#45;&gt;Node27</title>
-<path fill="none" stroke="#404040" d="M1717.7849,-2639.4818C1760.3102,-2621.2113 1817.4337,-2590.5867 1852.9923,-2547 1869.5944,-2526.6497 1888.9309,-2469.8123 1903.8116,-2419.3446"/>
-<polygon fill="none" stroke="#404040" points="1903.8509,-2419.2092 1901.687,-2412.3304 1907.2044,-2407.6873 1909.3683,-2414.5661 1903.8509,-2419.2092"/>
-<text text-anchor="middle" x="1893.9923" y="-2522.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000"> &#45;dossier</text>
+<path fill="none" stroke="#404040" d="M1717.7732,-2638.8896C1759.5391,-2620.4605 1815.2365,-2589.9069 1849.9923,-2547 1866.5235,-2526.592 1885.8619,-2469.7562 1900.7612,-2419.3037"/>
+<polygon fill="none" stroke="#404040" points="1900.8,-2419.1705 1898.6392,-2412.2907 1904.1587,-2407.6501 1906.3195,-2414.5299 1900.8,-2419.1705"/>
+<text text-anchor="middle" x="1890.9923" y="-2522.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000"> &#45;dossier</text>
 </g>
 <!-- Node16&#45;&gt;Node15 -->
 <g id="edge19" class="edge">
@@ -857,11 +858,11 @@ var sectionId = 'dynsection-1';
 <!-- Node16&#45;&gt;Node27 -->
 <g id="edge52" class="edge">
 <title>Node16&#45;&gt;Node27</title>
-<path fill="none" stroke="#404040" d="M1720.1633,-2882.7826C1780.7522,-2806.1613 1872.5048,-2676.3206 1913.9923,-2547 1926.9816,-2506.5114 1931.2648,-2459.6589 1931.9824,-2419.8312"/>
-<polygon fill="none" stroke="#404040" points="1931.9835,-2419.7107 1928.0401,-2413.6734 1932.0964,-2407.7113 1936.0397,-2413.7486 1931.9835,-2419.7107"/>
-<text text-anchor="middle" x="1940.4923" y="-2668.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000"> &#45;matrLineEdit2</text>
-<text text-anchor="middle" x="1940.4923" y="-2657.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;matrLineEdit3</text>
-<text text-anchor="middle" x="1940.4923" y="-2646.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;matrLineEdit</text>
+<path fill="none" stroke="#404040" d="M1720.0148,-2881.9563C1779.8827,-2805.1409 1870.1125,-2675.6098 1910.9923,-2547 1923.873,-2506.4768 1928.1431,-2459.62 1928.88,-2419.7985"/>
+<polygon fill="none" stroke="#404040" points="1928.8811,-2419.6802 1924.9412,-2413.6405 1929.0009,-2407.6808 1932.9408,-2413.7204 1928.8811,-2419.6802"/>
+<text text-anchor="middle" x="1937.4923" y="-2668.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000"> &#45;matrLineEdit2</text>
+<text text-anchor="middle" x="1937.4923" y="-2657.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;matrLineEdit3</text>
+<text text-anchor="middle" x="1937.4923" y="-2646.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;matrLineEdit</text>
 </g>
 <!-- Node17 -->
 <g id="node16" class="node">
@@ -975,19 +976,19 @@ var sectionId = 'dynsection-1';
 <!-- Node22&#45;&gt;Node2 -->
 <g id="edge53" class="edge">
 <title>Node22&#45;&gt;Node2</title>
-<path fill="none" stroke="#404040" d="M1358.0019,-2581.9345C1365.6798,-2575.2474 1374.034,-2569.3764 1382.9923,-2565 1423.7644,-2545.0815 1759.6207,-2579.7862 1790.9923,-2547 1804.512,-2532.8707 1797.3711,-2521.486 1790.9923,-2503 1577.7338,-1884.9636 979.2798,-1329.4854 749.9759,-1133.2187"/>
-<polygon fill="none" stroke="#404040" points="749.7835,-1133.0545 742.6228,-1132.2025 740.6553,-1125.265 747.8159,-1126.117 749.7835,-1133.0545"/>
-<text text-anchor="middle" x="1702.4923" y="-2148" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000"> &#45;defaultFileToolBarBox</text>
-<text text-anchor="middle" x="1702.4923" y="-2137" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;defaultOptionsToolBarBox</text>
-<text text-anchor="middle" x="1702.4923" y="-2126" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;defaultOutputTextEditBox</text>
-<text text-anchor="middle" x="1702.4923" y="-2115" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;defaultAboutToolBarBox</text>
-<text text-anchor="middle" x="1702.4923" y="-2104" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;defaultLoadProjectBehaviorBox</text>
-<text text-anchor="middle" x="1702.4923" y="-2093" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;defaultSaveProjectBehaviorBox</text>
-<text text-anchor="middle" x="1702.4923" y="-2082" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;defaultProcessToolBarBox</text>
-<text text-anchor="middle" x="1702.4923" y="-2071" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;defaultEditToolBarBox</text>
-<text text-anchor="middle" x="1702.4923" y="-2060" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;defaultFileManagerWidgetLayoutBox</text>
-<text text-anchor="middle" x="1702.4923" y="-2049" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;defaultQuietBox</text>
-<text text-anchor="middle" x="1702.4923" y="-2038" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">...</text>
+<path fill="none" stroke="#404040" d="M1358.0033,-2581.9375C1365.681,-2575.2498 1374.0348,-2569.3779 1382.9923,-2565 1423.462,-2545.221 1756.8563,-2579.5506 1787.9923,-2547 1801.5097,-2532.8685 1794.3592,-2521.4901 1787.9923,-2503 1575.474,-1885.8201 979.167,-1330.3462 750.1531,-1133.6306"/>
+<polygon fill="none" stroke="#404040" points="749.9579,-1133.4635 742.7988,-1132.5989 740.8434,-1125.658 748.0025,-1126.5226 749.9579,-1133.4635"/>
+<text text-anchor="middle" x="1699.4923" y="-2148" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000"> &#45;defaultFileToolBarBox</text>
+<text text-anchor="middle" x="1699.4923" y="-2137" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;defaultOptionsToolBarBox</text>
+<text text-anchor="middle" x="1699.4923" y="-2126" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;defaultOutputTextEditBox</text>
+<text text-anchor="middle" x="1699.4923" y="-2115" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;defaultAboutToolBarBox</text>
+<text text-anchor="middle" x="1699.4923" y="-2104" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;defaultLoadProjectBehaviorBox</text>
+<text text-anchor="middle" x="1699.4923" y="-2093" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;defaultSaveProjectBehaviorBox</text>
+<text text-anchor="middle" x="1699.4923" y="-2082" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;defaultProcessToolBarBox</text>
+<text text-anchor="middle" x="1699.4923" y="-2071" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;defaultEditToolBarBox</text>
+<text text-anchor="middle" x="1699.4923" y="-2060" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;defaultFileManagerWidgetLayoutBox</text>
+<text text-anchor="middle" x="1699.4923" y="-2049" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;defaultQuietBox</text>
+<text text-anchor="middle" x="1699.4923" y="-2038" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">...</text>
 </g>
 <!-- Node22&#45;&gt;Node11 -->
 <g id="edge27" class="edge">
@@ -1014,9 +1015,10 @@ var sectionId = 'dynsection-1';
 <title>Node22&#45;&gt;Node25</title>
 <path fill="none" stroke="#404040" d="M1353.8522,-2581.8462C1360.9224,-2575.2732 1368.6496,-2569.4514 1376.9923,-2565 1422.4194,-2540.7618 1573.027,-2584.7959 1607.9923,-2547 1672.9377,-2476.7971 1536.8787,-2392.9011 1459.1629,-2352.9227"/>
 <polygon fill="none" stroke="#404040" points="1458.8579,-2352.7684 1451.6982,-2353.6281 1448.1509,-2347.3498 1455.3106,-2346.4901 1458.8579,-2352.7684"/>
-<text text-anchor="middle" x="1665.9923" y="-2533.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000"> &#45;gradesCheckBox</text>
-<text text-anchor="middle" x="1665.9923" y="-2522.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;logtCheckBox</text>
-<text text-anchor="middle" x="1665.9923" y="-2511.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;budgetCheckBox</text>
+<text text-anchor="middle" x="1665.9923" y="-2539" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000"> &#45;gradesCheckBox</text>
+<text text-anchor="middle" x="1665.9923" y="-2528" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;ifseCheckBox</text>
+<text text-anchor="middle" x="1665.9923" y="-2517" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;logtCheckBox</text>
+<text text-anchor="middle" x="1665.9923" y="-2506" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">&#45;budgetCheckBox</text>
 </g>
 <!-- Node23 -->
 <g id="node22" class="node">
@@ -1058,9 +1060,9 @@ var sectionId = 'dynsection-1';
 <!-- Node27&#45;&gt;Node2 -->
 <g id="edge49" class="edge">
 <title>Node27&#45;&gt;Node2</title>
-<path fill="none" stroke="#404040" d="M1967.5811,-2251.1805C1980.2585,-2222.0631 1992.6482,-2188.2535 1998.9923,-2156 2009.3713,-2103.2333 2004.7533,-2088.4683 1998.9923,-2035 1965.4661,-1723.8401 2067.6646,-1570.8905 1848.9923,-1347 1694.5236,-1188.8451 1005.677,-1096.9253 752.6306,-1068.0004"/>
-<polygon fill="none" stroke="#404040" points="752.4764,-1067.983 746.0637,-1071.281 740.5529,-1066.63 746.9657,-1063.332 752.4764,-1067.983"/>
-<text text-anchor="middle" x="2003.4923" y="-1694" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000"> &#45;m</text>
+<path fill="none" stroke="#404040" d="M1964.5811,-2251.1805C1977.2585,-2222.0631 1989.6482,-2188.2535 1995.9923,-2156 2006.3713,-2103.2333 2001.7533,-2088.4683 1995.9923,-2035 1962.4661,-1723.8401 2064.5997,-1570.9538 1845.9923,-1347 1692.0281,-1189.2703 1005.6245,-1097.1588 752.8453,-1068.087"/>
+<polygon fill="none" stroke="#404040" points="752.7016,-1068.0707 746.2865,-1071.3642 740.779,-1066.7094 747.1941,-1063.4159 752.7016,-1068.0707"/>
+<text text-anchor="middle" x="2000.4923" y="-1694" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000"> &#45;m</text>
 </g>
 <!-- Node28&#45;&gt;Node2 -->
 <g id="edge54" class="edge">
