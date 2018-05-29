@@ -2,6 +2,8 @@ var searchData=
 [
   ['iconshowmaximized',['iconShowMaximized',['../class_altair.html#a4f352ac2f0f589bdd10a09136b79f775',1,'Altair']]],
   ['iconshownormal',['iconShowNormal',['../class_altair.html#a8c98931e844ab425bfd24246fcafc049',1,'Altair']]],
+  ['ifsecheckbox',['ifseCheckBox',['../classextra_page.html#a96026027a5256da51cec39b46ea98006',1,'extraPage']]],
+  ['ifseframe',['ifseFrame',['../classextra_page.html#a020b4a1cbc6fd53b462a43e114286d15',1,'extraPage']]],
   ['importeraulancementbox',['importerAuLancementBox',['../class_main_window.html#ac35ae8f26c913ffbfafb55a785f80e95',1,'MainWindow']]],
   ['importfrommaintree',['importFromMainTree',['../class_f_list_frame.html#ae378c3802727264ef5f046be5efe34d2',1,'FListFrame']]],
   ['importtype',['importType',['../class_f_list_frame.html#aebb3f350f38bffa84edb931b410ff8e0',1,'FListFrame']]],

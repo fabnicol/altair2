@@ -1,4 +1,4 @@
-
+/// 
 /// \mainpage Sommaire
 /// La documentation du projet comprend :
 /// - \subpage   page_modules "la présentation de l'organisation modulaire du logiciel"
@@ -6,7 +6,8 @@
 /// - \subpage   page_lhx "la documentation de la ligne de commande de l'application-noyau lhx"
 /// - \subpage   page1 "la documentation de l'algorithme d'analyse des noeuds Remuneration"
 /// - \subpage   page_compil  "la documentation de la procédure de compilation sous Linux"
-/// - \subpage   page_recover
+/// - \subpage   page_recover "la procédure de récupération"   
+/// - \subpage   page_clone    "la procédure de clonage des plateforme GNU/Linux dédiées"   
 /// - \ref todo "la liste des choses à faire"
 /// - l'onglet <a href="namespaces.html"><b>Espaces de nommage</b></a>
 /// - l'onglet <a href="annotated.html"><b>Classes</b></a>
@@ -22,6 +23,145 @@
 /// <li> liste des types, connecteurs, signaux, fonctions et attributs hérités par une classe.</li></ul> \n
 /// Il est possible de naviguer dans les graphes en utilisant la fonctionnalité de navigation (+/- pour zoomer, flèches de direction) en haut à droite des graphes.
 
+
+/// \page page_clone La procédure de clonage
+/// \section a Matériel utilisé
+/// - une clé USB d'au moins 16 Go, de préférence de type USB3
+/// - une version du [logiciel Clonezilla](http://www.clonezilla.org), au moins 2.5.4, entreposée à fins d'archivage sur le dépôt gitlabjf [à cette adresse](https://gitlabjf.ccomptes.fr/fnicol/clonezilla/blob/master/clonezilla.zip) 
+/// \section b Procédure de création de l'image de la plateforme
+/// A partir d'une plateforme fonctionnelle, créer une image Clonezilla.
+/// A cette fin, récupérer tout d'abord le paquet zip du logiciel clonezilla standard sous ~/clonezila.zip   
+/// Puis :   
+/// 1. Repérer la lettre de *device* de la clé grâce à l'instruction :
+///    <pre># fdisk -l</pre>
+///    dans une console d'administration.
+///    Créer deux partitions EXT4 sur la clé USB sous une plateforme Linux auxiliaire (Live CD ou autre), soit /dev/sdb1 et /dev/sdb2 (remplacer b par la lettre adéquate).    
+/// La première partition doit être d'au moins 300 Mo. La deuxième doit être d'au moins 9 Go. Il est possible d'utiliser des logiciels comme gparted (Gnome) ou partitionmanager (KDE).
+/// 2. Décompresser le logiciel Clonezilla entreposé dans un paquet zip sur la première partition /dev/sdb1 dans une console d'administration:
+///    <pre># mount /dev/sdb1 /mnt</pre>
+///    <pre># unzip -o ~/clonezilla.zip /mnt   </pre>
+/// 3. Remplacer le fichier /mnt/syslinux/syslinux.cfg de cette première partition par le fichier clonage/création/syslinux.cfg du dépôt GIT (branche master-jf).
+/// 4. Sur la plateforme Linux auxiliaire, exécuter le fichier utils/makeboot.sh comme suit dans une console d'administration :
+///    <pre># cd /mnt/utils/linux</pre>
+///    <pre># ./makeboot.sh /dev/sdb1 </pre> 
+/// 5. Démarrer la plateforme Linux fonctionnelle sur la clé USB (utiliser F12 au démarrage pour choisir la clé plutôt que le disque dur principal).  
+/// 6. Le PC s'éteindra à l'achèvement du clonage. La seconde partition /dev/sdb2 de la clé USB contient alors un répertoire image/ contenant l'ensemble des fichiers de clonage.
+/// 7. Remplacer le fichier /mnt/syslinux/syslinux.cfg par le fichier clonage/copie/syslinux.sfg du dépôt GIT.    
+///    La clé ainsi paramétrée est un dispositif autonome complet pour la création d'un clone de la plateforme Altaïr sur le PC cible.   
+/// 8. Pour reproduire aisément ce dispositif sur d'autres clés, il est conseillé de préserver une image de clonage :   
+///    <pre># dd if=/dev/sdb of=image.img bs=1G count=11 status=progress   </pre>
+///    qui pourra être reproduite sur une autre clé /dev/sdc comme suit :
+///    <pre># dd if=image.img of=/dev/sdc bs=1G count=11 status=progress </pre>
+///
+/// \section c Procédure de clonage de la plateforme
+/// Une fois la clé de clonage produite par la procédure décrite ci-dessus, il suffit de démarrer un PC cible sur cette clé et d'attendre l'extinction.
+/// Le PC est opérationnel dès le redémarrage.  
+///
+/// \section d Références
+///  La documentation originale du site de l'application est archivée : \ref clonezilla_doc
+///
+
+
+/// \page clonezilla_doc Documentation technique : la ligne de commande de clonezilla
+/// ### The boot parameters for Clonezilla live    
+/// Cette page a été archivée en février 2018 à partir du site clonezilla(http://www.clonezilla.org/fine-print-live-doc.php?path=clonezilla-live/doc/99_Misc/00_live-boot-parameters.doc)   \n   
+/// Kernel boot parameters are text strings which are interpreted by the system to change specific behaviors and enable or disable certain features. Different boot loaders use different config files for the boot     parameters:    \n
+/// For Clonezilla live booting from CD on a MBR machine, isolinux is the boot loader. Therefore the config file is /syslinux/isolinux.cfg.    \n
+/// For Clonezilla live booting from USB flash drive on a MBR machine, syslinux is the boot loader. Therefore the config file is /syslinux/syslinux.cfg.   \n
+/// For Clonezilla live booting from PXE on a MBR machine, pxelinux is the boot loader. The config file is on the PXE server, and is configured by the system administrator. it could be something like /tftpboot/nbi_img/pxelinux.cfg/default, or different file.    \n
+/// For Clonezilla live booting from a uEFI machine, grub2 is used. Therefore the config file is /EFI/boot/grub.cfg.   \n
+/// We now describe the kernel boot parameters related to Clonezilla live. If you want to modify the boot parameters, make sure you edit the right config file.    \n
+/// Clonezilla live is based on Debian live with clonezilla installed. Therefore there are 2 kinds of boot parameters:    \n
+/// Boot parameters from Debian live-boot and live-config. You can refer to the manual of live-boot and manual of live-config..   \n
+/// Boot parameters specially for Clonezilla. All of them are named as "ocs_*", e.g. ocs_live_run, ocs_live_extra_param, ocs_live_batch.   \n
+/// ocs_live_run is intended for saving/restoring an image or cloning disk/partition. It is the main program to be run in Clonezilla live. Available program: ocs-live-general, ocs-live-restore or any command you write.   \n
+/// e.g. ocs_live_run="ocs-live-general"   \n
+/// //NOTE// You might have to use "sudo" command inside your own script, or you can assign it like: ocs_live_run="sudo bash /my-clonezilla"\n
+/// ocs_live_extra_param will be used only when ocs_live_run=ocs-live-restore (not for ocs-live-general or any other), then it will be passed to ocs-sr. Therefore these parameters are actually those of ocs-sr.\n
+/// e.g. ocs_live_extra_param="--batch -c restoredisk sarge-r5 hda"\n
+/// To preset the keyboard layout, use "keyboard-layouts" from live-config.\n
+/// e.g. keyboard-layouts=NONE (won't change the default layout, which is US keyboard)\n
+/// keyboard-layouts=fr (French keyboard)\n
+/// //NOTE// The ocs_live_keymap used in Clonezilla live 1.x is deprecated. The following description is only for reference.\n
+/// ocs_live_keymap is for keymap used in Clonezilla live. Man install-keymap for more details.\n
+/// e.g. ocs_live_keymap="NONE" (won't change the default layout)\n
+/// ocs_live_keymap="/usr/share/keymaps/i386/azerty/fr-latin9.kmap.gz" (French keyboard)\n
+/// batch mode or not (yes/no), if no, will run interactively.\n
+/// e.g. ocs_live_batch="no"\n
+/// To assign the image repository via URI (Uniform Resource Identifier), use "ocs_repository".\n
+/// URI supported in Clonezilla live:\n
+/// [dev|smb|ssh|nfs|nfs4|http|https]:[//[user:password@]host[:port]][/]path\n
+/// There are 5 types of repository can be assigned via "ocs_repository":\n
+/// local device: dev:///dev/partition\n
+/// nfs server: nfs|nfs4://host/path\n
+/// samba server: smb://[domain;user:password@]host/path\n
+/// ssh server: ssh://[user@]host[:port]/path (No password can be assigned in URI)\n
+/// webdav server: http|https://host[:port]/path (No username and password can be assigned in URI)\n
+/// E.g.\n
+/// ocs_repository="dev:///dev/sdf1"\n
+/// ocs_repository="nfs://192.168.100.254/home/partimag/"\n
+/// ocs_repository="nfs4://192.168.100.254/partimag/"\n
+/// ocs_repository="smb://administrator:mypasswd@192.168.100.175/images/"\n
+/// ocs_repository="smb://my_domain;jack:mypasswd@192.168.1.1:445/images/"\n
+/// ocs_repository="ssh://jack@192.168.100.211/home/partimag/"\n
+/// ocs_repository="http://192.168.100.180/share"\n
+/// Then when Clonezilla live boots, the image repository assigned by ocs_repository will be automatically mounted, and if authentication is required, it will prompt you.\n
+/// //NOTE//\n
+/// Remember to set the network configuration either by the option "ocs_prerun" to run "dhclient" or the option "ip" if your image repository is a network repository.\n
+/// You can also use "ocs_prerun" to use your own command to mount your image repository if you like, and that's more flexible if you want to assign more parameters for your mount command.\n
+/// To fetch tarall/zip/sh files from http(s), ftp, tftp, and local URL then extract to /opt/ in the Clonezilla live environment, use "ocs_preload*", i.e.\n
+/// Type 1, fetch tarball/zip/shell script file:\n
+/// ocs_preload=[http|https|ftp|tftp|file]://[HOST_NAME_or_IP_ADD]/path/to/your_tarball_or_script\n
+/// Support file format: tar.gz, tgz, tar.bz2, tbz2, tar.xz, txz, zip, .sh\n
+/// Type 2, fetch files on a cifs/nfs directory using mount command:\n
+/// ocs_preload="mount -t cifs //YOUR_CIFS_SERVER/path/to/ /path/to/mounting_point"\n
+/// ocs_preload="mount -t nfs YOUR_CIFS_SERVER:/path/to/ /path/to/mounting_point"\n
+/// Support network file system: cifs (samba) and nfs2/3/4\n
+/// E.g. You can put the following in the boot parameter:\n
+/// ocs_preload=tftp://192.168.100.254/my-custom.tgz\n
+/// ocs_preload=http://192.168.200.254/my-custom.tar.xz\n
+/// ocs_preload=file:///lib/live/mount/medium/my-custom.tar.bz2\n
+/// ocs_preload=tftp://192.168.100.254/my-custom.sh\n
+/// ocs_preload="mount -t cifs //192.168.120.2/images/ /tmp/cifs -o user=administrator,password=yourpasswd"\n
+/// ocs_preload="mount -t nfs 192.168.120.254:/home/partimag/script/ /tmp/nfs -o ro"\n
+/// Multiple ocs_preload* are available, just append a number after that. E.g.\n
+/// ocs_prealod=... ocs_preload1=... ocs_preload2=...\n
+/// Then when Clonezilla live boots, the file assigned by ocs_preload will be downloaded and extracted to /opt. Its mode will be set automatically, too. i.e. set as mode 755 and Unix format script.\n
+/// Besides, if /opt/{overwrite-all-boot-param,overwrite-part-boot-param} exists (Downloaded from the file assigned by ocs_preload), it can be used to overwrite the boot parameters. File overwrite-all-boot-param\n is to overwrite the whole /proc/cmdline, while overwrite-part-boot-param only overwrites part of the variables in /proc/cmdline. Especially those "ocs_*" parameters. This is useful when you want to customize\n the boot parameters while you do not want to or can not modify the boot parameter file (isolinux.cfg, for example). \n
+/// For example, the contents of "overwrite-all-boot-param" can be like: boot=live union=overlay username=user config components quiet noswap edd=on nomodeset nodmraid locales=en_US.UTF-8 keyboard-layouts=en ocs_live_run="ocs-sr -x -um beginner --batch -p reboot -scs -scr -sfsck -senc" ocs_live_extra_param="" ocs_live_batch=no vga=788 ip= net.ifnames=0 nosplash i915.blacklist=yes radeonhd.blacklist=yes nouveau.blacklist=yes vmwgfx.enable_fbdev=1.\n
+/// The content of "overwrite-part-boot-param" can be like: locales=ja_JP.UTF-8 keyboard-layouts=fr ocs_live_run="ocs-sr -x -scr -scs" ocs_live_batch="no"\n
+/// //NOTE//\n
+/// Remember to set the network configuration either by the option "ocs_prerun" to run "dhclient" or the option "ip" if your files are on the network repository.\n
+/// You can also use "ocs_prerun" to use your own command to fetch your files and put in Clonezilla live environment if you like, and that's more flexible if you want to assign more parameters for your own command.\n
+/// To preset the language, use "locales" from live-config.\n
+/// e.g. locales=en_US.UTF-8\n
+/// //NOTE// The "ocs_lang" used in Clonezilla live 1.x is deprecated.\n
+/// To preset the font name and font size for KMS mode, use "ocs_fontface" and "ocs_fontsize".\n
+/// e.g. ocs_fontface="TerminusBold"\n
+/// ocs_fontsize="24x12"\n
+/// Check file /etc/default/console-setup and the console-setup(5) manual page on Debian or Ubuntu system.\n
+/// ocs_debug (or ocs-debug) is for you to enter command line prompt before any clonezilla-related action is run. This is easier for you to debug.\n
+/// ocs_daemonon, ocs_daemonoff, ocs_numlk, ocs_capslk.\n
+/// Ex. for the first 2 parameters, ocs_daemonon="ssh", then ssh service will be turned on when booting. For the last 2 parameters, use "on" or "off", e.g. ocs_numlk=on to turn on numberlock when booting.\n
+/// ocs_prerun, ocs_prerun1, ocs_prerun2... is intended for running a command before an operation of saving/restoring an image or cloning disk/partition is started. E.g. ocs_prerun="df -h" (For running the system\n command "df -h", or ocs_prerun="/lib/live/mount/medium/myscript.sh" (For running the script myscript.sh in the root path of the live USB media or CD, i.e. after booting into Clonezilla live, the root path of live USB media or CD is mounted as /lib/live/mount/medium/). If you have more commands to run, you can assign them in the order: ocs_prerun=..., ocs_prerun1=..., ocs_prerun2=.... If more than 10 parameters,\n remember to use ocs_prerun01, ocs_prerun02..., ocs_prerun11 to make it in order.\n
+/// ocs_postrun, ocs_postrun1, ocs_postrun2... is intended for running a command after an operation of saving/restoring an image or cloning disk/partition has been completed. E.g. ocs_postrun="/live/image/myscript.sh". \nIf you have more commands to run, you can assign them in the order: ocs_postrun=..., ocs_postrun1=..., ocs_postrun2=.... If more than 10 parameters, remember to use ocs_postrun01, ocs_postrun02..., ocs_postrun11 to make it in order. //NOTE// \nIf you use this parameter, remember not to use "-p reboot" or "-p poweroff" option of ocs-sr. Use "-p true" instead because if "-p reboot" or "-p poweroff" is used, it will reboot or shutdown the system before ocs_postrun related commands are executed. For more info, check this discussion.\n
+/// ocs_savedisk_prerun, ocs_saveparts_prerun, ocs_restoredisk_prerun, and ocs_restoreparts_prerun. These four boot parameters can be used to run a command right before the action savedisk, saveparts, restoredisk,\n and restoreparts, respectively. E.g. ocs_restoredisk_prerun="echo running ocs_restoredisk_prerun" means the command "echo running ocs_restoredisk_prerun" will be run right before "restoredisk" action is run.\n
+/// ocs_savedisk_postrun, ocs_saveparts_postrun, ocs_restoredisk_postrun, and ocs_restoreparts_postrun. These four boot parameters can be used to run a command right after the action savedisk, saveparts,\n restoredisk, and restoreparts, respectively. E.g. ocs_restoredisk_postrun="echo running ocs_restoredisk_postrun" means the command "echo running ocs_restoredisk_postrun" will be run right after "restoredisk" action is run.\n
+/// ocs_overwrite_postaction. This boot parameter has higher priority than the action assigned by option "-p" in ocs-sr, and "-pa" in ocs-onthefly. The value for ocs_overwrite_postaction is: [choose|reboot|poweroff]-on-[restoredisk|restoreparts|savedisk|saveparts|clone] E.g., choose-on-restoredisk means the postaction for restoredisk will always be "choose" no matter what is assigned in -p of ocs-sr or -pa of ocs-onthefly.\n
+/// echo_ocs_prerun and echo_ocs_postrun are used to echo the commands of prerun and postrun. By default the command assigned in ocs_prerun or ocs_postrun will be echoed. By using "no" the command won't be\n echoed. This is useful when you want to hide some commands.\n
+/// e.g. echo_ocs_prerun="no" (Will not show the commands assigned in boot parameter "ocs_prerun").\n
+/// ocs_live_run_tty. This option allows you to specify the tty where $ocs_live_run is run. By default $ocs_live_run is run on /dev/tty1 only. If you want to make $ocs_live_run use on ttyS0, for example, use ocs_live_run_tty="/dev/ttyS0".\n
+/// //NOTE//\n
+/// The kernel boot parameter "console" (e.g. console=ttyS0,38400n81) is for the GNU/Linux system, while ocs_live_run_tty is for $ocs_live_run. They are different. Therefore you can make GNU/Linux system output\n the messages on tty1, while make $ocs_live_run run on ttyS1 like: "console=tty1,38400n81 ocs_live_run_tty=/dev/ttyS1". To make all the output on serial console ttyS1, use: "console=ttyS1,38400n81 ocs_live_run_tty=/dev/ttyS1"\n
+/// It's recommended to assign locales and keyboard-layouts in the boot parameters too.\n
+/// ip, this option allows you to specify the network parameters for network card. In Clonezilla live a patched live-initramfs is used, which is different from the original live-initramfs so that you can assign\n DNS server, too. Its format is: ip=ethernet port,IP address, netmask, gateway, DNS. E.g. If you want to assing eth0 with IP address 10.0.100.1, netmask 255.255.255.0, gateway 10.0.100.254, DNS server 8.8.8.8, you can assign the following in the boot parameter:\n
+/// ip=eth0:10.0.100.1:255.255.255.0:10.0.100.254:8.8.8.8\n
+/// If more than one network card, you can use "," to separate them, e.g.:\n
+/// ip=eth0:10.0.100.1:255.255.255.0:10.0.100.254:8.8.8.8,eth1:192.168.120.1:255.255.255.0:192.168.120.254::\n
+/// Besides, two parameters could be used to assign the network card for PXE booting, "live-netdev" (yes, not ocs_live_netdev) and "nicif" can be used when using PXE booting,\n
+/// For "live-netdev", you can force to assign the network device by its ethernet device name on GNU/Linux, e.g. eth0, eth1, to get filesystem.squashfs. This is useful when there are two or more NICs are linked.\n E.g. live-netdev="eth1" allows you to force the live-initramfs to use eth1 to fetch the root file system filesystem.squashfs.\n
+/// For "nicif", you can force to assign the network device by its MAC address, e.g. 00:aa:bb:cc:dd:ee, to get filesystem.squashfs. This is useful when there are two or more NICs are linked. E.g.\n nicif="00:aa:bb:cc:dd:ee", allows you to force the live-initramfs to use the ethernet card with MAC address "00:aa:bb:cc:dd:ee" to fetch the root file system filesystem.squashfs.\n
+/// You can find some examples about using these boot parameters in the [Clonezilla Live Doc](http://www.clonezilla.org/clonezilla-live-doc.php).\n
 
 /// \page page_recover Procédure de récupération
 /// \section connexion_blank En cas d'impossibilité de se connecter

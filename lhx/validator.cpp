@@ -125,8 +125,8 @@ static int parseFile (info_t& info)
 
 #if defined(STRINGSTREAM_PARSING)
     doc = xmlReadDoc (reinterpret_cast<const xmlChar*> (info.threads->in_memory_file.at (info.fichier_courant).c_str()), nullptr, nullptr, XML_PARSE_COMPACT | XML_PARSE_BIG_LINES);
-#elif defined (MMAP_PARSING)
-    doc = xmlParseDoc (reinterpret_cast<const xmlChar*> (info.threads->in_memory_file.at (info.fichier_courant).c_str()));
+//#elif defined (MMAP_PARSING)
+//    doc = xmlParseDoc (reinterpret_cast<const xmlChar*> (info.threads->in_memory_file.at (info.fichier_courant).c_str()));
 #else
     doc = xmlReadFile (info.threads->argv.at (info.fichier_courant).c_str(), nullptr, XML_PARSE_BIG_LINES);
 #endif
@@ -1287,7 +1287,7 @@ void* parse_info (info_t& info)
             normaliser_accents (em);
             normaliser_accents (gr);
 
-            if (regex_match ((const char*)em, pat) || regex_match ((const char*) VAR (Service), pat))
+            if (regex_match ((const char*)em, pat))
                 {
                     xmlFree (VAR (Statut)) ;
                     VAR (Statut) =  xmlStrdup ((const xmlChar*)"ELU");

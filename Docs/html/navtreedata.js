@@ -48,6 +48,13 @@ var NAVTREE =
       [ "Cas général", "page_recover.html#connexion_ok", null ],
       [ "Si la connexion au compte d'administration est possible", "page_recover.html#connexion_desktop", null ]
     ] ],
+    [ "La procédure de clonage", "page_clone.html", [
+      [ "Matériel utilisé", "page_clone.html#a", null ],
+      [ "Procédure de création de l'image de la plateforme", "page_clone.html#b", null ],
+      [ "Procédure de clonage de la plateforme", "page_clone.html#c", null ],
+      [ "Références", "page_clone.html#d", null ]
+    ] ],
+    [ "Documentation technique : la ligne de commande de clonezilla", "clonezilla_doc.html", null ],
     [ "Liste des choses à faire", "todo.html", null ],
     [ "Espaces de nommage", null, [
       [ "Liste des espaces de nommage", "namespaces.html", "namespaces" ],
@@ -80,7 +87,7 @@ var NAVTREE =
         [ "Définitions de type", "globals_type.html", null ],
         [ "Énumérations", "globals_enum.html", null ],
         [ "Valeurs énumérées", "globals_eval.html", null ],
-        [ "Macros", "globals_defs.html", null ]
+        [ "Macros", "globals_defs.html", "globals_defs" ]
       ] ]
     ] ]
   ] ]
@@ -91,9 +98,11 @@ var NAVTREEINDEX =
 "_interface_2gui_2main_8cpp.html",
 "class_f_list_frame.html#af0a380ae370106f806746edbfe2f10fd",
 "class_main_window.html#ae992f3aff208dd4df67d18108daf8150",
-"expression__reg__adjoints_8h.html#abd29e9aaa8ee166cf69cfd7463454171",
-"fwidgets_8h_source.html",
-"table_8cpp.html#a82d211f064919b7c49ce3afea746bd6c"
+"expression__reg__adjoints_8h.html#a4579ed67a7fb0df2e5ec10e0db4c1a1f",
+"functions_vars_u.html",
+"moc__predefs_8h.html#a25ea6e8b28d842944f35f524550c758e",
+"moc__predefs_8h.html#ab572f59c4b0c5a1f4c2953f38a76d7b3",
+"structqt__meta__stringdata___f_dialog__t.html"
 ];
 
 var SYNCONMSG = 'cliquez pour désactiver la synchronisation du panel';

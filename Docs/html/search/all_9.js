@@ -3,6 +3,8 @@ var searchData=
   ['iconshowmaximized',['iconShowMaximized',['../class_altair.html#a4f352ac2f0f589bdd10a09136b79f775',1,'Altair']]],
   ['iconshownormal',['iconShowNormal',['../class_altair.html#a8c98931e844ab425bfd24246fcafc049',1,'Altair']]],
   ['ide',['IDE',['../expression__reg__cata_8h.html#aae4902dd2ae125e97ac12d224dff567d',1,'expression_reg_cata.h']]],
+  ['ifsecheckbox',['ifseCheckBox',['../classextra_page.html#a96026027a5256da51cec39b46ea98006',1,'extraPage']]],
+  ['ifseframe',['ifseFrame',['../classextra_page.html#a020b4a1cbc6fd53b462a43e114286d15',1,'extraPage']]],
   ['importdata',['importData',['../class_altair.html#a750cc65076dd04ac4d34f486b84a7026',1,'Altair']]],
   ['imported',['imported',['../class_f_list_frame.html#a2d4e470e87cfd1ad489c7fcbc9a21e7c',1,'FListFrame']]],
   ['importeraulancementbox',['importerAuLancementBox',['../class_main_window.html#ac35ae8f26c913ffbfafb55a785f80e95',1,'MainWindow']]],

@@ -16,6 +16,7 @@ var hierarchy =
         [ "common", "classcommon.html", [
           [ "Altair", "class_altair.html", null ],
           [ "codePage", "classcode_page.html", null ],
+          [ "extraPage", "classextra_page.html", null ],
           [ "options", "classoptions.html", null ],
           [ "processPage", "classprocess_page.html", null ],
           [ "standardPage", "classstandard_page.html", null ]
@@ -39,6 +40,7 @@ var hierarchy =
     [ "QDialog", null, [
       [ "codePage", "classcode_page.html", null ],
       [ "codePage", "classcode_page.html", null ],
+      [ "extraPage", "classextra_page.html", null ],
       [ "FDialogConnections", "class_f_dialog_connections.html", [
         [ "FDialog", "class_f_dialog.html", [
           [ "Altair", "class_altair.html", null ]
@@ -70,6 +72,16 @@ var hierarchy =
     [ "QSyntaxHighlighter", null, [
       [ "Highlighter", "class_highlighter.html", null ]
     ] ],
+    [ "qt_meta_stringdata_FAbstractConnection_t", "structqt__meta__stringdata___f_abstract_connection__t.html", null ],
+    [ "qt_meta_stringdata_FCheckBox_t", "structqt__meta__stringdata___f_check_box__t.html", null ],
+    [ "qt_meta_stringdata_FComboBox_t", "structqt__meta__stringdata___f_combo_box__t.html", null ],
+    [ "qt_meta_stringdata_FDialog_t", "structqt__meta__stringdata___f_dialog__t.html", null ],
+    [ "qt_meta_stringdata_FDialogConnections_t", "structqt__meta__stringdata___f_dialog_connections__t.html", null ],
+    [ "qt_meta_stringdata_FLineEdit_t", "structqt__meta__stringdata___f_line_edit__t.html", null ],
+    [ "qt_meta_stringdata_FLineFrame_t", "structqt__meta__stringdata___f_line_frame__t.html", null ],
+    [ "qt_meta_stringdata_FListFrame_t", "structqt__meta__stringdata___f_list_frame__t.html", null ],
+    [ "qt_meta_stringdata_FListWidget_t", "structqt__meta__stringdata___f_list_widget__t.html", null ],
+    [ "qt_meta_stringdata_FProgressBar_t", "structqt__meta__stringdata___f_progress_bar__t.html", null ],
     [ "QToolButton", null, [
       [ "QToolDirButton", "class_q_tool_dir_button.html", null ]
     ] ],

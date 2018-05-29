@@ -1,48 +1,48 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annÃ©es 2012 Ã  2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
-# Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
-# produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-# en vigueur à compter de l'année 2008.
+# Ce logiciel est un programme informatique servant Ã  extraire et analyser les fichiers de paye
+# produits au format spÃ©cifiÃ© par l'annexe de la convention-cadre nationale de dÃ©matÃ©rialisation
+# en vigueur Ã  compter de l'annÃ©e 2008.
 # 
-# Ce logiciel est régi par la licence CeCILL soumise au droit français et
+# Ce logiciel est rÃ©gi par la licence CeCILL soumise au droit franÃ§ais et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
 # utiliser, modifier et/ou redistribuer ce programme sous les conditions
-# de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
+# de la licence CeCILL telle que diffusÃ©e par le CEA, le CNRS et l'INRIA
 # sur le site "http://www.cecill.info".
 # 
-# En contrepartie de l'accessibilité au code source et des droits de copie,
-# de modification et de redistribution accordés par cette licence, il n'est
-# offert aux utilisateurs qu'une garantie limitée. Pour les mêmes raisons,
-# seule une responsabilité restreinte pèse sur l'auteur du programme, le
-# titulaire des droits patrimoniaux et les concédants successifs.
+# En contrepartie de l'accessibilitÃ© au code source et des droits de copie,
+# de modification et de redistribution accordÃ©s par cette licence, il n'est
+# offert aux utilisateurs qu'une garantie limitÃ©e. Pour les mÃªmes raisons,
+# seule une responsabilitÃ© restreinte pÃ¨se sur l'auteur du programme, le
+# titulaire des droits patrimoniaux et les concÃ©dants successifs.
 # 
-# A cet égard l'attention de l'utilisateur est attirée sur les risques
-# associés au chargement, à l'utilisation, à la modification et/ou au
-# développement et à la reproduction du logiciel par l'utilisateur étant
-# donné sa spécificité de logiciel libre, qui peut le rendre complexe à
-# manipuler et qui le réserve donc à des développeurs et des professionnels
-# avertis possédant des connaissances informatiques approfondies. Les
-# utilisateurs sont donc invités à charger et tester l'adéquation du
-# logiciel à leurs besoins dans des conditions permettant d'assurer la
-# sécurité de leurs systèmes et ou de leurs données et, plus généralement,
-# à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+# A cet Ã©gard l'attention de l'utilisateur est attirÃ©e sur les risques
+# associÃ©s au chargement, Ã  l'utilisation, Ã  la modification et/ou au
+# dÃ©veloppement et Ã  la reproduction du logiciel par l'utilisateur Ã©tant
+# donnÃ© sa spÃ©cificitÃ© de logiciel libre, qui peut le rendre complexe Ã 
+# manipuler et qui le rÃ©serve donc Ã  des dÃ©veloppeurs et des professionnels
+# avertis possÃ©dant des connaissances informatiques approfondies. Les
+# utilisateurs sont donc invitÃ©s Ã  charger et tester l'adÃ©quation du
+# logiciel Ã  leurs besoins dans des conditions permettant d'assurer la
+# sÃ©curitÃ© de leurs systÃ¨mes et ou de leurs donnÃ©es et, plus gÃ©nÃ©ralement,
+# Ã  l'utiliser et l'exploiter dans les mÃªmes conditions de sÃ©curitÃ©.
 # 
-# Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
-# pris connaissance de la licence CeCILL, et que vous en avez accepté les
+# Le fait que vous puissiez accÃ©der Ã  cet en-tÃªte signifie que vous avez
+# pris connaissance de la licence CeCILL, et que vous en avez acceptÃ© les
 # termes.
 # 
 # 
 # 
 
-# on prévoit 15 enfants...
+# on prÃ©voit 15 enfants...
 
-# limitations : pas de vérification des cas de divorce etc., ni des cas de cumuls
-#               pas de vérification non plus de la licéité des versements à des contractuels exclus par l'article 1er 
-#               du décret n°85-1148 du 24 octobre 1985 modifié relatif à la rémunération des personnels civils et militaires
-#               de l'Etat, des personnels des collectivités territoriales et des personnels des établissements publics d'hospitalisation. 
+# limitations : pas de vÃ©rification des cas de divorce etc., ni des cas de cumuls
+#               pas de vÃ©rification non plus de la licÃ©itÃ© des versements Ã  des contractuels exclus par l'article 1er 
+#               du dÃ©cret nÂ°85-1148 du 24 octobre 1985 modifiÃ© relatif Ã  la rÃ©munÃ©ration des personnels civils et militaires
+#               de l'Etat, des personnels des collectivitÃ©s territoriales et des personnels des Ã©tablissements publics d'hospitalisation. 
 
 # part fixe mensuelle
 
@@ -55,13 +55,13 @@ sft.prop <- c(un = 0, deux = 3, trois = 8, 8 + 6 * 1:12) / 100
 part.proportionnelle.minimale <- outer(PointMensuelIM, sft.prop * 449)
 
 
-sft_R <- function(x, indice, échelon, nbi, durée, année, mois)   {
+sft_R <- function(x, indice, Ã©chelon, nbi, durÃ©e, annÃ©e, mois)   {
   
   if (x > 15) return(-1)
   
-  if (is.na(durée) || is.na(x)) return(0)
+  if (is.na(durÃ©e) || is.na(x)) return(0)
   
-  if (grepl("H.*(E|é).*[A-F]", échelon, perl = TRUE, ignore.case = TRUE)) {
+  if (grepl("H.*(E|Ã©).*[A-F]", Ã©chelon, perl = TRUE, ignore.case = TRUE)) {
     
     indice <- 717
  
@@ -69,18 +69,18 @@ sft_R <- function(x, indice, échelon, nbi, durée, année, mois)   {
   
   indice <- sum(indice, nbi, na.rm = TRUE)
   
-  # "Pour les personnels non rémunérés par un traitement établi en application de l'article 2 précité,
-  # l'élément proportionnel est calculé en pourcentage du traitement afférent à l'indice majoré 449 (indice brut 524)." art. 10 bis décretn°85-1148
+  # "Pour les personnels non rÃ©munÃ©rÃ©s par un traitement Ã©tabli en application de l'article 2 prÃ©citÃ©,
+  # l'Ã©lÃ©ment proportionnel est calculÃ© en pourcentage du traitement affÃ©rent Ã  l'indice majorÃ© 449 (indice brut 524)." art. 10 bis dÃ©cretnÂ°85-1148
   
-  part.proportionnelle <- (x != 0) * sft.prop[x] * max(449, min(indice, 717)) * PointMensuelIM[année - 2007, mois]  
+  part.proportionnelle <- (x != 0) * sft.prop[x] * max(449, min(indice, 717)) * PointMensuelIM[annÃ©e - 2007, mois]  
   
-  # on prend en compte les quotités spécifiques de temps partiel
+  # on prend en compte les quotitÃ©s spÃ©cifiques de temps partiel
   
-  if (durée == 90) {
+  if (durÃ©e == 90) {
     coef <- 0.91429   # 32/35 
-  } else if (durée == 80) {
+  } else if (durÃ©e == 80) {
     coef <- 0.85714   # 6/7   
-  } else coef <- durée/100
+  } else coef <- durÃ©e/100
   
   if (x != 1) {
     
@@ -91,10 +91,10 @@ sft_R <- function(x, indice, échelon, nbi, durée, année, mois)   {
     valeur <- coef * part.proportionnelle + sft.fixe[x]
   }
   
-  # vérification du plancher des attributions minimales à temps plein
+  # vÃ©rification du plancher des attributions minimales Ã  temps plein
   
   if (x != 1) 
-    valeur <- max(valeur, part.proportionnelle.minimale[ , , x][année - 2007, mois] + sft.fixe[x])
+    valeur <- max(valeur, part.proportionnelle.minimale[ , , x][annÃ©e - 2007, mois] + sft.fixe[x])
   
   
   #if (is.na(valeur)) valeur <- 0

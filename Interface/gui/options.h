@@ -178,6 +178,34 @@ private slots:
 };
 
 
+/// Classe de l'onglet Extra permettant d'importer les fichiers auxiliaires optionnels (correspondance budgétaire, fichier des catégories statutaires rectifié, concessions de logement, plafonds IFSE)     
+
+class extraPage: public QDialog, public common
+{
+
+Q_OBJECT
+
+public:
+    /// Constructeur de la classe extraPage
+    
+    extraPage();
+    
+    FLineFrame *budgetFrame, ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre codes, libellés de paye et sous-comptes du 64 (données externes à importer)
+               *gradesFrame, ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre grades et catégorie statutaire (données externes à importer)
+               *logtFrame,   ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre matricule et concession de logement, par année et mois (données externes à importer)
+               *ifseFrame;   ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre grade, groupe fonctionnel et plafond en euros pour l'IFSE (RIFSEEP)  
+    
+    void do_copies();        ///< Réalise les copies des fichiers auxiliaires paye_budget.csv, grades.catégories.csv et logements.csv dans Tests/Exemple pour importation par le script R.  
+   
+private:   
+    
+    FCheckBox *budgetCheckBox,  ///< Case à cocher de contrôle de \link budgetFrame
+              *gradesCheckBox,  ///< Case à cocher de contrôle de \link gradesFrame
+              *logtCheckBox,    ///< Case à cocher de contrôle de \link logtFrame
+              *ifseCheckBox;    ///< Case à cocher de contrôle de \link ifsetFrame
+};
+
+
 /// Classe de l'onglet Codes, qui permet de saisir manuellement les codes de paye de certaines catégories de lignes de paye.
 /// 
 /// Les codes différents, pour la même ligne, sont séparés par des points-virgules. Ils doivent être exportés dans le fichier common::exportpath en cliquant sur la flèche verte de l'onglet.
@@ -192,8 +220,10 @@ public:
     standardPage* standardTab;         ///< Onglet d'accueil Format : type de base en sortie, modalité d'extraction des données, exportation/archivage
     processPage* processTab;           ///< Onglet de Traitement : nombre de fils, utilisation de la mémoire, log et enchainement avec la production des rapports
     codePage* codeTab;                 ///< Onglet des codes de paye : renseignement manuel des codes de paye utilisés pour certains types d'éléments de paye
+    extraPage* extraTab;               ///< Onglet des fichiers auxiliaires : importation de fichiers externes optionnels permetant de préciser/corriger la génération des rapports d'analyse.  
     static std::uint16_t RefreshFlag;  ///< Drapeau indiquant si si l'interface a été actualisée ou doit l'être
     QListWidget *optionWidget;         ///< composant du dialogue d'options
+    QDialogButtonBox *closeButton;     ///< Bouton "Quitter"    
     
     /// Efface les données de  Hash::wrapper et de  Hash::Reference
     
@@ -201,7 +231,6 @@ public:
 
 private:
 
-    QDialogButtonBox *closeButton;     ///< Bouton "Quitter"
     QStackedWidget *pagesWidget;       ///< composant permettant d'empiler les onglets du dialogue d'options (standardPage,  processPage,  codePage)
 
     /// Méthode permettant d'ajouter les icônes.
