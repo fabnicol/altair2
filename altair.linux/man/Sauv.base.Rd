@@ -4,7 +4,7 @@
 \alias{Sauv.base}
 \title{Sauv.base}
 \usage{
-Sauv.base(chemin.dossier, nom, nom.sauv, Latin = convertir.latin,
+Sauv.base(chemin.dossier, nom, nom.sauv, Latin = TRUE,
   sep = séparateur.liste.sortie, dec = séparateur.décimal.sortie,
   environment = .GlobalEnv)
 }

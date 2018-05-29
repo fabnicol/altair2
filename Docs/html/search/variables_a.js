@@ -15,5 +15,7 @@ var searchData=
   ['listelabels',['listeLabels',['../classcode_page.html#ad34db0c77d4481b0e96669757bf71e1b',1,'codePage']]],
   ['listwidgettranslationhash',['listWidgetTranslationHash',['../class_f_list_widget.html#a4ec0b4f42c06aa151825bef0bfb19a83',1,'FListWidget']]],
   ['logcheckbox',['logCheckBox',['../classprocess_page.html#afff5e1e538d2323b3f51be1b3aa8ee6a',1,'processPage']]],
-  ['logframe',['logFrame',['../classprocess_page.html#abcd65c24aa393862df1157744c5d5893',1,'processPage']]]
+  ['logframe',['logFrame',['../classprocess_page.html#abcd65c24aa393862df1157744c5d5893',1,'processPage']]],
+  ['logtcheckbox',['logtCheckBox',['../classextra_page.html#ad4a80f0dc2039142579365dd4f9d8695',1,'extraPage']]],
+  ['logtframe',['logtFrame',['../classextra_page.html#a1523758af2dfa66add7905830c561995',1,'extraPage']]]
 ];

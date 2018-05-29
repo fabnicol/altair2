@@ -38,6 +38,8 @@ var searchData=
   ['getwidgetcontainer',['getWidgetContainer',['../class_f_list_frame.html#aa893c83c81b1780a7978433a107962f1',1,'FListFrame::getWidgetContainer()'],['../class_f_list_frame.html#a1ef7df8adda6708ea0dda355999a97a7',1,'FListFrame::getWidgetContainer(int rank)']]],
   ['getwidgetcontainercount',['getWidgetContainerCount',['../class_f_list_frame.html#a0ebe3d7847101344e70c84aff2be39b0',1,'FListFrame::getWidgetContainerCount()'],['../class_f_list_frame.html#a78087e11d3607f92ada3c71dbb511a52',1,'FListFrame::getWidgetContainerCount(int g)']]],
   ['grade',['Grade',['../validator_8h.html#a7298899e034c29b49f749493c80a055da07bf0887bd37bd88eca435c2f2b0a829',1,'validator.h']]],
+  ['gradescheckbox',['gradesCheckBox',['../classextra_page.html#a5882214a82974d6251283733e2447367',1,'extraPage']]],
+  ['gradesframe',['gradesFrame',['../classextra_page.html#a3435ca04aa417cd8bd1ebda679b503cd',1,'extraPage']]],
   ['gui_5fenums_2eh',['gui_enums.h',['../gui__enums_8h.html',1,'']]],
   ['gui_5foptions_2eh',['gui_options.h',['../gui__options_8h.html',1,'']]]
 ];

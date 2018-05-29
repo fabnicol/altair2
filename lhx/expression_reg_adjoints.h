@@ -109,8 +109,8 @@
 /// chef de police municipale
 #define CHEF_POLICE "ch.*pol.*mun"
 
-/// ATSEM (agent technique nettoyage etc.)
-#define ATSEM "(?:agent|agt\\.?)?.*atsem"
+/// ATSEM (agent technique spécialisé des écoles maternelles etc.)
+#define ATSEM "(?:agent|agt\\.?|a\\.?)\\b.*\\bs.*\\b[eé].*\\bm"
 
 /// Aide soignant et aide de pharmacie
 #define AIDE_SOIGNANT_PHARMA "aide.*(?:soi|pha)"

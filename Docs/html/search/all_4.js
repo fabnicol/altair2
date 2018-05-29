@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['documentation_20technique_20_3a_20la_20ligne_20de_20commande_20de_20clonezilla',['Documentation technique : la ligne de commande de clonezilla',['../clonezilla_doc.html',1,'']]],
+  ['data',['data',['../structqt__meta__stringdata___f_line_frame__t.html#a8ac4c29a7897b08ffcfbb9d8272789b5',1,'qt_meta_stringdata_FLineFrame_t::data()'],['../structqt__meta__stringdata___f_list_frame__t.html#a9acf013be8918bf93b30c150ed94ecbc',1,'qt_meta_stringdata_FListFrame_t::data()'],['../structqt__meta__stringdata___f_dialog_connections__t.html#a9afbb08408d74cda8730dd159ad801e3',1,'qt_meta_stringdata_FDialogConnections_t::data()'],['../structqt__meta__stringdata___f_dialog__t.html#a311bca27d6df3cedfc6255f65b631460',1,'qt_meta_stringdata_FDialog_t::data()'],['../structqt__meta__stringdata___f_abstract_connection__t.html#a666a11116eea3967a1359aefc83334e8',1,'qt_meta_stringdata_FAbstractConnection_t::data()'],['../structqt__meta__stringdata___f_list_widget__t.html#ae860185e4ebc4fc724080b2ce5ceb34f',1,'qt_meta_stringdata_FListWidget_t::data()'],['../structqt__meta__stringdata___f_check_box__t.html#af94852de2d6677d26c6f439297164bc4',1,'qt_meta_stringdata_FCheckBox_t::data()'],['../structqt__meta__stringdata___f_combo_box__t.html#a4472c7d4949189adfebef23bee5912e8',1,'qt_meta_stringdata_FComboBox_t::data()'],['../structqt__meta__stringdata___f_line_edit__t.html#ac1a2ac38cad878478890ebefab3557eb',1,'qt_meta_stringdata_FLineEdit_t::data()'],['../structqt__meta__stringdata___f_progress_bar__t.html#a3a695b03853c8a20080b001616db9155',1,'qt_meta_stringdata_FProgressBar_t::data()']]],
   ['debug',['DEBUG',['../validator_8h.html#aef41e8aaf4c60819b30faf396cdf4978',1,'validator.h']]],
   ['debut',['DEBUT',['../expression__reg__commun_8h.html#ab42918a5e958e93fad61479e48d24352',1,'expression_reg_commun.h']]],
   ['decimal',['decimal',['../structinfo__t.html#a5357bb15cac6a7416cb1c1222ff11e5e',1,'info_t']]],
@@ -42,6 +44,7 @@ var searchData=
   ['displaytoolbarcboxlistbox',['displayToolBarCBoxListBox',['../class_main_window.html#a8186208f6b0b020a39aa7056d945e507',1,'MainWindow']]],
   ['displaytotalsize',['displayTotalSize',['../class_altair.html#a16c9e4332678b243ec200e215d03a643',1,'Altair']]],
   ['displaywidgetlistbox',['displayWidgetListBox',['../class_main_window.html#a361c7c8532783a1a1ddd5789161e6b58',1,'MainWindow']]],
+  ['do_5fcopies',['do_copies',['../classextra_page.html#a5596a0eee519c2fefe7878dc9d0204b4',1,'extraPage']]],
   ['donnees',['DONNEES',['../gui__enums_8h.html#abcbaf608f29dfa20dd7af1465897c8ae',1,'gui_enums.h']]],
   ['donnees_5fsortie',['DONNEES_SORTIE',['../gui__enums_8h.html#a5d544d497fa8251d92fdba3f7a15d74c',1,'gui_enums.h']]],
   ['donnees_5fxhl',['DONNEES_XHL',['../gui__enums_8h.html#a917e765cc41bbe05562e484e7e7db6b3',1,'gui_enums.h']]],

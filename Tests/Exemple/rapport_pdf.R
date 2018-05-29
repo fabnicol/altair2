@@ -36,7 +36,8 @@
 # 
 # 
 
-source("prologue_rapport.R", encoding = "ISO-8859-1")
+encodage.code.source <- "UTF-8"
+source("prologue_rapport.R", encoding = encodage.code.source)
 
 # Pour chaque répertoire de la clé (dossier R-Altair,export des bases CSV),
 # écraser les rapports et sourcer rapport_pdf_start.R

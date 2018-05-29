@@ -305,9 +305,9 @@ bool tools::IOControl(const QString& in,
 
 
 bool tools::copyFile(const QString &in,
-                      const QString &out,
-                      const QString& comment,
-                      bool require)
+                     const QString &out,
+                     const QString &comment,
+                     bool require)
 {
     if (false == IOControl(in, out, comment, require))
         return false;
