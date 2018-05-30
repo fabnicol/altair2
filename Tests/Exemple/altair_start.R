@@ -98,6 +98,12 @@ source("import.R", encoding = encodage.code.source)
 #'Période sous revue : `r début.période.sous.revue` - `r fin.période.sous.revue`    
 #'Nombre d'exercices : `r durée.sous.revue`        
 #'   
+#'   
+#'**Avertissement**   
+#'*La production des rapports d'analyse nécessite que les données de paye soient continues,
+#'autrement dit qu'il n'y ait pas d'année ou de mois manquant dans la série de données
+#'disponibles. Lorsque tel est le cas, il convient de réaliser autant de rapports partiels
+#'que de séries partielles de données continues.*       
 
 # Pour sauter une page en html (ou pdf converti de html, faire un h6 soit six dièses dans les Rmd seulement)  
 
@@ -1407,14 +1413,14 @@ if (nombre.personnels.nbi.nontit <- uniqueN(NBI.aux.non.titulaires$Matricule)) {
 }
 
 #'   
-#'[Lien vers la base de données NBI aux non titulaires](Bases/Reglementation/NBI.aux.non.titulaires.csv)   
+#'[Lien vers la base de données NBI aux non titulaires](Bases/Reglementation/NBI.aux.non.titulaires.csv) &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NBI_nt.odt)       
 #'     
 
 # On calcule tout d'abord la somme de points de NBI par matricule et par année
 # On calcule ensuite, sur les traitements et éventuellement (par abus ou erreur de codage) les indemnités, la somme des paiements au titre de la NBI, par matricule et par année
 # Attention ne pas prendre en compte les déductions, retenues et cotisations. On compare en effet les payements bruts de base à la somme des points x valeur du point
 
-# La quotité ici considérée est non pas la quotité statistique mais la quotité admistrative plus favorable aux temps partiels.
+# La quotité ici considérée est non pas la quotité statistique mais la quotité administrative plus favorable aux temps partiels.
 
 adm <- function(quotité) ifelse(quotité == 0.8,  6/7, ifelse (quotité == 0.9,  32/35, quotité))
 
@@ -1511,7 +1517,7 @@ couts.nbi.anormales.hors.rappels <- lignes.nbi.anormales.hors.rappels[ , sum(cou
 rappels.nbi <- T2a[ , sum(nbi.cum.rappels, na.rm = TRUE)]
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : Contrôle de liquidation de la NBI*    
+#'&nbsp;*Tableau `r incrément()` : Contrôle de liquidation de la NBI*     &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NBI_liq.odt)       
 #'    
 
 Tableau(
@@ -1523,7 +1529,7 @@ Tableau(
   round(rappels.nbi, 1))
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : Contrôle de liquidation de la NBI, hors rappels*    
+#'&nbsp;*Tableau `r incrément()` : Contrôle de liquidation de la NBI, hors rappels*     &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NBI_liq.odt)       
 #'    
 
 Tableau(
@@ -1541,7 +1547,7 @@ Tableau(
 #'*Les rappels ne sont pas pris en compte dans les montants versés. Certains écarts peuvent être régularisés en les prenant en compte*     
 #'  
 #'    
-#'&nbsp;*Tableau `r incrément()` : Contrôle global de la liquidation des NBI*    
+#'&nbsp;*Tableau `r incrément()` : Contrôle global de la liquidation des NBI*     &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NBI_glob.odt)       
 #'    
 
 with(cumuls.nbi,
@@ -1563,7 +1569,7 @@ Tableau.vertical2(c("Année", "Cumuls des NBI", "Montants versés (a)", "Point d
 # --- Test Proratisation NBI
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : Contrôle de proratisation/liquidation de la NBI*        
+#'&nbsp;*Tableau `r incrément()` : Contrôle de proratisation/liquidation de la NBI*     &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NBI_prorat.odt)           
 #'  
 
 # Calcul plus exact de liquidation, attention à exclure les rappels
@@ -1646,7 +1652,7 @@ nombre.mat.NBI.irrég <- NBI.cat.irreg[ , uniqueN(Matricule)]
 coût.total <- NBI.cat.irreg[ , sum(Coût, na.rm = TRUE)]
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : Contrôle d'attribution de NBI par catégorie statutaire*        
+#'&nbsp;*Tableau `r incrément()` : Contrôle d'attribution de NBI par catégorie statutaire*  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NBI_cat.odt)           
 #'  
 
 Tableau(
