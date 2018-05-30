@@ -1376,6 +1376,10 @@ newpage()
 #'## `r chapitre`.1 Contrôle des nouvelles bonifications indiciaires (NBI) &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NBI.odt)    
 
 #+ tests-statutaires-nbi
+#'   
+#'Il est conseillé, pour ce test, de saisir les codes de NBI dans l'onglet Codes de l'interface graphique    
+#'A défaut, des lignes de paye de rappels de cotisations sur NBI peuvent être agrégés, dans certains cas, aux rappels de rémunération brute.   
+#'       
 
 # --- Test NBI accordée aux non titulaires
 #     Filtre    : Statut != "TITULAIRE" & Statut != "STAGIAIRE" & NBI != 0  grepl(expression.rég.nbi, Libellé)
