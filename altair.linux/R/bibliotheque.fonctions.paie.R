@@ -822,11 +822,6 @@ filtrer_Paie <- function(x, portée = NULL,  Base = Paie, Var = "Code", indic = 
   
   if ("Temps.de.travail" %chin% names(Base)) {
        P_[ , quotité := Temps.de.travail / 100]
-       Q <- P_[ , .(quotité.a = quotité[1]), by = .(Matricule, Année, Mois)
-              ][ , quotité.moyenne := mean(quotité.a, na.rm = TRUE), by = .(Matricule, Année)
-              ][ , quotité.a := NULL]
-
-       P_ <- merge(P_, Q, by = c("Matricule, Année"))  
   }
   
   P_ 
