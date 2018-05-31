@@ -1373,7 +1373,7 @@ newpage()
 #'Les agents non actifs ou dont le poste est annexe sont réintroduits dans le périmètre.   
 #'    
 #'    
-#'## `r chapitre`.1 Contrôle des nouvelles bonifications indiciaires (NBI) &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NBI.odt)    
+#'## `r chapitre`.1 Contrôle des nouvelles bonifications indiciaires (NBI)
 
 #+ tests-statutaires-nbi
 #'   
@@ -1452,28 +1452,20 @@ if (nrow(T1) == 0) cat("Aucune NBI n'a été attribuée ou les points de NBI n'o
 #                                                          na.rm = TRUE),
 
 T2a <- T1[! is.na(quotité)
-           & quotité > 0
-           & Type == "R"
-         ][ , nbi.cum.rappels := sum(Montant, na.rm = TRUE), 
-                 by= .(Matricule, Année.rappel, Mois.rappel)
+          & quotité > 0
+          & Type == "R",
+                .(nbi.cum.rappels = sum(Montant, na.rm = TRUE)), 
+                 by= .(Matricule, Année.rappel, Mois.rappel, Année, Mois)
          ][Année.rappel >= début.période.sous.revue 
                  & Mois.rappel >=1 
-                 & Mois.rappel <= 12
-         ][ , .(Matricule, 
-                Nom,
-                Prénom,
-                Grade,
-                Statut,
-                Année,
-                Mois,
-                Année.rappel,
-                Mois.rappel,
-                nbi.cum.rappels)]
+                 & Mois.rappel <= 12]
 
 setnames(T2a, "Année", "Année.R")
 setnames(T2a, "Mois", "Mois.R")
 setnames(T2a, "Année.rappel", "Année")
 setnames(T2a, "Mois.rappel", "Mois")
+
+# Il faut éviter la réduplication de rappels sur le mêm mois qui après jointure causera une réduplication fautive des montants
 
 T2b <- T1[! is.na(quotité)
            & quotité > 0
@@ -1486,8 +1478,8 @@ T2b <- T1[! is.na(quotité)
 T2 <- merge(T2a, T2b, 
                all = TRUE,
                by = c("Matricule", "Année", "Mois"))[ , adm.quotité := adm(quotité)
-     ][is.na(nbi.cum.rappels), nbi.cum.rappels := 0
-     ][is.na(nbi.cum.hors.rappels), nbi.cum.hors.rappels := 0]
+                                                   ][is.na(nbi.cum.rappels), nbi.cum.rappels := 0
+                                                   ][is.na(nbi.cum.hors.rappels), nbi.cum.hors.rappels := 0]
 
 T2[adm.quotité > 0,  nbi.eqtp.tot := (nbi.cum.rappels + nbi.cum.hors.rappels) / adm.quotité]
 
@@ -1584,14 +1576,14 @@ lignes.nbi.anormales.mensuel <- data.table()
 essayer(
 {  
   lignes.nbi.anormales.mensuel <- lignes_NBI[Type != "R", .(Montant.NBI.calculé = NBI[1] * adm(quotité[1]) * PointMensuelIM[Année - 2007, Mois],
-                                                      Montant.NBI.payé = sum(Montant, na.rm = TRUE)), 
-                                                     keyby = "Matricule,Année,Mois"
+                                                            Montant.NBI.payé = sum(Montant, na.rm = TRUE)), 
+                                                            keyby = "Matricule,Année,Mois"
                                        ][ , Différence.payé.calculé := Montant.NBI.payé - Montant.NBI.calculé
                                        ][abs(Différence.payé.calculé) > tolérance.nbi]
   
   lignes.paie.nbi.anormales.mensuel <- merge(Paie_NBI[, .(Matricule, Nom, Prénom, Grade, Statut, 
                                                             Année, Mois, Echelon, Catégorie, 
-                                                            Emploi, Service, quotité,
+                                                            Emploi, Service, Temps.de.travail,
                                                             NBI, Code, Libellé,
                                                             Base, Taux,Type, Montant)],
                                                   lignes.nbi.anormales.mensuel,
@@ -1889,6 +1881,7 @@ base.logements <- test_avn("NAS", Paie, logements = base.logements)  # base des 
                    Type,
                    Emploi,
                    Grade, 
+                   Temps.de.travail,
                    Indice,
                    Statut,
                    Catégorie)]
@@ -2490,7 +2483,7 @@ colonnes <- c(étiquette.matricule,
               étiquette.code,
               "Heures",
               "Heures.Sup.",
-              "quotité",
+              "Temps.de.travail", 
               "quotité.moyenne",
               "Base",
               "Nb.Unité",

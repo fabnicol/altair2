@@ -816,7 +816,19 @@ filtrer_Paie <- function(x, portée = NULL,  Base = Paie, Var = "Code", indic = 
     
     
   }
+  # Redéfinition de la quotité nécessaire en raison du fait
+  # que la quotité précédemment définie est une quotité statistique
+  # Pour les vérifications de liquidation il faut une quotité réelle
   
-  P_
+  if ("Temps.de.travail" %chin% names(Base)) {
+       P_[ , quotité := Temps.de.travail / 100]
+       Q <- P_[ , .(quotité.a = quotité[1]), by = .(Matricule, Année, Mois)
+              ][ , quotité.moyenne := mean(quotité.a, na.rm = TRUE), by = .(Matricule, Année)
+              ][ , quotité.a := NULL]
+
+       P_ <- merge(P_, Q, by = c("Matricule, Année"))  
+  }
+  
+  P_ 
 }
 
