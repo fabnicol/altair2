@@ -103,6 +103,12 @@ fi
 
 cd ..
 
+# Pour recompiler et réinstaller R : insérer R_VERSION avec un nouveau numéro de version
+# ou bien un fichier install.R.force
+# insérer le fichier install.R 
+# insérer un paquet R.tar.xz dans build/
+
+
 if test -f sys/install.R; then
 
   
@@ -116,7 +122,7 @@ if test -f sys/install.R; then
          cd sys/build
          tar xJf R.tar.xz
          ./configure --enable-R-shlib --prefix=/usr/local
-	 make uninstall
+         make uninstall
          make -j8
          make install
       
