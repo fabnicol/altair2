@@ -1648,7 +1648,7 @@ nombre.mat.NBI.irrég <- NBI.cat.irreg[ , uniqueN(Matricule)]
 coût.total <- NBI.cat.irreg[ , sum(Coût, na.rm = TRUE)]
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : Contrôle d'attribution de NBI par catégorie statutaire*  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NBI_cat.odt)           
+#'&nbsp;*Tableau `r incrément()` : Contrôle d'attribution de NBI par catégorie statutaire*  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_plafonds_NBI.odt)           
 #'  
 
 Tableau(
@@ -1670,7 +1670,7 @@ Tableau(
 
 #'   
 #'[Lien vers les NBI dépassant les seuils par catégorie statutaire](Bases/Reglementation/NBI.cat.irreg.csv)   
-#'[![Notice](Notice.png)](Docs/Notices/fiche_plafonds_NBI.odt)      
+#'   
 
 rm(T, T1, T2, NBI.cat, NBI.cat.irrég)
 
@@ -1758,22 +1758,14 @@ if (nombre.fonctionnaires.et.vacations > 0) {
 ####  5.4 CEV ####  
   
 #'
-#'## `r chapitre`.4 Contrôles sur les contractuels effectuant des vacations horaires    
+#'## `r chapitre`.4 Contrôles sur les contractuels effectuant des vacations horaires  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_CEV_droit.odt)   
 
 #+ tests-statutaires-vacations-ri
 #'     
 #'**Attention**    
 #'Les contrôles réalisés sur les payes des vacataires nécessitent, le plus souvent, la saisie des codes de paye relatifs aux vacations dans l'onglet Codes de l'interface graphique, en raison du fréquent mauvais renseignement 
-#'de ces codes en base de paye.     
-#'Les vacataires rémunérés à la vacation horaire n'ont, en principe, pas accès au régime indemnitaire dont bénéficient les titulaires et non-titulaires   
-#'sauf si l'assemblée délibérante a explicitement prévu de déterminer le taux des vacations horaires par référence à ces régimes.
-#'Les vacataires bénéficiant d'une référence de type indemnitaire perçoivent ainsi parfois des lignes de rémunération
-#'identifiées, par abus de codage en base de paye, comme indemnitaires (*catégorie "Indemnite" des bases XML et type "I" des bases CSV*).      
-#'Cette situation n'est régulière que s'il s'agit d'un ajustement des formules de calcul du taux horaire par référence à un régime indemnitaire, dont l'application *stricto sensu* serait irrégulière.
-#'L'existence, l'applicabilité, et les termes de la délibération correspondante pourront être vérifiés, notamment les formules de calcul mettant en oeuvre cette référence.     
-#'Par ailleurs, des vacations peuvent être effectuées par des contractuels de l'établissement sur autorisation de cumul d'activité accessoire, à condition d'avoir
-#'obtenu cette autorisation. Le régime indemnitaire dont ils bénéficient pour leur activité principale ne s'étend pas en principe
-#'à l'activité accessoire. Une délibération peut toutefois prévoir, dans ce cas également, un ajustement du taux de calcul des vacations par référence à un régime indemnitaire.      
+#'de ces codes en base de paye.      
+#'  
 
   Paie_vac_contr <- Paie_vac[Statut %chin% c("NON_TITULAIRE",  "AUTRE_STATUT"), 
                                  .(Nom, Prénom, Matricule, Service, Statut, Catégorie, Grade, Echelon, Libellé, Type,
@@ -1793,7 +1785,7 @@ if (nombre.fonctionnaires.et.vacations > 0) {
   nombre.Lignes.paie.RI.et.vacations <- nrow(RI.et.vacations)
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : Contractuels effectuant des vacations horaires (CEV)*   
+#'&nbsp;*Tableau `r incrément()` : Contractuels effectuant des vacations horaires (CEV)*  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_CEV_horaires.odt)   
 #'    
   
 if (exists("nombre.contractuels.et.vacations")) {
@@ -1810,10 +1802,6 @@ if (exists("nombre.contractuels.et.vacations")) {
 #'[Lien vers les bulletins de paye correspondants](Bases/Reglementation/Paie_vac_contr.csv)   
 #'    
 
-#'Les contractuels vacataires rémunérés sur prestation horaire n'ont pas accès au SFT ni à l'indemnité de résidence, contrairement aux contractuels
-#'de droit public dont les rémunérations sont calculées sur une base indiciaire. 
-#'Les non-titulaires sur contrat effectuant des vacations à titre accessoire pour leur propre employeur ne peuvent bénéficier de paiements
-#'complémentaires de SFT ou d'indemnité de résidence au titre de ces activités accessoires.     
   
   essayer({ 
     
@@ -1833,7 +1821,7 @@ if (exists("nombre.contractuels.et.vacations")) {
   
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : CEV percevant le supplément familial de traitement ou l'indemnité de résidence*   
+#'&nbsp;*Tableau `r incrément()` : CEV percevant le supplément familial de traitement ou l'indemnité de résidence*     &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_CEV_SFT.odt)   
 #'    
   
   if (exists("nombre.SFT_IR.et.vacations")) {
