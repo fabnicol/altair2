@@ -2966,7 +2966,7 @@ rm(L)
 #### 5.14 SFT ####
 
 #'
-#'## `r chapitre`.14 Contrôle du supplément familial de traitement  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_IHTS.odt)  
+#'## `r chapitre`.14 Contrôle du supplément familial de traitement  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_SFT.odt)  
 #'  
 
 ## La biblitothèque SFT est à revoir  
