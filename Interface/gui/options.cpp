@@ -996,7 +996,7 @@ extraPage::extraPage()
     mainLayout->addWidget (gradesBox, 2, 0);
     mainLayout->addWidget (logtBox,   3, 0);
     mainLayout->addWidget (ifseBox,   4, 0);
-    mainLayout->addSpacing (450);
+    mainLayout->addSpacing (200);
 
     setLayout (mainLayout);
     
