@@ -99,11 +99,12 @@ source("import.R", encoding = encodage.code.source)
 #'Nombre d'exercices : `r durée.sous.revue`        
 #'   
 #'   
-#'**Avertissement**   
-#'*La production des rapports d'analyse nécessite que les données de paye soient continues,
+#'**Avertissements**   
+#'*1. La production des rapports d'analyse nécessite que les données de paye soient continues,
 #'autrement dit qu'il n'y ait pas d'année ou de mois manquant dans la série de données
 #'disponibles. Lorsque tel est le cas, il convient de réaliser autant de rapports partiels
 #'que de séries partielles de données continues.*       
+#'*2. Il est recommandé de renseigner, dans toute la mesure du possible, les codes de paye de l'onglet Codes de l'interface graphique*  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_onglet_codes.odt)      
 
 # Pour sauter une page en html (ou pdf converti de html, faire un h6 soit six dièses dans les Rmd seulement)  
 
@@ -1377,7 +1378,7 @@ newpage()
 
 #+ tests-statutaires-nbi
 #'   
-#'Il est conseillé, pour ce test, de saisir les codes de NBI dans l'onglet Codes de l'interface graphique    
+#'Il est conseillé, pour ce test, de saisir les codes de NBI dans l'onglet Codes de l'interface graphique  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_onglet_codes.odt)     
 #'A défaut, des lignes de paye de rappels de cotisations sur NBI peuvent être agrégés, dans certains cas, aux rappels de rémunération brute.   
 #'       
 
@@ -1764,7 +1765,7 @@ if (nombre.fonctionnaires.et.vacations > 0) {
 #'     
 #'**Attention**    
 #'Les contrôles réalisés sur les payes des vacataires nécessitent, le plus souvent, la saisie des codes de paye relatifs aux vacations dans l'onglet Codes de l'interface graphique, en raison du fréquent mauvais renseignement 
-#'de ces codes en base de paye.      
+#'de ces codes en base de paye.  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_onglet_codes.odt)        
 #'  
 
   Paie_vac_contr <- Paie_vac[Statut %chin% c("NON_TITULAIRE",  "AUTRE_STATUT"), 
@@ -2965,10 +2966,10 @@ rm(L)
 #### 5.14 SFT ####
 
 #'
-#'## `r chapitre`.14 Contrôle du supplément familial de traitement   
+#'## `r chapitre`.14 Contrôle du supplément familial de traitement  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_IHTS.odt)  
 #'  
 
-## La biblitothèque SFT est à revoir
+## La biblitothèque SFT est à revoir  
 
 if (! utiliser.cplusplus.sft)
 {
