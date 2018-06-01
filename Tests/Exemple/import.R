@@ -552,7 +552,8 @@ if (redresser.heures) {
                            nb.jours        = calcul.nb.jours.mois(Mois, Année[1]),
                            nb.mois         = length(Mois),
                            cumHeures       = sum(Heures, na.rm = TRUE),
-                           quotité.moyenne = sum(quotité, na.rm = TRUE) / 12),
+                           quotité.moyenne = sum(quotité, na.rm = TRUE) / 12,
+                           quotité.moyenne.orig = sum(Temps.de.travail, na.rm = TRUE) / 1200),
                  key=c("Matricule", "Année")]
   
   # Indicatrice pour la rémunération moyenne des personnes en place :
@@ -587,6 +588,7 @@ if (redresser.heures) {
                                            cumHeures,
                                            quotité,
                                            quotité.moyenne,
+                                           quotité.moyenne.orig,
                                            Montant.net.eqtp,
                                            Montant.brut.eqtp,
                                            Montant.brut.annuel,

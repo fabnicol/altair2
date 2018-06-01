@@ -1761,8 +1761,11 @@ if (nombre.fonctionnaires.et.vacations > 0) {
 #'## `r chapitre`.4 Contrôles sur les contractuels effectuant des vacations horaires    
 
 #+ tests-statutaires-vacations-ri
-
-#'Les vacataires rémunérés à la vacation horaire n'ont, en principe, pas accès au régime indemnitaire dont bénéficient les titulaires et non-titulaires 
+#'     
+#'**Attention**    
+#'Les contrôles réalisés sur les payes des vacataires nécessitent, le plus souvent, la saisie des codes de paye relatifs aux vacations dans l'onglet Codes de l'interface graphique, en raison du fréquent mauvais renseignement 
+#'de ces codes en base de paye.     
+#'Les vacataires rémunérés à la vacation horaire n'ont, en principe, pas accès au régime indemnitaire dont bénéficient les titulaires et non-titulaires   
 #'sauf si l'assemblée délibérante a explicitement prévu de déterminer le taux des vacations horaires par référence à ces régimes.
 #'Les vacataires bénéficiant d'une référence de type indemnitaire perçoivent ainsi parfois des lignes de rémunération
 #'identifiées, par abus de codage en base de paye, comme indemnitaires (*catégorie "Indemnite" des bases XML et type "I" des bases CSV*).      
@@ -1780,15 +1783,14 @@ if (nombre.fonctionnaires.et.vacations > 0) {
 
   nombre.contractuels.et.vacations     <- nrow(matricules.contractuels.et.vacations)
     
-  RI.et.vacations         <- data.frame(NULL)
+  RI.et.vacations  <- data.frame(NULL)
 
   if (nombre.contractuels.et.vacations) 
   {
      RI.et.vacations <- Paie_vac_contr[Type == "I"]
   }
 
-  nombre.Lignes.paie.RI.et.vacations           <- nrow(RI.et.vacations)
-
+  nombre.Lignes.paie.RI.et.vacations <- nrow(RI.et.vacations)
 
 #'  
 #'&nbsp;*Tableau `r incrément()` : Contractuels effectuant des vacations horaires (CEV)*   
@@ -1815,7 +1817,10 @@ if (exists("nombre.contractuels.et.vacations")) {
   
   essayer({ 
     
-  Paie_vac_sft_ir <- filtrer_Paie("IR_S", portée = "Mois", Var = "Type", Base = Paie_vac)[! Statut %chin% c("TITULAIRE", "STAGIAIRE"), 
+  Paie_vac_sft_ir <- filtrer_Paie("IR_S", 
+                                  portée = "Mois", 
+                                  Var = "Type", 
+                                  Base = Paie_vac)[! Statut %chin% c("TITULAIRE", "STAGIAIRE"), 
                                .(Nom, Prénom, Matricule, Service, Statut, Catégorie, Grade, Echelon, Libellé, Type,
                                  Heures, Heures.Sup., Nb.Enfants, Code, Base, Taux, Nb.Unité,  Montant)]  
 
@@ -2484,7 +2489,7 @@ colonnes <- c(étiquette.matricule,
               "Heures",
               "Heures.Sup.",
               "Temps.de.travail", 
-              "quotité.moyenne",
+              "quotité.moyenne.orig",
               "Base",
               "Nb.Unité",
               "Taux",
