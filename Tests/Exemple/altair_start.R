@@ -3200,7 +3200,7 @@ rm(Base.IHTS)
 #### 5.16 RETRAITES ####
 
 #'
-#'## `r chapitre`.16 Contrôle des cotisations de retraite    
+#'## `r chapitre`.16 Contrôle des cotisations de retraite &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_retraite.odt)     
 #'  
 
 #'**Non titulaires**   
