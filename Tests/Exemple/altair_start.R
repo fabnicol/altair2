@@ -3277,15 +3277,17 @@ Tableau(c("Cotisations salarié", "Cotisations employeur"),
 #### 5.17 PRIMES FPH ####     
 
 #'   
-#'## `r chapitre`.17 Primes de la fonction publique hospitalière          
+#'## `r chapitre`.17 Primes de la fonction publique hospitalière  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_FPH.odt)              
 #'    
 #'     
 #'*Les primes qui suivent ne peuvent être octroyées qu'à des fontionnaires.*    
 #'*Les tests portent sur les cas d'attribution à des non-titulaires (et autres statuts)*     
 #'      
 
-prime_FPH_test <- function(prime, prime_lit, expr = NULL) {
+prime_FPH_test <- function(prime, prime_lit, base, expr = NULL) {
 
+    if (VERSANT_FP != "FPH") return("Non traité.")
+  
     DT <- filtrer_Paie(prime)[ , ..colonnes]
 
     DT <- if (! is.null(expr)) {
@@ -3294,7 +3296,7 @@ prime_FPH_test <- function(prime, prime_lit, expr = NULL) {
       DT[Statut == "NON_TITULAIRE" | Statut == "AUTRE_STATUT"]
     }
     
-    if (nombre.personnels.nt <- uniqueN(personnels.nt)) {
+    if (nombre.personnels.nt <- uniqueN(DT$Matricule)) {
       
       cat("Il existe ", 
           FR(nombre.personnels.nt),
@@ -3307,6 +3309,8 @@ prime_FPH_test <- function(prime, prime_lit, expr = NULL) {
       cat("Coût des anomalies ", 
           personnels.nt[ , sum(Montant, na.rm = TRUE)], "euros.")
     }
+    
+    assign(base, DT)
     
     primes <- unique(DT$Libellé)
     
@@ -3357,7 +3361,7 @@ primes.potentielles <- prime_FPH_test("IFT", "indemnité forfaitaire et techniqu
 
 #'**Prime de service**   
 
-primes.potentielles <- prime_FPH_test("PRIME DE SERVICE", "prime de service", "personnels.ps.nt")
+primes.potentielles <- prime_FPH_test("PRIME DE SERVICE", "prime de service", "personnels.ps.nt", expression.rég.médecin)
 
 #'   
 #'Primes de service : `r primes.potentielles`    
