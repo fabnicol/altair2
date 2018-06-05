@@ -41,6 +41,12 @@
 # prime$restreint_fonctionnaire
 # si non null Paie_B doit avoir indic_B
 
+#' Quotité administrative
+#' @param quotité  quotité formelle (Temps.de.travail / 100)
+#' @export
+adm <- function(quotité) ifelse(quotité == 0.8,  6/7, ifelse (quotité == 0.9,  32/35, quotité))
+
+
 #' Sauvegarde une base dans le dossier des bases
 #' 
 #' Sauvegarde paramétrée par environnement
@@ -612,7 +618,7 @@ list(Paie = Paie_A,
 #' Teste les logements par NAS
 #' 
 #' @param avantage Vecteur de caractères indiquant le type de logement (actuellement seul "NAS" est actif)
-#' @param Paie Base de Paye principale comportant les variables \code{Statut, Grade, Emploi, Type, Code, Libellé, Montant}
+#' @param Paie Base de Paye principale comportant les variables \code{Matricule, Année, Mois, Statut, Grade, Emploi, Type, Code, Libellé, Montant}
 #' @param logements La base de logements facultative importée par l'onglet Extra de l'interface graphique 
 #' @return base de type \code{data.table} comportant les enregistrements identifiés comme problématiques.  
 #' @export
@@ -643,7 +649,7 @@ test_avn <- function(avantage, Paie, logements = NULL) {
     
     logements <- Paie_AV[ , .(Matricule, Année, Mois)]   # on prend ceux de la base de paye à défaut de déclarations explicites dans fichier auxiliaire importé
     logements[ , Logement := "NAS"]
-    cat("En l'absence de fichier auxiliaire importé des logements par NAS, il a été trouvé ", nrow(logements), " lignes d'avantage en nature de logement par NAS.")
+    cat("En l'absence de fichier auxiliaire importé des logements par NAS, il a été trouvé ", nrow(logements), " lignes d'avantage en nature de logement, supposé par NAS.")
 
   } else {
     
@@ -687,76 +693,51 @@ test_avn <- function(avantage, Paie, logements = NULL) {
 
 #' Teste les plafonds d'une prime
 #' 
-#' @param plafonds Base \code{data.table} comportant les colonnes caractères \code{Grade} et \code{Groupe} suivies de la colonne numérique \code{Plafond}. 
-#' @param Paie_Ind Base de Paye principale limitée aux comportant les variables \code{Statut, Grade, Emploi, Type, Code, Libellé, Montant}
-#' @param logements La base de logements facultative importée par l'onglet Extra de l'interface graphique 
-#' @return base de type \code{data.table} comportant les enregistrements identifiés comme problématiques.  
+#' @param plafonds Base \code{data.table} comportant les colonnes caractères \code{Grade, Groupe} et \code{Logement} suivies de la colonne numérique \code{Plafond}. Logement doit contenir le codage \code{NAS} pour les personnels logés par nécessité absolue de service.    
+#' @param Lignes Lignes de paye limitées à des montants indemnitaires fléchés (ex: IFSE) et comportant les variables \code{Matricule, Année, Mois, Statut, Grade, Emploi, Type, Code, Libellé, Montant}
+#' @param logements La base de logements importée par l'onglet Extra de l'interface graphique, comportant la variable Logement et le codage \code{NAS} pour les personnels logés par nécessité absolue de service. A défaut tous les agents sont considérés non logés.       
+#' @return Liste constituée du coût des dépassements par année et d'une base de type \code{data.table} comportant les bulletins de paye comportant une ligne IFSE identifiée comme problématique.  
 #' @export
 
-test_plafonds <- function(plafonds, Paie_Ind, logements = NULL) {
+test_plafonds <- function(plafonds, Lignes, logements = NULL) {
   
-  val <- codes[type == avantage, valeur]
+  if (is.null(plafonds)) return(rep.int(0, uniqueN(Lignes$Année)))
+  
+  if (is.null(logements)) logements <- data.table(Logement = rep_len("", nrow(Lignes)))
   
   essayer({
+  
+    if (ncol(logements) == 1) Paie_NAS <- NULL else {
+       Paie_NAS <- merge(Lignes, logements[Logement == "NAS"], by = c("Matricule", "Année", "Mois"), all.x = TRUE)
     
-    if (! is.na(val)) {
-      Paie_AV <- Paie[Code %chin% val, .(Matricule, Année, Mois, Statut, Grade, Emploi, Type, Code, Libellé, Montant)]
-    } else {
-      Paie_AV <- Paie[grepl(codes[type == avantage, expression], Libellé, ignore.case = TRUE, perl = TRUE), .(Matricule, Année, Mois, Statut, Grade, Emploi, Code, Type, Libellé, Montant)]
+       Paie_NAS <- merge(Paie_NAS[Logement == "NAS", .(Matricule, Année, Mois, Statut, Grade, Emploi, Logement, Type, Code, Libellé, Montant)], plafonds[Logement == "NAS"], by = "Grade")
     }
     
-    if ((n1 <- nrow(Paie_AV[Type == "AV"])) < (n2 <- nrow(Paie_AV))) {
-      newline()
-      cat("Tous les avantages en nature pour logement par NAS (", n2, " lignes) ne sont pas déclarés comme type \"Avantage en nature\", soit ", n1, " lignes."  )
-      newline()
+    if (ncol(logements) == 1) Paie_NO_NAS <- Lignes else {
+       Paie_NO_NAS <- merge(Lignes, logements[Logement != "NAS"], by = c("Matricule", "Année", "Mois"), all.x = TRUE)
+    
+       Paie_NO_NAS <- merge(Paie_NO_NAS[Logement != "NAS", .(Matricule, Année, Mois, Statut, Grade, Emploi, Logement, Type, Code, Libellé, Montant)], plafonds[Logement != "NAS"], by = "Grade")
     }
     
-    NAS.non.importes      <- NULL
-    NAS.non.declares.paye <- NULL
     newline()  
     
-    if (is.null(logements) || is.null(logements[Logement == "NAS"]) || nrow(logements[Logement == "NAS"]) == 0) {
-      
-      logements <- Paie_AV[ , .(Matricule, Année, Mois)]   # on prend ceux de la base de paye à défaut de déclarations explicites dans fichier auxiliaire importé
-      logements[ , Logement := "NAS"]
-      cat("En l'absence de fichier auxiliaire importé des logements par NAS, il a été trouvé ", nrow(logements), " lignes d'avantage en nature de logement par NAS.")
-      
-    } else {
-      
-      if (is.null(Paie_AV) || nrow(Paie_AV) == 0)  {  # il y a donc des logements par NAS non déclarés en base de paye...
-        
-        cat("Aucun des logements par NAS déclarés dans le fichier auxiliaire importé n'est mentionné comme avantage en nature (Type == \"AV\") en base de paye. ")
-        cat("Il peut en résulter des anomalies dans les déclarations fiscales ou de cotisations sociales. ")
-        
-      } else {
-        
-        cat("Il existe à la fois des avantages en nature déclarés en base de paye (", nrow(Paie_AV), " lignes) et un fichier de déclaration de logements par NAS importé (", n1, " lignes. ")
-        
-        logements <- merge(Paie_AV, base.logements[Logement == "NAS"], by = c("Matricule", "Année", "Mois"), all = TRUE)
-        NAS.non.importes <- logements[is.na(Logement)]
-        NAS.non.declares.paye <- logements[! is.na(Logement) & is.na(Code)]
-      }      
-    }
-  }, "Il n'a pas été possible d'extraire les logements par NAS déclarés en base de paye. ")
+  }, "Il n'a pas été possible de contrôler les plafonds en base de paye. ")
   
   newline()
+  
+  P <- rbind(Paie_NAS, Paie_NO_NAS)
+  
+  dépassements <- P[Montant / adm(Temps.de.travail/100) > Plafond]
+  couts.dépassements <- dépassements[ , sum(Montant, na.rm = TRUE), by = Année]
+  bulletins.dépassements <- merge(P, dépassements[, .(Matricule, Année, Mois)])
   
   env <- environment()
   
   essayer({
-    sauvebase("NAS.non.importes", "NAS.non.importes", "Reglementation", env)
-    sauvebase("NAS.non.declares.paye", "NAS.non.declares.paye", "Reglementation", env)
+    sauvebase("bulletins.dépassements", "bulletins.dépassements", "Reglementation", env)
   }, 
-  "Pas de sauvegarde des fichiers logements par NAS. ")
+  "Pas de sauvegarde des fichiers dépassements IFSE. ")
   
-  if (! is.null(logements) && nrow(logements) > 0) {
-    
-    message("Détection d'avantages en nature liés à un logement par NAS.")
-    return(logements[, .(Matricule, Année, Mois, Logement)])
-    
-  } else {
-    
-    message("Pas de détection d'avantage en nature lié à un logement par NAS.")
-    return(NULL)
-  }
+  couts.dépassements
+  
 }

@@ -129,7 +129,7 @@ if (plafonds.ifse.existe) {
   base.ifse <- data.table::fread(chemin("plafonds_ifse.csv"),
                                       sep = séparateur.liste.entrée,
                                       header = TRUE,
-                                      colClasses = c("character", "character", "numeric"),  # Grade, groupe, plafond
+                                      colClasses = c("character", "character", "character", "numeric"),  # Grade, Groupe, Logement, Plafond
                                       encoding = "Latin-1",
                                       showProgress = FALSE) 
   
@@ -140,7 +140,7 @@ if (plafonds.ifse.existe) {
     message("Impossible d'importer les plafonds d'IFSE.")
     stop(" ")
   }
-}
+} else base.ifse <- NULL
 
 
 fichiers.table <- list.files(chemin.clé, pattern = nom.table %+% "(-)?[^.]*[.]csv", full.names  = TRUE)
