@@ -2411,6 +2411,13 @@ tableau_cumuls(résultat_IFSE)
 #'[Lien vers la base de données cumuls ifse/ifts](Bases/Reglementation/personnels.ifse.pfr.csv)    
 #'   
 
+#  test_plafonds(base.ifse)
+
+    
+#'      
+#'[Lien vers les dépassements de plafond ifse](Bases/Reglementation/dépassements.ifse.csv)    
+#'   
+
 
 #'  
 #'&nbsp;*Tableau `r incrément()` : Valeurs de l'agrégat annuel (IFSE ou PFR) pour les bénéficiaires de l'IFSE*        
@@ -3682,10 +3689,11 @@ if (sauvegarder.bases.origine)
 
 system2("find", c("Donnees/R-Altair/Bases", "-name", "'*.csv'", "-exec", "iconv -f UTF-8 -t ISO-8859-15 -c -o {}.2  {} \\;", "-exec",  "mv {}.2 {} \\;"))
 
-if (paye.budget.existe) file.remove(chemin("paye_budget.csv"))
+if (paye.budget.existe)        file.remove(chemin("paye_budget.csv"))
 if (fichier.personnels.existe) file.remove(chemin("matricules.csv"))
-if (grades.categories.existe) file.remove(chemin("grades.categories.csv"))
-if (logements.existe) file.remove(chemin("logements.csv"))
+if (grades.categories.existe)  file.remove(chemin("grades.categories.csv"))
+if (logements.existe)          file.remove(chemin("logements.csv"))
+if (plafonds.ifse.existe)      file.remove(chemin("plafonds_ifse.csv"))
 
 if (! dir.exists(chemin.dossier.docs)) 
    dir.create(chemin.dossier.docs, recursive = TRUE, mode="0777")
