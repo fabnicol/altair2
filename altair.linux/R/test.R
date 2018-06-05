@@ -734,7 +734,7 @@ test_plafonds <- function(plafonds, Lignes, logements = NULL) {
   env <- environment()
   
   essayer({
-    sauvebase("bulletins.dépassements", "bulletins.dépassements", "Reglementation", env)
+    sauvebase("bulletins.dépassements", "bulletins.depassements.ifse", "Reglementation", env)
   }, 
   "Pas de sauvegarde des fichiers dépassements IFSE. ")
   
