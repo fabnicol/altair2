@@ -2411,17 +2411,17 @@ tableau_cumuls(résultat_IFSE)
 #'[Lien vers la base de données cumuls ifse/ifts](Bases/Reglementation/personnels.ifse.pfr.csv)    
 #'   
 
-dépassements_IFSE <- test_plafonds(base.ifse, Lignes_IFSE, if (logements.existe) logements else NULL)
+depassements_IFSE <- test_plafonds(base.ifse, Lignes_IFSE, if (logements.existe) logements else NULL)
 
 #'   
 #'    
 #'&nbsp;*Tableau `r incrément()` : Coûts des dépassements de plafond IFSE*   
 #' 
 
-Tableau(as.character(période), dépassements_IFSE)
+Tableau(as.character(période), depassements_IFSE)
     
 #'      
-#'[Lien vers les dépassements de plafond ifse](Bases/Reglementation/dépassements.ifse.csv)    
+#'[Lien vers les dépassements de plafond IFSE](Bases/Reglementation/bulletins.depassements.ifse.csv)    
 #'   
 
 
