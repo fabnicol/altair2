@@ -1427,7 +1427,6 @@ if (nombre.personnels.nbi.nontit <- uniqueN(NBI.aux.non.titulaires$Matricule)) {
 
 # La quotité ici considérée est non pas la quotité statistique mais la quotité administrative plus favorable aux temps partiels.
 
-adm <- function(quotité) ifelse(quotité == 0.8,  6/7, ifelse (quotité == 0.9,  32/35, quotité))
 
 T1 <- lignes_NBI[! is.na(NBI)
                 & NBI != 0,  c("Matricule", 
@@ -2398,6 +2397,7 @@ tableau_cumuls(résultat_IFSE)
 
 
 résultat_IFSE   <- test_prime(prime_IFSE, prime_PFR, Paie_I, Paie_PFR, Lignes_PFR, afficher.table.effectifs)
+Lignes_IFSE     <- résultat_IFSE$Lignes
 
 #'   
 #'    
@@ -2411,8 +2411,14 @@ tableau_cumuls(résultat_IFSE)
 #'[Lien vers la base de données cumuls ifse/ifts](Bases/Reglementation/personnels.ifse.pfr.csv)    
 #'   
 
-#  test_plafonds(base.ifse)
+dépassements_IFSE <- test_plafonds(base.ifse, Lignes_IFSE, if (logements.existe) logements else NULL)
 
+#'   
+#'    
+#'&nbsp;*Tableau `r incrément()` : Coûts des dépassements de plafond IFSE*   
+#' 
+
+Tableau(as.character(période), dépassements_IFSE)
     
 #'      
 #'[Lien vers les dépassements de plafond ifse](Bases/Reglementation/dépassements.ifse.csv)    
