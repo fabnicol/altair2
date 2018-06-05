@@ -701,7 +701,11 @@ test_avn <- function(avantage, Paie, logements = NULL) {
 
 test_plafonds <- function(plafonds, Lignes, logements = NULL) {
   
-  if (is.null(plafonds)) return(rep.int(0, uniqueN(Lignes$Année)))
+  if (is.null(plafonds)) {
+    cat("Le fichier des plafonds de l'IFSE n'est pas importé. Le test du respect des plafonds ne peut donc pas être effectué. Le lien ci-après est inactif.")
+    newline()
+    return(rep.int(0, uniqueN(Lignes$Année)))
+  }
   
   if (is.null(logements)) logements <- data.table(Logement = rep_len("", nrow(Lignes)))
   
