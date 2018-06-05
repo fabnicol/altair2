@@ -65,8 +65,9 @@ if (sauvegarder.bases.origine)
 knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
  
 fichier.personnels.existe <- (charger.catégories.personnel == TRUE) & file.exists(chemin("matricules.csv"))
-grades.categories.existe <- (charger.catégories.personnel == TRUE) & file.exists(chemin("grades.categories.csv"))
-logements.existe <- file.exists(chemin("logements.csv"))
+grades.categories.existe  <- (charger.catégories.personnel == TRUE) & file.exists(chemin("grades.categories.csv"))
+logements.existe          <- file.exists(chemin("logements.csv"))
+plafonds.ifse.existe      <- file.exists(chemin("plafonds_ifse.csv"))
 
 base.personnels.catégorie <- NULL
 base.grades.categories    <- NULL
@@ -123,6 +124,24 @@ if (logements.existe) {
     stop(" ")
   }
 }
+
+if (plafonds.ifse.existe) {
+  base.ifse <- data.table::fread(chemin("plafonds_ifse.csv"),
+                                      sep = séparateur.liste.entrée,
+                                      header = TRUE,
+                                      colClasses = c("character", "character", "numeric"),  # Grade, groupe, plafond
+                                      encoding = "Latin-1",
+                                      showProgress = FALSE) 
+  
+  message("Chargement du fichier des plafonds d'IFSE.")
+  if (!is.null(base.ifse))
+    message("Importé.")
+  else {
+    message("Impossible d'importer les plafonds d'IFSE.")
+    stop(" ")
+  }
+}
+
 
 fichiers.table <- list.files(chemin.clé, pattern = nom.table %+% "(-)?[^.]*[.]csv", full.names  = TRUE)
 fichiers.bulletins <- list.files(chemin.clé, pattern = nom.bulletins %+% "(-)?[^.]*[.]csv", full.names  = TRUE)
