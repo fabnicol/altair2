@@ -967,9 +967,16 @@ extraPage::extraPage()
                                     "Pour remplir cette colonne on utilisera la première colonne de la<br> " 
                                     "table <b>grade.categories.csv</b> du dossier Bases/Effectifs.</li>"
                                     "<li><b>Groupe</b> : groupe défini par délibération de l'organisme.<br>"
-                                    "Il y a en général un groupe logé et un groupe non logé distinct.</li>"
+                                    "Pour tout groupe, il y a en général un sous-groupe logé <br>"
+                                    "et un sous-groupe non logé distinct.</li>"
+                                    "<li><b>Logement</b> : indique <b>NAS</b> pour le sous-groupe du même grade<br>"
+                                    "des agents logés par nécessité absolue de service.</li>"
                                     "<li><b>Plafond</b> : Maximum de l'IFSE pour le grade et le groupe, <br>"
                                     "<b>en euros</b>.</li>"
+                                    "Il est recommandé d'utiliser simultanément les fonctionnalités <b>Logement</b><br>"
+                                    "(groupe précédent) et <b>IFSE</b>. <br>"
+                                    "Lorsque tel est le cas, la colonne Logement du fichier <b>logements.csv</b><br>"
+                                    "doit préciser le libellé <b>NAS</b> des agents logés par nécessité absolue de service."
                                     "</ul><br>";
     
     ifseCheckBox = new FCheckBox ("IFSE  ",

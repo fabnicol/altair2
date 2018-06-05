@@ -708,15 +708,47 @@ test_plafonds <- function(plafonds, Lignes, logements = NULL) {
   essayer({
   
     if (ncol(logements) == 1) Paie_NAS <- NULL else {
-       Paie_NAS <- merge(Lignes, logements[Logement == "NAS"], by = c("Matricule", "Année", "Mois"), all.x = TRUE)
+      
+       Paie_NAS <- merge(Lignes, logements, by = c("Matricule", "Année", "Mois"), all.x = TRUE)
     
-       Paie_NAS <- merge(Paie_NAS[Logement == "NAS", .(Matricule, Année, Mois, Statut, Grade, Emploi, Logement, Type, Code, Libellé, Montant)], plafonds[Logement == "NAS"], by = "Grade")
+       Paie_NAS <- merge(Paie_NAS[Logement == "NAS", 
+                                     .(Matricule, 
+                                       Année, 
+                                       Mois, 
+                                       Statut, 
+                                       Grade, 
+                                       Emploi, 
+                                       Logement, 
+                                       Type, 
+                                       Code, 
+                                       Libellé, 
+                                       Montant)
+                                  ][ , Logement := NULL], 
+                           plafonds[Logement == "NAS"
+                                  ][ , Logement := NULL],
+                         by = "Grade")
     }
     
     if (ncol(logements) == 1) Paie_NO_NAS <- Lignes else {
-       Paie_NO_NAS <- merge(Lignes, logements[Logement != "NAS"], by = c("Matricule", "Année", "Mois"), all.x = TRUE)
+      
+       Paie_NO_NAS <- merge(Lignes, logements, by = c("Matricule", "Année", "Mois"), all.x = TRUE)
     
-       Paie_NO_NAS <- merge(Paie_NO_NAS[Logement != "NAS", .(Matricule, Année, Mois, Statut, Grade, Emploi, Logement, Type, Code, Libellé, Montant)], plafonds[Logement != "NAS"], by = "Grade")
+       Paie_NO_NAS <- merge(Paie_NO_NAS[Logement != "NAS", 
+                                        .(Matricule,
+                                          Année,
+                                          Mois,
+                                          Statut,
+                                          Grade,
+                                          Emploi,
+                                          Logement,
+                                          Type,
+                                          Code,
+                                          Libellé,
+                                          Montant)
+                                        ][ , Logement := NULL],
+                            plafonds[Logement != "NAS"
+                                        ][ , Logement := NULL],
+                            by = "Grade")
     }
     
     newline()  
