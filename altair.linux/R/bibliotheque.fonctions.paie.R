@@ -53,7 +53,11 @@
 #' cat(x %+% y) # "abcdef"
 #' @export
  
-'%+%' <- function(x, y) paste0(x, y)
+`%+%` <- function(x, y) paste0(x, y)
+
+#' Chemin complet d'un fichier dans le dossier \code{chemin.dossier.données}
+#' @param fichier Nom de fichier
+#' @export
 
 chemin <-  function(fichier)
   file.path(chemin.dossier.données, fichier)
@@ -88,7 +92,6 @@ file2Latin <- function(nom, encodage.in = "UTF-8")  {
   if (! err)  err <- system2("mv", c("temp", shQuote(nom))) else stop("Erreur d'encodage Latin avec iconv")
   if (err)  stop("Erreur de copie fichier après encodage Latin avec iconv")
 }
-
 
 #' Lecture d'une base CSV
 #'
@@ -130,7 +133,7 @@ read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, drop = N
     if (encodage != "UTF-8" && convertir.encodage) {
       message("La table en entrée doit être encodée en UTF-8")
       if (convertir.encodage) message("Conversion via iconv du format " %+% encodage %+% " au format UTF-8...") else stop("Arrêt : convertir l'encodage de la table en UTF-8.")
-      file2utf8(chemin(x), encodage.in = encodage)
+      file2utf8(x, encodage.in = encodage)
   }
       
     # data.table n'admet d'argument dec qu'à partir de la version 1.9.5 
@@ -201,7 +204,7 @@ return(T)
 #' @export
 #'
 
-Sauv.base <- function(chemin.dossier, nom, nom.sauv, Latin = convertir.latin, sep = séparateur.liste.sortie, dec = séparateur.décimal.sortie, environment = .GlobalEnv)
+Sauv.base <- function(chemin.dossier, nom, nom.sauv, Latin = TRUE, sep = séparateur.liste.sortie, dec = séparateur.décimal.sortie, environment = .GlobalEnv)
 {
   message("Sauvegarde de ", nom.sauv)
  
@@ -216,7 +219,7 @@ Sauv.base <- function(chemin.dossier, nom, nom.sauv, Latin = convertir.latin, se
              sep = sep,
              dec = dec)
 
-  if (Latin == convertir.latin) {
+  if (Latin) {
     file2Latin(filepath)
     message("Conversion de ", nom.sauv, " en encodage ISO-8859-15")
   }
@@ -229,51 +232,86 @@ Sauv.base <- function(chemin.dossier, nom, nom.sauv, Latin = convertir.latin, se
 #' Sauvegarde d'une base data.table sous forme de fichier CSV
 #'
 #' @param chemin.dossier Chemin du dossier dans lequel la base sera sauvegardée
-#' @param Latin (= convertir.latin) Convertir en encodage latin ISO-8859-15
-#' @param env (= .GlobalEnv) Environnement
+#' @param env  Environnement
 #' @param nom Nom de l'objet à sauvegarder
 #' @param ... Autres noms d'objets à sauvegarder
 #' @return Liste de booléens résultant de l'application de \link{Sauv.base}
 #' @examples
 #' envir <- environment()
 #' # Générer Bulletins.paie et Paie dans envir
-#' sauv.bases("données", env = envir, c("Bulletins.paie", "Paie"))
+#' sauv.bases("données",  env = envir, c("Bulletins.paie", "Paie"))
 #' @export
 #'
 
-
-sauv.bases <- function(chemin.dossier, Latin = convertir.latin, env = .GlobalEnv, ...)
+sauv.bases <- function(chemin.dossier, env, ...)
 {
   if (! dir.exists(chemin.dossier))
   {
     stop("Pas de dossier de travail spécifié")
   }
 
-  skiplist <- 3
+  skiplist <- 2
   
-  if (missing(env)) skiplist <- skiplist - 1
-  if (missing(Latin)) sliplist <- skiplist -1
+  
   tmp <- as.list(match.call())
   tmp[1] <- NULL
 
   message("Dans le dossier ", chemin.dossier," :")
   invisible(lapply(tmp[-c(1:skiplist)], function(x) {
-    if (exists(x, where = env)) Sauv.base(chemin.dossier,
-                                           x,
-                                           x,
-                                           Latin,
-                                           environment = env)
+    if (exists(x, where = env)) 
+    {
+        Sauv.base(chemin.dossier,
+                               x,
+                               x,
+                           FALSE,
+               environment = env)
+    }  else {
+      cat("Pas de base", x)
+    }
+    
   }))
 }
 
 # Utiliser une assignation globale
 # car la fonction anonyme ne comporte que de variables locales
 
-Read.csv <- function(base.string, fichiers, charger = charger.bases, colClasses = NA, skip = 0,
+#' Lecture d'une série de bases CSV
+#' 
+#' Appelle \link{read.csv.skip} sur chaque base d'une série de chemins et empile les retours en lignes
+#' 
+#' @param base.string Vecteur de caractères du nom de l'objet data.table retourné
+#' @param fichiers    Vecteur de chemins de fichiers
+#' @param charger     Booléen : TRUE pour charger les bases, FALSE sinon (sans effet)
+#' @param colClasses  Vecteur de classes ("numeric" ou "character", etc.) caractérisant les colonnes
+#' @param skip        Sauter les N premières lignes
+#' @param drop        Rang de la colonne à supprimer
+#' @param séparateur.liste  Séparateur des champs CSV
+#' @param séparateur.décimal  Séparateur décimal
+#' @param rapide      Accélération parallèle ou pas
+#' @param convertir.encodage  convertir d'encodage (basculer entre Latin-1 et UTF-8)
+#' @param encodage    Encodage de la base d'entrée.
+#' @return Objet \code{data.table} résultant de l'empilement des bases lues.
+#' @examples 
+#' test <- data.table(datasets::cars)
+#' res  <- try(Read.csv("base",
+#'                      "test.csv",
+#'                       colClasses = c("integer", "integer"),
+#'                       séparateur.liste = ";",
+#'                       séparateur.décimal = ",",
+#'                       convertir.encodage = FALSE, 
+#'                       encodage = "UTF-8",
+#'                       rapide = TRUE),
+#'           silent = FALSE)
+#' if (inherits(res, 'try-error'))
+#'   stop("Problème de lecture de la base de la table bulletins-lignes de Paie")
+#' @export
+
+
+Read.csv <- function(base.string, fichiers, charger = TRUE, colClasses = NA, skip = 0,
                      drop = NULL, séparateur.liste = séparateur.liste.entrée, séparateur.décimal = séparateur.décimal.entrée,
                      rapide = FALSE, convertir.encodage = TRUE, encodage = encodage.entrée)  {
 
-    if (charger.bases) {
+    if (charger) {
 
         assign(base.string,
                do.call(rbind, lapply(fichiers,
@@ -304,7 +342,6 @@ Read.csv <- function(base.string, fichiers, charger = charger.bases, colClasses 
 #' @examples
 #' read.csv.skip(Base, séparateur.décimal = ",")
 #' @export
-
 
 Résumé <- function(x,y, align = 'r', extra = 0, type = "pond")  {
     
@@ -517,6 +554,10 @@ Tableau.vertical <- function(colnames, rownames, extra = "", ...)   # extra func
     kable(T, row.names = FALSE, align = "c", booktabs= TRUE)
 }
 
+#' Tableau vertical 
+#'
+#' @export
+
 Tableau.vertical2 <- function(colnames, rownames, ...)
 {
   tmp <- list(...)
@@ -548,40 +589,41 @@ Tableau.vertical2 <- function(colnames, rownames, ...)
 v.jmois  <-  c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 v.jmois.leap  <-  c(31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 
+#' Calcul du nombre de jours dans le mois
+#' @export
+
 calcul.nb.jours.mois <- function(Mois, année)   if ((année - 2008) %% 4 == 0) {
     return(sum(v.jmois.leap[Mois])) 
     } else {
     return(sum(v.jmois[Mois]))
   }
-    
 
+#' Sélectionne les éléments positifs d'un vecteur
+#' @export   
 positive <- function(X) X[!is.na(X) & X > 0]
+
+#' Sélectionne les éléments non nuls d'un vecteur
+#' @export
 non.null <- function(X) X[!is.na(X) & X != 0]
-significatif <- function(x) !is.na(x) & abs(x) > 0.01
 
-convertir.nom.prénom.majuscules <- function(S)
-{
-
-  S[ , c("Nom", "Prénom")] <- apply(S[ , c("Nom", "Prénom")],
-                                    2,
-                                    function(x)
-                                      toupper(chartr("éèôâçë","eeoaice", x)))
-
-
-}
-
-
-
-
-# tester.homogeneite.matricules(Base)
-
-#  Teste si, dans une base, la proportion d'enregistrements Noms-Prénoms dont les matricules ne sont pas identiques
-#  reste inférieure à une marge de tolérance fixée (taux.tolérance.homonymie)
-#  utilité : tester si l'appariement sur Nom-Prénom au lieu de matricule sera acceptable
+#' Teste si, dans une base, la proportion d'enregistrements Noms-Prénoms dont les matricules ne sont pas identiques
+#'  reste inférieure à une marge de tolérance fixée (taux.tolérance.homonymie)
+#'  
+#' @param Base Base à tester
+#' @export
 
 tester.homogeneite.matricules <- function(Base) {
 
   message("Contrôle sur la cohérence de l'association Nom-Prénom-Matricule (homonymies et changements de matricule)")
+  
+    convertir.nom.prénom.majuscules <- function(S)
+  {
+    S[ , c("Nom", "Prénom")] <- apply(S[ , c("Nom", "Prénom")],
+                                      2,
+                                      function(x)
+                                        toupper(chartr("éèôâçë","eeoaice", x)))
+  }
+  
   S <- convertir.nom.prénom.majuscules(Base[ , c("Nom", "Prénom", "Matricule")])
 
   with.matr    <-   nrow(unique(S))
@@ -590,23 +632,20 @@ tester.homogeneite.matricules <- function(Base) {
   message("Matricules distincts: ", with.matr)
   message("Noms-Prénoms distincs: ", without.matr)
 
-  if (with.matr  >   (1 + taux.tolérance.homonymie/100) * without.matr)
+  if (with.matr  >   (1 + taux.tolérance.homonymie / 100) * without.matr)
   {
-     message(paste0("Résultats trop différents (", taux.tolérance.homonymie, " % de marge tolérée). Changement de régime de matricule."))
-     if (fusionner.nom.prénom == FALSE)
-       stop("Vous pouvez essayer de fusionner sur Nom, Prénom en spécifiant fusionner.nom.prénom <- TRUE dans prologue.R", call. = FALSE)
+     msg <- paste0("Résultats trop différents (", taux.tolérance.homonymie, " % de marge tolérée). Changement de régime de matricule.")
+     message(msg)
+     cat(msg)
   }
 }
 
+#' Longueur d'un vecteur, ou nombre de lignes d'une table, lorsque l'on a retiré les éléments ou les lignes NA
+#' @param v  Vecteur ou data.frame/data.table
+#' @return Nombre d'éléments ou de lignes.
+#' @export
+
 longueur.non.na <- function(v) if (is.vector(v)) length(v[!is.na(v)]) else if (is.data.frame(v)) nrow(na.omit(v))
-
-# opérateurs infixe
-
-# concaténer deux strings
-
-
-`..` <- function(...) list(expand.grid(...))
-
 
 #' Saut de page dans les rapports d'analyse
 #' 
@@ -688,13 +727,40 @@ essayer <- function(X, Y) {
   invisible(res)
 }
 
+#' Prise en compte du pluriel
+#' 
+#' @param Mot Mot à pluraliser éventuellement
+#' @param N   Entier : pluriel si N > 1.
+#' @examples 
+#' cat("patient" %s% 2)  
+#' @return Concaténation du mot et de "s" si N > 1
+#' @export
+
 '%s%' <- function(mot, N) if (N > 1) mot %+% "s"  else mot
+
+#' Sélection du filtre correspondant à une chaîne de caractères associée
+#' 
+#' @param x  Chaîne de caractères associée figurant dans la colonne \code{type} de la table \code{codes}
+#' @return Cette fonction renvoie un ensemble de valeurs fixes ou une expression régulière, sauf si x n'est pas dans la colonne \code{type} de la table \code{codes} (renvoie NULL)
+#' @export
 
 filtre <- function(x) {
   
-  if (is.na(codes[x, valeur])) return(codes[x, expression]) else return(unlist(codes[x, valeur]))
+  if (! x %in% codes$type) return(NULL)
+  
+  if (is.na(codes[x, valeur])) {
+    return(codes[x, expression])
+  } else {
+    return(unlist(codes[x, valeur]))
+  }
+  
 }
 
+#' Filtrage d'une base de paye
+#' 
+#' Filtre la base par une expression régulière sur libellés de paye ou par valeurs fixes sur une variable donnée.
+#' Si le filtrage a une portée, l'ensemble des lignes de la portée (exemple "Mois") est conservé.
+#' @export
 
 filtrer_Paie <- function(x, portée = NULL,  Base = Paie, Var = "Code", indic = FALSE) {
 
@@ -746,11 +812,16 @@ filtrer_Paie <- function(x, portée = NULL,  Base = Paie, Var = "Code", indic = 
                  ][indic0 == TRUE][, indic0 := NULL]
       }
     }
-    
-    
-    
+  }
+  # Redéfinition de la quotité nécessaire en raison du fait
+  # que la quotité précédemment définie est une quotité statistique
+  # Pour les vérifications de liquidation il faut une quotité réelle
+  
+  if (all(c("Temps.de.travail", "quotité.moyenne.orig") %chin% names(Base))) {
+       P_[ , `:=`(quotité = Temps.de.travail / 100,
+                  quotité.moyenne = quotité.moyenne.orig)]
   }
   
-  P_
+  P_ 
 }
 
