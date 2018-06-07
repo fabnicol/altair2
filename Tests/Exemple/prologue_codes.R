@@ -44,18 +44,22 @@ codes.psr        <- NA
 codes.ipf        <- NA
 codes.ifts       <- NA
 codes.iat        <- NA
+codes.ifse       <- NA
+codes.iemp       <- NA
+codes.iss        <- NA
 codes.ihts       <- NA
 codes.vacataires <- NA
 codes.astreintes <- NA
-codes.primespecifique      <- NA  
-codes.ift <- NA  
+codes.nas        <- NA
+codes.primespecifique <- NA  
+codes.ift             <- NA  
 codes.primedeservice  <- NA  
 codes.primedetechnicite <- NA  
 types.irs  <- c("IR", "S")
 
-controle<-c("","","","")  
+controle<-c("Z","Z","Z","MULTIBUDGET")  
 
-codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IHTS", "VAC", "ASTREINTES", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
+codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IFSE", "IEMP", "ISS", "IHTS", "VAC", "ASTREINTES", "NAS", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(
                                codes.traitement,
                                codes.nbi, 
@@ -65,9 +69,13 @@ codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "I
                                codes.ipf,
                                codes.ifts, 
                                codes.iat,
+                               codes.ifse,
+                               codes.iemp,
+                               codes.iss,
                                codes.ihts, 
                                codes.vacataires,
                                codes.astreintes,
+                               codes.nas,
                                codes.primespecifique,
                                codes.ift,
                                codes.primedeservice,
@@ -82,9 +90,13 @@ codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "I
                                    expression.rég.ipf, 
                                    expression.rég.ifts, 
                                    expression.rég.iat,
+                                   expression.rég.ifse,
+                                   expression.rég.iemp,
+                                   expression.rég.iss,
                                    expression.rég.heures.sup, 
                                    expression.rég.vacataires,
                                    expression.rég.astreintes,
+                                   expression.rég.nas,
                                    expression.rég.primespecifique,
                                    expression.rég.ift,
                                    expression.rég.primedeservice,

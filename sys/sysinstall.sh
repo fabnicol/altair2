@@ -103,6 +103,12 @@ fi
 
 cd ..
 
+# Pour recompiler et réinstaller R : insérer R_VERSION avec un nouveau numéro de version
+# ou bien un fichier install.R.force
+# insérer le fichier install.R 
+# insérer un paquet R.tar.xz dans build/
+
+
 if test -f sys/install.R; then
 
   
@@ -116,7 +122,7 @@ if test -f sys/install.R; then
          cd sys/build
          tar xJf R.tar.xz
          ./configure --enable-R-shlib --prefix=/usr/local
-	 make uninstall
+         make uninstall
          make -j8
          make install
       
@@ -357,7 +363,6 @@ rc-update add ajuster_version default
 chmod -R 0777 /home/jf/.rstudio-desktop
 chmod -R 0750 /home/fab/Dev/altair/Interface_linux/gui/x64/
 chmod -R 0750 /home/fab/Dev/altair/linux
-chmod -R 0777 /home/jf/.rstudio-desktop
 
 # correction d'un bug sur la version fab de m.sh (réimportation de /home/Public/fab/.Rproj.user à chaque ouverture de session)
 cp -vf ./autostart-scripts/m_fab.sh /home/fab/.config/autostart-scripts/m.sh
@@ -400,10 +405,14 @@ else
   
 fi 
 
-chown -R fab .
+
 rm -rf .Rproj.user/
 cp -rf /home/Public/fab/.Rproj.user .
 mkdir -p Tests/Exemple/Donnees/R-Altair
+mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/R-Altair
+
+chgrp -R users /home/jf/Dev/altair/Tests/Exemple/Donnees/
+chmod -R 0770 /home/jf/Dev/altair/Tests/Exemple/Donnees/
 
 # création du dossier Bulletins sous jf
 
@@ -422,6 +431,8 @@ if test  -d /home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot ; then
    chown -R fab /home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot
 fi  
 
+chown -R fab .
+chgrp -R users .
 
 echo "*** Opérations sur branche release : Terminé ***"
  

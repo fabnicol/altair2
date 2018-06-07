@@ -36,7 +36,9 @@
 # 
 # 
 
-source("prologue_rapport.R", encoding = "ISO-8859-1")
+encodage.code.source <- "UTF-8"
+
+source("prologue_rapport.R", encoding = encodage.code.source)
 
 for (rep in reps) {
   
@@ -53,7 +55,7 @@ for (rep in reps) {
   invisible(lapply(c("altaïr.pdf", "altaïr.odt", "altaïr.docx"), function(x) file.remove(file.path(chemin.clé.racine, x))))
   
   res <- try({
-      source("rapport_msword_start.R", encoding = "ISO-8859-1", echo = TRUE)
+      source("rapport_msword_start.R", encoding = encodage.code.source, echo = TRUE)
   })
   
   if (inherits(res, "try-error")) {

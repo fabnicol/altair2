@@ -192,8 +192,7 @@ encodage.entrée                <-  "ISO-8859-1"
   # "WINDOWS-1252"
   # "UTF-8"
 encodage.entrée.xhl2csv        <-   encodage.entrée
-encodage.sortie                <- "UTF-8" #ISO-8859-15"
-convertir.latin                <- grepl("ISO.*8859-1.*", encodage.sortie, ignore.case = TRUE)
+convertir.latin                <-   FALSE
 
 # expressions régulières
 
@@ -208,6 +207,7 @@ convertir.latin                <- grepl("ISO.*8859-1.*", encodage.sortie, ignore
 expression.rég.traitement     <- "(?:\\s|^)trait.*\\b"
 expression.rég.nbi        <- "(?:\\s|^)nbi|(?:n(?:(?=o)o\\w*|)\\.?\\s*\\b)?b(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)nd\\w*|)\\.?\\b"
 expression.rég.astreintes <- "astr.*"
+expression.rég.nas        <- "log.*(:?n\\.?\\s*\\ba\\.?\\s*\\bs|n..?c.*ser)"
 
 # --- FPH
 
@@ -229,6 +229,9 @@ expression.rég.heures.sup <- "(?:^|\\s)iht?[s]|i(?:(?=n)n\\w*|)\\.?\\s*\\bh(?:(
 expression.rég.iat        <- "(?:^|\\s)i\\.?a\\.?t|i(?:(?=n)n\\w*|)\\.?\\s*\\ba(?:(?=d)d\\w*|)\\.?\\s*\\b(?:et\\s*\\b)?t(?:(?=e)e\\w*|)\\.?\\b"
 expression.rég.ifts       <- "(?:^|\\s)i\\.?f\\.?t\\.?s|i(?:(?=n)n\\w*|)\\.?\\s*\\bf\\w*\\.?\\s*\\bt(?:(?=r)r\\w*|)\\.?\\s*\\bs(?:(?=u)u\\w*|)\\.?\\b"
 expression.rég.pfr        <- "(?:^|\\s)p\\.?f\\.?r|(?:p(?:(?=r)r\\w*|))\\.?\\s*\\bfo?\\w*\\.?.*\\s+.*\\br\\w*s\\w*\\.?\\s*\\b"
+expression.rég.iss        <- "(?:^|\\s)i\\.?s\\.?s|(?:i(?:(?=n)n\\w*|))\\.?\\s*\\bsu?\\w*\\.?.*\\s+.*\\bsp?\\w*\\.?\\s*\\b"
+expression.rég.ifse       <- "(?:^|\\s)i\\.?f\\.?s\\.?e|(?:i(?:(?=n)n\\w*|))\\.?\\s*\\bfo?\\w*\\.?.*\\s+.*\\bs\\w*\\.?\\s*\\be.*"
+expression.rég.iemp       <- "(?:^|\\s)i\\.?e\\.?m\\.?p|(?:i(?:(?=n)n\\w*|))\\.?\\s*\\bex?\\w*\\.?.*\\s+.*\\bm\\w*\\.?\\s*\\bpr.*"
 expression.rég.psr        <- "(?:^|\\s)p\\.?s\\.?r|(?:p(?:(?=r)r\\w*|))\\.?\\s*\\bse?\\w*\\.?.*\\s+.*\\br\\w*n\\w*\\.?\\s*\\b"
 expression.rég.ipf        <- "(?:^|\\s)i\\.?p\\.?f|(?:i(?:(?=n)n\\w*|))\\.?\\s*\\bpe?\\w*\\.?.*\\s+.*\\bf\\w*n\\w*\\.?\\s*\\b"
 

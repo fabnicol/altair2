@@ -67,16 +67,20 @@ rm -f sys/install.*
 
 git fetch -p -n --depth=1 origin master-jf
 
-for i in altair.linux sft data Docs Interface lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
+for i in altair.linux sft data Docs Interface fwidgets_lib lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
 do
+rm -rf "$i"
 git checkout FETCH_HEAD -- "$i" 
-git add .
 done
 
 if ! test -d  lhx
 then
  mkdir lhx    
 fi
+
+git add -f .
+
+git commit -am "Sauvegarde master-jf $(date)"
 
 if test -f sys/install.sys -a -f sys/sysinstall.sh; then
 
@@ -92,7 +96,7 @@ else
 fi
 fi
 
-git commit -am "Sauvegarde $(date)"
+git commit -am "Sauvegarde release $(date)"
 
 echo "****"
 echo "* Actualisation de jf..."
