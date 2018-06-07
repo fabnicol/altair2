@@ -45,6 +45,7 @@
 #include <QFile>
 #include <thread>
 #include <fstream>
+#include <vector>
 #include "fstring.h"
 #include "altair.h"
 #include "forms.h"
@@ -99,9 +100,11 @@ codePage::codePage()
                                 "pour la génération des rapports d'analyse.   ");
     appliquerCodes->setCheckable (true);
 
-    variables << "traitement" << "nbi" << "pfi" <<
-              "pfr" <<  "ipf" << "psr" << "ifts" << "iat" <<
-              "ihts" << "vacataires" << "astreintes";
+    variables << "traitement" << "nbi" << "pfi" 
+              << "pfr" <<  "ipf" << "psr" << "ifts" << "iat" 
+              << "ifse" << "iemp" << "iss" 
+              << "ihts" << "vacataires" << "astreintes" 
+              << "nas";
 
     short index = 0;
 
@@ -523,7 +526,6 @@ standardPage::standardPage()
     FRichLabel *mainLabel = new FRichLabel ("Format des bases");
 
     mainLayout->addWidget (mainLabel);
-
     mainLayout->addWidget (baseTypeBox,      1, 0);
     mainLayout->addWidget (optionalFieldBox, 2, 0);
     mainLayout->addWidget (exportBox,        3, 0);
@@ -562,7 +564,6 @@ processPage::processPage()
 
     for (int i = 1; i < 12; i++) range3 << QString::number (i);
 
-
     QLabel* processTypeLabel = new QLabel ("Nombre de fils d'exécution  ");
     processTypeWidget = new FComboBox (range3,
                                        "processType",
@@ -579,9 +580,9 @@ processPage::processPage()
                                QDir::toNativeSeparators (common::generateDatadirPath()
                                        + "/altair.log"),
                                "log",
-                                {2, 1},
-                                v3Layout,
-                                "L");
+                               {2, 1},
+                               v3Layout,
+                               "L");
 
     logFrame->setPathCategory (flags::flineframe::isFilePath);
 
@@ -589,7 +590,10 @@ processPage::processPage()
                                  flags::status::enabledUnchecked
                                  | flags::commandLineType::noCommandLine,
                                  "genererLog",
-                                {"Générer un log d'exécution", "application noyau"},
+                                { 
+                                  "Générer un log d'exécution", 
+                                  "application noyau"
+                                 },
                                 logFrame->getComponentList());
 
     consoleCheckBox = new FCheckBox ("Activer la console  ",
@@ -600,7 +604,6 @@ processPage::processPage()
                                         "Générer un log d'exécution",
                                         "Utiliser l'onglet console"
                                     });
-
 
     QList<QString> ecoRange = QList<QString>(), ecoRange2 = QList<QString>();
     ecoRange << "Intensive (100 %)" << "Standard (80 %)" << "Modérée (60 %)"
@@ -620,7 +623,6 @@ processPage::processPage()
                                         "Pourcentage d'utilisation de la mémoire libre"
                                     },
                                     "%memshare");
-
 
     createHash (memoryUseWidget->comboBoxTranslationHash, &ecoRange, &ecoRange2);
     memoryUseWidget->status = flags::status::defaultStatus;
@@ -693,7 +695,6 @@ processPage::processPage()
     // La version expérimentale n'est accessible que sous compte administrateur
 
     if (QCoreApplication::applicationDirPath() != "/home/fab/Dev/altair/Interface_linux/gui/x64") rapportEntier->setVisible (false);
-
 
     connect (rapportEntier, &FCheckBox::toggled, [this]
     {
@@ -778,6 +779,267 @@ processPage::processPage()
 
 std::uint16_t options::RefreshFlag;
 
+
+extraPage::extraPage()
+{
+    QGridLayout *v3Layout = new QGridLayout;
+        
+    budgetFrame = new FLineFrame ({"Utiliser la correspondance budgétaire", "Chemin de la table de correspondance"},
+                                   QDir::toNativeSeparators (path_access(DONNEES_SORTIE  "/paye_budget.csv")),
+                                   "budget",
+                                   {2, 1},
+                                   v3Layout,
+                                   "",   // pas de ligne de commande
+                                   directory::noCheck, // ne pas vérifier que le chemin est vide
+                                   flags::flineframe::isFilePath,
+                                   "Fichier CSV (*.csv)"); // il s'agit d'un chemin de fichier
+   
+    constexpr const char* budgetTip = "Le fichier importé donne la correspondance entre <br>"
+                                      "le code de paye et le sous-compte du compte 64 <br>"
+                                      "utilisé par les comptes administratifs et de gestion.<br>"
+                                      "Il doit être au format CSV (séparateur point-virgule)<br>"
+                                      "et encodé en caractères Latin-1 ou Windows-1252.<br>"
+                                      "Les colonnes doivent comporter les intitulés Code,<br>"
+                                      "Libellé, Statut, Type et Compte, dans cet ordre : <br>"
+                                      "<ul><li><b>Code</b> : code de  paye de la base dématérialisée.</li>"
+                                      "<li><b>Libellé</b> : libellé de  paye associé au code.</li>"
+                                      "<li><b>Statut</b> : statut éligible à ce code. Si plusieurs<br>"
+                                      "statuts sont éligibles, utiliser une ligne par statut.<br>"
+                                      "Valeurs possibles : <br>"
+                                      "<ul><li>TITULAIRE</li>"
+                                      "<li>STAGIAIRE</li>"
+                                      "<li>NON_TITULAIRE</li>"
+                                      "<li>AUTRE_STATUT</li>"
+                                      "<li>EMPLOI_AIDE</li></ul></li><br>"
+                                      "<li><b>Type</b> : Type de ligne de paye. Valeurs possibles :<br>"
+                                      "<ul><li>Traitement</li>"
+                                      "<li> Indemnité </li>"
+                                      "<li> Autres rémunérations</li>"
+                                      "<li> Rappels</li>"
+                                      "<li> Supplément familial</li>"
+                                      "<li> Indemnité de résidence</li></ul><br>"
+                                      "<li><b>Compte</b> : sous-compte du 64 (à 5 chiffres).</li></ul><br>"
+                                      "A défaut d'importation manuelle de ce fichier, le <br>"
+                                      "logiciel réalise une interpolation imparfaite de la <br>"
+                                      "table de correspondance et peut produire des résultats<br>"
+                                      "relativement éloignés des agrégats comptables. Cette <br>"
+                                      "table par défaut est générée sous <b>Bases/Fiabilite</b> <br>"
+                                      "sous le nom de fichier <b>code.libelle.csv</b>.";
+    
+    budgetCheckBox = new FCheckBox ("Correspondance budgétaire  ",
+                                    flags::status::enabledUnchecked
+                                     | flags::commandLineType::noCommandLine,
+                                    "genererBudget",
+                                    {
+                                       "Générer une correspondance budgétaire", 
+                                        ""
+                                    },
+                                    budgetFrame->getComponentList());
+    
+    v3Layout->addWidget (budgetCheckBox,       1, 0, Qt::AlignLeft);
+
+    QGroupBox* budgetBox = new QGroupBox (tr ("Budget"));
+    
+    budgetBox->setToolTip(budgetTip);
+    budgetBox->setLayout (v3Layout);
+
+    QGridLayout *v4Layout = new QGridLayout;
+    
+    gradesFrame = new FLineFrame ({"Utiliser un fichier grade/catégorie", "Chemin du fichier de correspondance"},
+                                   QDir::toNativeSeparators (path_access(DONNEES_SORTIE "/grades.categories.csv")),
+                                   "gradeCategorie",
+                                   {2, 1},
+                                   v4Layout,
+                                   "",   // pas de ligne de commande
+                                   directory::noCheck, // ne pas vérifier que le chemin est vide
+                                   flags::flineframe::isFilePath,
+                                   "Fichier CSV (*.csv)"); // il s'agit d'un chemin de fichier
+   
+    gradesCheckBox = new FCheckBox ("Correspondance grade-catégorie  ",
+                                    flags::status::enabledUnchecked
+                                     | flags::commandLineType::noCommandLine,
+                                    "genererGradeCategorie",
+                                    {
+                                       "Générer une correspondance grade-catégorie", 
+                                        ""
+                                    },
+                                    gradesFrame->getComponentList());
+    
+    v4Layout->addWidget(gradesCheckBox,       1, 0, Qt::AlignLeft);
+
+    QGroupBox* gradesBox = new QGroupBox(tr("Grade et catégorie statutaire"));
+    
+    constexpr const char* gradesTip = "Le fichier importé donne la correspondance entre les<br>"
+                                      "libellés de grade des bases de paye et les catégories <br>"
+                                      "statutaires (A, B, C à l'exclusion de toute autre <br>"
+                                      "possibilité).<br>"
+                                      "Pour les non-titulaires, le renseignement est <br>"
+                                      "optionnel. <br>"
+                                      "En cas de grade à cheval sur deux catégories, il<br>"
+                                      "convient de distinguer les libellés de chaque grade<br>"
+                                      "correspondant à chacune des deux catégories, dans ce <br>"
+                                      "fichier et dans toute les bases de paye produites par<br>"
+                                      "l'extracteur de données.<br>"
+                                      "Le fichier importé doit être de type CSV à séparateur<br>"
+                                      "point-virgule et encodé en Latin-1 ou Windows-1252.<br>"
+                                      "Il doit comporter une ligne d'intitulés de colonnes.<br>"
+                                      "La première colonne est intitulée <b>Grade</b> et la seconde <br>"
+                                      "<b>Catégorie</b>.<br>"
+                                      "A défaut d'importation manuelle de ce fichier, le logiciel<br>"
+                                      "réalise une interpolation relativement exacte de la <br>"
+                                      "correspondance entre grade et catégorie statutaire.<br>"
+                                      "Ce fichier est généré sous le dossier <b>Bases/Effectifs</b><br>"
+                                      "sous le nom de fichier <b>grades.categories.csv</b><br>";
+            
+            
+    gradesBox->setLayout(v4Layout);
+    gradesBox->setToolTip(gradesTip);
+    
+    QGridLayout *v5Layout = new QGridLayout;    
+    
+    logtFrame = new FLineFrame ({"Concessions de logement", "Chemin de la table Matricules-Dates"},
+                                   QDir::toNativeSeparators (path_access(DONNEES_SORTIE  "/logements.csv")),
+                                   "logement",
+                                   {2, 1},
+                                   v5Layout,
+                                   "",   // pas de ligne de commande
+                                   directory::noCheck, // ne pas vérifier que le chemin est vide
+                                   flags::flineframe::isFilePath,
+                                   "Fichier CSV (*.csv)"); // il s'agit d'un chemin de fichier
+   
+    constexpr const char* logtTip = "Le fichier importé énumère la liste des matricules  <br>"
+                                      "bénéficiant d'une concession de logement, pour chaque <br>"
+                                      "année et mois.<br>"
+                                      "Il doit être au format CSV (séparateur point-virgule)<br>"
+                                      "et encodé en caractères Latin-1 ou Windows-1252.<br>"
+                                      "Les colonnes doivent comporter les intitulés Matricule,<br>"
+                                      "Année, Mois, Logement, dans cet ordre : <br>"
+                                      "<ul><li><b>Matricule</b> : Matricule de l'agent au mois concerné.</li>"
+                                      "<li><b>Année</b> : année de la période sous revue.</li>"
+                                      "<li><b>Mois</b> : mois de la période sous revue.</li>"
+                                      "<li><b>Logement</b> : type du logement, par nécessité absolue de<br>"
+                                      "service ou par utilité de service.<br>"
+                                      "Valeurs possibles : <br>"
+                                      "<ul><li><b>NAS</b> : nécessité absolue de service</li>"
+                                      "<li><b>US</b> : utilité de service</li>"
+                                      "<li><b>AUTRE</b> : autre cas</li>"
+                                      "</ul></li></ul><br>"
+                                      "Ces données sont utilisées pour contrôler le cumul des <br>"
+                                      "concessions de logement et de certaines indemnités.<br>";
+    
+    logtCheckBox = new FCheckBox ("Concessions de logement  ",
+                                    flags::status::enabledUnchecked
+                                     | flags::commandLineType::noCommandLine,
+                                    "genererLogt",
+                                    {
+                                       "Contrôler les concessions de logement", 
+                                       ""
+                                    },
+                                    logtFrame->getComponentList());
+    
+    v5Layout->addWidget (logtCheckBox,       1, 0, Qt::AlignLeft);
+
+    QGroupBox* logtBox = new QGroupBox (tr ("Logement"));
+    
+    logtBox->setToolTip(logtTip);
+    logtBox->setLayout (v5Layout);
+    
+    QGridLayout *v6Layout = new QGridLayout;    
+    
+    ifseFrame = new FLineFrame ({"IFSE", "Chemin de la table Plafonds IFSE"},
+                                   QDir::toNativeSeparators (path_access(DONNEES_SORTIE  "/plafonds_ifse.csv")),
+                                   "ifse",
+                                   {2, 1},
+                                   v6Layout,
+                                   "",   // pas de ligne de commande
+                                   directory::noCheck, // ne pas vérifier que le chemin est vide
+                                   flags::flineframe::isFilePath,
+                                   "Fichier CSV (*.csv)"); // il s'agit d'un chemin de fichier
+   
+    constexpr const char* ifseTip = "Le fichier importé énumère la liste des plafonds  <br>"
+                                    "de l'IFSE (RIFSEEP), pour chaque groupe de grades <br>"
+                                    "logé ou pas.<br>"
+                                    "Il doit être au format CSV (séparateur point-virgule)<br>"
+                                    "et encodé en caractères Latin-1 ou Windows-1252.<br>"
+                                    "Les colonnes doivent comporter les intitulés Grade,<br>"
+                                    "Groupe, Plafond, dans cet ordre : <br>"
+                                    "<ul><li><b>Grade</b> : Tous les grades de la base de paye sans omission.<br>"
+                                    "Pour remplir cette colonne on utilisera la première colonne de la<br> " 
+                                    "table <b>grade.categories.csv</b> du dossier Bases/Effectifs.</li>"
+                                    "<li><b>Groupe</b> : groupe défini par délibération de l'organisme.<br>"
+                                    "Pour tout groupe, il y a en général un sous-groupe logé <br>"
+                                    "et un sous-groupe non logé distinct.</li>"
+                                    "<li><b>Logement</b> : indique <b>NAS</b> pour le sous-groupe du même grade<br>"
+                                    "des agents logés par nécessité absolue de service.</li>"
+                                    "<li><b>Plafond</b> : Maximum de l'IFSE pour le grade et le groupe, <br>"
+                                    "<b>en euros</b>.</li>"
+                                    "Il est recommandé d'utiliser simultanément les fonctionnalités <b>Logement</b><br>"
+                                    "(groupe précédent) et <b>IFSE</b>. <br>"
+                                    "Lorsque tel est le cas, la colonne Logement du fichier <b>logements.csv</b><br>"
+                                    "doit préciser le libellé <b>NAS</b> des agents logés par nécessité absolue de service."
+                                    "</ul><br>";
+    
+    ifseCheckBox = new FCheckBox ("IFSE  ",
+                                    flags::status::enabledUnchecked
+                                     | flags::commandLineType::noCommandLine,
+                                    "genererIFSE",
+                                    {
+                                       "Contrôler l'IFSE (RIFSEEP)", 
+                                       ""
+                                    },
+                                    ifseFrame->getComponentList());
+    
+    v6Layout->addWidget (ifseCheckBox,       1, 0, Qt::AlignLeft);
+
+    QGroupBox* ifseBox = new QGroupBox (tr ("IFSE"));
+    
+    ifseBox->setToolTip(ifseTip);
+    ifseBox->setLayout (v6Layout);
+        
+    QVBoxLayout* mainLayout = new QVBoxLayout;
+    FRichLabel *mainLabel = new FRichLabel ("Fichiers externes");
+    mainLayout->addWidget (mainLabel);
+    mainLayout->addWidget (budgetBox, 1, 0);
+    mainLayout->addWidget (gradesBox, 2, 0);
+    mainLayout->addWidget (logtBox,   3, 0);
+    mainLayout->addWidget (ifseBox,   4, 0);
+    mainLayout->addSpacing (250);
+
+    setLayout (mainLayout);
+}
+
+
+void extraPage::do_copies()
+{
+    short i = 0;
+    FLineFrame* frameList[] = {budgetFrame, gradesFrame, logtFrame, ifseFrame};
+    const char* pathList[] = {"paye_budget.csv",
+                     "grades.categories.csv",
+                     "logements.csv",
+                     "grades.plafonds.csv"};
+    
+    const char* msgList[]  = {"Le fichier de correspondance paye-budget",
+                     "Le fichier de correspondance grade-catégorie",
+                     "Le fichier des concessions de logement",
+                     "Le fichier des plafonds IFSE"};
+    
+    for (FLineFrame *a : frameList) 
+        {
+                if (! a->isEnabled()) continue;
+                const QString &file = a->getText();
+                if (! file.isEmpty() && QFileInfo(file).exists())
+                {
+                      
+                      tools::copyFile(file, 
+                          userdatadir + (QDir::separator() + QString(pathList[i])),
+                          msgList[i],  // message d'erreur fenêtre
+                          REQUIRE);    // force ce message en cas d'échec
+                }
+            
+            ++i;
+        }
+}
+
 options::options (Altair* parent)
 {
     /* plain old data types must be 0-initialised even though the class instance was new-initialised. */
@@ -795,12 +1057,16 @@ options::options (Altair* parent)
     pagesWidget = new QStackedWidget;
     standardTab = new standardPage;
     processTab  = new processPage;
+    
     pagesWidget->addWidget (standardTab);
     pagesWidget->addWidget (processTab);
 
     codeTab  = new codePage;
     pagesWidget->addWidget (codeTab);
 
+    extraTab  = new extraPage();
+    pagesWidget->addWidget (extraTab);
+    
     closeButton = new QDialogButtonBox (QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     closeButton->button (QDialogButtonBox::Ok)->setText ("Accepter");
     closeButton->button (QDialogButtonBox::Cancel)->setText ("Annuler");
@@ -814,8 +1080,10 @@ options::options (Altair* parent)
                     parent->execPath = execPath;
                     parent->altairCommandStr =  parent->execPath +  QDir::separator()
                     + ("lhx" + QString (systemSuffix));
-
+                    
                     parent->updateProject (true);
+                    
+                    extraTab->do_copies();
 
                 });
 
@@ -828,7 +1096,6 @@ options::options (Altair* parent)
     connect (standardTab->exportWidget, SIGNAL (currentIndexChanged (int)),
              this,
              SLOT (enchainerRapports (int)));
-
 
     createIcons();
     optionWidget->setCurrentRow (0);
@@ -883,9 +1150,10 @@ void options::createIcons()
     QList<const char*> iconList = QList<const char*>()
                                   << ":/images/csv.png" << "   Format  "
                                   << ":/images/configure-toolbars.png" << "Traitement "
-                                  << ":/images/data-icon.png" << "   Codes   ";
+                                  << ":/images/data-icon.png" << "   Codes   "
+                                  << ":/images/extra.png" << "   Extra   ";   
 
-    for (int i = 0; i < iconList.size() / 2 ; i++) createIcon (iconList[2 * i], iconList[2 * i + 1]);
+    for (int i = 0; i < iconList.size() / 2 ; ++i) createIcon (iconList[2 * i], iconList[2 * i + 1]);
 
 }
 

@@ -1,114 +1,150 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annÃ©es 2012 Ã  2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
-# Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
-# produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-# en vigueur à compter de l'année 2008.
+# Ce logiciel est un programme informatique servant Ã  extraire et analyser les fichiers de paye
+# produits au format spÃ©cifiÃ© par l'annexe de la convention-cadre nationale de dÃ©matÃ©rialisation
+# en vigueur Ã  compter de l'annÃ©e 2008.
 # 
-# Ce logiciel est régi par la licence CeCILL soumise au droit français et
+# Ce logiciel est rÃ©gi par la licence CeCILL soumise au droit franÃ§ais et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
 # utiliser, modifier et/ou redistribuer ce programme sous les conditions
-# de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
+# de la licence CeCILL telle que diffusÃ©e par le CEA, le CNRS et l'INRIA
 # sur le site "http://www.cecill.info".
 # 
-# En contrepartie de l'accessibilité au code source et des droits de copie,
-# de modification et de redistribution accordés par cette licence, il n'est
-# offert aux utilisateurs qu'une garantie limitée. Pour les mêmes raisons,
-# seule une responsabilité restreinte pèse sur l'auteur du programme, le
-# titulaire des droits patrimoniaux et les concédants successifs.
+# En contrepartie de l'accessibilitÃ© au code source et des droits de copie,
+# de modification et de redistribution accordÃ©s par cette licence, il n'est
+# offert aux utilisateurs qu'une garantie limitÃ©e. Pour les mÃªmes raisons,
+# seule une responsabilitÃ© restreinte pÃ¨se sur l'auteur du programme, le
+# titulaire des droits patrimoniaux et les concÃ©dants successifs.
 # 
-# A cet égard l'attention de l'utilisateur est attirée sur les risques
-# associés au chargement, à l'utilisation, à la modification et/ou au
-# développement et à la reproduction du logiciel par l'utilisateur étant
-# donné sa spécificité de logiciel libre, qui peut le rendre complexe à
-# manipuler et qui le réserve donc à des développeurs et des professionnels
-# avertis possédant des connaissances informatiques approfondies. Les
-# utilisateurs sont donc invités à charger et tester l'adéquation du
-# logiciel à leurs besoins dans des conditions permettant d'assurer la
-# sécurité de leurs systèmes et ou de leurs données et, plus généralement,
-# à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+# A cet Ã©gard l'attention de l'utilisateur est attirÃ©e sur les risques
+# associÃ©s au chargement, Ã  l'utilisation, Ã  la modification et/ou au
+# dÃ©veloppement et Ã  la reproduction du logiciel par l'utilisateur Ã©tant
+# donnÃ© sa spÃ©cificitÃ© de logiciel libre, qui peut le rendre complexe Ã 
+# manipuler et qui le rÃ©serve donc Ã  des dÃ©veloppeurs et des professionnels
+# avertis possÃ©dant des connaissances informatiques approfondies. Les
+# utilisateurs sont donc invitÃ©s Ã  charger et tester l'adÃ©quation du
+# logiciel Ã  leurs besoins dans des conditions permettant d'assurer la
+# sÃ©curitÃ© de leurs systÃ¨mes et ou de leurs donnÃ©es et, plus gÃ©nÃ©ralement,
+# Ã  l'utiliser et l'exploiter dans les mÃªmes conditions de sÃ©curitÃ©.
 # 
-# Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
-# pris connaissance de la licence CeCILL, et que vous en avez accepté les
+# Le fait que vous puissiez accÃ©der Ã  cet en-tÃªte signifie que vous avez
+# pris connaissance de la licence CeCILL, et que vous en avez acceptÃ© les
 # termes.
 # 
 # 
 # 
 
 library(knitr, warn.conflicts = FALSE)
-library(ggplot2, warn.conflicts = FALSE)
 
-# Il importe que de ne pas confondre le séparateur décimal et le séparateur de champ CSV
+# Il importe que de ne pas confondre le sÃ©parateur dÃ©cimal et le sÃ©parateur de champ CSV
 
-if (séparateur.décimal.entrée == séparateur.liste.entrée)
-  stop("Le séparateur décimal en entrée doit être différent du séparateur de colonnes !")
+if (sÃ©parateur.dÃ©cimal.entrÃ©e == sÃ©parateur.liste.entrÃ©e)
+  stop("Le sÃ©parateur dÃ©cimal en entrÃ©e doit Ãªtre diffÃ©rent du sÃ©parateur de colonnes !")
 
-if (séparateur.décimal.sortie == séparateur.liste.sortie)
-  stop("Le séparateur décimal en sortie doit être différent du séparateur de colonnes !")
+if (sÃ©parateur.dÃ©cimal.sortie == sÃ©parateur.liste.sortie)
+  stop("Le sÃ©parateur dÃ©cimal en sortie doit Ãªtre diffÃ©rent du sÃ©parateur de colonnes !")
 
-# Création des répertoires des fichiers CSV en lien dans les rapports. Attention éviter les caractères non ASCII (bug de knitr)  
-# On peut désactiver les sorties CSV en fixant   sauvegarder.bases.analyse à FALSE [défaut TRUE]
+# CrÃ©ation des rÃ©pertoires des fichiers CSV en lien dans les rapports. Attention Ã©viter les caractÃ¨res non ASCII (bug de knitr)  
+# On peut dÃ©sactiver les sorties CSV en fixant   sauvegarder.bases.analyse Ã  FALSE [dÃ©faut TRUE]
 
 if (sauvegarder.bases.analyse) {
   for (path in c("Remunerations", "Effectifs", "Reglementation", "Fiabilite"))
     dir.create(file.path(chemin.dossier.bases, path), recursive = TRUE, mode="0777")
 }
 
-# Les bases Table et Bulletins augmentées de quelques colonnes auxiliaires et légèrement retraitées peuvent
-# être à nouveau exportées dans Paiements. Généralement inutile, sauf aux fins de débogage. Pour cela
-# fixer sauvegarder.bases.origine à TRUE [défaut FALSE]
+# Les bases Table et Bulletins augmentÃ©es de quelques colonnes auxiliaires et lÃ©gÃ¨rement retraitÃ©es peuvent
+# Ãªtre Ã  nouveau exportÃ©es dans Paiements. GÃ©nÃ©ralement inutile, sauf aux fins de dÃ©bogage. Pour cela
+# fixer sauvegarder.bases.origine Ã  TRUE [dÃ©faut FALSE]
 
 if (sauvegarder.bases.origine)
   dir.create(file.path(chemin.dossier.bases, "Paiements"), recursive = TRUE, mode="0777")
 
 knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
  
-fichier.personnels.existe <- (charger.catégories.personnel == TRUE) & file.exists(chemin("matricules.csv"))
-grades.categories.existe <- (charger.catégories.personnel == TRUE) & file.exists(chemin("grades.categories.csv"))
+fichier.personnels.existe <- (charger.catÃ©gories.personnel == TRUE) & file.exists(chemin("matricules.csv"))
+grades.categories.existe  <- (charger.catÃ©gories.personnel == TRUE) & file.exists(chemin("grades.categories.csv"))
+logements.existe          <- file.exists(chemin("logements.csv"))
+plafonds.ifse.existe      <- file.exists(chemin("plafonds_ifse.csv"))
 
-base.personnels.catégorie <- NULL
+base.personnels.catÃ©gorie <- NULL
 base.grades.categories    <- NULL
+base.logements <- NULL
 
 if (fichier.personnels.existe) {
-  base.personnels.catégorie <- data.table::fread(chemin("matricules.csv"),
-                                                 sep = séparateur.liste.entrée,
+  base.personnels.catÃ©gorie <- data.table::fread(chemin("matricules.csv"),
+                                                 sep = sÃ©parateur.liste.entrÃ©e,
                                                  header = TRUE,
                                                  colClasses = c("numeric", "character", "character",
                                                                 "character", "character", "character", "character"),
                                                  encoding = ifelse(setOSWindows, "Latin-1", "UTF-8"),
                                                  showProgress = FALSE) 
 
-  message("Chargement du fichier des catégories statutaires des personnels.")
-  if (!is.null(base.personnels.catégorie))
-    message("Importé.")
+  message("Chargement du fichier des catÃ©gories statutaires des personnels.")
+  if (!is.null(base.personnels.catÃ©gorie))
+    message("ImportÃ©.")
   else {
-    message("Impossible d'importer les catégories.")
+    message("Impossible d'importer les catÃ©gories.")
     stop(" ")
   }
 }
 
 if (grades.categories.existe) {
   base.grades.categories <- data.table::fread(chemin("grades.categories.csv"),
-                                                 sep = séparateur.liste.entrée,
+                                                 sep = sÃ©parateur.liste.entrÃ©e,
                                                  header = TRUE,
                                                  colClasses = c("character", "character"),
-                                                 encoding = ifelse(setOSWindows, "Latin-1", "UTF-8"),
+                                                 encoding = "Latin-1",
                                                  showProgress = FALSE) 
   
-  message("Chargement du fichier des grades et catégories statutaires des personnels.")
+  message("Chargement du fichier des grades et catÃ©gories statutaires des personnels.")
   if (!is.null(base.grades.categories))
-    message("Importé.")
+    message("ImportÃ©.")
   else {
-    message("Impossible d'importer les grades et catégories.")
+    message("Impossible d'importer les grades et catÃ©gories.")
     stop(" ")
   }
 }
 
+if (logements.existe) {
+  base.logements <- data.table::fread(chemin("logements.csv"),
+                                              sep = sÃ©parateur.liste.entrÃ©e,
+                                              header = TRUE,
+                                              colClasses = c("character", "integer", "integer", "character"),
+                                              encoding = "Latin-1",
+                                              showProgress = FALSE) 
+  
+  message("Chargement du fichier des concessions de logement des personnels.")
+  if (!is.null(base.logements))
+    message("ImportÃ©.")
+  else {
+    message("Impossible d'importer les concessions de logement.")
+    stop(" ")
+  }
+}
 
-fichiers.table <- list.files(chemin.clé, pattern = nom.table %+% "(-)?[^.]*[.]csv", full.names  = TRUE)
-fichiers.bulletins <- list.files(chemin.clé, pattern = nom.bulletins %+% "(-)?[^.]*[.]csv", full.names  = TRUE)
+if (plafonds.ifse.existe) {
+  base.ifse <- data.table::fread(chemin("plafonds_ifse.csv"),
+                                      sep = sÃ©parateur.liste.entrÃ©e,
+                                      header = TRUE,
+                                      colClasses = c("character", "character", "character", "numeric"),  # Grade, Groupe, Logement, Plafond
+                                      encoding = "Latin-1",
+                                      showProgress = FALSE) 
+  
+  message("Chargement du fichier des plafonds d'IFSE.")
+  if (!is.null(base.ifse))
+    message("ImportÃ©.")
+  else {
+    message("Impossible d'importer les plafonds d'IFSE.")
+    stop(" ")
+  }
+} else base.ifse <- NULL
+
+
+fichiers.table <- list.files(chemin.clÃ©, pattern = nom.table %+% "(-)?[^.]*[.]csv", full.names  = TRUE)
+fichiers.bulletins <- list.files(chemin.clÃ©, pattern = nom.bulletins %+% "(-)?[^.]*[.]csv", full.names  = TRUE)
 
 # Programme principal
 
@@ -116,51 +152,49 @@ fichiers.bulletins <- list.files(chemin.clé, pattern = nom.bulletins %+% "(-)?[^
 
 # Lignes de paie
 
-# On ne retient que les bases ayant pour années au minimum début.période.sous.revue
-# et au maximum fin.période.sous.revue, qui contiennent toutes les colonnes requises
-# pour le contrôle
+# On ne retient que les bases ayant pour annÃ©es au minimum dÃ©but.pÃ©riode.sous.revue
+# et au maximum fin.pÃ©riode.sous.revue, qui contiennent toutes les colonnes requises
+# pour le contrÃ´le
 
-# Le mode rapide n'est disponible que avec des csv à séparateurs virgule
-# Il permet d'économiser environ 8s par million de ligne lues sur une dizaine de champs
+# Le mode rapide n'est disponible que avec des csv Ã  sÃ©parateurs virgule
+# Il permet d'Ã©conomiser environ 8s par million de ligne lues sur une dizaine de champs
 
 if (! charger.bases) break
 
-
-
 T0 <- data.table::fread(fichiers.bulletins[1],
-                        sep = séparateur.liste.entrée,
-                        dec = séparateur.décimal.entrée,
+                        sep = sÃ©parateur.liste.entrÃ©e,
+                        dec = sÃ©parateur.dÃ©cimal.entrÃ©e,
                         nrows = 0,
                         header = TRUE,
-                        #skip = champ.détection.1,
+                        #skip = champ.dÃ©tection.1,
                         encoding = ifelse(setOSWindows, "Latin-1", "UTF-8"))
 
 colonnes <- names(T0)
 
-intégrer.rang <- ("R" %chin% colonnes) 
-intégrer.échelon <- ("Echelon" %chin% colonnes) 
-intégrer.localisation <- ("Siret" %chin% colonnes)
+intÃ©grer.rang <- ("R" %chin% colonnes) 
+intÃ©grer.Ã©chelon <- ("Echelon" %chin% colonnes) 
+intÃ©grer.localisation <- ("Siret" %chin% colonnes)
 
-if (intégrer.rang) message("Intégration du Rang")
-if (intégrer.échelon) message("Intégration de l'échelon")
-if (intégrer.localisation) message("Intégration des données établissement")
+if (intÃ©grer.rang) message("IntÃ©gration du Rang")
+if (intÃ©grer.Ã©chelon) message("IntÃ©gration de l'Ã©chelon")
+if (intÃ©grer.localisation) message("IntÃ©gration des donnÃ©es Ã©tablissement")
 
-source("types.données.R", encoding = encodage.code.source)
+source("types.donnÃ©es.R", encoding = encodage.code.source)
 
 importer.bases.via.xhl2csv <- function(base, fichiers, colClasses = colonnes.classes.input) {
   
   res <- try(Read.csv(base,
                       fichiers,
                       colClasses = colClasses,
-                      séparateur.liste = séparateur.liste.entrée,
-                      séparateur.décimal = séparateur.décimal.entrée,
-                      convertir.encodage = FALSE, #(encodage.entrée.xhl2csv != "UTF-8"),
-                      encodage = encodage.entrée.xhl2csv,
+                      sÃ©parateur.liste = sÃ©parateur.liste.entrÃ©e,
+                      sÃ©parateur.dÃ©cimal = sÃ©parateur.dÃ©cimal.entrÃ©e,
+                      convertir.encodage = FALSE, #(encodage.entrÃ©e.xhl2csv != "UTF-8"),
+                      encodage = encodage.entrÃ©e.xhl2csv,
                       rapide = TRUE),
              silent = FALSE)
   
   if (inherits(res, 'try-error'))
-    stop("Problème de lecture de la base de la table bulletins-lignes de Paie")
+    stop("ProblÃ¨me de lecture de la base de la table bulletins-lignes de Paie")
 
   
   message("Chargement direct des bulletins et lignes de paie")
@@ -178,27 +212,28 @@ Paie[ , Grade := toupper(Grade)]
     stop("Impossible de charger les lignes/bulletins de paie.")
   }
 
-  if (!is.null(base.personnels.catégorie)) {
+  if (!is.null(base.personnels.catÃ©gorie)) {
   
-    message("Remplacement de la catégorie par la catégorie importée du fichier matricules.csv sous ", chemin.dossier.données)
-    BP <- base.personnels.catégorie[ , , keyby = "Année,Nom,Prénom,Matricule,Grade,Emploi"]
-    vect <- c("Année", "Nom", "Prénom", "Matricule", "Grade", "Emploi")
+    message("Remplacement de la catÃ©gorie par la catÃ©gorie importÃ©e du fichier matricules.csv sous ", chemin.dossier.donnÃ©es)
+    BP <- base.personnels.catÃ©gorie[ , , keyby = "AnnÃ©e,Nom,PrÃ©nom,Matricule,Grade,Emploi"]
+    vect <- c("AnnÃ©e", "Nom", "PrÃ©nom", "Matricule", "Grade", "Emploi")
     
-    Paie[, Catégorie := NULL]
-    Bulletins.paie[, Catégorie := NULL]
+    Paie[, CatÃ©gorie := NULL]
+    Bulletins.paie[, CatÃ©gorie := NULL]
     
-    Paie <- merge(Paie[ , , keyby = "Année,Nom,Prénom,Matricule,Grade,Emploi"], BP, all = TRUE, by = vect)
+    Paie <- merge(Paie[ , , keyby = "AnnÃ©e,Nom,PrÃ©nom,Matricule,Grade,Emploi"], BP, all = TRUE, by = vect)
     
-    Bulletins.paie <- merge(Bulletins.paie[ , , keyby="Année,Nom,Prénom,Matricule,Grade,Emploi"], BP, all =TRUE, by = vect)
+    Bulletins.paie <- merge(Bulletins.paie[ , , keyby="AnnÃ©e,Nom,PrÃ©nom,Matricule,Grade,Emploi"], BP, all =TRUE, by = vect)
+    
   } else {
   
     if (!is.null(base.grades.categories)) {
       
-      message("Remplacement de la catégorie par la catégorie importée du fichier grades.categories.csv sous ", chemin.dossier.données)
+      message("Remplacement de la catÃ©gorie par la catÃ©gorie importÃ©e du fichier grades.categories.csv sous ", chemin.dossier.donnÃ©es)
       
-      Paie[, Catégorie := NULL]
-      Bulletins.paie[, Catégorie := NULL]
-      BP <- base.grades.categories[Grade != "V" & Grade != "A", Catégorie, keyby = "Grade"]
+      Paie[, CatÃ©gorie := NULL]
+      Bulletins.paie[, CatÃ©gorie := NULL]
+      BP <- base.grades.categories[Grade != "V" & Grade != "A", CatÃ©gorie, keyby = "Grade"]
       BP <- rbindlist(list(BP, data.table("V", "NA")))
       BP <- rbindlist(list(BP, data.table("A", "NA")))
       
@@ -208,84 +243,92 @@ Paie[ , Grade := toupper(Grade)]
     }
   }
   
-  setkey(Paie, Matricule, Année, Mois)
-  setkey(Bulletins.paie, Matricule, Année, Mois)
+  setkey(Paie, Matricule, AnnÃ©e, Mois)
+  setkey(Bulletins.paie, Matricule, AnnÃ©e, Mois)
   
-  # dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
-  # dans le fichier prologue.R. Sinon le programme travaille sur l'ensemble des années disponibles.
+  # dans le cas oÃ¹ l'on ne lance le programme que pour certaines annÃ©es, il prÃ©ciser dÃ©but.pÃ©riode sous revue et fin.pÃ©riode .sous.revue
+  # dans le fichier prologue.R. Sinon le programme travaille sur l'ensemble des annÃ©es disponibles.
   
-  if (extraire.années) {
+  if (extraire.annÃ©es) {
     
-    Paie <- Paie[Année >= début.période.sous.revue & Année <= fin.période.sous.revue, ]
-    Bulletins.paie <- Bulletins.paie[Année >= début.période.sous.revue & Année <= fin.période.sous.revue, ]
+    Paie <- Paie[AnnÃ©e >= dÃ©but.pÃ©riode.sous.revue & AnnÃ©e <= fin.pÃ©riode.sous.revue, ]
+    Bulletins.paie <- Bulletins.paie[AnnÃ©e >= dÃ©but.pÃ©riode.sous.revue & AnnÃ©e <= fin.pÃ©riode.sous.revue, ]
     
   } else {
     
-    début.période.sous.revue <- min(Bulletins.paie[ , Année])
-    fin.période.sous.revue   <- max(Bulletins.paie[ , Année])
+    dÃ©but.pÃ©riode.sous.revue <- min(Bulletins.paie[ , AnnÃ©e])
+    fin.pÃ©riode.sous.revue   <- max(Bulletins.paie[ , AnnÃ©e])
   }
   
+Paie[is.na(Grade),  Grade  := ""]
+Paie[is.na(Statut), Statut := "AUTRE_STATUT"]
+Paie[is.na(NBI),    NBI    := 0]
+Bulletins.paie[is.na(Grade),  Grade  := ""]
+Bulletins.paie[is.na(Statut), Statut := "AUTRE_STATUT"]
+Bulletins.paie[is.na(NBI),    NBI    := 0]
+
+pÃ©riode                 <- dÃ©but.pÃ©riode.sous.revue:fin.pÃ©riode.sous.revue
+durÃ©e.sous.revue        <- fin.pÃ©riode.sous.revue - dÃ©but.pÃ©riode.sous.revue + 1
+nb.annÃ©es <- uniqueN(Bulletins.paie$AnnÃ©e)
+
+if (durÃ©e.sous.revue != nb.annÃ©es) {
   
-  Paie[is.na(Grade),  Grade  := ""]
-  Paie[is.na(Statut), Statut := "AUTRE_STATUT"]
-  Paie[is.na(NBI),    NBI    := 0]
-  Bulletins.paie[is.na(Grade),  Grade  := ""]
-  Bulletins.paie[is.na(Statut), Statut := "AUTRE_STATUT"]
-  Bulletins.paie[is.na(NBI),    NBI    := 0]
-
-
-période                 <- début.période.sous.revue:fin.période.sous.revue
-durée.sous.revue        <- fin.période.sous.revue - début.période.sous.revue + 1
-nb.années <- uniqueN(Bulletins.paie$Année)
-
-if (durée.sous.revue != nb.années) {
-  
-  cat("Les exercices doivent être consécutifs. Or il y a", nb.années, "exercices, dans un intervalle de", durée.sous.revue, "années.")
-  stop("Sélectionner des exercices consécutifs. Fin du programme.")
+  cat("Les exercices doivent Ãªtre consÃ©cutifs. Or il y a", nb.annÃ©es, "exercices, dans un intervalle de", durÃ©e.sous.revue, "annÃ©es.")
+  stop("SÃ©lectionner des exercices consÃ©cutifs. Fin du programme.")
 }
 
 if (! analyse.statique.totale) {
   
-  années.analyse.statique <- c(début.période.sous.revue, fin.période.sous.revue)
+  annÃ©es.analyse.statique <- c(dÃ©but.pÃ©riode.sous.revue, fin.pÃ©riode.sous.revue)
   
 } else {
   
-  années.analyse.statique <- période
+  annÃ©es.analyse.statique <- pÃ©riode
 }
 
-
-# Le format est jour/mois/année avec deux chiffres-séparateur-deux chiffres-séparateur-4 chiffres.
-# Le séparateur peut être changé en un autre en modifiant le "/" dans date.format
+# Le format est jour/mois/annÃ©e avec deux chiffres-sÃ©parateur-deux chiffres-sÃ©parateur-4 chiffres.
+# Le sÃ©parateur peut Ãªtre changÃ© en un autre en modifiant le "/" dans date.format
 
 avant.redressement <- 0
-après.redressement <- 0
+aprÃ¨s.redressement <- 0
 
-if (éliminer.duplications) {
+if (Ã©liminer.duplications) {
+  
   avant.redressement <- nrow(Paie)
   duplications.vecteur <- duplicated(Paie, by=NULL)
   duplications.paie <- Paie[duplications.vecteur & Montant != 0]
   Paie <- Paie[! duplications.vecteur] 
+  
   if (sauvegarder.bases.origine)
-      sauv.bases(chemin.dossier.bases, "duplications.paie")
-  après.redressement <- nrow(Paie)
+      sauv.bases(chemin.dossier.bases, 
+      env = environment(),
+      "duplications.paie")
+      
+  aprÃ¨s.redressement <- nrow(Paie)
   
   avant.redressement.bull <- nrow(Bulletins.paie)
-  duplications.vecteur   <- duplicated(Bulletins.paie, by=NULL)
-  duplications.paie.bull <- Bulletins.paie[duplications.vecteur & Montant != 0]
+  duplications.vecteur    <- duplicated(Bulletins.paie, by=NULL)
+  duplications.paie.bull  <- Bulletins.paie[duplications.vecteur & Montant != 0]
   Bulletins.paie <- Bulletins.paie[! duplications.vecteur] 
+  
   if (sauvegarder.bases.origine) {
-    sauv.bases(chemin.dossier.bases, "duplications.paie")
-    sauv.bases(chemin.dossier.bases, "duplications.paie.bull")
+    sauv.bases(chemin.dossier.bases, 
+      env = environment(),
+      "duplications.paie")
+      
+    sauv.bases(chemin.dossier.bases,
+      env = environment(),
+      "duplications.paie.bull")
   }
-  après.redressement.bull <- nrow(Bulletins.paie)
+  
+  aprÃ¨s.redressement.bull <- nrow(Bulletins.paie)
   rm(duplications.vecteur)
   
 } 
-  
 
-# calcul du temps complet mensuel de référence en h/mois
+# calcul du temps complet mensuel de rÃ©fÃ©rence en h/mois
 
-quotité.temps.partiel <- function(temps.de.travail) {
+quotitÃ©.temps.partiel <- function(temps.de.travail) {
   
   if (x == 90) return(0.91429)  # 32/35 
   if (x == 80) return(0.85714)  # 6/7   
@@ -295,7 +338,7 @@ quotité.temps.partiel <- function(temps.de.travail) {
 
 verif.temps.complet <- function() {
   
-  # dans certains cas on a presque jamais la variable Heures renseignée... sauf pour quelques temps partiels
+  # dans certains cas on a presque jamais la variable Heures renseignÃ©e... sauf pour quelques temps partiels
   
   h <- hist(Bulletins.paie[Temps.de.travail == 100, Heures], nclass = 20000, plot = FALSE)
   max.h <- which.max(h$counts)
@@ -304,25 +347,25 @@ verif.temps.complet <- function() {
     
     delta <- (h$mids[max.h + 1] - h$mids[max.h - 1])/2
     
-    if (is.na(delta)) delta <<- 1 #Présomption
+    if (is.na(delta)) delta <<- 1 #PrÃ©somption
     
     nb.heures.temps.complet <<- floor(h$mids[max.h])
     
   } else {
     
-    return(TRUE) # présomption
+    return(TRUE) # prÃ©somption
   }
   
   valeur <- (abs(nb.heures.temps.complet - 151.67) < 1 + delta)  
   
   if (is.na(valeur))  {
-    valeur <- TRUE # présomption
+    valeur <- TRUE # prÃ©somption
   }
   
   return(valeur)
 }
 
-message("Vérification de la durée légale théorique du travail (1820 h = 35h x 52 semaines soit 151,67 h/mois)")
+message("VÃ©rification de la durÃ©e lÃ©gale thÃ©orique du travail (1820 h = 35h x 52 semaines soit 151,67 h/mois)")
 
 test.temps.complet <<- verif.temps.complet()
 
@@ -337,15 +380,15 @@ if (test.temps.complet) {
 }
 
 
-# si l'on a une cohérence du calcul des heures de travail par semaine alors peut se baser dessus :
+# si l'on a une cohÃ©rence du calcul des heures de travail par semaine alors peut se baser dessus :
 
 if (redresser.heures) {
   
-      # On ne peut pas inférer sur quotite Trav (Temps.de.travail) de manière générale
-      # Mais on peut exclure les cas dans lesquels Temps de travail est non fiable puis déduire en inférence sur ce qui reste
-      # critère d'exclusion envisageable pour les stats de rémunérations à quotités :
+      # On ne peut pas infÃ©rer sur quotite Trav (Temps.de.travail) de maniÃ¨re gÃ©nÃ©rale
+      # Mais on peut exclure les cas dans lesquels Temps de travail est non fiable puis dÃ©duire en infÃ©rence sur ce qui reste
+      # critÃ¨re d'exclusion envisageable pour les stats de rÃ©munÃ©rations Ã  quotitÃ©s :
       # Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC") & Heures == 0 | Statut %chin% c("ELU", "v", "A")]
-      # sur le reste on peut inférer Heures 
+      # sur le reste on peut infÃ©rer Heures 
       
       setnames(Paie, "Heures", "Heures.orig")
       setnames(Bulletins.paie, "Heures", "Heures.orig")
@@ -370,9 +413,9 @@ if (redresser.heures) {
         
            } else {
 
-          # ----- Pour les très gros fichiers (> 1 ML) , plus rapide que la solution de référence supra. On gagne 1 s par ML à partir de 15 ML
-          #       0.5 s par ML à partir de 3 ML. Dépend beaucoup du CPU et de la mémoire. Résultats sur corei7, DDR4 1333, non vérifiés sur corei3.
-          #       Gain de 14 s à 15 s pour un gros fichier de 15 ML.  
+          # ----- Pour les trÃ¨s gros fichiers (> 1 ML) , plus rapide que la solution de rÃ©fÃ©rence supra. On gagne 1 s par ML Ã  partir de 15 ML
+          #       0.5 s par ML Ã  partir de 3 ML. DÃ©pend beaucoup du CPU et de la mÃ©moire. RÃ©sultats sur corei7, DDR4 1333, non vÃ©rifiÃ©s sur corei3.
+          #       Gain de 14 s Ã  15 s pour un gros fichier de 15 ML.  
            
                message("correction du temps de travail par recherche binaire")
   
@@ -398,25 +441,25 @@ if (redresser.heures) {
       
       Bulletins.paie[indic == TRUE , Heures := round(Temps.de.travail * nb.heures.temps.complet / 100, 1)][]
       
-      message("Correction (méthode 1), compte tenu des temps complets vérifiés, sur ", nredressements <<- nrow(Bulletins.paie[indic == TRUE]), " bulletins de paie")
+      message("Correction (mÃ©thode 1), compte tenu des temps complets vÃ©rifiÃ©s, sur ", nredressements <<- nrow(Bulletins.paie[indic == TRUE]), " bulletins de paie")
       
 } else {
   
-  # on présume alors que les traitements sont correctement liquidés... il faudrait mettre un drapeau sur cette présomption  
+  # on prÃ©sume alors que les traitements sont correctement liquidÃ©s... il faudrait mettre un drapeau sur cette prÃ©somption  
 
     Paie[ , indic := (Heures == 0 | is.na(Heures))
                & Indice != "" & !is.na(Indice) 
                & Statut != "ELU" & Grade != "V" & Grade!= "A"
                & Temps.de.travail != 0 & !is.na(Temps.de.travail)
                & Type == "T" & Montant > 0
-               & grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE)]
+               & grepl(".*salaire|trait.*", LibellÃ©, perl=TRUE, ignore.case=TRUE)]
     
   # attention ifelse pas if...else
   # La recherche binaire est 20 fois plus rapide que la recherche vscan (gain de 4s par million de lignes sur corei3)
   
-  setkey(Paie, Année, Mois, indic)  
+  setkey(Paie, AnnÃ©e, Mois, indic)  
   
-  for (A in période) {
+  for (A in pÃ©riode) {
       for (M in 1:12) {
             a <- PointMensuelIM[A - 2007, M]  
             Paie[list(A, M, TRUE), 
@@ -426,34 +469,34 @@ if (redresser.heures) {
   
   
     Bulletins.paie <- merge(unique(Paie[ , .(Matricule, 
-                                             Année,
+                                             AnnÃ©e,
                                              Mois,
                                              Service,
                                              Statut,
                                              Heures,
                                              indic)], by=NULL),
                   Bulletins.paie[, Heures := NULL], 
-                  by = c("Matricule","Année","Mois","Service", "Statut"))
+                  by = c("Matricule","AnnÃ©e","Mois","Service", "Statut"))
     
-    message("Correction (méthode 2), compte tenu des temps complets vérifiés, sur ", nredressements <<- nrow(Bulletins.paie[indic == TRUE]), " lignes de paie")
+    message("Correction (mÃ©thode 2), compte tenu des temps complets vÃ©rifiÃ©s, sur ", nredressements <<- nrow(Bulletins.paie[indic == TRUE]), " lignes de paie")
    
 }
 
   Paie[ , Filtre_actif := FALSE]
 
-# TODO: à revoir pour deux causes : le revenu peut ne pas être un traitement et les heures peuvent être nulles pour
+# TODO: Ã  revoir pour deux causes : le revenu peut ne pas Ãªtre un traitement et les heures peuvent Ãªtre nulles pour
 # des temps pleins...
 
   Paie[ , Filtre_actif := any(Montant[Type == "T" & Heures > minimum.positif] > minimum.actif, na.rm = TRUE),
-        by="Matricule,Année"]
+        by="Matricule,AnnÃ©e"]
   
-  Paie[ , delta := 0, by="Matricule,Année,Mois"]
+  Paie[ , delta := 0, by="Matricule,AnnÃ©e,Mois"]
   
   Paie[Type %chin% c("I", "T", "S", "IR", "AC","A", "R", "AV") , 
        delta := sum(Montant,  na.rm=TRUE) - Brut,
-       by="Matricule,Année,Mois"]
+       by="Matricule,AnnÃ©e,Mois"]
 
-  # R est le rang (0-based) décalé d'une unité (lag 1)
+  # R est le rang (0-based) dÃ©calÃ© d'une unitÃ© (lag 1)
   
   Bulletins.paie[ , `:=`(Sexe = substr(Nir, 1, 1),
                          R    = .I - 1)]
@@ -462,107 +505,109 @@ if (redresser.heures) {
   
   set(Bulletins.paie, 1, "R", NA)
   
-  # Médiane des services horaires à temps complet par emploi et par sexe 
+  # MÃ©diane des services horaires Ã  temps complet par emploi et par sexe 
   
-  # La variable Heures des élus est non fiable et on peut par convention prendre la quotité 1
+  # La variable Heures des Ã©lus est non fiable et on peut par convention prendre la quotitÃ© 1
   
-  # Pour faciliter les comparaisons de quotité lors du calcul de la RMPP on arrondit les quotités au centième inférieur
-  # Lorsque la déterminéation de la médiane par emploi et sexe du nombre d'heures travaillées à temps complet n'est pas positive, la quotité est indéfinie
-  # Une quotité ne peut pas dépasser 1.
-  # Les élus sont réputés travailler à temps complet.
+  # Pour faciliter les comparaisons de quotitÃ© lors du calcul de la RMPP on arrondit les quotitÃ©s au centiÃ¨me infÃ©rieur
+  # Lorsque la dÃ©terminÃ©ation de la mÃ©diane par emploi et sexe du nombre d'heures travaillÃ©es Ã  temps complet n'est pas positive, la quotitÃ© est indÃ©finie
+  # Une quotitÃ© ne peut pas dÃ©passer 1.
+  # Les Ã©lus sont rÃ©putÃ©s travailler Ã  temps complet.
   
-  message("Calcul des quotités")
+  message("Calcul des quotitÃ©s")
   
   #on va trouver la plupart du temps 151,67...
-  # Tableau de référence des matrices de médianes
-  # A ce niveau de généralité, le filtre actif est inutile, sauf peut-être pour de très petits effectifs.
+  # Tableau de rÃ©fÃ©rence des matrices de mÃ©dianes
+  # A ce niveau de gÃ©nÃ©ralitÃ©, le filtre actif est inutile, sauf peut-Ãªtre pour de trÃ¨s petits effectifs.
   
   
   M <- Bulletins.paie[(Sexe == "1" | Sexe == "2"), 
-                      .(Médiane_Sexe_Statut = median(Heures, na.rm=TRUE)), by="Sexe,Statut"]
+                      .(MÃ©diane_Sexe_Statut = median(Heures, na.rm=TRUE)), by="Sexe,Statut"]
   
   Bulletins.paie <- merge(Bulletins.paie,
                           Paie[ , .(Filtre_actif = Filtre_actif[1]),
-                                 by="Matricule,Année,Mois"],
+                                 by="Matricule,AnnÃ©e,Mois"],
                           all.x=TRUE,
                           all.y=FALSE)
   
-  Bulletins.paie[ , pop_calcul_médiane := length(Heures[Temps.de.travail == 100 
+  Bulletins.paie[ , pop_calcul_mÃ©diane := length(Heures[Temps.de.travail == 100 
                                                         & !is.na(Heures) 
                                                         & Heures > minimum.positif]),
                   by = "Sexe,Emploi"]
   
-  # Pour les quotités seules les périodes actives sont prises en compte
+  # Pour les quotitÃ©s seules les pÃ©riodes actives sont prises en compte
   
-  Bulletins.paie[pop_calcul_médiane > population_minimale_calcul_médiane 
+  Bulletins.paie[pop_calcul_mÃ©diane > population_minimale_calcul_mÃ©diane 
                  & Filtre_actif == TRUE, 
                     MHeures :=  median(Heures[Temps.de.travail == 100 
                                                 & Filtre_actif == TRUE
                                                 & Heures > minimum.positif], na.rm = TRUE),
                  by="Sexe,Emploi"]
   
-  # L'écrêtement des quotités est une contrainte statistiquement discutable qui permet de "stresser" le modèle
-  # Par défaut les quotités sont écrêtées pour pouvoir par la suite raisonner en définissant le temps plein comme quotité == 1
+  # L'Ã©crÃªtement des quotitÃ©s est une contrainte statistiquement discutable qui permet de "stresser" le modÃ¨le
+  # Par dÃ©faut les quotitÃ©s sont Ã©crÃªtÃ©es pour pouvoir par la suite raisonner en dÃ©finissant le temps plein comme quotitÃ© == 1
   
-  if (écreter.quotités) {
-    Bulletins.paie[ , quotité   :=  ifelse(MHeures < minimum.positif, NA, ifelse(Heures > MHeures, 1, round(Heures/MHeures, digits = 2)))]  
+  if (Ã©creter.quotitÃ©s) {
+    Bulletins.paie[ , quotitÃ©   :=  ifelse(MHeures < minimum.positif, NA, ifelse(Heures > MHeures, 1, round(Heures/MHeures, digits = 2)))]  
   } else {
-    Bulletins.paie[ , quotité   :=  ifelse(MHeures < minimum.positif, NA, round(Heures/MHeures, digits = 2))]  
+    Bulletins.paie[ , quotitÃ©   :=  ifelse(MHeures < minimum.positif, NA, round(Heures/MHeures, digits = 2))]  
   }
   
   Bulletins.paie[Statut == "ELU", `:=`(MHeures = 1,
-                                       quotité = 1)]
+                                       quotitÃ© = 1)]
   
-  message("Quotités calculées")
+  message("QuotitÃ©s calculÃ©es")
   
-  # Bulletins.paie[ ,   Montant.net.eqtp  := Net.à.Payer / quotité]
+  # Bulletins.paie[ ,   Montant.net.eqtp  := Net.Ã .Payer / quotitÃ©]
   # Bulletins.paie[is.na(Montant.net.eqtp) | ! is.finite(Montant.net.eqtp),   Montant.net.eqtp  := 0]
   # 
-  # Bulletins.paie[ ,   Montant.brut.eqtp  := Brut / quotité]
+  # Bulletins.paie[ ,   Montant.brut.eqtp  := Brut / quotitÃ©]
   # Bulletins.paie[is.na(Montant.brut.eqtp) | ! is.finite(Montant.brut.eqtp),   Montant.brut.eqtp  := 0]
   
   Bulletins.paie$Montant.brut.eqtp <- Bulletins.paie$Brut
-  Bulletins.paie$Montant.net.eqtp  <- Bulletins.paie$Net.à.Payer
+  Bulletins.paie$Montant.net.eqtp  <- Bulletins.paie$Net.Ã .Payer
   
-  Bulletins.paie[ ,   `:=`(Statut.sortie   = Statut[length(Net.à.Payer)],
-                           nb.jours        = calcul.nb.jours.mois(Mois, Année[1]),
+  Bulletins.paie[ ,   `:=`(Statut.sortie   = Statut[length(Net.Ã .Payer)],
+                           nb.jours        = calcul.nb.jours.mois(Mois, AnnÃ©e[1]),
                            nb.mois         = length(Mois),
                            cumHeures       = sum(Heures, na.rm = TRUE),
-                           quotité.moyenne = sum(quotité, na.rm = TRUE) / 12),
-                 key=c("Matricule", "Année")]
+                           quotitÃ©.moyenne = sum(quotitÃ©, na.rm = TRUE) / 12,
+                           quotitÃ©.moyenne.orig = sum(Temps.de.travail, na.rm = TRUE) / 1200),
+                 key=c("Matricule", "AnnÃ©e")]
   
-  # Indicatrice pour la rémunération moyenne des personnes en place :
-  # quotité égale pendant deux années successives contigues, permanence sur 12 mois.
-  # nous prenons les moyennes des quotités non NA.
+  # Indicatrice pour la rÃ©munÃ©ration moyenne des personnes en place :
+  # quotitÃ© Ã©gale pendant deux annÃ©es successives contigues, permanence sur 12 mois.
+  # nous prenons les moyennes des quotitÃ©s non NA.
   
-  Bulletins.paie[ , indicatrice.quotité.pp := (Matricule[R] == Matricule 
-                                               & Année[R]   == Année - 1 
-                                               & abs(quotité.moyenne[R] - quotité.moyenne) < tolérance.variation.quotité
+  Bulletins.paie[ , indicatrice.quotitÃ©.pp := (Matricule[R] == Matricule 
+                                               & AnnÃ©e[R]   == AnnÃ©e - 1 
+                                               & abs(quotitÃ©.moyenne[R] - quotitÃ©.moyenne) < tolÃ©rance.variation.quotitÃ©
                                                & nb.mois[R] == nb.mois
                                                & nb.mois    == 12)]
   
   Bulletins.paie[ ,   `:=`(Montant.brut.annuel      = sum(Brut, na.rm = TRUE),
                            Montant.brut.annuel.eqtp = 365 / nb.jours * sum(Montant.brut.eqtp , na.rm = TRUE),
                            Montant.net.annuel.eqtp  = 365 / nb.jours * sum(Montant.net.eqtp, na.rm = TRUE),
-                           Montant.net.annuel       = sum(Net.à.Payer, na.rm = TRUE),
+                           Montant.net.annuel       = sum(Net.Ã .Payer, na.rm = TRUE),
                            permanent                = nb.jours >= 365,
-                           indicatrice.quotité.pp   = indicatrice.quotité.pp[1]),
-                 key=c("Matricule", "Année")]
+                           indicatrice.quotitÃ©.pp   = indicatrice.quotitÃ©.pp[1]),
+                 key=c("Matricule", "AnnÃ©e")]
   
-  message("Indicatrice RMPP calculée")
+  message("Indicatrice RMPP calculÃ©e")
   
   # Housecleaning
   
   Bulletins.paie[ , indic := NULL]
   
   Paie <- merge(unique(Bulletins.paie[ , .(Matricule, 
-                                           Année,
+                                           AnnÃ©e,
                                            Mois,
                                            Service,
                                            Statut,
                                            cumHeures,
-                                           quotité,
-                                           quotité.moyenne,
+                                           quotitÃ©,
+                                           quotitÃ©.moyenne,
+                                           quotitÃ©.moyenne.orig,
                                            Montant.net.eqtp,
                                            Montant.brut.eqtp,
                                            Montant.brut.annuel,
@@ -573,20 +618,20 @@ if (redresser.heures) {
                                            Sexe,
                                            nb.jours,
                                            nb.mois,
-                                           indicatrice.quotité.pp,
+                                           indicatrice.quotitÃ©.pp,
                                            permanent)], by = NULL),
                 Paie, 
-                by=c("Matricule","Année","Mois","Service", "Statut"))[, indic := NULL]
+                by=c("Matricule","AnnÃ©e","Mois","Service", "Statut"))[, indic := NULL]
   
-  matricules <- unique(Bulletins.paie[ , .(Année, Nom, Prénom, Matricule, Catégorie, Grade, Emploi)], by = NULL)
+  matricules <- unique(Bulletins.paie[ , .(AnnÃ©e, Nom, PrÃ©nom, Matricule, CatÃ©gorie, Grade, Emploi)], by = NULL)
   
-  matricules <- matricules[order(Matricule, Année)]
+  matricules <- matricules[order(Matricule, AnnÃ©e)]
   
-  grades.categories <- unique(matricules[ , .(Grade, Catégorie)], by = NULL)
+  grades.categories <- unique(matricules[ , .(Grade, CatÃ©gorie)], by = NULL)
   grades.categories <- grades.categories[order(Grade)]
   
   # on essaie de deviner le versant de la FP par l'existence d'agents de service hospitalier
-  # on peut désactiver ce test par désactiver.test.versant.fp <- T dans prologue.R
+  # on peut dÃ©sactiver ce test par dÃ©sactiver.test.versant.fp <- T dans prologue.R
   
   if (is.na(VERSANT_FP))
      VERSANT_FP <<-  if (grepl("AG.*HOSP", grades.categories$Grade, ignore.case = TRUE)) "FPH" else "FPT"

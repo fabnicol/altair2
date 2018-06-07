@@ -57,7 +57,8 @@ PointIM <- matrix(c(
                     rep.int(55.5635, 72),# 2010 7 -> 2016 6  (6 années de blocage)
        				rep.int(55.8969, 6),# 2016 7 -> 2016 12
        				55.8969, # 2017 
-       				rep.int(56.2323,11)),
+       				rep.int(56.2323,11),
+       				rep.int(56.2323,12)),
        				
             				# insérer ici la valeur courante du mpoint d'indice annuel
             				# par exemple pour 56 € par point/an :

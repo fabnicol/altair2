@@ -10,7 +10,7 @@ reps <- list.dirs(chemin.clé.racine, recursive = FALSE)
 reps <- reps[basename(reps) != "Bases" & basename(reps) != "Docs"]
 if (length(reps) == 0) reps <- chemin.clé.racine
 
-encodage.code.source <- "ISO-8859-1"
+encodage.code.source <- if (setOSWindows) "ISO-8859-15" else "UTF-8"
 
 setwd(chemin.dossier)
 
@@ -23,7 +23,7 @@ if (setOSWindows) {
 
 library(data.table, warn.conflicts = FALSE)
 
-source("prologue.R", encoding = "UTF-8")
+source("prologue.R", encoding = encodage.code.source)
 
 script_env <- ls()
 script_env <- c(script_env, "script_env")
