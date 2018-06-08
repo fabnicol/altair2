@@ -68,7 +68,7 @@
 #define CONSEILLER_COMMUN                        "cons.*\\bcomm"
 
 /// conseiller délégué
-#define CONSEILLER_DELEGUE                       "(?:cons.*\\bd|d..?..?gu)"
+#define CONSEILLER_DELEGUE                       "(?:cons.*\\bd\\S*|d..?..?gu)"
 
 static constexpr auto EXPRESSION_REG_ELUS = DEBUT
         SOIT
