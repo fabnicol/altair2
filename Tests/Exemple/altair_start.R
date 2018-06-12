@@ -2292,7 +2292,11 @@ rm(résultat_IPF)
 #### 5.10 RIFSEEP ####
 
 #'
-#'## `r chapitre`.10 Contrôle du RIFSEEP (IFSE)
+#'## `r chapitre`.10 Contrôle du RIFSEEP (IFSE)  
+#'   
+#'*Pour tirer pleinement profit de ces fonctionnalités, il est préférable de faire remplir, par les organisems contrôlés*    
+#'*le tableau CSV accessible dans le bloc* **IFSE** *de l'onglet Extra de l'application graphique, ou bien *   
+#'*à ce lien. Voir aussi la notice &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_ifse.odt)      
 #'   
 
 # article 88 de la Loi 2016-483 du 20 avril 2016
@@ -2850,6 +2854,13 @@ if (générer.table.élus)   {
 #' 
 #'## `r chapitre`.13 Lien avec le compte de gestion    
 #'
+
+#'   
+#'*Pour tirer pleinement profit de ces fonctionnalités, il est préférable de faire remplir, par les organisems contrôlés*    
+#'*le tableau CSV accessible dans le bloc* **Bugdet** *de l'onglet Extra de l'application graphique, ou bien *   
+#'*à ce lien. Voir aussi la notice &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_budget.odt)      
+#'   
+
 
 essayer({
   
