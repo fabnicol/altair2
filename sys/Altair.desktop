@@ -1,0 +1,20 @@
+[Desktop Entry]
+Categories=Development;
+Comment[fr_FR]=
+Comment=
+Exec=LD_LIBRARY_PATH=/opt/lib64  /home/fab/Dev/altair/Interface_linux/gui/x64/Altair
+GenericName[fr_FR]=
+GenericName=
+Icon=/home/fab/Dev/altair/Interface/share/altair-gui/images/altair.png
+MimeType=application/alt;
+Name[fr_FR]=Altaïr
+Name=Altaïr
+Path=/home/fab/Dev/altair/Interface_linux/gui/x64
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=

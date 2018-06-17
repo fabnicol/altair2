@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Sauv.base</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Sauv.base"><tr><td>Sauv.base</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Sauv.base</h2>
+
+<h3>Description</h3>
+
+<p>Sauvegarde d'une base data.table sous forme de fichier CSV
+Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Sauv.base(chemin.dossier, nom, nom.sauv, Latin = convertir.latin,
+  sep = séparateur.liste.sortie, dec = séparateur.décimal.sortie,
+  environment = .GlobalEnv)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>chemin.dossier</code></td>
+<td>
+<p>Chemin du dossier dans lequel la base sera sauvegardée</p>
+</td></tr>
+<tr valign="top"><td><code>nom</code></td>
+<td>
+<p>Nom de l'objet à sauvegarder</p>
+</td></tr>
+<tr valign="top"><td><code>nom.sauv</code></td>
+<td>
+<p>Chaine de caractères du nom du fichier .csv sans l'extension</p>
+</td></tr>
+<tr valign="top"><td><code>Latin</code></td>
+<td>
+<p>(= convertir.latin) Convertir en encodage latin ISO-8859-15</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>(= séparateur.liste.sortie)</p>
+</td></tr>
+<tr valign="top"><td><code>dec</code></td>
+<td>
+<p>(= séparateur.décimal.sortie),</p>
+</td></tr>
+<tr valign="top"><td><code>environment</code></td>
+<td>
+<p>(= .GlobalEnv) environnement,</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Valeur booléenne de file.exists(file.path(chemin.dossier, nom.sauv 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+Sauv.base("données", Base, "BaseDonnée", sep = ";", dec = ",")
+</pre>
+
+
+</body></html>
