@@ -1,5 +1,0 @@
-<map id="tools::unzip" name="tools::unzip">
-<area shape="rect" id="node2" href="$classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" title="List un fichier entre deux lignes données et sur une largeur donnée. " alt="" coords="339,5,443,32"/>
-<area shape="rect" id="node3" href="$class_main_window.html#ae11018a1c92bd7f20ff54a3f78eacb51" title="Désarchiver le projet. " alt="" coords="297,68,484,95"/>
-<area shape="rect" id="node4" href="$classtools.html#ae821185bfd6650842559ef2f9d92f1ac" title="Décompresse l&#39;intégralité d&#39;un répertoire au format zip, et copie le dossier décompressé dans un chem..." alt="" coords="143,31,249,57"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="tools::dump" name="tools::dump">
-<area shape="rect" id="node2" href="$classcommon.html#a7900f8a5d7ebd42770ce8c366dd4b933" title="Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement. " alt="" coords="144,5,351,47"/>
-<area shape="rect" id="node3" href="$classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" title="List un fichier entre deux lignes données et sur une largeur donnée. " alt="" coords="195,71,299,98"/>
-<area shape="rect" id="node4" href="$classcode_page.html#a7f3fcb4b6f622b1c11a7b39e245b76b6" title="codePage::substituer\l_valeurs_dans_script_R" alt="" coords="166,123,329,164"/>
-<area shape="rect" id="node7" href="$classstandard_page.html#abb37a1fff677f91ad2418b07593aa40d" title="standardPage::substituer\l_versant" alt="" coords="164,188,331,229"/>
-<area shape="rect" id="node5" href="$classcode_page.html#a927a6bef8cac0406a49225bc72894a1f" title="codePage::codePage" alt="" coords="399,130,545,157"/>
-<area shape="rect" id="node6" href="$classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208" title="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair..." alt="" coords="593,130,708,157"/>
-</map>

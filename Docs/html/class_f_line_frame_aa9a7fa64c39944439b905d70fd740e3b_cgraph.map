@@ -1,8 +1,0 @@
-<map id="FLineFrame::FLineFrame" name="FLineFrame::FLineFrame">
-<area shape="rect" id="node2" href="$class_f_line_edit.html#a7f13e341cfb5891bfaf1139663609eee" title="FLineEdit::FLineEdit" alt="" coords="233,57,379,83"/>
-<area shape="rect" id="node5" href="$classtools.html#a87e526e69a91b82f7db7a462a921847c" title="Vérifie l&#39;existence d&#39;un dossier et l&#39;ouvre avec le gestionnaire de fichier du système d&#39;exploitation..." alt="" coords="252,107,360,134"/>
-<area shape="rect" id="node6" href="$classtools.html#ae23a9d29a31142e239d5d72e8201ebf4" title="Sélectionne un répertoire et renvoie son chemin. " alt="" coords="232,158,380,185"/>
-<area shape="rect" id="node3" href="$class_f_abstract_widget.html#a88c229861e7973810c6ac979d5526c2d" title="FAbstractWidget::setWidget\lFromXml" alt="" coords="433,5,628,47"/>
-<area shape="rect" id="node4" href="$class_f_abstract_widget.html#a821c87067fa5f6b48267d6ffb20e5c97" title="FAbstractWidget::setXmlFrom\lWidget" alt="" coords="428,71,633,112"/>
-<area shape="rect" id="node7" href="$classtools.html#a507c567954c39f293c8ab884a0fbcc32" title="Calcule le cumul de la taille des fichiers, éventuellement restreints à une extension donnée..." alt="" coords="449,158,612,185"/>
-</map>
