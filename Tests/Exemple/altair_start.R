@@ -1846,9 +1846,7 @@ if (exists("nombre.contractuels.et.vacations")) {
 #'## `r chapitre`.5 Contrôle sur les logements par nécessité absolue de service (NAS) &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NAS.odt)        
 
 #'   
-#'*Pour que le logiciel puisse contrôler sans risque d'erreur les concessions de logement, il est préférable de faire remplir, par les organismes contrôlés*    
-#'*le tableau CSV accessible dans le bloc* **Logement** *de l'onglet Extra de l'application graphique, ou bien *   
-#'*à ce lien. Voir aussi la notice* &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_logements.odt)      
+#'*Pour que le logiciel puisse contrôler sans risque d'erreur les concessions de logement, il est préférable de faire remplir, par les organismes contrôlés le tableau CSV accessible dans le bloc **Logement** de l'onglet Extra de l'application graphique, ou bien à ce lien. Voir aussi la notice* &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_logements.odt)      
 #'   
     
 #+ NAS
@@ -2302,9 +2300,9 @@ rm(résultat_IPF)
 #'
 #'## `r chapitre`.10 Contrôle du RIFSEEP (IFSE)  
 #'   
-#'*Pour tirer pleinement profit de ces fonctionnalités, il est préférable de faire remplir, par les organismes contrôlés*    
-#'*le tableau CSV accessible dans le bloc* **IFSE** *de l'onglet Extra de l'application graphique, ou bien *   
-#'*à ce lien. Voir aussi la notice* &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_ifse.odt)      
+#'*Pour tirer pleinement profit de ces fonctionnalités, il est préférable de faire remplir, par les organismes contrôlés 
+#'le tableau CSV accessible dans le bloc **IFSE** de l'onglet Extra de l'application graphique, ou bien 
+#'à ce lien. Voir aussi la notice* &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_ifse.odt)      
 #'   
 
 # article 88 de la Loi 2016-483 du 20 avril 2016
@@ -2864,9 +2862,9 @@ if (générer.table.élus)   {
 #'
 
 #'   
-#'*Pour tirer pleinement profit de ces fonctionnalités, il est préférable de faire remplir, par les organismes contrôlés*    
-#'*le tableau CSV accessible dans le bloc* **Bugdet** *de l'onglet Extra de l'application graphique, ou bien *   
-#'*à ce lien. Voir aussi la notice &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_budget.odt)      
+#'*Pour tirer pleinement profit de ces fonctionnalités, il est préférable de faire remplir, par les organismes contrôlés  
+#'le tableau CSV accessible dans le bloc **Bugdet** de l'onglet Extra de l'application graphique, ou bien  
+#'à ce lien. Voir aussi la notice* &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_budget.odt)      
 #'   
 
 
@@ -3580,10 +3578,11 @@ if (nligne.base.quotite.indefinie.salaire.non.nul)
 #'## Tableau des personnels  
 #'    
 #'   
-#'*Pour vérifier que le logiciel déduit correctement les catégories statutaires des libellés de grade, il est préférable de faire remplir, par les organismes contrôlés*    
-#'*le tableau CSV accessible dans le bloc* **Grade et catégorie statutaire** *de l'onglet Extra de l'application graphique, ou bien *   
-#'*à ce lien. Voir aussi la notice* &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_categories.odt)      
+#'*Pour vérifier que le logiciel déduit correctement les catégories statutaires des libellés de grade, il est préférable de faire remplir, par les organismes contrôlés  
+#'le tableau CSV accessible dans le bloc **Grade et catégorie statutaire** de l'onglet Extra de l'application graphique, ou bien  
+#'à ce lien. Voir aussi la notice* &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_categories.odt)      
 #'   
+
 if (afficher.table.effectifs) {
   kable(grades.categories, row.names = FALSE) 
 } 
