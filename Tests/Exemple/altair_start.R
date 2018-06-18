@@ -3578,9 +3578,7 @@ if (nligne.base.quotite.indefinie.salaire.non.nul)
 #'## Tableau des personnels  
 #'    
 #'   
-#'*Pour vérifier que le logiciel déduit correctement les catégories statutaires des libellés de grade, il est préférable de faire remplir, par les organismes contrôlés  
-#'le tableau CSV accessible dans le bloc **Grade et catégorie statutaire** de l'onglet Extra de l'application graphique, ou bien  
-#'à ce lien. Voir aussi la notice* &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_categories.odt)      
+#'*Pour vérifier que le logiciel déduit correctement les catégories statutaires des libellés de grade, il est préférable de faire remplir, par les organismes contrôlés le tableau CSV accessible dans le bloc **Grade et catégorie statutaire** de l'onglet Extra de l'application graphique, ou bien à ce lien. Voir aussi la notice* &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_categories.odt)      
 #'   
 
 if (afficher.table.effectifs) {
