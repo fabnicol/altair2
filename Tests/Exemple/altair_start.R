@@ -3477,11 +3477,18 @@ if (afficher.table.codes) {
 #'Les liens ci-après donnent les codes correspondant à au moins deux libellés distincts, les libellés correspondant à au moins deux codes et les codes ou libellés correspondant à au moins deux types de ligne de paye distincts.           
 #'L'association d'un même code à plusieurs libellés de paye peut induire des erreurs d'analyse comptable et financière lorsque les libellés correspondent à des types de ligne de paye distincts.    
 #'
-cl1 <- code.libelle[ , .(Libellé, Type, Code)][, Multiplicité := .N, by = Code][Multiplicité > 1]
-cl2 <- code.libelle[ , .(Libellé,  Code, Type)][, Multiplicité := .N, by = Libellé][Multiplicité > 1]
 
-cl3 <- unique(code.libelle[, .(Code, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), by = "Code"][Multiplicité > 1]
-cl4 <- unique(code.libelle[, .(Libellé, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), by = "Libellé"][Multiplicité > 1]
+# Plusieurs libellés par code
+cl1 <- unique(code.libelle[ , .(Code, Libellé, Type)], by = NULL)[, Multiplicité := .N, keyby = Code][Multiplicité > 1]
+
+# Plusieurs codes par libellé
+cl2 <- unique(code.libelle[ , .(Libellé,  Code, Type)], by = NULL)[, Multiplicité := .N, keyby = Libellé][Multiplicité > 1]
+
+# Plusieurs types de ligne par code
+cl3 <- unique(code.libelle[, .(Code, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), keyby = Code][Multiplicité > 1]
+
+# Plusieurs types de ligne par libellé
+cl4 <- unique(code.libelle[, .(Libellé, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), keyby = Libellé][Multiplicité > 1]
 
 #'   
 #'[Lien vers la table Codes/Libellés](Bases/Fiabilite/code.libelle.csv)       
