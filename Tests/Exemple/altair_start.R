@@ -1381,7 +1381,7 @@ newpage()
 #+ tests-statutaires-nbi
 #'   
 #'Il est conseillé, pour ce test, de saisir les codes de NBI dans l'onglet Codes de l'interface graphique  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_onglet_codes.odt)     
-#'A défaut, des lignes de paye de rappels de cotisations sur NBI peuvent être agrégés, dans certains cas, aux rappels de rémunération brute.   
+#'A défaut, des lignes de paye de rappels de cotisations sur NBI peuvent être agrégées, dans certains cas, aux rappels de rémunération brute.   
 #'       
 
 # --- Test NBI accordée aux non titulaires
