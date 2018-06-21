@@ -37,11 +37,13 @@
 # 
 #'---    
 #'title: false    
-#'author: false    
+#'author: false     
+#'header-includes: \usepackage{graphicx}  
 #'date: false    
 #'output:   
 #'html_document:    
 #'css: style.css
+#'graphics: yes
 #'---     
 #'   
 #'![Image_Altair](Altair.png)
@@ -1379,7 +1381,7 @@ newpage()
 #+ tests-statutaires-nbi
 #'   
 #'Il est conseillé, pour ce test, de saisir les codes de NBI dans l'onglet Codes de l'interface graphique  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_onglet_codes.odt)     
-#'A défaut, des lignes de paye de rappels de cotisations sur NBI peuvent être agrégés, dans certains cas, aux rappels de rémunération brute.   
+#'A défaut, des lignes de paye de rappels de cotisations sur NBI peuvent être agrégées, dans certains cas, aux rappels de rémunération brute.   
 #'       
 
 # --- Test NBI accordée aux non titulaires
@@ -1843,6 +1845,10 @@ if (exists("nombre.contractuels.et.vacations")) {
 #'
 #'## `r chapitre`.5 Contrôle sur les logements par nécessité absolue de service (NAS) &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NAS.odt)        
 
+#'   
+#'*Pour que le logiciel puisse contrôler sans risque d'erreur les concessions de logement, il est préférable de faire remplir, par les organismes contrôlés le tableau CSV accessible dans le bloc* **Logement** *de l'onglet Extra de l'application graphique, ou bien à ce lien. Voir aussi la notice* &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_logements.odt)      
+#'   
+    
 #+ NAS
   
 base.logements <- test_avn("NAS", Paie, logements = base.logements)  # base des avantages en nature déclarés en paye pour logt par NAS
@@ -2292,7 +2298,9 @@ rm(résultat_IPF)
 #### 5.10 RIFSEEP ####
 
 #'
-#'## `r chapitre`.10 Contrôle du RIFSEEP (IFSE)
+#'## `r chapitre`.10 Contrôle du RIFSEEP (IFSE)  
+#'   
+#'*Pour tirer pleinement profit de ces fonctionnalités, il est préférable de faire remplir, par les organismes contrôlés le tableau CSV accessible dans le bloc* **IFSE** *de l'onglet Extra de l'application graphique, ou bien à ce lien. Voir aussi la notice* &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_ifse.odt)      
 #'   
 
 # article 88 de la Loi 2016-483 du 20 avril 2016
@@ -2851,6 +2859,11 @@ if (générer.table.élus)   {
 #'## `r chapitre`.13 Lien avec le compte de gestion    
 #'
 
+#'   
+#'*Pour tirer pleinement profit de ces fonctionnalités, il est préférable de faire remplir, par les organismes contrôlés le tableau CSV accessible dans le bloc* **Bugdet** *de l'onglet Extra de l'application graphique, ou bien à ce lien. Voir aussi la notice* &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_budget.odt)      
+#'   
+
+
 essayer({
   
 paye.budget.existe <-  file.exists(chemin("paye_budget.csv"))  
@@ -2944,13 +2957,6 @@ L <- split(cumul.total.lignes.paie, cumul.total.lignes.paie$Année)
 
 }, "La correspondance avec le compte de gestion n'a pas pu être établie.")
 
-
-#'    
-#'## `r chapitre`.11 Lien avec le compte 64        
-#' 
-#'     
-#'*Cumul des lignes de paie par exercice et sous-compte du compte 64*     
-#'     
 
 if (exists("L")) {
   for (i in 1:durée.sous.revue) {
@@ -3464,11 +3470,18 @@ if (afficher.table.codes) {
 #'Les liens ci-après donnent les codes correspondant à au moins deux libellés distincts, les libellés correspondant à au moins deux codes et les codes ou libellés correspondant à au moins deux types de ligne de paye distincts.           
 #'L'association d'un même code à plusieurs libellés de paye peut induire des erreurs d'analyse comptable et financière lorsque les libellés correspondent à des types de ligne de paye distincts.    
 #'
-cl1 <- code.libelle[ , .(Libellé, Type, Code)][, Multiplicité := .N, by = Code][Multiplicité > 1]
-cl2 <- code.libelle[ , .(Libellé,  Code, Type)][, Multiplicité := .N, by = Libellé][Multiplicité > 1]
 
-cl3 <- unique(code.libelle[, .(Code, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), by = "Code"][Multiplicité > 1]
-cl4 <- unique(code.libelle[, .(Libellé, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), by = "Libellé"][Multiplicité > 1]
+# Plusieurs libellés par code
+cl1 <- unique(code.libelle[ , .(Code, Libellé, Type)], by = NULL)[, Multiplicité := .N, keyby = Code][Multiplicité > 1]
+
+# Plusieurs codes par libellé
+cl2 <- unique(code.libelle[ , .(Libellé,  Code, Type)], by = NULL)[, Multiplicité := .N, keyby = Libellé][Multiplicité > 1]
+
+# Plusieurs types de ligne par code
+cl3 <- unique(code.libelle[, .(Code, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), keyby = Code][Multiplicité > 1]
+
+# Plusieurs types de ligne par libellé
+cl4 <- unique(code.libelle[, .(Libellé, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), keyby = Libellé][Multiplicité > 1]
 
 #'   
 #'[Lien vers la table Codes/Libellés](Bases/Fiabilite/code.libelle.csv)       
@@ -3559,8 +3572,11 @@ if (nligne.base.quotite.indefinie.salaire.non.nul)
 #'[Lien vers la base de données des salaires versés à quotité indéfinie](Bases/Fiabilite/base.quotite.indefinie.salaire.non.nul.csv)   
 #'
 #'## Tableau des personnels  
-#'
-#'
+#'    
+#'   
+#'*Pour vérifier que le logiciel déduit correctement les catégories statutaires des libellés de grade, il est préférable de faire remplir, par les organismes contrôlés le tableau CSV accessible dans le bloc* **Grade et catégorie statutaire** *de l'onglet Extra de l'application graphique, ou bien à ce lien. Voir aussi la notice* &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_categories.odt)      
+#'   
+
 if (afficher.table.effectifs) {
   kable(grades.categories, row.names = FALSE) 
 } 
