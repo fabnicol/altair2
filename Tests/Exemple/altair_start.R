@@ -2958,13 +2958,6 @@ L <- split(cumul.total.lignes.paie, cumul.total.lignes.paie$Année)
 }, "La correspondance avec le compte de gestion n'a pas pu être établie.")
 
 
-#'    
-#'## `r chapitre`.11 Lien avec le compte 64        
-#' 
-#'     
-#'*Cumul des lignes de paie par exercice et sous-compte du compte 64*     
-#'     
-
 if (exists("L")) {
   for (i in 1:durée.sous.revue) {
     essayer({
