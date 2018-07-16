@@ -250,6 +250,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
 
 #   define QUOTE "(?:\"|')"
 
+    string.remove(QRegularExpression("[\\(\\)]"));
     QRegExp reg("DocumentPaye.*(?:Annee) V.?=.?" QUOTE "([0-9]+)" QUOTE ".*(?:Mois) V.?=.?" QUOTE "([0-9]+)" QUOTE "(.*)(?:Employeur).*(?:Nom) V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret) V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE ".*DonneesIndiv(.*)PayeIndivMensuel");
     reg.setPatternSyntax(QRegExp::RegExp2);
     reg.setCaseSensitivity(Qt::CaseInsensitive);
@@ -257,6 +258,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
     reg2.setCaseSensitivity(Qt::CaseInsensitive);
     QRegExp reg3(".*(?:Etablissement).*(?:Nom) V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret) V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE);
     reg3.setCaseSensitivity(Qt::CaseInsensitive);
+
 
     QByteArray::const_iterator it;
 
