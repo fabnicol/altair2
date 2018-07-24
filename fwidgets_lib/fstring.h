@@ -133,7 +133,7 @@ public:
 
  /// Opérateur de déréférencement.
  /// \return La valeur de Hash::wrapper[p] convertie ("aplatie") en FString
- /// \note Example : *FString("base") -> chemin du répertoire de sortie
+ /// \note Exemple : *FString("base") -> chemin du répertoire de sortie
 
  FString  operator * ();
 
@@ -378,7 +378,7 @@ public:
   static QHash<QString,QStringList> description;
 
   /* Hash::wrapper  is used for storing information for xml project parsing/writing.
-   *It converts a string label like "audioMenu" into a pointer to an FStringList object that contains a set of file paths
+   *It converts a string label into a pointer to an FStringList object that contains a set of file paths
    * (or more generally, text phrases) grouped into a QStringList for each associated file in a list of files */
   static QHash<QString, FStringList*> wrapper;
 

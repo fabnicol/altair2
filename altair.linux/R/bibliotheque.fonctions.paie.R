@@ -354,14 +354,15 @@ Résumé <- function(x,y, align = 'r', extra = 0, type = "pond")  {
           T <- sapply(Y, function(x) {
             q <- bigvis::weighted.quantile(x, Y$quotité.moyenne, na.rm = TRUE) 
             q <- append(q, weighted.mean(x, Y$quotité.moyenne, na.rm = TRUE), 3)
-            prettyNum(q, big.mark = " ", digits = 2)
+            formatC(q, big.mark = " ", format = "fg", digits = 2)
           })
           
           S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"), T)
           
         } else if (type == "standard") {
+          
           S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"),
-                     sapply(Y, function(x) prettyNum(summary(x), big.mark = " ")))
+                     sapply(Y, function(x) formatC(summary(x), big.mark = " ", digits = 1, format = "f")))
         }
         
         
@@ -387,11 +388,12 @@ Résumé <- function(x,y, align = 'r', extra = 0, type = "pond")  {
                                  
                                  q <- append(q, weighted.mean(x[[1]], x[[2]], na.rm = TRUE), 3)
                                
-                                 prettyNum(q, big.mark = " ")
+                                 formatC(q, big.mark = " ", format = "fg", digits = 2)
                        }))
         } else if (type == "standard") {
-          S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"),
-                     sapply(Y, function(x) prettyNum(summary(x), big.mark = " ")))
+          
+          S <-cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"),
+                    sapply(Y, function(x) formatC(summary(x), big.mark = " ", digits = 1, format = "f")))
         }
         
         if (! missing(extra) && extra == "length") {

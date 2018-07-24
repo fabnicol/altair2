@@ -263,8 +263,16 @@ class FListWidget : public QWidget, public FAbstractWidget
 
 public:
 
-  FListWidget(QWidget* parent, const QString& hashKey=QString(),int commandLineType=0, const QStringList& description=QStringList(),const QString& commandLine=QString(),const QStringList& sep=QStringList(),
-              const QStringList &taglist=QStringList(),  const QList<QString> *terms=nullptr, const QList<QString> *translation=nullptr, QWidget* controlledWidget=nullptr);
+  FListWidget(QWidget *parent, 
+              const QString &hashKey = QString(),
+              int commandLineType = 0, 
+              const QStringList &description = QStringList(),
+              const QString &commandLine = QString(),
+              const QStringList &sep = QStringList(),
+              const QStringList &taglist = QStringList(),  
+              const QList<QString> *terms = nullptr, 
+              const QList<QString> *translation = nullptr, 
+              QWidget *controlledWidget = nullptr);
 
   void setWidgetFromXml(const FStringList & );
   const FString setXmlFromWidget();

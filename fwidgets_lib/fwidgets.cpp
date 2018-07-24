@@ -126,10 +126,14 @@ void FAbstractConnection::meta_connect(FAbstractWidget* w,  const Q2VectorWidget
     }
 }
 
-
-
-inline void FAbstractWidget::FCore(const QVector<QWidget*>& w, FString defaultCommandLine, int commandLineType, const QString &hashKey, const QStringList & description,
-                  const QString &option, const QVector<QWidget*>enabledObjects, const QVector<QWidget*>disabledObjects)
+inline void FAbstractWidget::FCore(const QVector<QWidget*>& w,
+                                   FString defaultCommandLine, 
+                                   int commandLineType, 
+                                   const QString &hashKey, 
+                                   const QStringList & description,
+                                   const QString &option,
+                                   const QVector<QWidget*>enabledObjects,
+                                   const QVector<QWidget*>disabledObjects)
 {
     Q2VectorWidget *dObjects = new Q2VectorWidget,
                    *eObjects = new Q2VectorWidget;
@@ -182,7 +186,8 @@ inline void FAbstractWidget::FCore(const QVector<QWidget*>& w, FString defaultCo
     Hash::wrapper[hashKey] = new FStringList;
     *Hash::wrapper[hashKey]  << (QStringList() << QString());
 
-    if (static_cast<flags::status>(commandLineType & static_cast<int>(flags::status::excludeMask)) != flags::status::excluded)  Abstract::abstractWidgetList.append(this);
+    if (static_cast<flags::status>(commandLineType & static_cast<int>(flags::status::excludeMask)) 
+            != flags::status::excluded)  Abstract::abstractWidgetList.append(this);
 
     FAbstractConnection::meta_connect(this, this->enabledObjects, this->disabledObjects);
 
@@ -299,7 +304,7 @@ FListWidget::FListWidget(QWidget* par,
     /* if a Hash has been activated, build the terms-translation Hash table so that translated terms
    * can be translated back to original terms later on, so as to get the correct command line string chunks */
 
-    if ((terms != nullptr) || (translation != nullptr))
+    if (terms != nullptr || translation != nullptr)
     {
         createHash(listWidgetTranslationHash, translation, terms);
     }
