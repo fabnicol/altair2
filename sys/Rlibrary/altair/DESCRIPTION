@@ -1,0 +1,16 @@
+Package: altair
+Title: Fonctions pour l'analyse des bases de paye au format XML
+Version: 0.1
+Authors@R: person("Fabrice", "Nicol", email = "fabrice.nicol@crtc.ccomptes.fr", role = c("aut", "cre"))
+Description: Analyse, traite et transforme les données des bases de
+    paye conformes aux spécifications de la convention-cadre nationale de
+    dématérialisation (http://xemelios.org)
+Depends: R (>= 3.2.3), data.table (>= 1.9.5)
+License: CeCILL v.2.1
+LazyData: true
+RoxygenNote: 6.0.1
+ByteCompile: true
+Encoding: utf-8
+Author: Fabrice Nicol [aut, cre]
+Maintainer: Fabrice Nicol <fabrice.nicol@crtc.ccomptes.fr>
+Built: R 3.4.4; ; 2018-06-20 23:13:18 UTC; unix

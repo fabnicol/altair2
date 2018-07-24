@@ -40,7 +40,7 @@
 rendre <- function(fw = fig.width,
                    fh = fig.height,
                    d  = dpi,
-                   keep = TRUE,
+                   keep = keep_md,
                    clean = FALSE,
                    to ="docx",
                    from = "markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures",
@@ -70,14 +70,19 @@ rendre <- function(fw = fig.width,
                                                                                warning = FALSE,
                                                                                message = FALSE,
                                                                                results = 'asis')),
-                                               keep_md = keep, clean_supporting = clean,
+                                               keep_md = TRUE, clean_supporting = clean,
                                                pandoc = pandoc_options(to = to,
                                                                        from = from,
                                                                        args = args)),
                  envir = render_env,
                  output_file = output_file)
           
-          if (to == "docx") file.remove("temp.R")
+          if (to == "docx") {
+            file.remove("temp.R") 
+          } else {
+            if (to == "latex") system2("pandoc", c(output_file, "-o", "altaïr.pdf", args))
+            if (! keep) file.remove(output_file)
+          }
           
           invisible(render_env)
 }
