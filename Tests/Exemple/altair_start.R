@@ -3327,7 +3327,7 @@ prime_FPH_test <- function(prime, prime_lit, base, expr = NULL) {
     if (nombre.personnels.nt) {
       
       cat("Coût des anomalies ", 
-          personnels.nt[ , sum(Montant, na.rm = TRUE)], "euros.")
+          DT[ , sum(Montant, na.rm = TRUE)], "euros.")
     }
     
     assign(base, DT)
