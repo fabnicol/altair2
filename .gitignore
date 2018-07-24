@@ -1,4 +1,4 @@
-.Rproj.user
+.Rproj.user/*
 .Rhistory
 .RData
 .Ruserdata
@@ -13,3 +13,4 @@ Makefile
 lhx/lhx
 */*/*.user
 */*.user
+.Rproj.user

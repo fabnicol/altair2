@@ -59,7 +59,7 @@ for (rep in reps) {
   invisible(lapply(c("altaïr.pdf", "altaïr.odt", "altaïr.docx"), function(x) file.remove(file.path(chemin.clé.racine, x))))
   
   res <- try({
-      source("rapport_pdf_start.R", encoding = "ISO-8859-1", echo = TRUE)
+      source("rapport_pdf_start.R", encoding = "UTF-8", echo = TRUE)
   })
   
   if (inherits(res, "try-error")) {

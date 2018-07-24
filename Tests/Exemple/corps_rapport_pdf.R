@@ -40,7 +40,7 @@
 
 PDF <- TRUE
 
-source("rendre.R", encoding = "ISO-8859-1")
+source("rendre.R", encoding = "UTF-8")
 
 # La fonction rendre() permet de générer le rapport pdf
 
@@ -53,11 +53,7 @@ rendre(to = "latex",
               "urlcolor=cyan", # couleur des liens hypertexte
               "--highlight-style", # facultatif
               "tango"),
-       output_file = "altair.pdf")
-
-# Eviter les caractères non ascii dans l'output de rendre. Renommer.
-
-file.rename("altair.pdf", "altaïr.pdf")
+       output_file = "altair.tex")
 
 # Copie sur le sous-dossier de la clé (dossier R-Altair ou R-Altair/nom du dossier/
 # en mode distributif)
