@@ -1,16 +1,16 @@
 Package: stringi
-Version: 1.1.6
-Date: 2017-11-10
+Version: 1.2.4
+Date: 2018-07-20
 Title: Character String Processing Facilities
 Description: Allows for fast, correct, consistent, portable,
     as well as convenient character string/text processing in every locale
-    and any native encoding. Owing to the use of the ICU library,
-    the package provides R users with platform-independent functions
-    known to Java, Perl, Python, PHP, and Ruby programmers. Available
-    features include: pattern searching (e.g., with ICU Java-like regular
-    expressions or the Unicode Collation Algorithm), random string generation,
+    and any native encoding. Owing to the use of the 'ICU' library,
+    the package provides 'R' users with platform-independent functions
+    known to 'Java', 'Perl', 'Python', 'PHP', and 'Ruby' programmers. Available
+    features include: pattern searching (e.g., with 'Java'-like regular
+    expressions or the 'Unicode' collation algorithm), random string generation,
     case mapping, string transliteration, concatenation,
-    Unicode normalization, date-time formatting and parsing, etc.
+    Unicode normalization, date-time formatting and parsing, and many more.
 URL: http://www.gagolewski.com/software/stringi/
         http://site.icu-project.org/ http://www.unicode.org/
 BugReports: http://github.com/gagolews/stringi/issues
@@ -22,13 +22,13 @@ Biarch: TRUE
 License: file LICENSE
 Author: Marek Gagolewski [aut, cre], Bartek Tartanus [ctb],
     and other contributors (stringi source code);
-    IBM and other contributors (ICU4C 55.1 source code);
+    IBM and other contributors (ICU4C source code);
     Unicode, Inc. (Unicode Character Database)
 Maintainer: Marek Gagolewski <gagolews@rexamine.com>
 RoxygenNote: 6.0.1
 NeedsCompilation: yes
-Packaged: 2017-11-10 13:42:04 UTC; gagolews
+Packaged: 2018-07-20 11:58:52 UTC; gagolews
 License_is_FOSS: yes
 Repository: CRAN
-Date/Publication: 2017-11-17 13:13:14 UTC
-Built: R 3.4.3; x86_64-pc-linux-gnu; 2018-02-14 00:55:56 UTC; unix
+Date/Publication: 2018-07-20 17:30:03 UTC
+Built: R 3.5.1; x86_64-pc-linux-gnu; 2018-07-22 01:47:20 UTC; unix
