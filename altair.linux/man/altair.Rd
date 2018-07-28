@@ -2,14 +2,14 @@
 % Please edit documentation in R/altair.R
 \name{altair}
 \alias{altair}
-\title{AltaÃ¯r: un paquet pour analyser les bases de paye XML.}
+\title{Altaïr: un paquet pour analyser les bases de paye XML.}
 \description{
-AltaÃ¯r: un paquet pour analyser les bases de paye XML.
+Altaïr: un paquet pour analyser les bases de paye XML.
 }
-\section{DÃ©mographie}{
+\section{Démographie}{
 
 effectifs : tableau des effectifs, ETP et EQTP
 
-pyramide des Ã¢ges : de 15 Ã  68 ans, verticale, hommes/femmes.
+pyramide des âges : de 15 à 68 ans, verticale, hommes/femmes.
 }
 
