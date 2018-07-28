@@ -327,22 +327,34 @@ filtrage <- function(année) {
     if (filtre != "") {
       
       if (! filtre %chin% c("A", "B", "C")) {
-        présents.bulletins[[transl(année)]] <<- Bulletins[Statut %chin% filtre & Année == année & quotité.moyenne != 0 & Grade != "A" & Grade != "V", .(Matricule, Mois, quotité)]
+        présents.bulletins[[transl(année)]] <<- Bulletins[Statut %chin% filtre
+                                                          & Année == année & quotité.moyenne != 0
+                                                          & Grade != "A" 
+                                                          & Grade != "V", .(Matricule, Mois, quotité)]
       } else {
-        présents.bulletins[[transl(année)]] <<- Bulletins[Catégorie == filtre & Année == année & quotité.moyenne != 0 & Grade != "A" & Grade != "V", .(Matricule, Mois, quotité)]
+        présents.bulletins[[transl(année)]] <<- Bulletins[Catégorie == filtre 
+                                                          & Année == année 
+                                                          & quotité.moyenne != 0 
+                                                          & Grade != "A" 
+                                                          & Grade != "V", .(Matricule, Mois, quotité)]
       } 
       
     } else {
       
-      présents.bulletins[[transl(année)]] <<- Bulletins[Année == année & quotité.moyenne != 0 & Grade != "A" & Grade != "V", .(Matricule, Mois, quotité)]
+      présents.bulletins[[transl(année)]] <<- Bulletins[Année == année & quotité.moyenne != 0
+                                                        & Grade != "A" 
+                                                        & Grade != "V", .(Matricule, Mois, quotité)]
     }
 
     if (! noria.sur.base.de.paie) {     
+      
        colonnes <- c("Matricule", "Année.entrée", "Mois.entrée", "Jour.entrée",
                      "Année.sortie", "Mois.sortie", "Jour.sortie") 
+       
        if (classe != "") colonnes <- c(colonnes, "Classe")
        
        présents.bulletins[[transl(année)]] <<- merge(présents.bulletins[[transl(année)]], ES[ , colonnes, with = FALSE], by = "Matricule", all.x = TRUE)
+       
        if (classe != "") présents.bulletins[[transl(année)]] <<- présents.bulletins[[transl(année)]][Classe == classe]  
     }
   
@@ -385,11 +397,13 @@ if (noria.sur.base.de.paie) {
     
     if (mois == 12) {
       
-      date <- présents.bulletins[[transl(année)]][Matricule %chin% matricules.sélectionnés, mean(Mois.sortie - 1 + Jour.sortie / 30, na.rm = TRUE)] / 12
+      date <- présents.bulletins[[transl(année)]][Matricule %chin% matricules.sélectionnés, 
+                                                    mean(Mois.sortie - 1 + Jour.sortie / 30, na.rm = TRUE)] / 12
       
     } else {
       
-      date <- présents.bulletins[[transl(année)]][Matricule %chin% matricules.sélectionnés, mean(Mois.entrée - 1 + Jour.entrée / 30, na.rm = TRUE)] / 12
+      date <- présents.bulletins[[transl(année)]][Matricule %chin% matricules.sélectionnés, 
+                                                    mean(Mois.entrée - 1 + Jour.entrée / 30, na.rm = TRUE)] / 12
     }
 }
     
@@ -398,7 +412,8 @@ if (noria.sur.base.de.paie) {
                                  & Grade != "A" 
                                  & Grade != "V"
                                  & Matricule %chin% matricules.sélectionnés, 
-                                 .(Année, quotité.moyenne, Matricule)], by = NULL)[ , sum(quotité.moyenne, na.rm=TRUE)]
+                                   .(Année, quotité.moyenne, Matricule)],
+                                      by = NULL)[ , sum(quotité.moyenne, na.rm=TRUE)]
     
     list(matricules = matricules.sélectionnés, etpt = etpt.sélectionnés,  n = length(matricules.sélectionnés), date = date)
 }
@@ -516,12 +531,15 @@ setnames(smpt, c("salaire", "etpt"))
 # GVT négatif = (masse salariale moyenne unitaire des entrants - masse salariale moyenne unitaire des sortants) x nombre sortants
 # ici exprimée en rémunérations
 
-form <- function(V, total = FALSE, digits = 2) {
+form <- function(V, total = FALSE, digits = 1) {
   
   v0 <- formatC(as.numeric(V),
               big.mark = " ",
               digits = digits,
               format = "f")
+  
+  v0[v0 == "NaN"] <- ""
+  
   if (total) c(v0, formatC(sum(as.numeric(V), na.rm = TRUE),
                            big.mark = " ",
                            digits = 1,
@@ -607,7 +625,7 @@ for(x in c("effet.noria.relatif",
          "var.rmpp",
          "variation.effectifs")) assign(x %+% ".form", form(get(x) * 100))
 
-var.période.form <- form(var.période * 100, digits = 2)[1:4]
+var.période.form <- form(var.période * 100)[1:4]
 
 var.rmpp.form[durée.sous.revue] <-  var.période.form[1]
 effet.es.form[durée.sous.revue] <-  var.période.form[2]
@@ -619,7 +637,7 @@ effet.es.form <- effet.es.form[1:durée.sous.revue]
 total.form    <- total.form[1:durée.sous.revue]    
 var.smpt.form <- var.smpt.form[1:durée.sous.revue] 
 
-delta.coef.form <- form(delta.coef, total = FALSE, digits = 3)
+delta.coef.form <- form(delta.coef, total = FALSE, digits = 2)
 
 #### Affichage ####
 
