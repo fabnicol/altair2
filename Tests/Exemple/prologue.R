@@ -78,7 +78,7 @@ afficher.table.événements      <- FALSE
 analyse.par.catégorie          <- TRUE
 test.delta                     <- FALSE
 if (! exists("PDF"))       PDF <- FALSE
-keep_md                        <- FALSE
+keep_md                        <- TRUE
 utiliser.cplusplus.sft         <- FALSE
 sécuriser.types.sortie         <- TRUE
 utiliser.variable.Heures.Sup.  <- FALSE  # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unité
