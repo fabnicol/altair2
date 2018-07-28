@@ -2,17 +2,17 @@
 % Please edit documentation in R/effectifs.R
 \name{extraire.nir}
 \alias{extraire.nir}
-\title{Traitement du NIR (numÃ©ro d'inscription au rÃ©pertoire des personnes physiques).}
+\title{Traitement du NIR (numéro d'inscription au répertoire des personnes physiques).}
 \usage{
-extraire.nir(Base, annÃ©e)
+extraire.nir(Base, année)
 }
 \arguments{
-\item{Base}{data.table contenant au moins une variable nommÃ©e Nir dÃ©crivant le NIR.}
+\item{Base}{data.table contenant au moins une variable nommée Nir décrivant le NIR.}
 
-\item{annÃ©e}{AnnÃ©e civile Ã  la fin de laquelle est Ã©valuÃ© l'Ã¢ge de l'individu.}
+\item{année}{Année civile à la fin de laquelle est évalué l'âge de l'individu.}
 }
 \value{
-Une base data.table ayant la forme suivante (les bornes d'Ã¢ge ne sont pas impÃ©ratives) :
+Une base data.table ayant la forme suivante (les bornes d'âge ne sont pas impératives) :
        \tabular{ccc}{
          age \tab Hommes \tab Femmes \cr
          15  \tab   0  \tab    1   \cr
@@ -24,8 +24,9 @@ Une base data.table ayant la forme suivante (les bornes d'Ã¢ge ne sont pas impÃ©
        }
 }
 \description{
-Extrait la rÃ©partition par Ã¢ge et sexe des individus ayant un NIR.
+Extrait la répartition par âge et sexe des individus ayant un NIR.
 }
 \examples{
 extraire.nir(Base, 2012)
 }
+
