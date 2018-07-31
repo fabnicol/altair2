@@ -6,3 +6,4 @@ sys/kernel
 R/* 
 RStudio/* 
 Interface/gui/altair.windows.pro
+.Rproj.user
