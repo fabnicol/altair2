@@ -4,8 +4,8 @@
 \alias{test_prime}
 \title{Teste les primes et indemnités}
 \usage{
-test_prime(prime, prime_B, Paie_I = NULL, Paie_B = NULL, Lignes_B = NULL,
-  verbeux = FALSE)
+test_prime(prime, prime_B, Paie_I = NULL, Paie_B = NULL,
+  Lignes_B = NULL, verbeux = FALSE)
 }
 \arguments{
 \item{prime}{Prime au format liste comportant les arguments :
