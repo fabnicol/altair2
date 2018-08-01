@@ -7,9 +7,10 @@ Description: Analyse, traite et transforme les données des bases de
     dématérialisation (http://xemelios.org)
 Depends:
     R (>= 3.2.3),
-    data.table (>= 1.9.5)
+    data.table (>= 1.9.5),
+    zeallot
 License: CeCILL v.2.1
 LazyData: true
 RoxygenNote: 6.1.0
 ByteCompile: true
-Encoding: utf-8
+Encoding: UTF-8
