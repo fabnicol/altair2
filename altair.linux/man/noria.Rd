@@ -4,8 +4,9 @@
 \alias{noria}
 \title{Décomposition de l'évolution des salaires, RMPP, SMPT et GVT}
 \usage{
-noria(Bulletins = Bulletins.paie, Base = Analyse.variations.par.exercice,
-  classe = "", champ = "brut", filtre = "", fichier = "", dec = ",",
+noria(Bulletins = Bulletins.paie,
+  Base = Analyse.variations.par.exercice, classe = "",
+  champ = "brut", filtre = "", fichier = "", dec = ",",
   sep = ";", encoding = "UTF-8", afficher.tableau = TRUE,
   controle.quotité = FALSE)
 }
