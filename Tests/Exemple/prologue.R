@@ -251,4 +251,3 @@ source("versant.R", encoding = "UTF-8")
 source("point.im.R", encoding = "UTF-8")
 source("plafonds.R", encoding = "UTF-8")
 
-fichier.es <- "/home/fab/Desktop/SDIS/Bases/ES.csv"

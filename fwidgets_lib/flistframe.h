@@ -218,6 +218,7 @@ void addParsedTreeToListWidget(const QStringList &strL);
 
 
 protected:
+
     short importType;
     QStringList tags;
 
@@ -231,7 +232,7 @@ private:
  void clearTabLabels() {fileListWidget->clearTabLabels();}
 
  int row, currentIndex;
-  bool activateOnStart=false;
+ bool activateOnStart=false;
  bool isTerminated = false;
 
  /// Actualise  currentWidget,  row et  currentIndex
@@ -243,7 +244,6 @@ private:
  /// \param eraseAllData Si true, efface toute la table de hachage  Hash::wrapper
 
  void deleteAllGroups(bool insertFirstGroup = true, bool eraseAllData = true);
-
 
  void launch_thread(int rank);
 

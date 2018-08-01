@@ -45,12 +45,26 @@
 
 library(bit64)
 
+#' Contrôle le type des données d'entrée
+#' @param colonnes Vecteur des noms de colonnes de la table globale
+#' @export
+
+type.données <- function(colonnes) {
+  
+"intégrer.rang" %a% ("R" %chin% colonnes) 
+"intégrer.échelon" %a% ("Echelon" %chin% colonnes)
+"intégrer.localisation" %a% ("Siret" %chin% colonnes)
+
+if (intégrer.rang) message("Intégration du Rang")
+if (intégrer.échelon) message("Intégration de l'échelon")
+if (intégrer.localisation) message("Intégration des données établissement")
+
 localisation.classes <- if (intégrer.localisation) c("character", "character", "character", "character") else NULL
 échelon.classe <- if (intégrer.échelon) "character" else NULL
 rang.classe    <- if (intégrer.rang) "integer" else NULL
 
 
-colonnes.classes.input    <- c(rang.classe, "integer", "integer",  
+"colonnes.classes.input"    %a% c(rang.classe, "integer", "integer",  
                                localisation.classes,
                                "character", "character", "character",
                                "character", "numeric", "character", "numeric", "numeric", "numeric",
@@ -58,7 +72,7 @@ colonnes.classes.input    <- c(rang.classe, "integer", "integer",
                                "character",  "character", "numeric", "numeric", "numeric",
                                "numeric", "character", "character", "character", "character", "character", échelon.classe, "character", "character")
 
-colonnes.bulletins.classes.input <- c(rang.classe, "integer", "integer",
+"colonnes.bulletins.classes.input" %a% c(rang.classe, "integer", "integer",
                                       localisation.classes,
                                       "character", "character", "character",
                                       "character", "numeric", "character", "numeric", "numeric", "numeric",
@@ -66,7 +80,7 @@ colonnes.bulletins.classes.input <- c(rang.classe, "integer", "integer",
                                       "character", "character", "character", échelon.classe, "character", "character")
 
 
-trans <- data.table(t(matrix( c("I",  "Indemnité",
+"trans" %a% data.table(t(matrix( c("I",  "Indemnité",
                                 "R" , "Rappels",
                                 "IR", "Indemnité de résidence",
                                 "T" , "Traitement",
@@ -78,6 +92,9 @@ trans <- data.table(t(matrix( c("I",  "Indemnité",
                                 "RE", "Retenues",
                                 "CO" , "Commentaire"), nrow = 2)))
 
+}
+
+#' @export
 
 remplacer_type <- function(M) {
   trans2 <- data.table::copy(trans)
@@ -86,6 +103,9 @@ remplacer_type <- function(M) {
   M <- merge(M, trans2, by = "Type", all.x = TRUE)[, Type := NULL]
   setnames(M, "Type_long", "Type")
 }
+
+
+#' @export
 
 résumer_type <- function(M) {
   trans2 <- data.table::copy(trans)
