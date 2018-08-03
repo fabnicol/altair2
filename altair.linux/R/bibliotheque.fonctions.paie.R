@@ -827,3 +827,26 @@ filtrer_Paie <- function(x, portée = NULL,  Base = Paie, Var = "Code", indic = 
   P_ 
 }
 
+
+#' Extraire les matricules et Nir des mois de décembre, sauf pour les élus
+#' Pour les statuts listés dans L si L non null
+#' @param an  Année
+#' @param L   Vecteur des statuts considérés
+#' @return  Data.table extraite de \code{Bulletins.paie} de deux colonnes (\code{Matricule} et \code{Nir}), filtrée des doublons.
+#' @examples extraire_paye(2012, c("TITULAIRE", "STAGIAIRE")) 
+#' @export
+#' 
+extraire_paye <- function(an, L) {
+  
+  if (! is.null(L)) return(unique(Bulletins.paie[Année == an
+                                                 & Mois == 12
+                                                 & Statut != "ELU"
+                                                 & Statut %chin% L,
+                                                 c("Matricule", "Nir"), with = FALSE]))
+  
+  
+  return(unique(Bulletins.paie[Année == an
+                               & Mois == 12
+                               & Statut != "ELU",
+                               c("Matricule", "Nir"), with = FALSE]))
+}

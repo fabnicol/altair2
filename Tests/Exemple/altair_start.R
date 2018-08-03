@@ -169,6 +169,7 @@ kable(tableau.effectifs, row.names = TRUE, align='c')
 #+ durée-du-travail
 
 cat("\nLa durée du travail prise en compte dans la base de données est de ", nb.heures.temps.complet, " h par mois.\n")  
+
 if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 151.67)  {
   semaine.de.travail <<- nb.heures.temps.complet * 12 / 52
   
@@ -195,13 +196,15 @@ fichiers.pyr <- list.files(path= file.path(currentDir, "data"), pattern = "*.csv
 for (f in fichiers.pyr) {
   base <- basename(f)
   assign(substr(base, 1, attr(regexec("(.*)\\.csv", base)[[1]], "match.length")[2]),
-         fread(f, sep = ";", header = TRUE, encoding = "Latin-1", dec = ",", colClasses = c("integer", "numeric", "numeric", "integer", "character")),
-         envir = .GlobalEnv)
+         fread(f, 
+               sep = ";",
+               header = TRUE,
+               encoding = "Latin-1",
+               dec = ",",
+               colClasses = c("integer", "numeric", "numeric", "integer", "character")),
+               envir = .GlobalEnv)
 }
 
-# local = TRUE permet de conserver l'environnement e en sourçant
-
-source("analyse.bulletins.R", local = TRUE, encoding = encodage.code.source)
 
 newpage()
 
@@ -213,8 +216,6 @@ newpage()
 #' 
 #+fig.height=8, fig.width=7
 
-
-  
 essayer(produire_pyramides(NULL, 
                            "Pyramide des âges des personnels",
                            versant = VERSANT_FP),
