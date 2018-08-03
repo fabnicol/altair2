@@ -1,1 +1,0 @@
-'/c/Program Files/7-Zip/7z.exe' a -sfx7zCon.sfx -r -t7z -mx9 a.exe  *
