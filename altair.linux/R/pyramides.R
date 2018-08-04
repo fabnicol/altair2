@@ -41,9 +41,10 @@
 #' @param  Filtre_bulletins  Fonction permettant de filtrer les bulletins sur les lignes de data.table
 #' @param  titre  Titre de la pyramide.
 #' @param  versant Versant de la fonction publique ("FPT" ou "FPH")
+#' @param  envir Environnement de stockage des caractéristiques des âges (\code{nom.fichier.après}, \code{nom.fichier.avant}, \code{res} quartiles de distribution des âges)
 #' @export
 #'
-produire_pyramides <- function(Filtre_bulletins, titre, versant = "") {
+produire_pyramides <- function(Filtre_bulletins, titre, versant = "", envir) {
 
   année.fin.comp <- if (versant != "") {
                       max(début.période.sous.revue,
@@ -87,13 +88,13 @@ produire_pyramides <- function(Filtre_bulletins, titre, versant = "") {
   
   # Utilisation de l'environnement e pour récupérer les noms de fichier des âges début et fin de période sous revue
   
-  e$nom.fichier.avant <- stub %+% début.période.sous.revue
-  e$nom.fichier.après <- stub %+% fin.période.sous.revue
+  envir$nom.fichier.avant <- stub %+% début.période.sous.revue
+  envir$nom.fichier.après <- stub %+% fin.période.sous.revue
   
   # Sauvegarde des bases des âges début et fin de période sous revue
   
-  Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "ages.début.psr", e$nom.fichier.avant, environment = environment())
-  Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "ages.fin.psr", e$nom.fichier.après, environment = environment())
+  Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "ages.début.psr", envir$nom.fichier.avant, environment = environment(), Latin = FALSE)
+  Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "ages.fin.psr", envir$nom.fichier.après, environment = environment(), Latin = FALSE)
   
 }
 
@@ -105,19 +106,17 @@ pyramides <- function(Bulletins.début.psr,
                       ages.fin.psr,
                       titre,
                       versant,
-                      envir = .GlobalEnv) {
+                      envir) {
 
-e$res <- Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
-         "Effectif",
-         "Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
-         "Effectif"),
-       list(Bulletins.début.psr[ , age], 
-            Bulletins.fin.psr[ , age]),
-       extra = "length",
-       align = 'c',
-       type = "standard")
-
-
+envir$res <- Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
+               "Effectif",
+               "Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
+               "Effectif"),
+               list(Bulletins.début.psr[ , age], 
+                    Bulletins.fin.psr[ , age]),
+               extra = "length",
+               align = 'c',
+               type = "standard")
 
 if (longueur.non.na(ages.début.psr) == 0) {
   cat("La pyramide des âges de début de période ne peut être produite.")
