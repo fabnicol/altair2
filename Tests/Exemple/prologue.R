@@ -77,7 +77,7 @@ afficher.table.codes           <- FALSE
 afficher.table.événements      <- FALSE
 analyse.par.catégorie          <- TRUE
 test.delta                     <- FALSE
-if (! exists("PDF"))       PDF <- FALSE
+if (! exists("PDF"))       PDF <<- FALSE
 keep_md                        <- FALSE
 utiliser.cplusplus.sft         <- FALSE
 sécuriser.types.sortie         <- TRUE
