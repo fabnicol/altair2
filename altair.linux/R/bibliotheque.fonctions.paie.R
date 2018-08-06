@@ -850,3 +850,30 @@ extraire_paye <- function(an, L) {
                                & Statut != "ELU",
                                c("Matricule", "Nir"), with = FALSE]))
 }
+
+#' Insérer un script auxiliaire, indexé par une variable globale
+#' @param chemin  Chemin du script R
+#' @param index   Vecteur numérique contenant les valeurs de la variable globale.
+#' @param variable Vecteur de caractères contenant le nom de la variable globale dans le script auxiliaire.
+#' @param gen  Si \code{FALSE} alors se contente de sourcer le script auxiliaire selon \code{encodage.code.source}. Sinon intègre le rapport auxiliaire au format du rapport principal.
+#' @return Valeur de la dernière variable globale \code{variable} instanciée. Effets de bord en sortie.
+#' @export
+
+insérer_script <- function(chemin, index, variable = "année", gen = générer.rapport) {
+
+invisible(lapply(index, function(x) {
+  assign(variable, x, .GlobalEnv)
+  incrémenter.chapitre()
+  if (! gen) {
+    
+    source(chemin, encoding = encodage.code.source) 
+    
+  } else {
+    
+    cat(knit_child(text = readLines(spin(chemin, knit = FALSE), encoding = encodage.code.source), quiet = TRUE), sep = '\n')
+  }
+}))
+  
+get(variable)
+}
+  
