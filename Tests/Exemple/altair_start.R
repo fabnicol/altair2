@@ -470,21 +470,7 @@ newpage()
 
 #+ lancement-analyse-statique
 
-invisible(lapply(années.analyse.statique, function(x) {
-                 année <<- x
-                 incrémenter.chapitre()
-                 if (! générer.rapport) {
-
-                   source('analyse.statique.R', encoding = encodage.code.source) 
-                   
-                 } else {
-                   if (setOSWindows)  {                 
-                      cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.Rmd'), encoding = encodage.code.source), quiet = TRUE), sep = '\n')
-                   } else {
-                     cat(knit_child(text = readLines(file.path(chemin.dossier,'analyse.statique.utf8.Rmd'), encoding = encodage.code.source), quiet = TRUE), sep = '\n')
-                   }
-                 }
-               }))
+insérer_script(file.path(chemin.dossier, "analyse.statique.R"), index = c(début.période.sous.revue, fin.période.sous.revue))
 
 #'  
 #'[Lien vers la base des rémunérations](Bases/Remunerations/Analyse.remunerations.csv)  
@@ -3264,18 +3250,19 @@ rm(Base.IHTS)
 #'    
 #'     
 
-
 cat("Les non titulaires ne doivent pas cotiser à la CNRACL. ")
-    
-Cotisations.irreg <- Paie[(Type == "D"  | Type == "C") 
-                           & Statut != "TITULAIRE" 
-                           & Statut != "STAGIAIRE" 
-                           & grepl("C\\.?\\s*N\\.?\\s*R\\.?\\s*A\\.?\\s*C\\.?\\s*L",
-                                   Libellé,
-                                   ignore.case = TRUE,
-                                   perl = TRUE) 
-                           & Montant > 0,
-                               .(Matricule, Année, Mois, Type, Libellé, Montant)]
+
+# Les benchmark montrent que pour DEUX %chin% successifs, l'on a intérêt à chaîner les grepl plutot qu'à les coordonner
+# et allonger les vecteurs de %chin% plutôt qu'à utiliser !
+# Ils montrent aussi que l'on n'a pas intérêt contrairement à l'intution à commencer par extraire une matrice
+# commune Paie[Type %chin% c("C", "D")] et que les gains liés à setkey sont marginaux.
+
+Cotisations.irreg <- Paie[Type %chin% c("C", "D") & Statut %chin% c("NON_TITULAIRE", "AUTRE_STATUT", "EMPLOI_AIDE", "", "ELU")
+                         ][grepl("C\\.?\\s*N\\.?\\s*R\\.?\\s*A\\.?\\s*C\\.?\\s*L",
+                                     Libellé,
+                                     ignore.case = TRUE,
+                                     perl = TRUE) & Montant > 0,
+                          .(Matricule, Année, Mois, Type, Statut, Libellé, Montant)]
 
 #'  
 #'&nbsp;*Tableau `r incrément()` : Cotisations irrégulières à la CNRACL*     
@@ -3288,11 +3275,10 @@ if (! identical(Cotisations.irreg, logical(0)) & (nlignes <- nrow(Cotisations.ir
 
 #'   
 #'       
-  
 
 Tableau(c("Cotisations salarié", "Cotisations employeur"),
-           Cotisations.irreg[Type == "D", sum(Montant, na.rm = TRUE)], Cotisations.irreg[Type == "C", sum(Montant, na.rm = TRUE)])                   
-
+           Cotisations.irreg[Type == "D", sum(Montant, na.rm = TRUE)],
+           Cotisations.irreg[Type == "C", sum(Montant, na.rm = TRUE)])                   
 
 #'   
 #'[Lien vers la base des cotisations irrégulières](Bases/Reglementation/Cotisations.irreg.csv)   
@@ -3304,9 +3290,7 @@ Tableau(c("Cotisations salarié", "Cotisations employeur"),
 
 cat("Les titulaires ne doivent pas cotiser à l'IRCANTEC. ")
 
-Cotisations.irreg.ircantec <- Paie[(Type == "D"  | Type == "C") 
-                                   & Statut == "TITULAIRE" 
-                                   & grepl("I\\.?\\s*R\\.?\\s*C\\.?\\s*A\\.?\\s*N\\.?\\s*",
+Cotisations.irreg.ircantec <- Paie[Statut == "TITULAIRE" & Type %chin% c("C", "D") & grepl("I\\.?\\s*R\\.?\\s*C\\.?\\s*A\\.?\\s*N\\.?\\s*",
                                            Libellé,
                                            ignore.case = TRUE, perl = TRUE) 
                                    & Montant > 0,
@@ -3325,7 +3309,8 @@ if (! identical(Cotisations.irreg.ircantec, logical(0)) & (nlignes <- nrow(Cotis
 #'       
   
 Tableau(c("Cotisations salarié", "Cotisations employeur"),
-           Cotisations.irreg.ircantec[Type == "D", sum(Montant, na.rm = TRUE)], Cotisations.irreg.ircantec[Type == "C", sum(Montant, na.rm = TRUE)])    
+           Cotisations.irreg.ircantec[Type == "D", sum(Montant, na.rm = TRUE)],
+           Cotisations.irreg.ircantec[Type == "C", sum(Montant, na.rm = TRUE)])    
 
 #'   
 #'[Lien vers la base des cotisations irrégulières](Bases/Reglementation/Cotisations.irreg.ircantec.csv)   
@@ -3500,6 +3485,7 @@ Evenements.mat <- setcolorder(setkey(copy(Evenements.ind),
 code.libelle <- remplacer_type(code.libelle)
 
 setcolorder(code.libelle, c("Code", "Libellé", "Statut", "Type", "Compte"))
+
 if (afficher.table.codes) {
    kable(code.libelle, align="c")
 }
@@ -3510,23 +3496,23 @@ if (afficher.table.codes) {
 #'
 
 # Plusieurs libellés par code
-cl1 <- unique(code.libelle[ , .(Code, Libellé, Type)], by = NULL)[, Multiplicité := .N, keyby = Code][Multiplicité > 1]
+plusieurs_libelles_par_code <- unique(code.libelle[ , .(Code, Libellé, Type)], by = NULL)[, Multiplicité := .N, keyby = Code][Multiplicité > 1]
 
 # Plusieurs codes par libellé
-cl2 <- unique(code.libelle[ , .(Libellé,  Code, Type)], by = NULL)[, Multiplicité := .N, keyby = Libellé][Multiplicité > 1]
+plusieurs_codes_par_libelle <- unique(code.libelle[ , .(Libellé,  Code, Type)], by = NULL)[, Multiplicité := .N, keyby = Libellé][Multiplicité > 1]
 
 # Plusieurs types de ligne par code
-cl3 <- unique(code.libelle[, .(Code, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), keyby = Code][Multiplicité > 1]
+plusieurs_types_par_code <- unique(code.libelle[, .(Code, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), keyby = Code][Multiplicité > 1]
 
 # Plusieurs types de ligne par libellé
-cl4 <- unique(code.libelle[, .(Libellé, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), keyby = Libellé][Multiplicité > 1]
+plusieurs_types_par_libelle <- unique(code.libelle[, .(Libellé, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), keyby = Libellé][Multiplicité > 1]
 
 #'   
 #'[Lien vers la table Codes/Libellés](Bases/Fiabilite/code.libelle.csv)       
-#'[Plusieurs libellés par code](Bases/Fiabilite/cl1.csv)   
-#'[Plusieurs codes par libellé](Bases/Fiabilite/cl2.csv)   
-#'[Plusieurs types de ligne par code](Bases/Fiabilite/cl3.csv)   
-#'[Plusieurs types de ligne par libellé](Bases/Fiabilite/cl4.csv)           
+#'[Plusieurs libellés par code](Bases/Fiabilite/plusieurs_libelles_par_code.csv)   
+#'[Plusieurs codes par libellé](Bases/Fiabilite/plusieurs_codes_par_libelle.csv)   
+#'[Plusieurs types de ligne par code](Bases/Fiabilite/plusieurs_types_par_code.csv)   
+#'[Plusieurs types de ligne par libellé](Bases/Fiabilite/plusieurs_types_par_libelle.csv)           
 #'   
 
 #'  
@@ -3727,10 +3713,10 @@ if (sauvegarder.bases.analyse) {
               "lignes.nbi.anormales.mensuel",
               "lignes.paie.nbi.anormales.mensuel",
               "cumuls.nbi",
-              "cl1",
-              "cl2",
-              "cl3",
-              "cl4",
+              "plusieurs_libelles_par_code",
+              "plusieurs_codes_par_libelle",
+              "plusieurs_types_par_code",
+              "plusieurs_types_par_libelle",
               "code.libelle",
               "Evenements",
               "Evenements.ind",
