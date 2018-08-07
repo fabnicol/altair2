@@ -102,11 +102,8 @@ verif.temps.complet <- function() {
 
 quotités <- function() {
   
-  Bulletins.paie <- merge(Bulletins.paie,
-                          Paie[ , .(Filtre_actif = Filtre_actif[1]),
-                                by = c("Matricule", "Année", "Mois")],
-                          all.x = TRUE,
-                          all.y = FALSE)
+  Bulletins.paie <- Paie[ , .(Filtre_actif), by=.(Matricule, Année, Mois), mult = "first"
+                        ][Bulletins.paie,  on = .(Matricule, Année, Mois)]
   
   Bulletins.paie[ , pop_calcul_médiane := length(Heures[Temps.de.travail == 100 
                                                         & !is.na(Heures) 
@@ -348,14 +345,16 @@ importer <- function() {
       
         message("Remplacement de la catégorie par la catégorie importée du fichier matricules.csv sous ", chemin.dossier.données)
         vect <- c("Année", "Nom", "Prénom", "Matricule", "Grade", "Emploi")
-        BP <- base.personnels.catégorie[ , , keyby = vect]
         
         Paie[, Catégorie := NULL]
         Bulletins.paie[, Catégorie := NULL]
         
-        Paie <- merge(Paie[ , , keyby = vect], BP, all = TRUE, by = vect)
+        #BP <- base.personnels.catégorie[ , , keyby = vect]
+        #Paie <- merge(Paie[ , , keyby = vect], BP, all = TRUE, by = vect)
+        #Bulletins.paie  <- merge(Bulletins.paie[ , , keyby = vect], BP, all = TRUE, by = vect)
         
-        Bulletins.paie  <- merge(Bulletins.paie[ , , keyby = vect], BP, all = TRUE, by = vect)
+        Paie <- base.personnels.catégorie[Paie, on = vect]
+        Bulletins.paie <- base.personnels.catégorie[Bulletins.paie, on = vect]
         
       } else {
       
@@ -369,9 +368,8 @@ importer <- function() {
           BP <- rbindlist(list(BP, data.table("V", "NA")))
           BP <- rbindlist(list(BP, data.table("A", "NA")))
           
-          Paie <- merge(Paie[ , , keyby = "Grade"], BP, all = TRUE, by = "Grade")
-          
-          Bulletins.paie <- merge(Bulletins.paie[ , , keyby = "Grade"], BP, all = TRUE, by = "Grade")
+          Paie <- BP[Paie, on = "Grade"]
+          Bulletins.paie <- BP[Bulletins.paie, on = "Grade"]
         }
       }
       
@@ -578,15 +576,15 @@ importer <- function() {
         }    
       
       
-        Bulletins.paie <- merge(unique(Paie[ , .(Matricule, 
-                                                 Année,
-                                                 Mois,
-                                                 Service,
-                                                 Statut,
-                                                 Heures,
-                                                 indic)], by=NULL),
-                                       Bulletins.paie[, Heures := NULL], 
-                                       by = c("Matricule","Année","Mois","Service", "Statut"))
+        Bulletins.paie <- Paie[ , .(Matricule, 
+                                     Année,
+                                     Mois,
+                                     Service,
+                                     Statut,
+                                     Heures,
+                                     indic)
+                              ][Bulletins.paie[ , Heures := NULL], 
+                                       on = .(Matricule, Année, Mois, Service, Statut)]
         
         message("Correction (méthode 2), compte tenu des temps complets vérifiés, sur ", 
                 nredressements <<- nrow(Bulletins.paie[indic == TRUE]), " lignes de paie")
@@ -642,35 +640,38 @@ importer <- function() {
       
       Bulletins.paie[ , indic := NULL]
       
-      Paie <- merge(unique(Bulletins.paie[ , .(Matricule, 
-                                               Année,
-                                               Mois,
-                                               Service,
-                                               Statut,
-                                               cumHeures,
-                                               quotité,
-                                               quotité.moyenne,
-                                               quotité.moyenne.orig,
-                                               Montant.net.eqtp,
-                                               Montant.brut.eqtp,
-                                               Montant.brut.annuel,
-                                               Montant.brut.annuel.eqtp,
-                                               Montant.net.annuel,
-                                               Montant.net.annuel.eqtp,
-                                               Statut.sortie,
-                                               Sexe,
-                                               nb.jours,
-                                               nb.mois,
-                                               indicatrice.quotité.pp,
-                                               permanent)], by = NULL),
-                            Paie, 
-                            by = c("Matricule","Année","Mois","Service", "Statut"))[ , indic := NULL]
+      vect <- c("Matricule", "Année", "Mois", "Service", "Statut")
+      
+      Paie <- Paie[unique(Bulletins.paie[ , .(Matricule, 
+                                   Année,
+                                   Mois,
+                                   Service,
+                                   Statut,
+                                   cumHeures,
+                                   quotité,
+                                   quotité.moyenne,
+                                   quotité.moyenne.orig,
+                                   Montant.net.eqtp,
+                                   Montant.brut.eqtp,
+                                   Montant.brut.annuel,
+                                   Montant.brut.annuel.eqtp,
+                                   Montant.net.annuel,
+                                   Montant.net.annuel.eqtp,
+                                   Statut.sortie,
+                                   Sexe,
+                                   nb.jours,
+                                   nb.mois,
+                                   indicatrice.quotité.pp,
+                                   permanent)], by = vect),
+                             on = vect
+                           ][ , indic := NULL]
       
       matricules <- unique(Bulletins.paie[ , .(Année, Nom, Prénom, Matricule, Catégorie, Grade, Emploi)], by = NULL)
       
       "matricules" %a% matricules[order(Matricule, Année)]
       
       grades.categories <- unique(matricules[ , .(Grade, Catégorie)], by = NULL)
+      
       "grades.categories" %a% grades.categories[order(Grade)]
       
       # on essaie de deviner le versant de la FP par l'existence d'agents de service hospitalier

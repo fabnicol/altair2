@@ -1416,11 +1416,10 @@ Paie_NBI   <- filtrer_Paie("NBI",
 
 lignes_NBI <- Paie_NBI[indic == TRUE][ , indic :=  NULL]
 
-NBI.aux.non.titulaires <- lignes_NBI[Statut != "TITULAIRE" 
-                                     & Statut != "STAGIAIRE" 
+NBI.aux.non.titulaires <- lignes_NBI[! Statut %chin% c("TITULAIRE", "STAGIAIRE") 
                                      & NBI != 0,
-                                        c(colonnes, "NBI"),
-                                            with = FALSE] 
+                                       c(..colonnes, "NBI")]
+                                            
            
 if (nombre.personnels.nbi.nontit <- uniqueN(NBI.aux.non.titulaires$Matricule)) {
     cat("Il existe ", 
@@ -1443,19 +1442,18 @@ if (nombre.personnels.nbi.nontit <- uniqueN(NBI.aux.non.titulaires$Matricule)) {
 
 
 T1 <- lignes_NBI[! is.na(NBI)
-                & NBI != 0,  c("Matricule", 
-                               "Nom",
-                               "Prénom",
-                               "Grade",
-                               "Statut",
-                               "Année",
-                               "Mois",
-                               "Montant",
-                               "Début",
-                               "quotité",
-                               "NBI",
-                               "Type"),
-                                with = FALSE
+                & NBI != 0,  .(Matricule, 
+                               Nom,
+                               Prénom,
+                               Grade,
+                               Statut,
+                               Année,
+                               Mois,
+                               Montant,
+                               Début,
+                               quotité,
+                               NBI,
+                               Type)
                 ][ , `:=` (Année.rappel = as.numeric(substr(Début, 0, 4)),
                            Mois.rappel  = as.numeric(substr(Début, 6, 7))) 
                 ][ , Début := NULL]
@@ -1499,7 +1497,7 @@ T2[adm.quotité > 0,  nbi.eqtp.tot := (nbi.cum.rappels + nbi.cum.hors.rappels) /
 
 cumuls.nbi <- T2[ , .(cumul.annuel.indiciaire = sum(nbi.cum.indiciaire, na.rm = TRUE),
                       cumul.annuel.montants   = sum(nbi.eqtp.tot, na.rm = TRUE)),
-                    keyby="Année"]
+                    by = "Année"]
 
 if (nrow(cumuls.nbi) == 0) cat("Cumuls de NBI nuls. ")
 
@@ -1510,7 +1508,8 @@ if (nrow(cumuls.nbi) == 0) cat("Cumuls de NBI nuls. ")
 
 lignes.nbi.anormales <- T2[nbi.cum.indiciaire > 0 
                             & nbi.eqtp.tot > 0,
-                              test := nbi.eqtp.tot/nbi.cum.indiciaire - PointMensuelIM[Année - 2007, Mois], by= .(Année, Mois)
+                              test := nbi.eqtp.tot/nbi.cum.indiciaire - PointMensuelIM[Année - 2007, Mois],
+                                 by = .(Année, Mois)
                           ][! is.na(test) & abs(test) > 1
                           ][ , cout.nbi.anormale := (nbi.eqtp.tot - nbi.cum.indiciaire * PointMensuelIM[Année - 2007, Mois]) * adm.quotité]
 
@@ -1590,18 +1589,19 @@ lignes.nbi.anormales.mensuel <- data.table()
 essayer(
 {  
   lignes.nbi.anormales.mensuel <- lignes_NBI[Type != "R", .(Montant.NBI.calculé = NBI[1] * adm(quotité[1]) * PointMensuelIM[Année - 2007, Mois],
-                                                            Montant.NBI.payé = sum(Montant, na.rm = TRUE)), 
-                                                            keyby = "Matricule,Année,Mois"
-                                       ][ , Différence.payé.calculé := Montant.NBI.payé - Montant.NBI.calculé
-                                       ][abs(Différence.payé.calculé) > tolérance.nbi]
+                                                         Montant.NBI.payé = sum(Montant, na.rm = TRUE)), 
+                                                           by = .(Matricule, Année, Mois)
+                                             ][ , Différence.payé.calculé := Montant.NBI.payé - Montant.NBI.calculé
+                                             ][abs(Différence.payé.calculé) > tolérance.nbi]
   
-  lignes.paie.nbi.anormales.mensuel <- merge(Paie_NBI[, .(Matricule, Nom, Prénom, Grade, Statut, 
+  lignes.paie.nbi.anormales.mensuel <- Paie_NBI[ , .(Matricule, Nom, Prénom, Grade, Statut, 
                                                             Année, Mois, Echelon, Catégorie, 
                                                             Emploi, Service, Temps.de.travail,
                                                             NBI, Code, Libellé,
-                                                            Base, Taux,Type, Montant)],
-                                                  lignes.nbi.anormales.mensuel,
-                                                  by = c("Matricule", "Année", "Mois"))
+                                                            Base, Taux,Type, Montant)
+                                                ][lignes.nbi.anormales.mensuel,
+                                                     nomatch = 0,
+                                                     on = .(Matricule, Année, Mois)]
   
   nb.lignes.anormales.mensuel    <- nrow(lignes.nbi.anormales.mensuel)
   montants.nbi.anormales.mensuel <- lignes.nbi.anormales.mensuel[, sum(Différence.payé.calculé, na.rm = TRUE)]
@@ -1756,7 +1756,7 @@ Paie_vac_fonct <- Paie_vac[Statut %chin% c("TITULAIRE", "STAGIAIRE"),
 
 lignes.fonctionnaires.et.vacations <- Paie_vac_fonct[Libellé %chin% libellés.horaires]
 
-matricules.fonctionnaires.et.vacations <- unique(lignes.fonctionnaires.et.vacations[ , .(Matricule, Nom, Statut)], by = NULL)
+matricules.fonctionnaires.et.vacations <- unique(lignes.fonctionnaires.et.vacations[ , .(Matricule, Nom, Statut)])
 nombre.fonctionnaires.et.vacations <- length(matricules.fonctionnaires.et.vacations[[1]])
 
 if (nombre.fonctionnaires.et.vacations > 0) {
@@ -1790,7 +1790,7 @@ if (nombre.fonctionnaires.et.vacations > 0) {
                                  .(Nom, Prénom, Matricule, Service, Statut, Catégorie, Grade, Echelon, Libellé, Type,
                                    Heures, Heures.Sup., Nb.Enfants, Code, Base, Taux, Nb.Unité,  Montant)]
                                            
-  matricules.contractuels.et.vacations <- unique(Paie_vac_contr[ , .(Matricule, Nom, Statut)], by=NULL)
+  matricules.contractuels.et.vacations <- unique(Paie_vac_contr[ , .(Matricule, Nom, Statut)])
 
   nombre.contractuels.et.vacations     <- nrow(matricules.contractuels.et.vacations)
     
@@ -1833,7 +1833,7 @@ if (exists("nombre.contractuels.et.vacations")) {
 
   SFT_IR.et.vacations <- Paie_vac_sft_ir[Type %chin% c("IR", "S")]
   
-  matricules.SFT_IR.et.vacations <- unique(SFT_IR.et.vacations[ , .(Matricule, Nom, Statut)], by=NULL)
+  matricules.SFT_IR.et.vacations <- unique(SFT_IR.et.vacations[ , .(Matricule, Nom, Statut)])
   
   nombre.SFT_IR.et.vacations     <- nrow(matricules.SFT_IR.et.vacations)
   }, "Les tests sur les CEV et les versements de SFT ou d'IR n'ont pas été réalisés. ")
@@ -2103,7 +2103,8 @@ test.PFR <- function(i, grade, cumul) {
   cumuls.PFR <- résultat_PFR$Lignes[, .(PFR_annuel = sum(Montant, na.rm = TRUE),
                                         nb.mois = uniqueN(Mois),
                                         Grade = Grade[1]),
-                                          by=.(Matricule,Année)][ , PFR_annuel := PFR_annuel * 12 / nb.mois]   # proratisation mensuelle
+                                          by = .(Matricule,Année)
+                                   ][ , PFR_annuel := PFR_annuel * 12 / nb.mois]   # proratisation mensuelle
   
   dépassements.PFR.boolean <- mapply(test.PFR.all, cumuls.PFR$Grade, cumuls.PFR$PFR_annuel, USE.NAMES=FALSE)
 
@@ -2551,7 +2552,7 @@ lignes.IHTS.rappels <- lignes.IHTS[Type == "R" & Montant != 0
                    nihts.cum.rappels = ifelse((a <- sum(abs(Base[Année.rappel == Année & Mois.rappel <= Mois]) * sign(Montant), na.rm = TRUE)) == 0, sum(abs(Nb.Unité[Année.rappel == Année & Mois.rappel <= Mois])  * sign(Montant), na.rm = TRUE), a),
                    ihts.cum.rappels.ant = sum(Montant[Année.rappel < Année], na.rm = TRUE),
                    nihts.cum.rappels.ant = ifelse((a <- sum(abs(Base[Année.rappel < Année]) * sign(Montant), na.rm = TRUE)) == 0, sum(abs(Nb.Unité[Année.rappel < Année]) * sign(Montant), na.rm = TRUE), a)), 
-                 by= .(Matricule, Année.rappel, Mois.rappel)
+                 by = .(Matricule, Année.rappel, Mois.rappel)
          ][Année.rappel >= début.période.sous.revue 
                  & Mois.rappel >=1 
                  & Mois.rappel <= 12
@@ -2566,7 +2567,7 @@ lignes.IHTS.hors.rappels <- lignes.IHTS[Type != "R" & Montant != 0,
                                        .(ihts.cum.hors.rappels = sum(Montant, na.rm = TRUE),
                                          nihts.cum.hors.rappels = ifelse((a <- sum(abs(Base) * sign(Montant), na.rm = TRUE)) == 0, sum(abs(Nb.Unité) * sign(Montant), na.rm = TRUE), a),
                                          quotité.moyenne),
-                                           by= .(Matricule, Année, Mois)]
+                                           by = .(Matricule, Année, Mois)]
 
 lignes.IHTS.tot <- merge(lignes.IHTS.rappels, lignes.IHTS.hors.rappels, 
                          all = TRUE,
@@ -2596,13 +2597,15 @@ essayer(
 # Taux.horaires donne des sommes annuelles pour les traitements et IHTS, afin de calculer les taux maxima "seuils"
 # on prend en compte la NBI pour le calcul du taux (réponse ministérielle 23 mai 2006)   
   
+  vect <- c("Matricule", "Année", "Mois", "quotité")
+  
   Taux.horaires <- Base.IHTS[ ,.(`IR` = sum(Montant[Type == "IR"], na.rm = TRUE),
                                   Indice = Indice[1],
                                   NBI = NBI[1],
                                   Heures.Sup. = Heures.Sup.[1]), # ajouter NBI proratisée !
-                                         by = .(Matricule, Année, Mois, quotité)]
+                                         by = vect]
   
-  Taux.horaires <- merge(Taux.horaires, lignes.IHTS.tot, by=c("Matricule", "Année", "Mois", "quotité"))
+  Taux.horaires <- Taux.horaires[lignes.IHTS.tot, nomatch = 0, on = vect]
   
   setkey(Taux.horaires, Année, Mois)
   Taux.horaires[ , `Traitement indiciaire annuel et IR` := IR * 12 + (Indice + NBI) * PointIM[Année - 2007, Mois]
@@ -2625,7 +2628,7 @@ essayer(
                            Min = nihts.tot * `Taux horaire inf.14 H`)
                         
                 ][ ,  `:=`(Indice = NULL,
-                                           IR = NULL)]   
+                           IR = NULL)]   
   
  
 },
@@ -2656,14 +2659,14 @@ essayer(
     
     cat("Il y a", depassement, "agent" %+% ifelse(depassement, "s", ""), "qui perçoivent davantage que le maximum d'IHTS pouvant être liquidé au titre du mois.") 
   }
+  
+  with(depassement.agent.annee,
+       
+       Tableau.vertical2(c("Année", "Coût en euros", "Nombre d'agents"),
+                         Année, digits = 0, `Coût en euros`, `Nombre d'agents`))   
     
 },
 "Le tableau des dépassements de coûts n'a pas pu être généré. ")
-
-  with(depassement.agent.annee,
-  
-    Tableau.vertical2(c("Année", "Coût en euros", "Nombre d'agents"),
-                         Année, digits = 0, `Coût en euros`, `Nombre d'agents`))         
 
 
 #'     
@@ -2831,21 +2834,16 @@ essayer({
 
 
 remunerations.elu <- Analyse.remunerations[ indemnités.élu > minimum.positif,
-                                            c(clé.fusion,
-                                              "Année",
-                                              "Emploi",
-                                              "indemnités.élu",
-                                              "acomptes",
-                                              "rémunération.indemnitaire.imposable"),
-                                            with=FALSE ]
+                                            .(Matricule,
+                                              Année,
+                                              Emploi,
+                                              indemnités.élu,
+                                              acomptes,
+                                              rémunération.indemnitaire.imposable)]
 
 remunerations.elu <- remunerations.elu[ , rémunération.indemnitaire.imposable := indemnités.élu +  rémunération.indemnitaire.imposable]
 
-remunerations.elu <- merge(unique(matricules[ , .(Nom,  Matricule)], by=NULL),
-                             remunerations.elu,
-                             by = étiquette.matricule,
-                             all.y = TRUE,
-                             all.x = FALSE)
+remunerations.elu <- unique(matricules[ , .(Nom,  Matricule)])[remunerations.elu, on = étiquette.matricule]
 
 names(remunerations.elu) <- c(union(clé.fusion, "Nom"),
                               "Année",
@@ -3257,7 +3255,7 @@ cat("Les non titulaires ne doivent pas cotiser à la CNRACL. ")
 # Ils montrent aussi que l'on n'a pas intérêt contrairement à l'intution à commencer par extraire une matrice
 # commune Paie[Type %chin% c("C", "D")] et que les gains liés à setkey sont marginaux.
 
-Cotisations.irreg <- Paie[Type %chin% c("C", "D") & Statut %chin% c("NON_TITULAIRE", "AUTRE_STATUT", "EMPLOI_AIDE", "", "ELU")
+Cotisations.irreg <- Paie[Type %in% c("C", "D") & Statut %in% c("NON_TITULAIRE", "AUTRE_STATUT", "EMPLOI_AIDE", "", "ELU")
                          ][grepl("C\\.?\\s*N\\.?\\s*R\\.?\\s*A\\.?\\s*C\\.?\\s*L",
                                      Libellé,
                                      ignore.case = TRUE,

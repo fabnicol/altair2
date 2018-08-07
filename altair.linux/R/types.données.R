@@ -100,7 +100,7 @@ remplacer_type <- function(M) {
   trans2 <- data.table::copy(trans)
   setnames(trans2, c("V1", "V2"), c("Type", "Type_long"))
   M <- unique(M, by = NULL)
-  M <- merge(M, trans2, by = "Type", all.x = TRUE)[, Type := NULL]
+  M <- trans2[M, on = "Type"][, Type := NULL]
   setnames(M, "Type_long", "Type")
 }
 
@@ -111,7 +111,7 @@ résumer_type <- function(M) {
   trans2 <- data.table::copy(trans)
   setnames(trans2, c("V1", "V2"), c("Type_court", "Type"))
   M <- unique(M, by = NULL)
-  M <- merge(M, trans2, by = "Type", all.x = TRUE)[, Type := NULL]
+  M <- trans2[M, on = "Type"][, Type := NULL]
   setnames(M, "Type_court", "Type")
 }
 

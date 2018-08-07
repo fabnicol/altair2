@@ -842,13 +842,13 @@ extraire_paye <- function(an, L) {
                                                  & Mois == 12
                                                  & Statut != "ELU"
                                                  & Statut %chin% L,
-                                                 c("Matricule", "Nir"), with = FALSE]))
+                                                 .(Matricule, Nir)]))
   
   
   return(unique(Bulletins.paie[Année == an
                                & Mois == 12
                                & Statut != "ELU",
-                               c("Matricule", "Nir"), with = FALSE]))
+                               .(Matricule, Nir)]))
 }
 
 #' Insérer un script auxiliaire, indexé par une variable globale
