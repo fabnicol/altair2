@@ -200,21 +200,20 @@ Analyse.variations.par.exercice <- Analyse.remunerations[Grade != "A"
                                                          & Statut != "ELU"
                                                          & Filtre_actif == TRUE
                                                          & Filtre_annexe == FALSE,
-                                                           c("Matricule", 
-                                                             "Année",
-                                                             "Nir",
-                                                             "Montant.net.annuel.eqtp",
-                                                             "Montant.brut.annuel.eqtp",
-                                                             "rémunération.indemnitaire.imposable.eqtp",
-                                                             "Statut",
-                                                             "Grade",
-                                                             "Catégorie",
-                                                             "nb.jours",
-                                                             "temps.complet",
-                                                             "ind.quotité",
-                                                             "quotité.moyenne",
-                                                             "permanent"), 
-                                                         with=FALSE]
+                                                           .(Matricule, 
+                                                             Année,
+                                                             Nir,
+                                                             Montant.net.annuel.eqtp,
+                                                             Montant.brut.annuel.eqtp,
+                                                             rémunération.indemnitaire.imposable.eqtp,
+                                                             Statut,
+                                                             Grade,
+                                                             Catégorie,
+                                                             nb.jours,
+                                                             temps.complet,
+                                                             ind.quotité,
+                                                             quotité.moyenne,
+                                                             permanent)]
 
 # indicatrice binaire année
 # Ex: si Année = début.période.sous.revue + 3, indicatrice.année = 1 << 3 soit le binaire 1000 = 8 ou encore 2^3

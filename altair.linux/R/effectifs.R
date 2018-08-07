@@ -953,11 +953,7 @@ extraire.nir <- function(Base, année)  {
   H <- temp[sexe == "1" | sexe == "3" | sexe == "7",  .(Hommes = .N), by = "age"]
   F <- temp[sexe == "2" | sexe == "4" | sexe == "8",  .(Femmes = .N), by = "age"]
 
-  HF <- merge(
-    merge(H, F, by = "age", all = TRUE),
-    data.table(age = 15:68),
-    by = "age",
-    all = TRUE)
+  HF <- merge(H, F, by = "age", all = TRUE)[data.table(age = 15:68),  on = "age"]
 
   HF
 }

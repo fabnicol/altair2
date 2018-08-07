@@ -163,6 +163,59 @@ else
 fi  
 
 
+
+if test -f sys/install.RStudio; then
+
+  
+   if test -f sys/install.RStudio.force -o x$(cat /usr/local/lib64/rstudio/VERSION) != x$(cat sys/RStudio_VERSION) ; then
+
+     echo "Actualisation de RStudio (blob)..."
+       
+     if test -d sys/build/rstudio; then
+
+         emerge --unmerge sci-mathematics/rstudio 
+         cd sys/build/rstudio
+         tar xJf rstudio-bin.tar.xz
+         tar xJf rstudio-etc.tar.xz
+         rm -f *.xz
+         rm -rf /usr/local/lib64/rstudio
+         mkdir -p /usr/local/lib64/rstudio
+         cp -rf * /usr/local/lib64/rstudio
+               
+       if test $? = 0; then
+     
+         echo "*************************************"
+         echo "* Actualisation de RStudio terminée *"
+         echo "*************************************"
+         
+                
+       else
+     
+         echo "************************************************"
+         echo "* La nouvelle installation de RStudio a échoué *"
+         echo "************************************************"
+        
+       fi
+      
+       cd /home/fab/Dev/altair     
+      
+     else
+   
+       echo "Pas de répertoire de compilation build !"
+      
+     fi 
+   fi  
+
+else
+  
+  echo "pas d'actualisation de RStudio par blob..."
+  echo "fichier de version :  **$(cat sys/RStudio_VERSION)**"
+  
+  sleep 2
+fi  
+
+
+
 if test -f sys/install.packages -a ! -f sys/packages.installed; then
 
    echo "Actualisation des paquets..."

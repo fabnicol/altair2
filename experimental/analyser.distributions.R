@@ -12,7 +12,7 @@ base.générateur$methods(
                      montant.autres.rémunérations = get(altair$étiquette.montant)*(est.code.de.type(altair$code.autre)))
     
     Analyse.rémunérations <- ddply(Global,
-                                   c(altair$étiquette.matricule, altair$étiquette.catégorie, altair$étiquette$statut),
+                                   c("Matricule", altair$étiquette.catégorie, altair$étiquette$statut),
                                    summarize,
                                    traitement.indiciaire                      = sum(montant.traitement.indiciaire),
                                    rémunération.contractuelle.ou.indemnitaire = sum(montant.primes),

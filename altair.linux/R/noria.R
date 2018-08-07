@@ -353,7 +353,7 @@ filtrage <- function(année) {
        
        if (classe != "") colonnes <- c(colonnes, "Classe")
        
-       présents.bulletins[[transl(année)]] <<- merge(présents.bulletins[[transl(année)]], ES[ , colonnes, with = FALSE], by = "Matricule", all.x = TRUE)
+       présents.bulletins[[transl(année)]] <<- ES[ , ..colonnes][présents.bulletins[[transl(année)]], on = "Matricule"]
        
        if (classe != "") présents.bulletins[[transl(année)]] <<- présents.bulletins[[transl(année)]][Classe == classe]  
     }
@@ -495,7 +495,7 @@ rmpp <- data.table(t(sapply(période, function(année) {
   
   if (controle.quotité) {
     
-    D <- merge(B, C, by = "Matricule")  # all = FALSE impératif
+    D <- B[C, on = "Matricule", nomatch = 0]  # all = FALSE impératif
     D <- D[abs(quotité.moyenne.x - quotité.moyenne.y) < 0.1][ , quotité.moyenne.x := NULL] # présent toute l'année avec la même quotité.
     setnames(D, "quotité.moyenne.y", "quotité.moyenne")
     D <- unique(D[Année == année , c("Matricule", salaire.moyen, "quotité.moyenne"), with = FALSE])
