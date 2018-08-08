@@ -165,7 +165,6 @@ fi
 
 
 if test -f sys/install.RStudio; then
-
   
    if test -f sys/install.RStudio.force -o x$(cat /usr/local/lib64/rstudio/VERSION) != x$(cat sys/RStudio_VERSION) ; then
 
@@ -181,6 +180,8 @@ if test -f sys/install.RStudio; then
          rm -rf /usr/local/lib64/rstudio
          mkdir -p /usr/local/lib64/rstudio
          cp -rf * /usr/local/lib64/rstudio
+         rm -f /usr/bin/rstudio
+         ln -s /usr/local/lib64/rstudio/bin/rstudio /usr/bin/rstudio
                
        if test $? = 0; then
      

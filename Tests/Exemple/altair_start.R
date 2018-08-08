@@ -193,17 +193,18 @@ fichiers.pyr <- list.files(path= file.path(currentDir, "data"), pattern = "*.csv
 
 # Lecture des fichiers de référence des pyramides (fichiers listés dans fichiers.pyr), comportant les statistiques INSEE
 
-for (f in fichiers.pyr) {
-  base <- basename(f)
-  assign(substr(base, 1, attr(regexec("(.*)\\.csv", base)[[1]], "match.length")[2]),
-         fread(f, 
-               sep = ";",
-               header = TRUE,
-               encoding = "Latin-1",
-               dec = ",",
-               colClasses = c("integer", "numeric", "numeric", "integer", "character")),
-               envir = .GlobalEnv)
-}
+essayer({  for (f in fichiers.pyr) {
+    base <- basename(f)
+    assign(substr(base, 1, attr(regexec("(.*)\\.csv", base)[[1]], "match.length")[2]),
+           fread(f, 
+                 sep = ";",
+                 header = TRUE,
+                 encoding = "Latin-1",
+                 dec = ",",
+                 colClasses = c("integer", "numeric", "numeric", "integer", "character")),
+                 envir = .GlobalEnv)
+}}, "La lecture des fichiers de référence des pyramides (fichiers listés dans fichiers.pyr), comportant les statistiques INSEE, a échoué.")
+
  
 
 ########### 1.2 Pyramides ########################
@@ -214,11 +215,10 @@ for (f in fichiers.pyr) {
 #' 
 #+fig.height=8, fig.width=7
 
-essayer(produire_pyramides(NULL, 
-                           "Pyramide des âges des personnels",
-                           versant = VERSANT_FP, 
-                           e),
-        "La pyramide des âges de l'ensemble des personnels n'a pas pu être générée.")
+produire_pyramides(NULL, 
+                   "Pyramide des âges des personnels",
+                   versant = VERSANT_FP, 
+                   e)
 
 #'   
 #'[![Notice](Notice.png)](Docs/Notices/fiche_3.odt)     
@@ -239,6 +239,12 @@ print(e$res)
 #'[Lien vers la base des âges - fin de période](Bases/Effectifs/`r e$nom.fichier.après`.csv)  
 #'     
 
+#'   
+#'   
+#'   
+#'   
+#'   
+#' 
 
 ########### 1.3 Pyramides fonctionnaires ########################
 
@@ -249,12 +255,11 @@ print(e$res)
 
 #' 
 #+fig.height=8, fig.width=7
-essayer(produire_pyramides(c("TITULAIRE", "STAGIAIRE"), 
-                           "Pyramide des âges des fonctionnaires",
-                           versant = "TIT_" %+% VERSANT_FP,
-                           e),
-      "La pyramide des âges des fonctionnaires n'a pas pu être générée.")
 
+produire_pyramides(c("TITULAIRE", "STAGIAIRE"), 
+                   "Pyramide des âges des fonctionnaires",
+                   versant = "TIT_" %+% VERSANT_FP,
+                   e)
 
 #'   
 #'[![Notice](Notice.png)](Docs/Notices/fiche_3.odt)     
@@ -273,14 +278,15 @@ print(e$res)
 #'  
 #'[Lien vers la base des âges - fin de période](Bases/Effectifs/`r e$nom.fichier.après`.csv)  
 #'[![Notice](Notice.png)](Docs/Notices/fiche_1.odt)      
-
-#'   
-#'   
-#'   
-#'   
 #'   
 #'   
 
+#'   
+#'   
+#'   
+#'   
+#'   
+#' 
 
 ########### 1.4 Pyramides non Tit ########################
 
@@ -289,11 +295,11 @@ print(e$res)
 #'[![Notice](Notice.png)](Docs/Notices/fiche_2.odt)     
 #'  
 #+fig.height=8, fig.width=7
+
 essayer(produire_pyramides(c("NON_TITULAIRE"), 
                            "Pyramide des âges des non titulaires", 
                            versant = "NONTIT_" %+% VERSANT_FP,
-                           e),
-        "La pyramide des âges des non titulaires n'a pas pu être générée." )
+                           e))
 
 
 #'   
@@ -336,13 +342,18 @@ Filtre_bulletins <<- setdiff(unique(Bulletins.paie$Statut), c("TITULAIRE", "NON_
 essayer(produire_pyramides(Filtre_bulletins,
                            "Pyramide des âges des autres personnels",
                            versant = "",
-                           e),
-        "La pyramide des âges des autres personnels n'a pas pu être générée.")
-
+                           e))
+        
 #'   
 #'[![Notice](Notice.png)](Docs/Notices/fiche_3.odt)     
 #'  
 
+#'   
+#'   
+#'   
+#'   
+#'   
+#' 
 newpage()
 
 #'  
@@ -559,8 +570,7 @@ attach(Analyse.variations, warn.conflicts = FALSE)
 
 temp <- positive(moyenne.rémunération.annuelle.sur.période) / 1000
 
-essayer({
-  if (longueur.non.na(temp) > 0)
+essayer({ if (longueur.non.na(temp) > 0)
     hist(temp,
          xlab = "Sur la période " %+% début.période.sous.revue %+% "-" %+% fin.période.sous.revue %+% " en milliers d'euros",
          ylab = "Effectif",
@@ -575,8 +585,7 @@ essayer({
 temp <- na.omit(moyenne.rémunération.annuelle.sur.période[moyenne.rémunération.annuelle.sur.période > minimum.positif
                                                           & (statut == "TITULAIRE"  | statut == "STAGIAIRE")] / 1000)
 
-essayer({
-if (longueur.non.na(temp) > 0)
+essayer({  if (longueur.non.na(temp) > 0)
   hist(temp,
        xlab = "Sur la période "%+% début.période.sous.revue %+% "-" %+% fin.période.sous.revue %+% " en milliers d'euros",
        ylab = "Effectif",
@@ -639,7 +648,8 @@ smpt <- function(Filtre, type =  "smpt net") {
                          f,
                          g)
   
-  if (T != "")  print(T)
+  #if (! is.null(T) & T != "") 
+  try(print(T))
   
   cat("\n\n")  
 }
@@ -1586,9 +1596,7 @@ Tableau.vertical2(c("Année", "Cumuls des NBI", "Montants versés (a)", "Point d
 montants.nbi.anormales.mensuel <- 0
 lignes.nbi.anormales.mensuel <- data.table()
 
-essayer(
-{  
-  lignes.nbi.anormales.mensuel <- lignes_NBI[Type != "R", .(Montant.NBI.calculé = NBI[1] * adm(quotité[1]) * PointMensuelIM[Année - 2007, Mois],
+essayer({ lignes.nbi.anormales.mensuel <- lignes_NBI[Type != "R", .(Montant.NBI.calculé = NBI[1] * adm(quotité[1]) * PointMensuelIM[Année - 2007, Mois],
                                                          Montant.NBI.payé = sum(Montant, na.rm = TRUE)), 
                                                            by = .(Matricule, Année, Mois)
                                              ][ , Différence.payé.calculé := Montant.NBI.payé - Montant.NBI.calculé
@@ -1821,15 +1829,12 @@ if (exists("nombre.contractuels.et.vacations")) {
 #'[Lien vers les bulletins de paye correspondants](Bases/Reglementation/Paie_vac_contr.csv)   
 #'    
 
-  
-  essayer({ 
-    
-  Paie_vac_sft_ir <- filtrer_Paie("IR_S", 
+  essayer({ Paie_vac_sft_ir <- filtrer_Paie("IR_S", 
                                   portée = "Mois", 
                                   Var = "Type", 
                                   Base = Paie_vac)[! Statut %chin% c("TITULAIRE", "STAGIAIRE"), 
-                               .(Nom, Prénom, Matricule, Service, Statut, Catégorie, Grade, Echelon, Libellé, Type,
-                                 Heures, Heures.Sup., Nb.Enfants, Code, Base, Taux, Nb.Unité,  Montant)]  
+                                     .(Nom, Prénom, Matricule, Service, Statut, Catégorie, Grade, Echelon, Libellé, Type,
+                                       Heures, Heures.Sup., Nb.Enfants, Code, Base, Taux, Nb.Unité,  Montant)]  
 
   SFT_IR.et.vacations <- Paie_vac_sft_ir[Type %chin% c("IR", "S")]
   
@@ -2590,10 +2595,7 @@ lignes.IHTS.tot <- merge(lignes.IHTS.rappels, lignes.IHTS.hors.rappels,
 lignes.IHTS.tot[ ,  `:=`(ihts.tot = ihts.cum.rappels + ihts.cum.hors.rappels + ihts.cum.rappels.ant,
                          nihts.tot = nihts.cum.rappels + nihts.cum.hors.rappels + nihts.cum.rappels.ant)]
 
-essayer(
-{
-  
-  if ((N.IHTS.non.tit <<- uniqueN(Base.IHTS.non.tit$Matricule)) > 0) {
+essayer({  if ((N.IHTS.non.tit <<- uniqueN(Base.IHTS.non.tit$Matricule)) > 0) {
     
     cat(N.IHTS.non.tit, "attributaire" %s% N.IHTS.non.tit, " des IHTS sont des non-titulaires. Vérifier l'existence d'une délibération le prévoyant expressément. ")
 
@@ -2651,9 +2653,7 @@ essayer(
 
 # On considère le taux horaire maximum de nuit et la somme des IHTS et on teste su la somme des IHTS est supérieures à ce que donnerait l'application du taux de nuit
 
-essayer(
-{
-  depassement <- Taux.horaires[ihts.tot > Max, uniqueN(Matricule)]
+essayer({  depassement <- Taux.horaires[ihts.tot > Max, uniqueN(Matricule)]
   depassement.agent <- Taux.horaires[ihts.tot > Max, 
                            .(`Coût en euros` = -Max + ihts.tot,
                              Matricule,
@@ -2692,9 +2692,7 @@ essayer(
 #'&nbsp;*Tableau `r incrément()` : Cumuls d'heures supplémentaires déclarées et des IHTS payées, en nombre d'heures*     
 #'    
 
-essayer(
-{
-  CumHS <- Bulletins.paie[ , .(toths = sum(Heures.Sup., na.rm = TRUE)), keyby = Année]
+essayer({ CumHS <- Bulletins.paie[ , .(toths = sum(Heures.Sup., na.rm = TRUE)), keyby = Année]
   
   # Certaines bases de données indiquent le nombre d'heures sup dans la variable Base et d'autres dans la variable Nb.Unité
   # En principe un rappel concerne un mois antérieur. Mais de nombreuses BD ont des rappels du même mois...
@@ -2819,10 +2817,10 @@ message("Heures sup controlées")
 #'&nbsp;*Tableau `r incrément()` : Heures supplémentaires au-delà des seuils*   
 #'    
 
-essayer({
+
   Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS cat. A"),
              nombre.Lignes.paie.HS.sup.25,   nombre.ihts.cat.A)
-}, "Le tableau des heures supplémentaires et IHTS anormales n'a pas pu être généré.")
+
 
 #'
 #'[Lien vers la base de données Heures supplémentaires en excès du seuil de 15h (FPH) ou de 25h/mois (FPT)](Bases/Reglementation/HS.sup.25.csv)     
@@ -2894,9 +2892,7 @@ if (générer.table.élus)   {
 #'   
 
 
-essayer({
-  
-paye.budget.existe <-  file.exists(chemin("paye_budget.csv"))  
+essayer({ paye.budget.existe <-  file.exists(chemin("paye_budget.csv"))  
 
 vect <- c("Code", "Libellé", "Statut", "Type")
 
@@ -2990,10 +2986,9 @@ L <- split(cumul.total.lignes.paie, cumul.total.lignes.paie$Année)
 
 if (exists("L")) {
   for (i in 1:durée.sous.revue) {
-    essayer({
-      cat("\nTableau ",
-          incrément(),
-          " Année ",
+    essayer({ cat("\nTableau ",
+                  incrément(),
+                " Année ",
           début.période.sous.revue + i - 1)
       
       print(kable(L[[i]][, .(Compte, `Cumul annuel`)], row.names = FALSE, align = 'r'))
@@ -3046,8 +3041,7 @@ if (! utiliser.cplusplus.sft)
                               PACKAGE="sft")
 }
 
-essayer({
-Paie.sans.enfant.reduit <- Paie[Type == "S" 
+essayer({ Paie.sans.enfant.reduit <- Paie[Type == "S" 
                                 & (is.na(Nb.Enfants) | Nb.Enfants == 0),
                                  .(SFT.versé = sum(Montant, na.rm = TRUE)),
                                       keyby = .(Matricule, Année, Mois)] 
@@ -3079,8 +3073,7 @@ if (nb.écart.paiements.sft.sans.enfant > 0){
 
 # Traitement = sum(Montant[Type == "T"], na.rm = TRUE),
 
-essayer({
-  Paie.enfants.réduit <- Paie[Nb.Enfants > 0 & ! is.na(Nb.Enfants) & ! is.na(Indice) & ! is.na(Heures),
+essayer({  Paie.enfants.réduit <- Paie[Nb.Enfants > 0 & ! is.na(Nb.Enfants) & ! is.na(Indice) & ! is.na(Heures),
                               .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE), 
                                 Temps.de.travail = Temps.de.travail[1],
                                 Indice = Indice[1],
@@ -3154,8 +3147,7 @@ message("Analyse du SFT")
 #'  
 #'[![Notice](Notice.png)](Docs/Notices/fiche_astreintes.odt)   
 #'
-essayer({
-Paie_astreintes <- filtrer_Paie("ASTREINTES", portée = "Mois", indic = TRUE)
+essayer({  Paie_astreintes <- filtrer_Paie("ASTREINTES", portée = "Mois", indic = TRUE)
 
 libelles.astreintes <- unique(Paie_astreintes[indic == TRUE, .(Code, Libellé)], by = NULL)
 
@@ -3192,8 +3184,7 @@ Cum_astreintes <- rbind(Controle_astreintes[, round(sum(Montant.astreinte), 1),
 #'&nbsp;*Tableau `r incrément()` : Cumuls irréguliers NBI et astreintes (responsabilité supérieure)*   
 #'  
 
-essayer({
-with(Cum_astreintes,
+essayer({  with(Cum_astreintes,
   
 Tableau.vertical2(c("Année", "Montant astreintes irrégulières (euros)"),
                   Année, V1)    
@@ -3208,29 +3199,28 @@ Tableau.vertical2(c("Année", "Montant astreintes irrégulières (euros)"),
 #'[Lien vers les libellés et codes astreintes](Bases/Reglementation/libelles.astreintes.csv)     
 #'   
 
-essayer({
-setnames(Paie_astreintes, "indic", "indic_astr")
-setnames(Base.IHTS, "indic", "indic_IHTS")
-
-Controle_astreintes_HS_irreg <- Paie_astreintes[ , .(Matricule, Année, Mois, Code, Libellé, Type,  Montant, indic_astr) 
-                                               ][Base.IHTS[Type %in% c("I", "A", "R"), 
-                                                            .(Matricule, Année, Mois, Code, Libellé, Type, Montant, indic_IHTS)], 
-                                                                nomatch = 0,
-                                                                on = .(Matricule, Année, Mois, Code, Libellé, Type, Montant)
-                                               ][indic_IHTS == TRUE | indic_astr == TRUE]
-
-nb.agents.IHTS.astreintes <- uniqueN(Controle_astreintes_HS_irreg$Matricule)
-
-if (nrow(Controle_astreintes_HS_irreg)) {
- cat("Des astreintes sont payées à", nb.agents.IHTS.astreintes, "personnels bénéficiaires d'IHTS.")
-}
-
-Cum_astreintes_HS_irreg <- rbind(Controle_astreintes_HS_irreg[, .(round(sum(Montant[indic_astr == TRUE]), 1),
-                                                                  round(sum(Montant[indic_IHTS == TRUE]), 1)),
-                                                                  keyby = "Année"],
-                                list("Total",
-                                     Controle_astreintes_HS_irreg[indic_astr == TRUE, round(sum(Montant), 1)],
-                                     Controle_astreintes_HS_irreg[indic_IHTS == TRUE, round(sum(Montant), 1)]))
+essayer({ setnames(Paie_astreintes, "indic", "indic_astr")
+  setnames(Base.IHTS, "indic", "indic_IHTS")
+  
+  Controle_astreintes_HS_irreg <- Paie_astreintes[ , .(Matricule, Année, Mois, Code, Libellé, Type,  Montant, indic_astr) 
+                                                 ][Base.IHTS[Type %in% c("I", "A", "R"), 
+                                                              .(Matricule, Année, Mois, Code, Libellé, Type, Montant, indic_IHTS)], 
+                                                                  nomatch = 0,
+                                                                  on = .(Matricule, Année, Mois, Code, Libellé, Type, Montant)
+                                                 ][indic_IHTS == TRUE | indic_astr == TRUE]
+  
+  nb.agents.IHTS.astreintes <- uniqueN(Controle_astreintes_HS_irreg$Matricule)
+  
+  if (nrow(Controle_astreintes_HS_irreg)) {
+   cat("Des astreintes sont payées à", nb.agents.IHTS.astreintes, "personnels bénéficiaires d'IHTS.")
+  }
+  
+  Cum_astreintes_HS_irreg <- rbind(Controle_astreintes_HS_irreg[, .(round(sum(Montant[indic_astr == TRUE]), 1),
+                                                                    round(sum(Montant[indic_IHTS == TRUE]), 1)),
+                                                                    keyby = "Année"],
+                                  list("Total",
+                                       Controle_astreintes_HS_irreg[indic_astr == TRUE, round(sum(Montant), 1)],
+                                       Controle_astreintes_HS_irreg[indic_IHTS == TRUE, round(sum(Montant), 1)]))
 
 
 }, 

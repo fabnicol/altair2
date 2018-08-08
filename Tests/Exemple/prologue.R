@@ -84,7 +84,7 @@ sécuriser.types.sortie         <- TRUE
 utiliser.variable.Heures.Sup.  <- FALSE  # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unité
 noria.sur.base.de.paie         <- FALSE  # calculer effet de noria sur base de paie uniquement (pas de fichier E/S)
 sauter.tests.statutaires       <- FALSE
-
+profiler                       <- TRUE
 
 numéro.tableau                 <- 0  # Numérotation de départ des tableaux
 chapitre                       <- 0  # Numérotation de départ des chapitres
@@ -243,6 +243,9 @@ expression.rég.attaché.p  <- "(?:^|\\s)att\\w*\\.?\\bpr\\w*\\.?\\b|dir\\w*\\.?
 expression.rég.admin      <- "(?:^|\\s)adm\\w*\\.?\\b"
 expression.rég.admin.hc   <- "(?:^|\\s)adm\\w*\\.?\\bh\\w*\\.?\\s?c\\w*\\.?\\b"
 expression.rég.admin.g    <- "(?:^|\\s)adm\\w*\\.?\\b\\s?g\\w*\\.?\\b"
+
+# Trace de profilage.
+PROF <<- data.table()
 
 # Les valeurs ci-après seront changées par le "préprocesseur" de l'interface graphique si les valeurs explicites des codes de paye
 

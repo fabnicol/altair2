@@ -2,10 +2,10 @@
 % Please edit documentation in R/bibliotheque.fonctions.paie.R
 \name{Tableau.vertical2}
 \alias{Tableau.vertical2}
-\title{Tableau vertical}
+\title{Tableau vertical 2}
 \usage{
 Tableau.vertical2(colnames, rownames, ...)
 }
 \description{
-Tableau vertical
+Tableau vertical 2
 }

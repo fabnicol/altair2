@@ -45,6 +45,11 @@
 #' @export
 #'
 produire_pyramides <- function(Filtre_bulletins, titre, versant = "", envir) {
+  
+  essayer(produire_pyramides_(Filtre_bulletins, titre, versant, envir), cat("La", titre, "n'a pas pu être générée."))
+}
+  
+produire_pyramides_ <- function(Filtre_bulletins, titre, versant = "", envir) {
 
   année.fin.comp <- if (versant != "") {
                       max(début.période.sous.revue,
@@ -53,9 +58,9 @@ produire_pyramides <- function(Filtre_bulletins, titre, versant = "", envir) {
 
   # Extraire les matricules et Nir du début et de la fin de la période sous revue
   
-  Bulletins.début.psr <- extraire_paye(début.période.sous.revue, Filtre_bulletins)
+  extraire_paye(début.période.sous.revue, Filtre_bulletins, out = "Bulletins.début.psr")
   
-  Bulletins.fin.psr   <- extraire_paye(fin.période.sous.revue, Filtre_bulletins)
+  extraire_paye(fin.période.sous.revue, Filtre_bulletins, out = "Bulletins.fin.psr")
   
   # Répartition par âge et sexe des individus ayant un NIR en début et fin de période sous revue
   
@@ -97,8 +102,6 @@ produire_pyramides <- function(Filtre_bulletins, titre, versant = "", envir) {
   Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "ages.fin.psr", envir$nom.fichier.après, environment = environment(), Latin = FALSE)
   
 }
-
-
 
 pyramides <- function(Bulletins.début.psr, 
                       Bulletins.fin.psr, 
@@ -162,7 +165,6 @@ if (longueur.non.na(ages.début.psr) > 0 || longueur.non.na(ages.fin.psr) > 0) {
     
 } 
 
-
 newpage()
 
 if  (exists("H") && ! identical(ages.fin.psr, ages.début.psr) && longueur.non.na(H$Total) > 0) {
@@ -219,12 +221,26 @@ if  (exists("H") && ! identical(ages.fin.psr, ages.début.psr) && longueur.non.n
 # frame version, added since rev. 1.4, 4th September 2014.
 # (C) Minato Nakazawa <minato-nakazawa@umin.net>
 
-pyramidf <- function(data, Laxis=NULL, Raxis=NULL,
+pyramidf <- function(data, 
+                     Laxis=NULL, 
+                     Raxis=NULL,
                      frame=c(-1.15, 1.15, -0.05, 1.1),
-                     AxisFM="d", AxisBM="", AxisBI=3, Cgap=0.3, Cstep=5, Csize=1,
-                     Rlab="Hommes", Llab="Femmes", Clab="Âges", GL=TRUE, Cadj=-0.03,
-                     Rcol="cadetblue1", Lcol="thistle1", Ldens=-1, Rdens=-1, main="",
-                     linewidth=2, ...) {
+                     AxisFM="d",
+                     AxisBM="",
+                     AxisBI=3,
+                     Cgap=0.3, Cstep=5, Csize=1,
+                     Rlab="Hommes",
+                     Llab="Femmes", 
+                     Clab="Âges", 
+                     GL=TRUE, 
+                     Cadj=-0.03,
+                     Rcol="cadetblue1",
+                     Lcol="thistle1",
+                     Ldens=-1,
+                     Rdens=-1,
+                     main="",
+                     linewidth=2, 
+                     ...) {
 
   Left <- data$Femmes
 

@@ -199,15 +199,13 @@ agrégat_annuel<- function(résultat, verbeux) {
 #' @export
 
 analyser <- function(prime, Paie_I, verbeux) {
-  
+
   Paie_A <- NULL
   Lignes_A <- NULL
   résultat.manquant <- FALSE
   lignes.indice.anormal <- NULL
   
-  essayer({
-    
-    Paie_A   <- filtrer_Paie(prime$nom, 
+  essayer({  Paie_A   <- filtrer_Paie(prime$nom, 
                              portée = "Mois",
                              Base = Paie_I,
                              indic = TRUE)
@@ -219,9 +217,7 @@ analyser <- function(prime, Paie_I, verbeux) {
   
   if (! is.null(prime$indice)) {
     
-    essayer({
-      
-      lignes.indice.anormal <- if (prime$indice[1] == "+"){
+    essayer({ lignes.indice.anormal <- if (prime$indice[1] == "+"){
         
         Lignes_A[Indice < prime$indice[2]] } else  { Lignes_A[Indice >= prime$indice[2]]
       } 
@@ -251,9 +247,7 @@ analyser <- function(prime, Paie_I, verbeux) {
   
   # Questions de compatibilité statutaire
   
-  essayer({
-    
-    if (prime$restreint_fonctionnaire) {
+  essayer({ if (prime$restreint_fonctionnaire) {
       
       A.non.tit  <- Lignes_A[Statut != "TITULAIRE" & Statut != "STAGIAIRE"]
       
@@ -334,9 +328,7 @@ analyser <- function(prime, Paie_I, verbeux) {
   },
     "La détection des incompatibilités statutaires n'a pas pu être réalisée. ")
   
-  essayer({
-    
-    K <- "codes." %+% tolower(prime$nom)
+  essayer({   K <- "codes." %+% tolower(prime$nom)
     
     assign(K, list(K = unique(Lignes_A$Code)))
       
@@ -442,8 +434,7 @@ Lignes_A <- résultat$Lignes
 K        <- résultat$K
 résultat.manquant <- résultat$manquant
 
-essayer({  
-if (! is.null(Paie_B) && ! résultat.manquant) {
+essayer({ if (! is.null(Paie_B) && ! résultat.manquant) {
   
   # on exclut les rappels !
   
@@ -453,20 +444,17 @@ if (! is.null(Paie_B) && ! résultat.manquant) {
     
     if (! indic_B %chin% NAMES && "indic" %chin% NAMES) setnames(Paie_B, "indic", indic_B)
     
-    vect <- c("Nom", "Prénom", "Matricule",
-              "Année", "Mois", "Emploi", "Grade",
-              "Indice", "Statut",
-              "Catégorie")
-    
-    période.fusion <- Paie_A[indic == TRUE][unique(Paie_B[get(indic_B) == TRUE], by = vect),
-                                             nomatch = 0,
-                                             on = vect][ , .(Matricule, Année, Mois)]
+    période.fusion <- merge(Paie_A[indic == TRUE],
+                            Paie_B[get(indic_B) == TRUE],
+                            by = c("Nom", "Prénom", "Matricule",
+                                   "Année", "Mois", "Emploi", "Grade",
+                                   "Indice", "Statut",
+                                   "Catégorie"))[ , .(Matricule, Année, Mois)]
   
     période.fusion <- unique(période.fusion)
     
-    A_ <- Paie_A[période.fusion, nomatch = 0, on = .(Matricule, Année, Mois)]
-    B_ <- Paie_B[période.fusion, nomatch = 0, on = .(Matricule, Année, Mois)]
-    
+    A_ <- merge(Paie_A, période.fusion)
+    B_ <- merge(Paie_B, période.fusion)
     B_$indic <- A_$indic
     
     personnels.A.B <- B_[indic == TRUE | get(indic_B) == TRUE
@@ -485,7 +473,7 @@ if (! is.null(Paie_B) && ! résultat.manquant) {
    "La détection des cumuls d'indemnités " %+% ident_prime %+% " et " %+% prime_B$nom %+% " n'a pas pu être réalisée. ")
 
 
-essayer({
+essayer(label = "Tableau cumuls", {
   
   L <- length(K)
     
@@ -505,8 +493,7 @@ essayer({
 }, "Le tableau des cumuls ne peut pas être généré. ")
 
 
-essayer({
-  sauvebase("personnels.A.B", "personnels." %+% tolower(ident_prime) %+% "." %+% tolower(prime_B$nom), prime$dossier, environment())
+essayer({  sauvebase("personnels.A.B", "personnels." %+% tolower(ident_prime) %+% "." %+% tolower(prime_B$nom), prime$dossier, environment())
   
 }, "Pas de sauvegarde des fichiers auxiliaires.")
 
@@ -563,8 +550,7 @@ if ((! is.null(prime$NAS) && prime$NAS == "non") || (! is.null(prime_B$NAS) && p
     message("Lorsque le paramètre NAS = \"non\" est utilisé, il faut pouvoir importer la base des concessions de logements.")
     message("Cette base n'est pas détectée. Le test de compatibilité de la prime avec les concessions de logements ne sera pas réalisé.")
   } else {
-    essayer({
-    if (! is.null(prime$NAS) && prime$NAS == "non" && is.null(prime_B$NAS)) {
+    essayer({ if (! is.null(prime$NAS) && prime$NAS == "non" && is.null(prime_B$NAS)) {
       
       Lignes_C <-  Lignes_A 
       prime_NAS <- prime$nom
@@ -586,20 +572,8 @@ if ((! is.null(prime$NAS) && prime$NAS == "non") || (! is.null(prime_B$NAS) && p
         }
     }
       
-    cumul.prime.NAS <- unique(base.logements[Logement == "NAS", .(Matricule, Année, Mois)])[Lignes_C[ ,
-                                                                                                      .(Matricule,
-                                                                                                        Nom,
-                                                                                                        Prénom,
-                                                                                                        Statut,
-                                                                                                        Grade,
-                                                                                                        Emploi,
-                                                                                                        Année,
-                                                                                                        Mois,
-                                                                                                        Code,
-                                                                                                        Libellé,
-                                                                                                        Montant)],
-                                                                                                         nomatch = 0,
-                                                                                                         on = .(Matricule, Année, Mois)]
+    cumul.prime.NAS <- merge(unique(base.logements[Logement == "NAS", .(Matricule, Année, Mois)]),
+                             Lignes_C[ ,  .(Matricule, Nom, Prénom, Statut, Grade, Emploi, Année, Mois, Code, Libellé, Montant)])
     
     }, "Le test des cumuls de " %+% prime$nom %+% " ou " %+% prime_B$nom %+% " et du logement par NAS n'a pas pu être réalisé.")
   }
@@ -607,12 +581,10 @@ if ((! is.null(prime$NAS) && prime$NAS == "non") || (! is.null(prime_B$NAS) && p
 
 env <- environment()
 
-essayer({
-  sauvebase("beneficiaires.A", "beneficiaires." %+% ident_prime %+% "." %+% prime_B$nom, "Remunerations", env)
+essayer({  sauvebase("beneficiaires.A", "beneficiaires." %+% ident_prime %+% "." %+% prime_B$nom, "Remunerations", env)
   sauvebase("beneficiaires.A.Variation", "beneficiaires." %+% ident_prime %+% "." %+% prime_B$nom %+% ".Variation", "Remunerations", env)
   if (! is.null(cumul.prime.NAS)) sauvebase("cumul.prime.NAS", "cumul." %+% prime_NAS %+% ".NAS", "Reglementation", env)
 }, "Pas de sauvegarde des fichiers auxiliaires. ")
-
 
 list(Paie = Paie_A, 
      Lignes = Lignes_A, 
@@ -642,9 +614,7 @@ test_avn <- function(avantage, Paie, logements = NULL) {
   
   val <- codes[type == avantage, valeur]
   
-  essayer({
-    
-  if (! is.na(val)) {
+  essayer({  if (! is.na(val)) {
       Paie_AV <- Paie[Code %chin% val, .(Matricule, Année, Mois, Statut, Grade, Emploi, Type, Code, Libellé, Montant)]
   } else {
       Paie_AV <- Paie[grepl(codes[type == avantage, expression], Libellé, ignore.case = TRUE, perl = TRUE), .(Matricule, Année, Mois, Statut, Grade, Emploi, Code, Type, Libellé, Montant)]
@@ -688,9 +658,8 @@ test_avn <- function(avantage, Paie, logements = NULL) {
   
   env <- environment()
   
-  essayer({
-    sauvebase("NAS.non.importes", "NAS.non.importes", "Reglementation", env)
-    sauvebase("NAS.non.declares.paye", "NAS.non.declares.paye", "Reglementation", env)
+  essayer({ sauvebase("NAS.non.importes", "NAS.non.importes", "Reglementation", env)
+            sauvebase("NAS.non.declares.paye", "NAS.non.declares.paye", "Reglementation", env)
   }, 
   "Pas de sauvegarde des fichiers logements par NAS. ")
 
@@ -715,6 +684,10 @@ test_avn <- function(avantage, Paie, logements = NULL) {
 #' @export
 
 test_plafonds <- function(plafonds, Lignes, logements = NULL) {
+  essayer(test_plafonds(plafonds, Lignes, logements), "Les plafonds n'ont pas pu être testés.")
+} 
+
+test_plafonds_ <- function(plafonds, Lignes, logements = NULL) {
   
   if (is.null(plafonds)) {
     cat("Le fichier des plafonds de l'IFSE n'est pas importé. Le test du respect des plafonds ne peut donc pas être effectué. Le lien ci-après est inactif.")
@@ -724,15 +697,11 @@ test_plafonds <- function(plafonds, Lignes, logements = NULL) {
   
   if (is.null(logements)) logements <- data.table(Logement = rep_len("", nrow(Lignes)))
   
-  vect <- c("Matricule", "Année", "Mois")
-  
-  essayer({
-
-    if (ncol(logements) == 1) Paie_NAS <- NULL else {
+  essayer({ if (ncol(logements) == 1) Paie_NAS <- NULL else {
       
-       Paie_NAS <- logements[Lignes, on = vect]
+       Paie_NAS <- merge(Lignes, logements, by = c("Matricule", "Année", "Mois"), all.x = TRUE)
     
-       Paie_NAS <- Paie_NAS[Logement == "NAS", 
+       Paie_NAS <- merge(Paie_NAS[Logement == "NAS", 
                                      .(Matricule, 
                                        Année, 
                                        Mois, 
@@ -744,17 +713,17 @@ test_plafonds <- function(plafonds, Lignes, logements = NULL) {
                                        Code, 
                                        Libellé, 
                                        Montant)
-                                  ][ , Logement := NULL
-                                  ][plafonds[Logement == "NAS"][ , Logement := NULL],
-                                       nomatch = 0,
-                                       on = "Grade"]
+                                  ][ , Logement := NULL], 
+                           plafonds[Logement == "NAS"
+                                  ][ , Logement := NULL],
+                         by = "Grade")
     }
     
     if (ncol(logements) == 1) Paie_NO_NAS <- Lignes else {
       
-       Paie_NO_NAS <- logements[Lignes, on = vect]
+       Paie_NO_NAS <- merge(Lignes, logements, by = c("Matricule", "Année", "Mois"), all.x = TRUE)
     
-       Paie_NO_NAS <- Paie_NO_NAS[Logement != "NAS", 
+       Paie_NO_NAS <- merge(Paie_NO_NAS[Logement != "NAS", 
                                         .(Matricule,
                                           Année,
                                           Mois,
@@ -766,10 +735,10 @@ test_plafonds <- function(plafonds, Lignes, logements = NULL) {
                                           Code,
                                           Libellé,
                                           Montant)
-                                  ][ , Logement := NULL
-                                  ][plafonds[Logement != "NAS"][ , Logement := NULL],
-                                       nomatch = 0,  
-                                       on = "Grade"]
+                                        ][ , Logement := NULL],
+                            plafonds[Logement != "NAS"
+                                        ][ , Logement := NULL],
+                            by = "Grade")
     }
     
     newline()  
@@ -780,14 +749,13 @@ test_plafonds <- function(plafonds, Lignes, logements = NULL) {
   
   P <- rbind(Paie_NAS, Paie_NO_NAS)
   
-        dépassements <- P[Montant / adm(Temps.de.travail/100) > Plafond]
+  dépassements <- P[Montant / adm(Temps.de.travail/100) > Plafond]
   couts.dépassements <- dépassements[ , sum(Montant, na.rm = TRUE), by = Année]
-  bulletins.dépassements <- P[dépassements[ , ..vect], nomatch = 0, on = vect]
+  bulletins.dépassements <- merge(P, dépassements[, .(Matricule, Année, Mois)])
   
   env <- environment()
   
-  essayer({
-    sauvebase("bulletins.dépassements", "bulletins.depassements.ifse", "Reglementation", env)
+  essayer({  sauvebase("bulletins.dépassements", "bulletins.depassements.ifse", "Reglementation", env)
   }, 
   "Pas de sauvegarde des fichiers dépassements IFSE. ")
   
