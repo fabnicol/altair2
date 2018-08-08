@@ -724,13 +724,15 @@ test_plafonds <- function(plafonds, Lignes, logements = NULL) {
   
   if (is.null(logements)) logements <- data.table(Logement = rep_len("", nrow(Lignes)))
   
-  essayer({
+  vect <- c("Matricule", "Année", "Mois")
   
+  essayer({
+
     if (ncol(logements) == 1) Paie_NAS <- NULL else {
       
-       Paie_NAS <- merge(Lignes, logements, by = c("Matricule", "Année", "Mois"), all.x = TRUE)
+       Paie_NAS <- logements[Lignes, on = vect]
     
-       Paie_NAS <- merge(Paie_NAS[Logement == "NAS", 
+       Paie_NAS <- Paie_NAS[Logement == "NAS", 
                                      .(Matricule, 
                                        Année, 
                                        Mois, 
@@ -742,17 +744,17 @@ test_plafonds <- function(plafonds, Lignes, logements = NULL) {
                                        Code, 
                                        Libellé, 
                                        Montant)
-                                  ][ , Logement := NULL], 
-                           plafonds[Logement == "NAS"
-                                  ][ , Logement := NULL],
-                         by = "Grade")
+                                  ][ , Logement := NULL
+                                  ][plafonds[Logement == "NAS"][ , Logement := NULL],
+                                       nomatch = 0,
+                                       on = "Grade"]
     }
     
     if (ncol(logements) == 1) Paie_NO_NAS <- Lignes else {
       
-       Paie_NO_NAS <- merge(Lignes, logements, by = c("Matricule", "Année", "Mois"), all.x = TRUE)
+       Paie_NO_NAS <- logements[Lignes, on = vect]
     
-       Paie_NO_NAS <- merge(Paie_NO_NAS[Logement != "NAS", 
+       Paie_NO_NAS <- Paie_NO_NAS[Logement != "NAS", 
                                         .(Matricule,
                                           Année,
                                           Mois,
@@ -764,10 +766,10 @@ test_plafonds <- function(plafonds, Lignes, logements = NULL) {
                                           Code,
                                           Libellé,
                                           Montant)
-                                        ][ , Logement := NULL],
-                            plafonds[Logement != "NAS"
-                                        ][ , Logement := NULL],
-                            by = "Grade")
+                                  ][ , Logement := NULL
+                                  ][plafonds[Logement != "NAS"][ , Logement := NULL],
+                                       nomatch = 0,  
+                                       on = "Grade"]
     }
     
     newline()  
@@ -778,9 +780,9 @@ test_plafonds <- function(plafonds, Lignes, logements = NULL) {
   
   P <- rbind(Paie_NAS, Paie_NO_NAS)
   
-  dépassements <- P[Montant / adm(Temps.de.travail/100) > Plafond]
+        dépassements <- P[Montant / adm(Temps.de.travail/100) > Plafond]
   couts.dépassements <- dépassements[ , sum(Montant, na.rm = TRUE), by = Année]
-  bulletins.dépassements <- merge(P, dépassements[, .(Matricule, Année, Mois)])
+  bulletins.dépassements <- P[dépassements[ , ..vect], nomatch = 0, on = vect]
   
   env <- environment()
   
