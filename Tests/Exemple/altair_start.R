@@ -2549,14 +2549,20 @@ Base.IHTS.non.tit <- lignes.IHTS[Statut != "TITULAIRE" & Statut != "STAGIAIRE"]
 
 lignes.IHTS.rappels <- lignes.IHTS[Type == "R" & Montant != 0
          ][ , `:=`(ihts.cum.rappels = sum(Montant[Année.rappel == Année & Mois.rappel <= Mois], na.rm = TRUE),
-                   nihts.cum.rappels = ifelse((a <- sum(abs(Base[Année.rappel == Année & Mois.rappel <= Mois]) * sign(Montant), na.rm = TRUE)) == 0, sum(abs(Nb.Unité[Année.rappel == Année & Mois.rappel <= Mois])  * sign(Montant), na.rm = TRUE), a),
+                   nihts.cum.rappels = ifelse((a <- sum(abs(Base[Année.rappel == Année & Mois.rappel <= Mois]) * sign(Montant), na.rm = TRUE)) == 0,
+                                              sum(abs(Nb.Unité[Année.rappel == Année & Mois.rappel <= Mois])  * sign(Montant), na.rm = TRUE),
+                                              a),
                    ihts.cum.rappels.ant = sum(Montant[Année.rappel < Année], na.rm = TRUE),
-                   nihts.cum.rappels.ant = ifelse((a <- sum(abs(Base[Année.rappel < Année]) * sign(Montant), na.rm = TRUE)) == 0, sum(abs(Nb.Unité[Année.rappel < Année]) * sign(Montant), na.rm = TRUE), a)), 
+                   nihts.cum.rappels.ant = ifelse((a <- sum(abs(Base[Année.rappel < Année]) * sign(Montant), na.rm = TRUE)) == 0, 
+                                                  sum(abs(Nb.Unité[Année.rappel < Année]) * sign(Montant), na.rm = TRUE),
+                                                  a)), 
                  by = .(Matricule, Année.rappel, Mois.rappel)
          ][Année.rappel >= début.période.sous.revue 
                  & Mois.rappel >=1 
                  & Mois.rappel <= 12
-         ][ , .(Matricule, Année, Mois, quotité, quotité.moyenne, Année.rappel, Mois.rappel, ihts.cum.rappels, nihts.cum.rappels, ihts.cum.rappels.ant, nihts.cum.rappels.ant)]
+         ][ , .(Matricule, Année, Mois, quotité, quotité.moyenne, Année.rappel,
+                Mois.rappel, ihts.cum.rappels, nihts.cum.rappels, 
+                ihts.cum.rappels.ant, nihts.cum.rappels.ant)]
 
 setnames(lignes.IHTS.rappels, "Année", "Année.R")
 setnames(lignes.IHTS.rappels, "Mois", "Mois.R")
@@ -2565,7 +2571,9 @@ setnames(lignes.IHTS.rappels, "Mois.rappel", "Mois")
 
 lignes.IHTS.hors.rappels <- lignes.IHTS[Type != "R" & Montant != 0, 
                                        .(ihts.cum.hors.rappels = sum(Montant, na.rm = TRUE),
-                                         nihts.cum.hors.rappels = ifelse((a <- sum(abs(Base) * sign(Montant), na.rm = TRUE)) == 0, sum(abs(Nb.Unité) * sign(Montant), na.rm = TRUE), a),
+                                         nihts.cum.hors.rappels = ifelse((a <- sum(abs(Base) * sign(Montant), na.rm = TRUE)) == 0, 
+                                                                         sum(abs(Nb.Unité) * sign(Montant), na.rm = TRUE),
+                                                                         a),
                                          quotité.moyenne),
                                            by = .(Matricule, Année, Mois)]
 
@@ -2694,10 +2702,10 @@ essayer(
   CumBaseIHTS <- unique(lignes.IHTS.tot[, .(Matricule, Année, Mois, quotité, quotité.moyenne, nihts.tot, nihts.cum.hors.rappels, nihts.cum.rappels, nihts.cum.rappels.ant)], by = NULL)
 
   TotBaseIHTS <- CumBaseIHTS[ , .(totihts = sum(nihts.tot),
-                   totihts.hors.rappels = sum(nihts.cum.hors.rappels),
-                   totihts.rappels = sum(nihts.cum.rappels),
-                   totihts.rappels.ant = sum(nihts.cum.rappels.ant)),
-                           keyby = Année]
+                                  totihts.hors.rappels = sum(nihts.cum.hors.rappels),
+                                  totihts.rappels = sum(nihts.cum.rappels),
+                                  totihts.rappels.ant = sum(nihts.cum.rappels.ant)),
+                                     keyby = Année]
   
   CumHS <- merge(CumHS, TotBaseIHTS, all = TRUE, by = "Année")
 },
@@ -2745,18 +2753,20 @@ if (utiliser.variable.Heures.Sup.) {
                                                     Service)]
 } else {
   
-  Depassement.seuil.180h <- merge(CumBaseIHTS[ , .(Nihts.tot = sum(nihts.tot), quotité.moyenne), by = .(Matricule, Année)
-                                             ][Nihts.tot > 180 * quotité.moyenne, 
-                                                .(Matricule, 
-                                                  Année,
-                                                  quotité.moyenne,
-                                                  Nihts.tot)],
-                                                 Bulletins.paie[Mois == 12 , .(
-                                                                  Matricule,
-                                                                  Année,
-                                                                  Emploi,
-                                                                  Grade,
-                                                                  Service)], all.x = TRUE)
+  Depassement.seuil.180h <- Bulletins.paie[Mois == 12 , .(
+                                                      Matricule,
+                                                      Année,
+                                                      Emploi,
+                                                      Grade,
+                                                      Service)
+                                          ][CumBaseIHTS[ , .(Nihts.tot = sum(nihts.tot), quotité.moyenne),
+                                                              by = .(Matricule, Année)
+                                                       ][Nihts.tot > (180 * quotité.moyenne), 
+                                                           .(Matricule, 
+                                                             Année,
+                                                             quotité.moyenne,
+                                                             Nihts.tot)],
+                                               on = .(Matricule, Année)]
 
 }
 
@@ -2888,12 +2898,14 @@ essayer({
   
 paye.budget.existe <-  file.exists(chemin("paye_budget.csv"))  
 
+vect <- c("Code", "Libellé", "Statut", "Type")
+
 if (paye.budget.existe){
   
   code.libelle <- fread(chemin("paye_budget.csv"), # Code, Libellé,  Statut, Type, Compte
                          sep = ";",
                          encoding   = "Latin-1",
-                         col.names  = c("Code", "Libellé", "Statut", "Type", "Compte"),
+                         col.names  = c(vect, "Compte"),
                          colClasses = c("character", "character", "character", "character", "character"))  
 
   message("*****")
@@ -2902,9 +2914,8 @@ if (paye.budget.existe){
   
   code.libelle <- résumer_type(code.libelle)
   
-  code.libelle      <- unique(code.libelle, by = NULL)
-  cumul.lignes.paie <- merge(Paie[, .(Année, Code, Libellé, Statut, Type, Montant)],
-                             code.libelle,  by = c("Code", "Libellé", "Statut", "Type"), all.x = TRUE)
+  code.libelle      <- unique(code.libelle)
+  cumul.lignes.paie <-  code.libelle[Paie[, .(Année, Code, Libellé, Statut, Type, Montant)],  on = vect]
   
 } else {
   
@@ -2937,9 +2948,8 @@ if (paye.budget.existe){
               ][ , Compte.tit := NULL
               ][ , Compte.nontit := NULL]
   
-  cumul.lignes.paie <- merge(Paie[ , .(Année, Code, Libellé, Statut, Type, Montant)], 
-                             code.libelle,
-                             all.x = TRUE)
+  cumul.lignes.paie <- code.libelle[Paie[ , .(Année, Code, Libellé, Statut, Type, Montant)], on = vect]
+
   
 }
 
@@ -2947,7 +2957,7 @@ setkey(code.libelle, Type, Compte, Statut, Code, Libellé)
 
 cumul.lignes.paie[is.na(Compte) | Compte == "", Compte := "Autres"]
 
-cumul.lignes.paie <- cumul.lignes.paie[ , .(Total = sum(Montant, na.rm = TRUE)), keyby="Année,Compte,Libellé,Code"][Total != 0]
+cumul.lignes.paie <- cumul.lignes.paie[ , .(Total = sum(Montant, na.rm = TRUE)), keyby = .(Année, Compte, Libellé, Code)][Total != 0]
 
 cumul.lignes.paie <- cumul.lignes.paie[ , Total2  := formatC(Total, big.mark = " ", format = "f", decimal.mark = ",", digits = 2)]
 
@@ -2956,7 +2966,7 @@ cumul.total.lignes.paie <- cumul.lignes.paie[ , .(`Cumul annuel`= formatC(sum(To
                                                                           format = "f",
                                                                           decimal.mark = ",",
                                                                           digits = 2)), 
-                                              keyby = "Année,Compte"]
+                                              keyby = .(Année, Compte)]
 
 setnames(cumul.lignes.paie[ , Total := NULL], "Total2", "Total")
 
@@ -3040,7 +3050,7 @@ essayer({
 Paie.sans.enfant.reduit <- Paie[Type == "S" 
                                 & (is.na(Nb.Enfants) | Nb.Enfants == 0),
                                  .(SFT.versé = sum(Montant, na.rm = TRUE)),
-                                      keyby = "Matricule,Année,Mois"] 
+                                      keyby = .(Matricule, Année, Mois)] 
 
 Paie.sans.enfant.reduit <- Paie.sans.enfant.reduit[SFT.versé > 0]
 
@@ -3070,16 +3080,15 @@ if (nb.écart.paiements.sft.sans.enfant > 0){
 # Traitement = sum(Montant[Type == "T"], na.rm = TRUE),
 
 essayer({
-  Paie.enfants.réduit <- Paie[! is.na(Nb.Enfants) & Nb.Enfants > 0 & ! is.na(Indice) & ! is.na(Heures),
+  Paie.enfants.réduit <- Paie[Nb.Enfants > 0 & ! is.na(Nb.Enfants) & ! is.na(Indice) & ! is.na(Heures),
                               .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE), 
                                 Temps.de.travail = Temps.de.travail[1],
                                 Indice = Indice[1],
                                 Echelon = Echelon[1],
                                 NBI = NBI[1],
                                 Nb.Enfants = Nb.Enfants[1]),
-                              keyby="Matricule,Année,Mois"]
+                                   keyby = .(Matricule, Année, Mois)]
     
-
   SFT.controle <- with(Paie.enfants.réduit, 
                          mapply(sft, Nb.Enfants, Indice, Echelon, NBI, Temps.de.travail, Année, Mois, USE.NAMES = FALSE))
   
@@ -3150,14 +3159,20 @@ Paie_astreintes <- filtrer_Paie("ASTREINTES", portée = "Mois", indic = TRUE)
 
 libelles.astreintes <- unique(Paie_astreintes[indic == TRUE, .(Code, Libellé)], by = NULL)
 
-Controle_astreintes <- merge(Paie_astreintes[! is.na(NBI) 
+Controle_astreintes <- Paie_astreintes[! is.na(NBI) 
                                              & NBI > 0
                                              & indic == TRUE,
-                                                  .(Matricule, Année, Mois, Catégorie, Emploi, Grade, NBI, Code, Libellé, quotité, Montant)],
-                              Paie_NBI[,.(Matricule, Année, Mois, Code, Libellé, Montant)],
-                              by = c("Matricule", "Année", "Mois"))  
+                                                  .(Matricule, Année, Mois, Catégorie, Emploi, Grade, NBI, Code, Libellé, quotité, Montant)
+                                      ][Paie_NBI[ , .(Matricule, Année, Mois, Code, Libellé, Montant)],  
+                                                    nomatch = 0,
+                                                    on = .(Matricule, Année, Mois)]  
 
-Controle_astreintes <- Controle_astreintes[Catégorie == "A" & grepl("d(?:\\.|ir)\\w*\\s*\\bg(?:\\.|\\w*n\\.?\\w*)\\s*\\b(?:des?)\\s*\\bs\\w.*", paste(Emploi, Grade), perl = TRUE, ignore.case = TRUE)]
+Controle_astreintes <- Controle_astreintes[Catégorie == "A" 
+                                           & grepl("d(?:\\.|ir)\\w*\\s*\\bg(?:\\.|\\w*n\\.?\\w*)\\s*\\b(?:des?)\\s*\\bs\\w.*", 
+                                                   paste(Emploi, Grade), 
+                                                   perl = TRUE,
+                                                   ignore.case = TRUE)]
+
 setnames(Controle_astreintes, c("Code.x", "Libellé.x", "Montant.x"), c("Code.astreinte", "Libellé.astreinte", "Montant.astreinte"))
 setnames(Controle_astreintes, c("Code.y", "Libellé.y", "Montant.y"), c("Code.NBI", "Libellé.NBI", "Montant.NBI"))
 
@@ -3197,10 +3212,12 @@ essayer({
 setnames(Paie_astreintes, "indic", "indic_astr")
 setnames(Base.IHTS, "indic", "indic_IHTS")
 
-Controle_astreintes_HS_irreg <- merge(Paie_astreintes[ , .(Matricule, Année, Mois, Code, Libellé, Type,  Montant, indic_astr) ], 
-                              Base.IHTS[Type %chin% c("I", "A", "R"), .(Matricule, Année, Mois, Code, Libellé, Type, Montant, indic_IHTS)], 
-                              by=c("Matricule", "Année", "Mois", "Code", "Libellé", "Type", "Montant")
-                              )[indic_IHTS == TRUE | indic_astr == TRUE]
+Controle_astreintes_HS_irreg <- Paie_astreintes[ , .(Matricule, Année, Mois, Code, Libellé, Type,  Montant, indic_astr) 
+                                               ][Base.IHTS[Type %in% c("I", "A", "R"), 
+                                                            .(Matricule, Année, Mois, Code, Libellé, Type, Montant, indic_IHTS)], 
+                                                                nomatch = 0,
+                                                                on = .(Matricule, Année, Mois, Code, Libellé, Type, Montant)
+                                               ][indic_IHTS == TRUE | indic_astr == TRUE]
 
 nb.agents.IHTS.astreintes <- uniqueN(Controle_astreintes_HS_irreg$Matricule)
 
