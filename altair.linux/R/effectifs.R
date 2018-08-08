@@ -36,14 +36,22 @@
 #' effectifs(2010:2015)
 #' @export
 
+effectifs <- function(période, Bulletins = Bulletins.paie,
+                       personnels = Analyse.remunerations,
+                       Analyse.v = Analyse.variations)  {
+  essayer(effectifs_(période, 
+                    Bulletins,
+                    personnels,
+                    Analyse.v), "Les effectifs n'ont pas pu être calculés")
+}
+
 # Bulletins : "Matricule", "Statut", "permanent", "quotité", "nb.mois", "Grade"
 # Analyse.rémunérations : Filtre_actif, Filtre_annexe, Statut, Matricule, Année (+filtres sur lignes)
 # Analyse.v : temps.complet, est.rmpp, statut, Matricule, Année, permanent   (+ filtres sur lignes)
 
-effectifs <- function(période, Bulletins = Bulletins.paie,
+effectifs_ <- function(période, Bulletins = Bulletins.paie,
                       personnels = Analyse.remunerations,
                       Analyse.v = Analyse.variations) {
-
 
   eff <- lapply(période,
                 function(x) {
@@ -953,7 +961,11 @@ extraire.nir <- function(Base, année)  {
   H <- temp[sexe == "1" | sexe == "3" | sexe == "7",  .(Hommes = .N), by = "age"]
   F <- temp[sexe == "2" | sexe == "4" | sexe == "8",  .(Femmes = .N), by = "age"]
 
-  HF <- merge(H, F, by = "age", all = TRUE)[data.table(age = 15:68),  on = "age"]
+  HF <- merge(
+    merge(H, F, by = "age", all = TRUE),
+    data.table(age = 15:68),
+    by = "age",
+    all = TRUE)
 
   HF
 }

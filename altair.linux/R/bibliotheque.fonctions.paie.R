@@ -111,8 +111,14 @@ file2Latin <- function(nom, encodage.in = "UTF-8")  {
 #' read.csv.skip(Base, séparateur.décimal = ",")
 #' @export
 
-read.csv.skip <- function(x, encodage = encodage.entrée, classes = NA, drop = NULL, skip = 0,
-                          rapide = FALSE, séparateur.liste = séparateur.liste.entrée, séparateur.décimal = séparateur.décimal.entrée,
+read.csv.skip <- function(x,
+                          encodage = encodage.entrée,
+                          classes = NA,
+                          drop = NULL,
+                          skip = 0,
+                          rapide = FALSE,
+                          séparateur.liste = séparateur.liste.entrée,
+                          séparateur.décimal = séparateur.décimal.entrée,
                           convertir.encodage = TRUE)
 {
   if (! rapide) {
@@ -204,7 +210,13 @@ return(T)
 #' @export
 #'
 
-Sauv.base <- function(chemin.dossier, nom, nom.sauv, Latin = TRUE, sep = séparateur.liste.sortie, dec = séparateur.décimal.sortie, environment = .GlobalEnv)
+Sauv.base <- function(chemin.dossier, 
+                      nom,
+                      nom.sauv,
+                      Latin = TRUE,
+                      sep = séparateur.liste.sortie,
+                      dec = séparateur.décimal.sortie,
+                      environment = .GlobalEnv)
 {
   message("Sauvegarde de ", nom.sauv)
  
@@ -306,10 +318,40 @@ sauv.bases <- function(chemin.dossier, env, ...)
 #'   stop("Problème de lecture de la base de la table bulletins-lignes de Paie")
 #' @export
 
+Read.csv <- function(base.string, fichiers, 
+                     charger = TRUE,
+                     colClasses = NA,
+                     skip = 0,
+                     drop = NULL, 
+                     séparateur.liste = séparateur.liste.entrée,
+                     séparateur.décimal = séparateur.décimal.entrée,
+                     rapide = FALSE,
+                     convertir.encodage = TRUE, 
+                     encodage = encodage.entrée) {
+  
+  Read.csv_(base.string,
+            fichiers,
+            charger,
+            colClasses,
+            skip,
+            drop,
+            séparateur.liste,
+            séparateur.décimal,
+            rapide,
+            convertir.encodage,
+            encodage) 
+}
 
-Read.csv <- function(base.string, fichiers, charger = TRUE, colClasses = NA, skip = 0,
-                     drop = NULL, séparateur.liste = séparateur.liste.entrée, séparateur.décimal = séparateur.décimal.entrée,
-                     rapide = FALSE, convertir.encodage = TRUE, encodage = encodage.entrée)  {
+Read.csv_ <- function(base.string, fichiers, 
+                      charger = TRUE,
+                      colClasses = NA,
+                      skip = 0,
+                      drop = NULL, 
+                      séparateur.liste = séparateur.liste.entrée,
+                      séparateur.décimal = séparateur.décimal.entrée,
+                      rapide = FALSE,
+                      convertir.encodage = TRUE, 
+                      encodage = encodage.entrée) {
 
     if (charger) {
 
@@ -343,7 +385,16 @@ Read.csv <- function(base.string, fichiers, charger = TRUE, colClasses = NA, ski
 #' read.csv.skip(Base, séparateur.décimal = ",")
 #' @export
 
-Résumé <- function(x,y, align = 'r', extra = 0, type = "pond")  {
+Résumé <- function(x,
+                   y,
+                   align = 'r',
+                   extra = 0,
+                   type = "pond")
+{
+  essayer(Résumé_(x,y, align, extra, type), "La distribution des quartiles n'a pas pu être déterminée.")
+}
+
+Résumé_ <- function(x,y, align = 'r', extra = 0, type = "pond")  {
     
       Y <- na.omit(y)
  
@@ -364,8 +415,7 @@ Résumé <- function(x,y, align = 'r', extra = 0, type = "pond")  {
           S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"),
                      sapply(Y, function(x) formatC(summary(x), big.mark = " ", digits = 1, format = "f")))
         }
-        
-        
+
         if (! missing(extra)) {
           if (extra == "length") {
 
@@ -429,7 +479,6 @@ Résumé <- function(x,y, align = 'r', extra = 0, type = "pond")  {
      } else {
        cat("Table non générée.")
      }
-
 }
 
 #' Tableau
@@ -449,19 +498,29 @@ Résumé <- function(x,y, align = 'r', extra = 0, type = "pond")  {
 #' 
 #' @export
 #'
+Tableau <- function(x, ...) {
+  
+  essayer(Tableau_(x, ...), "Le tableau n'a pas pu être généré.")
+}
 
-Tableau <- function(x, ...)
-{
+Tableau_ <- function(x, ...) {
+  
   V <- c(...)
-  if ("sep.milliers" %in% names(V))
-  {
+  
+  if ("sep.milliers" %in% names(V)) {
+    
     sep.milliers <- V["sep.milliers"]
     V$sep.milliers <- NULL
-  }  else
+    
+  }  else {
+    
   sep.milliers <- " "
+  }
 
   T <- t(prettyNum(V, big.mark = sep.milliers))
+  
   T <- data.table(T)
+  
   names(T) <- x
   kable(T, row.names = FALSE, align = "c", booktabs= TRUE)
 }
@@ -486,7 +545,11 @@ Tableau <- function(x, ...)
 #' @export
 #'
 
-Tableau.vertical <- function(colnames, rownames, extra = "", ...)   # extra functions in ... first labeled f
+Tableau.vertical <- function(colnames, rownames, extra = "", ...) {
+  essayer(Tableau.vertical_(colnames, rownames, extra, ...), "Le tableau vertical n'a pas pu être généré.")
+}
+  
+Tableau.vertical_ <- function(colnames, rownames, extra = "", ...)   # extra functions in ... first labeled f
 {
     tmp <- c(...)
    
@@ -554,13 +617,18 @@ Tableau.vertical <- function(colnames, rownames, extra = "", ...)   # extra func
     }
     
     kable(T, row.names = FALSE, align = "c", booktabs= TRUE)
+    return(invisible("kable"))
 }
 
-#' Tableau vertical 
+#' Tableau vertical 2
 #'
 #' @export
 
-Tableau.vertical2 <- function(colnames, rownames, ...)
+Tableau.vertical2 <- function(colnames, rownames,  ...) {
+  essayer(Tableau.vertical2_(colnames, rownames,  ...), "Le tableau vertical (2ème type) n'a pas pu être généré.")
+}
+
+Tableau.vertical2_ <- function(colnames, rownames, ...)
 {
   tmp <- list(...)
   N <- names(tmp[1])
@@ -708,25 +776,46 @@ FR <- function(x) formatC(x, big.mark = " ", format = "fg")
 
 #' Essaye d'exécuter une portion de code et en cas d'erreur continue l'exécution du script en renvoyant un message d'erreur non bloquant.
 #' 
-#' @param code Portion de code
-#' @param message Message d'erreur
+#' @param code Portion de code.
+#' @param message Message d'erreur.
+#' @param abort Arrêt du programme en cas d'erreur.
+#' @param prof Profiler ou pas.
+#' @param times Nombre de tests de benchmark.
 #' @return Valeur retournée par X en cas de succès, sinon objet de classe "try-error" retourné par try(code)
 #' @examples 
 #' if (exists("e")) rm(e)
 #' essayer({ a <- 1/e}, "division par inconnu")  # affichage du message d'erreur
 #' @export
 
-essayer <- function(X, Y) {
+essayer <- function(X, Y, abort = FALSE, prof = profiler, times = 10, label = "") {
     
+  if (prof) {
+        DT <- microbenchmark::microbenchmark(X, times = times)
+        if (label == "") label <- substr(deparse(substitute(X)), start = 1, stop = 20) 
+  }
+  
   res <- try(X, silent = FALSE)    
   
   if (inherits(res, 'try-error')) {
       cat(Y)
+      if (abort) {
+        
+        stop("Arrêt de programme.")
+      } 
     } else {
       if (class(res) == "knitr_kable")
         print (res)
     }
-  invisible(res)
+  
+  if (prof) {
+    
+      assign("PROF", rbind(get("PROF", envir = .GlobalEnv), data.table(expr = label, median = median(DT$time))), envir = .GlobalEnv)
+      return(invisible(NULL))
+    
+    } else {
+      
+      return(invisible(res))
+    }
 }
 
 #' Prise en compte du pluriel
@@ -764,7 +853,14 @@ filtre <- function(x) {
 #' Si le filtrage a une portée, l'ensemble des lignes de la portée (exemple "Mois") est conservé.
 #' @export
 
-filtrer_Paie <- function(x, portée = NULL,  Base = Paie, Var = "Code", indic = FALSE) {
+filtrer_Paie <- function(x, 
+                         portée = NULL,
+                         Base = Paie,
+                         Var = "Code", 
+                         indic = FALSE) {
+  P_ <- NULL
+  
+  essayer(label = "filtre paie", {
 
   filtre_ <- filtre(x)
   
@@ -824,31 +920,38 @@ filtrer_Paie <- function(x, portée = NULL,  Base = Paie, Var = "Code", indic = 
                   quotité.moyenne = quotité.moyenne.orig)]
   }
   
+  },  "Le filtre n'a pas pu être appliqué ( " %+% x %+%" ).")
+  
   P_ 
 }
 
+
+extraire_paye_ <- function(an, L, out) {
+  
+  if (! is.null(L)) {
+    assign(out, unique(Bulletins.paie[Année == an
+                                                 & Mois == 12
+                                                 & Statut != "ELU"
+                                                 & Statut %chin% L,
+                                                 .(Matricule, Nir)]), .GlobalEnv) 
+  } else {
+  assign(out, unique(Bulletins.paie[Année == an
+                               & Mois == 12
+                               & Statut != "ELU",
+                               .(Matricule, Nir)]), .GlobalEnv)
+  }
+}
 
 #' Extraire les matricules et Nir des mois de décembre, sauf pour les élus
 #' Pour les statuts listés dans L si L non null
 #' @param an  Année
 #' @param L   Vecteur des statuts considérés
-#' @return  Data.table extraite de \code{Bulletins.paie} de deux colonnes (\code{Matricule} et \code{Nir}), filtrée des doublons.
-#' @examples extraire_paye(2012, c("TITULAIRE", "STAGIAIRE")) 
+#' @param out  Data.table extraite de \code{Bulletins.paie} de deux colonnes (\code{Matricule} et \code{Nir}), filtrée des doublons.
+#' @examples extraire_paye(2012, c("TITULAIRE", "STAGIAIRE"), "Bulletins.début.psr") 
 #' @export
 #' 
-extraire_paye <- function(an, L) {
-  
-  if (! is.null(L)) return(unique(Bulletins.paie[Année == an
-                                                 & Mois == 12
-                                                 & Statut != "ELU"
-                                                 & Statut %chin% L,
-                                                 .(Matricule, Nir)]))
-  
-  
-  return(unique(Bulletins.paie[Année == an
-                               & Mois == 12
-                               & Statut != "ELU",
-                               .(Matricule, Nir)]))
+extraire_paye <- function(an, L, out) {
+  essayer({extraire_paye_(an, L, out)}, "Les informations de base sur l'âge des personnels n'ont pas pu être extraites des champs Nir.", abort = TRUE)
 }
 
 #' Insérer un script auxiliaire, indexé par une variable globale

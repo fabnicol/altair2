@@ -5,20 +5,19 @@
 \title{Extraire les matricules et Nir des mois de décembre, sauf pour les élus
 Pour les statuts listés dans L si L non null}
 \usage{
-extraire_paye(an, L)
+extraire_paye(an, L, out)
 }
 \arguments{
 \item{an}{Année}
 
 \item{L}{Vecteur des statuts considérés}
-}
-\value{
-Data.table extraite de \code{Bulletins.paie} de deux colonnes (\code{Matricule} et \code{Nir}), filtrée des doublons.
+
+\item{out}{Data.table extraite de \code{Bulletins.paie} de deux colonnes (\code{Matricule} et \code{Nir}), filtrée des doublons.}
 }
 \description{
 Extraire les matricules et Nir des mois de décembre, sauf pour les élus
 Pour les statuts listés dans L si L non null
 }
 \examples{
-extraire_paye(2012, c("TITULAIRE", "STAGIAIRE")) 
+extraire_paye(2012, c("TITULAIRE", "STAGIAIRE"), "Bulletins.début.psr") 
 }
