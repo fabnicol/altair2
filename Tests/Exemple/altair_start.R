@@ -78,11 +78,13 @@ options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE, dat
 # Sourcer la biblio de fonctions auxiliaires
 # Appel de la biblio altair, où sont regroupées des fonctions d'analyse des rémunérations et les pyramides
 
-library("altair", lib.loc=c("/usr/lib64/R/library", "/usr/local/lib64/R/library"))
+library("altair", lib.loc=c("/usr/local/lib64/R/library", "/usr/lib64/R/library"))
+library(knitr, warn.conflicts = FALSE)
+knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
 
 # Importer les données --> bases Paie et Bulletins.paie
 
-source("import.R", encoding = encodage.code.source)
+importer()
 
 # En-tête du rapport
 # Les caractéristiques du contrôle sont contenues dans controle[1], controle[2], controle[3], controle[4]
@@ -167,6 +169,7 @@ kable(tableau.effectifs, row.names = TRUE, align='c')
 #+ durée-du-travail
 
 cat("\nLa durée du travail prise en compte dans la base de données est de ", nb.heures.temps.complet, " h par mois.\n")  
+
 if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 151.67)  {
   semaine.de.travail <<- nb.heures.temps.complet * 12 / 52
   
@@ -193,29 +196,28 @@ fichiers.pyr <- list.files(path= file.path(currentDir, "data"), pattern = "*.csv
 for (f in fichiers.pyr) {
   base <- basename(f)
   assign(substr(base, 1, attr(regexec("(.*)\\.csv", base)[[1]], "match.length")[2]),
-         fread(f, sep = ";", header = TRUE, encoding = "Latin-1", dec = ",", colClasses = c("integer", "numeric", "numeric", "integer", "character")),
-         envir = .GlobalEnv)
+         fread(f, 
+               sep = ";",
+               header = TRUE,
+               encoding = "Latin-1",
+               dec = ",",
+               colClasses = c("integer", "numeric", "numeric", "integer", "character")),
+               envir = .GlobalEnv)
 }
-
-# local = TRUE permet de conserver l'environnement e en sourçant
-
-source("analyse.bulletins.R", local = TRUE, encoding = encodage.code.source)
-
-newpage()
+ 
 
 ########### 1.2 Pyramides ########################
 
-
-#'## `r chapitre`.2 Pyramide des âges, ensemble des personnels  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_2.odt)    
-
+#'## `r chapitre`.2 Pyramide des âges, ensemble des personnels  &nbsp; 
+#'   
+#'[![Notice](Notice.png)](Docs/Notices/fiche_2.odt)    
 #' 
 #+fig.height=8, fig.width=7
 
-
-  
 essayer(produire_pyramides(NULL, 
                            "Pyramide des âges des personnels",
-                           versant = VERSANT_FP),
+                           versant = VERSANT_FP, 
+                           e),
         "La pyramide des âges de l'ensemble des personnels n'a pas pu être générée.")
 
 #'   
@@ -238,19 +240,19 @@ print(e$res)
 #'     
 
 
-newpage()
-   
 ########### 1.3 Pyramides fonctionnaires ########################
 
 #'
-#'## `r chapitre`.3 Pyramide des âges des fonctionnaires  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_2.odt)    
-
+#'## `r chapitre`.3 Pyramide des âges des fonctionnaires  &nbsp;
+#'  
+#'[![Notice](Notice.png)](Docs/Notices/fiche_2.odt)    
 
 #' 
 #+fig.height=8, fig.width=7
 essayer(produire_pyramides(c("TITULAIRE", "STAGIAIRE"), 
                            "Pyramide des âges des fonctionnaires",
-                           versant = "TIT_" %+% VERSANT_FP),
+                           versant = "TIT_" %+% VERSANT_FP,
+                           e),
       "La pyramide des âges des fonctionnaires n'a pas pu être générée.")
 
 
@@ -272,15 +274,25 @@ print(e$res)
 #'[Lien vers la base des âges - fin de période](Bases/Effectifs/`r e$nom.fichier.après`.csv)  
 #'[![Notice](Notice.png)](Docs/Notices/fiche_1.odt)      
 
-newpage()
+#'   
+#'   
+#'   
+#'   
+#'   
+#'   
+
 
 ########### 1.4 Pyramides non Tit ########################
 
-#'## `r chapitre`.4 Pyramide des âges, personnels non titulaires   &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_2.odt)     
-
+#'## `r chapitre`.4 Pyramide des âges, personnels non titulaires   &nbsp; 
+#'  
+#'[![Notice](Notice.png)](Docs/Notices/fiche_2.odt)     
+#'  
 #+fig.height=8, fig.width=7
-essayer(produire_pyramides(c("NON_TITULAIRE"), "Pyramide des âges des non titulaires", 
-                           versant = "NONTIT_" %+% VERSANT_FP),
+essayer(produire_pyramides(c("NON_TITULAIRE"), 
+                           "Pyramide des âges des non titulaires", 
+                           versant = "NONTIT_" %+% VERSANT_FP,
+                           e),
         "La pyramide des âges des non titulaires n'a pas pu être générée." )
 
 
@@ -303,24 +315,32 @@ print(e$res)
 #'[Lien vers la base des âges - fin de période](Bases/Effectifs/`r e$nom.fichier.après`.csv)  
 #'[![Notice](Notice.png)](Docs/Notices/fiche_1.odt)      
 
-newpage()
+#'   
+#'   
+#'   
+#'   
+#'   
+#'   
+
 
 ########### 1.5 Pyramides Autres statut ########################
 
-#'## `r chapitre`.5 Pyramide des âges, autres statuts  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_3.odt)  
+#'## `r chapitre`.5 Pyramide des âges, autres statuts  &nbsp; 
 
-
+#'  
+#'[![Notice](Notice.png)](Docs/Notices/fiche_2.odt)   
 #' 
 #+fig.height=8, fig.width=7
 Filtre_bulletins <<- setdiff(unique(Bulletins.paie$Statut), c("TITULAIRE", "NON_TITULAIRE", "STAGIAIRE")) 
 
 essayer(produire_pyramides(Filtre_bulletins,
-                           "Pyramide des âges des autres personnels"),
+                           "Pyramide des âges des autres personnels",
+                           versant = "",
+                           e),
         "La pyramide des âges des autres personnels n'a pas pu être générée.")
 
-
 #'   
-#'[![Notice](Notice.png)](Docs/Notices/fiche_2.odt)     
+#'[![Notice](Notice.png)](Docs/Notices/fiche_3.odt)     
 #'  
 
 newpage()
@@ -347,7 +367,13 @@ print(e$res)
 #'*Toutes les pyramides des âges sont établies au 31 décembre de l'année considérée.*   
 #'*Les élus ne sont pas compris dans le périmètre statistique.*     
 	   
-newpage()
+#'   
+#'   
+#'   
+#'   
+#'   
+#'   
+
 
 ########### 1.6 Effectifs par durée ########################
 
@@ -1174,7 +1200,7 @@ attach(Analyse.variations.par.exercice)
 #'    
 #+ noria-tableau
 
-essayer(invisible(noria(champ = "net", fichier = fichier.es)),
+essayer(invisible(noria(champ = "net")),
         "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations nettes moyennes.")
 
 #'  
@@ -1183,7 +1209,7 @@ essayer(invisible(noria(champ = "net", fichier = fichier.es)),
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-essayer(invisible(noria(champ = "brut",fichier = fichier.es)),
+essayer(invisible(noria(champ = "brut")),
         "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations brutes moyennes.")
 
 #'  
@@ -1205,7 +1231,7 @@ essayer(invisible(noria(champ = "brut",fichier = fichier.es)),
 #'    
 #+ noria-tableau2
 
-essayer(invisible(noria(champ = "net", filtre = c("TITULAIRE", "STAGIAIRE", fichier = fichier.es))),
+essayer(invisible(noria(champ = "net", filtre = c("TITULAIRE", "STAGIAIRE"))),
         "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations nettes moyennes des fonctionnaires.")
         
 
@@ -1215,7 +1241,7 @@ essayer(invisible(noria(champ = "net", filtre = c("TITULAIRE", "STAGIAIRE", fich
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-essayer(invisible(noria(champ = "brut", filtre = c("TITULAIRE", "STAGIAIRE", fichier = fichier.es))),
+essayer(invisible(noria(champ = "brut", filtre = c("TITULAIRE", "STAGIAIRE"))),
         "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations brutes moyennes des fonctionnaires.")
 
 ##### 4.3.5 Effet de noria et de variation d'effectifs sur rémunérations moyennes par catégorie statutaire  ######
@@ -1230,7 +1256,7 @@ essayer(invisible(noria(champ = "brut", filtre = c("TITULAIRE", "STAGIAIRE", fic
 #'    
 #+ noria-tableau3
 
-essayer(invisible(noria(champ = "net", filtre = "A", fichier = fichier.es)),
+essayer(invisible(noria(champ = "net", filtre = "A")),
         "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations nettes moyennes des fonctionnaires de catégorie A.")
 
 #'  
@@ -1239,7 +1265,7 @@ essayer(invisible(noria(champ = "net", filtre = "A", fichier = fichier.es)),
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-essayer(invisible(noria(champ = "brut", filtre = "A", fichier = fichier.es)),
+essayer(invisible(noria(champ = "brut", filtre = "A")),
         "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations brutes moyennes des fonctionnaires de catégorie A.")
 
 #'   
@@ -1249,7 +1275,7 @@ essayer(invisible(noria(champ = "brut", filtre = "A", fichier = fichier.es)),
 #'    
 #+ noria-tableau4
 
-essayer(invisible(noria(champ = "net", filtre = "B", fichier = fichier.es)),
+essayer(invisible(noria(champ = "net", filtre = "B")),
         "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations nettes moyennes des fonctionnaires de catégorie B.")
 
 #'  
@@ -1258,7 +1284,7 @@ essayer(invisible(noria(champ = "net", filtre = "B", fichier = fichier.es)),
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-essayer(invisible(noria(champ = "brut", filtre = "B", fichier = fichier.es)),
+essayer(invisible(noria(champ = "brut", filtre = "B")),
         "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations brutes moyennes des fonctionnaires de catégorie B.")
 
 #'   
@@ -1268,7 +1294,7 @@ essayer(invisible(noria(champ = "brut", filtre = "B", fichier = fichier.es)),
 #'    
 #+ noria-tableau5
 
-essayer(invisible(noria(champ = "net", filtre = "C", fichier = fichier.es)),
+essayer(invisible(noria(champ = "net", filtre = "C")),
         "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations nettes moyennes des fonctionnaires de catégorie C.")
 
 #'  
@@ -1277,7 +1303,7 @@ essayer(invisible(noria(champ = "net", filtre = "C", fichier = fichier.es)),
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-essayer(invisible(noria(champ = "brut", filtre = "C", fichier = fichier.es)),
+essayer(invisible(noria(champ = "brut", filtre = "C")),
         "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations brutes moyennes des fonctionnaires de catégorie C.")
 
 #'     
@@ -1515,7 +1541,7 @@ couts.nbi.anormales.hors.rappels <- lignes.nbi.anormales.hors.rappels[ , sum(cou
 rappels.nbi <- T2a[ , sum(nbi.cum.rappels, na.rm = TRUE)]
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : Contrôle de liquidation de la NBI*     &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NBI_liq.odt)       
+#'&nbsp;*Tableau `r incrément()` : Contrôle de liquidation de la NBI*    [![Notice](Notice.png)](Docs/Notices/fiche_NBI_liq.odt)       
 #'    
 
 Tableau(
@@ -1682,8 +1708,10 @@ rm(T, T1, T2, NBI.cat, NBI.cat.irrég)
 #     Filtre    : filtre expression rationnelle expression.rég.pfi dans Libellé.   
 
 #'  
-#'## `r chapitre`.2 Contrôle de la prime de fonctions informatiques (PFI)   &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_PFI.odt)   
-
+#'## `r chapitre`.2 Contrôle de la prime de fonctions informatiques (PFI)     
+#'   
+#'[![Notice](Notice.png)](Docs/Notices/fiche_PFI.odt)   
+#'   
 Matrice.PFI <- filtrer_Paie("PFI")
 
 personnels.prime.informatique <- Matrice.PFI[ , ..colonnes]
@@ -1760,9 +1788,12 @@ if (nombre.fonctionnaires.et.vacations > 0) {
 ####  5.4 CEV ####  
   
 #'
-#'## `r chapitre`.4 Contrôles sur les contractuels effectuant des vacations horaires  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_CEV_droit.odt)   
+#'## `r chapitre`.4 Contrôles sur les contractuels effectuant des vacations horaires   
+#'   
+#'[![Notice](Notice.png)](Docs/Notices/fiche_CEV_droit.odt)     
 
 #+ tests-statutaires-vacations-ri
+
 #'     
 #'**Attention**    
 #'Les contrôles réalisés sur les payes des vacataires nécessitent, le plus souvent, la saisie des codes de paye relatifs aux vacations dans l'onglet Codes de l'interface graphique, en raison du fréquent mauvais renseignement 
@@ -1843,9 +1874,9 @@ if (exists("nombre.contractuels.et.vacations")) {
 #### 5.5 Logements par NAS ####    
 
 #'
-#'## `r chapitre`.5 Contrôle sur les logements par nécessité absolue de service (NAS) &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NAS.odt)        
-
-#'   
+#'## `r chapitre`.5 Contrôle sur les logements par nécessité absolue de service (NAS)       
+#'  
+#'[![Notice](Notice.png)](Docs/Notices/fiche_NAS.odt)  
 #'*Pour que le logiciel puisse contrôler sans risque d'erreur les concessions de logement, il est préférable de faire remplir, par les organismes contrôlés le tableau CSV accessible dans le bloc* **Logement** *de l'onglet Extra de l'application graphique, ou bien à ce lien. Voir aussi la notice* &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_logements.odt)      
 #'   
     
@@ -1938,8 +1969,10 @@ base.logements <- test_avn("NAS", Paie, logements = base.logements)  # base des 
 #### 5.6 IAT/IFTS ####  
   
 #'
-#'## `r chapitre`.6 Contrôle sur les indemnités IAT et IFTS  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_IAT_IFTS.odt)   
-
+#'## `r chapitre`.6 Contrôle sur les indemnités IAT et IFTS 
+#'   
+#'[![Notice](Notice.png)](Docs/Notices/fiche_IAT_IFTS.odt)   
+#'   
 #+ IAT-et-IFTS
 
 
@@ -1996,9 +2029,11 @@ rm(résultat_IAT_IFTS)
 #### 5.7 PFR ####
 
 #'
-#'## `r chapitre`.7 Contrôle de la prime de fonctions et de résultats (PFR)   &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_PFR.odt)   
+#'## `r chapitre`.7 Contrôle de la prime de fonctions et de résultats (PFR) 
 #'   
-
+#'  
+#'[![Notice](Notice.png)](Docs/Notices/fiche_PFR.odt)   
+#'  
 #+ pfr
 
 #'    
@@ -2459,8 +2494,9 @@ rm(résultat_IFSE)
 
 #### 5.11 HEURES SUP ####
 #'    
-#'## `r chapitre`.11 Contrôle sur les heures supplémentaires    &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_IHTS.odt)   
-
+#'## `r chapitre`.11 Contrôle sur les heures supplémentaires       
+#'  
+#'[![Notice](Notice.png)](Docs/Notices/fiche_IHTS.odt)
 # Sont repérées comme heures supplémentaires ou complémentaires les heures dont le libellé obéissent à
 # l'expression régulière expression.rég.heures.sup donnée par le fichier prologue.R
 
@@ -2986,9 +3022,9 @@ rm(L)
 #### 5.14 SFT ####
 
 #'
-#'## `r chapitre`.14 Contrôle du supplément familial de traitement  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_SFT.odt)  
+#'## `r chapitre`.14 Contrôle du supplément familial de traitement 
 #'  
-
+#'[![Notice](Notice.png)](Docs/Notices/fiche_SFT.odt)   
 ## La biblitothèque SFT est à revoir  
 
 if (! utiliser.cplusplus.sft)
@@ -3121,9 +3157,10 @@ message("Analyse du SFT")
 #### 5.15 ASTREINTES ####
 
 #'
-#'## `r chapitre`.15 Contrôle des indemnités pour astreintes &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_astreintes.odt)    
+#'## `r chapitre`.15 Contrôle des indemnités pour astreintes    
 #'  
-
+#'[![Notice](Notice.png)](Docs/Notices/fiche_astreintes.odt)   
+#'
 essayer({
 Paie_astreintes <- filtrer_Paie("ASTREINTES", portée = "Mois", indic = TRUE)
 
@@ -3220,9 +3257,9 @@ rm(Base.IHTS)
 #### 5.16 RETRAITES ####
 
 #'
-#'## `r chapitre`.16 Contrôle des cotisations de retraite &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_retraite.odt)     
+#'## `r chapitre`.16 Contrôle des cotisations de retraite     
 #'  
-
+#'[![Notice](Notice.png)](Docs/Notices/fiche_retraite.odt)   
 #'**Non titulaires**   
 #'    
 #'     
@@ -3297,8 +3334,9 @@ Tableau(c("Cotisations salarié", "Cotisations employeur"),
 #### 5.17 PRIMES FPH ####     
 
 #'   
-#'## `r chapitre`.17 Primes de la fonction publique hospitalière  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_FPH.odt)              
+#'## `r chapitre`.17 Primes de la fonction publique hospitalière            
 #'    
+#'[![Notice](Notice.png)](Docs/Notices/fiche_FPH.odt)    
 #'     
 #'*Les primes qui suivent ne peuvent être octroyées qu'à des fontionnaires.*    
 #'*Les tests portent sur les cas d'attribution à des non-titulaires (et autres statuts)*     
@@ -3454,8 +3492,8 @@ Evenements.mat <- setcolorder(setkey(copy(Evenements.ind),
 #'  
 
 #'  
-#'## Codes et libellés de paye  &nbsp;  [![Notice](Notice.png)](Docs/Notices/fiche_individualisation.odt)     
-#'         
+#'## Codes et libellés de paye     
+#'[![Notice](Notice.png)](Docs/Notices/fiche_individualisation.odt)     
 #'         
 #'   
 

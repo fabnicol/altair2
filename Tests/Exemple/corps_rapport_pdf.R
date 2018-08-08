@@ -38,7 +38,7 @@
 # 
 # 
 
-PDF <- TRUE
+PDF <<- TRUE
 
 source("rendre.R", encoding = "UTF-8")
 

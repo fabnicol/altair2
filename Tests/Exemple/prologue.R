@@ -77,8 +77,8 @@ afficher.table.codes           <- FALSE
 afficher.table.événements      <- FALSE
 analyse.par.catégorie          <- TRUE
 test.delta                     <- FALSE
-if (! exists("PDF"))       PDF <- FALSE
-keep_md                        <- TRUE
+if (! exists("PDF"))       PDF <<- FALSE
+keep_md                        <- FALSE
 utiliser.cplusplus.sft         <- FALSE
 sécuriser.types.sortie         <- TRUE
 utiliser.variable.Heures.Sup.  <- FALSE  # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unité
@@ -251,4 +251,3 @@ source("versant.R", encoding = "UTF-8")
 source("point.im.R", encoding = "UTF-8")
 source("plafonds.R", encoding = "UTF-8")
 
-fichier.es <- "/home/fab/Desktop/SDIS/Bases/ES.csv"
