@@ -463,7 +463,7 @@ Tableau <- function(x, ...)
   T <- t(prettyNum(V, big.mark = sep.milliers))
   T <- data.table(T)
   names(T) <- x
-  kable(T, row.names = FALSE, align = "c", booktabs= TRUE)
+  kable(T, row.names = FALSE, align = "c", booktabs = TRUE)
 }
 
 

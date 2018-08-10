@@ -3,9 +3,9 @@
 # Fabrice Nicol, années 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
-# Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
-# produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-# en vigueur à compter de l'année 2008.
+# Ce logiciel est un programme informatique servant à extraire et analyser
+# les fichiers de paye produits au format spécifié par l'annexe de la  
+# convention-cadre de dématérialisation en vigueur à partir de 2008.
 # 
 # Ce logiciel est régi par la licence CeCILL soumise au droit français et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -36,7 +36,7 @@
 # 
 # 
 # prologue 
-# doit être encodeé en UTF-8 au moins sous Linux. A vérifier sous Windows...pour l'interface graphique
+# doit être encodé en UTF-8 au moins sous Linux. A vérifier sous Windows...pour l'interface graphique
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
 # dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
@@ -86,8 +86,37 @@ noria.sur.base.de.paie         <- FALSE  # calculer effet de noria sur base de p
 sauter.tests.statutaires       <- FALSE
 profiler                       <- FALSE
 
+# Génération de parties des rapports
+
+script_effectifs               <- TRUE
+script_pyramides               <- TRUE
+script_durée                   <- TRUE
+analyse.statique               <- TRUE
+script_comparaisons_brut       <- TRUE
+script_analyse_dynamique       <- TRUE
+script_NBI                     <- TRUE
+script_PFI                     <- TRUE
+script_vacations               <- TRUE
+script_NAS                     <- TRUE
+script_IAT_IFTS                <- TRUE
+script_PFR                     <- TRUE
+script_PSR                     <- TRUE
+script_IPF                     <- TRUE
+script_RIFSEEP                 <- TRUE          
+script_HS                      <- TRUE     
+script_heures_sup              <- TRUE     
+script_noria                   <- TRUE     
+script_rémunérations_net       <- TRUE     
+script_élus                    <- TRUE
+script_comptabilité            <- TRUE
+script_SFT                     <- TRUE
+script_astreintes              <- TRUE
+script_retraites               <- TRUE
+script_FPH                     <- TRUE
+script_annexe                  <- TRUE
+
 numéro.tableau                 <- 0  # Numérotation de départ des tableaux
-chapitre                       <- 0  # Numérotation de départ des chapitres
+chapitre                       <- 1  # Numérotation de départ des chapitres
 seuil.troncature               <- 2  # jours
 taux.tolérance.homonymie       <- 2  # en %
 quantile.cut                   <- 1  # en %
@@ -240,5 +269,4 @@ PROF <<- data.table()
 source("versant.R", encoding = "UTF-8")
 # point d'indice majoré
 source("point.im.R", encoding = "UTF-8")
-source("plafonds.R", encoding = "UTF-8")
 

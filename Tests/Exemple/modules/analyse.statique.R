@@ -492,7 +492,12 @@ essayer({
 rm(Analyse.remunerations.exercice)
 
 
-################  Tableaux du guide d'enquête ################################
+
+#'  
+#'[Lien vers la base des rémunérations](Bases/Remunerations/Analyse.remunerations.csv)  
+#'   
+
+newpage()
 
 
 
