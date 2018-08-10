@@ -4,8 +4,9 @@
 \alias{Read.csv}
 \title{Lecture d'une série de bases CSV}
 \usage{
-Read.csv(base.string, fichiers, charger = TRUE, colClasses = NA, skip = 0,
-  drop = NULL, séparateur.liste = séparateur.liste.entrée,
+Read.csv(base.string, fichiers, charger = TRUE, colClasses = NA,
+  skip = 0, drop = NULL,
+  séparateur.liste = séparateur.liste.entrée,
   séparateur.décimal = séparateur.décimal.entrée, rapide = FALSE,
   convertir.encodage = TRUE, encodage = encodage.entrée)
 }

@@ -4,39 +4,38 @@
 \alias{effectifs}
 \title{Tableau des effectifs.}
 \usage{
-effectifs(période, Bulletins = Bulletins.paie,
-  personnels = Analyse.rémunérations, Analyse.v = Analyse.variations)
+effectifs(pÃ©riode, Bulletins = Bulletins.paie,
+  personnels = Analyse.remunerations, Analyse.v = Analyse.variations)
 }
 \arguments{
-\item{période}{Vecteur des années de la période sous revue}
+\item{pÃ©riode}{Vecteur des annÃ©es de la pÃ©riode sous revue}
 
-\item{Bulletins}{Base des bulletins de paye, comportant pour l'ensemble de la période
+\item{Bulletins}{Base des bulletins de paye, comportant pour l'ensemble de la pÃ©riode
 \enumerate{
-  \item{ les variables charactère suivantes :
+  \item{ les variables charactÃ¨re suivantes :
      \itemize{
          \item \code{Matricule}
          \item \code{Statut}
          \item \code{Grade}}}
-   \item{ les variables numériques :
+   \item{ les variables numÃ©riques :
        \describe{
-         \item{\code{quotité}}{réel entre 0 et 1}
+         \item{\code{quotitÃ©}}{rÃ©el entre 0 et 1}
          \item{\code{nb.mois}}{entier entre 0 et 12}}}
-   \item{ la variable booléenne :
-       \describe{\item{\code{permanent}}{12 bulletins sur l'année}}}}.}
+   \item{ la variable boolÃ©enne :
+       \describe{\item{\code{permanent}}{12 bulletins sur l'annÃ©e}}}}.}
 
-\item{Analyse}{Base des analyses de rémunérations, comptant les variables :
-\code{Filtre_actif, Filtre_annexe, Statut, Matricule, Année}}
+\item{Analyse}{Base des analyses de rÃ©munÃ©rations, comptant les variables :
+\code{Filtre_actif, Filtre_annexe, Statut, Matricule, AnnÃ©e}}
 
-\item{Analyse}{Base des analyses de variations de rémunérations, comptant les variables :
-\code{temps.complet, est.rmpp, statut, Matricule, Année, permanent}}
+\item{Analyse}{Base des analyses de variations de rÃ©munÃ©rations, comptant les variables :
+\code{temps.complet, est.rmpp, statut, Matricule, AnnÃ©e, permanent}}
 }
 \value{
-Un tableau des effectifs mis en forme de 22 lignes et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
+Un tableau des effectifs mis en forme de 22 lignes et autant de colonnes numÃ©riques que d'annÃ©es de pÃ©riode, plus une colonne de libellÃ©s.
 }
 \description{
-Elabore un tableau des effectifs et équivalents temps plein travaillés par type de personnel et par année.
+Elabore un tableau des effectifs et Ã©quivalents temps plein travaillÃ©s par type de personnel et par annÃ©e.
 }
 \examples{
 effectifs(2010:2015)
 }
-
