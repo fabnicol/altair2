@@ -1,0 +1,218 @@
+
+newpage()
+
+#'# Annexe       
+
+#'   
+#'## Contrôle des événements de paye   
+#'      
+
+E <- Bulletins.paie[ , unique(Evenement)]
+Evenements <- unique(trimws(regmatches(E, regexpr("[^-]*", E, perl=TRUE))))
+Evenements2 <- unique(trimws(gsub("-", "", 
+                                  regmatches(E, regexpr("- .*", E, perl=TRUE)))))
+
+Evenements <- sort(c(Evenements, Evenements2))
+rm(E, Evenements2)
+if (Evenements[1] == "") Evenements <- Evenements[-1] 
+Evenements <- data.table(Evénements = Evenements)
+
+if (afficher.table.événements) {
+  kable(Evenements)
+}
+
+Evenements.ind <- setkey(Bulletins.paie[Evenement != "" & Evenement != "NA NA", 
+                                        .(Evenement,
+                                          Matricule,
+                                          Nom,
+                                          Prénom,
+                                          Année,
+                                          Mois,
+                                          Grade,
+                                          Statut,
+                                          Emploi,
+                                          Service)],
+                         Evenement,
+                         Matricule,
+                         Année,
+                         Mois)
+
+Evenements.mat <- setcolorder(setkey(copy(Evenements.ind), 
+                                     Matricule,
+                                     Année,
+                                     Mois,
+                                     Evenement),
+                              c("Matricule",
+                                "Nom",
+                                "Prénom",
+                                "Année",
+                                "Mois",
+                                "Evenement",
+                                "Grade",
+                                "Statut",
+                                "Emploi",
+                                "Service"))
+
+#'  
+#'[Lien vers la nomenclature des événements de paye](Bases/Fiabilite/Evenements.csv)     
+#'[Tri par type d'évement, agent, année, mois](Bases/Fiabilite/Evenements.ind.csv)     
+#'[Tri par agent, année, mois, évenement](Bases/Fiabilite/Evenements.mat.csv)     
+#'  
+
+#'  
+#'## Codes et libellés de paye     
+#'[![Notice](Notice.png)](Docs/Notices/fiche_individualisation.odt)     
+#'         
+#'   
+
+code.libelle <- remplacer_type(code.libelle)
+
+setcolorder(code.libelle, c("Code", "Libellé", "Statut", "Type", "Compte"))
+
+if (afficher.table.codes) {
+  kable(code.libelle, align="c")
+}
+
+#'Certains libellés ou codes de paye peuvent être équivoques et entraîner des erreurs de requête.       
+#'Les liens ci-après donnent les codes correspondant à au moins deux libellés distincts, les libellés correspondant à au moins deux codes et les codes ou libellés correspondant à au moins deux types de ligne de paye distincts.           
+#'L'association d'un même code à plusieurs libellés de paye peut induire des erreurs d'analyse comptable et financière lorsque les libellés correspondent à des types de ligne de paye distincts.    
+#'
+
+# Plusieurs libellés par code
+plusieurs_libelles_par_code <- unique(code.libelle[ , .(Code, Libellé, Type)], by = NULL)[, Multiplicité := .N, keyby = Code][Multiplicité > 1]
+
+# Plusieurs codes par libellé
+plusieurs_codes_par_libelle <- unique(code.libelle[ , .(Libellé,  Code, Type)], by = NULL)[, Multiplicité := .N, keyby = Libellé][Multiplicité > 1]
+
+# Plusieurs types de ligne par code
+plusieurs_types_par_code <- unique(code.libelle[, .(Code, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), keyby = Code][Multiplicité > 1]
+
+# Plusieurs types de ligne par libellé
+plusieurs_types_par_libelle <- unique(code.libelle[, .(Libellé, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), keyby = Libellé][Multiplicité > 1]
+
+#'   
+#'[Lien vers la table Codes/Libellés](Bases/Fiabilite/code.libelle.csv)       
+#'[Plusieurs libellés par code](Bases/Fiabilite/plusieurs_libelles_par_code.csv)   
+#'[Plusieurs codes par libellé](Bases/Fiabilite/plusieurs_codes_par_libelle.csv)   
+#'[Plusieurs types de ligne par code](Bases/Fiabilite/plusieurs_types_par_code.csv)   
+#'[Plusieurs types de ligne par libellé](Bases/Fiabilite/plusieurs_types_par_libelle.csv)           
+#'   
+
+#'  
+#'## Doublons                
+#'
+
+if (éliminer.duplications) {
+  if (après.redressement != avant.redressement) {
+    
+    cat("Retraitement de la base de lignes de paie : ")
+    
+  } else {
+    cat("Aucune duplication de ligne de paie n'a été détectée. ")
+  }
+  
+} else {
+  
+  if (anyDuplicated(Paie) || anyDuplicated(Bulletins.paie)) {
+    cat("Attention : Altaïr a détecté des lignes dupliquées alors qu'aucun retraitement des lignes dupliquées n'est prévu par défaut.")
+  } else {
+    cat("Aucune duplication de ligne n'a été détectée. ")
+  }
+}
+
+#'  
+if (après.redressement != avant.redressement)
+  cat("Elimination de ", FR(avant.redressement - après.redressement), " lignes dupliquées")
+#'  
+#'## Fiabilite des heures et des quotités de travail           
+#'   
+
+nrow.bull <- nrow(Bulletins.paie)
+nrow.bull.heures <- nrow(Bulletins.paie[Heures != 0])
+nrow.bull.quotités <- nrow(Bulletins.paie[Temps.de.travail != 0])
+
+if (nrow.bull.heures/nrow.bull  < 0.1) 
+  message("Attention moins de 10 % des heures sont renseignées")
+
+if (nrow.bull.quotités/nrow.bull < 0.1)
+  message("Attention moins de 10 % des quotités sont renseignées")
+#'     
+cat("Nombre de bulletins : ", FR(nrow.bull))
+#'     
+if (redresser.heures) {
+  if (nredressements > 0) {
+    cat("Les heures de travail ont été redressées avec la méthode ", ifelse(test.temps.complet, "des quotités.\n", "de l'interpolation indiciaire\n")) 
+  }
+} else {
+  cat("Les heures de travail n'ont pas été redressées.")
+}
+#'    
+cat(" Nombre de bulletins de paie redressés :", FR(nredressements)) 
+#'    
+cat(" Pourcentage de redressements :", round((nredressements)/nrow.bull*100, 2), "% des bulletins de paie.")
+#'  
+cat("\nPourcentage d'heures renseignées (après redressement éventuel):", round(nrow.bull.heures/nrow.bull*100, 1), "%")
+#'   
+cat("\nPourcentage de quotités renseignées :", round(nrow.bull.quotités/nrow.bull*100, 1), "%")
+#'   
+cat("\nNombre de bulletins à heures et quotités : ", n <- nrow(Bulletins.paie[Heures != 0 & Temps.de.travail != 0]), "[", round(n/nrow.bull*100, 1), "%]")
+#'   
+cat("\nNombre de bulletins à heures sans quotités : ", n <- nrow(Bulletins.paie[Heures != 0 & Temps.de.travail == 0]), "[", round(n/nrow.bull*100, 1), "%]")
+#'   
+cat("\nNombre de bulletins à quotités sans heures : ", n <- nrow(Bulletins.paie[Heures == 0 & Temps.de.travail != 0]), "[", round(n/nrow.bull*100, 1), "%]")
+#'   
+cat("\nNombre de bulletins apparemment inactifs : ", n <- nrow(Bulletins.paie[(Heures == 0 | is.na(Heures)) & (Temps.de.travail == 0 | is.na(Temps.de.travail))]), "[", round(n/nrow.bull*100, 1), "%]")  
+#'   
+base.heures.nulles.salaire.nonnull     <- Bulletins.paie[Heures == 0  & (Net.à.Payer != 0 | Brut != 0)]
+base.quotite.indefinie.salaire.non.nul <- Bulletins.paie[MHeures == 0 & (Net.à.Payer != 0 | Brut != 0)]
+
+nligne.base.heures.nulles.salaire.nonnull     <- nrow(base.heures.nulles.salaire.nonnull)
+nligne.base.quotite.indefinie.salaire.non.nul <- nrow(base.quotite.indefinie.salaire.non.nul)
+#'  
+if (nligne.base.heures.nulles.salaire.nonnull)
+  cat("Nombre de bulletins de paie de salaires versés pour un champ Heures = 0 : ", FR(n <<- nligne.base.heures.nulles.salaire.nonnull), "[", round(n/nrow.bull * 100, 1), "%]")
+#'   
+if (nligne.base.quotite.indefinie.salaire.non.nul)
+  cat("\nNombre de bulletins de paie de salaires versés pour une quotité de travail indéfinie : ", FR(nligne.base.heures.nulles.salaire.nonnull))
+#'   
+#'[Lien vers la base de données des salaires versés pour Heures=0](Bases/Fiabilite/base.heures.nulles.salaire.nonnull.csv)   
+#'[Lien vers la base de données des salaires versés à quotité indéfinie](Bases/Fiabilite/base.quotite.indefinie.salaire.non.nul.csv)   
+#'
+#'## Tableau des personnels  
+#'    
+#'   
+#'*Pour vérifier que le logiciel déduit correctement les catégories statutaires des libellés de grade, il est préférable de faire remplir, par les organismes contrôlés le tableau CSV accessible dans le bloc* **Grade et catégorie statutaire** *de l'onglet Extra de l'application graphique, ou bien à ce lien. Voir aussi la notice* &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_categories.odt)      
+#'   
+
+if (afficher.table.effectifs) {
+  kable(grades.categories, row.names = FALSE) 
+} 
+
+#'
+#'[Lien vers la base des grades et catégories](Bases/Effectifs/grades.categories.csv)        
+#'   
+
+#'
+#'[Lien vers la base des personnels](Bases/Effectifs/matricules.csv)        
+#'   
+
+
+#'
+#'## Divergences lignes-bulletins de paie     
+#'   
+#'*Pour exclure certains codes de paie de l'analyse, renseigner le fichier liste.exclusions.txt*  
+#'   
+
+if (test.delta) {
+  if (!is.null(liste.exclusions))
+    message("Une liste de codes exclus pour la vérification de la concordance lignes-bulletins de paie a été jointe sous ", getwd())
+  cat("   ")
+  source("delta.R", encoding=encodage.code.source)
+} else {
+  cat("Base de vérification des écarts lignes de paie-bulletins de paie non générée.")
+}
+
+
+#'   
+#'[Divergences lignes-bulletins de paie](Bases/Fiabilite/Delta.csv)     
+#'   

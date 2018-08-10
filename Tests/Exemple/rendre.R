@@ -3,9 +3,9 @@
 # Fabrice Nicol, années 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
-# Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
-# produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-# en vigueur à compter de l'année 2008.
+# Ce logiciel est un programme informatique servant à extraire et analyser
+# les fichiers de paye produits au format spécifié par l'annexe de la  
+# convention-cadre de dématérialisation en vigueur à partir de 2008.
 # 
 # Ce logiciel est régi par la licence CeCILL soumise au droit français et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -36,6 +36,15 @@
 # 
 # 
 
+find.pandoc <- function() {
+  
+  for (folder in c("/usr/bin", "/usr/bin/pandoc", "/usr/local/bin", "/usr/local/bin/pandoc")) {
+    p <- file.path(folder, "pandoc")
+    if (file_test("-f", p)) return(p) 
+  }
+  
+  return("")
+}
 
 rendre <- function(fw = fig.width,
                    fh = fig.height,
@@ -80,7 +89,14 @@ rendre <- function(fw = fig.width,
           if (to == "docx") {
             file.remove("temp.R") 
           } else {
-            if (to == "latex") system2("pandoc", c(output_file, "-o", "altaïr.pdf", args))
+            if ((p <- find.pandoc()) != "") {
+               if (to == "latex") {
+                  cat(p, output_file, "-o", "altaïr.pdf", args)
+                  system2(p, c(output_file, "-o", "altaïr.pdf", args))
+               }
+            } else {
+              cat("Impossible de trouver pandoc et de générer le pdf.")
+            }
             if (! keep) file.remove(output_file)
           }
           

@@ -753,14 +753,14 @@ incrémenter.chapitre <- function() {
   invisible(chapitre)
 }
 
-#' Ajoute le séparateur des milliers et une virgule des décimales en français
+#' Ajoute le séparateur des milliers et sans décimale en français
 #'
 #' @param  x Vecteur de valeurs numériques
 #' @return Vecteur de chaînes de caractères modifiées
 #' @examples FR(1235345.23) #1 235 345,2
 #' @export
 
-FR <- function(x) formatC(x, big.mark = " ", format = "f", decimal.mark = ",", digits = 1)
+FR <- function(x) formatC(x, big.mark = " ", format = "f", decimal.mark = ",", digits = 0)
 
 #' Essaye d'exécuter une portion de code et en cas d'erreur continue l'exécution du script en renvoyant un message d'erreur non bloquant.
 #'
@@ -951,21 +951,39 @@ extraire_paye <- function(an, L, out) {
 #' @return Valeur de la dernière variable globale \code{variable} instanciée. Effets de bord en sortie.
 #' @export
 
-insérer_script <- function(chemin, index, variable = "année", gen = générer.rapport) {
+insérer_script <- function(chemin, index = c(0), variable = "année", gen = générer.rapport, incrémenter = FALSE, fonction = NULL) {
 
+if (get(gsub(".R", "", basename(chemin), fixed = TRUE)) == FALSE) invisible(return(NULL))
+  
 invisible(lapply(index, function(x) {
+
   assign(variable, x, .GlobalEnv)
-  incrémenter.chapitre()
-  if (! gen) {
-
-    source(chemin, encoding = encodage.code.source)
-
+  
+  if (incrémenter) incrémenter.chapitre()
+  
+  if (is.null(fonction)) {
+        
+    if (gen) {
+            cat(knit_child(text = readLines(spin(chemin, knit = FALSE),
+                                            encoding = encodage.code.source),
+                           quiet = TRUE),
+                sep = '\n')
+        } else {
+            
+            source(chemin, encoding = encodage.code.source)    
+             
+        }
+    
   } else {
-
-    cat(knit_child(text = readLines(spin(chemin, knit = FALSE), encoding = encodage.code.source), quiet = TRUE), sep = '\n')
+      
+      if (fonction[1] == "calcul") source(chemin, encoding = encodage.code.source)
+      for (f in fonction) {
+        do.call(get(f), list())
+    }
   }
 }))
 
-get(variable)
 }
+
+
 
