@@ -453,17 +453,20 @@ if (! is.null(Paie_B) && ! résultat.manquant) {
     
     if (! indic_B %chin% NAMES && "indic" %chin% NAMES) setnames(Paie_B, "indic", indic_B)
     
-    période.fusion <- merge(Paie_A[indic == TRUE],
-                            Paie_B[get(indic_B) == TRUE],
-                            by = c("Nom", "Prénom", "Matricule",
-                                   "Année", "Mois", "Emploi", "Grade",
-                                   "Indice", "Statut",
-                                   "Catégorie"))[ , .(Matricule, Année, Mois)]
+    vect <- c("Nom", "Prénom", "Matricule",
+              "Année", "Mois", "Emploi", "Grade",
+              "Indice", "Statut",
+              "Catégorie")
+    
+    période.fusion <- Paie_A[indic == TRUE][unique(Paie_B[get(indic_B) == TRUE], by = vect),
+                                             nomatch = 0,
+                                             on = vect][ , .(Matricule, Année, Mois)]
   
     période.fusion <- unique(période.fusion)
     
-    A_ <- merge(Paie_A, période.fusion)
-    B_ <- merge(Paie_B, période.fusion)
+    A_ <- Paie_A[période.fusion, nomatch = 0, on = .(Matricule, Année, Mois)]
+    B_ <- Paie_B[période.fusion, nomatch = 0, on = .(Matricule, Année, Mois)]
+    
     B_$indic <- A_$indic
     
     personnels.A.B <- B_[indic == TRUE | get(indic_B) == TRUE
@@ -583,8 +586,20 @@ if ((! is.null(prime$NAS) && prime$NAS == "non") || (! is.null(prime_B$NAS) && p
         }
     }
       
-    cumul.prime.NAS <- merge(unique(base.logements[Logement == "NAS", .(Matricule, Année, Mois)]),
-                             Lignes_C[ ,  .(Matricule, Nom, Prénom, Statut, Grade, Emploi, Année, Mois, Code, Libellé, Montant)])
+    cumul.prime.NAS <- unique(base.logements[Logement == "NAS", .(Matricule, Année, Mois)])[Lignes_C[ ,
+                                                                                                      .(Matricule,
+                                                                                                        Nom,
+                                                                                                        Prénom,
+                                                                                                        Statut,
+                                                                                                        Grade,
+                                                                                                        Emploi,
+                                                                                                        Année,
+                                                                                                        Mois,
+                                                                                                        Code,
+                                                                                                        Libellé,
+                                                                                                        Montant)],
+                                                                                                         nomatch = 0,
+                                                                                                         on = .(Matricule, Année, Mois)]
     
     }, "Le test des cumuls de " %+% prime$nom %+% " ou " %+% prime_B$nom %+% " et du logement par NAS n'a pas pu être réalisé.")
   }

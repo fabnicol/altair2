@@ -4,8 +4,9 @@
 \alias{read.csv.skip}
 \title{Lecture d'une base CSV}
 \usage{
-read.csv.skip(x, encodage = encodage.entrée, classes = NA, drop = NULL,
-  skip = 0, rapide = FALSE, séparateur.liste = séparateur.liste.entrée,
+read.csv.skip(x, encodage = encodage.entrée, classes = NA,
+  drop = NULL, skip = 0, rapide = FALSE,
+  séparateur.liste = séparateur.liste.entrée,
   séparateur.décimal = séparateur.décimal.entrée,
   convertir.encodage = TRUE)
 }
