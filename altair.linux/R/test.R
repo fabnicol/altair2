@@ -684,11 +684,9 @@ test_avn <- function(avantage, Paie, logements = NULL) {
 #' @export
 
 test_plafonds <- function(plafonds, Lignes, logements = NULL) {
-  essayer(test_plafonds(plafonds, Lignes, logements), "Les plafonds n'ont pas pu être testés.")
-} 
-
-test_plafonds_ <- function(plafonds, Lignes, logements = NULL) {
   
+  essayer({ 
+
   if (is.null(plafonds)) {
     cat("Le fichier des plafonds de l'IFSE n'est pas importé. Le test du respect des plafonds ne peut donc pas être effectué. Le lien ci-après est inactif.")
     newline()
@@ -760,5 +758,7 @@ test_plafonds_ <- function(plafonds, Lignes, logements = NULL) {
   "Pas de sauvegarde des fichiers dépassements IFSE. ")
   
   couts.dépassements
+  
+ }, "Les plafonds n'ont pas pu être testés.")  
   
 }

@@ -84,7 +84,7 @@ sécuriser.types.sortie         <- TRUE
 utiliser.variable.Heures.Sup.  <- FALSE  # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unité
 noria.sur.base.de.paie         <- FALSE  # calculer effet de noria sur base de paie uniquement (pas de fichier E/S)
 sauter.tests.statutaires       <- FALSE
-profiler                       <- TRUE
+profiler                       <- FALSE
 
 numéro.tableau                 <- 0  # Numérotation de départ des tableaux
 chapitre                       <- 0  # Numérotation de départ des chapitres
@@ -149,22 +149,10 @@ if (setOSWindows) {
 }
 
 
-# ETIQUETTES ET FORMATS
+# FORMATS
 
-étiquette.matricule         <- "Matricule"
-étiquette.Type.rémunération <- "Type rémunération"
-étiquette.année             <- "Année"
-étiquette.libellé           <- "Libellé"
-étiquette.montant           <- "Montant"
-étiquette.code              <- "Code"
-étiquette.rém.indemn        <- "Rémunération contractuelle ou indemnitaire"
-champ.détection.1           <- étiquette.matricule
-champ.détection.2           <- "Code"
-
-clé.fusion <- étiquette.matricule
-
-colonnes.requises           <- c(union(clé.fusion, étiquette.matricule),
-                                 étiquette.année,
+colonnes.requises           <- c("Matricule",
+                                 "Année",
                                  "Mois",
                                  "Statut",
                                  "Brut",

@@ -46,7 +46,7 @@ res  <- try(Read.csv("base",
                       colClasses = c("integer", "integer"),
                       séparateur.liste = ";",
                       séparateur.décimal = ",",
-                      convertir.encodage = FALSE, 
+                      convertir.encodage = FALSE,
                       encodage = "UTF-8",
                       rapide = TRUE),
           silent = FALSE)

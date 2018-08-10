@@ -716,7 +716,7 @@ FR <- function(x) formatC(x, big.mark = " ", format = "fg")
 #' essayer({ a <- 1/e}, "division par inconnu")  # affichage du message d'erreur
 #' @export
 
-essayer <- function(X, Y) {
+essayer <- function(X, Y, label="") {
     
   res <- try(X, silent = FALSE)    
   

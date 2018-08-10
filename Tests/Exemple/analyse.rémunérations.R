@@ -264,7 +264,7 @@ Analyse.variations <- Analyse.variations.par.exercice[ ,
                                                          moyenne.rémunération.annuelle.sur.période =
                                                            sum(Montant.net.annuel.eqtp, na.rm = TRUE) / length(Année[!is.na(Montant.net.annuel.eqtp) 
                                                                                                                      & Montant.net.annuel.eqtp > minimum.positif])),
-                                                       by = clé.fusion]
+                                                       by = Matricule]
 
 ## Important pour la validité de est.rmpp si les années ne sortent pas bien triées de lhx ! ##
 

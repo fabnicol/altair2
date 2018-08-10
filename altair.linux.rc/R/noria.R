@@ -644,7 +644,7 @@ delta.coef.form <- form(delta.coef, total = FALSE, digits = 2)
 if (afficher.tableau) {                        
   
 print(
-  Tableau.vertical2(colnames = c(étiquette.année, 
+  Tableau.vertical2(colnames = c("Année", 
                                 "ETPT",  
                                 "ETPT entrants",
                                 "ETPT sortants",
@@ -662,7 +662,7 @@ print(
                     taux.rotation.form))
 
 print(  
-      Tableau.vertical2(colnames = c(étiquette.année, 
+      Tableau.vertical2(colnames = c("Année", 
                                     "Effet noria",
                                     "% SMPT",
                                     "Effet var. effectifs",
@@ -685,7 +685,7 @@ print(
 chop  <- function(v) v[-length(v)]
 
 print(  
-  Tableau.vertical2(colnames = c(étiquette.année, 
+  Tableau.vertical2(colnames = c("Année", 
                                   "RMPP",
                                   "Entrées n - 1",
                                   "Noria",
@@ -708,7 +708,7 @@ rownames <- as.character(période %+% "-" %+% shift(période, 1, type = "lead"))
 rownames[length(rownames)] <- as.character(début.période.sous.revue) %+% "-" %+% as.character(fin.période.sous.revue)
 
 print(
-  Tableau.vertical2(colnames = c(étiquette.année,
+  Tableau.vertical2(colnames = c("Année",
                                   "Var. RMPP",
                                   "Var. effets E/S",
                                   "Cumul",
