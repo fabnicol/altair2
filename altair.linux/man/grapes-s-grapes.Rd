@@ -18,5 +18,5 @@ Concaténation du mot et de "s" si N > 1
 Prise en compte du pluriel
 }
 \examples{
-cat("patient" \%s\% 2)  
+cat("patient" \%s\% 2)
 }

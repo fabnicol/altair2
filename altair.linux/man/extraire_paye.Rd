@@ -19,5 +19,5 @@ Extraire les matricules et Nir des mois de décembre, sauf pour les élus
 Pour les statuts listés dans L si L non null
 }
 \examples{
-extraire_paye(2012, c("TITULAIRE", "STAGIAIRE"), "Bulletins.début.psr") 
+extraire_paye(2012, c("TITULAIRE", "STAGIAIRE"), "Bulletins.début.psr")
 }

@@ -247,7 +247,7 @@ analyser <- function(prime, Paie_I, verbeux) {
   
   # Questions de compatibilité statutaire
   
-  essayer(label = "Analyse fonct.", {
+  essayer( {
     
     if (prime$restreint_fonctionnaire) {
       

@@ -37,7 +37,13 @@
 
 #library(zeallot)
 
-`%a%` <- function(x, y) assign(x, y, inherits = TRUE)
+#' Assignation dans l'environnement d'appel
+#' @param x Chaîne de caractères entre guillemets du nom de la variable assignée (gauche), comme pour \code{assign}
+#' @param y Valeur. Variable assignante (droite)
+#' @examples "x" %a% median(1:100); cat(x)
+#' @export
+#' 
+`%a%` <- function(x, y) assign(x, y, inherits = TRUE, envir = .GlobalEnv)
 
 importer.bases.via.xhl2csv <- function(base, fichiers, colClasses = colonnes.classes.input) {
   
@@ -188,8 +194,311 @@ rémunérations_eqtp <- function(DT) {
   message("Rémunérations EQTP calculées")
   
   # DT est modifié par référence
-  
+
   return(DT)
+}
+
+#' Importer la base externe des correspondance ente matricules, catégories et grades
+#' @export
+
+importer_matricules <- function() {
+  
+  if (fichier.personnels.existe) {
+    
+    base.personnels.catégorie <- data.table::fread(chemin("matricules.csv"),
+                                                   sep = séparateur.liste.entrée,
+                                                   header = TRUE,
+                                                   colClasses = c("numeric", "character", "character",
+                                                                  "character", "character", "character", "character"),
+                                                   encoding = ifelse(setOSWindows, "Latin-1", "UTF-8"),
+                                                   showProgress = FALSE) 
+    
+    message("Chargement du fichier des catégories statutaires des personnels.")
+    if (!is.null(base.personnels.catégorie))
+      message("Importé.")
+    else {
+      message("Impossible d'importer les catégories.")
+      stop(" ")
+    }
+  } else {
+    base.personnels.catégorie <- NULL
+  }
+  
+  base.personnels.catégorie
+}
+
+#' Importer la base externe des correspondances grades-catégories
+#' @export
+
+importer_grades_catégories <- function() {
+  if (grades.categories.existe) {
+    base.grades.categories <- data.table::fread(chemin("grades.categories.csv"),
+                                                sep = séparateur.liste.entrée,
+                                                header = TRUE,
+                                                colClasses = c("character", "character"),
+                                                encoding = "Latin-1",
+                                                showProgress = FALSE) 
+    
+    message("Chargement du fichier des grades et catégories statutaires des personnels.")
+    if (!is.null(base.grades.categories))
+      message("Importé.")
+    else {
+      message("Impossible d'importer les grades et catégories.")
+      stop(" ")
+    }
+  } else {
+    base.grades.categories <- NULL
+  }
+    
+  base.grades.categories
+}
+
+#' Importer la base des logements de fonction
+#' @export
+#' 
+importer_base_logements <- function() {
+  if (logements.existe) {
+    base.logements <- data.table::fread(chemin("logements.csv"),
+                                    sep = séparateur.liste.entrée,
+                                    header = TRUE,
+                                    colClasses = c("character", "integer", "integer", "character"),
+                                    encoding = "Latin-1",
+                                    showProgress = FALSE) 
+    
+    message("Chargement du fichier des concessions de logement des personnels.")
+    
+    if (!is.null(base.logements))
+    message("Importé.")
+    else {
+    message("Impossible d'importer les concessions de logement.")
+    stop(" ")
+    }
+  } else {
+    base.logements <- NULL
+  }
+  
+  return(base.logements)
+}
+
+#' Importer le base externe des logements de fonction
+#' @export
+#' 
+
+importer_base_ifse <- function() {
+  
+  if (plafonds.ifse.existe) {
+    
+    base.ifse <- data.table::fread(chemin("plafonds_ifse.csv"),
+                                   sep = séparateur.liste.entrée,
+                                   header = TRUE,
+                                   colClasses = c("character", "character", "character", "numeric"),  # Grade, Groupe, Logement, Plafond
+                                   encoding = "Latin-1",
+                                   showProgress = FALSE) 
+    
+    message("Chargement du fichier des plafonds d'IFSE.")
+    
+    if (!is.null(base.ifse)) {
+      
+      message("Importé.")
+      
+    } else {
+      
+      message("Impossible d'importer les plafonds d'IFSE.")
+      stop(" ")
+    }
+    
+  } else {
+    
+    base.ifse <- NULL
+  }
+  
+  return(base.ifse)
+}
+
+Extraire.années <- function() {
+  
+  if (extraire.années) {
+    
+    "Paie" %a% Paie[Année >= début.période.sous.revue & Année <= fin.période.sous.revue]
+    "Bulletins.paie" %a% Bulletins.paie[Année >= début.période.sous.revue & Année <= fin.période.sous.revue]
+    
+  } else {
+    
+    "début.période.sous.revue" %a% min(Bulletins.paie[ , Année])
+    "fin.période.sous.revue" %a% max(Bulletins.paie[ , Année])
+  }
+}
+
+#' Eliminer les doublons
+#' @export
+#' 
+Eliminer.duplications <- function() {
+  
+  "avant.redressement" %a% nrow(Paie)
+  
+  duplications.vecteur <- duplicated(Paie, by=NULL)
+  duplications.paie <- Paie[duplications.vecteur & Montant != 0]
+  
+  Paie <- Paie[! duplications.vecteur]
+  
+  if (sauvegarder.bases.origine)
+    sauv.bases(chemin.dossier.bases, 
+               env = environment(),
+               "duplications.paie")
+  
+  "après.redressement" %a% nrow(Paie)
+  
+  avant.redressement.bull <- nrow(Bulletins.paie)
+  duplications.vecteur    <- duplicated(Bulletins.paie, by=NULL)
+  duplications.paie.bull  <- Bulletins.paie[duplications.vecteur & Montant != 0]
+  
+  Bulletins.paie <- Bulletins.paie[! duplications.vecteur] 
+  
+  if (sauvegarder.bases.origine) {
+    sauv.bases(chemin.dossier.bases, 
+               env = environment(),
+               "duplications.paie")
+    
+    sauv.bases(chemin.dossier.bases,
+               env = environment(),
+               "duplications.paie.bull")
+  }
+  
+  après.redressement.bull <- nrow(Bulletins.paie)
+}
+
+#' Ajuster la médiane des templs complets en heures
+#' @export
+
+ajuster.médiane.temps.complet <- function() {
+    
+    if (nrow(Paie) < 1e6) {
+      
+      #microbenchmark::  microbenchmark(A <- 
+      Paie[(Heures == 0 | is.na(Heures))
+           & Indice != 0 & !is.na(Indice)
+           & Statut != "ELU" & Grade != "V" & Grade!= "A"
+           & Temps.de.travail != 0 
+           & !is.na(Temps.de.travail), 
+           indic := TRUE]
+      
+      # "plonking"
+      
+      Paie[indic == TRUE , 
+           Heures := round(Temps.de.travail * nb.heures.temps.complet / 100, 1)]
+      
+      #, times=1)
+      
+    } else {
+      
+      # ----- Pour les très gros fichiers (> 1 ML) , plus rapide que la solution de référence supra. On gagne 1 s par ML à partir de 15 ML
+      #       0.5 s par ML à partir de 3 ML. Dépend beaucoup du CPU et de la mémoire. Résultats sur corei7, DDR4 1333, non vérifiés sur corei3.
+      #       Gain de 14 s à 15 s pour un gros fichier de 15 ML.  
+      
+      message("correction du temps de travail par recherche binaire")
+      
+      setkey(Paie, Heures) 
+      
+      Paie[.(c(0, NA_real_)), 
+           indic := ifelse(Statut != "ELU" 
+                           & Grade  != "V" 
+                           & Grade  != "A"  
+                           & Indice != 0  
+                           & is.na(Indice) 
+                           & Temps.de.travail != 0 
+                           & !is.na(Temps.de.travail),
+                           TRUE,
+                           NA),
+           nomatch=0]
+      
+      Paie[.(c(0, NA_real_)),
+           Heures := indic * round(Temps.de.travail * nb.heures.temps.complet / 100, 1)]
+    
+    }
+}
+
+#' Redresser les heures de travail (variable \code{Heures}) en tenant compte des traitements.
+#' @export
+
+Redresser.heures <- function() {
+    
+    if (redresser.heures) {
+      
+      # On ne peut pas inférer sur quotite Trav (Temps.de.travail) de manière générale
+      # Mais on peut exclure les cas dans lesquels Temps de travail est non fiable puis déduire en inférence sur ce qui reste
+      # critère d'exclusion envisageable pour les stats de rémunérations à quotités :
+      # Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC") & Heures == 0 | Statut %chin% c("ELU", "v", "A")]
+      # sur le reste on peut inférer Heures 
+      
+      setnames(Paie, "Heures", "Heures.orig")
+      setnames(Bulletins.paie, "Heures", "Heures.orig")
+      Paie[ , Heures := Heures.orig]
+      Bulletins.paie[ , Heures := Heures.orig]
+      
+      if (test.temps.complet) {
+        
+        ajuster.médiane.temps.complet()
+      }
+      
+      # -----
+      
+      Bulletins.paie[(Heures == 0 | is.na(Heures))
+                     & Indice != "" & !is.na(Indice) 
+                     & Statut != "ELU" & Grade != "V" & Grade!= "A"
+                     & Temps.de.travail != 0 & !is.na(Temps.de.travail), 
+                     indic := TRUE]
+      
+      # plonking
+      
+      Bulletins.paie[indic == TRUE , 
+                     Heures := round(Temps.de.travail * nb.heures.temps.complet / 100, 1)]
+      
+      "nredressements" %a% nrow(Bulletins.paie[indic == TRUE])
+      
+      message("Correction (méthode 1), compte tenu des temps complets vérifiés, sur ",
+              nredressements, " bulletins de paie")
+    
+  } else {
+    
+    # on présume alors que les traitements sont correctement liquidés... il faudrait mettre un drapeau sur cette présomption  
+    
+      Paie[ , indic := (Heures == 0 | is.na(Heures))
+                        & Indice != ""
+                        & !is.na(Indice) 
+                        & Statut != "ELU" & Grade != "V" & Grade!= "A"
+                        & Temps.de.travail != 0 & !is.na(Temps.de.travail)
+                        & Type == "T" & Montant > 0
+                        & grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE)]
+      
+      # attention ifelse pas if...else
+      # La recherche binaire est 20 fois plus rapide que la recherche vscan (gain de 4s par million de lignes sur corei3)
+      
+      setkey(Paie, Année, Mois, indic)  
+      
+      for (A in période) {
+        for (M in 1:12) {
+          a <- PointMensuelIM[A - 2007, M]  
+          Paie[list(A, M, TRUE), 
+               Heures := ifelse(Indice == 0, NA, Montant / (Indice * a * 151.67))]
+        }
+      }
+      
+      "Bulletins.paie" %a% merge(Paie[ , .(Matricule, 
+                                        Année,
+                                        Mois,
+                                        Service,
+                                        Statut,
+                                        Emploi,
+                                        Heures,
+                                        indic)],
+                                unique(Bulletins.paie[, Heures := NULL]), 
+                                    by = c("Matricule","Année","Mois","Service", "Statut", "Emploi"))
+      
+      "nredressements" %a% nrow(Bulletins.paie[indic == TRUE])
+      
+      message("Correction (méthode 2), compte tenu des temps complets vérifiés, sur ", 
+              nredressements, " lignes de paie")
+  }
 }
 
 #' Importer les données
@@ -197,11 +506,11 @@ rémunérations_eqtp <- function(DT) {
 
 importer <- function() {
   
-  essayer(importer_(), "L'importation des données n'a pas pu être réalisée", abort = TRUE)
-
+  essayer(label = "+importer", importer_(), "L'importation des données n'a pas pu être réalisée", abort = TRUE)
+  
 }
 
-importer_ <- function(){
+importer_ <- function() {
   
   # Il importe que de ne pas confondre le séparateur décimal et le séparateur de champ CSV
   
@@ -232,84 +541,10 @@ importer_ <- function(){
   "logements.existe" %a%     file.exists(chemin("logements.csv"))
   "plafonds.ifse.existe" %a% file.exists(chemin("plafonds_ifse.csv"))
   
-  base.personnels.catégorie <- NULL
-  base.grades.categories    <- NULL
-  base.logements <- NULL
-  
-  if (fichier.personnels.existe) {
-    base.personnels.catégorie <- data.table::fread(chemin("matricules.csv"),
-                                                   sep = séparateur.liste.entrée,
-                                                   header = TRUE,
-                                                   colClasses = c("numeric", "character", "character",
-                                                                  "character", "character", "character", "character"),
-                                                   encoding = ifelse(setOSWindows, "Latin-1", "UTF-8"),
-                                                   showProgress = FALSE) 
-    
-    message("Chargement du fichier des catégories statutaires des personnels.")
-    if (!is.null(base.personnels.catégorie))
-      message("Importé.")
-    else {
-      message("Impossible d'importer les catégories.")
-      stop(" ")
-    }
-  }
-  
-  if (grades.categories.existe) {
-    base.grades.categories <- data.table::fread(chemin("grades.categories.csv"),
-                                                sep = séparateur.liste.entrée,
-                                                header = TRUE,
-                                                colClasses = c("character", "character"),
-                                                encoding = "Latin-1",
-                                                showProgress = FALSE) 
-    
-    message("Chargement du fichier des grades et catégories statutaires des personnels.")
-    if (!is.null(base.grades.categories))
-      message("Importé.")
-    else {
-      message("Impossible d'importer les grades et catégories.")
-      stop(" ")
-    }
-  }
-  
-  if (logements.existe) {
-    base.logements <- data.table::fread(chemin("logements.csv"),
-                                        sep = séparateur.liste.entrée,
-                                        header = TRUE,
-                                        colClasses = c("character", "integer", "integer", "character"),
-                                        encoding = "Latin-1",
-                                        showProgress = FALSE) 
-    
-    message("Chargement du fichier des concessions de logement des personnels.")
-    
-    if (!is.null(base.logements))
-      message("Importé.")
-    else {
-      message("Impossible d'importer les concessions de logement.")
-      stop(" ")
-    }
-  }
-  
-  if (plafonds.ifse.existe) {
-    base.ifse <- data.table::fread(chemin("plafonds_ifse.csv"),
-                                   sep = séparateur.liste.entrée,
-                                   header = TRUE,
-                                   colClasses = c("character", "character", "character", "numeric"),  # Grade, Groupe, Logement, Plafond
-                                   encoding = "Latin-1",
-                                   showProgress = FALSE) 
-    
-    message("Chargement du fichier des plafonds d'IFSE.")
-    
-    if (!is.null(base.ifse))
-      message("Importé.")
-    else {
-      message("Impossible d'importer les plafonds d'IFSE.")
-      stop(" ")
-    }
-  } else {
-    
-    base.ifse <- NULL
-    
-  }
+  base.personnels.catégorie <- importer_matricules()
+  base.grades.categories    <- importer_grades_catégories()
+  base.logements            <- importer_base_logements()
+  base.ifse                 <- importer_base_ifse()
   
   fichiers.table     <- list.files(chemin.clé, pattern = nom.table %+% "(-)?[^.]*[.]csv",     full.names  = TRUE)
   fichiers.bulletins <- list.files(chemin.clé, pattern = nom.bulletins %+% "(-)?[^.]*[.]csv", full.names  = TRUE)
@@ -346,8 +581,11 @@ importer_ <- function(){
   Paie[ , Grade := toupper(Grade)]
   
   if (! is.null(Paie) && ! is.null(Bulletins.paie)) {
+    
     message("Chargement de la table bulletins-lignes de Paie.")
+    
   } else {
+    
     stop("Impossible de charger les lignes/bulletins de paie.")
   }
   
@@ -388,16 +626,7 @@ importer_ <- function(){
   # dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
   # dans le fichier prologue.R. Sinon le programme travaille sur l'ensemble des années disponibles.
   
-  if (extraire.années) {
-    
-    Paie <- Paie[Année >= début.période.sous.revue & Année <= fin.période.sous.revue]
-    Bulletins.paie <- Bulletins.paie[Année >= début.période.sous.revue & Année <= fin.période.sous.revue]
-    
-  } else {
-    
-    "début.période.sous.revue" %a% min(Bulletins.paie[ , Année])
-    "fin.période.sous.revue" %a% max(Bulletins.paie[ , Année])
-  }
+  Extraire.années()
   
   Paie[is.na(Grade),  Grade  := ""]
   Paie[is.na(Statut), Statut := "AUTRE_STATUT"]
@@ -416,14 +645,7 @@ importer_ <- function(){
     stop("Sélectionner des exercices consécutifs. Fin du programme.")
   }
   
-  if (! analyse.statique.totale) {
-    
-    "années.analyse.statique" %a% c(début.période.sous.revue, fin.période.sous.revue)
-    
-  } else {
-    
-    "années.analyse.statique" %a% période
-  }
+  "années.analyse.statique" %a% ifelse(analyse.statique.totale, période, c(début.période.sous.revue, fin.période.sous.revue))
   
   # Le format est jour/mois/année avec deux chiffres-séparateur-deux chiffres-séparateur-4 chiffres.
   # Le séparateur peut être changé en un autre en modifiant le "/" dans date.format
@@ -432,174 +654,21 @@ importer_ <- function(){
   "après.redressement" %a% 0
   
   if (éliminer.duplications) {
-    
-    "avant.redressement" %a% nrow(Paie)
-    
-    duplications.vecteur <- duplicated(Paie, by=NULL)
-    duplications.paie <- Paie[duplications.vecteur & Montant != 0]
-    
-    Paie <- Paie[! duplications.vecteur]
-    
-    if (sauvegarder.bases.origine)
-      sauv.bases(chemin.dossier.bases, 
-                 env = environment(),
-                 "duplications.paie")
-    
-    "après.redressement" %a% nrow(Paie)
-    
-    avant.redressement.bull <- nrow(Bulletins.paie)
-    duplications.vecteur    <- duplicated(Bulletins.paie, by=NULL)
-    duplications.paie.bull  <- Bulletins.paie[duplications.vecteur & Montant != 0]
-    
-    Bulletins.paie <- Bulletins.paie[! duplications.vecteur] 
-    
-    if (sauvegarder.bases.origine) {
-      sauv.bases(chemin.dossier.bases, 
-                 env = environment(),
-                 "duplications.paie")
-      
-      sauv.bases(chemin.dossier.bases,
-                 env = environment(),
-                 "duplications.paie.bull")
-    }
-    
-    après.redressement.bull <- nrow(Bulletins.paie)
+       Eliminer.duplications()  
   } 
-  
   
   message("Vérification de la durée légale théorique du travail (1820 h = 35h x 52 semaines soit 151,67 h/mois)")
   
   "test.temps.complet" %a% verif.temps.complet()[1]
   "nb.heures.temps.complet" %a% verif.temps.complet()[2]
   
-  if (test.temps.complet) {
-    
-    "nb.heures.temps.complet" %a% 151.67  #  1820 / 12
-    
-  } else {
-    
-    "nb.heures.temps.complet" %a% floor(nb.heures.temps.complet)
-    
-  }
+  "nb.heures.temps.complet" %a% ifelse(test.temps.complet, 151.67,   #  1820 / 12
+                                                           floor(nb.heures.temps.complet))
   
   # si l'on a une cohérence du calcul des heures de travail par semaine alors peut se baser dessus :
   
-  if (redresser.heures) {
-    
-    # On ne peut pas inférer sur quotite Trav (Temps.de.travail) de manière générale
-    # Mais on peut exclure les cas dans lesquels Temps de travail est non fiable puis déduire en inférence sur ce qui reste
-    # critère d'exclusion envisageable pour les stats de rémunérations à quotités :
-    # Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC") & Heures == 0 | Statut %chin% c("ELU", "v", "A")]
-    # sur le reste on peut inférer Heures 
-    
-    setnames(Paie, "Heures", "Heures.orig")
-    setnames(Bulletins.paie, "Heures", "Heures.orig")
-    Paie[ , Heures := Heures.orig]
-    Bulletins.paie[ , Heures := Heures.orig]
-    
-    if (test.temps.complet) {
-      
-      if (nrow(Paie) < 1e6) {
-        
-        #microbenchmark::  microbenchmark(A <- 
-        Paie[(Heures == 0 | is.na(Heures))
-             & Indice != 0 & !is.na(Indice)
-             & Statut != "ELU" & Grade != "V" & Grade!= "A"
-             & Temps.de.travail != 0 
-             & !is.na(Temps.de.travail), 
-             indic := TRUE]
-        
-        # "plonking"
-        
-        Paie[indic == TRUE , 
-             Heures := round(Temps.de.travail * nb.heures.temps.complet / 100, 1)]
-        
-        #, times=1)
-        
-      } else {
-        
-        # ----- Pour les très gros fichiers (> 1 ML) , plus rapide que la solution de référence supra. On gagne 1 s par ML à partir de 15 ML
-        #       0.5 s par ML à partir de 3 ML. Dépend beaucoup du CPU et de la mémoire. Résultats sur corei7, DDR4 1333, non vérifiés sur corei3.
-        #       Gain de 14 s à 15 s pour un gros fichier de 15 ML.  
-        
-        message("correction du temps de travail par recherche binaire")
-        
-        setkey(Paie, Heures) 
-        
-        Paie[.(c(0, NA_real_)), 
-             indic := ifelse(Statut != "ELU" 
-                             & Grade  != "V" 
-                             & Grade  != "A"  
-                             & Indice != 0  
-                             & is.na(Indice) 
-                             & Temps.de.travail != 0 
-                             & !is.na(Temps.de.travail),
-                             TRUE,
-                             NA),
-             nomatch=0]
-        
-        Paie[.(c(0, NA_real_)),
-             Heures := indic * round(Temps.de.travail * nb.heures.temps.complet / 100, 1)]
-        
-      }
-    }
-    
-    # -----
-    
-    Bulletins.paie[(Heures == 0 | is.na(Heures))
-                   & Indice != "" & !is.na(Indice) 
-                   & Statut != "ELU" & Grade != "V" & Grade!= "A"
-                   & Temps.de.travail != 0 & !is.na(Temps.de.travail), 
-                   indic := TRUE]
-    
-    # plonking
-    
-    Bulletins.paie[indic == TRUE , 
-                   Heures := round(Temps.de.travail * nb.heures.temps.complet / 100, 1)][]
-    
-    message("Correction (méthode 1), compte tenu des temps complets vérifiés, sur ",
-            nredressements <<- nrow(Bulletins.paie[indic == TRUE]), " bulletins de paie")
-    
-  } else {
-    
-    # on présume alors que les traitements sont correctement liquidés... il faudrait mettre un drapeau sur cette présomption  
-    
-    Paie[ , indic := (Heures == 0 | is.na(Heures))
-          & Indice != "" & !is.na(Indice) 
-          & Statut != "ELU" & Grade != "V" & Grade!= "A"
-          & Temps.de.travail != 0 & !is.na(Temps.de.travail)
-          & Type == "T" & Montant > 0
-          & grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE)]
-    
-    # attention ifelse pas if...else
-    # La recherche binaire est 20 fois plus rapide que la recherche vscan (gain de 4s par million de lignes sur corei3)
-    
-    setkey(Paie, Année, Mois, indic)  
-    
-    for (A in période) {
-      for (M in 1:12) {
-        a <- PointMensuelIM[A - 2007, M]  
-        Paie[list(A, M, TRUE), 
-             Heures := ifelse(Indice == 0, NA, Montant / (Indice * a * 151.67))]
-      }
-    }    
-    
-    
-    Bulletins.paie <- merge(unique(Paie[ , .(Matricule, 
-                                             Année,
-                                             Mois,
-                                             Service,
-                                             Statut,
-                                             Heures,
-                                             indic)], by=NULL),
-                            Bulletins.paie[, Heures := NULL], 
-                            by = c("Matricule","Année","Mois","Service", "Statut"))
-    
-    message("Correction (méthode 2), compte tenu des temps complets vérifiés, sur ", 
-            nredressements <<- nrow(Bulletins.paie[indic == TRUE]), " lignes de paie")
-    
-  }
-  
+  Redresser.heures() 
+
   Paie[ , Filtre_actif := FALSE]
   
   # TODO: à revoir pour deux causes : le revenu peut ne pas être un traitement et les heures peuvent être nulles pour
@@ -611,9 +680,9 @@ importer_ <- function(){
   
   Paie[ , delta := 0, by = .(Matricule, Année, Mois)]
   
-  Paie[Type %chin% c("I", "T", "S", "IR", "AC","A", "R", "AV") , 
-       delta := sum(Montant,  na.rm=TRUE) - Brut,
-       by = .(Matricule, Année, Mois)]
+  # Paie[Type %chin% c("I", "T", "S", "IR", "AC","A" ) , 
+  #      delta := sum(Montant,  na.rm=TRUE) - Brut,
+  #      by = .(Matricule, Année, Mois)]
   
   # R est le rang (0-based) décalé d'une unité (lag 1)
   
@@ -669,7 +738,7 @@ importer_ <- function(){
                                            nb.jours,
                                            nb.mois,
                                            indicatrice.quotité.pp,
-                                           permanent)], by = NULL),
+                                           permanent)]),
                 Paie, 
                 by = c("Matricule","Année","Mois","Service", "Statut"))[ , indic := NULL]
   

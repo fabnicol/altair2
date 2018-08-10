@@ -17,7 +17,9 @@ for (rep in reps) {
   
   res <- try({
       source(file.path("syspaths.R"), encoding = encodage.code.source)
+    
       source(file.path("altair_start.R"), encoding = encodage.code.source, echo = TRUE)
+    
   })
   
   if (inherits(res, "try-error")) {

@@ -193,16 +193,17 @@ fichiers.pyr <- list.files(path= file.path(currentDir, "data"), pattern = "*.csv
 
 # Lecture des fichiers de référence des pyramides (fichiers listés dans fichiers.pyr), comportant les statistiques INSEE
 
-essayer({  for (f in fichiers.pyr) {
-    base <- basename(f)
-    assign(substr(base, 1, attr(regexec("(.*)\\.csv", base)[[1]], "match.length")[2]),
-           fread(f, 
-                 sep = ";",
-                 header = TRUE,
-                 encoding = "Latin-1",
-                 dec = ",",
-                 colClasses = c("integer", "numeric", "numeric", "integer", "character")),
-                 envir = .GlobalEnv)
+essayer(label = "+fichiers pyr", 
+        {  for (f in fichiers.pyr) {
+                base <- basename(f)
+                assign(substr(base, 1, attr(regexec("(.*)\\.csv", base)[[1]], "match.length")[2]),
+                       fread(f, 
+                             sep = ";",
+                             header = TRUE,
+                             encoding = "Latin-1",
+                             dec = ",",
+                             colClasses = c("integer", "numeric", "numeric", "integer", "character")),
+                             envir = .GlobalEnv)
 }}, "La lecture des fichiers de référence des pyramides (fichiers listés dans fichiers.pyr), comportant les statistiques INSEE, a échoué.")
 
  
@@ -417,7 +418,7 @@ if (nrow(Analyse.variations) > 0)
         geom = "bar",
         fill = factor(!Analyse.variations$plus.2.ans),
         main = "Evolutions entre " %+% début.période.sous.revue %+% " et " %+% fin.période.sous.revue,
-        xlab = étiquette.année,
+        xlab = "Année",
         ylab = "Effectif",
         asp = 1.4)        +
   ggplot2::scale_fill_discrete(name = "Personnels (non élus) en fonction",
@@ -473,7 +474,7 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
                             "Catégorie",
                             "Filtre_actif",
                             "Filtre_annexe",
-                            clé.fusion)
+                            "Matricule")
 
 
 ########### Analyse statique des rémunérations (fichier Rmd) ########################
@@ -585,7 +586,8 @@ essayer({ if (longueur.non.na(temp) > 0)
 temp <- na.omit(moyenne.rémunération.annuelle.sur.période[moyenne.rémunération.annuelle.sur.période > minimum.positif
                                                           & (statut == "TITULAIRE"  | statut == "STAGIAIRE")] / 1000)
 
-essayer({  if (longueur.non.na(temp) > 0)
+essayer(label = "+histogramme",
+  {  if (longueur.non.na(temp) > 0)
   hist(temp,
        xlab = "Sur la période "%+% début.période.sous.revue %+% "-" %+% fin.période.sous.revue %+% " en milliers d'euros",
        ylab = "Effectif",
@@ -642,7 +644,7 @@ smpt <- function(Filtre, type =  "smpt net") {
                              digits = 1,
                              format = "fg")
   
-  T <- Tableau.vertical(c(étiquette.année, type %+% " (euros)", type %+% " temps complet (euros)"),
+  T <- Tableau.vertical(c("Année", type %+% " (euros)", type %+% " temps complet (euros)"),
                          if (type == "smpt net") période else période[2:durée.sous.revue],           # if...else pas ifelse (dim vecteur)
                          extra = "variation",
                          f,
@@ -686,7 +688,7 @@ distribution_smpt <- function(Filtre) {
 
 Filtre_neutre <<- function() TRUE   
 
-essayer(smpt(Filtre_neutre),     "Le salaire moyen par tête n'a pas pu être calculé.")    
+essayer(label = "+SMPT global", smpt(Filtre_neutre),     "Le salaire moyen par tête n'a pas pu être calculé.")    
 
 #'**Distribution et variation sur la période du salaire moyen net par tête (SMPT net) en EQTP**         
 #'**pour les salariés à temps complet**           
@@ -696,7 +698,7 @@ essayer(smpt(Filtre_neutre),     "Le salaire moyen par tête n'a pas pu être ca
 
 #+ premiere-derniere-annee
 
-essayer(distribution_smpt(Filtre_neutre), "La distribution du salaire moyen par tête n'a pas pu être calculée.")
+essayer(label = "+distribution SMPT global", distribution_smpt(Filtre_neutre), "La distribution du salaire moyen par tête n'a pas pu être calculée.")
 
 #'  
 #'*Nota :*  La population retenue est constituée des agents qui ne font pas partie des `r 2*quantile.cut` centiles extrêmaux   
@@ -807,7 +809,7 @@ essayer(distribution_smpt(Filtre_neutre), "La distribution du salaire moyen par 
 
 Filtre_fonctionnaire <<- function() Statut == "TITULAIRE" | Statut == "STAGIAIRE"
 
-essayer(smpt(Filtre_fonctionnaire), "Le salaire moyen par tête des fonctionnaires n'a pas pu être calculé.")
+essayer(label = "+SMPT fonct.", smpt(Filtre_fonctionnaire), "Le salaire moyen par tête des fonctionnaires n'a pas pu être calculé.")
 
 Filtre_cat_A <<- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "A")
 Filtre_cat_B <<- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "B") 
@@ -823,7 +825,7 @@ Filtre_cat_C <<- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  
 #'  
 
 
-essayer(smpt(Filtre_cat_A), "Le salaire moyen par tête des fonctionnaires de catégorie A n'a pas pu être calculé.")  
+essayer(label = "+SMPT cat A", smpt(Filtre_cat_A), "Le salaire moyen par tête des fonctionnaires de catégorie A n'a pas pu être calculé.")  
 
 #'  
 #'*Comparaisons nationales*    
@@ -851,7 +853,7 @@ essayer(smpt(Filtre_cat_A), "Le salaire moyen par tête des fonctionnaires de ca
 #'    
 #'  
 
-essayer(smpt(Filtre_cat_B),          "Le salaire moyen par tête des fonctionnaires de catégorie B n'a pas pu être calculé.")  
+essayer(label = "+SMPT cat B", smpt(Filtre_cat_B),          "Le salaire moyen par tête des fonctionnaires de catégorie B n'a pas pu être calculé.")  
 
 #'*Comparaisons nationales*    
 #'*FPT catégorie B*    
@@ -877,7 +879,7 @@ essayer(smpt(Filtre_cat_B),          "Le salaire moyen par tête des fonctionnai
 #'    
 #'  
 
-essayer(smpt(Filtre_cat_C),       "Le salaire moyen par tête des fonctionnaires de catégorie C n'a pas pu être calculé.")    
+essayer(label = "+SMPT cat C", smpt(Filtre_cat_C),       "Le salaire moyen par tête des fonctionnaires de catégorie C n'a pas pu être calculé.")    
 
 #'     
 #'*Comparaisons nationales*    
@@ -911,7 +913,7 @@ essayer(smpt(Filtre_cat_C),       "Le salaire moyen par tête des fonctionnaires
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-essayer(distribution_smpt(Filtre_fonctionnaire), "La distribution du salaire moyen par tête des fonctionnaires n'a pas pu être calculée.")
+essayer(label = "+distribution SMPT fonct.", distribution_smpt(Filtre_fonctionnaire), "La distribution du salaire moyen par tête des fonctionnaires n'a pas pu être calculée.")
 
 #'       
 #'#### `r chapitre`.2.3.2 Par catégorie statutaire             
@@ -921,19 +923,19 @@ essayer(distribution_smpt(Filtre_fonctionnaire), "La distribution du salaire moy
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-essayer(distribution_smpt(Filtre_cat_A), "La distribution du salaire moyen par tête des fonctionnaires de catégorie A n'a pas pu être calculée.")
+essayer(label = "+distribution SMPT cat. A", distribution_smpt(Filtre_cat_A), "La distribution du salaire moyen par tête des fonctionnaires de catégorie A n'a pas pu être calculée.")
 
 #'**Catégorie B**  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-essayer(distribution_smpt(Filtre_cat_B), "La distribution du salaire moyen par tête des fonctionnaires de catégorie B n'a pas pu être calculée.")
+essayer(label = "+distribution SMPT cat. B",distribution_smpt(Filtre_cat_B), "La distribution du salaire moyen par tête des fonctionnaires de catégorie B n'a pas pu être calculée.")
 
 #'**Catégorie C**  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-essayer(distribution_smpt(Filtre_cat_C), "La distribution du salaire moyen par tête des fonctionnaires de catégorie C n'a pas pu être calculée.")
+essayer(label = "+distribution SMPT cat. C", distribution_smpt(Filtre_cat_C), "La distribution du salaire moyen par tête des fonctionnaires de catégorie C n'a pas pu être calculée.")
 
 #'[Lien vers la base de données](Bases/Remunerations/Analyse.variations.par.exercice.csv)     
 
@@ -959,45 +961,49 @@ essayer(distribution_smpt(Filtre_cat_C), "La distribution du salaire moyen par t
 
 # Appliquer les filtres maintenant
 
-q3 <- quantile(Analyse.variations$variation.rémunération, c(quantile.cut/100, 1 - quantile.cut/100), na.rm=TRUE)
 
-# Filtrage : on enlève les personnels présents depuis moins d'un seuil de troncature (ex. 120 jours) dans l'année et les élus
-# (paramètre seuil.troncature) 
-
-# Filtrage pour l'étude des variations : on enlève les valeurs manquantes des variations, les centiles extrêmaux,
-# les rémunérations nettes négatives ou proche de zéro. On exige un statut explicite en fin de période.
-# Paramétrable par :
-# minimum.positif, quantile.cut 
-
-# ici il faut réduire la matrice pour éviter les réduplications pour les Résumés. TODO
-
-Anavar.synthese <- Analyse.variations[total.jours > seuil.troncature
-                                                           & pris.en.compte == TRUE
-                                                           & ! is.na(statut)   
-                                                           & ! is.na(variation.rémunération) 
-                                                           & variation.rémunération > q3[[1]]
-                                                           & variation.rémunération < q3[[2]]]
-
-Anavar.synthese.plus.2.ans  <- Anavar.synthese[! is.na(plus.2.ans) & plus.2.ans == TRUE]
-Anavar.synthese.moins.2.ans <- Anavar.synthese[! is.na(plus.2.ans) & plus.2.ans == FALSE]
-
-#Analyse.variations.par.exercice <- Analyse.variations.par.exercice[Nexercices > 1]
-
-if (nrow(Anavar.synthese.plus.2.ans) > 0 && durée.sous.revue > 1 ) {
-  hist(Anavar.synthese.plus.2.ans$variation.moyenne.rémunération,
-       xlab ="Variation annuelle moyenne en %",
-       las = 1,
-       xlim = c(-5,30),
-       ylab ="Effectifs",
-       main ="Rémunération nette des personnes en place",
-       col ="blue",
-       nclass=1000,
-       xaxt = 'n')
-
-try(axis(side=1, at=seq(-5,30, 1), labels=seq(-5,30,1), lwd=2))
-
-Filtre_rmpp <<- function() (est.rmpp == TRUE)
-}
+essayer(label = "+RMPP nette globale", {
+  
+  q3 <- quantile(Analyse.variations$variation.rémunération, c(quantile.cut/100, 1 - quantile.cut/100), na.rm=TRUE)
+  
+  # Filtrage : on enlève les personnels présents depuis moins d'un seuil de troncature (ex. 120 jours) dans l'année et les élus
+  # (paramètre seuil.troncature) 
+  
+  # Filtrage pour l'étude des variations : on enlève les valeurs manquantes des variations, les centiles extrêmaux,
+  # les rémunérations nettes négatives ou proche de zéro. On exige un statut explicite en fin de période.
+  # Paramétrable par :
+  # minimum.positif, quantile.cut 
+  
+  # ici il faut réduire la matrice pour éviter les réduplications pour les Résumés. TODO
+  
+  Anavar.synthese <- Analyse.variations[total.jours > seuil.troncature
+                                                             & pris.en.compte == TRUE
+                                                             & ! is.na(statut)   
+                                                             & ! is.na(variation.rémunération) 
+                                                             & variation.rémunération > q3[[1]]
+                                                             & variation.rémunération < q3[[2]]]
+  
+  Anavar.synthese.plus.2.ans  <- Anavar.synthese[! is.na(plus.2.ans) & plus.2.ans == TRUE]
+  Anavar.synthese.moins.2.ans <- Anavar.synthese[! is.na(plus.2.ans) & plus.2.ans == FALSE]
+  
+  #Analyse.variations.par.exercice <- Analyse.variations.par.exercice[Nexercices > 1]
+  
+  if (nrow(Anavar.synthese.plus.2.ans) > 0 && durée.sous.revue > 1 ) {
+    hist(Anavar.synthese.plus.2.ans$variation.moyenne.rémunération,
+         xlab ="Variation annuelle moyenne en %",
+         las = 1,
+         xlim = c(-5,30),
+         ylab ="Effectifs",
+         main ="Rémunération nette des personnes en place",
+         col ="blue",
+         nclass=1000,
+         xaxt = 'n')
+  
+  try(axis(side=1, at=seq(-5,30, 1), labels=seq(-5,30,1), lwd=2))
+  
+  Filtre_rmpp <<- function() (est.rmpp == TRUE)
+  }
+}, "La RMPP nette globale n'a pas pu être calculée.")
 
 # #'   
 # #'**Evolution de la RMPP nette en EQTP**     
@@ -1196,7 +1202,7 @@ attach(Analyse.variations.par.exercice)
 #'    
 #+ noria-tableau
 
-essayer(invisible(noria(champ = "net")),
+essayer(label = "+noria nette globale", invisible(noria(champ = "net")),
         "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations nettes moyennes.")
 
 #'  
@@ -1205,7 +1211,7 @@ essayer(invisible(noria(champ = "net")),
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-essayer(invisible(noria(champ = "brut")),
+essayer(label = "+noria brute globale", invisible(noria(champ = "brut")),
         "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations brutes moyennes.")
 
 #'  
@@ -2519,14 +2525,14 @@ ft <- filtre("TRAITEMENT")
 #   Paie[ ,  Type_cor := corriger_T(Type, Libellé)]
 # }
 
-colonnes <- c(étiquette.matricule,
-              étiquette.année,
+colonnes <- c("Matricule",
+              "Année",
               "Mois",
               "Statut",
               "Indice",
               "NBI",
               "Libellé",
-              étiquette.code,
+              "Code",
               "Heures",
               "Heures.Sup.",
               "Temps.de.travail", 
@@ -2851,9 +2857,10 @@ remunerations.elu <- Analyse.remunerations[ indemnités.élu > minimum.positif,
 
 remunerations.elu <- remunerations.elu[ , rémunération.indemnitaire.imposable := indemnités.élu +  rémunération.indemnitaire.imposable]
 
-remunerations.elu <- unique(matricules[ , .(Nom,  Matricule)])[remunerations.elu, on = étiquette.matricule]
+remunerations.elu <- unique(matricules[ , .(Nom,  Matricule)])[remunerations.elu, on = "Matricule"]
 
-names(remunerations.elu) <- c(union(clé.fusion, "Nom"),
+names(remunerations.elu) <- c("Matricule",
+                              "Nom",
                               "Année",
                               "Emploi",
                               "Indemnités ",
@@ -3041,7 +3048,9 @@ if (! utiliser.cplusplus.sft)
                               PACKAGE="sft")
 }
 
-essayer({ Paie.sans.enfant.reduit <- Paie[Type == "S" 
+essayer(label = "+Sans enfant",
+  
+  { Paie.sans.enfant.reduit <- Paie[Type == "S" 
                                 & (is.na(Nb.Enfants) | Nb.Enfants == 0),
                                  .(SFT.versé = sum(Montant, na.rm = TRUE)),
                                       keyby = .(Matricule, Année, Mois)] 
@@ -3073,7 +3082,9 @@ if (nb.écart.paiements.sft.sans.enfant > 0){
 
 # Traitement = sum(Montant[Type == "T"], na.rm = TRUE),
 
-essayer({  Paie.enfants.réduit <- Paie[Nb.Enfants > 0 & ! is.na(Nb.Enfants) & ! is.na(Indice) & ! is.na(Heures),
+essayer(label = "+sft",
+  
+  {  Paie.enfants.réduit <- Paie[Nb.Enfants > 0 & ! is.na(Nb.Enfants) & ! is.na(Indice) & ! is.na(Heures),
                               .(SFT.versé = sum(Montant[Type == "S"], na.rm = TRUE), 
                                 Temps.de.travail = Temps.de.travail[1],
                                 Indice = Indice[1],
@@ -3165,8 +3176,8 @@ Controle_astreintes <- Controle_astreintes[Catégorie == "A"
                                                    perl = TRUE,
                                                    ignore.case = TRUE)]
 
-setnames(Controle_astreintes, c("Code.x", "Libellé.x", "Montant.x"), c("Code.astreinte", "Libellé.astreinte", "Montant.astreinte"))
-setnames(Controle_astreintes, c("Code.y", "Libellé.y", "Montant.y"), c("Code.NBI", "Libellé.NBI", "Montant.NBI"))
+setnames(Controle_astreintes, c("Code", "Libellé", "Montant"), c("Code.astreinte", "Libellé.astreinte", "Montant.astreinte"))
+setnames(Controle_astreintes, c("i.Code", "i.Libellé", "i.Montant"), c("Code.NBI", "Libellé.NBI", "Montant.NBI"))
 
 nb.agents.NBI.astreintes <- uniqueN(Controle_astreintes$Matricule)
 
@@ -3738,6 +3749,10 @@ if (sauvegarder.bases.origine)
              env = envir,
              "Paie",
              "Bulletins.paie")
+
+if (profiler)
+  sauv.bases(chemin.dossier.bases, 
+            env = envir, "PROF")
 
 system2("find", c("Donnees/R-Altair/Bases", "-name", "'*.csv'", "-exec", "iconv -f UTF-8 -t ISO-8859-15 -c -o {}.2  {} \\;", "-exec",  "mv {}.2 {} \\;"))
 
