@@ -39,7 +39,7 @@
 effectifs <- function(période, Bulletins = Bulletins.paie,
                        personnels = Analyse.remunerations,
                        Analyse.v = Analyse.variations)  {
-  essayer("+effectifs", effectifs_(période, 
+  essayer(label = "+effectifs", effectifs_(période, 
                     Bulletins,
                     personnels,
                     Analyse.v), "Les effectifs n'ont pas pu être calculés")

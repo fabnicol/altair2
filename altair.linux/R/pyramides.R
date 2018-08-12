@@ -46,7 +46,7 @@
 #'
 produire_pyramides <- function(Filtre_bulletins, titre, versant = "", envir) {
   
-  essayer("+pyramides", produire_pyramides_(Filtre_bulletins, titre, versant, envir), cat("La", titre, "n'a pas pu être générée."))
+  essayer(label = "+pyramides", produire_pyramides_(Filtre_bulletins, titre, versant, envir), cat("La", titre, "n'a pas pu être générée."))
 }
   
 produire_pyramides_ <- function(Filtre_bulletins, titre, versant = "", envir) {

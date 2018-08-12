@@ -2,7 +2,7 @@
 % Please edit documentation in R/bibliotheque.fonctions.paie.R
 \name{FR}
 \alias{FR}
-\title{Ajoute le séparateur des milliers et une virgule des décimales en français}
+\title{Ajoute le séparateur des milliers et sans décimale en français}
 \usage{
 FR(x)
 }
@@ -13,7 +13,7 @@ FR(x)
 Vecteur de chaînes de caractères modifiées
 }
 \description{
-Ajoute le séparateur des milliers et une virgule des décimales en français
+Ajoute le séparateur des milliers et sans décimale en français
 }
 \examples{
 FR(1235345.23) #1 235 345,2

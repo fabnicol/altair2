@@ -3,7 +3,8 @@
 attach(Analyse.variations.par.exercice)
 
 #'   
-#'##### Les filtres RMPP appliqués au 4.3.1 et 4.3.2 ne sont plus appliqués.    
+#'##### Les filtres RMPP appliqués au 4.3.1 et 4.3.2 ne sont plus appliqués. Il peut en résulter des variations significativement différentes de celles calculées précédemment.
+#'##### Les calculs de RMPP sur la première année de la période sous revue sont estimatifs et ne devraient pas être pris en compte pour publication.     
 #'         
 
 #'
