@@ -81,45 +81,46 @@ if (! exists("PDF"))       PDF <<- FALSE
 keep_md                        <- FALSE
 utiliser.cplusplus.sft         <- FALSE
 sécuriser.types.sortie         <- TRUE
-utiliser.variable.Heures.Sup.  <- FALSE  # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unité
-noria.sur.base.de.paie         <- FALSE  # calculer effet de noria sur base de paie uniquement (pas de fichier E/S)
+utiliser.variable.Heures.Sup.  <- FALSE    # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unité
+noria.sur.base.de.paie         <- FALSE    # calculer effet de noria sur base de paie uniquement (pas de fichier E/S)
 sauter.tests.statutaires       <- FALSE
 profiler                       <- FALSE
 
 # Génération de parties des rapports
 
 script_effectifs               <- TRUE
-script_pyramides               <- TRUE
-script_durée                   <- TRUE
-analyse.statique               <- TRUE
-script_comparaisons_brut       <- TRUE
-script_analyse_dynamique       <- TRUE
-script_NBI                     <- TRUE
-script_PFI                     <- TRUE
-script_vacations               <- TRUE
-script_NAS                     <- TRUE
-script_IAT_IFTS                <- TRUE
-script_PFR                     <- TRUE
-script_PSR                     <- TRUE
-script_IPF                     <- TRUE
-script_RIFSEEP                 <- TRUE          
-script_HS                      <- TRUE     
-script_heures_sup              <- TRUE     
-script_noria                   <- TRUE     
-script_rémunérations_net       <- TRUE     
-script_élus                    <- TRUE
-script_comptabilité            <- TRUE
-script_SFT                     <- TRUE
-script_astreintes              <- TRUE
-script_retraites               <- TRUE
-script_FPH                     <- TRUE
-script_annexe                  <- TRUE
+script_pyramides               <- TRUE    #+
+script_durée                   <- TRUE    #
+analyse.statique               <- TRUE    #
+script_comparaisons_brut       <- TRUE    #+
+script_rémunérations_net       <- TRUE    #
+script_noria                   <- TRUE    #+
+script_analyse_dynamique       <- TRUE    #+
+script_NBI                     <- TRUE    #
+script_PFI                     <- TRUE    #
+script_vacations               <- TRUE    #
+script_NAS                     <- TRUE    #
+script_IAT_IFTS                <- TRUE    #
+script_PFR                     <- TRUE    #+ IFTS
+script_PSR                     <- TRUE    #+ 
+script_IPF                     <- TRUE    #+
+script_RIFSEEP                 <- TRUE    #+     
+script_HS                      <- TRUE    #
+script_heures_sup              <- TRUE    #+
+script_astreintes              <- TRUE    #+     
+script_élus                    <- TRUE    #
+script_comptabilité            <- TRUE    #
+script_annexe                  <- TRUE    #+
+script_SFT                     <- TRUE    #
+script_retraites               <- TRUE    #
+script_FPH                     <- TRUE    #
+séquentiel                     <- TRUE    # Parallélisation de l'écriture des parties du rapport   
 
-numéro.tableau                 <- 0  # Numérotation de départ des tableaux
-chapitre                       <- 1  # Numérotation de départ des chapitres
-seuil.troncature               <- 2  # jours
-taux.tolérance.homonymie       <- 2  # en %
-quantile.cut                   <- 1  # en %
+numéro.tableau                 <- 0        # Numérotation de départ des tableaux
+chapitre                       <- 1        # Numérotation de départ des chapitres
+seuil.troncature               <- 2        # jours
+taux.tolérance.homonymie       <- 2        # en %
+quantile.cut                   <- 1        # en %
 minimum.positif                <- 0.5
 minimum.quotité                <- 0.1
 tolérance.variation.quotité    <- 0.05

@@ -121,7 +121,7 @@ importer()
 newpage()
 
 # Analyser les rémunérations à partir des données importées --> bases Analyse.XXX
-getwd()
+
 source("analyse.rémunérations.R", encoding = encodage.code.source)
 
 colonnes.sélectionnées <- c("traitement.indiciaire",
@@ -255,9 +255,52 @@ scripts <- list(
   "script_annexe.R"                       #### ANNEXE                 ####
 ) 
 
-lapply(scripts, function(x) do.call(insérer_script, 
-                                    as.list(na.omit(c(file.path(chemin.modules, x[1]),
-                                                      x[-1])))))
+générer.partie <- function(script, type = séquentiel) invisible(lapply(script, function(x) do.call(insérer_script, 
+                                                                                          as.list(na.omit(c(file.path(chemin.modules, x[1]),
+                                                                                                                      x[-1]))))))
+if (séquentiel) {
+  
+  générer.partie(scripts)
+  
+} else {
+  
+  group1 <- list("script_effectifs.R",               
+                  "script_pyramides.R",               
+                  "script_durée.R",                   
+                  "analyse.statique.R",               
+                  "script_comparaisons_brut.R")       
+  
+  group2 <- list("script_rémunérations_net.R",
+                  "script_noria.R",                   
+                  "script_analyse_dynamique.R")       
+  
+  group3 <- list("script_NBI.R",                     
+                  "script_PFI.R",                     
+                  "script_vacations.R",               
+                  "script_NAS.R")                     
+  
+  group4 <- list("script_IAT_IFTS.R",                
+                  "script_PFR.R",                     
+                  "script_PSR.R",                     
+                  "script_IPF.R",                     
+                  "script_RIFSEEP.R")                 
+  
+  group5 <- list("script_HS.R",                      
+                  "script_heures_sup.R",              
+                  "script_astreintes.R",              
+                  "script_élus.R")                    
+  
+  group6 <- list("script_comptabilité.R",            
+                  "script_annexe.R",                  
+                  "script_SFT.R",                     
+                  "script_retraites.R",               
+                  "script_FPH.R")
+  library(parallel)
+  
+  cl <- makeCluster(6, type = "FORK")
+  res <- clusterApply(cl, group %+% 1:6, générer.partie, type = ! séquentiel)
+  stopCluster(cl)
+}
 
 ######### SAUVEGARDES #######
 

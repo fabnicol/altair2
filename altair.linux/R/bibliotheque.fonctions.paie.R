@@ -391,11 +391,7 @@ Résumé <- function(x,
                    extra = 0,
                    type = "pond")
 {
-  essayer(label = "+quartiles", Résumé_(x,y, align, extra, type), "La distribution des quartiles n'a pas pu être déterminée.")
-}
-
-Résumé_ <- function(x,y, align = 'r', extra = 0, type = "pond")  {
-
+essayer(label = "+quartiles", {
       Y <- na.omit(y)
 
 
@@ -479,6 +475,7 @@ Résumé_ <- function(x,y, align = 'r', extra = 0, type = "pond")  {
      } else {
        cat("Table non générée.")
      }
+}, "Les quartiles n'ont pas pu être générés.")
 }
 
 #' Tableau
@@ -609,7 +606,7 @@ Tableau.vertical <- function(colnames, rownames, extra = "", ...)   # extra func
     }
 
     kable(T, row.names = FALSE, align = "c", booktabs= TRUE)
-    return(invisible("kable"))
+    
 }
 
 #' Tableau vertical 2
@@ -712,7 +709,7 @@ longueur.non.na <- function(v) if (is.vector(v)) length(v[!is.na(v)]) else if (i
 
 newpage <- function() {
   if (PDF == TRUE) {
-  cat("\n\\newpage\n")
+  cat("  \n")
   } else {
   cat("<p style=\"page-break-after:always;\"></p>")
   }
@@ -725,7 +722,7 @@ newpage <- function() {
 
 newline <- function() {
   if (PDF == TRUE) {
-    return(" \\newline ")
+    return("  \n")
   } else {
     return("<br>")
   }
@@ -791,9 +788,10 @@ essayer <- function(X, Y, abort = FALSE, prof = profiler, times = 5, label = "")
 
         stop("Arrêt de programme.")
       }
-  } else {
-      if (class(res) == "knitr_kable")
-        print (res)
+    # NE PAS IMPRIMER !
+  # } else {
+  #     if (class(res) == "knitr_kable")
+  #       print (res)
   }
   
   if (prof) {
