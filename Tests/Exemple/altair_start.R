@@ -225,19 +225,19 @@ prime_PFI <- list(nom = "PFI",                      # Nom en majuscules
 scripts <- list(
   "script_effectifs.R",                   #### 1.1 Effectifs          ####
   "script_pyramides.R",                   #### 1.2-5 Pyramides        ####
-  "script_durée.R",                       #### 1.6  Effectifs par durée ####
-  list("analyse.statique.R",
+  "script_duréedeservice.R",              #### 1.6  Effectifs par durée ####
+  list("script_rémunérationsbrutes.R",
     index = c(début.période.sous.revue,
               fin.période.sous.revue),
     incrémenter = TRUE),                  #### 2 et 3 Analyse statique des rémunérations ####
-  "script_comparaisons_brut.R",           #### 3.4  Comparatif INSEE DGCL ####
-  c("script_analyse_dynamique.R",         #### 4. Analyse dynamique des rémunérations ####
+  "script_comparaisonsdubrut.R",           #### 3.4  Comparatif INSEE DGCL ####
+  c("script_évolutiondunet.R",         #### 4. Analyse dynamique des rémunérations ####
     incrémenter = TRUE),
   "script_NBI.R",                         #### 5.1  NBI               ####
   "script_PFI.R",                         #### 5.2  PFI               ####
-  "script_vacations.R",                   #### 5.3-5.4 VACATIONS      ####
+  "script_vacataires.R",                   #### 5.3-5.4 VACATIONS      ####
   "script_NAS.R",                         #### 5.5  NAS               ####
-  "script_IAT_IFTS.R",                    #### 5.6  IAT/IFTS          ####  
+  "script_IATIFTS.R",                    #### 5.6  IAT/IFTS          ####  
   "script_PFR.R",                         #### 5.7  PFR               ####
   "script_PSR.R",                         #### 5.8  PSR               ####
   "script_IPF.R",                         #### 5.9  IPF               ####
@@ -263,20 +263,18 @@ if (séquentiel) {
   
   group1 <- list("script_effectifs.R",               
                   "script_pyramides.R",               
-                  "script_durée.R",                   
-                  "analyse.statique.R",               
-                  "script_comparaisons_brut.R")       
+                  "script_duréedeservice.R",                   
+                  "script_rémunérationsbrutes.R",               
+                  "script_comparaisonsdubrut.R")       
   
-  group2 <- list("script_rémunérations_net.R",
-                  "script_noria.R",                   
-                  "script_analyse_dynamique.R")       
+  group2 <- list("script_évolutiondunet.R")       
   
   group3 <- list("script_NBI.R",                     
                   "script_PFI.R",                     
-                  "script_vacations.R",               
+                  "script_vacataires.R",               
                   "script_NAS.R")                     
   
-  group4 <- list("script_IAT_IFTS.R",                
+  group4 <- list("script_IATIFTS.R",                
                   "script_PFR.R",                     
                   "script_PSR.R",                     
                   "script_IPF.R",                     

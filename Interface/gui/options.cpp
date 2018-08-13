@@ -56,6 +56,19 @@
 
 extern int fontsize;
 
+QString codePage::prologue_codes_path;
+
+
+/// Réinitialise l'exportation des codes d'éléments de paye
+/// Ecrase prologue_codes.R ( prologue_codes_path) par sa valeur d'initialisation prologue_init.R
+/// \return \e true si la réinitialisation par écrasement a réussi, \e false sinon.
+
+inline bool reinitialiser_prologue()
+{
+    QFile (codePage::prologue_codes_path).remove();
+    return QFile (common::path_access (SCRIPT_DIR "prologue_init.R")).copy(codePage::prologue_codes_path);
+}
+
 int codePage::ajouterVariable (const QString& nom)
 {
     const QString NOM = nom.toUpper();
@@ -314,10 +327,143 @@ void codePage::substituer_valeurs_dans_script_R()
 }
 
 
-bool codePage::reinitialiser_prologue()
+
+int rapportPage::ajouterVariable (const QString& nom)
 {
-    QFile (prologue_codes_path).remove();
-    return QFile (path_access (SCRIPT_DIR "prologue_init.R")).copy(prologue_codes_path);
+
+    // ligne de codes de primes nom
+    QString NOM = nom.toUpper();
+    
+    FCheckBox *box = new FCheckBox("Partie " + NOM + " : ",
+                                   "Partie_rapport_" + NOM.remove(" "),
+                                   {"Rapports" , nom});
+
+    box->status = static_cast<flags::status>(flags::status::enabled|flags::commandLineType::noCommandLine);
+    box->setChecked(true);
+    
+    // Ajouter ici les FCheckBox en pile dans listeCB
+
+    listeCB << box;
+    int size = listeCB.size() - 1;    
+    vLayout->addWidget (listeCB.last(), size  % 12, size / 12, Qt::AlignLeft);
+
+    return size + 1;
+}
+
+rapportPage::rapportPage()
+{
+    baseBox = new QGroupBox;
+    appliquerCodes = new QToolButton;
+
+    appliquerCodes->setIcon (QIcon (":/images/view-refresh.png"));
+    appliquerCodes->setToolTip ("Appuyer pour modifier la sélection <br>    "
+                                "des parties des rapports d'analyse.   ");
+    appliquerCodes->setCheckable (true);
+    variables << "effectifs" << "pyramides" << "durée de service" << "rémunérations brutes" << "comparaisons du brut" 
+              << "rémunérations nettes" << "rmpp et noria" << "évolution du net" << "NBI" << "PFI" 
+              << "vacataires" << "NAS" << "IAT IFTS" << "PFR" << "PSR" << "IPF" << "RIFSEEP" 
+              << "HS" << "astreintes" << "élus" << "comptabilité" << "annexe" << "SFT" << "retraites" << "FPH";  
+            
+    short index = 0;
+
+    // Pour chacun des membres de variables, ajouter une ligne FCheckBox au dialogue
+    // qui donnera lieu à exportation dans prologue_codes.R
+
+    for (const QString& s : variables) index = ajouterVariable (s);
+
+    label = new QLabel;
+
+    vLayout->addWidget (label, index + 1, 1, Qt::AlignLeft);
+    vLayout->addWidget (appliquerCodes, index, 1, Qt::AlignLeft);
+    vLayout->setColumnMinimumWidth (1, MINIMUM_LINE_WIDTH);
+    vLayout->setSpacing (10);
+
+    baseBox->setLayout (vLayout);
+
+    FRichLabel *mainLabel = new FRichLabel ("Parties du rapport d'analyse");
+
+    mainLayout->addWidget (mainLabel);
+    mainLayout->addWidget (baseBox, 1, 0);
+    mainLayout->addSpacing (100);
+
+    init_label_text = "Appuyer pour valider le contenu<br> des rapports d'analyse ";
+    label->setText (init_label_text);
+
+    // Lorsque que bouton appliqueCodes est cliqué, la substitution des valeurs de lignes du dialogue
+    // est opérée dans prologue_codes.R
+
+    connect (appliquerCodes, SIGNAL (clicked()), this, SLOT (substituer_valeurs_dans_script_R()));
+
+    // A chaque fois qu'une ligne est éditée à la main, réinitialiser l'état d'exportation (bouton et fichier prologue_codes.R à partir de prologue_init.R)
+
+    for (FCheckBox *a : listeCB)
+        {
+            connect (a,
+                     &QCheckBox::toggled,
+                     [this]
+            {
+                label->setText (init_label_text);
+                appliquerCodes->setChecked (false);
+                appliquerCodes->setIcon (QIcon (":/images/view-refresh.png"));
+                reinitialiser_prologue();
+            });
+        }
+
+    setLayout (mainLayout);
+
+    reinitialiser_prologue();
+}
+
+
+
+void rapportPage::substituer_valeurs_dans_script_R()
+{
+    reinitialiser_prologue();
+    QString file_str = common::readFile (codePage::prologue_codes_path);
+    
+    bool res = false;
+
+    QIcon icon0 = QIcon (":/images/view-refresh.png");
+    QIcon icon1 = QIcon (":/images/msg.png");
+    QIcon icon2 = QIcon (":/images/error.png");
+
+    QIcon icon = (appliquerCodes->isChecked()) ?
+                 icon1 :
+                 icon0;
+    
+    QString liste_cb;
+
+    for (int rang = 0; rang < listeCB.size(); ++rang)
+        {
+            QString s     = variables.at(rang);
+            const bool value    = listeCB.at(rang)->isChecked();
+            res = true;
+            QString t = s;
+            t.remove(" ");
+                        
+            res = substituer ("script_" + t + " *<- *NA", "script_" + t + " <- " + (value ? "TRUE" : "FALSE"), file_str);
+            if (value) liste_cb += "<li>" + s.toUpper() + "</li>";
+                
+            if (res == false)
+                {
+                    Warning ("Attention",
+                             "Le remplacement de la variable codes." + s + "<br>"
+                             "n'a pas pu être effectué dans le fichier prologue_codes.R<br>");
+
+                    icon = icon2;
+                }
+        }
+
+    res = renommer (dump (file_str), codePage::prologue_codes_path);
+
+    appliquerCodes->setIcon (icon);
+
+    if (res == true)
+        label->setText ("Les parties suivantes :"
+                        "<ul>" + liste_cb + "</ul>"
+                        "seront  prises en compte pour les rapports.");
+    else
+        label->setText ("Erreur d'enregistrement du fichier de configuration prologue_codes.R");
 }
 
 standardPage::standardPage()
@@ -1067,6 +1213,9 @@ options::options (Altair* parent)
     extraTab  = new extraPage();
     pagesWidget->addWidget (extraTab);
     
+    rapportTab  = new rapportPage();
+    pagesWidget->addWidget (rapportTab);
+    
     closeButton = new QDialogButtonBox (QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     closeButton->button (QDialogButtonBox::Ok)->setText ("Accepter");
     closeButton->button (QDialogButtonBox::Cancel)->setText ("Annuler");
@@ -1151,7 +1300,8 @@ void options::createIcons()
                                   << ":/images/csv.png" << "   Format  "
                                   << ":/images/configure-toolbars.png" << "Traitement "
                                   << ":/images/data-icon.png" << "   Codes   "
-                                  << ":/images/extra.png" << "   Extra   ";   
+                                  << ":/images/extra.png" << "   Extra   "
+                                  << ":/images/rapport.png" << "  Rapport  ";  
 
     for (int i = 0; i < iconList.size() / 2 ; ++i) createIcon (iconList[2 * i], iconList[2 * i + 1]);
 

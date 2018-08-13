@@ -52,5 +52,6 @@
         <file>images/internet-web-browser.png</file>
         <file>images/altair.png</file>
         <file>images/extra.png</file>
+        <file>images/rapport.png</file>
     </qresource>
 </RCC>
