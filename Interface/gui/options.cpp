@@ -441,7 +441,7 @@ void rapportPage::substituer_valeurs_dans_script_R()
             QString t = s;
             t.remove(" ");
                         
-            res = substituer ("script_" + t + " *<- *NA", "script_" + t + " <- " + (value ? "TRUE" : "FALSE"), file_str);
+            res = substituer ("script_" + t + " *<- *TRUE", "script_" + t + " <- " + (value ? "TRUE" : "FALSE"), file_str);
             if (value) liste_cb += "<li>" + s.toUpper() + "</li>";
                 
             if (res == false)

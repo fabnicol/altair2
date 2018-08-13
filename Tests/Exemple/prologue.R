@@ -85,6 +85,13 @@ utiliser.variable.Heures.Sup.  <- FALSE    # faire les tests de seuil IHTS sur l
 noria.sur.base.de.paie         <- FALSE    # calculer effet de noria sur base de paie uniquement (pas de fichier E/S)
 sauter.tests.statutaires       <- FALSE
 profiler                       <- FALSE
+paye.budget.existe             <- FALSE
+fichier.personnels.existe      <- TRUE
+grades.categories.existe       <- TRUE
+logements.existe               <- TRUE
+plafonds.ifse.existe           <- TRUE
+ouvrir.document                <- TRUE
+
 
 # Génération de parties des rapports
 

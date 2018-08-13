@@ -947,11 +947,11 @@ extraire_paye <- function(an, L, out) {
 #' @return Valeur de la dernière variable globale \code{variable} instanciée. Effets de bord en sortie.
 #' @export
 
-insérer_script <- function(chemin = NULL, index = c(0), variable = "année", gen = générer.rapport, incrémenter = FALSE, fonction = NULL) {
+insérer_script <- function(chemin = NULL, index = c(0), variable = "année", gen = générer.rapport, incrémenter = FALSE, fonction = NULL, type = séquentiel) {
 
 if (! is.null(chemin) && get(gsub(".R", "", basename(chemin), fixed = TRUE)) == FALSE) invisible(return(NULL))
   
-invisible(lapply(index, function(x) {
+invisible(sapply(index, function(x) {
 
   assign(variable, x, .GlobalEnv)
   
@@ -960,10 +960,16 @@ invisible(lapply(index, function(x) {
   if (is.null(fonction)) {
         
     if (gen) {
-            cat(knit_child(text = readLines(spin(chemin, knit = FALSE),
-                                            encoding = encodage.code.source),
-                           quiet = TRUE),
-                sep = '\n')
+            vect <- knit_child(text = readLines(spin(chemin, knit = FALSE),
+                                                encoding = encodage.code.source),
+                               quiet = TRUE)
+                               
+            if (type == séquentiel) {
+              cat(vect, sep = '\n')
+            } else {
+              return(vect)
+            }
+             
         } else {
             
             source(chemin, encoding = encodage.code.source)    

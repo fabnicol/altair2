@@ -46,6 +46,8 @@ find.pandoc <- function() {
   return("")
 }
 
+chemin_pandoc <- find.pandoc()
+
 rendre <- function(fw = fig.width,
                    fh = fig.height,
                    d  = dpi,
@@ -89,10 +91,10 @@ rendre <- function(fw = fig.width,
           if (to == "docx") {
             file.remove("temp.R") 
           } else {
-            if ((p <- find.pandoc()) != "") {
+            if (chemin_pandoc != "") {
                if (to == "latex") {
-                  cat(p, output_file, "-o", "altaïr.pdf", args)
-                  system2(p, c(output_file, "-o", "altaïr.pdf", args))
+                  cat(chemin_pandoc, output_file, "-o", "altaïr.pdf", args)
+                  system2(chemin_pandoc, c(output_file, "-o", "altaïr.pdf", args))
                }
             } else {
               cat("Impossible de trouver pandoc et de générer le pdf.")

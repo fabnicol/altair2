@@ -8,6 +8,8 @@ smpt(Filtre, type = "smpt net")
 }
 \arguments{
 \item{Filtre}{Filtre fonctionnel booléen décrivant une sélection sur les lignes (caractéristiques des personnels)}
+
+\item{type}{"smpt net", "smpt brut", "rmpp net", "rmpp brut"}
 }
 \value{
 Tableau d'évolution du SMPT
