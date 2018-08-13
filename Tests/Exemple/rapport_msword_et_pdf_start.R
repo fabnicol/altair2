@@ -43,6 +43,7 @@
 source("syspaths.R", encoding = encodage.code.source)
 source("corps_rapport_pdf.R", encoding = encodage.code.source)  
 
+
   if (file.exists("temp.R")) 
   {
       file.remove("temp.R")
@@ -59,7 +60,7 @@ source("corps_rapport_pdf.R", encoding = encodage.code.source)
   
   system(
     paste(
-      ifelse(setOSWindows, file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc/pandoc.exe"), "/usr/bin/pandoc"),
+      ifelse(setOSWindows, file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc/pandoc.exe"), chemin_pandoc),
       "altair.md +RTS -K512m -RTS --to",
       "docx",
       "--from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --highlight-style tango --output",
@@ -70,7 +71,7 @@ source("corps_rapport_pdf.R", encoding = encodage.code.source)
   
   system(
     paste(
-      ifelse(setOSWindows, file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc/pandoc.exe"), "/usr/bin/pandoc"),
+      ifelse(setOSWindows, file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc/pandoc.exe"), chemin_pandoc),
       "altair.md +RTS -K512m -RTS --to",
       "odt",
       "--from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --highlight-style tango --output",
@@ -86,7 +87,7 @@ source("corps_rapport_pdf.R", encoding = encodage.code.source)
 file.copy("altaïr.docx", chemin.clé)
 file.copy("altaïr.odt", chemin.clé)
 
-if (basename(chemin.clé) == racine) {
+if (ouvrir.document && basename(chemin.clé) == racine) {
   if (setOSWindows) {
     
     shell("start winword Donnees/R-Altaïr/altaïr.docx")

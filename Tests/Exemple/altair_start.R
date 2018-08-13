@@ -231,7 +231,7 @@ scripts <- list(
               fin.période.sous.revue),
     incrémenter = TRUE),                  #### 2 et 3 Analyse statique des rémunérations ####
   "script_comparaisonsdubrut.R",           #### 3.4  Comparatif INSEE DGCL ####
-  c("script_évolutiondunet.R",         #### 4. Analyse dynamique des rémunérations ####
+  list("script_évolutiondunet.R",         #### 4. Analyse dynamique des rémunérations ####
     incrémenter = TRUE),
   "script_NBI.R",                         #### 5.1  NBI               ####
   "script_PFI.R",                         #### 5.2  PFI               ####
@@ -252,49 +252,64 @@ scripts <- list(
   "script_annexe.R"                       #### ANNEXE                 ####
 ) 
 
-générer.partie <- function(script, type = séquentiel) invisible(lapply(script, function(x) do.call(insérer_script, 
-                                                                                          as.list(na.omit(c(file.path(chemin.modules, x[1]),
-                                                                                                                      x[-1]))))))
+générer.partie <- function(script, type = séquentiel) {
+                              invisible(lapply(script, function(x) do.call(insérer_script, 
+                                                                             as.list(na.omit(c(file.path(chemin.modules, x[1]),
+                                                                                             x[-1],
+                                                                                             type = type)))))) 
+}
+                              
 if (séquentiel) {
   
   générer.partie(scripts)
   
 } else {
   
-  group1 <- list("script_effectifs.R",               
-                  "script_pyramides.R",               
-                  "script_duréedeservice.R",                   
-                  "script_rémunérationsbrutes.R",               
-                  "script_comparaisonsdubrut.R")       
+  group1 <- list("script_effectifs.R",
+                  "script_pyramides.R",
+                  "script_duréedeservice.R")
   
-  group2 <- list("script_évolutiondunet.R")       
+  group2 <- list(list("script_rémunérationsbrutes.R",
+                      index = c(début.période.sous.revue,
+                                fin.période.sous.revue),
+                      incrémenter = TRUE),
+                 "script_comparaisonsdubrut.R")
+
+  group3 <- list(list("script_évolutiondunet.R",
+                     incrémenter = TRUE),
+                 "script_PFI.R",
+                 "script_vacataires.R",
+                 "script_NAS.R")
+
+  group4 <- list("script_IATIFTS.R",
+                  "script_PFR.R",
+                  "script_PSR.R",
+                  "script_IPF.R",
+                  "script_RIFSEEP.R")
+
+  group5 <- list("script_NBI.R",
+                 "script_HS.R",
+                 "script_astreintes.R",
+                 "script_élus.R")
+
+
+  group6 <- list("script_comptabilité.R",
+                  "script_SFT.R",
+                  "script_retraites.R",
+                  "script_FPH.R",
+                  "script_annexe.R")
   
-  group3 <- list("script_NBI.R",                     
-                  "script_PFI.R",                     
-                  "script_vacataires.R",               
-                  "script_NAS.R")                     
-  
-  group4 <- list("script_IATIFTS.R",                
-                  "script_PFR.R",                     
-                  "script_PSR.R",                     
-                  "script_IPF.R",                     
-                  "script_RIFSEEP.R")                 
-  
-  group5 <- list("script_HS.R",                      
-                  "script_heures_sup.R",              
-                  "script_astreintes.R",              
-                  "script_élus.R")                    
-  
-  group6 <- list("script_comptabilité.R",            
-                  "script_annexe.R",                  
-                  "script_SFT.R",                     
-                  "script_retraites.R",               
-                  "script_FPH.R")
   library(parallel)
   
   cl <- makeCluster(6, type = "FORK")
-  res <- clusterApply(cl, group %+% 1:6, générer.partie, type = ! séquentiel)
+  res <- clusterApply(cl,
+                      list(group1, group2,
+                               group3, group4,
+                               group5, group6),
+                      générer.partie,
+                      type = ! séquentiel)
   stopCluster(cl)
+  invisible(lapply(res, function(x) cat(unlist(x), sep = '\n')))
 }
 
 ######### SAUVEGARDES #######

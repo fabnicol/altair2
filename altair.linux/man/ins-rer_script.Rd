@@ -5,7 +5,8 @@
 \title{Insérer un script auxiliaire, indexé par une variable globale}
 \usage{
 insérer_script(chemin = NULL, index = c(0), variable = "année",
-  gen = générer.rapport, incrémenter = FALSE, fonction = NULL)
+  gen = générer.rapport, incrémenter = FALSE, fonction = NULL,
+  type = séquentiel)
 }
 \arguments{
 \item{chemin}{Chemin du script R}

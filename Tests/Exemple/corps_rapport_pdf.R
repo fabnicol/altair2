@@ -64,7 +64,7 @@ file.copy("altaïr.pdf", chemin.clé)
 # Mais ne le faire que s'il ne s'agit pas du mode distributif(+)
 # Il serait en effet non ergonomique de lancer la lecture de 50 fichiers PDF
 
-if (basename(chemin.clé) == basename(racine)) {
+if (ouvrir.document && basename(chemin.clé) == basename(racine)) {
   if (setOSWindows) {
     
     shell(paste("start acrord32.exe",  file.path(chemin.clé, "altaïr.pdf")))

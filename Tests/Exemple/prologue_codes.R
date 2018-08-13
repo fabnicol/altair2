@@ -56,31 +56,31 @@ codes.ift             <- NA
 codes.primedeservice  <- NA  
 codes.primedetechnicite <- NA
 
-script_effectifs               <- NA    
-script_pyramides               <- NA    
-script_duréedeservice          <- NA    
-script_rémunérationsbrutes     <- NA    
-script_comparaisonsdubrut      <- NA    
-script_rémunérationsnettes     <- NA    
-script_rmppetnoria             <- NA    
-script_évolutiondunet          <- NA    
-script_NBI                     <- NA    
-script_PFI                     <- NA    
-script_vacataires              <- NA    
-script_NAS                     <- NA    
-script_IATIFTS                 <- NA    
-script_PFR                     <- NA    
-script_PSR                     <- NA    
-script_IPF                     <- NA    
-script_RIFSEEP                 <- NA    
-script_HS                      <- NA    
-script_astreintes              <- NA    
-script_élus                    <- NA    
-script_comptabilité            <- NA    
-script_annexe                  <- NA    
-script_SFT                     <- NA    
-script_retraites               <- NA    
-script_FPH                     <- NA    
+script_effectifs               <- TRUE    
+script_pyramides               <- TRUE    
+script_duréedeservice          <- TRUE    
+script_rémunérationsbrutes     <- TRUE    
+script_comparaisonsdubrut      <- TRUE    
+script_rémunérationsnettes     <- TRUE    
+script_rmppetnoria             <- TRUE    
+script_évolutiondunet          <- TRUE    
+script_NBI                     <- TRUE    
+script_PFI                     <- TRUE    
+script_vacataires              <- TRUE    
+script_NAS                     <- TRUE    
+script_IATIFTS                 <- TRUE    
+script_PFR                     <- TRUE    
+script_PSR                     <- TRUE    
+script_IPF                     <- TRUE    
+script_RIFSEEP                 <- TRUE    
+script_HS                      <- TRUE    
+script_astreintes              <- TRUE    
+script_élus                    <- TRUE    
+script_comptabilité            <- TRUE    
+script_annexe                  <- TRUE    
+script_SFT                     <- TRUE    
+script_retraites               <- TRUE    
+script_FPH                     <- TRUE    
 
 types.irs  <- c("IR", "S")
 

@@ -2,7 +2,7 @@
 
 #' SMPT
 #' @param Filtre  Filtre fonctionnel booléen décrivant une sélection sur les lignes (caractéristiques des personnels)
-#' @type "smpt net", "smpt brut", "rmpp net", "rmpp brut"
+#' @param type "smpt net", "smpt brut", "rmpp net", "rmpp brut"
 #' @return Tableau d'évolution du SMPT
 #' @export
 
