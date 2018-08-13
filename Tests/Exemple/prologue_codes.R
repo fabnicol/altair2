@@ -57,7 +57,7 @@ codes.primedeservice  <- NA
 codes.primedetechnicite <- NA  
 types.irs  <- c("IR", "S")
 
-controle<-c("YYY, YYY8, YYY9, YYY10, YYY8.2, YYY12, YYY11","YYY","YYY","BUDGET PRINCIPAL, ASSAINISSEMENT, Multi budgets")  
+controle<-c("YYY","YYY","YYY","MULTIBUDGET")  
 
 codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IFSE", "IEMP", "ISS", "IHTS", "VAC", "ASTREINTES", "NAS", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(

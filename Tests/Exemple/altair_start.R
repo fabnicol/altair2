@@ -73,12 +73,9 @@ invisible(enableJIT(3))
 
 # Options générales
 
-options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE, datatable.integer64 = "numeric")
-
 # Sourcer la biblio de fonctions auxiliaires
 # Appel de la biblio altair, où sont regroupées des fonctions d'analyse des rémunérations et les pyramides
 
-library("altair", lib.loc=c("/usr/local/lib64/R/library", "/usr/lib64/R/library"))
 library(knitr, warn.conflicts = FALSE)
 knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
 

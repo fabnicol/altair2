@@ -61,7 +61,8 @@ if (setOSWindows) {
 }
 
 library(data.table, warn.conflicts = FALSE)
-
+options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE, datatable.integer64 = "numeric")
+library("altair", lib.loc=c("/usr/local/lib64/R/library", "/usr/lib64/R/library"))
 source("prologue.R", encoding = encodage.code.source)
 
 script_env <- ls()
