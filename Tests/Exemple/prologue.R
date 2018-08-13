@@ -269,5 +269,6 @@ PROF <<- data.table()
 
 source("versant.R", encoding = "UTF-8")
 # point d'indice majoré
-source("point.im.R", encoding = "UTF-8")
+
+point_inm()
 
