@@ -1,4 +1,6 @@
-calcul <- function() {
+
+#'@export
+calcul_astreintes <- function() {
 
 essayer({  
   
@@ -43,3 +45,34 @@ essayer({
 )
 }, "Le tableau de contrôle des astreintes n'a pas pu être généré.")
 }
+
+#'@export
+cumul_astreintes_IHTS <- function() {
+  
+  essayer({  
+  setnames(Paie_astreintes, "indic", "indic_astr")
+  setnames(Base.IHTS, "indic", "indic_IHTS")
+  
+  Controle_astreintes_HS_irreg <- Paie_astreintes[ , .(Matricule, Année, Mois, Code, Libellé, Type,  Montant, indic_astr) 
+                                                   ][Base.IHTS[Type %in% c("I", "A", "R"), 
+                                                               .(Matricule, Année, Mois, Code, Libellé, Type, Montant, indic_IHTS)], 
+                                                     nomatch = 0,
+                                                     on = .(Matricule, Année, Mois, Code, Libellé, Type, Montant)
+                                                     ][indic_IHTS == TRUE | indic_astr == TRUE]
+  
+  nb.agents.IHTS.astreintes <- uniqueN(Controle_astreintes_HS_irreg$Matricule)
+  
+  if (nrow(Controle_astreintes_HS_irreg)) {
+    cat("Des astreintes sont payées à", nb.agents.IHTS.astreintes, "personnels bénéficiaires d'IHTS.")
+  }
+  
+  "Cum_astreintes_HS_irreg" %a% rbind(Controle_astreintes_HS_irreg[, .(round(sum(Montant[indic_astr == TRUE]), 1),
+                                                                    round(sum(Montant[indic_IHTS == TRUE]), 1)),
+                                                                keyby = "Année"],
+                                   list("Total",
+                                        Controle_astreintes_HS_irreg[indic_astr == TRUE, round(sum(Montant), 1)],
+                                        Controle_astreintes_HS_irreg[indic_IHTS == TRUE, round(sum(Montant), 1)]))
+  }, 
+  "Le contrôle du cumul astreintes IHTS n'a pas pu être réalisé")
+}
+

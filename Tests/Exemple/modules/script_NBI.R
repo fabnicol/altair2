@@ -3,7 +3,6 @@
 #'
 #'   
 
-
 #### 5.1 NBI ####  
 
 #'# `r chapitre`. Tests réglementaires   
@@ -20,7 +19,7 @@
 #'A défaut, des lignes de paye de rappels de cotisations sur NBI peuvent être agrégées, dans certains cas, aux rappels de rémunération brute.   
 #'       
 
-insérer_script(file.path(chemin.modules, "fonctions", "script_NBI.R"), fonction = "calcul")
+insérer_script(fonction = "calcul_NBI")
 
 #'   
 #'[Lien vers la base de données NBI aux non titulaires](Bases/Reglementation/NBI.aux.non.titulaires.csv) &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NBI_nt.odt)       
@@ -84,7 +83,7 @@ with(cumuls.nbi,
 
 # Calcul plus exact de liquidation, attention à exclure les rappels
 
-insérer_script(file.path(chemin.modules, "fonctions", "script_NBI.R"), fonction = "proratisation")
+insérer_script(fonction = "proratisation_NBI")
 
 #'   
 #'[Lien vers les bulletins anormaux du contrôle de proratisation/liquidation de la NBI](Bases/Fiabilite/lignes.nbi.anormales.mensuel.csv)   
@@ -96,7 +95,7 @@ insérer_script(file.path(chemin.modules, "fonctions", "script_NBI.R"), fonction
 #'&nbsp;*Tableau `r incrément()` : Contrôle d'attribution de NBI par catégorie statutaire*  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_plafonds_NBI.odt)           
 #'  
 
-insérer_script(file.path(chemin.modules, "fonctions", "script_NBI.R"), fonction = "catégories")
+insérer_script(fonction = "catégories_NBI")
 
 #'   
 #'**Nota :**   

@@ -277,9 +277,7 @@ sauv.bases <- function(chemin.dossier, env, ...)
                                x,
                            FALSE,
                environment = env)
-    }  else {
-      cat("Pas de base", x)
-    }
+    }  
 
   }))
 }
@@ -949,9 +947,9 @@ extraire_paye <- function(an, L, out) {
 #' @return Valeur de la dernière variable globale \code{variable} instanciée. Effets de bord en sortie.
 #' @export
 
-insérer_script <- function(chemin, index = c(0), variable = "année", gen = générer.rapport, incrémenter = FALSE, fonction = NULL) {
+insérer_script <- function(chemin = NULL, index = c(0), variable = "année", gen = générer.rapport, incrémenter = FALSE, fonction = NULL) {
 
-if (get(gsub(".R", "", basename(chemin), fixed = TRUE)) == FALSE) invisible(return(NULL))
+if (! is.null(chemin) && get(gsub(".R", "", basename(chemin), fixed = TRUE)) == FALSE) invisible(return(NULL))
   
 invisible(lapply(index, function(x) {
 
@@ -973,8 +971,7 @@ invisible(lapply(index, function(x) {
         }
     
   } else {
-      
-      if (fonction[1] == "calcul") source(chemin, encoding = encodage.code.source)
+  
       for (f in fonction) {
         do.call(get(f), list())
     }

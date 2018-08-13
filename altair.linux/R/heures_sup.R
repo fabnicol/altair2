@@ -39,13 +39,13 @@ calcul_HS <- function() {
   Base.IHTS.non.tit <- lignes.IHTS[Statut != "TITULAIRE" & Statut != "STAGIAIRE"]
   
   lignes.IHTS.rappels <- lignes.IHTS[Type == "R" & Montant != 0
-                                     ][ , `:=`(ihts.cum.rappels = sum(Montant[Année.rappel == Année & Mois.rappel <= Mois], na.rm = TRUE),
+                                    ][ , `:=`(ihts.cum.rappels = sum(Montant[Année.rappel == Année & Mois.rappel <= Mois], na.rm = TRUE),
                                                nihts.cum.rappels = ifelse((a <- sum(abs(Base[Année.rappel == Année & Mois.rappel <= Mois]) * sign(Montant), na.rm = TRUE)) == 0,
-                                                                          sum(abs(Nb.Unité[Année.rappel == Année & Mois.rappel <= Mois])  * sign(Montant), na.rm = TRUE),
+                                                                          sum(abs(Nb.Unité[Année.rappel == Année & Mois.rappel   <= Mois]) * sign(Montant), na.rm = TRUE),
                                                                           a),
                                                ihts.cum.rappels.ant = sum(Montant[Année.rappel < Année], na.rm = TRUE),
                                                nihts.cum.rappels.ant = ifelse((a <- sum(abs(Base[Année.rappel < Année]) * sign(Montant), na.rm = TRUE)) == 0, 
-                                                                              sum(abs(Nb.Unité[Année.rappel < Année]) * sign(Montant), na.rm = TRUE),
+                                                                              sum(abs(Nb.Unité[Année.rappel   < Année]) * sign(Montant), na.rm = TRUE),
                                                                               a)), 
                                               by = .(Matricule, Année.rappel, Mois.rappel)
                                      ][Année.rappel >= début.période.sous.revue 

@@ -13,7 +13,7 @@
 
 # Vérification des seuils annuels :
 
-insérer_script(file.path(chemin.modules, "script_heures_sup.R"), fonction = c("calcul", "dépassements"))
+insérer_script(fonction = c("calcul_HS", "dépassements_HS"))
 
 # On considère le taux horaire maximum de nuit et la somme des IHTS 
 
@@ -35,7 +35,7 @@ insérer_script(file.path(chemin.modules, "script_heures_sup.R"), fonction = c("
 #'&nbsp;*Tableau `r incrément()` : Cumuls d'heures supplémentaires déclarées et des IHTS payées, en nombre d'heures*     
 #'    
 
-insérer_script(file.path(chemin.modules, "script_heures_sup.R"), fonction = "cumuls")
+insérer_script(fonction = "cumuls_HS")
 
 #'    
 #'[Lien vers les données du tableau](Bases/Reglementation/CumHS.csv)     
@@ -47,7 +47,7 @@ insérer_script(file.path(chemin.modules, "script_heures_sup.R"), fonction = "cu
 #'&nbsp;*Tableau `r incrément()` : Heures supplémentaires au-delà des seuils*   
 #'    
 
-insérer_script(file.path(chemin.modules, "script_heures_sup.R"), fonction = "plafonds")
+insérer_script(fonction = "plafonds_HS")
 
 #'
 #'[Lien vers la base de données Heures supplémentaires en excès du seuil de 15h (FPH) ou de 25h/mois (FPT)](Bases/Reglementation/HS.sup.25.csv)     

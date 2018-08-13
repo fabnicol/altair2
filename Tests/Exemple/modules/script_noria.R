@@ -4,11 +4,14 @@ attach(Analyse.variations.par.exercice)
 
 #'   
 #'##### Les filtres RMPP appliqués au 4.3.1 et 4.3.2 ne sont plus appliqués. Il peut en résulter des variations significativement différentes de celles calculées précédemment.
-#'##### Les calculs de RMPP sur la première année de la période sous revue sont estimatifs et ne devraient pas être pris en compte pour publication.     
 #'         
 
 #'
 #'### `r chapitre`.3.3 Effet de noria et de variation d'effectifs sur rémunérations moyennes       
+#'     
+#'*Les calculs de RMPP sur la première année de la période sous revue sont estimatifs et ne devraient pas être pris en compte pour publication.*      
+#'   
+#'      
 #'**Effet de noria et de variations d'effectifs sur rémunérations nettes moyennes EQTP**   
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
