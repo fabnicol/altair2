@@ -141,31 +141,28 @@ public :
         label->setText ("") ;
     }
 
+     static QString prologue_codes_path;  ///< Chemin initial de \em prologue_codes.R sous #SCRIPT_DIR. Ce fichier contient les exportations de valeurs de l'onglet \b Codes de l'interface graphique.
+     
 private:
-    QString prologue_codes_path;  ///< Chemin initial de \em prologue_codes.R sous #SCRIPT_DIR. Ce fichier contient les exportations de valeurs de l'onglet \b Codes de l'interface graphique.
-    QStringList variables;        ///< Libellés des éléments de paye faisant l'objet d'une ligne dans l'onglet.
     QList<FLineEdit*> listeCodes; ///< Liste des pointeurs vers des composants fonctionnels de classe FLineEdit, qui rassemble l'ensemble des lignes correspondant à variables.
-    QList<QString> listeLabels;   ///< Elements de variables dont les espaces ont été retirées.
-    QList<QLabel*> listeDialogueLabels;        ///< Mise en forme des éléments de listeLabels au format QLabel.
-    QLabel *label;                             ///< Elément de texte variable servant à afficher des messaes d'erreur ou de réussite de l'exportation des codes.
-    QString init_label_text ;                  ///< Message "Appuyer pour exporter..."
-    QToolButton* appliquerCodes ;              ///< Bouton "Exporter" (flèche verte) .
     QGridLayout *vLayout = new QGridLayout;    ///< Disposition secondaire.
     QVBoxLayout *mainLayout = new QVBoxLayout; ///< Disposition principale.
-    QGroupBox *baseBox;                        ///< Boite regroupant les codes.
-
+    QGroupBox *baseBox;                        ///< Boite regroupant les codes.    
     /// Crée une ligne de codes pour un type donné d'éléments de paye
     /// \param nom Nom de l'élément de paye
     /// \return Nombre d'éléments de paye empilés
 
     int ajouterVariable (const QString& nom);
-
-    /// Réinitialise l'exportation des codes d'éléments de paye
-    /// Ecrase prologue_codes.R ( prologue_codes_path) par sa valeur d'initialisation prologue_init.R
-    /// \return \e true si la réinitialisation par écrasement a réussi, \e false sinon.
-
-    bool reinitialiser_prologue();
-
+protected : 
+   
+    QStringList variables;        ///< Libellés des éléments de paye faisant l'objet d'une ligne dans l'onglet.
+    QList<QString> listeLabels;   ///< Elements de variables dont les espaces ont été retirées.
+    QList<QLabel*> listeDialogueLabels;        ///< Mise en forme des éléments de listeLabels au format QLabel.
+    QLabel *label;                             ///< Elément de texte variable servant à afficher des messaes d'erreur ou de réussite de l'exportation des codes.
+    QString init_label_text ;                  ///< Message "Appuyer pour exporter..."
+    QToolButton* appliquerCodes ;              ///< Bouton "Exporter" (flèche verte) .
+  
+    
 private slots:
     
     /// Substitue certaines valeurs caractéristiques du contrôle dans le fichier \em prologue_codes.R dans common::exportpath, notamment le Siret, le budget et l'employeur
@@ -177,6 +174,43 @@ private slots:
     void activer_fph (bool);
 };
 
+class rapportPage :  public  QDialog, public common
+{
+    Q_OBJECT
+
+public :
+    /// Constructeur de l'onglet "Code de paye des tests"
+
+    rapportPage();
+
+    
+private:
+    QList<FCheckBox*> listeCB; ///< Liste des pointeurs vers des composants fonctionnels de classe FCheckBox, qui rassemble l'ensemble des cases à cocher pour sélectionner les parties du rapport.
+    QGridLayout *vLayout = new QGridLayout;    ///< Disposition secondaire.
+    QVBoxLayout *mainLayout = new QVBoxLayout; ///< Disposition principale.
+    QGroupBox *baseBox;                        ///< Boite regroupant les codes.    
+    /// Crée une ligne de codes pour un type donné d'éléments de paye
+    /// \param nom Nom de l'élément de paye
+    /// \return Nombre d'éléments de paye empilés
+
+    QStringList variables;        ///< Libellés des éléments de paye faisant l'objet d'une ligne dans l'onglet.
+     QLabel *label;                             ///< Elément de texte variable servant à afficher des messaes d'erreur ou de réussite de l'exportation des codes.
+    QString init_label_text ;                  ///< Message "Appuyer pour exporter..."
+    QToolButton* appliquerCodes ;              ///< Bouton "Exporter" (flèche verte) .
+
+    /// Crée une ligne de codes pour un type donné d'éléments de paye
+    /// \param nom Nom de l'élément de paye
+    /// \return Nombre d'éléments de paye empilés
+
+    int ajouterVariable (const QString& nom);
+
+private slots:
+    
+    /// Substitue certaines valeurs caractéristiques du contrôle dans le fichier \em prologue_codes.R dans common::exportpath, notamment le Siret, le budget et l'employeur
+    
+    void substituer_valeurs_dans_script_R();
+    
+};
 
 /// Classe de l'onglet Extra permettant d'importer les fichiers auxiliaires optionnels (correspondance budgétaire, fichier des catégories statutaires rectifié, concessions de logement, plafonds IFSE)     
 
@@ -221,6 +255,7 @@ public:
     processPage* processTab;           ///< Onglet de Traitement : nombre de fils, utilisation de la mémoire, log et enchainement avec la production des rapports
     codePage* codeTab;                 ///< Onglet des codes de paye : renseignement manuel des codes de paye utilisés pour certains types d'éléments de paye
     extraPage* extraTab;               ///< Onglet des fichiers auxiliaires : importation de fichiers externes optionnels permetant de préciser/corriger la génération des rapports d'analyse.  
+    rapportPage* rapportTab;           ///< Onglet des parties des rapports d'analyse : choix du contenu des rapports.  
     static std::uint16_t RefreshFlag;  ///< Drapeau indiquant si si l'interface a été actualisée ou doit l'être
     QListWidget *optionWidget;         ///< composant du dialogue d'options
     QDialogButtonBox *closeButton;     ///< Bouton "Quitter"    

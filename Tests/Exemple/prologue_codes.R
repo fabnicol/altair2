@@ -54,10 +54,37 @@ codes.nas        <- NA
 codes.primespecifique <- NA  
 codes.ift             <- NA  
 codes.primedeservice  <- NA  
-codes.primedetechnicite <- NA  
+codes.primedetechnicite <- NA
+
+script_effectifs               <- NA    
+script_pyramides               <- NA    
+script_duréedeservice          <- NA    
+script_rémunérationsbrutes     <- NA    
+script_comparaisonsdubrut      <- NA    
+script_rémunérationsnettes     <- NA    
+script_rmppetnoria             <- NA    
+script_évolutiondunet          <- NA    
+script_NBI                     <- NA    
+script_PFI                     <- NA    
+script_vacataires              <- NA    
+script_NAS                     <- NA    
+script_IATIFTS                 <- NA    
+script_PFR                     <- NA    
+script_PSR                     <- NA    
+script_IPF                     <- NA    
+script_RIFSEEP                 <- NA    
+script_HS                      <- NA    
+script_astreintes              <- NA    
+script_élus                    <- NA    
+script_comptabilité            <- NA    
+script_annexe                  <- NA    
+script_SFT                     <- NA    
+script_retraites               <- NA    
+script_FPH                     <- NA    
+
 types.irs  <- c("IR", "S")
 
-controle<-c("YYY","YYY","YYY","MULTIBUDGET")  
+controle<-c("","","","")  
 
 codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IFSE", "IEMP", "ISS", "IHTS", "VAC", "ASTREINTES", "NAS", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(
@@ -102,5 +129,6 @@ codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "I
                                    expression.rég.primedeservice,
                                    expression.rég.primedetechnicite,
                                    ""))
+
 
 setkey(codes, type)
