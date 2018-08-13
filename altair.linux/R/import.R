@@ -44,6 +44,7 @@
 #' @export
 #' 
 `%a%` <- function(x, y) assign(x, y, inherits = TRUE, envir = .GlobalEnv)
+"durée.sous.revue" %a% 1
 
 importer.bases.via.xhl2csv <- function(base, fichiers, colClasses = colonnes.classes.input) {
   

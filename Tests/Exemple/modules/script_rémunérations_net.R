@@ -2,12 +2,10 @@
 #'## `r chapitre`.1 Distribution de la rémunération nette moyenne sur la période    
 #+ remuneration-nette
 
-Analyse.variations <- Analyse.variations[nb.jours > seuil.troncature
-                                         & ! is.na(Montant.net.annuel.eqtp)
-                                         & Montant.net.annuel.eqtp  > minimum.positif 
-                                         & ! is.na(Statut)] 
 
 attach(Analyse.variations, warn.conflicts = FALSE)
+
+calcul_rmpp()
 
 temp <- positive(moyenne.rémunération.annuelle.sur.période) / 1000
 
@@ -61,69 +59,6 @@ masse.salariale.nette <- rep(0, durée.sous.revue)
 #'    
 
 #+ Salaire-moyen-par-tete    
-
-
-smpt <- function(Filtre, type =  "smpt net") {
-  
-  S_net.eqtp <- Analyse.variations[Filtre() == TRUE,
-                                   .(moy = weighted.mean(Montant.net.annuel.eqtp, quotité.moyenne, na.rm = TRUE)),
-                                   by = "Année"]
-  
-  S_net.eqtp.100 <- Analyse.variations[Filtre() == TRUE & temps.complet == TRUE & permanent == TRUE,
-                                       .(moy = weighted.mean(Montant.net.annuel.eqtp, quotité.moyenne, na.rm = TRUE)),
-                                       by = "Année"]
-  
-  
-  f <- function(x) prettyNum(S_net.eqtp[Année == x, moy],
-                             big.mark = " ",
-                             digits = 1,
-                             format = "fg")
-  
-  g <- function(x) prettyNum(S_net.eqtp.100[Année == x, moy],
-                             big.mark = " ",
-                             digits = 1,
-                             format = "fg")
-  
-  T <- Tableau.vertical(c("Année", type %+% " (euros)", type %+% " temps complet (euros)"),
-                        if (type == "smpt net") période else période[2:durée.sous.revue],           # if...else pas ifelse (dim vecteur)
-                        extra = "variation",
-                        f,
-                        g)
-  
-  if (! is.null(T) & T != "") T else  cat("    \n")  
-}
-
-distribution_smpt <- function(Filtre) {
-  
-  Résumé(c(début.période.sous.revue, "Effectif",
-                 début.période.sous.revue %+% " TC", "Effectif",
-                 fin.période.sous.revue, "Effectif",
-                 fin.période.sous.revue %+% " TC",  "Effectif"),
-               list(
-                 Analyse.variations[Année == début.période.sous.revue
-                                    & Filtre() == TRUE,
-                                    .(Montant.net.annuel.eqtp, quotité.moyenne)],   
-                 Analyse.variations[Année == début.période.sous.revue
-                                    & Filtre() == TRUE
-                                    & permanent == TRUE
-                                    & temps.complet == TRUE,
-                                    .(Montant.net.annuel.eqtp, quotité.moyenne)],
-                 Analyse.variations[Année == fin.période.sous.revue 
-                                    & Filtre() == TRUE,
-                                    .(Montant.net.annuel.eqtp, quotité.moyenne)],
-                 Analyse.variations[Année == fin.période.sous.revue 
-                                    & Filtre() == TRUE
-                                    & permanent == TRUE
-                                    & temps.complet == TRUE,
-                                    .(Montant.net.annuel.eqtp, quotité.moyenne)]),
-               extra = "length")
-  
-  # Pour des raisons très mal comprises, print est ici nécessaire alors qu'il ne l'est pas dans smpt() pour Tableau_vertical ;
-  # pourtant les deux fonctions sont basées sur kable()
-  
-}
-
-Filtre_neutre <<- function() TRUE   
 
 essayer(label = "+SMPT global", print(smpt(Filtre_neutre)),     "Le salaire moyen par tête n'a pas pu être calculé.")    
 
@@ -244,13 +179,7 @@ essayer(label = "+distribution SMPT global", print(distribution_smpt(Filtre_neut
 #'&nbsp;*Tableau `r incrément()`*   
 #'    
 
-Filtre_fonctionnaire <<- function() Statut == "TITULAIRE" | Statut == "STAGIAIRE"
-
 essayer(label = "+SMPT fonct.", print(smpt(Filtre_fonctionnaire)), "Le salaire moyen par tête des fonctionnaires n'a pas pu être calculé.")
-
-Filtre_cat_A <<- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "A")
-Filtre_cat_B <<- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "B") 
-Filtre_cat_C <<- function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "C") 
 
 #'    
 #'##### `r chapitre`.2.2.2 Par catégorie  statutaire        
@@ -398,32 +327,6 @@ essayer(label = "+distribution SMPT cat. C", print(distribution_smpt(Filtre_cat_
 
 # Appliquer les filtres maintenant
 
-essayer(label = "+RMPP nette globale", {
-  
-  q3 <- quantile(Analyse.variations$variation.rémunération, c(quantile.cut/100, 1 - quantile.cut/100), na.rm=TRUE)
-  
-  # Filtrage : on enlève les personnels présents depuis moins d'un seuil de troncature (ex. 120 jours) dans l'année et les élus
-  # (paramètre seuil.troncature) 
-  
-  # Filtrage pour l'étude des variations : on enlève les valeurs manquantes des variations, les centiles extrêmaux,
-  # les rémunérations nettes négatives ou proche de zéro. On exige un statut explicite en fin de période.
-  # Paramétrable par :
-  # minimum.positif, quantile.cut 
-  
-  # ici il faut réduire la matrice pour éviter les réduplications pour les Résumés. TODO
-  
-  Anavar.synthese <- Analyse.variations[total.jours > seuil.troncature
-                                        & pris.en.compte == TRUE
-                                        & ! is.na(statut)   
-                                        & ! is.na(variation.rémunération) 
-                                        & variation.rémunération > q3[[1]]
-                                        & variation.rémunération < q3[[2]]]
-  
-  Anavar.synthese.plus.2.ans  <- Anavar.synthese[! is.na(plus.2.ans) & plus.2.ans == TRUE]
-  Anavar.synthese.moins.2.ans <- Anavar.synthese[! is.na(plus.2.ans) & plus.2.ans == FALSE]
-  
-  #Analyse.variations.par.exercice <- Analyse.variations.par.exercice[Nexercices > 1]
-  
   if (nrow(Anavar.synthese.plus.2.ans) > 0 && durée.sous.revue > 1 ) {
     hist(Anavar.synthese.plus.2.ans$variation.moyenne.rémunération,
          xlab ="Variation annuelle moyenne en %",
@@ -436,32 +339,29 @@ essayer(label = "+RMPP nette globale", {
          xaxt = 'n')
     
     axis(side=1, at=seq(-5,30, 1), labels=seq(-5,30,1), lwd=2)
-    
-    Filtre_rmpp <<- function() (est.rmpp == TRUE)
   }
-}, "La RMPP nette globale n'a pas pu être calculée.")
+    
 
 #'*Cet histogramme décrit l'évolution de la rémunération moyenne des personnes en place (RMPP), définies comme présentes deux années entières consécutives avec la même quotité*   
 #'*L'évolution de la RMPP permet d'étudier le glissement vieillesse-technicité "positif", à effectifs constants sur deux années*      
 
-masque.présent.sur.période <- bitwShiftL(1, durée.sous.revue) - 1      #  11111..1
 
 #'
 #'**Variation individuelle de rémunération nette en EQTP pour les personnels présents sur toute la période**     
 #'
 #'&nbsp;*Tableau `r incrément()`*
 #'
-
-print(Résumé(c("Variation normalisée (%)",
-         "Variation annuelle moyenne normalisée (%)",
-         "quotité moyenne",
-         "Effectif"),
-       Anavar.synthese[indicatrice.période == masque.présent.sur.période
-                       & Année == début.période.sous.revue, .(variation.rémunération.normalisée,
-                                                              variation.moyenne.rémunération.normalisée,
-                                                              quotité.moyenne)],
-       extra = "length"))
-
+if (durée.sous.revue > 1) {
+  print(Résumé(c("Variation normalisée (%)",
+           "Variation annuelle moyenne normalisée (%)",
+           "Quotité",
+           "Effectif"),
+         Anavar.synthese[bitwAnd(indicatrice.période, masque.présent.sur.période) == masque.présent.sur.période
+                         & Année == début.période.sous.revue, .(variation.rémunération.normalisée,
+                                                                variation.moyenne.rémunération.normalisée,
+                                                                quotité.moyenne)],
+         extra = "length"))
+}
 
 ##### 4.3.2  RMPP des titulaires et stagiaires     ######   
 
@@ -469,11 +369,9 @@ print(Résumé(c("Variation normalisée (%)",
 #'### `r chapitre`.3.2 RMPP des titulaires et stagiaires     
 #'   
 
-Filtre_rmpp_fonctionnaire <<- function () Filtre_fonctionnaire() & (est.rmpp == TRUE)
-
 
 #'
-#'**Variation individuelle de rémunération nette en EQTP pour les personnels présents la première et la dernière année**   
+#'**Variation individuelle de rémunération nette en EQTP pour les personnels présents sur toute la période**   
 #'  
 #'&nbsp;*Tableau `r incrément()`*   
 #'    

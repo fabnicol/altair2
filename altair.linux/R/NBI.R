@@ -1,4 +1,7 @@
-calcul <- function() {
+
+#' @export
+#'
+calcul_NBI <- function() {
   
     "Paie_NBI"   %a% filtrer_Paie("NBI", 
                                portée = "Mois", 
@@ -110,8 +113,9 @@ calcul <- function() {
     "rappels.nbi" %a% T2a[ , sum(nbi.cum.rappels, na.rm = TRUE)]
 }
 
+#' @export
 
-proratisation <- function() {
+proratisation_NBI <- function() {
   
   "montants.nbi.anormales.mensuel" %a% 0
   "lignes.nbi.anormales.mensuel" %a% data.table()
@@ -145,7 +149,9 @@ proratisation <- function() {
     round(montants.nbi.anormales.mensuel)))
 }
 
-catégories <- function() {
+#' @export
+
+catégories_NBI <- function() {
   
   setkey(Bulletins.paie, Catégorie, Matricule, Année, Mois)
   

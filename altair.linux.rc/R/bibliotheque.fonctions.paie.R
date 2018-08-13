@@ -265,10 +265,7 @@ sauv.bases <- function(chemin.dossier, env, ...)
                                x,
                            FALSE,
                environment = env)
-    }  else {
-      cat("Pas de base", x)
-    }
-    
+    } 
   }))
 }
 
