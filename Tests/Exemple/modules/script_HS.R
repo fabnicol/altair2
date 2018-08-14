@@ -1,12 +1,12 @@
 #'    
-#'## `r chapitre`.11 Contrôle sur les heures supplémentaires       
+#'## 5.11 Contrôle sur les heures supplémentaires       
 #'  
 #'[![Notice](Notice.png)](Docs/Notices/fiche_IHTS.odt)
 # Sont repérées comme heures supplémentaires ou complémentaires les heures dont le libellé obéissent à
 # l'expression régulière expression.rég.heures.sup donnée par le fichier prologue.R
 #'    
 #'     
-#'&nbsp;*Tableau `r incrément()` : Paiements au-delà des seuils de liquidation pour l'exercice* 
+#'&nbsp;*Tableau 5.11.1 : Paiements au-delà des seuils de liquidation pour l'exercice* 
 #'    
 
 # On considère le taux horaire maximum de nuit et la somme des IHTS et on teste su la somme des IHTS est supérieures à ce que donnerait l'application du taux de nuit
@@ -32,7 +32,7 @@ insérer_script(fonction = c("calcul_HS", "dépassements_HS"))
 #'*Des différences importantes peuvent indiquer une mauvaise fiabilité des déclarations d'heures supplémentaires et/ou des bases de liquidation IHTS*             
 #'           
 #'       
-#'&nbsp;*Tableau `r incrément()` : Cumuls d'heures supplémentaires déclarées et des IHTS payées, en nombre d'heures*     
+#'&nbsp;*Tableau 5.11.2 : Cumuls d'heures supplémentaires déclarées et des IHTS payées, en nombre d'heures*     
 #'    
 
 insérer_script(fonction = "cumuls_HS")
@@ -44,7 +44,7 @@ insérer_script(fonction = "cumuls_HS")
 #'   
 #'  
 #'  
-#'&nbsp;*Tableau `r incrément()` : Heures supplémentaires au-delà des seuils*   
+#'&nbsp;*Tableau 5.11.3 : Heures supplémentaires au-delà des seuils*   
 #'    
 
 insérer_script(fonction = "plafonds_HS")

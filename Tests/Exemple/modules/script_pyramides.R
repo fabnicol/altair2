@@ -1,5 +1,5 @@
 
-#'## `r chapitre`.2 Pyramide des âges, ensemble des personnels  &nbsp; 
+#'## 1.2 Pyramide des âges, ensemble des personnels      
 #'   
 #'[![Notice](Notice.png)](Docs/Notices/fiche_2.odt)    
 #' 
@@ -18,7 +18,7 @@ newpage()
 
 
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 1.2.1*   
 #'    
 
 print(e$res)
@@ -39,7 +39,7 @@ print(e$res)
 ########### 1.3 Pyramides fonctionnaires ########################
 
 #'
-#'## `r chapitre`.3 Pyramide des âges des fonctionnaires  &nbsp;
+#'## 1.3 Pyramide des âges des fonctionnaires  &nbsp;
 #'  
 #'[![Notice](Notice.png)](Docs/Notices/fiche_2.odt)    
 
@@ -58,7 +58,7 @@ produire_pyramides(c("TITULAIRE", "STAGIAIRE"),
 newpage()
 
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 1.3.1*   
 #'    
 
 print(e$res)
@@ -80,7 +80,7 @@ print(e$res)
 
 ########### 1.4 Pyramides non Tit ########################
 
-#'## `r chapitre`.4 Pyramide des âges, personnels non titulaires   &nbsp; 
+#'## 1.4 Pyramide des âges, personnels non titulaires   &nbsp; 
 #'  
 #'[![Notice](Notice.png)](Docs/Notices/fiche_2.odt)     
 #'  
@@ -99,7 +99,7 @@ essayer(produire_pyramides(c("NON_TITULAIRE"),
 newpage()
 
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 1.4.1*   
 #'    
 
 print(e$res)
@@ -121,7 +121,7 @@ print(e$res)
 
 ########### 1.5 Pyramides Autres statut ########################
 
-#'## `r chapitre`.5 Pyramide des âges, autres statuts  &nbsp; 
+#'## 1.5 Pyramide des âges, autres statuts  &nbsp; 
 
 #'  
 #'[![Notice](Notice.png)](Docs/Notices/fiche_2.odt)   
@@ -147,7 +147,7 @@ essayer(produire_pyramides(Filtre_bulletins,
 newpage()
 
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 1.5.1*   
 #'    
 
 print(e$res)

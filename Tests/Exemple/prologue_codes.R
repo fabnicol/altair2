@@ -82,6 +82,9 @@ script_SFT                     <- TRUE
 script_retraites               <- TRUE    
 script_FPH                     <- TRUE    
 
+séquentiel                     <- TRUE
+ouvrir.document                <- TRUE
+
 types.irs  <- c("IR", "S")
 
 controle<-c("","","","")  

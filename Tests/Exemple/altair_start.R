@@ -223,33 +223,33 @@ prime_PFI <- list(nom = "PFI",                      # Nom en majuscules
 
 
 scripts <- list(
-  "script_effectifs.R",                   #### 1.1 Effectifs          ####
-  "script_pyramides.R",                   #### 1.2-5 Pyramides        ####
-  "script_duréedeservice.R",              #### 1.6  Effectifs par durée ####
-  list("script_rémunérationsbrutes.R",
-    index = c(début.période.sous.revue,
-              fin.période.sous.revue),
-    incrémenter = TRUE),                  #### 2 et 3 Analyse statique des rémunérations ####
-  "script_comparaisonsdubrut.R",           #### 3.4  Comparatif INSEE DGCL ####
-  list("script_évolutiondunet.R",         #### 4. Analyse dynamique des rémunérations ####
-    incrémenter = TRUE),
-  "script_NBI.R",                         #### 5.1  NBI               ####
-  "script_PFI.R",                         #### 5.2  PFI               ####
-  "script_vacataires.R",                   #### 5.3-5.4 VACATIONS      ####
-  "script_NAS.R",                         #### 5.5  NAS               ####
-  "script_IATIFTS.R",                    #### 5.6  IAT/IFTS          ####  
-  "script_PFR.R",                         #### 5.7  PFR               ####
-  "script_PSR.R",                         #### 5.8  PSR               ####
-  "script_IPF.R",                         #### 5.9  IPF               ####
-  "script_RIFSEEP.R",                     #### 5.10 RIFSEEP           ####
-  "script_HS.R",                          #### 5.11 HEURES SUP        ####
-  "script_élus.R",                        #### 5.12 ELUS              ####
-  "script_comptabilité.R",                #### 5.13 COMPTE DE GESTION ####
-  "script_SFT.R",                         #### 5.14 SFT               ####
-  "script_astreintes.R",                  #### 5.15 ASTREINTES        ####
-  "script_retraites.R",                   #### 5.16 RETRAITES         ####
-  "script_FPH.R",                         #### 5.17 PRIMES FPH        ####     
-  "script_annexe.R"                       #### ANNEXE                 ####
+   "script_effectifs.R",                   #### 1.1 Effectifs          ####
+   "script_pyramides.R",                   #### 1.2-5 Pyramides        ####
+   "script_duréedeservice.R",              #### 1.6  Effectifs par durée ####
+    list("script_rémunérationsbrutes.R",
+      index = c(début.période.sous.revue,
+                fin.période.sous.revue),
+      incrémenter = TRUE),                  #### 2 et 3 Analyse statique des rémunérations ####
+   "script_comparaisonsdubrut.R",           #### 3.4  Comparatif INSEE DGCL ####
+   list("script_évolutiondunet.R",         #### 4. Analyse dynamique des rémunérations ####
+        incrémenter = TRUE),
+   "script_NBI.R",                         #### 5.1  NBI               ####
+   "script_PFI.R",                         #### 5.2  PFI               ####
+   "script_vacataires.R",                   #### 5.3-5.4 VACATIONS      ####
+   "script_NAS.R",                         #### 5.5  NAS               ####
+   "script_IATIFTS.R",                    #### 5.6  IAT/IFTS          ####
+   "script_PFR.R",                         #### 5.7  PFR               ####
+   "script_PSR.R",                         #### 5.8  PSR               ####
+   "script_IPF.R",                         #### 5.9  IPF               ####
+   "script_RIFSEEP.R",                     #### 5.10 RIFSEEP           ####
+   "script_HS.R",                          #### 5.11 HEURES SUP        ####
+   "script_élus.R",                        #### 5.12 ELUS              ####
+   "script_comptabilité.R",                #### 5.13 COMPTE DE GESTION ####
+   "script_SFT.R",                         #### 5.14 SFT               ####
+   "script_astreintes.R",                  #### 5.15 ASTREINTES        ####
+   "script_retraites.R",                   #### 5.16 RETRAITES         ####
+   "script_FPH.R",                         #### 5.17 PRIMES FPH        ####
+   "script_annexe.R"                       #### ANNEXE                 ####
 ) 
 
 générer.partie <- function(script, type = séquentiel) {
@@ -265,6 +265,10 @@ if (séquentiel) {
   
 } else {
   
+  if (setOSWindows) {
+    stop("L'exécution en parallèle n'est pas supportés sous Windows. Veuillez paramétrer la varible séquentiel <- TRUE dans le fichier prologue.R")
+  }
+  
   group1 <- list("script_effectifs.R",
                   "script_pyramides.R",
                   "script_duréedeservice.R")
@@ -273,10 +277,11 @@ if (séquentiel) {
                       index = c(début.période.sous.revue,
                                 fin.période.sous.revue),
                       incrémenter = TRUE),
-                 "script_comparaisonsdubrut.R")
+                 "script_comparaisonsdubrut.R",
+                 list("script_évolutiondunet.R",
+                      incrémenter = TRUE))
 
-  group3 <- list(list("script_évolutiondunet.R",
-                     incrémenter = TRUE),
+  group3 <- list("script_NBI.R",
                  "script_PFI.R",
                  "script_vacataires.R",
                  "script_NAS.R")
@@ -287,8 +292,7 @@ if (séquentiel) {
                   "script_IPF.R",
                   "script_RIFSEEP.R")
 
-  group5 <- list("script_NBI.R",
-                 "script_HS.R",
+  group5 <- list("script_HS.R",
                  "script_astreintes.R",
                  "script_élus.R")
 
@@ -301,7 +305,10 @@ if (séquentiel) {
   
   library(parallel)
   
-  cl <- makeCluster(6, type = "FORK")
+  nettoyer.pile.bases()
+  créer.pile.bases()
+  
+  cl <- makeCluster(8, type = "FORK")
   res <- clusterApply(cl,
                       list(group1, group2,
                                group3, group4,
@@ -315,6 +322,12 @@ if (séquentiel) {
 ######### SAUVEGARDES #######
 
 # Attention, les noms des fichiers auxiliaires aux rapports doivent être sans accent (compatibilité Windows)
+
+if (! séquentiel) {
+  message("Enregistrement de la pile des bases créées en exécution parallèle...")
+  sauvegarder.pile.bases()
+  nettoyer.pile.bases()
+}
 
 envir <- environment()
 
@@ -439,6 +452,8 @@ if (plafonds.ifse.existe)      file.remove(chemin("plafonds_ifse.csv"))
 setwd(currentDir)
 
 message("Dossier courant : ", getwd())
+
+if (! séquentiel) nettoyer.pile.bases()
 
 if (! debug.code)
    rm(list = setdiff(ls(), script_env))

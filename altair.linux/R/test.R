@@ -345,12 +345,14 @@ analyser <- function(prime, Paie_I, verbeux) {
     }, "Pas de génération des codes " %+% prime$nom %+% ". ")
   
   env <- environment()
-  
-  sauvebase("A.non.cat", prime$nom %+% ".non.cat" %+% paste0("", prime$catégorie, collapse = ""), prime$dossier, env)
-  sauvebase("A.non.tit", prime$nom %+% ".non.tit", prime$dossier, env)
-  if (! is.null(prime$indice)) {
-    sauvebase("lignes.indice.anormal", prime$nom %+% ".indice.anormal", prime$dossier, env)
-  }
+ 
+  if (sauvegarder.bases.analyse) { 
+    sauvebase("A.non.cat", prime$nom %+% ".non.cat" %+% paste0("", prime$catégorie, collapse = ""), prime$dossier, env)
+    sauvebase("A.non.tit", prime$nom %+% ".non.tit", prime$dossier, env)
+    if (! is.null(prime$indice)) {
+      sauvebase("lignes.indice.anormal", prime$nom %+% ".indice.anormal", prime$dossier, env)
+    }
+ }
   
   list(Paye = Paie_A, Lignes = Lignes_A, K = get(K), manquant = résultat.manquant)
 }
@@ -492,10 +494,9 @@ essayer(label = "Tableau cumuls", {
   }
 }, "Le tableau des cumuls ne peut pas être généré. ")
 
-
-essayer({  sauvebase("personnels.A.B", "personnels." %+% tolower(ident_prime) %+% "." %+% tolower(prime_B$nom), prime$dossier, environment())
-  
-}, "Pas de sauvegarde des fichiers auxiliaires.")
+if(sauvegarder.bases.analyse) {
+  sauvebase("personnels.A.B", "personnels." %+% tolower(ident_prime) %+% "." %+% tolower(prime_B$nom), prime$dossier, environment())
+}
 
 indic <- "indic_"  %+% prime$nom
 indic_B <- "indic_"  %+% prime_B$nom
@@ -581,10 +582,11 @@ if ((! is.null(prime$NAS) && prime$NAS == "non") || (! is.null(prime_B$NAS) && p
 
 env <- environment()
 
-essayer({  sauvebase("beneficiaires.A", "beneficiaires." %+% ident_prime %+% "." %+% prime_B$nom, "Remunerations", env)
-  sauvebase("beneficiaires.A.Variation", "beneficiaires." %+% ident_prime %+% "." %+% prime_B$nom %+% ".Variation", "Remunerations", env)
-  if (! is.null(cumul.prime.NAS)) sauvebase("cumul.prime.NAS", "cumul." %+% prime_NAS %+% ".NAS", "Reglementation", env)
-}, "Pas de sauvegarde des fichiers auxiliaires. ")
+if (sauvegarder.bases.analyse) {
+    sauvebase("beneficiaires.A", "beneficiaires." %+% ident_prime %+% "." %+% prime_B$nom, "Remunerations", env)
+    sauvebase("beneficiaires.A.Variation", "beneficiaires." %+% ident_prime %+% "." %+% prime_B$nom %+% ".Variation", "Remunerations", env)
+    if (! is.null(cumul.prime.NAS)) sauvebase("cumul.prime.NAS", "cumul." %+% prime_NAS %+% ".NAS", "Reglementation", env)
+}
 
 list(Paie = Paie_A, 
      Lignes = Lignes_A, 
@@ -658,10 +660,10 @@ test_avn <- function(avantage, Paie, logements = NULL) {
   
   env <- environment()
   
-  essayer({ sauvebase("NAS.non.importes", "NAS.non.importes", "Reglementation", env)
-            sauvebase("NAS.non.declares.paye", "NAS.non.declares.paye", "Reglementation", env)
-  }, 
-  "Pas de sauvegarde des fichiers logements par NAS. ")
+  if (sauvegarder.bases.analyse) {
+    sauvebase("NAS.non.importes", "NAS.non.importes", "Reglementation", env)
+    sauvebase("NAS.non.declares.paye", "NAS.non.declares.paye", "Reglementation", env)
+  }
 
   if (! is.null(logements) && nrow(logements) > 0) {
     
@@ -753,10 +755,9 @@ test_plafonds <- function(plafonds, Lignes, logements = NULL) {
   
   env <- environment()
   
-  essayer({  sauvebase("bulletins.dépassements", "bulletins.depassements.ifse", "Reglementation", env)
-  }, 
-  "Pas de sauvegarde des fichiers dépassements IFSE. ")
-  
+  if (sauvegarder.bases.analyse)  
+      sauvebase("bulletins.dépassements", "bulletins.depassements.ifse", "Reglementation", env)
+
   couts.dépassements
   
  }, "Les plafonds n'ont pas pu être testés.")  

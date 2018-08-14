@@ -2,13 +2,13 @@
 
 
 #'
-#'## `r chapitre`.12 Contrôle des indemnités pour astreintes    
+#'## 5.12 Contrôle des indemnités pour astreintes    
 #'  
 #'[![Notice](Notice.png)](Docs/Notices/fiche_astreintes.odt)   
 #'
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : Cumuls irréguliers NBI et astreintes (responsabilité supérieure)*   
+#'&nbsp;*Tableau 5.12.1 : Cumuls irréguliers NBI et astreintes (responsabilité supérieure)*   
 #'  
 
 insérer_script(fonction = "calcul_astreintes")
@@ -23,7 +23,7 @@ insérer_script(fonction = "calcul_astreintes")
 insérer_script(fonction = "cumul_astreintes_IHTS")
   
 #'  
-#'&nbsp;*Tableau `r incrément()` : Cumuls potentiellement irréguliers IHTS et astreintes*   
+#'&nbsp;*Tableau 5.12.2 : Cumuls potentiellement irréguliers IHTS et astreintes*   
 #'  
 
 with(Cum_astreintes_HS_irreg,

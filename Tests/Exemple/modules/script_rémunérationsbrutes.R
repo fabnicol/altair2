@@ -57,7 +57,7 @@ masses.personnels <- Analyse.remunerations.exercice[Statut != "ELU",
 #'  
 #'*Personnels (hors élus)*     
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r chapitre`.1.1*   
 #'    
 essayer({
 print(Tableau.vertical2(c("Agrégats",
@@ -88,7 +88,7 @@ print(Tableau.vertical2(c("Agrégats",
 #'Somme des rémunérations brutes versées aux personnels (non élus) :  
 #'  
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r chapitre`.1.2*   
 #'    
 essayer({
 print(Tableau.vertical2(c("Agrégats",
@@ -138,7 +138,7 @@ if (nrow(AR) > 0) {
 #'Somme des rémunérations brutes versées aux personnels titulaires et stagiaires :
 #'
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r chapitre`.2.1*   
 #'    
 essayer({
 print(Tableau.vertical2(c("Agrégats",
@@ -168,7 +168,7 @@ print(Tableau.vertical2(c("Agrégats",
 #'Somme des rémunérations brutes versées aux personnels (fonctionnaires) :
 #'
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r chapitre`.2.2*   
 #'    
 essayer({
 print(Tableau.vertical2(c("Agrégats",
@@ -188,7 +188,7 @@ print(Tableau.vertical2(c("Agrégats",
 #'
 #'**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année `r année`**     
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r chapitre`.2.3*   
 #'    
 
 essayer({
@@ -210,7 +210,7 @@ print(Résumé(c("Traitement indiciaire",
 }, "Le tableau des quartiles du SMPT n'a pas pu être généré.")
 
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r chapitre`.2.4*   
 #'    
 essayer({
   print(Résumé(c("Total lignes hors rappels",
@@ -241,7 +241,7 @@ ARB <- data.table::data.table(NULL)
 ARC <- data.table::data.table(NULL)
 
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r chapitre`.2.5*   
 #'    
 
 
@@ -269,7 +269,7 @@ essayer({
 
 
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r chapitre`.2.6*   
 #'    
 if (analyse.par.catégorie) {  
   
@@ -295,7 +295,7 @@ if (analyse.par.catégorie) {
 #'**Catégorie B**
 #'
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r chapitre`.2.7*   
 #'    
 
 if (analyse.par.catégorie) {
@@ -320,7 +320,7 @@ if (analyse.par.catégorie) {
 }
 #'
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r chapitre`.2.8*   
 #'    
 
 if (analyse.par.catégorie) {
@@ -347,7 +347,7 @@ if (analyse.par.catégorie) {
 #'
 
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r chapitre`.2.9*   
 #'    
 
 if (analyse.par.catégorie) {
@@ -374,7 +374,7 @@ if (analyse.par.catégorie) {
 
 #'
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r chapitre`.2.10*   
 #'    
 
 if (analyse.par.catégorie) {
@@ -458,7 +458,7 @@ AR <- Analyse.remunerations.exercice[Statut != "ELU"
 #'**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'année `r année`**     
 #'   
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r chapitre`.3.1*   
 #'    
 essayer({
     print(Résumé(c("Primes",
@@ -474,7 +474,7 @@ essayer({
 }, "Le tableau des quartiles pour la catégorie C n'a pas pu être généré.")
 
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau `r chapitre`.3.2*   
 #'    
 
 essayer({

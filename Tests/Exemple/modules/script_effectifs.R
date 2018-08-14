@@ -1,7 +1,7 @@
 
-#'# `r chapitre`. Statistiques de population
+#'# 1. Statistiques de population
 #'
-#'## `r chapitre`.1 Effectifs
+#'## 1.1 Effectifs
 
 #+ effectifs
 
@@ -17,7 +17,7 @@ tableau.effectifs <<- effectifs(période, Bulletins.paie, Analyse.remunerations,
 
 #'  
 #  
-#'&nbsp;*Tableau `r incrément()` : Effectifs*   
+#'&nbsp;*Tableau 1.1.1 : Effectifs*   
 #            
 
 # Mise en forme sous tableau aligné en central par la fonction knitr::kable

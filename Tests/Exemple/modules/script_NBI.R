@@ -5,13 +5,13 @@
 
 #### 5.1 NBI ####  
 
-#'# `r chapitre`. Tests réglementaires   
+#'# 5. Tests réglementaires   
 #'    
 #'**Dans cette partie, l'ensemble de la base de paie est étudié.**  
 #'Les agents non actifs ou dont le poste est annexe sont réintroduits dans le périmètre.   
 #'    
 #'    
-#'## `r chapitre`.1 Contrôle des nouvelles bonifications indiciaires (NBI)
+#'## 5.1 Contrôle des nouvelles bonifications indiciaires (NBI)
 
 #+ tests-statutaires-nbi
 #'   
@@ -26,7 +26,7 @@ insérer_script(fonction = "calcul_NBI")
 #'     
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : Contrôle de liquidation de la NBI*    [![Notice](Notice.png)](Docs/Notices/fiche_NBI_liq.odt)       
+#'&nbsp;*Tableau 5.1.1 : Contrôle de liquidation de la NBI*    [![Notice](Notice.png)](Docs/Notices/fiche_NBI_liq.odt)       
 #'    
 
 Tableau(
@@ -38,7 +38,7 @@ Tableau(
   round(rappels.nbi, 1))
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : Contrôle de liquidation de la NBI, hors rappels*     &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NBI_liq.odt)       
+#'&nbsp;*Tableau 5.1.2 : Contrôle de liquidation de la NBI, hors rappels*     &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NBI_liq.odt)       
 #'    
 
 Tableau(
@@ -56,7 +56,7 @@ Tableau(
 #'*Les rappels ne sont pas pris en compte dans les montants versés. Certains écarts peuvent être régularisés en les prenant en compte*     
 #'  
 #'    
-#'&nbsp;*Tableau `r incrément()` : Contrôle global de la liquidation des NBI*     &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NBI_glob.odt)       
+#'&nbsp;*Tableau 5.1.3 : Contrôle global de la liquidation des NBI*     &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NBI_glob.odt)       
 #'    
 
 with(cumuls.nbi,
@@ -78,7 +78,7 @@ with(cumuls.nbi,
 # --- Test Proratisation NBI
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : Contrôle de proratisation/liquidation de la NBI*     &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NBI_prorat.odt)           
+#'&nbsp;*Tableau 5.1.4 : Contrôle de proratisation/liquidation de la NBI*     &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NBI_prorat.odt)           
 #'  
 
 # Calcul plus exact de liquidation, attention à exclure les rappels
@@ -92,7 +92,7 @@ insérer_script(fonction = "proratisation_NBI")
 #'[Lien vers les lignes de paye du contrôle de proratisation/liquidation de la NBI](Bases/Fiabilite/lignes.paie.nbi.anormales.mensuel.csv)   
 #'   
 #'  
-#'&nbsp;*Tableau `r incrément()` : Contrôle d'attribution de NBI par catégorie statutaire*  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_plafonds_NBI.odt)           
+#'&nbsp;*Tableau 5.1.5 : Contrôle d'attribution de NBI par catégorie statutaire*  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_plafonds_NBI.odt)           
 #'  
 
 insérer_script(fonction = "catégories_NBI")

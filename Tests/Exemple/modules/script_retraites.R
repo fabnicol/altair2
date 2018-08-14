@@ -1,11 +1,11 @@
 
 #'
-#'## `r chapitre`.16 Contrôle des cotisations de retraite     
+#'## 5.16 Contrôle des cotisations de retraite     
 #'  
 #'[![Notice](Notice.png)](Docs/Notices/fiche_retraite.odt)   
 #'**Non titulaires**   
 #'    
-#'     
+
 
 cat("Les non titulaires ne doivent pas cotiser à la CNRACL. ")
 
@@ -22,7 +22,7 @@ Cotisations.irreg <- Paie[Type %in% c("C", "D") & Statut %in% c("NON_TITULAIRE",
                             .(Matricule, Année, Mois, Type, Statut, Libellé, Montant)]
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : Cotisations irrégulières à la CNRACL*     
+#'&nbsp;*Tableau 5.16.1 : Cotisations irrégulières à la CNRACL*     
 #'   
 
 if (! identical(Cotisations.irreg, logical(0)) & (nlignes <- nrow(Cotisations.irreg)) > 0) {
@@ -54,7 +54,7 @@ Cotisations.irreg.ircantec <- Paie[Statut == "TITULAIRE" & Type %chin% c("C", "D
                                    .(Matricule, Année, Mois, Type, Libellé, Montant)]
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : Cotisations irrégulières à l'IRCANTEC*     
+#'&nbsp;*Tableau 5.16.2 : Cotisations irrégulières à l'IRCANTEC*     
 #'   
 
 if (! identical(Cotisations.irreg.ircantec, logical(0)) & (nlignes <- nrow(Cotisations.irreg.ircantec)) > 0) {

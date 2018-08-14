@@ -44,10 +44,13 @@ chemin.dossier.outils       <- file.path(chemin.clé, "..", "..", "Outils")
 user <- if (setOSWindows) Sys.getenv("USERNAME") else Sys.getenv("USER")
 chemin.dossier.données      <- file.path(chemin.clé, "..", "xhl", ifelse(user == "fab", "", user))
 chemin.dossier.docs <- file.path(chemin.clé, "Docs")
-if (basename(chemin.clé) == basename(racine)) {
-    source("prologue_codes.R", encoding = encodage.code.source)
-} else {
-    source(file.path(chemin.clé, "prologue_codes.R"), encoding = encodage.code.source)
+
+for (type in c("codes", "options", "scripts")) {
+    if (basename(chemin.clé) == basename(racine)) {
+        source("prologue_"  %+% type %+% ".R", encoding = encodage.code.source)
+    } else {
+        source(file.path(chemin.clé, "prologue_" %+% type %+% ".R"), encoding = encodage.code.source)
+    }
 }
 
 # DOSSIERS
