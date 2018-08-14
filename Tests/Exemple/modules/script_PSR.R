@@ -1,7 +1,7 @@
 #### 5.8 PSR ####
 
 #'
-#'## `r chapitre`.8 Contrôle de la prime de service et de rendement (PSR)   
+#'## 5.8 Contrôle de la prime de service et de rendement (PSR)   
 #'   
 
 # décret n°2009-1558 du 15 décembre 2009    
@@ -24,7 +24,7 @@ Paie_PSR <- résultat_PSR$Paie
 
 
 #'    
-#'&nbsp;*Tableau `r incrément()` : Cumul PSR/IFTS*   
+#'&nbsp;*Tableau 5.8.1 : Cumul PSR/IFTS*   
 #'      
 
 tableau_cumuls(résultat_PSR)
@@ -36,7 +36,7 @@ tableau_cumuls(résultat_PSR)
 #'   
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : Valeurs de l'agrégat annuel (PSR ou IFTS) pour les bénéficiaires de la PSR*        
+#'&nbsp;*Tableau 5.8.2 : Valeurs de l'agrégat annuel (PSR ou IFTS) pour les bénéficiaires de la PSR*        
 #'          
 
 agrégat_annuel(résultat_PSR, afficher.table.effectifs)
@@ -46,7 +46,7 @@ agrégat_annuel(résultat_PSR, afficher.table.effectifs)
 #'    
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : Variations de l'agrégat mensuel moyen (PSR ou IFTS) pour les bénéficiaires de la PSR*   
+#'&nbsp;*Tableau 5.8.3 : Variations de l'agrégat mensuel moyen (PSR ou IFTS) pour les bénéficiaires de la PSR*   
 #'          
 
 évolution_agrégat(résultat_PSR, afficher.table.effectifs)
@@ -59,7 +59,7 @@ résultat_PSR   <- test_prime(prime_PSR, prime_IAT, Paie_I, Paie_IAT, Lignes_IAT
 
 #'   
 #'    
-#'&nbsp;*Tableau `r incrément()` : Cumul PSR/IAT*   
+#'&nbsp;*Tableau 5.8.4 : Cumul PSR/IAT*   
 #'      
 
 tableau_cumuls(résultat_PSR)
@@ -70,7 +70,7 @@ tableau_cumuls(résultat_PSR)
 
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : Valeurs de l'agrégat annuel (PSR ou IAT) pour les bénéficiaires de la PSR*        
+#'&nbsp;*Tableau 5.8.5 : Valeurs de l'agrégat annuel (PSR ou IAT) pour les bénéficiaires de la PSR*        
 #'          
 
 agrégat_annuel(résultat_PSR, afficher.table.effectifs)
@@ -80,7 +80,7 @@ agrégat_annuel(résultat_PSR, afficher.table.effectifs)
 #'    
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : Variations de l'agrégat mensuel moyen (PSR ou IAT) pour les bénéficiaires de la PSR*   
+#'&nbsp;*Tableau 5.8.6 : Variations de l'agrégat mensuel moyen (PSR ou IAT) pour les bénéficiaires de la PSR*   
 #'          
 
 évolution_agrégat(résultat_PSR, afficher.table.effectifs)

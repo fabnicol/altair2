@@ -218,6 +218,13 @@ Sauv.base <- function(chemin.dossier,
                       dec = séparateur.décimal.sortie,
                       environment = .GlobalEnv)
 {
+  if (! sauvegarder.bases.analyse) return(FALSE)
+  
+  if (! séquentiel) {
+    créer.pile.bases()
+    "pile.bases" %a% c(pile.bases, list(nom, nom.sauv, Latin, sep, dec, environment))
+  }
+    
   message("Sauvegarde de ", nom.sauv)
 
   filepath <- file.path(chemin.dossier, nom.sauv) %+% ".csv"
@@ -237,6 +244,27 @@ Sauv.base <- function(chemin.dossier,
   }
 
   file.exists(file.path(chemin.dossier, nom.sauv %+% ".csv"))
+}
+
+#' Nettoie la pile de bases à sauvegarder
+#' @export
+
+nettoyer.pile.bases <- function() {
+  rm(pile.bases, envir = .GlobalEnv)
+}
+
+#' Créer la pile de bases à sauvegarder
+#' @export
+
+créer.pile.bases <- function() {
+  if (! exists("pile.bases", envir = .GlobalEnv))  "pile.bases" %a% list()
+}
+
+#' Sauvegarder les objets dont les caractéristiques ont été empilées dans \code{pile.bases}
+#' @export
+
+sauvegarder.pile.bases <- function() {
+  invisible(lapply(get("pile.bases", .GlobalEnv), function(x)  do.call(Sauv.base, x)))
 }
 
 #' sauv.bases

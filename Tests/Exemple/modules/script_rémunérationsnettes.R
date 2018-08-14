@@ -1,5 +1,5 @@
 #'    
-#'## `r chapitre`.1 Distribution de la rémunération nette moyenne sur la période    
+#'## 4.1 Distribution de la rémunération nette moyenne sur la période    
 #+ remuneration-nette
 
 
@@ -41,9 +41,9 @@ essayer(label = "+histogramme",
 
 ########### 4.2  Evolutions des rémunérations nettes ###########
 
-#'## `r chapitre`.2 Evolutions du SMPT sur la période `r début.période.sous.revue` - `r fin.période.sous.revue`   
+#'## 4.2 Evolutions du SMPT sur la période `r début.période.sous.revue` - `r fin.période.sous.revue`   
 #'
-#'### `r chapitre`.2.1 Evolution du SMPT pour l'ensemble des personnels fonctionnaires et non titulaires (hors élus)        
+#'### 4.2.1 Evolution du SMPT pour l'ensemble des personnels fonctionnaires et non titulaires (hors élus)        
 #'
 #+ remuneration-nette-evolution
 
@@ -55,7 +55,7 @@ masse.salariale.nette <- rep(0, durée.sous.revue)
 #'**Salaire net moyen par tête (SMPT net) en EQTP, hors élus**         
 #'       
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 4.2.1.1*   
 #'    
 
 #+ Salaire-moyen-par-tete    
@@ -65,7 +65,7 @@ essayer(label = "+SMPT global", print(smpt(Filtre_neutre)),     "Le salaire moye
 #'**Distribution et variation sur la période du salaire moyen net par tête (SMPT net) en EQTP**         
 #'**pour les salariés à temps complet**           
 #'  
-#'&nbsp;*Tableau `r incrément()`*     
+#'&nbsp;*Tableau 4.2.1.2*     
 #'    
 
 #+ premiere-derniere-annee
@@ -85,7 +85,7 @@ essayer(label = "+distribution SMPT global", print(distribution_smpt(Filtre_neut
 #'
 #'**Salaires nets annuels moyens 2011 à 2013 en EQTP (hors assistantes maternelles)**   
 #'  
-#'&nbsp;*Tableau `r incrément()`*       
+#'&nbsp;*Tableau 4.2.1.3*       
 
 #### INSEE/DGCL VARIATIONS  ####
 #'  
@@ -101,7 +101,7 @@ essayer(label = "+distribution SMPT global", print(distribution_smpt(Filtre_neut
 #'**Distribution des salaires nets annuels en EQTP dans la fonction publique territoriale (2011-2014)**   
 #' 
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 4.2.1.4*   
 #'    
 # Remarque sur le formatage markdown: en raison d'un bug de knitr, utiliser un dièse + apostrophe
 # suivi d'un seul blanc juste après la table.
@@ -124,7 +124,7 @@ essayer(label = "+distribution SMPT global", print(distribution_smpt(Filtre_neut
 #'**Distribution des salaires nets annuels en EQTP dans la fonction publique d'Etat (2011-2013)**   
 #' 
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 4.2.1.5*   
 #'    
 
 #'    
@@ -146,7 +146,7 @@ essayer(label = "+distribution SMPT global", print(distribution_smpt(Filtre_neut
 #'**Distribution des salaires nets annuels en EQTP dans la fonction publique hospitalière (hôpitaux) (2011-2013)**   
 
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 4.2.1.6*   
 #'    
 
 #'    
@@ -169,24 +169,24 @@ essayer(label = "+distribution SMPT global", print(distribution_smpt(Filtre_neut
 #'[Source INSEE 2016](Docs/insee-premiere1616.pdf)    
 
 #'   
-#'### `r chapitre`.2.2 Evolution du SMPT des fonctionnaires         
+#'### 4.2.2 Evolution du SMPT des fonctionnaires         
 #'   
-#'##### `r chapitre`.2.2.1 Toutes catégories statutaires          
+#'##### 4.2.2.1 Toutes catégories statutaires          
 
 #'**Salaire net moyen par tête (SMPT net) en EQTP**       
 #'    
 #'    
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 4.2.2.1.1*   
 #'    
 
 essayer(label = "+SMPT fonct.", print(smpt(Filtre_fonctionnaire)), "Le salaire moyen par tête des fonctionnaires n'a pas pu être calculé.")
 
 #'    
-#'##### `r chapitre`.2.2.2 Par catégorie  statutaire        
+#'##### 4.2.2.2 Par catégorie  statutaire        
 #'   
 #'**Catégorie A**  
 #'
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 4.2.2.2.1*   
 #'    
 #'  
 
@@ -215,7 +215,7 @@ essayer(label = "+SMPT cat A", print(smpt(Filtre_cat_A)), "Le salaire moyen par 
 #'**Catégorie B**  
 #'   
 #'   
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 4.2.2.2.2*   
 #'    
 #'  
 
@@ -241,7 +241,7 @@ essayer(label = "+SMPT cat B", print(smpt(Filtre_cat_B)),          "Le salaire m
 #'   
 #'**Catégorie C**  
 #'
-#'&nbsp;*Tableau `r incrément()`*    
+#'&nbsp;*Tableau 4.2.2.2.3*    
 #'    
 #'  
 
@@ -268,37 +268,37 @@ essayer(label = "+SMPT cat C", print(smpt(Filtre_cat_C)),       "Le salaire moye
 
 
 #'       
-#'### `r chapitre`.2.3 Distribution et variation sur la période du SMPT net en EQTP         
+#'### 4.2.3 Distribution et variation sur la période du SMPT net en EQTP         
 #'     
 
 #'       
-#'#### `r chapitre`.2.3.1 Pour l'ensemble des catégories statutaires             
+#'#### 4.2.3.1 Pour l'ensemble des catégories statutaires             
 #'     
 
 #'**Fonctionnaires**    
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 4.2.3.1.1*   
 #'    
 
 essayer(label = "+distribution SMPT fonct.", print(distribution_smpt(Filtre_fonctionnaire)), "La distribution du salaire moyen par tête des fonctionnaires n'a pas pu être calculée.")
 
 #'       
-#'#### `r chapitre`.2.3.2 Par catégorie statutaire             
+#'#### 4.2.3.2 Par catégorie statutaire             
 #'     
 
 #'**Catégorie A**    
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 4.2.3.2.1*   
 #'    
 
 essayer(label = "+distribution SMPT cat. A", print(distribution_smpt(Filtre_cat_A)), "La distribution du salaire moyen par tête des fonctionnaires de catégorie A n'a pas pu être calculée.")
 
 #'**Catégorie B**  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 4.2.3.2.2*   
 #'    
 
 essayer(label = "+distribution SMPT cat. B", print(distribution_smpt(Filtre_cat_B)), "La distribution du salaire moyen par tête des fonctionnaires de catégorie B n'a pas pu être calculée.")
 
 #'**Catégorie C**  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 4.2.3.2.3*   
 #'    
 
 essayer(label = "+distribution SMPT cat. C", print(distribution_smpt(Filtre_cat_C)), "La distribution du salaire moyen par tête des fonctionnaires de catégorie C n'a pas pu être calculée.")
@@ -307,7 +307,7 @@ essayer(label = "+distribution SMPT cat. C", print(distribution_smpt(Filtre_cat_
 
 ########### 4.3  RMPP et effet de noria ###########  
 
-#'## `r chapitre`.3 Rémunération moyenne des personnes en place (RMPP) et effet de noria
+#'## 4.3 Rémunération moyenne des personnes en place (RMPP) et effet de noria
 #'
 
 
@@ -315,7 +315,7 @@ essayer(label = "+distribution SMPT cat. C", print(distribution_smpt(Filtre_cat_
 
 
 #'
-#'### `r chapitre`.3.1 RMPP de l'ensemble des personnels titulaires et non-titulaires   
+#'### 4.3.1 RMPP de l'ensemble des personnels titulaires et non-titulaires   
 #'   
 
 #'### Application de filtres sur les données        
@@ -349,7 +349,7 @@ essayer(label = "+distribution SMPT cat. C", print(distribution_smpt(Filtre_cat_
 #'
 #'**Variation individuelle de rémunération nette en EQTP pour les personnels présents sur toute la période**     
 #'
-#'&nbsp;*Tableau `r incrément()`*
+#'&nbsp;*Tableau 4.3.1.1*
 #'
 if (durée.sous.revue > 1) {
   print(Résumé(c("Variation normalisée (%)",
@@ -366,14 +366,14 @@ if (durée.sous.revue > 1) {
 ##### 4.3.2  RMPP des titulaires et stagiaires     ######   
 
 #'    
-#'### `r chapitre`.3.2 RMPP des titulaires et stagiaires     
+#'### 4.3.2 RMPP des titulaires et stagiaires     
 #'   
 
 
 #'
 #'**Variation individuelle de rémunération nette en EQTP pour les personnels présents sur toute la période**   
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 4.3.2.1*   
 #'    
 
 if (durée.sous.revue > 1) {

@@ -1,6 +1,6 @@
 ########### 4. Analyse dynamique des rémunérations ########################
 #'
-#'# `r chapitre`. Rémunérations nettes : évolutions sur la période `r début.période.sous.revue` - `r fin.période.sous.revue`    
+#'# 4. Rémunérations nettes : évolutions sur la période `r début.période.sous.revue` - `r fin.période.sous.revue`    
 #'
 #'Nombre d'exercices: `r durée.sous.revue`   
 #'
@@ -28,12 +28,12 @@ insérer_script(file.path(chemin.modules, "script_rmppetnoria.R"))
 #'[Lien vers la base de données](Bases/Remunerations/Anavar.synthese.csv)
 #'
 #'
-#'### `r chapitre`.4 Comparaisons avec la situation nationale des rémunérations   
+#'### 4.4 Comparaisons avec la situation nationale des rémunérations   
 #'  
 #'**Évolution en euros courants du SMPT et de la RMPP dans la FPT (en % et euros courants)**    
 
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 4.4.1*   
 #'    
 
 #' 
@@ -55,7 +55,7 @@ insérer_script(file.path(chemin.modules, "script_rmppetnoria.R"))
 #'**Salaires nets annuels et évolution moyenne type de collectivité en euros courants  EQTP**    
 #'   
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 4.4.2*   
 #'    
 
 #' 

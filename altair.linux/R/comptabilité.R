@@ -30,7 +30,7 @@ correspondance_paye_budget <- function() {
     
     # Ne pas prendre les capitales ni simplifier les libellés
     
-    code.libelle <- unique(Paie[Montant != 0, .(Code, Libellé, Statut), by = "Type"], by = NULL)
+    code.libelle <- unique(Paie[Montant != 0, .(Code, Libellé, Statut), by = "Type"])
     
     # Note : des traitements et NBI sont parfois improprement codés comme indemnités.
     
@@ -79,35 +79,36 @@ correspondance_paye_budget <- function() {
   
   setnames(cumul.lignes.paie[ , Total := NULL], "Total2", "Total")
   
+  inc <- 1
+  
   if (afficher.cumuls.détaillés.lignes.paie) {
     
     L <- split(cumul.lignes.paie, cumul.lignes.paie$Année)
     
     for (i in 1:durée.sous.revue) {
       
-      cat("\nTableau ", incrément(), " Année ", début.période.sous.revue + i - 1)
+      cat("\nTableau 5.14." %+% inc, " Année ", début.période.sous.revue + i - 1)
       print(kable(L[[i]][, .(Compte, Code, Libellé, Total)], row.names = FALSE, align = 'r'))
-      incrément()
+      inc <- inc + 1
       
     }
   }
   
   L <- split(cumul.total.lignes.paie, cumul.total.lignes.paie$Année)
   
-  }, "La correspondance avec le compte de gestion n'a pas pu être établie.")
-  
-  
   if (exists("L")) {
     for (i in 1:durée.sous.revue) {
-      essayer({ cat("\nTableau ",
-                    incrément(),
-                    " Année ",
+       cat("   \nTableau 5.14." %+% inc %+% " Année ",
                     début.période.sous.revue + i - 1)
         
         print(kable(L[[i]][, .(Compte, `Cumul annuel`)], row.names = FALSE, align = 'r'))
-      }, "Tableaux des correspondances bases de paye-budget : génération impossible pour l'année " %+% (début.période.sous.revue + i - 1))
+        
+        inc <- inc + 1
+      
     }
   } else cat("Tableaux des correspondances bases de paye-budget : génération impossible.")
+  
+ }, "La correspondance avec le compte de gestion n'a pas pu être établie.")
   
   "code.libelle" %a% code.libelle 
 }

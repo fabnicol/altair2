@@ -1,11 +1,11 @@
 
 #'   
-#'## `r chapitre`.4 Comparaisons source INSEE/DGCL   
+#'## 3.4 Comparaisons source INSEE/DGCL   
 #'   
 #'*Salaires annnuels moyens 2011 en EQTP (hors assistantes maternelles)*   
 
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 3.4.1*   
 #'    
 
 #+ comparaison-insee1
@@ -20,7 +20,7 @@ Tableau.vertical2(c("Agrégat (euros)", "Salaires bruts 2011", "Salaires bruts 2
 #'**Eléments de la rémunération brute pour les titulaires de la fonction publique territoriale**      
 #'   
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 3.4.2*   
 #'    
 
 Tableau.vertical2(

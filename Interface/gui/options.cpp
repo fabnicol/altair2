@@ -58,17 +58,6 @@ extern int fontsize;
 
 QString codePage::prologue_codes_path;
 
-
-/// Réinitialise l'exportation des codes d'éléments de paye
-/// Ecrase prologue_codes.R ( prologue_codes_path) par sa valeur d'initialisation prologue_init.R
-/// \return \e true si la réinitialisation par écrasement a réussi, \e false sinon.
-
-inline bool reinitialiser_prologue()
-{
-    QFile (codePage::prologue_codes_path).remove();
-    return QFile (common::path_access (SCRIPT_DIR "prologue_init.R")).copy(codePage::prologue_codes_path);
-}
-
 int codePage::ajouterVariable (const QString& nom)
 {
     const QString NOM = nom.toUpper();
@@ -256,7 +245,7 @@ void codePage::substituer_valeurs_dans_script_R()
 
             icon = icon2;
 
-            res = renommer (dump (file_str), prologue_codes_path);
+            res = renommer (dump(file_str), prologue_codes_path);
 
             if (Hash::Reference.isEmpty()) return;
 
@@ -335,24 +324,22 @@ int rapportPage::ajouterVariable (const QString& nom)
     QString NOM = nom.toUpper();
     
     FCheckBox *box = new FCheckBox("Partie " + NOM + " : ",
+                                   flags::status::enabledChecked|flags::commandLineType::noCommandLine,
                                    "Partie_rapport_" + NOM.remove(" "),
                                    {"Rapports" , nom});
-
-    box->status = static_cast<flags::status>(flags::status::enabled|flags::commandLineType::noCommandLine);
-    box->setChecked(true);
     
     // Ajouter ici les FCheckBox en pile dans listeCB
 
     listeCB << box;
     int size = listeCB.size() - 1;    
-    vLayout->addWidget (listeCB.last(), size  % 12, size / 12, Qt::AlignLeft);
+    vLayout->addWidget (listeCB.last(), size  % 13, size / 13, Qt::AlignLeft);
 
     return size + 1;
 }
 
 rapportPage::rapportPage()
 {
-    baseBox = new QGroupBox;
+    baseBox = new QGroupBox("Parties du rapport d'analyse");
     appliquerCodes = new QToolButton;
 
     appliquerCodes->setIcon (QIcon (":/images/view-refresh.png"));
@@ -372,18 +359,19 @@ rapportPage::rapportPage()
     for (const QString& s : variables) index = ajouterVariable (s);
 
     label = new QLabel;
-
-    vLayout->addWidget (label, index + 1, 1, Qt::AlignLeft);
-    vLayout->addWidget (appliquerCodes, index, 1, Qt::AlignLeft);
+    
+    vLayout->addWidget (label, index, 1, Qt::AlignLeft);
+    vLayout->addWidget (appliquerCodes, index, 0, Qt::AlignRight);
     vLayout->setColumnMinimumWidth (1, MINIMUM_LINE_WIDTH);
     vLayout->setSpacing (10);
 
     baseBox->setLayout (vLayout);
-
-    FRichLabel *mainLabel = new FRichLabel ("Parties du rapport d'analyse");
+        
+    FRichLabel *mainLabel = new FRichLabel ("Options des rapports");
 
     mainLayout->addWidget (mainLabel);
     mainLayout->addWidget (baseBox, 1, 0);
+
     mainLayout->addSpacing (100);
 
     init_label_text = "Appuyer pour valider le contenu<br> des rapports d'analyse ";
@@ -394,7 +382,7 @@ rapportPage::rapportPage()
 
     connect (appliquerCodes, SIGNAL (clicked()), this, SLOT (substituer_valeurs_dans_script_R()));
 
-    // A chaque fois qu'une ligne est éditée à la main, réinitialiser l'état d'exportation (bouton et fichier prologue_codes.R à partir de prologue_init.R)
+    // A chaque fois qu'une case est éditée à la main, réinitialiser l'état d'exportation (bouton et fichier prologue_codes.R à partir de prologue_init.R)
 
     for (FCheckBox *a : listeCB)
         {
@@ -414,49 +402,82 @@ rapportPage::rapportPage()
     reinitialiser_prologue();
 }
 
+void rapportPage::message(int r, QIcon& icon, bool paire)
+{
+    const QIcon& icon2 = QIcon (":/images/error.png");
+    
+    QString s     = variables.at(r);
+    QString s2;
+    if (paire) s2 = variables.at(r + 1);
+    const bool value    = listeCB.at(r)->isChecked();
+    bool value2 = false;
+    if (paire) value2 = listeCB.at(r + 1)->isChecked();
+    bool res  = true;
+    bool res2 = true; 
+    QString t  = s;
+    QString t2 = s2;
+    t.remove(" ");
+    if (paire) t2.remove(" ");
+                
+    res = substituer ("script_" + t + " *<- *TRUE", "script_" + t + " <- " + (value ? "TRUE" : "FALSE"), file_str);
+    if (paire) res2 = substituer ("script_" + t2 + " *<- *TRUE", "script_" + t2 + " <- " + (value2 ? "TRUE" : "FALSE"), file_str);
+    if (value) 
+    {
+        liste_cb += "<li>" + s.toUpper();
+        liste_cb += value2 ? (" &nbsp; &nbsp; -  &nbsp; &nbsp;" + s2.toUpper() + "</li>") : "</li>";
+    }
+    else
+    {
+        if (value2) liste_cb += "<li>" + s2.toUpper() + "</li>";
+    }
 
+   
+    
+    if (res == false)
+        {
+            Warning ("Attention",
+                     "Le remplacement de la variable script_" + s + "<br>"
+                     "n'a pas pu être effectué dans le fichier prologue_codes.R<br>");
+
+            icon = icon2;
+        }
+    
+     if (res2 == false)
+         {
+             Warning ("Attention",
+                      "Le remplacement de la variable script_" + t + "<br>"
+                      "n'a pas pu être effectué dans le fichier prologue_codes.R<br>");
+    
+             icon = icon2;
+         }
+     
+      appliquerCodes->setIcon (icon);
+}
 
 void rapportPage::substituer_valeurs_dans_script_R()
 {
     reinitialiser_prologue();
-    QString file_str = common::readFile (codePage::prologue_codes_path);
+    file_str = common::readFile (prologue_scripts_path);
     
     bool res = false;
 
-    QIcon icon0 = QIcon (":/images/view-refresh.png");
-    QIcon icon1 = QIcon (":/images/msg.png");
-    QIcon icon2 = QIcon (":/images/error.png");
-
+    int size = listeCB.size();
+     
+    const QIcon& icon0 = QIcon (":/images/view-refresh.png");
+    const QIcon& icon1 = QIcon (":/images/msg.png");
     QIcon icon = (appliquerCodes->isChecked()) ?
                  icon1 :
                  icon0;
     
-    QString liste_cb;
-
-    for (int rang = 0; rang < listeCB.size(); ++rang)
+    for (int rang = 0; rang < size / 2; ++rang)
         {
-            QString s     = variables.at(rang);
-            const bool value    = listeCB.at(rang)->isChecked();
-            res = true;
-            QString t = s;
-            t.remove(" ");
-                        
-            res = substituer ("script_" + t + " *<- *TRUE", "script_" + t + " <- " + (value ? "TRUE" : "FALSE"), file_str);
-            if (value) liste_cb += "<li>" + s.toUpper() + "</li>";
-                
-            if (res == false)
-                {
-                    Warning ("Attention",
-                             "Le remplacement de la variable codes." + s + "<br>"
-                             "n'a pas pu être effectué dans le fichier prologue_codes.R<br>");
-
-                    icon = icon2;
-                }
+            int r = 2 * rang;
+            message(r, icon);
         }
 
-    res = renommer (dump (file_str), codePage::prologue_codes_path);
-
-    appliquerCodes->setIcon (icon);
+    if (size % 2 && size > 0) message(size - 1, icon, false);
+    
+    res = renommer (dump (file_str), prologue_scripts_path);
 
     if (res == true)
         label->setText ("Les parties suivantes :"
@@ -900,11 +921,41 @@ processPage::processPage()
             }
     });
 
-
+        
+    openCheckBox = new FCheckBox("Ouvrir le document à la fin de l'exécution",
+                                             flags::status::enabledChecked|flags::commandLineType::noCommandLine,
+                                            "ouvrirDocFinExec",
+                                            {"Rapports", "Ouvrir en fin d'exécution"});
+    
+           
+   
+    parallelCheckBox = new FCheckBox("Exécution en parallèle du rapport",
+                                            flags::status::enabledChecked|flags::commandLineType::noCommandLine,
+                                            "parallelExec",
+                                            {"Rapports", "Exécution parallèle"});
+    
+               
+        
+    for (const FCheckBox* a : {parallelCheckBox, openCheckBox})
+    {
+        
+        connect(a, &FCheckBox::toggled, [this] {
+            reinitialiser_prologue();
+            file_str = common::readFile (prologue_options_path);
+            substituer("séquentiel *<- *FALSE", QString("séquentiel <- ") + (parallelCheckBox->isChecked() ? "FALSE" : "TRUE"), file_str);
+            substituer("ouvrir.document *<- *TRUE", QString("ouvrir.document <- ") + (openCheckBox->isChecked() ? "TRUE" : "FALSE"), file_str);
+            renommer (dump (file_str), prologue_options_path);
+            });
+    }
+    
+        
     v4Layout->addWidget (enchainerRapports, 0, 0, Qt::AlignLeft);
     v4Layout->addWidget (rapportTypeLabel,  1, 0, Qt::AlignRight);
     v4Layout->addWidget (rapportTypeWidget, 1, 1, Qt::AlignLeft);
-    v4Layout->addWidget (rapportEntier, 2, 0, Qt::AlignLeft);
+    v4Layout->addWidget (rapportEntier,     2, 0, Qt::AlignLeft);
+    v4Layout->addWidget (openCheckBox,      3, 0, Qt::AlignLeft);
+    v4Layout->addWidget (parallelCheckBox,  4, 0, Qt::AlignLeft);
+    
     rapportBox->setLayout (v4Layout);
 
     QVBoxLayout* mainLayout = new QVBoxLayout;
@@ -921,6 +972,8 @@ processPage::processPage()
     const std::string &root = path_access (".").toStdString();
     int current_git_branch = system (std::string ("cd " + root + " && test \"$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)\" = \"master-jf\"").c_str());
     rapportEntier->setChecked (current_git_branch == 0);
+    
+    reinitialiser_prologue();
 }
 
 std::uint16_t options::RefreshFlag;

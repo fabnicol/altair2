@@ -1,11 +1,11 @@
 
-#'## `r chapitre`.6 Effectifs des personnels par durée de service
+#'## 1.6 Effectifs des personnels par durée de service
 #'
 #'**Personnels en fonction (hors élus) des exercices `r début.période.sous.revue` à `r fin.période.sous.revue` inclus :**
 #'
 
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 1.6.1*   
 #'    
 
 #+ effectifs-par-durée
@@ -59,7 +59,7 @@ tableau.effectifs.var <- as.data.frame(effectifs.var.locale, row.names = c("Plus
 
 names(tableau.effectifs.var) <- as.character(période)
 #'  
-#'&nbsp;*Tableau `r incrément()`*   
+#'&nbsp;*Tableau 1.6.2*   
 #'    
 
 kable(tableau.effectifs.var, row.names = TRUE, align='c')

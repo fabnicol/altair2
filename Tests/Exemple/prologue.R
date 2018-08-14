@@ -90,12 +90,6 @@ fichier.personnels.existe      <- TRUE
 grades.categories.existe       <- TRUE
 logements.existe               <- TRUE
 plafonds.ifse.existe           <- TRUE
-ouvrir.document                <- TRUE
-
-
-# Génération de parties des rapports
-
-séquentiel                     <- TRUE    # Parallélisation de l'écriture des parties du rapport   
 
 numéro.tableau                 <- 0        # Numérotation de départ des tableaux
 chapitre                       <- 1        # Numérotation de départ des chapitres

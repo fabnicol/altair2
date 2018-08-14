@@ -1,6 +1,6 @@
 
 #'
-#'## `r chapitre`.5 Contrôle sur les logements par nécessité absolue de service (NAS)       
+#'## 5.5 Contrôle sur les logements par nécessité absolue de service (NAS)       
 #'  
 #'[![Notice](Notice.png)](Docs/Notices/fiche_NAS.odt)  
 #'*Pour que le logiciel puisse contrôler sans risque d'erreur les concessions de logement, il est préférable de faire remplir, par les organismes contrôlés le tableau CSV accessible dans le bloc* **Logement** *de l'onglet Extra de l'application graphique, ou bien à ce lien. Voir aussi la notice* &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_logements.odt)      

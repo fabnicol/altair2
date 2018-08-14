@@ -2,7 +2,7 @@
 
 
 #'
-#'## `r chapitre`.9 Contrôle de l'indemnité de performance et de fonctions (IPF)   
+#'## 5.9 Contrôle de l'indemnité de performance et de fonctions (IPF)   
 #'   
 
 # décret n°2010-1705 du 30 décembre 2010
@@ -13,7 +13,7 @@ résultat_IPF   <- test_prime(prime_IPF, prime_IFTS, Paie_I, Paie_IFTS, Lignes_I
 
 #'   
 #'    
-#'&nbsp;*Tableau `r incrément()` : Cumul IPF/IFTS*   
+#'&nbsp;*Tableau 5.9.1 : Cumul IPF/IFTS*   
 #'      
 
 tableau_cumuls(résultat_IPF)
@@ -28,7 +28,7 @@ tableau_cumuls(résultat_IPF)
 résultat_IPF   <- test_prime(prime_IPF, prime_PFR, Paie_I, Paie_PFR, Lignes_PFR, verbeux = afficher.table.effectifs)
 
 #'    
-#'&nbsp;*Tableau `r incrément()` : Cumul IPF/PFR*   
+#'&nbsp;*Tableau 5.9.2 : Cumul IPF/PFR*   
 #'      
 
 tableau_cumuls(résultat_IPF)
@@ -41,7 +41,7 @@ tableau_cumuls(résultat_IPF)
 résultat_IPF   <- test_prime(prime_IPF, prime_ISS, Paie_I, Paie_ISS, Lignes_ISS, verbeux = afficher.table.effectifs)
 
 #'    
-#'&nbsp;*Tableau `r incrément()` : Cumul IPF/ISS*   
+#'&nbsp;*Tableau 5.9.3 : Cumul IPF/ISS*   
 #'      
 
 tableau_cumuls(résultat_IPF)
@@ -55,13 +55,13 @@ tableau_cumuls(résultat_IPF)
 # Attention keyby = et pas seulement by = !
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : Valeurs de l'agrégat annuel (IPF ou IFTS) pour les bénéficiaires de l'IPF*        
+#'&nbsp;*Tableau 5.9.4 : Valeurs de l'agrégat annuel (IPF ou IFTS) pour les bénéficiaires de l'IPF*        
 #'          
 
 agrégat_annuel(résultat_IPF, afficher.table.effectifs)
 
 #'  
-#'&nbsp;*Tableau `r incrément()` : Variations de l'agrégat mensuel moyen (IPF ou IFTS) pour les bénéficiaires de l'IPF*   
+#'&nbsp;*Tableau 5.9.5 : Variations de l'agrégat mensuel moyen (IPF ou IFTS) pour les bénéficiaires de l'IPF*   
 #'          
 
 évolution_agrégat(résultat_IPF, afficher.table.effectifs)
