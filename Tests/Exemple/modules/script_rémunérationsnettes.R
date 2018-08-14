@@ -36,7 +36,7 @@ essayer(label = "+histogramme",
         }, "Le graphique des rémunérations moyennes des fonctionnaires n'a pas pu être généré")
 
 #'   
-#'[Lien vers la base de données synthétique](Bases/Remunerations/Analyse.variations.par.exercice.csv)     
+#'[Lien vers la base de données synthétique](Bases/Remunerations/Analyse.variations.csv)     
 #'[Lien vers la base de données détaillée par année](Bases/Remunerations/Analyse.variations.par.exercice.csv)     
 
 ########### 4.2  Evolutions des rémunérations nettes ###########

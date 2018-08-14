@@ -137,6 +137,8 @@ SFT_sans_enfant <- function() {
               
             }
           }, "Le contrôle du SFT pour les agents sans enfant n'a pas pu être réalisé.")
+  
+  sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), .GlobalEnv, "Paie.sans.enfant.reduit")
 }
 
 #' @export
@@ -201,6 +203,8 @@ liquidation_SFT <- function() {
               cat("\nPour les agents ayant au moins un enfant, il n'a été détecté aucun écart de paiement sur SFT supérieur à ", tolérance.sft, " euro.\n")
               
             }
+            
+            sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), .GlobalEnv, "controle.sft")
           }, 
           "Le contrôle de liquidation du SFT pour les agents ayant au moins un enfant n'a pas pu être réalisé.")
 }

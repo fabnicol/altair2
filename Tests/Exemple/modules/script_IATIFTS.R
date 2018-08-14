@@ -50,7 +50,10 @@ tableau_cumuls(résultat_IAT_IFTS)
 #'&nbsp;*Tableau 5.6.2 : Cumul logement par NAS/IFTS*   
 #'      
 
+
 tableau_NAS(résultat_IAT_IFTS)
+
+if (is.null(résultat_IAT_IFTS$NAS)) cat( "     \n", "La base des logements par NAS n'est pas détectée.   \nLe test de compatibilité de la prime avec les concessions de logements ne sera pas réalisé.")
 
 #'[Lien vers la base de données cumuls NAS/IFTS](Bases/Reglementation/cumul.IFTS.NAS.csv)          
 

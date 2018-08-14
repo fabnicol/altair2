@@ -64,6 +64,7 @@ sauvebase <- function(x, y, z, env) {
             sep = ";",
             dec = ",",
             environment = env)
+  
 }
 
 #' Affichage du tableau des cumuls de primes
@@ -547,10 +548,7 @@ cumul.prime.NAS <- NULL
 
 if ((! is.null(prime$NAS) && prime$NAS == "non") || (! is.null(prime_B$NAS) && prime_B$NAS == "non")) {
   
-  if (is.null(base.logements)) {
-    message("Lorsque le paramètre NAS = \"non\" est utilisé, il faut pouvoir importer la base des concessions de logements.")
-    message("Cette base n'est pas détectée. Le test de compatibilité de la prime avec les concessions de logements ne sera pas réalisé.")
-  } else {
+  if (! is.null(base.logements)) {
     essayer({ if (! is.null(prime$NAS) && prime$NAS == "non" && is.null(prime_B$NAS)) {
       
       Lignes_C <-  Lignes_A 

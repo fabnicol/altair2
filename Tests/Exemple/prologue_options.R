@@ -1,2 +1,2 @@
-séquentiel                     <- FALSE
+séquentiel <- FALSE
 ouvrir.document <- FALSE

@@ -48,6 +48,8 @@ if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 15
       round(semaine.de.travail,1), " h par semaine.\n")
 }
 
+sauv.bases(file.path(chemin.dossier.bases, "Effectifs"), new.env(), "tableau.effectifs")
+
 #'      
 #'   
 #'[Lien vers la base des effectifs](Bases/Effectifs/tableau.effectifs.csv)

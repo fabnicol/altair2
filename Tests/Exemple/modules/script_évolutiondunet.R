@@ -92,9 +92,7 @@ insérer_script(file.path(chemin.modules, "script_rmppetnoria.R"))
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
 #'Conversion en euros courants, calcul CRC.  
 
-#'[Source RAEFP 2013 données 2011](Docs/RA_2013.pdf)   
-#'[Source RAEFP 2014 données 2012](Docs/RA_2014.pdf)     
-#'[Source RAEFP 2015 données 2013](Docs/RA_2015.pdf)     
+
 #'[Source RAEFP 2016 données 2014](Docs/RA_2016.pdf)      
 #'[Source INSEE 2016](Docs/insee-premiere1616.pdf)      
 
