@@ -127,6 +127,13 @@ calcul_HS <- function() {
                    
                    ][ ,  `:=`(Indice = NULL,
                               IR = NULL)]   
+    
+    sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
+               environment(), 
+               "lignes.IHTS",
+               "lignes.IHTS.tot",
+               "Base.IHTS.non.tit",
+               "Taux.horaires")
 
   },
   "La base des taux horaires d'heures supplémentaires n'a pas pu être générée.   \n")
@@ -157,8 +164,14 @@ dépassements_HS <- function() {
        print(Tableau.vertical2(c("Année", "Coût en euros", "Nombre d'agents"),
                             Année, digits = 0, `Coût en euros`, `Nombre d'agents`)))   
   
+  sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
+             env = new.env(),
+             "depassement.agent",
+             "depassement.agent.annee")
+  
   },
   "Le tableau des dépassements de coûts n'a pas pu être généré.   \n")
+  
 }
 
 #'@export
@@ -197,6 +210,8 @@ cumuls_HS <- function() {
     cat(v, sep = ", ")
     cat(" est incohérent avec le nombre d'heures IHTS payées au titre de", ifelse(l > 1, "ces", "cet"), ifelse(l > 1, "exercices. ","exercice.   \n"))
   }
+  
+  sauvebase("CumHS", "CumHS", "Reglementation", environment())
 }
 
 #'@export
@@ -264,12 +279,12 @@ plafonds_HS <- function() {
   
   if (utiliser.variable.Heures.Sup.) {
     cat ("Les cumuls d'IHTS sont déterminés à partir de la variable Heures.Sup. ")
-    HS.sup.25 <- lignes.IHTS[Heures.Sup. > seuil.HS * quotité]
+    "HS.sup.25" %a% lignes.IHTS[Heures.Sup. > seuil.HS * quotité]
     
   } else {
     
     cat ("Les cumuls d'IHTS sont déterminés à partir des paiements de l'année, rappels compris, et des rappels payés l'année suivante.   \n")      
-    HS.sup.25 <- CumBaseIHTS[nihts.tot > seuil.HS * quotité]
+    "HS.sup.25" %a% CumBaseIHTS[nihts.tot > seuil.HS * quotité]
   }
   
   nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25)
@@ -284,5 +299,12 @@ plafonds_HS <- function() {
   print(Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS cat. A"),
              nombre.Lignes.paie.HS.sup.25,   nombre.ihts.cat.A))
 
+  sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
+             environment(),
+             "HS.sup.25",
+             "Depassement.seuil.180h",
+             "Depassement.seuil.220h",
+             "ihts.cat.A")
+  sauvebase("HS.sup.25", "HS.sup.25", "Reglementation", environment())
   message("Heures sup controlées")  
 }

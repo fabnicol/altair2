@@ -42,5 +42,5 @@ Tableau.vertical2(
 #'*Les primes sont cumulées au supplément familial de traitement (SFT) et à l'indemnité de résidence (IR). Le cumul est rapporté à la rémunération brute totale.*    
 #'[Source INSEE](Docs/ip1486.xls)    
 #'[Source DGCL](Docs/Vue3_1_Remunerations.xls)    
-#'[Source RAEFP 2015](Docs/RA_2015.pdf)   
+#'[Source RAEFP 2016](Docs/RA_2016.pdf)   
 #'   

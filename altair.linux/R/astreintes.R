@@ -34,6 +34,12 @@ essayer({
   "Cum_astreintes" %a% rbind(Controle_astreintes[, round(sum(Montant.astreinte), 1),
                                               by = "Année"],
                           list("Total", Controle_astreintes[, round(sum(Montant.astreinte), 1)]))
+  
+  sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
+             environment(),
+             "Controle_astreintes",
+             "libelles.astreintes")
+  
 },
 "Le contrôle Astreintes-NBI n'a pas pu être réalisé.")
 
@@ -54,11 +60,11 @@ cumul_astreintes_IHTS <- function() {
   setnames(Base.IHTS, "indic", "indic_IHTS")
   
   Controle_astreintes_HS_irreg <- Paie_astreintes[ , .(Matricule, Année, Mois, Code, Libellé, Type,  Montant, indic_astr) 
-                                                   ][Base.IHTS[Type %in% c("I", "A", "R"), 
+                                                        ][Base.IHTS[Type %in% c("I", "A", "R"), 
                                                                .(Matricule, Année, Mois, Code, Libellé, Type, Montant, indic_IHTS)], 
-                                                     nomatch = 0,
-                                                     on = .(Matricule, Année, Mois, Code, Libellé, Type, Montant)
-                                                     ][indic_IHTS == TRUE | indic_astr == TRUE]
+                                                               nomatch = 0,
+                                                              on = .(Matricule, Année, Mois, Code, Libellé, Type, Montant)
+                                                        ][indic_IHTS == TRUE | indic_astr == TRUE]
   
   nb.agents.IHTS.astreintes <- uniqueN(Controle_astreintes_HS_irreg$Matricule)
   
@@ -72,6 +78,11 @@ cumul_astreintes_IHTS <- function() {
                                    list("Total",
                                         Controle_astreintes_HS_irreg[indic_astr == TRUE, round(sum(Montant), 1)],
                                         Controle_astreintes_HS_irreg[indic_IHTS == TRUE, round(sum(Montant), 1)]))
+  
+  sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
+             environment(),
+             "Controle_astreintes_HS_irreg",
+             "Cum_astreintes_HS_irreg")
   }, 
   "Le contrôle du cumul astreintes IHTS n'a pas pu être réalisé")
 }

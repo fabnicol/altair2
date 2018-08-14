@@ -318,3 +318,8 @@ message("Analyse démographique réalisée.")
 if (!is.null(Paie) & !is.null(Analyse.remunerations) & !is.null(Analyse.variations.par.exercice))
   message("Statistiques de synthèse réalisées")
 
+sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 
+           environment(),
+           "Analyse.remunerations",
+           "Analyse.variations.par.exercice",
+           "Analyse.variations")

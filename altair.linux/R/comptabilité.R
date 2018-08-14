@@ -108,6 +108,11 @@ correspondance_paye_budget <- function() {
     }
   } else cat("Tableaux des correspondances bases de paye-budget : génération impossible.")
   
+  sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
+              environment(),
+              "cumul.lignes.paie",
+              "cumul.total.lignes.paie")
+  
  }, "La correspondance avec le compte de gestion n'a pas pu être établie.")
   
   "code.libelle" %a% code.libelle 

@@ -269,6 +269,11 @@ if (séquentiel) {
     stop("L'exécution en parallèle n'est pas supportés sous Windows. Veuillez paramétrer la varible séquentiel <- TRUE dans le fichier prologue.R")
   }
   
+  # Les groupes sont consitutés pour :
+  # a) équilibrer les charges des noeuds
+  # b) tenir compte des relations de dépendances entre scripts afin d'éviter les files d'attentes et les mutex
+  # Il faut ensuite permuter les résultats pour retrouver l'ordre canonique des rapports (qui pourrait évoluer pour éviter cela)
+  
   group1 <- list("script_effectifs.R",
                   "script_pyramides.R",
                   "script_duréedeservice.R")
@@ -282,9 +287,8 @@ if (séquentiel) {
                       incrémenter = TRUE))
 
   group3 <- list("script_NBI.R",
-                 "script_PFI.R",
-                 "script_vacataires.R",
-                 "script_NAS.R")
+                 "script_HS.R", #+
+                 "script_astreintes.R")  #+
 
   group4 <- list("script_IATIFTS.R",
                   "script_PFR.R",
@@ -292,10 +296,10 @@ if (séquentiel) {
                   "script_IPF.R",
                   "script_RIFSEEP.R")
 
-  group5 <- list("script_HS.R",
-                 "script_astreintes.R",
+  group5 <- list("script_PFI.R", #+
+                 "script_vacataires.R", #+
+                 "script_NAS.R", #+
                  "script_élus.R")
-
 
   group6 <- list("script_comptabilité.R",
                   "script_SFT.R",
@@ -305,118 +309,74 @@ if (séquentiel) {
   
   library(parallel)
   
-  nettoyer.pile.bases()
-  créer.pile.bases()
   
-  cl <- makeCluster(8, type = "FORK")
+  G <- list(group1, group2,
+            group3, group4,
+            group5, group6)
+  
+  cl <- makeCluster(6, type = "FORK")
+  
   res <- clusterApply(cl,
-                      list(group1, group2,
-                               group3, group4,
-                               group5, group6),
+                      G,
                       générer.partie,
                       type = ! séquentiel)
+
   stopCluster(cl)
+  
+  # Il faut réordonner pour être dans l'ordre canonique du rapport
+  
+  r3 <- res[[3]]
+  r5 <- res[[5]]
+  
+  res[[3]] <- list(r3[[1]],
+                   r5[[1]],
+                   r5[[2]],
+                   r5[[3]])
+  
+  res[[5]] <- list(r3[[2]],
+                   r3[[3]],
+                   r5[[4]])                 
+  
   invisible(lapply(res, function(x) cat(unlist(x), sep = '\n')))
+  
 }
 
 ######### SAUVEGARDES #######
 
 # Attention, les noms des fichiers auxiliaires aux rapports doivent être sans accent (compatibilité Windows)
 
-if (! séquentiel) {
-  message("Enregistrement de la pile des bases créées en exécution parallèle...")
-  sauvegarder.pile.bases()
-  nettoyer.pile.bases()
-}
+message("Enregistrement de la pile des bases...")
 
 envir <- environment()
 
-if (sauvegarder.bases.analyse) {
+#   sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
+#              env = envir,
+#              "lignes.ifts.anormales",
 
-  sauv.bases(file.path(chemin.dossier.bases, "Remunerations"),
-             env = envir,
-             "Analyse.remunerations",
-             "Anavar.synthese",
-             "Analyse.variations.par.exercice",
-             "beneficiaires.IPF.Variation")
+#              "personnels.prime.informatique",
+#              "remunerations.elu",
+#              "cumul.lignes.paie",
+#              "cumul.total.lignes.paie",
+#)
+#   
+#   sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"),
+#              env = envir,
+#               "base.heures.nulles.salaire.nonnull",
+#               "base.quotite.indefinie.salaire.non.nul",
+#               "plusieurs_libelles_par_code",
+#               "plusieurs_codes_par_libelle",
+#               "plusieurs_types_par_code",
+#               "plusieurs_types_par_libelle",
+#               "code.libelle",
+#               "Evenements",
+#               "Evenements.ind",
+#               "Evenements.mat")
+#   
+#   if (test.delta) 
+#     sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"), 
+#                env = envir, "Delta")
+#   
 
-  sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
-             env = envir,
-             "matricules",
-             "grades.categories",
-             "tableau.effectifs")
-
-  sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
-             env = envir,
-             "personnels.ipf.ifts",
-             "codes.ipf",
-             "HS.sup.25",
-             "Base.IHTS.non.tit",
-             "lignes.IHTS",
-             "lignes.IHTS.tot",
-             "depassement.agent",
-             "depassement.agent.annee",
-             "Taux.horaires",
-             "CumHS",
-             "Depassement.seuil.180h",
-             "Depassement.seuil.220h",
-             "ihts.cat.A",
-             "Controle_astreintes",
-             "Controle_astreintes_HS_irreg",
-             "Cum_astreintes_HS_irreg",
-             "libelles.astreintes",
-             "IPF.non.catA",
-             "IPF.non.tit",
-             "lignes.contractuels.et.vacations",
-             "lignes.fonctionnaires.et.vacations",
-             "Paie_vac_contr",
-             "Paie_vac_fonct",
-             "Paie_vac_sft_ir",
-             "lignes.ifts.anormales",
-             "matricules.contractuels.et.vacations",
-             "matricules.fonctionnaires.et.vacations",
-             "SFT_IR.et.vacations",
-             "matricules.SFT_IR.et.vacations",
-             "NBI.aux.non.titulaires",
-             "NBI.cat.irreg",
-             "personnels.prime.informatique",
-             "remunerations.elu",
-             "RI.et.vacations",
-             "traitement.et.vacations",
-             "cumul.lignes.paie",
-             "cumul.total.lignes.paie",
-             "controle.sft",
-             "Paie.sans.enfant.reduit",
-             "Cotisations.irreg",
-             "Cotisations.irreg.ircantec",
-             "personnels.ift.nt",
-             "personnels.prime.specifique.nt",
-             "personnels.prime.tech.nt",
-             "personnels.ps.nt")
-  
-  sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"),
-             env = envir,
-              "base.heures.nulles.salaire.nonnull",
-              "base.quotite.indefinie.salaire.non.nul",
-              "lignes.nbi.anormales",
-              "lignes.nbi.anormales.hors.rappels",
-              "lignes.nbi.anormales.mensuel",
-              "lignes.paie.nbi.anormales.mensuel",
-              "cumuls.nbi",
-              "plusieurs_libelles_par_code",
-              "plusieurs_codes_par_libelle",
-              "plusieurs_types_par_code",
-              "plusieurs_types_par_libelle",
-              "code.libelle",
-              "Evenements",
-              "Evenements.ind",
-              "Evenements.mat")
-  
-  if (test.delta) 
-    sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"), 
-               env = envir, "Delta")
-  
-}
 
 if (sauvegarder.bases.origine)
   sauv.bases(file.path(chemin.dossier.bases, "Paiements"),
@@ -453,7 +413,7 @@ setwd(currentDir)
 
 message("Dossier courant : ", getwd())
 
-if (! séquentiel) nettoyer.pile.bases()
+#if (! séquentiel) nettoyer.pile.bases()
 
 if (! debug.code)
    rm(list = setdiff(ls(), script_env))

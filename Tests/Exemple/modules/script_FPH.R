@@ -10,7 +10,12 @@
 
 prime_FPH_test <- function(prime, prime_lit, base, expr = NULL) {
   
-  if (VERSANT_FP != "FPH") return("Non traité.")
+  if (VERSANT_FP != "FPH"){
+    
+    cat("Ce contrôle ne porte pas sur la FPH. Les liens hypertextes ci-dessous seront désactivés.   \n")
+    cat("Pour activer le contrôle FPH, cocher la case correspondante de l'onglet **Options > Format** de l'interface graphique  \n")
+    return("Non traité.")
+  } 
   
   DT <- filtrer_Paie(prime)[ , ..colonnes]
   
@@ -34,7 +39,9 @@ prime_FPH_test <- function(prime, prime_lit, base, expr = NULL) {
         DT[ , sum(Montant, na.rm = TRUE)], "euros.")
   }
   
-  assign(base, DT)
+  assign(base,  DT, .GlobalEnv)
+
+  fwrite(get(base, .GlobalEnv), file.path(chemin.dossier.bases, "Reglementation", base %+% ".csv"))
   
   primes <- unique(DT$Libellé)
   

@@ -10,8 +10,8 @@ calcul_NBI <- function() {
     "lignes_NBI" %a% Paie_NBI[indic == TRUE][ , indic :=  NULL]
     
     "NBI.aux.non.titulaires" %a% lignes_NBI[! Statut %chin% c("TITULAIRE", "STAGIAIRE") 
-                                         & NBI != 0,
-                                         c(..colonnes, "NBI")]
+                                             & NBI != 0,
+                                               c(..colonnes, "NBI")]
     
     if ("nombre.personnels.nbi.nontit" %a% uniqueN(NBI.aux.non.titulaires$Matricule)) {
       cat("Il existe ", 
@@ -47,9 +47,7 @@ calcul_NBI <- function() {
     
     if (nrow(T1) == 0) cat("Aucune NBI n'a été attribuée ou les points de NBI n'ont pas été rencensés en base de paye. ")
     
-    #nbi.cum.hors.rappels = sum(Montant[Type != "R" | (Année.rappel == Année & Mois.rappel == Mois)],
-    #                                                          na.rm = TRUE),
-    
+
     T2a <- T1[! is.na(quotité)
               & quotité > 0
               & Type == "R",
@@ -111,6 +109,16 @@ calcul_NBI <- function() {
     "couts.nbi.anormales.hors.rappels" %a% lignes.nbi.anormales.hors.rappels[ , sum(cout.nbi.anormale, na.rm = TRUE)]
     
     "rappels.nbi" %a% T2a[ , sum(nbi.cum.rappels, na.rm = TRUE)]
+    
+    sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
+               environment(),
+               "NBI.aux.non.titulaires")
+    
+    sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"), 
+               environment(),
+               "lignes.nbi.anormales",
+               "lignes.nbi.anormales.hors.rappels",
+               "cumuls.nbi")
 }
 
 #' @export
@@ -147,6 +155,11 @@ proratisation_NBI <- function() {
       "Coût total des différences"),
     nrow(lignes.nbi.anormales.mensuel),
     round(montants.nbi.anormales.mensuel)))
+  
+  sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"), 
+             environment(),
+             "lignes.nbi.anormales.mensuel",
+             "lignes.paie.nbi.anormales.mensuel")
 }
 
 #' @export
@@ -197,5 +210,10 @@ catégories_NBI <- function() {
       "Coût total des dépassements"),
     nombre.mat.NBI.irrég,
     round(coût.total, 1)))
+  
+  sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
+             .GlobalEnv,
+             "NBI.cat.irreg")
+  
 }
 

@@ -24,7 +24,6 @@ if (is.na(codes.vacataires)) {
   libellés.horaires <- unique(Paie_vac[Code %chin% codes.vacataires, Libellé])
 }
 
-
 # ----- Vérifier si des fonctionnaires titulaires ou stagiaires bénéficient de vacations horaires et donner les caractéristiques
 
 Paie_vac_fonct <- Paie_vac[Statut %chin% c("TITULAIRE", "STAGIAIRE"), 
@@ -43,6 +42,12 @@ if (nombre.fonctionnaires.et.vacations > 0) {
 }  else  {
   cat("Pas de vacation détectée. ")
 }
+
+sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
+           environment(),
+           "lignes.fonctionnaires.et.vacations",
+           "matricules.fonctionnaires.et.vacations",
+           "Paie_vac_fonct")
 
 #'[Matricules des fonctionnaires concernés](Bases/Reglementation/matricules.fonctionnaires.et.vacations.csv)       
 #'[Lien vers les vacations payées à des fonctionnaires](Bases/Reglementation/lignes.fonctionnaires.et.vacations.csv)       
@@ -92,6 +97,12 @@ if (exists("nombre.contractuels.et.vacations")) {
           nombre.Lignes.paie.RI.et.vacations)
 }
 
+sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
+           environment(),
+           "RI.et.vacations",
+           "matricules.contractuels.et.vacations",
+           "Paie_vac_contr")
+
 #'  
 #'[Lien vers les matricules des vacataires](Bases/Reglementation/matricules.contractuels.et.vacations.csv)   
 #'[Lien vers les lignes indemnitaires à vérifier](Bases/Reglementation/RI.et.vacations.csv)    
@@ -124,6 +135,12 @@ if (exists("nombre.SFT_IR.et.vacations")) {
           nombre.SFT_IR.et.vacations,
           nrow(SFT_IR.et.vacations))
 }
+
+sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
+           environment(),
+           "matricules.SFT_IR.et.vacations",
+           "SFT_IR.et.vacations",
+           "Paie_vac_sft_ir")
 
 #'  
 #'[Lien vers les matricules concernés](Bases/Reglementation/matricules.SFT_IR.et.vacations.csv)     
