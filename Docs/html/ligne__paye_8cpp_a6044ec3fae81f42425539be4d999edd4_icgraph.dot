@@ -1,0 +1,36 @@
+digraph "sanitize"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node123 [label="sanitize",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node123 -> Node124 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node124 [label="Bulletin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5",tooltip="Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit. "];
+  Node124 -> Node125 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node125 [label="bulletin_obligatoire",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a45ce15888cd33c4753e852fce36fb56e",tooltip="Appelle Bulletin et affiche l&#39;interprétation des erreurs. "];
+  Node125 -> Node126 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node126 [label="lignePaye",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c",tooltip="Analyse les noeuds fils du noeud. "];
+  Node126 -> Node127 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node127 [label="parseLignesPaye",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2",tooltip="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) "];
+  Node127 -> Node128 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node128 [label="parseFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35",tooltip="Décode une structure info_t contenant les données de paye à l&#39;état brut \"fichier\" (..."];
+  Node128 -> Node129 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node129 [label="parse_info",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6",tooltip="Lance l&#39;ensemble des processus de pré-traitement et de post-traitement des fichiers de paye..."];
+  Node129 -> Node130 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node130 [label="produire_segment",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa",tooltip="Pour un segment donné (sous-ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..."];
+  Node130 -> Node131 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node131 [label="main",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627"];
+  Node124 -> Node132 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node132 [label="bulletin_obligatoire\l_numerique",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a8636e0f8d6d7fce58969c36956342c90",tooltip="Appelle Bulletin. "];
+  Node132 -> Node126 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node124 -> Node133 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node133 [label="bulletin_optionnel_char",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a4a91586d82e91ad3e3c02355b57c9e09",tooltip="Appelle Bulletin. "];
+  Node133 -> Node126 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node124 -> Node134 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node134 [label="bulletin_optionnel\l_numerique",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580",tooltip="Appelle Bulletin. "];
+  Node134 -> Node126 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node123 -> Node135 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node135 [label="concat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a1387e6beec261819622addf319a581c7",tooltip="Concatène la propriété \"V\" du noeud cur passé en premier argument avec la chaîne contenue de la table..."];
+  Node135 -> Node127 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

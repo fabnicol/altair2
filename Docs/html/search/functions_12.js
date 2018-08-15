@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['rapportpage',['rapportPage',['../classrapport_page.html#adba3d64de94b773300af461e8f57a0fd',1,'rapportPage']]],
   ['read_5fstream_5finto_5fstring',['read_stream_into_string',['../fonctions__auxiliaires_8cpp.html#a32c99ab7b5fefd5ac69921080ecd95f5',1,'read_stream_into_string(ifstream &amp;in):&#160;fonctions_auxiliaires.cpp'],['../fonctions__auxiliaires_8h.html#a32c99ab7b5fefd5ac69921080ecd95f5',1,'read_stream_into_string(ifstream &amp;in):&#160;fonctions_auxiliaires.cpp']]],
   ['readfile',['readFile',['../classtools.html#af43fc30ac740fa0fa1d773afb2538c8c',1,'tools::readFile(const QString &amp;path, QStringList &amp;list, int start=0, int stop=-1, int width=0)'],['../classtools.html#a8f91b50e90106af8a44ef7e91af7faaa',1,'tools::readFile(const char *path, QStringList &amp;list, int start=0, int stop=-1, int width=0)'],['../classtools.html#a13fc801ee004227bea7e8d1602b04d26',1,'tools::readFile(const QString &amp;path, int start=0, int stop=-1, int width=0)'],['../classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300',1,'tools::readFile(const char *path, int start=0, int stop=-1, int width=0)'],['../class_main_window.html#afc3de174143a44ccebd7037e0794b916',1,'MainWindow::readFile()']]],
   ['readranksignal',['readRankSignal',['../class_altair.html#a19ef4b530e210642e2e71c94a2b14bef',1,'Altair']]],
@@ -10,7 +11,7 @@ var searchData=
   ['refreshrowpresentation',['refreshRowPresentation',['../class_f_list_frame.html#a71bc28acab82a7bc4d1e2bd7f9115872',1,'FListFrame::refreshRowPresentation()'],['../class_altair.html#aebac84e0cf9914bcb5220c44d853091d',1,'Altair::refreshRowPresentation(int index)'],['../class_altair.html#a20528df591deee5ad32f28996ba8dc35',1,'Altair::refreshRowPresentation()']]],
   ['refreshtreeview',['refreshTreeView',['../class_altair.html#a8a329bbe1b7429dae0386afc0b423712',1,'Altair']]],
   ['regexp',['regexp',['../options_8cpp.html#aa5399073540b3e6a7a9d60a70ef4dd88',1,'options.cpp']]],
-  ['reinitialiser_5fprologue',['reinitialiser_prologue',['../classcode_page.html#a8524212298b5473047c5c4f0cadc86a6',1,'codePage::reinitialiser_prologue()'],['../classcode_page.html#a8524212298b5473047c5c4f0cadc86a6',1,'codePage::reinitialiser_prologue()']]],
+  ['reinitialiser_5fprologue',['reinitialiser_prologue',['../classcode_page.html#a8524212298b5473047c5c4f0cadc86a6',1,'codePage::reinitialiser_prologue()'],['../classcode_page.html#a8524212298b5473047c5c4f0cadc86a6',1,'codePage::reinitialiser_prologue()'],['../classprocess_page.html#a77ff73a8d632c47592a82361bc8ee162',1,'processPage::reinitialiser_prologue()'],['../classrapport_page.html#ad3308e878a28c934bd8bb35721d2eaf4',1,'rapportPage::reinitialiser_prologue()']]],
   ['remaccents',['remAccents',['../classtools.html#ab3072ad07df18e4e7e3c4b903fa3d11e',1,'tools']]],
   ['rempl_5fstr',['rempl_str',['../options_8cpp.html#aed1be66fe9ab34423b676aa409402c42',1,'options.cpp']]],
   ['renommer',['renommer',['../classtools.html#a888a6211f6956005dba0132e1ee5fd92',1,'tools']]],

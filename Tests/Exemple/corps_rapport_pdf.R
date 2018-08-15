@@ -3,9 +3,9 @@
 # Fabrice Nicol, années 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
-# Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
-# produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-# en vigueur à compter de l'année 2008.
+# Ce logiciel est un programme informatique servant à extraire et analyser
+# les fichiers de paye produits au format spécifié par l'annexe de la  
+# convention-cadre de dématérialisation en vigueur à partir de 2008.
 # 
 # Ce logiciel est régi par la licence CeCILL soumise au droit français et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -64,7 +64,7 @@ file.copy("altaïr.pdf", chemin.clé)
 # Mais ne le faire que s'il ne s'agit pas du mode distributif(+)
 # Il serait en effet non ergonomique de lancer la lecture de 50 fichiers PDF
 
-if (basename(chemin.clé) == basename(racine)) {
+if (ouvrir.document && basename(chemin.clé) == basename(racine)) {
   if (setOSWindows) {
     
     shell(paste("start acrord32.exe",  file.path(chemin.clé, "altaïr.pdf")))

@@ -3,9 +3,9 @@
 # Fabrice Nicol, années 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
-# Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
-# produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-# en vigueur à compter de l'année 2008.
+# Ce logiciel est un programme informatique servant à extraire et analyser
+# les fichiers de paye produits au format spécifié par l'annexe de la  
+# convention-cadre de dématérialisation en vigueur à partir de 2008.
 # 
 # Ce logiciel est régi par la licence CeCILL soumise au droit français et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -44,10 +44,13 @@ chemin.dossier.outils       <- file.path(chemin.clé, "..", "..", "Outils")
 user <- if (setOSWindows) Sys.getenv("USERNAME") else Sys.getenv("USER")
 chemin.dossier.données      <- file.path(chemin.clé, "..", "xhl", ifelse(user == "fab", "", user))
 chemin.dossier.docs <- file.path(chemin.clé, "Docs")
-if (basename(chemin.clé) == basename(racine)) {
-    source("prologue_codes.R", encoding = encodage.code.source)
-} else {
-    source(file.path(chemin.clé, "prologue_codes.R"), encoding = encodage.code.source)
+
+for (type in c("codes", "options", "scripts")) {
+    if (basename(chemin.clé) == basename(racine)) {
+        source("prologue_"  %+% type %+% ".R", encoding = encodage.code.source)
+    } else {
+        source(file.path(chemin.clé, "prologue_" %+% type %+% ".R"), encoding = encodage.code.source)
+    }
 }
 
 # DOSSIERS

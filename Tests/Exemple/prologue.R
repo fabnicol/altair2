@@ -3,9 +3,9 @@
 # Fabrice Nicol, années 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
-# Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
-# produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-# en vigueur à compter de l'année 2008.
+# Ce logiciel est un programme informatique servant à extraire et analyser
+# les fichiers de paye produits au format spécifié par l'annexe de la  
+# convention-cadre de dématérialisation en vigueur à partir de 2008.
 # 
 # Ce logiciel est régi par la licence CeCILL soumise au droit français et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -36,7 +36,7 @@
 # 
 # 
 # prologue 
-# doit être encodeé en UTF-8 au moins sous Linux. A vérifier sous Windows...pour l'interface graphique
+# doit être encodé en UTF-8 au moins sous Linux. A vérifier sous Windows...pour l'interface graphique
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
 # dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
@@ -81,16 +81,21 @@ if (! exists("PDF"))       PDF <<- FALSE
 keep_md                        <- FALSE
 utiliser.cplusplus.sft         <- FALSE
 sécuriser.types.sortie         <- TRUE
-utiliser.variable.Heures.Sup.  <- FALSE  # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unité
-noria.sur.base.de.paie         <- FALSE  # calculer effet de noria sur base de paie uniquement (pas de fichier E/S)
+utiliser.variable.Heures.Sup.  <- FALSE    # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unité
+noria.sur.base.de.paie         <- FALSE    # calculer effet de noria sur base de paie uniquement (pas de fichier E/S)
 sauter.tests.statutaires       <- FALSE
+profiler                       <- FALSE
+paye.budget.existe             <- FALSE
+fichier.personnels.existe      <- TRUE
+grades.categories.existe       <- TRUE
+logements.existe               <- TRUE
+plafonds.ifse.existe           <- TRUE
 
-
-numéro.tableau                 <- 0  # Numérotation de départ des tableaux
-chapitre                       <- 0  # Numérotation de départ des chapitres
-seuil.troncature               <- 2  # jours
-taux.tolérance.homonymie       <- 2  # en %
-quantile.cut                   <- 1  # en %
+numéro.tableau                 <- 0        # Numérotation de départ des tableaux
+chapitre                       <- 1        # Numérotation de départ des chapitres
+seuil.troncature               <- 2        # jours
+taux.tolérance.homonymie       <- 2        # en %
+quantile.cut                   <- 1        # en %
 minimum.positif                <- 0.5
 minimum.quotité                <- 0.1
 tolérance.variation.quotité    <- 0.05
@@ -149,22 +154,10 @@ if (setOSWindows) {
 }
 
 
-# ETIQUETTES ET FORMATS
+# FORMATS
 
-étiquette.matricule         <- "Matricule"
-étiquette.Type.rémunération <- "Type rémunération"
-étiquette.année             <- "Année"
-étiquette.libellé           <- "Libellé"
-étiquette.montant           <- "Montant"
-étiquette.code              <- "Code"
-étiquette.rém.indemn        <- "Rémunération contractuelle ou indemnitaire"
-champ.détection.1           <- étiquette.matricule
-champ.détection.2           <- "Code"
-
-clé.fusion <- étiquette.matricule
-
-colonnes.requises           <- c(union(clé.fusion, étiquette.matricule),
-                                 étiquette.année,
+colonnes.requises           <- c("Matricule",
+                                 "Année",
                                  "Mois",
                                  "Statut",
                                  "Brut",
@@ -244,10 +237,13 @@ expression.rég.admin      <- "(?:^|\\s)adm\\w*\\.?\\b"
 expression.rég.admin.hc   <- "(?:^|\\s)adm\\w*\\.?\\bh\\w*\\.?\\s?c\\w*\\.?\\b"
 expression.rég.admin.g    <- "(?:^|\\s)adm\\w*\\.?\\b\\s?g\\w*\\.?\\b"
 
+# Trace de profilage.
+PROF <<- data.table()
+
 # Les valeurs ci-après seront changées par le "préprocesseur" de l'interface graphique si les valeurs explicites des codes de paye
 
 source("versant.R", encoding = "UTF-8")
 # point d'indice majoré
-source("point.im.R", encoding = "UTF-8")
-source("plafonds.R", encoding = "UTF-8")
+
+point_inm()
 

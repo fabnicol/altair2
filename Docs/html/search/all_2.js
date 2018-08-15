@@ -2,7 +2,7 @@ var searchData=
 [
   ['bar',['bar',['../class_f_progress_bar.html#a8536f49e0efeb3949df61cebb6358ce4',1,'FProgressBar']]],
   ['base',['BASE',['../validator_8h.html#aa54f10b1a6207ad89b081fc06495cdc6ae7b1a5c82772e0e055096008cb9883ef',1,'validator.h']]],
-  ['basebox',['baseBox',['../classcode_page.html#ae664771c863acab53bfba10b63040f17',1,'codePage']]],
+  ['basebox',['baseBox',['../classcode_page.html#ae664771c863acab53bfba10b63040f17',1,'codePage::baseBox()'],['../classrapport_page.html#a4b8fbec34091b66e46537b8f02fd9fab',1,'rapportPage::baseBox()']]],
   ['basecategorie',['BaseCategorie',['../validator_8h.html#aa54f10b1a6207ad89b081fc06495cdc6',1,'validator.h']]],
   ['basetype',['BaseType',['../validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742',1,'validator.h']]],
   ['basetypebox',['baseTypeBox',['../classstandard_page.html#a4cbb1f09e74a0f5631a9675ba6960d9b',1,'standardPage']]],
@@ -28,7 +28,7 @@ var searchData=
   ['bulletin_5fobligatoire_5fnumerique',['bulletin_obligatoire_numerique',['../ligne__paye_8cpp.html#a8636e0f8d6d7fce58969c36956342c90',1,'bulletin_obligatoire_numerique(const char *tag, xmlNodePtr &amp;cur, int l, info_t &amp;info):&#160;ligne_paye.cpp'],['../ligne__paye_8cpp.html#a0818c467d5ff4c0a7b34b061c9ef32e1',1,'BULLETIN_OBLIGATOIRE_NUMERIQUE():&#160;ligne_paye.cpp']]],
   ['bulletin_5fobligatoire_5fnumerique_5f',['BULLETIN_OBLIGATOIRE_NUMERIQUE_',['../ligne__paye_8cpp.html#ade7936b4093eea76a26356a1bdeb4197',1,'ligne_paye.cpp']]],
   ['bulletin_5foptionnel_5fchar',['bulletin_optionnel_char',['../ligne__paye_8cpp.html#a4a91586d82e91ad3e3c02355b57c9e09',1,'bulletin_optionnel_char(const char *tag, xmlNodePtr &amp;cur, int l, info_t &amp;info):&#160;ligne_paye.cpp'],['../ligne__paye_8cpp.html#acae45e567d2515eb85b1fecf834540c6',1,'BULLETIN_OPTIONNEL_CHAR():&#160;ligne_paye.cpp']]],
-  ['bulletin_5foptionnel_5fnumerique',['BULLETIN_OPTIONNEL_NUMERIQUE',['../ligne__paye_8cpp.html#aabed04ef62708ce881008b407d56e6e7',1,'BULLETIN_OPTIONNEL_NUMERIQUE():&#160;ligne_paye.cpp'],['../ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580',1,'bulletin_optionnel_numerique(const char *tag, xmlNodePtr &amp;cur, int l, info_t &amp;info):&#160;ligne_paye.cpp']]],
+  ['bulletin_5foptionnel_5fnumerique',['bulletin_optionnel_numerique',['../ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580',1,'bulletin_optionnel_numerique(const char *tag, xmlNodePtr &amp;cur, int l, info_t &amp;info):&#160;ligne_paye.cpp'],['../ligne__paye_8cpp.html#aabed04ef62708ce881008b407d56e6e7',1,'BULLETIN_OPTIONNEL_NUMERIQUE():&#160;ligne_paye.cpp']]],
   ['bulletin_5foptionnel_5fnumerique_5f',['BULLETIN_OPTIONNEL_NUMERIQUE_',['../ligne__paye_8cpp.html#aaf41d9f981c2f5094af6d21e60b1cdf1',1,'ligne_paye.cpp']]],
   ['bulletin_5fpaye',['bulletin_paye',['../recherche_8cpp.html#a36576fe3eaca7bc6525c43d9bed05738',1,'bulletin_paye(const string &amp;chemin_repertoire, const vector&lt; info_t &gt; &amp;Info, const string &amp;matricule, const string &amp;mois, const string &amp;annee):&#160;recherche.cpp'],['../recherche_8h.html#a36576fe3eaca7bc6525c43d9bed05738',1,'bulletin_paye(const string &amp;chemin_repertoire, const vector&lt; info_t &gt; &amp;Info, const string &amp;matricule, const string &amp;mois, const string &amp;annee):&#160;recherche.cpp']]],
   ['bulletins',['BULLETINS',['../validator_8h.html#aa54f10b1a6207ad89b081fc06495cdc6a4aa387c832a1430426402bfface2cc5b',1,'validator.h']]]
