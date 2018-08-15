@@ -49,9 +49,9 @@ sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
            "matricules.fonctionnaires.et.vacations",
            "Paie_vac_fonct")
 
-#'[Matricules des fonctionnaires concernés](Bases/Reglementation/matricules.fonctionnaires.et.vacations.csv)       
-#'[Lien vers les vacations payées à des fonctionnaires](Bases/Reglementation/lignes.fonctionnaires.et.vacations.csv)       
-#'[Lien vers les bulletins de paie correspondants](Bases/Reglementation/Paie_vac_fonct.csv)            
+conditionnel("Matricules des fonctionnaires concernés", "Bases/Reglementation/matricules.fonctionnaires.et.vacations.csv")       
+conditionnel("Lien vers les vacations payées à des fonctionnaires", "Bases/Reglementation/lignes.fonctionnaires.et.vacations.csv")       
+conditionnel("Lien vers les bulletins de paie correspondants", "Bases/Reglementation/Paie_vac_fonct.csv")            
 
 ####  5.4 CEV ####  
 
@@ -104,9 +104,9 @@ sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
            "Paie_vac_contr")
 
 #'  
-#'[Lien vers les matricules des vacataires](Bases/Reglementation/matricules.contractuels.et.vacations.csv)   
-#'[Lien vers les lignes indemnitaires à vérifier](Bases/Reglementation/RI.et.vacations.csv)    
-#'[Lien vers les bulletins de paye correspondants](Bases/Reglementation/Paie_vac_contr.csv)   
+conditionnel("Lien vers les matricules des vacataires", "Bases/Reglementation/matricules.contractuels.et.vacations.csv")   
+conditionnel("Lien vers les lignes indemnitaires à vérifier", "Bases/Reglementation/RI.et.vacations.csv")    
+conditionnel("Lien vers les bulletins de paye correspondants", "Bases/Reglementation/Paie_vac_contr.csv")   
 #'    
 
 essayer({ Paie_vac_sft_ir <- filtrer_Paie("IR_S", 
@@ -143,7 +143,7 @@ sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
            "Paie_vac_sft_ir")
 
 #'  
-#'[Lien vers les matricules concernés](Bases/Reglementation/matricules.SFT_IR.et.vacations.csv)     
-#'[Lien vers les lignes SFT/IR à vérifier](Bases/Reglementation/SFT_IR.et.vacations.csv)   
-#'[Lien vers les bulletins de paye correspondants](Bases/Reglementation/Paie_vac_sft_ir.csv)    
+conditionnel("Lien vers les matricules concernés", "Bases/Reglementation/matricules.SFT_IR.et.vacations.csv")     
+conditionnel("Lien vers les lignes SFT/IR à vérifier", "Bases/Reglementation/SFT_IR.et.vacations.csv")   
+conditionnel("Lien vers les bulletins de paye correspondants", "Bases/Reglementation/Paie_vac_sft_ir.csv")    
 #'   

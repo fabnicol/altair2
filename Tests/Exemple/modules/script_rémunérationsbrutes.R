@@ -496,7 +496,7 @@ rm(Analyse.remunerations.exercice)
 
 
 #'  
-#'[Lien vers la base des rémunérations](Bases/Remunerations/Analyse.remunerations.csv)  
+conditionnel("Lien vers la base des rémunérations", "Bases/Remunerations/Analyse.remunerations.csv")  
 #'   
 
 newpage()

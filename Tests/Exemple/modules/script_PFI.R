@@ -26,5 +26,5 @@ sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), environment(), "pe
 #'  
 
 #'   
-#'[Lien vers la base de données Primes informatiques](Bases/Reglementation/personnels.prime.informatique.csv)   
+conditionnel("Lien vers la base de données Primes informatiques", "Bases/Reglementation/personnels.prime.informatique.csv")   
 #'     

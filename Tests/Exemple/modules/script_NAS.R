@@ -15,6 +15,6 @@ base.logements <- test_avn("NAS", Paie, logements = base.logements)  # base des 
 #'### Contrôle sur les logements par NAS    
 #'   
 #'   
-#'[Lien vers la base des logements par NAS non déclarés en base de paye](Bases/Reglementation/NAS.non.declares.paye.csv)    
-#'[Lien vers la base des logements par NAS non importés dans le fichier auxiliaire](Bases/Reglementation/NAS.non.importes.csv)    
+conditionnel("Lien vers la base des logements par NAS non déclarés en base de paye", "Bases/Reglementation/NAS.non.declares.paye.csv")    
+conditionnel("Lien vers la base des logements par NAS non importés dans le fichier auxiliaire", "Bases/Reglementation/NAS.non.importes.csv")    
 #'       

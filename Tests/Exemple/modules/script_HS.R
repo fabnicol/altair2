@@ -21,10 +21,10 @@ insérer_script(fonction = c("calcul_HS", "dépassements_HS"))
 #'&nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_liquidation_IHTS.odt)      
 #' 
 #'     
-#'[Lien vers la base de données des IHTS aux non-titulaires](Bases/Reglementation/Base.IHTS.non.tit.csv)           
-#'[Lien vers le tableau des dépassements individuels des seuils de liquidation](Bases/Reglementation/depassement.agent.annee.csv)         
-#'[Lien vers la base de données dépassements individuels des seuils de liquidation](Bases/Reglementation/depassement.agent.csv)         
-#'[Lien vers la base de données calcul des taux horaires individuels](Bases/Reglementation/Taux.horaires.csv)        
+conditionnel("Lien vers la base de données des IHTS aux non-titulaires", "Bases/Reglementation/Base.IHTS.non.tit.csv")           
+conditionnel("Lien vers le tableau des dépassements individuels des seuils de liquidation", "Bases/Reglementation/depassement.agent.annee.csv")         
+conditionnel("Lien vers la base de données dépassements individuels des seuils de liquidation", "Bases/Reglementation/depassement.agent.csv")         
+conditionnel("Lien vers la base de données calcul des taux horaires individuels", "Bases/Reglementation/Taux.horaires.csv")        
 #'       
 #'     
 #'*Le cumul des heures supplémentaires déclarées (colonne Heures.Sup. des bases) est, par année, comparé au cumul des bases de liquidation IHTS, pour l'année et en régularisation l'année suivante au titre du même exercice*    
@@ -38,9 +38,9 @@ insérer_script(fonction = c("calcul_HS", "dépassements_HS"))
 insérer_script(fonction = "cumuls_HS")
 
 #'    
-#'[Lien vers les données du tableau](Bases/Reglementation/CumHS.csv)     
-#'[Lien vers les cumuls IHTS par matricule](Bases/Reglementation/lignes.IHTS.tot.csv)       
-#'[Lien vers les lignes IHTS](Bases/Reglementation/lignes.IHTS.csv)              
+conditionnel("Lien vers les données du tableau", "Bases/Reglementation/CumHS.csv")     
+conditionnel("Lien vers les cumuls IHTS par matricule", "Bases/Reglementation/lignes.IHTS.tot.csv")       
+conditionnel("Lien vers les lignes IHTS", "Bases/Reglementation/lignes.IHTS.csv")              
 #'   
 #'  
 #'  
@@ -50,11 +50,12 @@ insérer_script(fonction = "cumuls_HS")
 insérer_script(fonction = "plafonds_HS")
 
 #'
-#'[Lien vers la base de données Heures supplémentaires en excès du seuil de 15h (FPH) ou de 25h/mois (FPT)](Bases/Reglementation/HS.sup.25.csv)     
-#'[Lien vers la base de données cumuls en excès des seuils annuels de 180 h (FPH)](Bases/Reglementation/Depassement.seuil.180h.csv)    
-#'[Lien vers la base de données cumuls en excès des seuils annuels de 220 h (FPH)](Bases/Reglementation/Depassement.seuil.220h.csv)   
-#'[Lien vers la base de données IHTS versées à des fonctionnaires de cat. A](Bases/Reglementation/ihts.cat.A.csv)      
-#'
+conditionnel("Lien vers la base de données Heures supplémentaires en excès du seuil de 15h (FPH) ou de 25h/mois (FPT)", "Bases/Reglementation/HS.sup.25.csv")     
+conditionnel("Lien vers la base de données cumuls en excès des seuils annuels de 180 h (FPH)", "Bases/Reglementation/Depassement.seuil.180h.csv")    
+conditionnel("Lien vers la base de données cumuls en excès des seuils annuels de 220 h (FPH)", "Bases/Reglementation/Depassement.seuil.220h.csv")   
+conditionnel("Lien vers la base de données IHTS versées à des fonctionnaires de cat. A", "Bases/Reglementation/ihts.cat.A.csv")      
+
+#'   
 #'**Nota :**   
 #'HS en excès : au-delà de 25 heures par mois dans la FPT et 15 heures par mois dans la FPH, sauf pour certains emplois (18,3 heures par mois)     
 #'IHTS cat.A : attribuées à des fonctionnaires ou non-titulaires de catégorie A ou assimilés.    

@@ -44,5 +44,5 @@ if (générer.table.élus)   {
 
 sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), environment(), "remunerations.elu")
 
-#'[Lien vers la base de données Rémunérations des élus](Bases/Reglementation/remunerations.elu.csv)
+conditionnel("Lien vers la base de données Rémunérations des élus", "Bases/Reglementation/remunerations.elu.csv")
 #'

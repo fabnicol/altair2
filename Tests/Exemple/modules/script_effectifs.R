@@ -51,9 +51,10 @@ if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 15
 sauv.bases(file.path(chemin.dossier.bases, "Effectifs"), new.env(), "tableau.effectifs")
 
 #'      
+ 
+conditionnel("Lien vers la base des effectifs", "Bases/Effectifs/tableau.effectifs.csv")  
+
 #'   
-#'[Lien vers la base des effectifs](Bases/Effectifs/tableau.effectifs.csv)
-#'
 #'
 
 #+ pyramides-des-âges
@@ -77,5 +78,6 @@ essayer(label = "+fichiers pyr",
                        dec = ",",
                        colClasses = c("integer", "numeric", "numeric", "integer", "character")),
                  envir = .GlobalEnv)
+          
         }}, "La lecture des fichiers de référence des pyramides (fichiers listés dans fichiers.pyr), comportant les statistiques INSEE, a échoué.")
 

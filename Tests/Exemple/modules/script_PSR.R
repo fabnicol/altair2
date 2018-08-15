@@ -30,9 +30,9 @@ Paie_PSR <- résultat_PSR$Paie
 tableau_cumuls(résultat_PSR)
 
 #'      
-#'[Lien vers la base de données cumuls psr/ifts](Bases/Reglementation/personnels.psr.ifts.csv)       
-#'[Lien vers la base de données PSR grade non conforme](Bases/Reglementation/PSR.non.catAB.csv)      
-#'[Lien vers la base de données PSR non tit](Bases/Reglementation/PSR.non.tit.csv)       
+conditionnel("Lien vers la base de données cumuls psr/ifts", "Bases/Reglementation/personnels.psr.ifts.csv")       
+conditionnel("Lien vers la base de données PSR grade non conforme", "Bases/Reglementation/PSR.non.catAB.csv")      
+conditionnel("Lien vers la base de données PSR non tit", "Bases/Reglementation/PSR.non.tit.csv")       
 #'   
 
 #'  
@@ -42,7 +42,7 @@ tableau_cumuls(résultat_PSR)
 agrégat_annuel(résultat_PSR, afficher.table.effectifs)
 
 #'   
-#'[Lien vers la base de données agrégat PSR-IFTS](Bases/Remunerations/beneficiaires.PSR.IFTS.csv)    
+conditionnel("Lien vers la base de données agrégat PSR-IFTS", "Bases/Remunerations/beneficiaires.PSR.IFTS.csv")    
 #'    
 
 #'  
@@ -52,7 +52,7 @@ agrégat_annuel(résultat_PSR, afficher.table.effectifs)
 évolution_agrégat(résultat_PSR, afficher.table.effectifs)
 
 #'   
-#'[Lien vers la base de données variations agrégat PSR-IFTS](Bases/Remunerations/beneficiaires.PSR.IFTS.Variation.csv)    
+conditionnel("Lien vers la base de données variations agrégat PSR-IFTS", "Bases/Remunerations/beneficiaires.PSR.IFTS.Variation.csv")    
 #'   
 
 résultat_PSR   <- test_prime(prime_PSR, prime_IAT, Paie_I, Paie_IAT, Lignes_IAT, afficher.table.effectifs)
@@ -65,7 +65,7 @@ résultat_PSR   <- test_prime(prime_PSR, prime_IAT, Paie_I, Paie_IAT, Lignes_IAT
 tableau_cumuls(résultat_PSR)
 
 #'      
-#'[Lien vers la base de données cumuls psr/iat](Bases/Reglementation/personnels.psr.iat.csv)       
+conditionnel("Lien vers la base de données cumuls psr/iat", "Bases/Reglementation/personnels.psr.iat.csv")       
 #'   
 
 
@@ -76,7 +76,7 @@ tableau_cumuls(résultat_PSR)
 agrégat_annuel(résultat_PSR, afficher.table.effectifs)
 
 #'   
-#'[Lien vers la base de données agrégat PSR-IAT](Bases/Remunerations/beneficiaires.PSR.IAT.csv)    
+conditionnel("Lien vers la base de données agrégat PSR-IAT", "Bases/Remunerations/beneficiaires.PSR.IAT.csv")    
 #'    
 
 #'  
@@ -86,7 +86,7 @@ agrégat_annuel(résultat_PSR, afficher.table.effectifs)
 évolution_agrégat(résultat_PSR, afficher.table.effectifs)
 
 #'   
-#'[Lien vers la base de données variations agrégat PSR-IAT](Bases/Remunerations/beneficiaires.PSR.IAT.Variation.csv)    
+conditionnel("Lien vers la base de données variations agrégat PSR-IAT", "Bases/Remunerations/beneficiaires.PSR.IAT.Variation.csv")    
 #'   
 
 rm(résultat_PSR)

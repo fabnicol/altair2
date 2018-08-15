@@ -22,7 +22,8 @@
 insérer_script(fonction = "calcul_NBI")
 
 #'   
-#'[Lien vers la base de données NBI aux non titulaires](Bases/Reglementation/NBI.aux.non.titulaires.csv) &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NBI_nt.odt)       
+conditionnel("Lien vers la base de données NBI aux non titulaires", "Bases/Reglementation/NBI.aux.non.titulaires.csv")
+#'[![Notice](Notice.png)]("Docs/Notices/fiche_NBI_nt.odt")       
 #'     
 
 #'  
@@ -48,8 +49,8 @@ Tableau(
   round(couts.nbi.anormales.hors.rappels, 1))
 
 #'       
-#'[Lien vers la base de données des anomalies de NBI](Bases/Fiabilite/lignes.nbi.anormales.csv)     
-#'[Lien vers la base de données des anomalies de NBI hors rappels](Bases/Fiabilite/lignes.nbi.anormales.hors.rappels.csv)          
+conditionnel("Lien vers la base de données des anomalies de NBI", "Bases/Fiabilite/lignes.nbi.anormales.csv")     
+conditionnel("Lien vers la base de données des anomalies de NBI hors rappels", "Bases/Fiabilite/lignes.nbi.anormales.hors.rappels.csv")          
 #'   
 #'**Nota :**   
 #'*Est considéré comme anomalie manifeste un total annuel de rémunérations NBI correspondant à un point d'indice net mensuel inférieur à la moyenne de l'année moins 1 euro ou supérieur à cette moyenne plus 1 euro.*    
@@ -72,7 +73,7 @@ with(cumuls.nbi,
 )
 
 #'   
-#'[Lien vers la base de données des cumuls annuels de NBI](Bases/Fiabilite/cumuls.nbi.csv)   
+conditionnel("Lien vers la base de données des cumuls annuels de NBI", "Bases/Fiabilite/cumuls.nbi.csv")   
 #'   
 
 # --- Test Proratisation NBI
@@ -86,10 +87,10 @@ with(cumuls.nbi,
 insérer_script(fonction = "proratisation_NBI")
 
 #'   
-#'[Lien vers les bulletins anormaux du contrôle de proratisation/liquidation de la NBI](Bases/Fiabilite/lignes.nbi.anormales.mensuel.csv)   
+conditionnel("Lien vers les bulletins anormaux du contrôle de proratisation/liquidation de la NBI", "Bases/Fiabilite/lignes.nbi.anormales.mensuel.csv")   
 #'   
 #'   
-#'[Lien vers les lignes de paye du contrôle de proratisation/liquidation de la NBI](Bases/Fiabilite/lignes.paie.nbi.anormales.mensuel.csv)   
+conditionnel("Lien vers les lignes de paye du contrôle de proratisation/liquidation de la NBI", "Bases/Fiabilite/lignes.paie.nbi.anormales.mensuel.csv")   
 #'   
 #'  
 #'&nbsp;*Tableau 5.1.5 : Contrôle d'attribution de NBI par catégorie statutaire*  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_plafonds_NBI.odt)           
@@ -109,5 +110,5 @@ insérer_script(fonction = "catégories_NBI")
 #'  
 
 #'   
-#'[Lien vers les NBI dépassant les seuils par catégorie statutaire](Bases/Reglementation/NBI.cat.irreg.csv)   
+conditionnel("Lien vers les NBI dépassant les seuils par catégorie statutaire", "Bases/Reglementation/NBI.cat.irreg.csv")   
 #'   

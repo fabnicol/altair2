@@ -36,8 +36,8 @@ essayer(label = "+histogramme",
         }, "Le graphique des rémunérations moyennes des fonctionnaires n'a pas pu être généré")
 
 #'   
-#'[Lien vers la base de données synthétique](Bases/Remunerations/Analyse.variations.csv)     
-#'[Lien vers la base de données détaillée par année](Bases/Remunerations/Analyse.variations.par.exercice.csv)     
+conditionnel("Lien vers la base de données synthétique", "Bases/Remunerations/Analyse.variations.csv")     
+conditionnel("Lien vers la base de données détaillée par année", "Bases/Remunerations/Analyse.variations.par.exercice.csv")     
 
 ########### 4.2  Evolutions des rémunérations nettes ###########
 
@@ -303,7 +303,7 @@ essayer(label = "+distribution SMPT cat. B", print(distribution_smpt(Filtre_cat_
 
 essayer(label = "+distribution SMPT cat. C", print(distribution_smpt(Filtre_cat_C)), "La distribution du salaire moyen par tête des fonctionnaires de catégorie C n'a pas pu être calculée.")
 
-#'[Lien vers la base de données](Bases/Remunerations/Analyse.variations.par.exercice.csv)     
+conditionnel("Lien vers la base de données", "Bases/Remunerations/Analyse.variations.par.exercice.csv")     
 
 ########### 4.3  RMPP et effet de noria ###########  
 
@@ -394,7 +394,7 @@ if (durée.sous.revue > 1) {
 
 #'
 #'
-#'[Lien vers la base de données](Bases/Remunerations/Anavar.synthese.csv)
+conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthese.csv")
 #'
 #'**Nota**   
 #'*Personnes en place :* en fonction au moins deux années consécutives avec la même quotité sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`    

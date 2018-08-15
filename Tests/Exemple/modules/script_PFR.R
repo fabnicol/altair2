@@ -28,9 +28,9 @@ Lignes_PFR <- résultat_PFR$Lignes
 tableau_cumuls(résultat_PFR)
 
 #'      
-#'[Lien vers la base de données cumuls pfr/ifts](Bases/Reglementation/personnels.pfr.ifts.csv)    
-#'[Lien vers la base de données PFR non cat.A](Bases/Reglementation/PFR.non.catA.csv)      
-#'[Lien vers la base de données PFR non tit](Bases/Reglementation/PFR.non.tit.csv)       
+conditionnel("Lien vers la base de données cumuls pfr/ifts", "Bases/Reglementation/personnels.pfr.ifts.csv")    
+conditionnel("Lien vers la base de données PFR non cat.A", "Bases/Reglementation/PFR.non.catA.csv")      
+conditionnel("Lien vers la base de données PFR non tit", "Bases/Reglementation/PFR.non.tit.csv")       
 #'   
 
 résultat_PFR   <- test_prime(prime_PFR, prime_ISS, Paie_I, verbeux = afficher.table.effectifs)
@@ -46,7 +46,7 @@ tableau_cumuls(résultat_PFR)
 
 #'      
 #'      
-#'[Lien vers la base de données cumuls pfr/iss](Bases/Reglementation/personnels.pfr.iss.csv)    
+conditionnel("Lien vers la base de données cumuls pfr/iss", "Bases/Reglementation/personnels.pfr.iss.csv")    
 #'   
 
 résultat_PFR   <- test_prime(prime_PFR, prime_IEMP, Paie_I, verbeux = afficher.table.effectifs)
@@ -62,7 +62,7 @@ tableau_cumuls(résultat_PFR)
 
 #'      
 #'      
-#'[Lien vers la base de données cumuls pfr/iemp](Bases/Reglementation/personnels.pfr.iemp.csv)    
+conditionnel("Lien vers la base de données cumuls pfr/iemp", "Bases/Reglementation/personnels.pfr.iemp.csv")    
 #'   
 
 
@@ -120,7 +120,7 @@ if (nrow(dépassements.PFR.plafonds) > 0) {
 agrégat_annuel(résultat_PFR, afficher.table.effectifs)  
 
 #'   
-#'[Lien vers la base de données agrégat PFR-IFTS](Bases/Remunerations/beneficiaires.PFR.IFTS.csv)    
+conditionnel("Lien vers la base de données agrégat PFR-IFTS", "Bases/Remunerations/beneficiaires.PFR.IFTS.csv")    
 #'    
 
 #'  
@@ -130,7 +130,7 @@ agrégat_annuel(résultat_PFR, afficher.table.effectifs)
 évolution_agrégat(résultat_PFR, afficher.table.effectifs)
 
 #'   
-#'[Lien vers la base de données variations agrégat PFR-IFTS](Bases/Remunerations/beneficiaires.PFR.IFTS.Variation.csv)    
+conditionnel("Lien vers la base de données variations agrégat PFR-IFTS", "Bases/Remunerations/beneficiaires.PFR.IFTS.Variation.csv")    
 #'   
 
 rm(résultat_PFR)  
