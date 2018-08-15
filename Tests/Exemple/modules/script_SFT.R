@@ -8,7 +8,7 @@
 SFT_sans_enfant()
 
 #'  
-#'[Lien vers la base des paiements de SFT à agents sans enfant signalé](Bases/Reglementation/Paie.sans.enfant.reduit.csv)
+conditionnel("Lien vers la base des paiements de SFT à agents sans enfant signalé", "Bases/Reglementation/Paie.sans.enfant.reduit.csv")
 #'  
 
 # Traitement = sum(Montant[Type == "T"], na.rm = TRUE),
@@ -16,7 +16,7 @@ SFT_sans_enfant()
 liquidation_SFT()
 
 #'  
-#'[Lien vers la base des écarts de paiement sur SFT](Bases/Reglementation/controle.sft.csv)
+conditionnel("Lien vers la base des écarts de paiement sur SFT", "Bases/Reglementation/controle.sft.csv")
 #'  
 
 message("Analyse du SFT")

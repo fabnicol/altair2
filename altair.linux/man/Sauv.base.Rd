@@ -2,7 +2,7 @@
 % Please edit documentation in R/bibliotheque.fonctions.paie.R
 \name{Sauv.base}
 \alias{Sauv.base}
-\title{Sauv.base}
+\title{Sauvegarde d'une base}
 \usage{
 Sauv.base(chemin.dossier = "", nom = "", nom.sauv = nom,
   Latin = TRUE, sep = séparateur.liste.sortie,

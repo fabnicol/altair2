@@ -8,19 +8,19 @@ essayer({
   
   libelles.astreintes <- unique(Paie_astreintes[indic == TRUE, .(Code, Libellé)], by = NULL)
   
-  Controle_astreintes <- Paie_astreintes[! is.na(NBI) 
-                                         & NBI > 0
-                                         & indic == TRUE,
-                                         .(Matricule, Année, Mois, Catégorie, Emploi, Grade, NBI, Code, Libellé, quotité, Montant)
-                                         ][Paie_NBI[ , .(Matricule, Année, Mois, Code, Libellé, Montant)],  
+  "Controle_astreintes" %a% Paie_astreintes[! is.na(NBI) 
+                                           & NBI > 0
+                                           & indic == TRUE,
+                                           .(Matricule, Année, Mois, Catégorie, Emploi, Grade, NBI, Code, Libellé, quotité, Montant)
+                                        ][Paie_NBI[ , .(Matricule, Année, Mois, Code, Libellé, Montant)],  
                                            nomatch = 0,
                                            on = .(Matricule, Année, Mois)]  
   
-  Controle_astreintes <- Controle_astreintes[Catégorie == "A" 
-                                             & grepl("d(?:\\.|ir)\\w*\\s*\\bg(?:\\.|\\w*n\\.?\\w*)\\s*\\b(?:des?)\\s*\\bs\\w.*", 
-                                                     paste(Emploi, Grade), 
-                                                     perl = TRUE,
-                                                     ignore.case = TRUE)]
+  "Controle_astreintes" %a% Controle_astreintes[Catégorie == "A" 
+                                                   & grepl("d(?:\\.|ir)\\w*\\s*\\bg(?:\\.|\\w*n\\.?\\w*)\\s*\\b(?:des?)\\s*\\bs\\w.*", 
+                                                           paste(Emploi, Grade), 
+                                                           perl = TRUE,
+                                                           ignore.case = TRUE)]
   
   setnames(Controle_astreintes, c("Code", "Libellé", "Montant"), c("Code.astreinte", "Libellé.astreinte", "Montant.astreinte"))
   setnames(Controle_astreintes, c("i.Code", "i.Libellé", "i.Montant"), c("Code.NBI", "Libellé.NBI", "Montant.NBI"))
@@ -32,8 +32,8 @@ essayer({
   }
   
   "Cum_astreintes" %a% rbind(Controle_astreintes[, round(sum(Montant.astreinte), 1),
-                                              by = "Année"],
-                          list("Total", Controle_astreintes[, round(sum(Montant.astreinte), 1)]))
+                                                     by = "Année"],
+                            list("Total", Controle_astreintes[, round(sum(Montant.astreinte), 1)]))
   
   sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
              environment(),

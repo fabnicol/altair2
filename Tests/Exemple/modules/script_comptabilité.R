@@ -9,9 +9,9 @@
 correspondance_paye_budget()
 
 #'  
-#'[Lien vers la base détaillée des cumuls des lignes de paie](Bases/Reglementation/cumul.lignes.paie.csv)
+conditionnel("Lien vers la base détaillée des cumuls des lignes de paie", "Bases/Reglementation/cumul.lignes.paie.csv")
 #'  
-#'[Lien vers la base agrégée des cumuls des lignes de paie](Bases/Reglementation/cumul.total.lignes.paie.csv)
+conditionnel("Lien vers la base agrégée des cumuls des lignes de paie", "Bases/Reglementation/cumul.total.lignes.paie.csv")
 #'  
 
 #'  

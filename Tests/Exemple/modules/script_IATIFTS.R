@@ -21,8 +21,8 @@ Lignes_IFTS <- résultat_IAT_IFTS$Lignes_B
 #'### Contrôle sur les IAT pour catégories B C et non-titulaires      
 #'   
 #'   
-#'[Lien vers la base de données IAT aux non-titulaires](Bases/Reglementation/IAT.non.tit.csv)    
-#'[Lien vers la base de données IAT non cat B-C](Bases/Reglementation/IAT.non.catBC.csv)   
+conditionnel("Lien vers la base de données IAT aux non-titulaires", "Bases/Reglementation/IAT.non.tit.csv")    
+conditionnel("Lien vers la base de données IAT non cat B-C", "Bases/Reglementation/IAT.non.catBC.csv")   
 #'     
 #'     
 #'### Contrôle sur les IFTS pour catégories B et non-titulaires      
@@ -30,9 +30,9 @@ Lignes_IFTS <- résultat_IAT_IFTS$Lignes_B
 #IFTS et IB >= 380 (IM >= 350)
 #'  
 #'   
-#'[Lien vers la base de données IFTS à des catég. B INM inférieur à 350](Bases/Reglementation/IFTS.indice.anormal.csv)         
-#'[Lien vers la base de données IFTS aux non-titulaires](Bases/Reglementation/IFTS.non.tit.csv)   
-#'[Lien vers la base de données IFTS non cat A-B](Bases/Reglementation/IFTS.non.catAB.csv)    
+conditionnel("Lien vers la base de données IFTS à des catég. B INM inférieur à 350", "Bases/Reglementation/IFTS.indice.anormal.csv")         
+conditionnel("Lien vers la base de données IFTS aux non-titulaires", "Bases/Reglementation/IFTS.non.tit.csv")   
+conditionnel("Lien vers la base de données IFTS non cat A-B", "Bases/Reglementation/IFTS.non.catAB.csv")    
 #' 
 #'  
 #'&nbsp;*Tableau 5.6.1 : Cumul IAT/IFTS*   
@@ -40,7 +40,7 @@ Lignes_IFTS <- résultat_IAT_IFTS$Lignes_B
 
 tableau_cumuls(résultat_IAT_IFTS)
 
-#'[Lien vers la base de données cumuls IAT/IFTS](Bases/Reglementation/personnels.iat.ifts.csv)          
+conditionnel("Lien vers la base de données cumuls IAT/IFTS", "Bases/Reglementation/personnels.iat.ifts.csv")          
 
 #'     
 #'### Contrôle sur le cumul logement par NAS et IFTS
@@ -55,6 +55,6 @@ tableau_NAS(résultat_IAT_IFTS)
 
 if (is.null(résultat_IAT_IFTS$NAS)) cat( "     \n", "La base des logements par NAS n'est pas détectée.   \nLe test de compatibilité de la prime avec les concessions de logements ne sera pas réalisé.")
 
-#'[Lien vers la base de données cumuls NAS/IFTS](Bases/Reglementation/cumul.IFTS.NAS.csv)          
+conditionnel("Lien vers la base de données cumuls NAS/IFTS", "Bases/Reglementation/cumul.IFTS.NAS.csv")          
 
 rm(résultat_IAT_IFTS)  

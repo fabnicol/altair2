@@ -30,9 +30,9 @@ résultat_IFSE   <- test_prime(prime_IFSE, prime_IFTS, Paie_I, Paie_IFTS, Lignes
 tableau_cumuls(résultat_IFSE)
 
 #'      
-#'[Lien vers la base de données cumuls ifse/ifts](Bases/Reglementation/personnels.ifse.ifts.csv)    
-#'[Lien vers la base de données IFSE non tit](Bases/Reglementation/IFSE.non.tit.csv)      
-#'[Lien vers la base de données IFSE non cat. A-B-C](Bases/Reglementation/IFSE.non.catABC.csv)              
+conditionnel("Lien vers la base de données cumuls ifse/ifts", "Bases/Reglementation/personnels.ifse.ifts.csv")    
+conditionnel("Lien vers la base de données IFSE non tit", "Bases/Reglementation/IFSE.non.tit.csv")      
+conditionnel("Lien vers la base de données IFSE non cat. A-B-C", "Bases/Reglementation/IFSE.non.catABC.csv")              
 #'   
 
 #'    
@@ -45,7 +45,7 @@ tableau_cumuls(résultat_IFSE)
 
 #'      
 #'      
-#'[Lien vers la base de données cumuls ifse/ifts](Bases/Reglementation/personnels.ifse.iat.csv)    
+conditionnel("Lien vers la base de données cumuls ifse/ifts", "Bases/Reglementation/personnels.ifse.iat.csv")    
 #'   
 
 
@@ -60,7 +60,7 @@ tableau_cumuls(résultat_IFSE)
 
 #'      
 #'      
-#'[Lien vers la base de données cumuls ifse/iss](Bases/Reglementation/personnels.ifse.iss.csv)    
+conditionnel("Lien vers la base de données cumuls ifse/iss", "Bases/Reglementation/personnels.ifse.iss.csv")    
 #'   
 
 résultat_IFSE   <- test_prime(prime_IFSE, prime_IEMP, Paie_I, verbeux = afficher.table.effectifs)
@@ -74,7 +74,7 @@ tableau_cumuls(résultat_IFSE)
 
 #'      
 #'      
-#'[Lien vers la base de données cumuls ifse/iemp](Bases/Reglementation/personnels.ifse.iemp.csv)    
+conditionnel("Lien vers la base de données cumuls ifse/iemp", "Bases/Reglementation/personnels.ifse.iemp.csv")    
 #'   
 
 résultat_IFSE   <- test_prime(prime_IFSE, prime_PFI, Paie_I, verbeux = afficher.table.effectifs)
@@ -88,7 +88,7 @@ tableau_cumuls(résultat_IFSE)
 
 #'      
 #'      
-#'[Lien vers la base de données cumuls ifse/pfi](Bases/Reglementation/personnels.ifse.pfi.csv)    
+conditionnel("Lien vers la base de données cumuls ifse/pfi", "Bases/Reglementation/personnels.ifse.pfi.csv")    
 #'   
 
 résultat_IFSE   <- test_prime(prime_IFSE, prime_PSR, Paie_I, Paie_PSR, Lignes_PSR, afficher.table.effectifs)
@@ -102,7 +102,7 @@ tableau_cumuls(résultat_IFSE)
 
 #'      
 #'      
-#'[Lien vers la base de données cumuls ifse/psr](Bases/Reglementation/personnels.ifse.psr.csv)    
+conditionnel("Lien vers la base de données cumuls ifse/psr", "Bases/Reglementation/personnels.ifse.psr.csv")    
 #'   
 
 
@@ -118,7 +118,7 @@ tableau_cumuls(résultat_IFSE)
 
 #'      
 #'      
-#'[Lien vers la base de données cumuls ifse/ifts](Bases/Reglementation/personnels.ifse.pfr.csv)    
+conditionnel("Lien vers la base de données cumuls ifse/ifts", "Bases/Reglementation/personnels.ifse.pfr.csv")    
 #'   
 
 depassements_IFSE <- test_plafonds(base.ifse, Lignes_IFSE, if (logements.existe) logements else NULL)
@@ -134,7 +134,7 @@ if (plafonds.ifse.existe) {
 }
 
 #'      
-#'[Lien vers les dépassements de plafond IFSE](Bases/Reglementation/bulletins.depassements.ifse.csv)    
+conditionnel("Lien vers les dépassements de plafond IFSE", "Bases/Reglementation/bulletins.depassements.ifse.csv")    
 #'   
 
 
@@ -151,10 +151,10 @@ agrégat_annuel(résultat_IFSE, afficher.table.effectifs)
 évolution_agrégat(résultat_IFSE, afficher.table.effectifs)
 
 #'   
-#'[Lien vers la base de données agrégat IFSE-PFR](Bases/Remunerations/beneficiaires.IFSE.PFR.csv)    
+conditionnel("Lien vers la base de données agrégat IFSE-PFR", "Bases/Remunerations/beneficiaires.IFSE.PFR.csv")    
 #'    
 #'   
-#'[Lien vers la base de données variations agrégat IFSE-PFR](Bases/Remunerations/beneficiaires.IFSE.PFR.Variation.csv)    
+conditionnel("Lien vers la base de données variations agrégat IFSE-PFR", "Bases/Remunerations/beneficiaires.IFSE.PFR.Variation.csv")    
 #'   
 
 rm(résultat_IFSE)  

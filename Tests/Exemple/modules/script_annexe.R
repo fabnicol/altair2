@@ -214,5 +214,5 @@ if (test.delta) {
 
 
 #'   
-#'[Divergences lignes-bulletins de paie](Bases/Fiabilite/Delta.csv)     
+conditionnel("Divergences lignes-bulletins de paie", "Bases/Fiabilite/Delta.csv")     
 #'   

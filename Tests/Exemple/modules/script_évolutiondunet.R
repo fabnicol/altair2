@@ -25,7 +25,7 @@ insérer_script(file.path(chemin.modules, "script_rmppetnoria.R"))
 
 ####### 4.4 Comparaisons nationales ####  
 
-#'[Lien vers la base de données](Bases/Remunerations/Anavar.synthese.csv)
+conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthese.csv")
 #'
 #'
 #'### 4.4 Comparaisons avec la situation nationale des rémunérations   

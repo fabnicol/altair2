@@ -291,10 +291,10 @@ if (séquentiel) {
                  "script_astreintes.R")  #+
 
   group4 <- list("script_IATIFTS.R",
-                  "script_PFR.R",
-                  "script_PSR.R",
-                  "script_IPF.R",
-                  "script_RIFSEEP.R")
+                 "script_PFR.R",
+                 "script_PSR.R",
+                 "script_IPF.R",
+                 "script_RIFSEEP.R")
 
   group5 <- list("script_PFI.R", #+
                  "script_vacataires.R", #+
@@ -302,13 +302,12 @@ if (séquentiel) {
                  "script_élus.R")
 
   group6 <- list("script_comptabilité.R",
-                  "script_SFT.R",
-                  "script_retraites.R",
-                  "script_FPH.R",
-                  "script_annexe.R")
+                 "script_SFT.R",
+                 "script_retraites.R",
+                 "script_FPH.R",
+                 "script_annexe.R")
   
   library(parallel)
-  
   
   G <- list(group1, group2,
             group3, group4,
@@ -338,7 +337,6 @@ if (séquentiel) {
                    r5[[4]])                 
   
   invisible(lapply(res, function(x) cat(unlist(x), sep = '\n')))
-  
 }
 
 ######### SAUVEGARDES #######

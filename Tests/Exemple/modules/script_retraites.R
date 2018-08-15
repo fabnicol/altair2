@@ -15,7 +15,7 @@ cat("Les non titulaires ne doivent pas cotiser à la CNRACL. ")
 # commune Paie[Type %chin% c("C", "D")] et que les gains liés à setkey sont marginaux.
 
 Cotisations.irreg <- Paie[Type %in% c("C", "D") & Statut %in% c("NON_TITULAIRE", "AUTRE_STATUT", "EMPLOI_AIDE", "", "ELU")
-                          ][grepl("C\\.?\\s*N\\.?\\s*R\\.?\\s*A\\.?\\s*C\\.?\\s*L",
+                         ][grepl("C\\.?\\s*N\\.?\\s*R\\.?\\s*A\\.?\\s*C\\.?\\s*L",
                                   Libellé,
                                   ignore.case = TRUE,
                                   perl = TRUE) & Montant > 0,
@@ -40,7 +40,7 @@ Tableau(c("Cotisations salarié", "Cotisations employeur"),
 sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), environment(), "Cotisations.irreg")
 
 #'   
-#'[Lien vers la base des cotisations irrégulières](Bases/Reglementation/Cotisations.irreg.csv)   
+conditionnel("Lien vers la base des cotisations irrégulières", "Bases/Reglementation/Cotisations.irreg.csv")   
 #'   
 
 #'    
@@ -74,5 +74,5 @@ Tableau(c("Cotisations salarié", "Cotisations employeur"),
 sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), environment(), "Cotisations.irreg.ircantec")
 
 #'   
-#'[Lien vers la base des cotisations irrégulières](Bases/Reglementation/Cotisations.irreg.ircantec.csv)   
+conditionnel("Lien vers la base des cotisations irrégulières", "Bases/Reglementation/Cotisations.irreg.ircantec.csv")   
 #'   

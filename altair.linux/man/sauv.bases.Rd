@@ -2,7 +2,7 @@
 % Please edit documentation in R/bibliotheque.fonctions.paie.R
 \name{sauv.bases}
 \alias{sauv.bases}
-\title{sauv.bases}
+\title{Sauvegarde de plusieurs bases}
 \usage{
 sauv.bases(chemin.dossier, env, ...)
 }
@@ -19,7 +19,7 @@ sauv.bases(chemin.dossier, env, ...)
 Liste de booléens résultant de l'application de \link{Sauv.base}
 }
 \description{
-Sauvegarde d'une base data.table sous forme de fichier CSV
+Sauvegarde d'une ou plusieurs base de type data.table sous forme de fichier CSV
 }
 \examples{
 envir <- environment()

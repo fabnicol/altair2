@@ -192,7 +192,7 @@ read.csv.skip <- function(x,
 return(T)
 }
 
-#' Sauv.base
+#' Sauvegarde d'une base
 #'
 #' Sauvegarde d'une base data.table sous forme de fichier CSV
 #' Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
@@ -243,10 +243,38 @@ Sauv.base <- function(chemin.dossier = "",
   file.exists(file.path(chemin.dossier, nom.sauv %+% ".csv"))
 }
 
+#' Insertion conditionnelle de texte dans le rapport
 
-#' sauv.bases
+#' @param msg Partie du rapport (commençant par #')
+#' @param path Chemin local de la base CSV sur le dossier d'exportation 
+#' @param DT  base de donnée (data.rame ou data.table) 
+#' @return Le message msg dans le rapport
+#'@export
+
+conditionnel <- function(msg = "", path = "", DT = NULL) {
+  
+  if (! is.null(DT)) {
+    
+     if (nrow(DT) > 0) cat(knit_child(text = msg, quiet = TRUE), sep = "\n")
+    
+  } else {
+    
+    if (path == "") return(invisible(""))
+    
+    # Le fichier existe et il y a plus qu'un entête
+    
+    chemin <- file.path(chemin.clé, path)
+
+    if (file.exists(chemin) && nrow(read.csv2(chemin, nrows = 1))) {
+      
+      cat(knit_child(text = "[" %+% msg %+% "](" %+% path %+% ")  ", quiet = TRUE ), sep = "\n")
+    }   
+  }
+}
+
+#' Sauvegarde de plusieurs bases
 #'
-#' Sauvegarde d'une base data.table sous forme de fichier CSV
+#' Sauvegarde d'une ou plusieurs base de type data.table sous forme de fichier CSV
 #'
 #' @param chemin.dossier Chemin du dossier dans lequel la base sera sauvegardée
 #' @param env  Environnement

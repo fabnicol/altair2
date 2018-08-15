@@ -59,7 +59,7 @@ primes.potentielles <- prime_FPH_test("PRIME SPECIFIQUE", "prime spécifique", "
 #'   
 
 #'   
-#'[Lien vers la base de données Prime spécifique NT](Bases/Reglementation/personnels.prime.specifique.nt.csv)   
+conditionnel("Lien vers la base de données Prime spécifique NT", "Bases/Reglementation/personnels.prime.specifique.nt.csv")   
 #'   
 
 #'**Prime de technicité**   
@@ -73,7 +73,7 @@ primes.potentielles <- prime_FPH_test("PRIME DE TECHNICITE", "prime de technicit
 #'   
 
 #'   
-#'[Lien vers la base de données Prime de technicité NT](Bases/Reglementation/personnels.prime.tech.nt.csv)   
+conditionnel("Lien vers la base de données Prime de technicité NT", "Bases/Reglementation/personnels.prime.tech.nt.csv")   
 #'   
 
 #'**Indemnité forfaitaire et technique**   
@@ -87,7 +87,7 @@ primes.potentielles <- prime_FPH_test("IFT", "indemnité forfaitaire et techniqu
 #'   
 
 #'   
-#'[Lien vers la base de données IFT NT](Bases/Reglementation/personnels.ift.nt.csv)   
+conditionnel("Lien vers la base de données IFT NT", "Bases/Reglementation/personnels.ift.nt.csv")   
 #'   
 
 #'**Prime de service**   
@@ -99,5 +99,5 @@ primes.potentielles <- prime_FPH_test("PRIME DE SERVICE", "prime de service", "p
 #'   
 
 #'   
-#'[Lien vers la base de données primes de service NT](Bases/Reglementation/personnels.ps.nt.csv)   
+conditionnel("Lien vers la base de données primes de service NT", "Bases/Reglementation/personnels.ps.nt.csv")   
 #'   

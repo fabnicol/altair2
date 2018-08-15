@@ -24,11 +24,10 @@ newpage()
 print(e$res)
 #'   
 #'[![Notice](Notice.png)](Docs/Notices/fiche_1.odt)   
-#'[Lien vers la base des âges - début de période](Bases/Effectifs/`r e$nom.fichier.avant`.csv)  
+conditionnel("Lien vers la base des âges - début de période", "Bases/Effectifs/" %+%  e$nom.fichier.avant %+% ".csv")  
 #'    
-#'[Lien vers la base des âges - fin de période](Bases/Effectifs/`r e$nom.fichier.après`.csv)  
+conditionnel("Lien vers la base des âges - fin de période", "Bases/Effectifs/" %+%  e$nom.fichier.après %+% ".csv")  
 #'     
-
 #'   
 #'   
 #'   
@@ -64,9 +63,9 @@ newpage()
 print(e$res)
 
 #'  
-#'[Lien vers la base des âges - début de période](Bases/Effectifs/`r e$nom.fichier.avant`.csv)  
+conditionnel("Lien vers la base des âges - début de période", "Bases/Effectifs/" %+%  e$nom.fichier.avant %+% ".csv")  
 #'  
-#'[Lien vers la base des âges - fin de période](Bases/Effectifs/`r e$nom.fichier.après`.csv)  
+conditionnel("Lien vers la base des âges - fin de période", "Bases/Effectifs/" %+%  e$nom.fichier.après %+% ".csv")  
 #'[![Notice](Notice.png)](Docs/Notices/fiche_1.odt)      
 #'   
 #'   
@@ -106,9 +105,9 @@ print(e$res)
 
 
 #'  
-#'[Lien vers la base des âges - début de période](Bases/Effectifs/`r e$nom.fichier.avant`.csv)  
+conditionnel("Lien vers la base des âges - début de période", "Bases/Effectifs/" %+% e$nom.fichier.avant %+% ".csv")  
 #'  
-#'[Lien vers la base des âges - fin de période](Bases/Effectifs/`r e$nom.fichier.après`.csv)  
+conditionnel("Lien vers la base des âges - fin de période", "Bases/Effectifs/" %+% e$nom.fichier.après %+% ".csv")  
 #'[![Notice](Notice.png)](Docs/Notices/fiche_1.odt)      
 
 #'   
@@ -153,9 +152,9 @@ newpage()
 print(e$res)
 
 #'  
-#'[Lien vers la base des âges - début de période](Bases/Effectifs/`r e$nom.fichier.avant`.csv)  
+conditionnel("Lien vers la base des âges - début de période", "Bases/Effectifs/" %+% e$nom.fichier.avant %+% ".csv")  
 #'  
-#'[Lien vers la base des âges - fin de période](Bases/Effectifs/`r e$nom.fichier.après`.csv)  
+conditionnel("Lien vers la base des âges - fin de période", "Bases/Effectifs/" %+% e$nom.fichier.après %+% ".csv")  
 #'[![Notice](Notice.png)](Docs/Notices/fiche_1.odt)    
 #'  
 #'*Source des comparaisons avec les données nationales*      
