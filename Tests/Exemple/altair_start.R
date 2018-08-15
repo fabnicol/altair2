@@ -277,7 +277,7 @@ if (séquentiel) {
   group1 <- list("script_effectifs.R",
                   "script_pyramides.R",
                   "script_duréedeservice.R")
-  
+
   group2 <- list(list("script_rémunérationsbrutes.R",
                       index = c(début.période.sous.revue,
                                 fin.période.sous.revue),
@@ -309,9 +309,12 @@ if (séquentiel) {
   
   library(parallel)
   
-  G <- list(group1, group2,
-            group3, group4,
-            group5, group6)
+  G <- list(group1,
+            group2,
+            group3, 
+            group4,
+            group5,
+            group6)
   
   cl <- makeCluster(6, type = "FORK")
   
@@ -323,19 +326,19 @@ if (séquentiel) {
   stopCluster(cl)
   
   # Il faut réordonner pour être dans l'ordre canonique du rapport
-  
+
   r3 <- res[[3]]
   r5 <- res[[5]]
-  
+
   res[[3]] <- list(r3[[1]],
                    r5[[1]],
                    r5[[2]],
                    r5[[3]])
-  
+
   res[[5]] <- list(r3[[2]],
                    r3[[3]],
-                   r5[[4]])                 
-  
+                   r5[[4]])
+
   invisible(lapply(res, function(x) cat(unlist(x), sep = '\n')))
 }
 
@@ -346,35 +349,6 @@ if (séquentiel) {
 message("Enregistrement de la pile des bases...")
 
 envir <- environment()
-
-#   sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
-#              env = envir,
-#              "lignes.ifts.anormales",
-
-#              "personnels.prime.informatique",
-#              "remunerations.elu",
-#              "cumul.lignes.paie",
-#              "cumul.total.lignes.paie",
-#)
-#   
-#   sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"),
-#              env = envir,
-#               "base.heures.nulles.salaire.nonnull",
-#               "base.quotite.indefinie.salaire.non.nul",
-#               "plusieurs_libelles_par_code",
-#               "plusieurs_codes_par_libelle",
-#               "plusieurs_types_par_code",
-#               "plusieurs_types_par_libelle",
-#               "code.libelle",
-#               "Evenements",
-#               "Evenements.ind",
-#               "Evenements.mat")
-#   
-#   if (test.delta) 
-#     sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"), 
-#                env = envir, "Delta")
-#   
-
 
 if (sauvegarder.bases.origine)
   sauv.bases(file.path(chemin.dossier.bases, "Paiements"),

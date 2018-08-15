@@ -4,14 +4,12 @@
 \alias{conditionnel}
 \title{Insertion conditionnelle de texte dans le rapport}
 \usage{
-conditionnel(msg = "", path = "", DT = NULL)
+conditionnel(msg = "", path = "")
 }
 \arguments{
 \item{msg}{Partie du rapport (commençant par #')}
 
 \item{path}{Chemin local de la base CSV sur le dossier d'exportation}
-
-\item{DT}{base de donnée (data.rame ou data.table)}
 }
 \value{
 Le message msg dans le rapport
