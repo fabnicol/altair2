@@ -3,9 +3,9 @@
 # Fabrice Nicol, années 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
-# Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
-# produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-# en vigueur à compter de l'année 2008.
+# Ce logiciel est un programme informatique servant à extraire et analyser
+# les fichiers de paye produits au format spécifié par l'annexe de la  
+# convention-cadre de dématérialisation en vigueur à partir de 2008.
 # 
 # Ce logiciel est régi par la licence CeCILL soumise au droit français et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -200,21 +200,20 @@ Analyse.variations.par.exercice <- Analyse.remunerations[Grade != "A"
                                                          & Statut != "ELU"
                                                          & Filtre_actif == TRUE
                                                          & Filtre_annexe == FALSE,
-                                                           c("Matricule", 
-                                                             "Année",
-                                                             "Nir",
-                                                             "Montant.net.annuel.eqtp",
-                                                             "Montant.brut.annuel.eqtp",
-                                                             "rémunération.indemnitaire.imposable.eqtp",
-                                                             "Statut",
-                                                             "Grade",
-                                                             "Catégorie",
-                                                             "nb.jours",
-                                                             "temps.complet",
-                                                             "ind.quotité",
-                                                             "quotité.moyenne",
-                                                             "permanent"), 
-                                                         with=FALSE]
+                                                           .(Matricule, 
+                                                             Année,
+                                                             Nir,
+                                                             Montant.net.annuel.eqtp,
+                                                             Montant.brut.annuel.eqtp,
+                                                             rémunération.indemnitaire.imposable.eqtp,
+                                                             Statut,
+                                                             Grade,
+                                                             Catégorie,
+                                                             nb.jours,
+                                                             temps.complet,
+                                                             ind.quotité,
+                                                             quotité.moyenne,
+                                                             permanent)]
 
 # indicatrice binaire année
 # Ex: si Année = début.période.sous.revue + 3, indicatrice.année = 1 << 3 soit le binaire 1000 = 8 ou encore 2^3
@@ -265,7 +264,7 @@ Analyse.variations <- Analyse.variations.par.exercice[ ,
                                                          moyenne.rémunération.annuelle.sur.période =
                                                            sum(Montant.net.annuel.eqtp, na.rm = TRUE) / length(Année[!is.na(Montant.net.annuel.eqtp) 
                                                                                                                      & Montant.net.annuel.eqtp > minimum.positif])),
-                                                       by = clé.fusion]
+                                                       by = Matricule]
 
 ## Important pour la validité de est.rmpp si les années ne sortent pas bien triées de lhx ! ##
 
@@ -319,3 +318,8 @@ message("Analyse démographique réalisée.")
 if (!is.null(Paie) & !is.null(Analyse.remunerations) & !is.null(Analyse.variations.par.exercice))
   message("Statistiques de synthèse réalisées")
 
+sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 
+           environment(),
+           "Analyse.remunerations",
+           "Analyse.variations.par.exercice",
+           "Analyse.variations")

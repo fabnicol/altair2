@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['standardpage',['standardPage',['../classstandard_page.html',1,'']]]
+  ['rapportpage',['rapportPage',['../classrapport_page.html',1,'']]]
 ];

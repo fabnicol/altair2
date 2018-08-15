@@ -12,6 +12,7 @@ var classoptions =
     [ "optionWidget", "classoptions.html#a005c0a9f090ef20f2931592fc24f0b6d", null ],
     [ "pagesWidget", "classoptions.html#aabfe2c2cca901cca5a4ad87e859273d8", null ],
     [ "processTab", "classoptions.html#a685ad984f0540b95970659d172d1da4e", null ],
+    [ "rapportTab", "classoptions.html#af13a411890aaca7801fe4426ecf5e824", null ],
     [ "RefreshFlag", "classoptions.html#a0af07668d51d44767f96cd6d9aef2320", null ],
     [ "standardTab", "classoptions.html#a0ef4b58fb9e815553ae5dc02a70ec168", null ]
 ];

@@ -1,7 +1,7 @@
 var searchData=
 [
   ['m',['m',['../class_main_window.html#adc79c4e8d5545a92927e14a77313fa9d',1,'MainWindow']]],
-  ['mainlayout',['mainLayout',['../classcode_page.html#a2300be92ab51ce6402034d16c57f87af',1,'codePage::mainLayout()'],['../class_altair.html#a5f0d3ef25afa1aa47ff563db1b90c843',1,'Altair::mainLayout()']]],
+  ['mainlayout',['mainLayout',['../classcode_page.html#a2300be92ab51ce6402034d16c57f87af',1,'codePage::mainLayout()'],['../class_altair.html#a5f0d3ef25afa1aa47ff563db1b90c843',1,'Altair::mainLayout()'],['../classrapport_page.html#a9f2b83fef3e8293dc4c772cc6119d72e',1,'rapportPage::mainLayout()']]],
   ['maintabs',['mainTabs',['../classinterface_status.html#aeba920196811c2f0a599ccd636e60cce',1,'interfaceStatus']]],
   ['maintabwidget',['mainTabWidget',['../class_f_list_frame.html#a93216aa6f3e5bede5047911c0b89fa8a',1,'FListFrame']]],
   ['managerdockwidget',['managerDockWidget',['../class_main_window.html#a1a83413773d784563246167e6d462f58',1,'MainWindow']]],

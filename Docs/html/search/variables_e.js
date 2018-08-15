@@ -2,6 +2,7 @@ var searchData=
 [
   ['p',['p',['../class_f_string.html#ad068206d96d7c39dc0cc61df94ad2559',1,'FString']]],
   ['pageswidget',['pagesWidget',['../classoptions.html#aabfe2c2cca901cca5a4ad87e859273d8',1,'options']]],
+  ['parallelcheckbox',['parallelCheckBox',['../classprocess_page.html#a3cfdcbf1fc0ed8b230c5334879b6766b',1,'processPage']]],
   ['parent',['parent',['../class_f_list_widget.html#a1e44b7aa950e8a6126f0ce76946addb1',1,'FListWidget::parent()'],['../class_f_progress_bar.html#a7c6a2ba414dce4fd7bd414c6401aaa5f',1,'FProgressBar::parent()'],['../class_altair.html#abf95754e4d2285aef5b179bc9ef3b4eb',1,'Altair::parent()']]],
   ['parsexml',['parseXml',['../classinterface_status.html#a3818ccabac4fafcc8611f34944b71ede',1,'interfaceStatus']]],
   ['parsexmlmask',['parseXmlMask',['../classinterface_status.html#ad31f5fd44735fa1f7bdaf90e971ef4ae',1,'interfaceStatus']]],
@@ -22,5 +23,7 @@ var searchData=
   ['project',['project',['../class_altair.html#aa2a75bb1459908902ea2ebb8854ea925',1,'Altair']]],
   ['projectfile',['projectFile',['../class_main_window.html#abbba0dfc80aca622015f2dfe15936660',1,'MainWindow']]],
   ['projectname',['projectName',['../class_altair.html#a3335254a35dba3e52590616616a43aa0',1,'Altair']]],
-  ['prologue_5fcodes_5fpath',['prologue_codes_path',['../classcode_page.html#a5b953a3cea059f199d0b63b9b7cb8b38',1,'codePage']]]
+  ['prologue_5fcodes_5fpath',['prologue_codes_path',['../classcode_page.html#a5b953a3cea059f199d0b63b9b7cb8b38',1,'codePage::prologue_codes_path()'],['../classcode_page.html#a5b953a3cea059f199d0b63b9b7cb8b38',1,'codePage::prologue_codes_path()']]],
+  ['prologue_5foptions_5fpath',['prologue_options_path',['../classprocess_page.html#ade33775257597684b1e1e6a8aa1172b1',1,'processPage']]],
+  ['prologue_5fscripts_5fpath',['prologue_scripts_path',['../classrapport_page.html#aae20dd3db335e312e99266d3cbea730b',1,'rapportPage']]]
 ];
