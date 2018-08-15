@@ -92,10 +92,10 @@ plusieurs_types_par_libelle <- unique(code.libelle[, .(Libellé, Type)], by = NU
 
 #'   
 #'[Lien vers la table Codes/Libellés](Bases/Fiabilite/code.libelle.csv)       
-#'[Plusieurs libellés par code](Bases/Fiabilite/plusieurs_libelles_par_code.csv)   
-#'[Plusieurs codes par libellé](Bases/Fiabilite/plusieurs_codes_par_libelle.csv)   
-#'[Plusieurs types de ligne par code](Bases/Fiabilite/plusieurs_types_par_code.csv)   
-#'[Plusieurs types de ligne par libellé](Bases/Fiabilite/plusieurs_types_par_libelle.csv)           
+conditionnel("Plusieurs libellés par code", "Bases/Fiabilite/plusieurs_libelles_par_code.csv")   
+conditionnel("Plusieurs codes par libellé", "Bases/Fiabilite/plusieurs_codes_par_libelle.csv")   
+conditionnel("Plusieurs types de ligne par code", "Bases/Fiabilite/plusieurs_types_par_code.csv")   
+conditionnel("Plusieurs types de ligne par libellé", "Bases/Fiabilite/plusieurs_types_par_libelle.csv")   
 #'   
 
 #'  
@@ -172,12 +172,26 @@ nligne.base.quotite.indefinie.salaire.non.nul <- nrow(base.quotite.indefinie.sal
 if (nligne.base.heures.nulles.salaire.nonnull)
   cat("Nombre de bulletins de paie de salaires versés pour un champ Heures = 0 : ", FR(n <<- nligne.base.heures.nulles.salaire.nonnull), "[", round(n/nrow.bull * 100, 1), "%]")
 #'   
+
+sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"),
+                       environment(),
+                       "Evenements",
+                       "Evenements.ind",
+                       "Evenements.mat",
+                       "code.libelle",
+                       "plusieurs_libelles_par_code",
+                       "plusieurs_codes_par_libelle",
+                       "plusieurs_types_par_code",
+                       "plusieurs_types_par_libelle",
+                       "base.heures.nulles.salaire.nonnull",
+                       "base.quotite.indefinie.salaire.non.nul")
+
 if (nligne.base.quotite.indefinie.salaire.non.nul)
   cat("\nNombre de bulletins de paie de salaires versés pour une quotité de travail indéfinie : ", FR(nligne.base.heures.nulles.salaire.nonnull))
 #'   
-#'[Lien vers la base de données des salaires versés pour Heures=0](Bases/Fiabilite/base.heures.nulles.salaire.nonnull.csv)   
-#'[Lien vers la base de données des salaires versés à quotité indéfinie](Bases/Fiabilite/base.quotite.indefinie.salaire.non.nul.csv)   
-#'
+conditionnel("Lien vers la base de données des salaires versés pour Heures=0", "Bases/Fiabilite/base.heures.nulles.salaire.nonnull.csv")   
+conditionnel("Lien vers la base de données des salaires versés à quotité indéfinie", "Bases/Fiabilite/base.quotite.indefinie.salaire.non.nul.csv")   
+#'    
 #'## Tableau des personnels  
 #'    
 #'   
@@ -187,6 +201,11 @@ if (nligne.base.quotite.indefinie.salaire.non.nul)
 if (afficher.table.effectifs) {
   kable(grades.categories, row.names = FALSE) 
 } 
+
+sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
+                       environment(),
+                       "matricules",
+                       "grades.categories")
 
 #'
 #'[Lien vers la base des grades et catégories](Bases/Effectifs/grades.categories.csv)        
@@ -208,6 +227,9 @@ if (test.delta) {
     message("Une liste de codes exclus pour la vérification de la concordance lignes-bulletins de paie a été jointe sous ", getwd())
   cat("   ")
   source("delta.R", encoding=encodage.code.source)
+  sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"),
+                          environment(),
+                          "Delta")
 } else {
   cat("Base de vérification des écarts lignes de paie-bulletins de paie non générée.")
 }

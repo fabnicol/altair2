@@ -247,29 +247,31 @@ Sauv.base <- function(chemin.dossier = "",
 
 #' @param msg Partie du rapport (commençant par #')
 #' @param path Chemin local de la base CSV sur le dossier d'exportation 
-#' @param DT  base de donnée (data.rame ou data.table) 
 #' @return Le message msg dans le rapport
-#'@export
+#' @export
 
-conditionnel <- function(msg = "", path = "", DT = NULL) {
+conditionnel <- function(msg = "", path = "") {
   
-  if (! is.null(DT)) {
-    
-     if (nrow(DT) > 0) cat(knit_child(text = msg, quiet = TRUE), sep = "\n")
-    
-  } else {
-    
-    if (path == "") return(invisible(""))
+    if (path == "") {
+      cat("  \n")
+    }
     
     # Le fichier existe et il y a plus qu'un entête
     
     chemin <- file.path(chemin.clé, path)
-
-    if (file.exists(chemin) && nrow(read.csv2(chemin, nrows = 1))) {
+   
+    if (générer.rapport && file.exists(chemin)) {
       
-      cat(knit_child(text = "[" %+% msg %+% "](" %+% path %+% ")  ", quiet = TRUE ), sep = "\n")
-    }   
-  }
+      vect <- readLines(chemin, 2, warn = FALSE, encoding = "UTF-8")
+      
+      if (length(vect) > 1) {
+      
+      cat("[" %+% msg %+% "](" %+% path %+% ")  ", sep = "\n")
+        
+      } else cat("   \n")
+      
+    } else cat("   \n")
+
 }
 
 #' Sauvegarde de plusieurs bases
