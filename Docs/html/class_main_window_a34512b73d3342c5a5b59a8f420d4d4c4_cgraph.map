@@ -1,7 +1,0 @@
-<map id="MainWindow::archiveProject" name="MainWindow::archiveProject">
-<area shape="rect" id="node2" href="$classtools.html#aae1cdbea84aed049937a52ceb9421794" title="Compresser un fichier au format zip. " alt="" coords="395,31,471,57"/>
-<area shape="rect" id="node6" href="$classtools.html#aefd7e17f4eeb34a4ab3d254eb3bb0a03" title="Compresse l&#39;intégralité d&#39;un répertoire au format zip, et copie le dossier compressé dans un chemin d..." alt="" coords="252,56,347,83"/>
-<area shape="rect" id="node3" href="$classtools.html#ae1018e45c513785270b999cbcfa8beb6" title="Procédure de contrôle des entrées&#45;sorties. " alt="" coords="519,31,637,57"/>
-<area shape="rect" id="node4" href="$classtools.html#a37c9c486d90129b0d6a4ac93f29fd5bb" title="Copie un répertoire de manière sécurisée. " alt="" coords="685,5,792,32"/>
-<area shape="rect" id="node5" href="$classtools.html#a0765c68c41d7c957f1fb0f0da8b4a9c9" title="Copie un fichier de manière sécurisée. " alt="" coords="840,31,951,57"/>
-</map>

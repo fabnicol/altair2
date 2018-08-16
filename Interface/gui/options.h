@@ -222,6 +222,9 @@ private:
     /// Crée une ligne de codes pour un type donné d'éléments de paye
     /// \param nom Nom de l'élément de paye
     /// \return Nombre d'éléments de paye empilés
+    /// 
+    
+    FComboBox *profils; ///< Sélectionne les profils de niveau de détail souhaité pour le rapport.
 
     QStringList variables;        ///< Libellés des éléments de paye faisant l'objet d'une ligne dans l'onglet.
     QLabel *label;                             ///< Elément de texte variable servant à afficher des messaes d'erreur ou de réussite de l'exportation des codes.
@@ -257,6 +260,11 @@ private slots:
     /// Substitue certaines valeurs caractéristiques du contrôle dans le fichier \em prologue_codes.R dans common::exportpath, notamment le Siret, le budget et l'employeur
     
     void substituer_valeurs_dans_script_R();
+    
+    /// Active/désactive certaines cases liées à d'autres. 
+    /// \param int Index de la case dans \link listeCB
+    /// \note Pourrait être reformuler avec le cadre setEnableObjects/setDisableObjects
+    void ajusterDependances(int i);
     
 };
 

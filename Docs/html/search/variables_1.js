@@ -1,7 +1,7 @@
 var searchData=
 [
   ['bar',['bar',['../class_f_progress_bar.html#a8536f49e0efeb3949df61cebb6358ce4',1,'FProgressBar']]],
-  ['basebox',['baseBox',['../classcode_page.html#ae664771c863acab53bfba10b63040f17',1,'codePage']]],
+  ['basebox',['baseBox',['../classcode_page.html#ae664771c863acab53bfba10b63040f17',1,'codePage::baseBox()'],['../classrapport_page.html#a4b8fbec34091b66e46537b8f02fd9fab',1,'rapportPage::baseBox()']]],
   ['basetypebox',['baseTypeBox',['../classstandard_page.html#a4cbb1f09e74a0f5631a9675ba6960d9b',1,'standardPage']]],
   ['basetypewidget',['baseTypeWidget',['../classstandard_page.html#abc82c57269dc7a00339cf908778c4cc5',1,'standardPage']]],
   ['behaviorwidgetlistbox',['behaviorWidgetListBox',['../class_main_window.html#aa146df1c89f056ef9b8d0151206d7375',1,'MainWindow']]],

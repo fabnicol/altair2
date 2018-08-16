@@ -1,4 +1,0 @@
-<map id="MainWindow::createActions" name="MainWindow::createActions">
-<area shape="rect" id="node2" href="$classtools.html#a87e526e69a91b82f7db7a462a921847c" title="Vérifie l&#39;existence d&#39;un dossier et l&#39;ouvre avec le gestionnaire de fichier du système d&#39;exploitation..." alt="" coords="263,5,371,32"/>
-<area shape="rect" id="node3" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="Renvoie le chemin d&#39;un fichier ou d&#39;un répertoire du répertoire racine de la distribution (adjacent a..." alt="" coords="248,56,387,83"/>
-</map>

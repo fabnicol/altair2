@@ -1,4 +1,0 @@
-<map id="decoder_fichier" name="decoder_fichier">
-<area shape="rect" id="node2" href="$fonctions__auxiliaires_8cpp.html#a6a6eceeeb38bc24fd24e0acb226c1304" title="Calcule la mémoire requise pour l&#39;exécution du programme. " alt="" coords="164,5,337,32"/>
-<area shape="rect" id="node3" href="$fonctions__auxiliaires_8cpp.html#a32c99ab7b5fefd5ac69921080ecd95f5" title="Transforme un fichier de type std::ifstream en un std::string. " alt="" coords="385,5,547,32"/>
-</map>

@@ -182,6 +182,14 @@ public:
       FAbstractConnection::meta_connect(this, nullptr, disabledObjects);
   }
   
+  void setEnableObjects(const QVector<QWidget*>& L)  
+  {
+      if (enabledObjects) delete enabledObjects;
+      enabledObjects = new Q2VectorWidget;
+      *enabledObjects = Q2VectorWidget() << L;
+      FAbstractConnection::meta_connect(this, nullptr, enabledObjects);
+  }
+  
   void setHashKey(const QString& hash) { hashKey = hash; }
       
 protected:

@@ -1,0 +1,19 @@
+digraph "FListFrame::getCurrentRow"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node131 [label="FListFrame::getCurrentRow",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node131 -> Node132 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node132 [label="Altair::updateIndexInfo",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a94c37375266a849cb43570457163db13",tooltip="Raffraîchit la valeur de row et currentIndex en fonction de l&#39;état de l&#39;onglet. "];
+  Node132 -> Node133 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node133 [label="Altair::deleteGroup",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ab913abfdd0c6fbbceb9a051a4443d5fa",tooltip="Supprimer un onglet central. "];
+  Node133 -> Node134 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node134 [label="Altair::Altair",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ae0975ced0a36e0ed889ae06043a4df66",tooltip="Constructeur. "];
+  Node132 -> Node135 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node135 [label="Altair::dropEvent",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a1afa285a65e0bdff4c761ad05ec9f8df",tooltip="Fonction réimplémentée : fin du déplacement de la souris. "];
+  Node132 -> Node136 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node136 [label="Altair::on_deleteItem\l_clicked",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a299584936cc20c9a1451977264eba1f5",tooltip="Ecrase un item d&#39;un onglet donné "];
+  Node136 -> Node134 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

@@ -1,5 +1,0 @@
-<map id="processPage" name="processPage">
-<area shape="rect" id="node3" href="$classcommon.html" title="Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l&#39;interface vers l..." alt="" coords="159,549,333,744"/>
-<area shape="rect" id="node4" href="$classtools.html" title="{tools\n|+ systemPathPrefix\l+ userdatadir\l|+ tools()\l+ dump()\l+ getEmbeddedPath()\l+ readFile()\l+ readFile()\l+ readFile()\l+ readFile()\l+ renommer()\l+ substituer()\l+ cdRomMounted()\l+ copyDir()\l+ copyFile()\l+ generateDatadirPath()\l+ generateDatadirPath()\l+ getDirectorySize()\l+ getFileSize()\l+ IOControl()\l+ openDir()\l+ openDirDialog()\let 6 de plus...\l}" alt="" coords="95,131,272,501"/>
-<area shape="rect" id="node5" href="$classflags.html" title="{flags\n||}" alt="" coords="157,5,209,83"/>
-</map>

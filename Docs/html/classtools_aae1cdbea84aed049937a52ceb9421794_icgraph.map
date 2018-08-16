@@ -1,5 +1,0 @@
-<map id="tools::zip" name="tools::zip">
-<area shape="rect" id="node2" href="$class_main_window.html#a34512b73d3342c5a5b59a8f420d4d4c4" title="Archiver le projet courant. " alt="" coords="268,5,456,32"/>
-<area shape="rect" id="node3" href="$classtools.html#ac5f7b9c2e07af5dbb27169b256ac6300" title="List un fichier entre deux lignes données et sur une largeur donnée. " alt="" coords="310,68,414,95"/>
-<area shape="rect" id="node4" href="$classtools.html#aefd7e17f4eeb34a4ab3d254eb3bb0a03" title="Compresse l&#39;intégralité d&#39;un répertoire au format zip, et copie le dossier compressé dans un chemin d..." alt="" coords="128,31,220,57"/>
-</map>

@@ -1,0 +1,49 @@
+digraph "parseLignesPaye"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node72 [label="parseLignesPaye",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node72 -> Node73 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node73 [label="afficher_environnement_xhl",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d",tooltip="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..."];
+  Node72 -> Node74 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node74 [label="allouer_ligne_NA",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a96d1e754fa36a716b5cd2fab2ab93fdc",tooltip="Réalloue un ligne de paye en NA sur les variables propres aux lignes de paye (Code, Libellé, Base,...) "];
+  Node72 -> Node75 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node75 [label="atteindreNoeud",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$validator_8h.html#a5e23405e20d220ba90a7b2213f7a70fb",tooltip="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..."];
+  Node72 -> Node76 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node76 [label="concat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a1387e6beec261819622addf319a581c7",tooltip="Concatène la propriété \"V\" du noeud cur passé en premier argument avec la chaîne contenue de la table..."];
+  Node76 -> Node77 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node77 [label="sanitize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4",tooltip="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le  caractère &#39;_&#39;..."];
+  Node72 -> Node78 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node78 [label="lignePaye",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c",tooltip="Analyse les noeuds fils du noeud. "];
+  Node78 -> Node79 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node79 [label="bulletin_obligatoire",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a45ce15888cd33c4753e852fce36fb56e",tooltip="Appelle Bulletin et affiche l&#39;interprétation des erreurs. "];
+  Node79 -> Node73 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node79 -> Node80 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node80 [label="Bulletin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5",tooltip="Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit. "];
+  Node80 -> Node75 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node80 -> Node77 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node79 -> Node81 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node81 [label="warning_msg",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8h.html#af031260c541b3083b610927c3e547b28",tooltip="Affiche un message d&#39;avertissement sur la sortie d&#39;erreur lorsqu&#39;un noeud XML ne peut être atteint..."];
+  Node81 -> Node73 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node78 -> Node82 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node82 [label="bulletin_obligatoire\l_numerique",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a8636e0f8d6d7fce58969c36956342c90",tooltip="Appelle Bulletin. "];
+  Node82 -> Node80 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node82 -> Node83 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node83 [label="substituer_separateur\l_decimal",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a5342d9b40b92c978ff404415b691e059",tooltip="Substitue le séparateur décimal passé en paramètre au séparateur par défaut (.) "];
+  Node82 -> Node81 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node78 -> Node84 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node84 [label="bulletin_optionnel_char",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a4a91586d82e91ad3e3c02355b57c9e09",tooltip="Appelle Bulletin. "];
+  Node84 -> Node80 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node84 -> Node81 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node78 -> Node85 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node85 [label="bulletin_optionnel\l_numerique",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580",tooltip="Appelle Bulletin. "];
+  Node85 -> Node80 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node85 -> Node83 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node85 -> Node81 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node78 -> Node86 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node86 [label="verifier_taille",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8h.html#a1918a95b8d7eafcb07bcf867242b3514",tooltip="Vérifie que la taille des données de paye en nombre de lignes de paye au décodage effectif des fichie..."];
+  Node72 -> Node87 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node87 [label="test_bulletin_irregulier",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a6703d71fd67ea3e020d421379d894d87",tooltip="Teste si il y a un montant brut ou net payé ou remboursé non nul mais pas de ligne de paye détaillant..."];
+}

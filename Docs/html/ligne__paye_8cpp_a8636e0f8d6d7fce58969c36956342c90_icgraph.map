@@ -1,8 +1,0 @@
-<map id="bulletin_obligatoire_numerique" name="bulletin_obligatoire_numerique">
-<area shape="rect" id="node2" href="$ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c" title="Analyse les noeuds fils du noeud. " alt="" coords="192,13,276,39"/>
-<area shape="rect" id="node3" href="$validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2" title="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) " alt="" coords="324,13,456,39"/>
-<area shape="rect" id="node4" href="$validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35" title="Décode une structure info_t contenant les données de paye à l&#39;état brut &quot;fichier&quot; (..." alt="" coords="504,13,584,39"/>
-<area shape="rect" id="node5" href="$validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6" title="Lance l&#39;ensemble des processus de pré&#45;traitement et de post&#45;traitement des fichiers de paye..." alt="" coords="632,13,721,39"/>
-<area shape="rect" id="node6" href="$lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="769,13,905,39"/>
-<area shape="rect" id="node7" href="$lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="953,13,1005,39"/>
-</map>

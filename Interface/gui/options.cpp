@@ -337,6 +337,96 @@ int rapportPage::ajouterVariable (const QString& nom)
     return size + 1;
 }
 
+
+void rapportPage::ajusterDependances(int i)
+{
+    QVector<int> L, M;
+    switch (i)
+    {
+     case 0:
+        if (! listeCB[0]->isChecked())
+            {
+                L << 1 << 2 ;  // Effectifs nécessaires pour pyramides et durée de service
+            }
+        if (listeCB[0]->isChecked())
+        {
+            M << 1 << 2 ;  // Effectifs nécessaires pour pyramides et durée de service
+        }
+        break;
+       
+     case 3:
+        if (! listeCB[3]->isChecked())
+            {
+                L << 4;  // Rémunérations et comparaisons du brut liées
+            }
+        if (listeCB[3]->isChecked())
+        {
+            M << 4;  // Rémunérations et comparaisons du brut liées
+        }
+        
+        break;
+        
+     case 5: 
+         if (! listeCB[5]->isChecked())
+            {
+                L << 6 << 7; // Rémunérations nettes liées à RMPP/noria et évolutions du net
+            }
+         if (listeCB[5]->isChecked())
+         {
+             M <<  6 << 7; // Rémunérations nettes liées à RMPP/noria et évolutions du net
+         }
+         
+        break;
+         
+     case 8:    
+        if (! listeCB[8]->isChecked())
+        {
+            L << 11 << 18;  // NBI nécessaire pour contrôle NAS et astreintes
+        }
+        if (listeCB[8]->isChecked())
+        {
+            M << 11 << 18;  // NBI nécessaire pour contrôle NAS et astreintes
+        }
+        break;
+     
+     case 12:   
+        if (! listeCB[12]->isChecked())
+        {
+            L << 13 << 14 << 15 << 16;  // cumuls indemnités et IFTS
+        }
+        if (listeCB[12]->isChecked())
+        {
+            M << 13 << 14 << 15 << 16;  // cumuls indemnités et IFTS
+        }
+        
+        break;
+        
+     case 17:   
+        if (! listeCB[17]->isChecked())
+        {
+            L << 18; //HS et astreintes liées
+        }
+        if (listeCB[17]->isChecked())
+        {
+            M << 18; //HS et astreintes liées
+        }
+        break;
+     
+     case 20:   
+        if (! listeCB[20]->isChecked())
+        {
+            L << 24; // comptabilité et annexe liées par objet code.libelle
+        }
+        if (listeCB[20]->isChecked())
+        {
+            M << 24; // comptabilité et annexe liées par objet code.libelle
+        }
+        break;
+    }
+    for (int l : L) listeCB[l]->setEnabled(false); // si la case maître est décochée alors désactiver les cases dépendantes
+    for (int m : M) listeCB[m]->setEnabled(true);  // si la case maître est réactivée alors réactiver les cases dépendantes 
+}
+
 rapportPage::rapportPage()
 {
     baseBox = new QGroupBox("Parties du rapport d'analyse");
@@ -348,23 +438,34 @@ rapportPage::rapportPage()
     appliquerCodes->setCheckable (true);
     variables << "effectifs" << "pyramides" << "durée de service" << "rémunérations brutes" << "comparaisons du brut" 
               << "rémunérations nettes" << "rmpp et noria" << "évolution du net" << "NBI" << "PFI" 
-              << "vacataires" << "NAS" << "IAT IFTS" << "PFR" << "PSR" << "IPF" << "RIFSEEP" 
-              << "HS" << "astreintes" << "élus" << "comptabilité" << "annexe" << "SFT" << "retraites" << "FPH";  
-            
+              << "vacataires" << "NAS" << "IAT IFTS" << "PFR" << "PSR" 
+              << "IPF" << "RIFSEEP" << "HS" << "astreintes" << "élus" 
+              << "comptabilité" << "SFT" << "retraites" << "FPH" << "annexe";  
+    
     short index = 0;
 
     // Pour chacun des membres de variables, ajouter une ligne FCheckBox au dialogue
     // qui donnera lieu à exportation dans prologue_codes.R
 
     for (const QString& s : variables) index = ajouterVariable (s);
-
+    
+    profils = new FComboBox({"Complet", "Allégé", "Minimal", "Démographie", "Démographie et revenus", "Contrôles juridiques"},
+                            "profilRapport",
+                            {"Rapport", "Niveau de détail du rapport"});
+    
     label = new QLabel;
     
-    vLayout->addWidget (label, index, 1, Qt::AlignLeft);
-    vLayout->addWidget (appliquerCodes, index, 0, Qt::AlignRight);
+    vLayout->addWidget (label, index + 2, 1, Qt::AlignLeft);
+    vLayout->addWidget (appliquerCodes, index + 2, 0, Qt::AlignRight);
+    vLayout->addWidget (profils, index + 1, 0, Qt::AlignRight);
     vLayout->setColumnMinimumWidth (1, MINIMUM_LINE_WIDTH);
     vLayout->setSpacing (10);
 
+    setToolTip("Sélectionner ou déselectionner certaines parties du rapport d'analyse en fonction des besoins.<br>"
+               "Attention certaines parties sont dépendantes d'autres. <br>"
+               "Dans ce cas, les cases dépendantes sont désactivées.<br>"
+               "Elles peuvent être réactivées en recochant la case dont elles dépendent.");
+    
     baseBox->setLayout (vLayout);
         
     FRichLabel *mainLabel = new FRichLabel ("Options des rapports");
@@ -381,6 +482,10 @@ rapportPage::rapportPage()
     // est opérée dans prologue_codes.R
 
     connect (appliquerCodes, SIGNAL (clicked()), this, SLOT (substituer_valeurs_dans_script_R()));
+    
+    // Lorsqu'une case est modifiée, vérifier l'adéquation des dépendances
+    
+    for (int i = 0; i < listeCB.size(); ++i) connect( listeCB[i], &QCheckBox::toggled, [this, i] { ajusterDependances(i); });
 
     // A chaque fois qu'une case est éditée à la main, réinitialiser l'état d'exportation (bouton et fichier prologue_codes.R à partir de prologue_init.R)
 
@@ -389,13 +494,56 @@ rapportPage::rapportPage()
             connect (a,
                      &QCheckBox::toggled,
                      [this]
-            {
-                label->setText (init_label_text);
-                appliquerCodes->setChecked (false);
-                appliquerCodes->setIcon (QIcon (":/images/view-refresh.png"));
-                reinitialiser_prologue();
-            });
+                        {
+                            label->setText (init_label_text);
+                            appliquerCodes->setChecked (false);
+                            appliquerCodes->setIcon (QIcon (":/images/view-refresh.png"));
+                            reinitialiser_prologue();
+                        });
         }
+    
+    connect(profils,
+            &QComboBox::currentTextChanged, 
+            [this] 
+                {
+                    
+                    QString text = profils->currentText();
+                    QVector<int> L;
+                    if (text == "Complet") // 25 points
+                    {
+                        for (int i = 0;  i < variables.size(); ++i)
+                            L << i;
+                    }
+                    else
+                    if (text == "Minimal") // 7 sur 25
+                    {
+                            
+                            L = {0, 1, 3, 8, 12, 17, 21 };
+                    }
+                    else 
+                    if (text == "Démographie") // 3 sur 25
+                    {
+                            L = {0, 1, 2};   
+                    }
+                    else 
+                    if (text == "Allégé")   // 15 sur 25
+                    {
+                            L = {0, 1, 2, 5, 7, 8, 12, 13, 14, 16, 17, 18, 20, 21, 24};   
+                    }
+                    else 
+                    if (text == "Démographie et revenus") // 8 sur 25
+                    {
+                            L = {0, 1, 2, 3, 4, 5, 6, 7};   
+                    }
+                    else 
+                    if (text == "Contrôles juridiques") // 17 sur 25
+                    {
+                            for (int i = 8 ; i <= 24; ++i)  L << i;
+                    }
+                    
+                    for (int i = 0; i < listeCB.size(); ++i) 
+                        listeCB[i]->setChecked(L.contains(i));
+                });
 
     setLayout (mainLayout);
 
@@ -421,6 +569,7 @@ void rapportPage::message(int r, QIcon& icon, bool paire)
                 
     res = substituer ("script_" + t + " *<- *TRUE", "script_" + t + " <- " + (value ? "TRUE" : "FALSE"), file_str);
     if (paire) res2 = substituer ("script_" + t2 + " *<- *TRUE", "script_" + t2 + " <- " + (value2 ? "TRUE" : "FALSE"), file_str);
+    
     if (value) 
     {
         liste_cb += "<li>" + s.toUpper();
@@ -457,6 +606,7 @@ void rapportPage::message(int r, QIcon& icon, bool paire)
 void rapportPage::substituer_valeurs_dans_script_R()
 {
     reinitialiser_prologue();
+    liste_cb.clear();
     file_str = common::readFile (prologue_scripts_path);
     
     bool res = false;

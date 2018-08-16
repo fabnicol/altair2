@@ -1,8 +1,0 @@
-<map id="FListFrame::finalise" name="FListFrame::finalise">
-<area shape="rect" id="node2" href="$class_f_list_frame.html#a5c6ce884a0169251e359364921d1f89c" title="FListFrame::addNewTab" alt="" coords="209,5,383,32"/>
-<area shape="rect" id="node4" href="$class_hash.html#a2ac10203aa8b32a04d9088e08ddbaab4" title="Hash::createReference" alt="" coords="213,56,379,83"/>
-<area shape="rect" id="node5" href="$class_f_list_frame.html#a560addf9867fbd5d05fbdb024e5b272c" title="FListFrame::setStrikeOut\lFileNames" alt="" coords="209,107,383,149"/>
-<area shape="rect" id="node6" href="$class_f_list_widget.html#aac6eaaeb9946354f743394b54c84a6a7" title="FListWidget::setTabLabels" alt="" coords="203,173,389,200"/>
-<area shape="rect" id="node7" href="$class_f_list_frame.html#a356ad4309df1e931fb3ee12ad88054fb" title="Actualise currentWidget, row et currentIndex. " alt="" coords="196,224,396,251"/>
-<area shape="rect" id="node3" href="$class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" title="Récupère la taille courante (0&#45;based) du conteneur FListFrame::widgetContainer. " alt="" coords="444,5,595,32"/>
-</map>

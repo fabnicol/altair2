@@ -1,5 +1,0 @@
-<map id="FListFrame::deleteGroup" name="FListFrame::deleteGroup">
-<area shape="rect" id="node2" href="$class_f_list_widget.html#a81dae63e19cad64c637cfee609defa3f" title="FListWidget::getTabLabels" alt="" coords="236,5,423,32"/>
-<area shape="rect" id="node3" href="$class_f_list_widget.html#aac6eaaeb9946354f743394b54c84a6a7" title="FListWidget::setTabLabels" alt="" coords="236,56,423,83"/>
-<area shape="rect" id="node4" href="$class_f_list_frame.html#a356ad4309df1e931fb3ee12ad88054fb" title="Actualise currentWidget, row et currentIndex. " alt="" coords="229,107,429,133"/>
-</map>
