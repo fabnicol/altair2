@@ -38,28 +38,29 @@
 
 
 
-script_effectifs <- TRUE    
-script_pyramides <- TRUE    
-script_duréedeservice <- TRUE    
-script_rémunérationsbrutes <- FALSE    
-script_comparaisonsdubrut <- FALSE    
-script_rémunérationsnettes <- FALSE    
-script_rmppetnoria <- FALSE    
-script_évolutiondunet <- FALSE    
-script_NBI <- FALSE    
-script_PFI <- FALSE    
-script_vacataires <- FALSE    
-script_NAS <- FALSE    
-script_IATIFTS <- FALSE    
-script_PFR <- FALSE    
-script_PSR <- FALSE    
-script_IPF <- FALSE    
-script_RIFSEEP <- FALSE    
-script_HS <- FALSE    
-script_astreintes <- FALSE    
-script_élus <- FALSE    
-script_comptabilité <- FALSE    
-script_annexe <- FALSE    
-script_SFT <- FALSE    
-script_retraites <- FALSE    
-script_FPH <- FALSE    
+script_effectifs               <- TRUE    
+script_pyramides               <- TRUE    
+script_duréedeservice          <- TRUE    
+script_rémunérationsbrutes     <- TRUE    
+script_comparaisonsdubrut      <- TRUE    
+script_rémunérationsnettes     <- TRUE    
+script_rmppetnoria             <- TRUE    
+script_évolutiondunet          <- TRUE    
+script_NBI                     <- TRUE    
+script_PFI                     <- TRUE    
+script_vacataires              <- TRUE    
+script_NAS                     <- TRUE    
+script_IATIFTS                 <- TRUE    
+script_PFR                     <- TRUE    
+script_PSR                     <- TRUE    
+script_IPF                     <- TRUE    
+script_RIFSEEP                 <- TRUE    
+script_HS                      <- TRUE    
+script_astreintes              <- TRUE    
+script_élus                    <- TRUE    
+script_comptabilité            <- TRUE    
+script_annexe                  <- TRUE    
+script_SFT                     <- TRUE    
+script_retraites               <- TRUE    
+script_FPH                     <- TRUE    
+
