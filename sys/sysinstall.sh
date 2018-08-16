@@ -463,6 +463,9 @@ fi
 rm -rf .Rproj.user/
 cp -rf /home/Public/fab/.Rproj.user .
 mkdir -p Tests/Exemple/Donnees/R-Altair
+rm -rf /home/jf/Dev/altair
+cp -rf /home/fab/Dev/altair  /home/jf/Dev/
+
 mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/R-Altair
 
 chgrp -R users /home/jf/Dev/altair/Tests/Exemple/Donnees/
