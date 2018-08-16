@@ -1,5 +1,0 @@
-<map id="FStringList::toFString" name="FStringList::toFString">
-<area shape="rect" id="node2" href="$class_f_check_box.html#a75202b6fa1c642f772ed0f86e512c9ce" title="FCheckBox::setWidgetFromXml" alt="" coords="207,5,426,32"/>
-<area shape="rect" id="node3" href="$class_f_combo_box.html#a53a3573e42f8f0e8db2b66e687272dc3" title="FComboBox::setWidgetFromXml" alt="" coords="205,56,428,83"/>
-<area shape="rect" id="node4" href="$class_f_line_edit.html#a67f8a1613abc720125857b45d077b33a" title="FLineEdit::setWidgetFromXml" alt="" coords="214,107,419,133"/>
-</map>

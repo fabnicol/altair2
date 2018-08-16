@@ -1,8 +1,0 @@
-<map id="FListFrame::showContextMenu" name="FListFrame::showContextMenu">
-<area shape="rect" id="node2" href="$class_f_list_frame.html#a1fda46dc7cfe6a661d2e2d1c66638134" title="FListFrame::deleteGroup" alt="" coords="268,5,444,32"/>
-<area shape="rect" id="node3" href="$class_f_list_frame.html#a356ad4309df1e931fb3ee12ad88054fb" title="Actualise currentWidget, row et currentIndex. " alt="" coords="492,31,692,57"/>
-<area shape="rect" id="node4" href="$class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f" title="Récupère la taille courante (0&#45;based) du conteneur FListFrame::widgetContainer. " alt="" coords="281,107,431,133"/>
-<area shape="rect" id="node5" href="$class_f_list_frame.html#af0987edc2a94a5c2db18ab4ccec3f81c" title="FListFrame::on_file\l_display" alt="" coords="286,158,426,199"/>
-<area shape="rect" id="node7" href="$class_f_list_frame.html#a560addf9867fbd5d05fbdb024e5b272c" title="FListFrame::setStrikeOut\lFileNames" alt="" coords="269,223,443,265"/>
-<area shape="rect" id="node6" href="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0" title="Renvoie le chemin d&#39;un fichier ou d&#39;un répertoire du répertoire racine de la distribution (adjacent a..." alt="" coords="523,165,661,192"/>
-</map>

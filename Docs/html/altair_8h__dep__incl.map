@@ -1,9 +1,0 @@
-<map id="Interface/gui/altair.h" name="Interface/gui/altair.h">
-<area shape="rect" id="node2" href="$altair-gui_8h.html" title="Code de la classe MainWindow qui construit l&#39;interface graphique. " alt="" coords="18,80,153,121"/>
-<area shape="rect" id="node4" href="$altair_8cpp.html" title="Code implémentant la classe principale Altair, qui joue le rôle d&#39;agent de l&#39;interface graphique..." alt="" coords="177,87,338,114"/>
-<area shape="rect" id="node5" href="$mainwindow_8cpp.html" title="Code de l&#39;implémentation de la classe MainWindow de l&#39;interface graphique. " alt="" coords="362,87,569,114"/>
-<area shape="rect" id="node6" href="$options_8cpp.html" title="Implémentation des classes du dialogue d&#39;options. " alt="" coords="593,87,769,114"/>
-<area shape="rect" id="node7" href="$run_8cpp.html" title="Implémentation de la classe Altair agent de la classe MainWindow qui construit l&#39;interface graphique..." alt="" coords="794,87,945,114"/>
-<area shape="rect" id="node8" href="$xmlparser_8cpp.html" title="Implémentation de la classe Altair agent de la classe MainWindow qui construit l&#39;interface graphique..." alt="" coords="969,87,1161,114"/>
-<area shape="rect" id="node3" href="$_interface_2gui_2main_8cpp.html" title="Lance l&#39;interface graphique en chargeant le bon contexte linguistique et la feuille de style..." alt="" coords="5,169,165,196"/>
-</map>

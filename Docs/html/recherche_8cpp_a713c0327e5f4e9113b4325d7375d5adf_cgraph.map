@@ -1,7 +1,0 @@
-<map id="scan_mois" name="scan_mois">
-<area shape="rect" id="node2" href="$recherche_8cpp.html#a142c86cfc71536c9cfaf6fa9e47a1611" title="__scan_mois" alt="" coords="143,5,248,32"/>
-<area shape="rect" id="node6" href="$fonctions__auxiliaires_8cpp.html#add313f0fe82466f4c1c4622307d928bc" title="Scinde une chaîne de caractères en ses composants séparées par un délimiteur. " alt="" coords="172,56,219,83"/>
-<area shape="rect" id="node3" href="$recherche_8cpp.html#a36576fe3eaca7bc6525c43d9bed05738" title="Crée le répertoire d&#39;exportation d&#39;un bulletin de paye donné pour un matricule, un mois et une année ..." alt="" coords="296,5,400,32"/>
-<area shape="rect" id="node4" href="$recherche_8cpp.html#a7c170acf1897b8bcf6e41e3853db1ae0" title="recherche" alt="" coords="448,5,535,32"/>
-<area shape="rect" id="node5" href="$recherche_8cpp.html#abb222aafededdf9d279d03b5fb62bc11" title="Extrait le bulletin de paye correspondant à la ligne de début et de fin dans le fichier XML base de p..." alt="" coords="583,5,697,32"/>
-</map>

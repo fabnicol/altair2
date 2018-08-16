@@ -1,9 +1,0 @@
-<map id="Interface/gui/common.cpp" name="Interface/gui/common.cpp">
-<area shape="rect" id="node2" href="$common_8h.html" title="Code de la classe common, qui regroupe des utilitaires communs à l&#39;interface graphique MainWindow..." alt="" coords="49,80,135,107"/>
-<area shape="rect" id="node10" href="$gui__enums_8h.html" title="Code de constantes et de classes regroupant des constantes. " alt="" coords="170,80,270,107"/>
-<area shape="rect" id="node4" href="$fwidgets_8h.html" title="fwidgets.h" alt="" coords="111,229,196,256"/>
-<area shape="rect" id="node9" href="$tools_8h.html" title="tools.h" alt="" coords="55,155,118,181"/>
-<area shape="rect" id="node5" href="$fstring_8h.html" title="fstring.h" alt="" coords="117,304,189,331"/>
-<area shape="rect" id="node8" href="$tags_8h.html" title="tags.h" alt="" coords="214,304,274,331"/>
-<area shape="rect" id="node7" href="$enums_8h.html" title="Enumérations et constantes permettant de paramétrer les fwidgets. " alt="" coords="164,379,239,405"/>
-</map>

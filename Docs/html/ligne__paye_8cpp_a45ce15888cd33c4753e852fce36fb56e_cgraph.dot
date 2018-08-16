@@ -1,0 +1,19 @@
+digraph "bulletin_obligatoire"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node21 [label="bulletin_obligatoire",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node21 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="afficher_environnement_xhl",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fonctions__auxiliaires_8cpp.html#a595f0eff37a7e74c477ad08221736a0d",tooltip="Fonction d&#39;affichage de des lignes du fichier XML de paye entourant celle où se pose un problème de c..."];
+  Node21 -> Node23 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node23 [label="Bulletin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5",tooltip="Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit. "];
+  Node23 -> Node24 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node24 [label="atteindreNoeud",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$validator_8h.html#a5e23405e20d220ba90a7b2213f7a70fb",tooltip="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..."];
+  Node23 -> Node25 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node25 [label="sanitize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4",tooltip="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le  caractère &#39;_&#39;..."];
+  Node21 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="warning_msg",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8h.html#af031260c541b3083b610927c3e547b28",tooltip="Affiche un message d&#39;avertissement sur la sortie d&#39;erreur lorsqu&#39;un noeud XML ne peut être atteint..."];
+  Node26 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

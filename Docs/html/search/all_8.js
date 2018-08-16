@@ -15,7 +15,7 @@ var searchData=
   ['hide',['hide',['../class_f_progress_bar.html#a4b5ce9d643cd7565b6f136d0d1cbea85',1,'FProgressBar']]],
   ['hideprogressbar',['hideProgressBar',['../class_f_list_frame.html#a708b81a385481d3b31ceed5e868145cc',1,'FListFrame::hideProgressBar()'],['../class_f_dialog_connections.html#a3cffb90105fbc765227b17d2978d4e82',1,'FDialogConnections::hideProgressBar()']]],
   ['highlightblock',['highlightBlock',['../class_highlighter.html#ad07c7fd55d2ce2c675bca607b9370488',1,'Highlighter']]],
-  ['highlighter',['Highlighter',['../class_highlighter.html',1,'Highlighter'],['../class_highlighter.html#af9fa54a58a9365e91e5f8eccf22f5153',1,'Highlighter::Highlighter()'],['../class_main_window.html#ae653e799d7c4b702ad23f9a5f5b134e7',1,'MainWindow::highlighter()']]],
+  ['highlighter',['Highlighter',['../class_highlighter.html',1,'Highlighter'],['../class_main_window.html#ae653e799d7c4b702ad23f9a5f5b134e7',1,'MainWindow::highlighter()'],['../class_highlighter.html#af9fa54a58a9365e91e5f8eccf22f5153',1,'Highlighter::Highlighter()']]],
   ['highlighter_2ecpp',['highlighter.cpp',['../highlighter_8cpp.html',1,'']]],
   ['highlighter_2eh',['highlighter.h',['../highlighter_8h.html',1,'']]],
   ['highlightingrule',['HighlightingRule',['../struct_highlighter_1_1_highlighting_rule.html',1,'Highlighter']]],

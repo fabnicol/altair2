@@ -1,6 +1,0 @@
-<map id="MatriculeInput::updateProject" name="MatriculeInput::updateProject">
-<area shape="rect" id="node2" href="$class_matricule_input.html#a531419ed5d9ad186758b0ed44621a4e0" title="Vérifie qu&#39;à l&#39;ouverture du dialogue, le répertoire par défaut dirpath est bien renseigné. " alt="" coords="256,5,453,47"/>
-<area shape="rect" id="node3" href="$class_matricule_input.html#a1b9d9f0c939a200f2643958749f7ec42" title="Réinitialisation de tous les champs. " alt="" coords="281,71,428,98"/>
-<area shape="rect" id="node5" href="$class_matricule_input.html#a4f670aeeae85155afbe9011c741791be" title="Constructeur de la classe MatriculeInput. " alt="" coords="268,123,441,164"/>
-<area shape="rect" id="node4" href="$class_main_window.html#a7f2aaeb01d8c0cdbe5d608ef8e866bb7" title="Réinitialise le dialogue d&#39;extraction des matricules. " alt="" coords="501,64,705,105"/>
-</map>

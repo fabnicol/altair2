@@ -1,7 +1,0 @@
-<map id="recherche" name="recherche">
-<area shape="rect" id="node2" href="$recherche_8h.html#a36576fe3eaca7bc6525c43d9bed05738" title="Crée le répertoire d&#39;exportation d&#39;un bulletin de paye donné pour un matricule, un mois et une année ..." alt="" coords="140,5,244,32"/>
-<area shape="rect" id="node3" href="$recherche_8cpp.html#a142c86cfc71536c9cfaf6fa9e47a1611" title="__scan_mois" alt="" coords="292,5,397,32"/>
-<area shape="rect" id="node4" href="$recherche_8h.html#a713c0327e5f4e9113b4325d7375d5adf" title="Lance l&#39;extraction d&#39;un bulletin de paye pour un matricule, un mois et une année donnés. " alt="" coords="445,5,535,32"/>
-<area shape="rect" id="node5" href="$lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa" title="Pour un segment donné (sous&#45;ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..." alt="" coords="583,5,719,32"/>
-<area shape="rect" id="node6" href="$lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="767,5,819,32"/>
-</map>

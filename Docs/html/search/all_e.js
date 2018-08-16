@@ -20,7 +20,7 @@ var searchData=
   ['newaction',['newAction',['../class_main_window.html#a5bcdb8d44feeff7d1bcb21f66a164255',1,'MainWindow']]],
   ['nir',['NIR',['../validator_8h.html#a7298899e034c29b49f749493c80a055dae88ea3b1a3071b34f9f43768627c05fa',1,'validator.h']]],
   ['nligne',['NLigne',['../structinfo__t.html#a66c83de9fc07c331dd4f8b78d5435fc0',1,'info_t']]],
-  ['nlinelabel',['nLineLabel',['../classprocess_page.html#abf516891bb2e8b5e24f29f4154414277',1,'processPage::nLineLabel()'],['../classprocess_page.html#a1064f9e89ccd7b8a9832a7a63258898b',1,'processPage::NLineLabel()']]],
+  ['nlinelabel',['NLineLabel',['../classprocess_page.html#a1064f9e89ccd7b8a9832a7a63258898b',1,'processPage::NLineLabel()'],['../classprocess_page.html#abf516891bb2e8b5e24f29f4154414277',1,'processPage::nLineLabel()']]],
   ['no',['no',['../classflags.html#a22f456fbe733974e6aeee40e885ca2a7a7fa3b767c460b54a2be4d49030b349c7',1,'flags']]],
   ['no_5fagent',['NO_AGENT',['../validator_8h.html#a960893b8693ceb1c8039637c78571369',1,'validator.h']]],
   ['no_5fdebug',['NO_DEBUG',['../validator_8h.html#a424f1b989129c5519f4df8f61ad6dcaf',1,'validator.h']]],

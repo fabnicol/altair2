@@ -35,7 +35,10 @@ essayer(label = "+noria brute globale", invisible(noria(champ = "brut")),
 #'*Effet de noria* : *variation des rémunérations liées au remplacement de salariés sortants par un même nombre d'entrants.*   
 #'*Effet des variations d'effectifs (ou de périmètre)* : *variation des rémunérations liées à la différence entre nombre de sortants et d'entrants.*    
 #'*Les effets de vacances d'emploi, s'ils existent, sont intégrés dans le calcul de l'effet de noria*     
-#'[Voir complément méthodologique](Docs/Notices/GVT et noria.pdf)          
+#'*Voir les exemples traités en bas de page du lien technique suivant*     
+#'[Spécifications techniques des tables RMPP et effet de noria](Docs/Notices/noria.html)      
+#'[Voir complément méthodologique DGFIP](Docs/Notices/GVT et noria.pdf)        
+#'  
 
 ##### 4.3.4 Effet de noria et de variation d'effectifs sur rémunérations moyennes des fonctionnaires  ######
 
