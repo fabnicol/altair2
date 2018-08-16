@@ -465,6 +465,9 @@ cp -rf /home/Public/fab/.Rproj.user .
 mkdir -p Tests/Exemple/Donnees/R-Altair
 rm -rf /home/jf/Dev/altair
 cp -rf /home/fab/Dev/altair  /home/jf/Dev/
+chown -R jf   /home/jf/Dev/altair
+chgrp -R users /home/jf/Dev/altair
+chmod -R 0770  /home/jf/Dev/altair
 
 mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/R-Altair
 
