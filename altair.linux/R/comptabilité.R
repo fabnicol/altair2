@@ -1,8 +1,85 @@
 
 #' @export
 
-correspondance_paye_budget <- function() {
+
+calculer_indice_complexité <- function() {
   
+  
+  multiplicité <- Paie[ , Statut2 := Statut
+                      ][Statut %in% c("EMPLOI_FONCTIONNEL", "ELU", "AUTRE_STATUT"), Statut2 := "NON_TITULAIRE"
+                      ][Statut == "STAGIAIRE", Statut2 := "TITULAIRE"
+                      ][ , .(m = uniqueN(Statut2), Statut2, Année, Mois, Matricule, Grade, Emploi, Nb.Enfants, NBI, Brut, Montant), by = .(Code, Type, Libellé)]
+  
+  if (n <- nrow(multiplicité[m > 1])) {
+    
+    cat("La clé d'appariement **Code, Libellé, Type** est insuffisante pour réaliser une jointure correcte entre la base de paye et le tableau de correspondance codes de paye - compte 64.  \n")
+    cat("Au mieux, il ne serait possible que d'apparier", q <- (1 - round(n/nrow(Paie), 2)) * 100, " % des lignes de paye avec la comptabilité administrative.  \n")
+    if (q < 10) {
+      cat("Il est nécessaire d'utiliser une autre clé d'appariement, au minimum **Statut**, éventuellement **Grade** et **Nb.Enfant**") 
+      NULL
+    } else {
+      
+      cat("L'appariement à peut être tenté, mais les résultats différeront de ", 100 - q , "% de la comptabilité administrative.")
+      multiplicité[m == 1][ , c(m, Statut2) := NULL]
+    }
+    
+  }
+}
+
+#' @export
+exporter_tableau <- function(DT) {
+  
+  colonnes <- names(Paie)
+  
+  if (! "Compte" %chin% colonnes) {
+    cat("Le tableau fourni par l'organisme (*paye_budget.csv*) doit contenir la colonne **Compte**")
+    return(NULL)
+  }
+  
+  res <- calculer_indice_complexité()
+  
+  if (is.null(res) && apparier.sur.trois.clés) {
+    
+    clés <- c("Code", "Libellé", "Type")
+    
+  } else {
+    
+    clés <- intersect(names(DT), colonnes)
+  }
+  
+  if (length(setdiff(c("Code", "Libellé", "Type"), clés))) {
+    
+    cat("Les clés d'appariement doivent comporter au moins les colonnes **Code**, **Libellé** et **Type**  \n")
+    return(NULL)
+  } 
+    
+    test <- anyDuplicated(DT[ , ..clés])
+    
+  if (test > 0) {
+    
+    TabDupl <- duplicated(DT[ , ..clés])
+    DT <- unique(DT)
+    cat("Le tableau fourni par l'organisme (*paye_budget.csv*) contient des clés dupliquées pour les variables suivantes : ", paste(clés, collapse = " "), "  \n")
+    cat("L'opération d'appariement ne peut se faire sur ces clés. Elle se fera sur les autres clésn au prix d'une perte de données financières.   \n
+        Les agrégats seront donc inférieurs à ceux de la comptabilité.  \n")
+    cat("Il est envisageable de récupérer les montants correspondants en examinant manuellement le tableau fourni en lien ci-dessous, correspondant aux clés suivantes:  \n")
+    kable(TabDupl)
+    # Insérer lien condiditionnel sur TabDupl dans le rapport.
+    
+  } else {
+    
+    cat("Le tableau fourni par l'organisme (*paye_budget.csv*) contient des clés d'appariement convenables.  \n")
+  }
+    
+   "Paie" %a% DT[Paie, on = clés]
+    
+   Paie[ , sum(Montant), keyby = .(Année, Compte)]
+  
+}
+
+#' @export
+correspondance_paye_budget <- function() {
+
  essayer(label ="+comptabilité",
  {  
   "paye.budget.existe" %a%  file.exists(chemin("paye_budget.csv"))  
