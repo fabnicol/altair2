@@ -8,7 +8,8 @@ calculer_indice_complexité <- function() {
   multiplicité <- Paie[ , Statut2 := Statut
                       ][Statut %in% c("EMPLOI_FONCTIONNEL", "ELU", "AUTRE_STATUT"), Statut2 := "NON_TITULAIRE"
                       ][Statut == "STAGIAIRE", Statut2 := "TITULAIRE"
-                      ][ , .(m = uniqueN(Statut2), Statut2, Année, Mois, Matricule, Grade, Emploi, Nb.Enfants, NBI, Brut, Montant), by = .(Code, Type, Libellé)]
+                      ][ , .(m = uniqueN(Statut2), Statut2, Année, Mois, Matricule, Grade, Emploi, Nb.Enfants, NBI, Brut, Montant),
+                             by = .(Code, Type, Libellé)]
   
   if (n <- nrow(multiplicité[m > 1])) {
     
@@ -19,7 +20,7 @@ calculer_indice_complexité <- function() {
       NULL
     } else {
       
-      cat("L'appariement à peut être tenté, mais les résultats différeront de ", 100 - q , "% de la comptabilité administrative.")
+      cat("L'appariement peut être tenté avec **Code, Libellé, Type**, mais les résultats différeront de ", 100 - q , "% de la comptabilité administrative.")
       multiplicité[m == 1][ , c(m, Statut2) := NULL]
     }
     
@@ -58,9 +59,9 @@ exporter_tableau <- function(DT) {
   if (test > 0) {
     
     TabDupl <- duplicated(DT[ , ..clés])
-    DT <- unique(DT)
+    DT <- unique(DT[ , ..clés])
     cat("Le tableau fourni par l'organisme (*paye_budget.csv*) contient des clés dupliquées pour les variables suivantes : ", paste(clés, collapse = " "), "  \n")
-    cat("L'opération d'appariement ne peut se faire sur ces clés. Elle se fera sur les autres clésn au prix d'une perte de données financières.   \n
+    cat("L'opération d'appariement ne peut se faire sur ces clés. Elle se fera sur les autres clés au prix d'une perte de données financières.   \n
         Les agrégats seront donc inférieurs à ceux de la comptabilité.  \n")
     cat("Il est envisageable de récupérer les montants correspondants en examinant manuellement le tableau fourni en lien ci-dessous, correspondant aux clés suivantes:  \n")
     kable(TabDupl)
@@ -73,7 +74,7 @@ exporter_tableau <- function(DT) {
     
    "Paie" %a% DT[Paie, on = clés]
     
-   Paie[ , sum(Montant), keyby = .(Année, Compte)]
+   Paie[ , .(Année, Code, Libellé, Statut, Type, Montant)]
   
 }
 
@@ -101,7 +102,8 @@ correspondance_paye_budget <- function() {
     code.libelle <- résumer_type(code.libelle)
     
     code.libelle      <- unique(code.libelle)
-    cumul.lignes.paie <-  code.libelle[Paie[, .(Année, Code, Libellé, Statut, Type, Montant)],  on = vect]
+    
+    cumul.lignes.paie <- exporter_tableau(code.libelle)
     
   } else {
     
@@ -111,11 +113,11 @@ correspondance_paye_budget <- function() {
     
     # Note : des traitements et NBI sont parfois improprement codés comme indemnités.
     
-    code.libelle[Type %chin% c("T", "I", "R", "AC") & grepl(expression.rég.traitement, Libellé, ignore.case = TRUE, perl = TRUE),
+    code.libelle[Type %in% c("T", "I", "R", "AC") & grepl(expression.rég.traitement, Libellé, ignore.case = TRUE, perl = TRUE),
                  `:=`(Compte.tit    = "64111",
                       Compte.nontit = "64131")]
     
-    code.libelle[Type == "IR" | Type == "S" | (Type %chin% c("T", "I", "R") & grepl(expression.rég.nbi, Libellé, ignore.case = TRUE, perl = TRUE)),
+    code.libelle[Type == "IR" | Type == "S" | (Type %in% c("T", "I", "R") & grepl(expression.rég.nbi, Libellé, ignore.case = TRUE, perl = TRUE)),
                  `:=`(Compte.tit    = "64112",
                       Compte.nontit = "64132")]
     
@@ -123,16 +125,20 @@ correspondance_paye_budget <- function() {
                  `:=`(Compte.tit    = "64116",
                       Compte.nontit = "64136")]
     
+    code.libelle[Statut == "EMPLOI_AIDE"
+                 & Type %in% c("T", "I", "R", "AC"), 
+                 `:=`(Compte.nontit = "64116")]
+    
     code.libelle[is.na(Compte.tit) 
                  & Statut != "ELU"
-                 & ! Type %chin% c("D", "C", "RE", "CO") 
+                 & ! Type %in% c("D", "C", "RE", "CO") 
                  & (Type == "I" | grepl("(?:prim|indem)", Libellé, ignore.case = TRUE, perl = TRUE)), 
                  `:=`(Compte.tit    = "64118",
                       Compte.nontit = "64138")]
     
     code.libelle[ , Compte := ifelse(Statut == "TITULAIRE" | Statut == "STAGIAIRE", Compte.tit, Compte.nontit)
                   ][ , Compte.tit := NULL
-                     ][ , Compte.nontit := NULL]
+                  ][ , Compte.nontit := NULL]
     
     cumul.lignes.paie <- code.libelle[Paie[ , .(Année, Code, Libellé, Statut, Type, Montant)], on = vect]
     
