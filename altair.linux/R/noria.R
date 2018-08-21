@@ -105,14 +105,14 @@
 #'        Affiche un tableau des entrées-sorties, comportant les variables numériques suivantes :
 #'               \describe{
 #'                 \item{\code{Année}}{Années de la période sous revue, puis le libellé "Total".}
-#'                 \item{\code{ETPT}}{ETPT calculés sur base de paye.}
+#'                 \item{\code{Effectifs}}{Effectifs en janvier, hors quotités nulles, vacataires et assistantes maternelles identifiés.}
+#'                 \item{\code{ETPT}}{ETPT calculés sur base de paye, postes actifs non annexes (voir fonction \link{effectifs}).}
 #'                 \item{\code{ETPT entrants}}{ETPT des entrants de l'année, par année.}
 #'                 \item{\code{ETPT sortants}}{ETPT des sortants de l'année, par année.}
 #'                 \item{\code{Entrants}}{Entrants (effectifs physiques) de l'année, par année, puis Total.}
 #'                 \item{\code{Sortants}}{Sortants (effectifs physiques) de l'année, par année, puis Total.}                 
 #'                 \item{\code{Var. effectifs}}{différence du nombre d'entrants et de sortants, par année, puis Total.}
-#'                 \item{\code{Taux de rotation}}{ratio égal à la moyenne du nombre d'entrants et de sortants rapportée à l'effectifs de l'année précédente. 
-#'                 Cet effectif est estimé comme la somme des ETPT de l'année en cours, diminuée de la variation d'effectifs.}}}
+#'                 \item{\code{Taux de rotation}}{ratio égal à la moyenne du nombre d'entrants et de sortants rapportée à l'effectif en janvier}}}
 #'      \item{           
 #' Un deuxième tableau détaille l'effet des entrées sorties sur la masse des rémunérations brutes ou nettes. \cr
 #' Des colonnes indiquent la valeur de l'effet en point de pourcentage du salaire moyen (\% SMPT) : \cr
@@ -155,6 +155,9 @@
 #' Le retour de la fonction est un tableau du GVT négatif au format \code{data.table}, comportant les variables numériques suivantes (les totaux de colonnes figurent seulement dans l'affichage) : 
 #'               \describe{
 #'                 \item{\code{période}}{Années de la période sous revue, puis le libellé "Total".}
+#'                 \item{\code{effectifs.janvier}}{Effectifs physiques en janvier.}
+#'                 \item{\code{etpt.ent}}{ETPT entrants dans l'année, correspondant à des agents présents en décembre et pas en janvier.}
+#'                 \item{\code{etpt.sort}}{ETPT sortants dans l'année, correspondant à des agents présents en janvier et pas en décembre.}
 #'                 \item{\code{nent}}{Nombre d'entrants, par année, puis Total.}
 #'                 \item{\code{nsort}}{Nombre de sortants, par année, puis Total.}
 #'                 \item{\code{variation.effectifs}}{Différence du nombre d'entrants et de sortants, par année, puis Total.}
@@ -192,17 +195,19 @@
 #' @examples
 #'  noria()
 #' 
-#'  | Année | ETPT  | ETPT entrants | ETPT sortants | Entrants | Sortants | Var. effectifs | Taux de rotation % |
-#'  |-------|-------|---------------|---------------|----------|----------|----------------|--------------------|
-#'  | 2011  | 789,6 |     14,8      |     10,0      |   30,0   |   23,0   |      7,0       |        3,6         |
-#'  | 2012  | 941,1 |     14,1      |     13,6      |   24,0   |   25,0   |     -1,0       |        2,7         |
-#'  | 2013  | 938,8 |     11,5      |     16,7      |   27,0   |   32,0   |     -5,0       |        3,4         |
-#'  | 2014  | 958,1 |     17,5      |     18,1      |   38,0   |   37,0   |      1,0       |        4,2         |
+#'  | Année | Effectifs | ETPT  | ETPT entrants | ETPT sortants | Entrants | Sortants | Var. effectifs | Taux de rotation % |
+#'  |-------|-----------|-------|---------------|---------------|----------|----------|----------------|--------------------|
+#'  | 2011  | 803       | 789,6 |     14,8      |     10,0      |   30,0   |   23,0   |      7,0       |        3,3         |
+#'  | 2012  | 992       | 941,1 |     14,1      |     13,6      |   24,0   |   25,0   |     -1,0       |        2,5         |
+#'  | 2013  | 989       | 938,8 |     11,5      |     16,7      |   27,0   |   32,0   |     -5,0       |        3,0         |
+#'  | 2014  | 975       | 958,1 |     17,5      |     18,1      |   38,0   |   37,0   |      1,0       |        3,8         |
+#' 
+#' 
 #' 
 #'  Lecture : 
 #'  L'organisme comptait 939 ETPT en 2013, dont 11,5 ETPT entrant et 16,7 ETPT sortants
 #'  correspondant respectivement à 27 entrants physiques et 32 sortants physiques. 
-#'  Le taux de rotation était de 3,4 % au cours de cette année.
+#'  Le taux de rotation était de 3,0 % au cours de cette année.
 #'  
 #'  | Année | Effet noria | % SMPT | Effet var. effectifs | % SMPT | Effet vacances | % SMPT |   Total    | % SMPT |
 #'  |-------|-------------|--------|----------------------|--------|----------------|--------|------------|--------|
@@ -228,8 +233,8 @@
 #'  Le salaire brut moyen 2013 serait égal à la RMPP (rémunération des personnes présentes tout au long de 2012 et 2013)
 #'  sans les effets d'entrées et de sorties en 2012 et 2013.
 #'  Ces effets interviennent en 2012 (seulement les entrées, première colonne) et en 2013 (colonnes suivantes).
-#'  L'effet relatif des entrées 2012 est de -0,4 % : les entrants en 2012 encore présents en 2013 ont des salaires moins élevés 
-#'  que les présents-présents en moyenne.
+#'  L'effet relatif des entrées 2012 est de -0,63 % : les entrants en 2012 encore présents en 2013 ont des salaires moins élevés 
+#'  que les présents-présents (sur toute les années 2012 et 2013) en moyenne.
 #'  L'effet de noria 2013 (emplacement des sortants 2013 par un même nombre d'entrants) est de -0,3 % de variation relative :
 #'  les sortants avaient en moyenne des salaires plus élevés que les entrants.
 #'  L'effet relatif de la variation des effectifs 2013 est de -0,18 % : il y a eu un peu plus de sortants que d'entrants.
@@ -368,15 +373,13 @@ for (année in période) filtrage(année)
 exclure.présents <- function(année, mois) {
   
     matricules.présents <- matricules.présents[[transl(année)]]
+ 
+    matricules.mois <- présents.bulletins[[transl(année)]][Mois == mois & quotité != 0, unique(Matricule)]
+    
+    matricules.mois <- intersect(matricules.mois, matricules.présents)
     
 if (noria.sur.base.de.paie) {
-  
-     matricules.mois <- présents.bulletins[[transl(année)]][Mois == mois & quotité != 0, unique(Matricule)]
-    
-     matricules.mois <- présents.bulletins[[transl(année)]][Mois == mois & quotité != 0, unique(Matricule)]
-
-     matricules.mois <- intersect(matricules.mois, matricules.présents)
-    
+ 
      matricules.sélectionnés <- setdiff(matricules.présents, matricules.mois)
      
      date <- -1 
@@ -415,14 +418,18 @@ if (noria.sur.base.de.paie) {
                                    .(Année, quotité.moyenne, Matricule)],
                                       by = NULL)[ , sum(quotité.moyenne, na.rm=TRUE)]
     
-    list(matricules = matricules.sélectionnés, etpt = etpt.sélectionnés,  n = length(matricules.sélectionnés), date = date)
+    list(matricules = matricules.sélectionnés, effectifs = length(matricules.mois), etpt = etpt.sélectionnés,  n = length(matricules.sélectionnés), date = date)
 }
 
 entrants <- function(année)   exclure.présents(année, mois = 1)
 sortants <- function(année)   exclure.présents(année, mois = 12)
 
+
+
 ent   <- lapply(période, entrants)
 sort  <- lapply(période, sortants)
+
+effectifs.janvier <- sapply(ent, function(x) x$effectifs)
 
 nsort <- sapply(période.translatée, function(année) sort[[année]][["n"]])
 nent  <- sapply(période.translatée, function(année) ent[[année]][["n"]])
@@ -561,7 +568,7 @@ effet.vacances.relatif            <- effet.vacances / (smpt$salaire * smpt$etpt)
 effet.total.entrées.sorties       <- salaire.entrants * nent * qentrants - salaire.sortants * nsort * qsortants 
 effet.total.entrées.sorties.relatif <- effet.total.entrées.sorties / (smpt$salaire * smpt$etpt)
 
-taux.rotation                     <- 1/2 * 100 / (tot.etpt$etpt/(nent + nsort) - 1)
+taux.rotation                     <- 1/2 *(nent + nsort) * 100 / effectifs.janvier
 coef.entrées.ant                  <- rmpp_mod$salaire / rmpp$salaire - 1
 coef.noria                        <- (rmpp_mod$salaire * smpt$etpt + effet.noria)  / (rmpp_mod$salaire * smpt$etpt) - 1
 coef.var.effectifs                <-  (rmpp_mod$salaire * smpt$etpt + effet.noria + effet.variation.effectifs)  / (rmpp_mod$salaire * smpt$etpt + effet.noria) - 1
@@ -645,6 +652,7 @@ if (afficher.tableau) {
   
 print(
   Tableau.vertical2(colnames = c("Année", 
+                                 "Effectifs",
                                 "ETPT",  
                                 "ETPT entrants",
                                 "ETPT sortants",
@@ -653,6 +661,7 @@ print(
                                 "Var. effectifs",
                                 "Taux de rotation %"),
                     rownames = c(as.character(période), "Total"),
+                    form(effectifs.janvier),
                     form(smpt$etpt),
                     form(etpt.ent, total = TRUE),
                     form(etpt.sort, total = TRUE),
@@ -721,8 +730,11 @@ print(
  }
 
 output <- c("période",
-            #"nent",
-            #"nsort",
+            "effectifs.janvier",
+            "etpt.ent",
+            "etpt.sort",
+            "nent",
+            "nsort",
             "variation.effectifs",
             "taux.rotation",
             "effet.noria",
