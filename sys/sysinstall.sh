@@ -274,6 +274,7 @@ _copy defaults /usr/share/plasma/shells/org.kde.plasma.desktop/contents/
 _copy metadata.desktop  /usr/share/plasma/desktoptheme/default/
 # script m.sh exécuté au début d'une session plasma (montage de la clé)
 _copy ajuster_m   /etc/init.d
+_copy nettoyer_cle /etc/init.d
 # correction d'un bug d'accélération 3 D dans le driver intel i 915 (01.2017)
 #_copy 10-monitor.conf /etc/X11/xorg.conf.d
 # UTF-8 sur Konqueror
@@ -333,12 +334,13 @@ done
 
 # réactualisation 
 
-chmod 0755  /etc/init.d/ajuster_m
-rc-update add ajuster_m default
 _copy  ajuster_version    /etc/init.d 
 chmod 0755  /etc/init.d/ajuster_version
 rc-update add ajuster_version default
 
+_copy  nettoyer_cle    /etc/init.d 
+chmod 0755  /etc/init.d/ajuster_version
+rc-update add nettoyer_cle boot
 
 # no-op mais souhaitable
 
