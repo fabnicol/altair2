@@ -298,9 +298,6 @@ do
 	   
                 
 		if test $i != fab; then
-    	    if ! test -d /home/$i/Dev/altair/.Rproj.user; then
-	           cp -rvf /home/Public/.Rproj.user  /home/$i/Dev/altair
-            fi
 
             sed "s/utilisateur/${i}/g" /home/fab/Dev/altair/sys/dolphinrc > temp 
             # intégration de li'cone dans le menu développement + clic sur projet *.alt
@@ -308,9 +305,7 @@ do
             _copy Altair_jf.desktop  /home/$i/.local/share/applications
              sed "s/utilisateur/$i/g" user-places.xbel > temp2
     	else
-    	    if ! test -d /home/fab/Dev/altair/.Rproj.user; then
-	           cp -rvf /home/Public/fab/.Rproj.user  /home/fab/Dev/altair
-            fi
+    	    
             sed "s/\/home\/utilisateur\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl\/utilisateur/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl/" dolphinrc > temp
             sed "s/utilisateur/$i/g" user-places.xbel > temp2
             sed -i "s/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl\/fab/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl/" temp2
@@ -398,7 +393,7 @@ git checkout -f dev
  
 
 echo "Raffraichissement des paramètres éditeur"
-rm -rf /home/Public/.Rproj.user
+
 rm -rf /home/Public/.rstudio-desktop
 rm -rf /home/Public/fab
 rm -rf sys/Public
@@ -409,8 +404,8 @@ chgrp -R users /home/Public
 chmod -R 0777 /home/Public
 # correction sur .Rproj.user 
 
-cp -rf sys/Public/.rstudio-desktop   /home/fab
-cp -rf sys/Public/.Rproj.user        /home/fab/Dev/altair
+
+
 chmod -R 0777 /home/fab/Dev/altair/.Rproj.user         
  
  

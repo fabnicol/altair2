@@ -126,7 +126,7 @@ start() {
   
       git fetch -p -n --depth=1 origin dev | tee -a /home/Public/version.log
         
-        for i in altair.linux  data Docs Interface Dev fwidgets_lib lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
+        for i in '.Rproj.user'  altair.linux  data Docs Interface Dev fwidgets_lib lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
         do
             rm -rf "$i"
             git checkout FETCH_HEAD -- "$i" 
