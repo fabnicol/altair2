@@ -332,7 +332,7 @@ done
 
 
 # réactualisation 
-_copy  autostart-scripts/m.sh    /etc/init.d 
+
 chmod 0755  /etc/init.d/ajuster_m
 rc-update add ajuster_m default
 _copy  ajuster_version    /etc/init.d 
@@ -346,7 +346,7 @@ chmod -R 0750 /home/fab/Dev/altair/Interface_linux/gui/x64/
 chmod -R 0750 /home/fab/Dev/altair/linux
 
 # correction d'un bug sur la version fab de m.sh (réimportation de /home/Public/fab/.Rproj.user à chaque ouverture de session)
-cp -vf ./autostart-scripts/m_fab.sh /home/fab/.config/autostart-scripts/m.sh
+
 
 cd /home/fab/Dev/altair
 
