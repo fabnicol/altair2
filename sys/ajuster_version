@@ -181,11 +181,12 @@ echo  | tee -a /home/Public/version.log
 
 cd /home/fab/Dev/altair/
 git reset --hard HEAD
-git clean -df
+rm -rf .Rproj.user
+rm -rf /home/fab/.rstudio-desktop
 cp -rf sys/Public/.Rproj.user .
 cp -rf sys/Public/.rstudio-desktop /home/fab
 
-chown -R fab /opt/altair
+chown -R fab /opt
 chown -R fab /home/fab
 chgrp -R users /home/fab
 shutdown -h now
