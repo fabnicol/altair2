@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Essaye d'exécuter une portion de code et en cas d'erreur...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for essayer"><tr><td>essayer</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Essaye d'exécuter une portion de code et en cas d'erreur continue l'exécution du script en renvoyant un message d'erreur non bloquant.</h2>
+
+<h3>Description</h3>
+
+<p>Essaye d'exécuter une portion de code et en cas d'erreur continue l'exécution du script en renvoyant un message d'erreur non bloquant.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+essayer(X, Y)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>code</code></td>
+<td>
+<p>Portion de code</p>
+</td></tr>
+<tr valign="top"><td><code>message</code></td>
+<td>
+<p>Message d'erreur</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Valeur retournée par X en cas de succès, sinon objet de classe &quot;try-error&quot; retourné par try(code)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if (exists("e")) rm(e)
+essayer({ a &lt;- 1/e}, "division par inconnu")  # affichage du message d'erreur
+</pre>
+
+
+</body></html>

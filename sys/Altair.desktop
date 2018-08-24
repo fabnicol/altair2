@@ -1,0 +1,20 @@
+[Desktop Entry]
+Categories=Development;
+Comment[fr_FR]=
+Comment=
+Exec=/home/fab/Dev/altair/Interface_linux/gui/x64/Altair
+GenericName[fr_FR]=
+GenericName=
+Icon=/home/fab/.local/share/Altair/images/altair.png
+MimeType=application/alt;
+Name[fr_FR]=Altaïr
+Name=Altaïr
+Path=/home/fab/Dev/altair/Interface_linux/gui/x64
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=

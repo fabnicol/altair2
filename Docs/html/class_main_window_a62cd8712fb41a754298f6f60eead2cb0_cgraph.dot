@@ -1,0 +1,12 @@
+digraph "MainWindow::createActions"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node24 [label="MainWindow::createActions",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node24 -> Node25 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node25 [label="tools::openDir",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtools.html#a87e526e69a91b82f7db7a462a921847c",tooltip="Vérifie l&#39;existence d&#39;un dossier et l&#39;ouvre avec le gestionnaire de fichier du système d&#39;exploitation..."];
+  Node24 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="tools::path_access",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtools.html#a89d2cd8ffcaed8423439c16d1ee59ab0",tooltip="Renvoie le chemin d&#39;un fichier ou d&#39;un répertoire du répertoire racine de la distribution (adjacent a..."];
+}

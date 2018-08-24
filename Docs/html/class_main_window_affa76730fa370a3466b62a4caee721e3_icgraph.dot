@@ -1,0 +1,42 @@
+digraph "MainWindow::updateRecentFileActions"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node133 [label="MainWindow::updateRecent\lFileActions",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node133 -> Node134 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node134 [label="Altair::setCurrentFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ad0436bfddbdcdd19cc80154e02b4323c",tooltip="Assigner le fichier courant. "];
+  Node134 -> Node135 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node135 [label="Altair::openProjectFileCommonCode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#aa341707131924eff160bcab41422d1ec",tooltip="Code commun à différentes fonctions lancées pour l&#39;analyse des projets. "];
+  Node135 -> Node136 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node136 [label="Altair::on_openProjectButton\l_clicked",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ab98d384297c6b94ff65a683eb5f99633",tooltip="Ouvre le projet, le décode en appelant parseProjectFile et actualise l&#39;interface  en conséquence..."];
+  Node135 -> Node137 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node137 [label="Altair::openProjectFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a84cf34107cd413ab33800b583bdef59e",tooltip="Ouvre le projet .alt et décode le projet pour actualiser l&#39;interface. "];
+  Node134 -> Node138 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node138 [label="Altair::updateProject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a2eb0a89c3223b2df1c01d2b3b7d1c0eb",tooltip="Rafraichir le projet .alt après avoir actualisé l&#39;interface. "];
+  Node138 -> Node139 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node139 [label="Altair::Altair",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ae0975ced0a36e0ed889ae06043a4df66",tooltip="Constructeur. "];
+  Node138 -> Node140 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node140 [label="Altair::deleteGroup",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ab913abfdd0c6fbbceb9a051a4443d5fa",tooltip="Supprimer un onglet central. "];
+  Node140 -> Node139 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node138 -> Node141 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node141 [label="Altair::dropEvent",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a1afa285a65e0bdff4c761ad05ec9f8df",tooltip="Fonction réimplémentée : fin du déplacement de la souris. "];
+  Node138 -> Node142 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node142 [label="Altair::on_deleteItem\l_clicked",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a299584936cc20c9a1451977264eba1f5",tooltip="Ecrase un item d&#39;un onglet donné "];
+  Node142 -> Node139 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node138 -> Node143 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node143 [label="options::options",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208",tooltip="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair..."];
+  Node138 -> Node144 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node144 [label="Altair::requestSaveProject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#aab5da600c227ac7eb604fa24a9308d26",tooltip="Enregistre le projet .alt en actualisant projectName et l&#39;état de l&#39;interface  . "];
+  Node138 -> Node145 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node145 [label="Altair::run",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a7d10f8ecf4097577885172afb6c2e9c6",tooltip="Lance l&#39;exécution de l&#39;application en ligne de commande lhx. "];
+  Node138 -> Node146 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node146 [label="Altair::runWorker",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a08b5e402c9a694af09110afe33219080",tooltip="Construction de la ligne de commande pour des bases de paye dans un répertoire donné ..."];
+  Node146 -> Node145 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node146 -> Node147 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node147 [label="Altair::runWorkerDistributed",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ae04f2a5771d47bbe2e0cc3a11b72d6bf",tooltip="Parcourt le répertoire en cours du mode distributif, un à chaque appel Exporte l&#39;identification dans ..."];
+  Node147 -> Node148 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node148 [label="Altair::processFinished",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a16b8035c4383a789cd00b687fb105fe9",tooltip="Traitement de la fin de l&#39;exécution de lhx. "];
+  Node147 -> Node145 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}
