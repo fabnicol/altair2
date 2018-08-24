@@ -226,7 +226,10 @@ if test -f sys/build.altair; then
   rm -rf /usr/local/lib64/R/library/altair
   rm -rf /usr/lib64/R/library/altair
   git checkout FETCH_HEAD -- altair.linux
-  
+  if ! test -f /usr/bin/R; then
+     ln -s /usr/local/bin/R /usr/bin/R
+  fi
+
   R CMD INSTALL --byte-compile  -l  /usr/local/lib64/R/library/ altair.linux
   echo "*************************************"
   echo "*                                   *"
@@ -381,7 +384,7 @@ else
  git add -f .
   
 fi 
-
+git commit -am "Release $(date)"
 
 mkdir -p Tests/Exemple/Donnees/R-Altair
 
@@ -401,7 +404,7 @@ chmod -R 0777 /home/Public
 
 _copy sys/Public/.rstudio-desktop   /home/fab
 _copy sys/Public/.Rproj.user        /home/fab/Dev/altair
-        
+chmod -R 0777 /home/fab/Dev/altair/.Rproj.user         
 
 
 echo "*** Opérations sur branche release : Terminé ***"
