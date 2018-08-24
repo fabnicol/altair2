@@ -47,7 +47,7 @@ start() {
   
   rm -f /home/Public/VERSION
 
-  wget   https://github.com/fabnicol/altair2/blob/dev/VERSION -O /home/Public/VERSION    --no-check-certificate
+  wget   https://github.com/fabnicol/altair2/raw/dev/VERSION -O /home/Public/VERSION    --no-check-certificate
   
   date >> /home/Public/version.log
 

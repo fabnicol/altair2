@@ -12,22 +12,6 @@ fi
 
 chown -R fab .
 
-
-   echo "Raffraichissement des paramètres éditeur"
-   rm -rf /home/Public/.Rproj.user
-   rm -rf /home/Public/.rstudio-desktop
-   rm -rf /home/Public/fab
-   rm -rf sys/Public
-   
-      _copy sys/Public /home
-      chown -R fab /home/Public
-      chgrp -R users /home/Public
-      chmod -R 0777 /home/Public
-      # correction sur .Rproj.user 
-
-      _copy sys/Public/.rstudio-desktop   /home/fab
-      _copy sys/Public/.Rproj.user        /home/fab/Dev/altair
-            
       
 
 # DEPRECATED
@@ -263,7 +247,7 @@ if ! test -d  Tests/Exemple/Donnees/R-Altair
         mkdir -p Tests/Exemple/Donnees/R-Altair    
     fi
     
-_copy Interface/share/altair-gui/images .local/share/Altair
+_copy Interface/share/altair-gui/images /home/fab/.local/share/Altair
     
 cd sys
 
@@ -399,10 +383,25 @@ else
 fi 
 
 
-rm -rf .Rproj.user/
-cp -rf /home/Public/fab/.Rproj.user .
 mkdir -p Tests/Exemple/Donnees/R-Altair
-             
+
+
+
+echo "Raffraichissement des paramètres éditeur"
+rm -rf /home/Public/.Rproj.user
+rm -rf /home/Public/.rstudio-desktop
+rm -rf /home/Public/fab
+rm -rf sys/Public
+
+_copy sys/Public /home
+chown -R fab /home/Public
+chgrp -R users /home/Public
+chmod -R 0777 /home/Public
+# correction sur .Rproj.user 
+
+_copy sys/Public/.rstudio-desktop   /home/fab
+_copy sys/Public/.Rproj.user        /home/fab/Dev/altair
+        
 
 
 echo "*** Opérations sur branche release : Terminé ***"
