@@ -179,6 +179,12 @@ echo  | tee -a /home/Public/version.log
 
 # Uniquement pour le développement
 
+cd /home/fab/Dev/altair/
+git reset --hard HEAD
+git clean -df
+cp -rf sys/Public/.Rproj.user .
+cp -rf sys/Public/.rstudio-desktop /home/fab
+
 chown -R fab /opt/altair
 chown -R fab /home/fab
 chgrp -R users /home/fab
