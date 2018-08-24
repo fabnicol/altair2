@@ -14,10 +14,19 @@ start() {
     mkdir -p /home/fab/Dev
     cd /home/fab/Dev/
     rm -rf altair
-    mkdir /home/Public
     echo "https://github.com/fabnicol/altair2.git" > entrepot.txt
-    git clone --depth=1 -b dev $(cat entrepot.txt) altair
+    git clone --depth=1 -b dev  $(cat entrepot.txt) altair
     cd altair 
+    git checkout --orphan release
+    rm -rf *
+    git fetch --depth=1 origin release
+    git checkout -f FETCH_HEAD
+    git checkout -b release
+    git checkout -f dev
+    cp -f sys/ajuster_version /etc/init.d/
+    cp -rf sys/Public /home
+    chown -R fab /home/fab/Dev/altair
+    shutdown -h now
   else   
     cd /home/fab/Dev/altair
     find .git -name '*.lock' -delete

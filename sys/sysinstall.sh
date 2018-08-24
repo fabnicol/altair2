@@ -388,7 +388,12 @@ git commit -am "Release $(date)"
 
 mkdir -p Tests/Exemple/Donnees/R-Altair
 
-
+echo "*** Opérations sur branche release : Terminé ***"
+ 
+ 
+git checkout -f dev
+ 
+ 
 
 echo "Raffraichissement des paramètres éditeur"
 rm -rf /home/Public/.Rproj.user
@@ -396,23 +401,15 @@ rm -rf /home/Public/.rstudio-desktop
 rm -rf /home/Public/fab
 rm -rf sys/Public
 
-_copy sys/Public /home
+cp -rf sys/Public /home
 chown -R fab /home/Public
 chgrp -R users /home/Public
 chmod -R 0777 /home/Public
 # correction sur .Rproj.user 
 
-_copy sys/Public/.rstudio-desktop   /home/fab
-_copy sys/Public/.Rproj.user        /home/fab/Dev/altair
+cp -rf sys/Public/.rstudio-desktop   /home/fab
+cp -rf sys/Public/.Rproj.user        /home/fab/Dev/altair
 chmod -R 0777 /home/fab/Dev/altair/.Rproj.user         
-
-
-echo "*** Opérations sur branche release : Terminé ***"
- 
- 
-git checkout -f dev
- 
- 
  
  
  
