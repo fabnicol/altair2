@@ -16,9 +16,11 @@
 <h3>Usage</h3>
 
 <pre>
-noria(Bulletins = Bulletins.paie, Base = Analyse.variations.par.exercice,
-  classe = "", champ = "brut", filtre = "", fichier = "", dec = ",",
-  sep = ";", encoding = "UTF-8", afficher.tableau = TRUE)
+noria(Bulletins = Bulletins.paie,
+  Base = Analyse.variations.par.exercice, classe = "",
+  champ = "brut", filtre = "", fichier = "", dec = ",",
+  sep = ";", encoding = "UTF-8", afficher.tableau = TRUE,
+  controle.quotité = FALSE)
 </pre>
 
 
@@ -154,7 +156,21 @@ Si présent, fichier indique le chemin complet du fichier des entrées-sorties, 
 <td>
 <p>Si TRUE, affiche quatre tableaux correspondant à la valeur de retour sur la sortie standard.</p>
 </td></tr>
+<tr valign="top"><td><code>controle.quotité</code></td>
+<td>
+<p>Si TRUE, calcule la RMPP comme dans la définition (quotités identiques sur deux exercices, à 0,1 point près). Si FALSE, relâche cette hypothèse.</p>
+</td></tr>
 </table>
+
+
+<h3>Details</h3>
+
+<p>La RMPP ici utilisée se distingue de la définition officielle pour la première année.
+On considère en effet en début de période que les salaires considérés sont ceux des agents
+présents toute la première année et toute la seconde avec la même quotité.
+Ce devrait être en principe &quot;et toute l'année précédente&quot;, mais celle-ci n'est pas documentée
+et l'approximation reste valable pour l'évaluation du GVT.
+</p>
 
 
 <h3>Value</h3>
@@ -170,7 +186,9 @@ Si présent, fichier indique le chemin complet du fichier des entrées-sorties, 
 <dl>
 <dt><code>Année</code></dt><dd><p>Années de la période sous revue, puis le libellé &quot;Total&quot;.</p>
 </dd>
-<dt><code>ETPT</code></dt><dd><p>ETPT calculés sur base de paye.</p>
+<dt><code>Effectifs</code></dt><dd><p>Effectifs en janvier, hors quotités nulles, vacataires et assistantes maternelles identifiés.</p>
+</dd>
+<dt><code>ETPT</code></dt><dd><p>ETPT calculés sur base de paye, postes actifs non annexes (voir fonction <a href="../../altair/help/effectifs">effectifs</a>).</p>
 </dd>
 <dt><code>ETPT entrants</code></dt><dd><p>ETPT des entrants de l'année, par année.</p>
 </dd>
@@ -182,8 +200,7 @@ Si présent, fichier indique le chemin complet du fichier des entrées-sorties, 
 </dd>                 
 <dt><code>Var. effectifs</code></dt><dd><p>différence du nombre d'entrants et de sortants, par année, puis Total.</p>
 </dd>
-<dt><code>Taux de rotation</code></dt><dd><p>ratio égal à la moyenne du nombre d'entrants et de sortants rapportée à l'effectifs de l'année précédente. 
-Cet effectif est estimé comme la somme des ETPT de l'année en cours, diminuée de la variation d'effectifs.</p>
+<dt><code>Taux de rotation</code></dt><dd><p>ratio égal à la moyenne du nombre d'entrants et de sortants rapportée à l'effectif en janvier</p>
 </dd></dl>
 
 </li>
@@ -219,7 +236,7 @@ Pour passer de la colonne &quot;RMPP&quot; à la colonne &quot;SMPT&quot;, il su
 <dt><code>RMPP</code></dt><dd><p>Rémunération moyenne des personnes en place, présentes deux années complètes consécutives.<br />
 La vérification de la permanence de la quotité sur les deux années n'est pas implémentée.</p>
 </dd>
-<dt><code>Entrée n - 1</code></dt><dd><p>Effet relatif en % des entrées de personnels au cours de l'année précédente</p>
+<dt><code>Entrée n - 1</code></dt><dd><p>Effet relatif en % des entrées de personnels en n - 1 présents en n et des variations de quotité entre n - 1 et n. Pour la première année, n - 1 est remplacé par n + 1 et &quot;entrées&quot; par &quot;sorties&quot;.</p>
 </dd>
 <dt><code>Noria</code></dt><dd><p>Effet de noria. Effet relatif en % du remplacement des sortants par les entrants en faisant l'hypothèse que les entrants sont aussi nombreux que les sortants.</p>
 </dd>
@@ -258,6 +275,12 @@ corrigée par le coefficient d'ajustement, pour l'année n + 1, et celle de l'an
 
 <dl>
 <dt><code>période</code></dt><dd><p>Années de la période sous revue, puis le libellé &quot;Total&quot;.</p>
+</dd>
+<dt><code>effectifs.janvier</code></dt><dd><p>Effectifs physiques en janvier.</p>
+</dd>
+<dt><code>etpt.ent</code></dt><dd><p>ETPT entrants dans l'année, correspondant à des agents présents en décembre et pas en janvier.</p>
+</dd>
+<dt><code>etpt.sort</code></dt><dd><p>ETPT sortants dans l'année, correspondant à des agents présents en janvier et pas en décembre.</p>
 </dd>
 <dt><code>nent</code></dt><dd><p>Nombre d'entrants, par année, puis Total.</p>
 </dd>
@@ -310,7 +333,7 @@ entre le cumul des effets des variables coef.x.y exprimés en masse de salaires,
 
 
 
-<h3>Références</h3>
+<h3>References</h3>
 
 <p>Rapport annuel sur l'état de la fonction publique 2016 <a href="https://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2016/DGAFP_RA2016_web_signet.pdf">https://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2016/DGAFP_RA2016_web_signet.pdf</a>
 </p>
@@ -336,22 +359,24 @@ entre le cumul des effets des variables coef.x.y exprimés en masse de salaires,
 </p>
 
 
-<h3>Exemples</h3>
+<h3>Examples</h3>
 
 <pre>
  noria()
 
- | Année | ETPT  | ETPT entrants | ETPT sortants | Entrants | Sortants | Var. effectifs | Taux de rotation % |
- |-------|-------|---------------|---------------|----------|----------|----------------|--------------------|
- | 2011  | 789,6 |     14,8      |     10,0      |   30,0   |   23,0   |      7,0       |        3,6         |
- | 2012  | 941,1 |     14,1      |     13,6      |   24,0   |   25,0   |     -1,0       |        2,7         |
- | 2013  | 938,8 |     11,5      |     16,7      |   27,0   |   32,0   |     -5,0       |        3,4         |
- | 2014  | 958,1 |     17,5      |     18,1      |   38,0   |   37,0   |      1,0       |        4,2         |
+ | Année | Effectifs | ETPT  | ETPT entrants | ETPT sortants | Entrants | Sortants | Var. effectifs | Taux de rotation % |
+ |-------|-----------|-------|---------------|---------------|----------|----------|----------------|--------------------|
+ | 2011  | 803       | 789,6 |     14,8      |     10,0      |   30,0   |   23,0   |      7,0       |        3,3         |
+ | 2012  | 992       | 941,1 |     14,1      |     13,6      |   24,0   |   25,0   |     -1,0       |        2,5         |
+ | 2013  | 989       | 938,8 |     11,5      |     16,7      |   27,0   |   32,0   |     -5,0       |        3,0         |
+ | 2014  | 975       | 958,1 |     17,5      |     18,1      |   38,0   |   37,0   |      1,0       |        3,8         |
+
+
 
  Lecture : 
  L'organisme comptait 939 ETPT en 2013, dont 11,5 ETPT entrant et 16,7 ETPT sortants
  correspondant respectivement à 27 entrants physiques et 32 sortants physiques. 
- Le taux de rotation était de 3,4 % au cours de cette année.
+ Le taux de rotation était de 3,0 % au cours de cette année.
  
  | Année | Effet noria | % SMPT | Effet var. effectifs | % SMPT | Effet vacances | % SMPT |   Total    | % SMPT |
  |-------|-------------|--------|----------------------|--------|----------------|--------|------------|--------|
@@ -363,7 +388,7 @@ entre le cumul des effets des variables coef.x.y exprimés en masse de salaires,
  Lecture : 
  L'effet de l'effet de noria en 2013 était de -0,3 % en valeur relative en proportion de
  la masse des rémunérations brutes 2013 (autrement dit en points de SMPT). 
- Le total des effets d'entrées-sorties était de -0,6 point de SMPT,soit une économie 
+ Le total des effets d'entrées-sorties était de -0,6 point de SMPT, soit une économie 
  sur rémunérations brutes versées de 214 418,3 euros.  
  
  | Année |   RMPP   | Entrées n - 1 | Noria | Var. effectifs | Vacances | Total E/S | Ajustement |   SMPT   |
@@ -377,8 +402,8 @@ entre le cumul des effets des variables coef.x.y exprimés en masse de salaires,
  Le salaire brut moyen 2013 serait égal à la RMPP (rémunération des personnes présentes tout au long de 2012 et 2013)
  sans les effets d'entrées et de sorties en 2012 et 2013.
  Ces effets interviennent en 2012 (seulement les entrées, première colonne) et en 2013 (colonnes suivantes).
- L'effet relatif des entrées 2012 est de -0,4 % : les entrants en 2012 encore présents en 2013 ont des salaires moins élevés 
- que les présents-présents en moyenne.
+ L'effet relatif des entrées 2012 est de -0,63 % : les entrants en 2012 encore présents en 2013 ont des salaires moins élevés 
+ que les présents-présents (sur toute les années 2012 et 2013) en moyenne.
  L'effet de noria 2013 (emplacement des sortants 2013 par un même nombre d'entrants) est de -0,3 % de variation relative :
  les sortants avaient en moyenne des salaires plus élevés que les entrants.
  L'effet relatif de la variation des effectifs 2013 est de -0,18 % : il y a eu un peu plus de sortants que d'entrants.
