@@ -165,11 +165,11 @@ rémunérations_eqtp <- function(DT) {
   DT[ , Montant.net.eqtp  := Net.à.Payer]
   
   DT[ ,   `:=`(Statut.sortie   = Statut[length(Net.à.Payer)],
-                           nb.jours        = calcul.nb.jours.mois(Mois, Année[1]),
-                           nb.mois         = length(Mois),
-                           cumHeures       = sum(Heures, na.rm = TRUE),
-                           quotité.moyenne = sum(quotité, na.rm = TRUE) / 12,
-                           quotité.moyenne.orig = sum(Temps.de.travail, na.rm = TRUE) / 1200),
+               nb.jours        = calcul.nb.jours.mois(Mois, Année[1]),
+               nb.mois         = length(Mois),
+               cumHeures       = sum(Heures, na.rm = TRUE),
+               quotité.moyenne = sum(quotité, na.rm = TRUE) / 12,
+               quotité.moyenne.orig = sum(Temps.de.travail, na.rm = TRUE) / 1200),
                   
                       key = .(Matricule, Année)]
   
@@ -227,6 +227,58 @@ importer_matricules <- function() {
   
   base.personnels.catégorie
 }
+
+# Reprise du code C++
+
+identifier.personnels <- function() {
+  
+  # maire
+  MAIRE     <-  "maire"
+  # président
+  PRESIDENT <- "pr..?sident"
+  #élu
+  ELUS      <-  "[eé]lus?"
+  # adjoint au maire
+  ADJOINT_MAIRE     <-  "adj.*\\bmaire\\b"
+  # vice-président
+  VICE_PRESIDENT    <- "vi.*\\bpr..?sident\\b"
+  # conseiller municipal
+  CONSEILLER_MUNIC  <-"cons.*\\bmuni"
+  # conseiller communautaire
+  CONSEILLER_COMMUN <- "cons.*\\bcomm"
+  # conseiller délégué
+  CONSEILLER_DELEGUE <- "(?:cons.*\\bd\\S*|d..?..?gu)"
+  OU        <-  "|"
+  SOIT      <-  "(?:" 
+  FIN_SOIT  <-  ")"
+  ETC       <-  ".*"
+  AUCUN_MOT <- "\\W*"
+  DEBUT     <- "^"
+  
+  EXPRESSION_REG_ELUS <- DEBUT %+%
+                         SOIT %+%
+                            MAIRE %+%
+                         OU %+% PRESIDENT %+%
+                         OU %+% ELUS %+%
+                         OU %+% ADJOINT_MAIRE %+%
+                         OU %+% VICE_PRESIDENT %+%
+                         OU %+% CONSEILLER_MUNIC %+%
+                         OU %+% CONSEILLER_COMMUN %+%
+                         OU %+% CONSEILLER_DELEGUE %+%
+                         FIN_SOIT %+%
+                         ETC
+  
+  Bulletins.paie[grepl(pattern = EXPRESSION_REG_ELUS, Emploi, perl = TRUE, ignore.case = TRUE), `:=`(Statut = "ELU",
+                                                                                                     Categorie = NA)]
+  
+  EXPRESSION_REG_VACATIONS <- ".*\\bvacat.*|.*\\bvac\\.?\\b.*"
+  EXPRESSION_REG_ASSMAT    <- ".*\\bass.*\\bmat.*"
+  
+  Bulletins.paie[grepl(pattern = EXPRESSION_REG_VACATIONS, Emploi, perl = TRUE, ignore.case = TRUE), Grade := "V"]
+  
+  Bulletins.paie[grepl(pattern = EXPRESSION_REG_ASSMAT, Emploi, perl = TRUE, ignore.case = TRUE), Grade := "A"]
+}
+
 
 #' Importer la base externe des correspondances grades-catégories
 #' @export
@@ -628,6 +680,9 @@ importer_ <- function() {
   # dans le fichier prologue.R. Sinon le programme travaille sur l'ensemble des années disponibles.
   
   Extraire.années()
+  
+  # Elus, vacataire, assistantes maternelles
+  identifier.personnels()
   
   Paie[is.na(Grade),  Grade  := ""]
   Paie[is.na(Statut), Statut := "AUTRE_STATUT"]
