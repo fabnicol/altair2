@@ -150,9 +150,10 @@ static constexpr auto EXPRESSION_REG_ADJOINTS = AUCUN_MOT
         FIN_SOIT
         ETC;
 
-
+#ifdef INCLURE_REG_ASSMAT
 /// Expression régulière tendant à capturer les assistantes maternelles
-static constexpr auto EXPRESSION_REG_ASSISTANTES_MATERNELLES = ".*\\bass.*\\bmater.*";
+static constexpr auto EXPRESSION_REG_ASSISTANTES_MATERNELLES = ".*\\bass.*\\bmat.*";
+#endif
 
 /// Expression régulière tendant à capturer les agents de catégorie C
 /// \warning Attention il ne faut pas autre chose que \\W* car sinon on peut avoir confusion entre cons[eiller].* et [agent].*cons[ervation].*
