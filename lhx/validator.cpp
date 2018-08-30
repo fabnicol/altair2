@@ -49,6 +49,9 @@
 #include "table.h"
 #include "ligne_paye.h"
 
+#ifdef INCLURE_REG_ELUS
+#  include "expression_reg_elus.h"
+#endif
 
 using namespace std;
 
@@ -930,36 +933,6 @@ out :
 
 // Les expressions régulières correctes ne sont disponibles sur MINGW GCC qu'à partir du build 4.9.2
 
-#if !defined GCC_REGEX && !defined NO_REGEX && (defined __WIN32__ || defined GCC_4_8)
-#include <regex.h>
-
-bool regex_match (const char *string, const char *pattern)
-{
-    int status;
-    regex_t re;
-
-    if (string == nullptr) return false;
-
-    if (regcomp (&re, pattern, REG_EXTENDED | REG_NOSUB | REG_ICASE | REG_NEWLINE) != 0)
-        {
-            return (false); /* Report error. */
-        }
-
-    status = regexec (&re, string, (size_t) 0, nullptr, 0);
-    regfree (&re);
-
-    if (status != 0)
-        {
-            return (false); /* Report error. */
-        }
-
-    return (true);
-}
-
-const char* pat = EXPRESSION_REG_ELUS;
-const char* pat2 = EXPRESSION_REG_VACATIONS;
-
-#else
 #ifdef __cplusplus
 #include <regex>
 #include <string>
@@ -969,9 +942,8 @@ const char* pat2 = EXPRESSION_REG_VACATIONS;
 
 using namespace std;
 #else
-#error "C++14 doit être utilisé."
+#error "C++14 ou ultérieur doit être utilisé."
 #endif
-#endif // defined
 
 /// Alloue la mémoire de la table des données
 /// \param info Structure info_t contenant les champs à réserver en mémoire
@@ -1179,17 +1151,20 @@ void* parse_info (info_t& info)
 // Pré-traitement des fichiers de paye
 //
 
-#if  defined GCC_REGEX && !defined NO_REGEX
-
+#ifdef INCLURE_REG_ELUS
     regex pat {EXPRESSION_REG_ELUS,  regex_constants::icase};
+#endif    
+#ifdef INCLURE_REG_VACATAIRES    
     regex pat2 {EXPRESSION_REG_VACATIONS, regex_constants::icase};
+#endif 
+#ifdef INCLURE_REG_ASSMAT    
     regex pat3 {EXPRESSION_REG_ASSISTANTES_MATERNELLES, regex_constants::icase};
+#endif    
     regex pat_adjoints {EXPRESSION_REG_ADJOINTS, regex_constants::icase};
     regex pat_agents {EXPRESSION_REG_AGENTS, regex_constants::icase};
     regex pat_cat_a {EXPRESSION_REG_CAT_A, regex_constants::icase};
     regex pat_cat_b {EXPRESSION_REG_CAT_B, regex_constants::icase};
 
-#endif
 
     xmlKeepBlanksDefault (0);
 
@@ -1264,7 +1239,6 @@ void* parse_info (info_t& info)
     //    V     pour un vacataire
     //    A     pour une assistante maternelle
 
-#if !defined NO_REGEX
 #define VAR(X) info.Table[agent][X]
 
     for (unsigned agent = 0; agent < info.NCumAgentXml; ++agent)
@@ -1286,31 +1260,37 @@ void* parse_info (info_t& info)
 
             normaliser_accents (em);
             normaliser_accents (gr);
-
-            if (regex_match ((const char*)em, pat))
-                {
+            
+#           ifdef INCLURE_REG_ELUS
+              if (regex_match ((const char*)em, pat))
+                 {
                     xmlFree (VAR (Statut)) ;
                     VAR (Statut) =  xmlStrdup ((const xmlChar*)"ELU");
                     VAR (Categorie) = xmlStrdup (NA_STRING);
-                }
+                 }
             else
+#           endif                                
                 {
-                    // vacataires
-
+                    // Peu fiable
+                    // vacataires                  
+#                   ifdef INCLURE_REG_VACATAIRES 
                     if (regex_match ((const char*) em, pat2))
                         {
                             xmlFree (VAR (Grade));
                             VAR (Grade) = (xmlChar*) xmlStrdup ((const xmlChar*)"V");
                         }
-
+                    else 
+#                   endif
+                    
+                    // Peu fiable
                     // assistantes maternelles
-
-                    else if (regex_match ((const char*) em, pat3))
+#                   ifdef INCLURE_REG_ASSMAT                    
+                    if (regex_match ((const char*) em, pat3))
                         {
                             xmlFree (VAR (Grade));
                             VAR (Grade) = (xmlChar*) xmlStrdup ((const xmlChar*)"A");
                         }
-
+#                   endif
                     ///////////////////////////////////////////////
                     // identification des catégories A, B, C     //
                     ///////////////////////////////////////////////
@@ -1343,7 +1323,7 @@ void* parse_info (info_t& info)
 
             // Les vacations peuvent être indiquées comme telles dans les libellés de paie mais pas dans les emplois métiers.
             // On les récupère en parcourant les libellés
-
+#        ifdef INCLURE_REG_VACATAIRES 
             if (info.reduire_consommation_memoire)
                 {
                     // inutile de boucler sur la partie vide du tableau...
@@ -1364,7 +1344,7 @@ void* parse_info (info_t& info)
                                 VAR (Grade) = (xmlChar*) xmlStrdup ((const xmlChar*)"V");
                             }
                 }
-
+#        endif 
 #ifndef NORMALISER_ACCENTS
             xmlFree (em);
             xmlFree (gr);
@@ -1372,7 +1352,7 @@ void* parse_info (info_t& info)
         }
 
 #undef VAR
-#endif
+
     return nullptr;
 }
 

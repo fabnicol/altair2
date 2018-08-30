@@ -132,6 +132,7 @@ ostringstream help()
         <<  "**--verifmem** *sans argument*: seulement vérifier la consommation mémoire.  " << "\n\n"
         <<  "**--hmarkdown** *sans argument*: aide en format markdown.  " << "\n\n"
         <<  "**--pdf**     *sans argument* : aide en format pdf.  " << "\n\n"
+        <<  "**--html**    *sans argument* : aide en format html.  " << "\n\n"            
         <<  "**--cdrom**   *sans argument* : lire les données directement sur le disque optique.  " << "\n\n"
         <<  "**--dossier-bulletins** *arg.oblig.*: dossier vers lequel seront exportés les bulletins extraits.\n  "
             RETRAIT                          "      " "Les dossiers sont nettoyés à chaque extraction de bulletins.  "     << "\n\n"
