@@ -53,9 +53,10 @@ Categorie : A
 // Les infirmières FPH sont passées en A en 2012 sauf un corps en extinction IDE; situation à évaluer pour l'éducation nationale sur les situations d'extinction
 
 #include "expression_reg_adjoints.h"
-
+#ifdef INCLURE_REG_VACATAIRES
 /// Expression régulière tendant à capturer les vacataires
 static constexpr auto EXPRESSION_REG_VACATIONS = ".*\\bvacat.*|.*\\bvac\\.?\\b.*";                 // vac.* peut être vérifié par 'vacances'
+#endif
 
 /// Expression régulière tendant à capturer les officiers subalternes de catégorie B
 /// Sous-lieutenant, lieutenant, major

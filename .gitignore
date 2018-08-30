@@ -10,4 +10,4 @@ Interface/gui/altair.windows.pro
 Makefile
 *.directory
 lhx/lhx
-
+Tests/Exemple/modules/*.Rmd
