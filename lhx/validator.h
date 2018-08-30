@@ -166,7 +166,9 @@ typedef struct
     vector<uint16_t> NLigne;                ///< Nombre de lignes par agent
     thread_t* threads;                      ///< Structure thread_t permettant de communiquer une partie des données de paye à chaque thread.
     string chemin_log;                      ///< Chemin du log
+#ifdef INCLURE_REG_ELUS    
     string expression_reg_elus;             ///< Expression régulière des élus (DEPRECATED)
+#endif    
     string chemin_base;                     ///< Chemin des bases CSV de type Table
     string chemin_bulletins;                ///< Chemin des bases CSV de type Bulletins.paie
     string export_mode;                     ///< Type d'exportation (standard, cumulatif, distributif, ...)

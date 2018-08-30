@@ -124,8 +124,10 @@ DEFINES += __GNUC_EXTENSION \
 #          DEBUG_ATTEINDRE
 
                                             # DEFINES += STRICT  pour un validateur qui retourne à la première erreur.
-DEFINES += \#NO_REGEX                       # Pas d'analyse du texte par expression régulière
-        GCC_REGEX \                         # Utiliser les expressions régulières de C++. Attention désactiver cette valeur casse les analyse sous R.
+DEFINES += \
+#        INCLURE_REG_ELUS \                  # Les élus indentifiés par expression régulière se voient assigner le Statut ELU et le grade NA. Peut poser des problèmes de comparabilité avec Xemelios.  
+#        INCLURE_REG_VACATAIRES \            # Les vacataires identifiés se voient assigner le Grade "V". Peu fiable.
+#        INCLURE_REG_ASSMAT \                # Les assistantes maternelles identifiées se voient assigner le Grade "A". Peu fiable.
         WAIT_FOR_LOCK  \                    # insister jusqu'à acquérir les mutex dans les fils d'exécution. Peut entraîner des "output freeze" en cas de forte
                         \                   # charge I/O.
         NO_DEBUG \                          # ne pas générer de messages de débogage avancé
@@ -140,7 +142,7 @@ DEFINES += \#NO_REGEX                       # Pas d'analyse du texte par express
                              \              # n'est utile que lorsqu'une interface graphique est connectée. peut ralentir l'application de 1 à 5 %.
 #        FGETC_PARSING    \                  # parcourir les fichiers par ifstream (C++)
 #       STRINGSTREAM_PARSING  \             # mise en mémoire vive des fichiers de paye par ostringstream (plus de mémoire vive ; accélère beaucoup le 1er traitement sous Windows)
-        MMAP_PARSING           \            # parcourir les fichiers par mappage mémoire (C, unix uniquement, aucun avantage évident).
+        MMAP_PARSING           \            # parcourir les fichiers par mappage mémoire (C/C++, Unix uniquement, changer la directive sou Windows).
 #       OFSTREAM_TABLE_OUTPUT               # enregistrer les lignes de paye ligne à ligne sur la base. Plus robuste et moins de mémoire mais plus lent sous Windows
 
 

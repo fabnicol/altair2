@@ -57,7 +57,7 @@
 #include <cstdlib>
 #include <limits.h>
 #include <experimental/filesystem>
-
+#include <regex>
 #include "validator.h"
 #include "fonctions_auxiliaires.h"
 #include "table.h"
@@ -161,7 +161,9 @@ int main (int argc, char **argv)
         vector<uint16_t>(),             //    vector<uint16_t> NLigne;
         &mon_thread,      //    thread_t threads;
         "",               //    chemin log
+#ifdef INCLURE_REG_ELUS
         EXPRESSION_REG_ELUS,
+#endif    
         chemin_base,
         chemin_bulletins,
         "Standard",       // export_mode
@@ -325,9 +327,9 @@ int main (int argc, char **argv)
                             ofstream help;
 
                             help.open ("aide.md");
-
-                            help << out.str();
-
+                            
+                            help << regex_replace(out.str(), regex("--"), "\\-\\-");
+                       
 #ifndef __linux__
                             string sep (";");
                             sep[0] = SYSTEM_PATH_SEPARATOR;
