@@ -93,7 +93,7 @@ TARGET = Altair
 
 VPATH = .
 INCLUDEPATH += ../../fwidgets_lib
-LIBS += libfwidgets_lib.a 
+LIBS += libfwidgets_lib.a  
 
 DEFINES += HAS_CPP17
 
@@ -119,7 +119,7 @@ DEFINES += LOCAL_BINPATH \                              # chemins d'exécution d
            #REGEX_ANONYM   \                            # Utiliser en cas de problème avec l'analyse des données sensibles dans l'anonymisation
 
 
-QMAKE_CXXFLAGS += -std=gnu++17                         # obligatoire
+QMAKE_CXXFLAGS += -std=c++17                           # obligatoire
 QMAKE_CXXFLAGS += -march=core-avx2  -pipe -m64         # facultatif
 
 

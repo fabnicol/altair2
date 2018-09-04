@@ -852,8 +852,6 @@ standardPage::standardPage()
     substituer_versant();
 }
 
-
-
 void standardPage::substituer_versant()
 {
 
@@ -1070,22 +1068,18 @@ processPage::processPage()
                     }
             }
     });
-
         
     openCheckBox = new FCheckBox("Ouvrir le document à la fin de l'exécution",
                                              flags::status::enabledChecked|flags::commandLineType::noCommandLine,
                                             "ouvrirDocFinExec",
                                             {"Rapports", "Ouvrir en fin d'exécution"});
-    
-           
-   
+       
     parallelCheckBox = new FCheckBox("Exécution en parallèle du rapport",
                                             flags::status::enabledChecked|flags::commandLineType::noCommandLine,
                                             "parallelExec",
                                             {"Rapports", "Exécution parallèle"});
     
-               
-        
+                   
     for (const FCheckBox* a : {parallelCheckBox, openCheckBox})
     {
         
@@ -1097,8 +1091,7 @@ processPage::processPage()
             renommer (dump (file_str), prologue_options_path);
             });
     }
-    
-        
+            
     v4Layout->addWidget (enchainerRapports, 0, 0, Qt::AlignLeft);
     v4Layout->addWidget (rapportTypeLabel,  1, 0, Qt::AlignRight);
     v4Layout->addWidget (rapportTypeWidget, 1, 1, Qt::AlignLeft);
@@ -1142,6 +1135,8 @@ extraPage::extraPage()
                                    directory::noCheck, // ne pas vérifier que le chemin est vide
                                    flags::flineframe::isFilePath,
                                    "Fichier CSV (*.csv)"); // il s'agit d'un chemin de fichier
+    
+    budgetFrame->setSaveFileName(false);
    
     constexpr const char* budgetTip = "Le fichier importé donne la correspondance entre <br>"
                                       "le code de paye et le sous-compte du compte 64 <br>"
@@ -1185,6 +1180,7 @@ extraPage::extraPage()
                                     },
                                     budgetFrame->getComponentList());
     
+    
     v3Layout->addWidget (budgetCheckBox,       1, 0, Qt::AlignLeft);
 
     QGroupBox* budgetBox = new QGroupBox (tr ("Budget"));
@@ -1204,6 +1200,8 @@ extraPage::extraPage()
                                    flags::flineframe::isFilePath,
                                    "Fichier CSV (*.csv)"); // il s'agit d'un chemin de fichier
    
+    gradesFrame->setSaveFileName(false);
+    
     gradesCheckBox = new FCheckBox ("Correspondance grade-catégorie  ",
                                     flags::status::enabledUnchecked
                                      | flags::commandLineType::noCommandLine,
@@ -1256,6 +1254,8 @@ extraPage::extraPage()
                                    flags::flineframe::isFilePath,
                                    "Fichier CSV (*.csv)"); // il s'agit d'un chemin de fichier
    
+    logtFrame->setSaveFileName(false);
+    
     constexpr const char* logtTip = "Le fichier importé énumère la liste des matricules  <br>"
                                       "bénéficiant d'une concession de logement, pour chaque <br>"
                                       "année et mois.<br>"
@@ -1285,7 +1285,7 @@ extraPage::extraPage()
                                        ""
                                     },
                                     logtFrame->getComponentList());
-    
+        
     v5Layout->addWidget (logtCheckBox,       1, 0, Qt::AlignLeft);
 
     QGroupBox* logtBox = new QGroupBox (tr ("Logement"));
@@ -1305,6 +1305,8 @@ extraPage::extraPage()
                                    flags::flineframe::isFilePath,
                                    "Fichier CSV (*.csv)"); // il s'agit d'un chemin de fichier
    
+    ifseFrame->setSaveFileName(false);
+    
     constexpr const char* ifseTip = "Le fichier importé énumère la liste des plafonds  <br>"
                                     "de l'IFSE (RIFSEEP), pour chaque groupe de grades <br>"
                                     "logé ou pas.<br>"
@@ -1378,7 +1380,7 @@ void extraPage::do_copies()
                 const QString &file = a->getText();
                 if (! file.isEmpty() && QFileInfo(file).exists())
                 {
-                      
+                                   
                       tools::copyFile(file, 
                           userdatadir + (QDir::separator() + QString(pathList[i])),
                           msgList[i],  // message d'erreur fenêtre
