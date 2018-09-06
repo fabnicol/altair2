@@ -143,7 +143,8 @@ DEFINES += \
 #        FGETC_PARSING    \                  # parcourir les fichiers par ifstream (C++)
 #       STRINGSTREAM_PARSING  \             # mise en mémoire vive des fichiers de paye par ostringstream (plus de mémoire vive ; accélère beaucoup le 1er traitement sous Windows)
         MMAP_PARSING           \            # parcourir les fichiers par mappage mémoire (C/C++, Unix uniquement, changer la directive sou Windows).
-#       OFSTREAM_TABLE_OUTPUT               # enregistrer les lignes de paye ligne à ligne sur la base. Plus robuste et moins de mémoire mais plus lent sous Windows
+#       OFSTREAM_TABLE_OUTPUT  \            # enregistrer les lignes de paye ligne à ligne sur la base. Plus robuste et moins de mémoire mais plus lent sous Windows
+#       TINYXML2                            # Utiliser tinyxml2 et pas libxml2  
 
 
 
@@ -175,6 +176,10 @@ SOURCES += \
     ligne_paye.cpp \
     recherche.cpp
 
+contains(DEFINES, TINYXML2) {
+  SOURCES += tinyxml2.cpp
+}
+
 HEADERS += \
     table.h \
     ../Interface/gui/tags.h \
@@ -187,5 +192,9 @@ HEADERS += \
     fonctions_auxiliaires.h \
     ligne_paye.h \
     recherche.h \
-    validator.h
+    validator.h \
+    xmlconv.h
 
+contains(DEFINES, TINYXML2) {
+  HEADERS += tinyxml2.h xmlconv.h
+}
