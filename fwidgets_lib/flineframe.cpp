@@ -123,8 +123,11 @@ FLineFrame::FLineFrame(const QStringList& titre,
                           }
                           else
                               dirpath = tools::userdatadir;
-
-                          path = QFileDialog::getSaveFileName(nullptr, titre.at(1), dirpath, filter);
+                          
+                          if (saveFileName)
+                              path = QFileDialog::getSaveFileName(nullptr, titre.at(1), dirpath, filter);
+                          else
+                              path = QFileDialog::getOpenFileName(nullptr, titre.at(1), dirpath, filter);
 
                           if (path.isNull() || path.isEmpty())
                            return;

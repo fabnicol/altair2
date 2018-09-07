@@ -960,7 +960,8 @@ static inline void GCC_INLINE allouer_memoire_table (info_t& info)
                 {
                     for (xmlChar* a : info.Table[agent])
                         {
-                            if (a) xmlFree (a);
+                          if (a)
+                             xmlFree (a);
                         }
                 }
         }
@@ -1165,8 +1166,9 @@ void* parse_info (info_t& info)
     regex pat_cat_a {EXPRESSION_REG_CAT_A, regex_constants::icase};
     regex pat_cat_b {EXPRESSION_REG_CAT_B, regex_constants::icase};
 
-
-    xmlKeepBlanksDefault (0);
+#   ifndef TINYXML2
+      xmlKeepBlanksDefault (0);
+#   endif      
 
     for (unsigned i = 0; i < info.threads->argc ; ++i)
         {
