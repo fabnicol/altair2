@@ -1322,7 +1322,7 @@ bool MainWindow::exportProject (QString dirStr)
                 {
                     for (const QString &s :  Hash::wrapper["XHL"]->at (rank))
                         {
-                            result = common::copyFile (s, subDirStr  /*+ altair->getEmbeddedPath(s)*/, "La base XML " + s, REQUIRE);
+                            result = common::copyFile (s, subDirStr + altair->getEmbeddedPath(s), "La base XML " + s, REQUIRE);
 
                             if (result)
                                 {
@@ -1433,7 +1433,7 @@ bool MainWindow::archiveProject()
 
             for (const QString &st : tableList)
                 {
-                    result = common::zip (v(base) + QDir::separator() + st, subDirStr + QDir::separator() +/* altair->getEmbeddedPath(st) +*/ ".arch");
+                    result = common::zip (v(base) + QDir::separator() + st, subDirStr + QDir::separator() + altair->getEmbeddedPath(st) + ".arch");
 
                     if (result)
                         {
