@@ -802,8 +802,8 @@ importer_ <- function() {
   
   "matricules" %a% matricules[order(Matricule, Année)]
   
-  grades.categories <- unique(matricules[ , .(Grade, Catégorie)], by = NULL)
-  "grades.categories" %a% grades.categories[order(Grade)]
+  "grades.categories" <- correspondance_grade_catégorie()
+  
   
   # on essaie de deviner le versant de la FP par l'existence d'agents de service hospitalier
   # on peut désactiver ce test par désactiver.test.versant.fp <- T dans prologue.R
