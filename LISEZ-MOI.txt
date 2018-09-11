@@ -1,0 +1,220 @@
+
+                        Altaïr
+                       ________
+
+            Analyse des lignes de traitement, 
+   attributions indemnitaires et rémunérations diverses
+
+
+Le présent logiciel produit automatiquement des statistiques et des tests
+de cohérence et de conformité comptable et réglementaire, à partir de bases
+de données pouvant être lues par l'application Xemelios (Direction générale des finances 
+publiques, http://xemelios.org).
+
+
+Installation
+------------
+
+Voir fichier INSTALLATION.
+
+Documentation
+---------------------
+
+Voir le répertoire Docs.
+
+
+Interface Altaïr
+----------------
+
+Cliquer sur l'icône "A" bleue sur le Bureau ou dans le menu Démarrer 
+dans le répertoire Altair.
+
+Une interface utilisateur s'affiche qui permet d'exécuter l'extraction des
+données de paye des fichiers .xhl pour les convertir en fichiers plats .csv
+
+Pour l'installation avancée, une interface d'exécution du script R est utilisée,
+l'interface RStudio.
+Pour l'installation minimale, cette deuxième interface n'est pas installée.
+
+Interface RStudio
+-----------------------
+
+1. L'interface Altaïr permet le lancement de l'interface RStudio pour afficher 
+   le script  en langage R et lancer son exécution.
+
+   Pour afficher les rapports de démonstration directement parl'interface,
+   les logiciels suivants doivent être préinstallés :
+
+    HTML : n'importe quel navigateur enregistré dans le registre comme application
+           par défaut ;
+
+
+LINUX:
+   okular
+   libreoffice writer
+   
+2. Affichage du script dans l'interface RStudio
+
+  Au lancement de l'interface RStudio, vérifier que l'onglet actif est bien le 
+  fichier  'rapport_msword.R'  dans la fenêtre supérieure gauche. 
+  Sinon, dans la fenêtre inférieure droite, cliquer sur le fichier 
+
+               Altair\Tests\Exemple\rapport_msword.R
+
+  Pour les lancements suivants de l'interface RStudio, cette opération de 
+  sélection de fichier ne sera plus nécessaire.
+
+3. Production d'un nouveau rapport par exécution du script.
+
+  Appuyer sur l'icône "Source" à la droite du quadrant supérieur gauche de l'interface,
+  en vérifiant que l'onglet actif de ce quadrant est bien le fichier rapport_msword.R.
+  
+  Ce qui précède est également valable pour un rapport pdf avec le fichier rapport_pdf.R,
+  qui doit alors être sélectionné dans le quadrant supérieur gauche. Il est également
+  possible de produire les deux types de rapport en même temps avec le fichier 
+  rapport_msword_pdf.R
+
+  Le rapport d'exécution est généré dans le dossier :
+
+               Altair\Tests\Exemple
+
+  Les bases de données sont produites dans le dossier :
+
+               Altair\Tests\Exemple\Bases
+
+Il est possible de visualiser sous Excel ou Wordpad les bases liées par
+des liens hypertextes dans les rapports (.pdf, .docx, .html)
+
+
+Auteur
+------
+
+Logiciel écrit par Fabrice Nicol (fabrice.nicol@crtc.ccomptes.fr)
+
+L'auteur remercie les personnes suivantes pour leur contribution aux tests et 
+à l'analyse des situations de tests :
+
+		Vitalia Le Boudec
+		Nicole Rossetti
+		Xavier Boschet
+		David Lemen
+
+
+Licence
+-------
+
+Voir fichier COPYRIGHT.txt et fichier fwidgets_lib/LICENCE.txt
+
+La décision de placer le présent logiciel sous licence CeCILL a été entérinée par décision
+du directeur des systèmes d'information de la Cour des comptes,
+en date du 9 mars 2017.
+
+Les fichiers source du logiciel régis par la licence CeCILL (CEA-CNRS-INRIA)
+comprennent l'en-tête suivant :
+
+Copyright  Cour des comptes, 2017
+Contributeur : 
+Fabrice Nicol, années 2012 à 2017
+fabrice.nicol@crtc.ccomptes.fr
+
+Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
+produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
+en vigueur à compter de l'année 2008. 
+
+Ce logiciel est régi par la licence CeCILL soumise au droit français et
+respectant les principes de diffusion des logiciels libres. Vous pouvez
+utiliser, modifier et/ou redistribuer ce programme sous les conditions
+de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA 
+sur le site "http://www.cecill.info".
+
+En contrepartie de l'accessibilité au code source et des droits de copie,
+de modification et de redistribution accordés par cette licence, il n'est
+offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
+seule une responsabilité restreinte pèse sur l'auteur du programme,  le
+titulaire des droits patrimoniaux et les concédants successifs.
+
+A cet égard  l'attention de l'utilisateur est attirée sur les risques
+associés au chargement,  à l'utilisation,  à la modification et/ou au
+développement et à la reproduction du logiciel par l'utilisateur étant 
+donné sa spécificité de logiciel libre, qui peut le rendre complexe à 
+manipuler et qui le réserve donc à des développeurs et des professionnels
+avertis possédant  des  connaissances  informatiques approfondies.  Les
+utilisateurs sont donc invités à charger  et  tester  l'adéquation  du
+logiciel à leurs besoins dans des conditions permettant d'assurer la
+sécurité de leurs systèmes et ou de leurs données et, plus généralement, 
+à l'utiliser et l'exploiter dans les mêmes conditions de sécurité. 
+
+Le fait que vous puissiez accéder à cet en-tête signifie que vous avez 
+pris connaissance de la licence CeCILL, et que vous en avez accepté les
+termes.
+
+
+Mise à disposition du code
+-------------------------
+
+Le code est entreposé  à l'adresse suivante :
+
+    https://gitlabjf.ccomptes.fr/fnicol/master-jf.git
+
+
+Composition du paquet distribué
+-------------------------------
+
+LINUX:
+
+Le module Interface graphique est distribué sous forme binaire dans le répertoire
+Interface_linux. Elle a été compilée sous GNU g++ version 6.2.  
+
+Les dépendances logicielles Qt5 de l'éditeur Digia, ont été recompilées par l'auteur
+à partir du code source, le compilateur étant le même.
+
+Le module noyau LHX, qui effectue la conversion des données au format .xhl vers les 
+bases de données au format .csv, est distribué sous forme binaire dans le répertoire linux,
+et est compilé avec le même compilateur. 
+
+
+Les scripts R sont distribués sous Tests\Exemple
+
+Autres répertoires
+------------------
+
+Docs    : méthodologie statistique
+
+Tests\Exemple\Données\xhl\Anonyme et Anonyme2 : jeux de données anonymisées.
+
+Historique
+----------
+
+ décembre 2012  Prototypage du script pour l'examen de gestion du SDIS
+                de l'Isère (rendu public en 2013)
+
+  janvier 2014  Développement du script, première application opérationnelle
+                complète.
+
+    avril 2014  Finalisation de la version 1.0 de la plateforme linux
+
+      mai 2014  Portage sous Windows, tests, installateur NSIS. Améliorations.
+                Tests sur d'autres cas pratiques.
+      
+ novembre 2014  Améliorations du script (performances, statistiques).
+                Interface graphique. Application noyau LHX.
+ 
+  février 2015  Correctifs divers sur LHX.
+                Réempaquetage dans un installateur unique et automatisation
+                de l'import du dépôt Git. Améliorations de l'interface.
+                Remplacement de Miktex par Texlive.              
+
+  octobre 2015  Transposition de l'ensemble de la chaîne de compilation sous mingw64
+                Amélioration de l'interface (onglets automatiques, sélection des SIRET)
+                Amélioration de LHX (performance environ x1,5 à x2).
+                Empaquetage de la plateforme de développement.
+
+  janvier 2017	Améliorations destinées à assurer le traitement de masse des plus gros fichiers.		
+				Intégration de la FPH.
+				Clonage d'une plateforme linux (Gentoo).
+				Documentation (encore partielle) utilisateur et développeur.
+				
+     mars 2017  Déploiement de l'extracteur de données et de l'interface graphique.				
+septembre 2017  Finalisation de la version de production du modules de production des rapports.
+
+

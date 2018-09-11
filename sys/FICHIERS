@@ -1,0 +1,37 @@
+ 
+10-agent-shutdown.sh      Démonte la clé à la déconnection de Plasma
+actualiser_sys            Fichier vide dont l'existence active l'installation
+                          des fichiers système
+build.altair              Fichier vide dont l'existence active la compilation R
+                          de la bibliothèque altair.linux
+compte_utilisateur.sh     Crée un compte utilisateur automatiquement
+m.sh                      Monte la clé dans le répertoire R-Altair à la connection 
+sysinstall.sh             Installe le fichiers système
+kernel/...                (Si présent) Noyau linux à installer en remplacement de 
+                          l'actuel
+dolphinrc                 Fichier de configuration dolphinrc
+defaults                  Configuration par défaut du bureau plasma
+metadata.desktop          Configuration personnalisée du budeau plasma (Breeze, fonds d'écran etc.)
+plasma-localerc
+gtkrc/gtk-3.0             Fichier de configuration des applications gtk
+user-places.xbel          Fichier XML de configuration de Dolphin
+10-monitor.conf           Correction de la configuration du serveur XML
+.gitconfig                Basculement de github vers gitlabjf (git --global --edit) : noproxy et sslVerify
+localgitconfig            Basculement de github vers gitlabjf (git --edit) : adresse du remote.
+
+Répertoires de destination
+--------------------------
+
+10-agent-shutdown.sh      /etc/plasma/shutdown
+compte_utilisateur.sh     /usr/bin
+m.sh                      /home/login/.config/autostart-scripts
+kernel/...                /boot
+user-places.xbel          /home/login/.local/share
+defaults                  /usr/share/plasma/shells/org.kde.plasma.desktop/contents/
+metadata.desktop          /usr/share/plasma/desktoptheme/default/
+plasma-localerc           ~/.config
+gtkrc/gtk-3.0       
+user-places.xbel      
+.gitconfig                /home/fab/.gitconfig
+localgitconfig            /home/fab/Dev/altair/.git/config
+

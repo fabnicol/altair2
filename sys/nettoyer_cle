@@ -1,0 +1,8 @@
+#!/sbin/openrc-run
+
+
+start() {
+
+rm -rf /home/fab/Dev/altair/Tests/Exemple/Donnees/R-Altair
+mkdir -p /home/fab/Dev/altair/Tests/Exemple/Donnees/R-Altair
+}

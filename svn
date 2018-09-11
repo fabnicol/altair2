@@ -1,0 +1,4 @@
+
+for i in Interface_linux linux .Rproj.user Tests; do svn export --username fabnicol --force https://github.com/fabnicol/altair2/trunk/$i ; done
+for i in  . ; do svn export https://github.com/fabnicol/altair2/trunk/. --depth files --username fabnicol --force .; done && rm *.{nsi,bat,csv,lnk}
+mkdir lhx

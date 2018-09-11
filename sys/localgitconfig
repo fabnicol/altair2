@@ -1,0 +1,9 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[branch "master-jf"]
+[remote "origin"]
+	url = https://gitlabjf.ccomptes.fr/fnicol/master-jf.git
+	fetch = +refs/heads/master:refs/remotes/origin/master

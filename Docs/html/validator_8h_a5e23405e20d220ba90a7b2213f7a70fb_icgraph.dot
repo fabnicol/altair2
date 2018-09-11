@@ -1,0 +1,35 @@
+digraph "atteindreNoeud"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="atteindreNoeud",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Bulletin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5",tooltip="Atteint le prochain noeud de libellé donné, après un saut éventuel, et le lit. "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="bulletin_obligatoire",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a45ce15888cd33c4753e852fce36fb56e",tooltip="Appelle Bulletin et affiche l&#39;interprétation des erreurs. "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="lignePaye",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#ab0033809d3d04a56bf668e6722da255c",tooltip="Analyse les noeuds fils du noeud. "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="parseLignesPaye",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$validator_8cpp.html#abdf1df3dd61991073a485a3e5d8addd2",tooltip="Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...) "];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="parseFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$validator_8cpp.html#ae1ac2699ac4449a4a9a16b0e37234b35",tooltip="Décode une structure info_t contenant les données de paye à l&#39;état brut \"fichier\" (..."];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="parse_info",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$validator_8h.html#a36359f86441c3ac6219a34f63b8c3da6",tooltip="Lance l&#39;ensemble des processus de pré-traitement et de post-traitement des fichiers de paye..."];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="produire_segment",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa",tooltip="Pour un segment donné (sous-ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..."];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="main",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627"];
+  Node2 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="bulletin_obligatoire\l_numerique",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a8636e0f8d6d7fce58969c36956342c90",tooltip="Appelle Bulletin. "];
+  Node10 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="bulletin_optionnel_char",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a4a91586d82e91ad3e3c02355b57c9e09",tooltip="Appelle Bulletin. "];
+  Node11 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="bulletin_optionnel\l_numerique",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580",tooltip="Appelle Bulletin. "];
+  Node12 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

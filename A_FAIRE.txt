@@ -1,0 +1,10 @@
+Bugs
+----
+
+1. Encodage et décodage défectueux des projets .alt pour les multi-budgets
+2. Reprendre les vacataires (grade V et type VAC) de manière plus encapsulée.
+   
+A implémenter
+-------------
+
+1. Combiner les critères de découpage par nature et par quantité : lhx, Interface

@@ -1,0 +1,84 @@
+<html>
+<meta charset=UTF-8>
+<body>
+
+<p><strong>Usage</strong> : lhx OPTIONS fichiers.xhl</p>
+<p><strong>OPTIONS :</strong></p>
+<p><strong>-h</strong> <em>sans argument</em> : affiche cette aide sur la sortie d’erreur (cerr).</p>
+<p><strong>--help</strong> <em>sans argument</em> : affiche cette aide sur la sortie d’erreur (cerr).</p>
+<p><strong>--v</strong> <em>sans argument</em> : affiche la version du logiciel, l’auteur et la date de création.</p>
+<p><strong>--version</strong> <em>sans argument</em> : affiche la version du logiciel, l’auteur et la date de création.</p>
+<p><strong>-n</strong> <em>argument obligatoire</em> : nombre maximum de bulletins mensuels attendus [calcul exact par défaut]</p>
+<p><strong>-N</strong> <em>argument obligatoire</em> : nombre maximum de lignes de paye attendues [calcul exact par défaut]</p>
+<p><strong>-t</strong> <em>argument optionnel</em> : type de base en sortie, soit ‘standard’, soit ‘bulletins’ [défaut bulletins].</p>
+<p><strong>-T</strong> <em>argument obligatoire</em> : nombre de lignes maximum par base .csv [défaut illimité]. Au plus 999 tables seront générées.</p>
+<p><strong>-T AN</strong> : générer une table par année</p>
+<p><strong>-T A/AC/AG/AV/C/D/I/IR/RE/S/T</strong>: générer une table pour chaque catégorie de ligne ou bien par agent, mois et année :</p>
+<pre><code>    A rémunérations diverse
+
+    AC acompte
+
+    AG par agent, mois et année
+
+    AV avantage en nature
+
+    C cotisation
+
+    D déduction
+
+    I indemnités
+
+    IR indemnité de résidence
+
+    RE retenue
+
+    S supplément familial
+
+    T traitement brut
+
+    X toutes catégories</code></pre>
+<p><strong>--AG</strong> : générer une table par agent, par mois et par année (bulletin de paye). Pour les seuls bulletins de paye exportés sous le répertoire en argument de --dossier-bulletins</p>
+<p><strong>-o</strong> <em>argument obligatoire</em> : fichier.csv, chemin complet du fichier de sortie [défaut ‘Table.csv’ avec -t].</p>
+<p><strong>-D</strong> <em>argument obligatoire</em> : répertoire complet du fichier de sortie [défaut ‘.’ avec -t].</p>
+<p><strong>-d</strong> <em>argument obligatoire</em> : séparateur décimal [défaut ‘,’ avec -t].</p>
+<p><strong>-s</strong> <em>argument obligatoire</em> : séparateur de champs [défaut ‘;’ avec -t]. Ne pas utiliser ’_’.</p>
+<p><strong>-j</strong> <em>argument obligatoire</em> : nombre de fils d’exécution (1 à 10).</p>
+<p><strong>-l</strong> <em>sans argument</em> : générer une colonne de numéros de ligne intitulée ‘R’.</p>
+<p><strong>-M</strong> <em>sans argument</em> : ne pas libérer la mémoire réservée en fin de programme.</p>
+<p><strong>-m</strong> <em>sans argument</em> : calculer les maxima d’agents et de lignes de paye.</p>
+<p><strong>-L</strong> <em>argument obligatoire</em> : chemin du log d’exécution du test de cohérence entre analyseurs C et XML.</p>
+<p><strong>-S</strong> <em>sans argument</em> : exporter les champs Budget, Employeur, Siret, Etablissement.</p>
+<p><strong>-E</strong> <em>sans argument</em> : exporter le champ Echelon.</p>
+<p><strong>-q</strong> <em>sans argument</em> : limiter la verbosité.</p>
+<p><strong>-f</strong> <em>argument obligatoire</em> : la ligne de commande est dans le fichier en argument, chaque élément à la ligne.</p>
+<p><strong>--eemployeur</strong> <em>argument obligatoire</em> : la liste des employeurs à exclure de la sortie, séparés par des blancs.</p>
+<p><strong>--esiret</strong> <em>argument obligatoire</em> : la liste des SIRET à exclure de la sortie, séparés par des blancs.</p>
+<p><strong>--ebudget</strong> <em>argument obligatoire</em> : la liste des budgets à exclure de la sortie, séparés par des blancs.</p>
+<p><strong>--xhlmem</strong> <em>arg. oblig.</em> : taille des fichiers à analyser en octets.</p>
+<p><strong>--memshare</strong> <em>arg. oblig.</em> : part de la mémoire vive utilisée, en points de pourcentage.</p>
+<p><strong>--segments</strong> <em>arg. oblig.</em> : nombre minimum de segments de base.</p>
+<p><strong>--pretend</strong> <em>sans argument</em> : exécution sans traitement des fichiers.</p>
+<p><strong>--verifmem</strong> <em>sans argument</em>: seulement vérifier la consommation mémoire.</p>
+<p><strong>--hmarkdown</strong> <em>sans argument</em>: aide en format markdown.</p>
+<p><strong>--pdf</strong> <em>sans argument</em> : aide en format pdf.</p>
+<p><strong>--html</strong> <em>sans argument</em> : aide en format html.</p>
+<p><strong>--cdrom</strong> <em>sans argument</em> : lire les données directement sur le disque optique.</p>
+<p><strong>--dossier-bulletins</strong> <em>arg.oblig.</em>: dossier vers lequel seront exportés les bulletins extraits. Les dossiers sont nettoyés à chaque extraction de bulletins.</p>
+<p><strong>--bulletins</strong> <em>arg.oblig.</em> : suite de séquences séparées par des points-vigules sans espace.</p>
+<pre><code>    Chaque séquence est de la forme matricule-mois(...mois)-année(...année).
+    Les trois points séparent la borne inférieure de la borne supérieure.
+    Les matricules peuvent eux-mêmes être séparés par des virgules.
+    L&#39;année peut être indiquée par ses deux derniers chiffres.
+    Exemple: 1012A,1013B-3...5-12...15;1014C-6-16
+    Les bulletins des matricules 1012A et 1013B seront exportés
+    pour les mois de mars à mai des années 2012 à 2015.
+    De même pour le matricule 1014C en juin 2016.</code></pre>
+<p><strong>--export</strong> <em>arg.oblig.</em> : modalité d’exportation (Standard, Cumulative, Distributive, Distributive+)</p>
+<p><em>Standard</em> : bases à la racine du répertoire d’exportation. Ecrasement des bases à chaque exécution.</p>
+<p><em>Cumulative</em> : bases à la racine du répertoire d’exportation. Empilement des bases d’une exécution à l’autre.</p>
+<p><em>Distributive</em> : bases à la racine du sous-répertoire de même nom que celui d’entrée dans le répertoire d’exportation.</p>
+<p><em>Distributive+</em> : bases à la racine du sous-répertoire de même nom que celui d’entrée dans le répertoire d’exportation. Empilement des bases d’une exécution à l’autre.</p>
+<p><strong>-rank</strong> <em>argument optionnel</em> : générer le fichier du rang de la base de paye en cours dans le fichier.</p>
+
+</body>
+</html>
