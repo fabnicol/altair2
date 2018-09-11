@@ -245,10 +245,8 @@ fi
 
 # recompilation de la bibliothèque altair
 if test -f sys/build.altair; then
-  rm -rf altair.linux
   rm -rf /usr/local/lib64/R/library/altair
   rm -rf /usr/lib64/R/library/altair
-  git checkout FETCH_HEAD -- altair.linux
   
   R CMD INSTALL --byte-compile  -l  /usr/local/lib64/R/library/ altair.linux
   echo "*************************************"
