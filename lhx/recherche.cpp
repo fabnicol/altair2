@@ -41,6 +41,15 @@ using namespace std;
 
 extern bool verbeux;
 
+#ifdef TINYXML2 
+#  include "xmlconv.h"
+#else
+#  include <libxml/xmlmemory.h>
+#  include <libxml/parser.h>
+#endif
+
+
+
 /// \file    recherche.cpp
 /// \author  Fabrice Nicol
 /// \brief   Ce fichier contient le code permettant de rechercher en mémoire, après décodage des bases XML,
@@ -280,3 +289,4 @@ else
 return chemins_bulletins_extraits;
 }
 
+#include "xmlundef.h"

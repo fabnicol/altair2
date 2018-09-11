@@ -3,6 +3,6 @@
 
 start() {
 
-rm -rf /home/fab/Dev/altair/Tests/Exemple/Donnees/R-altair
-mkdir -p /home/fab/Dev/altair/Tests/Exemple/Donnees/R-altair
+rm -rf /home/fab/Dev/altair/Tests/Exemple/Donnees/R-Altair
+mkdir -p /home/fab/Dev/altair/Tests/Exemple/Donnees/R-Altair
 }

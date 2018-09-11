@@ -78,14 +78,12 @@ if test -f install.Rlibrary; then
   sleep 2
 fi  
 
-cd ..
-
 # Pour recompiler et réinstaller R : insérer R_VERSION avec un nouveau numéro de version
 # ou bien un fichier install.R.force
 # insérer le fichier install.R 
 # insérer un paquet R.tar.xz dans build/
 
-
+cd /home/fab/Dev/altair
 if test -f sys/install.R; then
 
   
@@ -140,7 +138,7 @@ else
 fi  
 
 
-
+cd /home/fab/Dev/altair
 if test -f sys/install.RStudio; then
   
    if test -f sys/install.RStudio.force -o x$(cat /usr/local/lib64/rstudio/VERSION) != x$(cat sys/RStudio_VERSION) ; then
@@ -193,7 +191,7 @@ else
 fi  
 
 
-
+cd /home/fab/Dev/altair
 if test -f sys/install.packages -a ! -f sys/packages.installed; then
 
    echo "Actualisation des paquets..."
@@ -219,27 +217,35 @@ if test -f sys/install.packages -a ! -f sys/packages.installed; then
   sleep 2
 fi  
 
-
+cd /home/fab/Dev/altair
 # recompilation de la bibliothèque altair
 if test -f sys/build.altair; then
-  rm -rf altair.linux
+  
   rm -rf /usr/local/lib64/R/library/altair
   rm -rf /usr/lib64/R/library/altair
-  git checkout FETCH_HEAD -- altair.linux
+  
   if ! test -f /usr/bin/R; then
      ln -s /usr/local/bin/R /usr/bin/R
   fi
 
   R CMD INSTALL --byte-compile  -l  /usr/local/lib64/R/library/ altair.linux
-  echo "*************************************"
-  echo "*                                   *"
-  echo "* Nouvelle bibliothèque altair      *"
-  echo "*                                   *"
-  echo "*************************************"
-  sleep 2
+  if test $? = 0; then 
+    echo "*************************************"
+    echo "*                                   *"
+    echo "* Nouvelle bibliothèque altair      *"
+    echo "*                                   *"
+    echo "*************************************"
+    sleep 2
+  else
+    echo "****************************************"
+    echo "*                                      *"
+    echo "* Bibliothèqe altair non installée !!! *"
+    echo "*                                      *"
+    echo "****************************************"
+  fi
 fi  
 
-
+cd /home/fab/Dev/altair
 if ! test -d  lhx
     then
         mkdir lhx    
@@ -408,28 +414,3 @@ chmod -R 0777 /home/Public
 
 chmod -R 0777 /home/fab/Dev/altair/.Rproj.user         
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-
- 
-

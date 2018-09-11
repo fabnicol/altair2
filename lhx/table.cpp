@@ -47,6 +47,14 @@
 #include "fonctions_auxiliaires.h"
 #include "tags.h"
 
+#ifdef TINYXML2 
+#  include "xmlconv.h"
+#else
+#  include <libxml/xmlmemory.h>
+#  include <libxml/parser.h>
+#endif
+
+
 
 /// \file    table.cpp
 /// \author  Fabrice Nicol
@@ -1445,4 +1453,4 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
 }
 
 #undef VAR
-
+#include "xmlundef.h"
