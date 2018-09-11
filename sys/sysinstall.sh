@@ -255,7 +255,12 @@ if ! test -d  Tests/Exemple/Donnees/R-Altair
     then
         mkdir -p Tests/Exemple/Donnees/R-Altair    
     fi
-    
+
+# Pour la branche dev seulement
+mount -o remount,rw UUID="13D3-FA79" Tests/Exemple/Donnees/R-Altair
+chown -R fab:users Tests/Exemple/Donnees/R-Altair
+####
+
 _copy Interface/share/altair-gui/images /home/fab/.local/share/Altair
     
 cd sys
@@ -389,7 +394,6 @@ else
 fi 
 git commit -am "Release $(date)"
 
-mkdir -p Tests/Exemple/Donnees/R-Altair
 
 echo "*** Opérations sur branche release : Terminé ***"
  
