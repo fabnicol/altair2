@@ -50,6 +50,13 @@
 #include "table.h"
 #include "tags.h"
 
+#ifdef TINYXML2 
+#  include "xmlconv.h"
+#else
+#  include <libxml/xmlmemory.h>
+#  include <libxml/parser.h>
+#endif
+
 extern bool verbeux;
 extern std::mutex mut;
 extern std::vector<errorLine_t> errorLineStack;

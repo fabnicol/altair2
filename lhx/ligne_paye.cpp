@@ -38,6 +38,14 @@
 #include "ligne_paye.h"
 #include "validator.h"
 
+#ifdef TINYXML2 
+#  include "xmlconv.h"
+#else
+#  include <libxml/xmlmemory.h>
+#  include <libxml/parser.h>
+#endif
+
+
 using namespace std;
 
 
@@ -991,16 +999,23 @@ static inline LineCount lignePaye (xmlNodePtr cur, info_t& info)
 
 inline void GCC_INLINE concat (xmlNodePtr cur, info_t& info)
 {
+#ifndef TINYXML2
     xmlChar* addCode2 = xmlGetProp (cur, (const xmlChar*) "V");
-
+#else
+    TinyXmlText addCode2 = cur->
+#endif    
+    
     if (addCode2)
         {
 
             sanitize (addCode2, info.separateur);
-
+#ifndef TINYXML2
             xmlChar* desc_hyphen = xmlStrncatNew (info.Table[info.NCumAgentXml][Description],
                                                   (const xmlChar*) " - ",
-                                                  -1);
+                                                 -1);
+#else
+            TinyXmlText desc_hyphen  = info.Table[info.NCumAgentXml][Description] + " - ";
+#endif            
 
             if (desc_hyphen)
                 {
@@ -1682,3 +1697,5 @@ level0:
 
     return ligne;
 }
+
+#include "xmlundef.h"

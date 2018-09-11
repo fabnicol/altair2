@@ -72,6 +72,13 @@
 #include <stdio.h>
 #endif
 
+#ifdef TINYXML2 
+#  include "xmlconv.h"
+#else
+#  include <libxml/xmlmemory.h>
+#  include <libxml/parser.h>
+#endif
+
 #include <experimental/filesystem>
 namespace fs = std::experimental::filesystem;
 
