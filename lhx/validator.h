@@ -56,6 +56,8 @@
 #include <cmath>
 #include <cstring>
 #include <cctype>
+#include <libxml/xmlmemory.h>
+#include <libxml/parser.h>
 #include <cinttypes>
 #include <vector>
 #include <array>
@@ -65,13 +67,6 @@
 #include "tags.h"
 #include "expression_reg_elus.h"
 #include "expression_reg_cata.h"
-
-#ifdef TINYXML2 
-#  include "xmlconv.h"
-#else
-#  include <libxml/xmlmemory.h>
-#  include <libxml/parser.h>
-#endif
 
 /// Macro tendant à forcer l'inlining sous GCC
 #define GCC_INLINE __attribute__((always_inline))
@@ -302,13 +297,9 @@ void* parse_info (info_t& info);
 /// \param cur Noeud libxml2 courant
 /// \return Soit le noeud XmlNodePtr correspondant au noeud trouvé, soit nullptr si pas de noeud trouvé.
 
-static inline xmlNode* GCC_INLINE atteindreNoeud (const char * noeud, xmlNode* cur)
+static inline xmlNodePtr GCC_INLINE atteindreNoeud (const char * noeud, xmlNodePtr cur)
 {
-#ifdef TINYXML2
-  
-    //cur->NextSiblingElement(noeud);
-    
-#else    
+
 #       ifdef DEBUG_ATTEINDRE
 
     cerr << "[DEBUG] --- Recherche de " << noeud <<  ENDL;
@@ -321,15 +312,15 @@ static inline xmlNode* GCC_INLINE atteindreNoeud (const char * noeud, xmlNode* c
             cerr << "[DEBUG] Saut de noeud blanc" << ENDL;
 #       endif
         }
-#endif
 
-    //while (cur != nullptr && xmlStrcmp (cur->name,  (const xmlChar*) noeud))
+
+    while (cur != nullptr && xmlStrcmp (cur->name,  (const xmlChar*) noeud))
         {
 #       ifdef DEBUG_ATTEINDRE
             //       cerr << "[DEBUG]      ......" << cur->name <<  ENDL;
 #       endif
 
-      //      cur = cur->next;
+            cur = cur->next;
         }
 
     if (cur == nullptr)
@@ -352,4 +343,3 @@ static inline xmlNode* GCC_INLINE atteindreNoeud (const char * noeud, xmlNode* c
 
 
 #endif // VALIDATOR_HPP_INCLUDED
-#include "xmlconv.h"

@@ -49,15 +49,6 @@
 #include "table.h"
 #include "ligne_paye.h"
 
-#ifdef TINYXML2 
-#  include "xmlconv.h"
-#else
-#  include <libxml/xmlmemory.h>
-#  include <libxml/parser.h>
-#endif
-
-
-
 #ifdef INCLURE_REG_ELUS
 #  include "expression_reg_elus.h"
 #endif
@@ -68,6 +59,7 @@ extern mutex mut;
 extern uint64_t   parseLignesPaye (xmlNodePtr cur, info_t& info);
 extern vector<errorLine_t>  errorLineStack;
 extern int rang_global;
+
 
 /// Définit le besoin de mémoire en octets pour un bulletin de paye de données XML (Table)
 /// \param info  Structure info_t contenant les données XML
@@ -128,30 +120,20 @@ static int parseFile (info_t& info)
     info.NAgent[info.fichier_courant] = 0;
     xmlNodePtr cur_save = cur;
     xmlChar *annee_fichier = nullptr,
-            *mois_fichier = nullptr,
-            *employeur_fichier = nullptr,
-            *etablissement_fichier = nullptr,
-            *siret_fichier = nullptr,
-            *budget_fichier = nullptr;
+             *mois_fichier = nullptr,
+              *employeur_fichier = nullptr,
+               *etablissement_fichier = nullptr,
+                *siret_fichier = nullptr,
+                 *budget_fichier = nullptr;
 
-#ifdef TINYXML2
-    XMLDocument doc;
-    XMLError  err = doc.LoadFile(info.threads->argv.at (info.fichier_courant).c_str());
-    if (err != XML_SUCCESS) 
-    {
-        cerr << ERROR_HTML_TAG "Impossible de charger le fichier " << info.threads->argv.at (info.fichier_courant) << ENDL;
-        throw;
-    }
-#else 
-#    if defined(STRINGSTREAM_PARSING)
-        doc = xmlReadDoc (reinterpret_cast<const xmlChar*> (info.threads->in_memory_file.at (info.fichier_courant).c_str()), nullptr, nullptr, XML_PARSE_COMPACT | XML_PARSE_BIG_LINES);
-    //#elif defined (MMAP_PARSING)
-    //    doc = xmlParseDoc (reinterpret_cast<const xmlChar*> (info.threads->in_memory_file.at (info.fichier_courant).c_str()));
-#    else
-        doc = xmlReadFile (info.threads->argv.at (info.fichier_courant).c_str(), nullptr, XML_PARSE_BIG_LINES);
-#    endif
-#endif    
-                
+#if defined(STRINGSTREAM_PARSING)
+    doc = xmlReadDoc (reinterpret_cast<const xmlChar*> (info.threads->in_memory_file.at (info.fichier_courant).c_str()), nullptr, nullptr, XML_PARSE_COMPACT | XML_PARSE_BIG_LINES);
+//#elif defined (MMAP_PARSING)
+//    doc = xmlParseDoc (reinterpret_cast<const xmlChar*> (info.threads->in_memory_file.at (info.fichier_courant).c_str()));
+#else
+    doc = xmlReadFile (info.threads->argv.at (info.fichier_courant).c_str(), nullptr, XML_PARSE_BIG_LINES);
+#endif
+
     memory_debug ("parseFile : xmlParseFile");
 
     if (doc == nullptr)
@@ -941,9 +923,8 @@ out :
     if (! info.generer_bulletins)
         info.threads->in_memory_file.at (info.fichier_courant).clear();
 
-#ifndef TINYXML2
     xmlFreeDoc (doc);
-#endif
+
     if (log.is_open())
         log.close();
 
@@ -1377,4 +1358,3 @@ void* parse_info (info_t& info)
     return nullptr;
 }
 
-#include "xmlundef.h"

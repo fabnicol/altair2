@@ -2304,17 +2304,4 @@ private:
 #   pragma warning(pop)
 #endif
 
-#define xmlFree            free
-//#define xmlStrdup  XMLText
-#define xmlDocPtr  XMLDocument 
-#define xmlNode XMLElement 
-using xmlChar = char;            
-#define xmlGetRootElement(X) X.RootElement()
-#define xmlChildrenNode    FirstChildElement()
-#define next NextSiblingElement()
-#define previous           NextPreviousElement()
-#define xmlGetProp (X, Y)  X->Attribute("V")
-#define xmlStrdup(X)       strdup(X)
-#define xmlGetLineNo(X)    X->GetLineNum()
-#define xmlStrcmp(X, Y)    strcmp(X, Y)
 #endif // TINYXML2_INCLUDED

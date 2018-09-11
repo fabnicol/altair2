@@ -144,7 +144,7 @@ DEFINES += \
 #       STRINGSTREAM_PARSING  \             # mise en mémoire vive des fichiers de paye par ostringstream (plus de mémoire vive ; accélère beaucoup le 1er traitement sous Windows)
         MMAP_PARSING           \            # parcourir les fichiers par mappage mémoire (C/C++, Unix uniquement, changer la directive sou Windows).
 #       OFSTREAM_TABLE_OUTPUT  \            # enregistrer les lignes de paye ligne à ligne sur la base. Plus robuste et moins de mémoire mais plus lent sous Windows
-        TINYXML2                            # Utiliser tinyxml2 et pas libxml2  
+#       TINYXML2                            # Utiliser tinyxml2 et pas libxml2  
 
 
 
@@ -168,13 +168,6 @@ INCLUDEPATH += ../Interface/gui ../fwidgets_lib /usr/include/libxml2
 
 LIBS =  -L/usr/lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/local/lib64 -lstdc++fs -static-libgcc -static-libstdc++ -pthread -lxml2
 
-contains(DEFINES, TINYXML2) {
-  LIBS += libtinyxml2.a
-}
-
-#contains(DEFINES, TINYXML2) {
-#  SOURCES += tinyxml2.cpp
-#}
 SOURCES += \ 
     fonctions_auxiliaires.cpp \
     main.cpp \
@@ -184,7 +177,7 @@ SOURCES += \
     recherche.cpp
 
 contains(DEFINES, TINYXML2) {
-  HEADERS += tinyxml2.h xmlconv.h xmlundef.h
+  SOURCES += tinyxml2.cpp
 }
 
 HEADERS += \
@@ -200,5 +193,8 @@ HEADERS += \
     ligne_paye.h \
     recherche.h \
     validator.h \
-    xmlconv.h 
+    xmlconv.h
 
+contains(DEFINES, TINYXML2) {
+  HEADERS += tinyxml2.h xmlconv.h
+}

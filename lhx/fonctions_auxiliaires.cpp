@@ -44,15 +44,6 @@
 #include "tags.h"
 #include "filenames.h"
 
-#ifdef TINYXML2 
-#  include "xmlconv.h"
-#else
-#  include <libxml/xmlmemory.h>
-#  include <libxml/parser.h>
-#endif
-
-
-
 /// \file    fonctions_auxiliaires.cpp
 /// \author  Fabrice Nicol
 /// \brief   Ce fichier contient le code relatif aux fonctions auxiliaires utilisées par les fonctions principales
@@ -1195,4 +1186,3 @@ int calculer_memoire_requise (info_t& info)
     return errno;
 }
 
-#include "xmlundef.h"
