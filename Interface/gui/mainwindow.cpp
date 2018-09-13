@@ -1464,7 +1464,7 @@ bool MainWindow::archiveProject()
                 {
                     for (const QString &s :  Hash::wrapper["XHL"]->at (rank))
                         {
-                            result = common::zip (s, subDirStr + QDir::separator() + /*altair->getEmbeddedPath(s) +*/ ".arch");
+                            result = common::zip (s, subDirStr + QDir::separator() + altair->getEmbeddedPath(s) + ".arch");
 
                             if (result)
                                 {
@@ -1602,7 +1602,7 @@ bool MainWindow::restoreProject (QString subDirStr)
             while (it.hasNext())
                 {
                     const QString s = it.next();
-                    QString filepath = "";//altair->getEmbeddedPath(s, subDirStr);
+                    QString filepath = altair->getEmbeddedPath(s, subDirStr);
                     filepath.chop (5);
                     result = common::unzip (s, projectRootDir + QDir::separator() + filepath);
 
