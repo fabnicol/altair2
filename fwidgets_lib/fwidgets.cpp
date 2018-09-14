@@ -752,7 +752,7 @@ FProgressBar::FProgressBar(FDialog* parent,
 
     connect(&(this->parent->process), SIGNAL(started()), this, SLOT(showProgressBar()));
     connect(killButton, &QToolButton::clicked, parent, killFunction);
-    connect(&this->parent->process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(stop()));
+    connect(&this->parent->process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(stop()));
     connect(this->parent, SIGNAL(setProgressBar(int,int)), this, SLOT(setValue(int, int)));
     connect(this->parent, SIGNAL(setProgressBar(int)), this, SLOT(setValue(int)));
     connect(this->parent, &FDialog::hideProgressBar, [this] { hide(); });
