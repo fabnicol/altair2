@@ -695,7 +695,8 @@ standardPage::standardPage()
     QLabel* exportLabel = new QLabel ("Exportation  ");
 
     // Utiliser % devant l'option active la syntaxe `--option argument' plutôt que `--option=argument'
-
+       
+    
     exportWidget = new FComboBox(exportRange,             // Contenu du menu déroulant
                                   "exportMode",           // Balise XML du projet .alt
                                   {
@@ -789,16 +790,19 @@ standardPage::standardPage()
     // Elles ne sont pas génératrices de ligne de commande.
     // Leur portée est limitée à l'interface graphique
 
-
+    // L'archivage et l'exportation sont deux commandes déclenchées par l'utilisateurs (menus et boutons)
+     
+     
     FCheckBox* archiveTableBox = new FCheckBox ("Données tableur",
-                                                "archiveTable",
-                                                {"Données csv", "Archiver/Restaurer les données CSV"});
-
-
+                                                     flags::status::enabledChecked | flags::commandLineType::noCommandLine,
+                                                     "archiveTable",
+                                                     {"Données csv", "Archiver/Restaurer les données CSV"});
+     
     FCheckBox* exportTableBox  = new FCheckBox ("Données tableur",
-                                                 "exportTable",
-                                                {"Données csv", "Exporter les données CSV"});
-
+                                                    flags::status::enabledChecked | flags::commandLineType::noCommandLine,
+                                                      "exportTable",
+                                                     {"Données csv", "Exporter les données CSV"});
+ 
     FCheckBox* archiveAllBox = new FCheckBox ("Tout",
                                               "archiveAll",
                                              {"Données XML", "Archiver/Restaurer les données tableur et XML"});
@@ -976,7 +980,7 @@ processPage::processPage()
 
 
     QLabel* rapportTypeLabel = new QLabel ("Type de rapport produit par défaut  ");
-    rapportTypeWidget = new FComboBox ((QStringList() << "WORD et ODT" << "PDF" << "WORD, ODT et PDF"),
+    rapportTypeWidget = new FComboBox ((QStringList() << "WORD, ODT et PDF" << "PDF" << "WORD et ODT"),
                                        "rapportType",
     {
         "Enchaînements",
@@ -989,6 +993,7 @@ processPage::processPage()
                                         "en même temps"));
 
     enchainerRapports = new FCheckBox ("Enchaîner extraction et analyse",
+                                       flags::status::enabledChecked|flags::commandLineType::noCommandLine,
                                        "enchainerRapports",
                                         {
                                             "Enchaînements",
@@ -1000,7 +1005,7 @@ processPage::processPage()
                                    flags::status::enabledUnchecked
                                    | flags::commandLineType::noCommandLine
                                    | flags::status::excluded,  // exclu de la liste des widgets qui déclenche la ligne de commande
-                                   //ou la l'importation/l'exportation de la valeur sur le projet XML.
+                                   //ou l'importation/l'exportation de la valeur sur le projet XML.
                                    "rapportEntier",
                                     {
                                         "Version expérimentale",
