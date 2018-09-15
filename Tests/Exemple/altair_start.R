@@ -231,6 +231,7 @@ if (setOSWindows) séquentiel <- TRUE else {
   if (nrow(Paie) * ratio.memoire.ligne.parallele  > mem) séquentiel <- TRUE
 }
 
+
 scripts <- list(
    "script_effectifs.R",                   #### 1.1 Effectifs          ####
    "script_pyramides.R",                   #### 1.2-5 Pyramides        ####
@@ -369,9 +370,9 @@ if (profiler)
   sauv.bases(chemin.dossier.bases, 
             env = envir, "PROF")
 
-# Conversion en Latin-1 des bases auxiliaires du rapport, pour une meilleure lecture sous Windows
+# Conversion en Latin-1 des bases du rapport, pour une meilleure lecture sous Windows
 
-system2("find", c("Donnees/R-Altair/Bases", "-name", "'*.csv'", "-exec", "iconv -f UTF-8 -t ISO-8859-15 -c -o {}.2  {} \\;", "-exec",  "mv {}.2 {} \\;"))
+system2("find", c("Donnees/R-Altair", "-name", "'*.csv'", "-exec", "iconv -f UTF-8 -t ISO-8859-15 -c -o {}.2  {} \\;", "-exec",  "mv {}.2 {} \\;"))
 
 # Copie de la documentation accessoire aux rapports
 

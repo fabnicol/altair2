@@ -221,19 +221,21 @@ sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
 #'   
 #'*Pour exclure certains codes de paie de l'analyse, renseigner le fichier liste.exclusions.txt*  
 #'   
-
-if (test.delta) {
-  if (!is.null(liste.exclusions))
-    message("Une liste de codes exclus pour la vérification de la concordance lignes-bulletins de paie a été jointe sous ", getwd())
-  cat("   ")
-  source("delta.R", encoding=encodage.code.source)
-  sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"),
-                          environment(),
-                          "Delta")
-} else {
-  cat("Base de vérification des écarts lignes de paie-bulletins de paie non générée.")
+if (! séquentiel) {
+  cat("La recherche des différences entre lignes et bulletins de paye n'est activée qu'en mode séquentiel (non parallèle)")
+} else {  
+  if (test.delta) {
+    if (!is.null(liste.exclusions))
+      message("Une liste de codes exclus pour la vérification de la concordance lignes-bulletins de paie a été jointe sous ", getwd())
+    cat("   ")
+    source("delta.R", encoding=encodage.code.source)
+    sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"),
+                            environment(),
+                            "Delta")
+  } else {
+    cat("Base de vérification des écarts lignes de paie-bulletins de paie non générée.")
+  }
 }
-
 
 #'   
 conditionnel("Divergences lignes-bulletins de paie", "Bases/Fiabilite/Delta.csv")     
