@@ -788,14 +788,17 @@ standardPage::standardPage()
     //    - une présentation dans le gestionnaire de projets (troisième arg.)
     // Elles ne sont pas génératrices de ligne de commande.
     // Leur portée est limitée à l'interface graphique
+    // L'archivage et l'exportation sont deux commandes déclenchées par l'utilisateurs (menus et boutons)
 
 
     FCheckBox* archiveTableBox = new FCheckBox ("Données tableur",
+                                                flags::status::enabledChecked | flags::commandLineType::noCommandLine,
                                                 "archiveTable",
                                                 {"Données csv", "Archiver/Restaurer les données CSV"});
 
 
     FCheckBox* exportTableBox  = new FCheckBox ("Données tableur",
+                                                flags::status::enabledChecked | flags::commandLineType::noCommandLine,
                                                  "exportTable",
                                                 {"Données csv", "Exporter les données CSV"});
 
