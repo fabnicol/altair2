@@ -230,7 +230,7 @@ if (setOSWindows) séquentiel <- TRUE else {
   mem <- strtoi(unlist(strsplit(mem, " "))[1])
   if (nrow(Paie) * ratio.memoire.ligne.parallele  > mem) séquentiel <- TRUE
 }
-
+stop("ok")
 
 scripts <- list(
    "script_effectifs.R",                   #### 1.1 Effectifs          ####
