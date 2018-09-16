@@ -21,7 +21,7 @@ start() {
     cp -rf sys/Public /home
     rm VERSION
     touch VERSION
-  fi
+ else 
   # Vérification de la version 
   
   rm -f /home/Public/VERSION
@@ -48,7 +48,8 @@ start() {
       sleep 3
       return 1
     fi
-        
+    
+    
     cd /home/fab/Dev/altair
     find .git -name '*.lock' -delete
     git checkout -f dev
@@ -69,7 +70,6 @@ start() {
                 chgrp -R users /home/$i/.local/share/applications
             fi
         done
-  fi
   
   chown -R fab /home/fab/Dev/altair
   
@@ -127,7 +127,7 @@ start() {
 	
 	   git add -f .
        git commit -am "Sauvegarde dev $(date)" | tee -a /home/Public/version.log
-       
+ fi      
       if test -f sys/install.sys -a -f sys/sysinstall.sh; then
 
             /bin/bash sys/sysinstall.sh

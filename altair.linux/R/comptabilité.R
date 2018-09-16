@@ -55,7 +55,7 @@ exporter_tableau <- function(table.jointure, requis, clés = intersect(names(tab
     return(NULL)
   }
   
-  if (! all(requis %in% colonnes.ajoutées) || ! all(clés %in% colonnes.jointure) {
+  if (! all(requis %in% colonnes.ajoutées) || ! all(clés %in% colonnes.jointure)) {
     cat("Le tableau fourni par l'organisme doit contenir", ifelse(requis > 1, "les", "la"), " colonne" %+% ifelse(nrequis > 1, "s", ""),
                                                            paste(colonnes.jointure, collapse = " "), "  \n")
     return(NULL)
