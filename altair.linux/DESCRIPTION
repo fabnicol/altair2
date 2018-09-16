@@ -13,4 +13,4 @@ License: CeCILL v.2.1
 LazyData: true
 RoxygenNote: 6.1.0
 ByteCompile: true
-Encoding: UTF-8
+Encoding: latin1

@@ -53,11 +53,14 @@
 
 extern bool verbeux;
 
-#ifndef __linux__
+#ifdef CONVERTIR_LATIN_1
 #include "entete-latin1.h"
-#include <windows.h>
 #else
 #include "entete.h"
+#endif
+#ifndef __linux--
+#include <windows.h>
+#else
 #include <unistd.h>
 #endif
 

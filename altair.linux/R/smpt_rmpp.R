@@ -1,34 +1,34 @@
-#dur√©e.sous.revue <- { temp <- Bulletins.paie[ , Ann√©e, by = Ann√©e] ; temp[1] - temp[.N] +1 }
+#durÈe.sous.revue <- { temp <- Bulletins.paie[ , AnnÈe, by = AnnÈe] ; temp[1] - temp[.N] +1 }
 
 #' SMPT
-#' @param Filtre  Filtre fonctionnel bool√©en d√©crivant une s√©lection sur les lignes (caract√©ristiques des personnels)
+#' @param Filtre  Filtre fonctionnel boolÈen dÈcrivant une sÈlection sur les lignes (caractÈristiques des personnels)
 #' @param type "smpt net", "smpt brut", "rmpp net", "rmpp brut"
-#' @return Tableau d'√©volution du SMPT
+#' @return Tableau d'Èvolution du SMPT
 #' @export
 
 smpt <- function(Filtre, type =  "smpt net") {
   
   S_net.eqtp <- Analyse.variations[Filtre() == TRUE,
-                                   .(moy = weighted.mean(Montant.net.annuel.eqtp, quotit√©.moyenne, na.rm = TRUE)),
-                                   by = "Ann√©e"]
+                                   .(moy = weighted.mean(Montant.net.annuel.eqtp, quotitÈ.moyenne, na.rm = TRUE)),
+                                   by = "AnnÈe"]
   
   S_net.eqtp.100 <- Analyse.variations[Filtre() == TRUE & temps.complet == TRUE & permanent == TRUE,
-                                       .(moy = weighted.mean(Montant.net.annuel.eqtp, quotit√©.moyenne, na.rm = TRUE)),
-                                       by = "Ann√©e"]
+                                       .(moy = weighted.mean(Montant.net.annuel.eqtp, quotitÈ.moyenne, na.rm = TRUE)),
+                                       by = "AnnÈe"]
   
   
-  f <- function(x) prettyNum(S_net.eqtp[Ann√©e == x, moy],
+  f <- function(x) prettyNum(S_net.eqtp[AnnÈe == x, moy],
                              big.mark = " ",
                              digits = 1,
                              format = "fg")
   
-  g <- function(x) prettyNum(S_net.eqtp.100[Ann√©e == x, moy],
+  g <- function(x) prettyNum(S_net.eqtp.100[AnnÈe == x, moy],
                              big.mark = " ",
                              digits = 1,
                              format = "fg")
   
-  T <- Tableau.vertical(c("Ann√©e", type %+% " (euros)", type %+% " temps complet (euros)"),
-                        if (type == "smpt net") p√©riode else p√©riode[2:get("dur√©e.sous.revue")],           # if...else pas ifelse (dim vecteur)
+  T <- Tableau.vertical(c("AnnÈe", type %+% " (euros)", type %+% " temps complet (euros)"),
+                        if (type == "smpt net") pÈriode else pÈriode[2:get("durÈe.sous.revue")],           # if...else pas ifelse (dim vecteur)
                         extra = "variation",
                         f,
                         g)
@@ -37,37 +37,37 @@ smpt <- function(Filtre, type =  "smpt net") {
 }
 
 #' distribution_smpt
-#' @param Filtre  Filtre fonctionnel bool√©en d√©crivant une s√©lection sur les lignes (caract√©ristiques des personnels)
+#' @param Filtre  Filtre fonctionnel boolÈen dÈcrivant une sÈlection sur les lignes (caractÈristiques des personnels)
 #' @return Quartiles du SMPT
 #' @export
 
 distribution_smpt <- function(Filtre) {
   
-  R√©sum√©(c(d√©but.p√©riode.sous.revue, "Effectif",
-           d√©but.p√©riode.sous.revue %+% " TC", "Effectif",
-           fin.p√©riode.sous.revue, "Effectif",
-           fin.p√©riode.sous.revue %+% " TC",  "Effectif"),
+  RÈsumÈ(c(dÈbut.pÈriode.sous.revue, "Effectif",
+           dÈbut.pÈriode.sous.revue %+% " TC", "Effectif",
+           fin.pÈriode.sous.revue, "Effectif",
+           fin.pÈriode.sous.revue %+% " TC",  "Effectif"),
          list(
-           Analyse.variations[Ann√©e == d√©but.p√©riode.sous.revue
+           Analyse.variations[AnnÈe == dÈbut.pÈriode.sous.revue
                               & Filtre() == TRUE,
-                              .(Montant.net.annuel.eqtp, quotit√©.moyenne)],   
-           Analyse.variations[Ann√©e == d√©but.p√©riode.sous.revue
+                              .(Montant.net.annuel.eqtp, quotitÈ.moyenne)],   
+           Analyse.variations[AnnÈe == dÈbut.pÈriode.sous.revue
                               & Filtre() == TRUE
                               & permanent == TRUE
                               & temps.complet == TRUE,
-                              .(Montant.net.annuel.eqtp, quotit√©.moyenne)],
-           Analyse.variations[Ann√©e == fin.p√©riode.sous.revue 
+                              .(Montant.net.annuel.eqtp, quotitÈ.moyenne)],
+           Analyse.variations[AnnÈe == fin.pÈriode.sous.revue 
                               & Filtre() == TRUE,
-                              .(Montant.net.annuel.eqtp, quotit√©.moyenne)],
-           Analyse.variations[Ann√©e == fin.p√©riode.sous.revue 
+                              .(Montant.net.annuel.eqtp, quotitÈ.moyenne)],
+           Analyse.variations[AnnÈe == fin.pÈriode.sous.revue 
                               & Filtre() == TRUE
                               & permanent == TRUE
                               & temps.complet == TRUE,
-                              .(Montant.net.annuel.eqtp, quotit√©.moyenne)]),
+                              .(Montant.net.annuel.eqtp, quotitÈ.moyenne)]),
          extra = "length")
   
-  # Pour des raisons tr√®s mal comprises, print est ici n√©cessaire alors qu'il ne l'est pas dans smpt() pour Tableau_vertical ;
-  # pourtant les deux fonctions sont bas√©es sur kable()
+  # Pour des raisons trËs mal comprises, print est ici nÈcessaire alors qu'il ne l'est pas dans smpt() pour Tableau_vertical ;
+  # pourtant les deux fonctions sont basÈes sur kable()
   
 }
 
@@ -75,7 +75,7 @@ distribution_smpt <- function(Filtre) {
 
 
 #' RMPP
-#' Calcul de la r√©mun√©ration moyenne des personnes en place
+#' Calcul de la rÈmunÈration moyenne des personnes en place
 #' @export
 
 calcul_rmpp <- function() {
@@ -85,47 +85,47 @@ calcul_rmpp <- function() {
                                            & Montant.net.annuel.eqtp  > minimum.positif 
                                            & ! is.na(Statut)] 
   
-q3 <- quantile(Analyse.variations$variation.r√©mun√©ration, c(quantile.cut/100, 1 - quantile.cut/100), na.rm=TRUE)
+q3 <- quantile(Analyse.variations$variation.rÈmunÈration, c(quantile.cut/100, 1 - quantile.cut/100), na.rm=TRUE)
 
-# Filtrage : on enl√®ve les personnels pr√©sents depuis moins d'un seuil de troncature (ex. 120 jours) dans l'ann√©e et les √©lus
-# (param√®tre seuil.troncature) 
+# Filtrage : on enlËve les personnels prÈsents depuis moins d'un seuil de troncature (ex. 120 jours) dans l'annÈe et les Èlus
+# (paramËtre seuil.troncature) 
 
-# Filtrage pour l'√©tude des variations : on enl√®ve les valeurs manquantes des variations, les centiles extr√™maux,
-# les r√©mun√©rations nettes n√©gatives ou proche de z√©ro. On exige un statut explicite en fin de p√©riode.
-# Param√©trable par :
+# Filtrage pour l'Ètude des variations : on enlËve les valeurs manquantes des variations, les centiles extrÍmaux,
+# les rÈmunÈrations nettes nÈgatives ou proche de zÈro. On exige un statut explicite en fin de pÈriode.
+# ParamÈtrable par :
 # minimum.positif, quantile.cut 
 
-# ici il faut r√©duire la matrice pour √©viter les r√©duplications pour les R√©sum√©s. TODO
+# ici il faut rÈduire la matrice pour Èviter les rÈduplications pour les RÈsumÈs. TODO
 
 "Anavar.synthese" %a% Analyse.variations[total.jours > seuil.troncature
                                       & pris.en.compte == TRUE
                                       & ! is.na(statut)   
-                                      & ! is.na(variation.r√©mun√©ration) 
-                                      & variation.r√©mun√©ration > q3[[1]]
-                                      & variation.r√©mun√©ration < q3[[2]]]
+                                      & ! is.na(variation.rÈmunÈration) 
+                                      & variation.rÈmunÈration > q3[[1]]
+                                      & variation.rÈmunÈration < q3[[2]]]
 
 "Anavar.synthese.plus.2.ans"  %a% Anavar.synthese[! is.na(plus.2.ans) & plus.2.ans == TRUE]
 "Anavar.synthese.moins.2.ans" %a% Anavar.synthese[! is.na(plus.2.ans) & plus.2.ans == FALSE]
 
-# Filtre neutre (tous les personnels sont s√©lectionn√©s)
+# Filtre neutre (tous les personnels sont sÈlectionnÈs)
 "Filtre_neutre" %a% function() TRUE   
 
-# Filtre fonctionnaires (tous les fonctionnaires sont s√©lectionn√©s et eux seuls)
+# Filtre fonctionnaires (tous les fonctionnaires sont sÈlectionnÈs et eux seuls)
 "Filtre_fonctionnaire" %a% function() Statut == "TITULAIRE" | Statut == "STAGIAIRE"
 
-# Filtre cat√©gorie A
-"Filtre_cat_A" %a%  function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Cat√©gorie == "A")
+# Filtre catÈgorie A
+"Filtre_cat_A" %a%  function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (CatÈgorie == "A")
 
-# Filtre cat√©gorie B
-"Filtre_cat_B" %a% function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Cat√©gorie == "B") 
+# Filtre catÈgorie B
+"Filtre_cat_B" %a% function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (CatÈgorie == "B") 
 
-# Filtre cat√©gorie C
-"Filtre_cat_C" %a% function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Cat√©gorie == "C") 
+# Filtre catÈgorie C
+"Filtre_cat_C" %a% function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (CatÈgorie == "C") 
 
 
 "Filtre_rmpp"  %a% function() (est.rmpp == TRUE)
 "Filtre_rmpp_fonctionnaire" %a% function () Filtre_fonctionnaire() & (est.rmpp == TRUE)
-"masque.pr√©sent.sur.p√©riode" %a% bitwShiftL(1, dur√©e.sous.revue - 1)      #  11111..1
+"masque.prÈsent.sur.pÈriode" %a% bitwShiftL(1, durÈe.sous.revue - 1)      #  11111..1
 
 sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), .GlobalEnv, "Anavar.synthese")
 }

@@ -131,8 +131,8 @@ DEFINES += \
         WAIT_FOR_LOCK  \                    # insister jusqu'à acquérir les mutex dans les fils d'exécution. Peut entraîner des "output freeze" en cas de forte
                         \                   # charge I/O.
         NO_DEBUG \                          # ne pas générer de messages de débogage avancé
-#       CONVERTIR_LATIN_1                   # Windows
-#       USE_ICONV \                         # pour Windows uniquement, si l'on n'est pas satisfait du hack de pseudo-conversion UTF-8 vers Latin-1
+        CONVERTIR_LATIN_1    \              # pour la compatiilité Windows
+#       USE_ICONV \                         # pour la compatibilité Windows, si l'on n'est pas satisfait du hack de pseudo-conversion UTF-8 vers Latin-1
                    \                        # alors on peut utiliser iconv pour une conversion plus propre.
 #       TOLERANT_TAG_HIERARCHY \            # ordre des balises : tolérance envers des permutations de même niveau
         FULL_PREALLOCATION_TEST \           # calcul des besoins de mémoire : précision maximale (sinon : moindre)

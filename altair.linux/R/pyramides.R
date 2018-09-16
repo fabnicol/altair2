@@ -1,87 +1,87 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, annÃ©es 2012 Ã  2017
+# Fabrice Nicol, années 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
-# Ce logiciel est un programme informatique servant Ã  extraire et analyser les fichiers de paye
-# produits au format spÃ©cifiÃ© par l'annexe de la convention-cadre nationale de dÃ©matÃ©rialisation
-# en vigueur Ã  compter de l'annÃ©e 2008.
+# Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
+# produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
+# en vigueur à compter de l'année 2008.
 # 
-# Ce logiciel est rÃ©gi par la licence CeCILL soumise au droit franÃ§ais et
+# Ce logiciel est régi par la licence CeCILL soumise au droit français et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
 # utiliser, modifier et/ou redistribuer ce programme sous les conditions
-# de la licence CeCILL telle que diffusÃ©e par le CEA, le CNRS et l'INRIA
+# de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
 # sur le site "http://www.cecill.info".
 # 
-# En contrepartie de l'accessibilitÃ© au code source et des droits de copie,
-# de modification et de redistribution accordÃ©s par cette licence, il n'est
-# offert aux utilisateurs qu'une garantie limitÃ©e. Pour les mÃªmes raisons,
-# seule une responsabilitÃ© restreinte pÃ¨se sur l'auteur du programme, le
-# titulaire des droits patrimoniaux et les concÃ©dants successifs.
+# En contrepartie de l'accessibilité au code source et des droits de copie,
+# de modification et de redistribution accordés par cette licence, il n'est
+# offert aux utilisateurs qu'une garantie limitée. Pour les mêmes raisons,
+# seule une responsabilité restreinte pèse sur l'auteur du programme, le
+# titulaire des droits patrimoniaux et les concédants successifs.
 # 
-# A cet Ã©gard l'attention de l'utilisateur est attirÃ©e sur les risques
-# associÃ©s au chargement, Ã  l'utilisation, Ã  la modification et/ou au
-# dÃ©veloppement et Ã  la reproduction du logiciel par l'utilisateur Ã©tant
-# donnÃ© sa spÃ©cificitÃ© de logiciel libre, qui peut le rendre complexe Ã 
-# manipuler et qui le rÃ©serve donc Ã  des dÃ©veloppeurs et des professionnels
-# avertis possÃ©dant des connaissances informatiques approfondies. Les
-# utilisateurs sont donc invitÃ©s Ã  charger et tester l'adÃ©quation du
-# logiciel Ã  leurs besoins dans des conditions permettant d'assurer la
-# sÃ©curitÃ© de leurs systÃ¨mes et ou de leurs donnÃ©es et, plus gÃ©nÃ©ralement,
-# Ã  l'utiliser et l'exploiter dans les mÃªmes conditions de sÃ©curitÃ©.
+# A cet égard l'attention de l'utilisateur est attirée sur les risques
+# associés au chargement, à l'utilisation, à la modification et/ou au
+# développement et à la reproduction du logiciel par l'utilisateur étant
+# donné sa spécificité de logiciel libre, qui peut le rendre complexe à
+# manipuler et qui le réserve donc à des développeurs et des professionnels
+# avertis possédant des connaissances informatiques approfondies. Les
+# utilisateurs sont donc invités à charger et tester l'adéquation du
+# logiciel à leurs besoins dans des conditions permettant d'assurer la
+# sécurité de leurs systèmes et ou de leurs données et, plus généralement,
+# à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
 # 
-# Le fait que vous puissiez accÃ©der Ã  cet en-tÃªte signifie que vous avez
-# pris connaissance de la licence CeCILL, et que vous en avez acceptÃ© les
+# Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
+# pris connaissance de la licence CeCILL, et que vous en avez accepté les
 # termes.
 # 
 # 
 
 
-#' Produire les pyramides des Ã¢ges par versant de la fonction publique
+#' Produire les pyramides des âges par versant de la fonction publique
 #' @param  Filtre_bulletins  Fonction permettant de filtrer les bulletins sur les lignes de data.table
 #' @param  titre  Titre de la pyramide.
 #' @param  versant Versant de la fonction publique ("FPT" ou "FPH")
-#' @param  envir Environnement de stockage des caractÃ©ristiques des Ã¢ges (\code{nom.fichier.aprÃ¨s}, \code{nom.fichier.avant}, \code{res} quartiles de distribution des Ã¢ges)
+#' @param  envir Environnement de stockage des caractéristiques des âges (\code{nom.fichier.après}, \code{nom.fichier.avant}, \code{res} quartiles de distribution des âges)
 #' @export
 #'
 produire_pyramides <- function(Filtre_bulletins, titre, versant = "", envir) {
   
-  essayer(label = "+pyramides", produire_pyramides_(Filtre_bulletins, titre, versant, envir), cat("La", titre, "n'a pas pu Ãªtre gÃ©nÃ©rÃ©e."))
+  essayer(label = "+pyramides", produire_pyramides_(Filtre_bulletins, titre, versant, envir), cat("La", titre, "n'a pas pu être générée."))
 }
   
 produire_pyramides_ <- function(Filtre_bulletins, titre, versant = "", envir) {
 
-  annÃ©e.fin.comp <- if (versant != "") {
-                      max(dÃ©but.pÃ©riode.sous.revue,
-                      min(altair::annÃ©e_comparaison(versant)$annÃ©e, fin.pÃ©riode.sous.revue))
-                  } else fin.pÃ©riode.sous.revue
+  année.fin.comp <- if (versant != "") {
+                      max(début.période.sous.revue,
+                      min(altair::année_comparaison(versant)$année, fin.période.sous.revue))
+                  } else fin.période.sous.revue
 
-  # Extraire les matricules et Nir du dÃ©but et de la fin de la pÃ©riode sous revue
+  # Extraire les matricules et Nir du début et de la fin de la période sous revue
   
-  extraire_paye(dÃ©but.pÃ©riode.sous.revue, Filtre_bulletins, out = "Bulletins.dÃ©but.psr")
+  extraire_paye(début.période.sous.revue, Filtre_bulletins, out = "Bulletins.début.psr")
   
-  extraire_paye(fin.pÃ©riode.sous.revue, Filtre_bulletins, out = "Bulletins.fin.psr")
+  extraire_paye(fin.période.sous.revue, Filtre_bulletins, out = "Bulletins.fin.psr")
   
-  # RÃ©partition par Ã¢ge et sexe des individus ayant un NIR en dÃ©but et fin de pÃ©riode sous revue
+  # Répartition par âge et sexe des individus ayant un NIR en début et fin de période sous revue
   
-       ages.dÃ©but.psr <- extraire.nir(Bulletins.dÃ©but.psr, dÃ©but.pÃ©riode.sous.revue)
+       ages.début.psr <- extraire.nir(Bulletins.début.psr, début.période.sous.revue)
   
-         ages.fin.psr <- extraire.nir(Bulletins.fin.psr, fin.pÃ©riode.sous.revue)
+         ages.fin.psr <- extraire.nir(Bulletins.fin.psr, fin.période.sous.revue)
   
-  # Extrait la rÃ©partition par Ã¢ge et sexe des individus ayant un NIR.
-  #    extraire.nir(Base, annÃ©e)
+  # Extrait la répartition par âge et sexe des individus ayant un NIR.
+  #    extraire.nir(Base, année)
          # 
          # Base	
-         #    data.table contenant au moins une variable nommÃ©e Nir dÃ©crivant le NIR.
-         # annÃ©e	
-         #    AnnÃ©e civile Ã  la fin de laquelle est Ã©valuÃ© l'Ã¢ge de l'individu. 
+         #    data.table contenant au moins une variable nommée Nir décrivant le NIR.
+         # année	
+         #    Année civile à la fin de laquelle est évalué l'âge de l'individu. 
          # 
 
   # Produire les pyramides
  
-  pyramides(Bulletins.dÃ©but.psr, 
+  pyramides(Bulletins.début.psr, 
             Bulletins.fin.psr,
-            ages.dÃ©but.psr,
+            ages.début.psr,
             ages.fin.psr,
             titre,
             versant,
@@ -89,69 +89,69 @@ produire_pyramides_ <- function(Filtre_bulletins, titre, versant = "", envir) {
   
   # ajustement des contraintes ASCII
   
-  stub <- gsub(" ", "-", sub("Ã¢", "a", titre)) %+% "_"
+  stub <- gsub(" ", "-", sub("â", "a", titre)) %+% "_"
   
-  # Utilisation de l'environnement e pour rÃ©cupÃ©rer les noms de fichier des Ã¢ges dÃ©but et fin de pÃ©riode sous revue
+  # Utilisation de l'environnement e pour récupérer les noms de fichier des âges début et fin de période sous revue
   
-  envir$nom.fichier.avant <- stub %+% dÃ©but.pÃ©riode.sous.revue
-  envir$nom.fichier.aprÃ¨s <- stub %+% fin.pÃ©riode.sous.revue
+  envir$nom.fichier.avant <- stub %+% début.période.sous.revue
+  envir$nom.fichier.après <- stub %+% fin.période.sous.revue
   
-  # Sauvegarde des bases des Ã¢ges dÃ©but et fin de pÃ©riode sous revue
+  # Sauvegarde des bases des âges début et fin de période sous revue
   
-  Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "ages.dÃ©but.psr", envir$nom.fichier.avant, environment = environment(), Latin = FALSE)
-  Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "ages.fin.psr", envir$nom.fichier.aprÃ¨s, environment = environment(), Latin = FALSE)
+  Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "ages.début.psr", envir$nom.fichier.avant, environment = environment(), Latin = FALSE)
+  Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "ages.fin.psr", envir$nom.fichier.après, environment = environment(), Latin = FALSE)
   
 }
 
-pyramides <- function(Bulletins.dÃ©but.psr, 
+pyramides <- function(Bulletins.début.psr, 
                       Bulletins.fin.psr, 
-                      ages.dÃ©but.psr, 
+                      ages.début.psr, 
                       ages.fin.psr,
                       titre,
                       versant,
                       envir) {
 
-envir$res <- RÃ©sumÃ©(c("Ã‚ge des personnels <br>au 31/12/" %+% dÃ©but.pÃ©riode.sous.revue,
+envir$res <- Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
                "Effectif",
-               "Ã‚ge des personnels <br>au 31/12/" %+% fin.pÃ©riode.sous.revue,
+               "Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
                "Effectif"),
-               list(Bulletins.dÃ©but.psr[ , age], 
+               list(Bulletins.début.psr[ , age], 
                     Bulletins.fin.psr[ , age]),
                extra = "length",
                align = 'c',
                type = "standard")
 
-if (longueur.non.na(ages.dÃ©but.psr) == 0) {
-  cat("La pyramide des Ã¢ges de dÃ©but de pÃ©riode ne peut Ãªtre produite.")
-  ages.dÃ©but.psr <- ages.fin.psr
+if (longueur.non.na(ages.début.psr) == 0) {
+  cat("La pyramide des âges de début de période ne peut être produite.")
+  ages.début.psr <- ages.fin.psr
 } 
 
 if (longueur.non.na(ages.fin.psr) == 0) {
-  cat("La pyramide des Ã¢ges de fin de pÃ©riode ne peut Ãªtre produite.")
-  ages.fin.psr <- ages.dÃ©but.psr
+  cat("La pyramide des âges de fin de période ne peut être produite.")
+  ages.fin.psr <- ages.début.psr
 }
 
 #  ----- On peut forcer le versant de la FP en renseignant versant
-#        sinon dÃ©tection automatique par VERSANT_FP
+#        sinon détection automatique par VERSANT_FP
  
 
-if (longueur.non.na(ages.dÃ©but.psr) > 0 || longueur.non.na(ages.fin.psr) > 0) {
+if (longueur.non.na(ages.début.psr) > 0 || longueur.non.na(ages.fin.psr) > 0) {
   
   if (! is.null(ages.fin.psr)) {
     
-    pyramide_ages(ages.dÃ©but.psr, ages.fin.psr, titre) 
+    pyramide_ages(ages.début.psr, ages.fin.psr, titre) 
 
     if (versant != "")  {  
-          pyramide_ages(ages.fin.psr, date.fin = fin.pÃ©riode.sous.revue, versant = versant)
+          pyramide_ages(ages.fin.psr, date.fin = fin.période.sous.revue, versant = versant)
     } 
     
   } else {
     
-    pyramide_ages(aprÃ¨s)
+    pyramide_ages(après)
     
   }
 
-  H0 <- ages.dÃ©but.psr[ , .(Hommes = sum(Hommes, na.rm = TRUE), 
+  H0 <- ages.début.psr[ , .(Hommes = sum(Hommes, na.rm = TRUE), 
                            Femmes = sum(Femmes, na.rm = TRUE)),
                             by = floor(age / 5)][
                         , Total := Hommes + Femmes]
@@ -167,12 +167,12 @@ if (longueur.non.na(ages.dÃ©but.psr) > 0 || longueur.non.na(ages.fin.psr) > 0) {
 
 newpage()
 
-if  (exists("H") && ! identical(ages.fin.psr, ages.dÃ©but.psr) && longueur.non.na(H$Total) > 0) {
+if  (exists("H") && ! identical(ages.fin.psr, ages.début.psr) && longueur.non.na(H$Total) > 0) {
   
-  # la valeur y du plot serait plutÃ´t c(-3,20) pour une sortie R pure. On privilÃ©gie le formatage Rmd Ã  c(-1, 20)
+  # la valeur y du plot serait plutôt c(-3,20) pour une sortie R pure. On privilégie le formatage Rmd à c(-1, 20)
   
   plot(c(min(H$Total), max(H$Total)), c(-1, 20), type = "n", frame = FALSE, axes = FALSE, xlab = "", ylab = "",
-       main = "Evolution des effectifs par tranche d'Ã¢ge")
+       main = "Evolution des effectifs par tranche d'âge")
   
   barplot(H$Total, 
           width = 1.5,
@@ -188,7 +188,7 @@ if  (exists("H") && ! identical(ages.fin.psr, ages.dÃ©but.psr) && longueur.non.n
                       "60-65",
                       "65-70"),
           xlab = "Variation d'effectifs",
-          ylab = "Tranche d'Ã¢ge",
+          ylab = "Tranche d'âge",
           xlim = c(min(H$Total), max(H$Total)),
           xpd  = FALSE,
           col  = "lightgreen",
@@ -207,13 +207,13 @@ if  (exists("H") && ! identical(ages.fin.psr, ages.dÃ©but.psr) && longueur.non.n
           add = TRUE)
   
   legend("bottomleft", fill=c("lightgreen", "deeppink"), density=c(NA, 20),
-         legend=c("Total " %+% dÃ©but.pÃ©riode.sous.revue %+% "-" %+% fin.pÃ©riode.sous.revue,
+         legend=c("Total " %+% début.période.sous.revue %+% "-" %+% fin.période.sous.revue,
                   "    dont Femmes "), cex = 0.8)
   
 
 } else {
   
-  cat("Le graphique des variations d'effectifs par tranche d'Ã¢ge ne peut Ãªtre produit.")
+  cat("Le graphique des variations d'effectifs par tranche d'âge ne peut être produit.")
 }
 }
 
@@ -231,7 +231,7 @@ pyramidf <- function(data,
                      Cgap=0.3, Cstep=5, Csize=1,
                      Rlab="Hommes",
                      Llab="Femmes", 
-                     Clab="Ã‚ges", 
+                     Clab="Âges", 
                      GL=TRUE, 
                      Cadj=-0.03,
                      Rcol="cadetblue1",
@@ -319,12 +319,12 @@ pyramidf <- function(data,
   return(list(Raxis, Laxis))
 }
 
-#' Pyramide des Ã¢ges.
+#' Pyramide des âges.
 #'
-#' Elabore une pyramide des Ã¢ges verticale avec superposition du dÃ©but et de la fin de la pÃ©riode sous revue.
+#' Elabore une pyramide des âges verticale avec superposition du début et de la fin de la période sous revue.
 #'
-#' @param Avant data.table/data.frame dÃ©crivant la situation en dÃ©but de pÃ©riode
-#'        Cette base doit avoir la forme suivante (bornes d'Ã¢ges non impÃ©ratifs):
+#' @param Avant data.table/data.frame décrivant la situation en début de période
+#'        Cette base doit avoir la forme suivante (bornes d'âges non impératifs):
 #'        \tabular{ccc}{
 #'          age \tab Hommes \tab Femmes \cr
 #'          15  \tab   0  \tab    1   \cr
@@ -334,29 +334,29 @@ pyramidf <- function(data,
 #'          ... \tab  ... \tab ...    \cr
 #'          68  \tab 2216 \tab    NA
 #'        }
-#'        dans laquelle "age" peut Ãªtre soit un vecteur de nom de lignes soit une colonne.
-#' @param AprÃ¨s data.table/data.frame dÃ©crivant la situation en fin de pÃ©riode. MÃªme format que \code{Avant}.
+#'        dans laquelle "age" peut être soit un vecteur de nom de lignes soit une colonne.
+#' @param Après data.table/data.frame décrivant la situation en fin de période. Même format que \code{Avant}.
 #' @param titre Titre du graphique.
-#' @param date.dÃ©but date du dÃ©but de la pÃ©riode.
-#' @param date.fin date de fin de pÃ©riode.
-#' @param versant Si non renseignÃ©, sans effet. Si renseignÃ© par "FPT" (resp. "FPH"), le deuxiÃ¨me argument \code{AprÃ¨s} ne
-#'                doit pas Ãªtre renseignÃ©. Il est automatiquement remplacÃ© par une base de donnÃ©es disponible dans le rÃ©pertoire \code{data/}
-#'                du paquet, correspondant Ã  l'annÃ©e la plus proche du versant de la fonction publique correspondant. La pyramide superposÃ©e reprÃ©sente
-#'                celle qu'aurait l'organisme si la distribution de ses Ã¢ges Ã©tait celle du versant mentionnÃ© de la fonction publique.
-#' @param couleur_H couleur utilisÃ©e pour reprÃ©senter les hommes (partie droite de la pyramide). Par dÃ©faut \code{darkslateblue}
-#' @param couleur_F couleur utilisÃ©e pour reprÃ©senter les femmes (partie gauche de la pyramide). Par dÃ©faut \code{firebrick4}
+#' @param date.début date du début de la période.
+#' @param date.fin date de fin de période.
+#' @param versant Si non renseigné, sans effet. Si renseigné par "FPT" (resp. "FPH"), le deuxième argument \code{Après} ne
+#'                doit pas être renseigné. Il est automatiquement remplacé par une base de données disponible dans le répertoire \code{data/}
+#'                du paquet, correspondant à l'année la plus proche du versant de la fonction publique correspondant. La pyramide superposée représente
+#'                celle qu'aurait l'organisme si la distribution de ses âges était celle du versant mentionné de la fonction publique.
+#' @param couleur_H couleur utilisée pour représenter les hommes (partie droite de la pyramide). Par défaut \code{darkslateblue}
+#' @param couleur_F couleur utilisée pour représenter les femmes (partie gauche de la pyramide). Par défaut \code{firebrick4}
 #' @param envir environnement
-#' @return Une liste de deux vecteurs numÃ©riques reprÃ©sentant chacun des axes (gauche puis droit).
-#'         Un graphique comprenat une pyramide, une lÃ©gende et Ã©ventuellement un titre.
+#' @return Une liste de deux vecteurs numériques représentant chacun des axes (gauche puis droit).
+#'         Un graphique comprenat une pyramide, une légende et éventuellement un titre.
 #' @examples
-#' pyramide_ages(df1, NULL, "Pyramide des Ã¢ges", 2008, 2012, versant = "FPT", comparer = TRUE)
+#' pyramide_ages(df1, NULL, "Pyramide des âges", 2008, 2012, versant = "FPT", comparer = TRUE)
 #' @export
 
 pyramide_ages <- function(Avant,
-                          AprÃ¨s = NULL,
+                          Après = NULL,
                           titre = "",
-                          date.dÃ©but = dÃ©but.pÃ©riode.sous.revue,
-                          date.fin = fin.pÃ©riode.sous.revue,
+                          date.début = début.période.sous.revue,
+                          date.fin = fin.période.sous.revue,
                           versant = "",
                           couleur_H = "darkslateblue",
                           couleur_F = "firebrick4") {
@@ -364,12 +364,12 @@ pyramide_ages <- function(Avant,
   
   if (versant != "") {
 
-    compar <- annÃ©e_comparaison(versant)
-    annÃ©e.rÃ©fÃ©rence <- compar$annÃ©e
+    compar <- année_comparaison(versant)
+    année.référence <- compar$année
     pyr <- compar$pyr
     
     if (is.null(pyr)) {
-      cat("La comparaison ne peut pas Ãªtre effectuÃ©e.")
+      cat("La comparaison ne peut pas être effectuée.")
       return(0)
     }
 
@@ -391,9 +391,9 @@ pyramide_ages <- function(Avant,
     
     pyramide_ages(Avant,
                   pyr,
-                  "Comparaison avec les donnÃ©es nationales au 31 dÃ©cembre " %+% annÃ©e.rÃ©fÃ©rence,
+                  "Comparaison avec les données nationales au 31 décembre " %+% année.référence,
                   "organisme " %+% date.fin,
-                  paste(leg, annÃ©e.rÃ©fÃ©rence))
+                  paste(leg, année.référence))
 
     cat("Pour obtenir les effectifs nationaux, multiplier les abscisses des hommes par", formatC(round(1 / H.coef.forme), big.mark = " "),
         "et les abscisses des femmes par", formatC(round(1 / F.coef.forme), big.mark = " "))
@@ -407,20 +407,20 @@ pyramide_ages <- function(Avant,
 
   axes <- pyramidf(Avant, frame = c(10, 75, 0, 90), linewidth = 1)
 
-  if (! is.null(AprÃ¨s)) {
+  if (! is.null(Après)) {
 
-    pyramidf(AprÃ¨s, Laxis = axes[[1]], Raxis = axes[[2]], frame = c(10, 75, 0, 90),
+    pyramidf(Après, Laxis = axes[[1]], Raxis = axes[[2]], frame = c(10, 75, 0, 90),
              Rcol = couleur_H, Lcol = couleur_F,
              #Lcol="deepskyblue", Rcol = "deeppink",
              Ldens = 7, Rdens = 7)
 
     legend("right", fill = c("thistle1", "cadetblue1", "firebrick4", "darkslateblue"), density = c(NA, NA, 25, 25),
-           legend = c("Femmes " %+% date.dÃ©but, "Hommes " %+% date.dÃ©but,
+           legend = c("Femmes " %+% date.début, "Hommes " %+% date.début,
                       "Femmes " %+% date.fin, "Hommes " %+% date.fin), cex = 0.8)
   } else {
 
     legend("right", fill = c("thistle1", "cadetblue1"), density = c(NA, NA),
-           legend = c("Femmes " %+% date.dÃ©but, "Hommes " %+% date.dÃ©but), cex = 0.8)
+           legend = c("Femmes " %+% date.début, "Hommes " %+% date.début), cex = 0.8)
   }
 
   return(0)

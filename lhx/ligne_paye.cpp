@@ -117,7 +117,7 @@ static void GCC_INLINE sanitize (xmlChar* s,  const char sep)
                     break;
 
 #ifdef CONVERTIR_LATIN_1
-#if !defined(__linux__) && ! defined(USE_ICONV)
+#if ! defined(USE_ICONV)
 
 //   Gros hack de pseudo-conversion UTF-8 vers Latin-1, qui permet d'économiser les 40 %
 //   de surcoût d'exécution lié à l'utilisation d'iconv pour retraiter les fichiers de

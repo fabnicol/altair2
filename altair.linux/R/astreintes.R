@@ -4,35 +4,35 @@ calcul_astreintes <- function() {
 
 essayer({  
   
-  "Paie_astreintes" %a% filtrer_Paie("ASTREINTES", portÃ©e = "Mois", indic = TRUE)
+  "Paie_astreintes" %a% filtrer_Paie("ASTREINTES", portée = "Mois", indic = TRUE)
   
-  libelles.astreintes <- unique(Paie_astreintes[indic == TRUE, .(Code, LibellÃ©)], by = NULL)
+  libelles.astreintes <- unique(Paie_astreintes[indic == TRUE, .(Code, Libellé)], by = NULL)
   
   "Controle_astreintes" %a% Paie_astreintes[! is.na(NBI) 
                                            & NBI > 0
                                            & indic == TRUE,
-                                           .(Matricule, AnnÃ©e, Mois, CatÃ©gorie, Emploi, Grade, NBI, Code, LibellÃ©, quotitÃ©, Montant)
-                                        ][Paie_NBI[ , .(Matricule, AnnÃ©e, Mois, Code, LibellÃ©, Montant)],  
+                                           .(Matricule, Année, Mois, Catégorie, Emploi, Grade, NBI, Code, Libellé, quotité, Montant)
+                                        ][Paie_NBI[ , .(Matricule, Année, Mois, Code, Libellé, Montant)],  
                                            nomatch = 0,
-                                           on = .(Matricule, AnnÃ©e, Mois)]  
+                                           on = .(Matricule, Année, Mois)]  
   
-  "Controle_astreintes" %a% Controle_astreintes[CatÃ©gorie == "A" 
+  "Controle_astreintes" %a% Controle_astreintes[Catégorie == "A" 
                                                    & grepl("d(?:\\.|ir)\\w*\\s*\\bg(?:\\.|\\w*n\\.?\\w*)\\s*\\b(?:des?)\\s*\\bs\\w.*", 
                                                            paste(Emploi, Grade), 
                                                            perl = TRUE,
                                                            ignore.case = TRUE)]
   
-  setnames(Controle_astreintes, c("Code", "LibellÃ©", "Montant"), c("Code.astreinte", "LibellÃ©.astreinte", "Montant.astreinte"))
-  setnames(Controle_astreintes, c("i.Code", "i.LibellÃ©", "i.Montant"), c("Code.NBI", "LibellÃ©.NBI", "Montant.NBI"))
+  setnames(Controle_astreintes, c("Code", "Libellé", "Montant"), c("Code.astreinte", "Libellé.astreinte", "Montant.astreinte"))
+  setnames(Controle_astreintes, c("i.Code", "i.Libellé", "i.Montant"), c("Code.NBI", "Libellé.NBI", "Montant.NBI"))
   
   nb.agents.NBI.astreintes <- uniqueN(Controle_astreintes$Matricule)
   
   if (nrow(Controle_astreintes)) {
-    cat("Des astreintes sont payÃ©es Ã ", nb.agents.NBI.astreintes, "personnels bÃ©nÃ©ficiaires de NBI")
+    cat("Des astreintes sont payées à", nb.agents.NBI.astreintes, "personnels bénéficiaires de NBI")
   }
   
   "Cum_astreintes" %a% rbind(Controle_astreintes[, round(sum(Montant.astreinte), 1),
-                                                     by = "AnnÃ©e"],
+                                                     by = "Année"],
                             list("Total", Controle_astreintes[, round(sum(Montant.astreinte), 1)]))
   
   sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
@@ -41,15 +41,15 @@ essayer({
              "libelles.astreintes")
   
 },
-"Le contrÃ´le Astreintes-NBI n'a pas pu Ãªtre rÃ©alisÃ©.")
+"Le contrôle Astreintes-NBI n'a pas pu être réalisé.")
 
 essayer({
   with(Cum_astreintes,
                 
-                print(Tableau.vertical2(c("AnnÃ©e", "Montant astreintes irrÃ©guliÃ¨res (euros)"),
-                                            AnnÃ©e, V1))    
+                print(Tableau.vertical2(c("Année", "Montant astreintes irrégulières (euros)"),
+                                            Année, V1))    
 )
-}, "Le tableau de contrÃ´le des astreintes n'a pas pu Ãªtre gÃ©nÃ©rÃ©.")
+}, "Le tableau de contrôle des astreintes n'a pas pu être généré.")
 }
 
 #'@export
@@ -59,22 +59,22 @@ cumul_astreintes_IHTS <- function() {
   setnames(Paie_astreintes, "indic", "indic_astr")
   setnames(Base.IHTS, "indic", "indic_IHTS")
   
-  Controle_astreintes_HS_irreg <- Paie_astreintes[ , .(Matricule, AnnÃ©e, Mois, Code, LibellÃ©, Type,  Montant, indic_astr) 
+  Controle_astreintes_HS_irreg <- Paie_astreintes[ , .(Matricule, Année, Mois, Code, Libellé, Type,  Montant, indic_astr) 
                                                         ][Base.IHTS[Type %in% c("I", "A", "R"), 
-                                                               .(Matricule, AnnÃ©e, Mois, Code, LibellÃ©, Type, Montant, indic_IHTS)], 
+                                                               .(Matricule, Année, Mois, Code, Libellé, Type, Montant, indic_IHTS)], 
                                                                nomatch = 0,
-                                                              on = .(Matricule, AnnÃ©e, Mois, Code, LibellÃ©, Type, Montant)
+                                                              on = .(Matricule, Année, Mois, Code, Libellé, Type, Montant)
                                                         ][indic_IHTS == TRUE | indic_astr == TRUE]
   
   nb.agents.IHTS.astreintes <- uniqueN(Controle_astreintes_HS_irreg$Matricule)
   
   if (nrow(Controle_astreintes_HS_irreg)) {
-    cat("Des astreintes sont payÃ©es Ã ", nb.agents.IHTS.astreintes, "personnels bÃ©nÃ©ficiaires d'IHTS.")
+    cat("Des astreintes sont payées à", nb.agents.IHTS.astreintes, "personnels bénéficiaires d'IHTS.")
   }
   
   "Cum_astreintes_HS_irreg" %a% rbind(Controle_astreintes_HS_irreg[, .(round(sum(Montant[indic_astr == TRUE]), 1),
                                                                     round(sum(Montant[indic_IHTS == TRUE]), 1)),
-                                                                keyby = "AnnÃ©e"],
+                                                                keyby = "Année"],
                                    list("Total",
                                         Controle_astreintes_HS_irreg[indic_astr == TRUE, round(sum(Montant), 1)],
                                         Controle_astreintes_HS_irreg[indic_IHTS == TRUE, round(sum(Montant), 1)]))
@@ -84,6 +84,6 @@ cumul_astreintes_IHTS <- function() {
              "Controle_astreintes_HS_irreg",
              "Cum_astreintes_HS_irreg")
   }, 
-  "Le contrÃ´le du cumul astreintes IHTS n'a pas pu Ãªtre rÃ©alisÃ©")
+  "Le contrôle du cumul astreintes IHTS n'a pas pu être réalisé")
 }
 
