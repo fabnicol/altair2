@@ -1,57 +1,57 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2018
+# Fabrice Nicol, annÃ©es 2018
 # fabrice.nicol@crtc.ccomptes.fr
 # 
-# Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
-# produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-# en vigueur à compter de l'année 2008.
+# Ce logiciel est un programme informatique servant Ã  extraire et analyser les fichiers de paye
+# produits au format spÃ©cifiÃ© par l'annexe de la convention-cadre nationale de dÃ©matÃ©rialisation
+# en vigueur Ã  compter de l'annÃ©e 2008.
 # 
-# Ce logiciel est régi par la licence CeCILL soumise au droit français et
+# Ce logiciel est rÃ©gi par la licence CeCILL soumise au droit franÃ§ais et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
 # utiliser, modifier et/ou redistribuer ce programme sous les conditions
-# de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
+# de la licence CeCILL telle que diffusÃ©e par le CEA, le CNRS et l'INRIA
 # sur le site "http://www.cecill.info".
 # 
-# En contrepartie de l'accessibilité au code source et des droits de copie,
-# de modification et de redistribution accordés par cette licence, il n'est
-# offert aux utilisateurs qu'une garantie limitée. Pour les mêmes raisons,
-# seule une responsabilité restreinte pèse sur l'auteur du programme, le
-# titulaire des droits patrimoniaux et les concédants successifs.
+# En contrepartie de l'accessibilitÃ© au code source et des droits de copie,
+# de modification et de redistribution accordÃ©s par cette licence, il n'est
+# offert aux utilisateurs qu'une garantie limitÃ©e. Pour les mÃªmes raisons,
+# seule une responsabilitÃ© restreinte pÃ¨se sur l'auteur du programme, le
+# titulaire des droits patrimoniaux et les concÃ©dants successifs.
 # 
-# A cet égard l'attention de l'utilisateur est attirée sur les risques
-# associés au chargement, à l'utilisation, à la modification et/ou au
-# développement et à la reproduction du logiciel par l'utilisateur étant
-# donné sa spécificité de logiciel libre, qui peut le rendre complexe à
-# manipuler et qui le réserve donc à des développeurs et des professionnels
-# avertis possédant des connaissances informatiques approfondies. Les
-# utilisateurs sont donc invités à charger et tester l'adéquation du
-# logiciel à leurs besoins dans des conditions permettant d'assurer la
-# sécurité de leurs systèmes et ou de leurs données et, plus généralement,
-# à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+# A cet Ã©gard l'attention de l'utilisateur est attirÃ©e sur les risques
+# associÃ©s au chargement, Ã  l'utilisation, Ã  la modification et/ou au
+# dÃ©veloppement et Ã  la reproduction du logiciel par l'utilisateur Ã©tant
+# donnÃ© sa spÃ©cificitÃ© de logiciel libre, qui peut le rendre complexe Ã 
+# manipuler et qui le rÃ©serve donc Ã  des dÃ©veloppeurs et des professionnels
+# avertis possÃ©dant des connaissances informatiques approfondies. Les
+# utilisateurs sont donc invitÃ©s Ã  charger et tester l'adÃ©quation du
+# logiciel Ã  leurs besoins dans des conditions permettant d'assurer la
+# sÃ©curitÃ© de leurs systÃ¨mes et ou de leurs donnÃ©es et, plus gÃ©nÃ©ralement,
+# Ã  l'utiliser et l'exploiter dans les mÃªmes conditions de sÃ©curitÃ©.
 # 
-# Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
-# pris connaissance de la licence CeCILL, et que vous en avez accepté les
+# Le fait que vous puissiez accÃ©der Ã  cet en-tÃªte signifie que vous avez
+# pris connaissance de la licence CeCILL, et que vous en avez acceptÃ© les
 # termes.
 # 
 # 
 
 # prime$nom
-# prime$catégorie
+# prime$catÃ©gorie
 # prime$restreint_fonctionnaire
 # si non null Paie_B doit avoir indic_B
 
-#' Quotité administrative
-#' @param quotité  quotité formelle (Temps.de.travail / 100)
+#' QuotitÃ© administrative
+#' @param quotitÃ©  quotitÃ© formelle (Temps.de.travail / 100)
 #' @export
-adm <- function(quotité) ifelse(quotité == 0.8,  6/7, ifelse (quotité == 0.9,  32/35, quotité))
+adm <- function(quotitÃ©) ifelse(quotitÃ© == 0.8,  6/7, ifelse (quotitÃ© == 0.9,  32/35, quotitÃ©))
 
 
 #' Sauvegarde une base dans le dossier des bases
 #' 
-#' Sauvegarde paramétrée par environnement
+#' Sauvegarde paramÃ©trÃ©e par environnement
 #' 
-#' @param x  Objet à sauvegarder (vecteur de caractères)    
+#' @param x  Objet Ã  sauvegarder (vecteur de caractÃ¨res)    
 #' @param y  Nom du fichier de sauvegarde CSV.   
 #' @param z  Nom du sous-dossier du dossier des bases.   
 #' @param env  Environnement
@@ -69,11 +69,11 @@ sauvebase <- function(x, y, z, env) {
 
 #' Affichage du tableau des cumuls de primes
 #' 
-#' @param résultat  Résultat retourné par la fonction \link{test_prime}
+#' @param rÃ©sultat  RÃ©sultat retournÃ© par la fonction \link{test_prime}
 #' @examples
 #' tableau_cumuls(test_prime(prime_IAT, prime_B = prime_IFTS, Paie_I, verbeux = FALSE))
 #' 
-#' |Matricule |Année |       Grade          |                  Régime                     |
+#' |Matricule |AnnÃ©e |       Grade          |                  RÃ©gime                     |
 #' |----------|------|----------------------|---------------------------------------------|
 #' |010843    |2009  |ANIMATEUR TERRITORIAL |   IFTS 1 mois-IAT 10 mois-Cumul 1 mois      |
 #' |010843    |2010  |ANIMATEUR TERRITORIAL |   IFTS 11 mois-IAT 0 mois-Cumul 1 mois      |
@@ -81,20 +81,20 @@ sauvebase <- function(x, y, z, env) {
 #' 
 #' @export
 
-tableau_cumuls <- function(résultat) {
+tableau_cumuls <- function(rÃ©sultat) {
   
-  if (! is.null(résultat) && ! is.null(résultat$cumuls) && nrow(résultat$cumuls[c != 0]) > 0) {
-    kable(résultat$cumuls[c != 0, .(Matricule, Année, Grade, Régime)])
+  if (! is.null(rÃ©sultat) && ! is.null(rÃ©sultat$cumuls) && nrow(rÃ©sultat$cumuls[c != 0]) > 0) {
+    kable(rÃ©sultat$cumuls[c != 0, .(Matricule, AnnÃ©e, Grade, RÃ©gime)])
   } else cat("Pas de cumuls.")
 }
 
 #' Affichage du tableau des cumuls de primes et du logement par NAS
 #' 
-#' @param résultat  Résultat retourné par la fonction \link{test_prime}
+#' @param rÃ©sultat  RÃ©sultat retournÃ© par la fonction \link{test_prime}
 #' @examples
 #' tableau_NAS(test_prime(prime_IFTS, Paie_I, verbeux = FALSE, NAS = "non"))
 #' 
-#' |Matricule |Année | Mois |       Grade            |       Emploi            |    Montant |
+#' |Matricule |AnnÃ©e | Mois |       Grade            |       Emploi            |    Montant |
 #' |----------|------|-------------------------------|-------------------------|------------|
 #' |010843    |2009  |   8  |  ATTACHE PRINCIPAL     |   CHEF DE DIVISION      |    785,25  |
 #' |010843    |2009  |   9  |  ATTACHE PRINCIPAL     |   CHEF DE DIVISION      |    785,25  |
@@ -102,53 +102,53 @@ tableau_cumuls <- function(résultat) {
 #' 
 #' @export
 
-tableau_NAS <- function(résultat) {
+tableau_NAS <- function(rÃ©sultat) {
   
-  if (! is.null(résultat) && ! is.null(résultat$NAS) && nrow(résultat$NAS) > 0) {
-    kable(résultat$NAS[ , .(Matricule, Année, Mois, Grade, Emploi, Montant)])
+  if (! is.null(rÃ©sultat) && ! is.null(rÃ©sultat$NAS) && nrow(rÃ©sultat$NAS) > 0) {
+    kable(rÃ©sultat$NAS[ , .(Matricule, AnnÃ©e, Mois, Grade, Emploi, Montant)])
   } else cat("Pas de cumuls prime-NAS.")
 }
 
-#' Affichage du tableau des agrégats des primes A et B, pour chaque année de période 
+#' Affichage du tableau des agrÃ©gats des primes A et B, pour chaque annÃ©e de pÃ©riode 
 #' 
-#' @param résultat  Résultat retourné par la fonction \link{test_prime}
-#' @param verbeux   [FALSE] Le résultat n'est affiché que si  \code{verbeux} vaut  \code{TRUE}
+#' @param rÃ©sultat  RÃ©sultat retournÃ© par la fonction \link{test_prime}
+#' @param verbeux   [FALSE] Le rÃ©sultat n'est affichÃ© que si  \code{verbeux} vaut  \code{TRUE}
 #' @examples 
-#' agrégat_annuel(test_prime(prime_IAT, prime_B = prime_IFTS, Paie_I, verbeux = FALSE), verbeux = TRUE)
+#' agrÃ©gat_annuel(test_prime(prime_IAT, prime_B = prime_IFTS, Paie_I, verbeux = FALSE), verbeux = TRUE)
 #' @export
 
-agrégat_annuel<- function(résultat, verbeux) {
+agrÃ©gat_annuel<- function(rÃ©sultat, verbeux) {
   
-  beneficiaires <- résultat$cumuls[, .(Matricule, Année, nb.mois, Grade, Agrégat)]
+  beneficiaires <- rÃ©sultat$cumuls[, .(Matricule, AnnÃ©e, nb.mois, Grade, AgrÃ©gat)]
   
   if (verbeux) {
     
     if (nrow(beneficiaires)) {
       
-      beneficiaires$Agrégat <- formatC(beneficiaires$Agrégat, big.mark = " ", format="fg")
+      beneficiaires$AgrÃ©gat <- formatC(beneficiaires$AgrÃ©gat, big.mark = " ", format="fg")
       
       kable(beneficiaires, align = 'r', row.names = FALSE)
       
     } else {
-      cat("\nAucun bénéficiaire détecté.\n")
+      cat("\nAucun bÃ©nÃ©ficiaire dÃ©tectÃ©.\n")
     }
   }
   
 }
 
-#' Affichage du tableau des variations des agrégats des primes A et B sur l'ensemble de la période
+#' Affichage du tableau des variations des agrÃ©gats des primes A et B sur l'ensemble de la pÃ©riode
 #' 
-#' @param résultat  Résultat retourné par la fonction \link{test_prime}
-#' @param verbeux   [FALSE] Le résultat n'est affiché que si  \code{verbeux} vaut  \code{TRUE}
+#' @param rÃ©sultat  RÃ©sultat retournÃ© par la fonction \link{test_prime}
+#' @param verbeux   [FALSE] Le rÃ©sultat n'est affichÃ© que si  \code{verbeux} vaut  \code{TRUE}
 #' @export
 
-évolution_agrégat <- function(résultat, verbeux) {
+Ã©volution_agrÃ©gat <- function(rÃ©sultat, verbeux) {
   
   if (verbeux) {
     
-    if (nrow(résultat$variations)) {
+    if (nrow(rÃ©sultat$variations)) {
       
-      kable(résultat$variations, align = 'r', row.names = FALSE)
+      kable(rÃ©sultat$variations, align = 'r', row.names = FALSE)
       
     } else {
       cat("\nAucun tableau de variation.\n")
@@ -156,46 +156,46 @@ agrégat_annuel<- function(résultat, verbeux) {
   }
 }
 
-#' Analyse des contraintes principales associées à une indemnité 
+#' Analyse des contraintes principales associÃ©es Ã  une indemnitÃ© 
 #' @param prime     Prime au format liste comportant les arguments :
 #'   \describe{
-#'   \item{nom}{Nom de la prime en majuscules. Une expression régulière en décrivant le libellé doit être enregistrée dans l'espace global sous le nom : expression.rég.nom}
-#'   \item{catégorie}{"A", "B", "C" ou tout vecteur d'une à deux lettres comprises dans ces trois valeurs. Décrit les catégories statutaires auxquelles la prime est attribuable.}
-#'   \item{restreint_fonctionnaire}{Booléen. Par défaut FALSE. Préciser TRUE si la prime est uniquement attrubuable aux fonctionnaires. Dans certains cas (mais pas pour tous), la prime peut aussi être attribuable aux non-titulaires, sous réserve d'un acte réglementaire interne à l'organisme.}
-#'   \item{dossier}{Chaîne de caractères. Sous-dossier du dossier Bases dans lequel le fichier auxiliaire CSV doit être généré. Par exemple : "Reglementation".}
-#'   \item{expr.rég.}{Chaîne de caractères. Expression régulière filtrant sur champs \code{Grade}, décriuvant une contrainte limitant l'accès de la prime à un certain sous-ensemble de grades.}
-#'   \item{indice}{Liste. Couple d'un caractère "+" ou "-" et d'un entier, ou triplet correspondant au couple augmenté d'un vecteur d'une ou deux lettres statutaires. Exemple : list("+", 350, c("A","B)). La liste décrit un critère limitatif pour la prime : 
-#'   elle ne peut être attribuée qu'aux indices supérieurs ("+") ou inférieurs ("-") au nombre donné en deuxième position pour les fonctionnaires de catégorie précisée en troisième prosition.}}
+#'   \item{nom}{Nom de la prime en majuscules. Une expression rÃ©guliÃ¨re en dÃ©crivant le libellÃ© doit Ãªtre enregistrÃ©e dans l'espace global sous le nom : expression.rÃ©g.nom}
+#'   \item{catÃ©gorie}{"A", "B", "C" ou tout vecteur d'une Ã  deux lettres comprises dans ces trois valeurs. DÃ©crit les catÃ©gories statutaires auxquelles la prime est attribuable.}
+#'   \item{restreint_fonctionnaire}{BoolÃ©en. Par dÃ©faut FALSE. PrÃ©ciser TRUE si la prime est uniquement attrubuable aux fonctionnaires. Dans certains cas (mais pas pour tous), la prime peut aussi Ãªtre attribuable aux non-titulaires, sous rÃ©serve d'un acte rÃ©glementaire interne Ã  l'organisme.}
+#'   \item{dossier}{ChaÃ®ne de caractÃ¨res. Sous-dossier du dossier Bases dans lequel le fichier auxiliaire CSV doit Ãªtre gÃ©nÃ©rÃ©. Par exemple : "Reglementation".}
+#'   \item{expr.rÃ©g.}{ChaÃ®ne de caractÃ¨res. Expression rÃ©guliÃ¨re filtrant sur champs \code{Grade}, dÃ©criuvant une contrainte limitant l'accÃ¨s de la prime Ã  un certain sous-ensemble de grades.}
+#'   \item{indice}{Liste. Couple d'un caractÃ¨re "+" ou "-" et d'un entier, ou triplet correspondant au couple augmentÃ© d'un vecteur d'une ou deux lettres statutaires. Exemple : list("+", 350, c("A","B)). La liste dÃ©crit un critÃ¨re limitatif pour la prime : 
+#'   elle ne peut Ãªtre attribuÃ©e qu'aux indices supÃ©rieurs ("+") ou infÃ©rieurs ("-") au nombre donnÃ© en deuxiÃ¨me position pour les fonctionnaires de catÃ©gorie prÃ©cisÃ©e en troisiÃ¨me prosition.}}
 #'   
-#' @param Paie_I    Base data.table des indemnités comportant les colonnes :
+#' @param Paie_I    Base data.table des indemnitÃ©s comportant les colonnes :
 #' \itemize{
 #'   \item{Nom} 
-#'   \item{Prénom}
+#'   \item{PrÃ©nom}
 #'   \item{Matricule} 
-#'   \item{Année} 
+#'   \item{AnnÃ©e} 
 #'   \item{Mois} 
-#'   \item{Début}
+#'   \item{DÃ©but}
 #'   \item{Fin}
 #'   \item{Code}
-#'   \item{Libellé}
+#'   \item{LibellÃ©}
 #'   \item{Montant}
 #'   \item{Type}
 #'   \item{Emploi}
 #'   \item{Grade} 
 #'   \item{Indice}
 #'   \item{Statut}
-#'   \item{Catégorie}}
-#' @param verbeux   [FALSE] Le résultat des tableaux "non titulaires" et "catégories" n'est affiché que si \code{verbeux} vaut \code{TRUE}
-#' @return  Liste constituée de :
+#'   \item{CatÃ©gorie}}
+#' @param verbeux   [FALSE] Le rÃ©sultat des tableaux "non titulaires" et "catÃ©gories" n'est affichÃ© que si \code{verbeux} vaut \code{TRUE}
+#' @return  Liste constituÃ©e de :
 #'  \describe{
-#'   \item{Paye}{La base data.table de paye correspondant à la prime en premier argument, toutes primes confondues.}
-#'   \item{Lignes}{Les lignes de paye correspondant à la prime en premier argument seulement.}
-#'   \item{K}{Codes de paye correspondant à la prime.}
-#'   \item{manquant}{Booléen. TRUE si absence de résultat, FALSE sinon.}}
+#'   \item{Paye}{La base data.table de paye correspondant Ã  la prime en premier argument, toutes primes confondues.}
+#'   \item{Lignes}{Les lignes de paye correspondant Ã  la prime en premier argument seulement.}
+#'   \item{K}{Codes de paye correspondant Ã  la prime.}
+#'   \item{manquant}{BoolÃ©en. TRUE si absence de rÃ©sultat, FALSE sinon.}}
 #' @note  Sauvegarde deux fichiers dans le sous-dossier prime$dossier : 
 #' \itemize{
 #' {prime$nom.non.tit.csv} {Recense les attributaires non titulaires}
-#' {prime$nom.cat.A (ou AB ou B ou BC...)} {Recense les attributaires de catégorie A, B, C ou toute combinaison de ces lettres.}
+#' {prime$nom.cat.A (ou AB ou B ou BC...)} {Recense les attributaires de catÃ©gorie A, B, C ou toute combinaison de ces lettres.}
 #' }   
 #' @export
 
@@ -203,18 +203,18 @@ analyser <- function(prime, Paie_I, verbeux) {
 
   Paie_A <- NULL
   Lignes_A <- NULL
-  résultat.manquant <- FALSE
+  rÃ©sultat.manquant <- FALSE
   lignes.indice.anormal <- NULL
   
   essayer({  Paie_A   <- filtrer_Paie(prime$nom, 
-                             portée = "Mois",
+                             portÃ©e = "Mois",
                              Base = Paie_I,
                              indic = TRUE)
     
     Lignes_A <- Paie_A[indic == TRUE
                       ][ , indic := NULL]
   }, 
-    "Le filtrage des idemnités " %+% prime$nom %+% " n'a pas pu être réalisé. ")
+    "Le filtrage des idemnitÃ©s " %+% prime$nom %+% " n'a pas pu Ãªtre rÃ©alisÃ©. ")
   
   if (! is.null(prime$indice)) {
     
@@ -225,7 +225,7 @@ analyser <- function(prime, Paie_I, verbeux) {
     
       if (length(prime$indice) >= 3 && prime$indice[3] %chin% c("A", "B", "C")) {
         
-        lignes.indice.anormal <-lignes.indice.anormal[Catégorie %chin% prime$indice[3]]
+        lignes.indice.anormal <-lignes.indice.anormal[CatÃ©gorie %chin% prime$indice[3]]
           
       } 
           
@@ -235,18 +235,18 @@ analyser <- function(prime, Paie_I, verbeux) {
         cat(nr,
             "attributaires de",
             prime$nom,
-            "ne satisfont pas au critère de la borne indiciaire (INM", prime$indice[2] %+% "). " )
+            "ne satisfont pas au critÃ¨re de la borne indiciaire (INM", prime$indice[2] %+% "). " )
       } else {
         cat("Les attributaires de",
             prime$nom,
-            "satisfont tous au critère de la borne indiciaire (INM", prime$indice[2] %+% "). ") 
+            "satisfont tous au critÃ¨re de la borne indiciaire (INM", prime$indice[2] %+% "). ") 
       }
       
     }, 
-      "La vérification de la borne indiciaire n'a pas pu êre réalisée. ")
+      "La vÃ©rification de la borne indiciaire n'a pas pu Ãªre rÃ©alisÃ©e. ")
   }
   
-  # Questions de compatibilité statutaire
+  # Questions de compatibilitÃ© statutaire
   
   essayer({ if (prime$restreint_fonctionnaire) {
       
@@ -271,16 +271,16 @@ analyser <- function(prime, Paie_I, verbeux) {
       }
     }
     
-    if (!is.null(prime$catégorie)){
+    if (!is.null(prime$catÃ©gorie)){
       
-      if (! is.null(prime$expr.rég)) {
+      if (! is.null(prime$expr.rÃ©g)) {
         
-        A.non.cat <- Lignes_A[! Catégorie %chin% prime$catégorie 
-                              | ! grepl(prime$expr.rég, Grade, ignore.case = TRUE, perl = TRUE)] 
+        A.non.cat <- Lignes_A[! CatÃ©gorie %chin% prime$catÃ©gorie 
+                              | ! grepl(prime$expr.rÃ©g, Grade, ignore.case = TRUE, perl = TRUE)] 
         
       } else {
         
-        A.non.cat <- Lignes_A[! Catégorie %chin% prime$catégorie]
+        A.non.cat <- Lignes_A[! CatÃ©gorie %chin% prime$catÃ©gorie]
       }
       
       if ((N.A.non.cat <<- uniqueN(A.non.cat$Matricule)) > 0) {
@@ -288,8 +288,8 @@ analyser <- function(prime, Paie_I, verbeux) {
         cat(N.A.non.cat, 
             "attributaires de",
             prime$nom,
-            "ne sont pas identifiés en catégorie",
-            prime$catégorie,
+            "ne sont pas identifiÃ©s en catÃ©gorie",
+            prime$catÃ©gorie,
             ". ")
         
         if (verbeux)  print(kable(A.non.cat, align = 'r', row.names = FALSE))
@@ -298,22 +298,22 @@ analyser <- function(prime, Paie_I, verbeux) {
         
         cat("Tous les attributaires de",
             prime$nom,
-            "sont identifiés en catégorie",
-            prime$catégorie, ". ")
+            "sont identifiÃ©s en catÃ©gorie",
+            prime$catÃ©gorie, ". ")
       }
       
     } else {
       
-      if (! is.null(prime$expr.rég)) {
+      if (! is.null(prime$expr.rÃ©g)) {
         
-        A.non.cat <- Lignes_A[! grepl(prime$expr.rég, Grade, ignore.case = TRUE, perl = TRUE)] 
+        A.non.cat <- Lignes_A[! grepl(prime$expr.rÃ©g, Grade, ignore.case = TRUE, perl = TRUE)] 
         
         if ((N.A.non.cat <<- uniqueN(A.non.cat$Matricule)) > 0) {
           
           cat(N.A.non.cat,
               "attributaires de",
               prime$nom,
-              "ne sont pas identifiés comme relevant de grades conformes. ")
+              "ne sont pas identifiÃ©s comme relevant de grades conformes. ")
           
           if (verbeux)  print(kable(A.non.cat, align = 'r', row.names = FALSE))
           
@@ -321,13 +321,13 @@ analyser <- function(prime, Paie_I, verbeux) {
         
       } else {
        
-        cat("La détection des incompatibilités statutaires n'a pas pu être réalisée. ")
-        stop("La prime " %+% prime$nom %+% " doit être renseignée soit pour sa catagorie statutaire (prime$catégorie) soit par une expression régulière sur libellé (prime$expr.rég).")
+        cat("La dÃ©tection des incompatibilitÃ©s statutaires n'a pas pu Ãªtre rÃ©alisÃ©e. ")
+        stop("La prime " %+% prime$nom %+% " doit Ãªtre renseignÃ©e soit pour sa catagorie statutaire (prime$catÃ©gorie) soit par une expression rÃ©guliÃ¨re sur libellÃ© (prime$expr.rÃ©g).")
         
       }
     }
   },
-    "La détection des incompatibilités statutaires n'a pas pu être réalisée. ")
+    "La dÃ©tection des incompatibilitÃ©s statutaires n'a pas pu Ãªtre rÃ©alisÃ©e. ")
   
   essayer({   K <- "codes." %+% tolower(prime$nom)
     
@@ -336,73 +336,73 @@ analyser <- function(prime, Paie_I, verbeux) {
     L <- length(get(K))
       
     if (L == 0) {
-      cat("Il n'a pas été possible d'identifier", 
+      cat("Il n'a pas Ã©tÃ© possible d'identifier", 
           prime$nom,
-          "par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique. ")
+          "par mÃ©thode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique. ")
  
-      résultat.manquant <- TRUE
+      rÃ©sultat.manquant <- TRUE
 
     }
-    }, "Pas de génération des codes " %+% prime$nom %+% ". ")
+    }, "Pas de gÃ©nÃ©ration des codes " %+% prime$nom %+% ". ")
   
   env <- environment()
  
   if (sauvegarder.bases.analyse) { 
-    sauvebase("A.non.cat", prime$nom %+% ".non.cat" %+% paste0("", prime$catégorie, collapse = ""), prime$dossier, env)
+    sauvebase("A.non.cat", prime$nom %+% ".non.cat" %+% paste0("", prime$catÃ©gorie, collapse = ""), prime$dossier, env)
     sauvebase("A.non.tit", prime$nom %+% ".non.tit", prime$dossier, env)
     if (! is.null(prime$indice)) {
       sauvebase("lignes.indice.anormal", prime$nom %+% ".indice.anormal", prime$dossier, env)
     }
  }
   
-  list(Paye = Paie_A, Lignes = Lignes_A, K = get(K), manquant = résultat.manquant)
+  list(Paye = Paie_A, Lignes = Lignes_A, K = get(K), manquant = rÃ©sultat.manquant)
 }
 
-#' Teste les primes et indemnités   
+#' Teste les primes et indemnitÃ©s   
 #' 
-#' Analyse les contraintes relatives aux non titulaires, à la catégorie statutaire, au grade, à l'indice, aux cumuls avec d'autres indemnités.   
+#' Analyse les contraintes relatives aux non titulaires, Ã  la catÃ©gorie statutaire, au grade, Ã  l'indice, aux cumuls avec d'autres indemnitÃ©s.   
 #' 
 #' @param prime     Prime au format liste comportant les arguments :
 #'   \describe{
-#'   \item{nom}{Nom de la prime en majuscules. Une expression régulière en décrivant le libellé doit être enregistrée dans l'espace global sous le nom : expression.rég.nom}
-#'   \item{catégorie}{"A", "B", "C" ou tout vecteur d'une à deux lettres comprises dans ces trois valeurs. Décrit les catégories statutaires auxquelles la prime est attribuable.}
-#'   \item{restreint_fonctionnaire}{Booléen. Par défaut FALSE. Préciser TRUE si la prime est uniquement attrubuable aux fonctionnaires. Dans certains cas (mais pas pour tous), la prime peut aussi être attribuable aux non-titulaires, sous réserve d'un acte réglementaire interne à l'organisme.}
-#'   \item{dossier}{Chaîne de caractères. Sous-dossier du dossier Bases dans lequel le fichier auxiliaire CSV doit être généré. Par exemple : "Reglementation".}
-#'   \item{expr.rég.}{Chaîne de caractères. Expression régulière filtrant sur champs \code{Grade}, décriuvant une contrainte limitant l'accès de la prime à un certain sous-ensemble de grades.}
-#'   \item{indice}{Liste. Couple d'un caractère "+" ou "-" et d'un entier, ou triplet correspondant au couple augmenté d'un vecteur d'une ou deux lettres statutaires. Exemple : list("+", 350, c("A","B)). La liste décrit un critère limitatif pour la prime : 
-#'   elle ne peut être attribuée qu'aux indices supérieurs ("+") ou inférieurs ("-") au nombre donné en deuxième position pour les fonctionnaires de catégorie précisée en troisième prosition.}
-#'   \item{NAS}{Si vaut "non", la prime est incompatible avec le logement par nécessité absolue de service (NAS). Si vaut un nombre, la prime doit être inférieure à ce seuil pour bénéficier d'un logement par NAS.}}
-#' @param prime_B     Prime au format liste comportant les mêmes types d'arguments. Les cumuls de \code{prime} et de \code{prime_B} seront analysés.   
-#' @param Paie_I    Base data.table des indemnités comportant les colonnes :
+#'   \item{nom}{Nom de la prime en majuscules. Une expression rÃ©guliÃ¨re en dÃ©crivant le libellÃ© doit Ãªtre enregistrÃ©e dans l'espace global sous le nom : expression.rÃ©g.nom}
+#'   \item{catÃ©gorie}{"A", "B", "C" ou tout vecteur d'une Ã  deux lettres comprises dans ces trois valeurs. DÃ©crit les catÃ©gories statutaires auxquelles la prime est attribuable.}
+#'   \item{restreint_fonctionnaire}{BoolÃ©en. Par dÃ©faut FALSE. PrÃ©ciser TRUE si la prime est uniquement attrubuable aux fonctionnaires. Dans certains cas (mais pas pour tous), la prime peut aussi Ãªtre attribuable aux non-titulaires, sous rÃ©serve d'un acte rÃ©glementaire interne Ã  l'organisme.}
+#'   \item{dossier}{ChaÃ®ne de caractÃ¨res. Sous-dossier du dossier Bases dans lequel le fichier auxiliaire CSV doit Ãªtre gÃ©nÃ©rÃ©. Par exemple : "Reglementation".}
+#'   \item{expr.rÃ©g.}{ChaÃ®ne de caractÃ¨res. Expression rÃ©guliÃ¨re filtrant sur champs \code{Grade}, dÃ©criuvant une contrainte limitant l'accÃ¨s de la prime Ã  un certain sous-ensemble de grades.}
+#'   \item{indice}{Liste. Couple d'un caractÃ¨re "+" ou "-" et d'un entier, ou triplet correspondant au couple augmentÃ© d'un vecteur d'une ou deux lettres statutaires. Exemple : list("+", 350, c("A","B)). La liste dÃ©crit un critÃ¨re limitatif pour la prime : 
+#'   elle ne peut Ãªtre attribuÃ©e qu'aux indices supÃ©rieurs ("+") ou infÃ©rieurs ("-") au nombre donnÃ© en deuxiÃ¨me position pour les fonctionnaires de catÃ©gorie prÃ©cisÃ©e en troisiÃ¨me prosition.}
+#'   \item{NAS}{Si vaut "non", la prime est incompatible avec le logement par nÃ©cessitÃ© absolue de service (NAS). Si vaut un nombre, la prime doit Ãªtre infÃ©rieure Ã  ce seuil pour bÃ©nÃ©ficier d'un logement par NAS.}}
+#' @param prime_B     Prime au format liste comportant les mÃªmes types d'arguments. Les cumuls de \code{prime} et de \code{prime_B} seront analysÃ©s.   
+#' @param Paie_I    Base data.table des indemnitÃ©s comportant les colonnes :
 #' \itemize{
 #'   \item{Nom} 
-#'   \item{Prénom}
+#'   \item{PrÃ©nom}
 #'   \item{Matricule} 
-#'   \item{Année} 
+#'   \item{AnnÃ©e} 
 #'   \item{Mois} 
-#'   \item{Début}
+#'   \item{DÃ©but}
 #'   \item{Fin}
 #'   \item{Code}
-#'   \item{Libellé}
+#'   \item{LibellÃ©}
 #'   \item{Montant}
 #'   \item{Type}
 #'   \item{Emploi}
 #'   \item{Grade} 
 #'   \item{Indice}
 #'   \item{Statut}
-#'   \item{Catégorie}}
-#' @param verbeux   [FALSE] Le résultat des tableaux "non titulaires" et "catégories" n'est affiché que si \code{verbeux} vaut \code{TRUE}
-#' @return  Liste constituée de :
+#'   \item{CatÃ©gorie}}
+#' @param verbeux   [FALSE] Le rÃ©sultat des tableaux "non titulaires" et "catÃ©gories" n'est affichÃ© que si \code{verbeux} vaut \code{TRUE}
+#' @return  Liste constituÃ©e de :
 #'  \describe{
-#'   \item{Paye}{La base data.table de paye correspondant à la prime en premier argument, toutes primes confondues.}
-#'   \item{Lignes}{Les lignes de paye correspondant à la prime en premier argument seulement.}
-#'   \item{K}{Codes de paye correspondant à la prime.}
-#'   \item{manquant}{Booléen. TRUE si absence de résultat, FALSE sinon.}}
-#'   \item{NAS}{Base des cumuls irréguliers de \code{prime} et d'un logement par NAS, si \code{NAS} vaut "non", sinon NULL}
+#'   \item{Paye}{La base data.table de paye correspondant Ã  la prime en premier argument, toutes primes confondues.}
+#'   \item{Lignes}{Les lignes de paye correspondant Ã  la prime en premier argument seulement.}
+#'   \item{K}{Codes de paye correspondant Ã  la prime.}
+#'   \item{manquant}{BoolÃ©en. TRUE si absence de rÃ©sultat, FALSE sinon.}}
+#'   \item{NAS}{Base des cumuls irrÃ©guliers de \code{prime} et d'un logement par NAS, si \code{NAS} vaut "non", sinon NULL}
 #' @note  Sauvegarde deux fichiers dans le sous-dossier prime$dossier : 
 #' \itemize{
 #' {prime$nom.non.tit.csv} {Recense les attributaires non titulaires}
-#' {prime$nom.cat.A (ou AB ou B ou BC...)} {Recense les attributaires de catégorie A, B, C ou toute combinaison de ces lettres.}
+#' {prime$nom.cat.A (ou AB ou B ou BC...)} {Recense les attributaires de catÃ©gorie A, B, C ou toute combinaison de ces lettres.}
 #' }   
 #' @export
 
@@ -410,7 +410,7 @@ test_prime <- function(prime, prime_B, Paie_I = NULL, Paie_B = NULL, Lignes_B = 
 
 if (is.null(Paie_B) || is.null(Lignes_B)) {
   
-  if (is.null(prime_B)) stop("prime_B ne doit pas être NULL si Paie_B ou Lignes_B est NULL.")
+  if (is.null(prime_B)) stop("prime_B ne doit pas Ãªtre NULL si Paie_B ou Lignes_B est NULL.")
   
   res      <- analyser(prime_B, Paie_I, verbeux)
   Paie_B   <- res$Paye
@@ -430,14 +430,14 @@ ident_prime <- prime$nom
 
 nombre.agents.cumulant.A.B <- 0
 
-résultat <- analyser(prime, Paie_I, verbeux)
+rÃ©sultat <- analyser(prime, Paie_I, verbeux)
 
-Paie_A   <- résultat$Paye
-Lignes_A <- résultat$Lignes
-K        <- résultat$K
-résultat.manquant <- résultat$manquant
+Paie_A   <- rÃ©sultat$Paye
+Lignes_A <- rÃ©sultat$Lignes
+K        <- rÃ©sultat$K
+rÃ©sultat.manquant <- rÃ©sultat$manquant
 
-essayer({ if (! is.null(Paie_B) && ! résultat.manquant) {
+essayer({ if (! is.null(Paie_B) && ! rÃ©sultat.manquant) {
   
   # on exclut les rappels !
   
@@ -447,17 +447,17 @@ essayer({ if (! is.null(Paie_B) && ! résultat.manquant) {
     
     if (! indic_B %chin% NAMES && "indic" %chin% NAMES) setnames(Paie_B, "indic", indic_B)
     
-    période.fusion <- merge(Paie_A[indic == TRUE],
+    pÃ©riode.fusion <- merge(Paie_A[indic == TRUE],
                             Paie_B[get(indic_B) == TRUE],
-                            by = c("Nom", "Prénom", "Matricule",
-                                   "Année", "Mois", "Emploi", "Grade",
+                            by = c("Nom", "PrÃ©nom", "Matricule",
+                                   "AnnÃ©e", "Mois", "Emploi", "Grade",
                                    "Indice", "Statut",
-                                   "Catégorie"))[ , .(Matricule, Année, Mois)]
+                                   "CatÃ©gorie"))[ , .(Matricule, AnnÃ©e, Mois)]
   
-    période.fusion <- unique(période.fusion)
+    pÃ©riode.fusion <- unique(pÃ©riode.fusion)
     
-    A_ <- merge(Paie_A, période.fusion)
-    B_ <- merge(Paie_B, période.fusion)
+    A_ <- merge(Paie_A, pÃ©riode.fusion)
+    B_ <- merge(Paie_B, pÃ©riode.fusion)
     B_$indic <- A_$indic
     
     personnels.A.B <- B_[indic == TRUE | get(indic_B) == TRUE
@@ -465,15 +465,15 @@ essayer({ if (! is.null(Paie_B) && ! résultat.manquant) {
                         ][ , indic_B := NULL
                              , with = FALSE]
     
-    nombre.mois.cumuls <- uniqueN(personnels.A.B[ , .(Matricule, Année, Mois)], by = NULL)
+    nombre.mois.cumuls <- uniqueN(personnels.A.B[ , .(Matricule, AnnÃ©e, Mois)], by = NULL)
     
     nombre.agents.cumulant.A.B <- uniqueN(personnels.A.B$Matricule)
     
-    setkey(personnels.A.B, Matricule,Année, Mois)
+    setkey(personnels.A.B, Matricule,AnnÃ©e, Mois)
   
 }
  },
-   "La détection des cumuls d'indemnités " %+% ident_prime %+% " et " %+% prime_B$nom %+% " n'a pas pu être réalisée. ")
+   "La dÃ©tection des cumuls d'indemnitÃ©s " %+% ident_prime %+% " et " %+% prime_B$nom %+% " n'a pas pu Ãªtre rÃ©alisÃ©e. ")
 
 
 essayer(label = "Tableau cumuls", {
@@ -493,7 +493,7 @@ essayer(label = "Tableau cumuls", {
     cat("Codes " %+% ident_prime %+% " : ", paste(unlist(K), collapse = " "))
     
   }
-}, "Le tableau des cumuls ne peut pas être généré. ")
+}, "Le tableau des cumuls ne peut pas Ãªtre gÃ©nÃ©rÃ©. ")
 
 if(sauvegarder.bases.analyse) {
   sauvebase("personnels.A.B", "personnels." %+% tolower(ident_prime) %+% "." %+% tolower(prime_B$nom), prime$dossier, environment())
@@ -507,39 +507,39 @@ Lignes_B[ , indic_B := TRUE, with = FALSE]
 
 beneficiaires.A <- merge(Lignes_A, Lignes_B, all = TRUE)
 
-beneficiaires.A[ , Régime := if (all(is.na(get(indic)))) { if (any(get(indic_B))) "I" else NA } else { if (all(is.na(get(indic_B)))) "P" else "C" },
-                   by = .(Matricule, Année, Mois)][ , indic := NULL, with = FALSE][ , indic_B := NULL, with = FALSE]
+beneficiaires.A[ , RÃ©gime := if (all(is.na(get(indic)))) { if (any(get(indic_B))) "I" else NA } else { if (all(is.na(get(indic_B)))) "P" else "C" },
+                   by = .(Matricule, AnnÃ©e, Mois)][ , indic := NULL, with = FALSE][ , indic_B := NULL, with = FALSE]
 
 matricules.A <- unique(Lignes_A$Matricule)
 
 beneficiaires.A <- beneficiaires.A[Matricule %chin% matricules.A,
-                                       .(Agrégat = sum(Montant, na.rm = TRUE),
-                                         c = uniqueN(Mois[Régime == "C"]),
+                                       .(AgrÃ©gat = sum(Montant, na.rm = TRUE),
+                                         c = uniqueN(Mois[RÃ©gime == "C"]),
                                          nb.mois = uniqueN(Mois),
                                          Grade = Grade[1],
                                          Mois,
-                                         Régime),
-                                       keyby= .(Matricule, Année),
+                                         RÃ©gime),
+                                       keyby= .(Matricule, AnnÃ©e),
                                   ][ , 
-                                      .(Agrégat,
+                                      .(AgrÃ©gat,
                                         c,
                                         Grade,
                                         nb.mois,
-                                        Régime = {
+                                        RÃ©gime = {
                                        
-                                       prime_B$nom %+% " " %+% uniqueN(Mois[Régime == "I"]) %+% " mois-" %+% ident_prime %+% " " %+% uniqueN(Mois[Régime == "P"]) %+% " mois" %+% "-Cumul " %+% c %+% " mois"
+                                       prime_B$nom %+% " " %+% uniqueN(Mois[RÃ©gime == "I"]) %+% " mois-" %+% ident_prime %+% " " %+% uniqueN(Mois[RÃ©gime == "P"]) %+% " mois" %+% "-Cumul " %+% c %+% " mois"
                                      }),
-                                      keyby= .(Matricule, Année)]
+                                      keyby= .(Matricule, AnnÃ©e)]
 
 beneficiaires.A <- unique(beneficiaires.A)
 
 beneficiaires.A.Variation <- beneficiaires.A[ , 
                                                 { 
-                                                  L <- length(Année)
-                                                  q <- Agrégat[L]/Agrégat[1] * nb.mois[1]/nb.mois[L]                   
-                                                  .(Années = paste(Année, collapse = ", "), 
+                                                  L <- length(AnnÃ©e)
+                                                  q <- AgrÃ©gat[L]/AgrÃ©gat[1] * nb.mois[1]/nb.mois[L]                   
+                                                  .(AnnÃ©es = paste(AnnÃ©e, collapse = ", "), 
                                                     `Variation (%)` = round((q - 1) * 100, 1),
-                                                    `Moyenne géométrique annuelle(%)` = round((q^(1/(L - 1)) - 1) * 100, 1)) 
+                                                    `Moyenne gÃ©omÃ©trique annuelle(%)` = round((q^(1/(L - 1)) - 1) * 100, 1)) 
                                                 }, by = "Matricule"]
 
 beneficiaires.A.Variation <- beneficiaires.A.Variation[`Variation (%)` != 0.00]
@@ -571,10 +571,10 @@ if ((! is.null(prime$NAS) && prime$NAS == "non") || (! is.null(prime_B$NAS) && p
         }
     }
       
-    cumul.prime.NAS <- merge(unique(base.logements[Logement == "NAS", .(Matricule, Année, Mois)]),
-                             Lignes_C[ ,  .(Matricule, Nom, Prénom, Statut, Grade, Emploi, Année, Mois, Code, Libellé, Montant)])
+    cumul.prime.NAS <- merge(unique(base.logements[Logement == "NAS", .(Matricule, AnnÃ©e, Mois)]),
+                             Lignes_C[ ,  .(Matricule, Nom, PrÃ©nom, Statut, Grade, Emploi, AnnÃ©e, Mois, Code, LibellÃ©, Montant)])
     
-    }, "Le test des cumuls de " %+% prime$nom %+% " ou " %+% prime_B$nom %+% " et du logement par NAS n'a pas pu être réalisé.")
+    }, "Le test des cumuls de " %+% prime$nom %+% " ou " %+% prime_B$nom %+% " et du logement par NAS n'a pas pu Ãªtre rÃ©alisÃ©.")
   }
 }
 
@@ -598,16 +598,16 @@ list(Paie = Paie_A,
      variations = beneficiaires.A.Variation,
      matricules = matricules.A,
      indices = lignes.indice.anormal,
-     manquant = résultat.manquant,
+     manquant = rÃ©sultat.manquant,
      NAS = cumul.prime.NAS)
 }
 
 #' Teste les logements par NAS
 #' 
-#' @param avantage Vecteur de caractères indiquant le type de logement (actuellement seul "NAS" est actif)
-#' @param Paie Base de Paye principale comportant les variables \code{Matricule, Année, Mois, Statut, Grade, Emploi, Type, Code, Libellé, Montant}
-#' @param logements La base de logements facultative importée par l'onglet Extra de l'interface graphique 
-#' @return base de type \code{data.table} comportant les enregistrements identifiés comme problématiques.  
+#' @param avantage Vecteur de caractÃ¨res indiquant le type de logement (actuellement seul "NAS" est actif)
+#' @param Paie Base de Paye principale comportant les variables \code{Matricule, AnnÃ©e, Mois, Statut, Grade, Emploi, Type, Code, LibellÃ©, Montant}
+#' @param logements La base de logements facultative importÃ©e par l'onglet Extra de l'interface graphique 
+#' @return base de type \code{data.table} comportant les enregistrements identifiÃ©s comme problÃ©matiques.  
 #' @export
 
 test_avn <- function(avantage, Paie, logements = NULL) {
@@ -615,14 +615,14 @@ test_avn <- function(avantage, Paie, logements = NULL) {
   val <- codes[type == avantage, valeur]
   
   essayer({  if (! is.na(val)) {
-      Paie_AV <- Paie[Code %chin% val, .(Matricule, Année, Mois, Statut, Grade, Emploi, Type, Code, Libellé, Montant)]
+      Paie_AV <- Paie[Code %chin% val, .(Matricule, AnnÃ©e, Mois, Statut, Grade, Emploi, Type, Code, LibellÃ©, Montant)]
   } else {
-      Paie_AV <- Paie[grepl(codes[type == avantage, expression], Libellé, ignore.case = TRUE, perl = TRUE), .(Matricule, Année, Mois, Statut, Grade, Emploi, Code, Type, Libellé, Montant)]
+      Paie_AV <- Paie[grepl(codes[type == avantage, expression], LibellÃ©, ignore.case = TRUE, perl = TRUE), .(Matricule, AnnÃ©e, Mois, Statut, Grade, Emploi, Code, Type, LibellÃ©, Montant)]
   }
   
   if ((n1 <- nrow(Paie_AV[Type == "AV"])) < (n2 <- nrow(Paie_AV))) {
     newline()
-    cat("Tous les avantages en nature pour logement par NAS (", n2, " lignes) ne sont pas déclarés comme type \"Avantage en nature\", soit ", n1, " lignes."  )
+    cat("Tous les avantages en nature pour logement par NAS (", n2, " lignes) ne sont pas dÃ©clarÃ©s comme type \"Avantage en nature\", soit ", n1, " lignes."  )
     newline()
   }
   
@@ -632,27 +632,27 @@ test_avn <- function(avantage, Paie, logements = NULL) {
   
   if (is.null(logements) || is.null(logements[Logement == "NAS"]) || nrow(logements[Logement == "NAS"]) == 0) {
     
-    logements <- Paie_AV[ , .(Matricule, Année, Mois)]   # on prend ceux de la base de paye à défaut de déclarations explicites dans fichier auxiliaire importé
+    logements <- Paie_AV[ , .(Matricule, AnnÃ©e, Mois)]   # on prend ceux de la base de paye Ã  dÃ©faut de dÃ©clarations explicites dans fichier auxiliaire importÃ©
     logements[ , Logement := "NAS"]
-    cat("En l'absence de fichier auxiliaire importé des logements par NAS, il a été trouvé ", nrow(logements), " lignes d'avantage en nature de logement, supposé par NAS.")
+    cat("En l'absence de fichier auxiliaire importÃ© des logements par NAS, il a Ã©tÃ© trouvÃ© ", nrow(logements), " lignes d'avantage en nature de logement, supposÃ© par NAS.")
 
   } else {
     
-    if (is.null(Paie_AV) || nrow(Paie_AV) == 0)  {  # il y a donc des logements par NAS non déclarés en base de paye...
+    if (is.null(Paie_AV) || nrow(Paie_AV) == 0)  {  # il y a donc des logements par NAS non dÃ©clarÃ©s en base de paye...
       
-      cat("Aucun des logements par NAS déclarés dans le fichier auxiliaire importé n'est mentionné comme avantage en nature (Type == \"AV\") en base de paye. ")
-      cat("Il peut en résulter des anomalies dans les déclarations fiscales ou de cotisations sociales. ")
+      cat("Aucun des logements par NAS dÃ©clarÃ©s dans le fichier auxiliaire importÃ© n'est mentionnÃ© comme avantage en nature (Type == \"AV\") en base de paye. ")
+      cat("Il peut en rÃ©sulter des anomalies dans les dÃ©clarations fiscales ou de cotisations sociales. ")
 
     } else {
       
-      cat("Il existe à la fois des avantages en nature déclarés en base de paye (", nrow(Paie_AV), " lignes) et un fichier de déclaration de logements par NAS importé (", n1, " lignes. ")
+      cat("Il existe Ã  la fois des avantages en nature dÃ©clarÃ©s en base de paye (", nrow(Paie_AV), " lignes) et un fichier de dÃ©claration de logements par NAS importÃ© (", n1, " lignes. ")
       
-      logements <- merge(Paie_AV, base.logements[Logement == "NAS"], by = c("Matricule", "Année", "Mois"), all = TRUE)
+      logements <- merge(Paie_AV, base.logements[Logement == "NAS"], by = c("Matricule", "AnnÃ©e", "Mois"), all = TRUE)
       NAS.non.importes <- logements[is.na(Logement)]
       NAS.non.declares.paye <- logements[! is.na(Logement) & is.na(Code)]
     }      
   }
-  }, "Il n'a pas été possible d'extraire les logements par NAS déclarés en base de paye. ")
+  }, "Il n'a pas Ã©tÃ© possible d'extraire les logements par NAS dÃ©clarÃ©s en base de paye. ")
 
   newline()
   
@@ -665,22 +665,22 @@ test_avn <- function(avantage, Paie, logements = NULL) {
 
   if (! is.null(logements) && nrow(logements) > 0) {
     
-    message("Détection d'avantages en nature liés à un logement par NAS.")
-    return(logements[, .(Matricule, Année, Mois, Logement)])
+    message("DÃ©tection d'avantages en nature liÃ©s Ã  un logement par NAS.")
+    return(logements[, .(Matricule, AnnÃ©e, Mois, Logement)])
     
   } else {
     
-    message("Pas de détection d'avantage en nature lié à un logement par NAS.")
+    message("Pas de dÃ©tection d'avantage en nature liÃ© Ã  un logement par NAS.")
     return(NULL)
   }
 }
 
 #' Teste les plafonds d'une prime
 #' 
-#' @param plafonds Base \code{data.table} comportant les colonnes caractères \code{Grade, Groupe} et \code{Logement} suivies de la colonne numérique \code{Plafond}. Logement doit contenir le codage \code{NAS} pour les personnels logés par nécessité absolue de service.    
-#' @param Lignes Lignes de paye limitées à des montants indemnitaires fléchés (ex: IFSE) et comportant les variables \code{Matricule, Année, Mois, Statut, Grade, Emploi, Type, Code, Libellé, Montant}
-#' @param logements La base de logements importée par l'onglet Extra de l'interface graphique, comportant la variable Logement et le codage \code{NAS} pour les personnels logés par nécessité absolue de service. A défaut tous les agents sont considérés non logés.       
-#' @return Liste constituée du coût des dépassements par année et d'une base de type \code{data.table} comportant les bulletins de paye comportant une ligne IFSE identifiée comme problématique.  
+#' @param plafonds Base \code{data.table} comportant les colonnes caractÃ¨res \code{Grade, Groupe} et \code{Logement} suivies de la colonne numÃ©rique \code{Plafond}. Logement doit contenir le codage \code{NAS} pour les personnels logÃ©s par nÃ©cessitÃ© absolue de service.    
+#' @param Lignes Lignes de paye limitÃ©es Ã  des montants indemnitaires flÃ©chÃ©s (ex: IFSE) et comportant les variables \code{Matricule, AnnÃ©e, Mois, Statut, Grade, Emploi, Type, Code, LibellÃ©, Montant}
+#' @param logements La base de logements importÃ©e par l'onglet Extra de l'interface graphique, comportant la variable Logement et le codage \code{NAS} pour les personnels logÃ©s par nÃ©cessitÃ© absolue de service. A dÃ©faut tous les agents sont considÃ©rÃ©s non logÃ©s.       
+#' @return Liste constituÃ©e du coÃ»t des dÃ©passements par annÃ©e et d'une base de type \code{data.table} comportant les bulletins de paye comportant une ligne IFSE identifiÃ©e comme problÃ©matique.  
 #' @export
 
 test_plafonds <- function(plafonds, Lignes, logements = NULL) {
@@ -688,20 +688,20 @@ test_plafonds <- function(plafonds, Lignes, logements = NULL) {
   essayer({ 
 
   if (is.null(plafonds)) {
-    cat("Le fichier des plafonds de l'IFSE n'est pas importé. Le test du respect des plafonds ne peut donc pas être effectué. Le lien ci-après est inactif.")
+    cat("Le fichier des plafonds de l'IFSE n'est pas importÃ©. Le test du respect des plafonds ne peut donc pas Ãªtre effectuÃ©. Le lien ci-aprÃ¨s est inactif.")
     newline()
-    return(rep.int(0, uniqueN(Lignes$Année)))
+    return(rep.int(0, uniqueN(Lignes$AnnÃ©e)))
   }
   
   if (is.null(logements)) logements <- data.table(Logement = rep_len("", nrow(Lignes)))
   
   essayer({ if (ncol(logements) == 1) Paie_NAS <- NULL else {
       
-       Paie_NAS <- merge(Lignes, logements, by = c("Matricule", "Année", "Mois"), all.x = TRUE)
+       Paie_NAS <- merge(Lignes, logements, by = c("Matricule", "AnnÃ©e", "Mois"), all.x = TRUE)
     
        Paie_NAS <- merge(Paie_NAS[Logement == "NAS", 
                                      .(Matricule, 
-                                       Année, 
+                                       AnnÃ©e, 
                                        Mois, 
                                        Statut, 
                                        Grade, 
@@ -709,7 +709,7 @@ test_plafonds <- function(plafonds, Lignes, logements = NULL) {
                                        Logement, 
                                        Type, 
                                        Code, 
-                                       Libellé, 
+                                       LibellÃ©, 
                                        Montant)
                                   ][ , Logement := NULL], 
                            plafonds[Logement == "NAS"
@@ -719,11 +719,11 @@ test_plafonds <- function(plafonds, Lignes, logements = NULL) {
     
     if (ncol(logements) == 1) Paie_NO_NAS <- Lignes else {
       
-       Paie_NO_NAS <- merge(Lignes, logements, by = c("Matricule", "Année", "Mois"), all.x = TRUE)
+       Paie_NO_NAS <- merge(Lignes, logements, by = c("Matricule", "AnnÃ©e", "Mois"), all.x = TRUE)
     
        Paie_NO_NAS <- merge(Paie_NO_NAS[Logement != "NAS", 
                                         .(Matricule,
-                                          Année,
+                                          AnnÃ©e,
                                           Mois,
                                           Statut,
                                           Grade,
@@ -731,7 +731,7 @@ test_plafonds <- function(plafonds, Lignes, logements = NULL) {
                                           Logement,
                                           Type,
                                           Code,
-                                          Libellé,
+                                          LibellÃ©,
                                           Montant)
                                         ][ , Logement := NULL],
                             plafonds[Logement != "NAS"
@@ -741,23 +741,23 @@ test_plafonds <- function(plafonds, Lignes, logements = NULL) {
     
     newline()  
     
-  }, "Il n'a pas été possible de contrôler les plafonds en base de paye. ")
+  }, "Il n'a pas Ã©tÃ© possible de contrÃ´ler les plafonds en base de paye. ")
   
   newline()
   
   P <- rbind(Paie_NAS, Paie_NO_NAS)
   
-  dépassements <- P[Montant / adm(Temps.de.travail/100) > Plafond]
-  couts.dépassements <- dépassements[ , sum(Montant, na.rm = TRUE), by = Année]
-  bulletins.dépassements <- merge(P, dépassements[, .(Matricule, Année, Mois)])
+  dÃ©passements <- P[Montant / adm(Temps.de.travail/100) > Plafond]
+  couts.dÃ©passements <- dÃ©passements[ , sum(Montant, na.rm = TRUE), by = AnnÃ©e]
+  bulletins.dÃ©passements <- merge(P, dÃ©passements[, .(Matricule, AnnÃ©e, Mois)])
   
   env <- environment()
   
   if (sauvegarder.bases.analyse)  
-      sauvebase("bulletins.dépassements", "bulletins.depassements.ifse", "Reglementation", env)
+      sauvebase("bulletins.dÃ©passements", "bulletins.depassements.ifse", "Reglementation", env)
 
-  couts.dépassements
+  couts.dÃ©passements
   
- }, "Les plafonds n'ont pas pu être testés.")  
+ }, "Les plafonds n'ont pas pu Ãªtre testÃ©s.")  
   
 }
