@@ -247,7 +247,7 @@ base<-data.frame()
 indicesOk <- Qt$QCheckBox("Sélectionner tous les fichiers\nde même nom racine")
 indicesOk$setChecked(TRUE);
 
-base.étiquettes <- c("Fichiers Xémélios", "Lignes de paie", "Bulletins de paie", "Nouvelle bonification indiciaire", "Codes", "Avantages en nature", "Catégories")
+base.étiquettes <- c("Fichiers Xémélios", "Lignes de paie", "Bulletins de paie", "Nouvelle bonification indiciaire", "Codes", "Avantages en nature", "Categories")
 
 parseXml <- Qt$QCheckBox("Importer directement les fichiers xhl")
 

@@ -21,7 +21,7 @@ analyser.variations <- function()
   plot(names(Total),Total,
        ylab="k€",
        las=1,
-       xlab="Année",
+       xlab="Annee",
        main="Rémunération annuelle nette des agents",
        col="red",
        type="b",  
@@ -210,11 +210,11 @@ analyser.variations <- function()
   
   Ldp.plus.de.2.ans<-Ldp[plus.de.2.ans, ]
   
-  plot(levels(as.factor(Ldp.plus.de.2.ans$Année)),
-       tapply(Ldp.plus.de.2.ans$Net.a.Payer, Ldp.plus.de.2.ans$Année, sum)/1000,
+  plot(levels(as.factor(Ldp.plus.de.2.ans$Annee)),
+       tapply(Ldp.plus.de.2.ans$Net.a.Payer, Ldp.plus.de.2.ans$Annee, sum)/1000,
        ylab="k€",
        las=1,
-       xlab="Année",
+       xlab="Annee",
        main="Rémunération annuelle nette des agents\nrestés plus de deux ans",
        col="red",
        type="b",  
@@ -224,51 +224,51 @@ analyser.variations <- function()
   
   Ldp.moins.de.2.ans<-Ldp[!plus.de.2.ans, ]
   
-  plot(levels(as.factor(Ldp.moins.de.2.ans$Année)),
-       tapply(Ldp.moins.de.2.ans$Net.a.Payer, Ldp.moins.de.2.ans$Année, sum)/1000,
+  plot(levels(as.factor(Ldp.moins.de.2.ans$Annee)),
+       tapply(Ldp.moins.de.2.ans$Net.a.Payer, Ldp.moins.de.2.ans$Annee, sum)/1000,
        ylab="k€",
        las=1,
-       xlab="Année",
+       xlab="Annee",
        main="Rémunération annuelle nette des agents\n restés moins de deux ans",
        col="blue",
        type="b",  
        xlim=c(début.période.sous.revue,fin.période.sous.revue)
   )
   
-  plot(levels(as.factor(Ldp.moins.de.2.ans$Année)),
-       sapply(levels(as.factor(Ldp.moins.de.2.ans$Année)) ,function(x) nlevels(as.factor(Ldp.moins.de.2.ans[Ldp.moins.de.2.ans$Année == x, ]$Matricule))),
+  plot(levels(as.factor(Ldp.moins.de.2.ans$Annee)),
+       sapply(levels(as.factor(Ldp.moins.de.2.ans$Annee)) ,function(x) nlevels(as.factor(Ldp.moins.de.2.ans[Ldp.moins.de.2.ans$Annee == x, ]$Matricule))),
        ylab="Effectif",
        las=1,
-       xlab="Année",
+       xlab="Annee",
        main="Nombre d'agents\n restés moins de deux ans",
        col="blue",
        type="b",  
        xlim=c(début.période.sous.revue,fin.période.sous.revue)
   )
   
-  plot(levels(as.factor(Ldp.plus.de.2.ans$Année)),
-       sapply(levels(as.factor(Ldp.plus.de.2.ans$Année)) ,function(x) nlevels(as.factor(Ldp.plus.de.2.ans[Ldp.plus.de.2.ans$Année == x, ]$Matricule))),
+  plot(levels(as.factor(Ldp.plus.de.2.ans$Annee)),
+       sapply(levels(as.factor(Ldp.plus.de.2.ans$Annee)) ,function(x) nlevels(as.factor(Ldp.plus.de.2.ans[Ldp.plus.de.2.ans$Annee == x, ]$Matricule))),
        ylab="Effectif",
        las=1,
-       xlab="Année",
+       xlab="Annee",
        main="Nombre d'agents\n restés plus de deux ans",
        col="blue",
        type="b",  
        xlim=c(début.période.sous.revue,fin.période.sous.revue)
   )
   
-  plot(levels(as.factor(Année)),
-       sapply(levels(as.factor(Année)), function(x) nlevels(as.factor(Ldp[Année == x, ]$Matricule))),
+  plot(levels(as.factor(Annee)),
+       sapply(levels(as.factor(Annee)), function(x) nlevels(as.factor(Ldp[Annee == x, ]$Matricule))),
        ylab="Effectif",
        las=1,
-       xlab="Année",
+       xlab="Annee",
        main="Nombre d'agents rémunérés par exercice",
        col="green",
        type="b",  
        xlim=c(début.période.sous.revue,fin.période.sous.revue)
   )
   
-  table(plus.de.2.ans, Année)
+  table(plus.de.2.ans, Annee)
   
   detach(Ldp)
 }

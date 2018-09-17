@@ -32,7 +32,7 @@ base.générateur$methods(
                                     total.rémunérations > 0 
                                     & ! is.na(get( altair$étiquette.catégorie)))
     
-    Liste.de.bases <- c(Analyse.rémunérations, lapply(levels(Catégories[, altair$étiquette.catégories]), 
+    Liste.de.bases <- c(Analyse.rémunérations, lapply(levels(Categories[, altair$étiquette.catégories]), 
                                                       function(x) subset(Analyse.rémunérations, get(altair$étiquette.catégorie) == x)))
     
     # Il faut impérativement que la catégorie soit renseignée pour chaque agent

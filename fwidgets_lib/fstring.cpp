@@ -178,7 +178,7 @@ inline QStringList setDistributedTags(const QString & tag,const FStringList &pro
       const QStringList prop = j.next();
       QStringListIterator w(prop);
       QString str =  QString("<") + tag ;
-      QStringList propStringLabels = {"V", "S", "B", "E", "EM" };  // Année ou Mois, Siret, Budget, Etablissement, Employeur
+      QStringList propStringLabels = {"V", "S", "B", "E", "EM" };  // Annee ou Mois, Siret, Budget, Etablissement, Employeur
       if (prop.size() > 5)
          for (int i = 2; i <= prop.size() - 3; ++i)
               propStringLabels << "S" + QString::number(i) << "E" + QString::number(i) << "EM" + QString::number(i);

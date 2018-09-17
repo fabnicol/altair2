@@ -15,10 +15,10 @@ static constexpr const int  NTags0 = 16; /* l'indice du cut entre bulletins et l
 static constexpr const int  NTags1 = 14; /* l'indice de séparation dans les champs bulletins d'origine entre valeurs char et numériques */
 
 /*
- * Année                0
+ * Annee                0
  * Mois                 1
  * Nom                  2
- * Prénom               3
+ * Prenom               3
  * Matricule            4
  * Service              12
  * Nb.Enfants           6
@@ -29,26 +29,26 @@ static constexpr const int  NTags1 = 14; /* l'indice de séparation dans les cha
  * Indice               11
  * Brut                 17
  * Net                  18
- * Net.à.Payer          19
+ * Net.a.Payer          19
  * NBI                  13
- * Libellé              L0
+ * Libelle              L0
  * Code                 L1
  * Base                 L2
  * Taux                 L3
- * Nb.Unité             L4
+ * Nb.Unite             L4
  * Montant              L5
  * Type                 20
  * Emploi               8
  * Grade                9
  * Echelon              10
- * Catégorie            21
+ * Categorie            21
  * Nir                  5              */
 
 
-static constexpr const char* entete = "Année;Mois;Nom;Prénom;\
+static constexpr const char* entete = "Annee;Mois;Nom;Prenom;\
 Matricule;Service;Nb.Enfants;Statut;Temps.de.travail;Heures.Sup.;\
-Heures;Indice;Brut;Net;Net.à.Payer;NBI;Libellé;Code;Base;Taux;\
-Nb.Unité;Montant;Type;Emploi;Grade;Echelon;Catégorie;Nir\n";
+Heures;Indice;Brut;Net;Net.a.Payer;NBI;Libelle;Code;Base;Taux;\
+Nb.Unite;Montant;Type;Emploi;Grade;Echelon;Categorie;Nir\n";
 
 static constexpr const array<int, NTags + 2> map_ind = {0, 1, 2, 3, 4, 12, 6, 7, 14, 16, 15, 11, 17, 18, 19, 13, 20, 8, 9, 10, 21, 5};
 

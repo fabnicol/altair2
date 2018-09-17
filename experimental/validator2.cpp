@@ -131,7 +131,7 @@ static int parseFile(info_t& info)
     }
     else
     {
-        cerr << ERROR_HTML_TAG "Année non détectable" ENDL;
+        cerr << ERROR_HTML_TAG "Annee non détectable" ENDL;
         if (log.is_open())
             log.close();
 #ifdef STRICT
@@ -289,7 +289,7 @@ static int parseFile(info_t& info)
             {
                 cerr  << ERROR_HTML_TAG "Siret de l'empoyeur non identifié [non-conformité à la norme]." ENDL;
                if (verbeux)  cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
-                cerr << "Année " << annee_fichier
+                cerr << "Annee " << annee_fichier
                           << " Mois "  << mois_fichier << ENDL;
                 siret_fichier = xmlStrdup(NA_STRING);
             }
@@ -564,7 +564,7 @@ static int parseFile(info_t& info)
                               << ENDL "Pour l'agent "
                               << "de rang  " << info.NCumAgentXml << " dans le fichier" ENDL
                               << info.Table[info.NCumAgentXml][Matricule]
-                              << " Année "
+                              << " Annee "
                               << info.Table[info.NCumAgentXml][Annee]
                               << " Mois "
                               << info.Table[info.NCumAgentXml][Mois]

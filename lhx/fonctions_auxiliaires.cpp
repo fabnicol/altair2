@@ -53,12 +53,9 @@
 
 extern bool verbeux;
 
-#ifdef CONVERTIR_LATIN_1
-#include "entete-latin1.h"
-#else
 #include "entete.h"
-#endif
-#ifndef __linux--
+
+#ifndef __linux__
 #include <windows.h>
 #else
 #include <unistd.h>
@@ -364,7 +361,7 @@ void ecrire_log (const info_t& info, ofstream& log, int diff)
         {
             if (log.good())
 #define P  " | "
-                log << "Année " << P
+                log << "Annee " << P
                     << info.Table[info.NCumAgentXml][Annee] << P
                     << "Mois "  << setw (2) << info.Table[info.NCumAgentXml][Mois] << P
                     << "Matricule " << setw (6) <<  info.Table[info.NCumAgentXml][Matricule] << P

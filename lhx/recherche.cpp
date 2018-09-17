@@ -154,7 +154,7 @@ vector<string> bulletin_paye (const string& chemin_repertoire, const vector<info
         {
             ++rang;
 
-            // Classement par Matricule - Année - Mois
+            // Classement par Matricule - Annee - Mois
             // Cet ordre permet un lcassement automatique optimal dans les gestionnaires de fichiers des SE.
             // Dans la pratique en effet on recherche d'abord les bulletins d'un agent, en triant ensuite par exercice et par mois.
 
@@ -173,7 +173,7 @@ vector<string> bulletin_paye (const string& chemin_repertoire, const vector<info
             else
                 {
                     cerr << ERROR_HTML_TAG "Echec de la génération du bulletin pour le matricule "
-                         << matricule << " Année : " << annee << " Mois : " << mois << ENDL;
+                         << matricule << " Annee : " << annee << " Mois : " << mois << ENDL;
 
                     continue;
                 }
@@ -187,7 +187,7 @@ vector<string> bulletin_paye (const string& chemin_repertoire, const vector<info
                     cerr << " Rang local : " << rang;
                 }
 
-            cerr << " Année : " << annee << " Mois : " << mois << ENDL;
+            cerr << " Annee : " << annee << " Mois : " << mois << ENDL;
         }
 
     return chemins_bulletins;
@@ -217,7 +217,7 @@ vector<string> __scan_mois (const string &repertoire_bulletins,
 
             for (int m = m0; m <= m1; ++m)
             {
-                if (verbeux) cerr << PROCESSING_HTML_TAG "Année : " << annee << " Extraction du mois : " << m  << ENDL;
+                if (verbeux) cerr << PROCESSING_HTML_TAG "Annee : " << annee << " Extraction du mois : " << m  << ENDL;
 
                 vector<string> c = bulletin_paye (repertoire_bulletins,
                                                    Info,
@@ -233,7 +233,7 @@ vector<string> __scan_mois (const string &repertoire_bulletins,
 
     else
     {
-        if (verbeux) cerr << PROCESSING_HTML_TAG "Année : " << annee << " Extraction du mois : " << mois  << ENDL;
+        if (verbeux) cerr << PROCESSING_HTML_TAG "Annee : " << annee << " Extraction du mois : " << mois  << ENDL;
         chemins_bulletins_extraits = bulletin_paye (repertoire_bulletins,
                                                     Info,
                                                     matricule,

@@ -22,4 +22,4 @@ conditionnel("Lien vers la base des écarts de paiement sur SFT", "Bases/Regleme
 message("Analyse du SFT")
 
 # data.table here overallocates memory hence inefficient !
-# Bulletins.paie[Nb.Enfants > 0 , SFT.controle := sft(Nb.Enfants, Indice, Heures, Année, Mois)]
+# Bulletins.paie[Nb.Enfants > 0 , SFT.controle := sft(Nb.Enfants, Indice, Heures, Annee, Mois)]

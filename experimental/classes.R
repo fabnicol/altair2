@@ -50,25 +50,25 @@ noyau.générateur <- setRefClass(
 #' par \code{\link{base.générateur}}
 #' @param champ1          ["Matricule"]    Etiquette du champ qui sera détecté en priorité pour la lecture des bases.
 #' @param champ2          ["Mois"]         Etiquette du champ qui sera détecté en second lieu pour la lecture des bases.
-#' @param catégorie       ["Catégorie"]    Etiquette du champ des catégories statutaires.
+#' @param catégorie       ["Categorie"]    Etiquette du champ des catégories statutaires.
 #' @param code            ["Code"]         Etiquette du champ des codes de rémunération.
-#' @param libellé         ["Libellé"]      Etiquette du champ des libellés de rémunération.
+#' @param libellé         ["Libelle"]      Etiquette du champ des libellés de rémunération.
 #' @param matricule       ["Matricule"]    Etiquette du champ du matricule d'un agent.
 #' @param montant         ["Montant"]      Etiquette du champ du montant de la rémunération.
 #' @param statut          ["Statut"]       Etiquette du champ du statut de l'agent (titulaire, stagiaire...)
 #' @param totalgénéral    ["Total"]        Etiquette du champ du total des rémunérations brutes pour une année.  
 #' @param type            ["Type.rémunération"] Etiquette du champ du type de rémunération (traitement, vacation...)
-#' @param autre           ["AUTRES"]       Libellé de la valeur du champ `type' pour les rémunérations non catégorisées.
-#' @param élu             ["ELU"]          Libellé utilisé pour identifier le service de l'organisme comme celui des élus.
-#' @param nbi             ["NBI"           Libellé de la valeur du champ `type' pour les rémunérations de type NBI. 
-#' @param prime           ["INDEMNITAIRE.OU.CONTRACTUEL"]  Libellé de la valeur du champ `type' pour les rémunérations de type indemnitaire des fonctionnaires, hors vacations, ainsi que pour les rémunérations non indexées sur INM des contractuels. 
-#' @param stagiaire       ["STAGIAIRE"]    Libellé du statut d'un agent fonctionnaire stagiaire.
-#' @param titulaire       ["TITULAIRE"]    Libellé du statut d'un agent fonctionnaire titulaire.
-#' @param traitement      ["TRAITEMENT"]   Libellé de la valeur du champ `type' pour les rémunérations indexées sur INM, de fonctionnaire ou de contractuel.
-#' @param vacation        ["VACATION"]     Libellé de la valeur du champ `type' pour les rémunérations de vacations.
+#' @param autre           ["AUTRES"]       Libelle de la valeur du champ `type' pour les rémunérations non catégorisées.
+#' @param élu             ["ELU"]          Libelle utilisé pour identifier le service de l'organisme comme celui des élus.
+#' @param nbi             ["NBI"           Libelle de la valeur du champ `type' pour les rémunérations de type NBI. 
+#' @param prime           ["INDEMNITAIRE.OU.CONTRACTUEL"]  Libelle de la valeur du champ `type' pour les rémunérations de type indemnitaire des fonctionnaires, hors vacations, ainsi que pour les rémunérations non indexées sur INM des contractuels. 
+#' @param stagiaire       ["STAGIAIRE"]    Libelle du statut d'un agent fonctionnaire stagiaire.
+#' @param titulaire       ["TITULAIRE"]    Libelle du statut d'un agent fonctionnaire titulaire.
+#' @param traitement      ["TRAITEMENT"]   Libelle de la valeur du champ `type' pour les rémunérations indexées sur INM, de fonctionnaire ou de contractuel.
+#' @param vacation        ["VACATION"]     Libelle de la valeur du champ `type' pour les rémunérations de vacations.
 #' @param date            ["%d/%m/%Y"]     Format de date :  %d pour les jours, %m pour les mois, %Y pour les années.
-#' @param début           [2008]           Année de la première base requêtée.
-#' @param fin             [2013]           Année de la dernière base requêtée. 
+#' @param début           [2008]           Annee de la première base requêtée.
+#' @param fin             [2013]           Annee de la dernière base requêtée. 
 #' @param seuil           [100]            Nombre de jours minimum que doit avoir travaillé l'agent en année de début et de fin de requête pour inclure l'agent dans les statistiques de variations de rémunérations.
 #' @param bases           [FALSE]          Valeur logique : si vaut TRUE, générer les bases .csv
 #' @param codage          [TRUE]           Valeur logique : si vaut TRUE, générer les codes de rémunération.
@@ -156,9 +156,9 @@ altair.générateur <- setRefClass(
     initialize = function(
       champ1                  = "Matricule",
       champ2                  = "Mois",
-      catégorie               = "Catégorie",
+      catégorie               = "Categorie",
       code                    = "Code",
-      libellé                 = "Libellé",
+      libellé                 = "Libelle",
       matricule               = "Matricule",
       montant                 = "Montant",
       statut                  = "Statut",
@@ -186,7 +186,7 @@ altair.générateur <- setRefClass(
                                   "Statut",
                                   "Code",
                                   "Mois",
-                                  "Libellé",
+                                  "Libelle",
                                   "Montant"),
       dossier.travail         = getwd(),
       dossier.bases           = "bases",
@@ -365,7 +365,7 @@ base.générateur <- setRefClass(
      Codes.NT                  = "data.frame",
      Lignes                    = "data.frame", 
      Avantages                 = "data.frame",
-     Catégories                = "data.frame",
+     Categories                = "data.frame",
      NBI                       = "data.frame"),
   
    methods=list(
@@ -479,7 +479,7 @@ base.générateur <- setRefClass(
   #' Lignes     Base des lignes de paie
   #' NBI        Base des rémunérations de type NBI
   #' Bulletins  Base des bulletins de paie
-  #' Catégories Base des catégories statutaires (A, B, C,...)
+  #' Categories Base des catégories statutaires (A, B, C,...)
   #' Codes      Base des codes de paie
   #' Avantages  Base des avantages en nature
   #' 
@@ -501,7 +501,7 @@ base.générateur <- setRefClass(
     Lignes      <<-  Read.csv(altair$nom.de.fichier.lignes)
     NBI         <<-  Read.csv(altair$nom.de.fichier.nbi)
     Bulletins   <<-  Read.csv(altair$nom.de.fichier.bulletins)
-    Catégories  <<-  Read.csv(altair$nom.de.fichier.catégories)
+    Categories  <<-  Read.csv(altair$nom.de.fichier.catégories)
     Codes       <<-  Read.csv(altair$nom.de.fichier.codes)
     Avantages   <<-  Read.csv(altair$nom.de.fichier.avantages)
     
@@ -509,12 +509,12 @@ base.générateur <- setRefClass(
       Lignes,
       NBI,
       Bulletins,
-      Catégories,
+      Categories,
       Codes,
       Avantages,
       poursuivre = TRUE)
     
-    #suppression des colonnes Nom Prénom redondantes
+    #suppression des colonnes Nom Prenom redondantes
     
 #     Avantages   <<-  selectionner.cle.matricule(Avantages, Categories) 
 #     Bulletins   <<-  selectionner.cle.matricule.mois(Bulletins, Lignes)

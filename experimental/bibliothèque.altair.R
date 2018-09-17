@@ -22,7 +22,7 @@ chemin <-  function(fichier)
 
 #  scan.prime:  string  ->  data.frame
 #
-#  Cherche l'expression régulière arg0 dans un Libellé de paiment, sans tenir
+#  Cherche l'expression régulière arg0 dans un Libelle de paiment, sans tenir
 #  compte de la casse et renvoie les matricules et libellés correspondants, sans
 #  doublons
 

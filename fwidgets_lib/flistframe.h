@@ -84,7 +84,7 @@ public:
 
  void clearWidgetContainer();
 
- /// Lancer un fil d'exécution pour lire l'entête d'un fichier XHL (Année, Mois,...) et classer les fichiers par onglet automatiquement
+ /// Lancer un fil d'exécution pour lire l'entête d'un fichier XHL (Annee, Mois,...) et classer les fichiers par onglet automatiquement
  /// \param rank Rang du fichier dans la liste des fichiers de l'onglet central
  /// \note Cette fonction appelle  parseXhlFile
  /// \todo Cette fonction pourrait être optimisée en ne lançant pas les fils d'exécution de manière successive mais par par groupe avec plusieurs fils parallèles dans chaque groupe
@@ -249,7 +249,7 @@ private:
 
  struct Header* elemPar;
 
- /// Décode les champs principaux du fichier XHL: Année, Mois, Budget, ...
+ /// Décode les champs principaux du fichier XHL: Annee, Mois, Budget, ...
  /// \param fileName Chemin du fichier décodé.
 
  void parseXhlFile(const QString& fileName);

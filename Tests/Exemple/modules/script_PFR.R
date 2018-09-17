@@ -93,7 +93,7 @@ test.PFR.all <- function(grade, cumul) any(sapply(1:length(e), function(i) test.
 cumuls.PFR <- résultat_PFR$Lignes[, .(PFR_annuel = sum(Montant, na.rm = TRUE),
                                       nb.mois = uniqueN(Mois),
                                       Grade = Grade[1]),
-                                  by = .(Matricule,Année)
+                                  by = .(Matricule,Annee)
                                   ][ , PFR_annuel := PFR_annuel * 12 / nb.mois]   # proratisation mensuelle
 
 dépassements.PFR.boolean <- mapply(test.PFR.all, cumuls.PFR$Grade, cumuls.PFR$PFR_annuel, USE.NAMES=FALSE)

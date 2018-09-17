@@ -1,5 +1,5 @@
 # --- Test Prime de fonctions informatiques
-#     Filtre    : filtre expression rationnelle expression.rég.pfi dans Libellé.   
+#     Filtre    : filtre expression rationnelle expression.rég.pfi dans Libelle.   
 
 #'  
 #'## 5.2 Contrôle de la prime de fonctions informatiques (PFI)     
@@ -18,7 +18,7 @@ if (nombre.personnels.pfi <- uniqueN(personnels.prime.informatique$Matricule)) {
       " percevant une PFI.")
 }
 
-primes.informatiques.potentielles <- if (nombre.personnels.pfi == 0) "aucune" else paste(unique(personnels.prime.informatique$Libellé), collpase = " ;")
+primes.informatiques.potentielles <- if (nombre.personnels.pfi == 0) "aucune" else paste(unique(personnels.prime.informatique$Libelle), collpase = " ;")
 
 sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), environment(), "personnels.prime.informatique")
 

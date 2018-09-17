@@ -36,7 +36,7 @@
 # 
 # 
 
-debug.code                  <- FALSE
+debug.code                  <- TRUE
 setOSWindows                <- Sys.info()["sysname"] != "Linux"
 racine                      <- ifelse(setOSWindows, "R-Altaïr/", "R-Altair")
 currentDir                  <- getwd()

@@ -20,13 +20,13 @@ analyser.tests <- function ()
   
   # Prime de fonctions informatiques : pas dans la base de VLB
   # on cherche la chaine de char. "INFO" dans les libellés de primes
-  # variante : filtre <- regexpr(".*(INFO|PFI|P.F.I).*", toupper(Global$Libellé)) et regmatches(Global$Libellé, filtre)
+  # variante : filtre <- regexpr(".*(INFO|PFI|P.F.I).*", toupper(Global$Libelle)) et regmatches(Global$Libelle, filtre)
   
-  filtre<-grep(".*(INFO|PFI|P.F.I).*", Libellé, ignore.case=TRUE)
+  filtre<-grep(".*(INFO|PFI|P.F.I).*", Libelle, ignore.case=TRUE)
   
   personnels.prime.informatique <- Global[ filtre, colonnes.sélectionnées]
   
-  primes.informatiques.potentielles<-unique(Libellé[filtre])
+  primes.informatiques.potentielles<-unique(Libelle[filtre])
   
   nombre.de.ldp.personnels.pfi <- nrow(personnels.prime.informatique)
   
@@ -55,8 +55,8 @@ analyser.tests <- function ()
   
   #IFTS et IB >= 380 (IM >= 350)
   
-  filtre.iat<-grep(".*(IAT|I.A.T|.*Adm.*Tech).*", Libellé, ignore.case=TRUE)
-  filtre.ifts<-grep(".*(IFTS|I.F.T.S|.*FORF.*TRAV.*SUPP).*", Libellé, ignore.case=TRUE)
+  filtre.iat<-grep(".*(IAT|I.A.T|.*Adm.*Tech).*", Libelle, ignore.case=TRUE)
+  filtre.ifts<-grep(".*(IFTS|I.F.T.S|.*FORF.*TRAV.*SUPP).*", Libelle, ignore.case=TRUE)
   codes.ifts <- unique(Global[filtre.ifts, "Code"])
   
   sélection.matricules <- intersect(!duplicated(Global[ Indice < 350, c("Matricule")]), !duplicated(Global[ filtre.ifts, c("Matricule")]))

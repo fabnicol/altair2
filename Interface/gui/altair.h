@@ -107,7 +107,7 @@ public:
             projectName = userdatadir + QString ("défaut.alt");
     }
 
-    /// Début du glisser-déplacer
+    /// Debut du glisser-déplacer
 
     void startDrag();
 

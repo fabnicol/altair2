@@ -336,7 +336,7 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l_ECHELON (int i, uint32_t agent, int 
 /// \note les variables communes à tous les bulletins de paye sont : \n
 /// <ul>
 /// <li>Nom : Nom de l'agent</li>
-/// <li>Prenom : Prénom de l'agent</li>
+/// <li>Prenom : Prenom de l'agent</li>
 /// <li>Matricule : Matricule de l'agent</li>
 /// <li>Service : Service de l'agent</li>
 /// <li>NbEnfants : Nombre d'enfants de l'agent</li>
@@ -349,8 +349,8 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l_ECHELON (int i, uint32_t agent, int 
 /// <li>MtNet : Montant net</li>
 /// <li>MtNetAPayer : Montant net à payer</li>
 /// <li>NBI : Nouvelle bonification indiciaire</li>
-/// <li>EmploiMetier : Libellé de l'emploi</li>
-/// <li>Grade : Libellé du grade</li>
+/// <li>EmploiMetier : Libelle de l'emploi</li>
+/// <li>Grade : Libelle du grade</li>
 /// <li>Code : Code de l'événement de paye</li>
 /// <li>Description : Description de l'événement de paye</li>
 /// </ul>
@@ -799,7 +799,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
 
                                     base.close();
 
-                                    cerr << "Année : " << annee_courante <<  ENDL;
+                                    cerr << "Annee : " << annee_courante <<  ENDL;
                                     cerr << "Table de " << compteur - dernier_compteur
                                          << " lignes, lignes "  << dernier_compteur + 1
                                          << " à " << compteur << "."  ENDL ENDL;
@@ -1053,7 +1053,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     cerr << SPACER "Table n°" << rang_fichier_base << " de " <<  compteur - dernier_compteur - rang_fichier_base_annee_courante * taille_base
                                          << " lignes, lignes "  << dernier_compteur + rang_fichier_base_annee_courante * taille_base + 1
                                          << " à " << compteur << "."  ENDL;
-                                    cerr << "Année : " << annee_courante <<  ENDL;
+                                    cerr << "Annee : " << annee_courante <<  ENDL;
                                     cerr << "Total annuel de " << compteur - dernier_compteur
                                          << " lignes, lignes "  << dernier_compteur + 1
                                          << " à " << compteur << "."  ENDL ENDL;
@@ -1344,47 +1344,47 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
             break;
 
         case  BaseType::PAR_TRAITEMENT          :
-            cerr << STATE_HTML_TAG "Catégorie : Traitement."  ENDL;
+            cerr << STATE_HTML_TAG "Categorie : Traitement."  ENDL;
             break;
 
         case  BaseType::PAR_INDEMNITE_RESIDENCE :
-            cerr << STATE_HTML_TAG "Catégorie : Indemnité de résidence."  ENDL;
+            cerr << STATE_HTML_TAG "Categorie : Indemnité de résidence."  ENDL;
             break;
 
         case  BaseType::PAR_SFT                 :
-            cerr << STATE_HTML_TAG "Catégorie : Supplément familial de traitement."  ENDL;
+            cerr << STATE_HTML_TAG "Categorie : Supplément familial de traitement."  ENDL;
             break;
 
         case  BaseType::PAR_AVANTAGE_NATURE     :
-            cerr << STATE_HTML_TAG "Catégorie : Avantage en nature."  ENDL;
+            cerr << STATE_HTML_TAG "Categorie : Avantage en nature."  ENDL;
             break;
 
         case  BaseType::PAR_INDEMNITE           :
-            cerr << STATE_HTML_TAG "Catégorie : Indemnité."  ENDL;
+            cerr << STATE_HTML_TAG "Categorie : Indemnité."  ENDL;
             break;
 
         case  BaseType::PAR_REM_DIVERSES        :
-            cerr << STATE_HTML_TAG "Catégorie : Rémunérations diverses."  ENDL;
+            cerr << STATE_HTML_TAG "Categorie : Rémunérations diverses."  ENDL;
             break;
 
         case  BaseType::PAR_DEDUCTION           :
-            cerr << STATE_HTML_TAG "Catégorie : Déduction."  ENDL;
+            cerr << STATE_HTML_TAG "Categorie : Déduction."  ENDL;
             break;
 
         case  BaseType::PAR_ACOMPTE             :
-            cerr << STATE_HTML_TAG "Catégorie : Acompte."  ENDL;
+            cerr << STATE_HTML_TAG "Categorie : Acompte."  ENDL;
             break;
 
         case  BaseType::PAR_RAPPEL              :
-            cerr << STATE_HTML_TAG "Catégorie : Rappel."  ENDL;
+            cerr << STATE_HTML_TAG "Categorie : Rappel."  ENDL;
             break;
 
         case  BaseType::PAR_RETENUE             :
-            cerr << STATE_HTML_TAG "Catégorie : Retenue."  ENDL;
+            cerr << STATE_HTML_TAG "Categorie : Retenue."  ENDL;
             break;
 
         case  BaseType::PAR_COTISATION          :
-            cerr << STATE_HTML_TAG "Catégorie : Cotisation."  ENDL;
+            cerr << STATE_HTML_TAG "Categorie : Cotisation."  ENDL;
             break;
 
         case  BaseType::TOUTES_CATEGORIES       :
@@ -1392,7 +1392,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
             break;
 
         case BaseType::PAR_ANNEE    :
-            cerr << "Année : " << annee_courante  << ENDL;
+            cerr << "Annee : " << annee_courante  << ENDL;
             cerr << "Table de " << compteur - dernier_compteur
                  << " lignes, lignes "  << dernier_compteur + 1
                  << " à " << compteur << "."  ENDL;
@@ -1402,7 +1402,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
             cerr << SPACER "Table n°" << rang_fichier_base << " de " <<  compteur - dernier_compteur - (rang_fichier_base_annee_courante - 1) * taille_base
                  << " lignes, lignes "  << dernier_compteur + (rang_fichier_base_annee_courante - 1) * taille_base + 1
                  << " à " << compteur << "."  ENDL;
-            cerr << "Année : " << annee_courante <<  ENDL;
+            cerr << "Annee : " << annee_courante <<  ENDL;
             cerr << "Total annuel de " << compteur - dernier_compteur
                  << " lignes, lignes "  << dernier_compteur + 1
                  << " à " << compteur << "."  ENDL;

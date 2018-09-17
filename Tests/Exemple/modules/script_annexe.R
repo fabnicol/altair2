@@ -25,8 +25,8 @@ Evenements.ind <- setkey(Bulletins.paie[Evenement != "" & Evenement != "NA NA",
                                         .(Evenement,
                                           Matricule,
                                           Nom,
-                                          Prénom,
-                                          Année,
+                                          Prenom,
+                                          Annee,
                                           Mois,
                                           Grade,
                                           Statut,
@@ -34,18 +34,18 @@ Evenements.ind <- setkey(Bulletins.paie[Evenement != "" & Evenement != "NA NA",
                                           Service)],
                          Evenement,
                          Matricule,
-                         Année,
+                         Annee,
                          Mois)
 
 Evenements.mat <- setcolorder(setkey(copy(Evenements.ind), 
                                      Matricule,
-                                     Année,
+                                     Annee,
                                      Mois,
                                      Evenement),
                               c("Matricule",
                                 "Nom",
-                                "Prénom",
-                                "Année",
+                                "Prenom",
+                                "Annee",
                                 "Mois",
                                 "Evenement",
                                 "Grade",
@@ -67,7 +67,7 @@ Evenements.mat <- setcolorder(setkey(copy(Evenements.ind),
 
 code.libelle <- remplacer_type(code.libelle)
 
-setcolorder(code.libelle, c("Code", "Libellé", "Statut", "Type", "Compte"))
+setcolorder(code.libelle, c("Code", "Libelle", "Statut", "Type", "Compte"))
 
 if (afficher.table.codes) {
   kable(code.libelle, align="c")
@@ -79,19 +79,19 @@ if (afficher.table.codes) {
 #'
 
 # Plusieurs libellés par code
-plusieurs_libelles_par_code <- unique(code.libelle[ , .(Code, Libellé, Type)], by = NULL)[, Multiplicité := .N, keyby = Code][Multiplicité > 1]
+plusieurs_libelles_par_code <- unique(code.libelle[ , .(Code, Libelle, Type)], by = NULL)[, Multiplicité := .N, keyby = Code][Multiplicité > 1]
 
 # Plusieurs codes par libellé
-plusieurs_codes_par_libelle <- unique(code.libelle[ , .(Libellé,  Code, Type)], by = NULL)[, Multiplicité := .N, keyby = Libellé][Multiplicité > 1]
+plusieurs_codes_par_libelle <- unique(code.libelle[ , .(Libelle,  Code, Type)], by = NULL)[, Multiplicité := .N, keyby = Libelle][Multiplicité > 1]
 
 # Plusieurs types de ligne par code
 plusieurs_types_par_code <- unique(code.libelle[, .(Code, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), keyby = Code][Multiplicité > 1]
 
 # Plusieurs types de ligne par libellé
-plusieurs_types_par_libelle <- unique(code.libelle[, .(Libellé, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), keyby = Libellé][Multiplicité > 1]
+plusieurs_types_par_libelle <- unique(code.libelle[, .(Libelle, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), keyby = Libelle][Multiplicité > 1]
 
 #'   
-#'[Lien vers la table Codes/Libellés](Bases/Fiabilite/code.libelle.csv)       
+#'[Lien vers la table Codes/Libelles](Bases/Fiabilite/code.libelle.csv)       
 conditionnel("Plusieurs libellés par code", "Bases/Fiabilite/plusieurs_libelles_par_code.csv")   
 conditionnel("Plusieurs codes par libellé", "Bases/Fiabilite/plusieurs_codes_par_libelle.csv")   
 conditionnel("Plusieurs types de ligne par code", "Bases/Fiabilite/plusieurs_types_par_code.csv")   
@@ -124,24 +124,24 @@ if (éliminer.duplications) {
 if (après.redressement != avant.redressement)
   cat("Elimination de ", FR(avant.redressement - après.redressement), " lignes dupliquées")
 #'  
-#'## Fiabilite des heures et des quotités de travail           
+#'## Fiabilite des heures et des quotites de travail           
 #'   
 
 nrow.bull <- nrow(Bulletins.paie)
 nrow.bull.heures <- nrow(Bulletins.paie[Heures != 0])
-nrow.bull.quotités <- nrow(Bulletins.paie[Temps.de.travail != 0])
+nrow.bull.quotites <- nrow(Bulletins.paie[Temps.de.travail != 0])
 
 if (nrow.bull.heures/nrow.bull  < 0.1) 
   message("Attention moins de 10 % des heures sont renseignées")
 
-if (nrow.bull.quotités/nrow.bull < 0.1)
-  message("Attention moins de 10 % des quotités sont renseignées")
+if (nrow.bull.quotites/nrow.bull < 0.1)
+  message("Attention moins de 10 % des quotites sont renseignées")
 #'     
 cat("Nombre de bulletins : ", FR(nrow.bull))
 #'     
 if (redresser.heures) {
   if (nredressements > 0) {
-    cat("Les heures de travail ont été redressées avec la méthode ", ifelse(test.temps.complet, "des quotités.\n", "de l'interpolation indiciaire\n")) 
+    cat("Les heures de travail ont été redressées avec la méthode ", ifelse(test.temps.complet, "des quotites.\n", "de l'interpolation indiciaire\n")) 
   }
 } else {
   cat("Les heures de travail n'ont pas été redressées.")
@@ -153,18 +153,18 @@ cat(" Pourcentage de redressements :", round((nredressements)/nrow.bull*100, 2),
 #'  
 cat("\nPourcentage d'heures renseignées (après redressement éventuel):", round(nrow.bull.heures/nrow.bull*100, 1), "%")
 #'   
-cat("\nPourcentage de quotités renseignées :", round(nrow.bull.quotités/nrow.bull*100, 1), "%")
+cat("\nPourcentage de quotites renseignées :", round(nrow.bull.quotites/nrow.bull*100, 1), "%")
 #'   
-cat("\nNombre de bulletins à heures et quotités : ", n <- nrow(Bulletins.paie[Heures != 0 & Temps.de.travail != 0]), "[", round(n/nrow.bull*100, 1), "%]")
+cat("\nNombre de bulletins à heures et quotites : ", n <- nrow(Bulletins.paie[Heures != 0 & Temps.de.travail != 0]), "[", round(n/nrow.bull*100, 1), "%]")
 #'   
-cat("\nNombre de bulletins à heures sans quotités : ", n <- nrow(Bulletins.paie[Heures != 0 & Temps.de.travail == 0]), "[", round(n/nrow.bull*100, 1), "%]")
+cat("\nNombre de bulletins à heures sans quotites : ", n <- nrow(Bulletins.paie[Heures != 0 & Temps.de.travail == 0]), "[", round(n/nrow.bull*100, 1), "%]")
 #'   
-cat("\nNombre de bulletins à quotités sans heures : ", n <- nrow(Bulletins.paie[Heures == 0 & Temps.de.travail != 0]), "[", round(n/nrow.bull*100, 1), "%]")
+cat("\nNombre de bulletins à quotites sans heures : ", n <- nrow(Bulletins.paie[Heures == 0 & Temps.de.travail != 0]), "[", round(n/nrow.bull*100, 1), "%]")
 #'   
 cat("\nNombre de bulletins apparemment inactifs : ", n <- nrow(Bulletins.paie[(Heures == 0 | is.na(Heures)) & (Temps.de.travail == 0 | is.na(Temps.de.travail))]), "[", round(n/nrow.bull*100, 1), "%]")  
 #'   
-base.heures.nulles.salaire.nonnull     <- Bulletins.paie[Heures == 0  & (Net.à.Payer != 0 | Brut != 0)]
-base.quotite.indefinie.salaire.non.nul <- Bulletins.paie[MHeures == 0 & (Net.à.Payer != 0 | Brut != 0)]
+base.heures.nulles.salaire.nonnull     <- Bulletins.paie[Heures == 0  & (Net.a.Payer != 0 | Brut != 0)]
+base.quotite.indefinie.salaire.non.nul <- Bulletins.paie[MHeures == 0 & (Net.a.Payer != 0 | Brut != 0)]
 
 nligne.base.heures.nulles.salaire.nonnull     <- nrow(base.heures.nulles.salaire.nonnull)
 nligne.base.quotite.indefinie.salaire.non.nul <- nrow(base.quotite.indefinie.salaire.non.nul)
@@ -187,10 +187,10 @@ sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"),
                        "base.quotite.indefinie.salaire.non.nul")
 
 if (nligne.base.quotite.indefinie.salaire.non.nul)
-  cat("\nNombre de bulletins de paie de salaires versés pour une quotité de travail indéfinie : ", FR(nligne.base.heures.nulles.salaire.nonnull))
+  cat("\nNombre de bulletins de paie de salaires versés pour une quotite de travail indéfinie : ", FR(nligne.base.heures.nulles.salaire.nonnull))
 #'   
 conditionnel("Lien vers la base de données des salaires versés pour Heures=0", "Bases/Fiabilite/base.heures.nulles.salaire.nonnull.csv")   
-conditionnel("Lien vers la base de données des salaires versés à quotité indéfinie", "Bases/Fiabilite/base.quotite.indefinie.salaire.non.nul.csv")   
+conditionnel("Lien vers la base de données des salaires versés à quotite indéfinie", "Bases/Fiabilite/base.quotite.indefinie.salaire.non.nul.csv")   
 #'    
 #'## Tableau des personnels  
 #'    

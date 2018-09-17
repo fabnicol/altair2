@@ -18,10 +18,10 @@ correspondance_grade_catégorie <- function() {
               
               if (grade.categorie.existe){
                 
-                grade.categorie <- fread(chemin("grades.catégories.csv"), # Code, Libellé,  Statut, Type, Compte
+                grade.categorie <- fread(chemin("grades.catégories.csv"), # Code, Libelle,  Statut, Type, Compte
                                       sep = ";",
                                       encoding   = "Latin-1",
-                                      col.names  = c(vect, "Catégorie"),
+                                      col.names  = c(vect, "Categorie"),
                                       colClasses = c("character", "character"))  
                 
                 message("*****")
@@ -31,11 +31,11 @@ correspondance_grade_catégorie <- function() {
                 
                 grade.categorie      <- unique(grade.categorie)
                 
-                exporter_tableau(grade.categorie, requis = "Catégorie", clé = "Grade")
+                exporter_tableau(grade.categorie, requis = "Categorie", clé = "Grade")
                
               } else {
                 
-                grade.categorie <- unique(matricules[, .(Grade, Catégorie)])
+                grade.categorie <- unique(matricules[, .(Grade, Categorie)])
               }
               
               grade.categorie
