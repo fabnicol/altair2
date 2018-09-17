@@ -19,16 +19,16 @@ effectifs(période, Bulletins = Bulletins.paie,
          \item \code{Grade}}}
    \item{ les variables numériques :
        \describe{
-         \item{\code{quotité}}{réel entre 0 et 1}
+         \item{\code{quotite}}{réel entre 0 et 1}
          \item{\code{nb.mois}}{entier entre 0 et 12}}}
    \item{ la variable booléenne :
        \describe{\item{\code{permanent}}{12 bulletins sur l'année}}}}.}
 
 \item{Analyse}{Base des analyses de rémunérations, comptant les variables :
-\code{Filtre_actif, Filtre_annexe, Statut, Matricule, Année}}
+\code{Filtre_actif, Filtre_annexe, Statut, Matricule, Annee}}
 
 \item{Analyse}{Base des analyses de variations de rémunérations, comptant les variables :
-\code{temps.complet, est.rmpp, statut, Matricule, Année, permanent}}
+\code{temps.complet, est.rmpp, statut, Matricule, Annee, permanent}}
 }
 \value{
 Un tableau des effectifs mis en forme de 22 lignes et autant de colonnes numériques que d'années de période, plus une colonne de libellés.

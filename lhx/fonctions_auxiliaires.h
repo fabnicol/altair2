@@ -142,7 +142,7 @@ void ouvrir_fichier_base (const info_t &info, BaseType type, ofstream& base, int
 
 /// Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d'exécution donné.
 /// \param info Référence vers une structure de type info_t contenant les données formatées.
-/// \param cat Catégorie de base (Bulletins de paye ou Lignes de paye).
+/// \param cat Categorie de base (Bulletins de paye ou Lignes de paye).
 /// \param type Type d'exportation de base (base monolithique, par indemnité, par année...).
 /// \param base Référence vers la base à générer de type \e ofstream.
 /// \param segment segment d'exécution.
@@ -243,7 +243,7 @@ vector<string> split (const string &s, char delim) ;
 /// \param log    fichier
 /// \param diff   différence entre les analyseurs C et XML
 /// \details Contenient les colonnes suivantes, pour chaque ligne de paye :\n
-/// <pre> Année, Mois, Matricule, Rang global, Rang dans le fichier, Analseur C, Xml </pre>
+/// <pre> Annee, Mois, Matricule, Rang global, Rang dans le fichier, Analseur C, Xml </pre>
 /// et la différence entre l'analyseur C et Xml. \n
 /// Sépare les colonnes par la chaine " | ".
 /// \note Le chemin du journal est donné par info_t::chemin_log

@@ -43,7 +43,7 @@ prime_FPH_test <- function(prime, prime_lit, base, expr = NULL) {
 
   fwrite(get(base, .GlobalEnv), file.path(chemin.dossier.bases, "Reglementation", base %+% ".csv"))
   
-  primes <- unique(DT$Libellé)
+  primes <- unique(DT$Libelle)
   
   primes.potentielles <- if (length(primes) == 0) "aucune" else paste(primes, collapse = " ;")
 }

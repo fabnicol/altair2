@@ -40,7 +40,7 @@
 
 // Doit être encodé en Latin-1 pour pouvoir être lu sous Windows
 
-#ifndef CONVERTIR_LATIN_1
+
 #ifdef __linux__
 
 // Ce tableau est utilisé pour les libellés de colonnes des bases CSV en sortie
@@ -48,13 +48,13 @@
 // Pour les fichiers Tablesxxx.csv
 
 static const char* entete_char[] = {"R",      // Rang
-                                    "Année",
+                                    "Annee",
                                     "Mois",
                                     "Budget",
                                     "Employeur",
                                     "Siret",
                                     "Etablissement",
-                                    "Nom", "Prénom",
+                                    "Nom", "Prenom",
                                     "Matricule",
                                     "Service",
                                     "Nb.Enfants",
@@ -65,35 +65,35 @@ static const char* entete_char[] = {"R",      // Rang
                                     "Indice",
                                     "Brut",
                                     "Net",
-                                    "Net.à.Payer",
+                                    "Net.a.Payer",
                                     "NBI",
-                                    "Libellé",
+                                    "Libelle",
                                     "Code",
                                     "Base",
                                     "Taux",
-                                    "Nb.Unité",
+                                    "Nb.Unite",
                                     "Montant",
-                                    "Début",
+                                    "Debut",
                                     "Fin",
                                     "Type",
                                     "Emploi",
                                     "Grade",
                                     "Echelon",
-                                    "Catégorie",
+                                    "Categorie",
                                     "Nir"
                                    };
 
 // Pour les fichiers Bulletins.paiexxx.csv
 
 static const char* entete_char_bulletins[] = {"R",
-                                              "Année",
+                                              "Annee",
                                               "Mois",
                                               "Budget",
                                               "Employeur",
                                               "Siret",
                                               "Etablissement",
                                               "Nom",
-                                              "Prénom",
+                                              "Prenom",
                                               "Matricule",
                                               "Service",
                                               "Nb.Enfants",
@@ -104,17 +104,17 @@ static const char* entete_char_bulletins[] = {"R",
                                               "Indice",
                                               "Brut",
                                               "Net",
-                                              "Net.à.Payer",
+                                              "Net.a.Payer",
                                               "NBI",
                                               "Emploi",
                                               "Grade",
                                               "Evenement",
                                               "Echelon",
-                                              "Catégorie",
+                                              "Categorie",
                                               "Nir"
                                              };
 
 #endif
-#endif
+
 #endif // ENTETE_HPP
 

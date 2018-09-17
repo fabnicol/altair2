@@ -7,20 +7,20 @@
 net.eqtp(Base = Paie, grade = NULL, classe = NULL, service = NULL,
   libellés = NULL, agr = FALSE, période = NULL,
   variation = FALSE, statut = NULL, catégorie = NULL,
-  exclure.codes = NULL, quotité.nulle = FALSE)
+  exclure.codes = NULL, quotite.nulle = FALSE)
 }
 \arguments{
 \item{Base}{Base des bulletins de paye, comportant pour l'ensemble de la période
 \enumerate{
   \item{ les variables charactère suivantes :
      \itemize{
-         \item \code{Année}
+         \item \code{Annee}
          \item \code{Matricule}
          \item \code{Statut}
          \item \code{Grade}}}
    \item{ les variables numériques :
        \describe{
-         \item{\code{quotité}}{réel entre 0 et 1}}}}.}
+         \item{\code{quotite}}{réel entre 0 et 1}}}}.}
 
 \item{grade}{Grade particulier. Tous les grades en l'absence de spécification.}
 
@@ -38,7 +38,7 @@ net.eqtp(Base = Paie, grade = NULL, classe = NULL, service = NULL,
 
 \item{statut}{Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.}
 
-\item{catégorie}{Catégorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.}
+\item{catégorie}{Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.}
 
 \item{exclure.codes}{Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).}
 }

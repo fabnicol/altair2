@@ -26,85 +26,85 @@ calcul_NBI <- function() {
     # On calcule ensuite, sur les traitements et éventuellement (par abus ou erreur de codage) les indemnités, la somme des paiements au titre de la NBI, par matricule et par année
     # Attention ne pas prendre en compte les déductions, retenues et cotisations. On compare en effet les payements bruts de base à la somme des points x valeur du point
     
-    # La quotité ici considérée est non pas la quotité statistique mais la quotité administrative plus favorable aux temps partiels.
+    # La quotite ici considérée est non pas la quotite statistique mais la quotite administrative plus favorable aux temps partiels.
     
     T1 <- lignes_NBI[! is.na(NBI)
                      & NBI != 0,  .(Matricule, 
                                     Nom,
-                                    Prénom,
+                                    Prenom,
                                     Grade,
                                     Statut,
-                                    Année,
+                                    Annee,
                                     Mois,
                                     Montant,
-                                    Début,
-                                    quotité,
+                                    Debut,
+                                    quotite,
                                     NBI,
                                     Type)
-                     ][ , `:=` (Année.rappel = as.numeric(substr(Début, 0, 4)),
-                                Mois.rappel  = as.numeric(substr(Début, 6, 7))) 
-                        ][ , Début := NULL]
+                     ][ , `:=` (Annee.rappel = as.numeric(substr(Debut, 0, 4)),
+                                Mois.rappel  = as.numeric(substr(Debut, 6, 7))) 
+                        ][ , Debut := NULL]
     
     if (nrow(T1) == 0) cat("Aucune NBI n'a été attribuée ou les points de NBI n'ont pas été rencensés en base de paye. ")
     
 
-    T2a <- T1[! is.na(quotité)
-              & quotité > 0
+    T2a <- T1[! is.na(quotite)
+              & quotite > 0
               & Type == "R",
               .(nbi.cum.rappels = sum(Montant, na.rm = TRUE)), 
-              by= .(Matricule, Année.rappel, Mois.rappel, Année, Mois)
-              ][Année.rappel >= début.période.sous.revue 
+              by= .(Matricule, Annee.rappel, Mois.rappel, Annee, Mois)
+              ][Annee.rappel >= début.période.sous.revue 
                 & Mois.rappel >=1 
                 & Mois.rappel <= 12]
     
-    setnames(T2a, "Année", "Année.R")
+    setnames(T2a, "Annee", "Annee.R")
     setnames(T2a, "Mois", "Mois.R")
-    setnames(T2a, "Année.rappel", "Année")
+    setnames(T2a, "Annee.rappel", "Annee")
     setnames(T2a, "Mois.rappel", "Mois")
     
     # Il faut éviter la réduplication de rappels sur le mêm mois qui après jointure causera une réduplication fautive des montants
     
-    T2b <- T1[! is.na(quotité)
-              & quotité > 0
+    T2b <- T1[! is.na(quotite)
+              & quotite > 0
               & Type != "R", 
               .(nbi.cum.hors.rappels = sum(Montant, na.rm = TRUE),
-                quotité = quotité[1],
+                quotite = quotite[1],
                 nbi.cum.indiciaire = NBI[1]), 
-              by= .(Matricule, Année, Mois)]
+              by= .(Matricule, Annee, Mois)]
     
     T2 <- merge(T2a, T2b, 
                 all = TRUE,
-                by = c("Matricule", "Année", "Mois"))[ , adm.quotité := adm(quotité)
+                by = c("Matricule", "Annee", "Mois"))[ , adm.quotite := adm(quotite)
                                                        ][is.na(nbi.cum.rappels), nbi.cum.rappels := 0
                                                          ][is.na(nbi.cum.hors.rappels), nbi.cum.hors.rappels := 0]
     
-    T2[adm.quotité > 0,  nbi.eqtp.tot := (nbi.cum.rappels + nbi.cum.hors.rappels) / adm.quotité]
+    T2[adm.quotite > 0,  nbi.eqtp.tot := (nbi.cum.rappels + nbi.cum.hors.rappels) / adm.quotite]
     
     "cumuls.nbi" %a% T2[ , .(cumul.annuel.indiciaire = sum(nbi.cum.indiciaire, na.rm = TRUE),
                           cumul.annuel.montants   = sum(nbi.eqtp.tot, na.rm = TRUE)),
-                      by = "Année"]
+                      by = "Annee"]
     
     if (nrow(cumuls.nbi) == 0) cat("Cumuls de NBI nuls. ")
     
     # On somme ensuite par année sur tous les matricules
     # Les cumuls annuels rapportés aux cumuls indiciaires pour l'année ne doivent pas trop s'écarter de la valeur annuelle moyenne du point d'indice
     
-    # Techniquement, rajouter un by = .(Année, Mois) accélère la computation
+    # Techniquement, rajouter un by = .(Annee, Mois) accélère la computation
     
     "lignes.nbi.anormales" %a% T2[nbi.cum.indiciaire > 0 
                                & nbi.eqtp.tot > 0,
-                               test := nbi.eqtp.tot/nbi.cum.indiciaire - PointMensuelIM[Année - 2007, Mois],
-                               by = .(Année, Mois)
+                               test := nbi.eqtp.tot/nbi.cum.indiciaire - PointMensuelIM[Annee - 2007, Mois],
+                               by = .(Annee, Mois)
                                ][! is.na(test) & abs(test) > 1
-                                 ][ , cout.nbi.anormale := (nbi.eqtp.tot - nbi.cum.indiciaire * PointMensuelIM[Année - 2007, Mois]) * adm.quotité]
+                                 ][ , cout.nbi.anormale := (nbi.eqtp.tot - nbi.cum.indiciaire * PointMensuelIM[Annee - 2007, Mois]) * adm.quotite]
     
     "couts.nbi.anormales" %a% lignes.nbi.anormales[ , sum(cout.nbi.anormale, na.rm = TRUE)]
     
     "lignes.nbi.anormales.hors.rappels" %a% T2[nbi.cum.indiciaire > 0 
                                             & nbi.cum.hors.rappels > 0,
-                                            test := nbi.cum.hors.rappels/(adm.quotité * nbi.cum.indiciaire) - PointMensuelIM[Année - 2007, Mois], by= .(Année, Mois)
+                                            test := nbi.cum.hors.rappels/(adm.quotite * nbi.cum.indiciaire) - PointMensuelIM[Annee - 2007, Mois], by= .(Annee, Mois)
                                             ][! is.na(test) & abs(test) > 1
-                                            ][ , cout.nbi.anormale := nbi.cum.hors.rappels - nbi.cum.indiciaire * PointMensuelIM[Année - 2007, Mois] * adm.quotité]
+                                            ][ , cout.nbi.anormale := nbi.cum.hors.rappels - nbi.cum.indiciaire * PointMensuelIM[Annee - 2007, Mois] * adm.quotite]
     
     "couts.nbi.anormales.hors.rappels" %a% lignes.nbi.anormales.hors.rappels[ , sum(cout.nbi.anormale, na.rm = TRUE)]
     
@@ -130,20 +130,20 @@ proratisation_NBI <- function() {
   
   essayer({ 
     
-  "lignes.nbi.anormales.mensuel" %a% lignes_NBI[Type != "R", .(Montant.NBI.calculé = NBI[1] * adm(quotité[1]) * PointMensuelIM[Année - 2007, Mois],
+  "lignes.nbi.anormales.mensuel" %a% lignes_NBI[Type != "R", .(Montant.NBI.calculé = NBI[1] * adm(quotite[1]) * PointMensuelIM[Annee - 2007, Mois],
                                                                       Montant.NBI.payé = sum(Montant, na.rm = TRUE)), 
-                                                       by = .(Matricule, Année, Mois)
+                                                       by = .(Matricule, Annee, Mois)
                                                        ][ , Différence.payé.calculé := Montant.NBI.payé - Montant.NBI.calculé
                                                           ][abs(Différence.payé.calculé) > tolérance.nbi]
   
-  "lignes.paie.nbi.anormales.mensuel" %a% Paie_NBI[ , .(Matricule, Nom, Prénom, Grade, Statut, 
-                                                     Année, Mois, Echelon, Catégorie, 
+  "lignes.paie.nbi.anormales.mensuel" %a% Paie_NBI[ , .(Matricule, Nom, Prenom, Grade, Statut, 
+                                                     Annee, Mois, Echelon, Categorie, 
                                                      Emploi, Service, Temps.de.travail,
-                                                     NBI, Code, Libellé,
+                                                     NBI, Code, Libelle,
                                                      Base, Taux,Type, Montant)
                                                  ][lignes.nbi.anormales.mensuel,
                                                    nomatch = 0,
-                                                   on = .(Matricule, Année, Mois)]
+                                                   on = .(Matricule, Annee, Mois)]
   
   "nb.lignes.anormales.mensuel"    %a% nrow(lignes.nbi.anormales.mensuel)
   "montants.nbi.anormales.mensuel" %a% lignes.nbi.anormales.mensuel[, sum(Différence.payé.calculé, na.rm = TRUE)]
@@ -166,38 +166,38 @@ proratisation_NBI <- function() {
 
 catégories_NBI <- function() {
   
-  setkey(Bulletins.paie, Catégorie, Matricule, Année, Mois)
+  setkey(Bulletins.paie, Categorie, Matricule, Annee, Mois)
   
   NBI.cat <- Bulletins.paie[! is.na(NBI) & NBI > 0, 
                             .(Matricule,
                               Nom,
-                              Prénom,
+                              Prenom,
                               Grade,
                               Statut,
                               Emploi,
-                              Catégorie,
-                              Année,
+                              Categorie,
+                              Annee,
                               Mois,
                               NBI,
-                              quotité)]
+                              quotite)]
   
   NBI.cat[ , Contrôle := { a <- grepl("d(?:\\.|ir)\\w*\\s*\\bg(?:\\.|\\w*n)\\w*\\s*\\bs\\w*", paste(Emploi, Grade), ignore.case = TRUE, perl = TRUE)
   b <- grepl("d(?:\\.ir)\\w*\\s*\\bg(?:\\.|\\w*n)\\w*\\s*\\ba(?:\\.|d)\\w*", paste(Emploi, Grade), ignore.case = TRUE, perl = TRUE)
-  ifelse ((NBI > 20 & Catégorie == "C")
-          | (NBI > 30 & Catégorie == "B")
+  ifelse ((NBI > 20 & Categorie == "C")
+          | (NBI > 30 & Categorie == "B")
           | (NBI > 50 
-             & Catégorie == "A" 
+             & Categorie == "A" 
              & ! a 
              & ! b)
           | (NBI > 80 & b & !a)
           | (NBI > 120 & a), "Rouge", "Vert")}]
   
-  # Si la quotité est inconnue on la suppose égale à 1 (rare) pour l'évaluation du coût
+  # Si la quotite est inconnue on la suppose égale à 1 (rare) pour l'évaluation du coût
   
   "NBI.cat.irreg" %a% NBI.cat[Contrôle == "Rouge", 
-                           Coût := { a <- adm(quotité)
-                           (NBI - ifelse(Catégorie == "A", 50, ifelse(Catégorie == "B", 30, 20))) *
-                             PointMensuelIM[Année - 2007, Mois] * ifelse(is.na(a), 1, a)}
+                           Coût := { a <- adm(quotite)
+                           (NBI - ifelse(Categorie == "A", 50, ifelse(Categorie == "B", 30, 20))) *
+                             PointMensuelIM[Annee - 2007, Mois] * ifelse(is.na(a), 1, a)}
                            ][! is.na(Coût)
                              ][ , Contrôle := NULL] 
   

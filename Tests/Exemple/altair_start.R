@@ -119,7 +119,7 @@ newpage()
 
 # Analyser les rémunérations à partir des données importées --> bases Analyse.XXX
 
-source("analyse.rémunérations.R", encoding = encodage.code.source)
+source("analyse.rémunérations.R", encoding =  encodage.code.source)
 
 colonnes.sélectionnées <- c("traitement.indiciaire",
                             "acomptes",
@@ -129,22 +129,22 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
                             "Montant.brut.annuel",
                             "Montant.brut.annuel.eqtp",
                             "part.rémunération.indemnitaire",
-                            "quotité.moyenne",
+                            "quotite.moyenne",
                             "Statut",
                             "Grade",
-                            "Catégorie",
+                            "Categorie",
                             "Filtre_actif",
                             "Filtre_annexe",
                             "Matricule")
 
 "colonnes" %a%  c("Matricule",
                   "Nom",
-                  "Prénom",
+                  "Prenom",
                   "Grade",
                   "Statut",
                   "Code",
-                  "Libellé",
-                  "Année",
+                  "Libelle",
+                  "Annee",
                   "Mois",
                   "Montant")
 
@@ -154,14 +154,14 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
 
 Paie_I <- Paie[Type == "I" | Type == "A" | Type == "R", 
                .(Nom, 
-                 Prénom,
+                 Prenom,
                  Matricule, 
-                 Année, 
+                 Annee, 
                  Mois, 
-                 Début,
+                 Debut,
                  Fin,
                  Code,
-                 Libellé,
+                 Libelle,
                  Montant,
                  Type,
                  Emploi,
@@ -169,7 +169,7 @@ Paie_I <- Paie[Type == "I" | Type == "A" | Type == "R",
                  Temps.de.travail,
                  Indice,
                  Statut,
-                 Catégorie)]
+                 Categorie)]
 
 prime_IAT <- list(nom = "IAT",                     # Nom en majuscules
                   catégorie = c("B", "C"),         # restreint aux catégories B et C
@@ -230,6 +230,7 @@ if (setOSWindows) séquentiel <- TRUE else {
   mem <- strtoi(unlist(strsplit(mem, " "))[1])
   if (nrow(Paie) * ratio.memoire.ligne.parallele  > mem) séquentiel <- TRUE
 }
+
 
 scripts <- list(
    "script_effectifs.R",                   #### 1.1 Effectifs          ####
@@ -369,9 +370,9 @@ if (profiler)
   sauv.bases(chemin.dossier.bases, 
             env = envir, "PROF")
 
-# Conversion en Latin-1 des bases auxiliaires du rapport, pour une meilleure lecture sous Windows
+# Conversion en Latin-1 des bases du rapport, pour une meilleure lecture sous Windows
 
-system2("find", c("Donnees/R-Altair/Bases", "-name", "'*.csv'", "-exec", "iconv -f UTF-8 -t ISO-8859-15 -c -o {}.2  {} \\;", "-exec",  "mv {}.2 {} \\;"))
+system2("find", c("Donnees/R-Altair", "-name", "'*.csv'", "-exec", "iconv -f UTF-8 -t ISO-8859-15 -c -o {}.2  {} \\;", "-exec",  "mv {}.2 {} \\;"))
 
 # Copie de la documentation accessoire aux rapports
 

@@ -75,7 +75,7 @@ sft_R <- function(x, indice, échelon, nbi, durée, année, mois)   {
   
   part.proportionnelle <- (x != 0) * sft.prop[x] * max(449, min(indice, 717)) * PointMensuelIM[année - 2007, mois]  
   
-  # on prend en compte les quotités spécifiques de temps partiel
+  # on prend en compte les quotites spécifiques de temps partiel
   
   if (durée == 90) {
     coef <- 0.91429   # 32/35 
@@ -115,7 +115,7 @@ SFT_sans_enfant <- function() {
             "Paie.sans.enfant.reduit" %a% Paie[Type == "S" 
                                             & (is.na(Nb.Enfants) | Nb.Enfants == 0),
                                             .(SFT.versé = sum(Montant, na.rm = TRUE)),
-                                            keyby = .(Matricule, Année, Mois)] 
+                                            keyby = .(Matricule, Annee, Mois)] 
             
             "Paie.sans.enfant.reduit" %a% Paie.sans.enfant.reduit[SFT.versé > 0]
             
@@ -155,10 +155,10 @@ liquidation_SFT <- function() {
                                           Echelon = Echelon[1],
                                           NBI = NBI[1],
                                           Nb.Enfants = Nb.Enfants[1]),
-                                        keyby = .(Matricule, Année, Mois)]
+                                        keyby = .(Matricule, Annee, Mois)]
             
             "SFT.controle" %a% with(Paie.enfants.réduit, 
-                                     mapply(sft_R, Nb.Enfants, Indice, Echelon, NBI, Temps.de.travail, Année, Mois, USE.NAMES = FALSE))
+                                     mapply(sft_R, Nb.Enfants, Indice, Echelon, NBI, Temps.de.travail, Annee, Mois, USE.NAMES = FALSE))
             
             "Paie.enfants.réduit" %a% cbind(Paie.enfants.réduit, SFT.controle)
             
@@ -177,7 +177,7 @@ liquidation_SFT <- function() {
                                                   SFT.versé,
                                                   SFT.controle = round(SFT.controle, 2),
                                                   Matricule,
-                                                  Année,
+                                                  Annee,
                                                   Mois,
                                                   Indice,
                                                   NBI,
@@ -186,7 +186,7 @@ liquidation_SFT <- function() {
             
             nb.écart.paiements.sft <- nrow(controle.sft)
             
-            if (nb.écart.paiements.sft) setorder(controle.sft, -delta.SFT, Matricule, Année, Mois)
+            if (nb.écart.paiements.sft) setorder(controle.sft, -delta.SFT, Matricule, Annee, Mois)
             
             if (nb.écart.paiements.sft > 0){
               

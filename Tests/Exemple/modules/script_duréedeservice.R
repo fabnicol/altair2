@@ -23,12 +23,12 @@ Tableau(c("Plus de 2 ans",
 #'
 
 if (nrow(Analyse.variations) > 0)
-  ggplot2::qplot(factor(Année),
+  ggplot2::qplot(factor(Annee),
                  data = Analyse.variations,
                  geom = "bar",
                  fill = factor(!Analyse.variations$plus.2.ans),
                  main = "Evolutions entre " %+% début.période.sous.revue %+% " et " %+% fin.période.sous.revue,
-                 xlab = "Année",
+                 xlab = "Annee",
                  ylab = "Effectif",
                  asp = 1.4)        +
   ggplot2::scale_fill_discrete(name = "Personnels (non élus) en fonction",
@@ -44,7 +44,7 @@ if (nrow(Analyse.variations) > 0)
 effectifs.var <- lapply(période,
                         function(x) {
                           
-                          E <- unique(Analyse.variations[Année == x , .(Matricule, plus.2.ans)], by=NULL)
+                          E <- unique(Analyse.variations[Annee == x , .(Matricule, plus.2.ans)], by=NULL)
                           F <- E[plus.2.ans == TRUE]
                           tot <- nrow(E)
                           plus.2.ans <- nrow(F)
