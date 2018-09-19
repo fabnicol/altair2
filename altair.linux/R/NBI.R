@@ -9,6 +9,23 @@ calcul_NBI <- function() {
     
     "lignes_NBI" %a% Paie_NBI[indic == TRUE][ , indic :=  NULL]
     
+    "NBI_dec" %a% Paie_NBI[NBI != as.integer(NBI)]
+    
+    if (nrow(NBI_dec)) {
+      
+      cat("Des NBI décimales ont été attribuées. Les NBI sont généralement en points entiers.   \n")
+       
+      nombre.personnels.nbi.dec <- uniqueN(NBI_dec$Matricule)
+      
+      cat("Il existe ", 
+            FR(nombre.personnels.nbi.dec),
+            "agent" %s% nombre.personnels.nbi.dec,
+            " percevant une NBI en points non entiers.   \n")
+      } else {
+        cat("Pas de NBI en points non entiers.  \n")
+    }  
+    
+    
     "NBI.aux.non.titulaires" %a% lignes_NBI[! Statut %chin% c("TITULAIRE", "STAGIAIRE") 
                                              & NBI != 0,
                                                c(..colonnes, "NBI")]
@@ -92,19 +109,35 @@ calcul_NBI <- function() {
     # Techniquement, rajouter un by = .(Annee, Mois) accélère la computation
     
     "lignes.nbi.anormales" %a% T2[nbi.cum.indiciaire > 0 
-                               & nbi.eqtp.tot > 0,
-                               test := nbi.eqtp.tot/nbi.cum.indiciaire - PointMensuelIM[Annee - 2007, Mois],
-                               by = .(Annee, Mois)
-                               ][! is.na(test) & abs(test) > 1
-                                 ][ , cout.nbi.anormale := (nbi.eqtp.tot - nbi.cum.indiciaire * PointMensuelIM[Annee - 2007, Mois]) * adm.quotite]
+                               &  adm.quotite > 0    
+                               & nbi.eqtp.tot > 0]
+    
+    cout <- function(x, y, z, Annee, Mois) round(x - y * PointMensuelIM[Annee - 2007, Mois] * z, 1 )
+      
+    "lignes.nbi.anormales" %a% cbind(lignes.nbi.anormales, cout.nbi.anormale = mapply(cout, 
+                                                                        lignes.nbi.anormales[["nbi.eqtp.tot"]],
+                                                                        lignes.nbi.anormales[["nbi.cum.indiciaire"]],
+                                                                        lignes.nbi.anormales[["adm.quotite"]],
+                                                                        lignes.nbi.anormales[["Annee"]],
+                                                                        lignes.nbi.anormales[["Mois"]]))
+    
+    "lignes.nbi.anormales" %a% lignes.nbi.anormales[cout.nbi.anormale > adm.quotite * nbi.cum.indiciaire
+                                                   ][ , cout.nbi.anormale, by= .(Annee, Mois)]
     
     "couts.nbi.anormales" %a% lignes.nbi.anormales[ , sum(cout.nbi.anormale, na.rm = TRUE)]
     
     "lignes.nbi.anormales.hors.rappels" %a% T2[nbi.cum.indiciaire > 0 
-                                            & nbi.cum.hors.rappels > 0,
-                                            test := nbi.cum.hors.rappels/(adm.quotite * nbi.cum.indiciaire) - PointMensuelIM[Annee - 2007, Mois], by= .(Annee, Mois)
-                                            ][! is.na(test) & abs(test) > 1
-                                            ][ , cout.nbi.anormale := nbi.cum.hors.rappels - nbi.cum.indiciaire * PointMensuelIM[Annee - 2007, Mois] * adm.quotite]
+                                               & nbi.cum.hors.rappels > 0]
+    
+    "lignes.nbi.anormales.hors.rappels" %a% cbind(lignes.nbi.anormales.hors.rappels, cout.nbi.anormale = mapply(cout, 
+                                                                                      lignes.nbi.anormales.hors.rappels[["nbi.eqtp.tot"]],
+                                                                                      lignes.nbi.anormales.hors.rappels[["nbi.cum.indiciaire"]],
+                                                                                      lignes.nbi.anormales.hors.rappels[["adm.quotite"]],
+                                                                                      lignes.nbi.anormales.hors.rappels[["Annee"]],
+                                                                                      lignes.nbi.anormales.hors.rappels[["Mois"]]))
+    
+    "lignes.nbi.anormales.hors.rappels" %a% lignes.nbi.anormales.hors.rappels[cout.nbi.anormale > adm.quotite * nbi.cum.indiciaire
+                                            ][ , .(cout.nbi.anormale = nbi.cum.hors.rappels - nbi.cum.indiciaire * PointMensuelIM[Annee - 2007, Mois] * adm.quotite), by= .(Annee, Mois)]
     
     "couts.nbi.anormales.hors.rappels" %a% lignes.nbi.anormales.hors.rappels[ , sum(cout.nbi.anormale, na.rm = TRUE)]
     
