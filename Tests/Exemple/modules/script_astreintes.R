@@ -30,8 +30,8 @@ insérer_script(fonction = "cumul_astreintes_IHTS")
 
 with(Cum_astreintes_HS_irreg,
      
-     print(Tableau.vertical2(c("Année", "Montant astreintes potentiellement irrégulières (euros)", "Montant IHTS correspondantes"),
-                                Année, V1, V2))    
+     print(Tableau.vertical2(c("Annee", "Montant astreintes potentiellement irrégulières (euros)", "Montant IHTS correspondantes"),
+                                Annee, V1, V2))    
      
 )
 

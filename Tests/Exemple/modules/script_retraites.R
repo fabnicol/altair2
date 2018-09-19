@@ -16,10 +16,10 @@ cat("Les non titulaires ne doivent pas cotiser à la CNRACL. ")
 
 Cotisations.irreg <- Paie[Type %in% c("C", "D") & Statut %in% c("NON_TITULAIRE", "AUTRE_STATUT", "EMPLOI_AIDE", "", "ELU")
                          ][grepl("C\\.?\\s*N\\.?\\s*R\\.?\\s*A\\.?\\s*C\\.?\\s*L",
-                                  Libellé,
+                                  Libelle,
                                   ignore.case = TRUE,
                                   perl = TRUE) & Montant > 0,
-                            .(Matricule, Année, Mois, Type, Statut, Libellé, Montant)]
+                            .(Matricule, Annee, Mois, Type, Statut, Libelle, Montant)]
 
 #'  
 #'&nbsp;*Tableau 5.16.1 : Cotisations irrégulières à la CNRACL*     
@@ -50,10 +50,10 @@ conditionnel("Lien vers la base des cotisations irrégulières", "Bases/Reglemen
 cat("Les titulaires ne doivent pas cotiser à l'IRCANTEC. ")
 
 Cotisations.irreg.ircantec <- Paie[Statut == "TITULAIRE" & Type %chin% c("C", "D") & grepl("I\\.?\\s*R\\.?\\s*C\\.?\\s*A\\.?\\s*N\\.?\\s*",
-                                                                                           Libellé,
+                                                                                           Libelle,
                                                                                            ignore.case = TRUE, perl = TRUE) 
                                    & Montant > 0,
-                                   .(Matricule, Année, Mois, Type, Libellé, Montant)]
+                                   .(Matricule, Annee, Mois, Type, Libelle, Montant)]
 
 #'  
 #'&nbsp;*Tableau 5.16.2 : Cotisations irrégulières à l'IRCANTEC*     

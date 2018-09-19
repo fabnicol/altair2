@@ -19,18 +19,18 @@ Paie_vac <- Paie_vac[Type %chin% c("T", "I", "R", "IR", "S")]
 # ----- Produire la liste de ces libellés horaires
 
 if (is.na(codes.vacataires)) {
-  libellés.horaires <- unique(Paie_vac[grepl(expression.rég.vacataires, Libellé, ignore.case = TRUE, perl = TRUE), Libellé])
+  libellés.horaires <- unique(Paie_vac[grepl(expression.rég.vacataires, Libelle, ignore.case = TRUE, perl = TRUE), Libelle])
 } else {
-  libellés.horaires <- unique(Paie_vac[Code %chin% codes.vacataires, Libellé])
+  libellés.horaires <- unique(Paie_vac[Code %chin% codes.vacataires, Libelle])
 }
 
 # ----- Vérifier si des fonctionnaires titulaires ou stagiaires bénéficient de vacations horaires et donner les caractéristiques
 
 Paie_vac_fonct <- Paie_vac[Statut %chin% c("TITULAIRE", "STAGIAIRE"), 
-                           .(Nom, Statut, Code, Libellé, Type, Taux, Nb.Unité, Montant, Total.mensuel = sum(Montant, na.rm = TRUE)),
-                           by = .(Matricule, Année, Mois)]
+                           .(Nom, Statut, Code, Libelle, Type, Taux, Nb.Unite, Montant, Total.mensuel = sum(Montant, na.rm = TRUE)),
+                           by = .(Matricule, Annee, Mois)]
 
-lignes.fonctionnaires.et.vacations <- Paie_vac_fonct[Libellé %chin% libellés.horaires]
+lignes.fonctionnaires.et.vacations <- Paie_vac_fonct[Libelle %chin% libellés.horaires]
 
 matricules.fonctionnaires.et.vacations <- unique(lignes.fonctionnaires.et.vacations[ , .(Matricule, Nom, Statut)])
 nombre.fonctionnaires.et.vacations <- length(matricules.fonctionnaires.et.vacations[[1]])
@@ -69,8 +69,8 @@ conditionnel("Lien vers les bulletins de paie correspondants", "Bases/Reglementa
 #'  
 
 Paie_vac_contr <- Paie_vac[Statut %chin% c("NON_TITULAIRE",  "AUTRE_STATUT"), 
-                           .(Nom, Prénom, Matricule, Service, Statut, Catégorie, Grade, Echelon, Libellé, Type,
-                             Heures, Heures.Sup., Nb.Enfants, Code, Base, Taux, Nb.Unité,  Montant)]
+                           .(Nom, Prenom, Matricule, Service, Statut, Categorie, Grade, Echelon, Libelle, Type,
+                             Heures, Heures.Sup., Nb.Enfants, Code, Base, Taux, Nb.Unite,  Montant)]
 
 matricules.contractuels.et.vacations <- unique(Paie_vac_contr[ , .(Matricule, Nom, Statut)])
 
@@ -113,8 +113,8 @@ essayer({ Paie_vac_sft_ir <- filtrer_Paie("IR_S",
                                           portée = "Mois", 
                                           Var = "Type", 
                                           Base = Paie_vac)[! Statut %chin% c("TITULAIRE", "STAGIAIRE"), 
-                                                           .(Nom, Prénom, Matricule, Service, Statut, Catégorie, Grade, Echelon, Libellé, Type,
-                                                             Heures, Heures.Sup., Nb.Enfants, Code, Base, Taux, Nb.Unité,  Montant)]  
+                                                           .(Nom, Prenom, Matricule, Service, Statut, Categorie, Grade, Echelon, Libelle, Type,
+                                                             Heures, Heures.Sup., Nb.Enfants, Code, Base, Taux, Nb.Unite,  Montant)]  
 
 SFT_IR.et.vacations <- Paie_vac_sft_ir[Type %chin% c("IR", "S")]
 

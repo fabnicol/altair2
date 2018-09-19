@@ -51,14 +51,14 @@ if (!is.null(liste.exclusions)) {
   Delta <- Paie[abs(delta) > minimum.delta, .SD[! any(Code %chin% liste.exclusions), 
                                                    .(Statut,
                                                      Emploi,
-                                                     Catégorie,
+                                                     Categorie,
                                                      Service,
                                                      Type,
                                                      Code,
-                                                     Libellé,
+                                                     Libelle,
                                                      Montant,
                                                      Brut,
-                                                     delta)], by="Matricule,Année,Mois"]
+                                                     delta)], by="Matricule,Annee,Mois"]
   message("Filtrage terminé.") 
   
 } else {
@@ -66,18 +66,18 @@ if (!is.null(liste.exclusions)) {
    message("Filtrage de la base Delta sans retirer de codes...") 
   
    Delta <- Paie[abs(delta) > minimum.positif, .(Matricule, 
-                                                 Année,
+                                                 Annee,
                                                  Mois, 
                                                  Statut,
                                                  Emploi,
-                                                 Catégorie,
+                                                 Categorie,
                                                  Service,
                                                  Type,
                                                  Code,
-                                                 Libellé,
+                                                 Libelle,
                                                  Montant,
                                                  Brut,
-                                                 delta), by="Matricule,Année,Mois"]
+                                                 delta), by="Matricule,Annee,Mois"]
    message("Filtrage terminé.") 
 }
 

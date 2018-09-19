@@ -60,7 +60,7 @@ smic.net <- data.table::fread(
                     2009,  3132.2
                     2008,  3075.7",
                    
-                   col.names = c("Année", "SMIC_NET"))
+                   col.names = c("Annee", "SMIC_NET"))
 
 # actualiser aussi ceci, pour éviter à recalculer :
 
