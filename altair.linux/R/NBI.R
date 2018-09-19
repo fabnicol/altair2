@@ -137,7 +137,7 @@ calcul_NBI <- function() {
                                                                                       lignes.nbi.anormales.hors.rappels[["Mois"]]))
     
     "lignes.nbi.anormales.hors.rappels" %a% lignes.nbi.anormales.hors.rappels[cout.nbi.anormale > adm.quotite * nbi.cum.indiciaire
-                                            ][ , .(cout.nbi.anormale = nbi.cum.hors.rappels - nbi.cum.indiciaire * PointMensuelIM[Annee - 2007, Mois] * adm.quotite), by= .(Annee, Mois)]
+                                            ][ , cout.nbi.anormale, by= .(Annee, Mois)]
     
     "couts.nbi.anormales.hors.rappels" %a% lignes.nbi.anormales.hors.rappels[ , sum(cout.nbi.anormale, na.rm = TRUE)]
     
@@ -163,11 +163,11 @@ proratisation_NBI <- function() {
   
   essayer({ 
     
-  "lignes.nbi.anormales.mensuel" %a% lignes_NBI[Type != "R", .(Montant.NBI.calculé = NBI[1] * adm(quotite[1]) * PointMensuelIM[Annee - 2007, Mois],
+  "lignes.nbi.anormales.mensuel" %a% lignes_NBI[Type != "R", .(Montant.NBI.calculé = round(NBI[1] * adm(quotite[1]) * PointMensuelIM[Annee - 2007, Mois], 2),
                                                                       Montant.NBI.payé = sum(Montant, na.rm = TRUE)), 
-                                                       by = .(Matricule, Annee, Mois)
-                                                       ][ , Différence.payé.calculé := Montant.NBI.payé - Montant.NBI.calculé
-                                                          ][abs(Différence.payé.calculé) > tolérance.nbi]
+                                                  by = .(Matricule, Annee, Mois)
+                                               ][ , Différence.payé.calculé := round(Montant.NBI.payé - Montant.NBI.calculé, 1)
+                                               ][abs(Différence.payé.calculé) > tolérance.nbi]
   
   "lignes.paie.nbi.anormales.mensuel" %a% Paie_NBI[ , .(Matricule, Nom, Prenom, Grade, Statut, 
                                                      Annee, Mois, Echelon, Categorie, 
@@ -228,11 +228,11 @@ catégories_NBI <- function() {
   # Si la quotite est inconnue on la suppose égale à 1 (rare) pour l'évaluation du coût
   
   "NBI.cat.irreg" %a% NBI.cat[Contrôle == "Rouge", 
-                           Coût := { a <- adm(quotite)
-                           (NBI - ifelse(Categorie == "A", 50, ifelse(Categorie == "B", 30, 20))) *
-                             PointMensuelIM[Annee - 2007, Mois] * ifelse(is.na(a), 1, a)}
-                           ][! is.na(Coût)
-                             ][ , Contrôle := NULL] 
+                               Coût := { a <- adm(quotite)
+                               round((NBI - ifelse(Categorie == "A", 50, ifelse(Categorie == "B", 30, 20))) *
+                                 PointMensuelIM[Annee - 2007, Mois] * ifelse(is.na(a), 1, a), 2)}
+                              ][! is.na(Coût)
+                              ][ , Contrôle := NULL] 
   
   "nombre.mat.NBI.irrég" %a% NBI.cat.irreg[ , uniqueN(Matricule)]
   
