@@ -6,7 +6,7 @@
 
 remunerations.elu <- Analyse.remunerations[ indemnités.élu > minimum.positif,
                                             .(Matricule,
-                                              Année,
+                                              Annee,
                                               Emploi,
                                               indemnités.élu,
                                               acomptes,
@@ -18,7 +18,7 @@ remunerations.elu <- unique(matricules[ , .(Nom,  Matricule)])[remunerations.elu
 
 names(remunerations.elu) <- c("Matricule",
                               "Nom",
-                              "Année",
+                              "Annee",
                               "Emploi",
                               "Indemnités ",
                               "Autres ",

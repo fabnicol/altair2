@@ -4,10 +4,10 @@
 \alias{adm}
 \title{Quotité administrative}
 \usage{
-adm(quotité)
+adm(quotite)
 }
 \arguments{
-\item{quotité}{quotité formelle (Temps.de.travail / 100)}
+\item{quotite}{quotite formelle (Temps.de.travail / 100)}
 }
 \description{
 Quotité administrative

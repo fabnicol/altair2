@@ -1177,8 +1177,10 @@ int main (int argc, char **argv)
     }
 
     // Nettoyage du parseur XML
-
-    xmlCleanupParser();
+    
+#   ifndef TINYXML2
+      xmlCleanupParser();
+#   endif    
 
     // Calcul de la durée d'exécution
 

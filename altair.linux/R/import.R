@@ -65,7 +65,7 @@ importer.bases.via.xhl2csv <- function(base, fichiers, colClasses = colonnes.cla
   message("Chargement direct des bulletins et lignes de paie")
 }
 
-quotité.temps.partiel <- function(temps.de.travail) {
+quotite.temps.partiel <- function(temps.de.travail) {
   
   if (x == 90) return(0.91429)  # 32/35 
   if (x == 80) return(0.85714)  # 6/7   
@@ -102,16 +102,16 @@ verif.temps.complet <- function() {
   return(c(valeur, nb.heures.temps.complet))
 }
 
-#' Calcul des quotités
+#' Calcul des quotites
 #' @param Bulletins.paie Fichier des bulletins de paye
 #' @param Paie Base des lignes de paye
 #' @export
 
-quotités <- function() {
+quotites <- function() {
   
   Bulletins.paie <- merge(Bulletins.paie,
                           Paie[ , .(Filtre_actif = Filtre_actif[1]),
-                                by = c("Matricule", "Année", "Mois")],
+                                by = c("Matricule", "Annee", "Mois")],
                           all.x = TRUE,
                           all.y = FALSE)
   
@@ -120,7 +120,7 @@ quotités <- function() {
                                                         & Heures > minimum.positif]),
                   by = .(Sexe, Emploi)]
   
-  # Pour les quotités seules les périodes actives sont prises en compte
+  # Pour les quotites seules les périodes actives sont prises en compte
   
   Bulletins.paie[pop_calcul_médiane > population_minimale_calcul_médiane 
                  & Filtre_actif == TRUE, 
@@ -129,20 +129,20 @@ quotités <- function() {
                                              & Heures > minimum.positif], na.rm = TRUE),
                      by = .(Sexe, Emploi)]
   
-  # L'écrêtement des quotités est une contrainte statistiquement discutable qui permet de "stresser" le modèle
-  # Par défaut les quotités sont écrêtées pour pouvoir par la suite raisonner en définissant le temps plein comme quotité == 1
+  # L'écrêtement des quotites est une contrainte statistiquement discutable qui permet de "stresser" le modèle
+  # Par défaut les quotites sont écrêtées pour pouvoir par la suite raisonner en définissant le temps plein comme quotite == 1
   
-  if (écreter.quotités) {
+  if (écreter.quotites) {
     
-    Bulletins.paie[ , quotité   :=  ifelse(MHeures < minimum.positif, NA, ifelse(Heures > MHeures, 1, round(Heures/MHeures, digits = 2)))]  
+    Bulletins.paie[ , quotite   :=  ifelse(MHeures < minimum.positif, NA, ifelse(Heures > MHeures, 1, round(Heures/MHeures, digits = 2)))]  
     
   } else {
     
-    Bulletins.paie[ , quotité   :=  ifelse(MHeures < minimum.positif, NA, round(Heures/MHeures, digits = 2))]  
+    Bulletins.paie[ , quotite   :=  ifelse(MHeures < minimum.positif, NA, round(Heures/MHeures, digits = 2))]  
   }
   
   Bulletins.paie[Statut == "ELU", `:=`(MHeures = 1,
-                                       quotité = 1)]
+                                       quotite = 1)]
   
   message("Quotités calculées")
   
@@ -155,42 +155,42 @@ quotités <- function() {
 
 rémunérations_eqtp <- function(DT) {
   
-  # DT[ ,   Montant.net.eqtp  := Net.à.Payer / quotité]
+  # DT[ ,   Montant.net.eqtp  := Net.a.Payer / quotite]
   # DT[is.na(Montant.net.eqtp) | ! is.finite(Montant.net.eqtp),   Montant.net.eqtp  := 0]
   # 
-  # DT[ ,   Montant.brut.eqtp  := Brut / quotité]
+  # DT[ ,   Montant.brut.eqtp  := Brut / quotite]
   # DT[is.na(Montant.brut.eqtp) | ! is.finite(Montant.brut.eqtp),   Montant.brut.eqtp  := 0]
   
   DT[ , Montant.brut.eqtp := Brut]
-  DT[ , Montant.net.eqtp  := Net.à.Payer]
+  DT[ , Montant.net.eqtp  := Net.a.Payer]
   
-  DT[ ,   `:=`(Statut.sortie   = Statut[length(Net.à.Payer)],
-               nb.jours        = calcul.nb.jours.mois(Mois, Année[1]),
+  DT[ ,   `:=`(Statut.sortie   = Statut[length(Montant.net.eqtp)],
+               nb.jours        = calcul.nb.jours.mois(Mois, Annee[1]),
                nb.mois         = length(Mois),
                cumHeures       = sum(Heures, na.rm = TRUE),
-               quotité.moyenne = sum(quotité, na.rm = TRUE) / 12,
-               quotité.moyenne.orig = sum(Temps.de.travail, na.rm = TRUE) / 1200),
+               quotite.moyenne = sum(quotite, na.rm = TRUE) / 12,
+               quotite.moyenne.orig = sum(Temps.de.travail, na.rm = TRUE) / 1200),
                   
-                      key = .(Matricule, Année)]
+                      key = .(Matricule, Annee)]
   
   # Indicatrice pour la rémunération moyenne des personnes en place :
-  # quotité égale pendant deux années successives contigues, permanence sur 12 mois.
-  # nous prenons les moyennes des quotités non NA.
+  # quotite égale pendant deux années successives contigues, permanence sur 12 mois.
+  # nous prenons les moyennes des quotites non NA.
   
-  DT[ , indicatrice.quotité.pp := (Matricule[R] == Matricule 
-                                               & Année[R]   == Année - 1 
-                                               & abs(quotité.moyenne[R] - quotité.moyenne) < tolérance.variation.quotité
+  DT[ , indicatrice.quotite.pp := (Matricule[R] == Matricule 
+                                               & Annee[R]   == Annee - 1 
+                                               & abs(quotite.moyenne[R] - quotite.moyenne) < tolérance.variation.quotite
                                                & nb.mois[R] == nb.mois
                                                & nb.mois    == 12)]
   
   DT[ ,   `:=`(Montant.brut.annuel      = sum(Brut, na.rm = TRUE),
                            Montant.brut.annuel.eqtp = 365 / nb.jours * sum(Montant.brut.eqtp , na.rm = TRUE),
                            Montant.net.annuel.eqtp  = 365 / nb.jours * sum(Montant.net.eqtp, na.rm = TRUE),
-                           Montant.net.annuel       = sum(Net.à.Payer, na.rm = TRUE),
+                           Montant.net.annuel       = sum(Montant.net.eqtp, na.rm = TRUE),
                            permanent                = nb.jours >= 365,
-                           indicatrice.quotité.pp   = indicatrice.quotité.pp[1]),
+                           indicatrice.quotite.pp   = indicatrice.quotite.pp[1]),
                   
-                  key = .(Matricule, Année)]
+                  key = .(Matricule, Annee)]
   
   message("Rémunérations EQTP calculées")
   
@@ -372,13 +372,13 @@ Extraire.années <- function() {
   
   if (extraire.années) {
     
-    "Paie" %a% Paie[Année >= début.période.sous.revue & Année <= fin.période.sous.revue]
-    "Bulletins.paie" %a% Bulletins.paie[Année >= début.période.sous.revue & Année <= fin.période.sous.revue]
+    "Paie" %a% Paie[Annee >= début.période.sous.revue & Annee <= fin.période.sous.revue]
+    "Bulletins.paie" %a% Bulletins.paie[Annee >= début.période.sous.revue & Annee <= fin.période.sous.revue]
     
   } else {
     
-    "début.période.sous.revue" %a% min(Bulletins.paie[ , Année])
-    "fin.période.sous.revue" %a% max(Bulletins.paie[ , Année])
+    "début.période.sous.revue" %a% min(Bulletins.paie[ , Annee])
+    "fin.période.sous.revue" %a% max(Bulletins.paie[ , Annee])
   }
 }
 
@@ -479,7 +479,7 @@ Redresser.heures <- function() {
       
       # On ne peut pas inférer sur quotite Trav (Temps.de.travail) de manière générale
       # Mais on peut exclure les cas dans lesquels Temps de travail est non fiable puis déduire en inférence sur ce qui reste
-      # critère d'exclusion envisageable pour les stats de rémunérations à quotités :
+      # critère d'exclusion envisageable pour les stats de rémunérations à quotites :
       # Paie[Indice == "" & Type %chin% c("T", "I", "A", "AC") & Heures == 0 | Statut %chin% c("ELU", "v", "A")]
       # sur le reste on peut inférer Heures 
       
@@ -521,12 +521,12 @@ Redresser.heures <- function() {
                         & Statut != "ELU" & Grade != "V" & Grade!= "A"
                         & Temps.de.travail != 0 & !is.na(Temps.de.travail)
                         & Type == "T" & Montant > 0
-                        & grepl(".*salaire|trait.*", Libellé, perl=TRUE, ignore.case=TRUE)]
+                        & grepl(".*salaire|trait.*", Libelle, perl=TRUE, ignore.case=TRUE)]
       
       # attention ifelse pas if...else
       # La recherche binaire est 20 fois plus rapide que la recherche vscan (gain de 4s par million de lignes sur corei3)
       
-      setkey(Paie, Année, Mois, indic)  
+      setkey(Paie, Annee, Mois, indic)  
       
       for (A in période) {
         for (M in 1:12) {
@@ -537,7 +537,7 @@ Redresser.heures <- function() {
       }
       
       "Bulletins.paie" %a% merge(Paie[ , .(Matricule, 
-                                        Année,
+                                        Annee,
                                         Mois,
                                         Service,
                                         Statut,
@@ -545,7 +545,7 @@ Redresser.heures <- function() {
                                         Heures,
                                         indic)],
                                 unique(Bulletins.paie[, Heures := NULL]), 
-                                    by = c("Matricule","Année","Mois","Service", "Statut", "Emploi"))
+                                    by = c("Matricule","Annee","Mois","Service", "Statut", "Emploi"))
       
       "nredressements" %a% nrow(Bulletins.paie[indic == TRUE])
       
@@ -623,8 +623,8 @@ importer_ <- function() {
                                       nrows = 0,
                                       header = TRUE,
                                       #skip = champ.détection.1,
-                                      encoding = ifelse(setOSWindows, "Latin-1", "UTF-8")))
-  
+                                      encoding = "Latin-1"))
+  colonnes <- iconv(colonnes, to = "UTF-8")
   type.données(colonnes)
   
   importer.bases.via.xhl2csv("Paie", fichiers.table, colClasses =  colonnes.classes.input)
@@ -645,11 +645,11 @@ importer_ <- function() {
   if (! is.null(base.personnels.catégorie)) {
     
     message("Remplacement de la catégorie par la catégorie importée du fichier matricules.csv sous ", chemin.dossier.données)
-    vect <- c("Année", "Nom", "Prénom", "Matricule", "Grade", "Emploi")
+    vect <- c("Annee", "Nom", "Prenom", "Matricule", "Grade", "Emploi")
     BP <- base.personnels.catégorie[ , , keyby = vect]
     
-    Paie[, Catégorie := NULL]
-    Bulletins.paie[, Catégorie := NULL]
+    Paie[, Categorie := NULL]
+    Bulletins.paie[, Categorie := NULL]
     
     Paie <- merge(Paie[ , , keyby = vect], BP, all = TRUE, by = vect)
     
@@ -661,9 +661,9 @@ importer_ <- function() {
       
       message("Remplacement de la catégorie par la catégorie importée du fichier grades.categories.csv sous ", chemin.dossier.données)
       
-      Paie[, Catégorie := NULL]
-      Bulletins.paie[, Catégorie := NULL]
-      BP <- base.grades.categories[Grade != "V" & Grade != "A", Catégorie, keyby = "Grade"]
+      Paie[, Categorie := NULL]
+      Bulletins.paie[, Categorie := NULL]
+      BP <- base.grades.categories[Grade != "V" & Grade != "A", Categorie, keyby = "Grade"]
       BP <- rbindlist(list(BP, data.table("V", "NA")))
       BP <- rbindlist(list(BP, data.table("A", "NA")))
       
@@ -673,8 +673,8 @@ importer_ <- function() {
     }
   }
   
-  setkey(Paie, Matricule, Année, Mois)
-  setkey(Bulletins.paie, Matricule, Année, Mois)
+  setkey(Paie, Matricule, Annee, Mois)
+  setkey(Bulletins.paie, Matricule, Annee, Mois)
   
   # dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
   # dans le fichier prologue.R. Sinon le programme travaille sur l'ensemble des années disponibles.
@@ -693,7 +693,7 @@ importer_ <- function() {
   
   "période" %a% début.période.sous.revue:fin.période.sous.revue
   "durée.sous.revue" %a% (fin.période.sous.revue - début.période.sous.revue + 1)
-  "nb.années" %a% uniqueN(Bulletins.paie$Année)
+  "nb.années" %a% uniqueN(Bulletins.paie$Annee)
   
   if (durée.sous.revue != nb.années) {
     
@@ -732,13 +732,13 @@ importer_ <- function() {
   
   Paie[ , 
         Filtre_actif := any(Montant[Type == "T" & Heures > minimum.positif] > minimum.actif, na.rm = TRUE),
-        by = .(Matricule, Année)]
+        by = .(Matricule, Annee)]
   
-  Paie[ , delta := 0, by = .(Matricule, Année, Mois)]
+  Paie[ , delta := 0, by = .(Matricule, Annee, Mois)]
   
   # Paie[Type %chin% c("I", "T", "S", "IR", "AC","A" ) , 
   #      delta := sum(Montant,  na.rm=TRUE) - Brut,
-  #      by = .(Matricule, Année, Mois)]
+  #      by = .(Matricule, Annee, Mois)]
   
   # R est le rang (0-based) décalé d'une unité (lag 1)
   
@@ -751,14 +751,14 @@ importer_ <- function() {
   
   # Médiane des services horaires à temps complet par emploi et par sexe 
   
-  # La variable Heures des élus est non fiable et on peut par convention prendre la quotité 1
+  # La variable Heures des élus est non fiable et on peut par convention prendre la quotite 1
   
-  # Pour faciliter les comparaisons de quotité lors du calcul de la RMPP on arrondit les quotités au centième inférieur
-  # Lorsque la déterminéation de la médiane par emploi et sexe du nombre d'heures travaillées à temps complet n'est pas positive, la quotité est indéfinie
-  # Une quotité ne peut pas dépasser 1.
+  # Pour faciliter les comparaisons de quotite lors du calcul de la RMPP on arrondit les quotites au centième inférieur
+  # Lorsque la déterminéation de la médiane par emploi et sexe du nombre d'heures travaillées à temps complet n'est pas positive, la quotite est indéfinie
+  # Une quotite ne peut pas dépasser 1.
   # Les élus sont réputés travailler à temps complet.
   
-  message("Calcul des quotités")
+  message("Calcul des quotites")
   
   #on va trouver la plupart du temps 151,67...
   # Tableau de référence des matrices de médianes
@@ -768,21 +768,21 @@ importer_ <- function() {
   
   # Paie n'est pas modifié
   
-  Bulletins.paie <- rémunérations_eqtp(quotités())
+  Bulletins.paie <- rémunérations_eqtp(quotites())
   
   # Housecleaning
   
   Bulletins.paie[ , indic := NULL]
   
   Paie <- merge(unique(Bulletins.paie[ , .(Matricule, 
-                                           Année,
+                                           Annee,
                                            Mois,
                                            Service,
                                            Statut,
                                            cumHeures,
-                                           quotité,
-                                           quotité.moyenne,
-                                           quotité.moyenne.orig,
+                                           quotite,
+                                           quotite.moyenne,
+                                           quotite.moyenne.orig,
                                            Montant.net.eqtp,
                                            Montant.brut.eqtp,
                                            Montant.brut.annuel,
@@ -793,17 +793,17 @@ importer_ <- function() {
                                            Sexe,
                                            nb.jours,
                                            nb.mois,
-                                           indicatrice.quotité.pp,
+                                           indicatrice.quotite.pp,
                                            permanent)]),
                 Paie, 
-                by = c("Matricule","Année","Mois","Service", "Statut"))[ , indic := NULL]
+                by = c("Matricule","Annee","Mois","Service", "Statut"))[ , indic := NULL]
   
-  matricules <- unique(Bulletins.paie[ , .(Année, Nom, Prénom, Matricule, Catégorie, Grade, Emploi)], by = NULL)
+  matricules <- unique(Bulletins.paie[ , .(Annee, Nom, Prenom, Matricule, Categorie, Grade, Emploi)], by = NULL)
   
-  "matricules" %a% matricules[order(Matricule, Année)]
+  "matricules" %a% matricules[order(Matricule, Annee)]
   
-  grades.categories <- unique(matricules[ , .(Grade, Catégorie)], by = NULL)
-  "grades.categories" %a% grades.categories[order(Grade)]
+  "grades.categories" <- correspondance_grade_catégorie()
+  
   
   # on essaie de deviner le versant de la FP par l'existence d'agents de service hospitalier
   # on peut désactiver ce test par désactiver.test.versant.fp <- T dans prologue.R

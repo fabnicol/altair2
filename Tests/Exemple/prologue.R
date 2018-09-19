@@ -57,9 +57,9 @@ exec.root                      <- if (setOSWindows) ".exe" else ""
 
 éliminer.duplications          <- FALSE
 redresser.heures               <- TRUE
-enlever.quotités.nulles        <- FALSE
-enlever.quotités.na            <- FALSE
-écreter.quotités               <- TRUE
+enlever.quotites.nulles        <- FALSE
+enlever.quotites.na            <- FALSE
+écreter.quotites               <- TRUE
 générer.codes                  <- FALSE
 charger.catégories.personnel   <- TRUE
 extraire.population            <- FALSE
@@ -81,7 +81,7 @@ if (! exists("PDF"))       PDF <<- FALSE
 keep_md                        <- FALSE
 utiliser.cplusplus.sft         <- FALSE
 sécuriser.types.sortie         <- TRUE
-utiliser.variable.Heures.Sup.  <- FALSE    # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unité
+utiliser.variable.Heures.Sup.  <- FALSE    # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unite
 noria.sur.base.de.paie         <- FALSE    # calculer effet de noria sur base de paie uniquement (pas de fichier E/S)
 sauter.tests.statutaires       <- FALSE
 profiler                       <- FALSE
@@ -98,8 +98,8 @@ seuil.troncature               <- 2        # jours
 taux.tolérance.homonymie       <- 2        # en %
 quantile.cut                   <- 1        # en %
 minimum.positif                <- 0.5
-minimum.quotité                <- 0.1
-tolérance.variation.quotité    <- 0.05
+minimum.quotite                <- 0.1
+tolérance.variation.quotite    <- 0.05
 minimum.actif                  <- 100
 minimum.delta                  <- 5
 dpi                            <- 300 # points par pouce, précision des graphiques de rapport
@@ -117,7 +117,7 @@ minimum.Nmois.non.annexe        <- 1
 population_minimale_calcul_médiane  <- 3
 tolérance.sft                       <- 1
 tolérance.nbi                       <- 2
-ratio.memoire.ligne.parallele       <- 4.2
+ratio.memoire.ligne.parallele       <- 3.3
 
 séparateur.liste.entrée     <- ";"
 séparateur.décimal.entrée   <- ","
@@ -159,11 +159,11 @@ if (setOSWindows) {
 # FORMATS
 
 colonnes.requises           <- c("Matricule",
-                                 "Année",
+                                 "Annee",
                                  "Mois",
                                  "Statut",
                                  "Brut",
-                                 "Net.à.Payer",
+                                 "Net.a.Payer",
                                  "Heures.Sup.",
                                  "Heures",
                                  "Emploi",
@@ -172,7 +172,7 @@ colonnes.requises           <- c("Matricule",
 
 
 
-date.format                      <- "%d/%m/%Y"
+date.format                    <- "%d/%m/%Y"
 
 # ESPACES DE VALEURS LICITES POUR CERTAINS CHAMPS (modalités)
 

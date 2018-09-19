@@ -62,12 +62,12 @@ conditionnel("Lien vers la base de données des anomalies de NBI hors rappels", 
 
 with(cumuls.nbi,
      
-     Tableau.vertical2(c("Année", "Cumuls des NBI", "Montants versés (a)", "Point d'INM apparent", "Point d'INM moyen", "Contrôle"), 
-                       Année, 
+     Tableau.vertical2(c("Annee", "Cumuls des NBI", "Montants versés (a)", "Point d'INM apparent", "Point d'INM moyen", "Contrôle"), 
+                       Annee, 
                        cumul.annuel.indiciaire,
                        cumul.annuel.montants,
                        a <- cumul.annuel.montants/cumul.annuel.indiciaire,
-                       b <- PointMensuelIMMoyen[Année - 2007],
+                       b <- PointMensuelIMMoyen[Annee - 2007],
                        ifelse(abs(b - a) > 0.3, "Rouge", ifelse(abs(b - a) > 0.15, "Orange", "Vert")))
      
 )
@@ -100,7 +100,7 @@ insérer_script(fonction = "catégories_NBI")
 
 #'   
 #'**Nota :**   
-#'Coût annuel calculé pour la quotité de travail observée, limité aux dépassements des maxima ci-après.   
+#'Coût annuel calculé pour la quotite de travail observée, limité aux dépassements des maxima ci-après.   
 #'Dépassements de NBI :     
 #' - plus de 50 points pour la catégorie A;   
 #' - plus de 30 points pour la catégorie B;   

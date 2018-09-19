@@ -153,7 +153,7 @@ read.csv.skip <- function(x,
                       skip = skip,
                       colClasses = classes,
                       showProgress = FALSE,
-                      encoding = ifelse(setOSWindows, "Latin-1", "UTF-8")))
+                      encoding = "Latin-1"))
 
 
   }
@@ -188,7 +188,8 @@ read.csv.skip <- function(x,
     }
    }
   }
-
+  
+names(T) <- iconv(names(T), to = "UTF-8")
 return(T)
 }
 
@@ -434,8 +435,8 @@ essayer(label = "+quartiles", {
 
         if (type == "pond") {
           T <- sapply(Y, function(x) {
-            q <- bigvis::weighted.quantile(x, Y$quotité.moyenne, na.rm = TRUE)
-            q <- append(q, weighted.mean(x, Y$quotité.moyenne, na.rm = TRUE), 3)
+            q <- bigvis::weighted.quantile(x, Y$quotite.moyenne, na.rm = TRUE)
+            q <- append(q, weighted.mean(x, Y$quotite.moyenne, na.rm = TRUE), 3)
             formatC(q, big.mark = " ", format = "fg", digits = 2)
           })
 
@@ -696,7 +697,7 @@ positive <- function(X) X[!is.na(X) & X > 0]
 #' @export
 non.null <- function(X) X[!is.na(X) & X != 0]
 
-#' Teste si, dans une base, la proportion d'enregistrements Noms-Prénoms dont les matricules ne sont pas identiques
+#' Teste si, dans une base, la proportion d'enregistrements Noms-Prenoms dont les matricules ne sont pas identiques
 #'  reste inférieure à une marge de tolérance fixée (taux.tolérance.homonymie)
 #'
 #' @param Base Base à tester
@@ -704,23 +705,23 @@ non.null <- function(X) X[!is.na(X) & X != 0]
 
 tester.homogeneite.matricules <- function(Base) {
 
-  message("Contrôle sur la cohérence de l'association Nom-Prénom-Matricule (homonymies et changements de matricule)")
+  message("Contrôle sur la cohérence de l'association Nom-Prenom-Matricule (homonymies et changements de matricule)")
 
     convertir.nom.prénom.majuscules <- function(S)
   {
-    S[ , c("Nom", "Prénom")] <- apply(S[ , c("Nom", "Prénom")],
+    S[ , c("Nom", "Prenom")] <- apply(S[ , c("Nom", "Prenom")],
                                       2,
                                       function(x)
                                         toupper(chartr("éèôâçë","eeoaice", x)))
   }
 
-  S <- convertir.nom.prénom.majuscules(Base[ , c("Nom", "Prénom", "Matricule")])
+  S <- convertir.nom.prénom.majuscules(Base[ , c("Nom", "Prenom", "Matricule")])
 
   with.matr    <-   nrow(unique(S))
-  without.matr <-   nrow(unique(S[ , c("Nom", "Prénom")]))
+  without.matr <-   nrow(unique(S[ , c("Nom", "Prenom")]))
 
   message("Matricules distincts: ", with.matr)
-  message("Noms-Prénoms distincs: ", without.matr)
+  message("Noms-Prenoms distincs: ", without.matr)
 
   if (with.matr  >   (1 + taux.tolérance.homonymie / 100) * without.matr)
   {
@@ -893,7 +894,7 @@ filtrer_Paie <- function(x,
 
     if (is.na(codes[x, valeur])) {
 
-      P_  <- Base[grepl(filtre_, Libellé, ignore.case=TRUE, perl=TRUE)]
+      P_  <- Base[grepl(filtre_, Libelle, ignore.case=TRUE, perl=TRUE)]
 
     } else {
 
@@ -906,13 +907,13 @@ filtrer_Paie <- function(x,
 
       if (indic) {
 
-        P_  <- Base[ , indic := grepl(filtre_, Libellé, ignore.case=TRUE, perl=TRUE)
+        P_  <- Base[ , indic := grepl(filtre_, Libelle, ignore.case=TRUE, perl=TRUE)
                    ][ , indic0 := any(indic),
-                           by = c("Matricule", "Année", portée)][indic0 == TRUE][, indic0 := NULL]
+                           by = c("Matricule", "Annee", portée)][indic0 == TRUE][, indic0 := NULL]
       } else {
 
-        P_  <- Base[ , indic0 := any(grepl(filtre_, Libellé, ignore.case=TRUE, perl=TRUE)),
-                     by = c("Matricule", "Année", portée)
+        P_  <- Base[ , indic0 := any(grepl(filtre_, Libelle, ignore.case=TRUE, perl=TRUE)),
+                     by = c("Matricule", "Annee", portée)
                    ][indic0 == TRUE][, indic0 := NULL]
       }
 
@@ -923,23 +924,23 @@ filtrer_Paie <- function(x,
         P_  <- Base[ , indic := get(Var) %chin% filtre_,
 
                    ][ , indic0 := any(indic),
-                            by = c("Matricule", "Année", portée)
+                            by = c("Matricule", "Annee", portée)
                    ][indic0 == TRUE][, indic0 := NULL]
       } else {
 
         P_  <- Base[ , indic0 := any(get(Var) %chin% filtre_),
-                     by = c("Matricule", "Année", portée)
+                     by = c("Matricule", "Annee", portée)
                  ][indic0 == TRUE][, indic0 := NULL]
       }
     }
   }
-  # Redéfinition de la quotité nécessaire en raison du fait
-  # que la quotité précédemment définie est une quotité statistique
-  # Pour les vérifications de liquidation il faut une quotité réelle
+  # Redéfinition de la quotite nécessaire en raison du fait
+  # que la quotite précédemment définie est une quotite statistique
+  # Pour les vérifications de liquidation il faut une quotite réelle
 
-  if (all(c("Temps.de.travail", "quotité.moyenne.orig") %chin% names(Base))) {
-       P_[ , `:=`(quotité = Temps.de.travail / 100,
-                  quotité.moyenne = quotité.moyenne.orig)]
+  if (all(c("Temps.de.travail", "quotite.moyenne.orig") %chin% names(Base))) {
+       P_[ , `:=`(quotite = Temps.de.travail / 100,
+                  quotite.moyenne = quotite.moyenne.orig)]
   }
 
   },  "Le filtre n'a pas pu être appliqué ( " %+% x %+%" ).")
@@ -951,13 +952,13 @@ filtrer_Paie <- function(x,
 extraire_paye_ <- function(an, L, out) {
 
   if (! is.null(L)) {
-    assign(out, unique(Bulletins.paie[Année == an
+    assign(out, unique(Bulletins.paie[Annee == an
                                                  & Mois == 12
                                                  & Statut != "ELU"
                                                  & Statut %chin% L,
                                                  .(Matricule, Nir)]), .GlobalEnv)
   } else {
-  assign(out, unique(Bulletins.paie[Année == an
+  assign(out, unique(Bulletins.paie[Annee == an
                                & Mois == 12
                                & Statut != "ELU",
                                .(Matricule, Nir)]), .GlobalEnv)
@@ -966,7 +967,7 @@ extraire_paye_ <- function(an, L, out) {
 
 #' Extraire les matricules et Nir des mois de décembre, sauf pour les élus
 #' Pour les statuts listés dans L si L non null
-#' @param an  Année
+#' @param an  Annee
 #' @param L   Vecteur des statuts considérés
 #' @param out  Data.table extraite de \code{Bulletins.paie} de deux colonnes (\code{Matricule} et \code{Nir}), filtrée des doublons.
 #' @examples extraire_paye(2012, c("TITULAIRE", "STAGIAIRE"), "Bulletins.début.psr")

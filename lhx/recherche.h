@@ -48,7 +48,7 @@
 /// Cela ne suffit pas à donner un fichier XML syntaxiquement correct. \n
 /// A cette fin, rajouter un préambule et une fin de fichier en accord avec ce préambule. \n
 /// \param Info Vecteur de structures \e info_t contenant l'information de paye.
-/// \param annee Année du/des bulletins(s).
+/// \param annee Annee du/des bulletins(s).
 /// \param mois  Mois du/des bulletin(s).
 /// \param matricule Matricule de l'agent.
 /// \return Vecteur de chaînes de caractères, chacune des chaînes représentant un bulletin XML extrait.
@@ -70,7 +70,7 @@ const string extraire_lignes (const info_t& info, const array<uint64_t, 3>& debu
 /// \param Info vecteur de structures info_t contenant les données de paye décodées
 /// \param matricule Matricule de l'agent
 /// \param mois Mois de la paye
-/// \param annee Année de la paye
+/// \param annee Annee de la paye
 /// \return Liste des chemins des fichiers \em .xml exportés dans le répertoire chemin_repertoire.
 
 vector<string> bulletin_paye (const string& chemin_repertoire,

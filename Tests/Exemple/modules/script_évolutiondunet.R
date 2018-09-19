@@ -10,7 +10,7 @@
 #'**Seuls sont considérés les postes actifs et non annexes**      
 #'    
 #'*Nota :*   
-#'*EQTP = Equivalent temps plein  = 12 . moyenne du ratio rémunération / quotité*    
+#'*EQTP = Equivalent temps plein  = 12 . moyenne du ratio rémunération / quotite*    
 
 ########### 4.1 Distribution de la rémunération nette moyenne ###########
 
@@ -37,7 +37,7 @@ conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthe
 #'    
 
 #' 
-#'| Année      | 2009 | 2010 | 2011 | 2012 | 2013 | 2014 | 
+#'| Annee      | 2009 | 2010 | 2011 | 2012 | 2013 | 2014 | 
 #'|:----------:|-----:|-----:|-----:|-----:|-----:|-----:|
 #'| SMPT brut  | 2,5  |  1,3 |  1,5 |  1,7 |  1,1 |  1,7 |
 #'| SMPT net   | 3,0  |  1,4 |  1,3 |  1,4 |  0,8 |  1,3 |
@@ -49,8 +49,8 @@ conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthe
 #'Hors assistants maternels et familiaux, y compris bénéficiaires de contrats aidés.   
 #'Lecture : en 2014, le SMPT brut en EQTP a augmenté de 1,7 %
 #'SMPT : Salaire moyen par tête en EQTP.   
-#'RMPP : Agents présents 24 mois consécutifs chez le même employeur avec la même quotité de travail.   
-#'Lecture : en 2014, la rémunération nette en EQTP des agents présents deux années consécutives en 2012 et 2013 avec la même quotité a augmenté de 2,7 %   
+#'RMPP : Agents présents 24 mois consécutifs chez le même employeur avec la même quotite de travail.   
+#'Lecture : en 2014, la rémunération nette en EQTP des agents présents deux années consécutives en 2012 et 2013 avec la même quotite a augmenté de 2,7 %   
 #'  
 #'**Salaires nets annuels et évolution moyenne type de collectivité en euros courants  EQTP**    
 #'   
@@ -72,7 +72,7 @@ conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthe
 #'| Ensemble (moyenne)        | 21 873 | 22 176   | 22 212  | 22 524 | 2,9 |  3,0 |
 #' 
 
-#'**RMPP nette 2014 (salariés présents en 2013 et 2014 avec la même quotité) en EQTP**        
+#'**RMPP nette 2014 (salariés présents en 2013 et 2014 avec la même quotite) en EQTP**        
 #'    
 #' 
 #'|  Organisme      RMPP net          |  2014  | 

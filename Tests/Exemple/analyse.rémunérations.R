@@ -52,13 +52,13 @@ Actualiser le fichier smic.R dans le dossier Tests/Exemple")
 # Si la période déborde de la période des données du smic, on prend la moins mauvaise solution qui consiste à retenir la borne la plus proche.
 # On ne renvoie donc jamais logical(0) mais toujours un booléen.
 
-smic.net.inf <- smic.net[Année == smic.net.première.année.renseignée, SMIC_NET]
-smic.net.sup <- smic.net[Année == smic.net.dernière.année.renseignée, SMIC_NET]
+smic.net.inf <- smic.net[Annee == smic.net.première.année.renseignée, SMIC_NET]
+smic.net.sup <- smic.net[Annee == smic.net.dernière.année.renseignée, SMIC_NET]
 
 
 # clé.fusion = Matricule, en principe (mais pourrait être NIR)
 # Sommation : on pass du niveau infra-annuel (détails au mois de niveau Paie) au niveau de la période (détail de niveau année)
-
+names(Paie) <- iconv(names(Paie), to = "UTF-8")
 Analyse.remunerations <- Paie[ , .(Nir          = Nir[1],
                                    Montant.net.annuel = Montant.net.annuel[1],
                                    Montant.net.annuel.eqtp  = Montant.net.annuel.eqtp[1],
@@ -69,13 +69,13 @@ Analyse.remunerations <- Paie[ , .(Nir          = Nir[1],
                                    nb.jours     = nb.jours[1],
                                    nb.mois      = nb.mois[1],
                                    permanent    = permanent[1],
-                                   ind.quotité  = indicatrice.quotité.pp[1],
+                                   ind.quotite  = indicatrice.quotite.pp[1],
                                    Filtre_actif = Filtre_actif[1],
-                                   quotité.moyenne = quotité.moyenne[1],
+                                   quotite.moyenne = quotite.moyenne[1],
                                    Emploi       = Emploi[1],
                                    Grade        = Grade[1],
-                                   Catégorie    = Catégorie[1],
-                                   temps.complet = all(quotité == 1),
+                                   Categorie    = Categorie[1],
+                                   temps.complet = all(quotite == 1),
                                    Service      = Service[1],
                                    traitement.indiciaire   = sum(Montant[Type == "T"], na.rm = TRUE),
                                    sft          = sum(Montant[Type == "S"], na.rm = TRUE),
@@ -88,7 +88,7 @@ Analyse.remunerations <- Paie[ , .(Nir          = Nir[1],
                                    acomptes   = sum(Montant[Type == "AC"], na.rm = TRUE),
                                    rémunération.vacataire = sum(Montant[Type == "VAC"], na.rm = TRUE)), 
                                
-                              by = .(Matricule, Année)]
+                              by = .(Matricule, Annee)]
 
 
                                                     
@@ -102,11 +102,11 @@ attach(Analyse.remunerations, warn.conflicts = FALSE)
   # <!--   
   
   # Attention 
-  # pour chercher dans smic.net par sélection sur i : smic.net[Année == a, ...]
-  # il faudrait alors trier Analyse.remunerations par groupe `by = Année, sinon `Vérifier_non_annexe(Montant.net.annuel, Année)
+  # pour chercher dans smic.net par sélection sur i : smic.net[Annee == a, ...]
+  # il faudrait alors trier Analyse.remunerations par groupe `by = Annee, sinon `Vérifier_non_annexe(Montant.net.annuel, Annee)
   # n'est pas compris comme une fonction de scalaire en la deuxième variable, 
-  # mais avec un vecteur Année de la longueur de la table en deuxième composante
-  # Modifier en smic.net$Année == a (à la data.frame) dans la définition de `Vérifier_non_annexe donne en outre des NA
+  # mais avec un vecteur Annee de la longueur de la table en deuxième composante
+  # Modifier en smic.net$Annee == a (à la data.frame) dans la définition de `Vérifier_non_annexe donne en outre des NA
   # Lorsque la fonction est un pur f(x, y) ce phénomène n'apparaît pas : il faut que le paramètre passé 
   # soit RHS d'un test boléen de recherche sur i pour que le problème apparaisse. utiliser by permet de "linéariser a" en s'assurant qu'il
   # est quasi-scalaire (dimension 1)
@@ -132,7 +132,7 @@ attach(Analyse.remunerations, warn.conflicts = FALSE)
   
 Analyse.remunerations$Filtre_non_annexe <- mapply(Vérifier_non_annexe,
                                                     Montant.net.annuel,
-                                                    Année,
+                                                    Annee,
                                                     USE.NAMES = FALSE,
                                                     SIMPLIFY = TRUE) |
                                                         (nb.mois > minimum.Nmois.non.annexe 
@@ -155,16 +155,16 @@ Analyse.remunerations[ , Filtre_annexe :=  (nb.mois < minimum.Nmois.non.annexe
 if (période.hors.données.smic) {
   
   Analyse.remunerations[ 
-    ((Année < smic.net.première.année.renseignée & Montant.net.annuel < smic.net.inf)
-     | (Année > smic.net.dernière.année.renseignée & Montant.net.annuel < smic.net.sup)
-     | (Année >= smic.net.première.année.renseignée 
-        & Année <= smic.net.première.année.renseignée 
-        & Montant.net.annuel < smic.net[Année - smic.net.première.année.renseignée + 1, SMIC_NET])),
+    ((Annee < smic.net.première.année.renseignée & Montant.net.annuel < smic.net.inf)
+     | (Annee > smic.net.dernière.année.renseignée & Montant.net.annuel < smic.net.sup)
+     | (Annee >= smic.net.première.année.renseignée 
+        & Annee <= smic.net.première.année.renseignée 
+        & Montant.net.annuel < smic.net[Annee - smic.net.première.année.renseignée + 1, SMIC_NET])),
              Filtre_annexe := TRUE]
                          
 } else {
   
-  Analyse.remunerations[Montant.net.annuel < smic.net[smic.net.dernière.année.renseignée - Année + 1, SMIC_NET],  Filtre_annexe := TRUE]
+  Analyse.remunerations[Montant.net.annuel < smic.net[smic.net.dernière.année.renseignée - Annee + 1, SMIC_NET],  Filtre_annexe := TRUE]
 }
   
 # -->
@@ -201,37 +201,37 @@ Analyse.variations.par.exercice <- Analyse.remunerations[Grade != "A"
                                                          & Filtre_actif == TRUE
                                                          & Filtre_annexe == FALSE,
                                                            .(Matricule, 
-                                                             Année,
+                                                             Annee,
                                                              Nir,
                                                              Montant.net.annuel.eqtp,
                                                              Montant.brut.annuel.eqtp,
                                                              rémunération.indemnitaire.imposable.eqtp,
                                                              Statut,
                                                              Grade,
-                                                             Catégorie,
+                                                             Categorie,
                                                              nb.jours,
                                                              temps.complet,
-                                                             ind.quotité,
-                                                             quotité.moyenne,
+                                                             ind.quotite,
+                                                             quotite.moyenne,
                                                              permanent)]
 
 # indicatrice binaire année
-# Ex: si Année = début.période.sous.revue + 3, indicatrice.année = 1 << 3 soit le binaire 1000 = 8 ou encore 2^3
+# Ex: si Annee = début.période.sous.revue + 3, indicatrice.année = 1 << 3 soit le binaire 1000 = 8 ou encore 2^3
 # l'indicatrice d'année sera utilisée pour l'analyse du GVT 
 
-Analyse.variations.par.exercice[ , indicatrice.année := bitwShiftL(1, Année - début.période.sous.revue) ]
+Analyse.variations.par.exercice[ , indicatrice.année := bitwShiftL(1, Annee - début.période.sous.revue) ]
 
-# <!-- Prologue : enlever.quotités.na, enlever.quotités.nulles (défaut : FALSE)
+# <!-- Prologue : enlever.quotites.na, enlever.quotites.nulles (défaut : FALSE)
 
-# On ne retire les quotités nulles et NA que pour l'analyse dynamique de la partie 4 
+# On ne retire les quotites nulles et NA que pour l'analyse dynamique de la partie 4 
 # On retire également les Heures nulles na et les Heures < seuil.heures
 
-if (enlever.quotités.na) {
-  Analyse.variations.par.exercice <- Analyse.variations.par.exercice[! is.na(quotité.moyenne)]
+if (enlever.quotites.na) {
+  Analyse.variations.par.exercice <- Analyse.variations.par.exercice[! is.na(quotite.moyenne)]
 }
 
-if (enlever.quotités.nulles) {
-  Analyse.variations.par.exercice <- Analyse.variations.par.exercice[quotité.moyenne > minimum.quotité]
+if (enlever.quotites.nulles) {
+  Analyse.variations.par.exercice <- Analyse.variations.par.exercice[quotite.moyenne > minimum.quotite]
 }
 
 #      Prologue -->
@@ -246,29 +246,29 @@ if (enlever.quotités.nulles) {
 # sont considérés comme temps complets ou permanents seulement ceux qui le sont sur l'ensemble de la période 
 
 Analyse.variations <- Analyse.variations.par.exercice[ ,
-                                                       .(Année,
-                                                         ind.quotité,
+                                                       .(Annee,
+                                                         ind.quotite,
                                                          nb.jours,
-                                                         Nexercices = length(Année),
+                                                         Nexercices = length(Annee),
                                                          Statut,
-                                                         Catégorie,
-                                                         statut = Statut[length(Année)],
+                                                         Categorie,
+                                                         statut = Statut[length(Annee)],
                                                          total.jours = sum(nb.jours, na.rm = TRUE),
                                                          indicatrice.période = sum(indicatrice.année),
-                                                         quotité.moyenne,
+                                                         quotite.moyenne,
                                                          Montant.net.annuel.eqtp,
                                                          Montant.net.annuel.eqtp.début  = Montant.net.annuel.eqtp[1],
-                                                         Montant.net.annuel.eqtp.sortie = Montant.net.annuel.eqtp[length(Année)],
+                                                         Montant.net.annuel.eqtp.sortie = Montant.net.annuel.eqtp[length(Annee)],
                                                          permanent = all(permanent),
                                                          temps.complet = all(temps.complet),
                                                          moyenne.rémunération.annuelle.sur.période =
-                                                           sum(Montant.net.annuel.eqtp, na.rm = TRUE) / length(Année[!is.na(Montant.net.annuel.eqtp) 
+                                                           sum(Montant.net.annuel.eqtp, na.rm = TRUE) / length(Annee[!is.na(Montant.net.annuel.eqtp) 
                                                                                                                      & Montant.net.annuel.eqtp > minimum.positif])),
                                                        by = Matricule]
 
 ## Important pour la validité de est.rmpp si les années ne sortent pas bien triées de lhx ! ##
 
-setkey(Analyse.variations, Année)
+setkey(Analyse.variations, Annee)
 
 Analyse.variations[ ,  pris.en.compte := ! is.na(Montant.net.annuel.eqtp.début)
                                     & ! is.na(Montant.net.annuel.eqtp.sortie)
@@ -299,16 +299,16 @@ Analyse.variations[ ,
 
 
 # On retranche 1 unité en décalant l'année en cours pour calculer l'indicatrice de l'année antérieure
-# soit 2^(Année - 1 - début.période.sous.revue) ou bitwShiftL(1, Année - 1 - début.période.sous.revue)
+# soit 2^(Annee - 1 - début.période.sous.revue) ou bitwShiftL(1, Annee - 1 - début.période.sous.revue)
 # que l'on compare avec l'indicatrice de période par un AND binaire (bitwAnd)
 
 # L'opération donne donc 0 si la personne n'a pas été présente l'année précédente, sinon donne un entier positif
 # en combinant avec & : 0 & TRUE = FALSE, 0 & FALSE = FALSE, 4 & TRUE = TRUE, 4 & FALSE = FALSE
 
-Analyse.variations[ , est.rmpp :=  (Année != début.période.sous.revue  
-                                        & ! is.na(ind.quotité)
-                                        & ind.quotité == TRUE
-                                        & bitwAnd(bitwShiftL(1, Année - 1 - début.période.sous.revue),
+Analyse.variations[ , est.rmpp :=  (Annee != début.période.sous.revue  
+                                        & ! is.na(ind.quotite)
+                                        & ind.quotite == TRUE
+                                        & bitwAnd(bitwShiftL(1, Annee - 1 - début.période.sous.revue),
                                                   indicatrice.période) != 0)]
 
 message("Analyse des variations réalisée.")

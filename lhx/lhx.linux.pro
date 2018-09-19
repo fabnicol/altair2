@@ -131,8 +131,8 @@ DEFINES += \
         WAIT_FOR_LOCK  \                    # insister jusqu'à acquérir les mutex dans les fils d'exécution. Peut entraîner des "output freeze" en cas de forte
                         \                   # charge I/O.
         NO_DEBUG \                          # ne pas générer de messages de débogage avancé
-#       CONVERTIR_LATIN_1                   # Windows
-#       USE_ICONV \                         # pour Windows uniquement, si l'on n'est pas satisfait du hack de pseudo-conversion UTF-8 vers Latin-1
+        CONVERTIR_LATIN_1    \              # pour la compatiilité Windows
+#       USE_ICONV \                         # pour la compatibilité Windows, si l'on n'est pas satisfait du hack de pseudo-conversion UTF-8 vers Latin-1
                    \                        # alors on peut utiliser iconv pour une conversion plus propre.
 #       TOLERANT_TAG_HIERARCHY \            # ordre des balises : tolérance envers des permutations de même niveau
         FULL_PREALLOCATION_TEST \           # calcul des besoins de mémoire : précision maximale (sinon : moindre)
@@ -143,7 +143,8 @@ DEFINES += \
 #        FGETC_PARSING    \                  # parcourir les fichiers par ifstream (C++)
 #       STRINGSTREAM_PARSING  \             # mise en mémoire vive des fichiers de paye par ostringstream (plus de mémoire vive ; accélère beaucoup le 1er traitement sous Windows)
         MMAP_PARSING           \            # parcourir les fichiers par mappage mémoire (C/C++, Unix uniquement, changer la directive sou Windows).
-#       OFSTREAM_TABLE_OUTPUT               # enregistrer les lignes de paye ligne à ligne sur la base. Plus robuste et moins de mémoire mais plus lent sous Windows
+#       OFSTREAM_TABLE_OUTPUT  \            # enregistrer les lignes de paye ligne à ligne sur la base. Plus robuste et moins de mémoire mais plus lent sous Windows
+#       TINYXML2                            # Utiliser tinyxml2 et pas libxml2  
 
 
 
@@ -175,6 +176,10 @@ SOURCES += \
     ligne_paye.cpp \
     recherche.cpp
 
+contains(DEFINES, TINYXML2) {
+  SOURCES += tinyxml2.cpp
+}
+
 HEADERS += \
     table.h \
     ../Interface/gui/tags.h \
@@ -187,5 +192,9 @@ HEADERS += \
     fonctions_auxiliaires.h \
     ligne_paye.h \
     recherche.h \
-    validator.h
+    validator.h \
+    xmlconv.h
 
+contains(DEFINES, TINYXML2) {
+  HEADERS += tinyxml2.h xmlconv.h
+}

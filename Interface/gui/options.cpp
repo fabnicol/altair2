@@ -979,7 +979,7 @@ processPage::processPage()
 
 
     QLabel* rapportTypeLabel = new QLabel ("Type de rapport produit par défaut  ");
-    rapportTypeWidget = new FComboBox ((QStringList() << "WORD et ODT" << "PDF" << "WORD, ODT et PDF"),
+    rapportTypeWidget = new FComboBox ((QStringList() << "WORD, ODT et PDF" << "WORD et ODT" << "PDF"),
                                        "rapportType",
     {
         "Enchaînements",
@@ -992,6 +992,7 @@ processPage::processPage()
                                         "en même temps"));
 
     enchainerRapports = new FCheckBox ("Enchaîner extraction et analyse",
+                                       flags::status::enabledChecked | flags::commandLineType::noCommandLine,
                                        "enchainerRapports",
                                         {
                                             "Enchaînements",

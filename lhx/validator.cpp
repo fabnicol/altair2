@@ -211,7 +211,7 @@ static int parseFile (info_t& info)
         }
     else
         {
-            cerr << ERROR_HTML_TAG "Année non détectable" ENDL;
+            cerr << ERROR_HTML_TAG "Annee non détectable" ENDL;
 
             if (log.is_open())
                 log.close();
@@ -427,7 +427,7 @@ static int parseFile (info_t& info)
 
                             if (verbeux)  cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
 
-                            cerr << "Année " << annee_fichier
+                            cerr << "Annee " << annee_fichier
                                  << " Mois "  << mois_fichier << ENDL;
                             siret_fichier = xmlStrdup (NA_STRING);
                         }
@@ -834,7 +834,7 @@ DI :
                                                          << ENDL "Pour l'agent "
                                                          << "de matricule"
                                                          << info.Table[info.NCumAgentXml][Matricule] << ENDL
-                                                         << " Année "
+                                                         << " Annee "
                                                          << info.Table[info.NCumAgentXml][Annee]
                                                          << " Mois "
                                                          << info.Table[info.NCumAgentXml][Mois] << ENDL
@@ -960,7 +960,8 @@ static inline void GCC_INLINE allouer_memoire_table (info_t& info)
                 {
                     for (xmlChar* a : info.Table[agent])
                         {
-                            if (a) xmlFree (a);
+                          if (a)
+                             xmlFree (a);
                         }
                 }
         }
@@ -1165,8 +1166,9 @@ void* parse_info (info_t& info)
     regex pat_cat_a {EXPRESSION_REG_CAT_A, regex_constants::icase};
     regex pat_cat_b {EXPRESSION_REG_CAT_B, regex_constants::icase};
 
-
-    xmlKeepBlanksDefault (0);
+#   ifndef TINYXML2
+      xmlKeepBlanksDefault (0);
+#   endif      
 
     for (unsigned i = 0; i < info.threads->argc ; ++i)
         {

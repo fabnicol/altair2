@@ -96,7 +96,7 @@ point_inm <- function() {
     }
   }
   
-  "PointMensuelIM" %a% PointIM / 12
+  "PointMensuelIM" %a% (PointIM / 12)
   
   "PointMensuelIMMoyen" %a% apply(PointMensuelIM, 1, mean)
   

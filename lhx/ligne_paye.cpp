@@ -51,7 +51,7 @@ using namespace std;
 ///          Pour des variables caractères : NA (#NA_ASSIGN) \n
 ///          Pour des variables pseudo-numériques (caractères convertibles en numériques) :\n
 ///          0 (#ZERO_ASSIGN) \n
-///          On peut donc garantir que \e Année, \e Mois, \e NbEnfants, \e Indice, \e NBI, \n
+///          On peut donc garantir que \e Annee, \e Mois, \e NbEnfants, \e Indice, \e NBI, \n
 ///          \e QuotiteTrav, \n
 ///          \e NbHeureTotal, \e NbHeureSup, \e MtBrut, \e MtNet, \e MtNetAPayer ne sont \n
 ///          jamais NA mais à 0
@@ -117,7 +117,7 @@ static void GCC_INLINE sanitize (xmlChar* s,  const char sep)
                     break;
 
 #ifdef CONVERTIR_LATIN_1
-#if !defined(__linux__) && ! defined(USE_ICONV)
+#if ! defined(USE_ICONV)
 
 //   Gros hack de pseudo-conversion UTF-8 vers Latin-1, qui permet d'économiser les 40 %
 //   de surcoût d'exécution lié à l'utilisation d'iconv pour retraiter les fichiers de
@@ -816,7 +816,7 @@ static inline LineCount lignePaye (xmlNodePtr cur, info_t& info)
 
 //      cur n'est pas nul à ce point et ne devient jamais nul ci-après
 
-//      Libellé, obligatoire
+//      Libelle, obligatoire
 
             bulletin_obligatoire ("Libelle", cur, l, info);
 
@@ -1039,7 +1039,7 @@ inline void test_bulletin_irregulier (info_t& info)
 }
 
 
-/// Réalloue un ligne de paye en NA sur les variables propres aux lignes de paye (Code, Libellé, Base,...)
+/// Réalloue un ligne de paye en NA sur les variables propres aux lignes de paye (Code, Libelle, Base,...)
 /// \param info table d'informations
 /// \param ligne nombre de lignes (fixé à 1)
 /// \param memoire_p_ligne_allouee allocation de mémoire de la ligne réinitialisée en NA
@@ -1090,7 +1090,7 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
         {
             LOCK_GUARD
             cerr << ERROR_HTML_TAG "L'agent est non identifié pour le fichier : " << info.threads->argv[info.fichier_courant] << ENDL
-                 << ERROR_HTML_TAG  "Année " << info.Table[info.NCumAgentXml][Annee] << ENDL
+                 << ERROR_HTML_TAG  "Annee " << info.Table[info.NCumAgentXml][Annee] << ENDL
                  << ERROR_HTML_TAG  "Mois "  << info.Table[info.NCumAgentXml][Mois]  << ENDL;
 
             long lineN = xmlGetLineNo (cur_parent);
@@ -1427,7 +1427,7 @@ level0:
             if (v > 1 && verbeux)
             {
                 LOCK_GUARD
-                cerr << WARNING_HTML_TAG << v << " NBI détectées - " << "Année : " << info.Table[info.NCumAgentXml][Annee]
+                cerr << WARNING_HTML_TAG << v << " NBI détectées - " << "Annee : " << info.Table[info.NCumAgentXml][Annee]
                      << ", Mois : "  << info.Table[info.NCumAgentXml][Mois]  << ", Matricule : " << info.Table[info.NCumAgentXml][Matricule] << ENDL;
             }
         }

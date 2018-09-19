@@ -74,7 +74,7 @@ produire_pyramides_ <- function(Filtre_bulletins, titre, versant = "", envir) {
          # Base	
          #    data.table contenant au moins une variable nommée Nir décrivant le NIR.
          # année	
-         #    Année civile à la fin de laquelle est évalué l'âge de l'individu. 
+         #    Annee civile à la fin de laquelle est évalué l'âge de l'individu. 
          # 
 
   # Produire les pyramides

@@ -68,7 +68,7 @@ rang.classe    <- if (intégrer.rang) "integer" else NULL
                                localisation.classes,
                                "character", "character", "character",
                                "character", "numeric", "character", "numeric", "numeric", "numeric",
-                               "integer",  "numeric", "numeric", "numeric", "integer",
+                               "integer",  "numeric", "numeric", "numeric", "numeric",
                                "character",  "character", "numeric", "numeric", "numeric",
                                "numeric", "character", "character", "character", "character", "character", échelon.classe, "character", "character")
 

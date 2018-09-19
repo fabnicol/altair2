@@ -53,11 +53,11 @@
 
 extern bool verbeux;
 
+#include "entete.h"
+
 #ifndef __linux__
-#include "entete-latin1.h"
 #include <windows.h>
 #else
-#include "entete.h"
 #include <unistd.h>
 #endif
 
@@ -361,7 +361,7 @@ void ecrire_log (const info_t& info, ofstream& log, int diff)
         {
             if (log.good())
 #define P  " | "
-                log << "Année " << P
+                log << "Annee " << P
                     << info.Table[info.NCumAgentXml][Annee] << P
                     << "Mois "  << setw (2) << info.Table[info.NCumAgentXml][Mois] << P
                     << "Matricule " << setw (6) <<  info.Table[info.NCumAgentXml][Matricule] << P

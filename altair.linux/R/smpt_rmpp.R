@@ -1,4 +1,4 @@
-#durée.sous.revue <- { temp <- Bulletins.paie[ , Année, by = Année] ; temp[1] - temp[.N] +1 }
+#durée.sous.revue <- { temp <- Bulletins.paie[ , Annee, by = Annee] ; temp[1] - temp[.N] +1 }
 
 #' SMPT
 #' @param Filtre  Filtre fonctionnel booléen décrivant une sélection sur les lignes (caractéristiques des personnels)
@@ -9,25 +9,25 @@
 smpt <- function(Filtre, type =  "smpt net") {
   
   S_net.eqtp <- Analyse.variations[Filtre() == TRUE,
-                                   .(moy = weighted.mean(Montant.net.annuel.eqtp, quotité.moyenne, na.rm = TRUE)),
-                                   by = "Année"]
+                                   .(moy = weighted.mean(Montant.net.annuel.eqtp, quotite.moyenne, na.rm = TRUE)),
+                                   by = "Annee"]
   
   S_net.eqtp.100 <- Analyse.variations[Filtre() == TRUE & temps.complet == TRUE & permanent == TRUE,
-                                       .(moy = weighted.mean(Montant.net.annuel.eqtp, quotité.moyenne, na.rm = TRUE)),
-                                       by = "Année"]
+                                       .(moy = weighted.mean(Montant.net.annuel.eqtp, quotite.moyenne, na.rm = TRUE)),
+                                       by = "Annee"]
   
   
-  f <- function(x) prettyNum(S_net.eqtp[Année == x, moy],
+  f <- function(x) prettyNum(S_net.eqtp[Annee == x, moy],
                              big.mark = " ",
                              digits = 1,
                              format = "fg")
   
-  g <- function(x) prettyNum(S_net.eqtp.100[Année == x, moy],
+  g <- function(x) prettyNum(S_net.eqtp.100[Annee == x, moy],
                              big.mark = " ",
                              digits = 1,
                              format = "fg")
   
-  T <- Tableau.vertical(c("Année", type %+% " (euros)", type %+% " temps complet (euros)"),
+  T <- Tableau.vertical(c("Annee", type %+% " (euros)", type %+% " temps complet (euros)"),
                         if (type == "smpt net") période else période[2:get("durée.sous.revue")],           # if...else pas ifelse (dim vecteur)
                         extra = "variation",
                         f,
@@ -48,22 +48,22 @@ distribution_smpt <- function(Filtre) {
            fin.période.sous.revue, "Effectif",
            fin.période.sous.revue %+% " TC",  "Effectif"),
          list(
-           Analyse.variations[Année == début.période.sous.revue
+           Analyse.variations[Annee == début.période.sous.revue
                               & Filtre() == TRUE,
-                              .(Montant.net.annuel.eqtp, quotité.moyenne)],   
-           Analyse.variations[Année == début.période.sous.revue
+                              .(Montant.net.annuel.eqtp, quotite.moyenne)],   
+           Analyse.variations[Annee == début.période.sous.revue
                               & Filtre() == TRUE
                               & permanent == TRUE
                               & temps.complet == TRUE,
-                              .(Montant.net.annuel.eqtp, quotité.moyenne)],
-           Analyse.variations[Année == fin.période.sous.revue 
+                              .(Montant.net.annuel.eqtp, quotite.moyenne)],
+           Analyse.variations[Annee == fin.période.sous.revue 
                               & Filtre() == TRUE,
-                              .(Montant.net.annuel.eqtp, quotité.moyenne)],
-           Analyse.variations[Année == fin.période.sous.revue 
+                              .(Montant.net.annuel.eqtp, quotite.moyenne)],
+           Analyse.variations[Annee == fin.période.sous.revue 
                               & Filtre() == TRUE
                               & permanent == TRUE
                               & temps.complet == TRUE,
-                              .(Montant.net.annuel.eqtp, quotité.moyenne)]),
+                              .(Montant.net.annuel.eqtp, quotite.moyenne)]),
          extra = "length")
   
   # Pour des raisons très mal comprises, print est ici nécessaire alors qu'il ne l'est pas dans smpt() pour Tableau_vertical ;
@@ -114,13 +114,13 @@ q3 <- quantile(Analyse.variations$variation.rémunération, c(quantile.cut/100, 
 "Filtre_fonctionnaire" %a% function() Statut == "TITULAIRE" | Statut == "STAGIAIRE"
 
 # Filtre catégorie A
-"Filtre_cat_A" %a%  function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "A")
+"Filtre_cat_A" %a%  function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Categorie == "A")
 
 # Filtre catégorie B
-"Filtre_cat_B" %a% function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "B") 
+"Filtre_cat_B" %a% function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Categorie == "B") 
 
 # Filtre catégorie C
-"Filtre_cat_C" %a% function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Catégorie == "C") 
+"Filtre_cat_C" %a% function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Categorie == "C") 
 
 
 "Filtre_rmpp"  %a% function() (est.rmpp == TRUE)
