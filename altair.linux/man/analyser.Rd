@@ -20,21 +20,21 @@ elle ne peut être attribuée qu'aux indices supérieurs ("+") ou inférieurs ("
 \item{Paie_I}{Base data.table des indemnités comportant les colonnes :
 \itemize{
   \item{Nom} 
-  \item{Prenom}
+  \item{Prénom}
   \item{Matricule} 
-  \item{Annee} 
+  \item{Année} 
   \item{Mois} 
-  \item{Debut}
+  \item{Début}
   \item{Fin}
   \item{Code}
-  \item{Libelle}
+  \item{Libellé}
   \item{Montant}
   \item{Type}
   \item{Emploi}
   \item{Grade} 
   \item{Indice}
   \item{Statut}
-  \item{Categorie}}}
+  \item{Catégorie}}}
 
 \item{verbeux}{[FALSE] Le résultat des tableaux "non titulaires" et "catégories" n'est affiché que si \code{verbeux} vaut \code{TRUE}}
 }

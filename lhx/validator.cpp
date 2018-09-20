@@ -80,7 +80,7 @@ static inline  int GCC_INLINE memoire_p_ligne (const info_t& info, const unsigne
 }
 
 /// Décode une structure info_t contenant les données de paye à l'état brut "fichier" (<pre> info.threads->in_memory_file </pre> ou <pre> info.threads->argv </pre>)
-/// Commence par décoder Annee, Mois, Budget, Siret, Employeur, puis lance le décodage des données de paye individuelles, agent par agent, pour l'ensemble du fichier
+/// Commence par décoder Année, Mois, Budget, Siret, Employeur, puis lance le décodage des données de paye individuelles, agent par agent, pour l'ensemble du fichier
 /// A chaque bulletin de paye de l'agent, lance  parseLignesPaye
 /// \param info Structure info_t contenant les fichiers de paye en mémoire vive et les champs à remplir par le décodage libxml2.
 /// \return #SKIP_FILE si le fichier doit être sauté pour une raison ou pour une autre \n
@@ -93,7 +93,7 @@ static int parseFile (info_t& info)
 //
 //        <DocumentPaye xmlns="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1">
 //          <IdVer V="">{1,1}</IdVer>
-//          <Annee V="">{1,1}</Annee>
+//          <Année V="">{1,1}</Année>
 //          <Mois V="">{1,1}</Mois>
 //          <Train V="">{0,1}</Train>
 //          <Budget>{0,1}</Budget>
@@ -211,7 +211,7 @@ static int parseFile (info_t& info)
         }
     else
         {
-            cerr << ERROR_HTML_TAG "Annee non détectable" ENDL;
+            cerr << ERROR_HTML_TAG "Année non détectable" ENDL;
 
             if (log.is_open())
                 log.close();
@@ -427,7 +427,7 @@ static int parseFile (info_t& info)
 
                             if (verbeux)  cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
 
-                            cerr << "Annee " << annee_fichier
+                            cerr << "Année " << annee_fichier
                                  << " Mois "  << mois_fichier << ENDL;
                             siret_fichier = xmlStrdup (NA_STRING);
                         }
@@ -834,7 +834,7 @@ DI :
                                                          << ENDL "Pour l'agent "
                                                          << "de matricule"
                                                          << info.Table[info.NCumAgentXml][Matricule] << ENDL
-                                                         << " Annee "
+                                                         << " Année "
                                                          << info.Table[info.NCumAgentXml][Annee]
                                                          << " Mois "
                                                          << info.Table[info.NCumAgentXml][Mois] << ENDL
@@ -1268,7 +1268,7 @@ void* parse_info (info_t& info)
                  {
                     xmlFree (VAR (Statut)) ;
                     VAR (Statut) =  xmlStrdup ((const xmlChar*)"ELU");
-                    VAR (Categorie) = xmlStrdup (NA_STRING);
+                    VAR (Catégorie) = xmlStrdup (NA_STRING);
                  }
             else
 #           endif                                

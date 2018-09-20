@@ -51,7 +51,7 @@ using namespace std;
 ///          Pour des variables caractères : NA (#NA_ASSIGN) \n
 ///          Pour des variables pseudo-numériques (caractères convertibles en numériques) :\n
 ///          0 (#ZERO_ASSIGN) \n
-///          On peut donc garantir que \e Annee, \e Mois, \e NbEnfants, \e Indice, \e NBI, \n
+///          On peut donc garantir que \e Année, \e Mois, \e NbEnfants, \e Indice, \e NBI, \n
 ///          \e QuotiteTrav, \n
 ///          \e NbHeureTotal, \e NbHeureSup, \e MtBrut, \e MtNet, \e MtNetAPayer ne sont \n
 ///          jamais NA mais à 0
@@ -652,7 +652,7 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique (const char* tag, x
 /// \subsection subsec6 Cas d'anomalie
 /// \par
 /// Une anomalie peut être l'absence de noeuds fils décrivant le contenu de la paye :\n
-/// absence des noeuds \e Libelle, \e Code, \e Base, \e Taux, \e NbUnite, \e Mt.\n
+/// absence des noeuds \e Libellé, \e Code, \e Base, \e Taux, \e NbUnite, \e Mt.\n
 /// Cette anomalie donne lieu à appel de #NA_ASSIGN et message d'avertissement.\n
 /// Elle donne lieu au décompte d'une ligne de paye (assignée de valeurs manquantes).
 /// \warning Toujours s'assurer que dans ce cas l'allocation mémoire prévoit 6
@@ -816,7 +816,7 @@ static inline LineCount lignePaye (xmlNodePtr cur, info_t& info)
 
 //      cur n'est pas nul à ce point et ne devient jamais nul ci-après
 
-//      Libelle, obligatoire
+//      Libellé, obligatoire
 
             bulletin_obligatoire ("Libelle", cur, l, info);
 
@@ -886,7 +886,7 @@ static inline LineCount lignePaye (xmlNodePtr cur, info_t& info)
                             // On ne tient pas rigueur du manque de qualité éventuelle
                             // tellement la norme est peu respectée
 
-                            bulletin_optionnel_char ("DateDebut", cur, l, info);
+                            bulletin_optionnel_char ("DateDébut", cur, l, info);
 
                             ++l;
                             info.drapeau_cont = false; // pas de noeud successeur
@@ -968,7 +968,7 @@ static inline LineCount lignePaye (xmlNodePtr cur, info_t& info)
 //      <Civilite V="">{0,1}</Civilite>
 //      <Nom V="">{1,1}</Nom>
 //      <ComplNom V="">{0,1}</ComplNom>
-//      <Prenom V="">{0,1}</Prenom>
+//      <Prénom V="">{0,1}</Prénom>
 //      <Matricule V="">{1,1}</Matricule>
 //      <NIR V="">{1,1}</NIR>
 //      <Adresse>{1,1}</Adresse>
@@ -1039,7 +1039,7 @@ inline void test_bulletin_irregulier (info_t& info)
 }
 
 
-/// Réalloue un ligne de paye en NA sur les variables propres aux lignes de paye (Code, Libelle, Base,...)
+/// Réalloue un ligne de paye en NA sur les variables propres aux lignes de paye (Code, Libellé, Base,...)
 /// \param info table d'informations
 /// \param ligne nombre de lignes (fixé à 1)
 /// \param memoire_p_ligne_allouee allocation de mémoire de la ligne réinitialisée en NA
@@ -1063,11 +1063,11 @@ inline void allouer_ligne_NA (info_t &info, int &ligne, int &memoire_p_ligne_all
     ligne = 1;
 }
 
-/// Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...)
+/// Lance le décodage des variables Bulletins de paye (Nom, Prénom, Matricule,...)
 /// \param cur pointeur XML courant
 /// \param info table d'informations
 /// \return nombre de lignes de paye
-/// \details Commence par atteindre le noeud Agent. Vérifie son identification (Nom, Prenom, Matricule, NIR, NbEnfants, Statut, EmploiMetier, Grade, Echelon, Indice)
+/// \details Commence par atteindre le noeud Agent. Vérifie son identification (Nom, Prénom, Matricule, NIR, NbEnfants, Statut, EmploiMetier, Grade, Echelon, Indice)
 /// Décode ensuite Evenement, Service, NBI, QuotiteTrav.
 /// Appelle ensuite la fonction lignePaye qui décode les lignes de paye de la balise Remuneration.
 /// Décode ensuite les champs de fin de fichier : NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer.
@@ -1077,7 +1077,7 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
     bool result = true;
     int na_assign_level = 0;
     constexpr
-    const char* local_tag[] = {"Nom", "Prenom", "Matricule", "NIR", "NbEnfants",
+    const char* local_tag[] = {"Nom", "Prénom", "Matricule", "NIR", "NbEnfants",
                                "Statut", "EmploiMetier", "Grade", "Echelon", "Indice"
                               };
     xmlNodePtr cur_parent = cur;
@@ -1090,7 +1090,7 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
         {
             LOCK_GUARD
             cerr << ERROR_HTML_TAG "L'agent est non identifié pour le fichier : " << info.threads->argv[info.fichier_courant] << ENDL
-                 << ERROR_HTML_TAG  "Annee " << info.Table[info.NCumAgentXml][Annee] << ENDL
+                 << ERROR_HTML_TAG  "Année " << info.Table[info.NCumAgentXml][Annee] << ENDL
                  << ERROR_HTML_TAG  "Mois "  << info.Table[info.NCumAgentXml][Mois]  << ENDL;
 
             long lineN = xmlGetLineNo (cur_parent);
@@ -1133,7 +1133,7 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
         }
 
     // cur n'est pas nul à ce point
-    // Décodage des caractéristiques de l'agent : Nom, Prenom, etc.
+    // Décodage des caractéristiques de l'agent : Nom, Prénom, etc.
 
     cur_parent = cur;
     cur = cur->xmlChildrenNode;
@@ -1427,7 +1427,7 @@ level0:
             if (v > 1 && verbeux)
             {
                 LOCK_GUARD
-                cerr << WARNING_HTML_TAG << v << " NBI détectées - " << "Annee : " << info.Table[info.NCumAgentXml][Annee]
+                cerr << WARNING_HTML_TAG << v << " NBI détectées - " << "Année : " << info.Table[info.NCumAgentXml][Annee]
                      << ", Mois : "  << info.Table[info.NCumAgentXml][Mois]  << ", Matricule : " << info.Table[info.NCumAgentXml][Matricule] << ENDL;
             }
         }

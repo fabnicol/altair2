@@ -15,7 +15,7 @@ Affichage du tableau des cumuls de primes et du logement par NAS
 \examples{
 tableau_NAS(test_prime(prime_IFTS, Paie_I, verbeux = FALSE, NAS = "non"))
 
-|Matricule |Annee | Mois |       Grade            |       Emploi            |    Montant |
+|Matricule |Année | Mois |       Grade            |       Emploi            |    Montant |
 |----------|------|-------------------------------|-------------------------|------------|
 |010843    |2009  |   8  |  ATTACHE PRINCIPAL     |   CHEF DE DIVISION      |    785,25  |
 |010843    |2009  |   9  |  ATTACHE PRINCIPAL     |   CHEF DE DIVISION      |    785,25  |

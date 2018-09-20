@@ -8,7 +8,7 @@ Pour les statuts listés dans L si L non null}
 extraire_paye(an, L, out)
 }
 \arguments{
-\item{an}{Annee}
+\item{an}{Année}
 
 \item{L}{Vecteur des statuts considérés}
 

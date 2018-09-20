@@ -125,7 +125,7 @@ enum class BaseType : int
     MAXIMUM_LIGNES_PAR_ANNEE = 17 ///< Taille maximum de la base de paye "Table" en nombre de lignes, cas d'une exportation annuelle.
 };
 
-/// Nombre de type de champ de ligne de paye (Libelle, Code, Taux, Base, NbUnite, Montant, DebutPeriode, FinPeriode) moins 1
+/// Nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, NbUnite, Montant, DébutPeriode, FinPeriode) moins 1
 #define INDEX_MAX_COLONNNES 7
 
 /// Nombre d'éléments de l'énum ci-dessous, correspondant aux champs des bulletins (répétés à chaque ligne de paye)
@@ -143,8 +143,8 @@ typedef enum
 /// Tableau des noms de colonnes associés à ces libellés de balises XML
 constexpr const char* Tableau_entete[] =
 {
-    "Annee", "Mois", "Budget", "Employeur", "Siret", "Etablissement",
-    "Nom", "Prenom", "Matricule", "NIR", "NbEnfants", "Statut",
+    "Année", "Mois", "Budget", "Employeur", "Siret", "Etablissement",
+    "Nom", "Prénom", "Matricule", "NIR", "NbEnfants", "Statut",
     "EmploiMetier", "Grade", "Echelon", "Indice", "Evenement", "Service", "NBI", "QuotiteTrav",
     "NbHeureTotal", "NbHeureSup", "MtBrut", "MtNet", "MtNetAPayer"
 };
@@ -293,7 +293,7 @@ void* parse_info (info_t& info);
 
 
 /// Permet d'atteindre un noeud donné par son libellé de balise XML à partir d'un pointeur XmlNodePtr de libxml2
-/// \param noeud Libelle de la balise à atteindre
+/// \param noeud Libellé de la balise à atteindre
 /// \param cur Noeud libxml2 courant
 /// \return Soit le noeud XmlNodePtr correspondant au noeud trouvé, soit nullptr si pas de noeud trouvé.
 

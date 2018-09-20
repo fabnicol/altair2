@@ -9,7 +9,7 @@ extraire.nir(Base, année)
 \arguments{
 \item{Base}{data.table contenant au moins une variable nommée Nir décrivant le NIR.}
 
-\item{année}{Annee civile à la fin de laquelle est évalué l'âge de l'individu.}
+\item{année}{Année civile à la fin de laquelle est évalué l'âge de l'individu.}
 }
 \value{
 Une base data.table ayant la forme suivante (les bornes d'âge ne sont pas impératives) :
