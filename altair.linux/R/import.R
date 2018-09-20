@@ -46,6 +46,14 @@
 `%a%` <- function(x, y) assign(x, y, inherits = TRUE, envir = .GlobalEnv)
 "durée.sous.revue" %a% 1
 
+
+convertir.accents <- function(V) {
+  for (x in V) {
+    for (y in names(x)) setnames(x, y, gsub("à", "a", gsub("é", "e", gsub("è", "e", y))))
+  }
+}
+
+
 importer.bases.via.xhl2csv <- function(base, fichiers, colClasses = colonnes.classes.input) {
   
   res <- try(Read.csv(base,
@@ -624,11 +632,14 @@ importer_ <- function() {
                                       header = TRUE,
                                       #skip = champ.détection.1,
                                       encoding = "Latin-1"))
-  colonnes <- iconv(colonnes, to = "UTF-8")
+
+  colonnes <- gsub("à", "a", gsub("é", "e", gsub("è", "e", colonnes)))
   type.données(colonnes)
   
   importer.bases.via.xhl2csv("Paie", fichiers.table, colClasses =  colonnes.classes.input)
   importer.bases.via.xhl2csv("Bulletins.paie", fichiers.bulletins, colClasses =  colonnes.bulletins.classes.input)
+  
+  convertir.accents(list(Paie, Bulletins.paie))
   
   Bulletins.paie[ , Grade := toupper(Grade)]
   Paie[ , Grade := toupper(Grade)]

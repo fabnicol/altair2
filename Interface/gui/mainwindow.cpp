@@ -657,7 +657,7 @@ start:
             {
                 "Civilite",
                 "Nom",
-                "Prenom",
+                "Prénom",
                 "Adr1",
                 "Adr2",
                 "Ville",

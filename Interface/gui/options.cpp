@@ -415,11 +415,11 @@ void rapportPage::ajusterDependances(int i)
      case 20:   
         if (! listeCB[20]->isChecked())
         {
-            L << 24; // comptabilité et annexe liées par objet code.libelle
+            L << 24; // comptabilité et annexe liées par objet code.Libellé
         }
         if (listeCB[20]->isChecked())
         {
-            M << 24; // comptabilité et annexe liées par objet code.libelle
+            M << 24; // comptabilité et annexe liées par objet code.Libellé
         }
         break;
     }
@@ -1151,9 +1151,9 @@ extraPage::extraPage()
                                       "Il doit être au format CSV (séparateur point-virgule)<br>"
                                       "et encodé en caractères Latin-1 ou Windows-1252.<br>"
                                       "Les colonnes doivent comporter les intitulés Code,<br>"
-                                      "Libelle, Statut, Type et Compte, dans cet ordre : <br>"
+                                      "Libellé, Statut, Type et Compte, dans cet ordre : <br>"
                                       "<ul><li><b>Code</b> : code de  paye de la base dématérialisée.</li>"
-                                      "<li><b>Libelle</b> : libellé de  paye associé au code.</li>"
+                                      "<li><b>Libellé</b> : libellé de  paye associé au code.</li>"
                                       "<li><b>Statut</b> : statut éligible à ce code. Si plusieurs<br>"
                                       "statuts sont éligibles, utiliser une ligne par statut.<br>"
                                       "Valeurs possibles : <br>"
@@ -1175,7 +1175,7 @@ extraPage::extraPage()
                                       "table de correspondance et peut produire des résultats<br>"
                                       "relativement éloignés des agrégats comptables. Cette <br>"
                                       "table par défaut est générée sous <b>Bases/Fiabilite</b> <br>"
-                                      "sous le nom de fichier <b>code.libelle.csv</b>.";
+                                      "sous le nom de fichier <b>code.Libellé.csv</b>.";
     
     budgetCheckBox = new FCheckBox ("Correspondance budgétaire  ",
                                     flags::status::enabledUnchecked

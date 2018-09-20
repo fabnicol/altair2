@@ -9,7 +9,7 @@ test_avn(avantage, Paie, logements = NULL)
 \arguments{
 \item{avantage}{Vecteur de caractères indiquant le type de logement (actuellement seul "NAS" est actif)}
 
-\item{Paie}{Base de Paye principale comportant les variables \code{Matricule, Annee, Mois, Statut, Grade, Emploi, Type, Code, Libelle, Montant}}
+\item{Paie}{Base de Paye principale comportant les variables \code{Matricule, Année, Mois, Statut, Grade, Emploi, Type, Code, Libellé, Montant}}
 
 \item{logements}{La base de logements facultative importée par l'onglet Extra de l'interface graphique}
 }

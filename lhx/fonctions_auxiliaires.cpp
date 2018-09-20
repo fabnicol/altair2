@@ -361,7 +361,7 @@ void ecrire_log (const info_t& info, ofstream& log, int diff)
         {
             if (log.good())
 #define P  " | "
-                log << "Annee " << P
+                log << "Année " << P
                     << info.Table[info.NCumAgentXml][Annee] << P
                     << "Mois "  << setw (2) << info.Table[info.NCumAgentXml][Mois] << P
                     << "Matricule " << setw (6) <<  info.Table[info.NCumAgentXml][Matricule] << P

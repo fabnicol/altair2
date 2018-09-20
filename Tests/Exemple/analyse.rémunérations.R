@@ -87,7 +87,6 @@ Analyse.remunerations <- Paie[ , .(Nir          = Nir[1],
                                    rémunérations.diverses = sum(Montant[Type == "A"], na.rm = TRUE),
                                    acomptes   = sum(Montant[Type == "AC"], na.rm = TRUE),
                                    rémunération.vacataire = sum(Montant[Type == "VAC"], na.rm = TRUE)), 
-                               
                               by = .(Matricule, Annee)]
 
 

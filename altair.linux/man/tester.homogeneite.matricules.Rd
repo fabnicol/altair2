@@ -2,7 +2,7 @@
 % Please edit documentation in R/bibliotheque.fonctions.paie.R
 \name{tester.homogeneite.matricules}
 \alias{tester.homogeneite.matricules}
-\title{Teste si, dans une base, la proportion d'enregistrements Noms-Prenoms dont les matricules ne sont pas identiques
+\title{Teste si, dans une base, la proportion d'enregistrements Noms-Prénoms dont les matricules ne sont pas identiques
  reste inférieure à une marge de tolérance fixée (taux.tolérance.homonymie)}
 \usage{
 tester.homogeneite.matricules(Base)
@@ -11,6 +11,6 @@ tester.homogeneite.matricules(Base)
 \item{Base}{Base à tester}
 }
 \description{
-Teste si, dans une base, la proportion d'enregistrements Noms-Prenoms dont les matricules ne sont pas identiques
+Teste si, dans une base, la proportion d'enregistrements Noms-Prénoms dont les matricules ne sont pas identiques
  reste inférieure à une marge de tolérance fixée (taux.tolérance.homonymie)
 }

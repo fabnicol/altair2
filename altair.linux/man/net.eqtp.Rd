@@ -14,7 +14,7 @@ net.eqtp(Base = Paie, grade = NULL, classe = NULL, service = NULL,
 \enumerate{
   \item{ les variables charactère suivantes :
      \itemize{
-         \item \code{Annee}
+         \item \code{Année}
          \item \code{Matricule}
          \item \code{Statut}
          \item \code{Grade}}}
@@ -38,7 +38,7 @@ net.eqtp(Base = Paie, grade = NULL, classe = NULL, service = NULL,
 
 \item{statut}{Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.}
 
-\item{catégorie}{Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.}
+\item{catégorie}{Catégorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.}
 
 \item{exclure.codes}{Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).}
 }

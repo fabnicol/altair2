@@ -102,7 +102,7 @@ private:
     
 protected : 
    
-    QStringList variables;        ///< Libelles des éléments de paye faisant l'objet d'une ligne dans l'onglet.
+    QStringList variables;        ///< Libellés des éléments de paye faisant l'objet d'une ligne dans l'onglet.
     QList<QString> listeLabels;   ///< Elements de variables dont les espaces ont été retirées.
     QList<QLabel*> listeDialogueLabels;        ///< Mise en forme des éléments de listeLabels au format QLabel.
     QLabel *label;                             ///< Elément de texte variable servant à afficher des messaes d'erreur ou de réussite de l'exportation des codes.
@@ -226,7 +226,7 @@ private:
     
     FComboBox *profils; ///< Sélectionne les profils de niveau de détail souhaité pour le rapport.
 
-    QStringList variables;        ///< Libelles des éléments de paye faisant l'objet d'une ligne dans l'onglet.
+    QStringList variables;        ///< Libellés des éléments de paye faisant l'objet d'une ligne dans l'onglet.
     QLabel *label;                             ///< Elément de texte variable servant à afficher des messaes d'erreur ou de réussite de l'exportation des codes.
     QString init_label_text ;                  ///< Message "Appuyer pour exporter..."
     const QString prologue_scripts_path = path_access(SCRIPT_DIR "prologue_scripts.R");
@@ -333,7 +333,7 @@ private:
     /// Méthode permettant d'ajouter une icône particulière
     ///
     /// \param path  Chemin de l'icône
-    /// \param text  Libelle de  l'icône
+    /// \param text  Libellé de  l'icône
     
     void createIcon (const char* path, const char* text);   
 

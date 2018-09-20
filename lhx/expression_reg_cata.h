@@ -35,7 +35,7 @@ Décret n° 2015-1048 du 21 août 2015 portant dispositions statutaires relative
    11	736	608	-	2 815,22 €
 
 Corps : Ergothérapeute (nouveau corps au 01.09.2015), classe N
-Categorie : A
+Catégorie : A
 
 
 1	385	353	1 an	1 634,50 €
