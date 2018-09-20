@@ -15,7 +15,7 @@ Evenements2 <- unique(trimws(gsub("-", "",
 Evenements <- sort(c(Evenements, Evenements2))
 rm(E, Evenements2)
 if (Evenements[1] == "") Evenements <- Evenements[-1] 
-Evenements <- data.table(Evénements = Evenements)
+Evenements <- data.table(Evenements = Evenements)
 
 if (afficher.table.événements) {
   kable(Evenements)
