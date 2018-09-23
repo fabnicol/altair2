@@ -41,14 +41,7 @@ using namespace std;
 
 extern bool verbeux;
 
-#ifdef TINYXML2 
-#  include "xmlconv.h"
-#else
-#  include <libxml/xmlmemory.h>
-#  include <libxml/parser.h>
-#endif
-
-
+#include "xmlconv.h"
 
 /// \file    recherche.cpp
 /// \author  Fabrice Nicol
@@ -61,7 +54,7 @@ vector<string>  recherche (const vector<info_t> &Info, const string& annee, cons
     // Bulletins à extraire
     vector<string> bulletins;
 
-    auto matr = (const xmlChar*) matricule.c_str();
+    auto matr = (const char*) matricule.c_str();
     int m = stoi (mois);
     int a = stoi (annee);
 
@@ -75,15 +68,15 @@ vector<string>  recherche (const vector<info_t> &Info, const string& annee, cons
 
             // Boucle sur les données extraites pour un fil donné
 
-            for (vector<vector<xmlChar*>>::const_iterator  it = Info[i].Table.begin(); it != Info[i].Table.end(); ++it)
+            for (vector<vector<string>>::const_iterator  it = Info[i].Table.begin(); it != Info[i].Table.end(); ++it)
                 {
                     // On restreint la recherche à l'année, au mois et au matricule donnés
                     // On pourrait aller plus vite avec une table de hachage, mais l'expérience montre que ce n'est pas nécessaire
                     // it correspond à la partie de la Table pour un agent donné
 
-                    if (atoi ((const char*) it->at (Annee)) == a
-                            && atoi ((const char*) it->at (Mois)) ==  m
-                            && xmlStrcmp (it->at (Matricule), matr) == 0)
+                    if (stoi (it->at (Annee)) == a
+                            && stoi (it->at (Mois)) ==  m
+                            && it->at (Matricule) == string(matr))
                         {
                             // index correspond au rang de l'agent dans la Table (0 <= index <= NCumAgentXml)
 
@@ -113,12 +106,12 @@ vector<string>  recherche (const vector<info_t> &Info, const string& annee, cons
  <Annee V=\"" + annee + "\"/>\n\
  <Mois V=\"" + mois + "\"/>\n\
  <Budget>\n\
-  <Libelle V=\"" + string ((const char*)it->at (Budget)) + "\"/>\n\
+  <Libelle V=\"" + it->at (Budget) + "\"/>\n\
   <Code V=\"\"/>\n\
  </Budget>\n\
  <Employeur>\n\
-  <Nom V=\"" + string ((const char*) it->at (Employeur)) + "\"/>\n\
-  <Siret V=\"" + string ((const char*) it->at (Siret)) + "\"/>\n\
+  <Nom V=\"" +  it->at (Employeur) + "\"/>\n\
+  <Siret V=\"" + it->at (Siret) + "\"/>\n\
  </Employeur>\n\
  <DonneesIndiv>\n";
 
@@ -289,4 +282,3 @@ else
 return chemins_bulletins_extraits;
 }
 
-#include "xmlundef.h"

@@ -63,13 +63,7 @@
 #include "table.h"
 #include "recherche.h"
 
-#ifdef TINYXML2 
-#  include "xmlconv.h"
-#else
-#  include <libxml/xmlmemory.h>
-#  include <libxml/parser.h>
-#endif
-
+#include "xmlconv.h"
 
 #ifndef OVERHEAD
 #define OVERHEAD 500
@@ -131,16 +125,8 @@ int main (int argc, char **argv)
             cerr << ERROR_HTML_TAG "Il faut au moins un fichier à analyser.\n" ;
             return -2;
         }
-    
-#ifndef TINYXML2
-    // Initialisation de libxml2
-    LIBXML_TEST_VERSION
-    xmlKeepBlanksDefault (0);
-
-    xmlInitMemory();
-    xmlInitParser();
-#endif
-    
+   
+   
     int start = 1;
     string type_table = "bulletins";
     vString cl;  /* pour les lignes de commandes incluses dans un fichier */
@@ -1187,10 +1173,6 @@ int main (int argc, char **argv)
 
     // Nettoyage du parseur XML
     
-#   ifndef TINYXML2
-      xmlCleanupParser();
-#   endif    
-
     // Calcul de la durée d'exécution
 
     auto endofprogram = Clock::now();
@@ -1492,19 +1474,6 @@ pair<uint64_t, uint64_t> produire_segment (info_t& info, const vString& segment)
     // En cas de problème d'allocation mémoire le mieux est encore de ne pas désallouer car on ne connait pas exacteemnt l'état
     // de la mémoire dynamique
 
-    for (unsigned i = 0; i < Info[0].nbfil; ++i)
-        {
-            for (unsigned agent = 0; agent < Info[i].NCumAgent; ++agent)
-                {
-                    if (! Info[i].Table[agent].empty())
-                        for (xmlChar* u : Info[i].Table[agent])
-                            {
-                                if (u != NULL) xmlFree (u);
-                            }
-                }
-
-        }
-
     if (Info[0].generer_bulletins)
         {
             for (unsigned i = 0; i < Info[0].nbfil; ++i)
@@ -1517,5 +1486,5 @@ pair<uint64_t, uint64_t> produire_segment (info_t& info, const vString& segment)
     return lignes;
 }
 
-#include "xmlundef.h"
+
 

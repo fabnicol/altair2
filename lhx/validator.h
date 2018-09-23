@@ -66,12 +66,8 @@
 #include "expression_reg_elus.h"
 #include "expression_reg_cata.h"
 
-#ifdef TINYXML2 
+
 #  include "xmlconv.h"
-#else
-#  include <libxml/xmlmemory.h>
-#  include <libxml/parser.h>
-#endif
 
 /// Macro tendant à forcer l'inlining sous GCC
 #define GCC_INLINE __attribute__((always_inline))
@@ -158,7 +154,7 @@ constexpr const char* Tableau_entete[] =
 typedef struct
 {
 
-    vector<vector<xmlChar*>> Table;         ///< Contient les données XML à exporter dans le fichier Table
+    vector<vector<string>> Table;         ///< Contient les données XML à exporter dans le fichier Table
     uint64_t nbLigne;                       ///< Nombre de lignes
     vector<array<uint64_t, 3>> ligne_debut; ///< Ligne de début du bulletin dans le fichier XML
     vector<array<uint64_t, 2>> ligne_fin;   ///< Ligne de fin du bulletin dans le fichier XML
@@ -219,7 +215,7 @@ typedef struct
 
 #ifndef NA_STRING
 /// Caractérisation des non-réponses ou variables non renseignées
-#define NA_STRING  (xmlChar*) "NA"
+#define NA_STRING  (char*) "NA"
 #endif
 #ifndef MAX_LIGNES_PAYE
 /// Maximum de lignes de paye par agent par défaut
@@ -291,7 +287,7 @@ static const int nbType                  = sizeof (type_remuneration) / sizeof (
 /// drapeau est un tableau de paires permettant d'isoler en mémoire les balises de type_remuneration lorsqu'elles sont
 /// rencontrées dans un fichier XHL/XML. Le nombre d'items est donc nbType
 
-static const xmlChar drapeau[][2]  = {{1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}, {8, 0}, {9, 0}, {10, 0}, {11, 0}, {12, 0}};
+static const char drapeau[][2]  = {{1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}, {8, 0}, {9, 0}, {10, 0}, {11, 0}, {12, 0}};
 
 void* decoder_fichier (info_t& tinfo);
 void* parse_info (info_t& info);
@@ -302,51 +298,25 @@ void* parse_info (info_t& info);
 /// \param cur Noeud libxml2 courant
 /// \return Soit le noeud XmlNodePtr correspondant au noeud trouvé, soit nullptr si pas de noeud trouvé.
 
-static inline xmlNode* GCC_INLINE atteindreNoeud (const char * noeud, xmlNode* cur)
+static inline XMLNode* GCC_INLINE atteindreNoeud (const char * noeud, XMLNode* cur)
 {
-#ifdef TINYXML2
-  
-    //cur->NextSiblingElement(noeud);
-    
-#else    
-#       ifdef DEBUG_ATTEINDRE
-
-    cerr << "[DEBUG] --- Recherche de " << noeud <<  ENDL;
-#       endif
-
-    while (cur && xmlIsBlankNode (cur))
-        {
-            cur = cur -> next;
-#       ifdef DEBUG_ATTEINDRE
-            cerr << "[DEBUG] Saut de noeud blanc" << ENDL;
-#       endif
-        }
-#endif
-
-    //while (cur != nullptr && xmlStrcmp (cur->name,  (const xmlChar*) noeud))
-        {
-#       ifdef DEBUG_ATTEINDRE
-            //       cerr << "[DEBUG]      ......" << cur->name <<  ENDL;
-#       endif
-
-      //      cur = cur->next;
-        }
+ 
+   XMLElement* elem = cur->NextSiblingElement(noeud);
 
     if (cur == nullptr)
         {
-            AFFICHER_NOEUD (noeud) // cur->name == noeud
+            AFFICHER_NOEUD (noeud) // cur->ToElement()->Name() == noeud
         }
 
 #     ifdef DEBUG_ATTEINDRE
     else
         {
-            cerr << "[DEBUG] !!! Trouvé " << cur->name <<  ENDL;
+            cerr << "[DEBUG] !!! Trouvé " << cur->ToElement()->Name() <<  ENDL;
         }
 
 #     endif
 
-
-    return cur;  // soit un pointer vers le bon noeud, soit nullptr
+    return elem->Parent();  // soit un pointer vers le bon noeud, soit nullptr
 }
 
 

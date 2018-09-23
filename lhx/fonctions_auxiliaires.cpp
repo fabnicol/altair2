@@ -44,14 +44,7 @@
 #include "tags.h"
 #include "filenames.h"
 
-#ifdef TINYXML2 
-#  include "xmlconv.h"
-#else
-#  include <libxml/xmlmemory.h>
-#  include <libxml/parser.h>
-#endif
-
-
+#include "xmlconv.h"
 
 /// \file    fonctions_auxiliaires.cpp
 /// \author  Fabrice Nicol
@@ -222,7 +215,7 @@ vector<string> split (const string &s, char delim)
 }
 
 
-errorLine_t afficher_environnement_xhl (const info_t& info, const xmlNodePtr cur)
+errorLine_t afficher_environnement_xhl (const info_t& info, const XMLNode* cur)
 {
 
     long lineN = 0;
@@ -231,7 +224,7 @@ errorLine_t afficher_environnement_xhl (const info_t& info, const xmlNodePtr cur
 
     if (cur)
         {
-            lineN = (long) xmlGetLineNo (cur);
+            cur->ToElement()->QueryInt64Attribute("V", &lineN);
 
             if (lineN == 65535 && verbeux
                     && info.ligne_debut.size() > info.NCumAgentXml
@@ -257,20 +250,19 @@ errorLine_t afficher_environnement_xhl (const info_t& info, const xmlNodePtr cur
 
     unsigned int l = 0;
 
-    for (const xmlChar* u : info.Table[info.NCumAgentXml])
+    for (auto &u : info.Table[info.NCumAgentXml])
         {
             if (l >= sizeof (Tableau_entete) / sizeof (char*)) break;
 
             ++l;
 
-            if (u)
-                cerr << WARNING_HTML_TAG "Balise de paye : " << Tableau_entete[l]
+            cerr << WARNING_HTML_TAG "Balise de paye : " << Tableau_entete[l]
                      << "  " << u << ENDL;
         }
 
     errorLine_t s = {lineN, string (info.threads->argv[info.fichier_courant]),
                      string ("Fichier : ") + string (info.threads->argv[info.fichier_courant])
-                     + string (" -- Balise : ") + ((cur) ? string ((const char*)cur->name) : string ("NA"))
+                     + string (" -- Balise : ") + ((cur) ? string (cur->ToElement()->Name()) : string ("NA"))
                     };
     return s;
 }
@@ -532,9 +524,9 @@ void ouvrir_fichier_base0 (const info_t &info, BaseCategorie categorie, BaseType
                     break;
 
                 case BaseType::PAR_AGENT:
-                    matricule = (char*) info.Table[agent][Matricule];
-                    mois      = (char*) info.Table[agent][Mois];
-                    annee     = (char*) info.Table[agent][Annee];
+                    matricule = string(info.Table[agent][Matricule]);
+                    mois      = string(info.Table[agent][Mois]);
+                    annee     = string(info.Table[agent][Annee]);
                     chemin_base = chemin_base + index + matricule + index + annee + index + mois + CSV;
                     break;
 
@@ -1195,4 +1187,4 @@ int calculer_memoire_requise (info_t& info)
     return errno;
 }
 
-#include "xmlundef.h"
+

@@ -47,14 +47,7 @@
 #include "fonctions_auxiliaires.h"
 #include "tags.h"
 
-#ifdef TINYXML2 
 #  include "xmlconv.h"
-#else
-#  include <libxml/xmlmemory.h>
-#  include <libxml/parser.h>
-#endif
-
-
 
 /// \file    table.cpp
 /// \author  Fabrice Nicol
@@ -611,7 +604,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
     uint64_t compteur_lignes_bulletins = 0;
 
     char sep = Info[0].separateur;
-    char* annee_courante = (char*) Info[0].Table[0][Annee];
+    string annee_courante = Info[0].Table[0][Annee];
     static unsigned rang_fichier_base = 1, rang_fichier_base_annee_courante;
     static ofstream base;
     static ofstream bulletins;
@@ -749,12 +742,12 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     int test_drapeau_categorie;
 
                                     // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                    if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                    if (VAR (l + 1) == NA_STRING)
                                         {
                                             type = (char*) NA_STRING;
                                         }
                                     else
-                                        while (VAR (l) &&  (test_drapeau_categorie = VAR (l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+                                        while ((test_drapeau_categorie = VAR (l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
                                             {
                                                 type = const_cast<char*> (type_remuneration_traduit[test_drapeau_categorie - 1]);
                                                 ++l;
@@ -798,7 +791,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
 
                             compteur_lignes_bulletins +=  ecrire_ligne_bulletin (i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
 
-                            if (strcmp ((const char*)VAR (Annee), annee_courante))
+                            if (VAR (Annee) ==  annee_courante)
                                 {
 #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
                                     base << t_base.str();
@@ -815,7 +808,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     dernier_compteur = compteur;
                                     compteur_annee_courante = 0;
 
-                                    annee_courante = (char*) VAR (Annee);
+                                    annee_courante = VAR (Annee);
                                     ouvrir_fichier_base (Info[i],  type_base, base, nsegment);
 
                                     if (! base.is_open()) return make_pair (0, 0);
@@ -828,12 +821,12 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     int      test_drapeau_categorie;
 
                                     // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                    if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                    if (VAR (l + 1) ==  NA_STRING)
                                         {
                                             type = (char*) NA_STRING;
                                         }
                                     else
-                                        while (VAR (l) &&  (test_drapeau_categorie = VAR (l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+                                        while (test_drapeau_categorie = VAR (l)[0], test_drapeau_categorie <= nbType && (test_drapeau_categorie >= 1))
                                             {
                                                 type = const_cast<char*> (type_remuneration_traduit[test_drapeau_categorie - 1]);
                                                 ++l;
@@ -898,12 +891,12 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     int      test_drapeau_categorie;
 
                                     // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                    if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                    if (VAR (l + 1) ==  NA_STRING)
                                         {
                                             type = (char*) NA_STRING;
                                         }
                                     else
-                                        while (VAR (l) &&  (test_drapeau_categorie = VAR (l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+                                        while ((test_drapeau_categorie = VAR (l)[0], test_drapeau_categorie <= nbType) && test_drapeau_categorie >= 1)
                                             {
                                                 type = const_cast<char*> (type_remuneration_traduit[test_drapeau_categorie - 1]);
                                                 ++l;
@@ -993,12 +986,12 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     int test_drapeau_categorie;
 
                                     // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                    if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                    if (VAR (l + 1) ==  NA_STRING)
                                         {
                                             type = (char*) NA_STRING;
                                         }
                                     else
-                                        while (VAR (l) &&  (test_drapeau_categorie = VAR (l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+                                        while ((test_drapeau_categorie = VAR (l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
                                             {
                                                 type = const_cast<char*> (type_remuneration_traduit[test_drapeau_categorie - 1]);
                                                 ++l;
@@ -1049,7 +1042,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
 
                             compteur_lignes_bulletins += ecrire_ligne_bulletin (i, agent, t_bulletins, sep, Info, compteur_lignes_bulletins);
 
-                            if (strcmp ((const char*)VAR (Annee), annee_courante))
+                            if (VAR (Annee) == annee_courante)
                                 {
 #ifndef OFSTREAM_TABLE_OUTPUT      // Il faut écrire dans le fichier OFSTREAM la chaine de caractères temporaires
                                     base << t_base.str();
@@ -1071,7 +1064,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     rang_fichier_base_annee_courante = 0;
                                     ++rang_fichier_base;
 
-                                    annee_courante = (char*) VAR (Annee);
+                                    annee_courante = VAR (Annee);
                                     ouvrir_fichier_base (Info[i],  type_base, base, nsegment);
 
                                     if (! base.is_open()) return make_pair (0, 0);
@@ -1117,12 +1110,12 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     int      test_drapeau_categorie;
 
                                     // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                    if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                    if (VAR (l + 1) ==  NA_STRING)
                                         {
                                             type = (char*) NA_STRING;
                                         }
                                     else
-                                        while (VAR (l) &&  (test_drapeau_categorie = VAR (l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+                                        while ((test_drapeau_categorie = VAR (l)[0], test_drapeau_categorie <= nbType) && test_drapeau_categorie >= 1)
                                             {
                                                 type = const_cast<char*> (type_remuneration_traduit[test_drapeau_categorie - 1]);
                                                 ++l;
@@ -1180,7 +1173,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
 
                             int int_drapeau_categorie = -1;
 
-                            if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING))
+                            if (VAR (l + 1) == NA_STRING)
                                 {
                                     while (ligne < NLigneAgent)
                                         {
@@ -1189,7 +1182,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
 
                                             // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
 
-                                            while (VAR (l) &&  (test_drapeau_categorie = VAR (l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+                                            while ((test_drapeau_categorie = VAR (l)[0], test_drapeau_categorie <= nbType) && test_drapeau_categorie >= 1)
                                                 {
                                                     int_drapeau_categorie = test_drapeau_categorie - 1;
 
@@ -1253,17 +1246,17 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
 
                             BaseType valeur_drapeau_categorie = BaseType::MONOLITHIQUE;
 
-                            if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING))
+                            if (VAR (l + 1) ==  NA_STRING)
                                 {
                                     while (ligne < NLigneAgent)
                                         {
                                             int      test_drapeau_categorie;
 
                                             // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                            // Var(l)[0] est un xmlChar càd un unsigned char; on doit le caster en int pour indicier les tableau des types
+                                            // Var(l)[0] est un char càd un unsigned char; on doit le caster en int pour indicier les tableau des types
                                             // mais il ne peut être inférieur à 0 par construction.
 
-                                            while (VAR (l) &&  (test_drapeau_categorie = (int) VAR (l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie != 0))
+                                            while ((test_drapeau_categorie = (int) VAR (l)[0], test_drapeau_categorie <= nbType) && test_drapeau_categorie != 0)
                                                 {
                                                     valeur_drapeau_categorie = static_cast<BaseType> (test_drapeau_categorie);
 
@@ -1453,4 +1446,4 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
 }
 
 #undef VAR
-#include "xmlundef.h"
+

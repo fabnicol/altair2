@@ -3,16 +3,13 @@
 
 #ifdef XMLCONV_H
 #undef xmlFree 
-#undef xmlDocPtr  
-#undef xmlNodePtr 
-#undef xmlChar    
+#undef XMLDocument  
+#undef XMLElement* 
+#undef char    
 #undef xmlGetRootElement
-#undef xmlChildrenNode  
+#undef FirstChild()  
 #undef next 
-#undef previous 
-#undef xmlGetProp 
-#undef xmlStrdup
-#undef xmlGetLineNo
+
 #undef xmlStrcmp
 #undef XMLCONV_H
 #endif

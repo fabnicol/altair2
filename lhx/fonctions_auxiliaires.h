@@ -72,12 +72,7 @@
 #include <stdio.h>
 #endif
 
-#ifdef TINYXML2 
-#  include "xmlconv.h"
-#else
-#  include <libxml/xmlmemory.h>
-#  include <libxml/parser.h>
-#endif
+#include "xmlconv.h"
 
 #include <experimental/filesystem>
 namespace fs = std::experimental::filesystem;
@@ -237,7 +232,7 @@ string string_exec (const char* cmd);
 /// analysable. Sinon affiche un message indiquant son absence et retourne pour le numéro
 /// de ligne. Retourne NA pour un noeud null.
 
-errorLine_t afficher_environnement_xhl (const info_t& info, const xmlNodePtr cur);
+errorLine_t afficher_environnement_xhl (const info_t& info, const XMLNode* cur);
 
 /// Scinde une chaîne de caractères en ses composants séparées par un délimiteur
 /// \return vecteur des composants
@@ -286,7 +281,7 @@ inline void reset_rank_signal()
 /// Efface le premier caractère d'une chaîne et translate la chaîne d'un caractère vers la gauche
 /// \param c chaine de caractères libXml2 à modifier par pointeur
 
-static inline void effacer_char (xmlChar* c)
+static inline void effacer_char (char* c)
 {
     for (int j = 0; * (c + j) != 0 && * (c + j + 1) != 0; ++j)
         {

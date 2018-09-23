@@ -50,12 +50,7 @@
 #include "table.h"
 #include "tags.h"
 
-#ifdef TINYXML2 
-#  include "xmlconv.h"
-#else
-#  include <libxml/xmlmemory.h>
-#  include <libxml/parser.h>
-#endif
+#include "xmlconv.h"
 
 extern bool verbeux;
 extern std::mutex mut;
@@ -67,7 +62,7 @@ extern std::vector<errorLine_t> errorLineStack;
 /// \param cur   Noeud libxml2 courant
 /// \note Le nombre de message d'avertissement est au plus #WARNING_LIMIT si cette constante est définie
 
-static inline void GCC_INLINE warning_msg (const char* noeud, const info_t& info, const xmlNodePtr GCC_UNUSED cur)
+static inline void GCC_INLINE warning_msg (const char* noeud, const info_t& info, const XMLNode* GCC_UNUSED cur)
 {
     // pour des raisons pratiques il peut être nécessaire de limiter le nombre de sorties de ce type
 
