@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.7.82, 2018-09-23T16:37:29. -->
+<!-- Written by QtCreator 4.7.82, 2018-09-24T04:45:20. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -269,7 +269,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/fab/Dev/altair/lhx/lhx.linux.pro</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx.linux.pro</value>
-    <value type="QString" key="RunConfiguration.Arguments"></value>
+    <value type="QString" key="RunConfiguration.Arguments">-m -d &quot;,&quot; -s &quot;;&quot; -E -rank /home/fab/.local/share/Altair/rank/ -D &quot;/home/fab/Dev/altair/Tests/Exemple/Donnees/R-Altair/&quot; --memshare 80 -j '1' -t -T 1000000 &quot;/home/fab/Desktop/Anonyme2/2013/21430157400015-2013-12VILLE.xhl&quot; </value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -277,6 +277,7 @@
     <value type="bool" key="RunConfiguration.UseMultiProcess">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseTerminal">true</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory"></value>
     <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/fab/Dev/altair/build-lhx.linux-Desktop-Debug</value>
    </valuemap>

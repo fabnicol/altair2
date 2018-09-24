@@ -160,7 +160,7 @@ static int parseFile (info_t& info)
 
     doc.ClearError();
     cur = doc.FirstChild();
-
+       
     if (cur == nullptr)
         {
             cerr << ERROR_HTML_TAG "document vide" ENDL;
@@ -190,13 +190,14 @@ static int parseFile (info_t& info)
             }
     }
 
-    cur =  cur->FirstChildElement();
-
+    cur = cur->NextSibling()->FirstChild();
+        
     cur = atteindreNoeud ("Annee", cur);
-
+        
     if (cur != nullptr)
         {
             annee_fichier =  string(cur->ToElement()->Attribute("V"));
+
             int annee = (annee_fichier[0] == '\0') ? 0 : std::stoi(annee_fichier);
 
             // Altaïr est écrit pour durer 100 ans :)
@@ -244,8 +245,8 @@ static int parseFile (info_t& info)
 
     if (cur != nullptr)
         {
-            const char* mois_fichier =  cur->ToElement()->Attribute("V");
-            int mois = atoi ((const char*) mois_fichier);
+            mois_fichier =  string(cur->ToElement()->Attribute("V"));
+            int mois = stoi(mois_fichier);
 
             if (mois <= 0 || mois > 12)
                 {
@@ -296,7 +297,6 @@ static int parseFile (info_t& info)
             cur_save = cur;
             cur =  cur->FirstChild();
             budget_fichier =  string(cur->ToElement()->Attribute("V"));
-
             if (budget_fichier.empty())
                 {
                     budget_fichier = string(NA_STRING);
@@ -352,7 +352,7 @@ static int parseFile (info_t& info)
     //      <Siret V="">{1,1}</Siret>
     // </Employeur>
     //
-
+    
     if (nullptr == (cur = atteindreNoeud ("Employeur", cur)))
         {
 
@@ -381,8 +381,7 @@ static int parseFile (info_t& info)
             do
                 {
                     cur =  cur->FirstChild();
-
-                    if (cur == nullptr || cur->NoChildren())
+                    if (cur == nullptr)
                         {
                             cerr << ERROR_HTML_TAG "Pas de données sur le nom de l'employeur [non-conformité à la norme]." ENDL;
 
@@ -489,11 +488,11 @@ DI :
 
             if (verbeux) cerr << PROCESSING_HTML_TAG "Reste du fichier omis";
 
-            long lineN;
+            long lineN = -1;
             
             if (cur) 
             {
-                cur->ToElement()->Attribute("V");
+                lineN = cur->GetLineNum();
 
                 if (lineN != 65535 && lineN != -1)
                 {
@@ -516,9 +515,9 @@ DI :
     while (cur != nullptr)
         {
             cur_save = cur;
-            XMLNode* cur_save2 = nullptr;
+            
             cur =  cur->FirstChild();  // Niveau Etablissement et PayeIndivMensuel
-            cur_save2 = cur;
+            XMLNode* cur_save2 = cur;
 
             if (cur == nullptr || cur->NoChildren())
                 {
@@ -603,7 +602,7 @@ DI :
                         {
                             cur =  cur->FirstChild();
 
-                            if (cur == nullptr || cur->NoChildren())
+                            if (cur == nullptr)
                                 {
                                     warning_msg ("les données nominales de l'établissement [non-conformité]", info, cur);
 
@@ -757,7 +756,6 @@ DI :
                     cur_save2 =  cur;
                     cur = atteindreNoeud ("PayeIndivMensuel", cur);
 
-
                     if (cur == nullptr || cur->FirstChild() == nullptr || cur->FirstChild()->NoChildren())
                         {
                             LOCK_GUARD
@@ -766,7 +764,7 @@ DI :
                             if (verbeux)
                                 {
                                     if (info.NCumAgentXml) cerr << ERROR_HTML_TAG "La balise PayeIndivMensuel n'existe pas en dessous de la balise "
-                                                                    << (char*) cur_save2->ToElement()->Name()
+                                                                    << (char*) cur_save2->Value()
                                                                     << " vers la ligne n°" << info.ligne_fin.at (info.NCumAgentXml - 1)[0] + 2 << ENDL;
                                 }
 
@@ -889,7 +887,7 @@ DI :
 
                     cur = cur_save2->NextSibling();
 
-                    AFFICHER_NOEUD (cur->ToElement()->Name())
+                    AFFICHER_NOEUD (cur->Value())
 
                     ++info.NAgent[info.fichier_courant];
                     ++info.NCumAgentXml;
@@ -911,7 +909,7 @@ DI :
 
             cur = cur_save->NextSibling();  // next DonneesIndiv
 
-            if (cur == nullptr || strcmp(cur->ToElement()->Name(),  "DonneesIndiv")) break;  // on ne va pas envoyer un message d'absence de DonneesIndiv si on a fini la boucle == (cur->ToElement()->Name()...
+            if (cur == nullptr || strcmp(cur->Value(),  "DonneesIndiv")) break;  // on ne va pas envoyer un message d'absence de DonneesIndiv si on a fini la boucle == (cur->Value()...
         }
 
 
@@ -999,9 +997,13 @@ static inline void GCC_INLINE allouer_memoire_table (info_t& info)
 /// et d'effacer les octets superflus après remplacement par des caractères non accentués.
 /// \param c Caractère au format char*
 
-inline void GCC_INLINE normaliser_accents (char* c)
+inline void GCC_INLINE normaliser_accents (string& s)
 {
-    // la représentation interne est UTF-8 donc les caractères accentués sont sur 2 octets : é = 0xc3a8 etc.
+   unsigned char t[s.length()];
+   memcpy(t, s.data(), s.length());
+   unsigned char *c = &t[0];
+   
+   // la représentation interne est UTF-8 donc les caractères accentués sont sur 2 octets : é = 0xc3a8 etc.
 
     while (c != nullptr && *c != 0)  // C++11 : on peut avoir c != nullptr et *c == 0.
         {
@@ -1237,21 +1239,10 @@ void* parse_info (info_t& info)
         {
             // Les élus peuvent être identifiés soit dans le service soit dans l'emploi métier
 
-#ifdef NORMALISER_ACCENTS
-
-            char* em = VAR (EmploiMetier);
-            char* gr = VAR (Grade);
-#else
-
-            char* em =  strdup(VAR (EmploiMetier).c_str());
-            char* gr =  strdup(VAR (Grade).c_str());
-
-#endif
-
             // La normalisation des accents facilite et sécurise les analyses d'expressions régulières
 
-            normaliser_accents (em);
-            normaliser_accents (gr);
+            normaliser_accents (VAR (EmploiMetier));
+            normaliser_accents (VAR (Grade));
             
 #           ifdef INCLURE_REG_ELUS
               if (regex_match ((const char*)em, pat))
@@ -1291,19 +1282,21 @@ void* parse_info (info_t& info)
                     // à la fin de main.cpp dans la double boucle de libération de mémoire car
                     // A, B, C, NA ne sont pas alloués sur le tas.
 
-                    if (regex_match ((const char*) gr, pat_adjoints)
-                            || regex_match ((const char*) gr, pat_agents))
+                    string gr = VAR(Grade);
+                    
+                    if (regex_match (gr, pat_adjoints)
+                            || regex_match (gr, pat_agents))
                         {
                             VAR (Categorie) = "C";
                         }
-                    else if (regex_match ((const char*) gr, pat_cat_a))
+                    else if (regex_match (gr, pat_cat_a))
                         {
                             VAR (Categorie) = "A";
                         }
 
                     // Il faut tester d'abord cat A et seulement ensuite cat B
 
-                    else if (regex_match ((const char*) gr, pat_cat_b))
+                    else if (regex_match (gr, pat_cat_b))
                         {
                             VAR (Categorie) = "B";
                         }
@@ -1337,10 +1330,6 @@ void* parse_info (info_t& info)
                             }
                 }
 #        endif 
-#ifndef NORMALISER_ACCENTS
-            free (em);
-            free (gr);
-#endif
         }
 
 #undef VAR

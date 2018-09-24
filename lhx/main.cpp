@@ -163,7 +163,7 @@ int main (int argc, char **argv)
         chemin_bulletins,
         "Standard",       // export_mode
         vString(),        // pas d'extraction de bulletins
-        vString(),        // n'exclure aucun SIRET
+        vString(),     // n'exclure aucun SIRET
         vString(),        // n'exclure aucun budget
         vString(),        // n'exclure aucun employeur
         MAX_LIGNES_PAYE,  // nbLigneUtilisateur

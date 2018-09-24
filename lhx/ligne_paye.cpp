@@ -105,9 +105,9 @@ using namespace std;
 
 static void GCC_INLINE sanitize (string &st,  const char sep)
 {
-    char u[st.length() + 1];
-    char* s = u;
-    strcpy(s, st.c_str());
+    unsigned char u[st.length() + 1];
+    unsigned char* s = u;
+    memcpy(s, st.c_str(), st.length());
     while (*s != 0)
         {
             // Non-switchable car info.seperateur n'est pas une expression constante.
@@ -159,9 +159,12 @@ static void GCC_INLINE sanitize (string &st,  const char sep)
 
             ++s;
         }
-    
-    
-    st.assign(s);
+
+        
+    for (uint i = 0; i < st.length(); ++i)     
+    {
+        st[i] = s[i] % 192;
+    }
 }
 
 
@@ -189,7 +192,7 @@ static inline int GCC_INLINE Bulletin (const char*  tag, XMLNode*& cur, int l, i
             return NODE_NOT_FOUND;
         }
 
-// On a à présent la garantie que cur->ToElement()->Name() correspond à tag
+// On a à présent la garantie que cur->Value() correspond à tag
 
     if (info.drapeau_cont)
         {
@@ -227,50 +230,50 @@ static inline int GCC_INLINE Bulletin (const char*  tag, XMLNode*& cur, int l, i
 
 static inline bool GCC_INLINE bulletin_obligatoire (const char* tag, XMLNode*& cur, int l,  info_t& info)
 {
-
 //     attention faire en sorte que cur ne soit JAMAIS nul
 
     switch (Bulletin (tag, cur, l, info))
         {
-//         on sait que cur ne sera jamais nul
-        case NODE_FOUND :
-            return true;
-
-        case NODE_NOT_FOUND :
-        {
-            LOCK_GUARD
-            cerr << ERROR_HTML_TAG "Balise manquante " << tag << " avant la balise " << cur->ToElement()->Name() << ENDL;
-        }
-
-        if (verbeux)
-            afficher_environnement_xhl (info, cur);
-
-        NA_ASSIGN (l);
-        break;
-
-        case LINE_MEMORY_EXCEPTION :
-        {
-            LOCK_GUARD
-            cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
-        }
-
-        if (verbeux)
-            afficher_environnement_xhl (info, cur);
-
-        NA_ASSIGN (l);
-        break;
-
-        case NO_NEXT_ITEM :
-        {
-            LOCK_GUARD
-            cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
-        }
-
-        if (verbeux)
-            afficher_environnement_xhl (info, cur);
-
-        break;
-
+//          on sait que cur ne sera jamais nul
+    
+            case NODE_FOUND :
+                return true;
+    
+            case NODE_NOT_FOUND :
+            {
+                LOCK_GUARD
+                cerr << ERROR_HTML_TAG "Balise manquante " << tag << " avant la balise " << cur->Value() << ENDL;
+            }
+    
+            if (verbeux)
+                afficher_environnement_xhl (info, cur);
+    
+            NA_ASSIGN (l);
+            break;
+    
+            case LINE_MEMORY_EXCEPTION :
+            {
+                LOCK_GUARD
+                cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+            }
+    
+            if (verbeux)
+                afficher_environnement_xhl (info, cur);
+    
+            NA_ASSIGN (l);
+            break;
+    
+            case NO_NEXT_ITEM :
+            {
+                LOCK_GUARD
+                cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
+            }
+    
+            if (verbeux)
+                afficher_environnement_xhl (info, cur);
+    
+            break;
+    
         }
 
 //     Ne pas mettre de lock ici, il y en a un dans warning_msg
@@ -314,7 +317,7 @@ static inline bool GCC_INLINE bulletin_obligatoire (const char* tag, XMLNode*& c
 
 static void GCC_INLINE substituer_separateur_decimal (string& ligne, const char decimal)
 {
-    for (int i = 0; i < ligne.length(); ++i)
+    for (uint i = 0; i < ligne.length(); ++i)
         if (ligne[i] == '.') ligne[i] = decimal;
 }
 
@@ -695,10 +698,10 @@ static inline LineCount lignePaye (XMLNode* cur, info_t& info)
         {
             bool new_type = false;
 
-            while (cur->ToElement()->Name() == (const char *) type_remuneration[t])
+            while (cur->Value() == (const char *) type_remuneration[t])
                 {
                     // Cas rare dans lequel <Remuneration> n'existe pas
-                    if (strcmp(cur->ToElement()->Name(), "NbHeureTotal") == 0 )
+                    if (strcmp(cur->Value(), "NbHeureTotal") == 0 )
                         return  { nbLignePaye, l};
 
                     ++t;
@@ -729,7 +732,7 @@ static inline LineCount lignePaye (XMLNode* cur, info_t& info)
                                 }
 
                             if (cur)
-                                cerr << ERROR_HTML_TAG "Type litigieux " << cur->ToElement()->Name()
+                                cerr << ERROR_HTML_TAG "Type litigieux " << cur->Value()
                                      << " aux alentours du matricule "
                                      << info.Table[info.NCumAgentXml][Matricule] << ENDL;
                             else
@@ -764,7 +767,7 @@ static inline LineCount lignePaye (XMLNode* cur, info_t& info)
 //         Si on arrive à un noeud de type Commentaire, on le saute et on réinitialise
 //          "gratuitement" le parcours des drapeaux.
 
-            if (strcmp(cur->ToElement()->Name(), (const char*) "Commentaire") == 0)
+            if (strcmp(cur->Value(), (const char*) "Commentaire") == 0)
                 {
                     cur = cur->NextSibling();
                     t = 0;
@@ -975,13 +978,11 @@ static inline LineCount lignePaye (XMLNode* cur, info_t& info)
 
 inline void GCC_INLINE concat (XMLElement* cur, info_t& info)
 {
-    //char tmp[500] = {0}; 
-    const char* tmp;// = &tmp[0];
-    cur->QueryStringAttribute("V", &tmp);
+    const char* tmp = cur->Attribute("V");
     
     if (! tmp) return;
         
-    string addCode2 = string(tmp);
+    string addCode2 =string(tmp);
     sanitize(addCode2, info.separateur);
     string desc_hyphen  = info.Table[info.NCumAgentXml][Description] + " - ";
     info.Table[info.NCumAgentXml][Description] = desc_hyphen + addCode2;
@@ -1110,10 +1111,10 @@ uint64_t  parseLignesPaye (XMLNode* cur, info_t& info)
     cur_parent = cur;
     cur = cur->FirstChild();
 
-    if (cur == nullptr ||  cur->NoChildren()) return 0;
+    if (cur == nullptr) return 0;
 
 #ifdef TOLERANT_TAG_HIERARCHY
-    XMLElement* cur_save = cur;
+    XMLNode* cur_save = cur;
 #endif
 
     // dans certains schémas on peut ne pas avoir la civilité
@@ -1298,12 +1299,12 @@ level0:
 
     if (cur) cur = cur->NextSibling();
 
-    if (cur && strcmp(cur->ToElement()->Name(), (const char*) "Evenement") == 0)
+    if (cur && strcmp(cur->Value(), (const char*) "Evenement") == 0)
         {
             cur_parent = cur;
             cur = cur->FirstChild();
 
-            if (cur &&  ! cur->NoChildren())
+            if (cur)
                 {
                     info.drapeau_cont = false;
                     BULLETIN_OBLIGATOIRE (Code);
@@ -1333,12 +1334,12 @@ level0:
     // Mieux vaut concaténer, même si le code est plus lourd et l'allocation de mémoire ponctuellement plus lente : on gagne
     // sur l'allocation-déallocation d'un très grand nombre de champs Description2 non remplis.
 
-    if (cur && strcmp(cur->ToElement()->Name(), (const char*) "Evenement") == 0)
+    if (cur && strcmp(cur->Value(), (const char*) "Evenement") == 0)
         {
             cur_parent = cur;
             cur = cur->FirstChild();
 
-            if (cur &&  !cur->NoChildren())
+            if (cur)
                 {
                     info.drapeau_cont = false;
 
@@ -1384,7 +1385,7 @@ level0:
 
     float v = 0;  // les NBI sont en principe des entiers mais dans les faits....
 
-    while (strcmp(cur->ToElement()->Name(), (const char*) "NBI") == 0)
+    while (strcmp(cur->Value(), (const char*) "NBI") == 0)
         {
             float v0 = 0;
             v += atof((const char*)  cur->ToElement()->QueryFloatAttribute("V", &v0));

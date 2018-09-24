@@ -39,13 +39,14 @@
 #define FILENAMES_HPP
 #ifdef __linux__
 #include <array>
+#include <string>
 
 /// \file filenames.h
 /// \brief Noms donnés aux fichiers CSV en sortie, lorsque l'exportation est par
 /// type de ligne de paye (catégorie de ligne de paye dans le lexique Xemelios)
 /// \note Ce fichier doit être encodé en UTF-8
 
-static std::array<std::string, 13> types_extension = { "traitements",
+static std::array<std::string, 13> types_extension = {    "traitements",
                                                        "indemnités-résidence",
                                                        "sft",
                                                        "avantages-nature",

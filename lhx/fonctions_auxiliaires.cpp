@@ -250,7 +250,7 @@ errorLine_t afficher_environnement_xhl (const info_t& info, const XMLNode* cur)
 
     unsigned int l = 0;
 
-    for (auto &u : info.Table[info.NCumAgentXml])
+    for (auto u : info.Table[info.NCumAgentXml])
         {
             if (l >= sizeof (Tableau_entete) / sizeof (char*)) break;
 
@@ -260,9 +260,9 @@ errorLine_t afficher_environnement_xhl (const info_t& info, const XMLNode* cur)
                      << "  " << u << ENDL;
         }
 
-    errorLine_t s = {lineN, string (info.threads->argv[info.fichier_courant]),
-                     string ("Fichier : ") + string (info.threads->argv[info.fichier_courant])
-                     + string (" -- Balise : ") + ((cur) ? string (cur->ToElement()->Name()) : string ("NA"))
+    errorLine_t s = {lineN, info.threads->argv[info.fichier_courant],
+                     string ("Fichier : ") +  info.threads->argv[info.fichier_courant]
+                     + string (" -- Balise : ") + (cur ? string (cur->Value()) : string ("NA"))
                     };
     return s;
 }
@@ -363,7 +363,7 @@ void ecrire_log (const info_t& info, ofstream& log, int diff)
             if (log.good())
 #define P  " | "
                 log << "Année " << P
-                    << info.Table[info.NCumAgentXml][Annee] << P
+                    << info.Table[info.NCumAgentXml][Annee]<< P
                     << "Mois "  << setw (2) << info.Table[info.NCumAgentXml][Mois] << P
                     << "Matricule " << setw (6) <<  info.Table[info.NCumAgentXml][Matricule] << P
                     << "Rang global " << setw (6) <<  info.NCumAgentXml << P
@@ -371,7 +371,6 @@ void ecrire_log (const info_t& info, ofstream& log, int diff)
                     << "Analyseur C " << setw (6) << info.NLigne[info.NCumAgentXml] << P
                     << "Xml " << setw (6) << info.NLigne[info.NCumAgentXml] - diff << P
                     << "Différence " << setw (4) << diff << "\n";
-
 #undef P
         }
 }
@@ -475,7 +474,7 @@ void ouvrir_fichier_base (const info_t &info, BaseType type, ofstream& base, int
 
 void ouvrir_fichier_base0 (const info_t &info, BaseCategorie categorie, BaseType type, ofstream& base, int segment, uint32_t agent)
 {
-    string chemin_base = "";
+    string chemin_base;
 
     int Type = 0;
 
@@ -524,10 +523,10 @@ void ouvrir_fichier_base0 (const info_t &info, BaseCategorie categorie, BaseType
                     break;
 
                 case BaseType::PAR_AGENT:
-                    matricule = string(info.Table[agent][Matricule]);
-                    mois      = string(info.Table[agent][Mois]);
-                    annee     = string(info.Table[agent][Annee]);
-                    chemin_base = chemin_base + index + matricule + index + annee + index + mois + CSV;
+                    matricule = info.Table[agent][Matricule];
+                    mois      = info.Table[agent][Mois];
+                    annee     = info.Table[agent][Annee];
+                    chemin_base = chemin_base + index + string(matricule) + index + string(annee) + index + string(mois) + string(CSV);
                     break;
 
                 case BaseType::MAXIMUM_LIGNES:
@@ -682,12 +681,12 @@ void calculer_maxima (const vector<info_t> &Info, ofstream* LOG)
 
 }
 
-
-string read_stream_into_string (ifstream& in)
+#if 0
+string read_stream_into_string (basic_ifstream<unsigned char> & in)
 {
-    return { istreambuf_iterator<char>(in),  istreambuf_iterator<char>()    } ;
+    return { istreambuf_iterator<unsigned char>(in),  istreambuf_iterator<unsigned char>()    } ;
 }
-
+#endif 
 #ifdef USE_STRING_EXEC
 string string_exec (const char* cmd)
 {

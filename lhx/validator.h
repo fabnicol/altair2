@@ -300,23 +300,10 @@ void* parse_info (info_t& info);
 
 static inline XMLNode* GCC_INLINE atteindreNoeud (const char * noeud, XMLNode* cur)
 {
- 
-   XMLElement* elem = cur->NextSiblingElement(noeud);
-
-    if (cur == nullptr)
-        {
-            AFFICHER_NOEUD (noeud) // cur->ToElement()->Name() == noeud
-        }
-
-#     ifdef DEBUG_ATTEINDRE
-    else
-        {
-            cerr << "[DEBUG] !!! Trouvé " << cur->ToElement()->Name() <<  ENDL;
-        }
-
-#     endif
-
-    return elem->Parent();  // soit un pointer vers le bon noeud, soit nullptr
+    while (cur != nullptr && strcmp(cur->Value(), noeud) != 0)
+           cur = cur->NextSibling(); 
+        
+    return cur;  // soit un pointer vers le bon noeud, soit nullptr
 }
 
 

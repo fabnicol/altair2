@@ -281,7 +281,7 @@ inline void reset_rank_signal()
 /// Efface le premier caractère d'une chaîne et translate la chaîne d'un caractère vers la gauche
 /// \param c chaine de caractères libXml2 à modifier par pointeur
 
-static inline void effacer_char (char* c)
+static inline void effacer_char (unsigned char* c)
 {
     for (int j = 0; * (c + j) != 0 && * (c + j + 1) != 0; ++j)
         {
