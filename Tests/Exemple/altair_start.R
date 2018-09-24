@@ -119,7 +119,7 @@ newpage()
 
 # Analyser les rémunérations à partir des données importées --> bases Analyse.XXX
 
-source("analyse.rémunérations.R", encoding = encodage.code.source)
+source("analyse.rémunérations.R", encoding =  encodage.code.source)
 
 colonnes.sélectionnées <- c("traitement.indiciaire",
                             "acomptes",
@@ -129,22 +129,22 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
                             "Montant.brut.annuel",
                             "Montant.brut.annuel.eqtp",
                             "part.rémunération.indemnitaire",
-                            "quotité.moyenne",
+                            "quotite.moyenne",
                             "Statut",
                             "Grade",
-                            "Catégorie",
+                            "Categorie",
                             "Filtre_actif",
                             "Filtre_annexe",
                             "Matricule")
 
 "colonnes" %a%  c("Matricule",
                   "Nom",
-                  "Prénom",
+                  "Prenom",
                   "Grade",
                   "Statut",
                   "Code",
-                  "Libellé",
-                  "Année",
+                  "Libelle",
+                  "Annee",
                   "Mois",
                   "Montant")
 
@@ -154,14 +154,14 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
 
 Paie_I <- Paie[Type == "I" | Type == "A" | Type == "R", 
                .(Nom, 
-                 Prénom,
+                 Prenom,
                  Matricule, 
-                 Année, 
+                 Annee, 
                  Mois, 
-                 Début,
+                 Debut,
                  Fin,
                  Code,
-                 Libellé,
+                 Libelle,
                  Montant,
                  Type,
                  Emploi,
@@ -169,7 +169,7 @@ Paie_I <- Paie[Type == "I" | Type == "A" | Type == "R",
                  Temps.de.travail,
                  Indice,
                  Statut,
-                 Catégorie)]
+                 Categorie)]
 
 prime_IAT <- list(nom = "IAT",                     # Nom en majuscules
                   catégorie = c("B", "C"),         # restreint aux catégories B et C
@@ -220,6 +220,16 @@ prime_PFI <- list(nom = "PFI",                      # Nom en majuscules
                   restreint_fonctionnaire = TRUE,   # fonctionnaires
                   catégorie = c("A", "B", "C"),     # toutes les catégories
                   dossier = "Reglementation")       # dossier de bases
+
+if (setOSWindows) séquentiel <- TRUE else {
+
+  system('cat /proc/meminfo > mem.txt')
+  mem <- data.table::fread("mem.txt", 
+               sep = ":", 
+               header = FALSE)[V1 == "MemAvailable", V2]
+  mem <- strtoi(unlist(strsplit(mem, " "))[1])
+  if (nrow(Paie) * ratio.memoire.ligne.parallele  > mem) séquentiel <- TRUE
+}
 
 
 scripts <- list(
@@ -360,9 +370,20 @@ if (profiler)
   sauv.bases(chemin.dossier.bases, 
             env = envir, "PROF")
 
-# Conversion en Latin-1 des bases auxiliaires du rapport, pour une meilleure lecture sous Windows
+# Conversion en Latin-1 des bases du rapport, pour une meilleure lecture sous Windows
 
-system2("find", c("Donnees/R-Altair/Bases", "-name", "'*.csv'", "-exec", "iconv -f UTF-8 -t ISO-8859-15 -c -o {}.2  {} \\;", "-exec",  "mv {}.2 {} \\;"))
+system2("find", c("Donnees/R-Altair/Bases", 
+                  "-name", "'*.csv'", 
+                  "-exec", "sed -i -e '1s/Categorie/Catégorie/'     {} \\;", 
+                  "-exec", "sed -i -e '1s/Debut/Début/'             {} \\;", 
+                  "-exec", "sed -i -e '1s/Annee/Année/'             {} \\;",
+                  "-exec", "sed -i -e '1s/Prenom/Prénom/'           {} \\;",
+                  "-exec", "sed -i -e '1s/Net.a.Payer/Net.à.Payer/' {} \\;",
+                  "-exec", "sed -i -e '1s/Evenement/Evénement/'     {} \\;"),
+                stderr = FALSE)
+
+system2("find", c("Donnees/R-Altair/Bases", "-name", "'*.csv'", "-exec", "iconv -f UTF-8 -t ISO-8859-15 -c -o {}.2  {} \\;", "-exec",  "mv {}.2 {} \\;"),
+                stderr = FALSE)
 
 # Copie de la documentation accessoire aux rapports
 

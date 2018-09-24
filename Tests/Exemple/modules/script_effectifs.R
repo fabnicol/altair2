@@ -29,9 +29,9 @@ kable(tableau.effectifs, row.names = TRUE, align='c')
 #'*(a) Nombre de matricules distincts ayant eu au moins un bulletin de paie dans l'année, en fonction ou non. Tous ces personnels ne sont pas en fonction : sont inclus des régularisations, des personnels hors position d'activité ou des ayants droit (reversion, etc.)*   
 #'*(b) Titulaires ou stagiaires*   
 #'*(c) Sur la base des libellés d'emploi et des libellés de lignes de paie. La détection peut être lacunaire*   
-#'*(d) ETP  : Equivalent temps plein = rémunération . quotité*  
+#'*(d) ETP  : Equivalent temps plein = rémunération . quotite*  
 #'*(e) ETPT : Equivalent temps plein travaillé = ETP . 12/nombre de mois travaillés dans l'année*  
-#'*(f) Personnes en place : présentes en N et N-1 avec la même quotité, postes actifs et non annexes uniquement.*     
+#'*(f) Personnes en place : présentes en N et N-1 avec la même quotite, postes actifs et non annexes uniquement.*     
 #'*(g) Postes actifs et non annexes :* voir [Compléments méthodologiques](Docs/méthodologie.pdf)    
 #'*&nbsp;&nbsp;&nbsp;Un poste actif est défini par au moins un bulletin de paie comportant un traitement positif pour un volume d'heures de travail mensuel non nul.*             
 #'*&nbsp;&nbsp;&nbsp;Un poste non annexe est défini comme la conjonction de critères horaires et de revenu sur une année. La période minimale de référence est le mois.*   

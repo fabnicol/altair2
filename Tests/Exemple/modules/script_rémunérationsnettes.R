@@ -184,7 +184,7 @@ essayer(label = "+SMPT fonct.", print(smpt(Filtre_fonctionnaire)), "Le salaire m
 #'    
 #'##### 4.2.2.2 Par catégorie  statutaire        
 #'   
-#'**Catégorie A**  
+#'**Categorie A**  
 #'
 #'&nbsp;*Tableau 4.2.2.2.1*   
 #'    
@@ -212,7 +212,7 @@ essayer(label = "+SMPT cat A", print(smpt(Filtre_cat_A)), "Le salaire moyen par 
 #' 
 
 #'   
-#'**Catégorie B**  
+#'**Categorie B**  
 #'   
 #'   
 #'&nbsp;*Tableau 4.2.2.2.2*   
@@ -239,7 +239,7 @@ essayer(label = "+SMPT cat B", print(smpt(Filtre_cat_B)),          "Le salaire m
 #' 
 
 #'   
-#'**Catégorie C**  
+#'**Categorie C**  
 #'
 #'&nbsp;*Tableau 4.2.2.2.3*    
 #'    
@@ -285,19 +285,19 @@ essayer(label = "+distribution SMPT fonct.", print(distribution_smpt(Filtre_fonc
 #'#### 4.2.3.2 Par catégorie statutaire             
 #'     
 
-#'**Catégorie A**    
+#'**Categorie A**    
 #'&nbsp;*Tableau 4.2.3.2.1*   
 #'    
 
 essayer(label = "+distribution SMPT cat. A", print(distribution_smpt(Filtre_cat_A)), "La distribution du salaire moyen par tête des fonctionnaires de catégorie A n'a pas pu être calculée.")
 
-#'**Catégorie B**  
+#'**Categorie B**  
 #'&nbsp;*Tableau 4.2.3.2.2*   
 #'    
 
 essayer(label = "+distribution SMPT cat. B", print(distribution_smpt(Filtre_cat_B)), "La distribution du salaire moyen par tête des fonctionnaires de catégorie B n'a pas pu être calculée.")
 
-#'**Catégorie C**  
+#'**Categorie C**  
 #'&nbsp;*Tableau 4.2.3.2.3*   
 #'    
 
@@ -342,7 +342,7 @@ conditionnel("Lien vers la base de données", "Bases/Remunerations/Analyse.varia
   }
     
 
-#'*Cet histogramme décrit l'évolution de la rémunération moyenne des personnes en place (RMPP), définies comme présentes deux années entières consécutives avec la même quotité*   
+#'*Cet histogramme décrit l'évolution de la rémunération moyenne des personnes en place (RMPP), définies comme présentes deux années entières consécutives avec la même quotite*   
 #'*L'évolution de la RMPP permet d'étudier le glissement vieillesse-technicité "positif", à effectifs constants sur deux années*      
 
 
@@ -357,9 +357,9 @@ if (durée.sous.revue > 1) {
            "Quotité",
            "Effectif"),
          Anavar.synthese[bitwAnd(indicatrice.période, masque.présent.sur.période) == masque.présent.sur.période
-                         & Année == début.période.sous.revue, .(variation.rémunération.normalisée,
+                         & Annee == début.période.sous.revue, .(variation.rémunération.normalisée,
                                                                 variation.moyenne.rémunération.normalisée,
-                                                                quotité.moyenne)],
+                                                                quotite.moyenne)],
          extra = "length"))
 }
 
@@ -385,10 +385,10 @@ if (durée.sous.revue > 1) {
                          & bitwAnd(indicatrice.période, masque.présent.sur.période)
                          ==
                            masque.présent.sur.période
-                         & Année == début.période.sous.revue,
+                         & Annee == début.période.sous.revue,
                          .(variation.rémunération.normalisée, 
                            variation.moyenne.rémunération.normalisée,
-                           quotité.moyenne)],
+                           quotite.moyenne)],
          extra = "length"))
 }
 
@@ -397,9 +397,9 @@ if (durée.sous.revue > 1) {
 conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthese.csv")
 #'
 #'**Nota**   
-#'*Personnes en place :* en fonction au moins deux années consécutives avec la même quotité sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`    
+#'*Personnes en place :* en fonction au moins deux années consécutives avec la même quotite sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`    
 #'*Variation sur la période d'activité :* entre l'arrivée et le départ de la personne      
-#'*Variation normalisée :* conforme à la définition INSEE (présente en début et en fin de période avec la même quotité)  
+#'*Variation normalisée :* conforme à la définition INSEE (présente en début et en fin de période avec la même quotite)  
 #'  
 #'**Commentaire**       
 #'Les différences éventuelles constatées entre l'évolution de la RMPP au tableau `r numéro.tableau-2` sont dues soit à l'effet de noria soit à l'effet périmètre.    
