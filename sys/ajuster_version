@@ -9,10 +9,40 @@ need  NetworkManager
 start() {
 
   # Un peu de ménage
-
+  cd /home/fab
+  if test -f proxy.txt; then
+     echo "Proxy détecté" | tee -a /home/Public/version.log
+     export http_proxy=$(cat proxy.txt)
+     echo "Adresse : $http_proxy" | tee -a /home/Public/version.log
+     if test "$http_proxy" = ""; then
+        echo "Proxy inopérant."
+        git config --global --unset http.proxy
+        git config --unset http.proxy 
+     else
+        echo "Essai du proxy $http_proxy" | tee -a /home/Public/version.log
+        export https_proxy=$http_proxy
+	curl -I https://github.com
+	if test $? = 0; then
+         echo "Essai du proxy OK." | tee -a /home/Public/version.log
+         git config --global  http.proxy $http_proxy
+         git config   http.proxy $http_proxy
+	else
+         echo "Proxy bloquant pour https://github.com" | tee -a /home/Public/version.log
+         git config --global --unset http.proxy
+         git config --unset http.proxy 
+       fi
+     fi
+  else
+      git config --global --unset http.proxy
+      git config --unset http.proxy 
+  fi
+  git config http.sslVerify false
+  git config credential.helper store
   if ! test -d /home/fab/Dev/altair/.git; then
     mkdir -p /home/fab/Dev
     cd /home/fab/Dev/
+    umount -l UUID="85F7-2833" 
+    umount -l UUID="C96F-2C5E"
     rm -rf altair
     echo "https://github.com/fabnicol/altair2.git" > entrepot.txt
     git clone --depth=1 -b dev  $(cat entrepot.txt) altair
@@ -96,16 +126,6 @@ start() {
       git config user.name "Fabrice Nicol"
       git config user.email "fabrice.nicol@crtc.ccomptes.fr"
       
-      export http_proxy=$(cat proxy.txt)
-      if test "$http_proxy" = ""; then
-         git config --global --unset http.proxy
-         git config --unset http.proxy 
-      else
-         git config --global  http.proxy $http_proxy
-         git config   http.proxy $http_proxy
-      fi
-      git config http.sslVerify false
-      git config credential.helper store
       
       if ! test x$current_origin = x$adresse
       then
