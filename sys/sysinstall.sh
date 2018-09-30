@@ -319,10 +319,9 @@ mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
 chgrp -R users /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
 chmod -R 0770 /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
              
-# accès des données test
-if test ! -d /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2 ; then
+
+if test ! -d /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl ; then
    mkdir -p /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
-   cp -rf /home/Public/xhl/Anonyme2 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
 fi   
 
 # script exécuté à la fin d'une session plasma (démontage de la clé)
@@ -351,6 +350,7 @@ do
 	if test -d /home/$i; then
 		# intégration de l'icone dans le menu développement + clic sur projet *.alt
 		mkdir -p /home/$i/.local/share/applications
+		mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/xhl/$i
 		_copy mimeapps.list   /home/$i/.config/
 		_copy mimeapps.list   /home/$i/.local/share/applications
 		_copy images          /home/$i/.local/share/Altair     
@@ -477,16 +477,12 @@ chmod -R 0770 /home/jf/Dev/altair/Tests/Exemple/Donnees/
 mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
 chgrp -R users /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
 chmod -R 0770 /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
-             
-# accès des données test
-if test ! -d /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2 ; then
-   mkdir -p /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
-   cp -rf /home/Public/xhl/Anonyme2 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
-fi  
 
-#droits sur l'entrepot de dévloppement
-if test  -d /home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot ; then
-   chown -R fab /home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot
+git checkout -f master-jf 
+
+# accès des données test
+if test ! -d /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl ; then
+   mkdir -p /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
 fi  
 
 chown -R fab .

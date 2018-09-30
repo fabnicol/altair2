@@ -154,8 +154,9 @@ start() {
         git gc --prune=now
 
         chown -R fab .
+        echo "Droit fab alignés"  | tee -a /home/Public/version.log
 				
-        echo "Actualisation des documents de référence sur le bureau"
+        echo "Actualisation des documents de référence sur le bureau"  | tee -a /home/Public/version.log
 
 # Liste des utilisateurs
 
@@ -179,16 +180,13 @@ start() {
 
 
 chmod +x /home/fab/Dev/altair/postinstall.sh
-/bin/bash /home/fab/Dev/altair/postinstall.sh | tee -a /home/Public/version.log
+/bin/bash /home/fab/Dev/altair/postinstall.sh 
+echo "postinstall"| tee -a /home/Public/version.log
 
 echo "****" 
 echo "* Fin de l'opération."  | tee -a /home/Public/version.log
 echo "****"
-echo  | tee -a /home/Public/version.log
 
-# Uniquement pour le développement
-
-chown -R fab /home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot 
 
 shutdown -h now
 
