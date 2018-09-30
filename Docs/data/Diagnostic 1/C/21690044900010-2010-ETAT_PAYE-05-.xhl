@@ -1,0 +1,7911 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<n:DocumentPaye xmlns:n = "http://www.minefi.gouv.fr/cp/helios/pes" xmlns:dep = "http://www.minefi.gouv.fr/cp/helios/pes/depense" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.minefi.gouv.fr/cp/helios/pes DocumentPaye_1.1.xsd">
+<IdVer V = "0.00"/>
+<Annee V = "2010"/>
+<Mois V = "5"/>
+<Budget>
+<Libelle V = "COMMUNE C"/>
+<Code V = "COMMUNE"/>
+</Budget>
+<Employeur>
+<Nom V = "Z"/>
+<APE V = "8411Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NumUrssaf V = "Z"/>
+<Siret V = "Z"/>
+</Employeur>
+<DonneesIndiv>
+<Etablissement>
+<Nom V = "Z"/>
+<NumUrssaf V = "Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<Siret V = "Z"/>
+</Etablissement>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00349"/>
+<NIR  V = "15106Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX2"/>
+<Libelle V = "ELU COMMUNAL"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Conseiller Municipal"/>
+<Grade V = "Conseiller Municipal"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30002"/>
+<CodeGuic V = "01034"/>
+<IdCpte V = "Z"/>
+<CleRib V = "51"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "2.20"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "83.22"/>
+<MtNet V = "74.89"/>
+<MtNetAPayer V = "74.89"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "416.10"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00322"/>
+<NIR  V = "16007Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX4"/>
+<Libelle V = "Autres (Inst.Trésorier ...)"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Directeur Groupe Scolaire"/>
+<Grade V = "Directeur Groupe Scolaire"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "20041"/>
+<CodeGuic V = "01007"/>
+<IdCpte V = "Z"/>
+<CleRib V = "83"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "11.50"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "9.00"/>
+<MtBrut V = "628.56"/>
+<MtNet V = "583.81"/>
+<MtNetAPayer V = "579.51"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "317.42"/>
+<CumulMtImposable V = "2381.90"/>
+<CumulMtBrut V = "4575.81"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00417"/>
+<NIR  V = "25108Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint au maire"/>
+<Grade V = "Adjoint au maire"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "17806"/>
+<CodeGuic V = "00286"/>
+<IdCpte V = "Z"/>
+<CleRib V = "23"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "16.23"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "919.74"/>
+<MtNet V = "827.68"/>
+<MtNetAPayer V = "827.68"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "4598.70"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00378"/>
+<NIR  V = "18104Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "STH1"/>
+<Libelle V = "Adjoint Tech de 2e classe Stag"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Technique de 2e classe"/>
+<Grade V = "Adjoint Technique de 2e classe"/>
+<Echelon V = "4"/>
+<Indice V = "295"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13825"/>
+<CodeGuic V = "00200"/>
+<IdCpte V = "Z"/>
+<CleRib V = "41"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "8.50"/>
+<MtBrut V = "1907.58"/>
+<MtNet V = "1540.44"/>
+<MtNetAPayer V = "1540.44"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1553.15"/>
+<CumulMtImposable V = "7630.37"/>
+<CumulMtBrut V = "9477.54"/>
+<CumulBaseSS V = "6795.70"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00458"/>
+<NIR  V = "26708Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "surveillante"/>
+<Grade V = "surveillante"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13825"/>
+<CodeGuic V = "00200"/>
+<IdCpte V = "Z"/>
+<CleRib V = "91"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "183.45"/>
+<MtNet V = "151.32"/>
+<MtNetAPayer V = "151.32"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "156.48"/>
+<CumulMtImposable V = "1312.40"/>
+<CumulMtBrut V = "1307.69"/>
+<CumulBaseSS V = "1342.09"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "VALENTE"/>
+<Prenom V = "Z"/>
+<Matricule V = "00328"/>
+<NIR  V = "26110Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX4"/>
+<Libelle V = "Autres (Inst.Trésorier ...)"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "surveillante"/>
+<Grade V = "surveillante"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "10278"/>
+<CodeGuic V = "07349"/>
+<IdCpte V = "Z"/>
+<CleRib V = "89"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "249.27"/>
+<MtNet V = "241.31"/>
+<MtNetAPayer V = "202.61"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "249.41"/>
+<CumulMtImposable V = "1651.29"/>
+<CumulMtBrut V = "1647.46"/>
+<CumulBaseSS V = "1681.86"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "GUILLON"/>
+<Prenom V = "Z"/>
+<Matricule V = "00346"/>
+<NIR  V = "26908Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX2"/>
+<Libelle V = "ELU COMMUNAL"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint au maire"/>
+<Grade V = "Adjoint au maire"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30004"/>
+<CodeGuic V = "00475"/>
+<IdCpte V = "Z"/>
+<CleRib V = "05"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "16.23"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "919.74"/>
+<MtNet V = "827.68"/>
+<MtNetAPayer V = "827.68"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "4598.70"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "MOULIN"/>
+<Prenom V = "Z"/>
+<Matricule V = "00007"/>
+<NIR  V = "25110Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "1"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TAJ1"/>
+<Libelle V = "Adjoint Adm. de 2e cl."/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Administratif de 2e cl"/>
+<Grade V = "Adjoint Administratif de 2e cl"/>
+<Echelon V = "11"/>
+<Indice V = "355"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30002"/>
+<CodeGuic V = "01017"/>
+<IdCpte V = "Z"/>
+<CleRib V = "34"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "91.43"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1644.65"/>
+<MtNet V = "1320.12"/>
+<MtNetAPayer V = "1320.12"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1421.01"/>
+<CumulMtImposable V = "7106.80"/>
+<CumulMtBrut V = "8359.39"/>
+<CumulBaseSS V = "7477.05"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00011"/>
+<NIR  V = "17007Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TTH1"/>
+<Libelle V = "Adjoint Tech de 2e Classe"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Technique de 2e classe"/>
+<Grade V = "Adjoint Technique de 2e classe"/>
+<Echelon V = "7"/>
+<Indice V = "312"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13825"/>
+<CodeGuic V = "00200"/>
+<IdCpte V = "Z"/>
+<CleRib V = "93"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1551.84"/>
+<MtNet V = "1274.35"/>
+<MtNetAPayer V = "1218.49"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1354.37"/>
+<CumulMtImposable V = "6773.44"/>
+<CumulMtBrut V = "7844.98"/>
+<CumulBaseSS V = "7187.35"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "TISON"/>
+<Prenom V = "Z"/>
+<Matricule V = "00266"/>
+<NIR  V = "25901Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX4"/>
+<Libelle V = "Autres (Inst.Trésorier ...)"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Directrice Ecole"/>
+<Grade V = "Directrice Ecole"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13907"/>
+<CodeGuic V = "00000"/>
+<IdCpte V = "Z"/>
+<CleRib V = "57"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "6.75"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "9.00"/>
+<MtBrut V = "483.72"/>
+<MtNet V = "454.69"/>
+<MtNetAPayer V = "454.69"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "184.11"/>
+<CumulMtImposable V = "1247.90"/>
+<CumulMtBrut V = "3278.55"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "PLAZA"/>
+<Prenom V = "Z"/>
+<Matricule V = "00344"/>
+<NIR  V = "26509Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "2"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "YYX4"/>
+<Libelle V = "Autres (Inst.Trésorier ...)"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Administratif de 2e cl"/>
+<Grade V = "Adjoint Administratif de 2e cl"/>
+<Echelon V = "5"/>
+<Indice V = "300"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "10278"/>
+<CodeGuic V = "07349"/>
+<IdCpte V = "Z"/>
+<CleRib V = "16"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "32.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "805.99"/>
+<MtNet V = "645.09"/>
+<MtNetAPayer V = "645.09"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "687.72"/>
+<CumulMtImposable V = "3438.87"/>
+<CumulMtBrut V = "4029.95"/>
+<CumulBaseSS V = "4029.95"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00483"/>
+<NIR  V = "28207Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Professeur des Ecoles"/>
+<Grade V = "Professeur des Ecoles"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30076"/>
+<CodeGuic V = "02591"/>
+<IdCpte V = "Z"/>
+<CleRib V = "54"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "3.00"/>
+<MtBrut V = "73.71"/>
+<MtNet V = "69.28"/>
+<MtNetAPayer V = "69.28"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "368.55"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00333"/>
+<NIR  V = "15003Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX2"/>
+<Libelle V = "ELU COMMUNAL"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint au maire"/>
+<Grade V = "Adjoint au maire"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13825"/>
+<CodeGuic V = "00400"/>
+<IdCpte V = "Z"/>
+<CleRib V = "78"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "16.23"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "919.74"/>
+<MtNet V = "827.68"/>
+<MtNetAPayer V = "827.68"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "4598.70"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00431"/>
+<NIR  V = "27512Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Directeur Général des Services"/>
+<Grade V = "Directeur Général des Services"/>
+<Echelon V = "5"/>
+<Indice V = "539"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30003"/>
+<CodeGuic V = "00716"/>
+<IdCpte V = "Z"/>
+<CleRib V = "22"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "30"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "3945.09"/>
+<MtNet V = "3301.32"/>
+<MtNetAPayer V = "3226.84"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "3480.29"/>
+<CumulMtImposable V = "17907.62"/>
+<CumulMtBrut V = "20262.13"/>
+<CumulBaseSS V = "13107.65"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "CARRAZ"/>
+<Prenom V = "Z"/>
+<Matricule V = "00436"/>
+<NIR  V = "27512Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Professeur des Ecoles"/>
+<Grade V = "Professeur des Ecoles"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13825"/>
+<CodeGuic V = "00200"/>
+<IdCpte V = "Z"/>
+<CleRib V = "73"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "2.00"/>
+<MtBrut V = "49.14"/>
+<MtNet V = "46.19"/>
+<MtNetAPayer V = "46.19"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "368.55"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "CHIAFFREDO"/>
+<Prenom V = "Z"/>
+<Matricule V = "00002"/>
+<NIR  V = "25007Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TAR1"/>
+<Libelle V = "Rédacteur"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Attaché Territorial"/>
+<Grade V = "Attaché Territorial"/>
+<Echelon V = "8"/>
+<Indice V = "524"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13825"/>
+<CodeGuic V = "00200"/>
+<IdCpte V = "Z"/>
+<CleRib V = "43"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "15"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "2848.14"/>
+<MtNet V = "2319.31"/>
+<MtNetAPayer V = "2133.11"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "2464.12"/>
+<CumulMtImposable V = "12425.17"/>
+<CumulMtBrut V = "14346.19"/>
+<CumulBaseSS V = "12260.98"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00012"/>
+<NIR  V = "17204Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "2"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TTH1"/>
+<Libelle V = "Adjoint Tech de 2e Classe"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Technique de 2e classe"/>
+<Grade V = "Adjoint Technique de 2e classe"/>
+<Echelon V = "7"/>
+<Indice V = "312"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13825"/>
+<CodeGuic V = "00200"/>
+<IdCpte V = "Z"/>
+<CleRib V = "51"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1938.53"/>
+<MtNet V = "1578.33"/>
+<MtNetAPayer V = "1531.78"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1696.23"/>
+<CumulMtImposable V = "8229.87"/>
+<CumulMtBrut V = "9674.13"/>
+<CumulBaseSS V = "7187.35"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00168"/>
+<NIR  V = "15808Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX4"/>
+<Libelle V = "Autres (Inst.Trésorier ...)"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Professeur des Ecoles"/>
+<Grade V = "Professeur des Ecoles"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13825"/>
+<CodeGuic V = "00400"/>
+<IdCpte V = "Z"/>
+<CleRib V = "27"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "11.50"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "1.00"/>
+<MtBrut V = "283.46"/>
+<MtNet V = "273.79"/>
+<MtNetAPayer V = "243.69"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "257.35"/>
+<CumulMtImposable V = "1730.94"/>
+<CumulMtBrut V = "2102.80"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "REYBIER"/>
+<Prenom V = "Z"/>
+<Matricule V = "00220"/>
+<NIR  V = "25905Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX2"/>
+<Libelle V = "ELU COMMUNAL"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint au maire"/>
+<Grade V = "Adjoint au maire"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "10278"/>
+<CodeGuic V = "07349"/>
+<IdCpte V = "Z"/>
+<CleRib V = "63"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "16.23"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "919.74"/>
+<MtNet V = "827.68"/>
+<MtNetAPayer V = "827.68"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "4598.70"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "HERBET"/>
+<Prenom V = "Z"/>
+<Matricule V = "00071"/>
+<NIR  V = "25209Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TTH1"/>
+<Libelle V = "Adjoint Tech de 2e Classe"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Agt spécialisé  des E.M 1ere C"/>
+<Grade V = "Agt spécialisé  des E.M 1ere C"/>
+<Echelon V = "5"/>
+<Indice V = "308"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "17806"/>
+<CodeGuic V = "00302"/>
+<IdCpte V = "Z"/>
+<CleRib V = "50"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "4.00"/>
+<MtBrut V = "1576.23"/>
+<MtNet V = "1269.25"/>
+<MtNetAPayer V = "1269.25"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1376.88"/>
+<CumulMtImposable V = "6885.99"/>
+<CumulMtBrut V = "7881.15"/>
+<CumulBaseSS V = "7095.20"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00269"/>
+<NIR  V = "27408Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Agt spécialisé  des E.M 1ere C"/>
+<Grade V = "Agt spécialisé  des E.M 1ere C"/>
+<Echelon V = "5"/>
+<Indice V = "308"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "17806"/>
+<CodeGuic V = "00302"/>
+<IdCpte V = "Z"/>
+<CleRib V = "46"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "50.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "4.00"/>
+<MtBrut V = "788.62"/>
+<MtNet V = "619.86"/>
+<MtNetAPayer V = "619.86"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "672.19"/>
+<CumulMtImposable V = "3361.37"/>
+<CumulMtBrut V = "3943.10"/>
+<CumulBaseSS V = "3943.10"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00401"/>
+<NIR  V = "15510Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX4"/>
+<Libelle V = "Autres (Inst.Trésorier ...)"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "SURVEILLANT"/>
+<Grade V = "SURVEILLANT"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "17806"/>
+<CodeGuic V = "00286"/>
+<IdCpte V = "Z"/>
+<CleRib V = "55"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "305.91"/>
+<MtNet V = "252.36"/>
+<MtNetAPayer V = "252.36"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "260.96"/>
+<CumulMtImposable V = "1072.63"/>
+<CumulMtBrut V = "1257.43"/>
+<CumulBaseSS V = "1257.43"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "VIDAL"/>
+<Prenom V = "Z"/>
+<Matricule V = "00415"/>
+<NIR  V = "25609Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Conseiller Municipal"/>
+<Grade V = "Conseiller Municipal"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "40978"/>
+<CodeGuic V = "00056"/>
+<IdCpte V = "Z"/>
+<CleRib V = "56"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "2.20"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "83.22"/>
+<MtNet V = "74.89"/>
+<MtNetAPayer V = "74.89"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "416.10"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00119"/>
+<NIR  V = "25711Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX4"/>
+<Libelle V = "Autres (Inst.Trésorier ...)"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Professeur des Ecoles"/>
+<Grade V = "Professeur des Ecoles"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30003"/>
+<CodeGuic V = "01218"/>
+<IdCpte V = "Z"/>
+<CleRib V = "73"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "11.25"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "3.00"/>
+<MtBrut V = "329.84"/>
+<MtNet V = "316.85"/>
+<MtNetAPayer V = "291.05"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "251.07"/>
+<CumulMtImposable V = "1799.04"/>
+<CumulMtBrut V = "2534.93"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00488"/>
+<NIR  V = "28807Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Technique de 2e classe"/>
+<Grade V = "Adjoint Technique de 2e classe"/>
+<Echelon V = "1"/>
+<Indice V = "292"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13825"/>
+<CodeGuic V = "00200"/>
+<IdCpte V = "Z"/>
+<CleRib V = "61"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1359.05"/>
+<MtNet V = "1139.32"/>
+<MtNetAPayer V = "1139.32"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1183.51"/>
+<CumulMtImposable V = "4735.05"/>
+<CumulMtBrut V = "5469.80"/>
+<CumulBaseSS V = "5381.28"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00419"/>
+<NIR  V = "15407Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Conseiller Municipal"/>
+<Grade V = "Conseiller Municipal"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "20041"/>
+<CodeGuic V = "01007"/>
+<IdCpte V = "Z"/>
+<CleRib V = "86"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "2.20"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "83.22"/>
+<MtNet V = "74.89"/>
+<MtNetAPayer V = "74.89"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "416.10"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "ETIENNE"/>
+<Prenom V = "Z"/>
+<Matricule V = "00075"/>
+<NIR  V = "27008Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "1"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TAJ3"/>
+<Libelle V = "Adjoint Adm Princ. 2e classe"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint adminis princip 2cl"/>
+<Grade V = "Adjoint adminis princip 2cl"/>
+<Echelon V = "6"/>
+<Indice V = "328"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30002"/>
+<CodeGuic V = "01070"/>
+<IdCpte V = "Z"/>
+<CleRib V = "81"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "10.00"/>
+<MtBrut V = "1751.85"/>
+<MtNet V = "1402.30"/>
+<MtNetAPayer V = "1290.58"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1515.38"/>
+<CumulMtImposable V = "7498.38"/>
+<CumulMtBrut V = "8666.17"/>
+<CumulBaseSS V = "7578.94"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00413"/>
+<NIR  V = "14808Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Conseiller Municipal"/>
+<Grade V = "Conseiller Municipal"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "17806"/>
+<CodeGuic V = "00286"/>
+<IdCpte V = "Z"/>
+<CleRib V = "97"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "2.20"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "83.22"/>
+<MtNet V = "74.89"/>
+<MtNetAPayer V = "74.89"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "416.10"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00336"/>
+<NIR  V = "14707Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX2"/>
+<Libelle V = "ELU COMMUNAL"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Maire"/>
+<Grade V = "Maire"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "10278"/>
+<CodeGuic V = "07349"/>
+<IdCpte V = "Z"/>
+<CleRib V = "91"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "50.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "2833.46"/>
+<MtNet V = "2081.63"/>
+<MtNetAPayer V = "2081.63"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "14167.30"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00077"/>
+<NIR  V = "26910Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TCJ1"/>
+<Libelle V = "Adjoint Patrimoine 2e classe"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint du Patrimoine de 2e cl"/>
+<Grade V = "Adjoint du Patrimoine de 2e cl"/>
+<Echelon V = "5"/>
+<Indice V = "300"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13907"/>
+<CodeGuic V = "00000"/>
+<IdCpte V = "Z"/>
+<CleRib V = "50"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1596.00"/>
+<MtNet V = "1329.77"/>
+<MtNetAPayer V = "1329.77"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1395.79"/>
+<CumulMtImposable V = "6980.48"/>
+<CumulMtBrut V = "7980.00"/>
+<CumulBaseSS V = "6910.90"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "JOANNARD"/>
+<Prenom V = "Z"/>
+<Matricule V = "00412"/>
+<NIR  V = "26507Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Conseiller Municipal"/>
+<Grade V = "Conseiller Municipal"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30002"/>
+<CodeGuic V = "01017"/>
+<IdCpte V = "Z"/>
+<CleRib V = "97"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "2.20"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "83.22"/>
+<MtNet V = "74.89"/>
+<MtNetAPayer V = "74.89"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "416.10"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00331"/>
+<NIR  V = "15810Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX2"/>
+<Libelle V = "ELU COMMUNAL"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint au maire"/>
+<Grade V = "Adjoint au maire"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "10468"/>
+<CodeGuic V = "02283"/>
+<IdCpte V = "Z"/>
+<CleRib V = "86"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "16.23"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "919.74"/>
+<MtNet V = "827.68"/>
+<MtNetAPayer V = "827.68"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "4598.70"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "AIMO"/>
+<Prenom V = "Z"/>
+<Matricule V = "00006"/>
+<NIR  V = "24708Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TAJ2"/>
+<Libelle V = "Adjoint Adm 1ere Classe"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Administratif de 1er C"/>
+<Grade V = "Adjoint Administratif de 1er C"/>
+<Echelon V = "8"/>
+<Indice V = "335"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "20041"/>
+<CodeGuic V = "01007"/>
+<IdCpte V = "Z"/>
+<CleRib V = "18"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1848.70"/>
+<MtNet V = "1486.53"/>
+<MtNetAPayer V = "1486.53"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1602.37"/>
+<CumulMtImposable V = "8012.72"/>
+<CumulMtBrut V = "9243.50"/>
+<CumulBaseSS V = "7717.15"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00339"/>
+<NIR  V = "15501Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX2"/>
+<Libelle V = "ELU COMMUNAL"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Conseiller Municipal"/>
+<Grade V = "Conseiller Municipal"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "20041"/>
+<CodeGuic V = "01007"/>
+<IdCpte V = "Z"/>
+<CleRib V = "81"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "2.20"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "83.22"/>
+<MtNet V = "74.89"/>
+<MtNetAPayer V = "74.89"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "416.10"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00226"/>
+<NIR  V = "13512Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX2"/>
+<Libelle V = "ELU COMMUNAL"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint au maire"/>
+<Grade V = "Adjoint au maire"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "10207"/>
+<CodeGuic V = "00001"/>
+<IdCpte V = "Z"/>
+<CleRib V = "43"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "16.23"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "919.74"/>
+<MtNet V = "827.68"/>
+<MtNetAPayer V = "827.68"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "4598.70"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00445"/>
+<NIR  V = "16201Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Brigadier de Police Municipale"/>
+<Grade V = "Brigadier de Police Municipale"/>
+<Echelon V = "8"/>
+<Indice V = "350"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30004"/>
+<CodeGuic V = "01417"/>
+<IdCpte V = "Z"/>
+<CleRib V = "23"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1951.18"/>
+<MtNet V = "1573.62"/>
+<MtNetAPayer V = "1573.62"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1692.65"/>
+<CumulMtImposable V = "8464.15"/>
+<CumulMtBrut V = "9755.90"/>
+<CumulBaseSS V = "8062.70"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00484"/>
+<NIR  V = "18710Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Contrat Accompagnement Emploi"/>
+<Grade V = "Contrat Accompagnement Emploi"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "17806"/>
+<CodeGuic V = "00399"/>
+<IdCpte V = "Z"/>
+<CleRib V = "80"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1343.80"/>
+<MtNet V = "1045.50"/>
+<MtNetAPayer V = "1045.50"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1146.30"/>
+<CumulMtImposable V = "5731.50"/>
+<CumulMtBrut V = "6719.00"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00482"/>
+<NIR  V = "28908Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "STAGIAIRE"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Stagiaire Ecole"/>
+<Grade V = "Stagiaire Ecole"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "20041"/>
+<CodeGuic V = "01007"/>
+<IdCpte V = "Z"/>
+<CleRib V = "74"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "87.50"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "240.63"/>
+<MtNet V = "204.63"/>
+<MtNetAPayer V = "204.63"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "240.63"/>
+<CumulMtImposable V = "1183.88"/>
+<CumulMtBrut V = "1183.88"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "CHARPENEL"/>
+<Prenom V = "Z"/>
+<Matricule V = "00439"/>
+<NIR  V = "26203Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "surveillante"/>
+<Grade V = "surveillante"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13906"/>
+<CodeGuic V = "00056"/>
+<IdCpte V = "Z"/>
+<CleRib V = "15"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "168.30"/>
+<MtNet V = "174.53"/>
+<MtNetAPayer V = "135.83"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "180.35"/>
+<CumulMtImposable V = "1199.41"/>
+<CumulMtBrut V = "1122.00"/>
+<CumulBaseSS V = "1152.10"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00056"/>
+<NIR  V = "26209Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX4"/>
+<Libelle V = "Autres (Inst.Trésorier ...)"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Professeur des Ecoles"/>
+<Grade V = "Professeur des Ecoles"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13907"/>
+<CodeGuic V = "00000"/>
+<IdCpte V = "Z"/>
+<CleRib V = "29"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "6.00"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "5.00"/>
+<MtBrut V = "249.99"/>
+<MtNet V = "254.74"/>
+<MtNetAPayer V = "228.94"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "136.19"/>
+<CumulMtImposable V = "1044.17"/>
+<CumulMtBrut V = "1662.70"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "BERANGER"/>
+<Prenom V = "Z"/>
+<Matricule V = "00028"/>
+<NIR  V = "25401Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "1"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "YYX4"/>
+<Libelle V = "Autres (Inst.Trésorier ...)"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Administratif de 2e cl"/>
+<Grade V = "Adjoint Administratif de 2e cl"/>
+<Echelon V = "3"/>
+<Indice V = "294"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30002"/>
+<CodeGuic V = "01061"/>
+<IdCpte V = "Z"/>
+<CleRib V = "89"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "40.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "548.21"/>
+<MtNet V = "425.43"/>
+<MtNetAPayer V = "425.43"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "467.25"/>
+<CumulMtImposable V = "2374.12"/>
+<CumulMtBrut V = "2785.06"/>
+<CumulBaseSS V = "2785.06"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "CAPDEVILLE"/>
+<Prenom V = "Z"/>
+<Matricule V = "00217"/>
+<NIR  V = "25112Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX2"/>
+<Libelle V = "ELU COMMUNAL"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint au maire"/>
+<Grade V = "Adjoint au maire"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13825"/>
+<CodeGuic V = "00400"/>
+<IdCpte V = "Z"/>
+<CleRib V = "66"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "16.23"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "919.74"/>
+<MtNet V = "827.68"/>
+<MtNetAPayer V = "827.68"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "4598.70"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00072"/>
+<NIR  V = "16206Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "2"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TCE1"/>
+<Libelle V = "Assistant qual. cons. 2e cl."/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Assistant qual. cons. Pat 1e c"/>
+<Grade V = "Assistant qual. cons. Pat 1e c"/>
+<Echelon V = "3"/>
+<Indice V = "446"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "17806"/>
+<CodeGuic V = "00080"/>
+<IdCpte V = "Z"/>
+<CleRib V = "61"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "2448.12"/>
+<MtNet V = "1874.48"/>
+<MtNetAPayer V = "1827.93"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "2120.95"/>
+<CumulMtImposable V = "10605.92"/>
+<CumulMtBrut V = "12240.60"/>
+<CumulBaseSS V = "10274.20"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "CROUSLE"/>
+<Prenom V = "Z"/>
+<Matricule V = "00121"/>
+<NIR  V = "25604Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "YYX4"/>
+<Libelle V = "Autres (Inst.Trésorier ...)"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Administratif de 2e cl"/>
+<Grade V = "Adjoint Administratif de 2e cl"/>
+<Echelon V = "3"/>
+<Indice V = "294"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30003"/>
+<CodeGuic V = "01184"/>
+<IdCpte V = "Z"/>
+<CleRib V = "88"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "44.29"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "2.00"/>
+<MtBrut V = "645.44"/>
+<MtNet V = "512.27"/>
+<MtNetAPayer V = "512.27"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "516.53"/>
+<CumulMtImposable V = "2624.58"/>
+<CumulMtBrut V = "3335.08"/>
+<CumulBaseSS V = "3335.08"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00477"/>
+<NIR  V = "13903Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Conseiller Municipal"/>
+<Grade V = "Conseiller Municipal"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "20041"/>
+<CodeGuic V = "01007"/>
+<IdCpte V = "Z"/>
+<CleRib V = "11"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "2.20"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "83.22"/>
+<MtNet V = "74.89"/>
+<MtNetAPayer V = "74.89"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "416.10"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "DOLEZALOVA"/>
+<Prenom V = "Z"/>
+<Matricule V = "00017"/>
+<NIR  V = "25008Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TTH1"/>
+<Libelle V = "Adjoint Tech de 2e Classe"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Technique de 2e classe"/>
+<Grade V = "Adjoint Technique de 2e classe"/>
+<Echelon V = "7"/>
+<Indice V = "312"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13825"/>
+<CodeGuic V = "00400"/>
+<IdCpte V = "Z"/>
+<CleRib V = "54"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1594.84"/>
+<MtNet V = "1284.86"/>
+<MtNetAPayer V = "1284.86"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1393.09"/>
+<CumulMtImposable V = "6924.88"/>
+<CumulMtBrut V = "7925.81"/>
+<CumulBaseSS V = "7139.43"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "DE SAINT JEAN"/>
+<Prenom V = "Z"/>
+<Matricule V = "00003"/>
+<NIR  V = "26411Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "1"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TAJ4"/>
+<Libelle V = "Adjoint Adm. Princ. 1ere cl."/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Rédacteur Chef"/>
+<Grade V = "Rédacteur Chef"/>
+<Echelon V = "4"/>
+<Indice V = "445"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "17806"/>
+<CodeGuic V = "00286"/>
+<IdCpte V = "Z"/>
+<CleRib V = "11"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "10"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "2374.55"/>
+<MtNet V = "1920.71"/>
+<MtNetAPayer V = "1920.71"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "2053.59"/>
+<CumulMtImposable V = "9964.69"/>
+<CumulMtBrut V = "11586.38"/>
+<CumulBaseSS V = "10130.44"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00064"/>
+<NIR  V = "25911Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TAJ1"/>
+<Libelle V = "Adjoint Adm. de 2e cl."/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Administratif de 2e cl"/>
+<Grade V = "Adjoint Administratif de 2e cl"/>
+<Echelon V = "7"/>
+<Indice V = "312"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30003"/>
+<CodeGuic V = "01206"/>
+<IdCpte V = "Z"/>
+<CleRib V = "06"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1701.84"/>
+<MtNet V = "1309.85"/>
+<MtNetAPayer V = "1309.85"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1489.36"/>
+<CumulMtImposable V = "7450.29"/>
+<CumulMtBrut V = "8563.06"/>
+<CumulBaseSS V = "7187.35"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00400"/>
+<NIR  V = "17811Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX4"/>
+<Libelle V = "Autres (Inst.Trésorier ...)"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "SURVEILLANT"/>
+<Grade V = "SURVEILLANT"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30003"/>
+<CodeGuic V = "01184"/>
+<IdCpte V = "Z"/>
+<CleRib V = "61"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "113.20"/>
+<MtNet V = "117.17"/>
+<MtNetAPayer V = "91.37"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "121.08"/>
+<CumulMtImposable V = "1023.33"/>
+<CumulMtBrut V = "958.70"/>
+<CumulBaseSS V = "988.80"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00414"/>
+<NIR  V = "14312Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Conseiller Municipal"/>
+<Grade V = "Conseiller Municipal"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30004"/>
+<CodeGuic V = "00475"/>
+<IdCpte V = "Z"/>
+<CleRib V = "05"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "2.20"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "83.22"/>
+<MtNet V = "74.89"/>
+<MtNetAPayer V = "74.89"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "416.10"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "COLLAS"/>
+<Prenom V = "Z"/>
+<Matricule V = "00416"/>
+<NIR  V = "24411Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Conseiller Municipal"/>
+<Grade V = "Conseiller Municipal"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13907"/>
+<CodeGuic V = "00000"/>
+<IdCpte V = "Z"/>
+<CleRib V = "96"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "2.20"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "83.22"/>
+<MtNet V = "74.89"/>
+<MtNetAPayer V = "74.89"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "416.10"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00022"/>
+<NIR  V = "26310Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TTH1"/>
+<Libelle V = "Adjoint Tech de 2e Classe"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Technique de 2e classe"/>
+<Grade V = "Adjoint Technique de 2e classe"/>
+<Echelon V = "4"/>
+<Indice V = "295"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30004"/>
+<CodeGuic V = "02673"/>
+<IdCpte V = "Z"/>
+<CleRib V = "47"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "60.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "913.72"/>
+<MtNet V = "710.50"/>
+<MtNetAPayer V = "710.50"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "778.81"/>
+<CumulMtImposable V = "3894.53"/>
+<CumulMtBrut V = "4568.60"/>
+<CumulBaseSS V = "4568.60"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "MARCHE"/>
+<Prenom V = "Z"/>
+<Matricule V = "00020"/>
+<NIR  V = "26512Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TSE2"/>
+<Libelle V = "Educateur  APS  1e classe"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Educateur des APS H.CLASSE"/>
+<Grade V = "Educateur des APS H.CLASSE"/>
+<Echelon V = "4"/>
+<Indice V = "445"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "20041"/>
+<CodeGuic V = "01007"/>
+<IdCpte V = "Z"/>
+<CleRib V = "64"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "85.71"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1917.82"/>
+<MtNet V = "1353.61"/>
+<MtNetAPayer V = "1353.61"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1656.64"/>
+<CumulMtImposable V = "8285.18"/>
+<CumulMtBrut V = "9589.10"/>
+<CumulBaseSS V = "8786.25"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "BARBIER"/>
+<Prenom V = "Z"/>
+<Matricule V = "00490"/>
+<NIR  V = "26208Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "surveillante"/>
+<Grade V = "surveillante"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "10278"/>
+<CodeGuic V = "07349"/>
+<IdCpte V = "Z"/>
+<CleRib V = "66"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "37.40"/>
+<MtNet V = "34.82"/>
+<MtNetAPayer V = "30.52"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "35.99"/>
+<CumulMtImposable V = "164.00"/>
+<CumulMtBrut V = "168.30"/>
+<CumulBaseSS V = "168.30"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00457"/>
+<NIR  V = "28805Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "surveillante"/>
+<Grade V = "surveillante"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "17806"/>
+<CodeGuic V = "00162"/>
+<IdCpte V = "Z"/>
+<CleRib V = "12"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "168.30"/>
+<MtNet V = "138.82"/>
+<MtNetAPayer V = "138.82"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "143.56"/>
+<CumulMtImposable V = "642.14"/>
+<CumulMtBrut V = "748.00"/>
+<CumulBaseSS V = "748.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "ACHAINTRE"/>
+<Prenom V = "Z"/>
+<Matricule V = "00013"/>
+<NIR  V = "26411Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "1"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TTH1"/>
+<Libelle V = "Adjoint Tech de 2e Classe"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Technique de 2e classe"/>
+<Grade V = "Adjoint Technique de 2e classe"/>
+<Echelon V = "6"/>
+<Indice V = "305"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "17806"/>
+<CodeGuic V = "00286"/>
+<IdCpte V = "Z"/>
+<CleRib V = "65"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "50.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "783.93"/>
+<MtNet V = "436.42"/>
+<MtNetAPayer V = "436.42"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "684.88"/>
+<CumulMtImposable V = "3425.18"/>
+<CumulMtBrut V = "3919.65"/>
+<CumulBaseSS V = "3513.05"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "EXTRAT"/>
+<Prenom V = "Z"/>
+<Matricule V = "00459"/>
+<NIR  V = "26408Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "NON_TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Technique de 2e classe"/>
+<Grade V = "Adjoint Technique de 2e classe"/>
+<Echelon V = "1"/>
+<Indice V = "292"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "10278"/>
+<CodeGuic V = "07349"/>
+<IdCpte V = "Z"/>
+<CleRib V = "37"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "110.50"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1207.15"/>
+<MtNet V = "995.78"/>
+<MtNetAPayer V = "995.78"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1029.73"/>
+<CumulMtImposable V = "2420.55"/>
+<CumulMtBrut V = "2837.60"/>
+<CumulBaseSS V = "2837.60"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00353"/>
+<NIR  V = "16009Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX2"/>
+<Libelle V = "ELU COMMUNAL"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Conseiller Municipal"/>
+<Grade V = "Conseiller Municipal"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13907"/>
+<CodeGuic V = "00000"/>
+<IdCpte V = "Z"/>
+<CleRib V = "25"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "2.20"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "83.22"/>
+<MtNet V = "74.89"/>
+<MtNetAPayer V = "74.89"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "416.10"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00112"/>
+<NIR  V = "16904Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TAJ2"/>
+<Libelle V = "Adjoint Adm 1ere Classe"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Administratif de 1er C"/>
+<Grade V = "Adjoint Administratif de 1er C"/>
+<Echelon V = "6"/>
+<Indice V = "316"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "20041"/>
+<CodeGuic V = "01007"/>
+<IdCpte V = "Z"/>
+<CleRib V = "28"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1720.45"/>
+<MtNet V = "1420.80"/>
+<MtNetAPayer V = "1420.80"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1505.64"/>
+<CumulMtImposable V = "7529.85"/>
+<CumulMtBrut V = "8602.25"/>
+<CumulBaseSS V = "7279.45"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00464"/>
+<NIR  V = "17509Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "1"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Agent de maîtrise"/>
+<Grade V = "Agent de maîtrise"/>
+<Echelon V = "5"/>
+<Indice V = "318"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "17806"/>
+<CodeGuic V = "00346"/>
+<IdCpte V = "Z"/>
+<CleRib V = "89"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Evenement>
+<Code V = "D"/>
+<Description V = "Départ"/>
+</Evenement>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "4.00"/>
+<MtBrut V = "1930.40"/>
+<MtNet V = "1572.05"/>
+<MtNetAPayer V = "1572.05"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1642.67"/>
+<CumulMtImposable V = "9212.50"/>
+<CumulMtBrut V = "10981.99"/>
+<CumulBaseSS V = "7325.55"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "GUERIN"/>
+<Prenom V = "Z"/>
+<Matricule V = "00326"/>
+<NIR  V = "24604Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX4"/>
+<Libelle V = "Autres (Inst.Trésorier ...)"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "surveillante"/>
+<Grade V = "surveillante"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "20041"/>
+<CodeGuic V = "01007"/>
+<IdCpte V = "Z"/>
+<CleRib V = "02"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "50.12"/>
+<MtNet V = "41.34"/>
+<MtNetAPayer V = "41.34"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "42.75"/>
+<CumulMtImposable V = "821.43"/>
+<CumulMtBrut V = "958.20"/>
+<CumulBaseSS V = "958.20"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "JOURDAIN"/>
+<Prenom V = "Z"/>
+<Matricule V = "00008"/>
+<NIR  V = "24909Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TAJ1"/>
+<Libelle V = "Adjoint Adm. de 2e cl."/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Administratif de 2e cl"/>
+<Grade V = "Adjoint Administratif de 2e cl"/>
+<Echelon V = "5"/>
+<Indice V = "300"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "17806"/>
+<CodeGuic V = "00286"/>
+<IdCpte V = "Z"/>
+<CleRib V = "41"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1646.00"/>
+<MtNet V = "1331.78"/>
+<MtNetAPayer V = "1331.78"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1441.21"/>
+<CumulMtImposable V = "7237.52"/>
+<CumulMtBrut V = "8843.78"/>
+<CumulBaseSS V = "6910.90"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "GIROUX"/>
+<Prenom V = "Z"/>
+<Matricule V = "00420"/>
+<NIR  V = "24211Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Conseiller Municipal"/>
+<Grade V = "Conseiller Municipal"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13907"/>
+<CodeGuic V = "00000"/>
+<IdCpte V = "Z"/>
+<CleRib V = "85"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "2.20"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "83.22"/>
+<MtNet V = "74.89"/>
+<MtNetAPayer V = "74.89"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "416.10"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00316"/>
+<NIR  V = "14810Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TTT3"/>
+<Libelle V = "Technicien supérieur Chef"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "INGENIEUR"/>
+<Grade V = "INGENIEUR"/>
+<Echelon V = "9"/>
+<Indice V = "589"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "17806"/>
+<CodeGuic V = "00679"/>
+<IdCpte V = "Z"/>
+<CleRib V = "87"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "15"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "4014.10"/>
+<MtNet V = "3348.26"/>
+<MtNetAPayer V = "3348.26"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "3530.19"/>
+<CumulMtImposable V = "18457.97"/>
+<CumulMtBrut V = "20926.90"/>
+<CumulBaseSS V = "13913.95"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00004"/>
+<NIR  V = "26511Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "3"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TAJ3"/>
+<Libelle V = "Adjoint Adm Princ. 2e classe"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Adm Princ. 1ere Classe"/>
+<Grade V = "Adjoint Adm Princ. 1ere Classe"/>
+<Echelon V = "5"/>
+<Indice V = "377"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30004"/>
+<CodeGuic V = "02261"/>
+<IdCpte V = "Z"/>
+<CleRib V = "07"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "10"/>
+<QuotiteTrav V = "85.71"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1899.24"/>
+<MtNet V = "1552.65"/>
+<MtNetAPayer V = "1552.65"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1651.66"/>
+<CumulMtImposable V = "8039.91"/>
+<CumulMtBrut V = "9357.89"/>
+<CumulBaseSS V = "7360.99"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "DUMUIS"/>
+<Prenom V = "Z"/>
+<Matricule V = "00486"/>
+<NIR  V = "27405Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "1"/>
+<Statut V = "NON_TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "ADJOINT DU PATRIMOINE 1ERE CL"/>
+<Grade V = "ADJOINT DU PATRIMOINE 1ERE CL"/>
+<Echelon V = "1"/>
+<Indice V = "293"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30002"/>
+<CodeGuic V = "03632"/>
+<IdCpte V = "Z"/>
+<CleRib V = "37"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1365.95"/>
+<MtNet V = "1057.78"/>
+<MtNetAPayer V = "1057.78"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1165.20"/>
+<CumulMtImposable V = "5709.47"/>
+<CumulMtBrut V = "6693.15"/>
+<CumulBaseSS V = "6693.15"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "GALIANA"/>
+<Prenom V = "Z"/>
+<Matricule V = "00492"/>
+<NIR  V = "26208Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "surveillante"/>
+<Grade V = "surveillante"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "10278"/>
+<CodeGuic V = "07330"/>
+<IdCpte V = "Z"/>
+<CleRib V = "48"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Evenement>
+<Code V = "A"/>
+<Description V = "Arrivée"/>
+</Evenement>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "56.10"/>
+<MtNet V = "46.27"/>
+<MtNetAPayer V = "46.27"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "47.85"/>
+<CumulMtImposable V = "47.85"/>
+<CumulMtBrut V = "56.10"/>
+<CumulBaseSS V = "56.10"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "PEGORARO"/>
+<Prenom V = "Z"/>
+<Matricule V = "00444"/>
+<NIR  V = "26003Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "surveillante"/>
+<Grade V = "surveillante"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13825"/>
+<CodeGuic V = "00200"/>
+<IdCpte V = "Z"/>
+<CleRib V = "01"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "183.45"/>
+<MtNet V = "151.32"/>
+<MtNetAPayer V = "151.32"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "156.48"/>
+<CumulMtImposable V = "1312.40"/>
+<CumulMtBrut V = "1307.69"/>
+<CumulBaseSS V = "1342.09"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "CORDELIERE"/>
+<Prenom V = "Z"/>
+<Matricule V = "00110"/>
+<NIR  V = "24708Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TTH1"/>
+<Libelle V = "Adjoint Tech de 2e Classe"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Technique de 2e classe"/>
+<Grade V = "Adjoint Technique de 2e classe"/>
+<Echelon V = "4"/>
+<Indice V = "295"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "20041"/>
+<CodeGuic V = "01007"/>
+<IdCpte V = "Z"/>
+<CleRib V = "45"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<Remuneration>
+<TraitBrut>
+<Libelle V = "Traitement de base"/>
+<Code V = "Traitbase"/>
+<Base V = "0.00"/>
+<Taux V = "0.00"/>
+<NbUnite V = "0.00"/>
+<Mt V = "860.79"/>
+<CodeCaisse V = ""/>
+<Ordre V = "37665"/>
+</TraitBrut>
+<IndemResid>
+<Libelle V = "Indemnité de résidence"/>
+<Code V = "Indemres"/>
+<Base V = "0.00"/>
+<Taux V = "0.00"/>
+<NbUnite V = "0.00"/>
+<Mt V = "13.73"/>
+<CodeCaisse V = ""/>
+<Ordre V = "37667"/>
+</IndemResid>
+<Indemnite>
+<Libelle V = "I.E.M.P"/>
+<Code V = "I.E.M.P"/>
+<Base V = "0.00"/>
+<Taux V = "0.00"/>
+<NbUnite V = "0.00"/>
+<Mt V = "143.00"/>
+<CodeCaisse V = ""/>
+<Ordre V = "37669"/>
+</Indemnite>
+<Retenue>
+<Libelle V = "Cotisation CNRACL"/>
+<Code V = "CotcnraclO"/>
+<Base V = "860.79"/>
+<Taux V = "7.85"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-67.57"/>
+<CodeCaisse V = "CNRACL"/>
+<Ordre V = "37671"/>
+</Retenue>
+<Retenue>
+<Libelle V = "Cotisation CSG"/>
+<Code V = "Cotcsg"/>
+<Base V = "999.73"/>
+<Taux V = "2.40"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-23.99"/>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "37672"/>
+</Retenue>
+<Retenue>
+<Libelle V = "Remboursement dette sociale"/>
+<Code V = "RDS"/>
+<Base V = "999.73"/>
+<Taux V = "0.50"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-5.00"/>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "37674"/>
+</Retenue>
+<Retenue>
+<Libelle V = "Cotisation CSG déductible"/>
+<Code V = "Cotcsgdedu"/>
+<Base V = "999.73"/>
+<Taux V = "5.10"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-50.99"/>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "37675"/>
+</Retenue>
+<Retenue>
+<Libelle V = "Cotisation RAFP"/>
+<Code V = "CotRafpPO"/>
+<Base V = "169.47"/>
+<Taux V = "5.00"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-8.47"/>
+<CodeCaisse V = "RAFP"/>
+<Ordre V = "37676"/>
+</Retenue>
+<Retenue>
+<Libelle V = "Mutuelle Garantie Salaire"/>
+<Code V = "MutGarO"/>
+<Base V = "860.79"/>
+<Taux V = "0.40"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-3.44"/>
+<CodeCaisse V = ""/>
+<Ordre V = "37677"/>
+</Retenue>
+<Retenue>
+<Libelle V = "Ticket Restaurant"/>
+<Code V = "TickRestPO"/>
+<Base V = "5.00"/>
+<Taux V = "3.00"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-15.00"/>
+<CodeCaisse V = ""/>
+<Ordre V = "37678"/>
+</Retenue>
+<Cotisation>
+<Libelle V = "Cotisation maladie totalité PP"/>
+<Code V = "MaltotPP"/>
+<Base V = "362.44"/>
+<Taux V = "11.50"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-41.68"/>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "37680"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "Cotisation CNFPT"/>
+<Code V = "Cotcnfpt"/>
+<Base V = "362.44"/>
+<Taux V = "1.00"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-3.62"/>
+<CodeCaisse V = "CNFPT"/>
+<Ordre V = "37681"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "Cotisation CDG"/>
+<Code V = "Cotcdg"/>
+<Base V = "362.44"/>
+<Taux V = "1.35"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-4.89"/>
+<CodeCaisse V = "CDG"/>
+<Ordre V = "37682"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "Cotisation CNRACL"/>
+<Code V = "CotcnraclP"/>
+<Base V = "860.79"/>
+<Taux V = "27.30"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-235.00"/>
+<CodeCaisse V = "CNRACL"/>
+<Ordre V = "37683"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "Cot. allocations familiales"/>
+<Code V = "Cotalloc"/>
+<Base V = "362.44"/>
+<Taux V = "5.40"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-19.57"/>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "37684"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "Cotisation aide logement"/>
+<Code V = "Cotaide"/>
+<Base V = "362.44"/>
+<Taux V = "0.10"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-0.36"/>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "37685"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "Cotisation ATI"/>
+<Code V = "Cotati"/>
+<Base V = "860.79"/>
+<Taux V = "0.50"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-4.30"/>
+<CodeCaisse V = "CNRACL"/>
+<Ordre V = "37686"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "Cotisation taxe transport"/>
+<Code V = "Cottrans"/>
+<Base V = "362.44"/>
+<Taux V = "1.75"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-6.34"/>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "37687"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "Cotisation F.C.C.P.A."/>
+<Code V = "Cot FCCPA"/>
+<Base V = "860.79"/>
+<Taux V = "0.50"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-4.30"/>
+<CodeCaisse V = "CNRACL"/>
+<Ordre V = "37688"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "Cotisation prevoyance"/>
+<Code V = "cotprevoyP"/>
+<Base V = "12.74"/>
+<Taux V = "8.00"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-1.02"/>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "37689"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "Cotisation RAFP"/>
+<Code V = "CotRafpPP"/>
+<Base V = "169.47"/>
+<Taux V = "5.00"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-8.47"/>
+<CodeCaisse V = "RAFP"/>
+<Ordre V = "37690"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "Mutuelle Garantie Salaire"/>
+<Code V = "MutGarP"/>
+<Base V = "860.79"/>
+<Taux V = "1.48"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-12.74"/>
+<CodeCaisse V = ""/>
+<Ordre V = "37691"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "Ticket Restaurant"/>
+<Code V = "TickRestPP"/>
+<Base V = "5.00"/>
+<Taux V = "3.00"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-15.00"/>
+<CodeCaisse V = ""/>
+<Ordre V = "37692"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "Contrib. Solidarité Autonomie"/>
+<Code V = "CSA pp"/>
+<Base V = "362.44"/>
+<Taux V = "0.30"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-1.09"/>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "37693"/>
+</Cotisation>
+<Cotisation>
+<Libelle V = "Cotisation FNAL supplémentaire"/>
+<Code V = "CFnaSup"/>
+<Base V = "362.44"/>
+<Taux V = "0.40"/>
+<NbUnite V = "0.00"/>
+<Mt V = "-1.45"/>
+<CodeCaisse V = "URSSAF"/>
+<Ordre V = "37694"/>
+</Cotisation>
+<Commentaire>
+<Libelle V = ""/>
+<Ordre V = "1"/>
+</Commentaire>
+</Remuneration>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1017.52"/>
+<MtNet V = "843.06"/>
+<MtNetAPayer V = "843.06"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "890.49"/>
+<CumulMtImposable V = "6189.30"/>
+<CumulMtBrut V = "7081.00"/>
+<CumulBaseSS V = "5799.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "GRAPTON"/>
+<Prenom V = "Z"/>
+<Matricule V = "00104"/>
+<NIR  V = "26708Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX4"/>
+<Libelle V = "Autres (Inst.Trésorier ...)"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Professeur des Ecoles"/>
+<Grade V = "Professeur des Ecoles"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "20041"/>
+<CodeGuic V = "01007"/>
+<IdCpte V = "Z"/>
+<CleRib V = "39"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "2.00"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "42.38"/>
+<MtNet V = "44.38"/>
+<MtNetAPayer V = "35.78"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "45.82"/>
+<CumulMtImposable V = "641.52"/>
+<CumulMtBrut V = "593.32"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "BESSON"/>
+<Prenom V = "Z"/>
+<Matricule V = "00491"/>
+<NIR  V = "26711Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "surveillante"/>
+<Grade V = "surveillante"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "10278"/>
+<CodeGuic V = "07255"/>
+<IdCpte V = "Z"/>
+<CleRib V = "94"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "168.30"/>
+<MtNet V = "166.60"/>
+<MtNetAPayer V = "136.50"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "172.18"/>
+<CumulMtImposable V = "476.06"/>
+<CumulMtBrut V = "486.20"/>
+<CumulBaseSS V = "486.20"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "VOISIN"/>
+<Prenom V = "Z"/>
+<Matricule V = "00350"/>
+<NIR  V = "25709Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX2"/>
+<Libelle V = "ELU COMMUNAL"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Conseiller Mun. délégué"/>
+<Grade V = "Conseiller Mun. délégué"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30004"/>
+<CodeGuic V = "02069"/>
+<IdCpte V = "Z"/>
+<CleRib V = "75"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "7.50"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "283.69"/>
+<MtNet V = "255.30"/>
+<MtNetAPayer V = "255.30"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "1418.45"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00480"/>
+<NIR  V = "29102Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "SURVEILLANT"/>
+<Grade V = "SURVEILLANT"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13825"/>
+<CodeGuic V = "00200"/>
+<IdCpte V = "Z"/>
+<CleRib V = "39"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "149.60"/>
+<MtNet V = "155.14"/>
+<MtNetAPayer V = "120.74"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "160.31"/>
+<CumulMtImposable V = "1079.63"/>
+<CumulMtBrut V = "1047.20"/>
+<CumulBaseSS V = "1064.40"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "BAYARD"/>
+<Prenom V = "Z"/>
+<Matricule V = "00374"/>
+<NIR  V = "27002Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "2"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "BAJ3"/>
+<Libelle V = "Adjoint Adm Princ. 2e Cl. NT"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Administratif de 2e cl"/>
+<Grade V = "Adjoint Administratif de 2e cl"/>
+<Echelon V = "3"/>
+<Indice V = "294"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "40978"/>
+<CodeGuic V = "00056"/>
+<IdCpte V = "Z"/>
+<CleRib V = "54"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1580.99"/>
+<MtNet V = "1332.62"/>
+<MtNetAPayer V = "1332.62"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1383.10"/>
+<CumulMtImposable V = "6917.00"/>
+<CumulMtBrut V = "7904.95"/>
+<CumulBaseSS V = "6772.65"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00338"/>
+<NIR  V = "14706Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX2"/>
+<Libelle V = "ELU COMMUNAL"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Conseiller Municipal"/>
+<Grade V = "Conseiller Municipal"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "20041"/>
+<CodeGuic V = "01007"/>
+<IdCpte V = "Z"/>
+<CleRib V = "08"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "2.20"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "83.22"/>
+<MtNet V = "74.89"/>
+<MtNetAPayer V = "74.89"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "416.10"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00014"/>
+<NIR  V = "14102Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "NON_TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TTH1"/>
+<Libelle V = "Adjoint Tech de 2e Classe"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Technique de 2e classe"/>
+<Grade V = "Adjoint Technique de 2e classe"/>
+<Echelon V = "1"/>
+<Indice V = "292"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13825"/>
+<CodeGuic V = "00200"/>
+<IdCpte V = "Z"/>
+<CleRib V = "10"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "80.00"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "788.71"/>
+<MtNet V = "650.70"/>
+<MtNetAPayer V = "650.70"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "672.89"/>
+<CumulMtImposable V = "3267.85"/>
+<CumulMtBrut V = "3830.33"/>
+<CumulBaseSS V = "3825.33"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "GARCIA"/>
+<Prenom V = "Z"/>
+<Matricule V = "00423"/>
+<NIR  V = "24302Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "surveillante"/>
+<Grade V = "surveillante"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13907"/>
+<CodeGuic V = "00000"/>
+<IdCpte V = "Z"/>
+<CleRib V = "28"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "18.70"/>
+<MtNet V = "19.39"/>
+<MtNetAPayer V = "15.09"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "20.04"/>
+<CumulMtImposable V = "559.41"/>
+<CumulMtBrut V = "523.60"/>
+<CumulBaseSS V = "540.80"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "MICHELS"/>
+<Prenom V = "Z"/>
+<Matricule V = "00352"/>
+<NIR  V = "25308Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX2"/>
+<Libelle V = "ELU COMMUNAL"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Conseiller Municipal"/>
+<Grade V = "Conseiller Municipal"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "10096"/>
+<CodeGuic V = "18166"/>
+<IdCpte V = "Z"/>
+<CleRib V = "33"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "2.20"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "83.22"/>
+<MtNet V = "74.89"/>
+<MtNetAPayer V = "74.89"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "416.10"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00485"/>
+<NIR  V = "28909Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "surveillante"/>
+<Grade V = "surveillante"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "10278"/>
+<CodeGuic V = "07349"/>
+<IdCpte V = "Z"/>
+<CleRib V = "55"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "56.10"/>
+<MtNet V = "58.18"/>
+<MtNetAPayer V = "45.28"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "60.12"/>
+<CumulMtImposable V = "413.77"/>
+<CumulMtBrut V = "391.00"/>
+<CumulBaseSS V = "399.60"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00332"/>
+<NIR  V = "14910Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX2"/>
+<Libelle V = "ELU COMMUNAL"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint au maire"/>
+<Grade V = "Adjoint au maire"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30003"/>
+<CodeGuic V = "02070"/>
+<IdCpte V = "Z"/>
+<CleRib V = "94"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "16.23"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "919.74"/>
+<MtNet V = "827.68"/>
+<MtNetAPayer V = "827.68"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "4598.70"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00403"/>
+<NIR  V = "16811Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "SURVEILLANT"/>
+<Grade V = "SURVEILLANT"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "17806"/>
+<CodeGuic V = "00497"/>
+<IdCpte V = "Z"/>
+<CleRib V = "63"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "169.30"/>
+<MtNet V = "175.35"/>
+<MtNetAPayer V = "136.65"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "181.20"/>
+<CumulMtImposable V = "1223.30"/>
+<CumulMtBrut V = "1145.70"/>
+<CumulBaseSS V = "1180.10"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00418"/>
+<NIR  V = "16709Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Conseiller Municipal"/>
+<Grade V = "Conseiller Municipal"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "10278"/>
+<CodeGuic V = "07374"/>
+<IdCpte V = "Z"/>
+<CleRib V = "19"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "2.20"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "83.22"/>
+<MtNet V = "74.89"/>
+<MtNetAPayer V = "74.89"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "416.10"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "ETOURNEAU"/>
+<Prenom V = "Z"/>
+<Matricule V = "00347"/>
+<NIR  V = "26003Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX2"/>
+<Libelle V = "ELU COMMUNAL"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Conseiller Municipal"/>
+<Grade V = "Conseiller Municipal"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30004"/>
+<CodeGuic V = "02673"/>
+<IdCpte V = "Z"/>
+<CleRib V = "47"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "2.20"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "83.22"/>
+<MtNet V = "74.89"/>
+<MtNetAPayer V = "74.89"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "416.10"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "BIANCO"/>
+<Prenom V = "Z"/>
+<Matricule V = "00063"/>
+<NIR  V = "26010Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "1"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TTH1"/>
+<Libelle V = "Adjoint Tech de 2e Classe"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Agt spécialisé  des E.M 1ere C"/>
+<Grade V = "Agt spécialisé  des E.M 1ere C"/>
+<Echelon V = "5"/>
+<Indice V = "308"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "10278"/>
+<CodeGuic V = "07349"/>
+<IdCpte V = "Z"/>
+<CleRib V = "22"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1578.52"/>
+<MtNet V = "1202.99"/>
+<MtNetAPayer V = "1165.51"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1378.95"/>
+<CumulMtImposable V = "6854.63"/>
+<CumulMtBrut V = "7844.74"/>
+<CumulBaseSS V = "7047.89"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "DUPERRET"/>
+<Prenom V = "Z"/>
+<Matricule V = "00351"/>
+<NIR  V = "24006Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX2"/>
+<Libelle V = "ELU COMMUNAL"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Conseiller Municipal"/>
+<Grade V = "Conseiller Municipal"/>
+<Echelon V = "0"/>
+<Indice V = "821"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "20041"/>
+<CodeGuic V = "01007"/>
+<IdCpte V = "Z"/>
+<CleRib V = "89"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "2.20"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "83.22"/>
+<MtNet V = "74.89"/>
+<MtNetAPayer V = "74.89"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "416.10"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = "BENEDIC"/>
+<Prenom V = "Z"/>
+<Matricule V = "00405"/>
+<NIR  V = "26102Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "4"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = ""/>
+<Libelle V = ""/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Agent Social de 2e Classe"/>
+<Grade V = "Agent Social de 2e Classe"/>
+<Echelon V = "2"/>
+<Indice V = "293"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30002"/>
+<CodeGuic V = "01061"/>
+<IdCpte V = "Z"/>
+<CleRib V = "79"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "60.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1003.86"/>
+<MtNet V = "795.06"/>
+<MtNetAPayer V = "795.06"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "859.89"/>
+<CumulMtImposable V = "4299.90"/>
+<CumulMtBrut V = "5019.30"/>
+<CumulBaseSS V = "5019.30"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00223"/>
+<NIR  V = "16706Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "AUTRE_STATUT"/>
+<RefNomenStatutaire>
+<Code V = "YYX4"/>
+<Libelle V = "Autres (Inst.Trésorier ...)"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Professeur des Ecoles"/>
+<Grade V = "Professeur des Ecoles"/>
+<Echelon V = "0"/>
+<Indice V = "0"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "13825"/>
+<CodeGuic V = "00400"/>
+<IdCpte V = "Z"/>
+<CleRib V = "91"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "5.00"/>
+<MtBrut V = "122.85"/>
+<MtNet V = "115.48"/>
+<MtNetAPayer V = "115.48"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "0.00"/>
+<CumulMtImposable V = "0.00"/>
+<CumulMtBrut V = "687.96"/>
+<CumulBaseSS V = "0.00"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00015"/>
+<NIR  V = "24410Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TTH1"/>
+<Libelle V = "Adjoint Tech de 2e Classe"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Adjoint Technique de 2e classe"/>
+<Grade V = "Adjoint Technique de 2e classe"/>
+<Echelon V = "8"/>
+<Indice V = "319"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "17806"/>
+<CodeGuic V = "00286"/>
+<IdCpte V = "Z"/>
+<CleRib V = "73"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "0"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "1627.42"/>
+<MtNet V = "1203.04"/>
+<MtNetAPayer V = "1203.04"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "1406.43"/>
+<CumulMtImposable V = "7033.80"/>
+<CumulMtBrut V = "8137.10"/>
+<CumulBaseSS V = "7348.60"/>
+</PayeIndivMensuel>
+<PayeIndivMensuel>
+<Agent>
+<Civilite V = "Z"/>
+<Nom V = "Z"/>
+<ComplNom V = ""/>
+<Prenom V = "Z"/>
+<Matricule V = "00018"/>
+<NIR  V = "16409Z"/>
+<Adresse>
+<TypAdr V = "1"/>
+<Adr1 V = "Z"/>
+<Adr2 V = "Z"/>
+<Adr3 V = ""/>
+<CP V = "Z"/>
+<Ville V = "Z"/>
+<CodRes V = "0"/>
+<CodPays V = ""/>
+</Adresse>
+<NbEnfants V = "0"/>
+<Statut V = "TITULAIRE"/>
+<RefNomenStatutaire>
+<Code V = "TPC2"/>
+<Libelle V = "Chef Serv. PM cl. supérieure"/>
+</RefNomenStatutaire>
+<EmploiMetier V = "Chef Serv. PM cl. sup."/>
+<Grade V = "Chef Serv. PM cl. sup."/>
+<Echelon V = "5"/>
+<Indice V = "420"/>
+<CptBancaire>
+<IdPayInt V = ""/>
+<IdBancInt V = ""/>
+<CodeEtab V = "30003"/>
+<CodeGuic V = "00307"/>
+<IdCpte V = "Z"/>
+<CleRib V = "84"/>
+<LibBanc V = ""/>
+<TitCpte V = "Z"/>
+</CptBancaire>
+</Agent>
+<Service V = ""/>
+<NBI V = "10"/>
+<QuotiteTrav V = "100.00"/>
+<Periode>
+<DateDebut V = "2010-05-01"/>
+<DateFin V = "2010-05-31"/>
+</Periode>
+<NbHeureTotal V = "151.67"/>
+<TauxHor V = "0.00"/>
+<NbHeureSup V = "0.00"/>
+<MtBrut V = "2795.27"/>
+<MtNet V = "2310.26"/>
+<MtNetAPayer V = "2310.26"/>
+<DatePaiement V = "2010-05-31"/>
+<MtImposable V = "2454.46"/>
+<CumulMtImposable V = "12273.38"/>
+<CumulMtBrut V = "13976.35"/>
+<CumulBaseSS V = "9905.60"/>
+</PayeIndivMensuel>
+</DonneesIndiv>
+<Nomenclatures>
+<NomenclatureEvtPaye>
+<Description V = "evenement de paie"/>
+<Correspondance>
+<Libelle V = "Arrivée"/>
+<Code V = "A"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Départ"/>
+<Code V = "D"/>
+</Correspondance>
+</NomenclatureEvtPaye>
+<NomenclatureRubriquePaye>
+<Description V = "rubrique de paie"/>
+<Correspondance>
+<Libelle V = "Déduction PP Heure Supp."/>
+<Code V = "CDeduHS"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation FNAL supplémentaire"/>
+<Code V = "CFnaSup"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation aide logement"/>
+<Code V = "Cotaide"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cot. allocations familiales"/>
+<Code V = "Cotalloc"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation accident du travail"/>
+<Code V = "CotAT"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation maladie sur CPA"/>
+<Code V = "CotCPA"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation CSG"/>
+<Code V = "Cotcsg"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation CSG déductible"/>
+<Code V = "Cotcsgdedu"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation prevoyance"/>
+<Code V = "cotprevoyP"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation taxe transport"/>
+<Code V = "Cottrans"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation vieillesse"/>
+<Code V = "CotvieilPO"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation vieillesse"/>
+<Code V = "CotvieilPP"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation vieillesse totalité"/>
+<Code V = "Cotvieilto"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Reduction PO Heure Supp."/>
+<Code V = "CReduHSG"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Contrib. Solidarité Autonomie"/>
+<Code V = "CSA pp"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cot. maladie plafonnée PO"/>
+<Code V = "MalplaPO"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cot. maladie plafonnée PP"/>
+<Code V = "MalplaPP"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation maladie totalité"/>
+<Code V = "MaltotPO"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation maladie totalité PP"/>
+<Code V = "MaltotPP"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel CSA"/>
+<Code V = "R CSApp G"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel CSA"/>
+<Code V = "R CSApp R"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel CSG Déductible"/>
+<Code V = "R CSGded G"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel CSG Déductible"/>
+<Code V = "R CSGded R"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel cot. Aide au logement G"/>
+<Code V = "Raide PP G"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel cot. Aide au logement R"/>
+<Code V = "Raide PP R"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel cot. alloc. familiales"/>
+<Code V = "RallocPP G"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel  Cot. Alloc. Familiales"/>
+<Code V = "RallocPP R"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel CSG"/>
+<Code V = "Rap CSG R."/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel RDS"/>
+<Code V = "Rap RDS R"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel RDS"/>
+<Code V = "Rap. RDS G"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cotisation  A.T   G."/>
+<Code V = "Rcotat G"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel  Cotisations A.T  R."/>
+<Code V = "Rcotat R"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. maladie sur CPA G."/>
+<Code V = "RcotCPA G"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. maladie sur CPA R."/>
+<Code V = "RcotCPA R"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cotisation Prévoyance"/>
+<Code V = "RcotprevoG"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cotisation Prévoyance"/>
+<Code V = "RcotprevoR"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. vieillesse"/>
+<Code V = "RcotvielOG"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. viellesse"/>
+<Code V = "RcotvielOR"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. vieillesse"/>
+<Code V = "RcotvielPG"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. viellesse"/>
+<Code V = "RcotvielPR"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Remboursement dette sociale"/>
+<Code V = "RDS"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel cot. Maladie Plafonnée"/>
+<Code V = "RmalplaO G"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. Maladie Plafonnée"/>
+<Code V = "RmalplaO R"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel cot. Maladie Plafonnée"/>
+<Code V = "RmalplaP G"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. Maladie Plafonnée"/>
+<Code V = "RmalplaP R"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. Maladie Totalité"/>
+<Code V = "RmaltotO G"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. Maladie Totalité"/>
+<Code V = "RmaltotO R"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. Maladie Totalité"/>
+<Code V = "RmaltotP R"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. Maladie Totalité"/>
+<Code V = "RmaltotP  G"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel cot. taxe de transport"/>
+<Code V = "RtaxetranG"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel cot. Taxe de Transport"/>
+<Code V = "RtaxetranR"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel cot. vieillesse tot."/>
+<Code V = "Rvieilto G"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel  cot. viellesse tot."/>
+<Code V = "Rvieilto R"/>
+<CodeCaisse V = "URSSAF"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation 1% solidarité"/>
+<Code V = "Cotsol"/>
+<CodeCaisse V = "SOLIDARITE"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. 1% solidarité"/>
+<Code V = "RcotSol G"/>
+<CodeCaisse V = "SOLIDARITE"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. 1% solidarité"/>
+<Code V = "RcotSol R"/>
+<CodeCaisse V = "SOLIDARITE"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation RAFP"/>
+<Code V = "CotRafpPO"/>
+<CodeCaisse V = "RAFP"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation RAFP"/>
+<Code V = "CotRafpPP"/>
+<CodeCaisse V = "RAFP"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Rapf en Gain"/>
+<Code V = "RapRafpPoG"/>
+<CodeCaisse V = "RAFP"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Rapf en Retenue"/>
+<Code V = "RapRafpPoR"/>
+<CodeCaisse V = "RAFP"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Rapf en Gain"/>
+<Code V = "RapRafpPpG"/>
+<CodeCaisse V = "RAFP"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Rapf en Retenue"/>
+<Code V = "RapRafpPpR"/>
+<CodeCaisse V = "RAFP"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Retenue Prefon"/>
+<Code V = "Prefon"/>
+<CodeCaisse V = "PREFON"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Mutuelle MGPCL /MNT"/>
+<Code V = "Mgpcl"/>
+<CodeCaisse V = "MGPCL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel MGPCL Maladie"/>
+<Code V = "RMGPCLMalG"/>
+<CodeCaisse V = "MGPCL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel MGPCL Maladie"/>
+<Code V = "RMGPCLMalR"/>
+<CodeCaisse V = "MGPCL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation IRCANTEC A"/>
+<Code V = "Cotirca"/>
+<CodeCaisse V = "IRCANTEC"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation IRCANTEC A"/>
+<Code V = "Cotircapp"/>
+<CodeCaisse V = "IRCANTEC"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation IRCANTEC B"/>
+<Code V = "Cotircb"/>
+<CodeCaisse V = "IRCANTEC"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation IRCANTEC B"/>
+<Code V = "CotircbPP"/>
+<CodeCaisse V = "IRCANTEC"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel cot. IRCANTEC A"/>
+<Code V = "RIrcA PO G"/>
+<CodeCaisse V = "IRCANTEC"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. Ircantec A"/>
+<Code V = "RIrcA PO R"/>
+<CodeCaisse V = "IRCANTEC"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel cot. IRCANTEC A"/>
+<Code V = "RIrcA PP G"/>
+<CodeCaisse V = "IRCANTEC"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. Ircantec A"/>
+<Code V = "RIrcA PP R"/>
+<CodeCaisse V = "IRCANTEC"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. IRCANTEC B"/>
+<Code V = "RIrcB PO G"/>
+<CodeCaisse V = "IRCANTEC"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel  Cot. IRCANTEC B"/>
+<Code V = "RIrcB PO R"/>
+<CodeCaisse V = "IRCANTEC"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. IRCANTEC B"/>
+<Code V = "RIrcB PP G"/>
+<CodeCaisse V = "IRCANTEC"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel  Cot. IRCANTEC B"/>
+<Code V = "RIrcB PP R"/>
+<CodeCaisse V = "IRCANTEC"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation CNRACL rétroactive"/>
+<Code V = "Cnrrétro"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation CNRACL rétroactive"/>
+<Code V = "CnrrétroPP"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation F.C.C.P.A."/>
+<Code V = "Cot FCCPA"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation ATI"/>
+<Code V = "Cotati"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation CNRACL"/>
+<Code V = "CotcnraclO"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation CNRACL"/>
+<Code V = "CotcnraclP"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Réduction PO Heures Supp."/>
+<Code V = "CReduHSP"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cotisation ATI   G."/>
+<Code V = "R ATI PP G"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cotisations ATI  R."/>
+<Code V = "R ATI PP R"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Redu HSupp Part Gain"/>
+<Code V = "R ReduHSPG"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Redu HSupp Part Retenue"/>
+<Code V = "R ReduHSPR"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot CNRACL  G."/>
+<Code V = "RcnraclPOG"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. CNRACL   R."/>
+<Code V = "RcnraclPOR"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot CNRACL  G."/>
+<Code V = "RcnraclPPG"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. CNRACL   R."/>
+<Code V = "RcnraclPPR"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. CNRACL rétro. G."/>
+<Code V = "RcnrretpoG"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel cot. CNRACL rétro. R."/>
+<Code V = "RcnrretpoR"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. CNRACL rétro. G."/>
+<Code V = "RcnrretppG"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel cot. F.C.C.P.A   G."/>
+<Code V = "Rfccpa G"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel F.C.C.P.A   R."/>
+<Code V = "Rfccpa R"/>
+<CodeCaisse V = "CNRACL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation CNFPT"/>
+<Code V = "Cotcnfpt"/>
+<CodeCaisse V = "CNFPT"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. CNFPT  G."/>
+<Code V = "Rcnfpt  G"/>
+<CodeCaisse V = "CNFPT"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. CNFPT  R."/>
+<Code V = "Rcnfpt  R"/>
+<CodeCaisse V = "CNFPT"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation CDG"/>
+<Code V = "Cotcdg"/>
+<CodeCaisse V = "CDG"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. CDG    R."/>
+<Code V = "Rcdg  R"/>
+<CodeCaisse V = "CDG"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. CDG   G."/>
+<Code V = "Rcdg G"/>
+<CodeCaisse V = "CDG"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation CAREL"/>
+<Code V = "CotCarelO"/>
+<CodeCaisse V = "CAREL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation CAREL"/>
+<Code V = "CotCarelP"/>
+<CodeCaisse V = "CAREL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Regul cot CAREL R"/>
+<Code V = "RcarelPOR"/>
+<CodeCaisse V = "CAREL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. retraite comp. ELU"/>
+<Code V = "RcnpeluP R"/>
+<CodeCaisse V = "CAREL"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation assedic"/>
+<Code V = "Cotassouv"/>
+<CodeCaisse V = "ASSEDIC"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation assedic"/>
+<Code V = "Cotasspat"/>
+<CodeCaisse V = "ASSEDIC"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation except. ASSEDIC"/>
+<Code V = "Cotexcass"/>
+<CodeCaisse V = "ASSEDIC"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. ASSEDIC  G."/>
+<Code V = "RassedPO G"/>
+<CodeCaisse V = "ASSEDIC"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. ASSEDIC  R."/>
+<Code V = "RassedPO R"/>
+<CodeCaisse V = "ASSEDIC"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. ASSEDIC  G."/>
+<Code V = "RassedPP G"/>
+<CodeCaisse V = "ASSEDIC"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. ASSEDIC  R."/>
+<Code V = "RassedPP R"/>
+<CodeCaisse V = "ASSEDIC"/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Acompte"/>
+<Code V = "Acompte"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rémunération Agent Recenseur"/>
+<Code V = "Agt Recens"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Allocation Enfant Handicapé"/>
+<Code V = "AllEnftHan"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Ancien cumul imposable"/>
+<Code V = "Ancimpot"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Avance sur salaire"/>
+<Code V = "Avan salai"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Avantage en nature"/>
+<Code V = "AvantNatur"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Avantages en nature du mois"/>
+<Code V = "Avtnat"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Bonification indemnitaire"/>
+<Code V = "BonifIndem"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Chèque Vacance"/>
+<Code V = "ChequeVaca"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation CNRACL pompier"/>
+<Code V = "CnraclSPP"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation CNRACL pompier"/>
+<Code V = "cnrspppp"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cot retraite comp. élu CNP"/>
+<Code V = "CotCNPéluO"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cot retraite comp. élu CNP"/>
+<Code V = "CotCNPéluP"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation CSG Déductible CPA"/>
+<Code V = "CotCSGdCPA"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation CAREL"/>
+<Code V = "CotFonpelO"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisation CAREL"/>
+<Code V = "CotFonpelP"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Crédit municipal"/>
+<Code V = "credit"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CSG sur IJ subrogées"/>
+<Code V = "CSG /IJSub"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CSG Déductible sur IJ subrog."/>
+<Code V = "CSG dédIJS"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cumul avantage en nature"/>
+<Code V = "Cumavtan"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cumul annuel des Retenues"/>
+<Code V = "CumPO"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cumul Annuel des Parts Patron."/>
+<Code V = "CumPP"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cumul retenues"/>
+<Code V = "Cumretenue"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Prélèvement DON CCAS"/>
+<Code V = "Don CCAS"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Retenue   la source"/>
+<Code V = "Elu retsou"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Etudes surveillées"/>
+<Code V = "Etudes sur"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Total gains mois en cours"/>
+<Code V = "Gains"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Garderies"/>
+<Code V = "Garderies"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Garantie obsèques"/>
+<Code V = "GarobsèPP"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Garantie Obsèques P.O"/>
+<Code V = "GarobsPO"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Garantie Obsèques"/>
+<Code V = "GarobsPP"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Gratification Stagiaire"/>
+<Code V = "GratifStag"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Absence pour service non fait"/>
+<Code V = "Grève"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Heures complémentaires"/>
+<Code V = "Heurescomp"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Heures supplémentaires + 14h"/>
+<Code V = "HS+14"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Heures supplémentaires - 14h"/>
+<Code V = "HS-14"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Heures supplémentaires 100%"/>
+<Code V = "HS100%"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Heures supplémentaires 25 %"/>
+<Code V = "HS25%"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Heures supplémentaires 50 %"/>
+<Code V = "HS50%"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Heures supplém. jours fériés"/>
+<Code V = "HSjourfer"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Heures supplémentaires de nuit"/>
+<Code V = "HSnuit"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.A.T"/>
+<Code V = "I.A.T"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "I.E.M.P"/>
+<Code V = "I.E.M.P"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indem. Forfait. Travaux Suppl."/>
+<Code V = "IFTS"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IJ nettes   déclarer"/>
+<Code V = "IJ nettes"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Imposition du mois"/>
+<Code V = "Imposition"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité CFA"/>
+<Code V = "Ind CFA"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité de chaussure"/>
+<Code V = "Ind Chauss"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité de conduite"/>
+<Code V = "Ind condui"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité Congés Payés"/>
+<Code V = "Ind congés"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Congés payés"/>
+<Code V = "Ind CP Man"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité CPA"/>
+<Code V = "Ind CPA"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité differentielle"/>
+<Code V = "Ind differ"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité Elections"/>
+<Code V = "Ind Elec."/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité de feu"/>
+<Code V = "Ind feu"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité de fonction"/>
+<Code V = "Ind fonct"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité horaire jours fériés"/>
+<Code V = "Ind hférié"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité logement SPP"/>
+<Code V = "Ind log sp"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité Logement"/>
+<Code V = "Ind Logt"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité nuits"/>
+<Code V = "Ind nuit"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité Percepteur"/>
+<Code V = "Ind Percep"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité de précarité"/>
+<Code V = "Ind précar"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité prévention"/>
+<Code V = "Ind prev"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité Repas"/>
+<Code V = "Ind Repas"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité de responsabilité"/>
+<Code V = "Ind resp"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité de Congés Payés"/>
+<Code V = "Indcphc"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité d élu"/>
+<Code V = "Indem élu"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité garde champetre"/>
+<Code V = "Indem gar"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité de résidence"/>
+<Code V = "Indemres"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité d expatriation"/>
+<Code V = "IndExpatri"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnités Journalières"/>
+<Code V = "IndJournal"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Ind. Journalières Subrogées"/>
+<Code V = "IndJourSub"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel PSR/ISS"/>
+<Code V = "indkilom"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Le ons de Natation"/>
+<Code V = "IndLecnata"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité de licenciement"/>
+<Code V = "Indlicenc-"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité d opérateur des APS"/>
+<Code V = "IndOpérAPS"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Ind. mensuelle Perte Emploi"/>
+<Code V = "IndPerteEm"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Ind. de responsabilité régie"/>
+<Code V = "IndresRégi"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité de secrétaire Syndic"/>
+<Code V = "IndSecreta"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité de stage"/>
+<Code V = "Indstage"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Ind. Technique SI"/>
+<Code V = "IndTechSI"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité travaux salissant"/>
+<Code V = "Indtra sal"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Vacations funéraires"/>
+<Code V = "Indvacfuné"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité Informatique"/>
+<Code V = "Informatiq"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Ind. Spécifique de Service"/>
+<Code V = "ISS"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Nombre jours demi salaire 1"/>
+<Code V = "Jds1"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Nombre jours demi salaire 2"/>
+<Code V = "Jds2"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Nombre jours plein salaire 1"/>
+<Code V = "Jps1"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Nombre jours plein salaire 2"/>
+<Code V = "Jps2"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Nombre jours sans salaire 1"/>
+<Code V = "Jss1"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Nombre jours sans salaire 2"/>
+<Code V = "Jss2"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indice majoré 1"/>
+<Code V = "Majo1"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indice majoré 2"/>
+<Code V = "Majo2"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Net   mandater"/>
+<Code V = "Mandat"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Médecine du Travail"/>
+<Code V = "Médecine"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MGPCL Garantie Salaire"/>
+<Code V = "Mgpcl GarO"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MGPCL Garantie Salaire"/>
+<Code V = "Mgpcl GarP"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Nouvelle Bonif. Indiciaire"/>
+<Code V = "Mtnbi"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Mutualité Gardoise"/>
+<Code V = "Mut Gardo"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Mutuelle Garantie Salaire"/>
+<Code V = "MutGarO"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Mutuelle Garantie Salaire"/>
+<Code V = "MutGarP"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Mutuelle MNT"/>
+<Code V = "MutMNT"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Mutuelle Uni-prévoyance"/>
+<Code V = "MutUniPrev"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Avantages en nature"/>
+<Code V = "Nature"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Bonification indiciaire 1"/>
+<Code V = "Nbi1"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Bonification indiciaire 2"/>
+<Code V = "Nbi2"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Congés payés (non utilisé)"/>
+<Code V = "NCongéspay"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Net   payer"/>
+<Code V = "Net  payer"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Nouveau cumul imposable"/>
+<Code V = "Nvimpot"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Prime déménagt COURLY"/>
+<Code V = "PrCOURLY"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Prêt C.N.A.S"/>
+<Code V = "Prêt CNAS"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Prime de fin d année - acompte"/>
+<Code V = "PrfinannAc"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Prime de fin d année -Solde"/>
+<Code V = "PrfinannSo"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Prime de technicité"/>
+<Code V = "Pri techni"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Prime de sujetion"/>
+<Code V = "Prim sujet"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Prime responsabilité DGS"/>
+<Code V = "Prime resp"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Prime de service"/>
+<Code V = "Prime serv"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité spéciale de fonction"/>
+<Code V = "primepolic"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Prime exceptionnelle"/>
+<Code V = "Primexcep"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Prime de service et rendement"/>
+<Code V = "PSR"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Elu  G"/>
+<Code V = "R Elu 2006"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cotis. FNAL sup G"/>
+<Code V = "R FnaSupG"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cotis. FNAL Sup R"/>
+<Code V = "R FnaSupR"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Indemnité Elu Gain"/>
+<Code V = "R IndEluG"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Indemnité Elu Retenue"/>
+<Code V = "R IndEluR"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel N.B.I"/>
+<Code V = "R mtnbi G"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel N.B.I"/>
+<Code V = "R mtnbi R"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Sup. Familial"/>
+<Code V = "R SupFam G"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Sup. Familial"/>
+<Code V = "R SupFam R"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel heures complémentaires"/>
+<Code V = "Rapheurcom"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel IEMP"/>
+<Code V = "RapIEMP"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel IFTS"/>
+<Code V = "RapIFTS"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Ind. de Résidence"/>
+<Code V = "RapIndRés"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cotisations ATI  R."/>
+<Code V = "Rati PO R"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cotisations ATI  R."/>
+<Code V = "Rati PP R"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Regul cot CAREL R"/>
+<Code V = "RcarelPPR"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel cot. retraite comp. ELU"/>
+<Code V = "RcnpeluO G"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. retraite comp. ELU"/>
+<Code V = "RcnpeluO R"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel cot. retraite comp. ELU"/>
+<Code V = "RcnpeluP G"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel cot. CNRACL pompier G"/>
+<Code V = "RcnraclSPG"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel cot. CNRACL pompier R"/>
+<Code V = "RcnraclspR"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel cot. CNRACL pompier G"/>
+<Code V = "RcnrspppG"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel cot. CNRACL pompier R"/>
+<Code V = "RcnrspppR"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RDS sur IJ subrogées"/>
+<Code V = "RDSsurIJS"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Régul NBI"/>
+<Code V = "Reg NBI"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Régul traitement de base hor."/>
+<Code V = "RegbahorR"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Régul traitement de base hor."/>
+<Code V = "RégbashorG"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Régul. Congés payés"/>
+<Code V = "RegCongpaG"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Régul. C.Payés Retenue"/>
+<Code V = "RegCPayésR"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Régul indemnité différentielle"/>
+<Code V = "RégIndDiff"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Regularisation Indemnité elus"/>
+<Code V = "RegIndEluR"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Régul. Indemnité Logement"/>
+<Code V = "RegIndLogG"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Régul Indemnité Logement"/>
+<Code V = "RegIndLogR"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Régul Indemnité Secrétaire"/>
+<Code V = "RégIndSecG"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Régul indemnité secrétaire"/>
+<Code V = "RegIndSecR"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Régul prime Resp. DGS"/>
+<Code V = "RegPrimDGS"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Regularisation Retenue source"/>
+<Code V = "RegRetSou"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Régul traitement de base"/>
+<Code V = "RégtraiR"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Régul traitement de base"/>
+<Code V = "RégtraitG"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Régul traitement base R"/>
+<Code V = "RégtraitRR"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Retenue sur Salaire"/>
+<Code V = "RetSalai"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. except. ASSEDIC"/>
+<Code V = "Rexcpass G"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. except. ASSEDIC"/>
+<Code V = "Rexcpass R"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel cotisation FONPEL"/>
+<Code V = "RfonpelPOG"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. FONPEL"/>
+<Code V = "RfonpelPOR"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel cotisation FONPEL"/>
+<Code V = "RfonpelPPG"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Cot. FONPEL"/>
+<Code V = "RfonpelPPR"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Gratification Stage G"/>
+<Code V = "RGratStagG"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Gratification Stage R"/>
+<Code V = "RGratStagR"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Indemnité Résidence"/>
+<Code V = "RindResi G"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Indemnité Résidence"/>
+<Code V = "RindResi R"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Mut. Maintien Salaire"/>
+<Code V = "RMutMS POG"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Mut. Maintien Salaire"/>
+<Code V = "RMutMS POR"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Mut. Maintien Salaire"/>
+<Code V = "RMutMS PPG"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Mut. Maintien Salaire"/>
+<Code V = "RMutMS PPR"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Mut. Uni Prévoyance"/>
+<Code V = "RMutUP POG"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Mut. Uni Prévoyance"/>
+<Code V = "RMutUP POR"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Prime Police Municipale"/>
+<Code V = "RprimepolG"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Sup. Familial Manuel"/>
+<Code V = "Rsft Man G"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Sup. Familial Manuel"/>
+<Code V = "Rsft Man R"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Surcotisation FNAL"/>
+<Code V = "Rsurfnal G"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Surcotisation FNAL"/>
+<Code V = "Rsurfnal R"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Taxe sur salaire tx nor"/>
+<Code V = "RtaxeSal G"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rappel Taxe sur salaire Tx nor"/>
+<Code V = "RtaxeSal R"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Saisie sur salaire"/>
+<Code V = "Saisiesal."/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Supplément familial"/>
+<Code V = "SFT Manuel"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Solde traitement net"/>
+<Code V = "Solde trai"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Solde traitement net"/>
+<Code V = "Soltrainég"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Supplément familial"/>
+<Code V = "Supfam"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Surcotisation FNAL"/>
+<Code V = "Surcot fna"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Surveillance Cantines"/>
+<Code V = "SurvCant"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Etudes surveillées"/>
+<Code V = "SurvEtudes"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Taxe sur salaires tx normal"/>
+<Code V = "Taxesalnor"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Ticket Restaurant"/>
+<Code V = "TickRestPO"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Ticket Restaurant"/>
+<Code V = "TickRestPP"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Total retenues mois en cours"/>
+<Code V = "TotPO"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Total cotisations patronales"/>
+<Code V = "TotPP"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Traitement de base CEC"/>
+<Code V = "TraibasCEC"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Traitement de base"/>
+<Code V = "Traitbase"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Traitement de base horaire"/>
+<Code V = "Traitbasho"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Traitement de base indemnitair"/>
+<Code V = "Traitindem"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Tx cotisation maladie CPA"/>
+<Code V = "TxcotmaCPA"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité vacations funéraires"/>
+<Code V = "vacation"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Vacation"/>
+<Code V = "VacBCD"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Vacations surveillance E/S"/>
+<Code V = "VacE/SEcol"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité MNS"/>
+<Code V = "IndemMNS"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Traitement de base"/>
+<Code V = "TraibasCtr"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnité d astreinte"/>
+<Code V = "IndAstrein"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Régulartion régime indemnitair"/>
+<Code V = "RegRindem"/>
+<CodeCaisse V = ""/>
+<CodeNatureEmp V = ""/>
+<CodeNatureSal V = ""/>
+</Correspondance>
+</NomenclatureRubriquePaye>
+<NomenclatureCaisse>
+<Description V = "caisse"/>
+<Correspondance>
+<Libelle V = "URSSAF"/>
+<Code V = "URSSAF"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "IRCANTEC"/>
+<Code V = "IRCANTEC"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CNRACL"/>
+<Code V = "CNRACL"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "MGPCL"/>
+<Code V = "MGPCL"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "PREFON"/>
+<Code V = "PREFON"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "ASSEDIC"/>
+<Code V = "ASSEDIC"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CENTRE DE GESTION"/>
+<Code V = "CDG"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "SOLIDARITE"/>
+<Code V = "SOLIDARITE"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CNFPT"/>
+<Code V = "CNFPT"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CNSA"/>
+<Code V = "URSSAF"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "CAREL"/>
+<Code V = "CAREL"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "RAFP"/>
+<Code V = "RAFP"/>
+</Correspondance>
+</NomenclatureCaisse>
+<NomenclatureNature>
+<Description V = "nature"/>
+<Correspondance>
+<Libelle V = "Indemnités au comptable et aux régisseurs"/>
+<Code V = "6225"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rémunérations"/>
+<Code V = "64131"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnités"/>
+<Code V = "6531"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisations aux A.S.S.E.D.I.C"/>
+<Code V = "6454"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisations aux caisses de retraites"/>
+<Code V = "64532"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Autre personnel extérieur"/>
+<Code V = "6218"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisations aux caisses de retraites"/>
+<Code V = "64531"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisations de retraite"/>
+<Code V = "6533"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Indemnités de logement aux instituteurs"/>
+<Code V = "6556"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rémunération principale"/>
+<Code V = "64111"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisations aux autres organismes sociaux"/>
+<Code V = "6458"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisations   lU.R.S.S.A.F."/>
+<Code V = "6451"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Autres charges"/>
+<Code V = "6488"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Cotisations au centre national et aux centres de gestion de la fonction publique territoriale"/>
+<Code V = "6336"/>
+</Correspondance>
+<Correspondance>
+<Libelle V = "Rémunérations des apprentis"/>
+<Code V = "6417"/>
+</Correspondance>
+</NomenclatureNature>
+</Nomenclatures>
+<RepartitionParNature>
+<Repartition>
+<Libelle V = "Cotisations   lU.R.S.S.A.F."/>
+<Code V = "6451"/>
+<CodeFonction V = ""/>
+<CodeBudget V = ""/>
+<Mt V = "71.51"/>
+</Repartition>
+<Repartition>
+<Libelle V = "Cotisations aux caisses de retraites"/>
+<Code V = "64531"/>
+<CodeFonction V = ""/>
+<CodeBudget V = ""/>
+<Mt V = "252.07"/>
+</Repartition>
+<Repartition>
+<Libelle V = "Cotisations aux autres organismes sociaux"/>
+<Code V = "6458"/>
+<CodeFonction V = ""/>
+<CodeBudget V = ""/>
+<Mt V = "12.74"/>
+</Repartition>
+<Repartition>
+<Libelle V = "Autres charges"/>
+<Code V = "6488"/>
+<CodeFonction V = ""/>
+<CodeBudget V = ""/>
+<Mt V = "15.00"/>
+</Repartition>
+<Repartition>
+<Libelle V = "Cotisations au centre national et aux centres de gestion de la fonction publique territoriale"/>
+<Code V = "6336"/>
+<CodeFonction V = ""/>
+<CodeBudget V = ""/>
+<Mt V = "8.51"/>
+</Repartition>
+<Repartition>
+<Libelle V = "Rémunération principale"/>
+<Code V = "64111"/>
+<CodeFonction V = ""/>
+<CodeBudget V = ""/>
+<Mt V = "1017.52"/>
+</Repartition>
+</RepartitionParNature>
+</n:DocumentPaye>
