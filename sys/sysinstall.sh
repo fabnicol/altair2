@@ -256,8 +256,16 @@ if ! test -d  Tests/Exemple/Donnees/R-Altair
         mkdir -p Tests/Exemple/Donnees/R-Altair    
     fi
 
+if ! test -d  Tests/Exemple/Donnees/xhl
+    then
+        mkdir -p Tests/Exemple/Donnees/xhl
+    fi
+    
+    
 # Pour la branche dev seulement
-mount -o remount,rw UUID="13D3-FA79" Tests/Exemple/Donnees/R-Altair
+mount -o remount,rw UUID="85F7-2833" Tests/Exemple/Donnees/R-Altair
+chown -R fab:users Tests/Exemple/Donnees/R-Altair
+mount -o remount,rw UUID="C96F-2C5E" Tests/Exemple/Donnees/R-Altair
 chown -R fab:users Tests/Exemple/Donnees/R-Altair
 ####
 
