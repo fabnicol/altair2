@@ -19,7 +19,9 @@
 #'A défaut, des lignes de paye de rappels de cotisations sur NBI peuvent être agrégées, dans certains cas, aux rappels de rémunération brute.   
 #'       
 
+essayer( {
 insérer_script(fonction = "calcul_NBI")
+}, "Le contrôle de la NBI n'a pas pu être réalisé.")
 
 #'   
 conditionnel("Lien vers la base de données NBI aux non titulaires", "Bases/Reglementation/NBI.aux.non.titulaires.csv")
@@ -30,23 +32,32 @@ conditionnel("Lien vers la base de données NBI aux non titulaires", "Bases/Regl
 #'&nbsp;*Tableau 5.1.1 : Contrôle de liquidation de la NBI*    [![Notice](Notice.png)](Docs/Notices/fiche_NBI_liq.odt)       
 #'    
 
-Tableau(
-  c("Lignes de NBI concernées",
-    "Coûts correspondants",
-    "Rappels (montants bruts)"),
-  nrow(lignes.nbi.anormales),
-  round(couts.nbi.anormales, 1),
-  round(rappels.nbi, 1))
+if (nrow(lignes.nbi.anormales)) {
+  Tableau(
+    c("Lignes de NBI concernées",
+      "Coûts correspondants",
+      "Rappels (montants bruts)"),
+    nrow(lignes.nbi.anormales),
+    round(couts.nbi.anormales, 1),
+    round(rappels.nbi, 1))
+} else {
+  cat("Pas de résultat")
+}
 
 #'  
 #'&nbsp;*Tableau 5.1.2 : Contrôle de liquidation de la NBI, hors rappels*     &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_NBI_liq.odt)       
 #'    
 
+if (nrow(lignes.nbi.anormales.hors.rappels)) {
 Tableau(
   c("Lignes de NBI concernées (hors rappels)",
     "Coûts correspondants"),
   nrow(lignes.nbi.anormales.hors.rappels),
   round(couts.nbi.anormales.hors.rappels, 1))
+} else {
+  cat("Pas de résultat")
+}
+
 
 #'       
 conditionnel("Lien vers la base de données des anomalies de NBI", "Bases/Fiabilite/lignes.nbi.anormales.csv")     
@@ -84,7 +95,9 @@ conditionnel("Lien vers la base de données des cumuls annuels de NBI", "Bases/F
 
 # Calcul plus exact de liquidation, attention à exclure les rappels
 
-insérer_script(fonction = "proratisation_NBI")
+essayer({
+  insérer_script(fonction = "proratisation_NBI")
+}, "Le contrôle de la proratisation n'a pas pu être réalisé.")
 
 #'   
 conditionnel("Lien vers les bulletins anormaux du contrôle de proratisation/liquidation de la NBI", "Bases/Fiabilite/lignes.nbi.anormales.mensuel.csv")   
@@ -96,7 +109,9 @@ conditionnel("Lien vers les lignes de paye du contrôle de proratisation/liquida
 #'&nbsp;*Tableau 5.1.5 : Contrôle d'attribution de NBI par catégorie statutaire*  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_plafonds_NBI.odt)           
 #'  
 
+essayer({
 insérer_script(fonction = "catégories_NBI")
+}, "Le contrôle du lien entre NBI et catégorie statutaire n'a pas pu être réalisé.")
 
 #'   
 #'**Nota :**   

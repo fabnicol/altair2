@@ -5,7 +5,7 @@ calcul_NBI <- function() {
   
     "Paie_NBI"   %a% filtrer_Paie("NBI", 
                                portée = "Mois", 
-                               indic = TRUE)[Type %chin% c("T", "I", "R")]
+                               indic = TRUE)[Type %in% c("T", "I", "R")]
     
     "lignes_NBI" %a% Paie_NBI[indic == TRUE][ , indic :=  NULL]
     
@@ -62,17 +62,76 @@ calcul_NBI <- function() {
                                 Mois.rappel  = as.numeric(substr(Debut, 6, 7))) 
                         ][ , Debut := NULL]
     
-    if (nrow(T1) == 0) cat("Aucune NBI n'a été attribuée ou les points de NBI n'ont pas été rencensés en base de paye. ")
+    if (nrow(T1) == 0) {
+      cat("Aucune NBI n'a été attribuée ou les points de NBI n'ont pas été rencensés en base de paye. ")
+      return("")
+    }
     
-
+    # On présume que en l'absence d'année ou de mois de rappel, il faut prendre l'année ou le mois en cours.
+    
+    nb.annee.rappel.inconnue <- length(T1[! is.na(quotite)
+                                     & quotite > 0
+                                     & Type == "R"
+                                     & (is.na(Annee.rappel) | Annee.rappel < début.période.sous.revue), Annee.rappel])
+    
+    nb.mois.rappel.inconnu <- length(T1[! is.na(quotite)
+                                          & quotite > 0
+                                          & Type == "R"
+                                          & (is.na(Mois.rappel) | Mois.rappel < 1 | Mois.rappel > 12), Mois.rappel])
+    
+    if (nb.annee.rappel.inconnue > 0) {
+      cat("Le champ Année de rattachement du rappel n'est pas renseigné en base (défaut de qualité) pour ", nb.annee.rappel.inconnue, " ligne(s) de rappels.  \n")
+      cat("L'année de rattachement du rappel est présumée être celle en cours.  \n")
+    }
+    
+    if (nb.mois.rappel.inconnu > 0) {
+      cat("Le champ Mois de rappel n'est pas renseigné en base (défaut de qualité) pour ",  nb.mois.rappel.inconnu, " ligne(s) de rappel.")
+      cat("Le mois de rattachement du rappel est présumé être celui du mois en cours.  \n")
+    }
+    
+    if (nb.annee.rappel.inconnue > 0) {
+    
+        T2a <- T1[! is.na(quotite)
+                & quotite > 0
+                & Type == "R",
+                .(nbi.cum.rappels = sum(Montant, na.rm = TRUE), 
+                  quotite = quotite[1],
+                  nbi.cum.indiciaire = NBI[1]), 
+                by= .(Matricule, Annee.rappel, Mois.rappel, Annee, Mois)
+                ][, Annee.rappel := Annee]
+        
+        if (nb.mois.rappel.inconnu >0) {
+          T2a[ , Mois.rappel := Mois]
+        }
+        
+    } else {
+      
+      if (nb.mois.rappel.inconnu >0) {
+        
+        T2a <- T1[! is.na(quotite)
+                  & quotite > 0
+                  & Type == "R",
+                  .(nbi.cum.rappels = sum(Montant, na.rm = TRUE), 
+                    quotite = quotite[1],
+                    nbi.cum.indiciaire = NBI[1]), 
+                  by= .(Matricule, Annee.rappel, Mois.rappel, Annee, Mois)
+                  ][, Mois.rappel := Mois]
+      } else {
+    
+    
+        
     T2a <- T1[! is.na(quotite)
               & quotite > 0
               & Type == "R",
-              .(nbi.cum.rappels = sum(Montant, na.rm = TRUE)), 
+              .(nbi.cum.rappels = sum(Montant, na.rm = TRUE), 
+                quotite = quotite[1],
+                nbi.cum.indiciaire = NBI[1]), 
               by= .(Matricule, Annee.rappel, Mois.rappel, Annee, Mois)
               ][Annee.rappel >= début.période.sous.revue 
                 & Mois.rappel >=1 
                 & Mois.rappel <= 12]
+      }
+    }
     
     setnames(T2a, "Annee", "Annee.R")
     setnames(T2a, "Mois", "Mois.R")
@@ -87,19 +146,31 @@ calcul_NBI <- function() {
               .(nbi.cum.hors.rappels = sum(Montant, na.rm = TRUE),
                 quotite = quotite[1],
                 nbi.cum.indiciaire = NBI[1]), 
-              by= .(Matricule, Annee, Mois)]
+                  by= .(Matricule, Annee, Mois)]
     
-    T2 <- merge(T2a, T2b, 
-                all = TRUE,
-                by = c("Matricule", "Annee", "Mois"))[ , adm.quotite := adm(quotite)
+    if (is.null(T2b)) {
+      
+      cat("Toutes les NBI payéees sont des rappels ou présentent des défauts de renseignement de la quotité.")
+      T2 <- T2a[ , adm.quotite := adm(quotite)
+               ][is.na(nbi.cum.rappels), nbi.cum.rappels := 0
+               ][is.na(nbi.cum.hors.rappels), nbi.cum.hors.rappels := 0]
+      
+    } else {
+    
+      T2 <- merge(T2a, T2b, 
+                  all = TRUE,
+                  by = c("Matricule", "Annee", "Mois", "quotite", "nbi.cum.indiciaire"))[ , adm.quotite := adm(quotite)
                                                        ][is.na(nbi.cum.rappels), nbi.cum.rappels := 0
-                                                         ][is.na(nbi.cum.hors.rappels), nbi.cum.hors.rappels := 0]
+                                                       ][is.na(nbi.cum.hors.rappels), nbi.cum.hors.rappels := 0]
+    }
     
     T2[adm.quotite > 0,  nbi.eqtp.tot := (nbi.cum.rappels + nbi.cum.hors.rappels) / adm.quotite]
     
+    if (is.null(T2)) return("")
+    
     "cumuls.nbi" %a% T2[ , .(cumul.annuel.indiciaire = sum(nbi.cum.indiciaire, na.rm = TRUE),
-                          cumul.annuel.montants   = sum(nbi.eqtp.tot, na.rm = TRUE)),
-                      by = "Annee"]
+                             cumul.annuel.montants   = sum(nbi.eqtp.tot, na.rm = TRUE)),
+                               keyby = "Annee"]
     
     if (nrow(cumuls.nbi) == 0) cat("Cumuls de NBI nuls. ")
     
@@ -109,8 +180,8 @@ calcul_NBI <- function() {
     # Techniquement, rajouter un by = .(Annee, Mois) accélère la computation
     
     "lignes.nbi.anormales" %a% T2[nbi.cum.indiciaire > 0 
-                               &  adm.quotite > 0    
-                               & nbi.eqtp.tot > 0]
+                                  &  adm.quotite > 0    
+                                  & nbi.eqtp.tot > 0]
     
     cout <- function(x, y, z, Annee, Mois) round(x - y * PointMensuelIM[Annee - 2007, Mois] * z, 1 )
       
@@ -126,6 +197,9 @@ calcul_NBI <- function() {
     
     "couts.nbi.anormales" %a% lignes.nbi.anormales[ , sum(cout.nbi.anormale, na.rm = TRUE)]
     
+    "lignes.nbi.anormales.hors.rappels" %a% NULL
+    
+    if (! is.null(T2) && nrow(T2) >  0)
     "lignes.nbi.anormales.hors.rappels" %a% T2[nbi.cum.indiciaire > 0 
                                                & nbi.cum.hors.rappels > 0]
     
@@ -136,11 +210,23 @@ calcul_NBI <- function() {
                                                                                       lignes.nbi.anormales.hors.rappels[["Annee"]],
                                                                                       lignes.nbi.anormales.hors.rappels[["Mois"]]))
     
-    "lignes.nbi.anormales.hors.rappels" %a% lignes.nbi.anormales.hors.rappels[cout.nbi.anormale > adm.quotite * nbi.cum.indiciaire
-                                            ][ , cout.nbi.anormale, by= .(Annee, Mois)]
+    if (! is.null(lignes.nbi.anormales.hors.rappels) && nrow(lignes.nbi.anormales.hors.rappels) > 0) {
+      
+      "lignes.nbi.anormales.hors.rappels" %a% lignes.nbi.anormales.hors.rappels[cout.nbi.anormale > adm.quotite * nbi.cum.indiciaire
+                                              ][ , cout.nbi.anormale, by= .(Annee, Mois)]
+    }
     
-    "couts.nbi.anormales.hors.rappels" %a% lignes.nbi.anormales.hors.rappels[ , sum(cout.nbi.anormale, na.rm = TRUE)]
     
+    "couts.nbi.anormales.hors.rappels" %a% 0
+    
+    if (! is.null(lignes.nbi.anormales.hors.rappels) && nrow(lignes.nbi.anormales.hors.rappels) > 0) { 
+      
+       "couts.nbi.anormales.hors.rappels" %a% lignes.nbi.anormales.hors.rappels[ , sum(cout.nbi.anormale, na.rm = TRUE)]
+    }
+    
+    "rappels.nbi" %a% 0
+    
+    if (! is.null(T2a) && nrow(T2a) >  0)
     "rappels.nbi" %a% T2a[ , sum(nbi.cum.rappels, na.rm = TRUE)]
     
     sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
@@ -163,11 +249,15 @@ proratisation_NBI <- function() {
   
   essayer({ 
     
-  "lignes.nbi.anormales.mensuel" %a% lignes_NBI[Type != "R", .(Montant.NBI.calculé = round(NBI[1] * adm(quotite[1]) * PointMensuelIM[Annee - 2007, Mois], 2),
-                                                                      Montant.NBI.payé = sum(Montant, na.rm = TRUE)), 
-                                                  by = .(Matricule, Annee, Mois)
-                                               ][ , Différence.payé.calculé := round(Montant.NBI.payé - Montant.NBI.calculé, 1)
-                                               ][abs(Différence.payé.calculé) > tolérance.nbi]
+  "lignes.nbi.anormales.mensuel" %a% lignes_NBI[Type != "R"]
+  
+  if (! is.null(lignes.nbi.anormales.mensuel)) {    
+    "lignes.nbi.anormales.mensuel" %a% lignes_NBI[, .(Montant.NBI.calculé = round(NBI[1] * adm(quotite[1]) * PointMensuelIM[Annee - 2007, Mois], 2),
+                                                                        Montant.NBI.payé = sum(Montant, na.rm = TRUE)), 
+                                                    by = .(Matricule, Annee, Mois)
+                                                 ][ , Différence.payé.calculé := round(Montant.NBI.payé - Montant.NBI.calculé, 1)
+                                                 ][abs(Différence.payé.calculé) > tolérance.nbi]
+  }
   
   "lignes.paie.nbi.anormales.mensuel" %a% Paie_NBI[ , .(Matricule, Nom, Prenom, Grade, Statut, 
                                                      Annee, Mois, Echelon, Categorie, 
@@ -179,7 +269,9 @@ proratisation_NBI <- function() {
                                                    on = .(Matricule, Annee, Mois)]
   
   "nb.lignes.anormales.mensuel"    %a% nrow(lignes.nbi.anormales.mensuel)
-  "montants.nbi.anormales.mensuel" %a% lignes.nbi.anormales.mensuel[, sum(Différence.payé.calculé, na.rm = TRUE)]
+  "montants.nbi.anormales.mensuel" %a% 0
+  if (! is.null(lignes.nbi.anormales.mensuel))     
+     "montants.nbi.anormales.mensuel" %a% lignes.nbi.anormales.mensuel[, sum(Différence.payé.calculé, na.rm = TRUE)]
   },
   "La vérification de la proratisation de la NBI n'a pas pu être réalisée. ")
   
