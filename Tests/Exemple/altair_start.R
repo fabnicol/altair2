@@ -220,16 +220,16 @@ prime_PFI <- list(nom = "PFI",                      # Nom en majuscules
                   restreint_fonctionnaire = TRUE,   # fonctionnaires
                   catégorie = c("A", "B", "C"),     # toutes les catégories
                   dossier = "Reglementation")       # dossier de bases
-
-if (setOSWindows) séquentiel <- TRUE else {
-
-  system('cat /proc/meminfo > mem.txt')
-  mem <- data.table::fread("mem.txt", 
-               sep = ":", 
-               header = FALSE)[V1 == "MemAvailable", V2]
-  mem <- strtoi(unlist(strsplit(mem, " "))[1])
-  if (nrow(Paie) * ratio.memoire.ligne.parallele  > mem) séquentiel <- TRUE
-}
+#immature
+# if (setOSWindows) séquentiel <- TRUE else {
+# 
+#   system('cat /proc/meminfo > mem.txt')
+#   mem <- data.table::fread("mem.txt", 
+#                sep = ":", 
+#                header = FALSE)[V1 == "MemAvailable", V2]
+#   mem <- strtoi(unlist(strsplit(mem, " "))[1])
+#   if (nrow(Paie) * ratio.memoire.ligne.parallele  > mem) séquentiel <- TRUE
+# }
 
 
 scripts <- list(
