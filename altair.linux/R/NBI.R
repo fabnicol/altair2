@@ -300,7 +300,7 @@ catégories_NBI <- function() {
   setkey(Bulletins.paie, Categorie, Matricule, Annee, Mois)
   "NBI.cat.irreg" %a% NULL
   "nombre.mat.NBI.irrég" %a% NULL
-  coût.total %a% 0
+  "coût.total" %a% 0
   
   NBI.cat <- Bulletins.paie[! is.na(NBI) & NBI > 0, 
                             .(Matricule,
