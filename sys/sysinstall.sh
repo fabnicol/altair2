@@ -265,8 +265,8 @@ if ! test -d  Tests/Exemple/Donnees/xhl
 # Pour la branche dev seulement
 mount -o remount,rw UUID="85F7-2833" Tests/Exemple/Donnees/R-Altair
 chown -R fab:users Tests/Exemple/Donnees/R-Altair
-mount -o remount,rw UUID="C96F-2C5E" Tests/Exemple/Donnees/R-Altair
-chown -R fab:users Tests/Exemple/Donnees/R-Altair
+mount -o remount,rw UUID="C96F-2C5E" Tests/Exemple/Donnees/xhl
+chown -R fab:users Tests/Exemple/Donnees/xhl
 ####
 
 _copy Interface/share/altair-gui/images /home/fab/.local/share/Altair
