@@ -9,6 +9,16 @@ calcul_NBI <- function() {
     
     "lignes_NBI" %a% Paie_NBI[indic == TRUE][ , indic :=  NULL]
     
+    "rappels.nbi" %a% 0
+    "couts.nbi.anormales" %a% 0
+    "couts.nbi.anormales.hors.rappels" %a% 0
+    "montants.nbi.anormales.mensuel" %a% 0
+    "lignes.nbi.anormales.hors.rappels" %a% data.table()
+    "lignes.nbi.anormales" %a% data.table()
+    "lignes.nbi.anormales.hors.rappels" %a% data.table()
+    "cumuls.nbi" %a% data.table()
+
+    
     "NBI_dec" %a% Paie_NBI[NBI != as.integer(NBI)]
     
     if (nrow(NBI_dec)) {
@@ -197,8 +207,7 @@ calcul_NBI <- function() {
     
     "couts.nbi.anormales" %a% lignes.nbi.anormales[ , sum(cout.nbi.anormale, na.rm = TRUE)]
     
-    "lignes.nbi.anormales.hors.rappels" %a% NULL
-    
+ 
     if (! is.null(T2) && nrow(T2) >  0)
     "lignes.nbi.anormales.hors.rappels" %a% T2[nbi.cum.indiciaire > 0 
                                                & nbi.cum.hors.rappels > 0]
@@ -216,15 +225,11 @@ calcul_NBI <- function() {
                                               ][ , cout.nbi.anormale, by= .(Annee, Mois)]
     }
     
-    
-    "couts.nbi.anormales.hors.rappels" %a% 0
-    
+
     if (! is.null(lignes.nbi.anormales.hors.rappels) && nrow(lignes.nbi.anormales.hors.rappels) > 0) { 
       
        "couts.nbi.anormales.hors.rappels" %a% lignes.nbi.anormales.hors.rappels[ , sum(cout.nbi.anormale, na.rm = TRUE)]
     }
-    
-    "rappels.nbi" %a% 0
     
     if (! is.null(T2a) && nrow(T2a) >  0)
     "rappels.nbi" %a% T2a[ , sum(nbi.cum.rappels, na.rm = TRUE)]
@@ -246,6 +251,7 @@ proratisation_NBI <- function() {
   
   "montants.nbi.anormales.mensuel" %a% 0
   "lignes.nbi.anormales.mensuel" %a% data.table()
+  "nb.lignes.anormales.mensuel" %a% 0
   
   essayer({ 
     
@@ -269,7 +275,7 @@ proratisation_NBI <- function() {
                                                    on = .(Matricule, Annee, Mois)]
   
   "nb.lignes.anormales.mensuel"    %a% nrow(lignes.nbi.anormales.mensuel)
-  "montants.nbi.anormales.mensuel" %a% 0
+  
   if (! is.null(lignes.nbi.anormales.mensuel))     
      "montants.nbi.anormales.mensuel" %a% lignes.nbi.anormales.mensuel[, sum(Différence.payé.calculé, na.rm = TRUE)]
   },
@@ -292,6 +298,9 @@ proratisation_NBI <- function() {
 catégories_NBI <- function() {
   
   setkey(Bulletins.paie, Categorie, Matricule, Annee, Mois)
+  "NBI.cat.irreg" %a% NULL
+  "nombre.mat.NBI.irrég" %a% NULL
+  coût.total %a% 0
   
   NBI.cat <- Bulletins.paie[! is.na(NBI) & NBI > 0, 
                             .(Matricule,
