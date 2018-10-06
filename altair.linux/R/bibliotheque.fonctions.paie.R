@@ -982,10 +982,19 @@ extraire_paye <- function(an, L, out) {
 #' @param index   Vecteur numérique contenant les valeurs de la variable globale.
 #' @param variable Vecteur de caractères contenant le nom de la variable globale dans le script auxiliaire.
 #' @param gen  Si \code{FALSE} alors se contente de sourcer le script auxiliaire selon \code{encodage.code.source}. Sinon intègre le rapport auxiliaire au format du rapport principal.
+#' @param incrémenter INcrémenter le chapitre de présentation du script
+#' @param fonction Appeler une liste de fonctions à argument vide
+#' @param séquentiel Exécuter le script en mode séquentiel (si \code{TRUE}, resp. si \code{FALSE}, en mode parallèle)
 #' @return Valeur de la dernière variable globale \code{variable} instanciée. Effets de bord en sortie.
 #' @export
 
-insérer_script <- function(chemin = NULL, index = c(0), variable = "année", gen = générer.rapport, incrémenter = FALSE, fonction = NULL, type = séquentiel) {
+insérer_script <- function(chemin = NULL, 
+                           index = c(0), 
+                           variable = "année", 
+                           gen = générer.rapport, 
+                           incrémenter = FALSE, 
+                           fonction = NULL, 
+                           séquentiel)  {
 
 if (! is.null(chemin) && get(gsub(".R", "", basename(chemin), fixed = TRUE)) == FALSE) invisible(return(NULL))
   
@@ -1002,7 +1011,7 @@ invisible(sapply(index, function(x) {
                                                 encoding = encodage.code.source),
                                quiet = TRUE)
                                
-            if (type == séquentiel) {
+            if (séquentiel == TRUE) {
               cat(vect, sep = '\n')
             } else {
               return(vect)
@@ -1018,7 +1027,7 @@ invisible(sapply(index, function(x) {
   
       for (f in fonction) {
         do.call(get(f), list())
-    }
+      }
   }
 }))
 

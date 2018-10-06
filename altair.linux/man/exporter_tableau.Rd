@@ -15,10 +15,10 @@ exporter_tableau(table.jointure, requis,
 
 \item{clés}{Vecteur des noms de clés d'appariement. Par défaut, les noms de colonnes communs à la base des lignes de paye et à la table de jointure.}
 
-\item{calculer.indice.complexité}{Pour l'appariement avec la comptabilité, vérifier s'il est éventuellement possible d'apparier sur les seules clés \code{Code, Libellé, Type}}
+\item{calculer.indice.complexité}{Pour l'appariement avec la comptabilité, vérifier s'il est éventuellement possible d'apparier sur les seules clés \code{Code, Libelle, Type}}
 }
 \value{
-Base des lignes de paye \code{Paie} appariée avec la table de jointure restreinte aux variables : \code{Année, Code, Libellé, Statut, Type} et aux colonnes ajoutées par la table de jointure
+Base des lignes de paye \code{Paie} appariée avec la table de jointure restreinte aux variables : \code{Annee, Code, Libelle, Statut, Type} et aux colonnes ajoutées par la table de jointure
 }
 \description{
 Ajoute une ou plusieurs colonnes à la base des lignes de paye, étant donnée une table de jointure comportant des clés d'appariement de la base de paye et des vecteurs à apparier.

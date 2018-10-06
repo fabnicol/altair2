@@ -221,15 +221,15 @@ prime_PFI <- list(nom = "PFI",                      # Nom en majuscules
                   catégorie = c("A", "B", "C"),     # toutes les catégories
                   dossier = "Reglementation")       # dossier de bases
 #immature
-# if (setOSWindows) séquentiel <- TRUE else {
-# 
-#   system('cat /proc/meminfo > mem.txt')
-#   mem <- data.table::fread("mem.txt", 
-#                sep = ":", 
-#                header = FALSE)[V1 == "MemAvailable", V2]
-#   mem <- strtoi(unlist(strsplit(mem, " "))[1])
-#   if (nrow(Paie) * ratio.memoire.ligne.parallele  > mem) séquentiel <- TRUE
-# }
+if (setOSWindows) séquentiel <- TRUE else {
+
+  system('cat /proc/meminfo > $HOME/mem.txt')
+  mem <- data.table::fread(file.path(Sys.getenv("HOME"), "mem.txt"),
+               sep = ":",
+               header = FALSE)[V1 == "MemAvailable", V2]
+  mem <- strtoi(unlist(strsplit(mem, " "))[1])
+  if (nrow(Paie) * ratio.memoire.ligne.parallele  > mem) séquentiel <- TRUE
+}
 
 
 scripts <- list(
@@ -262,16 +262,16 @@ scripts <- list(
    "script_annexe.R"                       #### ANNEXE                 ####
 ) 
 
-générer.partie <- function(script, type = séquentiel) {
+générer.partie <- function(script, séquentiel) {
                               invisible(lapply(script, function(x) do.call(insérer_script, 
                                                                              as.list(na.omit(c(file.path(chemin.modules, x[1]),
                                                                                              x[-1],
-                                                                                             type = type)))))) 
+                                                                                             séquentiel = séquentiel)))))) 
 }
                               
 if (séquentiel) {
   
-  générer.partie(scripts)
+  générer.partie(scripts, TRUE)
   
 } else {
   
@@ -331,7 +331,7 @@ if (séquentiel) {
   res <- clusterApply(cl,
                       G,
                       générer.partie,
-                      type = ! séquentiel)
+                      FALSE)
 
   stopCluster(cl)
   
