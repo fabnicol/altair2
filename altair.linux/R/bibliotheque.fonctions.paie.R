@@ -980,21 +980,21 @@ extraire_paye <- function(an, L, out) {
 #' Insérer un script auxiliaire, indexé par une variable globale
 #' @param chemin  Chemin du script R
 #' @param index   Vecteur numérique contenant les valeurs de la variable globale.
+#' @param seq Exécuter le script en mode séquentiel (si \code{TRUE}, resp. si \code{FALSE}, en mode parallèle)   
 #' @param variable Vecteur de caractères contenant le nom de la variable globale dans le script auxiliaire.
 #' @param gen  Si \code{FALSE} alors se contente de sourcer le script auxiliaire selon \code{encodage.code.source}. Sinon intègre le rapport auxiliaire au format du rapport principal.
 #' @param incrémenter INcrémenter le chapitre de présentation du script
 #' @param fonction Appeler une liste de fonctions à argument vide
-#' @param séquentiel Exécuter le script en mode séquentiel (si \code{TRUE}, resp. si \code{FALSE}, en mode parallèle)
 #' @return Valeur de la dernière variable globale \code{variable} instanciée. Effets de bord en sortie.
 #' @export
 
 insérer_script <- function(chemin = NULL, 
                            index = c(0), 
+                           seq,
                            variable = "année", 
                            gen = générer.rapport, 
                            incrémenter = FALSE, 
-                           fonction = NULL, 
-                           séquentiel)  {
+                           fonction = NULL)  {
 
 if (! is.null(chemin) && get(gsub(".R", "", basename(chemin), fixed = TRUE)) == FALSE) invisible(return(NULL))
   

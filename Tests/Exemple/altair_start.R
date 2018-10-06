@@ -262,11 +262,11 @@ scripts <- list(
    "script_annexe.R"                       #### ANNEXE                 ####
 ) 
 
-générer.partie <- function(script, séquentiel) {
+générer.partie <- function(script, seq) {
                               invisible(lapply(script, function(x) do.call(insérer_script, 
                                                                              as.list(na.omit(c(file.path(chemin.modules, x[1]),
                                                                                              x[-1],
-                                                                                             séquentiel = séquentiel)))))) 
+                                                                                             seq)))))) 
 }
                               
 if (séquentiel) {
@@ -331,7 +331,7 @@ if (séquentiel) {
   res <- clusterApply(cl,
                       G,
                       générer.partie,
-                      FALSE)
+                      seq = FALSE)
 
   stopCluster(cl)
   
