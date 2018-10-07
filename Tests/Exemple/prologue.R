@@ -91,6 +91,7 @@ grades.categories.existe       <- TRUE
 logements.existe               <- TRUE
 plafonds.ifse.existe           <- TRUE
 apparier.sur.trois.clés        <- FALSE
+fichiers.temp                  <- FALSE
 
 numéro.tableau                 <- 0        # Numérotation de départ des tableaux
 chapitre                       <- 1        # Numérotation de départ des chapitres
