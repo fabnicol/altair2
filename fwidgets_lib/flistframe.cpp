@@ -499,14 +499,14 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                 QFileInfoList entries = dir.entryInfoList(QDir::NoDotAndDotDot|QDir::Files|QDir::Dirs);
                 // Recursion
                   // Utilisation d'une rvalue
-                QStringList &&tempStrings=QStringList();
+                QStringList &&tempStrings = QStringList();
                 for (QFileInfo & embeddedFileInfo: entries)
                 {
                      tempStrings <<  embeddedFileInfo.absoluteFilePath();
                 }
 
                   // Move semantics : gain de temps et de mémoire (>= Qt5.4)
-                  // temStrings est coerced dans le type const QStringList sans copie de données
+                  // tempStrings est coerced dans le type const QStringList sans copie de données
 
                 stringsToBeAdded << parseTreeForFilePaths(tempStrings);
 
@@ -516,38 +516,18 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
               {
                   if (info.suffix().toUpper() == "ZIP")    
                   {
-                      int res = system(QString("unzip -C " + currentString + " '*.x[hm]l' -d " + info.absolutePath()).toStdString().c_str());
+                      const QString &tempDir = info.absolutePath() + QDir::separator() + info.baseName();
+                      int res = system(QString("unzip -C " + currentString + " '*.x[hm]l' -d " + tempDir).toStdString().c_str());
                       
                       if (res == 0)
                          emit(textAppend(STATE_HTML_TAG + QString("Le fichier ")
                                        + currentString + " a été décompressé."));
                       else 
                          emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
-                                        + currentString + " n'a pas été décompressé.")); 
+                                        + currentString + " n'a pas été décompressé."));
                       
-                      QString extrString = info.absolutePath() + QDir::separator() + info.baseName() + ".xhl";
+                      stringsToBeAdded << parseTreeForFilePaths({tempDir});
                       
-                      if (QFileInfo(extrString).exists())
-                        stringsToBeAdded << extrString;
-                      else
-                      {
-                          extrString = info.absolutePath() + QDir::separator() + info.baseName() + ".XHL";
-                          if (QFileInfo(extrString).exists())
-                            stringsToBeAdded << extrString;
-                      
-                          else
-                          {
-                              extrString = info.absolutePath() + QDir::separator() + info.baseName() + ".XML";
-                              if (QFileInfo(extrString).exists())
-                                stringsToBeAdded << extrString;
-                              else
-                              {
-                                  extrString = info.absolutePath() + QDir::separator() + info.baseName() + ".xml";
-                                  if (QFileInfo(extrString).exists())
-                                    stringsToBeAdded << extrString;
-                              }
-                          }
-                      }
                   }
                   else
                   if (info.suffix().toUpper() == "XHL" || info.suffix().toUpper() == "XML")
