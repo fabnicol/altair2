@@ -42,7 +42,6 @@
 /// \author Fabrice Nicol
 /// \brief Code de la classe principale Altair, qui joue le rôle d'agent de l'interface graphique
 
-
 #ifndef ALTAIR_H
 #define ALTAIR_H
 
@@ -89,7 +88,7 @@ public:
     QString rootDir = ""; ///< Fichier racine des données
     QString username; ///< Nom de l'utilisateur Unix
 
-    const QStringList  XML_FILTERS = {"*.xml", "*.xhl", "*.XML", "*.XHL"}; ///< Liste des extensions valides pour les fichiers entrants
+    const QStringList  XML_FILTERS = {"*.xml", "*.xhl", "*.XML", "*.XHL", "*.zip", "*.ZIP", "*.7z", "*.7Z", "*.tar.bz2", "*.TAR.BZ2", "*.tar.gz", "*.TAR.GZ"}; ///< Liste des extensions valides pour les fichiers entrants
 
     static std::uint16_t RefreshFlag; ///< Drapeau permettant d'indiquer l'état de rafraichissement de l'interface.
 
@@ -107,7 +106,7 @@ public:
             projectName = userdatadir + QString ("défaut.alt");
     }
 
-    /// Debut du glisser-déplacer
+    /// Début du glisser-déplacer
 
     void startDrag();
 
@@ -234,6 +233,7 @@ public slots:
     void textAppend (const QString& s)
     {
         outputTextEdit->append (s);
+        outputTextEdit->repaint();
     }
 
     /// Tuer l'application en ligne de commande \e lhx
@@ -290,7 +290,7 @@ private:
     bool hasIndexChanged;    ///< \e true si l'index de l'onglet courant a changé
     int fileCount = 0;       ///< Nombre de fichiers de paye en input de la ligne de commande
     int row = 0;             ///< Ligne courante de l'onglet sélectionné
-    uint currentIndex = 0;   ///< Index courant de l'onglet sélectionné
+    int currentIndex = 0;   ///< Index courant de l'onglet sélectionné
     static qint64 totalSize; ///< Taille des données extraites
 
     QHash <int,  QVector<QStringList>> fileSizeDataBase; ///< Table de hashage contenant les tailles de fichier
@@ -436,4 +436,4 @@ signals:
 
 
 
-#endif
+#endif // ALTAIR_H

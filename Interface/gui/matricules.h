@@ -63,7 +63,7 @@ public:
 
     MatriculeInput (int largeur, int hauteur);
 
-    QString matricules;  ///< Liste des séquences Matricule-Mois-Annee (avec leurs plages éventuelles), séparées par des points virgules.
+    QString matricules;  ///< Liste des séquences Matricule-Mois-Année (avec leurs plages éventuelles), séparées par des points virgules.
 
     /// Réinitialisation de tous les champs
     /// @return Booléen \em true sur les dialogue d'extraction était rempli, \em false sinon

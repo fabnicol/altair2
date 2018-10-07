@@ -406,8 +406,8 @@
 ///
 /// <table>
 /// <tr><th>Balise XML</th><th>Attributs</th><th>Valeur</th><th>Dialogue/Onglet</th><th>Génération de ligne de commande pour <i>lhx</i></th><th>Commentaires</th><th>Composant</th></tr>
-/// <tr><td style="font-weight:bold;">projet</td><td>version="..."</td><td></td><td></td><td></td><td>Debut du projet et version de l'application.</td><td></td></tr>
-/// <tr><td style="font-weight:bold;">data</td><td></td><td></td><td></td><td></td><td>Debut des données de paye</td><td></td></tr>
+/// <tr><td style="font-weight:bold;">projet</td><td>version="..."</td><td></td><td></td><td></td><td>Début du projet et version de l'application.</td><td></td></tr>
+/// <tr><td style="font-weight:bold;">data</td><td></td><td></td><td></td><td></td><td>Début des données de paye</td><td></td></tr>
 /// <tr><td style="font-weight:bold;">XHL</td><td>profondeur="2"</td><td>Enchâsse les balise <i>onglet</i></td><td>Onglet central</td><td></td><td>Données de paye : 2 niveaux d'enchâssement ("onglet" et "item").</td><td>Altair::project</td></tr>
 /// <tr><td style="font-weight:bold;">onglet</td><td>V="{année}"</td><td>Enchâsse les balises <i>item</i></td><td>Onglets annuels centraux</td><td></td><td>Onglet pour chaque année de paye (sauf trois derniers).</td><td></td></tr>
 /// <tr><td style="font-weight:bold;">item</td><td>V="..." S="..." B="..." E="..." EM="..."</td><td>Chaîne de caractères</td><td>Elément des onglets annuels centraux</td><td>Chemin du fichier.</td><td>Chemin du fichier mensuel de paye pour le mois V, le Siret S, l'établissement E et l'employeur EM</td><td></td></tr>
@@ -474,7 +474,7 @@
 /// <table style="width:35%;"><tr><th>Code XML</th><th>Commentaires</th></tr></table>
 /// \code
 /// <?xml version="1.0"?>                Fichier de type XML.
-/// <projet version="17.12-1">           Debut du projet et version de l'application.
+/// <projet version="17.12-1">           Début du projet et version de l'application.
 /// <data>                               Partie "données de paye".
 ///  <XHL profondeur="2">                Balise XHL : 2 niveaux d'enchâssement ("onglet" et "item"). Données de paye.
 ///   <onglet V="2011">                  Onglet de valeur ("V") 2011 (année).

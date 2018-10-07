@@ -49,8 +49,7 @@
 #include <QDirIterator>
 #include <fstream>
 #include <sstream>
-
-extern int fontsize;
+#include <cmath>
 
 using namespace std;
 // Should it slow down application launch on some platform, one option could be to launch
@@ -129,7 +128,8 @@ MainWindow::MainWindow (char* projectName)
     createToolBars();
 
     bottomTabWidget->setCurrentIndex (0);
-    bottomTabWidget->setMinimumHeight (height / 3.6);
+    double h = static_cast<double>(height) / 3.6;
+    bottomTabWidget->setMinimumHeight (static_cast<int>(round(h)));
 
     QToolButton *clearBottomTabWidgetButton = new QToolButton;
     const QIcon clearOutputText = QIcon (QString::fromUtf8 (":/images/edit-clear.png"));
@@ -434,7 +434,7 @@ void MainWindow::createActions()
     aboutAction = new QAction (tr ("&Au sujet de"), this);
     aboutAction->setIcon (QIcon (":/images/about.png"));
 
-    connect (aboutAction, &QAction::triggered,  [this]
+    connect (aboutAction, &QAction::triggered,  []
     {
         QUrl url = QUrl::fromLocalFile (QCoreApplication::applicationDirPath() + "/../about.html") ;
         QDesktopServices::openUrl (url);
@@ -443,7 +443,7 @@ void MainWindow::createActions()
 
     licenceAction = new QAction (tr ("Licence"), this);
     licenceAction->setIcon (QIcon (":/images/web/gplv3.png"));
-    connect (licenceAction, &QAction::triggered,  [this]
+    connect (licenceAction, &QAction::triggered,  []
     {
         QUrl url = QUrl::fromLocalFile (QCoreApplication::applicationDirPath() + "/../licence.html");
         QDesktopServices::openUrl (url);
@@ -499,7 +499,7 @@ vector<string> MainWindow::extraire_donnees_protegees (const string& st)
 {
     vector<string> out;
     const size_t taille = st.size();
-    out.reserve ((size_t) taille / 5);
+    out.reserve (static_cast<size_t>(taille / 5));
     string::const_iterator iter = st.begin();
 
     size_t i = 0;
@@ -551,7 +551,7 @@ start:
 
             if (k >= pas)
                 {
-                    emit (altair->setProgressBar (i));
+                    emit (altair->setProgressBar (static_cast<long>(i)));
                     qApp->processEvents();
                     k = 0;
                 }
@@ -657,7 +657,7 @@ start:
             {
                 "Civilite",
                 "Nom",
-                "Prénom",
+                "Prenom",
                 "Adr1",
                 "Adr2",
                 "Ville",

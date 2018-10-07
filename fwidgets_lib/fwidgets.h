@@ -58,8 +58,8 @@ class FDialogConnections : public QDialog
 Q_OBJECT
 
 signals:
- void setProgressBar(int, int);
- void setProgressBar(int);
+ void setProgressBar(long, long);
+ void setProgressBar(long);
  void hideProgressBar();
  void showProgressBar();
 
@@ -73,7 +73,7 @@ Q_OBJECT
 public:
   QString  outputType;
   QProcess process;
-  int fileRank = 1;
+  long fileRank = 1;
 
 public slots:
   virtual void killProcess(){}
@@ -428,8 +428,8 @@ public:
     QHBoxLayout* getLayout() {return layout;}
     void setToolTip(const QString & tip) { bar->setToolTip(tip); }
 
-    int  value() { return bar -> value();}
-    int maximum() { return bar->maximum();}
+    long  value() { return bar -> value();}
+    long maximum() { return bar->maximum();}
 
 private:
 
@@ -467,8 +467,8 @@ private:
     }
 
   private slots:
-    void setValue(int x, int y) { bar->setValue(x); bar->setMaximum(y);}
-    void setValue(int x) { bar->setValue(x); }
+    void setValue(long x, long y) { bar->setValue(x); bar->setMaximum(y);}
+    void setValue(long x) { bar->setValue(x); }
 
   public slots:
     void stop();

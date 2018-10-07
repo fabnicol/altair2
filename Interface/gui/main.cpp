@@ -48,7 +48,6 @@
 #include <QTextCodec>
 #include "altair-gui.h"
 
-int  fontsize;
 
 int main (int argc, char *argv[])
 {
@@ -99,7 +98,7 @@ int main (int argc, char *argv[])
     char* s;
 
     if (argc > 1) s = argv[1];
-    else s = (char*)"";
+    else s = const_cast<char*>(static_cast<const char*>(""));
 
     app.setStyleSheet ("\
     QGroupBox {\
@@ -120,6 +119,8 @@ int main (int argc, char *argv[])
 
     QObject::connect (mainWin, &MainWindow::exitSignal, [&] { app.quit();});
     mainWin->show();
+    
+    mainWin->fontsize = fontsize;
 
     return app.exec();
 }

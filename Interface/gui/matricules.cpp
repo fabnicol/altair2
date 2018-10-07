@@ -103,17 +103,17 @@ MatriculeInput::MatriculeInput (int width, int height)
 
     matrLineEdit = new FLineEdit ("",
                                   "Matricules",
-                                  {"Bulletins", "Format Matricule-Mois...-Annee(s)...;"},
+                                  {"Bulletins", "Format Matricule-Mois...-Année(s)...;"},
                                    "%bulletins");
 
     matrLineEdit2 = new FLineEdit ("",
                                    "MatriculesB",
-                                   {"Bulletins", "Format Matricule-Mois...-Annee(s)...;"},
+                                   {"Bulletins", "Format Matricule-Mois...-Année(s)...;"},
                                     "%bulletins");
 
     matrLineEdit3 = new FLineEdit ("",
                                    "MatriculesC",
-                                   {"Bulletins", "Format Matricule-Mois...-Annee(s)...;"},
+                                   {"Bulletins", "Format Matricule-Mois...-Année(s)...;"},
                                     "%bulletins");
 
     matrLineEditList = QList<FLineEdit*>();
@@ -187,7 +187,7 @@ MatriculeInput::MatriculeInput (int width, int height)
     {
         connect(*b,
                 &QToolButton::clicked,
-                [this, it]
+                [it]
                 {
                   (*it)->clear();
                 });
@@ -301,7 +301,7 @@ void MatriculeInput::ajouterLigneMatricules()
 
     FLineEdit *ligne = new FLineEdit ("",
                                       "Matricules" + QString::number(rank),
-                                      {"Bulletins", "Format Matricule-Mois...-Annee(s)...;"},
+                                      {"Bulletins", "Format Matricule-Mois...-Année(s)...;"},
                                        "%bulletins");
     matrLineEditList << ligne;
 
@@ -326,7 +326,7 @@ void MatriculeInput::ajouterLigneMatricules()
     {
         connect(*b,
                 &QToolButton::clicked,
-                [this, it]
+                [it]
                 {
                   (*it)->clear();
                 });

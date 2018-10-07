@@ -151,7 +151,7 @@ void Altair::writeProjectFile()
 namespace XmlMethod
 {
 
-QTreeWidgetItem *itemParent = nullptr;
+static QTreeWidgetItem *itemParent = nullptr;
 
 /// Empile les données pour un noeud donné, pour une profondeur d'enchâssement donnée
 /// \param node Le noeud de l'arborescence abstraite QDomNode
@@ -540,7 +540,7 @@ void Altair::parseProjectFile (QIODevice* file)
 
     if (projectRank == 0) return;
 
-    for (int group_index = 0; group_index < projectRank ; group_index++)
+    for (int group_index = 0; group_index < projectRank ; ++group_index)
         {
             refreshRowPresentation (group_index);
             // Ne pas inclure les onglets supplémentaires (Employeur, Siret et Budget) à ce stade
@@ -614,7 +614,7 @@ inline QVector<QStringList> Altair::processSecondLevelData (QVector<QStringList>
                         {
                             // computing filesizes
 
-                            stackedSizeInfo1 <<  QString::number ((long) QFileInfo (text).size()) + " ";
+                            stackedSizeInfo1 <<  QString::number (static_cast<long>(QFileInfo (text).size())) + " ";
 
                         }
                 }
@@ -654,7 +654,7 @@ void Altair::refreshProjectManagerValues (std::uint16_t refreshProjectManagerFla
     XmlMethod::itemParent = item;
     QStringList L = Hash::wrapper.keys();
 
-    for (int k = 1; k < Abstract::abstractWidgetList.count(); k++)
+    for (int k = 1; k < Abstract::abstractWidgetList.count(); ++k)
         {
             const QString& key = Abstract::abstractWidgetList[k]->getHashKey();
 

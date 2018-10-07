@@ -96,6 +96,7 @@ public :
     QSettings  *settings;         ///< paramètres par défaut mémorisés.
     QStringList recentFiles;      ///< Liste des fichiers de projet \b .alt récents
     QTextEdit* consoleDialog;     ///< Editeur de l'onglet console.
+    int   fontsize; ///<Taille de la fonte
 
     // Méthodes publiques
 
@@ -417,5 +418,5 @@ signals:
     void exitSignal();
 };
 
-#endif
+#endif // MAINWINDOW_H
 

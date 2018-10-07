@@ -54,7 +54,6 @@
 #include "templates.h"
 #include "flineframe.h"
 
-extern int fontsize;
 
 QString codePage::prologue_codes_path;
 
@@ -108,7 +107,7 @@ codePage::codePage()
               << "ihts" << "vacataires" << "astreintes" 
               << "nas";
 
-    short index = 0;
+    int index = 0;
 
     // Pour chacun des membres de variables, ajouter une ligne FLineEdit au dialogue
     // qui donnera lieu à exportation dans prologue_codes.R
@@ -127,7 +126,7 @@ codePage::codePage()
     FRichLabel *mainLabel = new FRichLabel ("Code de paye des tests");
 
     mainLayout->addWidget (mainLabel);
-    mainLayout->addWidget (baseBox, 1, 0);
+    mainLayout->addWidget (baseBox);
     mainLayout->addSpacing (100);
 
     init_label_text = "Appuyer pour exporter<br> vers les rapports d'analyse ";
@@ -206,7 +205,7 @@ void codePage::activer_fph (bool activer)
 
     for (const QString &s : variables_fph) ajouterVariable (s);
 
-    short index = variables.size() + variables_fph.size();
+    int index = variables.size() + variables_fph.size();
 
     vLayout->addWidget (label, index + 1, 1, Qt::AlignLeft);
     vLayout->addWidget (appliquerCodes, index, 1, Qt::AlignLeft);
@@ -415,11 +414,11 @@ void rapportPage::ajusterDependances(int i)
      case 20:   
         if (! listeCB[20]->isChecked())
         {
-            L << 24; // comptabilité et annexe liées par objet code.Libellé
+            L << 24; // comptabilité et annexe liées par objet code.libelle
         }
         if (listeCB[20]->isChecked())
         {
-            M << 24; // comptabilité et annexe liées par objet code.Libellé
+            M << 24; // comptabilité et annexe liées par objet code.libelle
         }
         break;
     }
@@ -442,7 +441,7 @@ rapportPage::rapportPage()
               << "IPF" << "RIFSEEP" << "HS" << "astreintes" << "élus" 
               << "comptabilité" << "SFT" << "retraites" << "FPH" << "annexe";  
     
-    short index = 0;
+    int index = 0;
 
     // Pour chacun des membres de variables, ajouter une ligne FCheckBox au dialogue
     // qui donnera lieu à exportation dans prologue_codes.R
@@ -471,7 +470,7 @@ rapportPage::rapportPage()
     FRichLabel *mainLabel = new FRichLabel ("Options des rapports");
 
     mainLayout->addWidget (mainLabel);
-    mainLayout->addWidget (baseBox, 1, 0);
+    mainLayout->addWidget (baseBox);
 
     mainLayout->addSpacing (100);
 
@@ -695,8 +694,7 @@ standardPage::standardPage()
     QLabel* exportLabel = new QLabel ("Exportation  ");
 
     // Utiliser % devant l'option active la syntaxe `--option argument' plutôt que `--option=argument'
-       
-    
+
     exportWidget = new FComboBox(exportRange,             // Contenu du menu déroulant
                                   "exportMode",           // Balise XML du projet .alt
                                   {
@@ -789,20 +787,20 @@ standardPage::standardPage()
     //    - une présentation dans le gestionnaire de projets (troisième arg.)
     // Elles ne sont pas génératrices de ligne de commande.
     // Leur portée est limitée à l'interface graphique
-
     // L'archivage et l'exportation sont deux commandes déclenchées par l'utilisateurs (menus et boutons)
-     
-     
+
+
     FCheckBox* archiveTableBox = new FCheckBox ("Données tableur",
-                                                     flags::status::enabledChecked | flags::commandLineType::noCommandLine,
-                                                     "archiveTable",
-                                                     {"Données csv", "Archiver/Restaurer les données CSV"});
-     
+                                                flags::status::enabledChecked | flags::commandLineType::noCommandLine,
+                                                "archiveTable",
+                                                {"Données csv", "Archiver/Restaurer les données CSV"});
+
+
     FCheckBox* exportTableBox  = new FCheckBox ("Données tableur",
-                                                    flags::status::enabledChecked | flags::commandLineType::noCommandLine,
-                                                      "exportTable",
-                                                     {"Données csv", "Exporter les données CSV"});
- 
+                                                flags::status::enabledChecked | flags::commandLineType::noCommandLine,
+                                                 "exportTable",
+                                                {"Données csv", "Exporter les données CSV"});
+
     FCheckBox* archiveAllBox = new FCheckBox ("Tout",
                                               "archiveAll",
                                              {"Données XML", "Archiver/Restaurer les données tableur et XML"});
@@ -847,10 +845,10 @@ standardPage::standardPage()
     FRichLabel *mainLabel = new FRichLabel ("Format des bases");
 
     mainLayout->addWidget (mainLabel);
-    mainLayout->addWidget (baseTypeBox,      1, 0);
-    mainLayout->addWidget (optionalFieldBox, 2, 0);
-    mainLayout->addWidget (exportBox,        3, 0);
-    mainLayout->addWidget (archBox,          4, 0);
+    mainLayout->addWidget (baseTypeBox);
+    mainLayout->addWidget (optionalFieldBox);
+    mainLayout->addWidget (exportBox);
+    mainLayout->addWidget (archBox);
 
     setLayout (mainLayout);
     substituer_versant();
@@ -993,7 +991,7 @@ processPage::processPage()
                                         "en même temps"));
 
     enchainerRapports = new FCheckBox ("Enchaîner extraction et analyse",
-                                       flags::status::enabledChecked|flags::commandLineType::noCommandLine,
+                                       flags::status::enabledChecked | flags::commandLineType::noCommandLine,
                                        "enchainerRapports",
                                         {
                                             "Enchaînements",
@@ -1110,9 +1108,9 @@ processPage::processPage()
     QVBoxLayout* mainLayout = new QVBoxLayout;
     FRichLabel *mainLabel = new FRichLabel ("Paramètres de traitement");
     mainLayout->addWidget (mainLabel);
-    mainLayout->addWidget (processTypeBox, 1, 0);
-    mainLayout->addWidget (logBox, 2, 0);
-    mainLayout->addWidget (rapportBox, 3, 0);
+    mainLayout->addWidget (processTypeBox);
+    mainLayout->addWidget (logBox);
+    mainLayout->addWidget (rapportBox);
     mainLayout->addSpacing (150);
 
     setLayout (mainLayout);
@@ -1175,7 +1173,7 @@ extraPage::extraPage()
                                       "table de correspondance et peut produire des résultats<br>"
                                       "relativement éloignés des agrégats comptables. Cette <br>"
                                       "table par défaut est générée sous <b>Bases/Fiabilite</b> <br>"
-                                      "sous le nom de fichier <b>code.Libellé.csv</b>.";
+                                      "sous le nom de fichier <b>code.libelle.csv</b>.";
     
     budgetCheckBox = new FCheckBox ("Correspondance budgétaire  ",
                                     flags::status::enabledUnchecked
@@ -1238,7 +1236,7 @@ extraPage::extraPage()
                                       "point-virgule et encodé en Latin-1 ou Windows-1252.<br>"
                                       "Il doit comporter une ligne d'intitulés de colonnes.<br>"
                                       "La première colonne est intitulée <b>Grade</b> et la seconde <br>"
-                                      "<b>Categorie</b>.<br>"
+                                      "<b>Catégorie</b>.<br>"
                                       "A défaut d'importation manuelle de ce fichier, le logiciel<br>"
                                       "réalise une interpolation relativement exacte de la <br>"
                                       "correspondance entre grade et catégorie statutaire.<br>"
@@ -1269,9 +1267,9 @@ extraPage::extraPage()
                                       "Il doit être au format CSV (séparateur point-virgule)<br>"
                                       "et encodé en caractères Latin-1 ou Windows-1252.<br>"
                                       "Les colonnes doivent comporter les intitulés Matricule,<br>"
-                                      "Annee, Mois, Logement, dans cet ordre : <br>"
+                                      "Année, Mois, Logement, dans cet ordre : <br>"
                                       "<ul><li><b>Matricule</b> : Matricule de l'agent au mois concerné.</li>"
-                                      "<li><b>Annee</b> : année de la période sous revue.</li>"
+                                      "<li><b>Année</b> : année de la période sous revue.</li>"
                                       "<li><b>Mois</b> : mois de la période sous revue.</li>"
                                       "<li><b>Logement</b> : type du logement, par nécessité absolue de<br>"
                                       "service ou par utilité de service.<br>"
@@ -1357,10 +1355,10 @@ extraPage::extraPage()
     QVBoxLayout* mainLayout = new QVBoxLayout;
     FRichLabel *mainLabel = new FRichLabel ("Fichiers externes");
     mainLayout->addWidget (mainLabel);
-    mainLayout->addWidget (budgetBox, 1, 0);
-    mainLayout->addWidget (gradesBox, 2, 0);
-    mainLayout->addWidget (logtBox,   3, 0);
-    mainLayout->addWidget (ifseBox,   4, 0);
+    mainLayout->addWidget (budgetBox);
+    mainLayout->addWidget (gradesBox);
+    mainLayout->addWidget (logtBox);
+    mainLayout->addWidget (ifseBox);
     mainLayout->addSpacing (250);
 
     setLayout (mainLayout);
@@ -1407,7 +1405,7 @@ options::options (Altair* parent)
     optionWidget = new QListWidget;
     optionWidget->setViewMode (QListView::IconMode);
     optionWidget->setIconSize (QSize (48, 48));
-    optionWidget->setFont (QFont ("Garamond", fontsize - 2));
+    optionWidget->setFont (QFont ("Garamond", parent->parent->fontsize - 2));
     optionWidget->setMovement (QListView::Static);
     optionWidget->setFixedWidth (98);
     optionWidget->setSpacing (12);
