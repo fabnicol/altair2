@@ -654,7 +654,7 @@ void FProgressBar::computeLHXParsingProgressBar()
 {
     if (parent->process.state() != QProcess::Running) return;
 
-    int level = std::min(maximum(), this->parent->fileRank);
+    long level = std::min(maximum(), this->parent->fileRank);
 
     if(QDir(v(base)).entryList({"*.csv"}, QDir::Files).count() > 0)
     {
@@ -664,7 +664,7 @@ void FProgressBar::computeLHXParsingProgressBar()
 
     if (value() - level > 4/5* maximum())
     {
-        parent->textAppend((QString)PROCESSING_HTML_TAG + "Analyse des bases de données...");
+        parent->textAppend(PROCESSING_HTML_TAG "Analyse des bases de données...");
     }
 
     setValue(level);
@@ -675,7 +675,7 @@ void FProgressBar::computeLHXWritingProgressBar(bool print_message)
 {
     if (print_message)
     {
-      parent->textAppend((QString)PROCESSING_HTML_TAG + "Enregistrement des bases de données...");
+      parent->textAppend(PROCESSING_HTML_TAG "Enregistrement des bases de données...");
       bar->setValue(0);
       bar->setRange(0, 100);
     }
@@ -753,8 +753,8 @@ FProgressBar::FProgressBar(FDialog* parent,
     connect(&(this->parent->process), SIGNAL(started()), this, SLOT(showProgressBar()));
     connect(killButton, &QToolButton::clicked, parent, killFunction);
     connect(&this->parent->process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(stop()));
-    connect(this->parent, SIGNAL(setProgressBar(int,int)), this, SLOT(setValue(int, int)));
-    connect(this->parent, SIGNAL(setProgressBar(int)), this, SLOT(setValue(int)));
+    connect(this->parent, SIGNAL(setProgressBar(long, long)), this, SLOT(setValue(long, long)));
+    connect(this->parent, SIGNAL(setProgressBar(long)), this, SLOT(setValue(long)));
     connect(this->parent, &FDialog::hideProgressBar, [this] { hide(); });
     connect(this->parent, &FDialog::showProgressBar, [this] { bar->reset(); bar->show(); killButton->show(); killButton->setEnabled(true);});
 

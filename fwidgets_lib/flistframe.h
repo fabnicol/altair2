@@ -64,7 +64,7 @@ public:
  QString frameHashKey;                   ///< Balise XML correspondant à la classe.
  std::vector<QThread*> thread;           ///< Vecteur de fils d'exécution permettant de lancer parseXhlFile sur chaque fichier d'onglet.
  int size = 0;                           ///< Nombre total de fichiers dans  FListFrame::widgetContainer.
- QToolButton *importFromMainTree=new QToolButton; ///< Bouton permettant d'importer des fichiers d'une arborescence de fichiers FListFrame::fileTreeView.
+ QToolButton *importFromMainTree = new QToolButton; ///< Bouton permettant d'importer des fichiers d'une arborescence de fichiers FListFrame::fileTreeView.
  QStringList tabLabels;                  ///< Liste des titres des onglets.
 # ifndef USE_RIGHT_CLICK
 
@@ -245,7 +245,7 @@ private:
 
  void deleteAllGroups(bool insertFirstGroup = true, bool eraseAllData = true);
 
- void launch_thread(int rank);
+ void launch_thread(unsigned long rank);
 
  /// Décode les champs principaux du fichier XHL: Année, Mois, Budget, ...
  /// \param fileName Chemin du fichier décodé.
@@ -269,8 +269,8 @@ signals:
     void imported();
     void parsed();
     void textAppend(const QString&);
-    void setProgressBar(int, int);
-    void setProgressBar(int);
+    void setProgressBar(long, long);
+    void setProgressBar(long);
     void hideProgressBar();
     void showProgressBar();
     void refreshRowPresentation(int);

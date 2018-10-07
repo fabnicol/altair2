@@ -641,7 +641,7 @@ void Altair::processFinished (exitCode code)
             textAppend (tr (STATE_HTML_TAG "Taille de la base : ")
                         + QString::number (fsSize)
                         + " Octets ("
-                        + QString::number (((float)fsSize) / (1024.0 * 1024.0), 'f', 2)
+                        + QString::number (static_cast<double>(fsSize) / (1024.0 * 1024.0), 'f', 2)
                         + " Mo)");
 
             bool res = false;

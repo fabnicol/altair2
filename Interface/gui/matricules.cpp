@@ -187,7 +187,7 @@ MatriculeInput::MatriculeInput (int width, int height)
     {
         connect(*b,
                 &QToolButton::clicked,
-                [this, it]
+                [it]
                 {
                   (*it)->clear();
                 });
@@ -326,7 +326,7 @@ void MatriculeInput::ajouterLigneMatricules()
     {
         connect(*b,
                 &QToolButton::clicked,
-                [this, it]
+                [it]
                 {
                   (*it)->clear();
                 });

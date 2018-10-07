@@ -54,7 +54,6 @@
 #include "templates.h"
 #include "flineframe.h"
 
-extern int fontsize;
 
 QString codePage::prologue_codes_path;
 
@@ -108,7 +107,7 @@ codePage::codePage()
               << "ihts" << "vacataires" << "astreintes" 
               << "nas";
 
-    short index = 0;
+    int index = 0;
 
     // Pour chacun des membres de variables, ajouter une ligne FLineEdit au dialogue
     // qui donnera lieu à exportation dans prologue_codes.R
@@ -127,7 +126,7 @@ codePage::codePage()
     FRichLabel *mainLabel = new FRichLabel ("Code de paye des tests");
 
     mainLayout->addWidget (mainLabel);
-    mainLayout->addWidget (baseBox, 1, 0);
+    mainLayout->addWidget (baseBox);
     mainLayout->addSpacing (100);
 
     init_label_text = "Appuyer pour exporter<br> vers les rapports d'analyse ";
@@ -206,7 +205,7 @@ void codePage::activer_fph (bool activer)
 
     for (const QString &s : variables_fph) ajouterVariable (s);
 
-    short index = variables.size() + variables_fph.size();
+    int index = variables.size() + variables_fph.size();
 
     vLayout->addWidget (label, index + 1, 1, Qt::AlignLeft);
     vLayout->addWidget (appliquerCodes, index, 1, Qt::AlignLeft);
@@ -442,7 +441,7 @@ rapportPage::rapportPage()
               << "IPF" << "RIFSEEP" << "HS" << "astreintes" << "élus" 
               << "comptabilité" << "SFT" << "retraites" << "FPH" << "annexe";  
     
-    short index = 0;
+    int index = 0;
 
     // Pour chacun des membres de variables, ajouter une ligne FCheckBox au dialogue
     // qui donnera lieu à exportation dans prologue_codes.R
@@ -471,7 +470,7 @@ rapportPage::rapportPage()
     FRichLabel *mainLabel = new FRichLabel ("Options des rapports");
 
     mainLayout->addWidget (mainLabel);
-    mainLayout->addWidget (baseBox, 1, 0);
+    mainLayout->addWidget (baseBox);
 
     mainLayout->addSpacing (100);
 
@@ -846,10 +845,10 @@ standardPage::standardPage()
     FRichLabel *mainLabel = new FRichLabel ("Format des bases");
 
     mainLayout->addWidget (mainLabel);
-    mainLayout->addWidget (baseTypeBox,      1, 0);
-    mainLayout->addWidget (optionalFieldBox, 2, 0);
-    mainLayout->addWidget (exportBox,        3, 0);
-    mainLayout->addWidget (archBox,          4, 0);
+    mainLayout->addWidget (baseTypeBox);
+    mainLayout->addWidget (optionalFieldBox);
+    mainLayout->addWidget (exportBox);
+    mainLayout->addWidget (archBox);
 
     setLayout (mainLayout);
     substituer_versant();
@@ -1117,9 +1116,9 @@ processPage::processPage()
     QVBoxLayout* mainLayout = new QVBoxLayout;
     FRichLabel *mainLabel = new FRichLabel ("Paramètres de traitement");
     mainLayout->addWidget (mainLabel);
-    mainLayout->addWidget (processTypeBox, 1, 0);
-    mainLayout->addWidget (logBox, 2, 0);
-    mainLayout->addWidget (rapportBox, 3, 0);
+    mainLayout->addWidget (processTypeBox);
+    mainLayout->addWidget (logBox);
+    mainLayout->addWidget (rapportBox);
     mainLayout->addSpacing (150);
 
     setLayout (mainLayout);
@@ -1367,10 +1366,10 @@ extraPage::extraPage()
     QVBoxLayout* mainLayout = new QVBoxLayout;
     FRichLabel *mainLabel = new FRichLabel ("Fichiers externes");
     mainLayout->addWidget (mainLabel);
-    mainLayout->addWidget (budgetBox, 1, 0);
-    mainLayout->addWidget (gradesBox, 2, 0);
-    mainLayout->addWidget (logtBox,   3, 0);
-    mainLayout->addWidget (ifseBox,   4, 0);
+    mainLayout->addWidget (budgetBox);
+    mainLayout->addWidget (gradesBox);
+    mainLayout->addWidget (logtBox);
+    mainLayout->addWidget (ifseBox);
     mainLayout->addSpacing (250);
 
     setLayout (mainLayout);
@@ -1417,7 +1416,7 @@ options::options (Altair* parent)
     optionWidget = new QListWidget;
     optionWidget->setViewMode (QListView::IconMode);
     optionWidget->setIconSize (QSize (48, 48));
-    optionWidget->setFont (QFont ("Garamond", fontsize - 2));
+    optionWidget->setFont (QFont ("Garamond", parent->parent->fontsize - 2));
     optionWidget->setMovement (QListView::Static);
     optionWidget->setFixedWidth (98);
     optionWidget->setSpacing (12);

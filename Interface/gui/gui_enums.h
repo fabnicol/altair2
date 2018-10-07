@@ -59,7 +59,7 @@ static constexpr const char* STEP_UP  =  "/../../";
 /// Nombre maximum de lignes d'avertissement par erreur de ligne de paye
 
 #ifndef WARNING_LIMIT
-#  define WARNING_LIMIT 5
+static constexpr const int WARNING_LIMIT = 5;
 #endif
 
 /// Maximum du nombre de lignes de la sortie console si l'option de configuration "Limiter la sortie de la console" est cochée.
@@ -69,7 +69,7 @@ static constexpr const char* STEP_UP  =  "/../../";
 #endif
 
 #ifndef TYPE_LOOP_LIMIT
-#  define TYPE_LOOP_LIMIT 50
+static constexpr const int  TYPE_LOOP_LIMIT = 50;
 #endif
 
 #ifndef SCRIPT_DIR
