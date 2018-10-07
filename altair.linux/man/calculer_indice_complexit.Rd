@@ -7,7 +7,7 @@
 calculer_indice_complexité()
 }
 \value{
-NULL si les variables \code{Code, Libellé, Type} suffisent, sinon le tableau des multiplicités associées aux combinaisons de ces variables auxquelles il est impossible d'associer un compte unique.
+NULL si les variables \code{Code, Libelle, Type} suffisent, sinon le tableau des multiplicités associées aux combinaisons de ces variables auxquelles il est impossible d'associer un compte unique.
 }
 \description{
 Calcule le nombre minimum de variables nécessaires pour apparier les bases de paye et un tableau de correspondance entre codes de paye et comptabilité

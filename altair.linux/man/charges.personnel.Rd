@@ -12,7 +12,7 @@ charges.personnel(Base = Paie, grade = NULL, classe = NULL,
 \enumerate{
   \item{ les variables charactère suivantes :
      \itemize{
-         \item \code{Année}
+         \item \code{Annee}
          \item \code{Matricule}
          \item \code{Statut}
          \item \code{Grade}}}
@@ -36,7 +36,7 @@ charges.personnel(Base = Paie, grade = NULL, classe = NULL,
 
 \item{statut}{Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.}
 
-\item{catégorie}{Catégorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.}
+\item{catégorie}{Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.}
 }
 \value{
 Un tableau des effectifs mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.

@@ -53,7 +53,8 @@ rendre(to = "latex",
               "urlcolor=cyan", # couleur des liens hypertexte
               "--highlight-style", # facultatif
               "tango"),
-       output_file = "altair.tex")
+       output_file = "altair.tex",
+       keep = fichiers.temp)
 
 # Copie sur le sous-dossier de la clé (dossier R-Altair ou R-Altair/nom du dossier/
 # en mode distributif)

@@ -9,7 +9,7 @@ test_plafonds(plafonds, Lignes, logements = NULL)
 \arguments{
 \item{plafonds}{Base \code{data.table} comportant les colonnes caractères \code{Grade, Groupe} et \code{Logement} suivies de la colonne numérique \code{Plafond}. Logement doit contenir le codage \code{NAS} pour les personnels logés par nécessité absolue de service.}
 
-\item{Lignes}{Lignes de paye limitées à des montants indemnitaires fléchés (ex: IFSE) et comportant les variables \code{Matricule, Année, Mois, Statut, Grade, Emploi, Type, Code, Libellé, Montant}}
+\item{Lignes}{Lignes de paye limitées à des montants indemnitaires fléchés (ex: IFSE) et comportant les variables \code{Matricule, Annee, Mois, Statut, Grade, Emploi, Type, Code, Libelle, Montant}}
 
 \item{logements}{La base de logements importée par l'onglet Extra de l'interface graphique, comportant la variable Logement et le codage \code{NAS} pour les personnels logés par nécessité absolue de service. A défaut tous les agents sont considérés non logés.}
 }
