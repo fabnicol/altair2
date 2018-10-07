@@ -228,7 +228,9 @@ if (setOSWindows) séquentiel <- TRUE else {
                sep = ":",
                header = FALSE)[V1 == "MemAvailable", V2]
   mem <- strtoi(unlist(strsplit(mem, " "))[1])
-  if (nrow(Paie) * ratio.memoire.ligne.parallele  > mem) séquentiel <- TRUE
+  if (nrow(Paie) * ratio.memoire.ligne.parallele  > mem) {
+    "séquentiel" %a% TRUE  # assignation globale nécessaire
+  }
 }
 
 
