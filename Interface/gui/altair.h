@@ -89,7 +89,7 @@ public:
     QString rootDir = ""; ///< Fichier racine des données
     QString username; ///< Nom de l'utilisateur Unix
 
-    const QStringList  XML_FILTERS = {"*.xml", "*.xhl", "*.XML", "*.XHL"}; ///< Liste des extensions valides pour les fichiers entrants
+    const QStringList  XML_FILTERS = {"*.xml", "*.xhl", "*.XML", "*.XHL", "*.zip", "*.ZIP"}; ///< Liste des extensions valides pour les fichiers entrants
 
     static std::uint16_t RefreshFlag; ///< Drapeau permettant d'indiquer l'état de rafraichissement de l'interface.
 

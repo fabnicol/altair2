@@ -226,9 +226,6 @@ void FListFrame::launch_thread(int rank)
     // Cette fonction pourrait être optimisée en ne lançant pas les fils d'exécution de manière successive mais par par groupe avec plusieurs fils parallèles dans chaque groupe
 }
 
-
-struct Header* elemPar;
-
 void FListFrame::parseXhlFile(const QString& fileName)
 {
 
@@ -517,13 +514,51 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
             else
               if (info.isFile())
               {
+                  if (info.suffix().toUpper() == "ZIP")    
+                  {
+                      int res = system(QString("unzip -C " + currentString + " '*.x[hm]l' -d " + info.absolutePath()).toStdString().c_str());
+                      
+                      if (res == 0)
+                         emit(textAppend(STATE_HTML_TAG + QString("Le fichier ")
+                                       + currentString + " a été décompressé."));
+                      else 
+                         emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
+                                        + currentString + " n'a pas été décompressé.")); 
+                      
+                      QString extrString = info.absolutePath() + QDir::separator() + info.baseName() + ".xhl";
+                      
+                      if (QFileInfo(extrString).exists())
+                        stringsToBeAdded << extrString;
+                      else
+                      {
+                          extrString = info.absolutePath() + QDir::separator() + info.baseName() + ".XHL";
+                          if (QFileInfo(extrString).exists())
+                            stringsToBeAdded << extrString;
+                      
+                          else
+                          {
+                              extrString = info.absolutePath() + QDir::separator() + info.baseName() + ".XML";
+                              if (QFileInfo(extrString).exists())
+                                stringsToBeAdded << extrString;
+                              else
+                              {
+                                  extrString = info.absolutePath() + QDir::separator() + info.baseName() + ".xml";
+                                  if (QFileInfo(extrString).exists())
+                                    stringsToBeAdded << extrString;
+                              }
+                          }
+                      }
+                  }
+                  else
                   if (info.suffix().toUpper() == "XHL" || info.suffix().toUpper() == "XML")
                     stringsToBeAdded << currentString;
+
 #ifdef HAVE_APPLICATION
                   else
+                  {
                       emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
-                                       + currentString + " sera ignoré. Les fichiers doivent avoir une extension du type .xml ou .xhl."));
-
+                                       + currentString + " sera ignoré. Les fichiers doivent avoir une extension du type .xml, .xhl ou .zip"));
+                  }
 #endif
               }
               else return {};

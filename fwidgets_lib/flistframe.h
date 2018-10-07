@@ -247,8 +247,6 @@ private:
 
  void launch_thread(int rank);
 
- struct Header* elemPar;
-
  /// Décode les champs principaux du fichier XHL: Année, Mois, Budget, ...
  /// \param fileName Chemin du fichier décodé.
 
