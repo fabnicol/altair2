@@ -47,6 +47,11 @@ greaterThan(QT_MAJOR_VERSION, 5)
 # utiliser au moins Qt5 et g++-5.1
 # ENCODAGE : UTILISER UTF-8 PARTOUT, y compris sur le fichier .pro.
 
+if (linux) {
+  message("Système d'exploitation linux")
+} else {
+  error("Le système d'exploitation doit être linux")
+}
 #QMAKE_CXX=/usr/bin/g++-8.1.0
 GIT_VERSION = $$system(git --version | grep -e \"git version\")
 CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
@@ -106,15 +111,17 @@ DEFINES += MAXIMUM_CONSOLE_OUTPUT=800  \ # Pour limiter le volume de lignes de l
            #HEIGHT=700                   \# Hauteur par défaut de l'interface 
 
 DEFINES += COMMANDLINE_CONSOLE_OUTPUT          \        # Générer la ligne de commande en console (verbeux)
-           GUI_OUTPUT      \                            # Balises d'identification des lignes de la console : mode GUI
+           GUI_OUTPUT      \                             # Balises d'identification des lignes de la console : mode GUI
            HAVE_APPLICATION
 
 DEFINES += LOCAL_BINPATH \                              # chemins d'exécution définis par rapport l'emplacement de l'exécutable
            USE_RIGHT_CLICK  \                           # utiliser un clic droit sur les fichiers pour ajouter, supprimer etc.
            #REGEX_ANONYM   \                            # Utiliser en cas de problème avec l'analyse des données sensibles dans l'anonymisation
-          
+
+
 QMAKE_CXXFLAGS += -std=c++17                           # obligatoire
 QMAKE_CXXFLAGS += -march=core-avx2  -pipe -m64         # facultatif
+
 
 SOURCES += \
     options.cpp \
@@ -126,6 +133,7 @@ SOURCES += \
     highlighter.cpp \
     run.cpp \
     matricules.cpp
+
 
 HEADERS  += \
     options.h \

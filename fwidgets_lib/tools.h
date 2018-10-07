@@ -74,7 +74,7 @@
 /// \param title Titre
 /// \param text Texte
 
-#define  Warning(title, text)   QMessageBox::warning(0, title, text)
+#define  Warning(title, text)   QMessageBox::warning(nullptr, title, text)
 
 #define REQUIRE true
 

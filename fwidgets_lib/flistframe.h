@@ -64,7 +64,7 @@ public:
  QString frameHashKey;                   ///< Balise XML correspondant à la classe.
  std::vector<QThread*> thread;           ///< Vecteur de fils d'exécution permettant de lancer parseXhlFile sur chaque fichier d'onglet.
  int size = 0;                           ///< Nombre total de fichiers dans  FListFrame::widgetContainer.
- QToolButton *importFromMainTree=new QToolButton; ///< Bouton permettant d'importer des fichiers d'une arborescence de fichiers FListFrame::fileTreeView.
+ QToolButton *importFromMainTree = new QToolButton; ///< Bouton permettant d'importer des fichiers d'une arborescence de fichiers FListFrame::fileTreeView.
  QStringList tabLabels;                  ///< Liste des titres des onglets.
 # ifndef USE_RIGHT_CLICK
 
@@ -84,7 +84,7 @@ public:
 
  void clearWidgetContainer();
 
- /// Lancer un fil d'exécution pour lire l'entête d'un fichier XHL (Annee, Mois,...) et classer les fichiers par onglet automatiquement
+ /// Lancer un fil d'exécution pour lire l'entête d'un fichier XHL (Année, Mois,...) et classer les fichiers par onglet automatiquement
  /// \param rank Rang du fichier dans la liste des fichiers de l'onglet central
  /// \note Cette fonction appelle  parseXhlFile
  /// \todo Cette fonction pourrait être optimisée en ne lançant pas les fils d'exécution de manière successive mais par par groupe avec plusieurs fils parallèles dans chaque groupe
@@ -245,11 +245,9 @@ private:
 
  void deleteAllGroups(bool insertFirstGroup = true, bool eraseAllData = true);
 
- void launch_thread(int rank);
+ void launch_thread(unsigned long rank);
 
- struct Header* elemPar;
-
- /// Décode les champs principaux du fichier XHL: Annee, Mois, Budget, ...
+ /// Décode les champs principaux du fichier XHL: Année, Mois, Budget, ...
  /// \param fileName Chemin du fichier décodé.
 
  void parseXhlFile(const QString& fileName);
@@ -271,8 +269,8 @@ signals:
     void imported();
     void parsed();
     void textAppend(const QString&);
-    void setProgressBar(int, int);
-    void setProgressBar(int);
+    void setProgressBar(long, long);
+    void setProgressBar(long);
     void hideProgressBar();
     void showProgressBar();
     void refreshRowPresentation(int);

@@ -198,15 +198,15 @@ void FListFrame::clearWidgetContainer()
 }
 
 
-void FListFrame::launch_thread(int rank)
+void FListFrame::launch_thread(unsigned long rank)
 {
-    if (isTerminated || size == 0 || rank >= size) return;
+    if (isTerminated || size == 0 || rank >= static_cast<unsigned long>(size)) return;
 
     // Ajouter un fil d'exécution à la liste des fils thread
 
     thread.push_back(new QThread);
 
-    const QString& fileName = stringList.at(rank);
+    const QString& fileName = stringList.at(static_cast<int>(rank));
 
     // Démarrer le fil et lui faire lire l'entête du fichier XHL en cours
 
@@ -225,9 +225,6 @@ void FListFrame::launch_thread(int rank)
 
     // Cette fonction pourrait être optimisée en ne lançant pas les fils d'exécution de manière successive mais par par groupe avec plusieurs fils parallèles dans chaque groupe
 }
-
-
-struct Header* elemPar;
 
 void FListFrame::parseXhlFile(const QString& fileName)
 {
@@ -254,7 +251,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
     QRegExp reg("DocumentPaye.*(?:Annee) V.?=.?" QUOTE "([0-9]+)" QUOTE ".*(?:Mois) V.?=.?" QUOTE "([0-9]+)" QUOTE "(.*)(?:Employeur).*(?:Nom) V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret) V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE ".*DonneesIndiv(.*)PayeIndivMensuel");
     reg.setPatternSyntax(QRegExp::RegExp2);
     reg.setCaseSensitivity(Qt::CaseInsensitive);
-    QRegExp reg2(".*Budget.*Libellé V.?=.?" QUOTE "([^" QUOTE "]*)" QUOTE ".*");
+    QRegExp reg2(".*Budget.*Libelle V.?=.?" QUOTE "([^" QUOTE "]*)" QUOTE ".*");
     reg2.setCaseSensitivity(Qt::CaseInsensitive);
     QRegExp reg3(".*(?:Etablissement).*(?:Nom) V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret) V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE);
     reg3.setCaseSensitivity(Qt::CaseInsensitive);
@@ -431,7 +428,7 @@ void FListFrame::parseXhlFile()
                      for (QThread *t : thread)
                      {
                          if (t)
-                             test += (int) t->isFinished() ;
+                             test += t->isFinished() ;
                      }
 
                      #ifdef HAVE_APPLICATION
@@ -481,7 +478,12 @@ void FListFrame::addStringListToListWidget()
     parseXhlFile();
 
 }
-
+constexpr const char* _7z = "7Z";
+constexpr const char* bzip2 = "BZ2";
+constexpr const char* tar = "TAR";
+constexpr const char* gzip = "GZ";
+constexpr const char* formats[4] = {_7z, bzip2, tar, gzip};
+constexpr const char* types[4] = {"7z", "bzip2", "tar", "gzip"};
 
 QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
 {
@@ -498,18 +500,19 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
             QFileInfo info = QFileInfo(currentString);
             if (info.isDir())
               {
+                if (info.baseName() == "PaxHeader") continue;  // "Déchets" de l'extraction 7zip
                 QDir dir(currentString);
                 QFileInfoList entries = dir.entryInfoList(QDir::NoDotAndDotDot|QDir::Files|QDir::Dirs);
                 // Recursion
                   // Utilisation d'une rvalue
-                QStringList &&tempStrings=QStringList();
+                QStringList &&tempStrings = QStringList();
                 for (QFileInfo & embeddedFileInfo: entries)
                 {
                      tempStrings <<  embeddedFileInfo.absoluteFilePath();
                 }
 
                   // Move semantics : gain de temps et de mémoire (>= Qt5.4)
-                  // temStrings est coerced dans le type const QStringList sans copie de données
+                  // tempStrings est coerced dans le type const QStringList sans copie de données
 
                 stringsToBeAdded << parseTreeForFilePaths(tempStrings);
 
@@ -517,14 +520,59 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
             else
               if (info.isFile())
               {
-                  if (info.suffix().toUpper() == "XHL" || info.suffix().toUpper() == "XML")
-                    stringsToBeAdded << currentString;
-#ifdef HAVE_APPLICATION
+                  if (info.suffix().toUpper() == "ZIP")    
+                  {
+                      const QString &tempDir = info.absolutePath() + QDir::separator() + info.baseName();
+                      emit(textAppend(PROCESSING_HTML_TAG + QString("Décompression du fichier " + currentString + ". Patientez...")));
+                      int res = system(QString("unzip -C " + currentString + " '*.x[hm]l' -d " + tempDir).toStdString().c_str());
+                      
+                      if (res == 0)
+                         emit(textAppend(STATE_HTML_TAG + QString("Le fichier ")
+                                       + currentString + " a été décompressé."));
+                      else 
+                         emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
+                                        + currentString + " n'a pas été décompressé."));
+                      
+                      stringsToBeAdded << parseTreeForFilePaths({tempDir});
+                      
+                  }
                   else
-                      emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
-                                       + currentString + " sera ignoré. Les fichiers doivent avoir une extension du type .xml ou .xhl."));
+                  {
+                      int res = -2;
+                      for (short i = 0; i < 4; ++i)    
+                      {
+                        if (info.suffix().toUpper() == formats[i])    
+                          {
+                              const QString &tempDir = info.absolutePath() + QDir::separator() + info.baseName();
+                              emit(textAppend(PROCESSING_HTML_TAG + QString("Décompression du fichier " + currentString + ". Patientez...")));
+                              res = system(QString("7z x " + currentString + " -o" + tempDir + " -t" + QString(types[i])).toStdString().c_str());
+                              
+                              if (res < 2)
+                                 emit(textAppend(STATE_HTML_TAG + QString("Le fichier ")
+                                               + currentString + " a été décompressé."));
+                              else 
+                                 emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
+                                                + currentString + " n'a pas été décompressé ou des erreurs sont rencontrées."));
+                              
+                              stringsToBeAdded << parseTreeForFilePaths({tempDir});
+                              
+                          }
+                      }
+                      
+                      if (res == -2)
+                      {
+                          if (info.suffix().toUpper() == "XHL" || info.suffix().toUpper() == "XML")
+                             stringsToBeAdded << currentString;
+#                         ifdef HAVE_APPLICATION
+                          else
+                          {
+                              emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
+                                           + currentString + " sera ignoré. Les fichiers doivent avoir une extension du type .xml, .xhl, .7z, .zip, .tar.gz ou .tar.bz2"));
+                          }
+#                         endif
+                      }
+                 }
 
-#endif
               }
               else return {};
     }
@@ -865,8 +913,8 @@ void FListFrame::on_file_display(const QString& file)
  * rosybrown royalblue saddlebrown salmon sandybrown seagreen seashell sienna silver skyblue slateblue slategray slategrey snow springgreen steelblue
  *  tan teal thistle tomato transparent turquoise violet wheat white whitesmoke yellow yellowgreen */
 
-constexpr const int colorListSize = 9;
-constexpr const  std::array<const char*, colorListSize > &colorList = { "tomato", "navy", "yellowgreen", "marroon", "orange", "green",  "darkcyan", "blue", "black"};
+static constexpr const int colorListSize = 9;
+static constexpr const  std::array<const char*, colorListSize > &colorList = { "tomato", "navy", "yellowgreen", "marroon", "orange", "green",  "darkcyan", "blue", "black"};
 
 inline void finalise_macro(FListFrame* listFrame, QStringList& pairs, const QString& label, const int rank)
 {

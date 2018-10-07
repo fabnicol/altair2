@@ -56,7 +56,7 @@
 #include "fstring.h"
 #include "tags.h"
 
-extern int fontsize;
+
 std::uint16_t Altair::RefreshFlag = interfaceStatus::hasUnsavedOptions;
 qint64   Altair::totalSize;
 
@@ -153,7 +153,6 @@ void Altair::refreshTreeView (bool create)
 
 
 
-
 Altair::Altair()
 {
     //////////////  Initialisation   ///////////////////
@@ -222,8 +221,8 @@ Altair::Altair()
     // ou actualiser l'interface
     connect (project->fileListWidget, SIGNAL (forceCloseProject()), this, SLOT (closeProject()));
     connect (project, SIGNAL (showProgressBar()), this, SIGNAL (showProgressBar()));
-    connect (project, SIGNAL (setProgressBar (int, int)), this, SIGNAL (setProgressBar (int, int)));
-    connect (project, SIGNAL (setProgressBar (int)), this, SIGNAL (setProgressBar (int)));
+    connect (project, SIGNAL (setProgressBar (long, long)), this, SIGNAL (setProgressBar (long, long)));
+    connect (project, SIGNAL (setProgressBar (long)), this, SIGNAL (setProgressBar (long)));
     connect (project, SIGNAL (textAppend (const QString&)), this, SLOT (textAppend (const QString&)));
     connect (project, SIGNAL (refreshRowPresentation (int)), this, SLOT (refreshRowPresentation (int)));
     connect (project, SIGNAL (updateProject (bool)), this, SLOT (updateProject (bool)));
@@ -351,9 +350,9 @@ void Altair::refreshRowPresentation (int j)
 
     QPalette palette;
     palette.setColor (QPalette::AlternateBase, QColor ("silver"));
-    QFont font = QFont ("Courier", fontsize);
+    QFont font = QFont ("Courier", parent->fontsize);
 
-    QListWidget *composant = project->getWidgetContainer (j);
+    QListWidget *composant = project->getWidgetContainer (static_cast<int>(j));
 
     if (composant == nullptr) return;
 
@@ -362,9 +361,9 @@ void Altair::refreshRowPresentation (int j)
     composant->setFont (font);
     composant->setSelectionMode (QAbstractItemView::ExtendedSelection);
     composant->setSelectionBehavior (QAbstractItemView::SelectRows);
-    //composant->setSelectionBehavior(QAbstractItemView::ExtendedSelection);
-    QStringList strL = Hash::wrapper["XHL"]->at (j);
-    strL.sort();
+
+    QStringList strL = Hash::wrapper["XHL"]->at (static_cast<int>(j));
+
     int size = strL.size();
 
     for (int r = 0; (r < composant->count()) && (r < size); r++)
@@ -372,6 +371,8 @@ void Altair::refreshRowPresentation (int j)
             composant->item (r)->setText (strL.at (r).section ('/', -1));
             composant->item (r)->setTextColor (QColor ("navy"));
         }
+    
+    composant->sortItems();
 }
 
 
@@ -549,12 +550,12 @@ void Altair::deleteGroup()
     //   project->widgetContainer
     // moins 1, autrement dit du nombre d'onglets contenant des fichiers de paye, moins 1
 
-    uint rank = (uint) project->getRank();
+    int rank = project->getRank();
 
     // le conteneur fileSizeDataBase contient toutes les tailles de fichier pour tous les
     // onglets. On vide le conteneur à l'index correspondant à l'onglet supprimé
 
-    if ((uint) fileSizeDataBase[0].size() > currentIndex)
+    if (fileSizeDataBase[0].size() > currentIndex)
         fileSizeDataBase[0][currentIndex].clear();
 
     // Il faut se fonder sur rank plutot que sur currentIndex, qui peut être sur des
@@ -570,7 +571,7 @@ void Altair::deleteGroup()
             if (currentIndex < rank)
                 {
 
-                    for (unsigned j = currentIndex; j < rank ; j++)
+                    for (int j = currentIndex; j < rank ; ++j)
                         {
                             fileSizeDataBase[0][j] = fileSizeDataBase[0][j + 1];
                         }
