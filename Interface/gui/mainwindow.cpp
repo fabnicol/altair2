@@ -653,7 +653,7 @@ start:
 
             string reste = string (iter2 + 1, iter + 1);
 
-            const array<string, 12> Tags =
+            const array<string, 19> Tags =
             {
                 "Civilite",
                 "Nom",
@@ -662,10 +662,17 @@ start:
                 "Adr2",
                 "Ville",
                 "CP",
+                "CodeEtab",
+                "CodeGuic",
+                "IdCpte",
+                "CleRib",
+                "LibBanc",
                 "TitCpte",
+                "DteBanc",
+                "Description",
+                "Service",
                 "NumUrssaf",
                 "Siret",
-                "IdCpte",
                 "NIR"
             };
 
@@ -673,8 +680,10 @@ start:
                 {
                     if (tag == t)
                         {
-                            const string& remplacement = (tag == "NIR") ? "<NIR  V = \"" + value.substr (0, 5) + "Z\"" + reste + "\n"
-                                                         : "<" + tag + " V = \"Z\"" + reste + "\n";
+                            const string& remplacement = tag == "NIR" ? "<NIR  V = \"" + value.substr (0, 5) + "Z\"" + reste + "\n"
+                                                                      : (tag != "Service" ? "<" + tag + " V = \"Z\"" + reste + "\n" 
+                                                                                          : (value.substr(0, 3) != "ELU" ? "<" + tag + " V = \"Z\"" + reste + "\n" 
+                                                                                                                         : "<" + tag + " V = \"ELU\"" + reste + "\n"));
 
                             out.emplace_back (remplacement);
 

@@ -409,6 +409,7 @@ echo "*** Opérations sur branche release : Terminé ***"
 git checkout -f dev
  
  
+cp -f /home/fab/Dev/altair/Docs/Exemple/Anonyme2.7z /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
 
 echo "Raffraichissement des paramètres éditeur"
 
