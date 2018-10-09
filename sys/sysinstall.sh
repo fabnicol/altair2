@@ -196,12 +196,12 @@ if test -f sys/install.packages -a ! -f sys/packages.installed; then
 
    echo "Actualisation des paquets..."
   
-   export PKGDIR="$PWD/sys/packages"
+   export PKGDIR="/home/fab/Dev/altair/sys/packages"
    
    if test -d sys/packages; then
    
       echo "Installation des paquets..."
-      emerge -K --nodeps  $(find $PKGDIR -name '*tbz2')
+      emerge -K --nodeps  $(find /home/fab/Dev/altair/ -name '*tbz2')
       echo "Installation des paquets terminée..."
       eix-update
       touch sys/packages.installed
