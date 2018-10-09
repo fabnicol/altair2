@@ -192,7 +192,7 @@ fi
 
 
 cd /home/fab/Dev/altair
-if test -f sys/install.packages -a ! -f sys/packages.installed; then
+if test -f sys/install.packages -a ! -f sys/packages.installed.flag; then
 
    echo "Actualisation des paquets..."
   
@@ -204,8 +204,8 @@ if test -f sys/install.packages -a ! -f sys/packages.installed; then
       emerge -K --nodeps  $(find /home/fab/Dev/altair/ -name '*tbz2')
       echo "Installation des paquets terminée..."
       eix-update
-      touch sys/packages.installed
-      git add -f sys/packages.installed
+      touch sys/packages.installed.flag
+      git add -f sys/packages.installed.flag
       git commit -am "packages.installed"
 
    else
