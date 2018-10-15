@@ -263,9 +263,9 @@ if ! test -d  Tests/Exemple/Donnees/xhl
     
     
 # Pour la branche dev seulement
-mount -o remount,rw UUID="85F7-2833" Tests/Exemple/Donnees/R-Altair
+mount -o rw UUID="85F7-2833" Tests/Exemple/Donnees/R-Altair
 chown -R fab:users Tests/Exemple/Donnees/R-Altair
-mount -o remount,rw UUID="C96F-2C5E" Tests/Exemple/Donnees/xhl
+mount -o rw,nonempty UUID="C96F-2C5E" Tests/Exemple/Donnees/xhl
 chown -R fab:users Tests/Exemple/Donnees/xhl
 ####
 
@@ -363,7 +363,6 @@ chmod -R 0750 /home/fab/Dev/altair/linux
 
 # correction d'un bug sur la version fab de m.sh (réimportation de /home/Public/fab/.Rproj.user à chaque ouverture de session)
 
-
 cd /home/fab/Dev/altair
 
 git rev-parse --verify release
@@ -402,14 +401,9 @@ else
 fi 
 git commit -am "Release $(date)"
 
-
 echo "*** Opérations sur branche release : Terminé ***"
  
- 
 git checkout -f dev
- 
- 
-cp -f /home/fab/Dev/altair/Docs/Exemple/Anonyme2.7z /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
 
 echo "Raffraichissement des paramètres éditeur"
 
@@ -423,7 +417,4 @@ chgrp -R users /home/Public
 chmod -R 0777 /home/Public
 # correction sur .Rproj.user 
 
-
-
 chmod -R 0777 /home/fab/Dev/altair/.Rproj.user         
- 
