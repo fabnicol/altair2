@@ -266,6 +266,7 @@ if ! test -d  Tests/Exemple/Donnees/xhl
 mount -o rw UUID="85F7-2833" Tests/Exemple/Donnees/R-Altair
 chown -R fab:users Tests/Exemple/Donnees/R-Altair
 mount -o rw,nonempty UUID="C96F-2C5E" Tests/Exemple/Donnees/xhl
+cp -f Docs/Exemple/Anonyme2.7z   Tests/Exemple/Donnees/xhl
 chown -R fab:users Tests/Exemple/Donnees/xhl
 ####
 
