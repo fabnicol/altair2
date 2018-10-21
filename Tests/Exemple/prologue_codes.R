@@ -36,20 +36,20 @@
 # 
 # 
 
-codes.traitement <- NA
-codes.nbi        <- NA
-codes.pfi        <- NA
-codes.pfr        <- NA
-codes.psr        <- NA
+codes.traitement <- c("800.10","010A","010E","011A","011E","011R","300.00 R","314.00 R","315.00 R","010N","011N","010D","011D","075N","315.00","300.00","314.00")
+codes.nbi <- c("301.00","301.00 R")
+codes.pfi <- c("295N","595N","595A","595R")
+codes.pfr <- c("583N","636.01","636.02","636.03","636.01 R","636.02 R","283A","583A","636.03 R")
+codes.psr <- c("534.00","534.01","587N","287N","534.00 R","587")
 codes.ipf        <- NA
-codes.ifts       <- NA
-codes.iat        <- NA
+codes.ifts <- c("452.00","596N","451.00","296A","296R","451.00 R","452.00 R","596A","596R")
+codes.iat <- c("289N","452.50","589N","289A","289R","452.50 R","589A","589R")
 codes.ifse       <- NA
-codes.iemp       <- NA
-codes.iss        <- NA
-codes.ihts       <- NA
-codes.vacataires <- NA
-codes.astreintes <- NA
+codes.iemp <- c("215N","515N","215A","515A","489.50","489.50 R","489.50M")
+codes.iss <- c("581N","459.00","590N","593N","623.60")
+codes.ihts <- c("401.00","403.10","402.00","404.10","508N","401.00 R","402.00 R","403.10 R","403.20 R","404.10 R","421.00 R","422.00 R","508A","635N","636N","612A","612N","612R","613N","614A","614N","614R","611A","611N","611R","601A","602A","603A","604A","404.00 R","404.20 R")
+codes.vacataires <- c("263N","351.00 R","352.00 R","351.10 R","351.20 R","351.00","352.00")
+codes.astreintes <- c("650N","479.18 R","479.20 R","479.21 R","479.23 R")
 codes.nas        <- NA
 codes.primespecifique <- NA  
 codes.ift             <- NA  
@@ -87,7 +87,7 @@ ouvrir.document                <- TRUE
 
 types.irs  <- c("IR", "S")
 
-controle<-c("","","","")  
+controle<-c("REGION OCCITANIE, REGION LRMP, REGION LANGUEDOC ROUSSILLON - ELUS, REGION MIDI-PYRENEES, REGION LRMP - ELUS, REGION LANGUEDOC ROUSSILLON, REGION OCCITANIE - ELUS","20005379100048 - 23340001900029 - 20005379100014 - 23310001500012","REGION OCCITANIE - REGION LRMP - Cons.Reg. Languedoc Roussillon - Site de TOULOUSE - REGION MIDI-PYRENEES - REGION LRMP CESER - REGION LANGUEDOC ROUSSILLON - REGION LRMP CR - REGION OCCITANIE CR - REGION OCCITANIE CESER","Multi budgets, BUDGET ANNEXE, BUDGET PRINCIPAL")  
 
 codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IFSE", "IEMP", "ISS", "IHTS", "VAC", "ASTREINTES", "NAS", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(
