@@ -701,6 +701,11 @@ importer_ <- function() {
   Bulletins.paie[is.na(Grade),  Grade  := ""]
   Bulletins.paie[is.na(Statut), Statut := "AUTRE_STATUT"]
   Bulletins.paie[is.na(NBI),    NBI    := 0]
+  Bulletins.paie[grepl("CONTRA", Grade, fixed = TRUE), Statut := "NON_TITULAIRE"]
+  Paie[grepl("CONTRA", Grade, fixed = TRUE), Statut := "NON_TITULAIRE"]
+  
+  Bulletins.paie[Categorie %in% c("A", "B", "C") & Statut == "AUTRE_STATUT", Statut := "TITULAIRE"]
+  Paie[Categorie %in% c("A", "B", "C") & Statut == "AUTRE_STATUT", Statut := "TITULAIRE"]
   
   "période" %a% début.période.sous.revue:fin.période.sous.revue
   "durée.sous.revue" %a% (fin.période.sous.revue - début.période.sous.revue + 1)
