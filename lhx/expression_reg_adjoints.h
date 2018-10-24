@@ -51,7 +51,7 @@
 #define ANIMATION        "ani.*"
 
 /// technique
-#define TECHNIQUES       "tech.*"
+#define TECHNIQUES       "tec.*"
 
 /// patrimoine
 #define PATRIMOINE       "pat.*"
@@ -128,22 +128,22 @@
 
 static constexpr auto EXPRESSION_REG_ADJOINTS = AUCUN_MOT
         SOIT
-        ADJOINT
-        SOIT
-        ADMINISTRATIFS
-        OU ANIMATION
-        OU TECHNIQUES
-        OU PATRIMOINE
-        FIN_SOIT
+          ADJOINT
+          SOIT
+            ADMINISTRATIFS
+            OU ANIMATION
+            OU TECHNIQUES
+            OU PATRIMOINE
+          FIN_SOIT
         OU OPERATEUR
-        SOIT
-        "a\\.?p\\.?s\\.?|act"
-        FIN_SOIT
+          SOIT
+          "a\\.?p\\.?s\\.?|act"
+          FIN_SOIT
         OU AIDE_LABO
         OU AUXILIAIRE
-        SOIT
-        PUERICULTRICE OU SOIN
-        FIN_SOIT
+          SOIT
+           PUERICULTRICE OU SOIN
+          FIN_SOIT
         OU GARDIEN
         OU SOUS_OFF
         OU RECEVEUR

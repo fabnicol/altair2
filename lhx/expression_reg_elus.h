@@ -56,10 +56,10 @@
 #define ELUS                                     "[eé]lus?"
 
 /// adjoint au maire
-#define ADJOINT_MAIRE                            "adj.*\\bmaire\\b"
+#define ADJOINT_MAIRE                            ".*adj.*\\bmaire\\b"
 
 /// vice-président
-#define VICE_PRESIDENT                           "vi.*\\bpr..?sident\\b"
+#define VICE_PRESIDENT                           ".*vi.*\\bpr..?sident\\b"
 
 /// conseiller municipal
 #define CONSEILLER_MUNIC                         "cons.*\\bmuni"
