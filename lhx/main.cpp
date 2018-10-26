@@ -182,6 +182,7 @@ int main (int argc, char **argv)
         false,            // ne pas générer des bulletins particuliers pour impression
         false,            // ne pas exporter les informations sur l'établissement
         false,            // ne pas exporter l'échelon
+        false,            // ne pas exporeter la répartition budgétaire
         false,            // faire semblant d'extraire
         false,            // test mémoire
         false,            // extraction depuis disque optique
@@ -929,7 +930,7 @@ int main (int argc, char **argv)
                 {
                     int part = stoi (commandline_tab[start + 1], nullptr);
 
-                    cerr << ENDL << STATE_HTML_TAG "Part de la mémoire vive utilisée : " <<  part << " %" ENDL;
+                    cerr << ENDL << PARAMETER_HTML_TAG "Part de la mémoire vive utilisée : " <<  part << " %" ENDL;
 
                     ajustement = (float) part / 100;
                     start += 2;
@@ -940,7 +941,7 @@ int main (int argc, char **argv)
 
             else if (commandline_tab[start] == "--segments")
                 {
-                    cerr << STATE_HTML_TAG "Les bases seront analysées en au moins : " << commandline_tab[start + 1] << " segments" << ENDL;
+                    cerr << PARAMETER_HTML_TAG "Les bases seront analysées en au moins : " << commandline_tab[start + 1] << " segments" << ENDL;
 
                     // au maximum 99 segments
 
@@ -984,7 +985,17 @@ int main (int argc, char **argv)
                 {
                     info.cdrom = true;
                     ++start;
-                    cerr << STATE_HTML_TAG "Modalité disque optique" << ENDL;
+                    cerr << PARAMETER_HTML_TAG "Modalité disque optique" << ENDL;
+                    continue;
+                }
+
+            // Exportation de la répartition budgétaire (FPH)
+
+            else if  (commandline_tab[start] == "--repartition-budget")
+                {
+                    info.generer_repartition_budget = true;
+                    ++start;
+                    cerr << PARAMETER_HTML_TAG "Exporter la répartition budgétaire" << ENDL;
                     continue;
                 }
 

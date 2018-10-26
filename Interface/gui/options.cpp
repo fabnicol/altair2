@@ -730,12 +730,13 @@ standardPage::standardPage()
 
     FPHCheckBox = new FCheckBox ("Fonction publique hospitalière",         // Titre de la case à cocher
                                  flags::status::enabledUnchecked           // Décochée par défaut
-                                 | flags::commandLineType::noCommandLine,  // Pas de ligne de commande
+                                | flags::commandLineType::coreApplicationCommandLine,  // ligne de commande
                                  "FPH",                                    // Balise XML du projet .alt
                                  {
                                     "Contrôle hospitalier",
                                     "Ajuster le rapport pour la FPH"       // Présentation du gestionnaire de projets
-                                 }
+                                 },
+                                 "repartition-budget"
                                 );
 
     tableCheckBox = new FCheckBox ("Créer la base de données",                           // Titre de la case à cocher

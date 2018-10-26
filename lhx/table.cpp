@@ -93,21 +93,29 @@ static const char* type_remuneration_traduit[] =
 static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN (int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
 
-    base   << VAR (Nom) << sep
-           << VAR (Prenom) << sep
-           << VAR (Matricule) << sep
-           << VAR (Service) << sep
-           << VAR (NbEnfants) << sep
-           << VAR (Statut) << sep
+    base   << VAR (Nom)         << sep
+           << VAR (Prenom)      << sep
+           << VAR (Matricule)   << sep
+           << VAR (Service)     << sep
+           << VAR (NbEnfants)   << sep
+           << VAR (Statut)      << sep
            << VAR (QuotiteTrav) << sep
-           << VAR (NbHeureSup) << sep
+           << VAR (NbHeureSup)  << sep
            << VAR (NbHeureTotal) << sep
-           << VAR (Indice) << sep
-           << VAR (MtBrut) << sep
-           << VAR (MtNet) << sep
+           << VAR (Indice)      << sep
+           << VAR (MtBrut)      << sep
+           << VAR (MtNet)       << sep
            << VAR (MtNetAPayer) << sep
-           << VAR (NBI) << sep
-           << VAR (l) << sep
+           << VAR (NBI)         << sep;
+
+    if (Info[i].generer_repartition_budget)
+    {
+      base << VAR (CodeBudget) << sep
+           << VAR (Taux)       << sep
+           << VAR (MtBudget)   << sep;
+    }
+
+      base << VAR (l) << sep
            << VAR (l + 1) << sep
            << VAR (l + 2) << sep
            << VAR (l + 3) << sep
@@ -371,8 +379,14 @@ static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN (int i, uint32_t agen
               << VAR (MtBrut) << sep
               << VAR (MtNet) << sep
               << VAR (MtNetAPayer) << sep
-              << VAR (NBI) << sep
-              << VAR (EmploiMetier) << sep
+              << VAR (NBI) << sep;
+             if (Info[i].generer_repartition_budget)
+             {
+               bulletins << VAR (CodeBudget) << sep
+                    << VAR (Taux)       << sep
+                    << VAR (MtBudget)   << sep;
+             }
+             bulletins << VAR (EmploiMetier) << sep
               << VAR (Grade) << sep
               << VAR (Code) <<  " " << VAR (Description) << sep;
 }

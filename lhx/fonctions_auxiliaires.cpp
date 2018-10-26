@@ -427,33 +427,92 @@ void ecrire_entete0 (const info_t &info, ofstream& base, const char* entete[], i
     int i;
 
     if (info.select_echelon)
+    {
+        if (info.generer_repartition_budget)
         {
-            if (info.select_siret)
-                for (i = !info.generer_rang; i < N - 1; ++i)
-                    base << entete[i] << info.separateur;
-            else
-                for (i = !info.generer_rang; i < N - 1; ++i)
-                    {
-                        if (i != Budget + 1 &&  i != Employeur + 1 && i != Siret + 1 && i != Etablissement + 1)
-                            base << entete[i] << info.separateur;
-                    }
+          for (i = !info.generer_rang; i < N - 1; ++i)
+                if (info.select_siret)
+                        base << entete[i] << info.separateur;
+                else
+                        {
+                            if (i != Budget + 1 &&  i != Employeur + 1 && i != Siret + 1 && i != Etablissement + 1)
+                                base << entete[i] << info.separateur;
+                        }
+
         }
+        else
+        {
+                if (info.select_siret)
+                {
+                    for (i = !info.generer_rang; i < N - 1; ++i)
+                        if (i != CodeBudget + 1 && i != Taux + 1 && i != MtBudget + 1)
+                        {
+                           base << entete[i] << info.separateur;
+                        }
+                }
+                else
+                    for (i = !info.generer_rang; i < N - 1; ++i)
+                        {
+                            if (i != Budget + 1 &&  i != Employeur + 1 && i != Siret + 1 && i != Etablissement + 1
+                                    && i != CodeBudget + 1 && i != Taux + 1 && i != MtBudget + 1)
+                                    {
+                                       base << entete[i] << info.separateur;
+                                    }
+                        }
+
+        }
+    }
     else
-        {
+    {
             if (info.select_siret)
+            {
+              if (info.generer_repartition_budget)
+              {
                 for (i = !info.generer_rang; i < N - 1; ++i)
                     {
-                        if (entete[i][0] != 'E' || entete[i][1] != 'c')  // Pour "Echelon"
-                            base << entete[i] << info.separateur;
+                         if (entete[i][0] != 'E' || entete[i][1] != 'c')  // Pour "Echelon"
+                                base << entete[i] << info.separateur;
+
                     }
+              }
+              else
+              {
+                  for (i = !info.generer_rang; i < N - 1; ++i)
+                      {
+                        if (i != CodeBudget + 1 && i != Taux + 1 && i != MtBudget + 1)
+                        {
+                          if (entete[i][0] != 'E' || entete[i][1] != 'c')  // Pour "Echelon"
+                               base << entete[i] << info.separateur;
+                        }
+                       }
+              }
+
+            }
             else
-                for (i = !info.generer_rang; i < N - 1; ++i)
+            {
+                if (info.generer_repartition_budget)
+                {
+                    for (i = ! info.generer_rang; i < N - 1; ++i)
+                      {
+                            if (i != Budget + 1 &&  i != Employeur + 1 && i != Siret + 1 && i != Etablissement + 1
+                                            && (entete[i][0] != 'E' || entete[i][1] != 'c'))  // Pour "Echelon"
+
+                                base << entete[i] << info.separateur;
+                      }
+                 }
+                else
+                {
+                    for (i = ! info.generer_rang; i < N - 1; ++i)
                     {
-                        if (i != Budget + 1 &&  i != Employeur + 1 && i != Siret + 1 && i != Etablissement + 1
-                                && (entete[i][0] != 'E' || entete[i][1] != 'c'))  // Pour "Echelon"
-                            base << entete[i] << info.separateur;
+                                if (i != CodeBudget + 1 && i != Taux + 1 && i != MtBudget + 1
+                                     && i != Budget + 1 &&  i != Employeur + 1 && i != Siret + 1 && i != Etablissement + 1
+                                            && (entete[i][0] != 'E' || entete[i][1] != 'c'))  // Pour "Echelon"
+
+                                        base << entete[i] << info.separateur;
                     }
-        }
+                }
+            }
+    }
 
     base << entete[i] << "\n";
 }
