@@ -1660,6 +1660,21 @@ level0:
     info.drapeau_cont = false; // fin du niveau PayeIndivMensuel
     result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE (MtNetAPayer);
 
+    cur_save = cur;
+    cur = atteindreNoeud ("RepartitionBudget", cur);
+    if (cur != nullptr && (cur =  cur->xmlChildrenNode) != nullptr && ! xmlIsBlankNode (cur))
+    {
+        BULLETIN_OBLIGATOIRE(CodeBudget);
+        BULLETIN_OPTIONNEL_NUMERIQUE(Taux);   // Normalement obligatoire mais la norme n'est pas toujours respectée
+        BULLETIN_OPTIONNEL_NUMERIQUE(MtBudget);  // Normalement obligatoire mais la norme n'est pas toujours respectée
+    }
+    else
+    {
+        NA_ASSIGN(CodeBudget);
+        NA_ASSIGN(Taux);
+        NA_ASSIGN(MtBudget);
+    }
+
     // Tester si le bulletin contient des paiements globaux (MtBrut, MtNetAPayer) sans détail de la liquidation
 
     if (result && pas_de_ligne_de_paye)
@@ -1667,7 +1682,7 @@ level0:
             test_bulletin_irregulier (info);
         }
 
-    if (!result)
+    if (! result)
         {
             cerr << ERROR_HTML_TAG "Problème de conformité des données sur les champs des bulletins de paye." ENDL;
 #ifdef STRICT

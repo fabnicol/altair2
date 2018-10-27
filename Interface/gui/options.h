@@ -180,7 +180,8 @@ public :
 
     FCheckBox
       *tableCheckBox,         ///< Exporter la table ou pas
-      *FPHCheckBox;           ///< Données Fonction publique hospitalière ou pas
+      *FPHCheckBox,           ///< Données Fonction publique hospitalière ou pas
+      *repBudgetCheckBox;     ///< Générer la répartition de la paye individuelle par budget (surtout utile pour la FPH)
     FComboBox* exportWidget;  ///< Modalités d'exportation (standard, cumulative, distributive etc.)
 
 private:

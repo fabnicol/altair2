@@ -51,33 +51,45 @@ library(bit64)
 
 type.données <- function(colonnes) {
   
-"intégrer.rang" %a% ("R" %chin% colonnes) 
-"intégrer.échelon" %a% ("Echelon" %chin% colonnes)
-"intégrer.localisation" %a% ("Siret" %chin% colonnes)
+"intégrer.rang" %a% ("R" %in% colonnes) 
+"intégrer.échelon" %a% ("Echelon" %in% colonnes)
+"intégrer.localisation" %a% ("Siret" %in% colonnes)
+"intégrer.rep.budget" %a% ("Code.Budget" %in% colonnes)
 
 if (intégrer.rang) message("Intégration du Rang")
 if (intégrer.échelon) message("Intégration de l'échelon")
 if (intégrer.localisation) message("Intégration des données établissement")
+if (intégrer.localisation) message("Intégration de la répartition budgétaire")
 
 localisation.classes <- if (intégrer.localisation) c("character", "character", "character", "character") else NULL
 échelon.classe <- if (intégrer.échelon) "character" else NULL
 rang.classe    <- if (intégrer.rang) "integer" else NULL
-
+répartition.budgétaire <- if (intégrer.rep.budget) c("character", "numeric", "numeric") else NULL
 
 "colonnes.classes.input"    %a% c(rang.classe, "integer", "integer",  
-                               localisation.classes,
-                               "character", "character", "character",
-                               "character", "numeric", "character", "numeric", "numeric", "numeric",
-                               "integer",  "numeric", "numeric", "numeric", "numeric",
-                               "character",  "character", "numeric", "numeric", "numeric",
-                               "numeric", "character", "character", "character", "character", "character", échelon.classe, "character", "character")
+                                   localisation.classes,
+                                   "character", "character", "character",
+                                   "character", "numeric", "character", 
+                                   "numeric", "numeric", "numeric",
+                                   "integer",  "numeric", "numeric", 
+                                   "numeric", "numeric",
+                                   répartition.budgétaire,
+                                   "character",  "character", "numeric", 
+                                   "numeric", "numeric", "numeric",
+                                   "character", "character", "character",
+                                   "character", "character", 
+                                   échelon.classe, "character", "character")
 
 "colonnes.bulletins.classes.input" %a% c(rang.classe, "integer", "integer",
                                       localisation.classes,
                                       "character", "character", "character",
-                                      "character", "numeric", "character", "numeric", "numeric", "numeric",
-                                      "integer",  "numeric", "numeric", "numeric", "numeric",
-                                      "character", "character", "character", échelon.classe, "character", "character")
+                                      "character", "numeric", "character", 
+                                      "numeric", "numeric", "numeric",
+                                      "integer",  "numeric", "numeric",
+                                     "numeric", "numeric",
+                                      répartition.budgétaire,
+                                      "character", "character", "character",
+                                      échelon.classe, "character", "character")
 
 
 "trans" %a% data.table(t(matrix( c("I",  "Indemnité",

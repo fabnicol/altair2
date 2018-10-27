@@ -728,6 +728,18 @@ standardPage::standardPage()
 
     optionalFieldBox->setLayout (v2Layout);
 
+      
+    repBudgetCheckBox = new FCheckBox("Exporter la répartition budgétaire",
+                                          flags::status::enabledUnchecked                         // Par défaut, case cochée génératrice de ligne de commande
+                                          | flags::commandLineType::coreApplicationCommandLine,
+                                          "repartBudget",                                    
+                                          {
+                                            "Données csv",
+                                            "générer la répartition budgétaire"  
+                                          },
+                                          "repartition-budget"
+                                          );
+        
     FPHCheckBox = new FCheckBox ("Fonction publique hospitalière",         // Titre de la case à cocher
                                  flags::status::enabledUnchecked           // Décochée par défaut
                                  | flags::commandLineType::noCommandLine,  // Pas de ligne de commande
@@ -737,7 +749,9 @@ standardPage::standardPage()
                                     "Ajuster le rapport pour la FPH"       // Présentation du gestionnaire de projets
                                  }
                                 );
-
+     
+    connect(FPHCheckBox, &FCheckBox::toggled, [this] {repBudgetCheckBox->setChecked(FPHCheckBox->isChecked()); });
+    
     tableCheckBox = new FCheckBox ("Créer la base de données",                           // Titre de la case à cocher
                                    flags::status::enabledChecked                         // Par défaut, case cochée génératrice de ligne de commande
                                    | flags::commandLineType::coreApplicationCommandLine,
@@ -819,13 +833,14 @@ standardPage::standardPage()
 
     v1Layout->addWidget (tableCheckBox,     1, 0, Qt::AlignLeft);
     v1Layout->addWidget (FPHCheckBox,       2, 0, Qt::AlignLeft);
-    v1Layout->addWidget (baseTypeLabel,     3, 0, Qt::AlignRight);
-    v1Layout->addWidget (baseTypeWidget,    3, 1, Qt::AlignLeft);
-    v1Layout->addWidget (exportLabel,       4, 0, Qt::AlignRight);
-    v1Layout->addWidget (exportWidget,      4, 1, Qt::AlignLeft);
-    v1Layout->addWidget (maxNLigneLabel,    5, 0, Qt::AlignRight);
-    v1Layout->addWidget (maxNLigneLineEdit, 5, 1, Qt::AlignLeft);
-
+    v1Layout->addWidget (repBudgetCheckBox, 3, 0, Qt::AlignLeft);
+    v1Layout->addWidget (baseTypeLabel,     4, 0, Qt::AlignRight);
+    v1Layout->addWidget (baseTypeWidget,    4, 1, Qt::AlignLeft);
+    v1Layout->addWidget (exportLabel,       5, 0, Qt::AlignRight);
+    v1Layout->addWidget (exportWidget,      5, 1, Qt::AlignLeft);
+    v1Layout->addWidget (maxNLigneLabel,    6, 0, Qt::AlignRight);
+    v1Layout->addWidget (maxNLigneLineEdit, 6, 1, Qt::AlignLeft);
+    
     baseTypeBox->setLayout (v1Layout);
 
     v3Layout->addWidget (exportTableBox,    1, 0, Qt::AlignLeft);

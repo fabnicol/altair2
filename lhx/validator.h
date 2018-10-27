@@ -129,14 +129,15 @@ enum class BaseType : int
 #define INDEX_MAX_COLONNNES 7
 
 /// Nombre d'éléments de l'énum ci-dessous, correspondant aux champs des bulletins (répétés à chaque ligne de paye)
-#define BESOIN_MEMOIRE_ENTETE  27
+#define BESOIN_MEMOIRE_ENTETE  30
 
 /// Enum des libellés de balises XML donnant lieu à extraction
 typedef enum
 {
     Annee, Mois, Budget, Employeur, Siret, Etablissement,
     Nom, Prenom, Matricule, NIR, NbEnfants, Statut,
-    EmploiMetier, Grade, Echelon, Indice, Code, Description, Service, NBI, QuotiteTrav,
+    EmploiMetier, Grade, Echelon, Indice, Code, Description, Service, NBI, 
+    CodeBudget, Taux, MtBudget, QuotiteTrav, // FPH si RepartitionBudget
     NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer, Categorie
 } Entete;
 
@@ -145,7 +146,8 @@ constexpr const char* Tableau_entete[] =
 {
     "Année", "Mois", "Budget", "Employeur", "Siret", "Etablissement",
     "Nom", "Prénom", "Matricule", "NIR", "NbEnfants", "Statut",
-    "EmploiMetier", "Grade", "Echelon", "Indice", "Evenement", "Service", "NBI", "QuotiteTrav",
+    "EmploiMetier", "Grade", "Echelon", "Indice", "Evenement", "Service", "NBI", 
+    "CodeBudget", "Taux", "MtBudget", "QuotiteTrav",
     "NbHeureTotal", "NbHeureSup", "MtBrut", "MtNet", "MtNetAPayer"
 };
 
@@ -187,10 +189,11 @@ typedef struct
     bool generer_bulletins;                 ///< Générer des bulletins de paye particuliers
     bool select_siret;                      ///< Sélectionner un SIRET particulier
     bool select_echelon;                    ///< Sélectionne run échelon particulier
+    bool generer_repartition_budget;        ///< Exporter la répartition budgétaire (surtout pertinent pour la FPH)
     bool pretend;                           ///< Ne pas exporter de données
     bool verifmem;                          ///< Vérifier l'état de la mémoire
     bool cdrom;                             ///< Importer les données de paye directement depuis un disque optique
-    unsigned int  nbfil;                    ///< Nombre de fils d'exécution
+    unsigned int  nbfil;                    ///< Nombre de fils d'exécuSTATE_HTML_TAGtion
 } info_t;
 
 typedef struct
