@@ -89,17 +89,17 @@ using vString = vector<string>;
 
 typedef chrono::high_resolution_clock Clock;
 
-bool generer_table = false;
-bool liberer_memoire = true;
+static bool generer_table = false;
+static bool liberer_memoire = true;
 bool verbeux = true;
 
 ofstream rankFile;
 string rankFilePath = "";
 mutex mut;
 vector<errorLine_t> errorLineStack;
-vString commandline_tab;
-vector<vString> vbull;
-string repertoire_bulletins;
+static vString commandline_tab;
+static vector<vString> vbull;
+static string repertoire_bulletins;
 
 pair<uint64_t, uint64_t>  produire_segment (info_t& info, const vString& segment);
 
@@ -947,7 +947,7 @@ int main (int argc, char **argv)
 
                     nsegments = stoi (commandline_tab[start + 1], nullptr);
 
-                    if (nsegments > 1 || nsegments < 100)
+                    if (nsegments > 1 && nsegments < 100)
                         {
                             start += 2;
                             continue;

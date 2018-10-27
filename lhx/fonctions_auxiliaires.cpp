@@ -125,7 +125,7 @@ ostringstream help()
         <<  "**--eemployeur** *argument obligatoire* : la liste des employeurs à exclure de la sortie, séparés par des blancs. " << "\n\n"
         <<  "**--esiret** *argument obligatoire* : la liste des SIRET à exclure de la sortie, séparés par des blancs. " << "\n\n"
         <<  "**--ebudget** *argument obligatoire* : la liste des budgets à exclure de la sortie, séparés par des blancs. " << "\n\n"
-        <<  "**--repart-budget** *sans argument* : afficher la répartition budgétaire : Code.Budget, Taux.Budget, Montant.Budget. " << "\n\n"    
+        <<  "**--repartition-budget** *sans argument* : afficher la répartition budgétaire : Code.Budget, Taux.Budget, Montant.Budget. " << "\n\n"    
         <<  "**--xhlmem** *arg. oblig.*    : taille des fichiers à  analyser en octets.  " << "\n\n"
         <<  "**--memshare** *arg. oblig.*  : part de la mémoire vive utilisée, en points de pourcentage.  " << "\n\n"
         <<  "**--segments** *arg. oblig.*  : nombre minimum de segments de base.  " << "\n\n"
