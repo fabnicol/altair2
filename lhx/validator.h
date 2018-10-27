@@ -136,9 +136,9 @@ typedef enum
 {
     Annee, Mois, Budget, Employeur, Siret, Etablissement,
     Nom, Prenom, Matricule, NIR, NbEnfants, Statut,
-    EmploiMetier, Grade, Echelon, Indice, Code, Description, Service, NBI, QuotiteTrav,
-    NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer, Categorie,
-    CodeBudget,Taux,MtBudget // FPH si RepartitionBudget
+    EmploiMetier, Grade, Echelon, Indice, Code, Description, Service, NBI, 
+    CodeBudget, Taux, MtBudget, QuotiteTrav, // FPH si RepartitionBudget
+    NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer, Categorie
 } Entete;
 
 /// Tableau des noms de colonnes associés à ces libellés de balises XML
@@ -146,9 +146,9 @@ constexpr const char* Tableau_entete[] =
 {
     "Année", "Mois", "Budget", "Employeur", "Siret", "Etablissement",
     "Nom", "Prénom", "Matricule", "NIR", "NbEnfants", "Statut",
-    "EmploiMetier", "Grade", "Echelon", "Indice", "Evenement", "Service", "NBI", "QuotiteTrav",
-    "NbHeureTotal", "NbHeureSup", "MtBrut", "MtNet", "MtNetAPayer",
-    "CodeBudget", "Taux", "MtBudget"
+    "EmploiMetier", "Grade", "Echelon", "Indice", "Evenement", "Service", "NBI", 
+    "CodeBudget", "Taux", "MtBudget", "QuotiteTrav",
+    "NbHeureTotal", "NbHeureSup", "MtBrut", "MtNet", "MtNetAPayer"
 };
 
 /// Structure de stockage de l'information sur les lignes de paye
