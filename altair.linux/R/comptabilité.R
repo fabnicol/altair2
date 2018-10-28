@@ -46,23 +46,27 @@ calculer_indice_complexité <- function() {
 #' 
 exporter_tableau <- function(table.jointure, requis, clés = intersect(names(table.jointure), names(Paie)), calculer.indice.complexité = FALSE) {
   
-  colonnes <- names(Paie)
+  colonnes          <- names(Paie)
   colonnes.jointure <- names(table.jointure)
   colonnes.ajoutées <- setdiff(colonnes.jointure, colonnes)
-  nrequis <- length(requis)
+  nrequis           <- length(requis)
+  
   if (nrequis < 1)  {
     cat("Le vecteur **requis** doit contenir au moins un nom de variable.")
     return(NULL)
   }
   
   if (! all(requis %in% colonnes.ajoutées) || ! all(clés %in% colonnes.jointure)) {
+    
     cat("Le tableau fourni par l'organisme doit contenir", ifelse(requis > 1, "les", "la"), " colonne" %+% ifelse(nrequis > 1, "s", ""),
                                                            paste(colonnes.jointure, collapse = " "), "  \n")
     return(NULL)
   }
 
   if (calculer.indice.complexité) {
+    
     res <- calculer_indice_complexité()
+    
     if (is.null(res) && apparier.sur.trois.clés) {
         clés <- c("Code", "Libelle", "Type")
     } 
@@ -83,12 +87,17 @@ exporter_tableau <- function(table.jointure, requis, clés = intersect(names(tab
     
   } else {
     
-    cat("Le tableau fourni par l'organisme contient des clés d'appariement convenables. Chaque combinaison de valeurs des clés ", paste(clés, collapse = " "), " est associée à une seule valeur de(s) colonne(s) rajoutée(s) par la table d'appariement  \n")
+    cat("Le tableau fourni par l'organisme contient des clés d'appariement convenables. Chaque combinaison de valeurs des clés ", paste(clés, collapse = " "), " est associée à une seule valeur de(s) colonne(s) rajoutée(s) par la table d'appariement     \n")
+    cat("    \n")    
   }
     
-  "Paie" %a% table.jointure[Paie, on = clés]
+  vect <- c("Code", "Libelle", "Statut", "Type")
   
-  cols <- c("Annee", "Code", "Libelle", "Statut", "Type", colonnes.ajoutées)
+  "Paie" %a% merge(table.jointure, Paie, all.y = TRUE, by = vect)
+  
+  if ("Compte" %in% names(Paie)) cat("Colonne **Compte** ajoutée à la base Paie par jointure.   \n")
+  
+  cols <- c("Annee", vect, colonnes.ajoutées, "Montant")
   Paie[ , ..cols]
   
 }
@@ -118,15 +127,14 @@ correspondance_paye_budget <- function() {
                           col.names  = c(vect, "Compte"),
                           colClasses = c("character", "character", "character", "character", "character"))  
     
-    message("*****")
-    message("Importation de la table des codes et libellés par compte (paye_budget.csv)")
-    message("*****")
+    
+    cat("Importation de la table des codes et libellés par compte (paye_budget.csv)...   \n")
     
     code.libelle <- résumer_type(code.libelle)
     
     code.libelle      <- unique(code.libelle)
     
-    cumul.lignes.paie <- exporter_tableau(code.libelle, requis = "Compte", clés = c("Code", "Libelle", "Type", "Statut"))
+    cumul.lignes.paie <- exporter_tableau(code.libelle, requis = "Compte", clés = vect)
     
   } else {
    
