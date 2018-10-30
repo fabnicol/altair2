@@ -1162,7 +1162,7 @@ extraPage::extraPage()
                                    {2, 1},
                                    v3Layout,
                                    "",   // pas de ligne de commande
-                                   directory::noCheck, // ne pas vérifier que le chemin est vide
+                                   directory::noCheck, // ne pas vérifier si le chemin est vide
                                    flags::flineframe::isFilePath,
                                    "Fichier CSV (*.csv)"); // il s'agit d'un chemin de fichier
     
@@ -1386,6 +1386,11 @@ extraPage::extraPage()
     mainLayout->addWidget (ifseBox);
     mainLayout->addSpacing (250);
 
+    // Temporaire
+    logtCheckBox->setDisabled(true);
+    ifseCheckBox->setDisabled(true);
+    gradesCheckBox->setDisabled(true);
+            
     setLayout (mainLayout);
 }
 

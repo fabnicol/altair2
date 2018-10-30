@@ -127,7 +127,6 @@ correspondance_paye_budget <- function() {
                           col.names  = c(vect, "Compte"),
                           colClasses = c("character", "character", "character", "character", "character"))  
     
-    
     cat("Importation de la table des codes et libellés par compte (paye_budget.csv)...   \n")
     
     code.libelle <- résumer_type(code.libelle)
@@ -138,7 +137,6 @@ correspondance_paye_budget <- function() {
     
   } else {
    
-     
     # Ne pas prendre les capitales ni simplifier les libellés
     
     code.libelle <- unique(Paie[Montant != 0, .(Code, Libelle, Statut), by = "Type"])
@@ -173,8 +171,6 @@ correspondance_paye_budget <- function() {
                   ][ , Compte.nontit := NULL]
     
     cumul.lignes.paie <- code.libelle[Paie[ , .(Annee, Code, Libelle, Statut, Type, Montant)], on = vect]
-    
-    
   }
   
   setkey(code.libelle, Type, Compte, Statut, Code, Libelle)
