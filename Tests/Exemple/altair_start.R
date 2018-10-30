@@ -243,8 +243,7 @@ scripts <- list(
                 fin.période.sous.revue),
       incrémenter = TRUE),                  #### 2 et 3 Analyse statique des rémunérations ####
    "script_comparaisonsdubrut.R",           #### 3.4  Comparatif INSEE DGCL ####
-   list("script_évolutiondunet.R",         #### 4. Analyse dynamique des rémunérations ####
-        incrémenter = TRUE),
+   "script_évolutiondunet.R",               #### 4. Analyse dynamique des rémunérations ####
    "script_NBI.R",                         #### 5.1  NBI               ####
    "script_PFI.R",                         #### 5.2  PFI               ####
    "script_vacataires.R",                   #### 5.3-5.4 VACATIONS      ####
@@ -267,13 +266,12 @@ scripts <- list(
 générer.partie <- function(script, seq) {
                               invisible(lapply(script, function(x) do.call(insérer_script, 
                                                                              as.list(na.omit(c(file.path(chemin.modules, x[1]),
-                                                                                             x[-1],
-                                                                                             seq)))))) 
+                                                                                             x[-1])))))) 
 }
                               
 if (séquentiel) {
   
-  générer.partie(scripts, TRUE)
+  générer.partie(scripts)
   
 } else {
   
@@ -295,8 +293,7 @@ if (séquentiel) {
                                 fin.période.sous.revue),
                       incrémenter = TRUE),
                  "script_comparaisonsdubrut.R",
-                 list("script_évolutiondunet.R",
-                      incrémenter = TRUE))
+                 "script_évolutiondunet.R")
 
   group3 <- list("script_NBI.R",
                  "script_HS.R", #+
@@ -332,8 +329,7 @@ if (séquentiel) {
   
   res <- clusterApply(cl,
                       G,
-                      générer.partie,
-                      seq = FALSE)
+                      générer.partie)
 
   stopCluster(cl)
   
