@@ -58,7 +58,7 @@ exporter_tableau <- function(table.jointure, requis, clés = intersect(names(tab
   
   if (! all(requis %in% colonnes.ajoutées) || ! all(clés %in% colonnes.jointure)) {
     
-    cat("Le tableau fourni par l'organisme doit contenir", ifelse(requis > 1, "les", "la"), " colonne" %+% ifelse(nrequis > 1, "s", ""),
+    cat("Le tableau fourni par l'organisme doit contenir", ifelse(nrequis > 1, "les", "la"), " colonne" %+% ifelse(nrequis > 1, "s", ""),
                                                            paste(colonnes.jointure, collapse = " "), "  \n")
     return(NULL)
   }
@@ -91,13 +91,12 @@ exporter_tableau <- function(table.jointure, requis, clés = intersect(names(tab
     cat("    \n")    
   }
     
-  vect <- c("Code", "Libelle", "Statut", "Type")
   
-  "Paie" %a% merge(table.jointure, Paie, all.y = TRUE, by = vect)
+  "Paie" %a% merge(table.jointure, Paie, all.y = TRUE, by = clés)
   
   if ("Compte" %in% names(Paie)) cat("Colonne **Compte** ajoutée à la base Paie par jointure.   \n")
   
-  cols <- c("Annee", vect, colonnes.ajoutées, "Montant")
+  cols <- c("Annee", clés, colonnes.ajoutées, "Montant")
   Paie[ , ..cols]
   
 }

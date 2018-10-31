@@ -1389,8 +1389,7 @@ extraPage::extraPage()
     // Temporaire
     logtCheckBox->setDisabled(true);
     ifseCheckBox->setDisabled(true);
-    gradesCheckBox->setDisabled(true);
-            
+                
     setLayout (mainLayout);
 }
 
