@@ -447,8 +447,8 @@ essayer({ if (! is.null(Paie_B) && ! résultat.manquant) {
     
     if (! indic_B %chin% NAMES && "indic" %chin% NAMES) setnames(Paie_B, "indic", indic_B)
     
-    période.fusion <- merge(Paie_A[indic == TRUE],
-                            Paie_B[get(indic_B) == TRUE],
+    période.fusion <- merge(unique(Paie_A[indic == TRUE]),
+                            unique(Paie_B[get(indic_B) == TRUE]),
                             by = c("Nom", "Prenom", "Matricule",
                                    "Annee", "Mois", "Emploi", "Grade",
                                    "Indice", "Statut",
@@ -456,8 +456,8 @@ essayer({ if (! is.null(Paie_B) && ! résultat.manquant) {
   
     période.fusion <- unique(période.fusion)
     
-    A_ <- merge(Paie_A, période.fusion)
-    B_ <- merge(Paie_B, période.fusion)
+    A_ <- merge(unique(Paie_A), période.fusion, by = c("Matricule", "Annee", "Mois"))
+    B_ <- merge(unique(Paie_B), période.fusion, by = c("Matricule", "Annee", "Mois"))
     B_$indic <- A_$indic
     
     personnels.A.B <- B_[indic == TRUE | get(indic_B) == TRUE
@@ -505,7 +505,7 @@ indic_B <- "indic_"  %+% prime_B$nom
 Lignes_A[ , indic := TRUE, with = FALSE]
 Lignes_B[ , indic_B := TRUE, with = FALSE]
 
-beneficiaires.A <- merge(Lignes_A, Lignes_B, all = TRUE)
+beneficiaires.A <- merge(unique(Lignes_A), unique(Lignes_B), all = TRUE, by = c("Nom", "Prenom", "Matricule", "Annee", "Mois", "Debut", "Fin", "Grade", "Emploi", "Temps.de.travail", "Indice", "Categorie", "Statut", "Type", "Montant"))
 
 beneficiaires.A[ , Régime := if (all(is.na(get(indic)))) { if (any(get(indic_B))) "I" else NA } else { if (all(is.na(get(indic_B)))) "P" else "C" },
                    by = .(Matricule, Annee, Mois)][ , indic := NULL, with = FALSE][ , indic_B := NULL, with = FALSE]
@@ -564,7 +564,7 @@ if ((! is.null(prime$NAS) && prime$NAS == "non") || (! is.null(prime_B$NAS) && p
             
           if (prime$NAS == "non" && prime_B$NAS == "non") {
             
-            Lignes_C <- merge(Lignes_A, Lignes_B, all = TRUE)
+            Lignes_C <- merge(unique(Lignes_A), unique(Lignes_B), all = TRUE)
             prime_NAS <- prime$nom %+% "-" %+% prime_B$nom
             
           }

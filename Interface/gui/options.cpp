@@ -1376,6 +1376,10 @@ extraPage::extraPage()
     mainLayout->addWidget (ifseBox);
     mainLayout->addSpacing (250);
 
+    // Temporaire
+    logtCheckBox->setDisabled(true);
+    ifseCheckBox->setDisabled(true);
+    
     setLayout (mainLayout);
 }
 
