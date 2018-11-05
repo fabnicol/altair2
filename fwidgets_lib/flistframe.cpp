@@ -522,9 +522,9 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
               {
                   if (info.suffix().toUpper() == "ZIP")    
                   {
-                      const QString &tempDir = "'" + info.absolutePath() + QDir::separator() + info.baseName() +"'";
+                      const QString &tempDir = info.absolutePath() + QDir::separator() + info.baseName();
                       emit(textAppend(PROCESSING_HTML_TAG + QString("Décompression du fichier " + currentString + ". Patientez...")));
-                      int res = system(QString("unzip -C '" + currentString + "' '*.x[hm]l' -d " + tempDir).toStdString().c_str());
+                      int res = system(QString("unzip -C '" + currentString + "' '*.x[hm]l' -d '" + tempDir + "'").toStdString().c_str());
                       
                       if (res == 0)
                          emit(textAppend(STATE_HTML_TAG + QString("Le fichier ")
@@ -534,6 +534,7 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                                         + currentString + " n'a pas été décompressé."));
                       
                       stringsToBeAdded << parseTreeForFilePaths({tempDir});
+                      emit(textAppend(tempDir));
                       
                   }
                   else
@@ -552,8 +553,8 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                               {
                                  emit(textAppend(STATE_HTML_TAG + QString("Le fichier ")
                                                + currentString + " a été décompressé."));
-                                  
-                                 stringsToBeAdded << tempDir + QDir::separator() + info.fileName().chopped(info.suffix().length() + 1);
+                                 emit(textAppend(tempDir)); 
+                                 stringsToBeAdded << parseTreeForFilePaths({tempDir});
                               }
                               else 
                               
@@ -575,10 +576,8 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
     #                         endif
                           }
                     }
-
               }
            }
-
     }
  
     return stringsToBeAdded;
