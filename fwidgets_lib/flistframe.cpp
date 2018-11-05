@@ -524,7 +524,7 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                   {
                       const QString &tempDir = info.absolutePath() + QDir::separator() + info.baseName();
                       emit(textAppend(PROCESSING_HTML_TAG + QString("Décompression du fichier " + currentString + ". Patientez...")));
-                      int res = system(QString("unzip -C " + currentString + " '*.x[hm]l' -d " + tempDir).toStdString().c_str());
+                      int res = system(QString("unzip -C '" + currentString + "' '*.x[hm]l' -d '" + tempDir + "'").toStdString().c_str());
                       
                       if (res == 0)
                          emit(textAppend(STATE_HTML_TAG + QString("Le fichier ")
@@ -534,6 +534,7 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                                         + currentString + " n'a pas été décompressé."));
                       
                       stringsToBeAdded << parseTreeForFilePaths({tempDir});
+                      emit(textAppend(tempDir));
                       
                   }
                   else
@@ -545,38 +546,40 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                           {
                               const QString &tempDir = info.absolutePath() + QDir::separator() + info.baseName();
                               emit(textAppend(PROCESSING_HTML_TAG + QString("Décompression du fichier " + currentString + ". Patientez...")));
-                              res = system(QString("7z x " + currentString + " -o" + tempDir + " -t" + QString(types[i])).toStdString().c_str());
+                              const QString &cl = QString("7z x '" + currentString + "' -o'" + tempDir + "' -t" + QString(types[i]));
+                              res = system(cl.toStdString().c_str());
                               
                               if (res < 2)
+                              {
                                  emit(textAppend(STATE_HTML_TAG + QString("Le fichier ")
                                                + currentString + " a été décompressé."));
+                                 emit(textAppend(tempDir)); 
+                                 stringsToBeAdded << parseTreeForFilePaths({tempDir});
+                              }
                               else 
+                              
                                  emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
-                                                + currentString + " n'a pas été décompressé ou des erreurs sont rencontrées."));
-                              
-                              stringsToBeAdded << parseTreeForFilePaths({tempDir});
-                              
+                                                + currentString + " n'a pas été décompressé ou des erreurs sont rencontrées.<br>" WARNING_HTML_TAG + "Ligne de commande " +cl));
+                                                           
                           }
-                      }
                       
-                      if (res == -2)
-                      {
-                          if (info.suffix().toUpper() == "XHL" || info.suffix().toUpper() == "XML")
-                             stringsToBeAdded << currentString;
-#                         ifdef HAVE_APPLICATION
-                          else
+                        if (res == -2)
                           {
-                              emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
-                                           + currentString + " sera ignoré. Les fichiers doivent avoir une extension du type .xml, .xhl, .7z, .zip, .tar.gz ou .tar.bz2"));
+                              if (info.suffix().toUpper() == "XHL" || info.suffix().toUpper() == "XML")
+                                 stringsToBeAdded << currentString;
+    #                         ifdef HAVE_APPLICATION
+                              else
+                              {
+                                  emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
+                                               + currentString + " sera ignoré. Les fichiers doivent avoir une extension du type .xml, .xhl, .7z, .zip, .tar.gz ou .tar.bz2"));
+                              }
+    #                         endif
                           }
-#                         endif
-                      }
-                 }
-
+                    }
               }
-              else return {};
+           }
     }
-
+ 
     return stringsToBeAdded;
 }
 
