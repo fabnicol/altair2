@@ -161,12 +161,15 @@ dépassements_HS <- function() {
   if (depassement) {
     
     cat("Il y a", depassement, "agent" %+% ifelse(depassement, "s", ""), "qui perçoivent davantage que le maximum d'IHTS pouvant être liquidé au titre du mois.  \n") 
-  }
   
-  with(depassement.agent.annee,
-       
-       print(Tableau.vertical2(c("Annee", "Coût en euros", "Nombre d'agents"),
-                        Annee, digits = 0, `Coût en euros`, `Nombre d'agents`)))   
+  
+    with(depassement.agent.annee,
+         
+         print(Tableau.vertical2(c("Annee", "Coût en euros", "Nombre d'agents"),
+                          Annee, digits = 0, `Coût en euros`, `Nombre d'agents`)))   
+  } else {
+    cat("Pas de dépassement détecté du maximum d'IHTS pouvant être liquidé au titre du mois.   \n")
+  }
   
   sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
              env = new.env(),

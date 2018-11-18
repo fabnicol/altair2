@@ -85,7 +85,18 @@ verif.temps.complet <- function() {
   
   # dans certains cas on a presque jamais la variable Heures renseignée... sauf pour quelques temps partiels
   
-  h <- hist(Bulletins.paie[Temps.de.travail == 100, Heures], nclass = 20000, plot = FALSE)
+  B <- Bulletins.paie[Temps.de.travail == 100, Heures]
+  
+  if (length(B) == 0) {
+    cat("Aucune quotité à temps complet. Problème de qualité probable de la base de paye.  \n")
+    cat("En l'absence de quotité positive, la liquidation des payes n'est pas vérifiable.  \n")
+    cat("Pour permettre la poursuite du traitement, les payes sont supposées toutes à temps complet.   \n")
+    cat("Attention ce redressement peut entraîner des erreurs d'analyse dans la suite du rapport.   \n")
+    Bulletins.paie[ , Temps.de.travail := 100]
+    B <- Bulletins.paie[Temps.de.travail == 100, Heures]
+  }
+  
+  h <- hist(B, nclass = 20000, plot = FALSE)
   max.h <- which.max(h$counts)
   
   if (max.h > 1) {

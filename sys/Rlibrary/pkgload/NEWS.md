@@ -1,3 +1,22 @@
+# pkgload 1.0.2
+
+* `load_all()` gains a `compile` argument which controls more finely whether to
+  compile the code or not. The `recompile` argument is now deprecated and will
+  be removed in a future version of pkgload.
+
+# pkgload 1.0.1
+
+* `unload()` now only removes S4 classes which were generated in the package
+  being unloaded (#75)
+
+* `help()` will no longer error when trying to load package level help (#67).
+
+* Trailing slashes now removed from all paths, which fixes issues on Windows (#73).
+
+* `load_dll()` now fixed in R-devel (#77).
+
+* The help shim's now work for `:::` inputs (#72).
+
 # pkgload 1.0.0
 
 * `load_all()` now updates imports of dependent packages when a package is
