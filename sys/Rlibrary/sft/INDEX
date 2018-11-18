@@ -1,0 +1,30 @@
+assessment              Workload Assessment Functions
+assessmentGroup         Assessment Functions
+capacity.and            Capacity Coefficient for Exhaustive (AND)
+                        Processing
+capacity.or             Capacity Coefficient for First-Terminating (OR)
+                        Processing
+capacity.stst           Capacity Coefficient for Single-Target
+                        Self-Terminating (STST) Processing
+capacityGroup           Capacity Analysis
+dots                    RT and and Accuracy from a Simple Detection
+                        Task
+estimate.bounds         Bounds on Response Time Cumulative Distribution
+                        Functions for Parallel Processing Models
+estimateNAH             Neslon-Aalen Estimator of the Cumulative Hazard
+                        Function
+estimateNAK             Neslon-Aalen Estimator of the Reverse
+                        Cumulative Hazard Function
+estimateUCIPand         UCIP Performance on AND Tasks
+estimateUCIPor          UCIP Performance on OR Tasks
+fPCAassessment          Functional Principal Components Analysis for
+                        the Assessment Functions
+fPCAcapacity            Functional Principal Components Analysis for
+                        the Capacity Coefficient
+mic.test                Test of the Mean Interaction Contrast
+siDominance             Dominance Test for Selective Influence
+sic                     Calculate the Survivor Interaction Contrast
+sic.test                Statistical test of the SIC.
+sicGroup                SIC Analysis for a Group
+ucip.test               A Statistical Test for Super or Limited
+                        Capacity
