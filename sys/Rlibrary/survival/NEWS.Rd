@@ -1,107 +1,13 @@
 \name{NEWS}
 \title{NEWS file for the survival package}
-\section{Changes in version 2.43-1}{
-  \itemize{
-    \item Minor change to the concordance method to better accomodate
-    another package; add one more test case as well.
-    \item Change coxph to use concordance() rather than survConcordance.  
-    Be aware that thhis changes the default variance estimate (to a
-    better estimator however).
-    \item Add a test to verify that tmerge works with Date objects as
-    the time scale
-    \item Add timefix=TRUE option to survdiff
-    \item Add code for an edge case to coxph: a data set with no events.
-}}
-
-\section{Changes in version 2.43.0}{
-  \itemize{
-    \item Finish test suite and vignette for concordance.
-    \item Run the tests for all packages that depend on survival.
-    Submit to CRAN
-}}
-
-\section{Changes in version 2.42-7}{
-  \itemize{
-    \item Add arguments to survfit: survfit.matrix did not have
-    start.time, and survfitCI did not have p0.  Now both of them have
-    both.
-
-    \item Fix two small errors triggered by the new checks for the use
-    of && or || with arguments whose length is >1.  Pointed out by
-    Martin Maechler.
-
-    \item Add the concordance function, an upgrade of the older
-    survConcordance function.  The latter will be depricated.  (The draft
-    vignette still needs some polish.)
-
-    \item Change survreg so that a returned "y" in the object is the
-    original response, not the transformed y used for computation. This
-    was prompted by the concordance.survreg method, but is also more
-    consistent. It forced a change in residuals.survreg and uncovered
-    a long standing bug for any fit that had specified y=FALSE. 
-
-    \item Fix bug pointed out by C McCort: tmerge with "tdc(time, x)"
-    would fail if x is of mode character.  Add this case to the test suite.
-}}
-
-\section{Changes in version 2.42-6}{
-  \itemize{
-    \item Remove the cbind.Surv and rbind.Surv methods. 
-    The problem is when one is called with mixed arguments, e.g.
-    cbind(Surv(1:4), data.frame(x=6:9, z=c('a', 'b', 'a', 'a'))
-    In the above cbind.Surv is never called, but the \emph{presence}
-    of a cbind.Surv method messes up the default behavior, see the
-    Dispatch section of help('cbind').
-}}
-
-\section{Changes in version 2.42-5}{
-  \itemize{
-    \item Add a plot.Surv method per the suggestion of Goran Brostram.
-    Improve the cbind.Surv and rbind.Surv methods to handle mixed
-    argument lists (when there are some Surv arguments and some not). 
-
-    \item Add a Survmethods.Rd page documenting the added methods.
-
-    \item Add "F" and "S" to the list of fun= arguments to plot.survfit,
-    they are aliases for "event" and "identity", respectively.
-}}
-\section{Changes in version 2.42-4}{
-  \itemize{
-    \item Undo a bug that was introduced in tmerge in 2.42-3; an essential
-    line got commented out with the result that if sequential tmerge calls
-    modify the same variable only the final change was retained.  Add a
-    check to the test suite to prevent this in the future.
-
-    \item Improve multi-state survfit when the input data has extra
-    censored rows, e.g., a subject with transitions to state 1 at time 2
-    and state 2 at time 8 but data of (0,2,1), (2,5,0), (5,8,2); the
-    survSplit routine often generates such rows.
-    Formerly the transitions table in the output would be incorrect for
-    this case, and the life table would get an extra "censoring" line at
-    time 5.  The estimated P(state) and its se was correct.
-
-    \item Fix an edge case in tmerge, when using cumevent and the input
-    data has a 'censored' row.  Add a test for this, and for another edge
-    case of repeated updates at the same time point.
-
-    \item repair xtfrm.Surv: it had returned a partial ordering for
-    survival objects (like order()), it instead needs to be the analog
-    of order(order(x)), a vector of integers with the same sort order as
-    x.  Add test cases and a manual page.
-    
-    \item Add more Surv methods: head, tail, rep, rbind, c, rev, t,
-    mean, median, plot, points, lines, levels. 
-  }}
-
 \section{Changes in version 2.42-3}{
   \itemize{
     \item Remove the coxph warning "X matrix deemed to be singular".
     The coefficients are NA, just as before, we simply say less.
 
     \item Fix minor bug in coxph: a covariate that was a constant would
-    have its coefficent reported as 0 rather than NA, if (and only if)
-    it was the only variable in the model, e.g.,
-    coxph(Surv(1:10) ~ rep(4,10)).
+    have its coefficent reported as 0 rather than NA, iff it was the
+    only variable in the model, e.g., coxph(Surv(1:10) ~ rep(4,10)).
 }}
 
 \section{Changes in version 2.42-1}{
