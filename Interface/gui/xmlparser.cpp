@@ -106,7 +106,7 @@ void Altair::writeProjectFile()
     checkEmptyProjectName();
     QFile projectFile (projectName);
     if (projectFile.isOpen()) projectFile.close();
-    
+
 #ifdef ERROR_MSG_PROJECT
     QErrorMessage *errorMessageDialog = new QErrorMessage (this);
     if (! projectFile.open (QFile::WriteOnly | QFile::Truncate | QFile::Text))
@@ -125,7 +125,7 @@ void Altair::writeProjectFile()
     }
     
 #endif
-    
+
     QTextStream out (&projectFile);
     out.setCodec ("UTF-8");
 

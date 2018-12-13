@@ -287,15 +287,15 @@ public:
                *ifseFrame;   ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre grade, groupe fonctionnel et plafond en euros pour l'IFSE (RIFSEEP)  
     
     FCheckBox *budgetCheckBox;  ///< Case à cocher de contrôle de \link budgetFrame
-    
+     
     void do_copies();        ///< Réalise les copies des fichiers auxiliaires paye_budget.csv, grades.catégories.csv et logements.csv dans Tests/Exemple pour importation par le script R.  
    
 private:   
     
-  FCheckBox  *gradesCheckBox,  ///< Case à cocher de contrôle de \link gradesFrame
+    FCheckBox
+              *gradesCheckBox,  ///< Case à cocher de contrôle de \link gradesFrame
               *logtCheckBox,    ///< Case à cocher de contrôle de \link logtFrame
               *ifseCheckBox;    ///< Case à cocher de contrôle de \link ifsetFrame
-    
 };
 
 

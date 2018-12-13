@@ -235,32 +235,32 @@ if (setOSWindows) séquentiel <- TRUE else {
 
 
 scripts <- list(
-   "script_effectifs.R",                   #### 1.1 Effectifs          ####
-   "script_pyramides.R",                   #### 1.2-5 Pyramides        ####
-   "script_duréedeservice.R",              #### 1.6  Effectifs par durée ####
+  "script_effectifs.R",                   #### 1.1 Effectifs          ####
+  "script_pyramides.R",                   #### 1.2-5 Pyramides        ####
+  "script_duréedeservice.R",              #### 1.6  Effectifs par durée ####
     list("script_rémunérationsbrutes.R",
       index = c(début.période.sous.revue,
                 fin.période.sous.revue),
       incrémenter = TRUE),                  #### 2 et 3 Analyse statique des rémunérations ####
-   "script_comparaisonsdubrut.R",           #### 3.4  Comparatif INSEE DGCL ####
-   "script_évolutiondunet.R",               #### 4. Analyse dynamique des rémunérations ####
-   "script_NBI.R",                         #### 5.1  NBI               ####
-   "script_PFI.R",                         #### 5.2  PFI               ####
-   "script_vacataires.R",                   #### 5.3-5.4 VACATIONS      ####
-   "script_NAS.R",                         #### 5.5  NAS               ####
-   "script_IATIFTS.R",                    #### 5.6  IAT/IFTS          ####
-   "script_PFR.R",                         #### 5.7  PFR               ####
-   "script_PSR.R",                         #### 5.8  PSR               ####
-   "script_IPF.R",                         #### 5.9  IPF               ####
-   "script_RIFSEEP.R",                     #### 5.10 RIFSEEP           ####
-   "script_HS.R",                          #### 5.11 HEURES SUP        ####
-   "script_élus.R",                        #### 5.12 ELUS              ####
-   "script_comptabilité.R",                #### 5.13 COMPTE DE GESTION ####
-   "script_SFT.R",                         #### 5.14 SFT               ####
-   "script_astreintes.R",                  #### 5.15 ASTREINTES        ####
-   "script_retraites.R",                   #### 5.16 RETRAITES         ####
-   "script_FPH.R",                         #### 5.17 PRIMES FPH        ####
-   "script_annexe.R"                       #### ANNEXE                 ####
+  "script_comparaisonsdubrut.R",           #### 3.4  Comparatif INSEE DGCL ####
+  "script_évolutiondunet.R",               #### 4. Analyse dynamique des rémunérations ####
+  "script_NBI.R",                         #### 5.1  NBI               ####
+  "script_PFI.R",                         #### 5.2  PFI               ####
+  "script_vacataires.R",                   #### 5.3-5.4 VACATIONS      ####
+  "script_NAS.R",                         #### 5.5  NAS               ####
+  "script_IATIFTS.R",                    #### 5.6  IAT/IFTS          ####
+  "script_PFR.R",                         #### 5.7  PFR               ####
+  "script_PSR.R",                         #### 5.8  PSR               ####
+  "script_IPF.R",                         #### 5.9  IPF               ####
+  "script_RIFSEEP.R",                     #### 5.10 RIFSEEP           ####
+  "script_HS.R",                          #### 5.11 HEURES SUP        ####
+  "script_élus.R",                        #### 5.12 ELUS              ####
+  "script_comptabilité.R",                #### 5.13 COMPTE DE GESTION ####
+  "script_SFT.R",                         #### 5.14 SFT               ####
+  "script_astreintes.R",                  #### 5.15 ASTREINTES        ####
+  "script_retraites.R",                   #### 5.16 RETRAITES         ####
+  "script_FPH.R",                         #### 5.17 PRIMES FPH        ####
+  "script_annexe.R"                       #### ANNEXE                 ####
 ) 
 
 générer.partie <- function(script, seq) {

@@ -327,7 +327,7 @@ importer_base_logements <- function() {
   return(base.logements)
 }
 
-#' Importer le base externe des logements de fonction
+#' Importer le base externe IFSE
 #' @export
 #' 
 

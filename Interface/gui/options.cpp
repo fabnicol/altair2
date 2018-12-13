@@ -727,19 +727,18 @@ standardPage::standardPage()
     v3Layout->setColumnMinimumWidth (1, 250);
 
     optionalFieldBox->setLayout (v2Layout);
-
-      
+  
     repBudgetCheckBox = new FCheckBox("Exporter la répartition budgétaire",
-                                          flags::status::enabledUnchecked                         // Par défaut, case cochée génératrice de ligne de commande
-                                          | flags::commandLineType::coreApplicationCommandLine,
-                                          "repartBudget",                                    
-                                          {
-                                            "Données csv",
-                                            "générer la répartition budgétaire"  
-                                          },
-                                          "repartition-budget"
-                                          );
-        
+                                      flags::status::enabledUnchecked                         // Par défaut, case cochée génératrice de ligne de commande
+                                      | flags::commandLineType::coreApplicationCommandLine,
+                                      "repartBudget",                                    
+                                      {
+                                        "Données csv",
+                                        "générer la répartition budgétaire"  
+                                      },
+                                      "repartition-budget"
+                                      );
+    
     FPHCheckBox = new FCheckBox ("Fonction publique hospitalière",         // Titre de la case à cocher
                                  flags::status::enabledUnchecked           // Décochée par défaut
                                  | flags::commandLineType::noCommandLine,  // Pas de ligne de commande
@@ -749,9 +748,9 @@ standardPage::standardPage()
                                     "Ajuster le rapport pour la FPH"       // Présentation du gestionnaire de projets
                                  }
                                 );
-     
+
     connect(FPHCheckBox, &FCheckBox::toggled, [this] {repBudgetCheckBox->setChecked(FPHCheckBox->isChecked()); });
-    
+
     tableCheckBox = new FCheckBox ("Créer la base de données",                           // Titre de la case à cocher
                                    flags::status::enabledChecked                         // Par défaut, case cochée génératrice de ligne de commande
                                    | flags::commandLineType::coreApplicationCommandLine,
@@ -840,7 +839,7 @@ standardPage::standardPage()
     v1Layout->addWidget (exportWidget,      5, 1, Qt::AlignLeft);
     v1Layout->addWidget (maxNLigneLabel,    6, 0, Qt::AlignRight);
     v1Layout->addWidget (maxNLigneLineEdit, 6, 1, Qt::AlignLeft);
-    
+
     baseTypeBox->setLayout (v1Layout);
 
     v3Layout->addWidget (exportTableBox,    1, 0, Qt::AlignLeft);
@@ -1152,7 +1151,7 @@ extraPage::extraPage()
                                    {2, 1},
                                    v3Layout,
                                    "",   // pas de ligne de commande
-                                   directory::noCheck, // ne pas vérifier que le chemin est vide
+                                   directory::noCheck, // ne pas vérifier si le chemin est vide
                                    flags::flineframe::isFilePath,
                                    "Fichier CSV (*.csv)"); // il s'agit d'un chemin de fichier
     
@@ -1166,7 +1165,7 @@ extraPage::extraPage()
                                       "Les colonnes doivent comporter les intitulés Code,<br>"
                                       "Libellé, Statut, Type et Compte, dans cet ordre : <br>"
                                       "<ul><li><b>Code</b> : code de  paye de la base dématérialisée.</li>"
-                                      "<li><b>Libellé</b> : libellé de  paye associé au code.</li>"
+                                      "<li><b>Libelle</b> : libellé de  paye associé au code.</li>"
                                       "<li><b>Statut</b> : statut éligible à ce code. Si plusieurs<br>"
                                       "statuts sont éligibles, utiliser une ligne par statut.<br>"
                                       "Valeurs possibles : <br>"
@@ -1251,7 +1250,7 @@ extraPage::extraPage()
                                       "point-virgule et encodé en Latin-1 ou Windows-1252.<br>"
                                       "Il doit comporter une ligne d'intitulés de colonnes.<br>"
                                       "La première colonne est intitulée <b>Grade</b> et la seconde <br>"
-                                      "<b>Catégorie</b>.<br>"
+                                      "<b>Categorie</b>.<br>"
                                       "A défaut d'importation manuelle de ce fichier, le logiciel<br>"
                                       "réalise une interpolation relativement exacte de la <br>"
                                       "correspondance entre grade et catégorie statutaire.<br>"
@@ -1284,7 +1283,7 @@ extraPage::extraPage()
                                       "Les colonnes doivent comporter les intitulés Matricule,<br>"
                                       "Année, Mois, Logement, dans cet ordre : <br>"
                                       "<ul><li><b>Matricule</b> : Matricule de l'agent au mois concerné.</li>"
-                                      "<li><b>Année</b> : année de la période sous revue.</li>"
+                                      "<li><b>Annee</b> : année de la période sous revue.</li>"
                                       "<li><b>Mois</b> : mois de la période sous revue.</li>"
                                       "<li><b>Logement</b> : type du logement, par nécessité absolue de<br>"
                                       "service ou par utilité de service.<br>"
@@ -1377,9 +1376,9 @@ extraPage::extraPage()
     mainLayout->addSpacing (250);
 
     // Temporaire
-    logtCheckBox->setDisabled(true);
-    ifseCheckBox->setDisabled(true);
     
+    ifseCheckBox->setDisabled(true);
+                
     setLayout (mainLayout);
 }
 

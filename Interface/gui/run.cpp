@@ -540,7 +540,7 @@ void Altair::runRAltair()
     outputDir.remove ("altaïr.docx");
 
     if (! parent->dialog->extraTab->budgetCheckBox->isChecked()) QDir(common::path_access (DONNEES_XHL)).remove("paye_budget.csv");
-    
+             
     if (! v(enchainerRapports).isTrue())
         {
             process.start (RAltairCommandStr, QStringList() << path_access ("altaïr.Rproj"));

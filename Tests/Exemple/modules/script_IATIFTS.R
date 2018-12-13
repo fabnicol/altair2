@@ -6,9 +6,9 @@
 #+ IAT-et-IFTS
 
 
-résultat_IAT_IFTS <- test_prime(prime_IAT,
+résultat_IAT_IFTS <- test_prime(prime = prime_IAT,
                                 prime_B = prime_IFTS,
-                                Paie_I,
+                                Paie_I = Paie_I,
                                 verbeux = afficher.table.effectifs)
 
 Paie_IAT    <- résultat_IAT_IFTS$Paie
