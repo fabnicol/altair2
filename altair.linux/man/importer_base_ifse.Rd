@@ -2,10 +2,10 @@
 % Please edit documentation in R/import.R
 \name{importer_base_ifse}
 \alias{importer_base_ifse}
-\title{Importer le base externe des logements de fonction}
+\title{Importer le base externe IFSE}
 \usage{
 importer_base_ifse()
 }
 \description{
-Importer le base externe des logements de fonction
+Importer le base externe IFSE
 }

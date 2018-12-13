@@ -460,12 +460,6 @@ void FListFrame::addStringListToListWidget()
     clearTabLabels();
     widgetContainer.clear();
 
-    for (int j = 0; j < getWidgetContainerCount(); j++)
-    {
-            mainTabWidget->removeTab(j);
-            delete(mainTabWidget->widget(j));
-    }
-
     mainTabWidget->clear();
     Hash::wrapper[frameHashKey]->clear();
 
@@ -866,7 +860,7 @@ void FListFrame::on_importFromMainTree_clicked()
 
  if (importType == flags::importFiles)
     {
-     int stringListSize=0;
+        int stringListSize=0;
         for (const QModelIndex& index : indexList)
           {
              const QString path = model->filePath(index);
@@ -885,8 +879,14 @@ void FListFrame::on_importFromMainTree_clicked()
              addParsedTreeToListWidget(stringsToBeAdded);
          }
      }
-
-
+ else
+     if (importType == flags::importNames)
+     {
+       for (const QModelIndex& index : indexList)
+       {    
+           stringsToBeAdded << index.data().toString();
+       }
+     }
 }
 
 
@@ -966,7 +966,7 @@ void FListFrame::finalise()
 
     if (use_threads)
     {
-        // Terminer les fils d'exécutiion s'il y en a.
+        // Terminer les fils d'exécution s'il y en a.
 
         for (QThread* t : thread)
         {
