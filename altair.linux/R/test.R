@@ -631,7 +631,8 @@ test_avn <- function(avantage, Paie, base.logements = NULL) {
   
   "NAS.non.importes"      %a% NULL
   "NAS.non.declares.paye" %a% NULL
-
+  "logements" %a% NULL
+  
   if (is.null(base.logements) || is.null(base.logements[Logement == "NAS"]) || nrow(base.logements[Logement == "NAS"]) == 0) {
     
     base.logements %a% Paie_AV[ , .(Matricule, Annee, Mois)]   # on prend ceux de la base de paye à défaut de déclarations explicites dans fichier auxiliaire importé
