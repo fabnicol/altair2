@@ -284,9 +284,9 @@ static int parseFile (info_t& info)
             cur =  cur->xmlChildrenNode;
             budget_fichier = xmlGetProp (cur, (const xmlChar *) "V");
 
-            if (budget_fichier[0] == '\0')
+            if (budget_fichier == nullptr || budget_fichier[0] == '\0')
                 {
-                    xmlFree (budget_fichier);
+                    if (budget_fichier  != nullptr) xmlFree (budget_fichier);
                     budget_fichier = xmlStrdup (NA_STRING);
 
                     if (verbeux)
