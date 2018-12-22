@@ -29,10 +29,10 @@ calcul_HS <- function() {
                 "Grade")
   
   "Base.IHTS" %a% filtrer_Paie("IHTS",
-                            Base = Paie[Type %chin% c("I", "T", "R", "IR", "A"), ..colonnes],
-                            portée = "Mois",
-                            indic = TRUE)[ , `:=` (Annee.rappel = as.numeric(substr(Debut, 0, 4)),
-                                                   Mois.rappel  = as.numeric(substr(Debut, 6, 7))) ]
+                                Base = Paie[Type %chin% c("I", "T", "R", "IR", "A"), ..colonnes],
+                                portée = "Mois",
+                                indic = TRUE)[ , `:=` (Annee.rappel = as.numeric(substr(Debut, 0, 4)),
+                                                       Mois.rappel  = as.numeric(substr(Debut, 6, 7))) ]
   
   lignes.IHTS <- Base.IHTS[indic == TRUE][ , indic := NULL]
   
@@ -48,10 +48,10 @@ calcul_HS <- function() {
                                                                               sum(abs(Nb.Unite[Annee.rappel   < Annee]) * sign(Montant), na.rm = TRUE),
                                                                               a)), 
                                               by = .(Matricule, Annee.rappel, Mois.rappel)
-                                     ][Annee.rappel >= début.période.sous.revue 
+                                    ][Annee.rappel >= début.période.sous.revue 
                                           & Mois.rappel >=1 
                                           & Mois.rappel <= 12
-                                     ][ , .(Matricule, Annee, Mois, quotite, quotite.moyenne, Annee.rappel,
+                                    ][ , .(Matricule, Annee, Mois, quotite, quotite.moyenne, Annee.rappel,
                                             Mois.rappel, ihts.cum.rappels, nihts.cum.rappels, 
                                             ihts.cum.rappels.ant, nihts.cum.rappels.ant)]
   
@@ -63,14 +63,15 @@ calcul_HS <- function() {
   lignes.IHTS.hors.rappels <- lignes.IHTS[Type != "R" & Montant != 0, 
                                           .(ihts.cum.hors.rappels = sum(Montant, na.rm = TRUE),
                                             nihts.cum.hors.rappels = ifelse((a <- sum(abs(Base) * sign(Montant), na.rm = TRUE)) == 0, 
-                                                                            sum(abs(Nb.Unite) * sign(Montant), na.rm = TRUE),
+                                                                              sum(abs(Nb.Unite) * sign(Montant), na.rm = TRUE),
                                                                             a),
+                                            quotite,
                                             quotite.moyenne),
                                             by = .(Matricule, Annee, Mois)]
   
   "lignes.IHTS.tot" %a% merge(lignes.IHTS.rappels, lignes.IHTS.hors.rappels, 
-                           all = TRUE,
-                             by = c("Matricule", "Annee", "Mois", "quotite.moyenne"))[is.na(ihts.cum.rappels), ihts.cum.rappels := 0
+                             all = TRUE,
+                             by = c("Matricule", "Annee", "Mois", "quotite", "quotite.moyenne"))[is.na(ihts.cum.rappels), ihts.cum.rappels := 0
                                                                                    ][is.na(ihts.cum.hors.rappels), ihts.cum.hors.rappels := 0
                                                                                    ][is.na(nihts.cum.rappels), nihts.cum.rappels := 0
                                                                                    ][is.na(nihts.cum.hors.rappels), nihts.cum.hors.rappels := 0
@@ -78,18 +79,18 @@ calcul_HS <- function() {
                                                                                    ][is.na(ihts.cum.rappels.ant), ihts.cum.rappels.ant := 0
                                                                                    ][is.na(nihts.cum.rappels.ant), nihts.cum.rappels.ant := 0]
   
-  lignes.IHTS.tot[ ,  `:=`(ihts.tot = ihts.cum.rappels + ihts.cum.hors.rappels + ihts.cum.rappels.ant,
+  lignes.IHTS.tot[ ,  `:=`(ihts.tot  = ihts.cum.rappels + ihts.cum.hors.rappels + ihts.cum.rappels.ant,
                            nihts.tot = nihts.cum.rappels + nihts.cum.hors.rappels + nihts.cum.rappels.ant)]
   
   essayer({  
     
     if ((N.IHTS.non.tit <<- uniqueN(Base.IHTS.non.tit$Matricule)) > 0) {
     
-    cat(N.IHTS.non.tit, "attributaire" %s% N.IHTS.non.tit, " des IHTS sont des non-titulaires.   \n**Vérifier l'existence d'une délibération** le prévoyant expressément.   \n")
+      cat(N.IHTS.non.tit, "attributaire" %s% N.IHTS.non.tit, " des IHTS sont des non-titulaires.   \n**Vérifier l'existence d'une délibération** le prévoyant expressément.   \n")
     
     } else {
     
-    cat("Tous les attributaires des IHTS sont titulaires ou stagiaires.   \n")
+      cat("Tous les attributaires des IHTS sont titulaires ou stagiaires.   \n")
     }
     
     # Taux.horaires donne des sommes annuelles pour les traitements et IHTS, afin de calculer les taux maxima "seuils"
@@ -98,17 +99,20 @@ calcul_HS <- function() {
     vect <- c("Matricule", "Annee", "Mois", "quotite")
     
     "Taux.horaires" %a% Base.IHTS[ ,.(IR = sum(Montant[Type == "IR"], na.rm = TRUE),
-                                   Indice = Indice[1],
-                                   NBI = NBI[1],
-                                   Heures.Sup. = Heures.Sup.[1]), # ajouter NBI proratisée !
+                                  Indice = Indice[1],
+                                     NBI = NBI[1],
+                             Heures.Sup. = Heures.Sup.[1]), # ajouter NBI proratisée !
                                       by = vect]
     
     "Taux.horaires" %a% Taux.horaires[lignes.IHTS.tot, nomatch = 0, on = vect]
     
     setkey(Taux.horaires, Annee, Mois)
     
-    Taux.horaires[ , `Traitement indiciaire annuel et IR` := IR * 12 + (Indice + NBI) * PointIM[Annee - 2007, Mois]
-                 ][ , `Taux horaire` := `Traitement indiciaire annuel et IR` / 1820 ]
+    f <- function(IR, Indice, NBI, Annee, Mois) IR * 12 + (Indice + NBI) * PointIM[Annee - 2007, Mois]
+    
+    Taux.horaires$`Traitement indiciaire annuel et IR` <<- mapply(f, Taux.horaires$IR, Taux.horaires$Indice, Taux.horaires$NBI, Taux.horaires$Annee, Taux.horaires$Mois, USE.NAMES = FALSE)
+    
+    Taux.horaires[ , `Taux horaire` := `Traitement indiciaire annuel et IR` / 1820 ]
     
     # Pour les temps partiels et les heures complémentaires, pas de sur-rémunération
     
@@ -125,7 +129,7 @@ calcul_HS <- function() {
     Taux.horaires[ ,   `:=` (Max = nihts.tot * `Taux horaire nuit`,
                              Min = nihts.tot * `Taux horaire inf.14 H`)
                    
-                   ][ ,  `:=`(Indice = NULL,
+                 ][ ,  `:=`(Indice = NULL,
                               IR = NULL)]   
     
     sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
@@ -157,12 +161,15 @@ dépassements_HS <- function() {
   if (depassement) {
     
     cat("Il y a", depassement, "agent" %+% ifelse(depassement, "s", ""), "qui perçoivent davantage que le maximum d'IHTS pouvant être liquidé au titre du mois.  \n") 
-  }
   
-  with(depassement.agent.annee,
-       
-       print(Tableau.vertical2(c("Annee", "Coût en euros", "Nombre d'agents"),
-                            Annee, digits = 0, `Coût en euros`, `Nombre d'agents`)))   
+  
+    with(depassement.agent.annee,
+         
+         print(Tableau.vertical2(c("Annee", "Coût en euros", "Nombre d'agents"),
+                          Annee, digits = 0, `Coût en euros`, `Nombre d'agents`)))   
+  } else {
+    cat("Pas de dépassement détecté du maximum d'IHTS pouvant être liquidé au titre du mois.   \n")
+  }
   
   sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
              env = new.env(),
@@ -178,40 +185,48 @@ dépassements_HS <- function() {
 
 cumuls_HS <- function() {
   
+  "CumHS" %a% NULL
+  
   essayer({ 
     
-  "CumHS" %a% Bulletins.paie[ , .(toths = sum(Heures.Sup., na.rm = TRUE)), keyby = Annee]
-  
-  # Certaines bases de données indiquent le nombre d'heures sup dans la variable Base et d'autres dans la variable Nb.Unite
-  # En principe un rappel concerne un mois antérieur. Mais de nombreuses BD ont des rappels du même mois...
-  
-  "CumBaseIHTS" %a% unique(lignes.IHTS.tot[, .(Matricule, Annee, Mois, quotite, quotite.moyenne, nihts.tot, nihts.cum.hors.rappels, nihts.cum.rappels, nihts.cum.rappels.ant)])
-  
-  TotBaseIHTS <- CumBaseIHTS[ , .(totihts = sum(nihts.tot),
-                                  totihts.hors.rappels = sum(nihts.cum.hors.rappels),
-                                  totihts.rappels = sum(nihts.cum.rappels),
-                                  totihts.rappels.ant = sum(nihts.cum.rappels.ant)),
-                                     keyby = Annee]
-  
-  "CumHS" %a% merge(CumHS, TotBaseIHTS, all = TRUE, by = "Annee")
-  },
-  "La base des cumuls d'IHTS par année, des régularisations et des IHTS apparemment non liquidées n'a pas pu être générée.   \n")
-  
-  with(CumHS,
-       
-       print(Tableau.vertical2(c("Annee N", "Cumul HS N", "Cumul IHTS N", "dont du mois", "dont rappels N", "dont payés N+1"),
-                         Annee,             toths,    totihts,   totihts.hors.rappels, totihts.rappels,  totihts.rappels.ant))
-       
-  )
-  
-  if ((l <- length(v <- CumHS[toths < totihts, Annee])) > 0) {
-    cat("  \n", "  \n", 
-        "Le nombre d'heures supplémentaires déclarées pour ")     
-    cat(v, sep = ", ")
-    cat(" est incohérent avec le nombre d'heures IHTS payées au titre de", ifelse(l > 1, "ces", "cet"), ifelse(l > 1, "exercices. ","exercice.   \n"))
-  }
-  
-  sauvebase("CumHS", "CumHS", "Reglementation", environment())
+    "CumHS" %a% Bulletins.paie[ , .(toths = sum(Heures.Sup., na.rm = TRUE)), keyby = Annee]
+    
+    # Certaines bases de données indiquent le nombre d'heures sup dans la variable Base et d'autres dans la variable Nb.Unite
+    # En principe un rappel concerne un mois antérieur. Mais de nombreuses BD ont des rappels du même mois...
+    
+    "CumBaseIHTS" %a% unique(lignes.IHTS.tot[, .(Matricule, Annee, Mois, quotite, quotite.moyenne, nihts.tot, nihts.cum.hors.rappels, nihts.cum.rappels, nihts.cum.rappels.ant)])
+    
+    TotBaseIHTS <- CumBaseIHTS[ , .(totihts = sum(nihts.tot),
+                                    totihts.hors.rappels = sum(nihts.cum.hors.rappels),
+                                    totihts.rappels = sum(nihts.cum.rappels),
+                                    totihts.rappels.ant = sum(nihts.cum.rappels.ant)),
+                                       keyby = Annee]
+    
+    "CumHS" %a% merge(CumHS, TotBaseIHTS, all = TRUE, by = "Annee")
+    },
+    "La base des cumuls d'IHTS par année, des régularisations et des IHTS apparemment non liquidées n'a pas pu être générée.   \n")
+    
+    if (!is.null(CumHS)) {
+      
+      with(CumHS,
+           
+           print(Tableau.vertical2(c("Annee N", "Cumul HS N", "Cumul IHTS N", "dont du mois", "dont rappels N", "dont payés N+1"),
+                             Annee,             toths,    totihts,   totihts.hors.rappels, totihts.rappels,  totihts.rappels.ant))
+           
+      )
+      
+      if ((l <- length(v <- CumHS[toths < totihts, Annee])) > 0) {
+        cat("  \n", "  \n", 
+            "Le nombre d'heures supplémentaires déclarées pour ")     
+        cat(v, sep = ", ")
+        cat(" est incohérent avec le nombre d'heures IHTS payées au titre de", ifelse(l > 1, "ces", "cet"), ifelse(l > 1, "exercices. ","exercice.   \n"))
+      }
+    
+      sauvebase("CumHS", "CumHS", "Reglementation", environment())
+      
+    } else {
+      cat("La base des cumuls d'heures supplémentaires n'a pas pu être générée.   \n")
+    }
 }
 
 #'@export

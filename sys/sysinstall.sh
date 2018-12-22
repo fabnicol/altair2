@@ -192,20 +192,20 @@ fi
 
 
 cd /home/fab/Dev/altair
-if test -f sys/install.packages -a ! -f sys/packages.installed; then
+if test -f sys/install.packages -a ! -f sys/packages.installed.flag; then
 
    echo "Actualisation des paquets..."
   
-   export PKGDIR="$PWD/sys/packages"
+   export PKGDIR="/home/fab/Dev/altair/sys/packages"
    
    if test -d sys/packages; then
    
       echo "Installation des paquets..."
-      emerge -K --nodeps  $(find $PKGDIR -name '*tbz2')
+      emerge -K --nodeps  $(find /home/fab/Dev/altair/ -name '*tbz2')
       echo "Installation des paquets terminée..."
       eix-update
-      touch sys/packages.installed
-      git add -f sys/packages.installed
+      touch sys/packages.installed.flag
+      git add -f sys/packages.installed.flag
       git commit -am "packages.installed"
 
    else
@@ -263,9 +263,10 @@ if ! test -d  Tests/Exemple/Donnees/xhl
     
     
 # Pour la branche dev seulement
-mount -o remount,rw UUID="85F7-2833" Tests/Exemple/Donnees/R-Altair
+mount -o rw UUID="85F7-2833" Tests/Exemple/Donnees/R-Altair
 chown -R fab:users Tests/Exemple/Donnees/R-Altair
-mount -o remount,rw UUID="C96F-2C5E" Tests/Exemple/Donnees/xhl
+mount -o rw,nonempty UUID="C96F-2C5E" Tests/Exemple/Donnees/xhl
+cp -f Docs/Exemple/Anonyme2.7z   Tests/Exemple/Donnees/xhl
 chown -R fab:users Tests/Exemple/Donnees/xhl
 ####
 
@@ -363,7 +364,6 @@ chmod -R 0750 /home/fab/Dev/altair/linux
 
 # correction d'un bug sur la version fab de m.sh (réimportation de /home/Public/fab/.Rproj.user à chaque ouverture de session)
 
-
 cd /home/fab/Dev/altair
 
 git rev-parse --verify release
@@ -402,13 +402,9 @@ else
 fi 
 git commit -am "Release $(date)"
 
-
 echo "*** Opérations sur branche release : Terminé ***"
  
- 
 git checkout -f dev
- 
- 
 
 echo "Raffraichissement des paramètres éditeur"
 
@@ -422,7 +418,4 @@ chgrp -R users /home/Public
 chmod -R 0777 /home/Public
 # correction sur .Rproj.user 
 
-
-
 chmod -R 0777 /home/fab/Dev/altair/.Rproj.user         
- 

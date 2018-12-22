@@ -118,7 +118,7 @@ minimum.Nmois.non.annexe        <- 1
 population_minimale_calcul_médiane  <- 3
 tolérance.sft                       <- 1
 tolérance.nbi                       <- 2
-ratio.memoire.ligne.parallele       <- 3.3
+ratio.memoire.ligne.parallele       <- 2.3
 
 séparateur.liste.entrée     <- ";"
 séparateur.décimal.entrée   <- ","

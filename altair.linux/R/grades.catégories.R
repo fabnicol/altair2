@@ -12,16 +12,14 @@ correspondance_grade_catégorie <- function() {
     
     essayer(label ="+grade-categorie",
             {  
-              "grade.categorie.existe" %a%  file.exists(chemin("grades.catégories.csv"))  
-              
-              vect <- c("Grade")
+              "grade.categorie.existe" %a%  file.exists(chemin("grades.categories.csv"))  
               
               if (grade.categorie.existe){
                 
-                grade.categorie <- fread(chemin("grades.catégories.csv"), # Code, Libelle,  Statut, Type, Compte
+                grades.categorie <- fread(chemin("grades.categories.csv"), # Code, Libelle,  Statut, Type, Compte
                                       sep = ";",
                                       encoding   = "Latin-1",
-                                      col.names  = c(vect, "Categorie"),
+                                      col.names  = c("Grade", "Categorie"),
                                       colClasses = c("character", "character"))  
                 
                 message("*****")
@@ -29,15 +27,18 @@ correspondance_grade_catégorie <- function() {
                 message("*****")
                 
                 
-                grade.categorie      <- unique(grade.categorie)
+                grades.categorie      <- unique(grades.categorie)
+                Paie[ , Categorie := NULL]
+                Bulletins.paie[ , Categorie := NULL]
                 
-                exporter_tableau(grade.categorie, requis = "Categorie", clé = "Grade")
+                exporter_tableau(grades.categorie, requis = "Categorie", clés = "Grade")
                
               } else {
                 
-                grade.categorie <- unique(matricules[, .(Grade, Categorie)])
+                grades.categorie <- unique(matricules[, .(Grade, Categorie)])
               }
               
-              grade.categorie
+              grades.categorie
               }, "L'association du grade et de la catégorie statutaire n'a pas pu être réalisée.")
 }
+

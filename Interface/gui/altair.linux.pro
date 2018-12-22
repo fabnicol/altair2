@@ -40,8 +40,8 @@ VERSION_TAG = $$system(cat ../../VERSION)
 DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
 
 message("Version :  $$VERSION_TAG")
-#QMAKE_CXX = /usr/bin/g++
-#QMAKE_LINK = /usr/bin/g++
+QMAKE_CXX = /usr/bin/g++-8.2.0
+QMAKE_LINK = /usr/bin/g++-8.2.0
 greaterThan(QT_MAJOR_VERSION, 5)
 
 # utiliser au moins Qt5 et g++-5.1
@@ -71,14 +71,14 @@ if (!isEmpty(CXX_VERSION)){
 
 
 
-CONFIG  += ordered static
+CONFIG  += ordered static 
 CONFIG(debug, debug|release) {
   QMAKE_LFLAGS   += -L$$(QTDIR)/bin   # ne devrait pas en principe être rajouté mais...qmake est capricieux !
 
 } else {
   CONFIG += static
   QMAKE_CXXFLAGS += -O3 -fomit-frame-pointer -fexpensive-optimizations -Wall -Wextra
-  QMAKE_LFLAGS += -s -licui18n -licuuc -licudata  -static-libgcc -static-libstdc++
+  QMAKE_LFLAGS +=  -s -licui18n -licuuc -licudata  -static-libgcc -static-libstdc++
 }
 
 

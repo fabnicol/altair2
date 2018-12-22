@@ -85,7 +85,18 @@ verif.temps.complet <- function() {
   
   # dans certains cas on a presque jamais la variable Heures renseignée... sauf pour quelques temps partiels
   
-  h <- hist(Bulletins.paie[Temps.de.travail == 100, Heures], nclass = 20000, plot = FALSE)
+  B <- Bulletins.paie[Temps.de.travail == 100, Heures]
+  
+  if (length(B) == 0) {
+    cat("Aucune quotité à temps complet. Problème de qualité probable de la base de paye.  \n")
+    cat("En l'absence de quotité positive, la liquidation des payes n'est pas vérifiable.  \n")
+    cat("Pour permettre la poursuite du traitement, les payes sont supposées toutes à temps complet.   \n")
+    cat("Attention ce redressement peut entraîner des erreurs d'analyse dans la suite du rapport.   \n")
+    Bulletins.paie[ , Temps.de.travail := 100]
+    B <- Bulletins.paie[Temps.de.travail == 100, Heures]
+  }
+  
+  h <- hist(B, nclass = 20000, plot = FALSE)
   max.h <- which.max(h$counts)
   
   if (max.h > 1) {
@@ -247,9 +258,9 @@ identifier.personnels <- function() {
   #élu
   ELUS      <-  "[eé]lus?"
   # adjoint au maire
-  ADJOINT_MAIRE     <-  "adj.*\\bmaire\\b"
+  ADJOINT_MAIRE     <-  ".*adj.*\\bmaire\\b"
   # vice-président
-  VICE_PRESIDENT    <- "vi.*\\bpr..?sident\\b"
+  VICE_PRESIDENT    <- ".*vi.*\\bpr..?sident\\b"
   # conseiller municipal
   CONSEILLER_MUNIC  <-"cons.*\\bmuni"
   # conseiller communautaire
@@ -288,31 +299,6 @@ identifier.personnels <- function() {
 }
 
 
-#' Importer la base externe des correspondances grades-catégories
-#' @export
-
-importer_grades_catégories <- function() {
-  if (grades.categories.existe) {
-    base.grades.categories <- data.table::fread(chemin("grades.categories.csv"),
-                                                sep = séparateur.liste.entrée,
-                                                header = TRUE,
-                                                colClasses = c("character", "character"),
-                                                encoding = "Latin-1",
-                                                showProgress = FALSE) 
-    
-    message("Chargement du fichier des grades et catégories statutaires des personnels.")
-    if (!is.null(base.grades.categories))
-      message("Importé.")
-    else {
-      message("Impossible d'importer les grades et catégories.")
-      stop(" ")
-    }
-  } else {
-    base.grades.categories <- NULL
-  }
-    
-  base.grades.categories
-}
 
 #' Importer la base des logements de fonction
 #' @export
@@ -341,7 +327,7 @@ importer_base_logements <- function() {
   return(base.logements)
 }
 
-#' Importer le base externe des logements de fonction
+#' Importer le base externe IFSE
 #' @export
 #' 
 
@@ -603,7 +589,7 @@ importer_ <- function() {
   "plafonds.ifse.existe" %a% file.exists(chemin("plafonds_ifse.csv"))
   
   base.personnels.catégorie <- importer_matricules()
-  base.grades.categories    <- importer_grades_catégories()
+  
   base.logements            <- importer_base_logements()
   base.ifse                 <- importer_base_ifse()
   
@@ -666,23 +652,8 @@ importer_ <- function() {
     
     Bulletins.paie  <- merge(Bulletins.paie[ , , keyby = vect], BP, all = TRUE, by = vect)
     
-  } else {
-    
-    if (! is.null(base.grades.categories)) {
-      
-      message("Remplacement de la catégorie par la catégorie importée du fichier grades.categories.csv sous ", chemin.dossier.données)
-      
-      Paie[, Categorie := NULL]
-      Bulletins.paie[, Categorie := NULL]
-      BP <- base.grades.categories[Grade != "V" & Grade != "A", Categorie, keyby = "Grade"]
-      BP <- rbindlist(list(BP, data.table("V", "NA")))
-      BP <- rbindlist(list(BP, data.table("A", "NA")))
-      
-      Paie <- merge(Paie[ , , keyby = "Grade"], BP, all = TRUE, by = "Grade")
-      
-      Bulletins.paie <- merge(Bulletins.paie[ , , keyby = "Grade"], BP, all = TRUE, by = "Grade")
-    }
   }
+  
   
   setkey(Paie, Matricule, Annee, Mois)
   setkey(Bulletins.paie, Matricule, Annee, Mois)
@@ -701,6 +672,11 @@ importer_ <- function() {
   Bulletins.paie[is.na(Grade),  Grade  := ""]
   Bulletins.paie[is.na(Statut), Statut := "AUTRE_STATUT"]
   Bulletins.paie[is.na(NBI),    NBI    := 0]
+  Bulletins.paie[grepl("CONTRA", Grade, fixed = TRUE), Statut := "NON_TITULAIRE"]
+  Paie[grepl("CONTRA", Grade, fixed = TRUE), Statut := "NON_TITULAIRE"]
+  
+  Bulletins.paie[Categorie %in% c("A", "B", "C") & Statut == "AUTRE_STATUT", Statut := "TITULAIRE"]
+  Paie[Categorie %in% c("A", "B", "C") & Statut == "AUTRE_STATUT", Statut := "TITULAIRE"]
   
   "période" %a% début.période.sous.revue:fin.période.sous.revue
   "durée.sous.revue" %a% (fin.période.sous.revue - début.période.sous.revue + 1)
@@ -813,9 +789,6 @@ importer_ <- function() {
   
   "matricules" %a% matricules[order(Matricule, Annee)]
   
-  "grades.categories" <- correspondance_grade_catégorie()
-  
-  
   # on essaie de deviner le versant de la FP par l'existence d'agents de service hospitalier
   # on peut désactiver ce test par désactiver.test.versant.fp <- T dans prologue.R
   
@@ -826,8 +799,9 @@ importer_ <- function() {
   "Bulletins.paie" %a% Bulletins.paie
   "base.ifse" %a% base.ifse
   "base.personnels.catégorie" %a% base.personnels.catégorie
-  "base.grades.categories" %a% base.grades.categories
   "base.logements" %a% base.logements
+  "grades.categories" %a% correspondance_grade_catégorie()
+  
 }
 
 

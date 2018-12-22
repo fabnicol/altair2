@@ -447,8 +447,8 @@ essayer({ if (! is.null(Paie_B) && ! résultat.manquant) {
     
     if (! indic_B %chin% NAMES && "indic" %chin% NAMES) setnames(Paie_B, "indic", indic_B)
     
-    période.fusion <- merge(Paie_A[indic == TRUE],
-                            Paie_B[get(indic_B) == TRUE],
+    période.fusion <- merge(unique(Paie_A[indic == TRUE]),
+                            unique(Paie_B[get(indic_B) == TRUE]),
                             by = c("Nom", "Prenom", "Matricule",
                                    "Annee", "Mois", "Emploi", "Grade",
                                    "Indice", "Statut",
@@ -456,8 +456,8 @@ essayer({ if (! is.null(Paie_B) && ! résultat.manquant) {
   
     période.fusion <- unique(période.fusion)
     
-    A_ <- merge(Paie_A, période.fusion)
-    B_ <- merge(Paie_B, période.fusion)
+    A_ <- merge(unique(Paie_A), période.fusion, by = c("Matricule", "Annee", "Mois"))
+    B_ <- merge(unique(Paie_B), période.fusion, by = c("Matricule", "Annee", "Mois"))
     B_$indic <- A_$indic
     
     personnels.A.B <- B_[indic == TRUE | get(indic_B) == TRUE
@@ -505,7 +505,7 @@ indic_B <- "indic_"  %+% prime_B$nom
 Lignes_A[ , indic := TRUE, with = FALSE]
 Lignes_B[ , indic_B := TRUE, with = FALSE]
 
-beneficiaires.A <- merge(Lignes_A, Lignes_B, all = TRUE)
+beneficiaires.A <- merge(unique(Lignes_A), unique(Lignes_B), all = TRUE, by = c("Nom", "Prenom", "Matricule", "Annee", "Mois", "Debut", "Fin", "Grade", "Emploi", "Temps.de.travail", "Indice", "Categorie", "Statut", "Type", "Montant"))
 
 beneficiaires.A[ , Régime := if (all(is.na(get(indic)))) { if (any(get(indic_B))) "I" else NA } else { if (all(is.na(get(indic_B)))) "P" else "C" },
                    by = .(Matricule, Annee, Mois)][ , indic := NULL, with = FALSE][ , indic_B := NULL, with = FALSE]
@@ -564,7 +564,7 @@ if ((! is.null(prime$NAS) && prime$NAS == "non") || (! is.null(prime_B$NAS) && p
             
           if (prime$NAS == "non" && prime_B$NAS == "non") {
             
-            Lignes_C <- merge(Lignes_A, Lignes_B, all = TRUE)
+            Lignes_C <- merge(unique(Lignes_A), unique(Lignes_B), all = TRUE)
             prime_NAS <- prime$nom %+% "-" %+% prime_B$nom
             
           }
@@ -606,11 +606,11 @@ list(Paie = Paie_A,
 #' 
 #' @param avantage Vecteur de caractères indiquant le type de logement (actuellement seul "NAS" est actif)
 #' @param Paie Base de Paye principale comportant les variables \code{Matricule, Annee, Mois, Statut, Grade, Emploi, Type, Code, Libelle, Montant}
-#' @param logements La base de logements facultative importée par l'onglet Extra de l'interface graphique 
+#' @param base.logements La base de logements facultative importée par l'onglet Extra de l'interface graphique 
 #' @return base de type \code{data.table} comportant les enregistrements identifiés comme problématiques.  
 #' @export
 
-test_avn <- function(avantage, Paie, logements = NULL) {
+test_avn <- function(avantage, Paie, base.logements = NULL) {
   
   val <- codes[type == avantage, valeur]
   
@@ -620,58 +620,70 @@ test_avn <- function(avantage, Paie, logements = NULL) {
       Paie_AV <- Paie[grepl(codes[type == avantage, expression], Libelle, ignore.case = TRUE, perl = TRUE), .(Matricule, Annee, Mois, Statut, Grade, Emploi, Code, Type, Libelle, Montant)]
   }
   
-  if ((n1 <- nrow(Paie_AV[Type == "AV"])) < (n2 <- nrow(Paie_AV))) {
-    newline()
-    cat("Tous les avantages en nature pour logement par NAS (", n2, " lignes) ne sont pas déclarés comme type \"Avantage en nature\", soit ", n1, " lignes."  )
-    newline()
+  n1 <- nrow(Paie_AV[Type == "AV"])
+  n2 <- nrow(Paie_AV)
+  
+  cat("Nombre de lignes d'avantages en nature ", n1, "  \n")
+    
+  if (n1 < n2) {
+    cat("Tous les avantages en nature pour logement par NAS (", n2, " lignes) ne sont pas déclarés comme type \"Avantage en nature\", soit ", n2 - n1, " lignes non déclarées comme de type AV.  \n"  )
   }
   
-  NAS.non.importes      <- NULL
-  NAS.non.declares.paye <- NULL
-  newline()  
+  "NAS.non.importes"      %a% NULL
+  "NAS.non.declares.paye" %a% NULL
+  "logements" %a% NULL
   
-  if (is.null(logements) || is.null(logements[Logement == "NAS"]) || nrow(logements[Logement == "NAS"]) == 0) {
+  if (is.null(base.logements) || is.null(base.logements[Logement == "NAS"]) || nrow(base.logements[Logement == "NAS"]) == 0) {
     
-    logements <- Paie_AV[ , .(Matricule, Annee, Mois)]   # on prend ceux de la base de paye à défaut de déclarations explicites dans fichier auxiliaire importé
-    logements[ , Logement := "NAS"]
-    cat("En l'absence de fichier auxiliaire importé des logements par NAS, il a été trouvé ", nrow(logements), " lignes d'avantage en nature de logement, supposé par NAS.")
+    base.logements %a% Paie_AV[ , .(Matricule, Annee, Mois)]   # on prend ceux de la base de paye à défaut de déclarations explicites dans fichier auxiliaire importé
+    base.logements[ , Logement := "NAS"]
+    cat("En l'absence de fichier auxiliaire importé des logements par NAS, il a été trouvé ", nrow(base.logements), " lignes d'avantage en nature de logement, supposé par NAS.   \n")
 
   } else {
     
     if (is.null(Paie_AV) || nrow(Paie_AV) == 0)  {  # il y a donc des logements par NAS non déclarés en base de paye...
       
-      cat("Aucun des logements par NAS déclarés dans le fichier auxiliaire importé n'est mentionné comme avantage en nature (Type == \"AV\") en base de paye. ")
-      cat("Il peut en résulter des anomalies dans les déclarations fiscales ou de cotisations sociales. ")
+      cat("Aucun des logements par NAS déclarés dans le fichier auxiliaire importé n'est mentionné comme avantage en nature (Type == \"AV\") en base de paye.  \n")
+      cat("Il peut en résulter des anomalies dans les déclarations fiscales ou de cotisations sociales.  \n")
 
     } else {
       
-      cat("Il existe à la fois des avantages en nature déclarés en base de paye (", nrow(Paie_AV), " lignes) et un fichier de déclaration de logements par NAS importé (", n1, " lignes. ")
-      
-      logements <- merge(Paie_AV, base.logements[Logement == "NAS"], by = c("Matricule", "Annee", "Mois"), all = TRUE)
-      NAS.non.importes <- logements[is.na(Logement)]
-      NAS.non.declares.paye <- logements[! is.na(Logement) & is.na(Code)]
-    }      
+      cat("Il existe à la fois des avantages en nature déclarés en base de paye (", nrow(Paie_AV), " lignes) et un fichier de déclaration de logements par NAS importé (", n1, " lignes.  \n")
+    
+    }
+    
+    "logements" %a% merge(Paie[ , .(Matricule, Nir, Annee, Mois, Statut, Emploi, Service, NBI, Grade, Echelon, Temps.de.travail, Heures, Libelle, Type, Montant)],
+                       base.logements, 
+                         by = c("Matricule", "Annee", "Mois"), 
+                         all = TRUE)
+    
+    "NAS.non.importes" %a% logements[is.na(Logement) & grepl(codes[type == avantage, expression], Libelle, ignore.case = TRUE, perl = TRUE)]
+    
+    if (nrow(NAS.non.importes) == 0)  "NAS.non.importes" %a% NULL
+    
+    "logements" %a% logements[! is.na(Logement)]
+    
+    "NAS.non.declares.paye" %a% logements[Logement == "NAS" & ! grepl(codes[type == avantage, expression], Libelle, ignore.case = TRUE, perl = TRUE)]
+          
+    if (nrow(NAS.non.declares.paye) == 0)  "NAS.non.declares.paye" %a% NULL
   }
-  }, "Il n'a pas été possible d'extraire les logements par NAS déclarés en base de paye. ")
+  }, "Il n'a pas été possible d'extraire les logements par NAS déclarés en base de paye.  \n")
 
-  newline()
-  
   env <- environment()
   
   if (sauvegarder.bases.analyse) {
     sauvebase("NAS.non.importes", "NAS.non.importes", "Reglementation", env)
     sauvebase("NAS.non.declares.paye", "NAS.non.declares.paye", "Reglementation", env)
+    sauvebase("logements", "logements", "Reglementation", env)
   }
 
   if (! is.null(logements) && nrow(logements) > 0) {
     
     message("Détection d'avantages en nature liés à un logement par NAS.")
-    return(logements[, .(Matricule, Annee, Mois, Logement)])
-    
+
   } else {
     
     message("Pas de détection d'avantage en nature lié à un logement par NAS.")
-    return(NULL)
   }
 }
 

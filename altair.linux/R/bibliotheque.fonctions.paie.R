@@ -989,8 +989,7 @@ extraire_paye <- function(an, L, out) {
 #' @export
 
 insérer_script <- function(chemin = NULL, 
-                           index = c(0), 
-                           seq,
+                           index = 1, 
                            variable = "année", 
                            gen = générer.rapport, 
                            incrémenter = FALSE, 

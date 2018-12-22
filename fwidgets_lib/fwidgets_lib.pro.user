@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.7.1, 2018-10-07T21:57:03. -->
+<!-- Written by QtCreator 4.7.1, 2018-12-13T22:49:22. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -275,7 +275,7 @@
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.0">
     <value type="bool" key="Analyzer.QmlProfiler.AggregateTraces">false</value>
     <value type="bool" key="Analyzer.QmlProfiler.FlushEnabled">false</value>
-    <value type="uint" key="Analyzer.QmlProfiler.FlushInterval">1000</value>
+    <value type="uint" key="Analyzer.QmlProfiler.FlushInterval">0</value>
     <value type="QString" key="Analyzer.QmlProfiler.LastTraceFile"></value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <valuelist type="QVariantList" key="Analyzer.Valgrind.AddedSuppressionFiles"/>
