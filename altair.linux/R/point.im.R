@@ -49,7 +49,7 @@ point_inm <- function() {
     "début.période.sous.revue" %a% 2008
   }
     
-  # Période couverte : 2008-2017 inclus
+  # Période couverte : 2008-2019 inclus
   
   "PointIM" %a% matrix(c(
                       54.4113,             # 2008 01
@@ -59,10 +59,12 @@ point_inm <- function() {
                       rep.int(55.1217, 3), # 2009 6-9
                       rep.int(55.2871, 9), # 2009 10-12 et 2010 1-6
                       rep.int(55.5635, 72),# 2010 7 -> 2016 6  (6 années de blocage)
-               				rep.int(55.8969, 6),# 2016 7 -> 2016 12
+               				rep.int(55.8969, 6), # 2016 7 -> 2016 12
                				55.8969, # 2017 
-               				rep.int(56.2323,11),
-               				rep.int(56.2323,12)),
+               				rep.int(56.2323,11), # 2017
+               				rep.int(56.2323,12), # 2018 idem 
+               				rep.int(56.2323,12)  # 2019 prévision idem
+               				),
          				
               				# insérer ici la valeur courante du mpoint d'indice annuel
               				# par exemple pour 56 € par point/an :

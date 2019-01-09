@@ -37,13 +37,13 @@ conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthe
 #'    
 
 #' 
-#'| Annee      | 2009 | 2010 | 2011 | 2012 | 2013 | 2014 | 
-#'|:----------:|-----:|-----:|-----:|-----:|-----:|-----:|
-#'| SMPT brut  | 2,5  |  1,3 |  1,5 |  1,7 |  1,1 |  1,7 |
-#'| SMPT net   | 3,0  |  1,4 |  1,3 |  1,4 |  0,8 |  1,3 |
-#'| RMPP brute | 3,3  |  2,5 |  2,5 |  2,7 |  1,9 |  3,0 |
-#'| RMPP nette | 3,3  |  2,5 |  2,3 |  2,4 |  1,6 |  2,7 |
-#' 
+#'| Annee      | 2009 | 2010 | 2011 | 2012 | 2013 | 2014 | 2015 | 2016  |   
+#'|:----------:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|------:|   
+#'| SMPT brut  | 2,5  |  1,3 |  1,5 |  1,7 |  1,1 |  1,7 |  1,2 | 0,9   |   
+#'| SMPT net   | 3,0  |  1,4 |  1,3 |  1,4 |  0,8 |  1,3 |  0,8 | 0,6   |   
+#'| RMPP brute | 3,3  |  2,5 |  2,5 |  2,7 |  1,9 |  3,0 |  2,1 | 1,7   |  
+#'| RMPP nette | 3,3  |  2,5 |  2,3 |  2,4 |  1,6 |  2,7 |  1,7 | 1,3   |  
+#'    
 
 #'*Source : fichier général de l'État (FGE), DADS, SIASP, Insee, Drees. Traitement Insee, Drees, DGCL*    
 #'Hors assistants maternels et familiaux, y compris bénéficiaires de contrats aidés.   
@@ -59,41 +59,42 @@ conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthe
 #'    
 
 #' 
-#'|  Organisme   SMPT net     |  2011  | 2012     |    2013 |  2014  | 2007-2011 (%) | 2011-2014 (%) | 
-#'|:-------------------------:|-------:|---------:|--------:|-------:|----:|-----:|       
-#'| Communes                  | 20 784 |  21 120  | 21 096  | 21 444 | 2,5 |  3,2 | 
-#'| CCAS et caisses des écoles| 19 415 |  19 716  | 19 788  | 20 124 | 2,4 |  3,7 |
-#'| EPCI à fiscalité propre   | 22 882 |  23 088  | 23 184  | 23 412 | 3,1 |  2,3 |
-#'| Autres structures intercommunales |   21 299 | 21 684 | 21 828 | 22 140 | 3,0 | 3,9  |
-#'|   Départements            | 24 487 |  24 744  | 24 852  | 25 068 | 3,9 |  2,4 |
-#'|   SDIS                    | 29 811 |  29 940  | 30 180  | 30 480 | 3,4 |  2,2 |
-#'|  Régions                  | 22 432 |  22 836  | 23 004  | 23 484 | 3,8 |  4,7 |
-#'| Autres collectivités locales  | 24 680  | 24 696  | 24 828  | 25 032 | 3,2 | 1,4 |
-#'| Ensemble (moyenne)        | 21 873 | 22 176   | 22 212  | 22 524 | 2,9 |  3,0 |
+#'|  Organisme   SMPT net     |  2011  | 2012     |    2013 |  2014  |  2015 |  2016    |
+#'|:-------------------------:|-------:|---------:|--------:|-------:|------:|---------:|
+#'| Communes                  | 20 784 |  21 120  | 21 096  | 21 444 |  21 552  | 21 632  | 
+#'| CCAS et caisses des écoles| 19 415 |  19 716  | 19 788  | 20 124 |  20 232  | 20 370  | 
+#'| EPCI à fiscalité propre   | 22 882 |  23 088  | 23 184  | 23 412 |  23 424  | 23 754  |
+#'| Autres structures intercommunales |   21 299 | 21 684 | 21 828 | 22 140 | 22 332   | 22 517 |
+#'|   Départements            | 24 487 |  24 744  | 24 852  | 25 068 |  25 344  | 25 391 |
+#'|   SDIS                    | 29 811 |  29 940  | 30 180  | 30 480 |  30 912  | 31 147 |
+#'|  Régions                  | 22 432 |  22 836  | 23 004  | 23 484 |  23 808  | 24 284 |
+#'| Autres collectivités locales  | 24 680  | 24 696  | 24 828  | 25 032 | 25 368   | 25 456  |
+#'| Ensemble (moyenne)        | 21 873 | 22 176   | 22 212  | 22 524 |  22 692  | 22 819  |
 #' 
 
-#'**RMPP nette 2014 (salariés présents en 2013 et 2014 avec la même quotite) en EQTP**        
+#'**RMPP nette (salariés présents deux années de suite avec la même quotite) en EQTP**        
 #'    
 #' 
-#'|  Organisme      RMPP net          |  2014  | 
-#'|:---------------------------------:|-------:|
-#'| Communes                          | 22 524 |
-#'| CCAS et caisses des écoles        | 21 420 |
-#'| EPCI à fiscalité propre           | 24 864 |
-#'| Autres structures intercommunales | 23 988 |
-#'|   Départements                    | 25 932 |
-#'|   SDIS                            | 31 032 |
-#'|  Régions                          | 24 240 |
-#'| Autres collectivités locales      | 21 873 |
-#'|  Ensemble (moyenne)               | 23 760 |
-#' 
+#'|  Organisme      RMPP net          |  2014  | 2014-2015 (%)  | 2015-2016 (%) |
+#'|:---------------------------------:|-------:|------:|------: |
+#'| Communes                          | 22 524 |  1,5 | 1,1     |
+#'| CCAS et caisses des écoles        | 21 420 |  1,6 | 1,1     |
+#'| EPCI à fiscalité propre           | 24 864 |  1,9 | 1,6     |
+#'| Autres structures intercommunales | 23 988 |  2,1 | 1,7     |
+#'|   Départements                    | 25 932 |  1,9 | 1,3     |
+#'|   SDIS                            | 31 032 |  2,6 | 1,5     |
+#'|  Régions                          | 24 240 |  2,1 | 1,3     |
+#'| Autres collectivités locales      | 21 873 |  2,0 | 1,7     |
+#'|  Ensemble (moyenne)               | 23 760 |  1,7 | 1,3     | 
+#'     
 #'   
-#'  
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
-#'Conversion en euros courants, calcul CRC.  
+#'Conversion en euros courants, calcul CRC.  La métropole de Lyon est classée avec les départements   
 
 
 #'[Source RAEFP 2016 données 2014](Docs/RA_2016.pdf)      
+#'[Source RAEFP 2017 données 2015](Docs/RA_2017.pdf)      
+#'[Source RAEFP 2018 données 2016](Docs/RA_2018.pdf)  
 #'[Source INSEE 2016](Docs/insee-premiere1616.pdf)      
 
 incrémenter.chapitre()
