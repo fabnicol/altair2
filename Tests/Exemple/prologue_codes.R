@@ -87,7 +87,7 @@ ouvrir.document                <- TRUE
 
 types.irs  <- c("IR", "S")
 
-controle<-c("","","","")  
+controle<-c("CC PAYS ROUSSILLONNAIS","24380077800066","BUDGET CCPR - CC PAYS ROUSSILLONNAIS","BUDGET PRINCIPAL CCPR, MULTIBUDGET")  
 
 codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IFSE", "IEMP", "ISS", "IHTS", "VAC", "ASTREINTES", "NAS", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(
