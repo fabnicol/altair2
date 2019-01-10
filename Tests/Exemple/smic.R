@@ -48,7 +48,8 @@ smic.net <- data.table::fread(
   
   # Rajouter ici les valeurs futures sous la forme année,  valeur au début de la chaine de caractères :
   
-                   "2018,  3446.9
+                   "2019,  3608.8
+                    2018,  3554.8
                     2017,  3447.2 
                     2016,  3424.8
                     2015,  3408.0
