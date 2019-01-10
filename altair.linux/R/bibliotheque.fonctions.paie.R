@@ -661,13 +661,14 @@ Tableau.vertical2 <- function(colnames, rownames, ...)
   }
 
   res <- try(T <- data.frame(rownames,
-                  lapply(tmp, function(y) formatC(y,
-                                                          big.mark = " ",
-                                                          width = "12",
-                                                          format = "f",
-                                                          digits = digits,
-                                                          decimal.mark =",",
-                                                          preserve.width ="common"))))
+                  lapply(tmp, function(y) ifelse(y == 0, "", formatC(y,
+                                                    big.mark = " ",
+                                                    width = "12",
+                                                    format = "f",
+                                                    digits = digits,
+                                                    decimal.mark =",",
+                                                    preserve.width ="common")))))
+  
   if (inherits(res, 'try-error')) return("")
 
   names(T) <- colnames
