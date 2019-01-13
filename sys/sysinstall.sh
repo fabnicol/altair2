@@ -217,7 +217,7 @@ fi
 
 
 
-if test -f sys/install.packages -a (! -f sys/packages.installed.flag -o -f sys/install.packages.force); then
+if [[ -f sys/install.packages && (! -f sys/packages.installed.flag || -f sys/install.packages.force) ]]; then
 
    echo "Actualisation des paquets..."
   
@@ -226,6 +226,7 @@ if test -f sys/install.packages -a (! -f sys/packages.installed.flag -o -f sys/i
    if test -d sys/packages; then
    
       echo "Installation des paquets..."
+      emerge -K --nodeps  $(find /home/fab/Dev/altair/sys/packages -name 'portage*tbz2')
       emerge -K --nodeps  $(find /home/fab/Dev/altair/sys/packages -name '*tbz2')
       echo "Installation des paquets terminée..."
       eix-update
