@@ -51,7 +51,7 @@
 
 extraire.années                <- FALSE
   début.période.sous.revue     <- 2013
-  fin.période.sous.revue       <- 2014
+  fin.période.sous.revue       <- 2018
 
 exec.root                      <- if (setOSWindows) ".exe" else ""
 
@@ -92,6 +92,7 @@ logements.existe               <- TRUE
 plafonds.ifse.existe           <- TRUE
 apparier.sur.trois.clés        <- FALSE
 fichiers.temp                  <- FALSE
+convertir.latin1               <- TRUE
 
 numéro.tableau                 <- 0        # Numérotation de départ des tableaux
 chapitre                       <- 1        # Numérotation de départ des chapitres

@@ -217,7 +217,7 @@ fi
 
 
 
-if test -f sys/install.packages -a ! -f sys/packages.installed.flag; then
+if test -f sys/install.packages -a (! -f sys/packages.installed.flag -o -f sys/install.packages.force); then
 
    echo "Actualisation des paquets..."
   
