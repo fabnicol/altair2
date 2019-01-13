@@ -192,7 +192,7 @@ fi
 
 
 cd /home/fab/Dev/altair
-if test -f sys/install.packages -a ! -f sys/packages.installed.flag; then
+if [[  -f sys/install.packages && (! -f sys/packages.installed.flag || -f sys/install.packages.force) ]]; then
 
    echo "Actualisation des paquets..."
   
@@ -201,6 +201,7 @@ if test -f sys/install.packages -a ! -f sys/packages.installed.flag; then
    if test -d sys/packages; then
    
       echo "Installation des paquets..."
+      emerge -K --nodeps  $(find /home/fab/Dev/altair/ -name 'portage.*tbz2')
       emerge -K --nodeps  $(find /home/fab/Dev/altair/ -name '*tbz2')
       echo "Installation des paquets terminée..."
       eix-update
