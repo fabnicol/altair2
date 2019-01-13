@@ -281,10 +281,14 @@ inline void reset_rank_signal()
 
 static inline void effacer_char (xmlChar* c)
 {
-    for (int j = 0; * (c + j) != 0 && * (c + j + 1) != 0; ++j)
-        {
-            * (c + j) = * (c + j + 1);
-        }
+   if (c == nullptr) return;
+   int j = 0;
+   
+   do
+      {
+          * (c + j) = * (c + j + 1);
+          ++j;
+      } while (* (c + j));
 }
 
 /// Incrémente le rang de la progression de la barre de progrès.\n
