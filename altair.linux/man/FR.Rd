@@ -18,3 +18,6 @@ Ajoute le séparateur des milliers et sans décimale en français
 \examples{
 FR(1235345.23) #1 235 345,2
 }
+\author{
+Fabrice Nicol
+}

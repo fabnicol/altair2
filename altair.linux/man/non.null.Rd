@@ -9,3 +9,6 @@ non.null(X)
 \description{
 Sélectionne les éléments non nuls d'un vecteur
 }
+\author{
+Fabrice Nicol
+}

@@ -235,11 +235,13 @@ Lecture : Produit des tableaux analogues aux précédents pour la rémunération
 
 }
 \references{
-Rapport annuel sur l'état de la fonction publique 2016 \url{https://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2016/DGAFP_RA2016_web_signet.pdf}
+\href{Rapport annuel sur l'état de la fonction publique 2016}{https://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2016/DGAFP_RA2016_web_signet.pdf}   
+ \href{https://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2017/Rapport_annuel-FP_2017.pdf}{Rapport annuel sur l'état de la fonction publique 2017}   
+ \href{https://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2018/Rapport_annuel_FP-2018.PDF}{Rapport annuel sur l'état de la fonction publique 2018}   
    \tabular{cccc}{
               \tab   RMPP  \tab Effet E/S  \tab  SMTP  \cr
          brut  \tab   +3  \tab        -1,3 \tab +1,7  \cr
          net   \tab   +2,7 \tab        -1,3 \tab +1,3 
          }
-Voir aussi : outil 2BPSS, Minefi, Direction du budget  \url{http://www4.minefi.gouv.fr/budget/circpdf/2BPSS-05-5044.pdf}
+Voir aussi : \href{http://www4.minefi.gouv.fr/budget/circpdf/2BPSS-05-5044.pdf}{outil 2BPSS, Minefi, Direction du budget}
 }

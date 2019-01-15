@@ -41,6 +41,19 @@
 #  Fonctions auxiliaires
 ##
 
+
+#' Documentation
+#' 
+#' Produit la documentation
+#' 
+#' @param pwd Mot de passe
+#' @note Installation de la bibliothèque \code{altair.linux} dans /usr/local/lib
+#' @export
+
+roxy <- function(pwd = "mimine") {roxygen2::roxygenise("altair.linux")
+  system("echo " %+% pwd %+% " | sudo -S R CMD INSTALL  altair.linux")
+  }
+
 #' Concaténation de chaîne de caractères
 #'
 #' Equivalent de paste0(,)
@@ -51,6 +64,7 @@
 #' x <- "abc"
 #' y <- "def"
 #' cat(x %+% y) # "abcdef"
+#' @author Fabrice Nicol   
 #' @export
 
 `%+%` <- function(x, y) paste0(x, y)
@@ -69,6 +83,7 @@ chemin <-  function(fichier)
 #' @param nom Chemin du fichier à encoder
 #' @param encodage.in (= encodage.entrée) Encodage du fichier de lecture
 #' @return Lancement dun appel système à iconv -t UTF-8
+#' @author Fabrice Nicol   
 #' @export
 
 file2utf8 <- function(nom, encodage.in = "ISO-8859-15")  {
@@ -84,6 +99,7 @@ file2utf8 <- function(nom, encodage.in = "ISO-8859-15")  {
 #' @param nom Chemin du fichier à encoder
 #' @param encodage.in (= encodage.entrée) Encodage du fichier de lecture
 #' @return Lancement dun appel système à iconv -t ISO-8859-15
+#' @author Fabrice Nicol   
 #' @export
 
 file2Latin <- function(nom, encodage.in = "UTF-8")  {
@@ -109,6 +125,7 @@ file2Latin <- function(nom, encodage.in = "UTF-8")  {
 #' @return Une base data.table
 #' @examples
 #' read.csv.skip(Base, séparateur.décimal = ",")
+#' @author Fabrice Nicol   
 #' @export
 
 read.csv.skip <- function(x,
@@ -208,6 +225,7 @@ return(T)
 #' @return Valeur booléenne de file.exists(file.path(chemin.dossier, nom.sauv %+% ".csv"))
 #' @examples
 #' Sauv.base("données", Base, "BaseDonnée", sep = ";", dec = ",")
+#' @author Fabrice Nicol   
 #' @export
 #'
 
@@ -249,6 +267,7 @@ Sauv.base <- function(chemin.dossier = "",
 #' @param msg Partie du rapport (commençant par #')
 #' @param path Chemin local de la base CSV sur le dossier d'exportation 
 #' @return Le message msg dans le rapport
+#' @author Fabrice Nicol   
 #' @export
 
 conditionnel <- function(msg = "", path = "") {
@@ -288,6 +307,7 @@ conditionnel <- function(msg = "", path = "") {
 #' envir <- environment()
 #' # Générer Bulletins.paie et Paie dans envir
 #' sauv.bases("données",  env = envir, c("Bulletins.paie", "Paie"))
+#' @author Fabrice Nicol   
 #' @export
 #'
 
@@ -352,6 +372,7 @@ sauv.bases <- function(chemin.dossier, env, ...)
 #'           silent = FALSE)
 #' if (inherits(res, 'try-error'))
 #'   stop("Problème de lecture de la base de la table bulletins-lignes de Paie")
+#' @author Fabrice Nicol   
 #' @export
 
 Read.csv <- function(base.string, fichiers,
@@ -419,6 +440,7 @@ Read.csv_ <- function(base.string, fichiers,
 #' @return Une base data.table
 #' @examples
 #' read.csv.skip(Base, séparateur.décimal = ",")
+#' @author Fabrice Nicol   
 #' @export
 
 Résumé <- function(x,
@@ -528,7 +550,7 @@ essayer(label = "+quartiles", {
 #' | a | b | c | d |
 #' |:-:|:-:|:-:|:-:|
 #' | 1 | 2 | 3 | 4 |
-#'
+#' @author Fabrice Nicol   
 #' @export
 #'
 
@@ -571,6 +593,7 @@ Tableau <- function(x, ...) {
 #' |:-:|:-:|:-:|:-:|
 #' | 1 | 2 | 3 | 4 |
 #'
+#' @author Fabrice Nicol   
 #' @export
 #'
 
@@ -646,7 +669,7 @@ Tableau.vertical <- function(colnames, rownames, extra = "", ...)   # extra func
 }
 
 #' Tableau vertical 2
-#'
+#' @author Fabrice Nicol   
 #' @export
 
 Tableau.vertical2 <- function(colnames, rownames, ...)
@@ -682,6 +705,7 @@ v.jmois  <-  c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 v.jmois.leap  <-  c(31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 
 #' Calcul du nombre de jours dans le mois
+#' @author Fabrice Nicol   
 #' @export
 
 calcul.nb.jours.mois <- function(Mois, année)   if ((année - 2008) %% 4 == 0) {
@@ -691,17 +715,20 @@ calcul.nb.jours.mois <- function(Mois, année)   if ((année - 2008) %% 4 == 0) 
   }
 
 #' Sélectionne les éléments positifs d'un vecteur
+#' @author Fabrice Nicol   
 #' @export
 positive <- function(X) X[!is.na(X) & X > 0]
 
 #' Sélectionne les éléments non nuls d'un vecteur
+#' @author Fabrice Nicol   
 #' @export
 non.null <- function(X) X[!is.na(X) & X != 0]
 
 #' Teste si, dans une base, la proportion d'enregistrements Noms-Prenoms dont les matricules ne sont pas identiques
 #'  reste inférieure à une marge de tolérance fixée (taux.tolérance.homonymie)
 #'
-#' @param Base Base à tester
+#' @param Base Base à tester   
+#' @author Fabrice Nicol   
 #' @export
 
 tester.homogeneite.matricules <- function(Base) {
@@ -735,14 +762,16 @@ tester.homogeneite.matricules <- function(Base) {
 #' Longueur d'un vecteur, ou nombre de lignes d'une table, lorsque l'on a retiré les éléments ou les lignes NA
 #' @param v  Vecteur ou data.frame/data.table
 #' @return Nombre d'éléments ou de lignes.
+#' @author Fabrice Nicol   
 #' @export
 
 longueur.non.na <- function(v) if (is.vector(v)) length(v[!is.na(v)]) else if (is.data.frame(v)) nrow(na.omit(v))
 
 #' Saut de page dans les rapports d'analyse
 #'
-#'@return Aucun
-#'@export
+#' @return Aucun
+#' @author Fabrice Nicol   
+#' @export
 
 newpage <- function() {
   if (PDF == TRUE) {
@@ -755,6 +784,7 @@ newpage <- function() {
 #' Saut de ligne dans les rapports d'analyse
 #'
 #' @return Aucun
+#' @author Fabrice Nicol   
 #' @export
 
 newline <- function() {
@@ -770,6 +800,7 @@ newline <- function() {
 #' Incrémente le numéro de tableau courant
 #'
 #' @return Valeur incrémentée de numéro.tableau
+#' @author Fabrice Nicol   
 #' @export
 
 incrément <- function() {
@@ -780,6 +811,7 @@ incrément <- function() {
 #' Incrémente le numéro de chapitre courant
 #'
 #' @return Valeur incrémentée de chapitre
+#' @author Fabrice Nicol   
 #' @export
 
 incrémenter.chapitre <- function() {
@@ -792,6 +824,7 @@ incrémenter.chapitre <- function() {
 #' @param  x Vecteur de valeurs numériques
 #' @return Vecteur de chaînes de caractères modifiées
 #' @examples FR(1235345.23) #1 235 345,2
+#' @author Fabrice Nicol   
 #' @export
 
 FR <- function(x) formatC(x, big.mark = " ", format = "f", decimal.mark = ",", digits = 0)
@@ -807,6 +840,7 @@ FR <- function(x) formatC(x, big.mark = " ", format = "f", decimal.mark = ",", d
 #' @examples
 #' if (exists("e")) rm(e)
 #' essayer({ a <- 1/e}, "division par inconnu")  # affichage du message d'erreur
+#' @author Fabrice Nicol   
 #' @export
 
 essayer <- function(X, Y, abort = FALSE, prof = profiler, times = 5, label = "") {
@@ -849,6 +883,7 @@ essayer <- function(X, Y, abort = FALSE, prof = profiler, times = 5, label = "")
 #' @examples
 #' cat("patient" %s% 2)
 #' @return Concaténation du mot et de "s" si N > 1
+#' @author Fabrice Nicol   
 #' @export
 
 '%s%' <- function(mot, N) if (N > 1) mot %+% "s"  else mot
@@ -857,6 +892,7 @@ essayer <- function(X, Y, abort = FALSE, prof = profiler, times = 5, label = "")
 #'
 #' @param x  Chaîne de caractères associée figurant dans la colonne \code{type} de la table \code{codes}
 #' @return Cette fonction renvoie un ensemble de valeurs fixes ou une expression régulière, sauf si x n'est pas dans la colonne \code{type} de la table \code{codes} (renvoie NULL)
+#' @author Fabrice Nicol   
 #' @export
 
 filtre <- function(x) {
@@ -875,6 +911,7 @@ filtre <- function(x) {
 #'
 #' Filtre la base par une expression régulière sur libellés de paye ou par valeurs fixes sur une variable donnée.
 #' Si le filtrage a une portée, l'ensemble des lignes de la portée (exemple "Mois") est conservé.
+#' @author Fabrice Nicol   
 #' @export
 
 filtrer_Paie <- function(x,
@@ -972,6 +1009,7 @@ extraire_paye_ <- function(an, L, out) {
 #' @param L   Vecteur des statuts considérés
 #' @param out  Data.table extraite de \code{Bulletins.paie} de deux colonnes (\code{Matricule} et \code{Nir}), filtrée des doublons.
 #' @examples extraire_paye(2012, c("TITULAIRE", "STAGIAIRE"), "Bulletins.début.psr")
+#' @author Fabrice Nicol   
 #' @export
 #'
 extraire_paye <- function(an, L, out) {
@@ -987,6 +1025,7 @@ extraire_paye <- function(an, L, out) {
 #' @param incrémenter INcrémenter le chapitre de présentation du script
 #' @param fonction Appeler une liste de fonctions à argument vide
 #' @return Valeur de la dernière variable globale \code{variable} instanciée. Effets de bord en sortie.
+#' @author Fabrice Nicol   
 #' @export
 
 insérer_script <- function(chemin = NULL, 

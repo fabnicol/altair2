@@ -53,3 +53,6 @@ res  <- try(Read.csv("base",
 if (inherits(res, 'try-error'))
   stop("Problème de lecture de la base de la table bulletins-lignes de Paie")
 }
+\author{
+Fabrice Nicol
+}

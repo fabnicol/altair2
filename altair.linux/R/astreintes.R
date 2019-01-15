@@ -1,5 +1,23 @@
 
-#'@export
+#' Constrôle des astreintes pour les emplois de responsabilité supérieure
+#' 
+#' Vérification du non-paiement des astreintes à des emplois de directeur général.
+#' 
+#' \itemize{
+#' \item{Filtre la paye en retenant les astreintes.}
+#' \item{Retient les cumuls avec les NBI non nulles pour la catégorie A et un emploi ou un grade de directeur général} 
+#' \item{Affiche le nombre d'agents détectés dans ces cas} 
+#' \item{Crée la table \code{Controle_astreintes} ayant pour colonnes : \code{"Code.astreinte", "Libelle.astreinte", "Montant.astreinte", "Code.NBI", "Libelle.NBI", "Montant.NBI"}} 
+#' \item{Crée la table \code{Cum_astreintes} ayant pour colonne : \code{Montant annuel astreintes}, et son total pour la période.}
+#' \item{Sauve les bases \code{Controle_astreintes} et \code{libelles.astreintes} dans le répertoire \emph{Reglementation}}
+#' \item{Affiche si besoin la table \code{Cum_astreintes} au format \code{\link{Tableau.vertical2}}}
+#' } 
+#' 
+#' @author Fabrice Nicol   
+#' @note Les emplois sont filtrés à l'aide de l'expression rationnelle Perl suivante, sans prise en compte de la casse : \cr
+#' \code{d(?:\\.|ir)\\w*\\s*\\bg(?:\\.|\\w*n\\.?\\w*)\\s*\\b(?:des?)\\s*\\bs\\w.*}
+#' @export
+
 calcul_astreintes <- function() {
 
 essayer({  
@@ -31,7 +49,7 @@ essayer({
     cat("Des astreintes sont payées à", nb.agents.NBI.astreintes, "personnels bénéficiaires de NBI")
   }
   
-  "Cum_astreintes" %a% rbind(Controle_astreintes[, round(sum(Montant.astreinte), 1),
+  "Cum_astreintes" %a% rbind(Controle_astreintes[, .(`Montant annuel astreintes` = round(sum(Montant.astreinte), 1)),
                                                      by = "Annee"],
                             list("Total", Controle_astreintes[, round(sum(Montant.astreinte), 1)]))
   
@@ -47,12 +65,18 @@ essayer({
   with(Cum_astreintes,
                 
                 print(Tableau.vertical2(c("Annee", "Montant astreintes irrégulières (euros)"),
-                                            Annee, V1))    
+                                            Annee, `Montant annuel astreintes`))    
 )
 }, "Le tableau de contrôle des astreintes n'a pas pu être généré.")
 }
 
-#'@export
+#' Contrôle du cumul des astreintes et des IHTS
+#' 
+#' Détection du paiement le même mois d'indemnités d'astreintes et d'IHTS
+#' 
+#' @author Fabrice Nicol   
+#' @export
+
 cumul_astreintes_IHTS <- function() {
   
   essayer({  

@@ -18,3 +18,28 @@ produire_pyramides(Filtre_bulletins, titre, versant = "", envir)
 \description{
 Produire les pyramides des âges par versant de la fonction publique
 }
+\note{
+\itemize{
+\item Prérequis :
+\preformatted{ 
+   année.fin.comp            Année de la fin de la comparaison
+   début.période.sous.revue  Début de la période sous revue
+   fin.période.sous.revue    Fin de la période sous revue
+  }     
+  
+\item Appelle : \link{année_comparaison}, \link{extraire.nir}, \link{pyramides}
+\item Crée les noms de base noms \code{data.table} :
+\itemize{
+\item \code{envir$nom.fichier.avant}
+\item \code{envir$nom.fichier.après}
+}
+\item Sauve : Ces deux bases.
+\itemize{
+\item Format : 3 colonnes numériques
+\item Noms de colonnes :  \code{age}, \code{Hommes}, \code{Femmes}
+}
+}
+}
+\seealso{
+\link{extraire_nir}
+}

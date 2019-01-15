@@ -12,3 +12,6 @@ Aucun
 \description{
 Saut de page dans les rapports d'analyse
 }
+\author{
+Fabrice Nicol
+}

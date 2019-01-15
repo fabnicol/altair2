@@ -27,3 +27,6 @@ Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
 \examples{
 read.csv.skip(Base, séparateur.décimal = ",")
 }
+\author{
+Fabrice Nicol
+}

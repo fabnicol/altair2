@@ -17,3 +17,6 @@ Le message msg dans le rapport
 \description{
 Insertion conditionnelle de texte dans le rapport
 }
+\author{
+Fabrice Nicol
+}

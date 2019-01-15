@@ -76,6 +76,14 @@ distribution_smpt <- function(Filtre) {
 
 #' RMPP
 #' Calcul de la rémunération moyenne des personnes en place
+#' @note 
+#' Filtrage : on enlève les personnels présents depuis moins d'un seuil de troncature (ex. 120 jours) dans l'année et les élus
+#' (paramètre seuil.troncature) 
+#' Filtrage pour l'étude des variations : on enlève les valeurs manquantes des variations, les centiles extrêmaux,
+#' les rémunérations nettes négatives ou proche de zéro. On exige un statut explicite en fin de période.
+#' Paramétrable par :
+#' minimum.positif, quantile.cut 
+
 #' @export
 
 calcul_rmpp <- function() {

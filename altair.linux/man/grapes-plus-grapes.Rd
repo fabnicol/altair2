@@ -22,3 +22,6 @@ x <- "abc"
 y <- "def"
 cat(x \%+\% y) # "abcdef"
 }
+\author{
+Fabrice Nicol
+}

@@ -15,3 +15,6 @@ Cette fonction renvoie un ensemble de valeurs fixes ou une expression régulièr
 \description{
 Sélection du filtre correspondant à une chaîne de caractères associée
 }
+\author{
+Fabrice Nicol
+}

@@ -65,7 +65,7 @@ smic.net <- data.table::fread(
 
 # actualiser aussi ceci, pour éviter à recalculer :
 
-smic.net.dernière.année.renseignée <- 2018
+smic.net.dernière.année.renseignée <- 2019
 smic.net.première.année.renseignée <- 2008
 
 # http://www.bdm.insee.fr/ et documents altair/Docs/SMIC_NET.xls 

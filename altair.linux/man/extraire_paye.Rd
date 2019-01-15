@@ -21,3 +21,6 @@ Pour les statuts listés dans L si L non null
 \examples{
 extraire_paye(2012, c("TITULAIRE", "STAGIAIRE"), "Bulletins.début.psr")
 }
+\author{
+Fabrice Nicol
+}

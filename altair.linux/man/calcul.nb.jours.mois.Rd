@@ -9,3 +9,6 @@ calcul.nb.jours.mois(Mois, année)
 \description{
 Calcul du nombre de jours dans le mois
 }
+\author{
+Fabrice Nicol
+}

@@ -9,3 +9,6 @@ Tableau.vertical2(colnames, rownames, ...)
 \description{
 Tableau vertical 2
 }
+\author{
+Fabrice Nicol
+}

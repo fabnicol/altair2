@@ -15,3 +15,6 @@ Nombre d'éléments ou de lignes.
 \description{
 Longueur d'un vecteur, ou nombre de lignes d'une table, lorsque l'on a retiré les éléments ou les lignes NA
 }
+\author{
+Fabrice Nicol
+}
