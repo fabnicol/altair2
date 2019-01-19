@@ -1,4 +1,21 @@
 
+#' Calcul des heures supplémentaires
+#' 
+#' Fonction permettant de calculer les heures supplémentaires par mois.   
+#' @details  
+#' 
+#' \describe{
+#'    \item{\code{Base.IHTS}}{Filtre la paye sur les IHTS}
+#'    \item{\code{lignes.IHTS.tot}}{Lignes IHTS sommées par mois, en tenant compte des rappels ultérieurs :
+#'    \preformatted{
+#'        ihts.tot  = ihts.cum.rappels  + ihts.cum.hors.rappels  + ihts.cum.rappels.ant
+#'        nihts.tot = nihts.cum.rappels + nihts.cum.hors.rappels + nihts.cum.rappels.ant
+#'    }
+#'    }  
+#'    
+#' }
+#'    
+#'  
 #'@export
 #'
 calcul_HS <- function() {

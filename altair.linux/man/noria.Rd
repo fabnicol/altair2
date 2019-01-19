@@ -204,9 +204,11 @@ et l'approximation reste valable pour l'évaluation du GVT.
  | 2014  | 36 576,0 |     -0,81     | -0,26 |      0,03      |  -0,13   |   -1,16   |   -0,005   | 35 956,1 |
  
  Lecture :
- Le salaire brut moyen 2013 serait égal à la RMPP (rémunération des personnes présentes tout au long de 2012 et 2013)
+ Le salaire brut moyen 2013 serait égal à la RMPP (rémunération des personnes 
+ présentes tout au long de 2012 et 2013)
  sans les effets d'entrées et de sorties en 2012 et 2013.
- Ces effets interviennent en 2012 (seulement les entrées, première colonne) et en 2013 (colonnes suivantes).
+ Ces effets interviennent en 2012 (seulement les entrées, première colonne) et en 2013
+ (colonnes suivantes).
  L'effet relatif des entrées 2012 est de -0,63 \% : les entrants en 2012 encore présents en 2013 ont des salaires moins élevés 
  que les présents-présents (sur toute les années 2012 et 2013) en moyenne.
  L'effet de noria 2013 (emplacement des sortants 2013 par un même nombre d'entrants) est de -0,3 \% de variation relative :
