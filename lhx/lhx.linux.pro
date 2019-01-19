@@ -193,7 +193,8 @@ HEADERS += \
     ligne_paye.h \
     recherche.h \
     validator.h \
-    xmlconv.h
+    xmlconv.h \
+    xml_lib.h
 
 contains(DEFINES, TINYXML2) {
   HEADERS += tinyxml2.h xmlconv.h

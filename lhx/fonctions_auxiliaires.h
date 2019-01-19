@@ -230,7 +230,7 @@ string string_exec (const char* cmd);
 /// analysable. Sinon affiche un message indiquant son absence et retourne pour le numéro
 /// de ligne. Retourne NA pour un noeud null.
 
-errorLine_t afficher_environnement_xhl (const info_t& info, const xmlNodePtr cur);
+errorLine_t afficher_environnement_xhl (const info_t& info, const xmlN* cur);
 
 /// Scinde une chaîne de caractères en ses composants séparées par un délimiteur
 /// \return vecteur des composants
@@ -279,7 +279,7 @@ inline void reset_rank_signal()
 /// Efface le premier caractère d'une chaîne et translate la chaîne d'un caractère vers la gauche
 /// \param c chaine de caractères libXml2 à modifier par pointeur
 
-static inline void effacer_char (xmlChar* c)
+static inline void effacer_char (xmlT* c)
 {
    if (c == nullptr) return;
    int j = 0;

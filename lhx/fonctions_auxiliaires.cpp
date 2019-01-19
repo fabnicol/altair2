@@ -214,7 +214,7 @@ vector<string> split (const string &s, char delim)
 }
 
 
-errorLine_t afficher_environnement_xhl (const info_t& info, const xmlNodePtr cur)
+errorLine_t afficher_environnement_xhl (const info_t& info, const xmlN* cur)
 {
 
     long lineN = 0;
@@ -223,7 +223,7 @@ errorLine_t afficher_environnement_xhl (const info_t& info, const xmlNodePtr cur
 
     if (cur)
         {
-            lineN = (long) xmlGetLineNo (cur);
+            lineN = (long) ligne_xml (cur);
 
             if (lineN == 65535 && verbeux
                     && info.ligne_debut.size() > info.NCumAgentXml
@@ -249,7 +249,7 @@ errorLine_t afficher_environnement_xhl (const info_t& info, const xmlNodePtr cur
 
     unsigned int l = 0;
 
-    for (const xmlChar* u : info.Table[info.NCumAgentXml])
+    for (const xmlT* u : info.Table[info.NCumAgentXml])
         {
             if (l >= sizeof (Tableau_entete) / sizeof (char*)) break;
 

@@ -60,7 +60,7 @@ extern std::vector<errorLine_t> errorLineStack;
 /// \param cur   Noeud libxml2 courant
 /// \note Le nombre de message d'avertissement est au plus #WARNING_LIMIT si cette constante est définie
 
-static inline void GCC_INLINE warning_msg (const char* noeud, const info_t& info, const xmlNodePtr GCC_UNUSED cur)
+static inline void GCC_INLINE warning_msg (const char* noeud, const info_t& info, const xmlN* GCC_UNUSED cur)
 {
     // pour des raisons pratiques il peut être nécessaire de limiter le nombre de sorties de ce type
 

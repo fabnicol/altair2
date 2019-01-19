@@ -41,5 +41,5 @@ Produire les pyramides des âges par versant de la fonction publique
 }
 }
 \seealso{
-\link{extraire_nir}
+\code{\link(extraire_nir)}
 }

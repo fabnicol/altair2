@@ -59,7 +59,7 @@
 #' * Sauve : Ces deux bases. 
 #'   - Format : 3 colonnes numériques
 #'   - Noms de colonnes :  `age`, `Hommes`, `Femmes` 
-#' @seealso [extraire_nir]
+#' @seealso [extraire.nir]
 #' @export
 #'   
 produire_pyramides <- function(Filtre_bulletins, titre, versant = "", envir) {

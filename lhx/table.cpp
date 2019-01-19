@@ -755,7 +755,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     int test_drapeau_categorie;
 
                                     // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                    if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                    if (VAR (l + 1) && comp_xml (VAR (l + 1), NA_STRING) == 0)
                                         {
                                             type = (char*) NA_STRING;
                                         }
@@ -834,7 +834,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     int      test_drapeau_categorie;
 
                                     // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                    if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                    if (VAR (l + 1) && comp_xml (VAR (l + 1), NA_STRING) == 0)
                                         {
                                             type = (char*) NA_STRING;
                                         }
@@ -904,7 +904,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     int      test_drapeau_categorie;
 
                                     // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                    if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                    if (VAR (l + 1) && comp_xml (VAR (l + 1), NA_STRING) == 0)
                                         {
                                             type = (char*) NA_STRING;
                                         }
@@ -999,7 +999,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     int test_drapeau_categorie;
 
                                     // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                    if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                    if (VAR (l + 1) && comp_xml (VAR (l + 1), NA_STRING) == 0)
                                         {
                                             type = (char*) NA_STRING;
                                         }
@@ -1123,7 +1123,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     int      test_drapeau_categorie;
 
                                     // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                    if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                    if (VAR (l + 1) && comp_xml (VAR (l + 1), NA_STRING) == 0)
                                         {
                                             type = (char*) NA_STRING;
                                         }
@@ -1186,7 +1186,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
 
                             int int_drapeau_categorie = -1;
 
-                            if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING))
+                            if (VAR (l + 1) && comp_xml (VAR (l + 1), NA_STRING))
                                 {
                                     while (ligne < NLigneAgent)
                                         {
@@ -1259,14 +1259,14 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
 
                             BaseType valeur_drapeau_categorie = BaseType::MONOLITHIQUE;
 
-                            if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING))
+                            if (VAR (l + 1) && comp_xml (VAR (l + 1), NA_STRING))
                                 {
                                     while (ligne < NLigneAgent)
                                         {
                                             int      test_drapeau_categorie;
 
                                             // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                            // Var(l)[0] est un xmlChar càd un unsigned char; on doit le caster en int pour indicier les tableau des types
+                                            // Var(l)[0] est un xmlT càd un unsigned char; on doit le caster en int pour indicier les tableau des types
                                             // mais il ne peut être inférieur à 0 par construction.
 
                                             while (VAR (l) &&  (test_drapeau_categorie = (int) VAR (l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie != 0))

@@ -62,6 +62,7 @@
 #include "fonctions_auxiliaires.h"
 #include "table.h"
 #include "recherche.h"
+#include "xml_lib.h"
 
 #ifndef OVERHEAD
 #define OVERHEAD 500
@@ -126,12 +127,9 @@ int main (int argc, char **argv)
 
     // Initialisation de libxml2
 
-    LIBXML_TEST_VERSION
-    xmlKeepBlanksDefault (0);
-
-    xmlInitMemory();
-    xmlInitParser();
-
+    verifier_libxml_version
+    initialiser_xml();
+    
     int start = 1;
     string type_table = "bulletins";
     vString cl;  /* pour les lignes de commandes incluses dans un fichier */
@@ -1190,7 +1188,7 @@ int main (int argc, char **argv)
     // Nettoyage du parseur XML
     
 #   ifndef TINYXML2
-      xmlCleanupParser();
+     nettoyer_xml();
 #   endif    
 
     // Calcul de la durée d'exécution
@@ -1499,9 +1497,9 @@ pair<uint64_t, uint64_t> produire_segment (info_t& info, const vString& segment)
             for (unsigned agent = 0; agent < Info[i].NCumAgent; ++agent)
                 {
                     if (! Info[i].Table[agent].empty())
-                        for (xmlChar* u : Info[i].Table[agent])
+                        for (xmlT* u : Info[i].Table[agent])
                             {
-                                if (u != NULL) xmlFree (u);
+                                if (u != NULL) free_xml(u);
                             }
                 }
 

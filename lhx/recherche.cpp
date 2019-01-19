@@ -52,7 +52,7 @@ vector<string>  recherche (const vector<info_t> &Info, const string& annee, cons
     // Bulletins à extraire
     vector<string> bulletins;
 
-    auto matr = (const xmlChar*) matricule.c_str();
+    auto matr = (const xmlT*) matricule.c_str();
     int m = stoi (mois);
     int a = stoi (annee);
 
@@ -66,7 +66,7 @@ vector<string>  recherche (const vector<info_t> &Info, const string& annee, cons
 
             // Boucle sur les données extraites pour un fil donné
 
-            for (vector<vector<xmlChar*>>::const_iterator  it = Info[i].Table.begin(); it != Info[i].Table.end(); ++it)
+            for (vector<vector<xmlT*>>::const_iterator  it = Info[i].Table.begin(); it != Info[i].Table.end(); ++it)
                 {
                     // On restreint la recherche à l'année, au mois et au matricule donnés
                     // On pourrait aller plus vite avec une table de hachage, mais l'expérience montre que ce n'est pas nécessaire
@@ -74,7 +74,7 @@ vector<string>  recherche (const vector<info_t> &Info, const string& annee, cons
 
                     if (atoi ((const char*) it->at (Annee)) == a
                             && atoi ((const char*) it->at (Mois)) ==  m
-                            && xmlStrcmp (it->at (Matricule), matr) == 0)
+                            && comp_xml (it->at (Matricule), matr) == 0)
                         {
                             // index correspond au rang de l'agent dans la Table (0 <= index <= NCumAgentXml)
 

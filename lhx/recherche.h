@@ -53,7 +53,7 @@
 /// \param matricule Matricule de l'agent.
 /// \return Vecteur de chaînes de caractères, chacune des chaînes représentant un bulletin XML extrait.
 
-vector<long long>  recherche (const vector<info_t> &Info, const xmlChar* annee, const xmlChar* mois, const xmlChar* matricule);
+vector<long long>  recherche (const vector<info_t> &Info, const xmlT* annee, const xmlT* mois, const xmlT* matricule);
 
 
 /// Extrait le bulletin de paye correspondant à la ligne de début et de fin dans le fichier XML base de paye
