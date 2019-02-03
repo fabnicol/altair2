@@ -1,0 +1,16 @@
+digraph "FAbstractConnection::meta_connect"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node2 [label="FAbstractConnection\l::meta_connect",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="FAbstractWidget::FCore",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_abstract_widget.html#aa147737576be8ca1fcf75d06f362b2b2"];
+  Node2 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="FAbstractConnection\l::meta_connect",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_abstract_connection.html#a892703c9c58da4d4a8184d43d0d94fc7"];
+  Node2 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="FAbstractWidget::setDisable\lObjects",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_abstract_widget.html#ac95a769d8e274582de7bf014a3289a39"];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="MainWindow::configureOptions",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_main_window.html#ab7fcfafb1f92c51e6452893672775d41",tooltip="Créer le dialogue de configuration de l&#39;interface graphique. "];
+}

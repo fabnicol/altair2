@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.14"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Documentation de l&#39;algorithme d&#39;analyse des noeuds Remuneration</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="altaïr.bmp"/></td>
+   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.8.14 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('page1.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">Documentation de l'algorithme d'analyse des noeuds Remuneration </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="toc"><h3>Table des matières</h3>
+<ul><li class="level1"><a href="#sec1">Spécifications de la convention cadre au 1er Oct. 2016</a><ul><li class="level2"><a href="#subsec1">Noeuds XML</a></li>
+</ul>
+</li>
+<li class="level1"><a href="#sec2">Description de l&#39;algorithme</a><ul><li class="level2"><a href="#subsec3">Analyse des drapeaux</a><ul><li class="level3"><a href="#drap">Définition d&#39;un drapeau</a></li>
+<li class="level3"><a href="#cor">Correspondance drapeau-nom de catégorie</a></li>
+<li class="level3"><a href="#rebouclage">Rebouclage des noms de catégorie</a></li>
+</ul>
+</li>
+<li class="level2"><a href="#subsec4">Vérification de l&#39;allocation globale</a></li>
+<li class="level2"><a href="#subsec5">Cas de noeuds de type Commentaire</a></li>
+<li class="level2"><a href="#subsec6">Cas d&#39;anomalie</a></li>
+<li class="level2"><a href="#subsec7">Cas général</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="textblock"><h1><a class="anchor" id="sec1"></a>
+Spécifications de la convention cadre au 1er Oct. 2016</h1>
+<h2><a class="anchor" id="subsec1"></a>
+Noeuds XML</h2>
+<dl class="section user"><dt></dt><dd><div class="fragment"><div class="line">&lt;pre&gt;</div><div class="line">&lt;PayeIndivMensuel&gt;</div><div class="line">  &lt;Agent&gt;{1,1}&lt;/Agent&gt;</div><div class="line">  &lt;Evenement&gt;{0,unbounded}&lt;/Evenement&gt;</div><div class="line">  &lt;<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055daa554ee1f02c7109125c6d52b8a3ad027">Service</a> V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055daa554ee1f02c7109125c6d52b8a3ad027">Service</a>&gt;</div><div class="line">  &lt;<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055dafdc5130c2170b6cacf79a4bed2298502">NBI</a> V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,unbounded}&lt;/<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055dafdc5130c2170b6cacf79a4bed2298502">NBI</a>&gt;</div><div class="line">  &lt;<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055da975fd208ea028726f9b329fd51a55822">QuotiteTrav</a> V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055da975fd208ea028726f9b329fd51a55822">QuotiteTrav</a>&gt;</div><div class="line">  &lt;Periode&gt;{1,1}&lt;/Periode&gt;</div><div class="line">  &lt;Remuneration&gt;{1,1}&lt;/Remuneration&gt;</div><div class="line">  &lt;<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055dabfa8e5d354fdd874e0a7d89c1c973951">NbHeureTotal</a> V=<span class="stringliteral">&quot;&quot;</span>&gt;{0,1}&lt;/<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055dabfa8e5d354fdd874e0a7d89c1c973951">NbHeureTotal</a>&gt;</div><div class="line">  &lt;TauxHor V=<span class="stringliteral">&quot;&quot;</span>&gt;{0,1}&lt;/TauxHor&gt;</div><div class="line">  &lt;<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055dab192e226f333ec1d1217af1dd218bfcb">NbHeureSup</a> V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055dab192e226f333ec1d1217af1dd218bfcb">NbHeureSup</a>&gt;</div><div class="line">  &lt;<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055daa45ef2df30b1316f2e2445bae86d1c84">MtBrut</a> V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055daa45ef2df30b1316f2e2445bae86d1c84">MtBrut</a>&gt;</div><div class="line">  &lt;<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055dafc32c843a21ebad2b54129a3ee361595">MtNet</a> V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055dafc32c843a21ebad2b54129a3ee361595">MtNet</a>&gt;</div><div class="line">  &lt;<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055daf9d03119c547046926d5b680f278172b">MtNetAPayer</a> V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055daf9d03119c547046926d5b680f278172b">MtNetAPayer</a>&gt;</div><div class="line">  &lt;DatePaiement V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/DatePaiement&gt;</div><div class="line">  &lt;MtImposable V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/MtImposable&gt;</div><div class="line">  &lt;CumulMtImposable V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/CumulMtImposable&gt;</div><div class="line">  &lt;CumulMtBrut V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/CumulMtBrut&gt;</div><div class="line">  &lt;CumulBaseSS V=<span class="stringliteral">&quot;&quot;</span>&gt;{1,1}&lt;/CumulBaseSS&gt;</div><div class="line">  &lt;RepartitionBudget&gt;{0,unbounded}&lt;/RepartitionBudget&gt;</div><div class="line">  &lt;PJRef&gt;{0,unbounded}&lt;/PJRef&gt;</div><div class="line">&lt;/PayeIndivMensuel&gt;</div><div class="line">&lt;/pre&gt;</div></div><!-- fragment --> </dd></dl>
+<dl class="section warning"><dt>Avertissement</dt><dd>Toute évolution significative de la convention devra donner lieu à des ajustements de code dans cette fonction</dd></dl>
+<h1><a class="anchor" id="sec2"></a>
+Description de l'algorithme</h1>
+<p>A l'exécution de cette fonction le noeud courant est une catégorie de ligne de paye dont le nom est une valeur du tableau <a class="el" href="validator_8h.html#a0325dfbede8f04eea731f905a77e2907" title="Tableau décrivant les libellés des balises XML du format XHL de la DGFIP Voir site Xemelios de la DGF...">type_remuneration</a> ("TraitBrut",...,"Indemnite",..., "Commentaire").<br />
+ </p>
+<h2><a class="anchor" id="subsec3"></a>
+Analyse des drapeaux</h2>
+<h3><a class="anchor" id="drap"></a>
+Définition d'un drapeau</h3>
+<p>Un <em>drapeau</em> est une chaîne de caractères xmlChar du type "1", "2", ..., "n", n &lt; <a class="el" href="validator_8h.html#a4cbe6c13994c407c22b04129ae4c259b" title="nbType donne le nombre d&#39;items du tableau précédent ">nbType</a> <br />
+Les drapeaux sont stockés dans le tableau statique <a class="el" href="validator_8h.html#a4c404cf85f830ff549213f565509c5dd" title="drapeau est un tableau de paires permettant d&#39;isoler en mémoire les balises de type_remuneration lors...">drapeau</a> <br />
+Ils encodent chacune des catégories successives de ligne de paye décrites par l'annexe de la convention-cadre nationale de dématérialisation. Ils jouent le rôle de séparateurs entre les catégories dans la table d'informations. </p>
+<h3><a class="anchor" id="cor"></a>
+Correspondance drapeau-nom de catégorie</h3>
+<p>Correspondance drapeaux-libellés des catégories de ligne de paye.<br />
+A chaque drapeau est associé une valeur du tableau de caractères <a class="el" href="validator_8h.html#a0325dfbede8f04eea731f905a77e2907" title="Tableau décrivant les libellés des balises XML du format XHL de la DGFIP Voir site Xemelios de la DGF...">type_remuneration</a> <br />
+Une boucle parcourt <a class="el" href="validator_8h.html#a0325dfbede8f04eea731f905a77e2907" title="Tableau décrivant les libellés des balises XML du format XHL de la DGFIP Voir site Xemelios de la DGF...">type_remuneration</a> jusqu'à trouver la chaîne qui correspond à la valeur du nom du noeud courant. l'indice de la chaîne dans <a class="el" href="validator_8h.html#a0325dfbede8f04eea731f905a77e2907" title="Tableau décrivant les libellés des balises XML du format XHL de la DGFIP Voir site Xemelios de la DGF...">type_remuneration</a> est celui du drapeau du tableau <a class="el" href="validator_8h.html#a4c404cf85f830ff549213f565509c5dd" title="drapeau est un tableau de paires permettant d&#39;isoler en mémoire les balises de type_remuneration lors...">drapeau</a> copié dans la table d'informations. </p>
+<h3><a class="anchor" id="rebouclage"></a>
+Rebouclage des noms de catégorie</h3>
+<p>Rebouclage du parcours en cas de non-conformité de l'ordre des noeuds de catégorie de ligne de paye.<br />
+En principe les éléments constitutifs des enregistrements </p><div class="fragment"><div class="line">&lt;Remuneration&gt;....&lt;/Remuneration&gt; </div></div><!-- fragment --><p> sont enregistrés dans l'ordre du tableau <a class="el" href="validator_8h.html#a0325dfbede8f04eea731f905a77e2907" title="Tableau décrivant les libellés des balises XML du format XHL de la DGFIP Voir site Xemelios de la DGF...">type_remuneration</a>.<br />
+Toutefois quelques cas de désordre sont observés. Dans ces cas là on doit réinitialiser le parcours du tableau.<br />
+La constante <b><a class="el" href="gui__enums_8h.html#a307a3c68612145a207676f5b093fcbcd">TYPE_LOOP_LIMIT</a></b> est définie à la compilation et si ce n'est pas le cas prend la valeur par défaut encodée dans le fichier <a class="el" href="validator_8h.html" title="Ce fichier contient notamment la structure info_t qui stocke les données de paye décodées ainsi que l...">validator.h</a> <br />
+Elle définit le maximum du nombre de réinitialisation du parcours du tableau <a class="el" href="validator_8h.html#a0325dfbede8f04eea731f905a77e2907" title="Tableau décrivant les libellés des balises XML du format XHL de la DGFIP Voir site Xemelios de la DGF...">type_remuneration</a> autrement dit le nombre maximum de non-conformités à l'ordonnancement des catégories de ligne de paye prévu par la convention-cadre.<br />
+Ce maximum n'est jamais atteint en pratique. S'il est atteint la fonction retourne {<b>nbLignePaye</b>, 1}, où <b>nbLignePaye</b> est le nombre de lignes de paye effectivement lues dans la fonction au cours de cet appel.<br />
+ </p>
+<h2><a class="anchor" id="subsec4"></a>
+Vérification de l'allocation globale</h2>
+<dl class="section user"><dt></dt><dd>Si l'allocation de la mémoire de la tableau d'informations est faite par passage en paramètres de ligne de commande, il faut vérifier que l'utilisateur n'a pas insuffisamment dimensionné la mémoire dans le paramètres imposés.<br />
+Cette vérification est opérée par <a class="el" href="ligne__paye_8h.html#a1918a95b8d7eafcb07bcf867242b3514" title="Vérifie que la taille des données de paye en nombre de lignes de paye au décodage effectif des fichie...">verifier_taille</a>.<br />
+ </dd></dl>
+<h2><a class="anchor" id="subsec5"></a>
+Cas de noeuds de type Commentaire</h2>
+<dl class="section user"><dt></dt><dd>Pour éviter des problèmes de cohérence typage en base, les noeuds Commentaire ne sont pas lus. </dd></dl>
+<dl class="section user"><dt></dt><dd>En cas de noeud commentaire, le parcours de drapeaux et de <a class="el" href="validator_8h.html#a0325dfbede8f04eea731f905a77e2907" title="Tableau décrivant les libellés des balises XML du format XHL de la DGFIP Voir site Xemelios de la DGF...">type_remuneration</a> est réinitialisé et il n'en est pas tenu compte pour la vérification du plafond <a class="el" href="gui__enums_8h.html#a307a3c68612145a207676f5b093fcbcd">TYPE_LOOP_LIMIT</a>.</dd></dl>
+<h2><a class="anchor" id="subsec6"></a>
+Cas d'anomalie</h2>
+<dl class="section user"><dt></dt><dd>Une anomalie peut être l'absence de noeuds fils décrivant le contenu de la paye :<br />
+absence des noeuds <em>Libelle</em>, <em>Code</em>, <em>Base</em>, <em>Taux</em>, <em>NbUnite</em>, <em>Mt</em>.<br />
+Cette anomalie donne lieu à appel de <a class="el" href="ligne__paye_8cpp.html#a8ed7ec1c7586ce54748faa8f7110d8a2" title="Assigne la valeur NA_STRING de type xmlChar* à l&#39;élément courant de info.Table. ">NA_ASSIGN</a> et message d'avertissement.<br />
+Elle donne lieu au décompte d'une ligne de paye (assignée de valeurs manquantes). </dd></dl>
+<dl class="section warning"><dt>Avertissement</dt><dd>Toujours s'assurer que dans ce cas l'allocation mémoire prévoit 6 assignations de valeur manquante dans la table d'informations.</dd></dl>
+<h2><a class="anchor" id="subsec7"></a>
+Cas général</h2>
+<dl class="section user"><dt></dt><dd>Dans le cas général, examen des noeuds fils.<br />
+Appel succesif de <a class="el" href="ligne__paye_8cpp.html#a45ce15888cd33c4753e852fce36fb56e" title="Appelle Bulletin et affiche l&#39;interprétation des erreurs. ">bulletin_obligatoire</a> à 2 reprises et <a class="el" href="ligne__paye_8cpp.html#a9ddbe10974c6bd265152624a68cd0580" title="Appelle Bulletin. ">bulletin_optionnel_numerique</a> à 4 reprises, pour les noeuds cités <em>supra</em>. Au terme de la lecture de ces 6 noeuds fils, le noeud courant est assigné au noeud<div class="fragment"><div class="line">&lt;Remuneration&gt; </div></div><!-- fragment --> suivant. </dd></dl>
+</div></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Généré le Jeudi 16 Août 2018 02:04:58 par
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
+</body>
+</html>

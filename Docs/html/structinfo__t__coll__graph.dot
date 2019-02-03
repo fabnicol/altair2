@@ -1,0 +1,9 @@
+digraph "info_t"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{info_t\n|+ calculer_maxima\l+ cdrom\l+ chemin_base\l+ chemin_bulletins\l+ chemin_log\l+ chemins_bulletins_extraits\l+ decimal\l+ drapeau_cont\l+ exclure_budget\l+ exclure_employeur\let 25 de plus...\l|}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" +threads" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node2 [label="{thread_t\n|+ argc\l+ argv\l+ in_memory_file\l+ thread_num\l|}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structthread__t.html",tooltip="Structure permettant de transmettre à chaque fil d&#39;exécution une partie des données de paye..."];
+}

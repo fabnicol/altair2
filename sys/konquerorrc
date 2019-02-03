@@ -1,0 +1,16 @@
+[HTML Settings]
+AutoLoadImages=true
+AutomaticDetectionLanguage=1
+DefaultEncoding=UTF-8
+Fonts=Sans Serif,Monospace,Serif,Sans Serif,Cursive,Fantasy,
+HoverLinks=true
+MediumFontSize=12
+MinimumFontSize=7
+ShowAnimations=LoopOnce
+SmoothScrolling=WhenEfficient
+UnderlineLinks=false
+UnfinishedImageFrame=true
+UserStyleSheetEnabled=false
+
+[Undo]
+Number of Closed Windows=5

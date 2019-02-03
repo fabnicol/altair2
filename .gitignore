@@ -1,4 +1,3 @@
-.Rproj.user/*
 .Rhistory
 .RData
 .Ruserdata
@@ -11,6 +10,5 @@ Interface/gui/altair.windows.pro
 Makefile
 *.directory
 lhx/lhx
-*/*/*.user
-*/*.user
+Tests/Exemple/modules/*.Rmd
 .Rproj.user
