@@ -1,0 +1,16 @@
+.Rproj.user/*
+.Rhistory
+.RData
+.Ruserdata
+sys/kernel
+R/* 
+RStudio/* 
+Interface/gui/altair.windows.pro
+*/*.o
+*.o
+Makefile
+*.directory
+lhx/lhx
+*/*/*.user
+*/*.user
+.Rproj.user
