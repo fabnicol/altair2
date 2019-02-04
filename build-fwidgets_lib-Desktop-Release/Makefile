@@ -12,7 +12,7 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = /usr/bin/g++-8.2.0
-DEFINES       = -DVERSION=\"19.1-4\" -DFWIDGETS_LIB_LIBRARY -DPROGRESSBAR_TIMEOUT=200 -DHAVE_APPLICATION -DGUI_OUTPUT -DQT_DEPRECATED_WARNINGS -DLOCAL_BINPATH -DUSE_RIGHT_CLICK -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DVERSION=\"19.1-5\" -DFWIDGETS_LIB_LIBRARY -DPROGRESSBAR_TIMEOUT=200 -DHAVE_APPLICATION -DGUI_OUTPUT -DQT_DEPRECATED_WARNINGS -DLOCAL_BINPATH -DUSE_RIGHT_CLICK -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -fPIC -Wall -W -ffunction-sections -fdata-sections -D_REENTRANT $(DEFINES)
 CXXFLAGS      = -pipe -std=gnu++17 -O3 -fomit-frame-pointer -fexpensive-optimizations -march=core-avx2 -pipe -m64 -std=c++17 -O2 -fPIC -Wall -W -ffunction-sections -fdata-sections -D_REENTRANT $(DEFINES)
 INCPATH       = -I../fwidgets_lib -I. -I../../../Qt5.12.0/5.12.0/Src/qtbase/include -I../../../Qt5.12.0/5.12.0/Src/qtbase/include/QtWidgets -I../../../Qt5.12.0/5.12.0/Src/qtbase/include/QtGui -I../../../Qt5.12.0/5.12.0/Src/qtbase/include/QtCore -I. -I../../../Qt5.12.0/5.12.0/Src/qtbase/mkspecs/linux-g++
@@ -295,7 +295,6 @@ DIST          = ../../../Qt5.12.0/5.12.0/Src/qtbase/mkspecs/features/spec_pre.pr
 		../../../Qt5.12.0/5.12.0/Src/qtbase/mkspecs/features/qt_config.prf \
 		../../../Qt5.12.0/5.12.0/Src/qtbase/mkspecs/linux-g++/qmake.conf \
 		../../../Qt5.12.0/5.12.0/Src/qtbase/mkspecs/features/spec_post.prf \
-		../fwidgets_lib/.qmake.stash \
 		../../../Qt5.12.0/5.12.0/Src/qtbase/mkspecs/features/exclusive_builds.prf \
 		../../../Qt5.12.0/5.12.0/Src/qtbase/mkspecs/features/toolchain.prf \
 		../../../Qt5.12.0/5.12.0/Src/qtbase/mkspecs/features/default_pre.prf \
@@ -577,7 +576,6 @@ Makefile: ../fwidgets_lib/fwidgets_lib.pro ../../../Qt5.12.0/5.12.0/Src/qtbase/m
 		../../../Qt5.12.0/5.12.0/Src/qtbase/mkspecs/features/qt_config.prf \
 		../../../Qt5.12.0/5.12.0/Src/qtbase/mkspecs/linux-g++/qmake.conf \
 		../../../Qt5.12.0/5.12.0/Src/qtbase/mkspecs/features/spec_post.prf \
-		.qmake.stash \
 		../../../Qt5.12.0/5.12.0/Src/qtbase/mkspecs/features/exclusive_builds.prf \
 		../../../Qt5.12.0/5.12.0/Src/qtbase/mkspecs/features/toolchain.prf \
 		../../../Qt5.12.0/5.12.0/Src/qtbase/mkspecs/features/default_pre.prf \
@@ -833,7 +831,6 @@ Makefile: ../fwidgets_lib/fwidgets_lib.pro ../../../Qt5.12.0/5.12.0/Src/qtbase/m
 ../../../Qt5.12.0/5.12.0/Src/qtbase/mkspecs/features/qt_config.prf:
 ../../../Qt5.12.0/5.12.0/Src/qtbase/mkspecs/linux-g++/qmake.conf:
 ../../../Qt5.12.0/5.12.0/Src/qtbase/mkspecs/features/spec_post.prf:
-.qmake.stash:
 ../../../Qt5.12.0/5.12.0/Src/qtbase/mkspecs/features/exclusive_builds.prf:
 ../../../Qt5.12.0/5.12.0/Src/qtbase/mkspecs/features/toolchain.prf:
 ../../../Qt5.12.0/5.12.0/Src/qtbase/mkspecs/features/default_pre.prf:
