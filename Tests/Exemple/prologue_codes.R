@@ -87,7 +87,7 @@ ouvrir.document                <- TRUE
 
 types.irs  <- c("IR", "S")
 
-controle<-c("REGION OCCITANIE, REGION OCCITANIE - ELUS","20005379100048 - 20005379100014","REGION OCCITANIE - REGION OCCITANIE CESER - REGION OCCITANIE CR - Site de TOULOUSE","Multi budgets")  
+controle<-c("","","","")  
 
 codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IFSE", "IEMP", "ISS", "IHTS", "VAC", "ASTREINTES", "NAS", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(
