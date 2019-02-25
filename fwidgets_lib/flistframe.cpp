@@ -514,9 +514,15 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
             else
               if (info.isFile())
               {
-                  if (info.suffix().toUpper() == "ZIP")    
+
+                  const QString &tempDir = info.absolutePath() + QDir::separator() + info.baseName();
+                  if (QFileInfo(tempDir).isDir())
                   {
-                      const QString &tempDir = info.absolutePath() + QDir::separator() + info.baseName();
+                     QDir(tempDir).removeRecursively();
+                  }
+
+                  if (info.suffix().toUpper() == "ZIP")
+                  {
                       emit(textAppend(PROCESSING_HTML_TAG + QString("Décompression du fichier " + currentString + ". Patientez...")));
                       int res = system(QString("unzip -C '" + currentString + "' '*.x[hm]l' -d '" + tempDir + "'").toStdString().c_str());
                       
@@ -538,7 +544,6 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                       {
                         if (info.suffix().toUpper() == formats[i])    
                           {
-                              const QString &tempDir = info.absolutePath() + QDir::separator() + info.baseName();
                               emit(textAppend(PROCESSING_HTML_TAG + QString("Décompression du fichier " + currentString + ". Patientez...")));
                               const QString &cl = QString("7z x '" + currentString + "' -o'" + tempDir + "' -t" + QString(types[i]));
                               res = system(cl.toStdString().c_str());
