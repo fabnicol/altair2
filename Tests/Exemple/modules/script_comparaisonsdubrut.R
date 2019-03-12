@@ -2,7 +2,7 @@
 #'   
 #'## 3.4 Comparaisons source INSEE/DGCL   
 #'   
-#'*Salaires annnuels bruts moyens 2011 en EQTP (hors assistantes maternelles)*   
+#'*Salaires annnuels bruts moyens 2011-2016 en EQTP (hors assistantes maternelles)*   
 
 #'  
 #'&nbsp;*Tableau 3.4.1*   
@@ -27,14 +27,12 @@ Tableau.vertical2(c("Agrégat (euros)", "2011", "2012", "2013", "2014", "2015", 
 #'    
 
 Tableau.vertical2(
-  c("Rém. annuelles", "2010", "Primes", "2011", "Primes", "2012", "Primes", "2013", "Primes"),
+  c("Rém. annuelles",  "2011", "Primes", "2012", "Primes", "2013", "Primes"),
   c("Salaire brut",
     "Traitement brut",
     "Primes et rémunérations annexes",
     "y compris IR et SFT"),
   digits = 0,
-  c(26305, 20350,	0, 5955),
-  c("", "22,6 %", "", "" ),
   c(26660, 20562, 0, 6098),
   c("", "22,9 %", "", "" ),
   12 * c(2259, 1727, 0, 532),
@@ -65,6 +63,7 @@ Tableau.vertical2(
 #'*Les primes sont cumulées au supplément familial de traitement (SFT) et à l'indemnité de résidence (IR). Le cumul est rapporté à la rémunération brute totale.*    
 #'[Source INSEE](Docs/ip1486.xls)    
 #'[Source DGCL](Docs/Vue3_Remuneration_2017.xlsx)    
+#'[Source DGCL](Docs/Vue-Remunerations-2018.xlsx)   
 #'[Source RAEFP 2015](Docs/RA_2015.pdf)   
 #'[Source RAEFP 2016](Docs/RA_2016.pdf)   
 #'[Source RAEFP 2017](Docs/RA_2017.pdf)    
