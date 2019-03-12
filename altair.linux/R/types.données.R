@@ -1,70 +1,70 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, annÃ©es 2012 Ã  2017
+# Fabrice Nicol, années 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
-# Ce logiciel est un programme informatique servant Ã  extraire et analyser les fichiers de paye
-# produits au format spÃ©cifiÃ© par l'annexe de la convention-cadre nationale de dÃ©matÃ©rialisation
-# en vigueur Ã  compter de l'annÃ©e 2008.
+# Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
+# produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
+# en vigueur à compter de l'année 2008.
 # 
-# Ce logiciel est rÃ©gi par la licence CeCILL soumise au droit franÃ§ais et
+# Ce logiciel est régi par la licence CeCILL soumise au droit français et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
 # utiliser, modifier et/ou redistribuer ce programme sous les conditions
-# de la licence CeCILL telle que diffusÃ©e par le CEA, le CNRS et l'INRIA
+# de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
 # sur le site "http://www.cecill.info".
 # 
-# En contrepartie de l'accessibilitÃ© au code source et des droits de copie,
-# de modification et de redistribution accordÃ©s par cette licence, il n'est
-# offert aux utilisateurs qu'une garantie limitÃ©e. Pour les mÃªmes raisons,
-# seule une responsabilitÃ© restreinte pÃ¨se sur l'auteur du programme, le
-# titulaire des droits patrimoniaux et les concÃ©dants successifs.
+# En contrepartie de l'accessibilité au code source et des droits de copie,
+# de modification et de redistribution accordés par cette licence, il n'est
+# offert aux utilisateurs qu'une garantie limitée. Pour les mêmes raisons,
+# seule une responsabilité restreinte pèse sur l'auteur du programme, le
+# titulaire des droits patrimoniaux et les concédants successifs.
 # 
-# A cet Ã©gard l'attention de l'utilisateur est attirÃ©e sur les risques
-# associÃ©s au chargement, Ã  l'utilisation, Ã  la modification et/ou au
-# dÃ©veloppement et Ã  la reproduction du logiciel par l'utilisateur Ã©tant
-# donnÃ© sa spÃ©cificitÃ© de logiciel libre, qui peut le rendre complexe Ã 
-# manipuler et qui le rÃ©serve donc Ã  des dÃ©veloppeurs et des professionnels
-# avertis possÃ©dant des connaissances informatiques approfondies. Les
-# utilisateurs sont donc invitÃ©s Ã  charger et tester l'adÃ©quation du
-# logiciel Ã  leurs besoins dans des conditions permettant d'assurer la
-# sÃ©curitÃ© de leurs systÃ¨mes et ou de leurs donnÃ©es et, plus gÃ©nÃ©ralement,
-# Ã  l'utiliser et l'exploiter dans les mÃªmes conditions de sÃ©curitÃ©.
+# A cet égard l'attention de l'utilisateur est attirée sur les risques
+# associés au chargement, à l'utilisation, à la modification et/ou au
+# développement et à la reproduction du logiciel par l'utilisateur étant
+# donné sa spécificité de logiciel libre, qui peut le rendre complexe à
+# manipuler et qui le réserve donc à des développeurs et des professionnels
+# avertis possédant des connaissances informatiques approfondies. Les
+# utilisateurs sont donc invités à charger et tester l'adéquation du
+# logiciel à leurs besoins dans des conditions permettant d'assurer la
+# sécurité de leurs systèmes et ou de leurs données et, plus généralement,
+# à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
 # 
-# Le fait que vous puissiez accÃ©der Ã  cet en-tÃªte signifie que vous avez
-# pris connaissance de la licence CeCILL, et que vous en avez acceptÃ© les
+# Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
+# pris connaissance de la licence CeCILL, et que vous en avez accepté les
 # termes.
 # 
 # 
-# Il est important de maÃ®triser le type des donnÃ©es en entrÃ©e de lecture de base
+# Il est important de maîtriser le type des données en entrée de lecture de base
 
-# Exemple : si pas de hors Ã©chelle lettres dans une base, l'algorithme de lecture de base de data.table et d'infÃ©rence de type
-# va proposer "numeric" au lieu de "character" pour l'Ã©chelon
+# Exemple : si pas de hors échelle lettres dans une base, l'algorithme de lecture de base de data.table et d'inférence de type
+# va proposer "numeric" au lieu de "character" pour l'échelon
 
-# Autre exemple : les matricules composÃ©s exclusivement de chiffres vont Ãªtre traitÃ©s comme des nombres en entrÃ©e, alors qu'ils
-# sont utilisÃ©s comme des chaÃ®nes de caractÃ¨res dans le code
+# Autre exemple : les matricules composés exclusivement de chiffres vont être traités comme des nombres en entrée, alors qu'ils
+# sont utilisés comme des chaînes de caractères dans le code
 
 library(bit64)
 
-#' ContrÃ´le le type des donnÃ©es d'entrÃ©e
+#' Contrôle le type des données d'entrée
 #' @param colonnes Vecteur des noms de colonnes de la table globale
 #' @export
 
-type.donnÃ©es <- function(colonnes) {
+type.données <- function(colonnes) {
   
-"intÃ©grer.rang" %a% ("R" %in% colonnes) 
-"intÃ©grer.Ã©chelon" %a% ("Echelon" %in% colonnes)
-"intÃ©grer.localisation" %a% ("Siret" %in% colonnes)
-"intÃ©grer.rep.budget" %a% ("Code.Budget" %in% colonnes)
+"intégrer.rang" %a% ("R" %in% colonnes) 
+"intégrer.échelon" %a% ("Echelon" %in% colonnes)
+"intégrer.localisation" %a% ("Siret" %in% colonnes)
+"intégrer.rep.budget" %a% ("Code.Budget" %in% colonnes)
 
-if (intÃ©grer.rang) message("IntÃ©gration du Rang")
-if (intÃ©grer.Ã©chelon) message("IntÃ©gration de l'Ã©chelon")
-if (intÃ©grer.localisation) message("IntÃ©gration des donnÃ©es Ã©tablissement")
-if (intÃ©grer.localisation) message("IntÃ©gration de la rÃ©partition budgÃ©taire")
+if (intégrer.rang) message("Intégration du Rang")
+if (intégrer.échelon) message("Intégration de l'échelon")
+if (intégrer.localisation) message("Intégration des données établissement")
+if (intégrer.localisation) message("Intégration de la répartition budgétaire")
 
-localisation.classes <- if (intÃ©grer.localisation) c("character", "character", "character", "character") else NULL
-Ã©chelon.classe <- if (intÃ©grer.Ã©chelon) "character" else NULL
-rang.classe    <- if (intÃ©grer.rang) "integer" else NULL
-rÃ©partition.budgÃ©taire <- if (intÃ©grer.rep.budget) c("character", "numeric", "numeric") else NULL
+localisation.classes <- if (intégrer.localisation) c("character", "character", "character", "character") else NULL
+échelon.classe <- if (intégrer.échelon) "character" else NULL
+rang.classe    <- if (intégrer.rang) "integer" else NULL
+répartition.budgétaire <- if (intégrer.rep.budget) c("character", "numeric", "numeric") else NULL
 
 "colonnes.classes.input"    %a% c(rang.classe, "integer", "integer",  
                                    localisation.classes,
@@ -73,12 +73,12 @@ rÃ©partition.budgÃ©taire <- if (intÃ©grer.rep.budget) c("character", "numeric", 
                                    "numeric", "numeric", "numeric",
                                    "integer",  "numeric", "numeric", 
                                    "numeric", "numeric",
-                                   rÃ©partition.budgÃ©taire,
+                                   répartition.budgétaire,
                                    "character",  "character", "numeric", 
                                    "numeric", "numeric", "numeric",
                                    "character", "character", "character",
                                    "character", "character", 
-                                   Ã©chelon.classe, "character", "character")
+                                   échelon.classe, "character", "character")
 
 "colonnes.bulletins.classes.input" %a% c(rang.classe, "integer", "integer",
                                       localisation.classes,
@@ -87,20 +87,20 @@ rÃ©partition.budgÃ©taire <- if (intÃ©grer.rep.budget) c("character", "numeric", 
                                       "numeric", "numeric", "numeric",
                                       "integer",  "numeric", "numeric",
                                      "numeric", "numeric",
-                                      rÃ©partition.budgÃ©taire,
+                                      répartition.budgétaire,
                                       "character", "character", "character",
-                                      Ã©chelon.classe, "character", "character")
+                                      échelon.classe, "character", "character")
 
 
-"trans" %a% data.table(t(matrix( c("I",  "IndemnitÃ©",
+"trans" %a% data.table(t(matrix( c("I",  "Indemnité",
                                 "R" , "Rappels",
-                                "IR", "IndemnitÃ© de rÃ©sidence",
+                                "IR", "Indemnité de résidence",
                                 "T" , "Traitement",
                                 "AV", "Avantage en nature",
-                                "A" , "Autres rÃ©munÃ©rations",
+                                "A" , "Autres rémunérations",
                                 "C" , "Cotisations",
-                                "D" , "DÃ©ductions",
-                                "S" , "SupplÃ©ment familial",
+                                "D" , "Déductions",
+                                "S" , "Supplément familial",
                                 "RE", "Retenues",
                                 "CO" , "Commentaire"), nrow = 2)))
 
@@ -119,7 +119,7 @@ remplacer_type <- function(M) {
 
 #' @export
 
-rÃ©sumer_type <- function(M) {
+résumer_type <- function(M) {
   trans2 <- data.table::copy(trans)
   setnames(trans2, c("V1", "V2"), c("Type_court", "Type"))
   M <- unique(M, by = NULL)

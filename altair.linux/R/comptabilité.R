@@ -1,54 +1,54 @@
 #' Diagnostic des tables de jointure     
 #' 
-#' Calcule le nombre minimum de variables n√©cessaires pour apparier les bases de paye et un tableau de correspondance entre codes de paye et comptabilit√©
+#' Calcule le nombre minimum de variables nÈcessaires pour apparier les bases de paye et un tableau de correspondance entre codes de paye et comptabilitÈ
 #' 
-#' @return NULL si les variables \code{Code, Libelle, Type} suffisent, sinon le tableau des multiplicit√©s associ√©es aux combinaisons de ces variables auxquelles il est impossible d'associer un compte unique.   
+#' @return NULL si les variables \code{Code, Libelle, Type} suffisent, sinon le tableau des multiplicitÈs associÈes aux combinaisons de ces variables auxquelles il est impossible d'associer un compte unique.   
 #' @export
 
 
-calculer_indice_complexit√© <- function() {
+calculer_indice_complexitÈ <- function() {
   
   
-  multiplicit√© <- Paie[ , Statut2 := Statut
+  multiplicitÈ <- Paie[ , Statut2 := Statut
                       ][Statut %in% c("EMPLOI_FONCTIONNEL", "ELU", "AUTRE_STATUT"), Statut2 := "NON_TITULAIRE"
                       ][Statut == "STAGIAIRE", Statut2 := "TITULAIRE"
                       ][ , .(m = uniqueN(Statut2), Statut2, Annee, Mois, Matricule, Grade, Emploi, Nb.Enfants, NBI, Brut, Montant),
                              by = .(Code, Type, Libelle)]
   
-  if (n <- nrow(multiplicit√©[m > 1])) {
+  if (n <- nrow(multiplicitÈ[m > 1])) {
     
-    cat("La cl√© d'appariement **Code, Libelle, Type** est insuffisante pour r√©aliser une jointure correcte entre la base de paye et le tableau de correspondance codes de paye - compte 64.  \n")
-    cat("Au mieux, il ne serait possible que d'apparier", q <- (1 - round(n/nrow(Paie), 2)) * 100, " % des lignes de paye avec la comptabilit√© administrative.  \n")
+    cat("La clÈ d'appariement **Code, Libelle, Type** est insuffisante pour rÈaliser une jointure correcte entre la base de paye et le tableau de correspondance codes de paye - compte 64.  \n")
+    cat("Au mieux, il ne serait possible que d'apparier", q <- (1 - round(n/nrow(Paie), 2)) * 100, " % des lignes de paye avec la comptabilitÈ administrative.  \n")
     if (q < 10) {
-      cat("Il est n√©cessaire d'utiliser une autre cl√© d'appariement, au minimum **Statut**, √©ventuellement **Grade** et **Nb.Enfant**.  \n") 
+      cat("Il est nÈcessaire d'utiliser une autre clÈ d'appariement, au minimum **Statut**, Èventuellement **Grade** et **Nb.Enfant**.  \n") 
       NULL
     } else {
       
-      cat("L'appariement peut √™tre tent√© avec **Code, Libelle, Type**, mais les r√©sultats diff√©reront de ", 100 - q , "% de la comptabilit√© administrative.  \n")
-      multiplicit√©[m == 1][ , c(m, Statut2) := NULL]
+      cat("L'appariement peut Ítre tentÈ avec **Code, Libelle, Type**, mais les rÈsultats diffÈreront de ", 100 - q , "% de la comptabilitÈ administrative.  \n")
+      multiplicitÈ[m == 1][ , c(m, Statut2) := NULL]
     }
   }
 }
 
 #' Apparier la base des lignes de paye et une table de jointure
 #' 
-#' Ajoute une ou plusieurs colonnes √† la base des lignes de paye, √©tant donn√©e une table de jointure comportant des cl√©s d'appariement de la base de paye et des vecteurs √† apparier.     
+#' Ajoute une ou plusieurs colonnes ‡ la base des lignes de paye, Ètant donnÈe une table de jointure comportant des clÈs d'appariement de la base de paye et des vecteurs ‡ apparier.     
 #' 
-#' La table de jointure doit satisfaire une condition d'unicit√© de la valeur associ√©e √† chaque combinaison de cl√©s.
-#' @note   Pour chaque combinaison de valeurs des cl√©s, il doit y avoir une et une seule valeur des colonnes suppl√©mentaires apport√©es par la table de jointure.
-#' @param  table.jointure  Tableau au format \code{data.table} indiquant la correspondance entre des cl√©s appartenant √† une \code{data.table} et un ou plusieurs vecteurs √† rajouter √† cette base.    
-#' @param  requis Vecteur des noms des colonnes qui sont attendues dans le tableau de jointure, autre que les cl√©s d'appariement, pour ajout √† la base de paye.
-#' @param  cl√©s   Vecteur des noms de cl√©s d'appariement. Par d√©faut, les noms de colonnes communs √† la base des lignes de paye et √† la table de jointure.
-#' @param  calculer.indice.complexit√© Pour l'appariement avec la comptabilit√©, v√©rifier s'il est √©ventuellement possible d'apparier sur les seules cl√©s \code{Code, Libelle, Type}
-#' @note   Effet de bord : Base des lignes de paye \code{Paie} appari√©e avec la table de jointure.
-#' @return Base des lignes de paye \code{Paie} appari√©e avec la table de jointure restreinte aux variables : \code{Annee, Code, Libelle, Statut, Type} et aux colonnes ajout√©es par la table de jointure 
+#' La table de jointure doit satisfaire une condition d'unicitÈ de la valeur associÈe ‡ chaque combinaison de clÈs.
+#' @note   Pour chaque combinaison de valeurs des clÈs, il doit y avoir une et une seule valeur des colonnes supplÈmentaires apportÈes par la table de jointure.
+#' @param  table.jointure  Tableau au format \code{data.table} indiquant la correspondance entre des clÈs appartenant ‡ une \code{data.table} et un ou plusieurs vecteurs ‡ rajouter ‡ cette base.    
+#' @param  requis Vecteur des noms des colonnes qui sont attendues dans le tableau de jointure, autre que les clÈs d'appariement, pour ajout ‡ la base de paye.
+#' @param  clÈs   Vecteur des noms de clÈs d'appariement. Par dÈfaut, les noms de colonnes communs ‡ la base des lignes de paye et ‡ la table de jointure.
+#' @param  calculer.indice.complexitÈ Pour l'appariement avec la comptabilitÈ, vÈrifier s'il est Èventuellement possible d'apparier sur les seules clÈs \code{Code, Libelle, Type}
+#' @note   Effet de bord : Base des lignes de paye \code{Paie} appariÈe avec la table de jointure.
+#' @return Base des lignes de paye \code{Paie} appariÈe avec la table de jointure restreinte aux variables : \code{Annee, Code, Libelle, Statut, Type} et aux colonnes ajoutÈes par la table de jointure 
 #' @export
 #' 
-exporter_tableau <- function(table.jointure, requis, cl√©s = intersect(names(table.jointure), names(Paie)), calculer.indice.complexit√© = FALSE) {
+exporter_tableau <- function(table.jointure, requis, clÈs = intersect(names(table.jointure), names(Paie)), calculer.indice.complexitÈ = FALSE) {
   
   colonnes          <- names(Paie)
   colonnes.jointure <- names(table.jointure)
-  colonnes.ajout√©es <- setdiff(colonnes.jointure, colonnes)
+  colonnes.ajoutÈes <- setdiff(colonnes.jointure, colonnes)
   nrequis           <- length(requis)
   
   if (nrequis < 1)  {
@@ -56,63 +56,63 @@ exporter_tableau <- function(table.jointure, requis, cl√©s = intersect(names(tab
     return(NULL)
   }
   
-  if (! all(requis %in% colonnes.ajout√©es) || ! all(cl√©s %in% colonnes.jointure)) {
+  if (! all(requis %in% colonnes.ajoutÈes) || ! all(clÈs %in% colonnes.jointure)) {
     
     cat("Le tableau fourni par l'organisme doit contenir", ifelse(nrequis > 1, "les", "la"), " colonne" %+% ifelse(nrequis > 1, "s", ""),
                                                            paste(colonnes.jointure, collapse = " "), "  \n")
     return(NULL)
   }
 
-  if (calculer.indice.complexit√©) {
+  if (calculer.indice.complexitÈ) {
     
-    res <- calculer_indice_complexit√©()
+    res <- calculer_indice_complexitÈ()
     
-    if (is.null(res) && apparier.sur.trois.cl√©s) {
-        cl√©s <- c("Code", "Libelle", "Type")
+    if (is.null(res) && apparier.sur.trois.clÈs) {
+        clÈs <- c("Code", "Libelle", "Type")
     } 
   }
   
-  test <- anyDuplicated(table.jointure[ , ..cl√©s])
+  test <- anyDuplicated(table.jointure[ , ..clÈs])
     
   if (test > 0) {
     
-    TabDupl <- duplicated(table.jointure[ , ..cl√©s])
-    table.jointure <- unique(table.jointure[ , ..cl√©s])
-    if ("Compte" %in% colonnes.ajout√©es) cat("Le tableau fourni par l'organisme (*paye_budget.csv*) associe plus d'un compte √† une combinaison donn√©e des variables cl√©s ",  paste(cl√©s, collapse = " "), " pour les combinaisons de cl√©s suivantes : ", paste(cl√©s, collapse = " "), "  \n")
-    cat("L'op√©ration d'appariement ne peut se faire sur ces cl√©s. Elle se fera sur les autres cl√©s au prix d'une perte de donn√©es.   \n
-        Les agr√©gats seront donc inf√©rieurs √† ceux de la comptabilit√©.  \n")
-    cat("Il est envisageable de r√©cup√©rer les montants correspondants en examinant manuellement le tableau fourni en lien ci-dessous, correspondant aux cl√©s suivantes:  \n")
+    TabDupl <- duplicated(table.jointure[ , ..clÈs])
+    table.jointure <- unique(table.jointure[ , ..clÈs])
+    if ("Compte" %in% colonnes.ajoutÈes) cat("Le tableau fourni par l'organisme (*paye_budget.csv*) associe plus d'un compte ‡ une combinaison donnÈe des variables clÈs ",  paste(clÈs, collapse = " "), " pour les combinaisons de clÈs suivantes : ", paste(clÈs, collapse = " "), "  \n")
+    cat("L'opÈration d'appariement ne peut se faire sur ces clÈs. Elle se fera sur les autres clÈs au prix d'une perte de donnÈes.   \n
+        Les agrÈgats seront donc infÈrieurs ‡ ceux de la comptabilitÈ.  \n")
+    cat("Il est envisageable de rÈcupÈrer les montants correspondants en examinant manuellement le tableau fourni en lien ci-dessous, correspondant aux clÈs suivantes:  \n")
     kable(TabDupl)
-    # Ins√©rer lien condiditionnel sur TabDupl dans le rapport.
+    # InsÈrer lien condiditionnel sur TabDupl dans le rapport.
     
   } else {
     
-    cat("Le tableau fourni par l'organisme contient des cl√©s d'appariement convenables. Chaque combinaison de valeurs des cl√©s ", paste(cl√©s, collapse = " "), " est associ√©e √† une seule valeur de(s) colonne(s) rajout√©e(s) par la table d'appariement     \n")
+    cat("Le tableau fourni par l'organisme contient des clÈs d'appariement convenables. Chaque combinaison de valeurs des clÈs ", paste(clÈs, collapse = " "), " est associÈe ‡ une seule valeur de(s) colonne(s) rajoutÈe(s) par la table d'appariement     \n")
     cat("    \n")    
   }
     
   
-  "Paie" %a% merge(table.jointure, Paie, all.y = TRUE, by = cl√©s)
+  "Paie" %a% merge(table.jointure, Paie, all.y = TRUE, by = clÈs)
   
-  if ("Compte" %in% names(Paie)) cat("Colonne **Compte** ajout√©e √† la base Paie par jointure.   \n")
+  if ("Compte" %in% names(Paie)) cat("Colonne **Compte** ajoutÈe ‡ la base Paie par jointure.   \n")
   
-  cols <- c("Annee", cl√©s, colonnes.ajout√©es, "Montant")
+  cols <- c("Annee", clÈs, colonnes.ajoutÈes, "Montant")
   Paie[ , ..cols]
   
 }
 
 #' Correspondance paye-budget
 #' 
-#' Etablit la correspondance entre paye et comptabilit√© administrative (comptes 64 et 65)
+#' Etablit la correspondance entre paye et comptabilitÈ administrative (comptes 64 et 65)
 #' 
-#' @note Requiert l'utilisation d'une table de jointure import√©e \bold{paye_budget.csv} sous le r√©pertoire \bold{Donn√©es}.
-#' A d√©faut, tente une association approximative √† partir d'expressions rationnelles appliqu√©es aux libell√©s de paye.  
-#' @return La \code{data.table code.libell√©} r√©sultant de la lecture du fichier \bold{paye_budget.csv} sous le r√©pertoire \bold{Donn√©es}
+#' @note Requiert l'utilisation d'une table de jointure importÈe \bold{paye_budget.csv} sous le rÈpertoire \bold{DonnÈes}.
+#' A dÈfaut, tente une association approximative ‡ partir d'expressions rationnelles appliquÈes aux libellÈs de paye.  
+#' @return La \code{data.table code.libellÈ} rÈsultant de la lecture du fichier \bold{paye_budget.csv} sous le rÈpertoire \bold{DonnÈes}
 #' @export
 #' 
 correspondance_paye_budget <- function() {
 
- essayer(label ="+comptabilit√©",
+ essayer(label ="+comptabilitÈ",
  {  
   "paye.budget.existe" %a%  file.exists(chemin("paye_budget.csv"))  
   
@@ -126,31 +126,31 @@ correspondance_paye_budget <- function() {
                           col.names  = c(vect, "Compte"),
                           colClasses = c("character", "character", "character", "character", "character"))  
     
-    cat("Importation de la table des codes et libell√©s par compte (paye_budget.csv)...   \n")
+    cat("Importation de la table des codes et libellÈs par compte (paye_budget.csv)...   \n")
     
-    code.libelle <- r√©sumer_type(code.libelle)
+    code.libelle <- rÈsumer_type(code.libelle)
     
     code.libelle      <- unique(code.libelle)
     
-    cumul.lignes.paie <- exporter_tableau(code.libelle, requis = "Compte", cl√©s = vect)
+    cumul.lignes.paie <- exporter_tableau(code.libelle, requis = "Compte", clÈs = vect)
     
   } else {
    
-    # Ne pas prendre les capitales ni simplifier les libell√©s
+    # Ne pas prendre les capitales ni simplifier les libellÈs
     
     code.libelle <- unique(Paie[Montant != 0, .(Code, Libelle, Statut), by = "Type"])
     
-    # Note : des traitements et NBI sont parfois improprement cod√©s comme indemnit√©s.
+    # Note : des traitements et NBI sont parfois improprement codÈs comme indemnitÈs.
     
-    code.libelle[Type %in% c("T", "I", "R", "AC") & grepl(expression.r√©g.traitement, Libelle, ignore.case = TRUE, perl = TRUE),
+    code.libelle[Type %in% c("T", "I", "R", "AC") & grepl(expression.rÈg.traitement, Libelle, ignore.case = TRUE, perl = TRUE),
                  `:=`(Compte.tit    = "64111",
                       Compte.nontit = "64131")]
     
-    code.libelle[Type == "IR" | Type == "S" | (Type %in% c("T", "I", "R") & grepl(expression.r√©g.nbi, Libelle, ignore.case = TRUE, perl = TRUE)),
+    code.libelle[Type == "IR" | Type == "S" | (Type %in% c("T", "I", "R") & grepl(expression.rÈg.nbi, Libelle, ignore.case = TRUE, perl = TRUE)),
                  `:=`(Compte.tit    = "64112",
                       Compte.nontit = "64132")]
     
-    code.libelle[grepl("(?:ind|prim).*(?:pr[e,√©]avis|licen)", Libelle, ignore.case = TRUE, perl = TRUE), 
+    code.libelle[grepl("(?:ind|prim).*(?:pr[e,È]avis|licen)", Libelle, ignore.case = TRUE, perl = TRUE), 
                  `:=`(Compte.tit    = "64116",
                       Compte.nontit = "64136")]
     
@@ -191,13 +191,13 @@ correspondance_paye_budget <- function() {
   
   inc <- 1
   
-  if (afficher.cumuls.d√©taill√©s.lignes.paie) {
+  if (afficher.cumuls.dÈtaillÈs.lignes.paie) {
     
     L <- split(cumul.lignes.paie, cumul.lignes.paie$Annee)
     
-    for (i in 1:dur√©e.sous.revue) {
+    for (i in 1:durÈe.sous.revue) {
       
-      cat("\nTableau 5.14." %+% inc, " Annee ", d√©but.p√©riode.sous.revue + i - 1)
+      cat("\nTableau 5.14." %+% inc, " Annee ", dÈbut.pÈriode.sous.revue + i - 1)
       print(kable(L[[i]][, .(Compte, Code, Libelle, Total)], row.names = FALSE, align = 'r'))
       inc <- inc + 1
       
@@ -207,23 +207,23 @@ correspondance_paye_budget <- function() {
   L <- split(cumul.total.lignes.paie, cumul.total.lignes.paie$Annee)
   
   if (exists("L")) {
-    for (i in 1:dur√©e.sous.revue) {
+    for (i in 1:durÈe.sous.revue) {
        cat("   \nTableau 5.14." %+% inc %+% " Annee ",
-                    d√©but.p√©riode.sous.revue + i - 1)
+                    dÈbut.pÈriode.sous.revue + i - 1)
         
         print(kable(L[[i]][, .(Compte, `Cumul annuel`)], row.names = FALSE, align = 'r'))
         
         inc <- inc + 1
       
     }
-  } else cat("Tableaux des correspondances bases de paye-budget : g√©n√©ration impossible.")
+  } else cat("Tableaux des correspondances bases de paye-budget : gÈnÈration impossible.")
   
   sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
               environment(),
               "cumul.lignes.paie",
               "cumul.total.lignes.paie")
   
- }, "La correspondance avec le compte de gestion n'a pas pu √™tre √©tablie.")
+ }, "La correspondance avec le compte de gestion n'a pas pu Ítre Ètablie.")
   
   "code.libelle" %a% code.libelle 
 }

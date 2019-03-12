@@ -1,37 +1,37 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, annÃ©es 2012 Ã  2017
+# Fabrice Nicol, années 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 #
-# Ce logiciel est un programme informatique servant Ã  extraire et analyser les fichiers de paye
-# produits au format spÃ©cifiÃ© par l'annexe de la convention-cadre nationale de dÃ©matÃ©rialisation
-# en vigueur Ã  compter de l'annÃ©e 2008.
+# Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
+# produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
+# en vigueur à compter de l'année 2008.
 #
-# Ce logiciel est rÃ©gi par la licence CeCILL soumise au droit franÃ§ais et
+# Ce logiciel est régi par la licence CeCILL soumise au droit français et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
 # utiliser, modifier et/ou redistribuer ce programme sous les conditions
-# de la licence CeCILL telle que diffusÃ©e par le CEA, le CNRS et l'INRIA
+# de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
 # sur le site "http://www.cecill.info".
 #
-# En contrepartie de l'accessibilitÃ© au code source et des droits de copie,
-# de modification et de redistribution accordÃ©s par cette licence, il n'est
-# offert aux utilisateurs qu'une garantie limitÃ©e. Pour les mÃªmes raisons,
-# seule une responsabilitÃ© restreinte pÃ¨se sur l'auteur du programme, le
-# titulaire des droits patrimoniaux et les concÃ©dants successifs.
+# En contrepartie de l'accessibilité au code source et des droits de copie,
+# de modification et de redistribution accordés par cette licence, il n'est
+# offert aux utilisateurs qu'une garantie limitée. Pour les mêmes raisons,
+# seule une responsabilité restreinte pèse sur l'auteur du programme, le
+# titulaire des droits patrimoniaux et les concédants successifs.
 #
-# A cet Ã©gard l'attention de l'utilisateur est attirÃ©e sur les risques
-# associÃ©s au chargement, Ã  l'utilisation, Ã  la modification et/ou au
-# dÃ©veloppement et Ã  la reproduction du logiciel par l'utilisateur Ã©tant
-# donnÃ© sa spÃ©cificitÃ© de logiciel libre, qui peut le rendre complexe Ã 
-# manipuler et qui le rÃ©serve donc Ã  des dÃ©veloppeurs et des professionnels
-# avertis possÃ©dant des connaissances informatiques approfondies. Les
-# utilisateurs sont donc invitÃ©s Ã  charger et tester l'adÃ©quation du
-# logiciel Ã  leurs besoins dans des conditions permettant d'assurer la
-# sÃ©curitÃ© de leurs systÃ¨mes et ou de leurs donnÃ©es et, plus gÃ©nÃ©ralement,
-# Ã  l'utiliser et l'exploiter dans les mÃªmes conditions de sÃ©curitÃ©.
+# A cet égard l'attention de l'utilisateur est attirée sur les risques
+# associés au chargement, à l'utilisation, à la modification et/ou au
+# développement et à la reproduction du logiciel par l'utilisateur étant
+# donné sa spécificité de logiciel libre, qui peut le rendre complexe à
+# manipuler et qui le réserve donc à des développeurs et des professionnels
+# avertis possédant des connaissances informatiques approfondies. Les
+# utilisateurs sont donc invités à charger et tester l'adéquation du
+# logiciel à leurs besoins dans des conditions permettant d'assurer la
+# sécurité de leurs systèmes et ou de leurs données et, plus généralement,
+# à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
 #
-# Le fait que vous puissiez accÃ©der Ã  cet en-tÃªte signifie que vous avez
-# pris connaissance de la licence CeCILL, et que vous en avez acceptÃ© les
+# Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
+# pris connaissance de la licence CeCILL, et que vous en avez accepté les
 # termes.
 #
 #
@@ -41,12 +41,12 @@
 #  Fonctions auxiliaires
 ##
 
-#' ConcatÃ©nation de chaÃ®ne de caractÃ¨res
+#' Concaténation de chaîne de caractères
 #'
 #' Equivalent de paste0(,)
-#' @param x Vecteur de caractÃ¨res
-#' @param y Vecteur de caractÃ¨res
-#' @return Vecteur de caractÃ¨res concatÃ©nÃ©.
+#' @param x Vecteur de caractères
+#' @param y Vecteur de caractères
+#' @return Vecteur de caractères concaténé.
 #' @examples
 #' x <- "abc"
 #' y <- "def"
@@ -55,81 +55,81 @@
 
 `%+%` <- function(x, y) paste0(x, y)
 
-#' Chemin complet d'un fichier dans le dossier \code{chemin.dossier.donnÃ©es}
+#' Chemin complet d'un fichier dans le dossier \code{chemin.dossier.données}
 #' @param fichier Nom de fichier
 #' @export
 
 chemin <-  function(fichier)
-  file.path(chemin.dossier.donnÃ©es, fichier)
+  file.path(chemin.dossier.données, fichier)
 
 #' Conversion d'un fichier de ISO-8859-15 en UTF-8
 #'
 #' Conversion d'un fichier de ISO-8859-15 en UTF-8
 #'
-#' @param nom Chemin du fichier Ã  encoder
-#' @param encodage.in (= encodage.entrÃ©e) Encodage du fichier de lecture
-#' @return Lancement dun appel systÃ¨me Ã  iconv -t UTF-8
+#' @param nom Chemin du fichier à encoder
+#' @param encodage.in (= encodage.entrée) Encodage du fichier de lecture
+#' @return Lancement dun appel système à iconv -t UTF-8
 #' @export
 
 file2utf8 <- function(nom, encodage.in = "ISO-8859-15")  {
  err <- system2(iconv, c("-f", encodage.in, "-t", "UTF-8", shQuote(nom), "-c", "-o", "temp"))
  if (! err)  err <- system2("mv", c("temp", shQuote(nom))) else stop("Erreur d'encodage avec iconv")
- if (err) stop("Erreur de copie fichier aprÃ¨s encodage avec iconv")
+ if (err) stop("Erreur de copie fichier après encodage avec iconv")
 }
 
 #' Conversion d'un fichier en ISO-8859-15
 #'
 #' Conversion d'un fichier de UTF-8 en ISO-8859-15
 #'
-#' @param nom Chemin du fichier Ã  encoder
-#' @param encodage.in (= encodage.entrÃ©e) Encodage du fichier de lecture
-#' @return Lancement dun appel systÃ¨me Ã  iconv -t ISO-8859-15
+#' @param nom Chemin du fichier à encoder
+#' @param encodage.in (= encodage.entrée) Encodage du fichier de lecture
+#' @return Lancement dun appel système à iconv -t ISO-8859-15
 #' @export
 
 file2Latin <- function(nom, encodage.in = "UTF-8")  {
 
   err <- system2(iconv, c("-f", encodage.in, "-t", "ISO-8859-15", shQuote(nom), "-c", "-o", "temp"))
   if (! err)  err <- system2("mv", c("temp", shQuote(nom))) else stop("Erreur d'encodage Latin avec iconv")
-  if (err)  stop("Erreur de copie fichier aprÃ¨s encodage Latin avec iconv")
+  if (err)  stop("Erreur de copie fichier après encodage Latin avec iconv")
 }
 
 #' Lecture d'une base CSV
 #'
 #' Lecture d'un fichier CSV et conversion en data.table.
-#' Si sÃ©curiser.types.sortie = TRUE, forÃ§age des types en sortie.
+#' Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
 #'
-#' @param encodage Encodage de la base lue. Valeur par dÃ©faut : encodage.entrÃ©e
+#' @param encodage Encodage de la base lue. Valeur par défaut : encodage.entrée
 #' @param classes Les classes ("character", "numeric") des variables en colonnes
-#' @param drop  Rang de la colonne Ã  supprimer
-#' @param skip  Nombre de lignes Ã  sauter en dÃ©but de fichier (dÃ©faut aucune).
-#' @param rapide BoolÃ©en (= FALSE). Si TRUE, et si convertir.encodage est TRUE, convertir en UTF-8 avant lecture.
-#' @param sÃ©parateur.liste = sÃ©parateur.liste.entrÃ©e,
-#' @param sÃ©parateur.dÃ©cimal = sÃ©parateur.dÃ©cimal.entrÃ©e,
+#' @param drop  Rang de la colonne à supprimer
+#' @param skip  Nombre de lignes à sauter en début de fichier (défaut aucune).
+#' @param rapide Booléen (= FALSE). Si TRUE, et si convertir.encodage est TRUE, convertir en UTF-8 avant lecture.
+#' @param séparateur.liste = séparateur.liste.entrée,
+#' @param séparateur.décimal = séparateur.décimal.entrée,
 #' @param convertir.encodage (= TRUE) convertir en encodage UTF-8 avant lecture
 #' @return Une base data.table
 #' @examples
-#' read.csv.skip(Base, sÃ©parateur.dÃ©cimal = ",")
+#' read.csv.skip(Base, séparateur.décimal = ",")
 #' @export
 
 read.csv.skip <- function(x,
-                          encodage = encodage.entrÃ©e,
+                          encodage = encodage.entrée,
                           classes = NA,
                           drop = NULL,
                           skip = 0,
                           rapide = FALSE,
-                          sÃ©parateur.liste = sÃ©parateur.liste.entrÃ©e,
-                          sÃ©parateur.dÃ©cimal = sÃ©parateur.dÃ©cimal.entrÃ©e,
+                          séparateur.liste = séparateur.liste.entrée,
+                          séparateur.décimal = séparateur.décimal.entrée,
                           convertir.encodage = TRUE)
 {
   if (! rapide) {
 
     T <- read.csv(x,
                    comment.char = "",
-                   sep = sÃ©parateur.liste,
-                   dec = sÃ©parateur.dÃ©cimal,
+                   sep = séparateur.liste,
+                   dec = séparateur.décimal,
                    colClasses = classes,
                    skip = skip,
-                    # obsolÃ¨te : trouver.valeur.skip(chem, encodage, sÃ©parateur.liste = sÃ©parateur.liste, sÃ©parateur.dÃ©cimal = sÃ©parateur.dÃ©cimal),
+                    # obsolète : trouver.valeur.skip(chem, encodage, séparateur.liste = séparateur.liste, séparateur.décimal = séparateur.décimal),
                    encoding = encodage)
 
     if (!is.null(drop)) { T <- T[-(drop)] }
@@ -137,18 +137,18 @@ read.csv.skip <- function(x,
   } else {
 
     if (encodage != "UTF-8" && convertir.encodage) {
-      message("La table en entrÃ©e doit Ãªtre encodÃ©e en UTF-8")
-      if (convertir.encodage) message("Conversion via iconv du format " %+% encodage %+% " au format UTF-8...") else stop("ArrÃªt : convertir l'encodage de la table en UTF-8.")
+      message("La table en entrée doit être encodée en UTF-8")
+      if (convertir.encodage) message("Conversion via iconv du format " %+% encodage %+% " au format UTF-8...") else stop("Arrêt : convertir l'encodage de la table en UTF-8.")
       file2utf8(x, encodage.in = encodage)
   }
 
-    # data.table n'admet d'argument dec qu'Ã  partir de la version 1.9.5
+    # data.table n'admet d'argument dec qu'à partir de la version 1.9.5
 
     if (is.na(classes)) classes = NULL
 
     T <- try(data.table::fread(x,
-                      sep = sÃ©parateur.liste,
-                      dec = sÃ©parateur.dÃ©cimal,
+                      sep = séparateur.liste,
+                      dec = séparateur.décimal,
                       header = TRUE,
                       skip = skip,
                       colClasses = classes,
@@ -158,12 +158,12 @@ read.csv.skip <- function(x,
 
   }
 
-  if (sÃ©curiser.types.sortie) {
-  # procÃ©dure de vÃ©rification et de coercition des type de sortie
-  # il peut arriver que data.table produise des colonnes de type diffÃ©rent (classes.expost) de celui qui est demandÃ©
-  # par le paramÃ¨tre classes. Cela peut arriver quand un charactÃ¨re est utilisÃ© Ã  la place d'un chiffre dans les donnÃ©es
-  # spÃ©cifiÃ©es comme purement numÃ©riques. Le code ci-dessous corrige les cas les plus utiles.
-  # Le code C++ de l'extracteur de donnÃ©es pourrait Ã  terme Ã©liminer ces risques en garantissant le type des donnÃ©es en sortie.
+  if (sécuriser.types.sortie) {
+  # procédure de vérification et de coercition des type de sortie
+  # il peut arriver que data.table produise des colonnes de type différent (classes.expost) de celui qui est demandé
+  # par le paramètre classes. Cela peut arriver quand un charactère est utilisé à la place d'un chiffre dans les données
+  # spécifiées comme purement numériques. Le code ci-dessous corrige les cas les plus utiles.
+  # Le code C++ de l'extracteur de données pourrait à terme éliminer ces risques en garantissant le type des données en sortie.
 
   if (! is.null(classes)) {
 
@@ -178,7 +178,7 @@ read.csv.skip <- function(x,
               if (classes.expost[x] == "character" && (classes[x] == "numeric" || classes[x] == "integer")) {
 
                 T[[x]] <<- as.numeric(gsub(",", ".", T[[x]], fixed=TRUE))
-                    # <<- impÃ©ratif
+                    # <<- impératif
 
               } else if ((classes.expost[x] == "numeric" || classes.expost[x] == "integer")
                     && (classes[x] == "character"))
@@ -196,18 +196,18 @@ return(T)
 #' Sauvegarde d'une base
 #'
 #' Sauvegarde d'une base data.table sous forme de fichier CSV
-#' Si sÃ©curiser.types.sortie = TRUE, forÃ§age des types en sortie.
+#' Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
 #'
-#' @param chemin.dossier Chemin du dossier dans lequel la base sera sauvegardÃ©e
-#' @param nom Nom de l'objet Ã  sauvegarder
-#' @param nom.sauv  Chaine de caractÃ¨res du nom du fichier .csv sans l'extension
+#' @param chemin.dossier Chemin du dossier dans lequel la base sera sauvegardée
+#' @param nom Nom de l'objet à sauvegarder
+#' @param nom.sauv  Chaine de caractères du nom du fichier .csv sans l'extension
 #' @param Latin (= convertir.latin) Convertir en encodage latin ISO-8859-15
-#' @param sep (= sÃ©parateur.liste.sortie)
-#' @param dec (= sÃ©parateur.dÃ©cimal.sortie),
+#' @param sep (= séparateur.liste.sortie)
+#' @param dec (= séparateur.décimal.sortie),
 #' @param environment (= .GlobalEnv) environnement,
-#' @return Valeur boolÃ©enne de file.exists(file.path(chemin.dossier, nom.sauv %+% ".csv"))
+#' @return Valeur booléenne de file.exists(file.path(chemin.dossier, nom.sauv %+% ".csv"))
 #' @examples
-#' Sauv.base("donnÃ©es", Base, "BaseDonnÃ©e", sep = ";", dec = ",")
+#' Sauv.base("données", Base, "BaseDonnée", sep = ";", dec = ",")
 #' @export
 #'
 
@@ -215,8 +215,8 @@ Sauv.base <- function(chemin.dossier = "",
                       nom = "",
                       nom.sauv = nom,
                       Latin = TRUE,
-                      sep = sÃ©parateur.liste.sortie,
-                      dec = sÃ©parateur.dÃ©cimal.sortie,
+                      sep = séparateur.liste.sortie,
+                      dec = séparateur.décimal.sortie,
                       environment = .GlobalEnv)
 {
   if (chemin.dossier == "" || nom == "" || is.null(chemin.dossier) || is.null (nom)) return(FALSE)
@@ -246,7 +246,7 @@ Sauv.base <- function(chemin.dossier = "",
 
 #' Insertion conditionnelle de texte dans le rapport
 
-#' @param msg Partie du rapport (commenÃ§ant par #')
+#' @param msg Partie du rapport (commençant par #')
 #' @param path Chemin local de la base CSV sur le dossier d'exportation 
 #' @return Le message msg dans le rapport
 #' @export
@@ -257,11 +257,11 @@ conditionnel <- function(msg = "", path = "") {
       cat("  \n")
     }
     
-    # Le fichier existe et il y a plus qu'un entÃªte
+    # Le fichier existe et il y a plus qu'un entête
     
-    chemin <- file.path(chemin.clÃ©, path)
+    chemin <- file.path(chemin.clé, path)
    
-    if (gÃ©nÃ©rer.rapport && file.exists(chemin)) {
+    if (générer.rapport && file.exists(chemin)) {
       
       vect <- readLines(chemin, 2, warn = FALSE, encoding = "UTF-8")
       
@@ -279,15 +279,15 @@ conditionnel <- function(msg = "", path = "") {
 #'
 #' Sauvegarde d'une ou plusieurs base de type data.table sous forme de fichier CSV
 #'
-#' @param chemin.dossier Chemin du dossier dans lequel la base sera sauvegardÃ©e
+#' @param chemin.dossier Chemin du dossier dans lequel la base sera sauvegardée
 #' @param env  Environnement
-#' @param nom Nom de l'objet Ã  sauvegarder
-#' @param ... Autres noms d'objets Ã  sauvegarder
-#' @return Liste de boolÃ©ens rÃ©sultant de l'application de \link{Sauv.base}
+#' @param nom Nom de l'objet à sauvegarder
+#' @param ... Autres noms d'objets à sauvegarder
+#' @return Liste de booléens résultant de l'application de \link{Sauv.base}
 #' @examples
 #' envir <- environment()
-#' # GÃ©nÃ©rer Bulletins.paie et Paie dans envir
-#' sauv.bases("donnÃ©es",  env = envir, c("Bulletins.paie", "Paie"))
+#' # Générer Bulletins.paie et Paie dans envir
+#' sauv.bases("données",  env = envir, c("Bulletins.paie", "Paie"))
 #' @export
 #'
 
@@ -295,7 +295,7 @@ sauv.bases <- function(chemin.dossier, env, ...)
 {
   if (! dir.exists(chemin.dossier))
   {
-    stop("Pas de dossier de travail spÃ©cifiÃ©")
+    stop("Pas de dossier de travail spécifié")
   }
 
   skiplist <- 2
@@ -323,35 +323,35 @@ sauv.bases <- function(chemin.dossier, env, ...)
 # Utiliser une assignation globale
 # car la fonction anonyme ne comporte que de variables locales
 
-#' Lecture d'une sÃ©rie de bases CSV
+#' Lecture d'une série de bases CSV
 #'
-#' Appelle \link{read.csv.skip} sur chaque base d'une sÃ©rie de chemins et empile les retours en lignes
+#' Appelle \link{read.csv.skip} sur chaque base d'une série de chemins et empile les retours en lignes
 #'
-#' @param base.string Vecteur de caractÃ¨res du nom de l'objet data.table retournÃ©
+#' @param base.string Vecteur de caractères du nom de l'objet data.table retourné
 #' @param fichiers    Vecteur de chemins de fichiers
-#' @param charger     BoolÃ©en : TRUE pour charger les bases, FALSE sinon (sans effet)
-#' @param colClasses  Vecteur de classes ("numeric" ou "character", etc.) caractÃ©risant les colonnes
-#' @param skip        Sauter les N premiÃ¨res lignes
-#' @param drop        Rang de la colonne Ã  supprimer
-#' @param sÃ©parateur.liste  SÃ©parateur des champs CSV
-#' @param sÃ©parateur.dÃ©cimal  SÃ©parateur dÃ©cimal
-#' @param rapide      AccÃ©lÃ©ration parallÃ¨le ou pas
+#' @param charger     Booléen : TRUE pour charger les bases, FALSE sinon (sans effet)
+#' @param colClasses  Vecteur de classes ("numeric" ou "character", etc.) caractérisant les colonnes
+#' @param skip        Sauter les N premières lignes
+#' @param drop        Rang de la colonne à supprimer
+#' @param séparateur.liste  Séparateur des champs CSV
+#' @param séparateur.décimal  Séparateur décimal
+#' @param rapide      Accélération parallèle ou pas
 #' @param convertir.encodage  convertir d'encodage (basculer entre Latin-1 et UTF-8)
-#' @param encodage    Encodage de la base d'entrÃ©e.
-#' @return Objet \code{data.table} rÃ©sultant de l'empilement des bases lues.
+#' @param encodage    Encodage de la base d'entrée.
+#' @return Objet \code{data.table} résultant de l'empilement des bases lues.
 #' @examples
 #' test <- data.table(datasets::cars)
 #' res  <- try(Read.csv("base",
 #'                      "test.csv",
 #'                       colClasses = c("integer", "integer"),
-#'                       sÃ©parateur.liste = ";",
-#'                       sÃ©parateur.dÃ©cimal = ",",
+#'                       séparateur.liste = ";",
+#'                       séparateur.décimal = ",",
 #'                       convertir.encodage = FALSE,
 #'                       encodage = "UTF-8",
 #'                       rapide = TRUE),
 #'           silent = FALSE)
 #' if (inherits(res, 'try-error'))
-#'   stop("ProblÃ¨me de lecture de la base de la table bulletins-lignes de Paie")
+#'   stop("Problème de lecture de la base de la table bulletins-lignes de Paie")
 #' @export
 
 Read.csv <- function(base.string, fichiers,
@@ -359,11 +359,11 @@ Read.csv <- function(base.string, fichiers,
                      colClasses = NA,
                      skip = 0,
                      drop = NULL,
-                     sÃ©parateur.liste = sÃ©parateur.liste.entrÃ©e,
-                     sÃ©parateur.dÃ©cimal = sÃ©parateur.dÃ©cimal.entrÃ©e,
+                     séparateur.liste = séparateur.liste.entrée,
+                     séparateur.décimal = séparateur.décimal.entrée,
                      rapide = FALSE,
                      convertir.encodage = TRUE,
-                     encodage = encodage.entrÃ©e) {
+                     encodage = encodage.entrée) {
 
   Read.csv_(base.string,
             fichiers,
@@ -371,8 +371,8 @@ Read.csv <- function(base.string, fichiers,
             colClasses,
             skip,
             drop,
-            sÃ©parateur.liste,
-            sÃ©parateur.dÃ©cimal,
+            séparateur.liste,
+            séparateur.décimal,
             rapide,
             convertir.encodage,
             encodage)
@@ -383,11 +383,11 @@ Read.csv_ <- function(base.string, fichiers,
                       colClasses = NA,
                       skip = 0,
                       drop = NULL,
-                      sÃ©parateur.liste = sÃ©parateur.liste.entrÃ©e,
-                      sÃ©parateur.dÃ©cimal = sÃ©parateur.dÃ©cimal.entrÃ©e,
+                      séparateur.liste = séparateur.liste.entrée,
+                      séparateur.décimal = séparateur.décimal.entrée,
                       rapide = FALSE,
                       convertir.encodage = TRUE,
-                      encodage = encodage.entrÃ©e) {
+                      encodage = encodage.entrée) {
 
     if (charger) {
 
@@ -396,8 +396,8 @@ Read.csv_ <- function(base.string, fichiers,
                                      read.csv.skip,
                                         classes = colClasses,
                                         skip = skip,
-                                        sÃ©parateur.liste = sÃ©parateur.liste,
-                                        sÃ©parateur.dÃ©cimal = sÃ©parateur.dÃ©cimal,
+                                        séparateur.liste = séparateur.liste,
+                                        séparateur.décimal = séparateur.décimal,
                                         drop = drop,
                                         convertir.encodage = convertir.encodage,
                                         encodage = encodage,
@@ -409,19 +409,19 @@ Read.csv_ <- function(base.string, fichiers,
 #' Statistiques descriptives de base (minimum, maximum et quartiles)
 #'
 #' Lecture d'un fichier CSV et conversion en data.table.
-#' Si sÃ©curiser.types.sortie = TRUE, forÃ§age des types en sortie.
+#' Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
 #'
-#' @param x Encodage de la base lue. Valeur par dÃ©faut : encodage.entrÃ©e
+#' @param x Encodage de la base lue. Valeur par défaut : encodage.entrée
 #' @param y Les classes ("character", "numeric") des variables en colonnes
-#' @param align  Rang de la colonne Ã  supprimer
-#' @param extra  Nombre de lignes Ã  sauter en dÃ©but de fichier (dÃ©faut aucune).
-#' @param type BoolÃ©en (= FALSE). Si TRUE, et si convertir.encodage est TRUE, convertir en UTF-8 avant lecture.
+#' @param align  Rang de la colonne à supprimer
+#' @param extra  Nombre de lignes à sauter en début de fichier (défaut aucune).
+#' @param type Booléen (= FALSE). Si TRUE, et si convertir.encodage est TRUE, convertir en UTF-8 avant lecture.
 #' @return Une base data.table
 #' @examples
-#' read.csv.skip(Base, sÃ©parateur.dÃ©cimal = ",")
+#' read.csv.skip(Base, séparateur.décimal = ",")
 #' @export
 
-RÃ©sumÃ© <- function(x,
+Résumé <- function(x,
                    y,
                    align = 'r',
                    extra = 0,
@@ -440,11 +440,11 @@ essayer(label = "+quartiles", {
             formatC(q, big.mark = " ", format = "fg", digits = 2)
           })
 
-          S <- cbind(c("Minimum", "1er quartile", "MÃ©diane", "Moyenne", "3Ã¨me quartile", "Maximum"), T)
+          S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"), T)
 
         } else if (type == "standard") {
 
-          S <- cbind(c("Minimum", "1er quartile", "MÃ©diane", "Moyenne", "3Ã¨me quartile", "Maximum"),
+          S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"),
                      sapply(Y, function(x) formatC(summary(x), big.mark = " ", digits = 1, format = "f")))
         }
 
@@ -463,7 +463,7 @@ essayer(label = "+quartiles", {
       } else {
 
         if (type == "pond") {
-          S <- cbind(c("Minimum", "1er quartile", "MÃ©diane", "Moyenne", "3Ã¨me quartile", "Maximum"),
+          S <- cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"),
                      sapply(Y, function(x) {
                                  q <- bigvis::weighted.quantile(x[[1]],
                                                    floor(x[[2]] * 1000), na.rm = TRUE)
@@ -474,7 +474,7 @@ essayer(label = "+quartiles", {
                        }))
         } else if (type == "standard") {
 
-          S <-cbind(c("Minimum", "1er quartile", "MÃ©diane", "Moyenne", "3Ã¨me quartile", "Maximum"),
+          S <-cbind(c("Minimum", "1er quartile", "Médiane", "Moyenne", "3ème quartile", "Maximum"),
                     sapply(Y, function(x) formatC(summary(x), big.mark = " ", digits = 1, format = "f")))
         }
 
@@ -491,7 +491,7 @@ essayer(label = "+quartiles", {
 
                  temp <- cbind(temp, c("", "", "", ifelse(is.vector(Y[[i]]), length(Y[[i]]), nrow(Y[[i]])), "", ""))
                } else {
-                 cat("Impossible de gÃ©nÃ©rer le tableau : ligne manquante.")
+                 cat("Impossible de générer le tableau : ligne manquante.")
                  return("")
                }
 
@@ -509,19 +509,19 @@ essayer(label = "+quartiles", {
 
        kable(S, row.names = FALSE, align = align, booktabs = TRUE)
      } else {
-       cat("Table non gÃ©nÃ©rÃ©e.")
+       cat("Table non générée.")
      }
-}, "Les quartiles n'ont pas pu Ãªtre gÃ©nÃ©rÃ©s.")
+}, "Les quartiles n'ont pas pu être générés.")
 }
 
 #' Tableau
 #'
-#' PrÃ©sentation de tables sous forme de tableau d'une seule ligne de donnÃ©es.
-#' Le tableau ne peut pas prÃ©senter plus d'une seule ligne.
+#' Présentation de tables sous forme de tableau d'une seule ligne de données.
+#' Le tableau ne peut pas présenter plus d'une seule ligne.
 #'
 #' @param x Vecteur de nom de lignes pour le tableau
-#' @param ...  paramÃ¨tres. Si sep.milliers est un paramÃ¨tre, sa valeur est utiisÃ©e comme sÃ©parateur des milliers. Par dÃ©fault, le sÃ©parateur blanc.
-#' @return Base de donnÃ©es data.table mise en forme de tableau par la fonction knitr::kable comportant l'ensemble des paramÃ¨tres mis en colonnes centrÃ©es, avec x comme noms de lignes.
+#' @param ...  paramètres. Si sep.milliers est un paramètre, sa valeur est utiisée comme séparateur des milliers. Par défault, le séparateur blanc.
+#' @return Base de données data.table mise en forme de tableau par la fonction knitr::kable comportant l'ensemble des paramètres mis en colonnes centrées, avec x comme noms de lignes.
 #' @examples
 #' Tableau(c("a", "b", "c", "d"), 1, 2, 3, 4)
 #'
@@ -557,13 +557,13 @@ Tableau <- function(x, ...) {
 
 #' Tableau de plusieurs lignes
 #'
-#' PrÃ©sentation de tables sous forme de tableau de plusieurs lignes de donnÃ©es.
+#' Présentation de tables sous forme de tableau de plusieurs lignes de données.
 #'
 #' @param colnames Vecteur de nom de colonnes pour le tableau
 #' @param rownames Vecteur de nom de lignes pour le tableau
-#' @param extra (= "") Si la valeur de ce paramÃ¨tre est "variation", la variation relative est calculÃ©e entre le dÃ©but et la fin de la pÃ©riode en lignes
-#' @param ...  paramÃ¨tres fonctionnels uniquement. Si un paramÃ¨tre n'est pas une fonction, le tableau est vide dans son ensemble
-#' @return Base de donnÃ©es data.table mise en forme de tableau par la fonction knitr::kable comportant l'ensemble des paramÃ¨tres mis en colonnes centrÃ©es, avec x comme noms de lignes.
+#' @param extra (= "") Si la valeur de ce paramètre est "variation", la variation relative est calculée entre le début et la fin de la période en lignes
+#' @param ...  paramètres fonctionnels uniquement. Si un paramètre n'est pas une fonction, le tableau est vide dans son ensemble
+#' @return Base de données data.table mise en forme de tableau par la fonction knitr::kable comportant l'ensemble des paramètres mis en colonnes centrées, avec x comme noms de lignes.
 #' @examples
 #' Tableau(c("a", "b", "c", "d"), 1, 2, 3, 4)
 #'
@@ -607,11 +607,11 @@ Tableau.vertical <- function(colnames, rownames, extra = "", ...)   # extra func
         res2 <- try(T2 <- g(tmp[[x]]))
 
         if (inherits(T1, 'try-error') || inherits(res2, 'try-error')) {
-          cat("Impossible de gÃ©nÃ©rer le tableau.")
+          cat("Impossible de générer le tableau.")
           return("")
         }
 
-        # unlist est rendu nÃ©cessaire par le fait que lorsque character(0) apparaÃ®t, sapply n'arrive pas Ã  dÃ©lister.
+        # unlist est rendu nécessaire par le fait que lorsque character(0) apparaît, sapply n'arrive pas à délister.
 
         if (length(T1) == lr && length(T2) == lr) {
 
@@ -684,39 +684,39 @@ v.jmois.leap  <-  c(31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 #' Calcul du nombre de jours dans le mois
 #' @export
 
-calcul.nb.jours.mois <- function(Mois, annÃ©e)   if ((annÃ©e - 2008) %% 4 == 0) {
+calcul.nb.jours.mois <- function(Mois, année)   if ((année - 2008) %% 4 == 0) {
     return(sum(v.jmois.leap[Mois]))
     } else {
     return(sum(v.jmois[Mois]))
   }
 
-#' SÃ©lectionne les Ã©lÃ©ments positifs d'un vecteur
+#' Sélectionne les éléments positifs d'un vecteur
 #' @export
 positive <- function(X) X[!is.na(X) & X > 0]
 
-#' SÃ©lectionne les Ã©lÃ©ments non nuls d'un vecteur
+#' Sélectionne les éléments non nuls d'un vecteur
 #' @export
 non.null <- function(X) X[!is.na(X) & X != 0]
 
 #' Teste si, dans une base, la proportion d'enregistrements Noms-Prenoms dont les matricules ne sont pas identiques
-#'  reste infÃ©rieure Ã  une marge de tolÃ©rance fixÃ©e (taux.tolÃ©rance.homonymie)
+#'  reste inférieure à une marge de tolérance fixée (taux.tolérance.homonymie)
 #'
-#' @param Base Base Ã  tester
+#' @param Base Base à tester
 #' @export
 
 tester.homogeneite.matricules <- function(Base) {
 
-  message("ContrÃ´le sur la cohÃ©rence de l'association Nom-Prenom-Matricule (homonymies et changements de matricule)")
+  message("Contrôle sur la cohérence de l'association Nom-Prenom-Matricule (homonymies et changements de matricule)")
 
-    convertir.nom.prÃ©nom.majuscules <- function(S)
+    convertir.nom.prénom.majuscules <- function(S)
   {
     S[ , c("Nom", "Prenom")] <- apply(S[ , c("Nom", "Prenom")],
                                       2,
                                       function(x)
-                                        toupper(chartr("Ã©Ã¨Ã´Ã¢Ã§Ã«","eeoaice", x)))
+                                        toupper(chartr("éèôâçë","eeoaice", x)))
   }
 
-  S <- convertir.nom.prÃ©nom.majuscules(Base[ , c("Nom", "Prenom", "Matricule")])
+  S <- convertir.nom.prénom.majuscules(Base[ , c("Nom", "Prenom", "Matricule")])
 
   with.matr    <-   nrow(unique(S))
   without.matr <-   nrow(unique(S[ , c("Nom", "Prenom")]))
@@ -724,17 +724,17 @@ tester.homogeneite.matricules <- function(Base) {
   message("Matricules distincts: ", with.matr)
   message("Noms-Prenoms distincs: ", without.matr)
 
-  if (with.matr  >   (1 + taux.tolÃ©rance.homonymie / 100) * without.matr)
+  if (with.matr  >   (1 + taux.tolérance.homonymie / 100) * without.matr)
   {
-     msg <- paste0("RÃ©sultats trop diffÃ©rents (", taux.tolÃ©rance.homonymie, " % de marge tolÃ©rÃ©e). Changement de rÃ©gime de matricule.")
+     msg <- paste0("Résultats trop différents (", taux.tolérance.homonymie, " % de marge tolérée). Changement de régime de matricule.")
      message(msg)
      cat(msg)
   }
 }
 
-#' Longueur d'un vecteur, ou nombre de lignes d'une table, lorsque l'on a retirÃ© les Ã©lÃ©ments ou les lignes NA
+#' Longueur d'un vecteur, ou nombre de lignes d'une table, lorsque l'on a retiré les éléments ou les lignes NA
 #' @param v  Vecteur ou data.frame/data.table
-#' @return Nombre d'Ã©lÃ©ments ou de lignes.
+#' @return Nombre d'éléments ou de lignes.
 #' @export
 
 longueur.non.na <- function(v) if (is.vector(v)) length(v[!is.na(v)]) else if (is.data.frame(v)) nrow(na.omit(v))
@@ -765,45 +765,45 @@ newline <- function() {
   }
 }
 
-# numÃ©rotation des tableaux
+# numérotation des tableaux
 
-#' IncrÃ©mente le numÃ©ro de tableau courant
+#' Incrémente le numéro de tableau courant
 #'
-#' @return Valeur incrÃ©mentÃ©e de numÃ©ro.tableau
+#' @return Valeur incrémentée de numéro.tableau
 #' @export
 
-incrÃ©ment <- function() {
-  numÃ©ro.tableau <<- numÃ©ro.tableau + 1
-  numÃ©ro.tableau
+incrément <- function() {
+  numéro.tableau <<- numéro.tableau + 1
+  numéro.tableau
 }
 
-#' IncrÃ©mente le numÃ©ro de chapitre courant
+#' Incrémente le numéro de chapitre courant
 #'
-#' @return Valeur incrÃ©mentÃ©e de chapitre
+#' @return Valeur incrémentée de chapitre
 #' @export
 
-incrÃ©menter.chapitre <- function() {
+incrémenter.chapitre <- function() {
   chapitre <<- chapitre + 1
   invisible(chapitre)
 }
 
-#' Ajoute le sÃ©parateur des milliers et sans dÃ©cimale en franÃ§ais
+#' Ajoute le séparateur des milliers et sans décimale en français
 #'
-#' @param  x Vecteur de valeurs numÃ©riques
-#' @return Vecteur de chaÃ®nes de caractÃ¨res modifiÃ©es
+#' @param  x Vecteur de valeurs numériques
+#' @return Vecteur de chaînes de caractères modifiées
 #' @examples FR(1235345.23) #1 235 345,2
 #' @export
 
 FR <- function(x) formatC(x, big.mark = " ", format = "f", decimal.mark = ",", digits = 0)
 
-#' Essaye d'exÃ©cuter une portion de code et en cas d'erreur continue l'exÃ©cution du script en renvoyant un message d'erreur non bloquant.
+#' Essaye d'exécuter une portion de code et en cas d'erreur continue l'exécution du script en renvoyant un message d'erreur non bloquant.
 #'
 #' @param code Portion de code.
 #' @param message Message d'erreur.
-#' @param abort ArrÃªt du programme en cas d'erreur.
+#' @param abort Arrêt du programme en cas d'erreur.
 #' @param prof Profiler ou pas.
 #' @param times Nombre de tests de benchmark.
-#' @return Valeur retournÃ©e par X en cas de succÃ¨s, sinon objet de classe "try-error" retournÃ© par try(code)
+#' @return Valeur retournée par X en cas de succès, sinon objet de classe "try-error" retourné par try(code)
 #' @examples
 #' if (exists("e")) rm(e)
 #' essayer({ a <- 1/e}, "division par inconnu")  # affichage du message d'erreur
@@ -823,7 +823,7 @@ essayer <- function(X, Y, abort = FALSE, prof = profiler, times = 5, label = "")
       cat(Y)
       if (abort) {
 
-        stop("ArrÃªt de programme.")
+        stop("Arrêt de programme.")
       }
     # NE PAS IMPRIMER !
   # } else {
@@ -844,19 +844,19 @@ essayer <- function(X, Y, abort = FALSE, prof = profiler, times = 5, label = "")
 
 #' Prise en compte du pluriel
 #'
-#' @param Mot Mot Ã  pluraliser Ã©ventuellement
+#' @param Mot Mot à pluraliser éventuellement
 #' @param N   Entier : pluriel si N > 1.
 #' @examples
 #' cat("patient" %s% 2)
-#' @return ConcatÃ©nation du mot et de "s" si N > 1
+#' @return Concaténation du mot et de "s" si N > 1
 #' @export
 
 '%s%' <- function(mot, N) if (N > 1) mot %+% "s"  else mot
 
-#' SÃ©lection du filtre correspondant Ã  une chaÃ®ne de caractÃ¨res associÃ©e
+#' Sélection du filtre correspondant à une chaîne de caractères associée
 #'
-#' @param x  ChaÃ®ne de caractÃ¨res associÃ©e figurant dans la colonne \code{type} de la table \code{codes}
-#' @return Cette fonction renvoie un ensemble de valeurs fixes ou une expression rÃ©guliÃ¨re, sauf si x n'est pas dans la colonne \code{type} de la table \code{codes} (renvoie NULL)
+#' @param x  Chaîne de caractères associée figurant dans la colonne \code{type} de la table \code{codes}
+#' @return Cette fonction renvoie un ensemble de valeurs fixes ou une expression régulière, sauf si x n'est pas dans la colonne \code{type} de la table \code{codes} (renvoie NULL)
 #' @export
 
 filtre <- function(x) {
@@ -873,12 +873,12 @@ filtre <- function(x) {
 
 #' Filtrage d'une base de paye
 #'
-#' Filtre la base par une expression rÃ©guliÃ¨re sur libellÃ©s de paye ou par valeurs fixes sur une variable donnÃ©e.
-#' Si le filtrage a une portÃ©e, l'ensemble des lignes de la portÃ©e (exemple "Mois") est conservÃ©.
+#' Filtre la base par une expression régulière sur libellés de paye ou par valeurs fixes sur une variable donnée.
+#' Si le filtrage a une portée, l'ensemble des lignes de la portée (exemple "Mois") est conservé.
 #' @export
 
 filtrer_Paie <- function(x,
-                         portÃ©e = NULL,
+                         portée = NULL,
                          Base = Paie,
                          Var = "Code",
                          indic = FALSE) {
@@ -888,10 +888,10 @@ filtrer_Paie <- function(x,
 
   filtre_ <- filtre(x)
 
-  # En i, la variable Var ne peut pas Ãªtre Ã©valuÃ©e mais peut filtrer sur Paie[get(Var)...]
+  # En i, la variable Var ne peut pas être évaluée mais peut filtrer sur Paie[get(Var)...]
   # en by, utiliser dans c(...) directement
 
-  if (is.null(portÃ©e)) {
+  if (is.null(portée)) {
 
     if (is.na(codes[x, valeur])) {
 
@@ -910,11 +910,11 @@ filtrer_Paie <- function(x,
 
         P_  <- Base[ , indic := grepl(filtre_, Libelle, ignore.case=TRUE, perl=TRUE)
                    ][ , indic0 := any(indic),
-                           by = c("Matricule", "Annee", portÃ©e)][indic0 == TRUE][, indic0 := NULL]
+                           by = c("Matricule", "Annee", portée)][indic0 == TRUE][, indic0 := NULL]
       } else {
 
         P_  <- Base[ , indic0 := any(grepl(filtre_, Libelle, ignore.case=TRUE, perl=TRUE)),
-                     by = c("Matricule", "Annee", portÃ©e)
+                     by = c("Matricule", "Annee", portée)
                    ][indic0 == TRUE][, indic0 := NULL]
       }
 
@@ -925,26 +925,26 @@ filtrer_Paie <- function(x,
         P_  <- Base[ , indic := get(Var) %chin% filtre_,
 
                    ][ , indic0 := any(indic),
-                            by = c("Matricule", "Annee", portÃ©e)
+                            by = c("Matricule", "Annee", portée)
                    ][indic0 == TRUE][, indic0 := NULL]
       } else {
 
         P_  <- Base[ , indic0 := any(get(Var) %chin% filtre_),
-                     by = c("Matricule", "Annee", portÃ©e)
+                     by = c("Matricule", "Annee", portée)
                  ][indic0 == TRUE][, indic0 := NULL]
       }
     }
   }
-  # RedÃ©finition de la quotite nÃ©cessaire en raison du fait
-  # que la quotite prÃ©cÃ©demment dÃ©finie est une quotite statistique
-  # Pour les vÃ©rifications de liquidation il faut une quotite rÃ©elle
+  # Redéfinition de la quotite nécessaire en raison du fait
+  # que la quotite précédemment définie est une quotite statistique
+  # Pour les vérifications de liquidation il faut une quotite réelle
 
   if (all(c("Temps.de.travail", "quotite.moyenne.orig") %chin% names(Base))) {
        P_[ , `:=`(quotite = Temps.de.travail / 100,
                   quotite.moyenne = quotite.moyenne.orig)]
   }
 
-  },  "Le filtre n'a pas pu Ãªtre appliquÃ© ( " %+% x %+%" ).")
+  },  "Le filtre n'a pas pu être appliqué ( " %+% x %+%" ).")
 
   P_
 }
@@ -966,34 +966,34 @@ extraire_paye_ <- function(an, L, out) {
   }
 }
 
-#' Extraire les matricules et Nir des mois de dÃ©cembre, sauf pour les Ã©lus
-#' Pour les statuts listÃ©s dans L si L non null
+#' Extraire les matricules et Nir des mois de décembre, sauf pour les élus
+#' Pour les statuts listés dans L si L non null
 #' @param an  Annee
-#' @param L   Vecteur des statuts considÃ©rÃ©s
-#' @param out  Data.table extraite de \code{Bulletins.paie} de deux colonnes (\code{Matricule} et \code{Nir}), filtrÃ©e des doublons.
-#' @examples extraire_paye(2012, c("TITULAIRE", "STAGIAIRE"), "Bulletins.dÃ©but.psr")
+#' @param L   Vecteur des statuts considérés
+#' @param out  Data.table extraite de \code{Bulletins.paie} de deux colonnes (\code{Matricule} et \code{Nir}), filtrée des doublons.
+#' @examples extraire_paye(2012, c("TITULAIRE", "STAGIAIRE"), "Bulletins.début.psr")
 #' @export
 #'
 extraire_paye <- function(an, L, out) {
-  essayer({extraire_paye_(an, L, out)}, "Les informations de base sur l'Ã¢ge des personnels n'ont pas pu Ãªtre extraites des champs Nir.", abort = TRUE)
+  essayer({extraire_paye_(an, L, out)}, "Les informations de base sur l'âge des personnels n'ont pas pu être extraites des champs Nir.", abort = TRUE)
 }
 
-#' InsÃ©rer un script auxiliaire, indexÃ© par une variable globale
+#' Insérer un script auxiliaire, indexé par une variable globale
 #' @param chemin  Chemin du script R
-#' @param index   Vecteur numÃ©rique contenant les valeurs de la variable globale.
-#' @param seq ExÃ©cuter le script en mode sÃ©quentiel (si \code{TRUE}, resp. si \code{FALSE}, en mode parallÃ¨le)   
-#' @param variable Vecteur de caractÃ¨res contenant le nom de la variable globale dans le script auxiliaire.
-#' @param gen  Si \code{FALSE} alors se contente de sourcer le script auxiliaire selon \code{encodage.code.source}. Sinon intÃ¨gre le rapport auxiliaire au format du rapport principal.
-#' @param incrÃ©menter INcrÃ©menter le chapitre de prÃ©sentation du script
-#' @param fonction Appeler une liste de fonctions Ã  argument vide
-#' @return Valeur de la derniÃ¨re variable globale \code{variable} instanciÃ©e. Effets de bord en sortie.
+#' @param index   Vecteur numérique contenant les valeurs de la variable globale.
+#' @param seq Exécuter le script en mode séquentiel (si \code{TRUE}, resp. si \code{FALSE}, en mode parallèle)   
+#' @param variable Vecteur de caractères contenant le nom de la variable globale dans le script auxiliaire.
+#' @param gen  Si \code{FALSE} alors se contente de sourcer le script auxiliaire selon \code{encodage.code.source}. Sinon intègre le rapport auxiliaire au format du rapport principal.
+#' @param incrémenter INcrémenter le chapitre de présentation du script
+#' @param fonction Appeler une liste de fonctions à argument vide
+#' @return Valeur de la dernière variable globale \code{variable} instanciée. Effets de bord en sortie.
 #' @export
 
-insÃ©rer_script <- function(chemin = NULL, 
+insérer_script <- function(chemin = NULL, 
                            index = 1, 
-                           variable = "annÃ©e", 
-                           gen = gÃ©nÃ©rer.rapport, 
-                           incrÃ©menter = FALSE, 
+                           variable = "année", 
+                           gen = générer.rapport, 
+                           incrémenter = FALSE, 
                            fonction = NULL)  {
 
 if (! is.null(chemin) && get(gsub(".R", "", basename(chemin), fixed = TRUE)) == FALSE) invisible(return(NULL))
@@ -1002,7 +1002,7 @@ invisible(sapply(index, function(x) {
 
   assign(variable, x, .GlobalEnv)
   
-  if (incrÃ©menter) incrÃ©menter.chapitre()
+  if (incrémenter) incrémenter.chapitre()
   
   if (is.null(fonction)) {
         
@@ -1011,7 +1011,7 @@ invisible(sapply(index, function(x) {
                                                 encoding = encodage.code.source),
                                quiet = TRUE)
                                
-            if (sÃ©quentiel == TRUE) {
+            if (séquentiel == TRUE) {
               cat(vect, sep = '\n')
             } else {
               return(vect)
