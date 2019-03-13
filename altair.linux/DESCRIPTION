@@ -2,15 +2,15 @@ Package: altair
 Title: Fonctions pour l'analyse des bases de paye au format XML
 Version: 0.1
 Authors@R: person("Fabrice", "Nicol", email = "fabrice.nicol@crtc.ccomptes.fr", role = c("aut", "cre"))
-Description: Analyse, traite et transforme les données des bases de
-    paye conformes aux spécifications de la convention-cadre nationale de
-    dématérialisation (http://xemelios.org)
+Description: Analyse, traite et transforme les donnÃ©es des bases de
+    paye conformes aux spÃ©cifications de la convention-cadre nationale de
+    dÃ©matÃ©rialisation (http://xemelios.org)
 Depends:
     R (>= 3.2.3),
     data.table (>= 1.9.5),
     zeallot
 License: CeCILL v.2.1
 LazyData: true
-RoxygenNote: 6.1.1.9000
+RoxygenNote: 6.1.1
 ByteCompile: true
-Encoding: latin1
+Encoding: UTF-8

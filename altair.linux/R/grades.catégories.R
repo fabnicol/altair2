@@ -1,14 +1,14 @@
-#' Correspondance grade-catégorie
+#' Correspondance grade-catÃ©gorie
 #' 
-#' Etablit la correspondance entre le grade et la catégorie statutaire à partir d'un tableau importé
+#' Etablit la correspondance entre le grade et la catÃ©gorie statutaire Ã  partir d'un tableau importÃ©
 #' 
-#' @note Requiert l'utilisation d'une table de jointure importée \bold{grades.catégories.csv} sous le répertoire \bold{Données}.
-#' A défaut, tente une association approximative à partir d'expressions rationnelles appliquées aux grades.  
-#' @return La \code{data.table grade.categorie} résultant de la lecture du fichier \bold{grades.catégories.csv} sous le répertoire \bold{Données}
+#' @note Requiert l'utilisation d'une table de jointure importÃ©e \bold{grades.catÃ©gories.csv} sous le rÃ©pertoire \bold{DonnÃ©es}.
+#' A dÃ©faut, tente une association approximative Ã  partir d'expressions rationnelles appliquÃ©es aux grades.  
+#' @return La \code{data.table grade.categorie} rÃ©sultant de la lecture du fichier \bold{grades.catÃ©gories.csv} sous le rÃ©pertoire \bold{DonnÃ©es}
 #' @export
 #'
 
-correspondance_grade_catégorie <- function() {
+correspondance_grade_catÃ©gorie <- function() {
     
     essayer(label ="+grade-categorie",
             {  
@@ -23,7 +23,7 @@ correspondance_grade_catégorie <- function() {
                                       colClasses = c("character", "character"))  
                 
                 message("*****")
-                message("Importation de la table de correspondance grades-catégories (grades.catégories.csv)")
+                message("Importation de la table de correspondance grades-catÃ©gories (grades.catÃ©gories.csv)")
                 message("*****")
                 
                 
@@ -31,7 +31,7 @@ correspondance_grade_catégorie <- function() {
                 Paie[ , Categorie := NULL]
                 Bulletins.paie[ , Categorie := NULL]
                 
-                exporter_tableau(grades.categorie, requis = "Categorie", clés = "Grade")
+                exporter_tableau(grades.categorie, requis = "Categorie", clÃ©s = "Grade")
                
               } else {
                 
@@ -39,6 +39,6 @@ correspondance_grade_catégorie <- function() {
               }
               
               grades.categorie
-              }, "L'association du grade et de la catégorie statutaire n'a pas pu être réalisée.")
+              }, "L'association du grade et de la catÃ©gorie statutaire n'a pas pu Ãªtre rÃ©alisÃ©e.")
 }
 

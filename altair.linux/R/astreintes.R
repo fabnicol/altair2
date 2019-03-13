@@ -4,7 +4,7 @@ calcul_astreintes <- function() {
 
 essayer({  
   
-  "Paie_astreintes" %a% filtrer_Paie("ASTREINTES", portée = "Mois", indic = TRUE)
+  "Paie_astreintes" %a% filtrer_Paie("ASTREINTES", portÃ©e = "Mois", indic = TRUE)
   
   libelles.astreintes <- unique(Paie_astreintes[indic == TRUE, .(Code, Libelle)], by = NULL)
   
@@ -28,7 +28,7 @@ essayer({
   nb.agents.NBI.astreintes <- uniqueN(Controle_astreintes$Matricule)
   
   if (nrow(Controle_astreintes)) {
-    cat("Des astreintes sont payées à", nb.agents.NBI.astreintes, "personnels bénéficiaires de NBI")
+    cat("Des astreintes sont payÃ©es Ã ", nb.agents.NBI.astreintes, "personnels bÃ©nÃ©ficiaires de NBI")
   }
   
   "Cum_astreintes" %a% rbind(Controle_astreintes[, round(sum(Montant.astreinte), 1),
@@ -41,15 +41,15 @@ essayer({
              "libelles.astreintes")
   
 },
-"Le contrôle Astreintes-NBI n'a pas pu être réalisé.")
+"Le contrÃ´le Astreintes-NBI n'a pas pu Ãªtre rÃ©alisÃ©.")
 
 essayer({
   with(Cum_astreintes,
                 
-                print(Tableau.vertical2(c("Annee", "Montant astreintes irrégulières (euros)"),
+                print(Tableau.vertical2(c("Annee", "Montant astreintes irrÃ©guliÃ¨res (euros)"),
                                             Annee, V1))    
 )
-}, "Le tableau de contrôle des astreintes n'a pas pu être généré.")
+}, "Le tableau de contrÃ´le des astreintes n'a pas pu Ãªtre gÃ©nÃ©rÃ©.")
 }
 
 #'@export
@@ -69,7 +69,7 @@ cumul_astreintes_IHTS <- function() {
   nb.agents.IHTS.astreintes <- uniqueN(Controle_astreintes_HS_irreg$Matricule)
   
   if (nrow(Controle_astreintes_HS_irreg)) {
-    cat("Des astreintes sont payées à", nb.agents.IHTS.astreintes, "personnels bénéficiaires d'IHTS.")
+    cat("Des astreintes sont payÃ©es Ã ", nb.agents.IHTS.astreintes, "personnels bÃ©nÃ©ficiaires d'IHTS.")
   }
   
   "Cum_astreintes_HS_irreg" %a% rbind(Controle_astreintes_HS_irreg[, .(round(sum(Montant[indic_astr == TRUE]), 1),
@@ -84,6 +84,6 @@ cumul_astreintes_IHTS <- function() {
              "Controle_astreintes_HS_irreg",
              "Cum_astreintes_HS_irreg")
   }, 
-  "Le contrôle du cumul astreintes IHTS n'a pas pu être réalisé")
+  "Le contrÃ´le du cumul astreintes IHTS n'a pas pu Ãªtre rÃ©alisÃ©")
 }
 

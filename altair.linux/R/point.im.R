@@ -1,37 +1,37 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annÃ©es 2012 Ã  2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
-# Ce logiciel est un programme informatique servant à extraire et analyser
-# les fichiers de paye produits au format spécifié par l'annexe de la  
-# convention-cadre de dématérialisation en vigueur à partir de 2008.
+# Ce logiciel est un programme informatique servant Ã  extraire et analyser
+# les fichiers de paye produits au format spÃ©cifiÃ© par l'annexe de la  
+# convention-cadre de dÃ©matÃ©rialisation en vigueur Ã  partir de 2008.
 # 
-# Ce logiciel est régi par la licence CeCILL soumise au droit français et
+# Ce logiciel est rÃ©gi par la licence CeCILL soumise au droit franÃ§ais et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
 # utiliser, modifier et/ou redistribuer ce programme sous les conditions
-# de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
+# de la licence CeCILL telle que diffusÃ©e par le CEA, le CNRS et l'INRIA
 # sur le site "http://www.cecill.info".
 # 
-# En contrepartie de l'accessibilité au code source et des droits de copie,
-# de modification et de redistribution accordés par cette licence, il n'est
-# offert aux utilisateurs qu'une garantie limitée. Pour les mêmes raisons,
-# seule une responsabilité restreinte pèse sur l'auteur du programme, le
-# titulaire des droits patrimoniaux et les concédants successifs.
+# En contrepartie de l'accessibilitÃ© au code source et des droits de copie,
+# de modification et de redistribution accordÃ©s par cette licence, il n'est
+# offert aux utilisateurs qu'une garantie limitÃ©e. Pour les mÃªmes raisons,
+# seule une responsabilitÃ© restreinte pÃ¨se sur l'auteur du programme, le
+# titulaire des droits patrimoniaux et les concÃ©dants successifs.
 # 
-# A cet égard l'attention de l'utilisateur est attirée sur les risques
-# associés au chargement, à l'utilisation, à la modification et/ou au
-# développement et à la reproduction du logiciel par l'utilisateur étant
-# donné sa spécificité de logiciel libre, qui peut le rendre complexe à
-# manipuler et qui le réserve donc à des développeurs et des professionnels
-# avertis possédant des connaissances informatiques approfondies. Les
-# utilisateurs sont donc invités à charger et tester l'adéquation du
-# logiciel à leurs besoins dans des conditions permettant d'assurer la
-# sécurité de leurs systèmes et ou de leurs données et, plus généralement,
-# à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+# A cet Ã©gard l'attention de l'utilisateur est attirÃ©e sur les risques
+# associÃ©s au chargement, Ã  l'utilisation, Ã  la modification et/ou au
+# dÃ©veloppement et Ã  la reproduction du logiciel par l'utilisateur Ã©tant
+# donnÃ© sa spÃ©cificitÃ© de logiciel libre, qui peut le rendre complexe Ã 
+# manipuler et qui le rÃ©serve donc Ã  des dÃ©veloppeurs et des professionnels
+# avertis possÃ©dant des connaissances informatiques approfondies. Les
+# utilisateurs sont donc invitÃ©s Ã  charger et tester l'adÃ©quation du
+# logiciel Ã  leurs besoins dans des conditions permettant d'assurer la
+# sÃ©curitÃ© de leurs systÃ¨mes et ou de leurs donnÃ©es et, plus gÃ©nÃ©ralement,
+# Ã  l'utiliser et l'exploiter dans les mÃªmes conditions de sÃ©curitÃ©.
 # 
-# Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
-# pris connaissance de la licence CeCILL, et que vous en avez accepté les
+# Le fait que vous puissiez accÃ©der Ã  cet en-tÃªte signifie que vous avez
+# pris connaissance de la licence CeCILL, et que vous en avez acceptÃ© les
 # termes.
 # 
 # 
@@ -42,14 +42,14 @@ point_inm <- function() {
 
   an <- as.numeric(format(Sys.time(), "%Y"))
   
-  if (début.période.sous.revue < 2008) {
+  if (dÃ©but.pÃ©riode.sous.revue < 2008) {
     
-    cat("Ce programme ne peut pas traiter les périodes sous revue commençant avant le 1er janvier 2008. Ces années seront écartées.")
-    "extraire.années" %a% TRUE
-    "début.période.sous.revue" %a% 2008
+    cat("Ce programme ne peut pas traiter les pÃ©riodes sous revue commenÃ§ant avant le 1er janvier 2008. Ces annÃ©es seront Ã©cartÃ©es.")
+    "extraire.annÃ©es" %a% TRUE
+    "dÃ©but.pÃ©riode.sous.revue" %a% 2008
   }
     
-  # Période couverte : 2008-2019 inclus
+  # PÃ©riode couverte : 2008-2019 inclus
   
   "PointIM" %a% matrix(c(
                       54.4113,             # 2008 01
@@ -58,18 +58,18 @@ point_inm <- function() {
                       rep.int(54.8475, 9), # 2008 10-12 et 2009 1-6
                       rep.int(55.1217, 3), # 2009 6-9
                       rep.int(55.2871, 9), # 2009 10-12 et 2010 1-6
-                      rep.int(55.5635, 72),# 2010 7 -> 2016 6  (6 années de blocage)
+                      rep.int(55.5635, 72),# 2010 7 -> 2016 6  (6 annÃ©es de blocage)
                				rep.int(55.8969, 6), # 2016 7 -> 2016 12
                				55.8969, # 2017 
                				rep.int(56.2323,11), # 2017
                				rep.int(56.2323,12), # 2018 idem 
-               				rep.int(56.2323,12)  # 2019 prévision idem
+               				rep.int(56.2323,12)  # 2019 prÃ©vision idem
                				),
          				
-              				# insérer ici la valeur courante du mpoint d'indice annuel
-              				# par exemple pour 56 ¤ par point/an :
+              				# insÃ©rer ici la valeur courante du mpoint d'indice annuel
+              				# par exemple pour 56 â‚¬ par point/an :
               				# rep.int(56, 12)
-              				# si passage à 56.5 au 1er juillet:
+              				# si passage Ã  56.5 au 1er juillet:
               				# rep.int(56, 6)
               				# rep.int(56.5, 6)
               				
@@ -80,21 +80,21 @@ point_inm <- function() {
   
   if (an >= limite_inm) {
     
-    cat("AVERTISSEMENT : Il faut actualiser la matrice PointIM du fichier point.im.R comme indiqué en commentaires en rajoutant la valeur annuelle du point d'indice net pour les années après", limite_inm)
+    cat("AVERTISSEMENT : Il faut actualiser la matrice PointIM du fichier point.im.R comme indiquÃ© en commentaires en rajoutant la valeur annuelle du point d'indice net pour les annÃ©es aprÃ¨s", limite_inm)
     
-    if (fin.période.sous.revue >= limite_inm) {
+    if (fin.pÃ©riode.sous.revue >= limite_inm) {
       
-      cat("ERREUR : La période sous revue dépasse la valeur limite du tableau en référence du point d'indice net. Actualiser ce tableau (fichier point.im.R) et relancer", limite_inm - 1)
-      if (fin.période.sous.revue > limite_inm) {
-        cat("Il faut rajouter la période", limite_inm, " - ",  fin.période.sous.revue)
+      cat("ERREUR : La pÃ©riode sous revue dÃ©passe la valeur limite du tableau en rÃ©fÃ©rence du point d'indice net. Actualiser ce tableau (fichier point.im.R) et relancer", limite_inm - 1)
+      if (fin.pÃ©riode.sous.revue > limite_inm) {
+        cat("Il faut rajouter la pÃ©riode", limite_inm, " - ",  fin.pÃ©riode.sous.revue)
       } else {
-        cat("Il faut rajouter l'année", limite_inm)
+        cat("Il faut rajouter l'annÃ©e", limite_inm)
       }
       
-      cat("Pour continuer à s'exécuter le programme va écarter les années ci-dessus mentionnées...")
+      cat("Pour continuer Ã  s'exÃ©cuter le programme va Ã©carter les annÃ©es ci-dessus mentionnÃ©es...")
       
-      "extraire.années" %a% TRUE
-      "fin.période.sous.revue" %a% limite_inm - 1
+      "extraire.annÃ©es" %a% TRUE
+      "fin.pÃ©riode.sous.revue" %a% limite_inm - 1
     }
   }
   
@@ -104,10 +104,10 @@ point_inm <- function() {
   
   "valeur.point.inm.pivot" %a% round(PointMensuelIMMoyen, 1)     
   
-  # année >= 2008 et année <= 2016
+  # annÃ©e >= 2008 et annÃ©e <= 2016
   
-  # pour avoir la valeur du point d'indice retrancher 2007 à l'année :
-  #   PointIM[année - 2007, mois]
+  # pour avoir la valeur du point d'indice retrancher 2007 Ã  l'annÃ©e :
+  #   PointIM[annÃ©e - 2007, mois]
   
   # 1/01/2015	55.5635	
   # 1/01/2014	55.5635	

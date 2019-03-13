@@ -168,7 +168,7 @@ INCLUDEPATH += ../Interface/gui ../fwidgets_lib /usr/include/libxml2
 
 LIBS =  -L/usr/lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/local/lib64 -lstdc++fs -static-libgcc -static-libstdc++ -pthread -lxml2
 
-SOURCES += \ 
+SOURCES += \
     fonctions_auxiliaires.cpp \
     main.cpp \
     table.cpp \
