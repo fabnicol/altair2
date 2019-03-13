@@ -31,7 +31,7 @@ static inline void effacer_char (unsigned char * c)
       } while (* (c + j));
 }
 
-static inline off_t convert2utf8(char* path)
+static inline size_t convert2utf8(char* path)
 {
 
     int fd = open (path, O_RDONLY);
@@ -41,24 +41,25 @@ static inline off_t convert2utf8(char* path)
     struct stat sb;
     if (fstat(fd, &sb) == -1) throw runtime_error("Impossible d'obtenir la taille du fichier.");
 
-    off_t file_size = sb.st_size;
+    size_t file_size = static_cast<size_t>(sb.st_size);
 
     /* MADV_SEQUENTIAL
     *    The application intends to access the pages in the specified range sequentially, from lower to higher addresses.
     *   MADV_WILLNEED
     *    The application intends to access the pages in the specified range in the near future. */
 
+    auto *s = static_cast<unsigned char*>(mmap(nullptr, file_size, PROT_READ | PROT_WRITE,
+                MAP_PRIVATE, fd, 0));
 
-    unsigned char* s = (unsigned char*) mmap(NULL, file_size, PROT_READ | PROT_WRITE,
-                MAP_PRIVATE, fd, 0);
     if (s == MAP_FAILED)
     {
         throw runtime_error ("problème sur mmap, fonctions_auxiliaires.cpp");
     }
 
     unsigned char* s0 = s;
+    size_t count = 0;
 
-   while (s - s0 <  file_size )
+    while (count <  file_size)
     {
 
     switch (*s)
@@ -98,6 +99,7 @@ static inline off_t convert2utf8(char* path)
             }
 
         ++s;
+        ++count;
     }
 
   close(fd);
@@ -105,6 +107,7 @@ static inline off_t convert2utf8(char* path)
   ofstream out;
   out.open(path);
   out << s0 << endl;
+  if (munmap(s0, file_size) == -1) runtime_error("Erreur de désallocation mmap");
   out.close();
 
 return file_size;
@@ -117,11 +120,11 @@ int main(int argc, char **argv)
 
     if (argc < 2) return -1;
 
-    off_t size = 0;
+    size_t size = 0;
 
     for (int i = 1; i < argc; ++i)
     {
-        off_t s = convert2utf8(argv[i]);
+        size_t s = convert2utf8(argv[i]);
         cerr << "Fichier : " << argv[i] << " Taille : " << s << endl;
         size += s;
     }
