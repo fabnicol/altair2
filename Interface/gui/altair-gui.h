@@ -279,12 +279,6 @@ private :
 
     // Méthodes privées
 
-    /// Lit un fichier et renvoie la chaîne de caractères correspondante.
-    /// \param fileName Chemin du fichier
-    /// \result Booléen : \e true si réussite de l'ensemble des opérations, \e false sinon.
-
-    bool readFile (const QString &fileName);
-
     /// Crée les actions correspondant aux entrées des menus et barre d'outils.
 
     void createActions();

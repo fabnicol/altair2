@@ -56,27 +56,23 @@ effectifs_ <- function(période, Bulletins = Bulletins.paie,
   eff <- lapply(période,
                 function(x) {
                   A <- Bulletins[Annee == x,
-                                  c("Matricule", "Statut", "permanent", "quotite", "nb.mois", "Grade"), with = FALSE]
+                                  .(Matricule, Statut, permanent, quotite, nb.mois, Grade)]
 
-                  E <- unique(A[ , .(Matricule, permanent)], by = NULL)
-                  ETP <- unique(Bulletins[Annee == x,
-                                               .(quotite, Matricule, Statut, permanent, Mois, nb.mois)],
-                                by = NULL)
+                  E <- unique(A[ , .(Matricule, permanent)])
+                  ETP <- unique(Bulletins[Annee == x & Statut != "ELU",
+                                               .(quotite, Matricule, Statut, permanent, Mois, nb.mois)])
                   F <- E[permanent == TRUE, ]
 
-                  G <- unique(A[Statut == "TITULAIRE" | Statut == "STAGIAIRE", .(Matricule, permanent)], by = NULL)
+                  G <- unique(A[Statut == "TITULAIRE" | Statut == "STAGIAIRE", .(Matricule, permanent)])
 
                   H <- G[permanent == TRUE, ]
 
-                  postes.non.titulaires <- unique(A[Statut == "NON_TITULAIRE", Matricule], by = NULL)
+                  postes.non.titulaires <- unique(A[Statut == "NON_TITULAIRE", Matricule])
 
-                  I <- unique(A[Statut == "ELU", .(Matricule, permanent)],
-                              by = NULL)
+                  I <- unique(A[Statut == "ELU", .(Matricule, permanent)])
                   J <- I[permanent == TRUE, ]
-                  K <- unique(A[Statut != "TITULAIRE" & Statut != "STAGIAIRE" & Grade == "V", .(Matricule, permanent)],
-                              by = NULL)
-                  L <- unique(A[Grade == "A", .(Matricule, permanent)],
-                              by = NULL)
+                  K <- unique(A[Statut != "TITULAIRE" & Statut != "STAGIAIRE" & Grade == "V", .(Matricule, permanent)])
+                  L <- unique(A[Grade == "A", .(Matricule, permanent)])
                   postes.non.actifs <- unique(personnels[Statut != "ELU"
                                                                     & Filtre_actif == FALSE
                                                                     & Annee == x,
@@ -106,8 +102,8 @@ effectifs_ <- function(période, Bulletins = Bulletins.paie,
                     length(postes.non.actifs),      # Postes non actifs
                     length(postes.actifs.annexes),  # Postes actifs annexes
                     length(postes.actifs.non.annexes),  # Postes actifs non annexes
-                    ETP[Statut != "ELU" , sum(quotite/nb.mois, na.rm=TRUE)],  # Total ETP/année
-                    ETP[Statut != "ELU" , sum(quotite, na.rm=TRUE)] / 12,     # Total ETPT/année
+                    ETP[Mois == 12, sum(quotite, na.rm=TRUE)],  # Total ETP/année
+                    ETP[ , sum(quotite, na.rm=TRUE)] / 12,     # Total ETPT/année
                     ETP[Matricule %chin% unique(Analyse.v[est.rmpp == TRUE    # Total ETPT/année personnes en place
                                                                    & Annee == x,
                                                                    Matricule]),
@@ -139,6 +135,7 @@ effectifs_ <- function(période, Bulletins = Bulletins.paie,
                     ETP[Matricule %chin% postes.non.actifs, sum(quotite, na.rm=TRUE)] / 12,         # Total ETPT postes non actifs
                     ETP[Matricule %chin% postes.actifs.annexes, sum(quotite, na.rm=TRUE)] / 12,     # Total ETPT postes actifs annexes
                     ETP[Matricule %chin% postes.actifs.non.annexes, sum(quotite, na.rm=TRUE)] / 12)	# Total ETPT actif non annexes
+                    
                     })
 
 
@@ -180,7 +177,7 @@ tableau.effectifs <- cbind(row.names = c("Matricules gérés en base (a)",
                                                  "Postes non actifs (g)",
                                                  "Postes actifs annexes (g)",
                                                  "Postes actifs non annexes (g)",
-                                                 "Total ETP/année (d)",
+                                                 "Total ETP au 31/12 (d)",
                                                  "Total ETPT/année (e)",
                                                  "Total ETPT/année personnes en place (f)(g)",
                                                  "Total ETPT/année fonctionnaires (g)",

@@ -248,12 +248,12 @@ void FListFrame::parseXhlFile(const QString& fileName)
 #   define QUOTE "(?:\"|')"
 
     string.remove(QRegularExpression("[\\(\\)]"));
-    QRegExp reg("DocumentPaye.*(?:Annee) V.?=.?" QUOTE "([0-9]+)" QUOTE ".*(?:Mois) V.?=.?" QUOTE "([0-9]+)" QUOTE "(.*)(?:Employeur).*(?:Nom) V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret) V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE ".*DonneesIndiv(.*)PayeIndivMensuel");
+    QRegExp reg("DocumentPaye.*(?:Annee)\\s*V.?=.?" QUOTE "([0-9]+)" QUOTE ".*(?:Mois)\\s*V.?=.?" QUOTE "([0-9]+)" QUOTE "(.*)(?:Employeur).*(?:Nom)\\s*V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret)\\s*V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE ".*DonneesIndiv(.*)PayeIndivMensuel");
     reg.setPatternSyntax(QRegExp::RegExp2);
     reg.setCaseSensitivity(Qt::CaseInsensitive);
-    QRegExp reg2(".*Budget.*Libelle V.?=.?" QUOTE "([^" QUOTE "]*)" QUOTE ".*");
+    QRegExp reg2(".*Budget.*Libelle\\s*V.?=.?" QUOTE "([^" QUOTE "]*)" QUOTE ".*");
     reg2.setCaseSensitivity(Qt::CaseInsensitive);
-    QRegExp reg3(".*(?:Etablissement).*(?:Nom) V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret) V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE);
+    QRegExp reg3(".*(?:Etablissement).*(?:Nom)\\s*V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret)\\s*V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE);
     reg3.setCaseSensitivity(Qt::CaseInsensitive);
 
 

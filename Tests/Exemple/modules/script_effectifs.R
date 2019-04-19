@@ -28,9 +28,9 @@ kable(tableau.effectifs, row.names = TRUE, align='c')
 #'**Nota:**   
 #'*(a) Nombre de matricules distincts ayant eu au moins un bulletin de paie dans l'année, en fonction ou non. Tous ces personnels ne sont pas en fonction : sont inclus des régularisations, des personnels hors position d'activité ou des ayants droit (reversion, etc.)*   
 #'*(b) Titulaires ou stagiaires*   
-#'*(c) Sur la base des libellés d'emploi et des libellés de lignes de paie. La détection peut être lacunaire*   
-#'*(d) ETP  : Equivalent temps plein = rémunération . quotite*  
-#'*(e) ETPT : Equivalent temps plein travaillé = ETP . 12/nombre de mois travaillés dans l'année*  
+#'*(c) Sur la base des libellés d'emploi et des libellés de lignes de paie. La détection peut être lacunaire.*   
+#'*(d) ETP  : la quotité est retenue au mois de décembre. Un mi-temps sur 6 mois compte 0,5.*  
+#'*(e) ETPT : Equivalent temps plein travaillé = somme des quotités mensuelles divisée par 12. Un mi-temps sur 6 mois compte 0,25.*  
 #'*(f) Personnes en place : présentes en N et N-1 avec la même quotite, postes actifs et non annexes uniquement.*     
 #'*(g) Postes actifs et non annexes :* voir [Compléments méthodologiques](Docs/méthodologie.pdf)    
 #'*&nbsp;&nbsp;&nbsp;Un poste actif est défini par au moins un bulletin de paie comportant un traitement positif pour un volume d'heures de travail mensuel non nul.*             

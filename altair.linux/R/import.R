@@ -137,7 +137,7 @@ quotites <- function() {
   Bulletins.paie[ , pop_calcul_médiane := length(Heures[Temps.de.travail == 100 
                                                         & !is.na(Heures) 
                                                         & Heures > minimum.positif]),
-                  by = .(Sexe, Emploi)]
+                  by = .(Emploi)]
   
   # Pour les quotites seules les périodes actives sont prises en compte
   
@@ -146,7 +146,7 @@ quotites <- function() {
                    MHeures :=  median(Heures[Temps.de.travail == 100 
                                              & Filtre_actif == TRUE
                                              & Heures > minimum.positif], na.rm = TRUE),
-                     by = .(Sexe, Emploi)]
+                     by = .(Emploi)]
   
   # L'écrêtement des quotites est une contrainte statistiquement discutable qui permet de "stresser" le modèle
   # Par défaut les quotites sont écrêtées pour pouvoir par la suite raisonner en définissant le temps plein comme quotite == 1

@@ -161,7 +161,22 @@ MainWindow::MainWindow (char* projectName)
     addDockWidget (Qt::BottomDockWidgetArea, bottomDockWidget);
 
     setWindowIcon (QIcon (":/images/altair.png"));
-    setWindowTitle ("Interface  Altaïr " + QString (VERSION));
+
+    const QString versionPath = common::path_access("VERSION");
+    QString version;
+    if (! QFileInfo(versionPath).exists())
+    {
+        version = VERSION;
+    }
+    else
+    {
+        QFile versionFile = QFile(versionPath);
+        versionFile.open(QIODevice::ReadOnly | QIODevice::Text);
+        version = QString(versionFile.readAll());
+        versionFile.close();
+    }
+
+    setWindowTitle ("Interface  Altaïr " + version);
 
     dialog = new options (altair);
     dialog->setParent (altair, Qt::Window);
@@ -765,7 +780,7 @@ const vector <unsigned char>  MainWindow::nettoyer_donnees (vector <unsigned cha
     const size_t taille = st.size();
 
     // Découper le fichier en 5
-    out.reserve ((size_t) taille / 5);
+    out.reserve ( taille / 5);
     vector <unsigned char>::const_iterator iter = st.begin();
     vector <unsigned char>::const_iterator iter2;
     size_t i = 0;
