@@ -47,6 +47,7 @@
 
 #include "altair.h"
 #include "fwidgets.h"
+#include "flistframe.h"
 
 #ifdef Q_OS_LINUX
 #include <sys/mount.h>
@@ -563,8 +564,8 @@ void Altair::runRAltair()
         }
 
 #ifdef Q_OS_WIN
-    RAltairDirStr = path_access ("R/bin/x64");
-    RAltairCommandStr = RAltairDirStr + QDir::separator() + "Rscript" + QString (systemSuffix);
+
+    RAltairCommandStr = path_access ("R/bin/x64")+ QDir::separator() + "Rscript" + QString (systemSuffix);
 #else
 
     bool global_R = QFileInfo ("/usr/bin/Rscript").exists();

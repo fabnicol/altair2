@@ -47,12 +47,6 @@ greaterThan(QT_MAJOR_VERSION, 5)
 # utiliser au moins Qt5 et g++-5.1
 # ENCODAGE : UTILISER UTF-8 PARTOUT, y compris sur le fichier .pro.
 
-if (linux) {
-  message("Système d'exploitation linux")
-} else {
-  error("Le système d'exploitation doit être linux")
-}
-
 GIT_VERSION = $$system(git --version | grep -e \"git version\")
 CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
 
@@ -63,22 +57,14 @@ if (!isEmpty(GIT_VERSION)) {
 }
 
 
-if (!isEmpty(CXX_VERSION)){
-    message( "Version du compilateur : $$CXX_VERSION" )
-} else {
-    error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
-}
-
-
-
 CONFIG  += ordered static
 CONFIG(debug, debug|release) {
   QMAKE_LFLAGS   += -L$$(QTDIR)/bin   # ne devrait pas en principe être rajouté mais...qmake est capricieux !
 
 } else {
   CONFIG += static
-  QMAKE_CXXFLAGS += -O3 -fomit-frame-pointer -fexpensive-optimizations -Wall -Wextra
-  QMAKE_LFLAGS += -s -licui18n -licuuc -licudata
+  QMAKE_CXXFLAGS += -O3 -fomit-frame-pointer -fexpensive-optimizations -Wall
+
 }
 
 
@@ -93,7 +79,7 @@ TARGET = Altair
 
 VPATH = .
 INCLUDEPATH += ../../fwidgets_lib
-LIBS += libfwidgets_lib.a
+LIBS += C:\Users\Public\Dev\altair\Interface\build\fwidgets_lib.lib
 
 DEFINES += HAS_CPP17
 
@@ -120,9 +106,7 @@ DEFINES += QT_NO_OPENGL \
            #REGEX_ANONYM   \                            # Utiliser en cas de problème avec l'analyse des données sensibles dans l'anonymisation
 
 
-QMAKE_CXXFLAGS += -std=gnu++17                         # obligatoire
-QMAKE_CXXFLAGS += -march=core-avx2  -pipe -m64         # facultatif
-
+QMAKE_CXXFLAGS += /std:c++17                         # obligatoire
 
 SOURCES += \
     options.cpp \

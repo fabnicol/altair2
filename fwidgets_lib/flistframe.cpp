@@ -37,6 +37,9 @@
 // Le code ainsi mis à disposition ne peut être transmis à d'autres utilisateurs.
 //
 
+
+#include <array>
+
 #include "flistframe.h"
 #include "custom.h"
 
@@ -864,7 +867,7 @@ void FListFrame::on_file_display(const QString& file)
  *  tan teal thistle tomato transparent turquoise violet wheat white whitesmoke yellow yellowgreen */
 
 constexpr const int colorListSize = 9;
-constexpr const  std::array<const char*, colorListSize > &colorList = { "tomato", "navy", "yellowgreen", "marroon", "orange", "green",  "darkcyan", "blue", "black"};
+constexpr std::array<const char*, colorListSize > colorList = { "tomato", "navy", "yellowgreen", "marroon", "orange", "green",  "darkcyan", "blue", "black"};
 
 inline void finalise_macro(FListFrame* listFrame, QStringList& pairs, const QString& label, const int rank)
 {

@@ -46,9 +46,6 @@
 #ifndef ALTAIR_H
 #define ALTAIR_H
 
-#include "fstring.h"
-#include "flistframe.h"
-#include "fwidgets.h"
 #include "common.h"
 #include "enums.h"
 #include "altair-gui.h"
@@ -161,7 +158,7 @@ public:
     /// Lit le fichier  rankFile pour l'index de la barre progression, le lit dans \n
     ///  fileRank \n et ajuste la barre de progression
 
-    void GCC_INLINE readRankSignal()
+    void  readRankSignal()
     {
         if (! rankFile.exists()) return;
 

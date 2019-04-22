@@ -45,10 +45,13 @@
 #include "altair.h"
 #include "gui_enums.h"
 #include "matricules.h"
+#include "flistframe.h"
+
 #include <QApplication>
 #include <QDirIterator>
 #include <fstream>
 #include <sstream>
+#include <array>
 
 extern int fontsize;
 
@@ -642,7 +645,7 @@ start:
 
             string reste = string (iter2 + 1, iter + 1);
 
-            const array<string, 12> Tags =
+            constexpr const array<const char*, 12> Tags {
             {
                 "Civilite",
                 "Nom",
@@ -656,7 +659,7 @@ start:
                 "Siret",
                 "IdCpte",
                 "NIR"
-            };
+            }};
 
             for (const string& t : Tags)
                 {

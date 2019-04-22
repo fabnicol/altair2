@@ -134,7 +134,7 @@ public:
     static constexpr std::uint16_t refreshProjectInteractiveMode = 0x1000;  ///< Défaut
     static constexpr std::uint16_t refreshXHLZone = 0x001;                  ///< Raffraîchir la zone de données XHL
     static constexpr std::uint16_t refreshSystemZone = 0x100;               ///< Raffraîchir la zone de données paramètres de l'interface
-    static constexpr std::uint16_t refreshAllZones  =  manager::refreshXHLZone | manager::refreshSystemZone; ///< Tout raffraichir
+    static constexpr std::uint16_t refreshAllZones  =  refreshXHLZone | refreshSystemZone; ///< Tout raffraichir
 };
 
 

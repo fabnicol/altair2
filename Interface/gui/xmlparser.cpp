@@ -46,7 +46,7 @@
 
 #include "altair.h"
 #include "common.h"
-
+#include "flistframe.h"
 
 inline const QString Altair::makeParserString (int start, int end)
 {

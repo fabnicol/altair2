@@ -69,24 +69,15 @@ windows: QMAKE_CXXFLAGS += /Ox /MP
 SOURCES += \
     options.cpp \
     mainwindow.cpp \
-    fwidgets.cpp \
-    fstring.cpp \
-    flistframe.cpp \
     altair.cpp \
     common.cpp \
-    forms.cpp \
     main.cpp \
-    browser.cpp \ 
-    xmlparser.cpp \
+     xmlparser.cpp \
     highlighter.cpp \
-    run.cpp \
-    probe.cpp
+    run.cpp
 
 HEADERS  += \
     options.h \
-    fwidgets.h \
-    fstring.h \
-    flistframe.h \
     common.h \
     altair.h \
     enums.h \

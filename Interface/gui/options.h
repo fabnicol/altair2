@@ -47,7 +47,7 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
-#include "flineframe.h"
+
 #include "common.h"
 
 

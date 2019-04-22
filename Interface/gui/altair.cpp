@@ -55,6 +55,7 @@
 #include "options.h"
 #include "fstring.h"
 #include "tags.h"
+#include "flistframe.h"
 
 extern int fontsize;
 std::uint16_t Altair::RefreshFlag = interfaceStatus::hasUnsavedOptions;
