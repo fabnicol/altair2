@@ -11,6 +11,6 @@ Depends:
     zeallot
 License: CeCILL v.2.1
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 6.1.1.9000
 ByteCompile: true
 Encoding: UTF-8

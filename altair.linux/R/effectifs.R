@@ -223,6 +223,35 @@ analyse.regexp <- function(Base, classe, agr) {
 
 }
 
+
+analyse.regexp.emploi <- function(Base, classe, agr) {
+  
+  if (is.null(classe)) {
+    
+    if (agr) {
+      stop("Une expression régulière doit être entrée pour agr = TRUE") 
+    } else return(Base)
+  }
+  
+  
+  dim <- length(classe)
+  
+  if (is.list(classe)) {
+    
+    for (i in 1:dim)  Base[Statut !=  "ELU", paste0("E", i) :=  Emploi %chin% classe[[i]] * i]
+    
+  } else {
+    
+    for (i in 1:dim)  Base[Statut !=  "ELU", paste0("E", i) :=  grepl(classe[i], Emploi, ignore.case = TRUE, perl = TRUE) * i]  
+  }
+  
+  
+  E <- rowSums(Base[ , paste0("E", 1:dim), with = FALSE])
+  Base <- cbind(Base, E)
+  Base[E != 0]
+  
+}
+
 #' Tableau des EQTP par grade.
 #'
 #' Elabore un tableau des équivalents temps plein travaillés par grade et par année.
@@ -384,9 +413,9 @@ eqtp.grade <- function(Base = Bulletins.paie,
 }
 
 
-#' Tableau des charges de personnel par grade.
+#' Tableau des EQTP par emploi.
 #'
-#' Elabore un tableau des charges de personnel (coût) par grade et par année.
+#' Elabore un tableau des équivalents temps plein travaillés par emploi et par année.
 #'
 #' @param Base Base des bulletins de paye, comportant pour l'ensemble de la période
 #'        \enumerate{
@@ -395,101 +424,155 @@ eqtp.grade <- function(Base = Bulletins.paie,
 #'                 \item \code{Annee}
 #'                 \item \code{Matricule}
 #'                 \item \code{Statut}
-#'                 \item \code{Grade}}}
+#'                 \item \code{Emploi}}}
 #'           \item{ les variables numériques :
 #'               \describe{
 #'                 \item{\code{quotite}}{réel entre 0 et 1}}}}.
-#' @param grade Grade particulier. Tous les grades en l'absence de spécification.
+#' @param emploi Emploi particulier. Tous les emplois en l'absence de spécification.
 #' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
-#' @param classe Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
+#' @param classe Liste de vecteurs d'emplois, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les emplois. Tous les emplois en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
 #' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
-#' @param libellés  Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
+#' @param libellés  Vecteur de libellés des agrégations d'emplois par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
 #' @param période Vecteur des années considérées.
 #' @param variation Booléen Insérer une colonne des variations (défaut FALSE).
 #' @param statut Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.
 #' @param catégorie Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
-#' @return Un tableau des effectifs mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
+#' @return Un tableau des effectifs mis en forme avec les emplois en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
-#' charges.personnel()
+#' eqtp.emploi()
 #' @export
 
-charges.personnel <- function(Base = Paie, grade = NULL, classe = NULL,  service = NULL, libellés = NULL, agr = FALSE, période = NULL) {
+eqtp.emploi <- function(Base = Bulletins.paie, 
+                       emploi = NULL,
+                       classe = NULL,
+                       service = NULL,
+                       libellés = NULL, 
+                       agr = FALSE,
+                       période = NULL,
+                       variation = FALSE,
+                       statut = NULL,
+                       catégorie = NULL) {
   
   if (! is.null(libellés) && length(libellés) != length(classe)) {
-      
-      message("Le vecteur des libellés doit avoir la même longueur que le vecteur des expressions rationnelles ou la liste de grades")
-      return(NULL)
+    
+    message("Le vecteur des libellés doit avoir la même longueur que le vecteur des expressions régulières")
+    return(NULL)
   }
   
-  T <- analyse.regexp(Base, classe, agr)
+  T <- analyse.regexp.emploi(Base, classe, agr)
   
   if (agr) {
-          
-          Gr <- "G"
-          message("Agrégation des grades")
-          
-  } else {
-          
-          if (is.null(classe) & ! is.null(grade))   T <- Base[Statut !=  "ELU" & Grade %chin% grade]
-          
-          Gr <- "Grade" 
-  }
-  
-  if (is.null(service)) {
     
-    A <-T[Statut !=  "ELU", 
-              .(Coût = round(sum(Montant[Type != "AV" & Type != "RE" & Type != "D" (Type != "R" | ! grepl("cot|ret|d[eé]du|R\\.?D\\.?S|C\\.?S\\.?G\\.?", 
-                                                                                                          Libelle,
-                                                                                                          ignore.case = TRUE,
-                                                                                                          perl = TRUE))], na.rm = TRUE))), 
-                  keyby=c("Annee", Gr)]
+    Gr <- "E"
+    message("Agrégation des emplois")
     
   } else {
     
-    A <-T[Statut !=  "ELU" & Service %chin% service , 
-              .(Coût = round(sum(Montant[Type != "AV" & Type != "RE" & Type != "D" (Type != "R" | ! grepl("cot|ret|d[eé]du|R\\.?D\\.?S|C\\.?S\\.?G\\.?", 
-                                                                                                          Libelle,
-                                                                                                          ignore.case = TRUE,
-                                                                                                          perl = TRUE))], na.rm = TRUE))), 
-                  keyby=c("Annee", Gr)]
+    if (is.null(classe) & ! is.null(emploi))   T <- Base[Statut !=  "ELU" & Emploi %chin% emploi]
     
-    
+    Gr <- "Emploi" 
   }
+  
+  T <- T[Statut != "ELU"]
+  
+  if (is.null(catégorie)) {
     
-  if (! is.null(période)) A <- A[Annee %in% période]
+    if (is.null(statut)) {
+      if (is.null(service)) {
+        
+        tableau.effectifs <- T[ , .(eqtp.g = sum(quotite, na.rm = TRUE) / 12),
+                                by=c("Annee", Gr)
+                                ][ , eqtp.emploi := formatC(eqtp.g, digits=2, format = "f")]
+      } else {
+        
+        tableau.effectifs <- T[Service %chin% service, .(eqtp.g = sum(quotite, na.rm = TRUE) / 12),
+                               by=c("Annee", Gr)
+                               ][ , eqtp.emploi := formatC(eqtp.g, digits=2, format = "f")]
+      }
+    } else {
+      
+      if (is.null(service)) {
+        
+        tableau.effectifs <- T[Statut %chin% statut, .(eqtp.g = sum(quotite, na.rm = TRUE) / 12),
+                               by=c("Annee", Gr)
+                               ][ , eqtp.emploi := formatC(eqtp.g, digits=2, format = "f")]
+      } else {
+        
+        tableau.effectifs <- T[Statut %chin% statut & Service %chin% service, .(eqtp.g = sum(quotite, na.rm = TRUE) / 12),
+                               by=c("Annee", Gr)
+                               ][ , eqtp.emploi:= formatC(eqtp.g, digits=2, format = "f")]
+      }
+    }
+    
+  } else {
+    
+    if (is.null(statut)) {
+      if (is.null(service)) {
+        
+        tableau.effectifs <- T[Categorie == catégorie, .(eqtp.g = sum(quotite, na.rm = TRUE) / 12),
+                               by=c("Annee", Gr)
+                               ][ , eqtp.emploi := formatC(eqtp.g, digits=2, format = "f")]
+      } else {
+        
+        tableau.effectifs <- T[Service %chin% service & Categorie == catégorie, .(eqtp.g = sum(quotite, na.rm = TRUE) / 12),
+                               by=c("Annee", Gr)
+                               ][ , eqtp.emploi := formatC(eqtp.g, digits=2, format = "f")]
+      }
+    } else {
+      
+      if (is.null(service)) {
+        
+        tableau.effectifs <- T[Statut %chin% statut & Categorie == catégorie, .(eqtp.g = sum(quotite, na.rm = TRUE) / 12),
+                               by=c("Annee", Gr)
+                               ][ , eqtp.emploi := formatC(eqtp.g, digits=2, format = "f")]
+      } else {
+        
+        tableau.effectifs <- T[Statut %chin% statut & Service %chin% service & Categorie == catégorie, .(eqtp.g = sum(quotite, na.rm = TRUE) / 12),
+                               by=c("Annee", Gr)
+                               ][ , eqtp.emploi := formatC(eqtp.g, digits=2, format = "f")]
+      }
+    }
+  }
   
-  totaux <- A[, .(Total = sum(Coût, na.rm = TRUE)),
-                  keyby = Annee]
+  if (! is.null(période)) tableau.effectifs <- tableau.effectifs[Annee %in% période]
   
+  totaux <- tableau.effectifs[, .(Total = formatC(sum(eqtp.g, na.rm = TRUE), digits = 2, big.mark = " ", format = "f")), keyby = Annee]
   totaux <- transpose(data.table(c("Total", totaux$Total)))
   
-  if (nrow(A) == 0) {
-    message("Base vide")
-    return(A)
+  if (nrow(tableau.effectifs) == 0) {
+    message("La base des effectifs est vide")
+    return(tableau.effectifs) 
   }
   
   if (agr) {
     
-    A <- dcast(A, G ~ Annee, value.var = "Coût", fill = 0)
-    if (! is.null(libellés)) A$G <- libellés  
-    names(A)[1] <- "Categorie de Grades"
+    tableau.effectifs <- dcast(tableau.effectifs, E ~ Annee, value.var = "eqtp.emploi", fill = 0)
+    if (! is.null(libellés)) tableau.effectifs$E <- libellés[1:length(tableau.effectifs$E)]
+    names(tableau.effectifs)[1] <- "Categorie d'Emplois"
     
   } else {
     
-    A <- dcast(A, Grade ~ Annee, value.var = "Coût", fill = 0)
+    tableau.effectifs <- dcast(tableau.effectifs, Emploi ~ Annee, value.var = "eqtp.emploi", fill = 0)  
+    
   }
+  colnames(totaux) <- colnames(tableau.effectifs)
   
-  colnames(totaux) <- colnames(A)
-  A <- rbind(A, totaux)
+  tableau.effectifs <- rbind(tableau.effectifs, totaux)
   
-  début <- names(A)[2]
-  fin <- names(A)[ncol(A)]
+  début <- names(tableau.effectifs)[2]
+  fin <- names(tableau.effectifs)[ncol(tableau.effectifs)]
   
-  d <- as.numeric(A[[2]])
-  d <- ifelse(d == 0, NA, d)  
-  A[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((as.numeric(A[[ncol(A)]])/d - 1)*100, 1)]
+  h <- function(x)  as.numeric(gsub(",", ".", tableau.effectifs[[x]]))
   
+  d <- h(2)
+  d <- ifelse(d == 0, NA, d)
+  
+  if (variation || agr) 
+    tableau.effectifs[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((h(ncol(tableau.effectifs))/d - 1)*100, 1)]
+  
+  tableau.effectifs
 }
+
 
 #' Tableau des coûts moyens de personnel par grade.
 #'
@@ -667,6 +750,203 @@ charges.eqtp <- function(Base = Paie,
     
     B <- dcast(A, Grade ~ Annee, value.var = "Coût.moyen", fill = 0)
     B.num <- dcast(A, Grade ~ Annee, value.var = "Coût.moyen.num", fill = 0)
+  }
+  
+  colnames(moyenne) <- colnames(B)
+  colnames(moyenne.num) <- colnames(B.num)
+  
+  B <- rbind(B, moyenne)
+  B.num <- rbind(B.num, moyenne.num)
+  
+  début <- names(B)[2]
+  fin <- names(B)[ncol(B)]
+  
+  d <- as.numeric(B.num[[2]])
+  d <- ifelse(d == 0, NA, d)
+  
+  if (variation || agr) 
+    B[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((as.numeric(B.num[[ncol(B.num)]])/d - 1)*100, 1)]
+  
+  B
+}
+
+
+#' Tableau des coûts moyens de personnel par emploi.
+#'
+#' Elabore un tableau des charges de personnel (coût) par emploi et par année.
+#' 
+#' @param Base Base des bulletins de paye, comportant pour l'ensemble de la période
+#'        \enumerate{
+#'          \item{ les variables charactère suivantes :
+#'             \itemize{
+#'                 \item \code{Annee}
+#'                 \item \code{Matricule}
+#'                 \item \code{Statut}
+#'                 \item \code{Emploi}}}
+#'           \item{ les variables numériques :
+#'               \describe{
+#'                 \item{\code{quotite}}{réel entre 0 et 1}}}}.
+#' @param emploi Emploi particulier. Tous les emplois en l'absence de spécification.
+#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
+#' @param classe Liste de vecteurs d'emplois, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les emplois. Tous les emplois en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
+#' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les emplois décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
+#' @param libellés  Vecteur de libellés des agrégations de emplois par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
+#' @param période Vecteur des années considérées.
+#' @param variation Booléen Insérer une colonne des variations (défaut FALSE).
+#' @param statut Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.
+#' @param catégorie Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
+#' @param exclure.codes Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).  
+#' @return Un tableau des effectifs mis en forme avec les emplois en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
+#' @examples
+#' charges.eqtp.emploi()
+#' @export
+
+
+
+charges.eqtp.emploi <- function(Base = Paie, 
+                         emploi = NULL,
+                         classe = NULL,
+                         service = NULL,
+                         libellés = NULL, 
+                         agr = FALSE,
+                         période = NULL,
+                         variation = FALSE,
+                         statut = NULL,
+                         catégorie = NULL,
+                         exclure.codes = NULL,
+                         quotite.nulle = FALSE)  {
+  
+  if (! is.null(libellés) && length(libellés) != length(classe)) {
+    
+    message("Le vecteur des libellés doit avoir la même longueur que le vecteur des expressions régulières")
+    return(NULL)
+  }
+  
+  T <- analyse.regexp.emploi(Base, classe, agr)
+  
+  if (agr) {
+    
+    Gr <- "E"
+    message("Agrégation des emplois")
+    
+  } else {
+    
+    if (is.null(classe) & ! is.null(emploi))   T <- Base[Statut !=  "ELU" & Emploi %chin% emploi]
+    
+    Gr <- "Emploi" 
+  }
+  
+  if (quotite.nulle) {
+    T <- T[Statut != "ELU" & quotite == 0]  
+  } else {
+    T <- T[Statut != "ELU" & quotite > 0]
+  }
+  
+  if (! is.null(exclure.codes)) T <- T[! Code %chin% exclure.codes]
+  
+  if (! is.null(période)) T <- T[Annee %in% période]
+  
+  if (is.null(catégorie)) {
+    
+    if (is.null(statut)) {
+      
+      if (! is.null(service)) {
+        
+        T <- T[Service %chin% service]    
+      }
+      
+    } else {
+      
+      if (is.null(service)) {
+        
+        T <- T[Statut %chin% statut] 
+      } else {
+        
+        T <- T[Statut %chin% statut & Service %chin% service] 
+      }
+      
+    }
+    
+  } else {
+    
+    if (is.null(statut)) {
+      
+      if (is.null(service)) {
+        
+        T <- T[Categorie == catégorie]    
+        
+      } else {
+        
+        T <- T[Categorie == catégorie & Service %chin% service]    
+      }
+      
+    } else {
+      
+      if (is.null(service)) {
+        
+        T <- T[Categorie == catégorie & Statut %chin% statut] 
+        
+      } else {
+        
+        T <- T[Categorie == catégorie & Statut %chin% statut & Service %chin% service] 
+      }
+      
+    }
+  }
+  
+  # Ni un avantage en nature, ni une retenue, ni une déduction (salarié) ni un rappel de retenue/déduction.csg/crds/avantage nat. mais ok : remb. frais frais
+  # On sort les élus
+  
+  A <- T[ , .(Coût = round(sum(Montant[Type %chin%  c("T", "IR", "S", "I", "A", "C") | (Type == "R" & ! grepl("cot|ret|d[eé]du|R\\.?D\\.?S|C\\.?S\\.?G\\.?|av.*nat", 
+                                                                                                              Libelle,
+                                                                                                              ignore.case = TRUE,
+                                                                                                              perl = TRUE))], na.rm = TRUE)),
+              
+              eqtp = sum(quotite[1], na.rm = TRUE) / 12),
+          keyby=c("Annee", Gr, "Matricule", "Mois")
+          ][ , .(Coût.moyen.cum = sum(Coût, na.rm = TRUE),
+                 eqtp.cum = sum(eqtp, na.rm = TRUE)),
+             keyby = c("Annee", Gr)
+             ]
+  
+  if (! quotite.nulle) {
+    A <- A[ , Coût.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Coût.moyen.cum) | eqtp.cum == 0, 0, round(Coût.moyen.cum / eqtp.cum)),
+            keyby = c("Annee", Gr)
+            ][ , Coût.moyen := formatC(round(Coût.moyen.num), big.mark = " ", format = "d")]
+    moyenne_ <- A[ , .(Moy.num = round(sum(Coût.moyen.cum, na.rm = TRUE)/sum(eqtp.cum, na.rm = TRUE))), keyby = Annee
+                   ][ , Moy := formatC(Moy.num, big.mark = " ", format = "d")]
+    moyenne <- transpose(data.table(c("Moyenne", moyenne_$Moy)))
+    moyenne.num <- transpose(data.table(c("Moyenne", moyenne_$Moy.num)))
+    
+    
+  } else {
+    
+    A <- A[ , Coût.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Coût.moyen.cum), 0, round(Coût.moyen.cum)),
+            keyby = c("Annee", Gr)
+            ][ , Coût.moyen := formatC(round(Coût.moyen.num), big.mark = " ", format = "d")]
+    moyenne_ <- A[ , .(Moy.num = round(sum(Coût.moyen.cum, na.rm = TRUE))), keyby = Annee
+                   ][ , Moy := formatC(Moy.num, big.mark = " ", format = "d")]
+    moyenne <- transpose(data.table(c("Total", moyenne_$Moy)))
+    moyenne.num <- transpose(data.table(c("Total", moyenne_$Moy.num)))
+    
+  }
+  
+  if (nrow(A) == 0) {
+    message("Base vide")
+    return(A)
+  }
+  
+  if (agr) {
+    
+    B <- dcast(A, E ~ Annee, value.var = "Coût.moyen", fill = 0)
+    B.num <- dcast(A, E ~ Annee, value.var = "Coût.moyen.num", fill = 0)
+    if (! is.null(libellés)) B$E <- libellés[1:length(B$E)]
+    names(B)[1] <- "Categorie d'emplois"
+    
+  } else {
+    
+    B <- dcast(A, Emploi ~ Annee, value.var = "Coût.moyen", fill = 0)
+    B.num <- dcast(A, Emploi ~ Annee, value.var = "Coût.moyen.num", fill = 0)
   }
   
   colnames(moyenne) <- colnames(B)
@@ -882,6 +1162,204 @@ net.eqtp <- function(Base = Paie,
   
   B
 }
+
+
+#' Tableau des rémunérations nettes moyennes par emploi.
+#'
+#' Elabore un tableau des rémunérations nettes moyennes du personnel par emploi et par année (hors SFT).
+#' 
+#' @param Base Base des bulletins de paye, comportant pour l'ensemble de la période
+#'        \enumerate{
+#'          \item{ les variables charactère suivantes :
+#'             \itemize{
+#'                 \item \code{Annee}
+#'                 \item \code{Matricule}
+#'                 \item \code{Statut}
+#'                 \item \code{Emploi}}}
+#'           \item{ les variables numériques :
+#'               \describe{
+#'                 \item{\code{quotite}}{réel entre 0 et 1}}}}.
+#' @param emploi Emploi particulier. Tous les emplois en l'absence de spécification.
+#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
+#' @param classe Liste de vecteurs d'emplois, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les emplois. Tous les emplois en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
+#' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les emplois décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
+#' @param libellés  Vecteur de libellés des agrégations d'emplois par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
+#' @param période Vecteur des années considérées.
+#' @param variation Booléen Insérer une colonne des variations (défaut FALSE).
+#' @param statut Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.
+#' @param catégorie Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
+#' @param exclure.codes Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).  
+#' @return Un tableau des effectifs mis en forme avec les emplois en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
+#' @examples
+#' net.eqtp()
+#' @export
+
+
+
+net.eqtp.emploi <- function(Base = Paie, 
+                     emploi = NULL,
+                     classe = NULL,
+                     service = NULL,
+                     libellés = NULL, 
+                     agr = FALSE,
+                     période = NULL,
+                     variation = FALSE,
+                     statut = NULL,
+                     catégorie = NULL,
+                     exclure.codes = NULL,
+                     quotite.nulle = FALSE)  {
+  
+  if (! is.null(libellés) && length(libellés) != length(classe)) {
+    
+    message("Le vecteur des libellés doit avoir la même longueur que le vecteur des expressions régulières")
+    return(NULL)
+  }
+  
+  T <- analyse.regexp.emploi(Base, classe, agr)
+  
+  if (agr) {
+    
+    Gr <- "E"
+    message("Agrégation des emplois")
+    
+  } else {
+    
+    if (is.null(classe) & ! is.null(emploi))   T <- Base[Statut !=  "ELU" & Emploi %chin% emploi]
+    
+    Gr <- "Emploi" 
+  }
+  
+  if (quotite.nulle) {
+    T <- T[Statut != "ELU" & quotite == 0]  
+  } else {
+    T <- T[Statut != "ELU" & quotite > 0]
+  }
+  
+  if (! is.null(exclure.codes)) T <- T[! Code %chin% exclure.codes]
+  
+  if (! is.null(période)) T <- T[Annee %in% période]
+  
+  if (is.null(catégorie)) {
+    
+    if (is.null(statut)) {
+      
+      if (! is.null(service)) {
+        
+        T <- T[Service %chin% service]    
+      }
+      
+    } else {
+      
+      if (is.null(service)) {
+        
+        T <- T[Statut %chin% statut] 
+      } else {
+        
+        T <- T[Statut %chin% statut & Service %chin% service] 
+      }
+      
+    }
+    
+  } else {
+    
+    if (is.null(statut)) {
+      
+      if (is.null(service)) {
+        
+        T <- T[Categorie == catégorie]    
+        
+      } else {
+        
+        T <- T[Categorie == catégorie & Service %chin% service]    
+      }
+      
+    } else {
+      
+      if (is.null(service)) {
+        
+        T <- T[Categorie == catégorie & Statut %chin% statut] 
+        
+      } else {
+        
+        T <- T[Categorie == catégorie & Statut %chin% statut & Service %chin% service] 
+      }
+      
+    }
+  }
+  
+  # Ni un avantage en nature, ni une retenue, ni une déduction (salarié) ni un rappel de retenue/déduction.csg/crds/avantage nat. mais ok : remb. frais frais
+  # On sort les élus
+  
+  T[Type == "S" , sft.net := Montant * (1 -ifelse(Statut == "TITULAIRE" | Statut == "STAGIAIRE", 0.9825 * (0.005 + 0.0750) + 0.01 + 0.05, 0.9825 * (0.005 + 0.0750) + 0.01 + 0.0805))]
+  
+  A <-T[ ,  .(Net = round(sum(Net.a.Payer[1], na.rm = TRUE)),  
+              eqtp = sum(quotite[1], na.rm = TRUE) / 12,
+              SFT.net = sum(sft.net, na.rm = TRUE)),
+         keyby=c("Annee", Gr, "Matricule", "Mois")
+         ][ , .(Net.moyen.cum = sum(Net - SFT.net, na.rm = TRUE),
+                eqtp.cum = sum(eqtp, na.rm = TRUE)),
+            keyby = c("Annee", Gr)]
+  
+  if (! quotite.nulle) {
+    A <- A[ , Net.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Net.moyen.cum) | eqtp.cum == 0, 0, round(Net.moyen.cum / eqtp.cum)),
+            keyby = c("Annee", Gr)
+            ][ , Net.moyen := formatC(round(Net.moyen.num), big.mark = " ", format = "d")]
+    moyenne_ <- A[ , .(Moy.num = round(sum(Net.moyen.cum, na.rm = TRUE)/sum(eqtp.cum, na.rm = TRUE))), keyby = Annee
+                   ][ , Moy := formatC(Moy.num, big.mark = " ", format = "d")]
+    moyenne <- transpose(data.table(c("Moyenne", moyenne_$Moy)))
+    moyenne.num <- transpose(data.table(c("Moyenne", moyenne_$Moy.num)))
+    
+    
+  } else {
+    
+    A <- A[ , Net.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Net.moyen.cum), 0, round(Net.moyen.cum)),
+            keyby = c("Annee", Gr)
+            ][ , Net.moyen := formatC(round(Net.moyen.num), big.mark = " ", format = "d")]
+    moyenne_ <- A[ , .(Moy.num = round(sum(Net.moyen.cum, na.rm = TRUE))), keyby = Annee
+                   ][ , Moy := formatC(Moy.num, big.mark = " ", format = "d")]
+    moyenne <- transpose(data.table(c("Total", moyenne_$Moy)))
+    moyenne.num <- transpose(data.table(c("Total", moyenne_$Moy.num)))
+    
+  }
+  
+  if (nrow(A) == 0) {
+    message("Base vide")
+    return(A)
+  }
+  
+  
+  if (agr) {
+    
+    B <- dcast(A, E ~ Annee, value.var = "Net.moyen", fill = 0)
+    B.num <- dcast(A, E ~ Annee, value.var = "Net.moyen.num", fill = 0)
+    if (! is.null(libellés)) B$E <- libellés[1:length(B$E)]
+    names(B)[1] <- "Categorie d'emplois"
+    
+  } else {
+    
+    B <- dcast(A, Emploi ~ Annee, value.var = "Net.moyen", fill = 0)
+    B.num <- dcast(A, Emploi ~ Annee, value.var = "Net.moyen.num", fill = 0)
+  }
+  
+  colnames(moyenne) <- colnames(B)
+  colnames(moyenne.num) <- colnames(B.num)
+  
+  B <- rbind(B, moyenne)
+  B.num <- rbind(B.num, moyenne.num)
+  
+  début <- names(B)[2]
+  fin <- names(B)[ncol(B)]
+  
+  d <- as.numeric(B.num[[2]])
+  d <- ifelse(d == 0, NA, d)
+  
+  if (variation || agr) 
+    B[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((as.numeric(B.num[[ncol(B.num)]])/d - 1)*100, 1)]
+  
+  B
+}
+
+
 
 
 #' Annee de comparaison avec les données nationales.
