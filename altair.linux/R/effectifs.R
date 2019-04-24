@@ -1191,7 +1191,7 @@ net.eqtp <- function(Base = Paie,
 #' @param exclure.codes Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).  
 #' @return Un tableau des effectifs mis en forme avec les emplois en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
-#' net.eqtp()
+#' net.eqtp.emploi()
 #' @export
 
 

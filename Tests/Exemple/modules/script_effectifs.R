@@ -15,6 +15,10 @@ message("Démographie...")
 
 tableau.effectifs <<- effectifs(période, Bulletins.paie, Analyse.remunerations, Analyse.variations)
 
+tableau.effectifs.grades <<- eqtp.grade(variation = TRUE)
+
+tableau.effectifs.emplois <<- eqtp.emploi(variation = TRUE)
+
 #'  
 #  
 #'&nbsp;*Tableau 1.1.1 : Effectifs*   
@@ -52,9 +56,30 @@ sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
            environment(),
            "tableau.effectifs")
 
+sauv.bases(file.path(chemin.dossier.bases, "Effectifs"), 
+           environment(),
+           "tableau.effectifs.grades")
+
+sauv.bases(file.path(chemin.dossier.bases, "Effectifs"), 
+           environment(),
+           "tableau.effectifs.emplois")
+
+Services <<- unique(Bulletins.paie$Service)
+
+for (x in Services) fwrite(eqtp.grade(service = x), sep = ";", dec=",", file.path(chemin.dossier.bases, "Effectifs", "tableau.effectifs.serv." %+% sub("/", "-", x) %+% ".csv"))
+
+setwd(file.path(chemin.dossier.bases, "Effectifs"))
+
+zip("tableau.effectifs.services.zip", list.files(".", pattern = "tableau.effectifs.serv..*"))
+
+setwd(currentDir)
+
 #'      
  
 conditionnel("Lien vers la base des effectifs", "Bases/Effectifs/tableau.effectifs.csv")  
+conditionnel("Lien vers la base des effectifs en ETPT par grade", "Bases/Effectifs/tableau.effectifs.grades.csv")  
+conditionnel("Lien vers la base des effectifs en ETPT par emploi", "Bases/Effectifs/tableau.effectifs.emplois.csv")  
+conditionnel("Lien vers la base des effectifs en ETPT par service", "Bases/Effectifs/tableau.effectifs.services.zip")  
 
 #'   
 #'
