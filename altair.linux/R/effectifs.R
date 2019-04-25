@@ -276,7 +276,7 @@ analyse.regexp.emploi <- function(Base, classe, agr) {
 #' @param variation Booléen Insérer une colonne des variations (défaut FALSE).
 #' @param statut Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.
 #' @param catégorie Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
-#' @return Un tableau des effectifs mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
+#' @return Un tableau des effectifs par grade mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
 #' eqtp.grade()
 #' @export
@@ -437,7 +437,7 @@ eqtp.grade <- function(Base = Bulletins.paie,
 #' @param variation Booléen Insérer une colonne des variations (défaut FALSE).
 #' @param statut Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.
 #' @param catégorie Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
-#' @return Un tableau des effectifs mis en forme avec les emplois en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
+#' @return Un tableau des effectifs par type d'emploi mis en forme avec les emplois en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
 #' eqtp.emploi()
 #' @export
@@ -574,7 +574,7 @@ eqtp.emploi <- function(Base = Bulletins.paie,
 }
 
 
-#' Tableau des coûts moyens de personnel par grade.
+#' Tableau des coûts moyens par agent et par grade.
 #'
 #' Elabore un tableau des charges de personnel (coût) par grade et par année.
 #' 
@@ -599,7 +599,7 @@ eqtp.emploi <- function(Base = Bulletins.paie,
 #' @param statut Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.
 #' @param catégorie Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
 #' @param exclure.codes Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).  
-#' @return Un tableau des effectifs mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
+#' @return Un tableau des coûts moyen par agent et par grade mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
 #' charges.eqtp()
 #' @export
@@ -771,7 +771,7 @@ charges.eqtp <- function(Base = Paie,
 }
 
 
-#' Tableau des coûts moyens de personnel par emploi.
+#' Tableau des coûts moyens de personnel par type emploi.
 #'
 #' Elabore un tableau des charges de personnel (coût) par emploi et par année.
 #' 
@@ -796,7 +796,7 @@ charges.eqtp <- function(Base = Paie,
 #' @param statut Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.
 #' @param catégorie Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
 #' @param exclure.codes Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).  
-#' @return Un tableau des effectifs mis en forme avec les emplois en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
+#' @return Un tableau des coûts moyens par type d'emploi mis en forme avec les emplois en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
 #' charges.eqtp.emploi()
 #' @export
@@ -993,7 +993,7 @@ charges.eqtp.emploi <- function(Base = Paie,
 #' @param statut Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.
 #' @param catégorie Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
 #' @param exclure.codes Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).  
-#' @return Un tableau des effectifs mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
+#' @return Un tableau des rémunérations nettes par grade mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
 #' net.eqtp()
 #' @export
@@ -1189,7 +1189,7 @@ net.eqtp <- function(Base = Paie,
 #' @param statut Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.
 #' @param catégorie Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
 #' @param exclure.codes Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).  
-#' @return Un tableau des effectifs mis en forme avec les emplois en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
+#' @return Un tableau des rémunérations nettes moyennes par emploi mis en forme avec les emplois en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
 #' net.eqtp.emploi()
 #' @export
@@ -1360,6 +1360,387 @@ net.eqtp.emploi <- function(Base = Paie,
 }
 
 
+
+#' Tableau des rémunérations brutes moyennes par grade.
+#'
+#' Elabore un tableau des rémunérations brutes moyennes du personnel par grade et par année.
+#' 
+#' @param Base Base des bulletins de paye, comportant pour l'ensemble de la période
+#'        \enumerate{
+#'          \item{ les variables charactère suivantes :
+#'             \itemize{
+#'                 \item \code{Annee}
+#'                 \item \code{Matricule}
+#'                 \item \code{Statut}
+#'                 \item \code{Grade}}}
+#'           \item{ les variables numériques :
+#'               \describe{
+#'                 \item{\code{quotite}}{réel entre 0 et 1}}}}.
+#' @param grade Grade particulier. Tous les grades en l'absence de spécification.
+#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
+#' @param classe Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
+#' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
+#' @param libellés  Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
+#' @param période Vecteur des années considérées.
+#' @param variation Booléen Insérer une colonne des variations (défaut FALSE).
+#' @param statut Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.
+#' @param catégorie Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
+#' @param exclure.codes Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).  
+#' @return Un tableau des rémunérations brutes moyennes mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
+#' @examples
+#' brut.eqtp()
+#' @export
+
+
+
+brut.eqtp <- function(Base = Paie, 
+                     grade = NULL,
+                     classe = NULL,
+                     service = NULL,
+                     libellés = NULL, 
+                     agr = FALSE,
+                     période = NULL,
+                     variation = FALSE,
+                     statut = NULL,
+                     catégorie = NULL,
+                     exclure.codes = NULL,
+                     quotite.nulle = FALSE)  {
+  
+  if (! is.null(libellés) && length(libellés) != length(classe)) {
+    
+    message("Le vecteur des libellés doit avoir la même longueur que le vecteur des expressions régulières")
+    return(NULL)
+  }
+  
+  T <- analyse.regexp(Base, classe, agr)
+  
+  if (agr) {
+    
+    Gr <- "G"
+    message("Agrégation des grades")
+    
+  } else {
+    
+    if (is.null(classe) & ! is.null(grade))   T <- Base[Statut !=  "ELU" & Grade %chin% grade]
+    
+    Gr <- "Grade" 
+  }
+  
+  if (quotite.nulle) {
+    T <- T[Statut != "ELU" & quotite == 0]  
+  } else {
+    T <- T[Statut != "ELU" & quotite > 0]
+  }
+  
+  if (! is.null(exclure.codes)) T <- T[! Code %chin% exclure.codes]
+  
+  if (! is.null(période)) T <- T[Annee %in% période]
+  
+  if (is.null(catégorie)) {
+    
+    if (is.null(statut)) {
+      
+      if (! is.null(service)) {
+        
+        T <- T[Service %chin% service]    
+      }
+      
+    } else {
+      
+      if (is.null(service)) {
+        
+        T <- T[Statut %chin% statut] 
+      } else {
+        
+        T <- T[Statut %chin% statut & Service %chin% service] 
+      }
+      
+    }
+    
+  } else {
+    
+    if (is.null(statut)) {
+      
+      if (is.null(service)) {
+        
+        T <- T[Categorie == catégorie]    
+        
+      } else {
+        
+        T <- T[Categorie == catégorie & Service %chin% service]    
+      }
+      
+    } else {
+      
+      if (is.null(service)) {
+        
+        T <- T[Categorie == catégorie & Statut %chin% statut] 
+        
+      } else {
+        
+        T <- T[Categorie == catégorie & Statut %chin% statut & Service %chin% service] 
+      }
+      
+    }
+  }
+  
+  
+  A <-T[ ,  .(Brut = round(sum(Brut[1], na.rm = TRUE)),  
+              eqtp = sum(quotite[1], na.rm = TRUE) / 12),
+         keyby=c("Annee", Gr, "Matricule", "Mois")
+         ][ , .(Brut.moyen.cum = sum(Brut, na.rm = TRUE),
+                eqtp.cum = sum(eqtp, na.rm = TRUE)),
+            keyby = c("Annee", Gr)]
+  
+  if (! quotite.nulle) {
+    A <- A[ , Brut.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Brut.moyen.cum) | eqtp.cum == 0, 0, round(Brut.moyen.cum / eqtp.cum)),
+            keyby = c("Annee", Gr)
+            ][ , Brut.moyen := formatC(round(Brut.moyen.num), big.mark = " ", format = "d")]
+    moyenne_ <- A[ , .(Moy.num = round(sum(Brut.moyen.cum, na.rm = TRUE)/sum(eqtp.cum, na.rm = TRUE))), keyby = Annee
+                   ][ , Moy := formatC(Moy.num, big.mark = " ", format = "d")]
+    moyenne <- transpose(data.table(c("Moyenne", moyenne_$Moy)))
+    moyenne.num <- transpose(data.table(c("Moyenne", moyenne_$Moy.num)))
+    
+    
+  } else {
+    
+    A <- A[ , Brut.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Brut.moyen.cum), 0, round(Brut.moyen.cum)),
+            keyby = c("Annee", Gr)
+            ][ , Brut.moyen := formatC(round(Brut.moyen.num), big.mark = " ", format = "d")]
+    moyenne_ <- A[ , .(Moy.num = round(sum(Brut.moyen.cum, na.rm = TRUE))), keyby = Annee
+                   ][ , Moy := formatC(Moy.num, big.mark = " ", format = "d")]
+    moyenne <- transpose(data.table(c("Total", moyenne_$Moy)))
+    moyenne.num <- transpose(data.table(c("Total", moyenne_$Moy.num)))
+    
+  }
+  
+  if (nrow(A) == 0) {
+    message("Base vide")
+    return(A)
+  }
+  
+  
+  if (agr) {
+    
+    B <- dcast(A, G ~ Annee, value.var = "Brut.moyen", fill = 0)
+    B.num <- dcast(A, G ~ Annee, value.var = "Brut.moyen.num", fill = 0)
+    if (! is.null(libellés)) B$G <- libellés[1:length(B$G)]
+    names(B)[1] <- "Categorie de Grades"
+    
+  } else {
+    
+    B <- dcast(A, Grade ~ Annee, value.var = "Brut.moyen", fill = 0)
+    B.num <- dcast(A, Grade ~ Annee, value.var = "Brut.moyen.num", fill = 0)
+  }
+  
+  colnames(moyenne) <- colnames(B)
+  colnames(moyenne.num) <- colnames(B.num)
+  
+  B <- rbind(B, moyenne)
+  B.num <- rbind(B.num, moyenne.num)
+  
+  début <- names(B)[2]
+  fin <- names(B)[ncol(B)]
+  
+  d <- as.numeric(B.num[[2]])
+  d <- ifelse(d == 0, NA, d)
+  
+  if (variation || agr) 
+    B[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((as.numeric(B.num[[ncol(B.num)]])/d - 1)*100, 1)]
+  
+  B
+}
+
+
+#' Tableau des rémunérations brutes moyennes par emploi.
+#'
+#' Elabore un tableau des rémunérations brutes moyennes du personnel par emploi et par année.
+#' 
+#' @param Base Base des bulletins de paye, comportant pour l'ensemble de la période
+#'        \enumerate{
+#'          \item{ les variables charactère suivantes :
+#'             \itemize{
+#'                 \item \code{Annee}
+#'                 \item \code{Matricule}
+#'                 \item \code{Statut}
+#'                 \item \code{Emploi}}}
+#'           \item{ les variables numériques :
+#'               \describe{
+#'                 \item{\code{quotite}}{réel entre 0 et 1}}}}.
+#' @param emploi Emploi particulier. Tous les emplois en l'absence de spécification.
+#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
+#' @param classe Liste de vecteurs d'emplois, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les emplois. Tous les emplois en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
+#' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les emplois décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
+#' @param libellés  Vecteur de libellés des agrégations d'emplois par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
+#' @param période Vecteur des années considérées.
+#' @param variation Booléen Insérer une colonne des variations (défaut FALSE).
+#' @param statut Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.
+#' @param catégorie Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
+#' @param exclure.codes Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).  
+#' @return Un tableau des rémunérations brutes moyennes par emploi mis en forme avec les emplois en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
+#' @examples
+#' brut.eqtp.emploi()
+#' @export
+
+
+
+brut.eqtp.emploi <- function(Base = Paie, 
+                            emploi = NULL,
+                            classe = NULL,
+                            service = NULL,
+                            libellés = NULL, 
+                            agr = FALSE,
+                            période = NULL,
+                            variation = FALSE,
+                            statut = NULL,
+                            catégorie = NULL,
+                            exclure.codes = NULL,
+                            quotite.nulle = FALSE)  {
+  
+  if (! is.null(libellés) && length(libellés) != length(classe)) {
+    
+    message("Le vecteur des libellés doit avoir la même longueur que le vecteur des expressions régulières")
+    return(NULL)
+  }
+  
+  T <- analyse.regexp.emploi(Base, classe, agr)
+  
+  if (agr) {
+    
+    Gr <- "E"
+    message("Agrégation des emplois")
+    
+  } else {
+    
+    if (is.null(classe) & ! is.null(emploi))   T <- Base[Statut !=  "ELU" & Emploi %chin% emploi]
+    
+    Gr <- "Emploi" 
+  }
+  
+  if (quotite.nulle) {
+    T <- T[Statut != "ELU" & quotite == 0]  
+  } else {
+    T <- T[Statut != "ELU" & quotite > 0]
+  }
+  
+  if (! is.null(exclure.codes)) T <- T[! Code %chin% exclure.codes]
+  
+  if (! is.null(période)) T <- T[Annee %in% période]
+  
+  if (is.null(catégorie)) {
+    
+    if (is.null(statut)) {
+      
+      if (! is.null(service)) {
+        
+        T <- T[Service %chin% service]    
+      }
+      
+    } else {
+      
+      if (is.null(service)) {
+        
+        T <- T[Statut %chin% statut] 
+      } else {
+        
+        T <- T[Statut %chin% statut & Service %chin% service] 
+      }
+      
+    }
+    
+  } else {
+    
+    if (is.null(statut)) {
+      
+      if (is.null(service)) {
+        
+        T <- T[Categorie == catégorie]    
+        
+      } else {
+        
+        T <- T[Categorie == catégorie & Service %chin% service]    
+      }
+      
+    } else {
+      
+      if (is.null(service)) {
+        
+        T <- T[Categorie == catégorie & Statut %chin% statut] 
+        
+      } else {
+        
+        T <- T[Categorie == catégorie & Statut %chin% statut & Service %chin% service] 
+      }
+      
+    }
+  }
+  
+  
+  A <-T[ ,  .(Brut = round(sum(Brut[1], na.rm = TRUE)),  
+              eqtp = sum(quotite[1], na.rm = TRUE) / 12),
+         keyby=c("Annee", Gr, "Matricule", "Mois")
+         ][ , .(Brut.moyen.cum = sum(Brut, na.rm = TRUE),
+                eqtp.cum = sum(eqtp, na.rm = TRUE)),
+            keyby = c("Annee", Gr)]
+  
+  if (! quotite.nulle) {
+    A <- A[ , Brut.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Brut.moyen.cum) | eqtp.cum == 0, 0, round(Brut.moyen.cum / eqtp.cum)),
+            keyby = c("Annee", Gr)
+            ][ , Brut.moyen := formatC(round(Brut.moyen.num), big.mark = " ", format = "d")]
+    moyenne_ <- A[ , .(Moy.num = round(sum(Brut.moyen.cum, na.rm = TRUE)/sum(eqtp.cum, na.rm = TRUE))), keyby = Annee
+                   ][ , Moy := formatC(Moy.num, big.mark = " ", format = "d")]
+    moyenne <- transpose(data.table(c("Moyenne", moyenne_$Moy)))
+    moyenne.num <- transpose(data.table(c("Moyenne", moyenne_$Moy.num)))
+    
+    
+  } else {
+    
+    A <- A[ , Brut.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Brut.moyen.cum), 0, round(Brut.moyen.cum)),
+            keyby = c("Annee", Gr)
+            ][ , Brut.moyen := formatC(round(Brut.moyen.num), big.mark = " ", format = "d")]
+    moyenne_ <- A[ , .(Moy.num = round(sum(Brut.moyen.cum, na.rm = TRUE))), keyby = Annee
+                   ][ , Moy := formatC(Moy.num, big.mark = " ", format = "d")]
+    moyenne <- transpose(data.table(c("Total", moyenne_$Moy)))
+    moyenne.num <- transpose(data.table(c("Total", moyenne_$Moy.num)))
+    
+  }
+  
+  if (nrow(A) == 0) {
+    message("Base vide")
+    return(A)
+  }
+  
+  
+  if (agr) {
+    
+    B <- dcast(A, E ~ Annee, value.var = "Brut.moyen", fill = 0)
+    B.num <- dcast(A, E ~ Annee, value.var = "Brut.moyen.num", fill = 0)
+    if (! is.null(libellés)) B$E <- libellés[1:length(B$E)]
+    names(B)[1] <- "Categorie d'emplois"
+    
+  } else {
+    
+    B <- dcast(A, Emploi ~ Annee, value.var = "Brut.moyen", fill = 0)
+    B.num <- dcast(A, Emploi ~ Annee, value.var = "Brut.moyen.num", fill = 0)
+  }
+  
+  colnames(moyenne) <- colnames(B)
+  colnames(moyenne.num) <- colnames(B.num)
+  
+  B <- rbind(B, moyenne)
+  B.num <- rbind(B.num, moyenne.num)
+  
+  début <- names(B)[2]
+  fin <- names(B)[ncol(B)]
+  
+  d <- as.numeric(B.num[[2]])
+  d <- ifelse(d == 0, NA, d)
+  
+  if (variation || agr) 
+    B[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((as.numeric(B.num[[ncol(B.num)]])/d - 1)*100, 1)]
+  
+  B
+}
 
 
 #' Annee de comparaison avec les données nationales.

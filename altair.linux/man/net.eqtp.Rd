@@ -43,7 +43,7 @@ net.eqtp(Base = Paie, grade = NULL, classe = NULL, service = NULL,
 \item{exclure.codes}{Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).}
 }
 \value{
-Un tableau des effectifs mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
+Un tableau des rémunérations nettes par grade mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 }
 \description{
 Elabore un tableau des rémunérations nettes moyennes du personnel par grade et par année (hors SFT).

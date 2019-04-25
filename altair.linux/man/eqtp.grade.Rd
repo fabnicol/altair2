@@ -40,7 +40,7 @@ eqtp.grade(Base = Bulletins.paie, grade = NULL, classe = NULL,
 \item{catégorie}{Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.}
 }
 \value{
-Un tableau des effectifs mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
+Un tableau des effectifs par grade mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 }
 \description{
 Elabore un tableau des équivalents temps plein travaillés par grade et par année.

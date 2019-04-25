@@ -2,7 +2,7 @@
 % Please edit documentation in R/effectifs.R
 \name{charges.eqtp}
 \alias{charges.eqtp}
-\title{Tableau des coûts moyens de personnel par grade.}
+\title{Tableau des coûts moyens par agent et par grade.}
 \usage{
 charges.eqtp(Base = Paie, grade = NULL, classe = NULL,
   service = NULL, libellés = NULL, agr = FALSE, période = NULL,
@@ -43,7 +43,7 @@ charges.eqtp(Base = Paie, grade = NULL, classe = NULL,
 \item{exclure.codes}{Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).}
 }
 \value{
-Un tableau des effectifs mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
+Un tableau des coûts moyen par agent et par grade mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 }
 \description{
 Elabore un tableau des charges de personnel (coût) par grade et par année.
