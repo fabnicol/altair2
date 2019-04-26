@@ -234,6 +234,7 @@ if (setOSWindows) séquentiel <- TRUE else {
 }
 
 
+
 scripts <- list(
   "script_effectifs.R",                   #### 1.1 Effectifs          ####
   "script_pyramides.R",                   #### 1.2-5 Pyramides        ####
@@ -268,7 +269,7 @@ générer.partie <- function(script, seq) {
                                                                              as.list(na.omit(c(file.path(chemin.modules, x[1]),
                                                                                              x[-1])))))) 
 }
-                              
+                            
 if (séquentiel) {
   
   générer.partie(scripts)

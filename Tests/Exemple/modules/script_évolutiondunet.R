@@ -532,19 +532,48 @@ essayer(invisible(noria(champ = "net", filtre = "C")),
 essayer(invisible(noria(champ = "brut", filtre = "C")),
         "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations brutes moyennes des fonctionnaires de catégorie C.")
 
-#'     
-
 detach(Analyse.variations.par.exercice)
 
-conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthese.csv")
+conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthese.csv")  
+
+#'   
+#'## 4.4 Rémunérations nettes par grade, emploi et service         
+#'   
+
+net.grades <<- net.eqtp(variation = TRUE)
+
+sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 
+           environment(), "net.grades")
+
+net.emplois <<- net.eqtp.emploi(variation = TRUE)
+
+sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 
+           environment(), "net.emplois")
+
+net.services <- net.eqtp.serv(variation = TRUE)
+
+setwd(file.path(chemin.dossier.bases, "Remunerations"))
+zip("net.services.zip", list.files(".", pattern = "net.serv..*.csv"))
+setwd(currentDir)
+
+#'   
+conditionnel("Rémunérations nettes par grade", "Bases/Remunerations/net.grades.csv")      
+#'  
+conditionnel("Rémunérations nettes par emploi", "Bases/Remunerations/net.emplois.csv")  
+#'   
+conditionnel("Rémunérations nettes par service", "Bases/Remunerations/net.services.zip")  
+#'  
+#'*Note : les moyennes des tableaux sont pondérées en EQTP. Les rémunérations nettes sont calculées en retranchant le supplément familial de traitement.*      
+#'    
+#'  
 #'
 #'
-#'### 4.4 Comparaisons avec la situation nationale des rémunérations   
+#'## 4.5 Comparaisons avec la situation nationale des rémunérations   
 #'  
 #'**Évolution en euros courants du SMPT et de la RMPP dans la FPT (en % et euros courants)**    
 
 #'  
-#'&nbsp;*Tableau 4.4.1*   
+#'&nbsp;*Tableau 4.5.1*   
 #'    
 
 #' 
@@ -566,7 +595,7 @@ conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthe
 #'**Salaires nets annuels et évolution moyenne type de collectivité en euros courants  EQTP**    
 #'   
 #'  
-#'&nbsp;*Tableau 4.4.2*   
+#'&nbsp;*Tableau 4.5.2*   
 #'    
 
 #' 
