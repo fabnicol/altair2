@@ -66,9 +66,16 @@ sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
 
 eqtp.grade.serv(variation = TRUE)
 
+eqtp.grade.cat(variation = TRUE)
+
 setwd(file.path(chemin.dossier.bases, "Effectifs"))
 
 zip("tableau.effectifs.services.zip", list.files(".", pattern = "effectifs.serv..*.csv"))
+
+setwd(file.path(chemin.dossier.bases, "Effectifs"))
+
+zip("tableau.effectifs.services.zip", list.files(".", pattern = "effectifs.serv..*.csv"))
+zip("tableau.effectifs.categories.zip", list.files(".", pattern = "effectifs.cat..*.csv"))
 
 setwd(currentDir)
 
@@ -77,7 +84,8 @@ setwd(currentDir)
 conditionnel("Lien vers la base des effectifs", "Bases/Effectifs/tableau.effectifs.csv")  
 conditionnel("Lien vers la base des effectifs en ETPT par grade", "Bases/Effectifs/tableau.effectifs.grades.csv")  
 conditionnel("Lien vers la base des effectifs en ETPT par emploi", "Bases/Effectifs/tableau.effectifs.emplois.csv")  
-conditionnel("Lien vers la base des effectifs en ETPT par service", "Bases/Effectifs/tableau.effectifs.services.zip")  
+conditionnel("Lien vers la base des effectifs en ETPT par grade et service", "Bases/Effectifs/tableau.effectifs.services.zip")  
+conditionnel("Lien vers la base des effectifs en ETPT par grade et catégorie", "Bases/Effectifs/tableau.effectifs.categories.zip")  
 
 #'   
 #'

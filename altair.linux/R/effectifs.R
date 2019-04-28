@@ -717,6 +717,122 @@ eqtp.grade.serv <- function(Base = Bulletins.paie,
   setwd(curD)
 }
 
+#' Tableau des EQTP par grade et catégorie.
+#'
+#' Elabore un tableau des équivalents temps plein travaillés par grade et catégorie.
+#'
+#' @param Base Base des bulletins de paye, comportant pour l'ensemble de la période
+#'        \enumerate{
+#'          \item{ les variables charactère suivantes :
+#'             \itemize{
+#'                 \item \code{Annee}
+#'                 \item \code{Matricule}
+#'                 \item \code{Statut}
+#'                 \item \code{Grade}}}
+#'                 \item \code{Service}}}
+#'           \item{ les variables numériques :
+#'               \describe{
+#'                 \item{\code{quotite}}{réel entre 0 et 1}}}}.
+#' @param classe Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
+#' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
+#' @param libellés  Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
+#' @param période Vecteur des années considérées.
+#' @param variation Booléen Insérer une colonne des variations (défaut FALSE).
+#' @param statut Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.
+#' @return Un tableau des effectifs par grade et catégorie mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
+#' @examples
+#' eqtp.grade.cat()
+#' @export
+
+eqtp.grade.cat <- function(Base = Bulletins.paie, 
+                            classe = NULL,
+                            libellés = NULL, 
+                            agr = FALSE,
+                            période = NULL,
+                            variation = FALSE,
+                            statut = NULL) {
+  
+  if (! is.null(libellés) && length(libellés) != length(classe)) {
+    
+    message("Le vecteur des libellés doit avoir la même longueur que le vecteur des expressions régulières")
+    return(NULL)
+  }
+  
+  T <- analyse.regexp(Base, classe, agr)
+  
+  if (agr) {
+    
+    Gr <- "G"
+    message("Agrégation des grades")
+    
+  } else {
+    
+    Gr <- "Grade" 
+  }
+  
+  T <- T[Statut != "ELU"]
+
+  if (is.null(statut)) {
+    
+    tableau.effectifs <- T[ , .(eqtp.g = sum(quotite, na.rm = TRUE) / 12),
+                            by = c("Annee", Gr, "Categorie")
+                            ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
+  } else {
+
+    tableau.effectifs <- T[Statut %chin% statut, .(eqtp.g = sum(quotite, na.rm = TRUE) / 12),
+                           by=c("Annee", Gr, "Categorie")
+                           ][ , eqtp.grade := formatC(eqtp.g, digits=2, format = "f")]
+  }
+
+  if (! is.null(période)) tableau.effectifs <- tableau.effectifs[Annee %in% période]
+
+  if (nrow(tableau.effectifs) == 0) {
+    message("La base des effectifs est vide")
+    return(tableau.effectifs) 
+  }
+  
+  curD <- getwd()
+  
+  setwd(file.path(chemin.dossier.bases, "Effectifs"))
+  
+  tableau.effectifs[ , {
+    
+    if (agr) {
+      
+      B.num <- dcast(.SD, G ~ Annee, value.var = "eqtp.g", fill = 0)
+      B <- dcast(.SD, G ~ Annee, value.var = "eqtp.grade", fill = 0)
+      if (! is.null(libellés)) B$G <- libellés[1:length(B$G)]
+      names(B)[1] <- "Categorie de Grades"
+      
+    } else {
+      
+      B.num <- dcast(.SD, Grade ~ Annee, value.var = "eqtp.g", fill = 0)  
+      B <- dcast(.SD, Grade ~ Annee, value.var = "eqtp.grade", fill = 0)  
+    }
+    
+    totaux <- B.num[,-1][, lapply(.SD, sum, na.rm = TRUE)]
+    totaux <- cbind(Grade = "Totaux", round(totaux, 1)) 
+    
+    B <- rbind(B, totaux)
+    B.num <- rbind(B.num, totaux)
+    
+    if (variation) {
+      début <- names(B)[2]
+      fin <- names(B)[ncol(B)]
+      
+      B.num$V <-  round((B.num[[fin]]/B.num[[début]] - 1) * 100, 1)
+      
+      B <- cbind(B, B.num$V)  
+      
+      setnames(B, ncol(B), paste0("Variation ", début, "-", fin))
+    }
+    
+    fwrite(B, sep = ";", dec = ",", file = "effectifs.cat." %+%  sub("/", "-", Categorie) %+% ".csv")
+  }
+  , by = Categorie]
+  
+  setwd(curD)
+}
 
 
 #' Tableau des coûts moyens par agent et par grade.
