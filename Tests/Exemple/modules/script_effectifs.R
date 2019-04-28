@@ -64,13 +64,11 @@ sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
            environment(),
            "tableau.effectifs.emplois")
 
-Services <<- unique(Bulletins.paie$Service)
-
-for (x in Services) fwrite(eqtp.grade(service = x), sep = ";", dec=",", file.path(chemin.dossier.bases, "Effectifs", "tableau.effectifs.serv." %+% sub("/", "-", x) %+% ".csv"))
+eqtp.grade.serv(variation = TRUE)
 
 setwd(file.path(chemin.dossier.bases, "Effectifs"))
 
-zip("tableau.effectifs.services.zip", list.files(".", pattern = "tableau.effectifs.serv..*"))
+zip("tableau.effectifs.services.zip", list.files(".", pattern = "effectifs.serv..*.csv"))
 
 setwd(currentDir)
 
