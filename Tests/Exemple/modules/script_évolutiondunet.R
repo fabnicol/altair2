@@ -70,22 +70,22 @@ essayer(label = "+distribution SMPT global", print(distribution_smpt(Filtre_neut
 
 #'**Comparaisons source INSEE/DGCL**   
 #'
-#'**Salaires nets annuels moyens 2011 à 2013 en EQTP (hors assistantes maternelles)**   
+#'**Salaires nets annuels moyens en EQTP (hors assistantes maternelles) dans la FPT**   
 #'  
 #'&nbsp;*Tableau 4.2.1.3*       
 
-#### INSEE/DGCL VARIATIONS  ####
+#### INSEE/DGCL   ####
 #'  
-#'  |  net (euros)    | 2011    | 2012   |  2013  |  2014  |     
-#'  |-----------------|--------:|-------:|-------:|-------:|   
-#'  |    Ensemble     |  21 876 | 22 176 | 22 224 | 22 524 |  
-#'  |   Titulaires    |  22 632 | 22 920 | 22 920 | 23 424 |  
-#'  | Autres salariés |  18 864 |  NA    |  NA    | 18 732 |   
-#' 
+#'  |  net (euros)    | 2011    | 2012   |  2013  |  2014  | 2016   |       
+#'  |-----------------|--------:|-------:|-------:|-------:|-------:|     
+#'  |    Ensemble     |  21 876 | 22 176 | 22 224 | 22 524 | 22 824 |    
+#'  |   Titulaires    |  22 632 | 22 920 | 22 920 | 23 424 | 23 820 |  
+#'  | Autres salariés |  18 864 |  NA    |  NA    | 18 732 | 20 207 |   
+#'   
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
 
 #'   
-#'**Distribution des salaires nets annuels en EQTP dans la fonction publique territoriale (2011-2014)**   
+#'**Distribution des salaires nets annuels en EQTP dans la fonction publique territoriale (2011-2016)**   
 #' 
 #'  
 #'&nbsp;*Tableau 4.2.1.4*   
@@ -93,67 +93,67 @@ essayer(label = "+distribution SMPT global", print(distribution_smpt(Filtre_neut
 # Remarque sur le formatage markdown: en raison d'un bug de knitr, utiliser un dièse + apostrophe
 # suivi d'un seul blanc juste après la table.
 
-#'  
-#' | Décile \ euros   | 2011     | 2013   | 2014   |  
-#' |------------------|----------|--------|--------|   
-#' |    D1            | 15 288   | 15 600 | 15 768 |   
-#' |    D2            | 16 512   | 16 860 | 17 124 |   
-#' |    D3            | 17 508   | 17 844 | 18 156 |   
-#' |    D4            | 18 480   | 18 816 | 19 164 |  
-#' |    D5 (médiane)  | 19 632   | 19 908 | 20 256 |    
-#' |    D6            | 21 012   | 21 300 | 21 648 |  
-#' |    D7            | 22 860   | 23 160 | 23 496 |  
-#' |    D8            | 25 596   | 25 956 | 26 292 |  
-#' |    D9            | 30 876   | 31 272 | 31 596 |  
-#' |    Moyenne       | 21 876   | 22 212 | 22 524 |  
+#'   
+#' | Décile \ euros   | 2011 FPT | 2013 FPT| 2014 FPT | 2016 FPT| 
+#' |------------------|----------|---------|----------|---------|
+#' |    D1            | 15 288   | 15 600  | 15 768   |  15 912 |	
+#' |    D2            | 16 512   | 16 860  | 17 124   |  17 340 |	
+#' |    D3            | 17 508   | 17 844  | 18 156   |  18 432 |
+#' |    D4            | 18 480   | 18 816  | 19 164   |  19 476 |
+#' |    D5 (médiane)  | 19 632   | 19 908  | 20 256   |  20 616 |
+#' |    D6            | 21 012   | 21 300  | 21 648   |  22 020 |
+#' |    D7            | 22 860   | 23 160  | 23 496   |  23 868 |	
+#' |    D8            | 25 596   | 25 956  | 26 292   |  26 700 |
+#' |    D9            | 30 876   | 31 272  | 31 596   |  31 968 |
+#' |    Moyenne       | 21 876   | 22 212  | 22 524   |  22 824 |	
 #'    
 
-#'**Distribution des salaires nets annuels en EQTP dans la fonction publique d'Etat (2011-2013)**   
+#'**Distribution des salaires nets annuels en EQTP dans la fonction publique d'Etat (2011-2016)**   
 #' 
 #'  
 #'&nbsp;*Tableau 4.2.1.5*   
 #'    
 
 #'    
-#' | Décile \ euros   | 2011     | 2013   |   
-#' |------------------|----------|--------|
-#' |    D1            | 17 496   | 18 012 |  
-#' |    D2            | 20 916   | 21 348 |    
-#' |    D3            | 23 052   | 23 376 |  
-#' |    D4            | 24 912   | 25 248 |  
-#' |    D5 (médiane)  | 26 832   | 27 120 |    
-#' |    D6            | 28 944   | 29 220 |    
-#' |    D7            | 31 632   | 31 968 |    
-#' |    D8            | 35 592   | 35 964 |    
-#' |    D9            | 42 456   | 42 780 |
-#' | Moyenne          | 29 208   | 29 628 |  
+#' | Décile \ euros   | 2011     | 2013   | 2016    |  
+#' |------------------|----------|--------|---------|
+#' |    D1            | 17 496   | 18 012 | 17 928  |
+#' |    D2            | 20 916   | 21 348 | 21 588  |   
+#' |    D3            | 23 052   | 23 376 | 23 844  | 
+#' |    D4            | 24 912   | 25 248 | 25 764  | 
+#' |    D5 (médiane)  | 26 832   | 27 120 | 27 720  |   
+#' |    D6            | 28 944   | 29 220 | 29 760  |   
+#' |    D7            | 31 632   | 31 968 | 32 604  |   
+#' |    D8            | 35 592   | 35 964 | 36 588  |   
+#' |    D9            | 42 456   | 42 780 | 43 332  |
+#' | Moyenne          | 29 208   | 29 628 | 30 060  | 
 #' 
 
 
-#'**Distribution des salaires nets annuels en EQTP dans la fonction publique hospitalière (hôpitaux) (2011-2013)**   
+#'**Distribution des salaires nets annuels en EQTP dans la fonction publique hospitalière (hôpitaux) (2011-2016)**   
 
 #'  
 #'&nbsp;*Tableau 4.2.1.6*   
 #'    
-
 #'    
-#' | Décile \ euros   | 2011     | 2013   |   
-#' |------------------|----------|--------|
-#' |    D1            | 16 584   | 17 016 |  
-#' |    D2            | 18 168   | 18 492 |    
-#' |    D3            | 19 620   | 19 872 |  
-#' |    D4            | 21 048   | 21 192 |  
-#' |    D5 (médiane)  | 22 596   | 22 656 |    
-#' |    D6            | 24 504   | 24 516 |    
-#' |    D7            | 27 216   | 27 252 |    
-#' |    D8            | 30 996   | 31 176 |    
-#' |    D9            | 37 812   | 38 100 |    
-#' |  Moyenne         | 26 496   | 26 916 |  
-#' 
+#' | Décile \ euros   | 2011     | 2013   | 2016    |       
+#' |------------------|----------|--------|---------|     
+#' |    D1            | 16 584   | 17 016 |  17 460 |   
+#' |    D2            | 18 168   | 18 492 |  18 852 |     
+#' |    D3            | 19 620   | 19 872 |  20 160 |   
+#' |    D4            | 21 048   | 21 192 |  21 456 |   
+#' |    D5 (médiane)  | 22 596   | 22 656 |  22 848 |     
+#' |    D6            | 24 504   | 24 516 |	 24 540 |      
+#' |    D7            | 27 216   | 27 252 |  27 108 |      
+#' |    D8            | 30 996   | 31 176 |  31 092 |     
+#' |    D9            | 37 812   | 38 100 |  38 064 |     
+#' |  Moyenne         | 26 496   | 26 916 |  27 096 |   
+#'   
 
 #'[Source INSEE, onglets Figure3, F1web et F3web - 2011](Docs/ip1486.xls)    
-#'[Source INSEE, onglets F V3.1-2, F V3.1-5 - 2013](Docs/vue3_remunerations.xls)     
-#'[Source INSEE 2016](Docs/insee-premiere1616.pdf)    
+#'[Source INSEE, onglets F V3.1-2, F V3.1-5 - 2013](Docs/vue3_remunerations.xls)  
+#'[Source INSEE, onglet v3-2, V3-5 2016](Docs/Vue-Remunerations-2018.xlsx)     
+
 
 #'   
 #'### 4.2.2 Evolution du SMPT des fonctionnaires         
@@ -184,18 +184,18 @@ essayer(label = "+SMPT cat A", print(smpt(Filtre_cat_A)), "Le salaire moyen par 
 #'*Comparaisons nationales*    
 #'*FPT catégorie A*    
 #'            
-#' | Décile \ euros   | 2011     | 2013   |   2014   |  
-#' |------------------|----------|--------|----------|   
-#' |    D1            | 26 040   | 26 340 |  26 460  |   
-#' |    D2            | 28 992   |        |          |   
-#' |    D3            | 31 272   |        |          |   
-#' |    D4            | 33 468   |        |          |   
-#' |    D5 (médiane)  | 35 820   | 36 312 |  36 580  |    
-#' |    D6            | 38 664   |        |          |
-#' |    D7            | 42 276   |        |          |    
-#' |    D8            | 47 124   |        |          |
-#' |    D9            | 54 840   | 55 032 |  55 440  |       
-#' |  Moyenne         | 38 700   | 39 120 |  39 360  |  
+#' | Décile \ euros   | 2011     | 2013   |   2014   |  2016   |
+#' |------------------|----------|--------|----------|---------|   
+#' |    D1            | 26 040   | 26 340 |  26 460  |  26 724 |
+#' |    D2            | 28 992   |        |          |         |
+#' |    D3            | 31 272   |        |          |         |
+#' |    D4            | 33 468   |        |          |         |
+#' |    D5 (médiane)  | 35 820   | 36 312 |  36 580  |  37 020 |  
+#' |    D6            | 38 664   |        |          |         |  
+#' |    D7            | 42 276   |        |          |         |
+#' |    D8            | 47 124   |        |          |         |
+#' |    D9            | 54 840   | 55 032 |  55 440  |  55 284 |      
+#' |  Moyenne         | 38 700   | 39 120 |  39 360  |  39 564 |  
 #' 
 
 #'   
@@ -211,19 +211,19 @@ essayer(label = "+SMPT cat B", print(smpt(Filtre_cat_B)),          "Le salaire m
 #'*Comparaisons nationales*    
 #'*FPT catégorie B*    
 #'    
-#' | Décile \ euros   | 2011     | 2013   |  2014   |    
-#' |------------------|----------|--------|---------|   
-#' |    D1            | 20 580   | 20 964 |  21 108 |   
-#' |    D2            | 22 272   |        |         |   
-#' |    D3            | 23 652   |        |         |   
-#' |    D4            | 24 960   |        |         |   
-#' |    D5 (médiane)  | 26 244   | 26 820 |  27 000 |     
-#' |    D6            | 27 636   |        |         |   
-#' |    D7            | 29 160   |        |         |    
-#' |    D8            | 30 984   |        |         |   
-#' |    D9            | 33 804   | 34 224 | 34 344  |   
-#' |  Moyenne         | 26 940   | 27 408 | 27 588  |  
-#' 
+#' | Décile \ euros   | 2011     | 2013   |  2014   |  2016  |  
+#' |------------------|----------|--------|---------|--------|   
+#' |    D1            | 20 580   | 20 964 |  21 108 | 21 372 |
+#' |    D2            | 22 272   |        |         |        |
+#' |    D3            | 23 652   |        |         |        |
+#' |    D4            | 24 960   |        |         |        |  
+#' |    D5 (médiane)  | 26 244   | 26 820 |  27 000 | 27 216 |  
+#' |    D6            | 27 636   |        |         |        |  
+#' |    D7            | 29 160   |        |         |        |
+#' |    D8            | 30 984   |        |         |        |
+#' |    D9            | 33 804   | 34 224 | 34 344  | 34 560 |
+#' |  Moyenne         | 26 940   | 27 408 | 27 588  | 27 828 |
+#'  
 
 #'   
 #'**Categorie C**  
@@ -238,19 +238,19 @@ essayer(label = "+SMPT cat C", print(smpt(Filtre_cat_C)),       "Le salaire moye
 #'*Comparaisons nationales*    
 #'*FPT catégorie C*    
 #'    
-#' | Décile \ euros   | 2011     | 2013   |  2014  | 
-#' |------------------|----------|--------|--------|
-#' |    D1            | 15 972   |  16 296| 16 632 |
-#' |    D2            | 16 896   |        |        |
-#' |    D3            | 17 652   |        |        |
-#' |    D4            | 18 360   |        |        |
-#' |    D5 (médiane)  | 19 164   |  19 464| 19 884 |
-#' |    D6            | 20 100   |        |        |
-#' |    D7            | 21 216   |        |        |
-#' |    D8            | 22 680   |        |        |
-#' |    D9            | 24 996   |  25 176| 25 608 |
-#' |    Moyenne       | 20 016   |  20 268| 20 676 |
-#' 
+#' | Décile \ euros   | 2011     | 2013   |  2014  |  2016  | 
+#' |------------------|----------|--------|--------|--------|
+#' |    D1            | 15 972   |  16 296| 16 632 | 16 920 |
+#' |    D2            | 16 896   |        |        |        |
+#' |    D3            | 17 652   |        |        |        |
+#' |    D4            | 18 360   |        |        |        |
+#' |    D5 (médiane)  | 19 164   |  19 464| 19 884 | 20 256 | 
+#' |    D6            | 20 100   |        |        |        |
+#' |    D7            | 21 216   |        |        |        |
+#' |    D8            | 22 680   |        |        |        |
+#' |    D9            | 24 996   |  25 176| 25 608 | 26 028 |
+#' |    Moyenne       | 20 016   |  20 268| 20 676 | 21 024 |  
+#'    
 
 
 
@@ -290,7 +290,10 @@ essayer(label = "+distribution SMPT cat. B", print(distribution_smpt(Filtre_cat_
 
 essayer(label = "+distribution SMPT cat. C", print(distribution_smpt(Filtre_cat_C)), "La distribution du salaire moyen par tête des fonctionnaires de catégorie C n'a pas pu être calculée.")
 
+#'    
+#'    
 conditionnel("Lien vers la base de données", "Bases/Remunerations/Analyse.variations.par.exercice.csv")     
+#'   
 
 ########### 4.3  RMPP et effet de noria ###########  
 
@@ -529,19 +532,48 @@ essayer(invisible(noria(champ = "net", filtre = "C")),
 essayer(invisible(noria(champ = "brut", filtre = "C")),
         "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations brutes moyennes des fonctionnaires de catégorie C.")
 
-#'     
-
 detach(Analyse.variations.par.exercice)
 
-conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthese.csv")
+conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthese.csv")  
+
+#'   
+#'## 4.4 Rémunérations nettes par grade, emploi et service         
+#'   
+
+net.grades <<- net.eqtp(variation = TRUE)
+
+sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 
+           environment(), "net.grades")
+
+net.emplois <<- net.eqtp.emploi(variation = TRUE)
+
+sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 
+           environment(), "net.emplois")
+
+net.services <- net.eqtp.serv(variation = TRUE)
+
+setwd(file.path(chemin.dossier.bases, "Remunerations"))
+zip("net.services.zip", list.files(".", pattern = "net.serv..*.csv"))
+setwd(currentDir)
+
+#'   
+conditionnel("Rémunérations nettes par grade", "Bases/Remunerations/net.grades.csv")      
+#'  
+conditionnel("Rémunérations nettes par emploi", "Bases/Remunerations/net.emplois.csv")  
+#'   
+conditionnel("Rémunérations nettes par service", "Bases/Remunerations/net.services.zip")  
+#'  
+#'*Note : les moyennes des tableaux sont pondérées en EQTP. Les rémunérations nettes sont calculées en retranchant le supplément familial de traitement.*      
+#'    
+#'  
 #'
 #'
-#'### 4.4 Comparaisons avec la situation nationale des rémunérations   
+#'## 4.5 Comparaisons avec la situation nationale des rémunérations   
 #'  
 #'**Évolution en euros courants du SMPT et de la RMPP dans la FPT (en % et euros courants)**    
 
 #'  
-#'&nbsp;*Tableau 4.4.1*   
+#'&nbsp;*Tableau 4.5.1*   
 #'    
 
 #' 
@@ -563,7 +595,7 @@ conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthe
 #'**Salaires nets annuels et évolution moyenne type de collectivité en euros courants  EQTP**    
 #'   
 #'  
-#'&nbsp;*Tableau 4.4.2*   
+#'&nbsp;*Tableau 4.5.2*   
 #'    
 
 #' 

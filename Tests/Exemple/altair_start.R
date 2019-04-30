@@ -234,6 +234,7 @@ if (setOSWindows) séquentiel <- TRUE else {
 }
 
 
+
 scripts <- list(
   "script_effectifs.R",                   #### 1.1 Effectifs          ####
   "script_pyramides.R",                   #### 1.2-5 Pyramides        ####
@@ -268,7 +269,7 @@ générer.partie <- function(script, seq) {
                                                                              as.list(na.omit(c(file.path(chemin.modules, x[1]),
                                                                                              x[-1])))))) 
 }
-                              
+                            
 if (séquentiel) {
   
   générer.partie(scripts)
@@ -370,18 +371,21 @@ if (profiler)
 
 # Conversion en Latin-1 des bases du rapport, pour une meilleure lecture sous Windows
 
-system2("find", c("Donnees/R-Altair/Bases", 
-                  "-name", "'*.csv'", 
-                  "-exec", "sed -i -e '1s/Categorie/Catégorie/'     {} \\;", 
-                  "-exec", "sed -i -e '1s/Debut/Début/'             {} \\;", 
-                  "-exec", "sed -i -e '1s/Annee/Année/'             {} \\;",
-                  "-exec", "sed -i -e '1s/Prenom/Prénom/'           {} \\;",
-                  "-exec", "sed -i -e '1s/Net.a.Payer/Net.à.Payer/' {} \\;",
-                  "-exec", "sed -i -e '1s/Evenement/Evénement/'     {} \\;"),
-                stderr = FALSE)
+if (convertir.latin1) {
 
-system2("find", c("Donnees/R-Altair/Bases", "-name", "'*.csv'", "-exec", "iconv -f UTF-8 -t ISO-8859-15 -c -o {}.2  {} \\;", "-exec",  "mv {}.2 {} \\;"),
-                stderr = FALSE)
+  system2("find", c("Donnees/R-Altair/Bases",
+                    "-name", "'*.csv'",
+                    "-exec", "sed -i -e '1s/Categorie/Catégorie/'     {} \\;",
+                    "-exec", "sed -i -e '1s/Debut/Début/'             {} \\;",
+                    "-exec", "sed -i -e '1s/Annee/Année/'             {} \\;",
+                    "-exec", "sed -i -e '1s/Prenom/Prénom/'           {} \\;",
+                    "-exec", "sed -i -e '1s/Net.a.Payer/Net.à.Payer/' {} \\;",
+                    "-exec", "sed -i -e '1s/Evenement/Evénement/'     {} \\;"),
+                  stderr = FALSE)
+
+    system2("find", c("Donnees/R-Altair/Bases", "-name", "'*.csv'", "-print0", "|", "xargs", "-0", "../../linux/utf82latin1"),
+                    stderr = FALSE)
+}
 
 # Copie de la documentation accessoire aux rapports
 
