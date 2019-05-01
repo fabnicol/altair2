@@ -93,14 +93,27 @@ Tableau.vertical2(
 #'
 cout.eqtp <- charges.eqtp(variation = TRUE)
 cout.eqtp.emploi <- charges.eqtp.emploi(variation = TRUE)   
+cout.eqtp.serv <- charges.eqtp.serv(variation = TRUE)
+
 sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 
            environment(), "cout.eqtp.emploi")
 sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 
            environment(), "cout.eqtp")
+
+setwd(file.path(chemin.dossier.bases, "Remunerations"))
+csvfiles  <- list.files(".", pattern = "^charges.serv..*.csv")
+system2(file.path(currentDir, "linux/utf82latin1"), system.quote(csvfiles), stderr = NULL, stdout = NULL)
+zip("cout.eqtp.services.zip", csvfiles)
+invisible(file.remove(csvfiles))
+setwd(currentDir)
 
 #'   
 conditionnel("Coût moyen chargé par grade", "Bases/Remunerations/cout.eqtp.csv")      
 #'    
 conditionnel("Coût moyen chargé par emploi", "Bases/Remunerations/cout.eqtp.emploi.csv")    
 #'   
+#'    
+conditionnel("Coût moyen chargé par grade et service", "Bases/Remunerations/cout.eqtp.services.zip")    
+#'   
+
 #'          
