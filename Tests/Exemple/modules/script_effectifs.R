@@ -15,9 +15,9 @@ message("Démographie...")
 
 tableau.effectifs <<- effectifs(période, Bulletins.paie, Analyse.remunerations, Analyse.variations)
 
-tableau.effectifs.grades <<- eqtp.grade(variation = TRUE)
+tableau.effectifs.grades <- eqtp.grade(variation = TRUE)
 
-tableau.effectifs.emplois <<- eqtp.emploi(variation = TRUE)
+tableau.effectifs.emplois <- eqtp.emploi(variation = TRUE)
 
 #'  
 #  
@@ -52,32 +52,23 @@ if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 15
       round(semaine.de.travail,1), " h par semaine.\n")
 }
 
-sauv.bases(file.path(chemin.dossier.bases, "Effectifs"), 
-           environment(),
-           "tableau.effectifs")
+setwd(file.path(chemin.dossier.bases, "Effectifs"))
 
-sauv.bases(file.path(chemin.dossier.bases, "Effectifs"), 
-           environment(),
-           "tableau.effectifs.grades")
-
-sauv.bases(file.path(chemin.dossier.bases, "Effectifs"), 
-           environment(),
-           "tableau.effectifs.emplois")
+fwrite(tableau.effectifs, "tableau.effectifs.csv", sep = ";", dec = ",")
+fwrite(tableau.effectifs.grades, "tableau.effectifs.grades.csv", sep = ";", dec = ",")           
+fwrite(tableau.effectifs.grades, "tableau.effectifs.emplois.csv", sep = ";", dec = ",")           
 
 eqtp.grade.serv(variation = TRUE)
 
 eqtp.grade.cat(variation = TRUE)
 
-setwd(file.path(chemin.dossier.bases, "Effectifs"))
-
-zip("tableau.effectifs.services.zip", list.files(".", pattern = "effectifs.serv..*.csv"))
-
-setwd(file.path(chemin.dossier.bases, "Effectifs"))
+csvfiles <- list.files(".", pattern = "^effectifs.*csv")
+system2(file.path(currentDir, "linux/utf82latin1"), csvfiles, stderr = FALSE)
 
 zip("tableau.effectifs.services.zip", list.files(".", pattern = "effectifs.serv..*.csv"))
 zip("tableau.effectifs.categories.zip", list.files(".", pattern = "effectifs.cat..*.csv"))
 
-setwd(currentDir)
+invisible(file.remove(list.files(".", pattern = "^effectifs..*.csv")))
 
 #'      
  
@@ -89,6 +80,7 @@ conditionnel("Lien vers la base des effectifs en ETPT par grade et catégorie", 
 
 #'   
 #'
+setwd(currentDir)
 
 #+ pyramides-des-âges
 

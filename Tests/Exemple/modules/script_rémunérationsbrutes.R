@@ -499,6 +499,9 @@ rm(Analyse.remunerations.exercice)
 conditionnel("Lien vers la base des rémunérations", "Bases/Remunerations/Analyse.remunerations.csv")  
 #'   
 
+
+
+
 newpage()
 
 

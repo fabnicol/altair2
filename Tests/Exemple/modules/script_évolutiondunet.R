@@ -540,20 +540,19 @@ conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthe
 #'## 4.4 Rémunérations nettes par grade, emploi et service         
 #'   
 
+setwd(file.path(chemin.dossier.bases, "Remunerations"))
+      
 net.grades <<- net.eqtp(variation = TRUE)
-
-sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 
-           environment(), "net.grades")
-
 net.emplois <<- net.eqtp.emploi(variation = TRUE)
-
-sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 
-           environment(), "net.emplois")
-
 net.services <- net.eqtp.serv(variation = TRUE)
 
-setwd(file.path(chemin.dossier.bases, "Remunerations"))
-zip("net.services.zip", list.files(".", pattern = "net.serv..*.csv"))
+fwrite(net.emplois, "net.emplois.csv", sep = ";", dec = ",") 
+fwrite(net.grades, "net.grades.csv", sep = ";", dec = ",") 
+csvfiles  <- list.files(".", pattern = "net.serv..*.csv")
+system2(file.path(currentDir, "linux/utf82latin1"), csvfiles,stderr = FALSE)
+zip("net.services.zip", csvfiles)
+invisible(file.remove(csvfiles))
+
 setwd(currentDir)
 
 #'   
