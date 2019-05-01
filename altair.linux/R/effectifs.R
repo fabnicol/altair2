@@ -961,23 +961,23 @@ charges.eqtp <- function(Base = Paie,
  # Ni un avantage en nature, ni une retenue, ni une déduction (salarié) ni un rappel de retenue/déduction.csg/crds/avantage nat. mais ok : remb. frais frais
  # On sort les élus
   
-  A <- T[ , .(Coût = round(sum(Montant[Type %chin%  c("T", "IR", "S", "I", "A", "C") | (Type == "R" & ! grepl("cot|ret|d[eé]du|R\\.?D\\.?S|C\\.?S\\.?G\\.?|av.*nat", 
+  A <- T[ , .(Cout = round(sum(Montant[Type %chin%  c("T", "IR", "S", "I", "A", "C") | (Type == "R" & ! grepl("cot|ret|d[eé]du|R\\.?D\\.?S|C\\.?S\\.?G\\.?|av.*nat", 
                                                                                                           Libelle,
                                                                                                           ignore.case = TRUE,
                                                                                                           perl = TRUE))], na.rm = TRUE)),
                 
               eqtp = sum(quotite[1], na.rm = TRUE) / 12),
                     keyby=c("Annee", Gr, "Matricule", "Mois")
-        ][ , .(Coût.moyen.cum = sum(Coût, na.rm = TRUE),
+        ][ , .(Cout.moyen.cum = sum(Cout, na.rm = TRUE),
                eqtp.cum = sum(eqtp, na.rm = TRUE)),
                    keyby = c("Annee", Gr)
         ]
   
   if (! quotite.nulle) {
-    A <- A[ , Coût.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Coût.moyen.cum) | eqtp.cum == 0, 0, round(Coût.moyen.cum / eqtp.cum)),
+    A <- A[ , Cout.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Cout.moyen.cum) | eqtp.cum == 0, 0, round(Cout.moyen.cum / eqtp.cum)),
                        keyby = c("Annee", Gr)
-            ][ , Coût.moyen := formatC(round(Coût.moyen.num), big.mark = " ", format = "d")]
-    moyenne_ <- A[ , .(Moy.num = round(sum(Coût.moyen.cum, na.rm = TRUE)/sum(eqtp.cum, na.rm = TRUE))), keyby = Annee
+            ][ , Cout.moyen := formatC(round(Cout.moyen.num), big.mark = " ", format = "d")]
+    moyenne_ <- A[ , .(Moy.num = round(sum(Cout.moyen.cum, na.rm = TRUE)/sum(eqtp.cum, na.rm = TRUE))), keyby = Annee
                    ][ , Moy := formatC(Moy.num, big.mark = " ", format = "d")]
     moyenne <- transpose(data.table(c("Moyenne", moyenne_$Moy)))
     moyenne.num <- transpose(data.table(c("Moyenne", moyenne_$Moy.num)))
@@ -985,10 +985,10 @@ charges.eqtp <- function(Base = Paie,
     
   } else {
     
-    A <- A[ , Coût.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Coût.moyen.cum), 0, round(Coût.moyen.cum)),
+    A <- A[ , Cout.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Cout.moyen.cum), 0, round(Cout.moyen.cum)),
             keyby = c("Annee", Gr)
-            ][ , Coût.moyen := formatC(round(Coût.moyen.num), big.mark = " ", format = "d")]
-    moyenne_ <- A[ , .(Moy.num = round(sum(Coût.moyen.cum, na.rm = TRUE))), keyby = Annee
+            ][ , Cout.moyen := formatC(round(Cout.moyen.num), big.mark = " ", format = "d")]
+    moyenne_ <- A[ , .(Moy.num = round(sum(Cout.moyen.cum, na.rm = TRUE))), keyby = Annee
                    ][ , Moy := formatC(Moy.num, big.mark = " ", format = "d")]
     moyenne <- transpose(data.table(c("Total", moyenne_$Moy)))
     moyenne.num <- transpose(data.table(c("Total", moyenne_$Moy.num)))
@@ -1002,15 +1002,15 @@ charges.eqtp <- function(Base = Paie,
   
   if (agr) {
     
-    B <- dcast(A, G ~ Annee, value.var = "Coût.moyen", fill = 0)
-    B.num <- dcast(A, G ~ Annee, value.var = "Coût.moyen.num", fill = 0)
+    B <- dcast(A, G ~ Annee, value.var = "Cout.moyen", fill = 0)
+    B.num <- dcast(A, G ~ Annee, value.var = "Cout.moyen.num", fill = 0)
     if (! is.null(libellés)) B$G <- libellés[1:length(B$G)]
     names(B)[1] <- "Categorie de Grades"
     
   } else {
     
-    B <- dcast(A, Grade ~ Annee, value.var = "Coût.moyen", fill = 0)
-    B.num <- dcast(A, Grade ~ Annee, value.var = "Coût.moyen.num", fill = 0)
+    B <- dcast(A, Grade ~ Annee, value.var = "Cout.moyen", fill = 0)
+    B.num <- dcast(A, Grade ~ Annee, value.var = "Cout.moyen.num", fill = 0)
   }
   
   colnames(moyenne) <- colnames(B)
@@ -1158,23 +1158,23 @@ charges.eqtp.emploi <- function(Base = Paie,
   # Ni un avantage en nature, ni une retenue, ni une déduction (salarié) ni un rappel de retenue/déduction.csg/crds/avantage nat. mais ok : remb. frais frais
   # On sort les élus
   
-  A <- T[ , .(Coût = round(sum(Montant[Type %chin%  c("T", "IR", "S", "I", "A", "C") | (Type == "R" & ! grepl("cot|ret|d[eé]du|R\\.?D\\.?S|C\\.?S\\.?G\\.?|av.*nat", 
+  A <- T[ , .(Cout = round(sum(Montant[Type %chin%  c("T", "IR", "S", "I", "A", "C") | (Type == "R" & ! grepl("cot|ret|d[eé]du|R\\.?D\\.?S|C\\.?S\\.?G\\.?|av.*nat", 
                                                                                                               Libelle,
                                                                                                               ignore.case = TRUE,
                                                                                                               perl = TRUE))], na.rm = TRUE)),
               
               eqtp = sum(quotite[1], na.rm = TRUE) / 12),
           keyby=c("Annee", Gr, "Matricule", "Mois")
-          ][ , .(Coût.moyen.cum = sum(Coût, na.rm = TRUE),
+          ][ , .(Cout.moyen.cum = sum(Cout, na.rm = TRUE),
                  eqtp.cum = sum(eqtp, na.rm = TRUE)),
              keyby = c("Annee", Gr)
              ]
   
   if (! quotite.nulle) {
-    A <- A[ , Coût.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Coût.moyen.cum) | eqtp.cum == 0, 0, round(Coût.moyen.cum / eqtp.cum)),
+    A <- A[ , Cout.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Cout.moyen.cum) | eqtp.cum == 0, 0, round(Cout.moyen.cum / eqtp.cum)),
             keyby = c("Annee", Gr)
-            ][ , Coût.moyen := formatC(round(Coût.moyen.num), big.mark = " ", format = "d")]
-    moyenne_ <- A[ , .(Moy.num = round(sum(Coût.moyen.cum, na.rm = TRUE)/sum(eqtp.cum, na.rm = TRUE))), keyby = Annee
+            ][ , Cout.moyen := formatC(round(Cout.moyen.num), big.mark = " ", format = "d")]
+    moyenne_ <- A[ , .(Moy.num = round(sum(Cout.moyen.cum, na.rm = TRUE)/sum(eqtp.cum, na.rm = TRUE))), keyby = Annee
                    ][ , Moy := formatC(Moy.num, big.mark = " ", format = "d")]
     moyenne <- transpose(data.table(c("Moyenne", moyenne_$Moy)))
     moyenne.num <- transpose(data.table(c("Moyenne", moyenne_$Moy.num)))
@@ -1182,10 +1182,10 @@ charges.eqtp.emploi <- function(Base = Paie,
     
   } else {
     
-    A <- A[ , Coût.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Coût.moyen.cum), 0, round(Coût.moyen.cum)),
+    A <- A[ , Cout.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Cout.moyen.cum), 0, round(Cout.moyen.cum)),
             keyby = c("Annee", Gr)
-            ][ , Coût.moyen := formatC(round(Coût.moyen.num), big.mark = " ", format = "d")]
-    moyenne_ <- A[ , .(Moy.num = round(sum(Coût.moyen.cum, na.rm = TRUE))), keyby = Annee
+            ][ , Cout.moyen := formatC(round(Cout.moyen.num), big.mark = " ", format = "d")]
+    moyenne_ <- A[ , .(Moy.num = round(sum(Cout.moyen.cum, na.rm = TRUE))), keyby = Annee
                    ][ , Moy := formatC(Moy.num, big.mark = " ", format = "d")]
     moyenne <- transpose(data.table(c("Total", moyenne_$Moy)))
     moyenne.num <- transpose(data.table(c("Total", moyenne_$Moy.num)))
@@ -1199,15 +1199,15 @@ charges.eqtp.emploi <- function(Base = Paie,
   
   if (agr) {
     
-    B <- dcast(A, E ~ Annee, value.var = "Coût.moyen", fill = 0)
-    B.num <- dcast(A, E ~ Annee, value.var = "Coût.moyen.num", fill = 0)
+    B <- dcast(A, E ~ Annee, value.var = "Cout.moyen", fill = 0)
+    B.num <- dcast(A, E ~ Annee, value.var = "Cout.moyen.num", fill = 0)
     if (! is.null(libellés)) B$E <- libellés[1:length(B$E)]
     names(B)[1] <- "Categorie d'emplois"
     
   } else {
     
-    B <- dcast(A, Emploi ~ Annee, value.var = "Coût.moyen", fill = 0)
-    B.num <- dcast(A, Emploi ~ Annee, value.var = "Coût.moyen.num", fill = 0)
+    B <- dcast(A, Emploi ~ Annee, value.var = "Cout.moyen", fill = 0)
+    B.num <- dcast(A, Emploi ~ Annee, value.var = "Cout.moyen.num", fill = 0)
   }
   
   colnames(moyenne) <- colnames(B)
@@ -1226,6 +1226,168 @@ charges.eqtp.emploi <- function(Base = Paie,
     B[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((as.numeric(B.num[[ncol(B.num)]])/d - 1)*100, 1)]
   
   B
+}
+
+#' Tableau des coûts moyens de personnel par grade et service.
+#'
+#' Elabore un tableau des charges moyennes de personnel (coût) par grade et par année, pour chaque service et donne la moyenne pondérée.
+#' 
+#' @param Base Base des bulletins de paye, comportant pour l'ensemble de la période
+#'        \enumerate{
+#'          \item{ les variables charactère suivantes :
+#'             \itemize{
+#'                 \item \code{Annee}
+#'                 \item \code{Matricule}
+#'                 \item \code{Statut}
+#'                 \item \code{Grade}}}
+#'           \item{ les variables numériques :
+#'               \describe{
+#'                 \item{\code{quotite}}{réel entre 0 et 1}}}}.
+#' @param grade Grade particulier. Tous les grades en l'absence de spécification.
+#' @param classe Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
+#' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
+#' @param libellés  Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
+#' @param période Vecteur des années considérées.
+#' @param variation Booléen Insérer une colonne des variations (défaut FALSE).
+#' @param statut Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.
+#' @param catégorie Catégorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
+#' @param exclure.codes Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).  
+#' @return Un tableau des coûts chargés moyens par grade et service mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
+#' @examples
+#' charges.eqtp.serv()
+#' @export
+
+charges.eqtp.serv <- function(Base = Paie, 
+                          grade = NULL,
+                          classe = NULL,
+                          libellés = NULL, 
+                          agr = FALSE,
+                          période = NULL,
+                          variation = FALSE,
+                          statut = NULL,
+                          catégorie = NULL,
+                          exclure.codes = NULL,
+                          quotite.nulle = FALSE)  {
+  
+  if (! is.null(libellés) && length(libellés) != length(classe)) {
+    
+    message("Le vecteur des libellés doit avoir la même longueur que le vecteur des expressions régulières")
+    return(NULL)
+  }
+  
+  T <- analyse.regexp(Base, classe, agr)
+  
+  if (agr) {
+    
+    Gr <- "G"
+    message("Agrégation des grades")
+    
+  } else {
+    
+    if (is.null(classe) & ! is.null(grade))   T <- Base[Statut !=  "ELU" & Grade %in% grade]
+    
+    Gr <- "Grade" 
+  }
+  
+  if (quotite.nulle) {
+    T <- T[Statut != "ELU" & quotite == 0]  
+  } else {
+    T <- T[Statut != "ELU" & quotite > 0]
+  }
+  
+  if (! is.null(exclure.codes)) T <- T[! Code %in% exclure.codes]
+  
+  if (! is.null(période)) T <- T[Annee %in% période]
+  
+  if (! is.null(catégorie)) {
+    
+    if (is.null(statut)) {
+      
+      T <- T[Categorie == catégorie] 
+      
+    } else {
+      
+      T <- T[Categorie == catégorie & Statut %in% statut] 
+      
+    }
+  }
+  
+  
+  A <- T[ , .(Cout = round(sum(Montant[Type %chin%  c("T", "IR", "S", "I", "A", "C") | (Type == "R" & ! grepl("cot|ret|d[eé]du|R\\.?D\\.?S|C\\.?S\\.?G\\.?|av.*nat", 
+                                                                                                              Libelle,
+                                                                                                              ignore.case = TRUE,
+                                                                                                              perl = TRUE))], na.rm = TRUE)),
+              
+              eqtp = sum(quotite[1], na.rm = TRUE) / 12),
+          keyby=c("Annee", Gr, "Matricule", "Mois", "Service")
+          ][ , .(Cout.moyen.cum = sum(Cout, na.rm = TRUE),
+                 eqtp.cum = sum(eqtp, na.rm = TRUE)),
+             keyby = c("Annee", Gr, "Service")
+             ]
+  
+  if (! quotite.nulle) {
+    A <- A[ , Cout.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Cout.moyen.cum) | eqtp.cum == 0, 0, round(Cout.moyen.cum / eqtp.cum)),
+            keyby = c("Annee", Gr, "Service")
+            ][ , Cout.moyen := formatC(round(Cout.moyen.num), big.mark = " ", format = "d")]
+    
+  } else {
+    
+    A <- A[ , Cout.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Cout.moyen.cum), 0, round(Cout.moyen.cum)),
+            keyby = c("Annee", Gr, "Service")
+            ][ , Cout.moyen := formatC(round(Cout.moyen.num), big.mark = " ", format = "d")]
+    
+  }
+ 
+  A[  , Moy.num := round(weighted.mean(Cout.moyen.num, eqtp.cum, na.rm = TRUE), 1), keyby = .(Annee, Service)
+   ][ , Moy := formatC(Moy.num, big.mark = " ", format = "d")]
+  
+  if (nrow(A) == 0) {
+    message("Base vide")
+    return(A)
+  }
+  
+  curD <- getwd()
+  
+  setwd(file.path(chemin.dossier.bases, "Remunerations"))
+  
+  A[, {
+    if (agr) {
+      
+      B <- dcast(.SD, G ~ Annee, value.var = "Cout.moyen", fill = 0)
+      B.num <- dcast(.SD, G ~ Annee, value.var = "Cout.moyen.num", fill = 0)
+      if (! is.null(libellés)) B$G <- libellés[1:length(B$G)]
+      names(B)[1] <- "Categorie de Grades"
+
+    } else {
+      
+      B <- dcast(.SD, Grade ~ Annee, value.var = "Cout.moyen", fill = 0)
+      B.num <- dcast(.SD, Grade ~ Annee, value.var = "Cout.moyen.num", fill = 0)
+    }
+
+    moyenne.num <- transpose(data.table(c("Moyenne", .SD[, round(Moy.num[1], 0), by = Annee][[2]])))
+    names(moyenne.num) <- names(B)
+    
+    B <- rbind(B, moyenne.num)
+    B.num <- rbind(B.num, moyenne.num)
+    
+    if (variation) {
+    
+      début <- names(B)[2]
+      fin <- names(B)[ncol(B)]
+      
+      d <- as.numeric(B.num[[2]])
+      d <- ifelse(d == 0, NA, d)
+      
+      if (variation || agr) 
+        B[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((as.numeric(B.num[[ncol(B.num)]])/d - 1)*100, 1)]
+      
+    }
+    
+    fwrite(B, "charges.serv." %+%  sub("/", "-", Service) %+% ".csv", sep = ";", dec = ",")
+    
+  }, by = Service]
+  
+  setwd(curD)
 }
 
 
@@ -1529,22 +1691,17 @@ net.eqtp.serv <- function(Base = Paie,
     A <- A[ , Net.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Net.moyen.cum) | eqtp.cum == 0, 0, round(Net.moyen.cum / eqtp.cum)),
             keyby = c("Annee", Gr, "Service")
             ][ , Net.moyen := formatC(round(Net.moyen.num), big.mark = " ", format = "d")]
-    moyenne_ <- A[ , .(Moy.num = round(sum(Net.moyen.cum, na.rm = TRUE)/sum(eqtp.cum, na.rm = TRUE))), keyby = .(Annee, Service)
-                   ][ , Moy := formatC(Moy.num, big.mark = " ", format = "d")]
-    moyenne <- transpose(data.table(c("Moyenne", moyenne_$Moy)))
-    moyenne.num <- transpose(data.table(c("Moyenne", moyenne_$Moy.num)))
-    
+  
   } else {
     
     A <- A[ , Net.moyen.num := ifelse(is.na(eqtp.cum) | is.na(Net.moyen.cum), 0, round(Net.moyen.cum)),
             keyby = c("Annee", Gr, "Service")
             ][ , Net.moyen := formatC(round(Net.moyen.num), big.mark = " ", format = "d")]
-    moyenne_ <- A[ , .(Moy.num = round(sum(Net.moyen.cum, na.rm = TRUE))), keyby = .(Annee, Service)
-                   ][ , Moy := formatC(Moy.num, big.mark = " ", format = "d")]
-    moyenne <- transpose(data.table(c("Total", moyenne_$Moy)))
-    moyenne.num <- transpose(data.table(c("Total", moyenne_$Moy.num)))
-    
+  
   }
+  
+  A[  , Moy.num := round(weighted.mean(Net.moyen.num, eqtp.cum, na.rm = TRUE), 1), keyby = .(Annee, Service)
+      ][ , Moy := formatC(Moy.num, big.mark = " ", format = "d")]
   
   if (nrow(A) == 0) {
     message("Base vide")
@@ -1569,6 +1726,13 @@ net.eqtp.serv <- function(Base = Paie,
     B.num <- dcast(.SD, Grade ~ Annee, value.var = "Net.moyen.num", fill = 0)
   }
   
+   moyenne.num        <- transpose(data.table(c("Moyenne", .SD[, round(Moy.num[1], 0), by = Annee][[2]])))
+   names(moyenne.num) <- names(B)
+    
+   B <- rbind(B, moyenne.num)
+   B.num <- rbind(B.num, moyenne.num)  
+  
+   if (variation) {
    début <- names(B)[2]
    fin <- names(B)[ncol(B)]
    
@@ -1577,12 +1741,14 @@ net.eqtp.serv <- function(Base = Paie,
    
    if (variation || agr) 
      B[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((as.numeric(B.num[[ncol(B.num)]])/d - 1)*100, 1)]
+   }
 
   fwrite(B, "net.serv." %+%  sub("/", "-", Service) %+% ".csv", sep = ";", dec = ",")
   
-  setwd(curD)
   
   }, by = Service]
+  
+  setwd(curD)
 }
 
 
