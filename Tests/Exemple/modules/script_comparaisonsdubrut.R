@@ -85,3 +85,22 @@ Tableau.vertical2(
 #'[Source RAEFP 2017](Docs/RA_2017.pdf)    
 #'[Source RAEFP 2018](Docs/RA_2018.pdf)    
 #'   
+#'   
+#'## 3.6 Coût chargé  
+#'
+#'**Les liens ci-après renvoient vers des tableaux présentant le coût moyen chargé par agent**  
+#'  
+#'
+cout.eqtp <- charges.eqtp(variation = TRUE)
+cout.eqtp.emploi <- charges.eqtp.emploi(variation = TRUE)   
+sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 
+           environment(), "cout.eqtp.emploi")
+sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 
+           environment(), "cout.eqtp")
+
+#'   
+conditionnel("Coût moyen chargé par grade", "Bases/Remunerations/cout.eqtp.csv")      
+#'    
+conditionnel("Coût moyen chargé par emploi", "Bases/Remunerations/cout.eqtp.emploi.csv")    
+#'   
+#'          
