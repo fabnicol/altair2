@@ -63,12 +63,12 @@ eqtp.grade.serv(variation = TRUE)
 eqtp.grade.cat(variation = TRUE)
 
 csvfiles <- list.files(".", pattern = "^effectifs.*csv")
-system2(file.path(currentDir, "linux/utf82latin1"), csvfiles, stderr = FALSE)
+system2(file.path(currentDir, "linux/utf82latin1"),  system.quote(csvfiles), stderr = NULL, stdout = NULL)
 
-zip("tableau.effectifs.services.zip", list.files(".", pattern = "effectifs.serv..*.csv"))
+zip("tableau.effectifs.services.zip",   list.files(".", pattern = "effectifs.serv..*.csv"))
 zip("tableau.effectifs.categories.zip", list.files(".", pattern = "effectifs.cat..*.csv"))
 
-invisible(file.remove(list.files(".", pattern = "^effectifs..*.csv")))
+invisible(file.remove(csvfiles))
 
 #'      
  

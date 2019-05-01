@@ -1033,5 +1033,10 @@ invisible(sapply(index, function(x) {
 
 }
 
-
+#' Insérer des guillemets à chaque composante d'un vecteur de chaînes de caractères
+#' @param V Vecteur de chaînes de caractères.
+#' @return Le même vecteur avec des guillemets entourant chaque composante.
+#' @export
+#' 
+system.quote <- function(V) sapply(V, function(x) paste0("\"", x, "\"") , USE.NAMES = FALSE)
 

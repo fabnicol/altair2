@@ -1578,7 +1578,7 @@ net.eqtp.serv <- function(Base = Paie,
    if (variation || agr) 
      B[ , paste0("Variation ", début, "-", fin, " (%)") :=  round((as.numeric(B.num[[ncol(B.num)]])/d - 1)*100, 1)]
 
-  fwrite(B, "net.serv." %+%  sub("/", "-", Service) %+% ".csv")
+  fwrite(B, "net.serv." %+%  sub("/", "-", Service) %+% ".csv", sep = ";", dec = ",")
   
   setwd(curD)
   
