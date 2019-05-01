@@ -444,7 +444,26 @@ void MainWindow::createActions()
     exitAction = new QAction (tr ("&Quitter"), this);
     exitAction->setIcon (QIcon (":/images/application-exit.png"));
     exitAction->setShortcut (QKeySequence ("Ctrl+Q"));
-    connect (exitAction, &QAction::triggered,  [this] { emit (exitSignal());});
+    connect (exitAction, &QAction::triggered,  [this] {
+
+     QMessageBox::StandardButton res = QMessageBox::warning(this,
+                                                            "Protection de la confidentialité des données",
+                                                            QString("Nettoyage des <b>Données</b> du répertoire <br>") + altair->userdatadir + "<br>Attention, toutes les données de ce répertoire seront effacées.<br>Appuyer sur <b>Non</b> pour annuler ce nettoyage ou sur <b>Ignorer</b> pour ne pas fermer l'application.",
+                                                            QMessageBox::No | QMessageBox::Ignore | QMessageBox::Ok);
+     switch (res)
+     {
+       case  QMessageBox::Ok :
+         if (QDir(altair->userdatadir).removeRecursively()) {
+             QMessageBox::about(this, "Nettoyage des données", "Les données ont été nettoyées.");
+         }  else {
+             QMessageBox::about(this, "Nettoyage des données", "Les données n'ont pas pu être nettoyées.");
+         }
+
+         break;
+       case  QMessageBox::Ignore : return ;
+       default : break;
+     }
+     emit (exitSignal());});
 
     aboutAction = new QAction (tr ("&Au sujet de"), this);
     aboutAction->setIcon (QIcon (":/images/about.png"));
@@ -1913,7 +1932,7 @@ void MainWindow::configureOptions()
     connect (defaultProjectManagerWidgetLayoutBox, SIGNAL (toggled (bool)), this, SLOT (on_openManagerWidgetButton_clicked (bool)));
 
     connect (defaultFullScreenLayoutBox, SIGNAL (toggled (bool)), this, SLOT (displayFullScreen (bool)));
-    connect (defaultMaximumConsoleOutputBox, &FCheckBox::toggled, [this] {v(limitConsoleOutput).toggle();});
+    connect (defaultMaximumConsoleOutputBox, &FCheckBox::toggled, [] {v(limitConsoleOutput).toggle();});
     connect (defaultOutputTextEditBox, &FCheckBox::toggled, [this] {bottomDockWidget->setVisible (defaultOutputTextEditBox->isChecked());});
 
     connect (defaultMaximumConsoleOutputBox, &FCheckBox::toggled, [this]
