@@ -48,5 +48,5 @@ Author: R Core Team [aut, cph, cre],
   Free Software Foundation, Inc. [cph]
 Maintainer: R Core Team <R-core@R-project.org>
 Repository: CRAN
-Date/Publication: 2018-07-20 09:16:45 UTC
-Built: R 3.5.2; x86_64-pc-linux-gnu; 2019-01-11 21:31:40 UTC; unix
+Date/Publication: 2018-07-20 09:15:53 UTC
+Built: R 3.6.0; x86_64-pc-linux-gnu; 2019-04-28 10:03:26 UTC; unix

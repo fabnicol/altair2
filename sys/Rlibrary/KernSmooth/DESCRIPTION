@@ -22,4 +22,4 @@ Author: Matt Wand [aut],
 Maintainer: Brian Ripley <ripley@stats.ox.ac.uk>
 Repository: CRAN
 Date/Publication: 2015-06-29 17:13:50
-Built: R 3.5.2; x86_64-pc-linux-gnu; 2019-01-11 21:31:40 UTC; unix
+Built: R 3.6.0; x86_64-pc-linux-gnu; 2019-04-28 10:03:26 UTC; unix
