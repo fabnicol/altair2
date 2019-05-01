@@ -327,6 +327,7 @@ fi
 
 # script exécuté à la fin d'une session plasma (démontage de la clé)
 _copy 10-agent-shutdown.sh /etc/plasma/shutdown
+_copy 20-agent-startup.sh  /etc/plasma/startup
 _copy compte_utilisateur.sh /usr/bin
 # Vue de dossiers par défaut
 _copy defaults /usr/share/plasma/shells/org.kde.plasma.desktop/contents/
