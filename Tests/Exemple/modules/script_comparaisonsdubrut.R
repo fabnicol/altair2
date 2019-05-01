@@ -1,11 +1,27 @@
+#'
+#'## 3.4 Rémunérations brutes par grade et par emploi   
+#'   
+
+brut.eqtp <- brut.eqtp(variation = TRUE)
+brut.eqtp.emploi <- brut.eqtp.emploi(variation = TRUE)   
+sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 
+           environment(), "brut.eqtp.emploi")
+sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 
+           environment(), "brut.eqtp")
+
 
 #'   
-#'## 3.4 Comparaisons source INSEE/DGCL   
+conditionnel("Rémunérations brutes par grade", "Bases/Remunerations/brut.eqtp.csv")      
+#'    
+conditionnel("Rémunérations brutes par emploi", "Bases/Remunerations/brut.eqtp.emploi.csv")  
+#'   
+#'   
+#'## 3.5 Comparaisons source INSEE/DGCL   
 #'   
 #'*Salaires annnuels bruts moyens 2011-2016 en EQTP (hors assistantes maternelles)*   
 
 #'  
-#'&nbsp;*Tableau 3.4.1*   
+#'&nbsp;*Tableau 3.5.1*   
 #'    
 
 #+ comparaison-insee1
@@ -23,7 +39,7 @@ Tableau.vertical2(c("Agrégat (euros)", "2011", "2012", "2013", "2014", "2015", 
 #'**Eléments de la rémunération brute pour les titulaires de la fonction publique territoriale**      
 #'   
 #'  
-#'&nbsp;*Tableau 3.4.2*   
+#'&nbsp;*Tableau 3.5.2*   
 #'    
 
 Tableau.vertical2(
