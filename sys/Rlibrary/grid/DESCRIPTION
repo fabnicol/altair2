@@ -10,4 +10,4 @@ Imports: grDevices, utils
 Suggests: lattice
 License: Part of R 3.6.0
 NeedsCompilation: yes
-Built: R 3.6.0; x86_64-pc-linux-gnu; 2019-04-28 10:03:08 UTC; unix
+Built: R 3.6.0; x86_64-pc-linux-gnu; 2019-05-02 11:24:18 UTC; unix

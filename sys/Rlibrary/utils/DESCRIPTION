@@ -8,4 +8,4 @@ Description: R utility functions.
 License: Part of R 3.6.0
 Suggests: methods, xml2, commonmark
 NeedsCompilation: yes
-Built: R 3.6.0; x86_64-pc-linux-gnu; 2019-04-28 10:02:20 UTC; unix
+Built: R 3.6.0; x86_64-pc-linux-gnu; 2019-05-02 11:23:29 UTC; unix
