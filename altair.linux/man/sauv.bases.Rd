@@ -2,16 +2,14 @@
 % Please edit documentation in R/bibliotheque.fonctions.paie.R
 \name{sauv.bases}
 \alias{sauv.bases}
-\title{sauv.bases}
+\title{Sauvegarde de plusieurs bases}
 \usage{
-sauv.bases(chemin.dossier, Latin = convertir.latin, env = .GlobalEnv, ...)
+sauv.bases(chemin.dossier, env, ...)
 }
 \arguments{
 \item{chemin.dossier}{Chemin du dossier dans lequel la base sera sauvegardée}
 
-\item{Latin}{(= convertir.latin) Convertir en encodage latin ISO-8859-15}
-
-\item{env}{(= .GlobalEnv) Environnement}
+\item{env}{Environnement}
 
 \item{...}{Autres noms d'objets à sauvegarder}
 
@@ -21,10 +19,10 @@ sauv.bases(chemin.dossier, Latin = convertir.latin, env = .GlobalEnv, ...)
 Liste de booléens résultant de l'application de \link{Sauv.base}
 }
 \description{
-Sauvegarde d'une base data.table sous forme de fichier CSV
+Sauvegarde d'une ou plusieurs base de type data.table sous forme de fichier CSV
 }
 \examples{
 envir <- environment()
 # Générer Bulletins.paie et Paie dans envir
-sauv.bases("données", env = envir, c("Bulletins.paie", "Paie"))
+sauv.bases("données",  env = envir, c("Bulletins.paie", "Paie"))
 }

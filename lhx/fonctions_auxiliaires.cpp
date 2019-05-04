@@ -53,11 +53,11 @@
 
 extern bool verbeux;
 
+#include "entete.h"
+
 #ifndef __linux__
-#include "entete-latin1.h"
 #include <windows.h>
 #else
-#include "entete.h"
 #include <unistd.h>
 #endif
 
@@ -66,6 +66,9 @@ extern bool verbeux;
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <assert.h>
+#include <sys/stat.h>
+#include <stdlib.h>
+#include <unistd.h>
 #else
 #error "La compilation MMAP ne peut se faire que sous unix."
 #endif
@@ -122,6 +125,7 @@ ostringstream help()
         <<  "**--eemployeur** *argument obligatoire* : la liste des employeurs à exclure de la sortie, séparés par des blancs. " << "\n\n"
         <<  "**--esiret** *argument obligatoire* : la liste des SIRET à exclure de la sortie, séparés par des blancs. " << "\n\n"
         <<  "**--ebudget** *argument obligatoire* : la liste des budgets à exclure de la sortie, séparés par des blancs. " << "\n\n"
+        <<  "**--repartition-budget** *sans argument* : afficher la répartition budgétaire : Code.Budget, Taux.Budget, Montant.Budget. " << "\n\n"    
         <<  "**--xhlmem** *arg. oblig.*    : taille des fichiers à  analyser en octets.  " << "\n\n"
         <<  "**--memshare** *arg. oblig.*  : part de la mémoire vive utilisée, en points de pourcentage.  " << "\n\n"
         <<  "**--segments** *arg. oblig.*  : nombre minimum de segments de base.  " << "\n\n"
@@ -129,6 +133,7 @@ ostringstream help()
         <<  "**--verifmem** *sans argument*: seulement vérifier la consommation mémoire.  " << "\n\n"
         <<  "**--hmarkdown** *sans argument*: aide en format markdown.  " << "\n\n"
         <<  "**--pdf**     *sans argument* : aide en format pdf.  " << "\n\n"
+        <<  "**--html**    *sans argument* : aide en format html.  " << "\n\n"            
         <<  "**--cdrom**   *sans argument* : lire les données directement sur le disque optique.  " << "\n\n"
         <<  "**--dossier-bulletins** *arg.oblig.*: dossier vers lequel seront exportés les bulletins extraits.\n  "
             RETRAIT                          "      " "Les dossiers sont nettoyés à chaque extraction de bulletins.  "     << "\n\n"
@@ -423,33 +428,92 @@ void ecrire_entete0 (const info_t &info, ofstream& base, const char* entete[], i
     int i;
 
     if (info.select_echelon)
+    {
+        if (info.generer_repartition_budget)
         {
-            if (info.select_siret)
-                for (i = !info.generer_rang; i < N - 1; ++i)
-                    base << entete[i] << info.separateur;
-            else
-                for (i = !info.generer_rang; i < N - 1; ++i)
-                    {
-                        if (i != Budget + 1 &&  i != Employeur + 1 && i != Siret + 1 && i != Etablissement + 1)
-                            base << entete[i] << info.separateur;
-                    }
+          for (i = !info.generer_rang; i < N - 1; ++i)
+                if (info.select_siret)
+                        base << entete[i] << info.separateur;
+                else
+                        {
+                            if (i != Budget + 1 &&  i != Employeur + 1 && i != Siret + 1 && i != Etablissement + 1)
+                                base << entete[i] << info.separateur;
+                        }
+
         }
+        else
+        {
+                if (info.select_siret)
+                {
+                    for (i = !info.generer_rang; i < N - 1; ++i)
+                        if (i != CodeBudget + 1 && i != Taux + 1 && i != MtBudget + 1)
+                        {
+                           base << entete[i] << info.separateur;
+                        }
+                }
+                else
+                    for (i = !info.generer_rang; i < N - 1; ++i)
+                        {
+                            if (i != Budget + 1 &&  i != Employeur + 1 && i != Siret + 1 && i != Etablissement + 1
+                                    && i != CodeBudget + 1 && i != Taux + 1 && i != MtBudget + 1)
+                                    {
+                                       base << entete[i] << info.separateur;
+                                    }
+                        }
+
+        }
+    }
     else
-        {
+    {
             if (info.select_siret)
+            {
+              if (info.generer_repartition_budget)
+              {
                 for (i = !info.generer_rang; i < N - 1; ++i)
                     {
-                        if (entete[i][0] != 'E' || entete[i][1] != 'c')  // Pour "Echelon"
-                            base << entete[i] << info.separateur;
+                         if (entete[i][0] != 'E' || entete[i][1] != 'c')  // Pour "Echelon"
+                                base << entete[i] << info.separateur;
+
                     }
+              }
+              else
+              {
+                  for (i = !info.generer_rang; i < N - 1; ++i)
+                      {
+                        if (i != CodeBudget + 1 && i != Taux + 1 && i != MtBudget + 1)
+                        {
+                          if (entete[i][0] != 'E' || entete[i][1] != 'c')  // Pour "Echelon"
+                               base << entete[i] << info.separateur;
+                        }
+                       }
+              }
+
+            }
             else
-                for (i = !info.generer_rang; i < N - 1; ++i)
+            {
+                if (info.generer_repartition_budget)
+                {
+                    for (i = ! info.generer_rang; i < N - 1; ++i)
+                      {
+                            if (i != Budget + 1 &&  i != Employeur + 1 && i != Siret + 1 && i != Etablissement + 1
+                                            && (entete[i][0] != 'E' || entete[i][1] != 'c'))  // Pour "Echelon"
+
+                                base << entete[i] << info.separateur;
+                      }
+                 }
+                else
+                {
+                    for (i = ! info.generer_rang; i < N - 1; ++i)
                     {
-                        if (i != Budget + 1 &&  i != Employeur + 1 && i != Siret + 1 && i != Etablissement + 1
-                                && (entete[i][0] != 'E' || entete[i][1] != 'c'))  // Pour "Echelon"
-                            base << entete[i] << info.separateur;
+                                if (i != CodeBudget + 1 && i != Taux + 1 && i != MtBudget + 1
+                                     && i != Budget + 1 &&  i != Employeur + 1 && i != Siret + 1 && i != Etablissement + 1
+                                            && (entete[i][0] != 'E' || entete[i][1] != 'c'))  // Pour "Echelon"
+
+                                        base << entete[i] << info.separateur;
                     }
-        }
+                }
+            }
+    }
 
     base << entete[i] << "\n";
 }
@@ -678,18 +742,9 @@ void calculer_maxima (const vector<info_t> &Info, ofstream* LOG)
 }
 
 
-template <typename Allocator = allocator<char>>
-string read_stream_into_string (
-    ifstream& in,
-    Allocator alloc)
+string read_stream_into_string (ifstream& in)
 {
-    basic_ostringstream<char, char_traits<char>, Allocator>
-    ss (basic_string<char, char_traits<char>, Allocator> (move (alloc)));
-
-    if (! (ss << in.rdbuf()))
-        throw ios_base::failure{"[ERR] Erreur d'allocation de lecture de fichier.\n"};
-
-    return ss.str();
+    return { istreambuf_iterator<char>(in),  istreambuf_iterator<char>()    } ;
 }
 
 #ifdef USE_STRING_EXEC
@@ -738,7 +793,6 @@ int calculer_memoire_requise (info_t& info)
 
 #endif
 
-    char d = 0;
     uint64_t compteur_ligne;
 
     // on compte un agent par balise <Agent/> ou par couple valide de balise
@@ -752,10 +806,13 @@ int calculer_memoire_requise (info_t& info)
 
     for (unsigned i = 0; i < info.threads->argc; ++i)
         {
+        
+         compteur_ligne = 0;
+         
 #if defined(FGETC_PARSING) || defined(STRINGSTREAM_PARSING)
 
-            compteur_ligne = 0;
-
+            char d = 0;
+            
             ifstream c (info.threads->argv[i]);
 
             if (verbeux)
@@ -776,41 +833,35 @@ int calculer_memoire_requise (info_t& info)
                                  << info.threads->argv[i] << "*" << ENDL;
                         }
 
-                    exit (-120);
+                    throw;
                 }
 
             errno = 0;
 
 #ifdef FGETC_PARSING
 
+            d = c.get();
+            
             while (! c.eof())
                 {
-                    bool remuneration_xml_open = false;
-
-                    if ((d = c.get()) == '\n')
+                    if (d == '\n')
                         {
                             ++compteur_ligne;
-                            d = c.get();
-
-                            if (d == c.eof()) break;
                         }
-                    else
-                        {
-                            if  (d != '<')
-                                continue;
-                            else
-                                d = c.get();
-                        }
+                    
+                    bool remuneration_xml_open = false;
+                    
+                    if  ((d = c.get()) != '<')  continue;
 
-                    if  (d != 'P') continue;
+                    if  ((d = c.get()) != 'P')  continue;
 
-                    if  (c.get() != 'a') continue;
+                    if  ((d = c.get()) != 'a')  continue;
 
-                    if  (c.get() != 'y') continue;
+                    if  ((d = c.get()) != 'y')  continue;
 
-                    if  (c.get() != 'e') continue;
+                    if  ((d = c.get()) != 'e')  continue;
 
-                    if  (c.get() != 'I') continue;
+                    if  ((d = c.get()) != 'I')  continue;
 
                     for (int i = 0; i < 7; ++i) c.get();
 
@@ -825,7 +876,7 @@ int calculer_memoire_requise (info_t& info)
 
                     remuneration_xml_open = true;
 
-                    if  (c.get()  == '/')
+                    if  ((d = c.get())  == '/')
                         {
                             remuneration_xml_open = false;
                             continue;  // Balise simple vide
@@ -833,16 +884,21 @@ int calculer_memoire_requise (info_t& info)
 
                     while (! c.eof())
                         {
-                            if (c.get() != '<') continue;
+                            if (d == '\n')
+                              {
+                                ++compteur_ligne;
+                              }
+                            
+                            if ((d = c.get()) != '<') continue;
 
                             if ((d = c.get())  != 'C')
                                 {
                                     if (d != '/') continue;
-                                    else if (c.get()  != 'P')   continue;
-                                    else if (c.get()  != 'a')   continue;
-                                    else if (c.get()  != 'y')   continue;
-                                    else if (c.get()  != 'e')   continue;
-                                    else if (c.get()  != 'I')   continue;
+                                    else if ((d = c.get())  != 'P')   continue;
+                                    else if ((d = c.get())  != 'a')   continue;
+                                    else if ((d = c.get())  != 'y')   continue;
+                                    else if ((d = c.get())  != 'e')   continue;
+                                    else if ((d = c.get())  != 'I')   continue;
 
                                     if (info.generer_bulletins || verbeux)
                                         {
@@ -859,13 +915,13 @@ int calculer_memoire_requise (info_t& info)
                                 }
                             else
                                 {
-                                    if (c.get() != 'o') continue;
+                                    if ((d = c.get()) != 'o') continue;
                                     else
                                         {
-                                            if (c.get() != 'd')   continue;
+                                            if ( (d = c.get()) != 'd')   continue;
                                             else
                                                 {
-                                                    if (c.get() != 'e')   continue;
+                                                    if ( (d = c.get()) != 'e')   continue;
                                                     else
                                                         {
                                                             // Il va y avoir un peu de surgénération ici
@@ -878,7 +934,7 @@ int calculer_memoire_requise (info_t& info)
                                                             // par le parseur XML doit être inférieure ou égale à
                                                             // la préallocation par cette fonction
 
-                                                            if (c.get() != ' ')   continue;
+                                                            if ((d = c.get()) != ' ')   continue;
 
                                                             ++tab[info.NCumAgent];
                                                         }
@@ -892,23 +948,22 @@ int calculer_memoire_requise (info_t& info)
                             LOCK_GUARD
                             cerr << "Erreur XML : la balise PayeIndivMensuel n'est pas refermée pour le fichier " << info.threads->argv[i]
                                  << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
-                            exit (0);
-
-#ifndef STRICT
-                            continue;
-#else
-                            exit (-100);
-#endif
+                            throw;
                         }
 
                 }
 
 #else   // STRINGSTREAM_PARSING
 
-            auto ss = read_stream_into_string (c);
+#ifdef ss
+#  undef ss
+#endif
+            
+#define ss info.threads->in_memory_file[i]
+            
+            ss = read_stream_into_string (c);
 
-            string::iterator iter = ss.begin();
-
+            string::const_iterator iter = ss.begin();
 
             while (iter != ss.end())
                 {
@@ -1009,21 +1064,14 @@ int calculer_memoire_requise (info_t& info)
                             LOCK_GUARD
                             cerr << "Erreur XML : la balise PayeIndivMensuel n'est pas refermée pour le fichier " << info.threads->argv[i]
                                  << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
-                            exit (0);
+                            throw;
 
-#ifndef STRICT
-                            continue;
-#else
-                            exit (-100);
-#endif
                         }
 
                 }
 
-            info.threads->in_memory_file[i] = move (ss);
-
+#undef ss            
 #endif
-
             c.clear();
             c.close();
 
@@ -1036,105 +1084,144 @@ int calculer_memoire_requise (info_t& info)
 #endif
 
 #endif
-#ifdef MMAP_PARSING  // OBSOLETE. A REVOIR
-
-            //cerr << "Mappage en mémoire de " << info.threads->argv[i] << "..."ENDL;
-            struct stat st;
-            stat (info.threads->argv[i].c_str(), &st);
-            const size_t file_size =  st.st_size;
-            void *dat;
+#ifdef MMAP_PARSING  
+            
             int fd = open (info.threads->argv[i].c_str(), O_RDONLY);
-            // cerr << "Taille : " << file_size << ENDL;
+            
             assert (fd != -1);
-
+            
+            struct stat sb;
+            if (fstat(fd, &sb) == -1) throw runtime_error(ERROR_HTML_TAG "Impossible d'obtenir la taille du fichier.");
+            
+            size_t file_size = sb.st_size;
+            
             /* MADV_SEQUENTIAL
             *    The application intends to access the pages in the specified range sequentially, from lower to higher addresses.
             *   MADV_WILLNEED
             *    The application intends to access the pages in the specified range in the near future. */
 
-            dat = mmap (NULL, file_size,  PROT_READ, MAP_PRIVATE | MAP_POPULATE, fd, 0);
-            int ret;
-
-            ret = madvise (dat, 0, MADV_SEQUENTIAL | MADV_WILLNEED);
-
-            if (ret < 0)
-                perror ("madvise");
-
-            assert (dat != NULL);
-            //write(1, dat, file_size);
-            char* data = (char*) dat;
-            // cerr << "Mapping OK"ENDL;
+                                
+            char* data = (char*) mmap(NULL, file_size, PROT_READ,
+                        MAP_PRIVATE, fd, 0);
+            if (data == MAP_FAILED)
+            {
+                perror (ERROR_HTML_TAG "problème sur mmap, fonctions_auxiliaires.cpp");
+                throw;
+            }
+            
+            char* data0 = data;
+            
             size_t d = 0;
-            char C;
-
-            while (d < file_size - 14)
+            
+            while (data - data0 < (long long int) file_size - 14)
                 {
-
-                    if  (data[++d] != '<') continue;
-
-                    if  (data[++d] != 'A') continue;
-
-                    if  (data[++d] != 'g') continue;
-
-                    if  (data[++d] != 'e') continue;
-
-                    if  (data[++d] != 'n') continue;
-
-                    if  (data[++d] != 't') continue;
-
-                    if  (data[++d] == '/')
+                    if (*data == '\n')
                         {
-                            info.NLigne[info.NCumAgent] = 1;
-                            ++info.NCumAgent;
-                            continue;  // Balise simple vide
+                            ++compteur_ligne;
                         }
 
-                    while (d < file_size - 1)
+                                        
+                    bool remuneration_xml_open = false;
+
+                    if  (*++data != '<') continue;
+
+                    if  (*++data != 'P') continue;
+
+                    if  (*++data != 'a') continue;
+
+                    if  (*++data != 'y') continue;
+
+                    if  (*++data != 'e') continue;
+
+                    if  (*++data != 'I') continue;
+
+                    for (int i = 0; i < 7; ++i) ++data;
+
+                    if (info.generer_bulletins || verbeux)
                         {
-                            if (data[++d] != '<') continue;
+                            array<uint64_t, 3> ident;
+                            ident[0] = compteur_ligne + 1;
+                            ident[1] = data - data0 - 13;
+                            ident[2] = i;
+                            info.ligne_debut.push_back (ident);
+                        }
 
-                            if ((C = data[++d]) != 'C')
+                    remuneration_xml_open = true;
+
+                    if  (*++data  == '/')
+                        {
+                            remuneration_xml_open = false;
+                            continue;  // Balise simple vide
+                        }
+                    
+                    size_t test = data - data0;
+
+                    while (test < file_size)
+                        {
+                            if (*data == '\n')
                                 {
-                                    if (C != '/') continue;
-                                    else if (data[++d] != 'A')   continue;
-                                    else if (data[++d] != 'g')   continue;
-                                    else if (data[++d] != 'e')   continue;
-                                    else if (data[++d] != 'n')   continue;
-                                    else if (data[++d] != 't')   continue;
+                                    ++compteur_ligne;
+                                }
 
-#if 0
+                            if (*++data != '<') continue;
 
-                                    if (info.NLigne[info.NCumAgent] == 0) info.NLigne[info.NCumAgent] = 1;
+                            if ((d = *++data)  != 'C')
+                                {
+                                    if (d != '/') continue;
+                                    else if (*++data  != 'P')   continue;
+                                    else if (*++data  != 'a')   continue;
+                                    else if (*++data  != 'y')   continue;
+                                    else if (*++data  != 'e')   continue;
+                                    else if (*++data  != 'I')   continue;
 
-#endif
-                                    //info->NAgent[i]++;
+                                    for (int i = 0; i < 7; ++i) ++data;
+
+                                    if (info.generer_bulletins || verbeux)
+                                        {
+                                            array<uint64_t, 2> ident;
+                                            ident[0] = compteur_ligne + 1;
+                                            ident[1] = data - data0 + 5;
+                                            info.ligne_fin.push_back (ident);
+                                        }
+
+                                    remuneration_xml_open = false;
+
                                     ++info.NCumAgent;
+
                                     break;
                                 }
                             else
                                 {
-                                    if (data[++d] != 'o') continue;
+                                    if (*++data != 'o') continue;
                                     else
                                         {
-                                            if (data[++d] != 'd')   continue;
+                                            if (*++data != 'd')   continue;
                                             else
                                                 {
-                                                    if (data[++d] != 'e')   continue;
+                                                    if (*++data != 'e')   continue;
                                                     else
                                                         {
-                                                            if (data[++d] != ' ')   continue;
+                                                            if (*++data != ' ')   continue;
 
-                                                            ++info.NLigne[info.NCumAgent];
+                                                            ++tab[info.NCumAgent];
                                                         }
                                                 }
                                         }
                                 }
                         }
+
+                    if (remuneration_xml_open == true)
+                        {
+                            LOCK_GUARD
+                            cerr << "Erreur XML : la balise PayeIndivMensuel n'est pas refermée pour le fichier " << info.threads->argv[i]
+                                 << ENDL "pour l'agent n°"   << info.NCumAgent + 1 << ENDL;
+                            throw;
+
+                        }
+
                 }
-
-
-            info.threads->in_memory_file[i] = move (data);
-            //munmap(data, file_size);
+            
+            munmap(data, file_size);
             close (fd);
 #endif
 
@@ -1155,6 +1242,7 @@ int calculer_memoire_requise (info_t& info)
 #endif
 
     memory_debug ("calculer_memoire_requise_end");
+    errno = 0;
     return errno;
 }
 

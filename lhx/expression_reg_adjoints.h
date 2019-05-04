@@ -51,7 +51,7 @@
 #define ANIMATION        "ani.*"
 
 /// technique
-#define TECHNIQUES       "tech.*"
+#define TECHNIQUES       "tec.*"
 
 /// patrimoine
 #define PATRIMOINE       "pat.*"
@@ -109,8 +109,8 @@
 /// chef de police municipale
 #define CHEF_POLICE "ch.*pol.*mun"
 
-/// ATSEM (agent technique nettoyage etc.)
-#define ATSEM "(?:agent|agt\\.?)?.*atsem"
+/// ATSEM (agent technique spécialisé des écoles maternelles etc.)
+#define ATSEM "(?:agent|agt\\.?|a\\.?)\\b.*\\bs.*\\b[eé].*\\bm"
 
 /// Aide soignant et aide de pharmacie
 #define AIDE_SOIGNANT_PHARMA "aide.*(?:soi|pha)"
@@ -128,31 +128,32 @@
 
 static constexpr auto EXPRESSION_REG_ADJOINTS = AUCUN_MOT
         SOIT
-        ADJOINT
-        SOIT
-        ADMINISTRATIFS
-        OU ANIMATION
-        OU TECHNIQUES
-        OU PATRIMOINE
-        FIN_SOIT
+          ADJOINT
+          SOIT
+            ADMINISTRATIFS
+            OU ANIMATION
+            OU TECHNIQUES
+            OU PATRIMOINE
+          FIN_SOIT
         OU OPERATEUR
-        SOIT
-        "a\\.?p\\.?s\\.?|act"
-        FIN_SOIT
+          SOIT
+          "a\\.?p\\.?s\\.?|act"
+          FIN_SOIT
         OU AIDE_LABO
         OU AUXILIAIRE
-        SOIT
-        PUERICULTRICE OU SOIN
-        FIN_SOIT
+          SOIT
+           PUERICULTRICE OU SOIN
+          FIN_SOIT
         OU GARDIEN
         OU SOUS_OFF
         OU RECEVEUR
         FIN_SOIT
         ETC;
 
-
+#ifdef INCLURE_REG_ASSMAT
 /// Expression régulière tendant à capturer les assistantes maternelles
-static constexpr auto EXPRESSION_REG_ASSISTANTES_MATERNELLES = ".*\\bass.*\\bmater.*";
+static constexpr auto EXPRESSION_REG_ASSISTANTES_MATERNELLES = ".*\\bass.*\\bmat.*";
+#endif
 
 /// Expression régulière tendant à capturer les agents de catégorie C
 /// \warning Attention il ne faut pas autre chose que \\W* car sinon on peut avoir confusion entre cons[eiller].* et [agent].*cons[ervation].*

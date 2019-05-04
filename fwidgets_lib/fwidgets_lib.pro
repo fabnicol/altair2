@@ -9,13 +9,34 @@
 VERSION_TAG = $$system(cat ../VERSION)
 DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
 message("Version :  $$VERSION_TAG")
-#QMAKE_CXX = /usr/bin/g++
+QMAKE_CXX = /usr/bin/g++-8.2.0
 #QMAKE_LINK = /usr/bin/g++-5
 greaterThan(QT_MAJOR_VERSION, 5)
 
 # utiliser au moins Qt5 et g++-5.1
 # ENCODAGE : UTILISER UTF-8 PARTOUT, y compris sur le fichier .pro.
 
+if (linux) {
+  message("Système d'exploitation linux")
+} else {
+  error("Le système d'exploitation doit être linux")
+}
+
+GIT_VERSION = $$system(git --version | grep -e \"git version\")
+CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
+
+if (!isEmpty(GIT_VERSION)) {
+    message( "Version de git : $$GIT_VERSION" )
+} else {
+#    error( "Git doit être installé" )
+}
+
+
+if (!isEmpty(CXX_VERSION)){
+    message( "Version du compilateur : $$CXX_VERSION" )
+} else {
+    error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
+}
 
 
 
@@ -38,9 +59,9 @@ DEFINES += QT_DEPRECATED_WARNINGS \
            LOCAL_BINPATH \                              # chemins d'exécution définis par rapport l'emplacement de l'exécutable
            USE_RIGHT_CLICK  \                           # utiliser un clic droit sur les fichiers pour ajouter, supprimer etc.
 
-
-QMAKE_CXXFLAGS += /std:c++17
-
+QMAKE_LFLAGS += -static-libgcc -static-libstdc++
+QMAKE_CXXFLAGS += -std=gnu++17  -O3 -fomit-frame-pointer -fexpensive-optimizations                        # obligatoire
+QMAKE_CXXFLAGS += -march=core-avx2  -pipe -m64 -std=c++17        # facultatif
 LIBS += -lstdc++fs
 
 # You can also make your code fail to compile if you use deprecated APIs.

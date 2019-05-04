@@ -1,0 +1,30 @@
+digraph "Interface/gui/common.cpp"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node0 [label="Interface/gui/common.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node0 -> Node1 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="common.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$common_8h.html",tooltip="Code de la classe common, qui regroupe des utilitaires communs à l&#39;interface graphique MainWindow..."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="QtWidgets",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="fwidgets.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fwidgets_8h.html"];
+  Node3 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="fstring.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fstring_8h.html"];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="QtCore",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node4 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="enums.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$enums_8h.html",tooltip="Enumérations et constantes permettant de paramétrer les fwidgets. "];
+  Node3 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="tags.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$tags_8h.html"];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="tools.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$tools_8h.html"];
+  Node8 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node0 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="gui_enums.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$gui__enums_8h.html",tooltip="Code de constantes et de classes regroupant des constantes. "];
+  Node9 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="cstdint",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+}

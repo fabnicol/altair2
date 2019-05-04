@@ -24,8 +24,10 @@ var dir_d07011c78e6521b599cb794ecf1ad27a =
     [ "options.cpp", "options_8cpp.html", "options_8cpp" ],
     [ "options.h", "options_8h.html", [
       [ "codePage", "classcode_page.html", "classcode_page" ],
+      [ "extraPage", "classextra_page.html", "classextra_page" ],
       [ "options", "classoptions.html", "classoptions" ],
       [ "processPage", "classprocess_page.html", "classprocess_page" ],
+      [ "rapportPage", "classrapport_page.html", "classrapport_page" ],
       [ "standardPage", "classstandard_page.html", "classstandard_page" ]
     ] ],
     [ "run.cpp", "run_8cpp.html", null ],

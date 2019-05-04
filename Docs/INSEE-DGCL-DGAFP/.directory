@@ -1,5 +1,5 @@
 [Dolphin]
-Timestamp=2017,4,6,23,10,32
-Version=3
+Timestamp=2019,3,12,20,12,22
+Version=4
 ViewMode=1
-VisibleRoles=Details_text,Details_size,Details_date,Details_type,CustomizedDetails
+VisibleRoles=CustomizedDetails,Details_text,Details_size,Details_date,Details_type,Details_modificationtime

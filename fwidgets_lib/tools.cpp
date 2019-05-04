@@ -305,9 +305,9 @@ bool tools::IOControl(const QString& in,
 
 
 bool tools::copyFile(const QString &in,
-                      const QString &out,
-                      const QString& comment,
-                      bool require)
+                     const QString &out,
+                     const QString &comment,
+                     bool require)
 {
     if (false == IOControl(in, out, comment, require))
         return false;
@@ -469,48 +469,122 @@ bool tools::zipDir (const QString& inPath , const QString& outPath)
 
     for (const QFileInfo& fileInfo : fileInfoList)
     {
+      if (! fileInfo.exists()) continue;
+      
       if (fileInfo.isDir())
           result &= zipDir(fileInfo.filePath(), outPath + "/" + fileInfo.fileName());
       else
       if (fileInfo.isFile())
+      {
+          if (fileInfo.size() == 0) continue;
           result &= zip(fileInfo.filePath(),
                         outPath + "/" + fileInfo.fileName() + ".arch");
-    }
-
-    return result;
-}
-
-bool tools::unzipDir (const QString& inPath , const QString& outPath)
-{
-    QDir directory(inPath);
-    if (! directory.exists()) return  false;
-
-    QFileInfoList fileInfoList = directory.entryInfoList(QDir::Files
-                                                       | QDir::Dirs
-                                                       | QDir::NoDotAndDotDot);
-    bool result = true;
-
-    for (const QFileInfo& fileInfo : fileInfoList)
-    {
-      if (fileInfo.isDir())
-          result &= unzipDir(fileInfo.filePath(), outPath + "/" + fileInfo.fileName());
-      else
-      if (fileInfo.isFile())
-      {
-          QString fileNameChopped = fileInfo.fileName();
-          fileNameChopped.chop(5);
-          result &= unzip(fileInfo.filePath(), outPath + "/" + fileNameChopped);
       }
     }
 
     return result;
 }
 
-bool tools::unzip (const QString& zipfilename , const QString& filename)
+bool tools::cleanDir (const QString& inPath , const QStringList& filter, const QString& excl_dir)
+{
+    if (! QFileInfo(inPath).isDir()) return false;
+
+    QDirIterator it (inPath,  filter, QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+    bool result = true;
+    while (it.hasNext())
+    {
+          auto a = it.next();
+
+          if (! excl_dir.isEmpty() && QString(a).contains(excl_dir)) continue;
+          if (QFileInfo(a).isFile())
+             result &= QFile(a).remove();
+          else if (QFileInfo(a).isDir() && QDir(a).isEmpty())
+              result &= QDir(a).removeRecursively();
+    }
+    return result;
+}
+
+
+bool tools::unzipDir (const QString& inPath , const QString& outPath, const QStringList& filter)
+{
+    if (! QFileInfo(inPath).isDir()) return false;
+    QDirIterator it (inPath,  filter, QDir::Files, QDirIterator::Subdirectories);
+    bool result = true;
+    while (it.hasNext())
+        {
+            const QString s = it.next();
+            QString filepath = getEmbeddedPath(s, inPath);
+            filepath.chop (5);
+            result &= unzip (s, outPath + filepath);
+
+        }
+
+    return result;
+}
+
+
+bool tools::unzipDir (const QString& inPath ,  const QStringList& filter)
+{
+    if (! QFileInfo(inPath).isDir()) return false;
+    QDirIterator it (inPath,  filter, QDir::Files, QDirIterator::Subdirectories);
+    bool result = true;
+    while (it.hasNext())
+        {
+            const QString s = it.next();
+            QString filepath = getEmbeddedPath(s, inPath);
+            filepath.chop (5);
+            result &= unzip (s, inPath + filepath);
+
+        }
+
+    return result;
+}
+
+bool tools::unzip (const QString& zipfilename , const QString& filename, bool del)
 {
     IOControl(zipfilename, filename);
     QFile infile(zipfilename);
     QFile outfile(filename);
+    const QString din  = QFileInfo(zipfilename).absolutePath();
+    const QString dout = QFileInfo(filename).absolutePath();
+
+    qint64 n=0;
+    bool result;
+    
+    result = infile.open(QIODevice::ReadOnly);
+    result &= outfile.open(QIODevice::WriteOnly);
+    
+    if (result == false) return false;
+    n = infile.size();
+    
+    QByteArray uncompressedData = infile.readAll();
+    
+    int nBytesIn = uncompressedData.size();
+    result &= (n == nBytesIn);
+    
+    QByteArray compressedData = qUncompress(uncompressedData);
+    
+    int nBytesOut = compressedData.size();
+    
+    n = outfile.write(compressedData);
+    
+    result &= (n == nBytesOut);
+    
+    if (dout == din && del == true)
+    {
+        infile.remove();
+    }
+        
+    outfile.close();
+    return result;
+}
+
+bool tools::unzip (const QString& zipfilename)
+{
+    QString tmp = zipfilename + ".tmp";
+    IOControl(zipfilename, tmp);
+    QFile infile(zipfilename);
+    QFile outfile(tmp);
     
     qint64 n=0;
     bool result;
@@ -533,9 +607,21 @@ bool tools::unzip (const QString& zipfilename , const QString& filename)
     n = outfile.write(compressedData);
     
     result &= (n == nBytesOut);
-    infile.close();
+  
     outfile.close();
+    infile.remove();
+    outfile.rename(zipfilename.chopped(5));
     return result;
 }
 
+
+bool tools::unzip (const QString& dir, const QStringList& filelist)
+{
+    bool result = true;
+    for (auto& a: filelist) 
+    {
+        result &= unzip(dir.rightRef(1) == "/" || dir.rightRef(1) == "\\" ? dir + a : dir + "/" + a);
+    }
+    return result;
+}
 

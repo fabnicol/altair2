@@ -42,6 +42,8 @@
 #ifndef tools_H
 #define tools_H
 #include <QtWidgets>
+#include <iostream>
+#include <string>
 #include "fwidgets.h"
 
 #ifdef HAVE_CONFIG_H
@@ -72,7 +74,7 @@
 /// \param title Titre
 /// \param text Texte
 
-#define  Warning(title, text)   QMessageBox::warning(0, title, text)
+#define  Warning(title, text)   QMessageBox::warning(nullptr, title, text)
 
 #define REQUIRE true
 
@@ -87,7 +89,7 @@ static const QString   systemPathPrefix; ///< permet de remonter de l'applicatio
 
 #ifdef Q_OS_WIN
 
-    QString   System = "win" ;
+    QString   System = "win" + QString(CORE2);
     QString   systemSuffix = ".exe";
 
     #ifndef LOCAL_BINPATH
@@ -116,7 +118,7 @@ enum class TabWidgetTrait {NO_EMBEDDING_TAB_WIDGET=-1};
 /// \param subDir Répertoire global d'exportation.
 /// \return Nom du sous-dossier de \em s dans \em subDir.
 
-const QString getEmbeddedPath(QString s, QString subDir = "");
+static const QString getEmbeddedPath(QString s, QString subDir = "");
 
 /// Détecte si un disque optique est monté.
 /// \return Chemin du disque optique s'il est monté, blanc sinon.
@@ -225,9 +227,12 @@ static bool zip (const QString& filename , const QString& zipfilename);
 /// Décompresser un fichier au format zip.
 /// \param zipfilename Chemin du fichier entrant.
 /// \param filename Chemin du fichier sortant.
+/// \param del Effacer l'archive si la décompression se fait dans le même dossier (vrai par défaut).
 /// \return Booléen : \em true si l'opération a réussi, \em false sinon.
 
-static bool unzip (const QString& zipfilename , const QString& filename);
+static bool unzip (const QString& zipfilename , const QString& filename, bool del = true);
+static bool unzip (const QString& zipfilename);
+static bool unzip (const QString& dir, const QStringList& list);
 
 /// Procédure de contrôle des entrées-sorties.
 /// Vérifie que le fichier entrant existe, que le fichier sortant a pu être créé.
@@ -279,9 +284,24 @@ static bool zipDir (const QString& inPath , const QString& outPath);
 /// Décompresse l'intégralité d'un répertoire au format \b zip, et copie le dossier décompressé dans un chemin donné.
 /// \param inPath Chemin du fichier \b .zip entrant.
 /// \param outPath Chemin du répertoire décompressé sortant.
+/// \param filter Filtre sur les noms de fichier
 /// \return Booléen : \em true si l'opération a réussi, \em false sinon.
 
-static bool unzipDir (const QString& inPath , const QString& outPath);
+static bool unzipDir (const QString& inPath , const QString& outPath, const QStringList& filter = {"*.arch"});
+
+/// Décompresse sur place
+/// \param inPath Chemin du fichier \b .zip entrant.
+/// \param filter Filtre sur les noms de fichier
+
+static bool unzipDir (const QString& inPath , const QStringList& filter = {"*.arch"});
+
+/// Nettoyage d'un répertoire
+/// \param inPath Chemin du fichier \b répertoire.
+/// \param filter Filtre sur les noms de fichier supprimés.
+/// \param excl_dir Répertoire protégé.
+/// \return Booléen valant \e true en cas de succès.
+
+static bool cleanDir (const QString& inPath , const QStringList& filter, const QString& excl_dir = "");
 
 /// Remplace les caractères accentués par des caractères proches mains non accentué
 /// \param str Chaîne de caractères à modifier.

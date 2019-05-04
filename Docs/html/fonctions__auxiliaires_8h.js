@@ -20,7 +20,7 @@ var fonctions__auxiliaires_8h =
     [ "ouvrir_fichier_base", "fonctions__auxiliaires_8h.html#a9d4a78ef3abcba5f8462b78f5c135650", null ],
     [ "ouvrir_fichier_base0", "fonctions__auxiliaires_8h.html#aa23b720b129a327fe2cb677ab2c90a31", null ],
     [ "ouvrir_fichier_bulletins", "fonctions__auxiliaires_8h.html#a0f11a266115e98b2536637a1ad8b05f7", null ],
-    [ "read_stream_into_string", "fonctions__auxiliaires_8h.html#a6ae1ab10756e4c3c1c627199aedf7d2e", null ],
+    [ "read_stream_into_string", "fonctions__auxiliaires_8h.html#a32c99ab7b5fefd5ac69921080ecd95f5", null ],
     [ "split", "fonctions__auxiliaires_8h.html#add313f0fe82466f4c1c4622307d928bc", null ],
     [ "taille_fichier", "fonctions__auxiliaires_8h.html#aa4c818d49539c9dec49c5cf3144b8f53", null ],
     [ "mut", "fonctions__auxiliaires_8h.html#a8068724ec29d6e66aad75c716e138db3", null ],

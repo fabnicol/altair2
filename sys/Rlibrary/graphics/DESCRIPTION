@@ -1,11 +1,11 @@
 Package: graphics
-Version: 3.4.3
+Version: 3.6.0
 Priority: base
 Title: The R Graphics Package
 Author: R Core Team and contributors worldwide
 Maintainer: R Core Team <R-core@r-project.org>
 Description: R functions for base graphics.
 Imports: grDevices
-License: Part of R 3.4.3
+License: Part of R 3.6.0
 NeedsCompilation: yes
-Built: R 3.4.3; x86_64-pc-linux-gnu; 2018-02-14 01:11:46 UTC; unix
+Built: R 3.6.0; x86_64-pc-linux-gnu; 2019-05-02 11:23:41 UTC; unix

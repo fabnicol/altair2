@@ -117,7 +117,7 @@ static void GCC_INLINE sanitize (xmlChar* s,  const char sep)
                     break;
 
 #ifdef CONVERTIR_LATIN_1
-#if !defined(__linux__) && ! defined(USE_ICONV)
+#if ! defined(USE_ICONV)
 
 //   Gros hack de pseudo-conversion UTF-8 vers Latin-1, qui permet d'économiser les 40 %
 //   de surcoût d'exécution lié à l'utilisation d'iconv pour retraiter les fichiers de
@@ -652,7 +652,7 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique (const char* tag, x
 /// \subsection subsec6 Cas d'anomalie
 /// \par
 /// Une anomalie peut être l'absence de noeuds fils décrivant le contenu de la paye :\n
-/// absence des noeuds \e Libelle, \e Code, \e Base, \e Taux, \e NbUnite, \e Mt.\n
+/// absence des noeuds \e Libellé, \e Code, \e Base, \e Taux, \e NbUnite, \e Mt.\n
 /// Cette anomalie donne lieu à appel de #NA_ASSIGN et message d'avertissement.\n
 /// Elle donne lieu au décompte d'une ligne de paye (assignée de valeurs manquantes).
 /// \warning Toujours s'assurer que dans ce cas l'allocation mémoire prévoit 6
@@ -886,7 +886,7 @@ static inline LineCount lignePaye (xmlNodePtr cur, info_t& info)
                             // On ne tient pas rigueur du manque de qualité éventuelle
                             // tellement la norme est peu respectée
 
-                            bulletin_optionnel_char ("DateDebut", cur, l, info);
+                            bulletin_optionnel_char ("DateDébut", cur, l, info);
 
                             ++l;
                             info.drapeau_cont = false; // pas de noeud successeur
@@ -968,7 +968,7 @@ static inline LineCount lignePaye (xmlNodePtr cur, info_t& info)
 //      <Civilite V="">{0,1}</Civilite>
 //      <Nom V="">{1,1}</Nom>
 //      <ComplNom V="">{0,1}</ComplNom>
-//      <Prenom V="">{0,1}</Prenom>
+//      <Prénom V="">{0,1}</Prénom>
 //      <Matricule V="">{1,1}</Matricule>
 //      <NIR V="">{1,1}</NIR>
 //      <Adresse>{1,1}</Adresse>
@@ -1063,11 +1063,11 @@ inline void allouer_ligne_NA (info_t &info, int &ligne, int &memoire_p_ligne_all
     ligne = 1;
 }
 
-/// Lance le décodage des variables Bulletins de paye (Nom, Prenom, Matricule,...)
+/// Lance le décodage des variables Bulletins de paye (Nom, Prénom, Matricule,...)
 /// \param cur pointeur XML courant
 /// \param info table d'informations
 /// \return nombre de lignes de paye
-/// \details Commence par atteindre le noeud Agent. Vérifie son identification (Nom, Prenom, Matricule, NIR, NbEnfants, Statut, EmploiMetier, Grade, Echelon, Indice)
+/// \details Commence par atteindre le noeud Agent. Vérifie son identification (Nom, Prénom, Matricule, NIR, NbEnfants, Statut, EmploiMetier, Grade, Echelon, Indice)
 /// Décode ensuite Evenement, Service, NBI, QuotiteTrav.
 /// Appelle ensuite la fonction lignePaye qui décode les lignes de paye de la balise Remuneration.
 /// Décode ensuite les champs de fin de fichier : NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer.
@@ -1077,7 +1077,7 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
     bool result = true;
     int na_assign_level = 0;
     constexpr
-    const char* local_tag[] = {"Nom", "Prenom", "Matricule", "NIR", "NbEnfants",
+    const char* local_tag[] = {"Nom", "Prénom", "Matricule", "NIR", "NbEnfants",
                                "Statut", "EmploiMetier", "Grade", "Echelon", "Indice"
                               };
     xmlNodePtr cur_parent = cur;
@@ -1133,7 +1133,7 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
         }
 
     // cur n'est pas nul à ce point
-    // Décodage des caractéristiques de l'agent : Nom, Prenom, etc.
+    // Décodage des caractéristiques de l'agent : Nom, Prénom, etc.
 
     cur_parent = cur;
     cur = cur->xmlChildrenNode;
@@ -1660,6 +1660,21 @@ level0:
     info.drapeau_cont = false; // fin du niveau PayeIndivMensuel
     result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE (MtNetAPayer);
 
+    cur_save = cur;
+    cur = atteindreNoeud ("RepartitionBudget", cur);
+    if (cur != nullptr && (cur =  cur->xmlChildrenNode) != nullptr && ! xmlIsBlankNode (cur))
+    {
+        BULLETIN_OBLIGATOIRE(CodeBudget);
+        BULLETIN_OPTIONNEL_NUMERIQUE(Taux);   // Normalement obligatoire mais la norme n'est pas toujours respectée
+        BULLETIN_OPTIONNEL_NUMERIQUE(MtBudget);  // Normalement obligatoire mais la norme n'est pas toujours respectée
+    }
+    else
+    {
+        NA_ASSIGN(CodeBudget);
+        NA_ASSIGN(Taux);
+        NA_ASSIGN(MtBudget);
+    }
+
     // Tester si le bulletin contient des paiements globaux (MtBrut, MtNetAPayer) sans détail de la liquidation
 
     if (result && pas_de_ligne_de_paye)
@@ -1667,7 +1682,7 @@ level0:
             test_bulletin_irregulier (info);
         }
 
-    if (!result)
+    if (! result)
         {
             cerr << ERROR_HTML_TAG "Problème de conformité des données sur les champs des bulletins de paye." ENDL;
 #ifdef STRICT

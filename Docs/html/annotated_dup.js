@@ -5,6 +5,7 @@ var annotated_dup =
     [ "codePage", "classcode_page.html", "classcode_page" ],
     [ "common", "classcommon.html", "classcommon" ],
     [ "errorLine_t", "structerror_line__t.html", "structerror_line__t" ],
+    [ "extraPage", "classextra_page.html", "classextra_page" ],
     [ "FAbstractConnection", "class_f_abstract_connection.html", "class_f_abstract_connection" ],
     [ "FAbstractWidget", "class_f_abstract_widget.html", "class_f_abstract_widget" ],
     [ "FCheckBox", "class_f_check_box.html", "class_f_check_box" ],
@@ -33,6 +34,7 @@ var annotated_dup =
     [ "options", "classoptions.html", "classoptions" ],
     [ "processPage", "classprocess_page.html", "classprocess_page" ],
     [ "QToolDirButton", "class_q_tool_dir_button.html", "class_q_tool_dir_button" ],
+    [ "rapportPage", "classrapport_page.html", "classrapport_page" ],
     [ "standardPage", "classstandard_page.html", "classstandard_page" ],
     [ "thread_t", "structthread__t.html", "structthread__t" ],
     [ "tools", "classtools.html", "classtools" ]

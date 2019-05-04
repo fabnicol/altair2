@@ -59,7 +59,7 @@ static constexpr const char* STEP_UP  =  "/../../";
 /// Nombre maximum de lignes d'avertissement par erreur de ligne de paye
 
 #ifndef WARNING_LIMIT
-#  define WARNING_LIMIT 5
+static constexpr const int WARNING_LIMIT = 5;
 #endif
 
 /// Maximum du nombre de lignes de la sortie console si l'option de configuration "Limiter la sortie de la console" est cochée.
@@ -69,7 +69,7 @@ static constexpr const char* STEP_UP  =  "/../../";
 #endif
 
 #ifndef TYPE_LOOP_LIMIT
-#  define TYPE_LOOP_LIMIT 50
+static constexpr const int  TYPE_LOOP_LIMIT = 50;
 #endif
 
 #ifndef SCRIPT_DIR
@@ -134,7 +134,7 @@ public:
     static constexpr std::uint16_t refreshProjectInteractiveMode = 0x1000;  ///< Défaut
     static constexpr std::uint16_t refreshXHLZone = 0x001;                  ///< Raffraîchir la zone de données XHL
     static constexpr std::uint16_t refreshSystemZone = 0x100;               ///< Raffraîchir la zone de données paramètres de l'interface
-    static constexpr std::uint16_t refreshAllZones  =  refreshXHLZone | refreshSystemZone; ///< Tout raffraichir
+    static constexpr std::uint16_t refreshAllZones  =  manager::refreshXHLZone | manager::refreshSystemZone; ///< Tout raffraichir
 };
 
 

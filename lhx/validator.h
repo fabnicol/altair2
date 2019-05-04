@@ -125,27 +125,29 @@ enum class BaseType : int
     MAXIMUM_LIGNES_PAR_ANNEE = 17 ///< Taille maximum de la base de paye "Table" en nombre de lignes, cas d'une exportation annuelle.
 };
 
-/// Nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, NbUnite, Montant, DebutPeriode, FinPeriode) moins 1
+/// Nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, NbUnite, Montant, DébutPeriode, FinPeriode) moins 1
 #define INDEX_MAX_COLONNNES 7
 
 /// Nombre d'éléments de l'énum ci-dessous, correspondant aux champs des bulletins (répétés à chaque ligne de paye)
-#define BESOIN_MEMOIRE_ENTETE  27
+#define BESOIN_MEMOIRE_ENTETE  30
 
 /// Enum des libellés de balises XML donnant lieu à extraction
 typedef enum
 {
     Annee, Mois, Budget, Employeur, Siret, Etablissement,
     Nom, Prenom, Matricule, NIR, NbEnfants, Statut,
-    EmploiMetier, Grade, Echelon, Indice, Code, Description, Service, NBI, QuotiteTrav,
+    EmploiMetier, Grade, Echelon, Indice, Code, Description, Service, NBI, 
+    CodeBudget, Taux, MtBudget, QuotiteTrav, // FPH si RepartitionBudget
     NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer, Categorie
 } Entete;
 
 /// Tableau des noms de colonnes associés à ces libellés de balises XML
 constexpr const char* Tableau_entete[] =
 {
-    "Annee", "Mois", "Budget", "Employeur", "Siret", "Etablissement",
-    "Nom", "Prenom", "Matricule", "NIR", "NbEnfants", "Statut",
-    "EmploiMetier", "Grade", "Echelon", "Indice", "Evenement", "Service", "NBI", "QuotiteTrav",
+    "Année", "Mois", "Budget", "Employeur", "Siret", "Etablissement",
+    "Nom", "Prénom", "Matricule", "NIR", "NbEnfants", "Statut",
+    "EmploiMetier", "Grade", "Echelon", "Indice", "Evenement", "Service", "NBI", 
+    "CodeBudget", "Taux", "MtBudget", "QuotiteTrav",
     "NbHeureTotal", "NbHeureSup", "MtBrut", "MtNet", "MtNetAPayer"
 };
 
@@ -166,7 +168,9 @@ typedef struct
     vector<uint16_t> NLigne;                ///< Nombre de lignes par agent
     thread_t* threads;                      ///< Structure thread_t permettant de communiquer une partie des données de paye à chaque thread.
     string chemin_log;                      ///< Chemin du log
+#ifdef INCLURE_REG_ELUS    
     string expression_reg_elus;             ///< Expression régulière des élus (DEPRECATED)
+#endif    
     string chemin_base;                     ///< Chemin des bases CSV de type Table
     string chemin_bulletins;                ///< Chemin des bases CSV de type Bulletins.paie
     string export_mode;                     ///< Type d'exportation (standard, cumulatif, distributif, ...)
@@ -185,10 +189,11 @@ typedef struct
     bool generer_bulletins;                 ///< Générer des bulletins de paye particuliers
     bool select_siret;                      ///< Sélectionner un SIRET particulier
     bool select_echelon;                    ///< Sélectionne run échelon particulier
+    bool generer_repartition_budget;        ///< Exporter la répartition budgétaire (surtout pertinent pour la FPH)
     bool pretend;                           ///< Ne pas exporter de données
     bool verifmem;                          ///< Vérifier l'état de la mémoire
     bool cdrom;                             ///< Importer les données de paye directement depuis un disque optique
-    unsigned int  nbfil;                    ///< Nombre de fils d'exécution
+    unsigned int  nbfil;                    ///< Nombre de fils d'exécuSTATE_HTML_TAGtion
 } info_t;
 
 typedef struct

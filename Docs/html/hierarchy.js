@@ -16,8 +16,10 @@ var hierarchy =
         [ "common", "classcommon.html", [
           [ "Altair", "class_altair.html", null ],
           [ "codePage", "classcode_page.html", null ],
+          [ "extraPage", "classextra_page.html", null ],
           [ "options", "classoptions.html", null ],
           [ "processPage", "classprocess_page.html", null ],
+          [ "rapportPage", "classrapport_page.html", null ],
           [ "standardPage", "classstandard_page.html", null ]
         ] ],
         [ "processPage", "classprocess_page.html", null ],
@@ -39,6 +41,7 @@ var hierarchy =
     [ "QDialog", null, [
       [ "codePage", "classcode_page.html", null ],
       [ "codePage", "classcode_page.html", null ],
+      [ "extraPage", "classextra_page.html", null ],
       [ "FDialogConnections", "class_f_dialog_connections.html", [
         [ "FDialog", "class_f_dialog.html", [
           [ "Altair", "class_altair.html", null ]
@@ -49,6 +52,7 @@ var hierarchy =
       [ "options", "classoptions.html", null ],
       [ "processPage", "classprocess_page.html", null ],
       [ "processPage", "classprocess_page.html", null ],
+      [ "rapportPage", "classrapport_page.html", null ],
       [ "standardPage", "classstandard_page.html", null ],
       [ "standardPage", "classstandard_page.html", null ]
     ] ],

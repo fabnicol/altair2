@@ -22,4 +22,4 @@ Author: Brian Ripley [aut, cre, cph],
 Maintainer: Brian Ripley <ripley@stats.ox.ac.uk>
 Repository: CRAN
 Date/Publication: 2015-08-30 08:59:02
-Built: R 3.4.3; x86_64-pc-linux-gnu; 2018-02-14 01:12:35 UTC; unix
+Built: R 3.6.0; x86_64-pc-linux-gnu; 2019-05-02 11:24:44 UTC; unix

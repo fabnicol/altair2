@@ -47,7 +47,6 @@
 
 #include "altair.h"
 #include "fwidgets.h"
-#include "flistframe.h"
 
 #ifdef Q_OS_LINUX
 #include <sys/mount.h>
@@ -540,6 +539,8 @@ void Altair::runRAltair()
     outputDir.remove ("altaïr.odt");
     outputDir.remove ("altaïr.docx");
 
+    if (! parent->dialog->extraTab->budgetCheckBox->isChecked()) QDir(common::path_access (DONNEES_XHL)).remove("paye_budget.csv");
+             
     if (! v(enchainerRapports).isTrue())
         {
             process.start (RAltairCommandStr, QStringList() << path_access ("altaïr.Rproj"));
@@ -564,8 +565,8 @@ void Altair::runRAltair()
         }
 
 #ifdef Q_OS_WIN
-
-    RAltairCommandStr = path_access ("R/bin/x64")+ QDir::separator() + "Rscript" + QString (systemSuffix);
+    RAltairDirStr = path_access ("R/bin/x64");
+    RAltairCommandStr = RAltairDirStr + QDir::separator() + "Rscript" + QString (systemSuffix);
 #else
 
     bool global_R = QFileInfo ("/usr/bin/Rscript").exists();
@@ -642,7 +643,7 @@ void Altair::processFinished (exitCode code)
             textAppend (tr (STATE_HTML_TAG "Taille de la base : ")
                         + QString::number (fsSize)
                         + " Octets ("
-                        + QString::number (((float)fsSize) / (1024.0 * 1024.0), 'f', 2)
+                        + QString::number (static_cast<double>(fsSize) / (1024.0 * 1024.0), 'f', 2)
                         + " Mo)");
 
             bool res = false;

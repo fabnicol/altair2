@@ -1,37 +1,37 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annÃ©es 2012 Ã  2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
-# Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
-# produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-# en vigueur à compter de l'année 2008.
+# Ce logiciel est un programme informatique servant Ã  extraire et analyser
+# les fichiers de paye produits au format spÃ©cifiÃ© par l'annexe de la  
+# convention-cadre de dÃ©matÃ©rialisation en vigueur Ã  partir de 2008.
 # 
-# Ce logiciel est régi par la licence CeCILL soumise au droit français et
+# Ce logiciel est rÃ©gi par la licence CeCILL soumise au droit franÃ§ais et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
 # utiliser, modifier et/ou redistribuer ce programme sous les conditions
-# de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
+# de la licence CeCILL telle que diffusÃ©e par le CEA, le CNRS et l'INRIA
 # sur le site "http://www.cecill.info".
 # 
-# En contrepartie de l'accessibilité au code source et des droits de copie,
-# de modification et de redistribution accordés par cette licence, il n'est
-# offert aux utilisateurs qu'une garantie limitée. Pour les mêmes raisons,
-# seule une responsabilité restreinte pèse sur l'auteur du programme, le
-# titulaire des droits patrimoniaux et les concédants successifs.
+# En contrepartie de l'accessibilitÃ© au code source et des droits de copie,
+# de modification et de redistribution accordÃ©s par cette licence, il n'est
+# offert aux utilisateurs qu'une garantie limitÃ©e. Pour les mÃªmes raisons,
+# seule une responsabilitÃ© restreinte pÃ¨se sur l'auteur du programme, le
+# titulaire des droits patrimoniaux et les concÃ©dants successifs.
 # 
-# A cet égard l'attention de l'utilisateur est attirée sur les risques
-# associés au chargement, à l'utilisation, à la modification et/ou au
-# développement et à la reproduction du logiciel par l'utilisateur étant
-# donné sa spécificité de logiciel libre, qui peut le rendre complexe à
-# manipuler et qui le réserve donc à des développeurs et des professionnels
-# avertis possédant des connaissances informatiques approfondies. Les
-# utilisateurs sont donc invités à charger et tester l'adéquation du
-# logiciel à leurs besoins dans des conditions permettant d'assurer la
-# sécurité de leurs systèmes et ou de leurs données et, plus généralement,
-# à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+# A cet Ã©gard l'attention de l'utilisateur est attirÃ©e sur les risques
+# associÃ©s au chargement, Ã  l'utilisation, Ã  la modification et/ou au
+# dÃ©veloppement et Ã  la reproduction du logiciel par l'utilisateur Ã©tant
+# donnÃ© sa spÃ©cificitÃ© de logiciel libre, qui peut le rendre complexe Ã 
+# manipuler et qui le rÃ©serve donc Ã  des dÃ©veloppeurs et des professionnels
+# avertis possÃ©dant des connaissances informatiques approfondies. Les
+# utilisateurs sont donc invitÃ©s Ã  charger et tester l'adÃ©quation du
+# logiciel Ã  leurs besoins dans des conditions permettant d'assurer la
+# sÃ©curitÃ© de leurs systÃ¨mes et ou de leurs donnÃ©es et, plus gÃ©nÃ©ralement,
+# Ã  l'utiliser et l'exploiter dans les mÃªmes conditions de sÃ©curitÃ©.
 # 
-# Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
-# pris connaissance de la licence CeCILL, et que vous en avez accepté les
+# Le fait que vous puissiez accÃ©der Ã  cet en-tÃªte signifie que vous avez
+# pris connaissance de la licence CeCILL, et que vous en avez acceptÃ© les
 # termes.
 # 
 # 
@@ -39,29 +39,43 @@
 
 # encoder ce script en windows-1252
 
+
 source("syspaths.R", encoding = encodage.code.source)
 source("corps_rapport_pdf.R", encoding = encodage.code.source)  
 
+
+  if (file.exists("temp.R")) 
+  {
+      file.remove("temp.R")
+  }
+
+  V <- readLines("altair.md", encoding = encodage.code.source)
+  V <- gsub("![Notice](Notice.png)", "Notice", V, fixed = TRUE)
+  
+  writeLines(V,  "temp.R")
+  file.remove("altair.md")
+  file.rename("temp.R", "altair.md")
+  
   V <- hack_md()
   
   system(
     paste(
-      ifelse(setOSWindows, file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc/pandoc.exe"), "/usr/bin/pandoc"),
+      ifelse(setOSWindows, file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc/pandoc.exe"), chemin_pandoc),
       "altair.md +RTS -K512m -RTS --to",
       "docx",
       "--from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --highlight-style tango --output",
-      "altaïr.docx")
+      "altaÃ¯r.docx")
     )
   
   ajuster_chemins_odt(V)
   
   system(
     paste(
-      ifelse(setOSWindows, file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc/pandoc.exe"), "/usr/bin/pandoc"),
+      ifelse(setOSWindows, file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc/pandoc.exe"), chemin_pandoc),
       "altair.md +RTS -K512m -RTS --to",
       "odt",
       "--from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --highlight-style tango --output",
-      "altaïr.odt")
+      "altaÃ¯r.odt")
     )
     
   if (! keep_md) {
@@ -70,17 +84,17 @@ source("corps_rapport_pdf.R", encoding = encodage.code.source)
     unlink("altair_files", recursive = TRUE)  
  }
 
-file.copy("altaïr.docx", chemin.clé)
-file.copy("altaïr.odt", chemin.clé)
+file.copy("altaÃ¯r.docx", chemin.clÃ©)
+file.copy("altaÃ¯r.odt", chemin.clÃ©)
 
-if (basename(chemin.clé) == racine) {
+if (ouvrir.document && basename(chemin.clÃ©) == racine) {
   if (setOSWindows) {
     
-    shell("start winword Donnees/R-Altaïr/altaïr.docx")
+    shell("start winword Donnees/R-AltaÃ¯r/altaÃ¯r.docx")
     
   } else {
     
-    system("lowriter Donnees/R-Altair/altaïr.odt")
+    system("lowriter Donnees/R-Altair/altaÃ¯r.odt")
   }
 }
   

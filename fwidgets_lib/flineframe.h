@@ -62,7 +62,8 @@ FLineFrame(const QStringList& ={"", ""},                                   ///< 
            QGridLayout* inputLayout = nullptr,                             ///< Disposition de rattachement s'il y a lieu
            const QString& commandLine ="",                                 ///< Ligne de commande générée par  lineEdit, s'il y en a une
            flags::directory check = directory::checkEmptyness,             ///< Vérifier que le répertoire indiqué dans  lineEdit est vide
-           flags::flineframe category = flags::flineframe::isDirectoryPath ///< Chemin de répertoire par défaut dans  lineEdit
+           flags::flineframe category = flags::flineframe::isDirectoryPath, ///< Chemin par défaut = chemin de répertoire dans  lineEdit
+           const QString& filter = "Fichier Log (*.log)"                    ///< Accesseur en écriture : précise le filtre de fichiers pour la boîte de dialogues d'importation dans la ligne (défaut : "Fichier Log (*.log)")  
         );
 
 /// Accesseur en lecture : retourne le texte de la ligne
@@ -84,9 +85,13 @@ QGridLayout* getLayout(){ return frameLayout;}
 
 QVector<QWidget*> getComponentList() {return componentList;}
 
-/// Accesseur en écriture de  pathCategory, type de chemin représenté par lineEdit
+/// Accesseur en écriture de pathCategory, type de chemin représenté par lineEdit
 
 void setPathCategory(flags::flineframe t)     {    pathCategory = t;    }
+
+/// Accesseur en écriture de saveFileName
+
+void setSaveFileName(bool value) { saveFileName = value; }
 
 private:
 
@@ -97,6 +102,7 @@ QToolDirButton *sButton;  ///< Bouton permettant d'ouvrir un dialogue de sélect
 QToolDirButton *oButton;  ///< Bouton permettant d'ouvrir le répertoire ou le fichier sélectionné dans  lineEdit
 QVector<QWidget*> componentList; ///< Liste des composants de type \e QWidget*
 flags::flineframe pathCategory;  ///< Type de chemin représenté dans  lineEdit : soit chemin de fichier soit chemin de répertoire
+bool saveFileName = true;  ///< Si \e false, utilise \e QFileDialog::getSaveFileName sinon utilise \e QFileDialog::getOpenFileName
 };
 
 #endif

@@ -225,7 +225,7 @@ const QString FStringList::setTags(const QStringList  &tags, const QVector<FStri
 
   if (tags.length() >= 3 ) return setEmptyTags(tags);
 
-  for (int i=0; i < size(); i++)
+  for (int i=0; i < size(); ++i)
     {
       QStringList tagged=this->at(i);
       if  (tagged.isEmpty()) continue;

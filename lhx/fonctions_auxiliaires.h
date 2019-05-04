@@ -71,6 +71,10 @@
 #elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__)
 #include <stdio.h>
 #endif
+
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+
 using namespace std;
 
 #include "tags.h"
@@ -248,13 +252,9 @@ void ecrire_log (const info_t& info, ofstream& log, int diff);
 
 /// Transforme un fichier de type \e std::ifstream en un \e std::string
 /// \param in Référence vers le fichier de type ifstream
-/// \param alloc Allocateur ({} par défaut)
 /// \return Chaîne de caractères de type string
 
-template <typename Allocator = allocator<char>>
-string read_stream_into_string (
-    ifstream& in,
-    Allocator alloc = {});
+string read_stream_into_string (ifstream& in);
 
 /// Calcule le maximum de lignes de paye par bulletin de paye d'un agent et
 /// le maximum du nombre d'agents par mois
@@ -281,10 +281,14 @@ inline void reset_rank_signal()
 
 static inline void effacer_char (xmlChar* c)
 {
-    for (int j = 0; * (c + j) != 0 && * (c + j + 1) != 0; ++j)
-        {
-            * (c + j) = * (c + j + 1);
-        }
+   if (c == nullptr) return;
+   int j = 0;
+   
+   do
+      {
+          * (c + j) = * (c + j + 1);
+          ++j;
+      } while (* (c + j));
 }
 
 /// Incrémente le rang de la progression de la barre de progrès.\n

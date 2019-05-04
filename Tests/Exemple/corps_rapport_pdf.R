@@ -1,48 +1,48 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annÃ©es 2012 Ã  2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
-# Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
-# produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-# en vigueur à compter de l'année 2008.
+# Ce logiciel est un programme informatique servant Ã  extraire et analyser
+# les fichiers de paye produits au format spÃ©cifiÃ© par l'annexe de la  
+# convention-cadre de dÃ©matÃ©rialisation en vigueur Ã  partir de 2008.
 # 
-# Ce logiciel est régi par la licence CeCILL soumise au droit français et
+# Ce logiciel est rÃ©gi par la licence CeCILL soumise au droit franÃ§ais et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
 # utiliser, modifier et/ou redistribuer ce programme sous les conditions
-# de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
+# de la licence CeCILL telle que diffusÃ©e par le CEA, le CNRS et l'INRIA
 # sur le site "http://www.cecill.info".
 # 
-# En contrepartie de l'accessibilité au code source et des droits de copie,
-# de modification et de redistribution accordés par cette licence, il n'est
-# offert aux utilisateurs qu'une garantie limitée. Pour les mêmes raisons,
-# seule une responsabilité restreinte pèse sur l'auteur du programme, le
-# titulaire des droits patrimoniaux et les concédants successifs.
+# En contrepartie de l'accessibilitÃ© au code source et des droits de copie,
+# de modification et de redistribution accordÃ©s par cette licence, il n'est
+# offert aux utilisateurs qu'une garantie limitÃ©e. Pour les mÃªmes raisons,
+# seule une responsabilitÃ© restreinte pÃ¨se sur l'auteur du programme, le
+# titulaire des droits patrimoniaux et les concÃ©dants successifs.
 # 
-# A cet égard l'attention de l'utilisateur est attirée sur les risques
-# associés au chargement, à l'utilisation, à la modification et/ou au
-# développement et à la reproduction du logiciel par l'utilisateur étant
-# donné sa spécificité de logiciel libre, qui peut le rendre complexe à
-# manipuler et qui le réserve donc à des développeurs et des professionnels
-# avertis possédant des connaissances informatiques approfondies. Les
-# utilisateurs sont donc invités à charger et tester l'adéquation du
-# logiciel à leurs besoins dans des conditions permettant d'assurer la
-# sécurité de leurs systèmes et ou de leurs données et, plus généralement,
-# à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+# A cet Ã©gard l'attention de l'utilisateur est attirÃ©e sur les risques
+# associÃ©s au chargement, Ã  l'utilisation, Ã  la modification et/ou au
+# dÃ©veloppement et Ã  la reproduction du logiciel par l'utilisateur Ã©tant
+# donnÃ© sa spÃ©cificitÃ© de logiciel libre, qui peut le rendre complexe Ã 
+# manipuler et qui le rÃ©serve donc Ã  des dÃ©veloppeurs et des professionnels
+# avertis possÃ©dant des connaissances informatiques approfondies. Les
+# utilisateurs sont donc invitÃ©s Ã  charger et tester l'adÃ©quation du
+# logiciel Ã  leurs besoins dans des conditions permettant d'assurer la
+# sÃ©curitÃ© de leurs systÃ¨mes et ou de leurs donnÃ©es et, plus gÃ©nÃ©ralement,
+# Ã  l'utiliser et l'exploiter dans les mÃªmes conditions de sÃ©curitÃ©.
 # 
-# Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
-# pris connaissance de la licence CeCILL, et que vous en avez accepté les
+# Le fait que vous puissiez accÃ©der Ã  cet en-tÃªte signifie que vous avez
+# pris connaissance de la licence CeCILL, et que vous en avez acceptÃ© les
 # termes.
 # 
 # 
 # 
 # 
 
-PDF <- TRUE
+PDF <<- TRUE
 
-source("rendre.R", encoding = "ISO-8859-1")
+source("rendre.R", encoding = "UTF-8")
 
-# La fonction rendre() permet de générer le rapport pdf
+# La fonction rendre() permet de gÃ©nÃ©rer le rapport pdf
 
 rendre(to = "latex",
        args = c("-V", 
@@ -53,28 +53,25 @@ rendre(to = "latex",
               "urlcolor=cyan", # couleur des liens hypertexte
               "--highlight-style", # facultatif
               "tango"),
-       output_file = "altair.pdf")
+       output_file = "altair.tex",
+       keep = fichiers.temp)
 
-# Eviter les caractères non ascii dans l'output de rendre. Renommer.
-
-file.rename("altair.pdf", "altaïr.pdf")
-
-# Copie sur le sous-dossier de la clé (dossier R-Altair ou R-Altair/nom du dossier/
+# Copie sur le sous-dossier de la clÃ© (dossier R-Altair ou R-Altair/nom du dossier/
 # en mode distributif)
 
-file.copy("altaïr.pdf", chemin.clé)
+file.copy("altaÃ¯r.pdf", chemin.clÃ©)
 
-# Lancer le lecteur de PDF à la fin
+# Lancer le lecteur de PDF Ã  la fin
 # Mais ne le faire que s'il ne s'agit pas du mode distributif(+)
 # Il serait en effet non ergonomique de lancer la lecture de 50 fichiers PDF
 
-if (basename(chemin.clé) == basename(racine)) {
+if (ouvrir.document && basename(chemin.clÃ©) == basename(racine)) {
   if (setOSWindows) {
     
-    shell(paste("start acrord32.exe",  file.path(chemin.clé, "altaïr.pdf")))
+    shell(paste("start acrord32.exe",  file.path(chemin.clÃ©, "altaÃ¯r.pdf")))
     
   } else {
-          system(paste("okular", file.path(chemin.clé, "altaïr.pdf")))
+          system(paste("okular", file.path(chemin.clÃ©, "altaÃ¯r.pdf")))
   }
 }
 

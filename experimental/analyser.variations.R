@@ -205,7 +205,7 @@ analyser.variations <- function()
   Ldp <- mutate(Ldp,
                 plus.de.2.ans = Matricule
                 %in%
-                  Analyse.rémunérations[Analyse.rémunérations$plus.de.2.ans, étiquette.matricule])
+                  Analyse.rémunérations[Analyse.rémunérations$plus.de.2.ans, Matricule])
   attach(Ldp, warn=-1)
   
   Ldp.plus.de.2.ans<-Ldp[plus.de.2.ans, ]

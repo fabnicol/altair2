@@ -2,7 +2,7 @@
 % Please edit documentation in R/effectifs.R
 \name{année_comparaison}
 \alias{année_comparaison}
-\title{Année de comparaison avec les données nationales.}
+\title{Annee de comparaison avec les données nationales.}
 \usage{
 année_comparaison(versant)
 }

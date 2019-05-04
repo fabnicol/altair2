@@ -1,60 +1,61 @@
 // Copyright Cour des comptes, 2017
 // Contributeur :
-// Fabrice Nicol, annÃ©es 2012 Ã  2017
+// Fabrice Nicol, années 2012 à 2017
 // fabrice.nicol@crtc.ccomptes.fr
 //
-// Ce logiciel est un programme informatique servant Ã  extraire et analyser les fichiers de paye
-// produits au format spÃ©cifiÃ© par l'annexe de la convention-cadre nationale de dÃ©matÃ©rialisation
-// en vigueur Ã  compter de l'annÃ©e 2008.
+// Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
+// produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
+// en vigueur à compter de l'année 2008.
 //
-// Ce logiciel est rÃ©gi par la licence CeCILL soumise au droit franÃ§ais et
+// Ce logiciel est régi par la licence CeCILL soumise au droit français et
 // respectant les principes de diffusion des logiciels libres. Vous pouvez
 // utiliser, modifier et/ou redistribuer ce programme sous les conditions
-// de la licence CeCILL telle que diffusÃ©e par le CEA, le CNRS et l'INRIA
+// de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
 // sur le site "http://www.cecill.info".
 //
-// En contrepartie de l'accessibilitÃ© au code source et des droits de copie,
-// de modification et de redistribution accordÃ©s par cette licence, il n'est
-// offert aux utilisateurs qu'une garantie limitÃ©e. Pour les mÃªmes raisons,
-// seule une responsabilitÃ© restreinte pÃ¨se sur l'auteur du programme, le
-// titulaire des droits patrimoniaux et les concÃ©dants successifs.
+// En contrepartie de l'accessibilité au code source et des droits de copie,
+// de modification et de redistribution accordés par cette licence, il n'est
+// offert aux utilisateurs qu'une garantie limitée. Pour les mêmes raisons,
+// seule une responsabilité restreinte pèse sur l'auteur du programme, le
+// titulaire des droits patrimoniaux et les concédants successifs.
 //
-// A cet Ã©gard l'attention de l'utilisateur est attirÃ©e sur les risques
-// associÃ©s au chargement, Ã  l'utilisation, Ã  la modification et/ou au
-// dÃ©veloppement et Ã  la reproduction du logiciel par l'utilisateur Ã©tant
-// donnÃ© sa spÃ©cificitÃ© de logiciel libre, qui peut le rendre complexe Ã 
-// manipuler et qui le rÃ©serve donc Ã  des dÃ©veloppeurs et des professionnels
-// avertis possÃ©dant des connaissances informatiques approfondies. Les
-// utilisateurs sont donc invitÃ©s Ã  charger et tester l'adÃ©quation du
-// logiciel Ã  leurs besoins dans des conditions permettant d'assurer la
-// sÃ©curitÃ© de leurs systÃ¨mes et ou de leurs donnÃ©es et, plus gÃ©nÃ©ralement,
-// Ã  l'utiliser et l'exploiter dans les mÃªmes conditions de sÃ©curitÃ©.
+// A cet égard l'attention de l'utilisateur est attirée sur les risques
+// associés au chargement, à l'utilisation, à la modification et/ou au
+// développement et à la reproduction du logiciel par l'utilisateur étant
+// donné sa spécificité de logiciel libre, qui peut le rendre complexe à
+// manipuler et qui le réserve donc à des développeurs et des professionnels
+// avertis possédant des connaissances informatiques approfondies. Les
+// utilisateurs sont donc invités à charger et tester l'adéquation du
+// logiciel à leurs besoins dans des conditions permettant d'assurer la
+// sécurité de leurs systèmes et ou de leurs données et, plus généralement,
+// à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
 //
-// Le fait que vous puissiez accÃ©der Ã  cet en-tÃªte signifie que vous avez
-// pris connaissance de la licence CeCILL, et que vous en avez acceptÃ© les
+// Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
+// pris connaissance de la licence CeCILL, et que vous en avez accepté les
 // termes.
 //
 //
 #ifndef ENTETE_HPP
 #define ENTETE_HPP
+ ////////////////////////////////////////////////////////////////////////////////
+ // !!!!   Doit être encodé en Latin-1 pour pouvoir être lu sous Windows  !!!!!
+ ///////////////////////////////////////////////////////////////////////////////
 
-// Doit Ãªtre encodÃ© en Latin-1 pour pouvoir Ãªtre lu sous Windows
-
-#ifndef CONVERTIR_LATIN_1
 #ifdef __linux__
 
-// Ce tableau est utilisÃ© pour les libellÃ©s de colonnes des bases CSV en sortie
+// Ce tableau est utilisé pour les libellés de colonnes des bases CSV en sortie
 
 // Pour les fichiers Tablesxxx.csv
 
 static const char* entete_char[] = {"R",      // Rang
-                                    "AnnÃ©e",
+                                    "Année",
                                     "Mois",
                                     "Budget",
                                     "Employeur",
                                     "Siret",
                                     "Etablissement",
-                                    "Nom", "PrÃ©nom",
+                                    "Nom",
+                                    "Prénom",
                                     "Matricule",
                                     "Service",
                                     "Nb.Enfants",
@@ -65,35 +66,38 @@ static const char* entete_char[] = {"R",      // Rang
                                     "Indice",
                                     "Brut",
                                     "Net",
-                                    "Net.Ã .Payer",
+                                    "Net.à.Payer",
                                     "NBI",
-                                    "LibellÃ©",
+                                    "Code.Budget",
+                                    "Taux.Budget",
+                                    "Montant.Budget",
+                                    "Libellé",
                                     "Code",
                                     "Base",
                                     "Taux",
-                                    "Nb.UnitÃ©",
+                                    "Nb.Unite",
                                     "Montant",
-                                    "DÃ©but",
+                                    "Début",
                                     "Fin",
                                     "Type",
                                     "Emploi",
                                     "Grade",
                                     "Echelon",
-                                    "CatÃ©gorie",
+                                    "Catégorie",
                                     "Nir"
                                    };
 
 // Pour les fichiers Bulletins.paiexxx.csv
 
 static const char* entete_char_bulletins[] = {"R",
-                                              "AnnÃ©e",
+                                              "Année",
                                               "Mois",
                                               "Budget",
                                               "Employeur",
                                               "Siret",
                                               "Etablissement",
                                               "Nom",
-                                              "PrÃ©nom",
+                                              "Prénom",
                                               "Matricule",
                                               "Service",
                                               "Nb.Enfants",
@@ -104,17 +108,20 @@ static const char* entete_char_bulletins[] = {"R",
                                               "Indice",
                                               "Brut",
                                               "Net",
-                                              "Net.Ã .Payer",
+                                              "Net.à.Payer",
                                               "NBI",
+                                              "Code.Budget",
+                                              "Taux.Budget",
+                                              "Montant.Budget",
                                               "Emploi",
                                               "Grade",
-                                              "Evenement",
+                                              "Evénement",
                                               "Echelon",
-                                              "CatÃ©gorie",
+                                              "Catégorie",
                                               "Nir"
                                              };
 
 #endif
-#endif
+
 #endif // ENTETE_HPP
 

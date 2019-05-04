@@ -103,6 +103,12 @@ fi
 
 cd ..
 
+# Pour recompiler et réinstaller R : insérer R_VERSION avec un nouveau numéro de version
+# ou bien un fichier install.R.force
+# insérer le fichier install.R 
+# insérer un paquet R.tar.xz dans build/
+
+
 if test -f sys/install.R; then
 
   
@@ -116,7 +122,7 @@ if test -f sys/install.R; then
          cd sys/build
          tar xJf R.tar.xz
          ./configure --enable-R-shlib --prefix=/usr/local
-	 make uninstall
+         make uninstall
          make -j8
          make install
       
@@ -157,20 +163,75 @@ else
 fi  
 
 
-if test -f sys/install.packages -a ! -f sys/packages.installed; then
+
+if test -f sys/install.RStudio; then
+  
+   if test -f sys/install.RStudio.force -o x$(cat /usr/local/lib64/rstudio/VERSION) != x$(cat sys/RStudio_VERSION) ; then
+
+     echo "Actualisation de RStudio (blob)..."
+       
+     if test -d sys/build/rstudio; then
+
+         emerge --unmerge sci-mathematics/rstudio 
+         cd sys/build/rstudio
+         tar xJf rstudio-bin.tar.xz
+         tar xJf rstudio-etc.tar.xz
+         rm -f *.xz
+         rm -rf /usr/local/lib64/rstudio
+         mkdir -p /usr/local/lib64/rstudio
+         cp -rf * /usr/local/lib64/rstudio
+         rm -f /usr/bin/rstudio
+         ln -s /usr/local/lib64/rstudio/bin/rstudio /usr/bin/rstudio
+               
+       if test $? = 0; then
+     
+         echo "*************************************"
+         echo "* Actualisation de RStudio terminée *"
+         echo "*************************************"
+         
+                
+       else
+     
+         echo "************************************************"
+         echo "* La nouvelle installation de RStudio a échoué *"
+         echo "************************************************"
+        
+       fi
+      
+       cd /home/fab/Dev/altair     
+      
+     else
+   
+       echo "Pas de répertoire de compilation build !"
+      
+     fi 
+   fi  
+
+else
+  
+  echo "pas d'actualisation de RStudio par blob..."
+  echo "fichier de version :  **$(cat sys/RStudio_VERSION)**"
+  
+  sleep 2
+fi  
+
+
+
+if [[ -f sys/install.packages && (! -f sys/packages.installed.flag || -f sys/install.packages.force) ]]; then
 
    echo "Actualisation des paquets..."
   
-   export PKGDIR="$PWD/sys/packages"
+   export PKGDIR="/home/fab/Dev/altair/sys/packages"
    
    if test -d sys/packages; then
    
       echo "Installation des paquets..."
-      emerge -K --nodeps  $(find $PKGDIR -name '*tbz2')
+      emerge -K --nodeps  $(find /home/fab/Dev/altair/sys/packages -name 'portage*tbz2')
+      emerge -K --nodeps  $(find /home/fab/Dev/altair/sys/packages -name '*tbz2')
       echo "Installation des paquets terminée..."
       eix-update
-      touch sys/packages.installed
-      git add -f sys/packages.installed
+      touch sys/packages.installed.flag
+      git add -f sys/packages.installed.flag
       git commit -am "packages.installed"
 
    else
@@ -185,10 +246,8 @@ fi
 
 # recompilation de la bibliothèque altair
 if test -f sys/build.altair; then
-  rm -rf altair.linux
   rm -rf /usr/local/lib64/R/library/altair
   rm -rf /usr/lib64/R/library/altair
-  git checkout FETCH_HEAD -- altair.linux
   
   R CMD INSTALL --byte-compile  -l  /usr/local/lib64/R/library/ altair.linux
   echo "*************************************"
@@ -261,14 +320,14 @@ mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
 chgrp -R users /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
 chmod -R 0770 /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
              
-# accès des données test
-if test ! -d /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2 ; then
+
+if test ! -d /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl ; then
    mkdir -p /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
-   cp -rf /home/Public/xhl/Anonyme2 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
 fi   
 
 # script exécuté à la fin d'une session plasma (démontage de la clé)
 _copy 10-agent-shutdown.sh /etc/plasma/shutdown
+_copy 20-agent-startup.sh  /etc/plasma/startup
 _copy compte_utilisateur.sh /usr/bin
 # Vue de dossiers par défaut
 _copy defaults /usr/share/plasma/shells/org.kde.plasma.desktop/contents/
@@ -277,7 +336,7 @@ _copy metadata.desktop  /usr/share/plasma/desktoptheme/default/
 # script m.sh exécuté au début d'une session plasma (montage de la clé)
 _copy ajuster_m   /etc/init.d
 # correction d'un bug d'accélération 3 D dans le driver intel i 915 (01.2017)
-_copy 10-monitor.conf /etc/X11/xorg.conf.d
+#_copy 10-monitor.conf /etc/X11/xorg.conf.d
 # UTF-8 sur Konqueror
 _copy konquerorrc /home/Public
 chown jf /home/Public/konquerorrc 
@@ -293,6 +352,7 @@ do
 	if test -d /home/$i; then
 		# intégration de l'icone dans le menu développement + clic sur projet *.alt
 		mkdir -p /home/$i/.local/share/applications
+		mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/xhl/$i
 		_copy mimeapps.list   /home/$i/.config/
 		_copy mimeapps.list   /home/$i/.local/share/applications
 		_copy images          /home/$i/.local/share/Altair     
@@ -403,6 +463,12 @@ fi
 rm -rf .Rproj.user/
 cp -rf /home/Public/fab/.Rproj.user .
 mkdir -p Tests/Exemple/Donnees/R-Altair
+rm -rf /home/jf/Dev/altair
+cp -rf /home/fab/Dev/altair  /home/jf/Dev/
+chown -R jf   /home/jf/Dev/altair
+chgrp -R users /home/jf/Dev/altair
+chmod -R 0770  /home/jf/Dev/altair
+
 mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/R-Altair
 
 chgrp -R users /home/jf/Dev/altair/Tests/Exemple/Donnees/
@@ -413,20 +479,19 @@ chmod -R 0770 /home/jf/Dev/altair/Tests/Exemple/Donnees/
 mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
 chgrp -R users /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
 chmod -R 0770 /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
-             
-# accès des données test
-if test ! -d /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/Anonyme2 ; then
-   mkdir -p /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
-   cp -rf /home/Public/xhl/Anonyme2 /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
-fi  
 
-#droits sur l'entrepot de dévloppement
-if test  -d /home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot ; then
-   chown -R fab /home/jf/Dev/altair/Tests/Exemple/Donnees/Entrepot
+git checkout -f master-jf 
+
+# accès des données test
+if test ! -d /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl ; then
+   mkdir -p /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
 fi  
 
 chown -R fab .
 chgrp -R users .
+
+cp -f /home/fab/Dev/altair/Docs/Exemple/Anonyme2.7z  /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
+cp -f /home/fab/Dev/altair/Docs/Exemple/Anonyme2.7z  /home/jf/Dev/altair/Tests/Exemple/Donnees/xhl 
 
 echo "*** Opérations sur branche release : Terminé ***"
  

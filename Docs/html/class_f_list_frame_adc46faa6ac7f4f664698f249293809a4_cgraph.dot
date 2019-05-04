@@ -1,0 +1,10 @@
+digraph "FListFrame::parseXhlFile"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node331 [label="FListFrame::parseXhlFile",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node331 -> Node332 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node332 [label="tools::remAccents",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtools.html#ab3072ad07df18e4e7e3c4b903fa3d11e",tooltip="Remplace les caractères accentués par des caractères proches mains non accentué "];
+}

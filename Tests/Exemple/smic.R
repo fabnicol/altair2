@@ -1,54 +1,57 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annÃ©es 2012 Ã  2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
-# Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
-# produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-# en vigueur à compter de l'année 2008.
+# Ce logiciel est un programme informatique servant Ã  extraire et analyser
+# les fichiers de paye produits au format spÃ©cifiÃ© par l'annexe de la  
+# convention-cadre de dÃ©matÃ©rialisation en vigueur Ã  partir de 2008.
 # 
-# Ce logiciel est régi par la licence CeCILL soumise au droit français et
+# Ce logiciel est rÃ©gi par la licence CeCILL soumise au droit franÃ§ais et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
 # utiliser, modifier et/ou redistribuer ce programme sous les conditions
-# de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
+# de la licence CeCILL telle que diffusÃ©e par le CEA, le CNRS et l'INRIA
 # sur le site "http://www.cecill.info".
 # 
-# En contrepartie de l'accessibilité au code source et des droits de copie,
-# de modification et de redistribution accordés par cette licence, il n'est
-# offert aux utilisateurs qu'une garantie limitée. Pour les mêmes raisons,
-# seule une responsabilité restreinte pèse sur l'auteur du programme, le
-# titulaire des droits patrimoniaux et les concédants successifs.
+# En contrepartie de l'accessibilitÃ© au code source et des droits de copie,
+# de modification et de redistribution accordÃ©s par cette licence, il n'est
+# offert aux utilisateurs qu'une garantie limitÃ©e. Pour les mÃªmes raisons,
+# seule une responsabilitÃ© restreinte pÃ¨se sur l'auteur du programme, le
+# titulaire des droits patrimoniaux et les concÃ©dants successifs.
 # 
-# A cet égard l'attention de l'utilisateur est attirée sur les risques
-# associés au chargement, à l'utilisation, à la modification et/ou au
-# développement et à la reproduction du logiciel par l'utilisateur étant
-# donné sa spécificité de logiciel libre, qui peut le rendre complexe à
-# manipuler et qui le réserve donc à des développeurs et des professionnels
-# avertis possédant des connaissances informatiques approfondies. Les
-# utilisateurs sont donc invités à charger et tester l'adéquation du
-# logiciel à leurs besoins dans des conditions permettant d'assurer la
-# sécurité de leurs systèmes et ou de leurs données et, plus généralement,
-# à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+# A cet Ã©gard l'attention de l'utilisateur est attirÃ©e sur les risques
+# associÃ©s au chargement, Ã  l'utilisation, Ã  la modification et/ou au
+# dÃ©veloppement et Ã  la reproduction du logiciel par l'utilisateur Ã©tant
+# donnÃ© sa spÃ©cificitÃ© de logiciel libre, qui peut le rendre complexe Ã 
+# manipuler et qui le rÃ©serve donc Ã  des dÃ©veloppeurs et des professionnels
+# avertis possÃ©dant des connaissances informatiques approfondies. Les
+# utilisateurs sont donc invitÃ©s Ã  charger et tester l'adÃ©quation du
+# logiciel Ã  leurs besoins dans des conditions permettant d'assurer la
+# sÃ©curitÃ© de leurs systÃ¨mes et ou de leurs donnÃ©es et, plus gÃ©nÃ©ralement,
+# Ã  l'utiliser et l'exploiter dans les mÃªmes conditions de sÃ©curitÃ©.
 # 
-# Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
-# pris connaissance de la licence CeCILL, et que vous en avez accepté les
+# Le fait que vous puissiez accÃ©der Ã  cet en-tÃªte signifie que vous avez
+# pris connaissance de la licence CeCILL, et que vous en avez acceptÃ© les
 # termes.
 # 
 # mes.
 # 
 # 
 
-# SMIC mensuel net x 3 utilisé pour la condition alternative sur les périodes non annexes
-# un salarié qui au cours de l'année connait une rémunération supérieure à 3 fois le smic mensuel
-# est dans une période non annexe, quelle que soit la durée de cette période dans l'année.
-# remarque :  - on ne vérifie pas la continuité de cette période
-#             - on prend la moyenne annuelle des smic net déduction faite de la csg et de la crds, arrondie à la première décimale
+# SMIC mensuel net x 3 utilisÃ© pour la condition alternative sur les pÃ©riodes non annexes
+# un salariÃ© qui au cours de l'annÃ©e connait une rÃ©munÃ©ration supÃ©rieure Ã  3 fois le smic mensuel
+# est dans une pÃ©riode non annexe, quelle que soit la durÃ©e de cette pÃ©riode dans l'annÃ©e.
+# remarque :  - on ne vÃ©rifie pas la continuitÃ© de cette pÃ©riode
+#             - on prend la moyenne annuelle des smic net dÃ©duction faite de la csg et de la crds, arrondie Ã  la premiÃ¨re dÃ©cimale
 
 smic.net <- data.table::fread(
   
-  # Rajouter ici les valeurs futures sous la forme année,  valeur au début de la chaine de caractères :
+  # Rajouter ici les valeurs futures sous la forme annÃ©e,  valeur au dÃ©but de la chaine de caractÃ¨res :
   
-                   "2016,  3424.8
+                   "2019,  3608.8
+                    2018,  3554.8
+                    2017,  3447.2 
+                    2016,  3424.8
                     2015,  3408.0
                     2014,  3386.1
                     2013,  3361.3
@@ -58,11 +61,11 @@ smic.net <- data.table::fread(
                     2009,  3132.2
                     2008,  3075.7",
                    
-                   col.names = c("Année", "SMIC_NET"))
+                   col.names = c("Annee", "SMIC_NET"))
 
-# actualiser aussi ceci, pour éviter à recalculer :
+# actualiser aussi ceci, pour Ã©viter Ã  recalculer :
 
-smic.net.dernière.année.renseignée <- 2016
-smic.net.première.année.renseignée <- 2008
+smic.net.derniÃ¨re.annÃ©e.renseignÃ©e <- 2018
+smic.net.premiÃ¨re.annÃ©e.renseignÃ©e <- 2008
 
 # http://www.bdm.insee.fr/ et documents altair/Docs/SMIC_NET.xls 

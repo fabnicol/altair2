@@ -1,5 +1,7 @@
- 
-source("prologue_source.R", encoding = "UTF-8")
+
+encodage.code.source <- "UTF-8" 
+
+source("prologue_source.R", encoding = encodage.code.source)
 
 for (rep in reps) {
   
@@ -15,7 +17,9 @@ for (rep in reps) {
   
   res <- try({
       source(file.path("syspaths.R"), encoding = encodage.code.source)
-      source(file.path("altair_start.R"), encoding = "UTF-8", echo = TRUE)
+    
+      source(file.path("altair_start.R"), encoding = encodage.code.source, echo = TRUE)
+    
   })
   
   if (inherits(res, "try-error")) {

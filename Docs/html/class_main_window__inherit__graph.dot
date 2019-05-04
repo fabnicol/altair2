@@ -1,0 +1,9 @@
+digraph "MainWindow"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node0 [label="{MainWindow\n|+ consoleDialog\l+ dialog\l+ recentFiles\l+ settings\l- aboutAction\l- aboutMenu\l- aboutToolBar\l- aboutToolBarAction\l- actionHash\l- actionList\l- altair\l- anonymAction\l- archiveAction\l- behaviorWidgetListBox\let 70 de plus...\l|+ MainWindow()\l+ feedLHXConsoleWithHtml()\l+ feedRConsoleWithHtml()\l+ getConsoleCounter()\l+ getEditor()\l+ isDefaultSaveProjectChecked()\l+ on_clearOutputTextButton\l_clicked()\l+ resetExtractionBulletins()\l+ saveProjectAs()\l+ saveProjectAs()\l+ standardDisplay()\l+ strippedName()\l+ updateRecentFileActions()\l- createActions()\l- createMenus()\l- createToolBars()\l- extraire_donnees_protegees()\l- nettoyer_donnees()\l- readFile()\l- anonymiser()\l- archiveProject()\l- clean_process()\l- cleanBase()\l- configure()\l- configureOptions()\l- displayFullScreen()\l- exportProject()\l- launch_process()\l- on_displayFileTreeViewButton\l_clicked()\let 11 de plus...\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node1 [label="{QMainWindow\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+}

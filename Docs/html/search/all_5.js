@@ -81,5 +81,7 @@ var searchData=
   ['expression_5freg_5felus_2eh',['expression_reg_elus.h',['../expression__reg__elus_8h.html',1,'']]],
   ['expression_5freg_5fvacations',['EXPRESSION_REG_VACATIONS',['../expression__reg__cata_8h.html#a998cdcc857c5a627149ac147c1951abd',1,'expression_reg_cata.h']]],
   ['extraire_5fdonnees_5fprotegees',['extraire_donnees_protegees',['../class_main_window.html#a02c9581a3be6d13c59ffff17c5da977f',1,'MainWindow']]],
-  ['extraire_5flignes',['extraire_lignes',['../recherche_8cpp.html#abb222aafededdf9d279d03b5fb62bc11',1,'extraire_lignes(const info_t &amp;info, const array&lt; uint64_t, 3 &gt; &amp;debut, const array&lt; uint64_t, 2 &gt; &amp;fin):&#160;recherche.cpp'],['../recherche_8h.html#abb222aafededdf9d279d03b5fb62bc11',1,'extraire_lignes(const info_t &amp;info, const array&lt; uint64_t, 3 &gt; &amp;debut, const array&lt; uint64_t, 2 &gt; &amp;fin):&#160;recherche.cpp']]]
+  ['extraire_5flignes',['extraire_lignes',['../recherche_8cpp.html#abb222aafededdf9d279d03b5fb62bc11',1,'extraire_lignes(const info_t &amp;info, const array&lt; uint64_t, 3 &gt; &amp;debut, const array&lt; uint64_t, 2 &gt; &amp;fin):&#160;recherche.cpp'],['../recherche_8h.html#abb222aafededdf9d279d03b5fb62bc11',1,'extraire_lignes(const info_t &amp;info, const array&lt; uint64_t, 3 &gt; &amp;debut, const array&lt; uint64_t, 2 &gt; &amp;fin):&#160;recherche.cpp']]],
+  ['extrapage',['extraPage',['../classextra_page.html',1,'extraPage'],['../classextra_page.html#a6a8ef4e664730519f9b6b7f38d8b8e8f',1,'extraPage::extraPage()']]],
+  ['extratab',['extraTab',['../classoptions.html#a48f9654a22ec3cb155df3d559dfd9478',1,'options']]]
 ];

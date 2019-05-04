@@ -3,9 +3,9 @@
 # Fabrice Nicol, années 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
-# Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
-# produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-# en vigueur à compter de l'année 2008.
+# Ce logiciel est un programme informatique servant à extraire et analyser
+# les fichiers de paye produits au format spécifié par l'annexe de la  
+# convention-cadre de dématérialisation en vigueur à partir de 2008.
 # 
 # Ce logiciel est régi par la licence CeCILL soumise au droit français et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -36,7 +36,8 @@
 # 
 # 
 
-source("prologue_rapport.R", encoding = "ISO-8859-1")
+encodage.code.source <- "UTF-8"
+source("prologue_rapport.R", encoding = encodage.code.source)
 
 # Pour chaque répertoire de la clé (dossier R-Altair,export des bases CSV),
 # écraser les rapports et sourcer rapport_pdf_start.R
@@ -56,9 +57,11 @@ for (rep in reps) {
   setwd(chemin.dossier)
   
   invisible(lapply(c("altaïr.pdf", "altaïr.odt", "altaïr.docx"), function(x) file.remove(file.path(chemin.clé.racine, x))))
+  invisible(lapply(c("altaïr.pdf", "altaïr.odt", "altaïr.docx"), function(x) file.remove(file.path(chemin.dossier, x))))
+  invisible(file.remove(list.files(chemin.modules, "*.Rmd", full.name = TRUE)))
   
   res <- try({
-      source("rapport_pdf_start.R", encoding = "ISO-8859-1", echo = TRUE)
+      source("rapport_pdf_start.R", encoding = "UTF-8", echo = TRUE)
   })
   
   if (inherits(res, "try-error")) {

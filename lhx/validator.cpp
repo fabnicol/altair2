@@ -49,6 +49,9 @@
 #include "table.h"
 #include "ligne_paye.h"
 
+#ifdef INCLURE_REG_ELUS
+#  include "expression_reg_elus.h"
+#endif
 
 using namespace std;
 
@@ -77,7 +80,7 @@ static inline  int GCC_INLINE memoire_p_ligne (const info_t& info, const unsigne
 }
 
 /// Décode une structure info_t contenant les données de paye à l'état brut "fichier" (<pre> info.threads->in_memory_file </pre> ou <pre> info.threads->argv </pre>)
-/// Commence par décoder Annee, Mois, Budget, Siret, Employeur, puis lance le décodage des données de paye individuelles, agent par agent, pour l'ensemble du fichier
+/// Commence par décoder Année, Mois, Budget, Siret, Employeur, puis lance le décodage des données de paye individuelles, agent par agent, pour l'ensemble du fichier
 /// A chaque bulletin de paye de l'agent, lance  parseLignesPaye
 /// \param info Structure info_t contenant les fichiers de paye en mémoire vive et les champs à remplir par le décodage libxml2.
 /// \return #SKIP_FILE si le fichier doit être sauté pour une raison ou pour une autre \n
@@ -90,7 +93,7 @@ static int parseFile (info_t& info)
 //
 //        <DocumentPaye xmlns="http://www.minefi.gouv.fr/cp/helios/pes_v2/paye_1_1">
 //          <IdVer V="">{1,1}</IdVer>
-//          <Annee V="">{1,1}</Annee>
+//          <Année V="">{1,1}</Année>
 //          <Mois V="">{1,1}</Mois>
 //          <Train V="">{0,1}</Train>
 //          <Budget>{0,1}</Budget>
@@ -125,8 +128,8 @@ static int parseFile (info_t& info)
 
 #if defined(STRINGSTREAM_PARSING)
     doc = xmlReadDoc (reinterpret_cast<const xmlChar*> (info.threads->in_memory_file.at (info.fichier_courant).c_str()), nullptr, nullptr, XML_PARSE_COMPACT | XML_PARSE_BIG_LINES);
-#elif defined (MMAP_PARSING)
-    doc = xmlParseDoc (reinterpret_cast<const xmlChar*> (info.threads->in_memory_file.at (info.fichier_courant).c_str()));
+//#elif defined (MMAP_PARSING)
+//    doc = xmlParseDoc (reinterpret_cast<const xmlChar*> (info.threads->in_memory_file.at (info.fichier_courant).c_str()));
 #else
     doc = xmlReadFile (info.threads->argv.at (info.fichier_courant).c_str(), nullptr, XML_PARSE_BIG_LINES);
 #endif
@@ -281,9 +284,9 @@ static int parseFile (info_t& info)
             cur =  cur->xmlChildrenNode;
             budget_fichier = xmlGetProp (cur, (const xmlChar *) "V");
 
-            if (budget_fichier[0] == '\0')
+            if (budget_fichier == nullptr || budget_fichier[0] == '\0')
                 {
-                    xmlFree (budget_fichier);
+                    if (budget_fichier  != nullptr) xmlFree (budget_fichier);
                     budget_fichier = xmlStrdup (NA_STRING);
 
                     if (verbeux)
@@ -930,36 +933,6 @@ out :
 
 // Les expressions régulières correctes ne sont disponibles sur MINGW GCC qu'à partir du build 4.9.2
 
-#if !defined GCC_REGEX && !defined NO_REGEX && (defined __WIN32__ || defined GCC_4_8)
-#include <regex.h>
-
-bool regex_match (const char *string, const char *pattern)
-{
-    int status;
-    regex_t re;
-
-    if (string == nullptr) return false;
-
-    if (regcomp (&re, pattern, REG_EXTENDED | REG_NOSUB | REG_ICASE | REG_NEWLINE) != 0)
-        {
-            return (false); /* Report error. */
-        }
-
-    status = regexec (&re, string, (size_t) 0, nullptr, 0);
-    regfree (&re);
-
-    if (status != 0)
-        {
-            return (false); /* Report error. */
-        }
-
-    return (true);
-}
-
-const char* pat = EXPRESSION_REG_ELUS;
-const char* pat2 = EXPRESSION_REG_VACATIONS;
-
-#else
 #ifdef __cplusplus
 #include <regex>
 #include <string>
@@ -969,9 +942,8 @@ const char* pat2 = EXPRESSION_REG_VACATIONS;
 
 using namespace std;
 #else
-#error "C++14 doit être utilisé."
+#error "C++14 ou ultérieur doit être utilisé."
 #endif
-#endif // defined
 
 /// Alloue la mémoire de la table des données
 /// \param info Structure info_t contenant les champs à réserver en mémoire
@@ -988,7 +960,8 @@ static inline void GCC_INLINE allouer_memoire_table (info_t& info)
                 {
                     for (xmlChar* a : info.Table[agent])
                         {
-                            if (a) xmlFree (a);
+                          if (a)
+                             xmlFree (a);
                         }
                 }
         }
@@ -1179,19 +1152,23 @@ void* parse_info (info_t& info)
 // Pré-traitement des fichiers de paye
 //
 
-#if  defined GCC_REGEX && !defined NO_REGEX
-
+#ifdef INCLURE_REG_ELUS
     regex pat {EXPRESSION_REG_ELUS,  regex_constants::icase};
+#endif    
+#ifdef INCLURE_REG_VACATAIRES    
     regex pat2 {EXPRESSION_REG_VACATIONS, regex_constants::icase};
+#endif 
+#ifdef INCLURE_REG_ASSMAT    
     regex pat3 {EXPRESSION_REG_ASSISTANTES_MATERNELLES, regex_constants::icase};
+#endif    
     regex pat_adjoints {EXPRESSION_REG_ADJOINTS, regex_constants::icase};
     regex pat_agents {EXPRESSION_REG_AGENTS, regex_constants::icase};
     regex pat_cat_a {EXPRESSION_REG_CAT_A, regex_constants::icase};
     regex pat_cat_b {EXPRESSION_REG_CAT_B, regex_constants::icase};
 
-#endif
-
-    xmlKeepBlanksDefault (0);
+#   ifndef TINYXML2
+      xmlKeepBlanksDefault (0);
+#   endif      
 
     for (unsigned i = 0; i < info.threads->argc ; ++i)
         {
@@ -1264,7 +1241,6 @@ void* parse_info (info_t& info)
     //    V     pour un vacataire
     //    A     pour une assistante maternelle
 
-#if !defined NO_REGEX
 #define VAR(X) info.Table[agent][X]
 
     for (unsigned agent = 0; agent < info.NCumAgentXml; ++agent)
@@ -1286,31 +1262,37 @@ void* parse_info (info_t& info)
 
             normaliser_accents (em);
             normaliser_accents (gr);
-
-            if (regex_match ((const char*)em, pat) || regex_match ((const char*) VAR (Service), pat))
-                {
+            
+#           ifdef INCLURE_REG_ELUS
+              if (regex_match ((const char*)em, pat))
+                 {
                     xmlFree (VAR (Statut)) ;
                     VAR (Statut) =  xmlStrdup ((const xmlChar*)"ELU");
-                    VAR (Categorie) = xmlStrdup (NA_STRING);
-                }
+                    VAR (Catégorie) = xmlStrdup (NA_STRING);
+                 }
             else
+#           endif                                
                 {
-                    // vacataires
-
+                    // Peu fiable
+                    // vacataires                  
+#                   ifdef INCLURE_REG_VACATAIRES 
                     if (regex_match ((const char*) em, pat2))
                         {
                             xmlFree (VAR (Grade));
                             VAR (Grade) = (xmlChar*) xmlStrdup ((const xmlChar*)"V");
                         }
-
+                    else 
+#                   endif
+                    
+                    // Peu fiable
                     // assistantes maternelles
-
-                    else if (regex_match ((const char*) em, pat3))
+#                   ifdef INCLURE_REG_ASSMAT                    
+                    if (regex_match ((const char*) em, pat3))
                         {
                             xmlFree (VAR (Grade));
                             VAR (Grade) = (xmlChar*) xmlStrdup ((const xmlChar*)"A");
                         }
-
+#                   endif
                     ///////////////////////////////////////////////
                     // identification des catégories A, B, C     //
                     ///////////////////////////////////////////////
@@ -1343,7 +1325,7 @@ void* parse_info (info_t& info)
 
             // Les vacations peuvent être indiquées comme telles dans les libellés de paie mais pas dans les emplois métiers.
             // On les récupère en parcourant les libellés
-
+#        ifdef INCLURE_REG_VACATAIRES 
             if (info.reduire_consommation_memoire)
                 {
                     // inutile de boucler sur la partie vide du tableau...
@@ -1364,7 +1346,7 @@ void* parse_info (info_t& info)
                                 VAR (Grade) = (xmlChar*) xmlStrdup ((const xmlChar*)"V");
                             }
                 }
-
+#        endif 
 #ifndef NORMALISER_ACCENTS
             xmlFree (em);
             xmlFree (gr);
@@ -1372,7 +1354,7 @@ void* parse_info (info_t& info)
         }
 
 #undef VAR
-#endif
+
     return nullptr;
 }
 

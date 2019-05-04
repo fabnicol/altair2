@@ -1,3 +1,16 @@
+        CHANGES IN highr VERSION 0.8
+
+MAJOR CHANGES
+
+  o The minimal required R version is 3.2.3 now.
+
+        CHANGES IN highr VERSION 0.7
+
+NEW FEATURES
+
+  o Added an internal data frame highr:::cmd_pandoc_latex (mainly for
+  https://stackoverflow.com/q/40252885/559676).
+
         CHANGES IN highr VERSION 0.6
 
 NEW FEATURES

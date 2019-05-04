@@ -8,6 +8,7 @@ var searchData=
   ['rankfile',['rankFile',['../class_altair.html#a99dac1561a196b2a5c57e4d3d6f7e4f3',1,'Altair::rankFile()'],['../fonctions__auxiliaires_8h.html#a0c0f54b840264d2fb647c1153b9200fc',1,'rankFile():&#160;main.cpp'],['../lhx_2main_8cpp.html#a0c0f54b840264d2fb647c1153b9200fc',1,'rankFile():&#160;main.cpp']]],
   ['rankfilepath',['rankFilePath',['../fonctions__auxiliaires_8h.html#a98ed2f28f6d823dfb9512d9aa9408c0f',1,'rankFilePath():&#160;main.cpp'],['../lhx_2main_8cpp.html#a98ed2f28f6d823dfb9512d9aa9408c0f',1,'rankFilePath():&#160;main.cpp']]],
   ['rapportentier',['rapportEntier',['../classprocess_page.html#a339062229a8e757ec7b28b334194039f',1,'processPage']]],
+  ['rapporttab',['rapportTab',['../classoptions.html#af13a411890aaca7801fe4426ecf5e824',1,'options']]],
   ['rapporttypewidget',['rapportTypeWidget',['../classprocess_page.html#a8edf366c2a424797a9f830683e4c05ce',1,'processPage']]],
   ['recentfileactions',['recentFileActions',['../class_main_window.html#a93d3bc8615c73d6610070e709ee9def8',1,'MainWindow']]],
   ['recentfiles',['recentFiles',['../class_main_window.html#a0bb6ce195389689bf99a93361e00b817',1,'MainWindow']]],

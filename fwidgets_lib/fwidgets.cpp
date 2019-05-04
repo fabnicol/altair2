@@ -126,10 +126,14 @@ void FAbstractConnection::meta_connect(FAbstractWidget* w,  const Q2VectorWidget
     }
 }
 
-
-
-inline void FAbstractWidget::FCore(const QVector<QWidget*>& w, FString defaultCommandLine, int commandLineType, const QString &hashKey, const QStringList & description,
-                  const QString &option, const QVector<QWidget*>enabledObjects, const QVector<QWidget*>disabledObjects)
+inline void FAbstractWidget::FCore(const QVector<QWidget*>& w,
+                                   FString defaultCommandLine, 
+                                   int commandLineType, 
+                                   const QString &hashKey, 
+                                   const QStringList & description,
+                                   const QString &option,
+                                   const QVector<QWidget*>enabledObjects,
+                                   const QVector<QWidget*>disabledObjects)
 {
     Q2VectorWidget *dObjects = new Q2VectorWidget,
                    *eObjects = new Q2VectorWidget;
@@ -182,7 +186,8 @@ inline void FAbstractWidget::FCore(const QVector<QWidget*>& w, FString defaultCo
     Hash::wrapper[hashKey] = new FStringList;
     *Hash::wrapper[hashKey]  << (QStringList() << QString());
 
-    if (static_cast<flags::status>(commandLineType & static_cast<int>(flags::status::excludeMask)) != flags::status::excluded)  Abstract::abstractWidgetList.append(this);
+    if (static_cast<flags::status>(commandLineType & static_cast<int>(flags::status::excludeMask)) 
+            != flags::status::excluded)  Abstract::abstractWidgetList.append(this);
 
     FAbstractConnection::meta_connect(this, this->enabledObjects, this->disabledObjects);
 
@@ -299,7 +304,7 @@ FListWidget::FListWidget(QWidget* par,
     /* if a Hash has been activated, build the terms-translation Hash table so that translated terms
    * can be translated back to original terms later on, so as to get the correct command line string chunks */
 
-    if ((terms != nullptr) || (translation != nullptr))
+    if (terms != nullptr || translation != nullptr)
     {
         createHash(listWidgetTranslationHash, translation, terms);
     }
@@ -649,7 +654,7 @@ void FProgressBar::computeLHXParsingProgressBar()
 {
     if (parent->process.state() != QProcess::Running) return;
 
-    int level = std::min(maximum(), this->parent->fileRank);
+    long level = std::min(maximum(), this->parent->fileRank);
 
     if(QDir(v(base)).entryList({"*.csv"}, QDir::Files).count() > 0)
     {
@@ -659,7 +664,7 @@ void FProgressBar::computeLHXParsingProgressBar()
 
     if (value() - level > 4/5* maximum())
     {
-        parent->textAppend((QString)PROCESSING_HTML_TAG + "Analyse des bases de données...");
+        parent->textAppend(PROCESSING_HTML_TAG "Analyse des bases de données...");
     }
 
     setValue(level);
@@ -670,7 +675,7 @@ void FProgressBar::computeLHXWritingProgressBar(bool print_message)
 {
     if (print_message)
     {
-      parent->textAppend((QString)PROCESSING_HTML_TAG + "Enregistrement des bases de données...");
+      parent->textAppend(PROCESSING_HTML_TAG "Enregistrement des bases de données...");
       bar->setValue(0);
       bar->setRange(0, 100);
     }
@@ -748,8 +753,8 @@ FProgressBar::FProgressBar(FDialog* parent,
     connect(&(this->parent->process), SIGNAL(started()), this, SLOT(showProgressBar()));
     connect(killButton, &QToolButton::clicked, parent, killFunction);
     connect(&this->parent->process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(stop()));
-    connect(this->parent, SIGNAL(setProgressBar(int,int)), this, SLOT(setValue(int, int)));
-    connect(this->parent, SIGNAL(setProgressBar(int)), this, SLOT(setValue(int)));
+    connect(this->parent, SIGNAL(setProgressBar(long, long)), this, SLOT(setValue(long, long)));
+    connect(this->parent, SIGNAL(setProgressBar(long)), this, SLOT(setValue(long)));
     connect(this->parent, &FDialog::hideProgressBar, [this] { hide(); });
     connect(this->parent, &FDialog::showProgressBar, [this] { bar->reset(); bar->show(); killButton->show(); killButton->setEnabled(true);});
 

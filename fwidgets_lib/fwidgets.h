@@ -58,8 +58,8 @@ class FDialogConnections : public QDialog
 Q_OBJECT
 
 signals:
- void setProgressBar(int, int);
- void setProgressBar(int);
+ void setProgressBar(long, long);
+ void setProgressBar(long);
  void hideProgressBar();
  void showProgressBar();
 
@@ -73,7 +73,7 @@ Q_OBJECT
 public:
   QString  outputType;
   QProcess process;
-  int fileRank = 1;
+  long fileRank = 1;
 
 public slots:
   virtual void killProcess(){}
@@ -182,6 +182,14 @@ public:
       FAbstractConnection::meta_connect(this, nullptr, disabledObjects);
   }
   
+  void setEnableObjects(const QVector<QWidget*>& L)  
+  {
+      if (enabledObjects) delete enabledObjects;
+      enabledObjects = new Q2VectorWidget;
+      *enabledObjects = Q2VectorWidget() << L;
+      FAbstractConnection::meta_connect(this, nullptr, enabledObjects);
+  }
+  
   void setHashKey(const QString& hash) { hashKey = hash; }
       
 protected:
@@ -263,8 +271,16 @@ class FListWidget : public QWidget, public FAbstractWidget
 
 public:
 
-  FListWidget(QWidget* parent, const QString& hashKey=QString(),int commandLineType=0, const QStringList& description=QStringList(),const QString& commandLine=QString(),const QStringList& sep=QStringList(),
-              const QStringList &taglist=QStringList(),  const QList<QString> *terms=nullptr, const QList<QString> *translation=nullptr, QWidget* controlledWidget=nullptr);
+  FListWidget(QWidget *parent, 
+              const QString &hashKey = QString(),
+              int commandLineType = 0, 
+              const QStringList &description = QStringList(),
+              const QString &commandLine = QString(),
+              const QStringList &sep = QStringList(),
+              const QStringList &taglist = QStringList(),  
+              const QList<QString> *terms = nullptr, 
+              const QList<QString> *translation = nullptr, 
+              QWidget *controlledWidget = nullptr);
 
   void setWidgetFromXml(const FStringList & );
   const FString setXmlFromWidget();
@@ -412,8 +428,8 @@ public:
     QHBoxLayout* getLayout() {return layout;}
     void setToolTip(const QString & tip) { bar->setToolTip(tip); }
 
-    int  value() { return bar -> value();}
-    int maximum() { return bar->maximum();}
+    long  value() { return bar -> value();}
+    long maximum() { return bar->maximum();}
 
 private:
 
@@ -451,8 +467,8 @@ private:
     }
 
   private slots:
-    void setValue(int x, int y) { bar->setValue(x); bar->setMaximum(y);}
-    void setValue(int x) { bar->setValue(x); }
+    void setValue(long x, long y) { bar->setValue(x); bar->setMaximum(y);}
+    void setValue(long x) { bar->setValue(x); }
 
   public slots:
     void stop();

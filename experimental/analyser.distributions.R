@@ -7,12 +7,12 @@ base.générateur$methods(
   {
     Global <- mutate(Global,
                      
-                     montant.traitement.indiciaire = get(altair$étiquette.montant)*(est.code.de.type(altair$code.traitement)),
+                     montant.traitement.indiciaire = get(altair$Montant)*(est.code.de.type(altair$code.traitement)),
                      montant.primes = get(altair$étiquette.montant)*(est.code.de.type(altair$code.prime.ou.contractuel)),
-                     montant.autres.rémunérations = get(altair$étiquette.montant)*(est.code.de.type(altair$code.autre)))
+                     montant.autres.rémunérations = get(altair$Montant)*(est.code.de.type(altair$code.autre)))
     
     Analyse.rémunérations <- ddply(Global,
-                                   c(altair$étiquette.matricule, altair$étiquette.catégorie, altair$étiquette$statut),
+                                   c("Matricule", altair$étiquette.catégorie, altair$étiquette$statut),
                                    summarize,
                                    traitement.indiciaire                      = sum(montant.traitement.indiciaire),
                                    rémunération.contractuelle.ou.indemnitaire = sum(montant.primes),

@@ -57,7 +57,7 @@
 #include <cstdlib>
 #include <limits.h>
 #include <experimental/filesystem>
-
+#include <regex>
 #include "validator.h"
 #include "fonctions_auxiliaires.h"
 #include "table.h"
@@ -89,17 +89,17 @@ using vString = vector<string>;
 
 typedef chrono::high_resolution_clock Clock;
 
-bool generer_table = false;
-bool liberer_memoire = true;
+static bool generer_table = false;
+static bool liberer_memoire = true;
 bool verbeux = true;
 
 ofstream rankFile;
 string rankFilePath = "";
 mutex mut;
 vector<errorLine_t> errorLineStack;
-vString commandline_tab;
-vector<vString> vbull;
-string repertoire_bulletins;
+static vString commandline_tab;
+static vector<vString> vbull;
+static string repertoire_bulletins;
 
 pair<uint64_t, uint64_t>  produire_segment (info_t& info, const vString& segment);
 
@@ -161,7 +161,9 @@ int main (int argc, char **argv)
         vector<uint16_t>(),             //    vector<uint16_t> NLigne;
         &mon_thread,      //    thread_t threads;
         "",               //    chemin log
+#ifdef INCLURE_REG_ELUS
         EXPRESSION_REG_ELUS,
+#endif    
         chemin_base,
         chemin_bulletins,
         "Standard",       // export_mode
@@ -180,6 +182,7 @@ int main (int argc, char **argv)
         false,            // ne pas générer des bulletins particuliers pour impression
         false,            // ne pas exporter les informations sur l'établissement
         false,            // ne pas exporter l'échelon
+        false,            // ne pas exporeter la répartition budgétaire
         false,            // faire semblant d'extraire
         false,            // test mémoire
         false,            // extraction depuis disque optique
@@ -325,9 +328,9 @@ int main (int argc, char **argv)
                             ofstream help;
 
                             help.open ("aide.md");
-
-                            help << out.str();
-
+                            
+                            help << regex_replace(out.str(), regex("--"), "\\-\\-");
+                       
 #ifndef __linux__
                             string sep (";");
                             sep[0] = SYSTEM_PATH_SEPARATOR;
@@ -927,7 +930,7 @@ int main (int argc, char **argv)
                 {
                     int part = stoi (commandline_tab[start + 1], nullptr);
 
-                    cerr << ENDL << STATE_HTML_TAG "Part de la mémoire vive utilisée : " <<  part << " %" ENDL;
+                    cerr << ENDL << PARAMETER_HTML_TAG "Part de la mémoire vive utilisée : " <<  part << " %" ENDL;
 
                     ajustement = (float) part / 100;
                     start += 2;
@@ -938,13 +941,13 @@ int main (int argc, char **argv)
 
             else if (commandline_tab[start] == "--segments")
                 {
-                    cerr << STATE_HTML_TAG "Les bases seront analysées en au moins : " << commandline_tab[start + 1] << " segments" << ENDL;
+                    cerr << PARAMETER_HTML_TAG "Les bases seront analysées en au moins : " << commandline_tab[start + 1] << " segments" << ENDL;
 
                     // au maximum 99 segments
 
                     nsegments = stoi (commandline_tab[start + 1], nullptr);
 
-                    if (nsegments > 1 || nsegments < 100)
+                    if (nsegments > 1 && nsegments < 100)
                         {
                             start += 2;
                             continue;
@@ -982,7 +985,17 @@ int main (int argc, char **argv)
                 {
                     info.cdrom = true;
                     ++start;
-                    cerr << STATE_HTML_TAG "Modalité disque optique" << ENDL;
+                    cerr << PARAMETER_HTML_TAG "Modalité disque optique" << ENDL;
+                    continue;
+                }
+
+            // Exportation de la répartition budgétaire (FPH)
+
+            else if  (commandline_tab[start] == "--repartition-budget")
+                {
+                    info.generer_repartition_budget = true;
+                    ++start;
+                    cerr << PARAMETER_HTML_TAG "Exporter la répartition budgétaire" << ENDL;
                     continue;
                 }
 
@@ -1175,8 +1188,10 @@ int main (int argc, char **argv)
     }
 
     // Nettoyage du parseur XML
-
-    xmlCleanupParser();
+    
+#   ifndef TINYXML2
+      xmlCleanupParser();
+#   endif    
 
     // Calcul de la durée d'exécution
 

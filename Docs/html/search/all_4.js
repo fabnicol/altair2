@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['documentation_20technique_20_3a_20la_20ligne_20de_20commande_20de_20clonezilla',['Documentation technique : la ligne de commande de clonezilla',['../clonezilla_doc.html',1,'']]],
   ['debug',['DEBUG',['../validator_8h.html#aef41e8aaf4c60819b30faf396cdf4978',1,'validator.h']]],
   ['debut',['DEBUT',['../expression__reg__commun_8h.html#ab42918a5e958e93fad61479e48d24352',1,'expression_reg_commun.h']]],
   ['decimal',['decimal',['../structinfo__t.html#a5357bb15cac6a7416cb1c1222ff11e5e',1,'info_t']]],
@@ -19,7 +20,7 @@ var searchData=
   ['defaultquietbox',['defaultQuietBox',['../class_main_window.html#a9a8262985c1b47bf1c6b49a7d77cb875',1,'MainWindow']]],
   ['defaultsaveprojectbehaviorbox',['defaultSaveProjectBehaviorBox',['../class_main_window.html#abdf377bc9e873405230c2f3b23fe7d6b',1,'MainWindow']]],
   ['defaultstatus',['defaultStatus',['../classflags.html#a22e889a81a5c2fa0b8d454165d921509ac9a7831e4731fd135b68cc12513447bb',1,'flags']]],
-  ['deleteallgroups',['deleteAllGroups',['../class_f_list_frame.html#a8859291101ef64727925cbe283bb86d6',1,'FListFrame']]],
+  ['deleteallgroups',['deleteAllGroups',['../class_f_list_frame.html#ada81151d6709895846c46555cdc1ec93',1,'FListFrame']]],
   ['deletegroup',['deleteGroup',['../class_f_list_frame.html#a1fda46dc7cfe6a661d2e2d1c66638134',1,'FListFrame::deleteGroup()'],['../class_f_list_frame.html#a868a44b7df707f05fef3503d1472ed1d',1,'FListFrame::deleteGroup(int r)'],['../class_altair.html#ab913abfdd0c6fbbceb9a051a4443d5fa',1,'Altair::deleteGroup()']]],
   ['deletegroupbutton',['deleteGroupButton',['../class_f_list_frame.html#a88827d940c6afd615974d0f7d61b8987',1,'FListFrame']]],
   ['description',['description',['../class_hash.html#a54356d564f2b8a7145c5f67ce03ecd6a',1,'Hash::description()'],['../class_f_abstract_widget.html#a98eb0643d4f893b3bb5aac42145e3629',1,'FAbstractWidget::description()'],['../validator_8h.html#a7298899e034c29b49f749493c80a055da57fb606caa142945062c463a838ea18d',1,'Description():&#160;validator.h']]],
@@ -42,6 +43,7 @@ var searchData=
   ['displaytoolbarcboxlistbox',['displayToolBarCBoxListBox',['../class_main_window.html#a8186208f6b0b020a39aa7056d945e507',1,'MainWindow']]],
   ['displaytotalsize',['displayTotalSize',['../class_altair.html#a16c9e4332678b243ec200e215d03a643',1,'Altair']]],
   ['displaywidgetlistbox',['displayWidgetListBox',['../class_main_window.html#a361c7c8532783a1a1ddd5789161e6b58',1,'MainWindow']]],
+  ['do_5fcopies',['do_copies',['../classextra_page.html#a5596a0eee519c2fefe7878dc9d0204b4',1,'extraPage']]],
   ['donnees',['DONNEES',['../gui__enums_8h.html#abcbaf608f29dfa20dd7af1465897c8ae',1,'gui_enums.h']]],
   ['donnees_5fsortie',['DONNEES_SORTIE',['../gui__enums_8h.html#a5d544d497fa8251d92fdba3f7a15d74c',1,'gui_enums.h']]],
   ['donnees_5fxhl',['DONNEES_XHL',['../gui__enums_8h.html#a917e765cc41bbe05562e484e7e7db6b3',1,'gui_enums.h']]],

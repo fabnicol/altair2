@@ -96,6 +96,7 @@ public :
     QSettings  *settings;         ///< paramètres par défaut mémorisés.
     QStringList recentFiles;      ///< Liste des fichiers de projet \b .alt récents
     QTextEdit* consoleDialog;     ///< Editeur de l'onglet console.
+    int   fontsize; ///<Taille de la fonte
 
     // Méthodes publiques
 
@@ -179,7 +180,8 @@ private :
     QHash<QString, QAction*> actionHash; ///< Table de hachage permettant d'enregistrer les actions sur l'éditeur de projets \b .alt
     QFile tempLog;                       ///< Fichier log.html ouvert par un navigateur pour exporter le log de l'onglet Console
     QMainWindow *editWidget;             ///< Fenêtre contenant l'éditeur de projet.
-
+    QString subDirStr;                   ///< Emplacement de l'archivage etc.
+    
     // Les QDockWidget sont les widgets mobiles de l'interface :
     // arborescence de fichiers (à gauche),
     // onglets Messages et Console (en bas),
@@ -277,12 +279,6 @@ private :
 
     // Méthodes privées
 
-    /// Lit un fichier et renvoie la chaîne de caractères correspondante.
-    /// \param fileName Chemin du fichier
-    /// \result Booléen : \e true si réussite de l'ensemble des opérations, \e false sinon.
-
-    bool readFile (const QString &fileName);
-
     /// Crée les actions correspondant aux entrées des menus et barre d'outils.
 
     void createActions();
@@ -372,9 +368,11 @@ private slots:
 
     void resetCounter();
 
-    /// Afficher le log dans le navigateur internet par défaut
+    /// Afficher le log dans le navigateur internet par défaut (si show vaut \e true)
+    /// \param show Si true, lance le navigateur pour afficher
+    /// \param absolutte_path Si true, remplace des chemins relatifs par le chemin absolu défini sous \link generateDataDirPath
 
-    void on_displayLogButton_clicked();
+    void on_displayLogButton_clicked(bool show = true, bool absolute_path = true);
 
     /// Lancer l'anonymisation des bases de paye
 
@@ -402,11 +400,17 @@ private slots:
 
     void resetTableCheckBox();
 
+    /// Nettoyage des répertoires temporaires avant empaquetage de l'archive
+    
+    void tarFinished();
+    
+   
+    
 signals:
     /// Fermer l'interface
 
     void exitSignal();
 };
 
-#endif
+#endif // MAINWINDOW_H
 

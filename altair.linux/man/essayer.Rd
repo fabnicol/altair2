@@ -4,12 +4,19 @@
 \alias{essayer}
 \title{Essaye d'exécuter une portion de code et en cas d'erreur continue l'exécution du script en renvoyant un message d'erreur non bloquant.}
 \usage{
-essayer(X, Y)
+essayer(X, Y, abort = FALSE, prof = profiler, times = 5,
+  label = "")
 }
 \arguments{
-\item{code}{Portion de code}
+\item{abort}{Arrêt du programme en cas d'erreur.}
 
-\item{message}{Message d'erreur}
+\item{prof}{Profiler ou pas.}
+
+\item{times}{Nombre de tests de benchmark.}
+
+\item{code}{Portion de code.}
+
+\item{message}{Message d'erreur.}
 }
 \value{
 Valeur retournée par X en cas de succès, sinon objet de classe "try-error" retourné par try(code)

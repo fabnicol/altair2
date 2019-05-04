@@ -53,7 +53,8 @@ FLineFrame::FLineFrame(const QStringList& titre,
                        QGridLayout* inputLayout,
                        const QString& commandline,
                        flags::directory check,
-                       flags::flineframe category)
+                       flags::flineframe category,
+                       const QString& filter)
 {
     if (inputLayout == nullptr)
        frameLayout= new QGridLayout;
@@ -78,12 +79,6 @@ FLineFrame::FLineFrame(const QStringList& titre,
 
     oButton = new QToolDirButton("Ouvrir le répertoire ", actionType::OpenFolder);
 
-    componentList = {sButton, oButton, label, lineEdit};
-    frameLayout->addWidget(lineEdit,    row + 1, column);
-    frameLayout->addWidget(label,       row, column);
-    frameLayout->addWidget(sButton,     row + 1, column + 1);
-    frameLayout->addWidget(oButton,     row + 1, column + 2);
-
     QObject::connect(oButton,
             &QToolButton::clicked,
             [&]{
@@ -102,9 +97,10 @@ FLineFrame::FLineFrame(const QStringList& titre,
                         tools::openDir(path);
                });
 
+    
     QObject::connect(sButton,
             &QToolButton::clicked,
-            [&, titre]{
+            [&, titre, filter]{
                    QString path= lineEdit->text();
                    const QFileInfo info(path);
                    if (pathCategory == flags::flineframe::isDirectoryPath)
@@ -126,9 +122,12 @@ FLineFrame::FLineFrame(const QStringList& titre,
                               dirpath = path;
                           }
                           else
-                              dirpath = QDir::currentPath();
-
-                          path = QFileDialog::getSaveFileName(nullptr, titre.at(1), dirpath, "Fichier Log (*.log)");
+                              dirpath = tools::userdatadir;
+                          
+                          if (saveFileName)
+                              path = QFileDialog::getSaveFileName(nullptr, titre.at(1), dirpath, filter);
+                          else
+                              path = QFileDialog::getOpenFileName(nullptr, titre.at(1), dirpath, filter);
 
                           if (path.isNull() || path.isEmpty())
                            return;
@@ -136,5 +135,12 @@ FLineFrame::FLineFrame(const QStringList& titre,
 
                     lineEdit->setText(path);
                });
+    
+    
+    componentList = {sButton, oButton, label, lineEdit};
+    frameLayout->addWidget(lineEdit,    row + 1, column);
+    frameLayout->addWidget(label,       row, column);
+    frameLayout->addWidget(sButton,     row + 1, column + 1);
+    frameLayout->addWidget(oButton,     row + 1, column + 2);
 }
 

@@ -62,9 +62,9 @@ public:
  QVector<QListWidget*> widgetContainer;  ///< Conteneur des widgets listes composant les onglets.
  FListWidget *fileListWidget;            ///< composant fonctionnelassocié à QWidget représentant l'onglet courant.
  QString frameHashKey;                   ///< Balise XML correspondant à la classe.
- std::vector<QThread*> thread;           ///< Vecteur de fils d'exécution permettant de lance  parseXhlFile sur chaque fichier d'onglet.
+ std::vector<QThread*> thread;           ///< Vecteur de fils d'exécution permettant de lancer parseXhlFile sur chaque fichier d'onglet.
  int size = 0;                           ///< Nombre total de fichiers dans  FListFrame::widgetContainer.
- QToolButton *importFromMainTree=new QToolButton; ///< Bouton permettant d'importer des fichiers d'une arborescence de fichiers FListFrame::fileTreeView.
+ QToolButton *importFromMainTree = new QToolButton; ///< Bouton permettant d'importer des fichiers d'une arborescence de fichiers FListFrame::fileTreeView.
  QStringList tabLabels;                  ///< Liste des titres des onglets.
 # ifndef USE_RIGHT_CLICK
 
@@ -74,12 +74,20 @@ public:
 # endif
 
  QTabWidget *mainTabWidget;                      ///< Onglet central matrice.
- QAbstractItemView *fileTreeView;                ///< Arborescence de fichiers pour importation par  FListFrame::importFromMainTree.
+ QAbstractItemView *fileTreeView;                ///< Onglet central matrice.
  QFileSystemModel *model = new QFileSystemModel; ///< Modèle de fichiers sous-jacent à  FListFrame::fileTreeView.
  QGroupBox *controlButtonBox = new QGroupBox;    ///< Boîte permettant de regrouper divers boutons de contrôle (haut/bas etc.).
  bool use_threads = false;                       ///< Par défaut, les fils d'exécution ne seront pas utilisés. Seront activés en cas d'input disque optique.
 
  // Méthodes
+ /// Efface  widgetContainer
+
+ void clearWidgetContainer();
+
+ /// Lancer un fil d'exécution pour lire l'entête d'un fichier XHL (Année, Mois,...) et classer les fichiers par onglet automatiquement
+ /// \param rank Rang du fichier dans la liste des fichiers de l'onglet central
+ /// \note Cette fonction appelle  parseXhlFile
+ /// \todo Cette fonction pourrait être optimisée en ne lançant pas les fils d'exécution de manière successive mais par par groupe avec plusieurs fils parallèles dans chaque groupe
 
  /// Récupère les titres d'onglet.
  /// \return Liste de format \e QStringList des titres d'onglet.
@@ -210,6 +218,7 @@ void addParsedTreeToListWidget(const QStringList &strL);
 
 
 protected:
+
     short importType;
     QStringList tags;
 
@@ -223,7 +232,7 @@ private:
  void clearTabLabels() {fileListWidget->clearTabLabels();}
 
  int row, currentIndex;
-  bool activateOnStart=false;
+ bool activateOnStart=false;
  bool isTerminated = false;
 
  /// Actualise  currentWidget,  row et  currentIndex
@@ -234,20 +243,9 @@ private:
  /// \param insertFirstGroup  Si true, insère un onglet vierge après l'effacement des onglets
  /// \param eraseAllData Si true, efface toute la table de hachage  Hash::wrapper
 
- void deleteAllGroups(bool insertFirstGroup, bool eraseAllData);
+ void deleteAllGroups(bool insertFirstGroup = true, bool eraseAllData = true);
 
- /// Efface  widgetContainer
-
- void clearWidgetContainer();
-
- /// Lancer un fil d'exécution pour lire l'entête d'un fichier XHL (Année, Mois,...) et classer les fichiers par onglet automatiquement
- /// \param rank Rang du fichier dans la liste des fichiers de l'onglet central
- /// \note Cette fonction appelle  parseXhlFile
- /// \todo Cette fonction pourrait être optimisée en ne lançant pas les fils d'exécution de manière successive mais par par groupe avec plusieurs fils parallèles dans chaque groupe
-
- void launch_thread(int rank);
-
- struct Header* elemPar;
+ void launch_thread(unsigned long rank);
 
  /// Décode les champs principaux du fichier XHL: Année, Mois, Budget, ...
  /// \param fileName Chemin du fichier décodé.
@@ -271,8 +269,8 @@ signals:
     void imported();
     void parsed();
     void textAppend(const QString&);
-    void setProgressBar(int, int);
-    void setProgressBar(int);
+    void setProgressBar(long, long);
+    void setProgressBar(long);
     void hideProgressBar();
     void showProgressBar();
     void refreshRowPresentation(int);

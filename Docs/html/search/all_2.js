@@ -2,7 +2,7 @@ var searchData=
 [
   ['bar',['bar',['../class_f_progress_bar.html#a8536f49e0efeb3949df61cebb6358ce4',1,'FProgressBar']]],
   ['base',['BASE',['../validator_8h.html#aa54f10b1a6207ad89b081fc06495cdc6ae7b1a5c82772e0e055096008cb9883ef',1,'validator.h']]],
-  ['basebox',['baseBox',['../classcode_page.html#ae664771c863acab53bfba10b63040f17',1,'codePage']]],
+  ['basebox',['baseBox',['../classcode_page.html#ae664771c863acab53bfba10b63040f17',1,'codePage::baseBox()'],['../classrapport_page.html#a4b8fbec34091b66e46537b8f02fd9fab',1,'rapportPage::baseBox()']]],
   ['basecategorie',['BaseCategorie',['../validator_8h.html#aa54f10b1a6207ad89b081fc06495cdc6',1,'validator.h']]],
   ['basetype',['BaseType',['../validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742',1,'validator.h']]],
   ['basetypebox',['baseTypeBox',['../classstandard_page.html#a4cbb1f09e74a0f5631a9675ba6960d9b',1,'standardPage']]],
@@ -18,6 +18,8 @@ var searchData=
   ['boucle_5fecriture',['boucle_ecriture',['../table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7',1,'boucle_ecriture(vector&lt; info_t &gt; &amp;Info, int nsegment):&#160;table.cpp'],['../table_8h.html#a58c76376ade8c00725711085a66b2618',1,'boucle_ecriture(std::vector&lt; info_t &gt; &amp;info, int segment):&#160;table.h']]],
   ['browsefile',['BrowseFile',['../enums_8h.html#a763c83c23044694d8f102ae485a092c7a6804a2b2440e80372b65e084e2a2ce09',1,'enums.h']]],
   ['budget',['Budget',['../class_hash.html#ae1ac3747a87a235de52ff8dc23367db1',1,'Hash::Budget()'],['../validator_8h.html#a7298899e034c29b49f749493c80a055daac4a2c4044529e189de73eb935ced3ed',1,'Budget():&#160;validator.h']]],
+  ['budgetcheckbox',['budgetCheckBox',['../classextra_page.html#a7a1fadd6df3a4a76b117dd4c5575b4e5',1,'extraPage']]],
+  ['budgetframe',['budgetFrame',['../classextra_page.html#ad243aa0eeb8e9c46235b830adde80fbb',1,'extraPage']]],
   ['buffer_5fsize',['BUFFER_SIZE',['../enums_8h.html#adf261954779e694ad997533c5da9ad5a',1,'enums.h']]],
   ['buildtoolbar',['buildToolBar',['../mainwindow_8cpp.html#ac19e00d7c4b3940725f9729c69f60eb2',1,'mainwindow.cpp']]],
   ['bulletin',['Bulletin',['../ligne__paye_8cpp.html#a8720dbeccf4eabbc5ffa9d7be551a7a5',1,'ligne_paye.cpp']]],

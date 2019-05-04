@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>La documentation de la procédure de compilation sous Linux</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -14,13 +14,16 @@
 <script type="text/javascript" src="navtreedata.js"></script>
 <script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
   $(document).ready(initResizable);
-</script>
+/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
   $(document).ready(function() { init_search(); });
+/* @license-end */
 </script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
@@ -51,9 +54,11 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- Généré par Doxygen 1.8.13 -->
+<!-- Généré par Doxygen 1.8.14 -->
 <script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
 var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
+/* @license-end */
 </script>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
@@ -67,7 +72,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
   </div>
 </div>
 <script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
 $(document).ready(function(){initNavTree('page_compil.html','');});
+/* @license-end */
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -98,36 +105,44 @@ Prérequis</h1>
 <h1><a class="anchor" id="proc_qtcreator"></a>
 Avec Qt creator</h1>
 <p>La procédure standard de compilation sous Linux (et avec quelques ajustements sous Windows) utilise l'IDE (interface de développement intégrée) Qt creator de l'entreprise <a href="https://en.wikipedia.org/wiki/Main_Page">Digia</a> (propriétaire des bibliothèques <a href="https://fr.wikipedia.org/wiki/Qt">Qt5</a>).<br />
- Il est possible de télécharger Qt creator sur le <a href="https://www1.qt.io/offline-installers/">site de téléchargement</a> de Digia.<br />
- L'IDE Qt creator est livrée avec le compte administrateur de la plateforme. Une icône verte (Qt) est disposée sur le bureau et permet de lancer l'IDE.<br />
- Il est paramétré pour utiliser les bibliothèques et le compilateur indiqués dans les prérequis.<br />
- Au lancement de l'IDE :</p><ul>
+ <br />
+Il est possible de télécharger Qt creator sur le <a href="https://www1.qt.io/offline-installers/">site de téléchargement</a> de Digia.<br />
+ <br />
+L'IDE Qt creator est livrée avec le compte administrateur de la plateforme. Une icône verte (Qt) est disposée sur le bureau et permet de lancer l'IDE.<br />
+ <br />
+Il est paramétré pour utiliser les bibliothèques et le compilateur indiqués dans les prérequis.<br />
+ <br />
+Au lancement de l'IDE :</p><ul>
 <li>cliquer sur Fichier &gt; Ouvrir un fichier ou un projet &gt; Sélectionner le fichier de projet altair.linux.pro dans le dossier <code>~/Dev/altair/Interface/gui</code></li>
 <li>cliquer sur Fichier &gt; Ouvrir un fichier ou un projet &gt; Sélectionner le fichier de projet lhx.linux.pro dans le dossier <code>~/Dev/altair/lhx</code></li>
 <li>cliquer sur Fichier &gt; Ouvrir un fichier ou un projet &gt; Sélectionner le fichier de projet fwidgets_lib.pro dans le dossier <code>~/Dev/altair/fwidgets_lib</code></li>
 <li>cliquer sur Compiler &gt; Exécuter qmake</li>
 <li>cliquer sur Compiler &gt; Tout recompiler Une barre de progression verte en bas à droite de l'IDE témoigne de la progression de la compilation.<br />
  A la fin de cette progression, la fenêtre "Sortie de compilation" en bas de l'IDE indique que les processus de compilation se sont terminés normalement (ou pas).<br />
- L'ensemble du logiciel est alors recompilé à partir des sources.</li>
+ <br />
+L'ensemble du logiciel est alors recompilé à partir des sources. <br />
+ </li>
 </ul>
 <h1><a class="anchor" id="proc_other"></a>
 Avec les Makefile</h1>
 <p>Les Makefile sont générés à chaque invocation de qmake.<br />
- Cet outil peut être utilisé manuellement comme suit :</p><ul>
-<li>"/home/fab/Qt5.7/5.7/Src/qtbase/bin/qmake" /home/fab/Dev/altair/Interface/gui/altair.linux.pro -r -spec linux-g++</li>
-<li>"/home/fab/Qt5.7/5.7/Src/qtbase/bin/qmake" /home/fab/Dev/altair/lhx/lhx.linux.pro -r -spec linux-g++</li>
-<li>"/home/fab/Qt5.7/5.7/Src/qtbase/bin/qmake" /home/fab/Dev/altair/fwidgets_lib/fwidgets_lib.pro -r -spec linux-g++ <br />
- Puis, dans chaque répertoire contenant les fichiers .pro des trois lignes de commande ci-dessus, lancer <code>make -j8</code>.<br />
- La compilation est alors terminée. </li>
-</ul>
+ <br />
+Cet outil peut être utilisé manuellement comme suit : <br />
+- "/home/fab/Qt5.7/5.7/Src/qtbase/bin/qmake" /home/fab/Dev/altair/Interface/gui/altair.linux.pro -r -spec linux-g++ <br />
+- "/home/fab/Qt5.7/5.7/Src/qtbase/bin/qmake" /home/fab/Dev/altair/lhx/lhx.linux.pro -r -spec linux-g++ <br />
+- "/home/fab/Qt5.7/5.7/Src/qtbase/bin/qmake" /home/fab/Dev/altair/fwidgets_lib/fwidgets_lib.pro -r -spec linux-g++ <br />
+ <br />
+Puis, dans chaque répertoire contenant les fichiers .pro des trois lignes de commande ci-dessus, lancer <code>make -j8</code>.<br />
+ <br />
+La compilation est alors terminée. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Généré le Vendredi 16 Février 2018 20:59:33 par
+    <li class="footer">Généré le Jeudi 16 Août 2018 02:04:58 par
     <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>
 </div>
 </body>

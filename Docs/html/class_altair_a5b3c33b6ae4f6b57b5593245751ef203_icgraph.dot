@@ -1,0 +1,22 @@
+digraph "Altair::clearProjectData"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node169 [label="Altair::clearProjectData",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node169 -> Node170 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node170 [label="Altair::closeProject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ab67e3285c4a6c8fb48d12381ea6ac6bd",tooltip="Ferme le projet et réinitialise l&#39;interface (gestionnaire de projet inclus) "];
+  Node170 -> Node171 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node171 [label="Altair::Altair",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ae0975ced0a36e0ed889ae06043a4df66",tooltip="Constructeur. "];
+  Node170 -> Node172 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node172 [label="Altair::on_newProjectButton\l_clicked",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a2e9b932b1dbf45bf9ad0db41dce474b6",tooltip="Crée un nouveau projet défaut.alt. "];
+  Node170 -> Node173 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node173 [label="Altair::on_openProjectButton\l_clicked",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ab98d384297c6b94ff65a683eb5f99633",tooltip="Ouvre le projet, le décode en appelant parseProjectFile et actualise l&#39;interface  en conséquence..."];
+  Node170 -> Node174 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node174 [label="Altair::openProjectFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a84cf34107cd413ab33800b583bdef59e",tooltip="Ouvre le projet .alt et décode le projet pour actualiser l&#39;interface. "];
+  Node170 -> Node175 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node175 [label="Altair::dropEvent",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a1afa285a65e0bdff4c761ad05ec9f8df",tooltip="Fonction réimplémentée : fin du déplacement de la souris. "];
+  Node170 -> Node176 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node176 [label="Altair::killProcess",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a2f6882c170016e2d7729058b08896a1d",tooltip="Tuer l&#39;application en ligne de commande lhx. "];
+}

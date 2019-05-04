@@ -1,0 +1,17 @@
+digraph "fwidgets_lib/fwidgets.h"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node0 [label="fwidgets_lib/fwidgets.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node0 -> Node1 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="QtWidgets",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node0 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="fstring.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fstring_8h.html"];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="QtCore",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="enums.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$enums_8h.html",tooltip="Enumérations et constantes permettant de paramétrer les fwidgets. "];
+  Node0 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="tags.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$tags_8h.html"];
+}

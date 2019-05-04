@@ -1,7 +1,7 @@
 #!/usr/bin/env r
 #                     -*- mode: R; ess-indent-level: 4; indent-tabs-mode: nil; -*-
 #
-# Copyright (C) 2010 - 2015  Dirk Eddelbuettel and Romain Francois
+# Copyright (C) 2010 - 2019  Dirk Eddelbuettel and Romain Francois
 #
 # This file is part of Rcpp.
 #
@@ -21,6 +21,9 @@
 .runThisTest <- Sys.getenv("RunAllRcppTests") == "yes"
 
 if (.runThisTest) {
+
+    ## Needed for a change in R 3.6.0 reducing a bias in very large samples
+    suppressWarnings(RNGversion("3.5.0"))
 
     .setUp <- Rcpp:::unitTestSetup("sugar.cpp")
 
@@ -2179,4 +2182,21 @@ if (.runThisTest) {
 
     }
 
+    ## 21 July 2018
+    ## min/max
+    test.sugar.min.max <- function() {
+        # min(empty) gives NA for integer, Inf for numeric (#844)
+        checkTrue(is.na(intmin(integer(0))),    "min(integer(0))")
+        checkEquals(doublemin(numeric(0)), Inf, "min(numeric(0))")
+
+        # max(empty_ gives NA for integer, Inf for numeric (#844)
+        checkTrue(is.na(intmax(integer(0))),     "max(integer(0))")
+        checkEquals(doublemax(numeric(0)), -Inf, "max(numeric(0))")
+
+        # 'normal' values
+        checkEquals(intmin(c(1:10)),        1L,   "min(integer(...))")
+        checkEquals(doublemin(1.0*c(1:10)), 1.0,  "min(numeric(...))")
+        checkEquals(intmax(c(1:10)),        10L,  "min(integer(...))")
+        checkEquals(doublemax(1.0*c(1:10)), 10.0, "min(numeric(...))")
+    }
 }

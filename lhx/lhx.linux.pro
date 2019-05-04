@@ -46,7 +46,7 @@ if (linux) {
   error("Le système d'exploitation doit être linux")
 }
 
-
+#QMAKE_CXX=/usr/bin/g++-8.1.0
 GIT_VERSION = $$system(git --version | grep -e \'git version\')
 CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
 
@@ -84,12 +84,12 @@ CONFIG(guiOutput) {
 
 CONFIG(debug, debug|release) {
 
-    QMAKE_CXXFLAGS = -O0
+    QMAKE_CXXFLAGS = -O0 
 
 } else {
 
     QMAKE_LFLAGS += -s
-    QMAKE_CXXFLAGS = -O3 -fexpensive-optimizations
+    QMAKE_CXXFLAGS = -O3 -fexpensive-optimizations 
 }
 
 VPATH = .
@@ -124,13 +124,15 @@ DEFINES += __GNUC_EXTENSION \
 #          DEBUG_ATTEINDRE
 
                                             # DEFINES += STRICT  pour un validateur qui retourne à la première erreur.
-DEFINES += \#NO_REGEX                       # Pas d'analyse du texte par expression régulière
-        GCC_REGEX \                         # Utiliser les expressions régulières de C++. Attention désactiver cette valeur casse les analyse sous R.
+DEFINES += \
+#        INCLURE_REG_ELUS \                  # Les élus indentifiés par expression régulière se voient assigner le Statut ELU et le grade NA. Peut poser des problèmes de comparabilité avec Xemelios.  
+#        INCLURE_REG_VACATAIRES \            # Les vacataires identifiés se voient assigner le Grade "V". Peu fiable.
+#        INCLURE_REG_ASSMAT \                # Les assistantes maternelles identifiées se voient assigner le Grade "A". Peu fiable.
         WAIT_FOR_LOCK  \                    # insister jusqu'à acquérir les mutex dans les fils d'exécution. Peut entraîner des "output freeze" en cas de forte
                         \                   # charge I/O.
         NO_DEBUG \                          # ne pas générer de messages de débogage avancé
-#       CONVERTIR_LATIN_1                   # Windows
-#       USE_ICONV \                         # pour Windows uniquement, si l'on n'est pas satisfait du hack de pseudo-conversion UTF-8 vers Latin-1
+        CONVERTIR_LATIN_1    \              # pour la compatiilité Windows
+#       USE_ICONV \                         # pour la compatibilité Windows, si l'on n'est pas satisfait du hack de pseudo-conversion UTF-8 vers Latin-1
                    \                        # alors on peut utiliser iconv pour une conversion plus propre.
 #       TOLERANT_TAG_HIERARCHY \            # ordre des balises : tolérance envers des permutations de même niveau
         FULL_PREALLOCATION_TEST \           # calcul des besoins de mémoire : précision maximale (sinon : moindre)
@@ -138,10 +140,11 @@ DEFINES += \#NO_REGEX                       # Pas d'analyse du texte par express
         DECIMAL_NON_EN \                    # compilation pour des séparateurs décimaux différents de '.'
         GENERATE_RANK_SIGNAL \              # chaque fois qu'un fichier est traité, un signal externe est émis (rang dans un fichier rank sous AppData\Local\Altair).
                              \              # n'est utile que lorsqu'une interface graphique est connectée. peut ralentir l'application de 1 à 5 %.
-#       FGETC_PARSING    \                  # parcourir les fichiers par ifstream (C++)
-        STRINGSTREAM_PARSING  \             # mise en mémoire vive des fichiers de paye par ostringstream (plus de mémoire vive ; accélère beaucoup le 1er traitement sous Windows)
-#       MMAP_PARSING           \            # parcourir les fichiers par mappage mémoire (C, unix uniquement, aucun avantage évident).
-#       OFSTREAM_TABLE_OUTPUT               # enregistrer les lignes de paye ligne à ligne sur la base. Plus robuste et moins de mémoire mais plus lent sous Windows
+#        FGETC_PARSING    \                  # parcourir les fichiers par ifstream (C++)
+#       STRINGSTREAM_PARSING  \             # mise en mémoire vive des fichiers de paye par ostringstream (plus de mémoire vive ; accélère beaucoup le 1er traitement sous Windows)
+        MMAP_PARSING           \            # parcourir les fichiers par mappage mémoire (C/C++, Unix uniquement, changer la directive sou Windows).
+#       OFSTREAM_TABLE_OUTPUT  \            # enregistrer les lignes de paye ligne à ligne sur la base. Plus robuste et moins de mémoire mais plus lent sous Windows
+#       TINYXML2                            # Utiliser tinyxml2 et pas libxml2  
 
 
 
@@ -163,15 +166,19 @@ QMAKE_CXXFLAGS += -march=core-avx2 -Wextra
 
 INCLUDEPATH += ../Interface/gui ../fwidgets_lib /usr/include/libxml2
 
-LIBS = -L/usr/lib/lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/local/lib64 -lxml2 -lstdc++fs -pthread
+LIBS =  -L/usr/lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/local/lib64 -lstdc++fs -static-libgcc -static-libstdc++ -pthread -lxml2
 
-SOURCES += \ 
+SOURCES += \
     fonctions_auxiliaires.cpp \
     main.cpp \
     table.cpp \
     validator.cpp \
     ligne_paye.cpp \
     recherche.cpp
+
+contains(DEFINES, TINYXML2) {
+  SOURCES += tinyxml2.cpp
+}
 
 HEADERS += \
     table.h \
@@ -185,5 +192,9 @@ HEADERS += \
     fonctions_auxiliaires.h \
     ligne_paye.h \
     recherche.h \
-    validator.h
+    validator.h \
+    xmlconv.h
 
+contains(DEFINES, TINYXML2) {
+  HEADERS += tinyxml2.h xmlconv.h
+}
