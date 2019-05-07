@@ -4,10 +4,11 @@
 \alias{net.eqtp.serv}
 \title{Tableau des rémunérations nettes moyennes par grade et service.}
 \usage{
-net.eqtp.serv(Base = Paie, grade = NULL, classe = NULL,
-  libellés = NULL, agr = FALSE, période = NULL,
-  variation = FALSE, statut = NULL, catégorie = NULL,
-  exclure.codes = NULL, quotite.nulle = FALSE)
+net.eqtp.serv(Base = Paie, grade = NULL, emploi = NULL,
+  classe = NULL, service = NULL, libellés = NULL, agr = FALSE,
+  période = NULL, variation = FALSE, statut = NULL,
+  catégorie = NULL, exclure.codes = NULL, exclure.sft = FALSE,
+  quotite.nulle = FALSE, type = "G")
 }
 \arguments{
 \item{Base}{Base des bulletins de paye, comportant pour l'ensemble de la période
@@ -24,7 +25,11 @@ net.eqtp.serv(Base = Paie, grade = NULL, classe = NULL,
 
 \item{grade}{Grade particulier. Tous les grades en l'absence de spécification.}
 
+\item{emploi}{Emploi particulier. Tous les emplois en l'absence de spécification.}
+
 \item{classe}{Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.}
+
+\item{service}{Service particulier. Tous les services par défaut.}
 
 \item{libellés}{Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp.}
 
@@ -39,12 +44,16 @@ net.eqtp.serv(Base = Paie, grade = NULL, classe = NULL,
 \item{catégorie}{Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.}
 
 \item{exclure.codes}{Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).}
+
+\item{exclure.sft}{Exclure le SFT du calcul}
+
+\item{quotite.nulle}{[défaut FALSE] Si TRUE, lorsque la quotité est nulle, faire comme si elle valait 1. A n'utiliser que dans le cas de défauts de bases qui utilisent 0 pour les quotités de temps plein (attesté mais rare).}
 }
 \value{
 Un tableau des rémunérations nettes par grade mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 }
 \description{
-Elabore un tableau des rémunérations nettes moyennes du personnel par grade et par année (hors SFT), par service.
+Elabore un tableau des rémunérations nettes moyennes du personnel par grade et par année, par service.
 }
 \examples{
 net.eqtp.serv()

@@ -1,6 +1,7 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
-#include <QMessageBox>
+#include <QTextEdit>
+#include <QMainWindow>
 
 #endif // MESSAGE_H
