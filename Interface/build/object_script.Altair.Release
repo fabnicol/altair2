@@ -1,0 +1,15 @@
+release/options.o
+release/mainwindow.o
+release/altair.o
+release/common.o
+release/main.o
+release/xmlparser.o
+release/highlighter.o
+release/run.o
+release/matricules.o
+release/qrc_altair-gui.o
+release/moc_options.o
+release/moc_altair.o
+release/moc_highlighter.o
+release/moc_altair-gui.o
+release/moc_matricules.o

@@ -1,0 +1,15 @@
+debug/options.o
+debug/mainwindow.o
+debug/altair.o
+debug/common.o
+debug/main.o
+debug/xmlparser.o
+debug/highlighter.o
+debug/run.o
+debug/matricules.o
+debug/qrc_altair-gui.o
+debug/moc_options.o
+debug/moc_altair.o
+debug/moc_highlighter.o
+debug/moc_altair-gui.o
+debug/moc_matricules.o

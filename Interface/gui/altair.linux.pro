@@ -40,21 +40,21 @@ VERSION_TAG = $$system(cat ../../VERSION)
 DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
 
 message("Version :  $$VERSION_TAG")
-QMAKE_CXX = /usr/bin/g++-8.2.0
-QMAKE_LINK = /usr/bin/g++-8.2.0
+#QMAKE_CXX = /usr/bin/g++-8.2.0
+#QMAKE_LINK = /usr/bin/g++-8.2.0
 greaterThan(QT_MAJOR_VERSION, 5)
 
 # utiliser au moins Qt5 et g++-5.1
 # ENCODAGE : UTILISER UTF-8 PARTOUT, y compris sur le fichier .pro.
 
-if (linux) {
-  message("Système d'exploitation linux")
-} else {
-  error("Le système d'exploitation doit être linux")
-}
+#if (linux) {
+#  message("Système d'exploitation linux")
+#} else {
+#  error("Le système d'exploitation doit être linux")
+#}
 #QMAKE_CXX=/usr/bin/g++-8.1.0
 GIT_VERSION = $$system(git --version | grep -e \"git version\")
-CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
+#CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
 
 if (!isEmpty(GIT_VERSION)) {
     message( "Version de git : $$GIT_VERSION" )
@@ -63,11 +63,11 @@ if (!isEmpty(GIT_VERSION)) {
 }
 
 
-if (!isEmpty(CXX_VERSION)){
-    message( "Version du compilateur : $$CXX_VERSION" )
-} else {
-    error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
-}
+#if (!isEmpty(CXX_VERSION)){
+#    message( "Version du compilateur : $$CXX_VERSION" )
+#} else {
+#    error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
+#}
 
 
 
@@ -79,7 +79,7 @@ CONFIG(debug, debug|release) {
 } else {
   CONFIG += static
   QMAKE_CXXFLAGS += -O3 -fomit-frame-pointer -fexpensive-optimizations -Wall -Wextra
-  QMAKE_LFLAGS +=  -s -licui18n -licuuc -licudata  -static-libgcc -static-libstdc++
+  QMAKE_LFLAGS +=  -s  -static-libgcc -static-libstdc++ -LC:/Users/Public/Dev/altair/Interface/build-altair.linux-Desktop_Qt_5_12_3_MinGW_64_bit-Release/fwidgets_lib.lib
 }
 
 
@@ -94,7 +94,7 @@ TARGET = Altair
 
 VPATH = .
 INCLUDEPATH += ../../fwidgets_lib
-LIBS += libfwidgets_lib.a  
+#LIBS += fwidgets_lib.lib
 
 DEFINES += HAS_CPP17
 
@@ -125,11 +125,18 @@ QMAKE_CXXFLAGS += -march=core-avx2  -pipe -m64         # facultatif
 
 
 SOURCES += \
+    flineframe.cpp \
+    flistframe.cpp \
+    forms.cpp \
+    fstring.cpp \
+    fwidgets.cpp \
+    fwidgets_lib.cpp \
     options.cpp \
     mainwindow.cpp \
     altair.cpp \
     common.cpp \
     main.cpp \
+    tools.cpp \
     xmlparser.cpp \
     highlighter.cpp \
     run.cpp \
@@ -137,6 +144,15 @@ SOURCES += \
 
 
 HEADERS  += \
+    custom.h \
+    enums.h \
+    flineframe.h \
+    flistframe.h \
+    forms.h \
+    fstring.h \
+    fwidgets.h \
+    fwidgets_lib.h \
+    fwidgets_lib_global.h \
     options.h \
     common.h \
     altair.h \
@@ -145,7 +161,10 @@ HEADERS  += \
     altair-gui.h \
     gui_enums.h \
     matricules.h \
-    sommaire.h
+    sommaire.h \
+    tags.h \
+    templates.h \
+    tools.h
 
 
 RESOURCES += \
