@@ -13,10 +13,11 @@ int main(int argc, char *argv[])
 
     edit->insertHtml("<html><br><br>"
     "<b><span style='color:red;'>Le PC va bientôt s'arrêter (actualisation en cours).</span></b>"
-    "<br><br>Veuillez patienter jusqu'à l'arrêt...Ne pas fermer cette fenêtre, merci.</b></html>");
+    "<br><br>Veuillez patienter jusqu'à l'arrêt..."
+    "<br>Ne pas éteindre le PC, merci.</b></html>");
     edit->setFont (QFont ("Verdana", 12));
     w->show();
-    w->setGeometry (400, 400, 550, 150);
+    w->setGeometry (400, 600, 500, 150);
 
     return a.exec();
 }
