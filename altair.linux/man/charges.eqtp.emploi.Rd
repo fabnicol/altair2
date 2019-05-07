@@ -4,10 +4,10 @@
 \alias{charges.eqtp.emploi}
 \title{Tableau des coûts moyens de personnel par type emploi.}
 \usage{
-charges.eqtp.emploi(Base = Paie, emploi = NULL, classe = NULL,
-  service = NULL, libellés = NULL, agr = FALSE, période = NULL,
-  variation = FALSE, statut = NULL, catégorie = NULL,
-  exclure.codes = NULL, quotite.nulle = FALSE)
+charges.eqtp.emploi(Base = Paie, garde = NULL, emploi = NULL,
+  classe = NULL, service = NULL, libellés = NULL, agr = FALSE,
+  période = NULL, variation = FALSE, statut = NULL,
+  catégorie = NULL, exclure.codes = NULL, quotite.nulle = FALSE)
 }
 \arguments{
 \item{Base}{Base des bulletins de paye, comportant pour l'ensemble de la période
@@ -41,6 +41,10 @@ charges.eqtp.emploi(Base = Paie, emploi = NULL, classe = NULL,
 \item{catégorie}{Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.}
 
 \item{exclure.codes}{Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).}
+
+\item{quotite.nulle}{[défaut FALSE] Si TRUE, lorsque la quotité est nulle, faire comme si elle valait 1. A n'utiliser que dans le cas de défauts de bases qui utilisent 0 pour les quotités de temps plein (attesté mais rare).}
+
+\item{grade}{Grade particulier. Tous les grades en l'absence de spécification.}
 }
 \value{
 Un tableau des coûts moyens par type d'emploi mis en forme avec les emplois en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.

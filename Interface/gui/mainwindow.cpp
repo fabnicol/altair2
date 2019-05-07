@@ -1207,10 +1207,10 @@ void MainWindow::on_editProjectButton_clicked()
     {
         editWidget->~QMainWindow() ;
     });
+
     editWidget->setCentralWidget (editor);
     editWidget->setGeometry (200, 200, 600, 800);
     editWidget->show();
-
 }
 
 

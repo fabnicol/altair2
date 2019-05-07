@@ -4,10 +4,11 @@
 \alias{net.eqtp.emploi}
 \title{Tableau des rémunérations nettes moyennes par emploi.}
 \usage{
-net.eqtp.emploi(Base = Paie, emploi = NULL, classe = NULL,
-  service = NULL, libellés = NULL, agr = FALSE, période = NULL,
-  variation = FALSE, statut = NULL, catégorie = NULL,
-  exclure.codes = NULL, quotite.nulle = FALSE)
+net.eqtp.emploi(Base = Paie, grade = NULL, emploi = NULL,
+  classe = NULL, service = NULL, libellés = NULL, agr = FALSE,
+  période = NULL, variation = FALSE, statut = NULL,
+  catégorie = NULL, exclure.codes = NULL, exclure.sft = FALSE,
+  quotite.nulle = FALSE)
 }
 \arguments{
 \item{Base}{Base des bulletins de paye, comportant pour l'ensemble de la période
@@ -41,6 +42,10 @@ net.eqtp.emploi(Base = Paie, emploi = NULL, classe = NULL,
 \item{catégorie}{Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.}
 
 \item{exclure.codes}{Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).}
+
+\item{exclure.sft}{Exclure le SFT du calcul}
+
+\item{quotite.nulle}{[défaut FALSE] Si TRUE, lorsque la quotité est nulle, faire comme si elle valait 1. A n'utiliser que dans le cas de défauts de bases qui utilisent 0 pour les quotités de temps plein (attesté mais rare).}
 }
 \value{
 Un tableau des rémunérations nettes moyennes par emploi mis en forme avec les emplois en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.

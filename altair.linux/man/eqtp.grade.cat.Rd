@@ -4,11 +4,13 @@
 \alias{eqtp.grade.cat}
 \title{Tableau des EQTP par grade et catégorie.}
 \usage{
-eqtp.grade.cat(Base = Bulletins.paie, classe = NULL,
+eqtp.grade.cat(Base = Bulletins.paie, grade = NULL, classe = NULL,
   libellés = NULL, agr = FALSE, période = NULL,
   variation = FALSE, statut = NULL)
 }
 \arguments{
+\item{grade}{Grade particulier. Tous les grades en l'absence de spécification.}
+
 \item{classe}{Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.}
 
 \item{libellés}{Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp.}

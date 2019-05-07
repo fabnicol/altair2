@@ -4,10 +4,10 @@
 \alias{brut.eqtp.emploi}
 \title{Tableau des rémunérations brutes moyennes par emploi.}
 \usage{
-brut.eqtp.emploi(Base = Paie, emploi = NULL, classe = NULL,
-  service = NULL, libellés = NULL, agr = FALSE, période = NULL,
-  variation = FALSE, statut = NULL, catégorie = NULL,
-  exclure.codes = NULL, quotite.nulle = FALSE)
+brut.eqtp.emploi(Base = Paie, grade = NULL, emploi = NULL,
+  classe = NULL, service = NULL, libellés = NULL, agr = FALSE,
+  période = NULL, variation = FALSE, statut = NULL,
+  catégorie = NULL, exclure.codes = NULL, quotite.nulle = FALSE)
 }
 \arguments{
 \item{Base}{Base des bulletins de paye, comportant pour l'ensemble de la période
@@ -21,6 +21,8 @@ brut.eqtp.emploi(Base = Paie, emploi = NULL, classe = NULL,
    \item{ les variables numériques :
        \describe{
          \item{\code{quotite}}{réel entre 0 et 1}}}}.}
+
+\item{grade}{Grade particulier. Tous les grades en l'absence de spécification.}
 
 \item{emploi}{Emploi particulier. Tous les emplois en l'absence de spécification.}
 
@@ -41,6 +43,8 @@ brut.eqtp.emploi(Base = Paie, emploi = NULL, classe = NULL,
 \item{catégorie}{Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.}
 
 \item{exclure.codes}{Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).}
+
+\item{quotite.nulle}{[défaut FALSE] Si TRUE, lorsque la quotité est nulle, faire comme si elle valait 1. A n'utiliser que dans le cas de défauts de bases qui utilisent 0 pour les quotités de temps plein (attesté mais rare).}
 }
 \value{
 Un tableau des rémunérations brutes moyennes par emploi mis en forme avec les emplois en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
