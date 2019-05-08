@@ -388,7 +388,7 @@ eqtp.grade <- function(Base = Bulletins.paie,
   
   if (is.null(T)) return(NULL)
   
-  Gr <- groupage(type = "G", classe, grade, emploi, agr)
+  Gr <- groupage(type = "G", agr)
   
   T <- T [, .(VAR = sum(quotite, na.rm = TRUE) / 12), by = c("Annee",  Gr)]
   
@@ -443,7 +443,7 @@ eqtp.emploi <- function(Base = Bulletins.paie,
   
   if (is.null(T)) return(NULL)
   
-  Gr <- groupage(type = "E", classe, grade, emploi, agr)
+  Gr <- groupage(type = "E", agr)
   
   T <- T [, .(VAR = sum(quotite, na.rm = TRUE) / 12), by = c("Annee",  Gr)]
   
@@ -495,7 +495,7 @@ eqtp.grade.serv <- function(Base = Bulletins.paie,
   
   T <- filtrer.base(Base, grade, emploi, classe, service, libellés, agr, période, statut, catégorie, exclure.codes, quotite.nulle, type = "G")
   
-  Gr <- groupage(type, classe, grade, emploi, agr)
+  Gr <- groupage(type, agr)
   
   if (is.null(T)) return(NULL)
 
@@ -556,7 +556,7 @@ eqtp.grade.cat <- function(Base = Bulletins.paie,
   
   T <- filtrer.base(Base, grade, emploi, classe, service, libellés, agr, période, statut, catégorie, exclure.codes, quotite.nulle, type = "C")
   
-  Gr <- groupage(type, classe, grade, emploi, agr)
+  Gr <- groupage(type, agr)
   
   if (is.null(T)) return(NULL)
   
@@ -622,7 +622,7 @@ charges.eqtp <- function(Base = Paie,
  
  
  T <- filtrer.base(Base, grade, emploi, classe, service, libellés, agr, période, statut, catégorie, exclure.codes, quotite.nulle, type)
- Gr <- groupage(type, classe, grade, emploi, agr)
+ Gr <- groupage(type, agr)
  
  if (is.null(T)) return(NULL)
  
@@ -767,11 +767,10 @@ charges.eqtp.serv <- function(Base = Paie,
   
   T <- filtrer.base(Base, grade, emploi, classe, service, libellés, agr, période, statut, catégorie, exclure.codes, quotite.nulle, type)
   
-  Gr <- groupage(type, classe, grade, emploi, agr)
+  Gr <- groupage(type, agr)
     
   if (is.null(T)) return(NULL)
-  
-  
+
   A <- T[ , .(Cout = sum(Montant[Type == "C" | (Type == "R" & grepl("cot.*(?:emp|pat).*", 
                                                                       Libelle,
                                                                       ignore.case = TRUE,
@@ -791,10 +790,8 @@ charges.eqtp.serv <- function(Base = Paie,
     
     A <- A[ , VAR := ifelse(is.na(eqtp.cum) | is.na(Cout.moyen.cum), 0, round(Cout.moyen.cum)),
             keyby = c("Annee", Gr, "Service")]
-    
   }
- 
-  
+
   curD <- getwd()
   
   setwd(file.path(chemin.dossier.bases, "Remunerations"))
@@ -907,16 +904,14 @@ filtrer.base <- function(Base, grade, emploi, classe, service, libellés, agr, p
       } else {
         
         Base <- Base[Categorie == catégorie & Statut %chin% statut & Service %chin% service] 
-      }
-      
+     }
     }
   }
-  
-  
+
   Base
 }
 
-groupage <- function(type, classe, grade, emploi, agr) {
+groupage <- function(type, agr) {
 
   if (agr) {
 
@@ -934,6 +929,33 @@ groupage <- function(type, classe, grade, emploi, agr) {
     }
 
     Gr
+  }
+}
+
+
+
+calcul.rémunération <- function(T, var, quotite.nulle, Gr) {
+  
+  if (is.null(T)) return(NULL)
+  
+  A <- T[ ,  .(Rem = round(sum(get(var)[1], na.rm = TRUE)),  
+               eqtp = sum(quotite[1], na.rm = TRUE)),
+                  keyby = c("Matricule", "Annee", "Mois", Gr)]
+  
+  A <- A[ ,  .(Rem.moyen.cum = sum(Rem, na.rm = TRUE),
+               eqtp.cum = sum(eqtp, na.rm = TRUE) / 12),
+                  keyby = c("Annee", Gr)]  
+  
+  if (! quotite.nulle) {
+    
+    A[ , VAR := ifelse(is.na(eqtp.cum) | is.na(Rem.moyen.cum) | eqtp.cum == 0, 0, round(Rem.moyen.cum / eqtp.cum)),
+       keyby = c("Annee", Gr)]
+    
+  } else {
+    
+    A[ , VAR := ifelse(is.na(eqtp.cum) | is.na(Rem.moyen.cum), 0, round(Rem.moyen.cum)),
+       keyby = c("Annee", Gr)]
+    
   }
 }
 
@@ -963,12 +985,12 @@ groupage <- function(type, classe, grade, emploi, agr) {
 #' @param statut Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.
 #' @param catégorie Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
 #' @param exclure.codes Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).  
-#' @param exclure.sft Exclure le SFT du calcul
 #' @param quotite.nulle [défaut FALSE] Si TRUE, lorsque la quotité est nulle, faire comme si elle valait 1. A n'utiliser que dans le cas de défauts de bases qui utilisent 0 pour les quotités de temps plein (attesté mais rare).
 #' @return Un tableau des rémunérations nettes par grade mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
 #' net.eqtp()
 #' @export
+
 
 
 net.eqtp <- function(Base = Paie, 
@@ -987,60 +1009,28 @@ net.eqtp <- function(Base = Paie,
                          quotite.nulle = FALSE,
                          type = "G")  {
   
-  T <- filtrer.base(Base, grade, emploi, classe, service, libellés, agr, période, statut, catégorie, exclure.codes, quotite.nulle, type)
-  
-  Gr <- groupage(type, classe, grade, emploi, agr)
-  
-  if (is.null(T)) return(NULL)
-  
-  if (exclure.sft) {
-    
-    T[Type == "S" , sft.net := Montant * (1 -ifelse(Statut == "TITULAIRE" | Statut == "STAGIAIRE", 0.9825 * (0.005 + 0.0750) + 0.01 + 0.05, 0.9825 * (0.005 + 0.0750) + 0.01 + 0.0805))]
-  
-   A <- T[ ,  .(Net = round(sum(Net.a.Payer[1], na.rm = TRUE)),  
-               eqtp = sum(quotite[1], na.rm = TRUE) / 12,
-               SFT.net = sum(sft.net, na.rm = TRUE)),
-          keyby=c("Annee", "Matricule", "Mois", Gr)]
-  
-  
-   A <-  A[ , .(Net.moyen.cum = sum(Net - SFT.net, na.rm = TRUE),
-           eqtp.cum = sum(eqtp, na.rm = TRUE)),
-       keyby = c("Annee", Gr)]
-  } else {
-  
-    A <- T[ ,  .(Net = round(sum(Net.a.Payer[1], na.rm = TRUE)),  
-                 eqtp = sum(quotite[1], na.rm = TRUE) / 12),
-            keyby=c("Annee", "Matricule", "Mois", Gr)]
-    
-    A <- A[ , .(Net.moyen.cum = sum(Net, na.rm = TRUE),
-           eqtp.cum = sum(eqtp, na.rm = TRUE)),
-       keyby = c("Annee", Gr)]  
-  }
-  
-  if (! quotite.nulle) {
-    
-    A[ , VAR := ifelse(is.na(eqtp.cum) | is.na(Net.moyen.cum) | eqtp.cum == 0, 0, round(Net.moyen.cum / eqtp.cum)),
-       keyby = c("Annee", Gr)]
-    
-    moyenne_ <- A[ , .(Moy.num = round(sum(Net.moyen.cum, na.rm = TRUE)/sum(eqtp.cum, na.rm = TRUE))), keyby = Annee]
-    
-    moyenne.num <- transpose(data.table(c("Moyenne", moyenne_$Moy.num)))
-    
-    
-  } else {
-    
-    A <- A[ , VAR := ifelse(is.na(eqtp.cum) | is.na(Net.moyen.cum), 0, round(Net.moyen.cum)),
-            keyby = c("Annee", Gr)
-            ]
-    moyenne_ <- A[ , .(Moy.num = round(sum(Net.moyen.cum, na.rm = TRUE))), keyby = Annee]
-    
-    moyenne.num <- transpose(data.table(c("Total", moyenne_$Moy.num)))
-    
-  }
-  
-  
-  formater(A, variation, agr, type, somme = FALSE, round = TRUE, libellés)
-  
+  formater(calcul.rémunération(filtrer.base(Base,
+                                            grade,
+                                            emploi,
+                                            classe,
+                                            service,
+                                            libellés,
+                                            agr,
+                                            période,
+                                            statut,
+                                            catégorie,
+                                            exclure.codes,
+                                            quotite.nulle,
+                                            type),
+                               "Net.a.Payer",
+                               quotite.nulle,
+                               groupage(type, agr)),
+           variation, 
+           agr,
+           type,
+           somme = FALSE,
+           round = TRUE,
+           libellés)
 }
 
 
@@ -1070,13 +1060,11 @@ net.eqtp <- function(Base = Paie,
 #' @param statut Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.
 #' @param catégorie Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
 #' @param exclure.codes Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).  
-#' @param exclure.sft Exclure le SFT du calcul
 #' @param quotite.nulle [défaut FALSE] Si TRUE, lorsque la quotité est nulle, faire comme si elle valait 1. A n'utiliser que dans le cas de défauts de bases qui utilisent 0 pour les quotités de temps plein (attesté mais rare).
 #' @return Un tableau des rémunérations nettes par grade mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
 #' net.eqtp.serv()
 #' @export
-
 
 
 net.eqtp.serv <- function(Base = Paie, 
@@ -1091,60 +1079,34 @@ net.eqtp.serv <- function(Base = Paie,
                      statut = NULL,
                      catégorie = NULL,
                      exclure.codes = NULL,
-                     exclure.sft = FALSE,
                      quotite.nulle = FALSE,
                      type = "G")  {
-  
-
-  
-  T <- filtrer.base(Base, grade, emploi, classe, service, libellés, agr, période, statut, catégorie, exclure.codes, quotite.nulle, type)
-  
-  Gr <- groupage(type, classe, grade, emploi, agr)
-  
-  if (is.null(T)) return(NULL)
-
-
-  # Ni un avantage en nature, ni une retenue, ni une déduction (salarié) ni un rappel de retenue/déduction.csg/crds/avantage nat. mais ok : remb. frais frais
-  # On sort les élus
-  
-  if (exclure.sft) {
-    
-  T[Type == "S" , sft.net := Montant * (1 -ifelse(Statut == "TITULAIRE" | Statut == "STAGIAIRE", 0.9825 * (0.005 + 0.0750) + 0.01 + 0.05, 0.9825 * (0.005 + 0.0750) + 0.01 + 0.0805))]
-  
-  A <- T[ ,  .(Net = round(sum(Net.a.Payer[1], na.rm = TRUE)),  
-              eqtp = sum(quotite[1], na.rm = TRUE) / 12,
-              SFT.net = sum(sft.net, na.rm = TRUE)),
-                   keyby=c("Annee", Gr, "Matricule", "Mois", "Service")
-         ][ , .(Net.moyen.cum = sum(Net - SFT.net, na.rm = TRUE),
-                eqtp.cum = sum(eqtp, na.rm = TRUE)),
-                   keyby = c("Annee", Gr, "Service")]
-  } else {
-    
-    A <- T[ ,  .(Net = round(sum(Net.a.Payer[1], na.rm = TRUE)),  
-                 eqtp = sum(quotite[1], na.rm = TRUE) / 12),
-                   keyby = c("Annee", Gr, "Matricule", "Mois", "Service")
-            ][ , .(Net.moyen.cum = sum(Net, na.rm = TRUE),
-                   eqtp.cum = sum(eqtp, na.rm = TRUE)),
-                   keyby = c("Annee", Gr, "Service")]
-  }
-  
-  if (! quotite.nulle) {
-    A <- A[ , VAR := ifelse(is.na(eqtp.cum) | is.na(Net.moyen.cum) | eqtp.cum == 0, 0, round(Net.moyen.cum / eqtp.cum)),
-            keyby = c("Annee", Gr, "Service")]
-  
-  } else {
-    
-    A <- A[ , VAR := ifelse(is.na(eqtp.cum) | is.na(Net.moyen.cum), 0, round(Net.moyen.cum)),
-            keyby = c("Annee", Gr, "Service")]
-  
-  }
-  
   
   curD <- getwd()
   
   setwd(file.path(chemin.dossier.bases, "Remunerations"))
   
-  formater2(A, variation, "net.serv", "Service", agr, round = FALSE)
+  formater2(calcul.rémunération(filtrer.base(Base, 
+                                             grade,
+                                             emploi,
+                                             classe,
+                                             service,
+                                             libellés,
+                                             agr,
+                                             période,
+                                             statut,
+                                             catégorie,
+                                             exclure.codes,
+                                             quotite.nulle,
+                                             type),
+                                "Net.a.Payer",
+                                quotite.nulle,
+                                c(groupage(type, agr), "Service")),
+            variation,
+            "net.serv",
+            "Service",
+            agr,
+            round = FALSE)
   
   setwd(curD)
 }
@@ -1255,40 +1217,28 @@ brut.eqtp <- function(Base = Paie,
                      type = "G")  {
   
 
-  T <- filtrer.base(Base, grade, emploi, classe, service, libellés, agr, période, statut, catégorie, exclure.codes, quotite.nulle, type)
-  
-  Gr <- groupage(type, classe, grade, emploi, agr)
-  
-  if (is.null(T)) return(NULL)
-  
-  
-  A <-T[ ,  .(Brut = round(sum(Brut[1], na.rm = TRUE)),  
-              eqtp = sum(quotite[1], na.rm = TRUE) / 12),
-         keyby=c("Annee", Gr, "Matricule", "Mois")
-       ][ , .(Brut.moyen.cum = sum(Brut, na.rm = TRUE),
-                eqtp.cum = sum(eqtp, na.rm = TRUE)),
-            keyby = c("Annee", Gr)]
-  
-  if (! quotite.nulle) {
-    
-    A <- A[ , VAR := ifelse(is.na(eqtp.cum) | is.na(Brut.moyen.cum) | eqtp.cum == 0, 0, round(Brut.moyen.cum / eqtp.cum)),
-            keyby = c("Annee", Gr)]
-
-    moyenne_ <- A[ , .(Moy.num = round(sum(Brut.moyen.cum, na.rm = TRUE)/sum(eqtp.cum, na.rm = TRUE))), keyby = Annee]
-
-    moyenne.num <- transpose(data.table(c("Moyenne", moyenne_$Moy.num)))
-    
-  } else {
-    
-    A <- A[ , VAR := ifelse(is.na(eqtp.cum) | is.na(Brut.moyen.cum), 0, round(Brut.moyen.cum)),
-            keyby = c("Annee", Gr)]
-    moyenne_ <- A[ , .(Moy.num = round(sum(Brut.moyen.cum, na.rm = TRUE))), keyby = Annee]
-    
-    moyenne.num <- transpose(data.table(c("Total", moyenne_$Moy.num)))
-    
-  }
-  
-  formater(A, variation, agr, type, somme = FALSE, round = TRUE, libellés)
+  formater(calcul.rémunération(filtrer.base(Base,
+                                            grade,
+                                            emploi,
+                                            classe,
+                                            service,
+                                            libellés,
+                                            agr,
+                                            période,
+                                            statut,
+                                            catégorie,
+                                            exclure.codes,
+                                            quotite.nulle,
+                                            type),
+                               "Brut",
+                               quotite.nulle,
+                               groupage(type, agr)),
+           variation, 
+           agr,
+           type,
+           somme = FALSE,
+           round = TRUE,
+           libellés)
 }
 
 
