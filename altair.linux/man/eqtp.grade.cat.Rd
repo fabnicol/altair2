@@ -6,7 +6,8 @@
 \usage{
 eqtp.grade.cat(Base = Bulletins.paie, grade = NULL, classe = NULL,
   libellés = NULL, agr = FALSE, période = NULL,
-  variation = FALSE, statut = NULL)
+  variation = FALSE, statut = NULL, exclure.codes = NULL,
+  quotite.nulle = FALSE)
 }
 \arguments{
 \item{grade}{Grade particulier. Tous les grades en l'absence de spécification.}

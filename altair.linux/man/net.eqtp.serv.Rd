@@ -7,8 +7,8 @@
 net.eqtp.serv(Base = Paie, grade = NULL, emploi = NULL,
   classe = NULL, service = NULL, libellés = NULL, agr = FALSE,
   période = NULL, variation = FALSE, statut = NULL,
-  catégorie = NULL, exclure.codes = NULL, exclure.sft = FALSE,
-  quotite.nulle = FALSE, type = "G")
+  catégorie = NULL, exclure.codes = NULL, quotite.nulle = FALSE,
+  type = "G")
 }
 \arguments{
 \item{Base}{Base des bulletins de paye, comportant pour l'ensemble de la période
@@ -44,8 +44,6 @@ net.eqtp.serv(Base = Paie, grade = NULL, emploi = NULL,
 \item{catégorie}{Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.}
 
 \item{exclure.codes}{Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).}
-
-\item{exclure.sft}{Exclure le SFT du calcul}
 
 \item{quotite.nulle}{[défaut FALSE] Si TRUE, lorsque la quotité est nulle, faire comme si elle valait 1. A n'utiliser que dans le cas de défauts de bases qui utilisent 0 pour les quotités de temps plein (attesté mais rare).}
 }

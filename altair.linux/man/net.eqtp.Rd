@@ -45,8 +45,6 @@ net.eqtp(Base = Paie, grade = NULL, emploi = NULL, classe = NULL,
 
 \item{exclure.codes}{Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).}
 
-\item{exclure.sft}{Exclure le SFT du calcul}
-
 \item{quotite.nulle}{[défaut FALSE] Si TRUE, lorsque la quotité est nulle, faire comme si elle valait 1. A n'utiliser que dans le cas de défauts de bases qui utilisent 0 pour les quotités de temps plein (attesté mais rare).}
 }
 \value{

@@ -383,8 +383,9 @@ if (convertir.latin1) {
                     "-exec", "sed -i -e '1s/Evenement/Evénement/'     {} \\;"),
                   stderr = FALSE)
 
-    system2("find", c("Donnees/R-Altair/Bases", "-name", "'*.csv'", "-print0", "|", "xargs", "-0", "../../linux/utf82latin1"),
-                    stderr = FALSE)
+  system2("find",
+          c("Donnees/R-Altair/Bases", "-name", "'*.csv'", "-print0", "|", "xargs", "-0", "../../linux/utf82latin1"),
+          stderr = FALSE)
 }
 
 # Copie de la documentation accessoire aux rapports

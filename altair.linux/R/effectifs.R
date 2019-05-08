@@ -197,12 +197,11 @@ return(tableau.effectifs)
 
 formater <- function(A, variation,  agr, somme = FALSE, round = TRUE, type = "G", libellés) {
 
-  if (nrow(A) == 0) {
+  if (nrow(A) == 0 || is.null(A)) {
     message("Base vide")
     return(A)
   }
   
-  if (! somme) A[  , Moy.num := weighted.mean(VAR, eqtp.cum, na.rm = TRUE), keyby = Annee]
   
   if (type == "G") {
       if (agr) {
@@ -246,11 +245,18 @@ formater <- function(A, variation,  agr, somme = FALSE, round = TRUE, type = "G"
       BL <- B[,-1][, lapply(.SD, sum, na.rm = TRUE)]
       BL  <- cbind(0, round(BL, 1)) 
       B <- rbind(B, BL, use.names = FALSE)
+      
     } else {
       
-      moyenne.num  <- transpose(data.table(c(0, A[, round(Moy.num[1]), by = Annee][[2]])))
+      # On ne fait la moyenne que sur les valeurs non nulles
       
-      B <- rbind(B, moyenne.num, use.names = FALSE)
+      Moyenne <- A[VAR != 0  , .(Moy.num = weighted.mean(VAR, eqtp.cum, na.rm = TRUE)), keyby = Annee]
+      
+      moyenne.num  <- transpose(data.table(c(0, Moyenne[, Moy.num[1], by = Annee][[2]])))
+      
+      setnames(moyenne.num, c(names(B)[1], as.character(Moyenne$Annee)))
+               
+      B <- rbind(B, moyenne.num, fill = TRUE)
     }
     
     
@@ -278,60 +284,17 @@ formater <- function(A, variation,  agr, somme = FALSE, round = TRUE, type = "G"
 
 formater2 <- function(A, variation, fichier, groupe, agr, somme = FALSE, round = TRUE) {
   
-   if (nrow(A) == 0) {
+   if (nrow(A) == 0 || is.null(A)) {
     message("Base vide")
     return(A)
    }
   
-  if (! somme) A[  , Moy.num := weighted.mean(VAR, eqtp.cum, na.rm = TRUE), keyby = .(Annee, Service)]
-
   A[ , {
-    if (agr) {
-      
-      B <- dcast(.SD, G ~ Annee, value.var = "VAR", fill = 0)
-      if (! is.null(libellés)) B$G <- libellés[1:length(B$G)]
-      names(B)[1] <- "Categorie de Grades"
-      
-    } else {
-      
-      B <- dcast(.SD, Grade ~ Annee, value.var = "VAR", fill = 0)
-    }
-    
-    
-    if (somme) {
-      total <- B[,-1][, lapply(.SD, sum, na.rm = TRUE)]
-      total  <- cbind(0, round(total, 1)) 
-      B <- rbind(B, total, use.names = FALSE)
-
-    } else {
-      
-      moyenne.num  <- transpose(data.table(c(0, .SD[, round(Moy.num[1]), by = Annee][[2]])))
-      
-      B <- rbind(B, moyenne.num, use.names = FALSE)
-    }
-    
-    
-    if (round) {
-      tab <- cbind(B[[1]], B[, lapply(.SD, function(x) round(x, 1)), .SDcols = -1])
-      
-      setnames(tab, 1, names(B)[1])
-    } else tab <- B
-    
-    
-    if (variation) {
-      
-      début <- names(B)[2]
-      fin   <- names(B)[ncol(B)]
-      tab$V <-  round((B[[fin]]/B[[début]] - 1) * 100, 1)
-      
-      setnames(tab, ncol(tab), paste0("Variation ", début, "-", fin))
-      
-    }
-    
-    set(tab, nrow(tab), 1, ifelse(somme, "Total", "Moyenne"))
-    
-    fwrite(tab, fichier  %+%  sub("/", "-", get(groupe)) %+% ".csv", sep = ";", dec = ",")
-    
+     
+      fwrite(formater(.SD, variation,  agr, somme, round, type = "G"),
+             paste0(fichier, sub("/", "-", get(groupe)), ".csv"),
+             sep = ";",
+             dec = ",")
     
   }, by = groupe]
   
@@ -386,11 +349,9 @@ eqtp.grade <- function(Base = Bulletins.paie,
  
   T <- filtrer.base(Base, grade, emploi, classe, service, libellés, agr, période, statut, catégorie, exclure.codes, quotite.nulle, type = "G")
   
-  if (is.null(T)) return(NULL)
+  if (is.null(T) || nrow(T) == 0) return(NULL)
   
-  Gr <- groupage(type = "G", agr)
-  
-  T <- T [, .(VAR = sum(quotite, na.rm = TRUE) / 12), by = c("Annee",  Gr)]
+  T <- T [, .(VAR = sum(quotite, na.rm = TRUE) / 12), by = c("Annee",  groupage(type = "G", agr))]
   
   formater(T, variation, agr, somme = TRUE, round = TRUE, type = "G", libellés)
 }
@@ -441,11 +402,9 @@ eqtp.emploi <- function(Base = Bulletins.paie,
   
   T <- filtrer.base(Base, grade, emploi, classe, service, libellés, agr, période, statut, catégorie, exclure.codes, quotite.nulle, type = "E")
   
-  if (is.null(T)) return(NULL)
+  if (is.null(T) || nrow(T) == 0) return(NULL)
   
-  Gr <- groupage(type = "E", agr)
-  
-  T <- T [, .(VAR = sum(quotite, na.rm = TRUE) / 12), by = c("Annee",  Gr)]
+  T <- T [, .(VAR = sum(quotite, na.rm = TRUE) / 12), by = c("Annee",  groupage(type = "E", agr))]
   
   formater(T, variation, agr, somme = TRUE, round = TRUE, type = "E", libellés)
  
@@ -495,22 +454,19 @@ eqtp.grade.serv <- function(Base = Bulletins.paie,
   
   T <- filtrer.base(Base, grade, emploi, classe, service, libellés, agr, période, statut, catégorie, exclure.codes, quotite.nulle, type = "G")
   
-  Gr <- groupage(type, agr)
-  
-  if (is.null(T)) return(NULL)
-
-  if (nrow(T) == 0) {
-    message("La base des effectifs est vide")
-    return(T) 
-  }
-  
-  T <- T [ , .(VAR = sum(quotite, na.rm = TRUE) / 12), by = c("Annee",  Gr, "Service")]
+  if (is.null(T) || nrow(T) == 0) return(NULL)
 
   curD <- getwd()
   
   setwd(file.path(chemin.dossier.bases, "Effectifs"))
   
-  formater2(T, variation, "effectifs.serv.", groupe = "Service", agr, somme = TRUE)
+  formater2(T [ , .(VAR = sum(quotite, na.rm = TRUE) / 12), by = c("Annee",  groupage(type, agr), "Service")],
+            variation,
+            fichier = "effectifs.serv.", 
+            groupe = "Service", 
+            agr, 
+            somme = TRUE,
+            round  = TRUE)
   
   setwd(curD)
 }
@@ -556,17 +512,19 @@ eqtp.grade.cat <- function(Base = Bulletins.paie,
   
   T <- filtrer.base(Base, grade, emploi, classe, service, libellés, agr, période, statut, catégorie, exclure.codes, quotite.nulle, type = "C")
   
-  Gr <- groupage(type, agr)
-  
-  if (is.null(T)) return(NULL)
-  
-  T <- T [ , .(VAR = sum(quotite, na.rm = TRUE) / 12), by = c("Annee",  Gr, "Categorie")]
+  if (is.null(T) || nrow(T) == 0) return(NULL)
   
   curD <- getwd()
   
   setwd(file.path(chemin.dossier.bases, "Effectifs"))
   
-  formater2(T, variation, "effectifs.cat.", groupe = "Categorie", agr, somme = TRUE)
+  formater2(T [ , .(VAR = sum(quotite, na.rm = TRUE) / 12), by = c("Annee",  groupage(type, agr), "Categorie")], 
+            variation, 
+            fichier = "effectifs.cat.", 
+            groupe = "Categorie",
+            agr,
+            somme = TRUE,
+            round = TRUE)
   
   setwd(curD)
 }
@@ -620,52 +578,28 @@ charges.eqtp <- function(Base = Paie,
                          quotite.nulle = FALSE,
                          type = "G")  {
  
- 
- T <- filtrer.base(Base, grade, emploi, classe, service, libellés, agr, période, statut, catégorie, exclure.codes, quotite.nulle, type)
- Gr <- groupage(type, agr)
- 
- if (is.null(T)) return(NULL)
- 
- # Brut + cotisations employeur. Pb : les rappels de cot employeur...
- # On sort les élus
-  
-  A <- T[ , .(Cout = sum(Montant[Type == "C" | (Type == "R" & grepl("cot.*(?:emp|pat).*", 
-                                                                            Libelle,
-                                                                            ignore.case = TRUE,
-                                                                            perl = TRUE))]) + Brut[1],
-                
-              eqtp = sum(quotite[1], na.rm = TRUE) / 12),
-                    keyby=c("Annee", "Mois", "Matricule", Gr)
-        ][ , .(Cout.moyen.cum = sum(Cout, na.rm = TRUE),
-               eqtp.cum = sum(eqtp, na.rm = TRUE)),
-                   keyby = c("Annee", Gr)
-        ]
-  
-  if (! quotite.nulle) {
-    A <- A[ , VAR := ifelse(is.na(eqtp.cum) | is.na(Cout.moyen.cum) | eqtp.cum == 0, 0, round(Cout.moyen.cum / eqtp.cum)),
-                       keyby = c("Annee", Gr)]
-    moyenne_    <- A[ , .(Moy.num = round(sum(Cout.moyen.cum, na.rm = TRUE)/sum(eqtp.cum, na.rm = TRUE))), keyby = Annee]
-    moyenne.num <- transpose(data.table(c("Moyenne", moyenne_$Moy.num)))
-    
-    
-  } else {
-    
-    A <- A[ , VAR := ifelse(is.na(eqtp.cum) | is.na(Cout.moyen.cum), 0, round(Cout.moyen.cum)),
-            keyby = c("Annee", Gr)]
-    moyenne_ <- A[ , .(Moy.num = round(sum(Cout.moyen.cum, na.rm = TRUE))), keyby = Annee]
-    
-    moyenne.num <- transpose(data.table(c("Total", moyenne_$Moy.num)))
-    
-  }
-
-  if (nrow(A) == 0) {
-    message("Base vide")
-    return(A)
-  }
-
- 
- formater(A, variation, agr, somme = FALSE, round = TRUE, type = type, libellés)
- 
+ formater(calcul.charges(filtrer.base(Base,
+                                      grade,
+                                      emploi,
+                                      classe,
+                                      service,
+                                      libellés,
+                                      agr,
+                                      période,
+                                      statut,
+                                      catégorie,
+                                      exclure.codes,
+                                      quotite.nulle,
+                                      type),
+                         var,
+                         quotite.nulle,
+                         groupage(type, agr)),
+          variation,
+          agr,
+          somme = FALSE,
+          round = TRUE,
+          type = type,
+          libellés)
 }
 
 
@@ -764,39 +698,32 @@ charges.eqtp.serv <- function(Base = Paie,
                           exclure.codes = NULL,
                           quotite.nulle = FALSE)  {
   
-  
-  T <- filtrer.base(Base, grade, emploi, classe, service, libellés, agr, période, statut, catégorie, exclure.codes, quotite.nulle, type)
-  
-  Gr <- groupage(type, agr)
-    
-  if (is.null(T)) return(NULL)
-
-  A <- T[ , .(Cout = sum(Montant[Type == "C" | (Type == "R" & grepl("cot.*(?:emp|pat).*", 
-                                                                      Libelle,
-                                                                      ignore.case = TRUE,
-                                                                      perl = TRUE))]) + Brut[1],
-              
-                eqtp = sum(quotite[1], na.rm = TRUE) / 12),
-                   keyby=c("Annee", "Mois", "Matricule", Gr, "Service")
-          ][ , .(Cout.moyen.cum = sum(Cout, na.rm = TRUE),
-                 eqtp.cum = sum(eqtp, na.rm = TRUE)),
-                   keyby = c("Annee", Gr, "Service")]
-  
-  if (! quotite.nulle) {
-    A <- A[ , VAR := ifelse(is.na(eqtp.cum) | is.na(Cout.moyen.cum) | eqtp.cum == 0, 0, round(Cout.moyen.cum / eqtp.cum)),
-            keyby = c("Annee", Gr, "Service")]
-    
-  } else {
-    
-    A <- A[ , VAR := ifelse(is.na(eqtp.cum) | is.na(Cout.moyen.cum), 0, round(Cout.moyen.cum)),
-            keyby = c("Annee", Gr, "Service")]
-  }
-
   curD <- getwd()
   
   setwd(file.path(chemin.dossier.bases, "Remunerations"))
   
-  formater2(A, variation, "charges.serv.", "Service", agr, round = FALSE)
+  formater2(calcul.charges(filtrer.base(Base,
+                                        grade,
+                                        emploi,
+                                        classe,
+                                        service,
+                                        libellés,
+                                        agr,
+                                        période,
+                                        statut,
+                                        catégorie,
+                                        exclure.codes,
+                                        quotite.nulle,
+                                        type),
+                           var,
+                           quotite.nulle,
+                           c(groupage(type, agr), "Service")),
+            variation,
+            fichier = "charges.serv.",
+            groupe = "Service",
+            agr,
+            somme = FALSE,
+            round = TRUE)
     
   setwd(curD)
 }
@@ -938,11 +865,10 @@ calcul.rémunération <- function(T, var, quotite.nulle, Gr) {
   
   if (is.null(T)) return(NULL)
   
-  A <- T[ ,  .(Rem = round(sum(get(var)[1], na.rm = TRUE)),  
+  A <- T[ ,  .(Rem = sum(get(var)[1], na.rm = TRUE),  
                eqtp = sum(quotite[1], na.rm = TRUE)),
-                  keyby = c("Matricule", "Annee", "Mois", Gr)]
-  
-  A <- A[ ,  .(Rem.moyen.cum = sum(Rem, na.rm = TRUE),
+                  keyby = c("Matricule", "Annee", "Mois", Gr)
+        ][ ,  .(Rem.moyen.cum = sum(Rem, na.rm = TRUE),
                eqtp.cum = sum(eqtp, na.rm = TRUE) / 12),
                   keyby = c("Annee", Gr)]  
   
@@ -956,6 +882,39 @@ calcul.rémunération <- function(T, var, quotite.nulle, Gr) {
     A[ , VAR := ifelse(is.na(eqtp.cum) | is.na(Rem.moyen.cum), 0, round(Rem.moyen.cum)),
        keyby = c("Annee", Gr)]
     
+  }
+}
+
+
+calcul.charges <- function(T, var, quotite.nulle, Gr) {
+
+  if (is.null(T)) return(NULL)
+  
+  A <- T[ , .(Cout = sum(Montant[Type == "C" | (Type == "R" & grepl("cot.*(?:emp|pat).*", 
+                                                                    Libelle,
+                                                                    ignore.case = TRUE,
+                                                                    perl = TRUE))]) + Brut[1],
+              
+              eqtp = sum(quotite[1], na.rm = TRUE)),
+          
+                 keyby=c("Matricule", "Annee", "Mois", Gr)
+          
+        ][ , .(Cout.moyen.cum = sum(Cout, na.rm = TRUE),
+               eqtp.cum = sum(eqtp, na.rm = TRUE) / 12),
+           
+                 keyby = c("Annee", Gr)]
+  
+  if (! quotite.nulle) {
+    
+    A <- A[ , VAR := ifelse(is.na(eqtp.cum) | is.na(Cout.moyen.cum) | eqtp.cum == 0, 0, round(Cout.moyen.cum / eqtp.cum)),
+            
+                 keyby = c("Annee", Gr)]
+    
+  } else {
+    
+    A <- A[ , VAR := ifelse(is.na(eqtp.cum) | is.na(Cout.moyen.cum), 0, round(Cout.moyen.cum)),
+            
+                 keyby = c("Annee", Gr)]
   }
 }
 
@@ -1103,10 +1062,11 @@ net.eqtp.serv <- function(Base = Paie,
                                 quotite.nulle,
                                 c(groupage(type, agr), "Service")),
             variation,
-            "net.serv",
-            "Service",
+            fichier = "net.serv.",
+            groupe  = "Service",
             agr,
-            round = FALSE)
+            somme   = FALSE,
+            round = TRUE)
   
   setwd(curD)
 }

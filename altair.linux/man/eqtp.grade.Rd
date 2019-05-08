@@ -7,7 +7,7 @@
 eqtp.grade(Base = Bulletins.paie, grade = NULL, emploi = NULL,
   classe = NULL, service = NULL, libellés = NULL, agr = FALSE,
   période = NULL, variation = FALSE, statut = NULL,
-  catégorie = NULL, quotité.nulle = FALSE)
+  catégorie = NULL, exclure.codes = NULL, quotite.nulle = FALSE)
 }
 \arguments{
 \item{Base}{Base des bulletins de paye, comportant pour l'ensemble de la période
