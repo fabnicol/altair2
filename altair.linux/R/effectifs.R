@@ -292,7 +292,7 @@ formater2 <- function(A, variation, fichier, groupe, agr, somme = FALSE, round =
   A[ , {
      
       fwrite(formater(.SD, variation,  agr, somme, round, type = "G"),
-             paste0(fichier, sub("/", "-", get(groupe)), ".csv"),
+             paste0(fichier, gsub("/", "-", get(groupe)), ".csv"),
              sep = ";",
              dec = ",")
     
