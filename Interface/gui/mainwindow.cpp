@@ -85,7 +85,7 @@ MainWindow::MainWindow (char* projectName)
 
     altair = new Altair;
     altair->parent = this;
-
+    options::RefreshFlag = interfaceStatus::hasSavedOptions;
     createActions();
     createMenus();
 
@@ -124,7 +124,6 @@ MainWindow::MainWindow (char* projectName)
 
     Abstract::initH();
 
-    configureOptions();
     createToolBars();
 
     bottomTabWidget->setCurrentIndex (0);
@@ -176,10 +175,9 @@ MainWindow::MainWindow (char* projectName)
         versionFile.close();
     }
 
+
     setWindowTitle ("Interface  Altaïr " + version);
 
-    dialog = new options (altair);
-    dialog->setParent (altair, Qt::Window);
     m = new MatriculeInput (width / 4, height / 6);
 
     connect(m, SIGNAL(updateProject(bool)), altair, SLOT(updateProject(bool)));
@@ -373,6 +371,8 @@ void MainWindow::createActions()
     lhxAction = new QAction (tr ("Créer la base de données .csv"), this);
     lhxAction->setShortcut (QKeySequence ("Ctrl+B"));
     lhxAction->setIcon (QIcon (":/images/csv.png"));
+
+    connect (lhxAction, SIGNAL (triggered()), this, SLOT (createDialogs()));
     connect (lhxAction, SIGNAL (triggered()), altair, SLOT (run()));
 
     cleanAction = new QAction (tr ("Nettoyer la base de paye"), this);
@@ -511,10 +511,31 @@ void MainWindow::createActions()
 
 }
 
+void MainWindow::createDialogs()
+{
+    if (! dialog)
+    {
+        dialog = new options(altair);
+        dialog->setParent (this, Qt::Window);
+    }
+
+    if (! contentsWidget)
+    {
+      configureOptions();
+    }
+
+}
+
 void MainWindow::on_printBase_clicked()
 {
     m->checkDefaultFolder();
     m->exec();
+
+    if (! dialog)
+    {
+        dialog = new options (altair);
+        dialog->setParent (altair, Qt::Window);
+    }
 
     if (! m->matricules.isEmpty())
         {
@@ -522,11 +543,12 @@ void MainWindow::on_printBase_clicked()
         }
     else
         dialog->standardTab->tableCheckBox->setChecked (true);
+
 }
 
 void MainWindow::resetTableCheckBox()
 {
-    dialog->standardTab->tableCheckBox->setChecked (true);
+    if (dialog) dialog->standardTab->tableCheckBox->setChecked (true);
 }
 
 vector<string> MainWindow::extraire_donnees_protegees (const string& st)
@@ -1061,12 +1083,20 @@ void MainWindow::cleanBase()
 
 void MainWindow::configure()
 {
+    if (! contentsWidget) configureOptions();
+
     contentsWidget->setVisible (true);
     contentsWidget->raise();
 }
 
 void MainWindow::on_optionsButton_clicked()
 {
+    if (!dialog )
+    {
+        dialog = new options (altair);
+        dialog->setParent (altair, Qt::Window);
+    }
+
     dialog->setVisible (!dialog->isVisible());
     dialog->raise();
 }
@@ -1094,6 +1124,17 @@ void MainWindow::on_openManagerWidgetButton_clicked()
 
 void MainWindow::createToolBars()
 {
+#define buildToolBar(bar, text) \
+    bar = addToolBar(tr(text));\
+    bar->setIconSize(QSize(48, 48));
+
+    buildToolBar (fileToolBar, "&File")
+
+    buildToolBar (editToolBar, "&Edit")
+    buildToolBar (processToolBar, "&Process")
+    buildToolBar (optionsToolBar, "&Data")
+    buildToolBar (aboutToolBar, "&Help")
+
     fileToolBar->addActions ({newAction, saveAsAction, exportAction, archiveAction, restoreAction, closeAction, exitAction});
     fileToolBar->addSeparator();
 
@@ -1718,7 +1759,7 @@ void MainWindow::configureOptions()
 {
     /* plain old data types must be 0-initialised even though the class instance was new-initialised. */
 
-    contentsWidget = new QDialog (this);
+    if (!contentsWidget) contentsWidget = new QDialog (this);
     contentsWidget->setVisible (false);
 
     QGroupBox *displayGroupBox = new QGroupBox (tr ("Affichage"));
@@ -1857,16 +1898,6 @@ void MainWindow::configureOptions()
                   << defaultQuietBox;
 
     QList<QToolBar*> displayToolBarList ;
-
-#define buildToolBar(bar, text) \
-    bar = addToolBar(tr(text));\
-    bar->setIconSize(QSize(48, 48));
-
-    buildToolBar (fileToolBar, "&File")
-    buildToolBar (editToolBar, "&Edit")
-    buildToolBar (processToolBar, "&Process")
-    buildToolBar (optionsToolBar, "&Data")
-    buildToolBar (aboutToolBar, "&Help")
 
     displayToolBarList <<  fileToolBar
                        << editToolBar

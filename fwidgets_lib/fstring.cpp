@@ -44,7 +44,7 @@
 
 FString  FString::operator * ()
 {
-  return Hash::wrapper[p]->toFString();
+  return (Hash::wrapper.contains(p)) ? Hash::wrapper[p]->toFString() : FString("oui");
 }
 
 

@@ -513,7 +513,7 @@ void Altair::clearProjectData()
 
     project->mainTabWidget->setCurrentIndex (0);
     project->initializeWidgetContainer();
-    parent->dialog->codeTab->resetLabel();
+    if (parent->dialog) parent->dialog->codeTab->resetLabel();
 
     fileSizeDataBase[0].clear();
 
@@ -795,7 +795,7 @@ bool Altair::refreshProjectManager()
     if (file.isOpen()) file.close();
 
     RefreshFlag =  RefreshFlag
-                   & (interfaceStatus::hasSavedOptionsMask
+                   & (interfaceStatus::savedOptionsMask
                       | interfaceStatus::saveTreeMask
                       | interfaceStatus::treeMask
                       | interfaceStatus::tabMask

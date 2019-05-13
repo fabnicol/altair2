@@ -46,7 +46,7 @@ if (linux) {
   error("Le système d'exploitation doit être linux")
 }
 
-#QMAKE_CXX=/usr/bin/g++-8.1.0
+QMAKE_CXX=/usr/bin/g++
 GIT_VERSION = $$system(git --version | grep -e \'git version\')
 CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
 

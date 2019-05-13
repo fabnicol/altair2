@@ -384,6 +384,7 @@ void Altair::runWorker (const QString& subdir)
 
 void Altair::run()
 {
+
     updateProject (true);
 
     // crucial otherwise some dynamic settings in the option dialog
@@ -539,7 +540,7 @@ void Altair::runRAltair()
     outputDir.remove ("altaïr.odt");
     outputDir.remove ("altaïr.docx");
 
-    if (! parent->dialog->extraTab->budgetCheckBox->isChecked()) QDir(common::path_access (DONNEES_XHL)).remove("paye_budget.csv");
+    if (parent->dialog && ! parent->dialog->extraTab->budgetCheckBox->isChecked()) QDir(common::path_access (DONNEES_XHL)).remove("paye_budget.csv");
              
     if (! v(enchainerRapports).isTrue())
         {
