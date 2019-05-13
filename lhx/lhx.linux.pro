@@ -40,12 +40,6 @@
 greaterThan(QT_MAJOR_VERSION, 5)
 
 
-if (linux) {
-  message("Système d'exploitation :  $$(OS)")
-} else {
-  error("Le système d'exploitation doit être linux")
-}
-
 #QMAKE_CXX=/usr/bin/g++-8.1.0
 GIT_VERSION = $$system(git --version | grep -e \'git version\')
 CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
@@ -58,23 +52,11 @@ if (!isEmpty(GIT_VERSION)) {
 }
 
 
-if (!isEmpty(CXX_VERSION)){
-    message( "Version du compilateur : $$CXX_VERSION" )
-    VERSION_8 = $$system($$QMAKE_CXX --version | grep -e '8.')
-    if (! isEmpty(VERSION_8)) {
-       message( "Utilisation de C++17")
-    } else {
-       message( "Utilisation de C++11")
-   }
-
-} else {
-    error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
-}
 
 # Pour une sortie en mode console pure, enlever guiOutput ci-dessous. Sinon l'output console prépare
 # l'input de la "console de l'interface graphique"
 
-CONFIG += console guiOutput
+CONFIG += console guiOutput -opengl
 CONFIG -= app_bundle
 CONFIG -= qt
 
@@ -140,9 +122,9 @@ DEFINES += \
         DECIMAL_NON_EN \                    # compilation pour des séparateurs décimaux différents de '.'
         GENERATE_RANK_SIGNAL \              # chaque fois qu'un fichier est traité, un signal externe est émis (rang dans un fichier rank sous AppData\Local\Altair).
                              \              # n'est utile que lorsqu'une interface graphique est connectée. peut ralentir l'application de 1 à 5 %.
-#        FGETC_PARSING    \                  # parcourir les fichiers par ifstream (C++)
+        FGETC_PARSING    \                  # parcourir les fichiers par ifstream (C++)
 #       STRINGSTREAM_PARSING  \             # mise en mémoire vive des fichiers de paye par ostringstream (plus de mémoire vive ; accélère beaucoup le 1er traitement sous Windows)
-        MMAP_PARSING           \            # parcourir les fichiers par mappage mémoire (C/C++, Unix uniquement, changer la directive sou Windows).
+#        MMAP_PARSING           \            # parcourir les fichiers par mappage mémoire (C/C++, Unix uniquement, changer la directive sou Windows).
 #       OFSTREAM_TABLE_OUTPUT  \            # enregistrer les lignes de paye ligne à ligne sur la base. Plus robuste et moins de mémoire mais plus lent sous Windows
 #       TINYXML2                            # Utiliser tinyxml2 et pas libxml2  
 
@@ -164,9 +146,9 @@ QMAKE_CXXFLAGS += -march=core-avx2 -Wextra
 #QMAKE_CXXFLAGS += -march=core2
 # Sous linux penser à installer libxml2-dev. Ceci n'est pas testé.
 
-INCLUDEPATH += ../Interface/gui ../fwidgets_lib /usr/include/libxml2
+INCLUDEPATH += ../Interface/gui ../fwidgets_lib C:/msys64/mingw64/include/libxml2
 
-LIBS =  -L/usr/lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/local/lib64 -lstdc++fs -static-libgcc -static-libstdc++ -pthread -lxml2
+LIBS =   -lstdc++fs -static-libgcc -static-libstdc++ -pthread -lxml2 -LC:/msys64/mingw64/lib -lpsapi
 
 SOURCES += \
     fonctions_auxiliaires.cpp \

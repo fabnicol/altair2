@@ -79,9 +79,10 @@ CONFIG(debug, debug|release) {
 } else {
   CONFIG += static
   QMAKE_CXXFLAGS += -O3 -fomit-frame-pointer -fexpensive-optimizations -Wall -Wextra
-  QMAKE_LFLAGS +=  -s  -static-libgcc -static-libstdc++ -LC:/Users/Public/Dev/altair/Interface/build-altair.linux-Desktop_Qt_5_12_3_MinGW_64_bit-Release/fwidgets_lib.lib
+  QMAKE_LFLAGS +=  -s  -static-libgcc -static-libstdc++ -LC:/msys64/mingw64/lib -LC:/msys64/mingw64/bin -LC:/Users/Public/Dev/altair/Interface/build-altair.linux-Desktop_Qt_5_12_3_MinGW_64_bit-Release/fwidgets_lib.lib
 }
 
+LIBS += C:/msys64/mingw64/bin/opengl32.dll
 
 TEMPLATE = app
 

@@ -57,6 +57,7 @@ extern bool verbeux;
 
 #ifndef __linux__
 #include <windows.h>
+#include <psapi.h>
 #else
 #include <unistd.h>
 #endif

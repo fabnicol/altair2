@@ -41,7 +41,7 @@
  // !!!!   Doit être encodé en Latin-1 pour pouvoir être lu sous Windows  !!!!!
  ///////////////////////////////////////////////////////////////////////////////
 
-#ifdef __linux__
+
 
 // Ce tableau est utilisé pour les libellés de colonnes des bases CSV en sortie
 
@@ -121,7 +121,7 @@ static const char* entete_char_bulletins[] = {"R",
                                               "Nir"
                                              };
 
-#endif
+
 
 #endif // ENTETE_HPP
 
