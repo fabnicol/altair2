@@ -17,4 +17,4 @@ NeedsCompilation: yes
 Packaged: 2018-07-24 19:09:41 UTC; stephej1
 Repository: CRAN
 Date/Publication: 2018-07-25 15:40:03 UTC
-Built: R 3.5.1; x86_64-pc-linux-gnu; 2018-08-01 16:40:59 UTC; unix
+Built: R 3.6.0; x86_64-pc-linux-gnu; 2019-06-04 07:11:15 UTC; unix

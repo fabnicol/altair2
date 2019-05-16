@@ -6,7 +6,8 @@
 
 a=$(rc-status | grep ajuster_version | grep start)
 
-if test "$a" != ""; then
-  /home/fab/Dev/altair/linux/warning
+if test "y$a" != "y"; then
+ chmod +x  /home/fab/Dev/altair/linux/warning
+ exec /home/fab/Dev/altair/linux/warning
 fi
 

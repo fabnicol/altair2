@@ -9,7 +9,7 @@
 VERSION_TAG = $$system(cat ../VERSION)
 DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
 message("Version :  $$VERSION_TAG")
-QMAKE_CXX = /usr/bin/g++-8.2.0
+#QMAKE_CXX = /usr/bin/g++-8.2.0
 #QMAKE_LINK = /usr/bin/g++-5
 greaterThan(QT_MAJOR_VERSION, 5)
 

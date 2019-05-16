@@ -221,8 +221,8 @@ Altair::Altair()
     // ou actualiser l'interface
     connect (project->fileListWidget, SIGNAL (forceCloseProject()), this, SLOT (closeProject()));
     connect (project, SIGNAL (showProgressBar()), this, SIGNAL (showProgressBar()));
-    connect (project, SIGNAL (setProgressBar (long, long)), this, SIGNAL (setProgressBar (long, long)));
-    connect (project, SIGNAL (setProgressBar (long)), this, SIGNAL (setProgressBar (long)));
+    connect (project, SIGNAL (setProgressBar (int, int)), this, SIGNAL (setProgressBar (int, int)));
+    connect (project, SIGNAL (setProgressBar (int)), this, SIGNAL (setProgressBar (int)));
     connect (project, SIGNAL (textAppend (const QString&)), this, SLOT (textAppend (const QString&)));
     connect (project, SIGNAL (refreshRowPresentation (int)), this, SLOT (refreshRowPresentation (int)));
     connect (project, SIGNAL (updateProject (bool)), this, SLOT (updateProject (bool)));
@@ -633,7 +633,6 @@ bool Altair::updateProject (bool requestSave)
 
     if (parent->isDefaultSaveProjectChecked() || requestSave)
         writeProjectFile();
-
 
     Abstract::initH ("base", path_access (DONNEES_SORTIE));
 

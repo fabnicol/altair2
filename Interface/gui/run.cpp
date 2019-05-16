@@ -527,6 +527,9 @@ void Altair::run()
 
 void Altair::runRAltair()
 {
+
+    Abstract::refresh();  // pour actualiser les valeurs des v(...)  sans avoir à enregistrer de projet.
+
     textAppend (tr (STATE_HTML_TAG "Création du rapport d'analyse des données..."));
 
     process.setWorkingDirectory (path_access ("Tests/Exemple"));
@@ -540,9 +543,9 @@ void Altair::runRAltair()
     outputDir.remove ("altaïr.odt");
     outputDir.remove ("altaïr.docx");
 
-    if (parent->dialog && ! parent->dialog->extraTab->budgetCheckBox->isChecked()) QDir(common::path_access (DONNEES_XHL)).remove("paye_budget.csv");
+    if (parent->dialog &&  v(genererBudget).isFalse()) QDir(common::path_access (DONNEES_XHL)).remove("paye_budget.csv");
              
-    if (! v(enchainerRapports).isTrue())
+    if (v(enchainerRapports).isFalse())
         {
             process.start (RAltairCommandStr, QStringList() << path_access ("altaïr.Rproj"));
             return;

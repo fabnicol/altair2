@@ -366,6 +366,7 @@ void MainWindow::createActions()
 
     RAction->setIcon (RActionIcon);
 
+    connect (RAction, SIGNAL (triggered()), this, SLOT (createDialogs()));
     connect (RAction, SIGNAL (triggered()), altair, SLOT (runRAltair()));
 
     lhxAction = new QAction (tr ("Créer la base de données .csv"), this);

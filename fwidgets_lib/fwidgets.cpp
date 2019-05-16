@@ -428,9 +428,9 @@ const FString FListWidget::setXmlFromWidget()
 {
     if (Hash::wrapper[hashKey] == nullptr) return FString();
 
-    if (!Hash::wrapper.contains(hashKey)) return FString(FStringList().setEmptyTags(tags));
+    if (! Hash::wrapper.contains(hashKey)) return FString(FStringList().setEmptyTags(tags));
 
-    if (!listWidgetTranslationHash.isEmpty())
+    if (! listWidgetTranslationHash.isEmpty())
         commandLineList=QList<FString>() << translate(*Hash::wrapper[hashKey]);
     else
     {
@@ -510,11 +510,16 @@ void FCheckBox::uncheckDisabledBox()
     if (!this->isEnabled()) this->setChecked(false);
 }
 
+bool FCheckBox::refresh()
+{
+  if (! Hash::wrapper.contains(hashKey) || Hash::wrapper[hashKey] == nullptr) return false;
+  *Hash::wrapper[hashKey] = commandLineList[0].fromBool(this->isChecked());
+  return true;
+}
 
 const FString FCheckBox::setXmlFromWidget()
 {
-    if (Hash::wrapper[getHashKey()] == nullptr) return FString();
-       *Hash::wrapper[getHashKey()] = commandLineList[0].fromBool(this->isChecked());
+    if ( ! refresh()) return FString("non");
     return FString(commandLineList[0].toQStringRef());
 }
 
@@ -573,12 +578,17 @@ void FComboBox::fromCurrentIndex(const QString &text)
     if (commandLineList[0].isEmpty()) commandLineList[0] = FString("  ");
 }
 
+bool FComboBox::refresh()
+{
+    if (! Hash::wrapper.contains(hashKey) || Hash::wrapper[hashKey] == nullptr) return false;
+    *Hash::wrapper[getHashKey()] = FStringList(currentText());
+    return true;
+}
+
 const FString FComboBox::setXmlFromWidget()
 {
-    if (Hash::wrapper[hashKey] == nullptr) return FString();
-    QString str=currentText();
-    *Hash::wrapper[getHashKey()]=FStringList(str);
-    commandLineList[0] =  FString(! comboBoxTranslationHash.isEmpty() ? comboBoxTranslationHash.value(str) : "'" + str+ "'");
+    if (! refresh()) return FString();
+    commandLineList[0] =  FString(! comboBoxTranslationHash.isEmpty() ? comboBoxTranslationHash.value(currentText()) : "'" + currentText() + "'");
     if (commandLineList[0].isEmpty()) commandLineList[0] = FString("  ");
     return FString(commandLineList[0].toQStringRef());
 }
@@ -611,17 +621,18 @@ FLineEdit::FLineEdit(const QString &defaultString, int status, const QString &ha
     this->setText(defaultString);
 }
 
+bool FLineEdit::refresh()
+{
+  if (! Hash::wrapper.contains(hashKey) || Hash::wrapper[hashKey] == nullptr) return false;
+  *Hash::wrapper[getHashKey()] = FString(this->text());
+  return true;
+}
+
 const FString FLineEdit::setXmlFromWidget()
 {
-    if (Hash::wrapper[hashKey] == nullptr) return FString();
-
-    const QString& T0 = this->text();  // Attention le constructeur d'assignation par défaut sera le constructeur par déplacement
-    const QString& T1 = this->text();  // Il faut donc copier en forçant un typage const QString&
-
-    commandLineList[0] = FString(T0);
-    *Hash::wrapper[getHashKey()] = FString(T1);
-
-    return FString(T0);
+    if (!refresh()) return FString();
+    commandLineList[0] = FString(this->text());
+    return commandLineList[0];
 }
 
 void FLineEdit::setWidgetFromXml(const FStringList &s)
@@ -649,12 +660,11 @@ void FProgressBar::stop()
     internalState = State::Parsing;
 }
 
-
 void FProgressBar::computeLHXParsingProgressBar()
 {
     if (parent->process.state() != QProcess::Running) return;
 
-    long level = std::min(maximum(), this->parent->fileRank);
+    int level = std::min(maximum(), this->parent->fileRank);
 
     if(QDir(v(base)).entryList({"*.csv"}, QDir::Files).count() > 0)
     {
@@ -668,7 +678,6 @@ void FProgressBar::computeLHXParsingProgressBar()
     }
 
     setValue(level);
-
 }
 
 void FProgressBar::computeLHXWritingProgressBar(bool print_message)
@@ -753,8 +762,8 @@ FProgressBar::FProgressBar(FDialog* parent,
     connect(&(this->parent->process), SIGNAL(started()), this, SLOT(showProgressBar()));
     connect(killButton, &QToolButton::clicked, parent, killFunction);
     connect(&this->parent->process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(stop()));
-    connect(this->parent, SIGNAL(setProgressBar(long, long)), this, SLOT(setValue(long, long)));
-    connect(this->parent, SIGNAL(setProgressBar(long)), this, SLOT(setValue(long)));
+    connect(this->parent, SIGNAL(setProgressBar(int, int)), this, SLOT(setValue(int, int)));
+    connect(this->parent, SIGNAL(setProgressBar(int)), this, SLOT(setValue(int)));
     connect(this->parent, &FDialog::hideProgressBar, [this] { hide(); });
     connect(this->parent, &FDialog::showProgressBar, [this] { bar->reset(); bar->show(); killButton->show(); killButton->setEnabled(true);});
 
