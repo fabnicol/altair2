@@ -6,7 +6,7 @@
 
 a=$(rc-status | grep ajuster_version | grep start)
 
-if test "$a" != ""; then
+if test y$a != y; then
   /home/fab/Dev/altair/linux/warning
 fi
 
