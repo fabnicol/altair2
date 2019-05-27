@@ -741,7 +741,7 @@ standardPage::standardPage()
     
     FPHCheckBox = new FCheckBox ("Fonction publique hospitalière",         // Titre de la case à cocher
                                  flags::status::enabledUnchecked           // Décochée par défaut
-                                 | flags::commandLineType::noCommandLine,  // Pas de ligne de commande
+                                | flags::commandLineType::noCommandLine,  // ligne de commande
                                  "FPH",                                    // Balise XML du projet .alt
                                  {
                                     "Contrôle hospitalier",
@@ -992,7 +992,7 @@ processPage::processPage()
 
 
     QLabel* rapportTypeLabel = new QLabel ("Type de rapport produit par défaut  ");
-    rapportTypeWidget = new FComboBox ((QStringList() << "WORD, ODT et PDF" << "PDF" << "WORD et ODT"),
+    rapportTypeWidget = new FComboBox ((QStringList() << "WORD, ODT et PDF" << "WORD et ODT" << "PDF"),
                                        "rapportType",
     {
         "Enchaînements",
@@ -1017,7 +1017,7 @@ processPage::processPage()
                                    flags::status::enabledUnchecked
                                    | flags::commandLineType::noCommandLine
                                    | flags::status::excluded,  // exclu de la liste des widgets qui déclenche la ligne de commande
-                                   //ou l'importation/l'exportation de la valeur sur le projet XML.
+                                   //ou la l'importation/l'exportation de la valeur sur le projet XML.
                                    "rapportEntier",
                                     {
                                         "Version expérimentale",
@@ -1032,19 +1032,25 @@ processPage::processPage()
     {
 
         const std::string &root = path_access (".").toStdString();
-        int current_git_branch = system (std::string ("cd " + root + " && test \"$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)\" = \"dev\"").c_str());
+        int current_git_branch = system (std::string ("cd " + root + " && test \"$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)\" = \"master-jf\"").c_str());
+        int current_git_branch2 = 1;
+        if (current_git_branch  != 0) current_git_branch2 = system (std::string ("cd " + root + " && test \"$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)\" = \"dev\"").c_str());
 
         if (rapportEntier->isChecked())
             {
-                if (current_git_branch == 0)
+                if (current_git_branch == 0 || current_git_branch2 == 0)
                     {
                         // La branche courante est la branch Test
                         return;
                     }
 
-                int res  = system (std::string ("cd " + root + " && git rev-parse --verify dev").c_str());
+                int res  = system (std::string ("cd " + root + " && git rev-parse --verify master-jf").c_str());
                 
-                if (res != 0)
+                int res2 = 1;
+                
+                if (res != 0) res2 = system (std::string ("cd " + root + " && git rev-parse --verify dev").c_str());
+
+                if (res != 0 && res2 != 0)
                     {
                         Q ("La branche Test n'est pas déployée.")
                         return;
@@ -1052,6 +1058,8 @@ processPage::processPage()
 
                 Q ("Basculement vers la version Test.<br>Cela peut prendre une ou deux minutes.")
                 if (res == 0)        
+                    res = system (std::string ("cd " + root + " && git checkout -f master-jf").c_str());
+                else // res2 = 0
                     res = system (std::string ("cd " + root + " && git checkout -f dev").c_str());
 
                 if (res == 0)
@@ -1131,9 +1139,12 @@ processPage::processPage()
 
     // provisoire
     const std::string &root = path_access (".").toStdString();
-    int current_git_branch = system(std::string ("cd " + root + " && test \"$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)\" = \"dev\"").c_str());
+    int current_git_branch = system(std::string ("cd " + root + " && test \"$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)\" = \"master-jf\"").c_str());
     
-    rapportEntier->setChecked(current_git_branch == 0);
+    int current_git_branch2 = 1;
+    current_git_branch2 = system(std::string ("cd " + root + " && test \"$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)\" = \"dev\"").c_str());
+    
+    rapportEntier->setChecked(current_git_branch == 0 || current_git_branch2  == 0);
         
     reinitialiser_prologue();
 }

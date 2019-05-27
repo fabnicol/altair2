@@ -111,7 +111,7 @@ public:
 
     static constexpr std::uint16_t hasUnsavedOptions = 0x0;   ///< Caractérise des nouveaux paramètres non sauvegardés dans le projet \b .alt
     static constexpr std::uint16_t hasSavedOptions = 0x1;     ///< Caractérise des nouveaux paramètres sauvegardés dans le projet \b .alt
-    static constexpr std::uint16_t hasSavedOptionsMask = 0xF; ///< Masque des nouveaux paramètres sauvegardés dans le projet \b .alt
+    static constexpr std::uint16_t savedOptionsMask = 0xF; ///< Masque des nouveaux paramètres sauvegardés dans le projet \b .alt
     static constexpr std::uint16_t tree = 0x0010;             ///< Gestionnaire de projets à raffraichir à la première occasion
     static constexpr std::uint16_t treeMask = 0x00F0;         ///< Masque correspondant à  tree
     static constexpr std::uint16_t saveTree = 0x0100;         ///< Ouvrir le fichier projet pour le modifier

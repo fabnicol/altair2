@@ -56,7 +56,7 @@
 using namespace std;
 
 extern mutex mut;
-extern uint64_t   parseLignesPaye (xmlN* cur, info_t& info);
+extern uint64_t   parseLignesPaye (xmlNodePtr cur, info_t& info);
 extern vector<errorLine_t>  errorLineStack;
 extern int rang_global;
 
@@ -115,11 +115,11 @@ static int parseFile (info_t& info)
 //    de la non-conformité. */
 
     ofstream log;
-    xmlD* doc;
-    xmlN* cur = nullptr;
+    xmlDocPtr doc;
+    xmlNodePtr cur = nullptr;
     info.NAgent[info.fichier_courant] = 0;
-    xmlN* cur_save = cur;
-    xmlT *annee_fichier = nullptr,
+    xmlNodePtr cur_save = cur;
+    xmlChar *annee_fichier = nullptr,
              *mois_fichier = nullptr,
               *employeur_fichier = nullptr,
                *etablissement_fichier = nullptr,
@@ -127,9 +127,9 @@ static int parseFile (info_t& info)
                  *budget_fichier = nullptr;
 
 #if defined(STRINGSTREAM_PARSING)
-    doc = xmlReadDoc (reinterpret_cast<const xmlT*> (info.threads->in_memory_file.at (info.fichier_courant).c_str()), nullptr, nullptr, XML_PARSE_COMPACT | XML_PARSE_BIG_LINES);
+    doc = xmlReadDoc (reinterpret_cast<const xmlChar*> (info.threads->in_memory_file.at (info.fichier_courant).c_str()), nullptr, nullptr, XML_PARSE_COMPACT | XML_PARSE_BIG_LINES);
 //#elif defined (MMAP_PARSING)
-//    doc = xmlParseDoc (reinterpret_cast<const xmlT*> (info.threads->in_memory_file.at (info.fichier_courant).c_str()));
+//    doc = xmlParseDoc (reinterpret_cast<const xmlChar*> (info.threads->in_memory_file.at (info.fichier_courant).c_str()));
 #else
     doc = xmlReadFile (info.threads->argv.at (info.fichier_courant).c_str(), nullptr, XML_PARSE_BIG_LINES);
 #endif
@@ -178,13 +178,13 @@ static int parseFile (info_t& info)
             }
     }
 
-    cur =  fils_xml(cur);
+    cur =  cur->xmlChildrenNode;
 
     cur = atteindreNoeud ("Annee", cur);
 
     if (cur != nullptr)
         {
-            annee_fichier = prop_xml (cur,  "V");
+            annee_fichier = xmlGetProp (cur, (const xmlChar *) "V");
             int annee;
             annee = (annee_fichier[0] == '\0') ? 0 : atoi ((const char*) annee_fichier);
 
@@ -233,7 +233,7 @@ static int parseFile (info_t& info)
 
     if (cur != nullptr)
         {
-            mois_fichier = prop_xml (cur, "V");
+            mois_fichier = xmlGetProp (cur, (const xmlChar *) "V");
             int mois = atoi ((const char*) mois_fichier);
 
             if (mois <= 0 || mois > 12)
@@ -281,13 +281,13 @@ static int parseFile (info_t& info)
     if (cur != nullptr)
         {
             cur_save = cur;
-            cur =  fils_xml(cur);
-            budget_fichier = prop_xml (cur,  "V");
+            cur =  cur->xmlChildrenNode;
+            budget_fichier = xmlGetProp (cur, (const xmlChar *) "V");
 
             if (budget_fichier == nullptr || budget_fichier[0] == '\0')
                 {
-                    if (budget_fichier  != nullptr) free_xml (budget_fichier);
-                    budget_fichier = copier_xml (NA_STRING);
+                    if (budget_fichier  != nullptr) xmlFree (budget_fichier);
+                    budget_fichier = xmlStrdup (NA_STRING);
 
                     if (verbeux)
                         {
@@ -302,7 +302,7 @@ static int parseFile (info_t& info)
         }
     else
         {
-            budget_fichier = copier_xml (NA_STRING);
+            budget_fichier = xmlStrdup (NA_STRING);
 
             if (verbeux)
                 {
@@ -356,8 +356,8 @@ static int parseFile (info_t& info)
 
             if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
 
-            employeur_fichier = copier_xml (NA_STRING);
-            siret_fichier = copier_xml (NA_STRING);
+            employeur_fichier = xmlStrdup (NA_STRING);
+            siret_fichier = xmlStrdup (NA_STRING);
             cur = cur_save;
         }
     else
@@ -368,9 +368,9 @@ static int parseFile (info_t& info)
 
             do
                 {
-                    cur =  fils_xml(cur);
+                    cur =  cur->xmlChildrenNode;
 
-                    if (cur == nullptr || blanc_xml (cur))
+                    if (cur == nullptr || xmlIsBlankNode (cur))
                         {
                             cerr << ERROR_HTML_TAG "Pas de données sur le nom de l'employeur [non-conformité à la norme]." ENDL;
 
@@ -380,8 +380,8 @@ static int parseFile (info_t& info)
                                     mut.unlock();
                                 }
 
-                            employeur_fichier = copier_xml (NA_STRING);
-                            siret_fichier = copier_xml (NA_STRING);
+                            employeur_fichier = xmlStrdup (NA_STRING);
+                            siret_fichier = xmlStrdup (NA_STRING);
                             break;
                         }
 
@@ -389,20 +389,20 @@ static int parseFile (info_t& info)
 
                     if (cur != nullptr)
                         {
-                            employeur_fichier = prop_xml (cur, "V");
+                            employeur_fichier = xmlGetProp (cur, (const xmlChar *) "V");
                             cur = (cur) ? cur->next : nullptr;
                         }
                     else
                         {
                             cerr << ERROR_HTML_TAG "Employeur non identifié [non-conformité à la norme]." ENDL;
-                            employeur_fichier = copier_xml (NA_STRING);
+                            employeur_fichier = xmlStrdup (NA_STRING);
                         }
 
                     if (cur != nullptr) cur = atteindreNoeud ("Siret", cur);
 
                     if (cur != nullptr)
                         {
-                            siret_fichier = prop_xml (cur, "V");
+                            siret_fichier = xmlGetProp (cur, (const xmlChar *) "V");
 
                             if (siret_fichier[0] == '\0')
                                 {
@@ -416,8 +416,8 @@ static int parseFile (info_t& info)
 
                                     if (verbeux)  cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
 
-                                    free_xml (siret_fichier);
-                                    siret_fichier = copier_xml (NA_STRING);
+                                    xmlFree (siret_fichier);
+                                    siret_fichier = xmlStrdup (NA_STRING);
 
                                 }
                         }
@@ -429,7 +429,7 @@ static int parseFile (info_t& info)
 
                             cerr << "Année " << annee_fichier
                                  << " Mois "  << mois_fichier << ENDL;
-                            siret_fichier = copier_xml (NA_STRING);
+                            siret_fichier = xmlStrdup (NA_STRING);
                         }
 
                 }
@@ -459,7 +459,7 @@ DI :
 
     cur = atteindreNoeud ("DonneesIndiv", cur);
 
-    if (cur == nullptr || blanc_xml (cur))
+    if (cur == nullptr || xmlIsBlankNode (cur))
         {
             cerr << ERROR_HTML_TAG "Pas de données individuelles de paye [DonneesIndiv, non conformité à la norme]." ENDL;
             warning_msg ("la balise DonneesIndiv", info, cur);
@@ -475,7 +475,7 @@ DI :
 
             if (verbeux) cerr << PROCESSING_HTML_TAG "Reste du fichier omis";
 
-            long lineN = ligne_xml (cur);
+            long lineN = xmlGetLineNo (cur);
 
             if (lineN != 65535 && lineN != -1)
                 {
@@ -497,11 +497,11 @@ DI :
     while (cur != nullptr)
         {
             cur_save = cur;
-            xmlN* cur_save2 = nullptr;
-            cur =  fils_xml(cur);  // Niveau Etablissement et PayeIndivMensuel
+            xmlNodePtr cur_save2 = nullptr;
+            cur =  cur->xmlChildrenNode;  // Niveau Etablissement et PayeIndivMensuel
             cur_save2 = cur;
 
-            if (cur == nullptr || blanc_xml (cur))
+            if (cur == nullptr || xmlIsBlankNode (cur))
                 {
                     cerr << ERROR_HTML_TAG "Pas de données individuelles de paye [non conformité à la norme]." ENDL;
 
@@ -518,7 +518,7 @@ DI :
 
                     if (verbeux) cerr << PROCESSING_HTML_TAG "La paire de balises DonneesIndiv vides est omise, ";
 
-                    long lineN = ligne_xml (cur);
+                    long lineN = xmlGetLineNo (cur);
 
                     if (lineN != 65535 && lineN != -1)
                         {
@@ -557,7 +557,7 @@ DI :
                             cerr << STATE_HTML_TAG "Pas d'information sur l'Etablissement" ENDL;
                         }
 
-                    etablissement_fichier = copier_xml (NA_STRING);
+                    etablissement_fichier = xmlStrdup (NA_STRING);
                 }
             else
                 {
@@ -582,9 +582,9 @@ DI :
 
                     do
                         {
-                            cur =  fils_xml(cur);
+                            cur =  cur->xmlChildrenNode;
 
-                            if (cur == nullptr || blanc_xml (cur))
+                            if (cur == nullptr || xmlIsBlankNode (cur))
                                 {
                                     warning_msg ("les données nominales de l'établissement [non-conformité]", info, cur);
 
@@ -597,7 +597,7 @@ DI :
 
                                     if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
 
-                                    etablissement_fichier = copier_xml (NA_STRING);
+                                    etablissement_fichier = xmlStrdup (NA_STRING);
 
                                     // on garde le siret de l'employeur
 
@@ -608,7 +608,7 @@ DI :
 
                             if (cur != nullptr)
                                 {
-                                    etablissement_fichier = prop_xml(cur, "V");
+                                    etablissement_fichier = xmlGetProp (cur, (const xmlChar *) "V");
 
                                     if (etablissement_fichier[0] == '\0')
                                         {
@@ -622,8 +622,8 @@ DI :
 
                                             if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
 
-                                            free_xml (etablissement_fichier);
-                                            etablissement_fichier = copier_xml (NA_STRING);
+                                            xmlFree (etablissement_fichier);
+                                            etablissement_fichier = xmlStrdup (NA_STRING);
                                         }
 
                                     cur = (cur) ? cur->next : nullptr;
@@ -641,7 +641,7 @@ DI :
 
                                     if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
 
-                                    etablissement_fichier = copier_xml (NA_STRING);
+                                    etablissement_fichier = xmlStrdup (NA_STRING);
 
                                     // on garde le siret de l'employeur
                                 }
@@ -653,8 +653,8 @@ DI :
 
                             if (cur != nullptr)
                                 {
-                                    free_xml (siret_fichier);
-                                    siret_fichier = prop_xml (cur,  "V");
+                                    xmlFree (siret_fichier);
+                                    siret_fichier = xmlGetProp (cur, (const xmlChar *) "V");
 
                                     if (siret_fichier[0] == '\0')
                                         {
@@ -668,8 +668,8 @@ DI :
 
                                             if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
 
-                                            free_xml (siret_fichier);
-                                            siret_fichier = copier_xml (NA_STRING);
+                                            xmlFree (siret_fichier);
+                                            siret_fichier = xmlStrdup (NA_STRING);
                                         }
                                 }
                             else
@@ -681,7 +681,7 @@ DI :
                                     exit (-517);
 #endif
                                     warning_msg ("les données de Siret de l'établissement [non-conformité]", info, cur);
-                                    siret_fichier = copier_xml (NA_STRING);
+                                    siret_fichier = xmlStrdup (NA_STRING);
                                 }
 
                         }
@@ -739,7 +739,7 @@ DI :
                     cur = atteindreNoeud ("PayeIndivMensuel", cur);
 
 
-                    if (cur == nullptr || fils_xml(cur) == nullptr || blanc_xml (fils_xml(cur)))
+                    if (cur == nullptr || cur->xmlChildrenNode == nullptr || xmlIsBlankNode (cur->xmlChildrenNode))
                         {
                             LOCK_GUARD
                             cerr << ERROR_HTML_TAG "Pas d'information sur les lignes de paye [non-conformité à la norme : absence de balise PayeIndivMensuel après DonneesIndiv]." ENDL;
@@ -769,31 +769,31 @@ DI :
                             continue;
                         }
 
-                    // ici on sait que fils_xml(cur) est non vide
+                    // ici on sait que cur->xmlChildrenNode est non vide
 
                     cur_save2 = cur;
-                    cur = fils_xml(cur);  // Niveau Agent
+                    cur = cur->xmlChildrenNode;  // Niveau Agent
 
                     if (skip_siret || skip_employeur || skip_budget)
                         {
-                            info.Table[info.NCumAgentXml][Annee] = copier_xml ((const xmlT*)"*");
+                            info.Table[info.NCumAgentXml][Annee] = xmlStrdup ((const xmlChar*)"*");
 
                             for (int i = Annee + 1 ; i < memoire_p_ligne (info, info.NCumAgentXml) ; ++i)
-                                info.Table[info.NCumAgentXml][i] = copier_xml ((const xmlT*)""); // pas nullptr
+                                info.Table[info.NCumAgentXml][i] = xmlStrdup ((const xmlChar*)""); // pas nullptr
                         }
                     else
                         {
                             // remarque atoi retourne zéro s'il rencontre "" ou des caractères non numériques
 
-                            info.Table[info.NCumAgentXml][Annee] = copier_xml (annee_fichier);
-                            info.Table[info.NCumAgentXml][Mois]  = copier_xml (mois_fichier);
-                            info.Table[info.NCumAgentXml][Budget] = copier_xml (budget_fichier);
-                            info.Table[info.NCumAgentXml][Employeur]  = copier_xml (employeur_fichier);
+                            info.Table[info.NCumAgentXml][Annee] = xmlStrdup (annee_fichier);
+                            info.Table[info.NCumAgentXml][Mois]  = xmlStrdup (mois_fichier);
+                            info.Table[info.NCumAgentXml][Budget] = xmlStrdup (budget_fichier);
+                            info.Table[info.NCumAgentXml][Employeur]  = xmlStrdup (employeur_fichier);
 
                             // Nota : le Siret est, si l'établissement existe, celui de l'établissement, sinon celui de l'Employeur
 
-                            info.Table[info.NCumAgentXml][Siret]  = copier_xml (siret_fichier);
-                            info.Table[info.NCumAgentXml][Etablissement]  = copier_xml (etablissement_fichier);
+                            info.Table[info.NCumAgentXml][Siret]  = xmlStrdup (siret_fichier);
+                            info.Table[info.NCumAgentXml][Etablissement]  = xmlStrdup (etablissement_fichier);
 
                             // LECTURE DES LIGNES DE PAYE STRICTO SENSU
 
@@ -887,14 +887,14 @@ DI :
 #endif
                 }
 
-            free_xml (etablissement_fichier);
+            xmlFree (etablissement_fichier);
 
             // si pas d'établissement (NA_STRING) alors on utilise le siret de l'empoyeur, donc
             // ne pas libérer dans ce cas !
 
             cur = cur_save->next;  // next DonneesIndiv
 
-            if (cur == nullptr || comp_xml (cur->name, (const xmlT*) "DonneesIndiv")) break;  // on ne va pas envoyer un message d'absence de DonneesIndiv si on a fini la boucle...
+            if (cur == nullptr || xmlStrcmp (cur->name, (const xmlChar*) "DonneesIndiv")) break;  // on ne va pas envoyer un message d'absence de DonneesIndiv si on a fini la boucle...
         }
 
 
@@ -913,12 +913,12 @@ out :
 
 
     if (siret_etablissement )
-        free_xml (siret_fichier);
+        xmlFree (siret_fichier);
 
-    free_xml (annee_fichier);
-    free_xml (mois_fichier);
-    free_xml (budget_fichier);
-    free_xml (employeur_fichier);
+    xmlFree (annee_fichier);
+    xmlFree (mois_fichier);
+    xmlFree (budget_fichier);
+    xmlFree (employeur_fichier);
 
     if (! info.generer_bulletins)
         info.threads->in_memory_file.at (info.fichier_courant).clear();
@@ -958,10 +958,10 @@ static inline void GCC_INLINE allouer_memoire_table (info_t& info)
         {
             for (unsigned agent = 0; agent < info.NCumAgent; ++agent)
                 {
-                    for (xmlT* a : info.Table[agent])
+                    for (xmlChar* a : info.Table[agent])
                         {
                           if (a)
-                             free_xml (a);
+                             xmlFree (a);
                         }
                 }
         }
@@ -1004,9 +1004,9 @@ static inline void GCC_INLINE allouer_memoire_table (info_t& info)
 
 /// Fonction permettant de convertir très efficacement les caractères accentués UTF-8 ou Latin-1 en caractères non accentués
 /// et d'effacer les octets superflus après remplacement par des caractères non accentués.
-/// \param c Caractère au format xmlT*
+/// \param c Caractère au format xmlChar*
 
-inline void GCC_INLINE normaliser_accents (xmlT* c)
+inline void GCC_INLINE normaliser_accents (xmlChar* c)
 {
     // la représentation interne est UTF-8 donc les caractères accentués sont sur 2 octets : é = 0xc3a8 etc.
 
@@ -1249,12 +1249,12 @@ void* parse_info (info_t& info)
 
 #ifdef NORMALISER_ACCENTS
 
-            xmlT* em = VAR (EmploiMetier);
-            xmlT* gr = VAR (Grade);
+            xmlChar* em = VAR (EmploiMetier);
+            xmlChar* gr = VAR (Grade);
 #else
 
-            xmlT* em = copier_xml (VAR (EmploiMetier));
-            xmlT* gr = copier_xml (VAR (Grade));
+            xmlChar* em = xmlStrdup (VAR (EmploiMetier));
+            xmlChar* gr = xmlStrdup (VAR (Grade));
 
 #endif
 
@@ -1266,9 +1266,9 @@ void* parse_info (info_t& info)
 #           ifdef INCLURE_REG_ELUS
               if (regex_match ((const char*)em, pat))
                  {
-                    free_xml (VAR (Statut)) ;
-                    VAR (Statut) =  copier_xml ((const xmlT*)"ELU");
-                    VAR (Catégorie) = copier_xml (NA_STRING);
+                    xmlFree (VAR (Statut)) ;
+                    VAR (Statut) =  xmlStrdup ((const xmlChar*)"ELU");
+                    VAR (Catégorie) = xmlStrdup (NA_STRING);
                  }
             else
 #           endif                                
@@ -1278,8 +1278,8 @@ void* parse_info (info_t& info)
 #                   ifdef INCLURE_REG_VACATAIRES 
                     if (regex_match ((const char*) em, pat2))
                         {
-                            free_xml (VAR (Grade));
-                            VAR (Grade) = (xmlT*) copier_xml ((const xmlT*)"V");
+                            xmlFree (VAR (Grade));
+                            VAR (Grade) = (xmlChar*) xmlStrdup ((const xmlChar*)"V");
                         }
                     else 
 #                   endif
@@ -1289,37 +1289,37 @@ void* parse_info (info_t& info)
 #                   ifdef INCLURE_REG_ASSMAT                    
                     if (regex_match ((const char*) em, pat3))
                         {
-                            free_xml (VAR (Grade));
-                            VAR (Grade) = (xmlT*) copier_xml ((const xmlT*)"A");
+                            xmlFree (VAR (Grade));
+                            VAR (Grade) = (xmlChar*) xmlStrdup ((const xmlChar*)"A");
                         }
 #                   endif
                     ///////////////////////////////////////////////
                     // identification des catégories A, B, C     //
                     ///////////////////////////////////////////////
 
-                    // gestion de mémoire : ne pas allouer avec copier_xml et ne pas libérer
+                    // gestion de mémoire : ne pas allouer avec xmlStrdup et ne pas libérer
                     // à la fin de main.cpp dans la double boucle de libération de mémoire car
                     // A, B, C, NA ne sont pas alloués sur le tas.
 
                     if (regex_match ((const char*) gr, pat_adjoints)
                             || regex_match ((const char*) gr, pat_agents))
                         {
-                            VAR (Categorie) = copier_xml ((xmlT*)"C");
+                            VAR (Categorie) = xmlStrdup ((xmlChar*)"C");
                         }
                     else if (regex_match ((const char*) gr, pat_cat_a))
                         {
-                            VAR (Categorie) = copier_xml ((xmlT*)"A");
+                            VAR (Categorie) = xmlStrdup ((xmlChar*)"A");
                         }
 
                     // Il faut tester d'abord cat A et seulement ensuite cat B
 
                     else if (regex_match ((const char*) gr, pat_cat_b))
                         {
-                            VAR (Categorie) = copier_xml ((xmlT*)"B");
+                            VAR (Categorie) = xmlStrdup ((xmlChar*)"B");
                         }
                     else
                         {
-                            VAR (Categorie) = copier_xml (NA_STRING);
+                            VAR (Categorie) = xmlStrdup (NA_STRING);
                         }
                 }
 
@@ -1333,8 +1333,8 @@ void* parse_info (info_t& info)
                     for (int j = BESOIN_MEMOIRE_ENTETE; j < info.NLigne[agent]; ++j)
                         if (regex_match ((const char*) VAR (j), pat2))
                             {
-                                free_xml (VAR (Grade));
-                                VAR (Grade) = (xmlT*) copier_xml ((const xmlT*)"V");
+                                xmlFree (VAR (Grade));
+                                VAR (Grade) = (xmlChar*) xmlStrdup ((const xmlChar*)"V");
                             }
                 }
             else
@@ -1342,14 +1342,14 @@ void* parse_info (info_t& info)
                     for (int j = BESOIN_MEMOIRE_ENTETE ; j < info.NLigne[agent] && info.Table[agent][j] != nullptr; ++j)
                         if (regex_match ((const char*) VAR (j), pat2))
                             {
-                                free_xml (VAR (Grade));
-                                VAR (Grade) = (xmlT*) copier_xml ((const xmlT*)"V");
+                                xmlFree (VAR (Grade));
+                                VAR (Grade) = (xmlChar*) xmlStrdup ((const xmlChar*)"V");
                             }
                 }
 #        endif 
 #ifndef NORMALISER_ACCENTS
-            free_xml (em);
-            free_xml (gr);
+            xmlFree (em);
+            xmlFree (gr);
 #endif
         }
 

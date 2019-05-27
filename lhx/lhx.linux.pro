@@ -46,7 +46,7 @@ if (linux) {
   error("Le système d'exploitation doit être linux")
 }
 
-#QMAKE_CXX=/usr/bin/g++-8.1.0
+QMAKE_CXX=/usr/bin/g++
 GIT_VERSION = $$system(git --version | grep -e \'git version\')
 CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
 
@@ -168,7 +168,7 @@ INCLUDEPATH += ../Interface/gui ../fwidgets_lib /usr/include/libxml2
 
 LIBS =  -L/usr/lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/local/lib64 -lstdc++fs -static-libgcc -static-libstdc++ -pthread -lxml2
 
-SOURCES += \ 
+SOURCES += \
     fonctions_auxiliaires.cpp \
     main.cpp \
     table.cpp \
@@ -193,8 +193,7 @@ HEADERS += \
     ligne_paye.h \
     recherche.h \
     validator.h \
-    xmlconv.h \
-    xml_lib.h
+    xmlconv.h
 
 contains(DEFINES, TINYXML2) {
   HEADERS += tinyxml2.h xmlconv.h

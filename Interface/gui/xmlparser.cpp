@@ -105,10 +105,10 @@ void Altair::writeProjectFile()
 {
     checkEmptyProjectName();
     QFile projectFile (projectName);
+    QErrorMessage *errorMessageDialog = new QErrorMessage (this);
+
     if (projectFile.isOpen()) projectFile.close();
 
-#ifdef ERROR_MSG_PROJECT
-    QErrorMessage *errorMessageDialog = new QErrorMessage (this);
     if (! projectFile.open (QFile::WriteOnly | QFile::Truncate | QFile::Text))
         {
             errorMessageDialog->showMessage ("Impossible d'ouvrir le fichier du projet " + projectName + "\n" + qPrintable (projectFile.errorString()));
@@ -117,14 +117,6 @@ void Altair::writeProjectFile()
                                      "ne s'affichera plus à  nouveau."));
             return;
         }
-#else
-    if (! projectFile.open (QFile::WriteOnly | QFile::Truncate | QFile::Text))
-    {
-      projectName = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + QDir::separator() + "défaut.alt";   // fail-safe
-      writeProjectFile();
-    }
-    
-#endif
 
     QTextStream out (&projectFile);
     out.setCodec ("UTF-8");
@@ -654,7 +646,7 @@ void Altair::refreshProjectManagerValues (std::uint16_t refreshProjectManagerFla
     XmlMethod::itemParent = item;
     QStringList L = Hash::wrapper.keys();
 
-    for (int k = 1; k < Abstract::abstractWidgetList.count(); ++k)
+    for (int k = 1; k < Abstract::abstractWidgetList.count(); k++)
         {
             const QString& key = Abstract::abstractWidgetList[k]->getHashKey();
 

@@ -45,8 +45,8 @@ using namespace std;
 /// \author  Fabrice Nicol
 /// \brief   Ce fichier contient le code relatif au traitement individuel des lignes de paye
 
-/// Assigne la valeur NA_STRING de type xmlT* à l'élément courant de info.Table
-/// \details Assignation sur le tas à libérer par free_xml. \n
+/// Assigne la valeur NA_STRING de type xmlChar* à l'élément courant de info.Table
+/// \details Assignation sur le tas à libérer par xmlFree. \n
 ///          \note Sur les valeurs manquantes \n
 ///          Pour des variables caractères : NA (#NA_ASSIGN) \n
 ///          Pour des variables pseudo-numériques (caractères convertibles en numériques) :\n
@@ -56,18 +56,18 @@ using namespace std;
 ///          \e NbHeureTotal, \e NbHeureSup, \e MtBrut, \e MtNet, \e MtNetAPayer ne sont \n
 ///          jamais NA mais à 0
 
-#define NA_ASSIGN(X)        info.Table[info.NCumAgentXml][X] = (xmlT*) copier_xml(NA_STRING)
+#define NA_ASSIGN(X)        info.Table[info.NCumAgentXml][X] = (xmlChar*) xmlStrdup(NA_STRING)
 
 
-/// Assigne la valeur "0" de type xmlT* à l'élément courant de info.Table
-/// \details Assignation sur le tas à libérer par free_xml.
+/// Assigne la valeur "0" de type xmlChar* à l'élément courant de info.Table
+/// \details Assignation sur le tas à libérer par xmlFree.
 
-#define ZERO_ASSIGN(X)      info.Table[info.NCumAgentXml][X] = (xmlT*) copier_xml((const xmlT*) "0")
+#define ZERO_ASSIGN(X)      info.Table[info.NCumAgentXml][X] = (xmlChar*) xmlStrdup((const xmlChar*) "0")
 
 /* Remplace les occurrences d'un caractère séparateur à l'intérieur d'un champ par le caractère '_' qui ne doit donc jamais
    être séparateur de champ (c'est bien rare !) */
 
-/// Remplace les occurrences d'un caractère à l'intérieur d'une chaîne xmlT* par le \n
+/// Remplace les occurrences d'un caractère à l'intérieur d'une chaîne xmlChar* par le \n
 /// caractère '_'. \n
 /// \b Windows Convertit l'encodage de la chaîne UTF-8 en Latin-1. \n
 ///          \b Autres Pas de conversion.
@@ -101,7 +101,7 @@ using namespace std;
 ///  \note A surveiller en cas de développement Windows.
 
 
-static void GCC_INLINE sanitize (xmlT* s,  const char sep)
+static void GCC_INLINE sanitize (xmlChar* s,  const char sep)
 {
 
     while (*s != 0)
@@ -171,11 +171,11 @@ static void GCC_INLINE sanitize (xmlT* s,  const char sep)
 /// Sinon appelle #sanitize et retourne \b #NODE_FOUND \n
 /// \return  \b #NODE_FOUND sauf si \b #LINE_MEMORY_EXCEPTION ou \b #NO_NEXT_ITEM.
 
-static inline int GCC_INLINE Bulletin (const char*  tag, xmlN*& cur, int l, info_t& info)
+static inline int GCC_INLINE Bulletin (const char*  tag, xmlNodePtr& cur, int l, info_t& info)
 {
 // attention faire en sorte que cur ne soit JAMAIS nul en entrée ou en sortie
 
-    const xmlN* nextcur = atteindreNoeud (tag, cur);
+    const xmlNodePtr nextcur = atteindreNoeud (tag, cur);
 
     if ( nullptr == nextcur)
         {
@@ -186,7 +186,7 @@ static inline int GCC_INLINE Bulletin (const char*  tag, xmlN*& cur, int l, info
 
 
     if ((info.Table[info.NCumAgentXml][l]
-            = prop_xml (nextcur,  "V"))
+            = xmlGetProp (nextcur, (const xmlChar *) "V"))
             == nullptr)
 
         return LINE_MEMORY_EXCEPTION;
@@ -225,7 +225,7 @@ static inline int GCC_INLINE Bulletin (const char*  tag, xmlN*& cur, int l, info
 /// de code -1.
 
 
-static inline bool GCC_INLINE bulletin_obligatoire (const char* tag, xmlN*& cur, int l,  info_t& info)
+static inline bool GCC_INLINE bulletin_obligatoire (const char* tag, xmlNodePtr& cur, int l,  info_t& info)
 {
 
 //     attention faire en sorte que cur ne soit JAMAIS nul
@@ -312,9 +312,9 @@ static inline bool GCC_INLINE bulletin_obligatoire (const char* tag, xmlN*& cur,
 /// \param decimal séparateur décimal substitué à '.'
 /// \note potentiellement optimisable
 
-static void GCC_INLINE substituer_separateur_decimal (xmlT* ligne, const char decimal)
+static void GCC_INLINE substituer_separateur_decimal (xmlChar* ligne, const char decimal)
 {
-    const int size = longueur_xml (ligne);
+    const int size = xmlStrlen (ligne);
 
     for (int i = 0; i < size; ++i)
         if (ligne[i] == '.') ligne[i] = decimal;
@@ -342,7 +342,7 @@ static void GCC_INLINE substituer_separateur_decimal (xmlT* ligne, const char de
 ///
 
 static inline bool GCC_INLINE bulletin_optionnel_char (const char* tag,
-        xmlN*& cur,
+        xmlNodePtr& cur,
         int l,
         info_t& info)
 {
@@ -419,7 +419,7 @@ static inline bool GCC_INLINE bulletin_optionnel_char (const char* tag,
 
 
 static inline bool GCC_INLINE bulletin_optionnel_numerique (const char* tag,
-        xmlN*& cur,
+        xmlNodePtr& cur,
         int l,
         info_t& info)
 {
@@ -502,7 +502,7 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique (const char* tag,
 /// \note Dans ce cas, si la compilation est définie avec STRICT, sortie du programme
 /// de code -1.
 
-static inline bool GCC_INLINE bulletin_obligatoire_numerique (const char* tag, xmlN*& cur, int l, info_t& info)
+static inline bool GCC_INLINE bulletin_obligatoire_numerique (const char* tag, xmlNodePtr& cur, int l, info_t& info)
 {
     // attention faire en sorte que cur ne soit JAMAIS nul
 
@@ -604,7 +604,7 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique (const char* tag, x
 ///
 /// \subsection subsec3 Analyse des drapeaux
 /// \subsubsection drap Définition d'un drapeau
-/// Un \em drapeau est une chaîne de caractères xmlT du type "1", "2", ..., "n",
+/// Un \em drapeau est une chaîne de caractères xmlChar du type "1", "2", ..., "n",
 /// n < #nbType \n
 /// Les drapeaux sont stockés dans le tableau statique #drapeau \n
 /// Ils encodent chacune des catégories successives de ligne de paye décrites par l'annexe
@@ -675,7 +675,7 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique (const char* tag, x
 /// circonstances décrites par \ref rebouclage ou s'il y a erreur d'allocation de la copie
 /// des drapeaux.
 
-static inline LineCount lignePaye (xmlN* cur, info_t& info)
+static inline LineCount lignePaye (xmlNodePtr cur, info_t& info)
 {
     int l = BESOIN_MEMOIRE_ENTETE;
 
@@ -684,7 +684,7 @@ static inline LineCount lignePaye (xmlN* cur, info_t& info)
     unsigned int t = 0;
 
 //  +1 pour éviter la confusion avec \0 des chaines vides
-    info.Table[info.NCumAgentXml][l] = (xmlT*) copier_xml (drapeau[t]);
+    info.Table[info.NCumAgentXml][l] = (xmlChar*) xmlStrdup (drapeau[t]);
     ++l;
 
 //  Besoins en mémoire :
@@ -697,10 +697,10 @@ static inline LineCount lignePaye (xmlN* cur, info_t& info)
         {
             bool new_type = false;
 
-            while (comp_xml (cur->name, (const xmlT *) type_remuneration[t]))
+            while (xmlStrcmp (cur->name, (const xmlChar *) type_remuneration[t]))
                 {
                     // Cas rare dans lequel <Remuneration> n'existe pas
-                    if (comp_xml (cur->name, (const xmlT *) "NbHeureTotal") == 0)
+                    if (xmlStrcmp (cur->name, (const xmlChar *) "NbHeureTotal") == 0)
                         return  { nbLignePaye, l};
 
                     ++t;
@@ -752,7 +752,7 @@ static inline LineCount lignePaye (xmlN* cur, info_t& info)
                 {
 //          +1 pour éviter la confusion avec \0 des chaines vides
                     if ((info.Table[info.NCumAgentXml][l]
-                            = (xmlT*) copier_xml (drapeau[t])) == nullptr)
+                            = (xmlChar*) xmlStrdup (drapeau[t])) == nullptr)
                         {
                             LOCK_GUARD
 
@@ -781,7 +781,7 @@ static inline LineCount lignePaye (xmlN* cur, info_t& info)
 //         Si on arrive à un noeud de type Commentaire, on le saute et on réinitialise
 //          "gratuitement" le parcours des drapeaux.
 
-            if (comp_xml (cur->name, (const xmlT*) "Commentaire") == 0)
+            if (xmlStrcmp (cur->name, (const xmlChar*) "Commentaire") == 0)
                 {
                     cur = cur->next;
                     t = 0;
@@ -792,7 +792,7 @@ static inline LineCount lignePaye (xmlN* cur, info_t& info)
 
 //      cur n'est pas nul à ce point
 
-            cur = fils_xml(cur);
+            cur = cur->xmlChildrenNode;
 
             if (cur == nullptr)
                 {
@@ -854,13 +854,13 @@ static inline LineCount lignePaye (xmlN* cur, info_t& info)
 
             if (t == 8) // La catégorie de ligne de paye est "Rappel"
                 {
-                    if (fils_xml(cur) == nullptr)
+                    if (cur->xmlChildrenNode == nullptr)
                         {
                             if (verbeux)
                                 {
                                     LOCK_GUARD
                                     cerr << WARNING_HTML_TAG "Pas de période de référence pour le rappel" " pour le matricule " << info.Table[info.NCumAgentXml][Matricule] << " -- Ligne";
-                                    long lineN = ligne_xml (cur);
+                                    long lineN = xmlGetLineNo (cur);
 
                                     if (lineN != 65535)
                                         {
@@ -882,7 +882,7 @@ static inline LineCount lignePaye (xmlN* cur, info_t& info)
                         }
                     else
                         {
-                            cur = fils_xml(cur);
+                            cur = cur->xmlChildrenNode;
                             // On ne tient pas rigueur du manque de qualité éventuelle
                             // tellement la norme est peu respectée
 
@@ -989,28 +989,28 @@ static inline LineCount lignePaye (xmlN* cur, info_t& info)
 /// \param info table d'informations
 /// \details Insère " - " entre les deux parties de la chaîne
 
-inline void GCC_INLINE concat (xmlN* cur, info_t& info)
+inline void GCC_INLINE concat (xmlNodePtr cur, info_t& info)
 {
-    xmlT* addCode2 = prop_xml (cur,  "V");
+    xmlChar* addCode2 = xmlGetProp (cur, (const xmlChar*) "V");
 
     if (addCode2)
         {
 
             sanitize (addCode2, info.separateur);
 
-            xmlT* desc_hyphen = xmlStrncatNew (info.Table[info.NCumAgentXml][Description],
-                                                  (const xmlT*) " - ",
+            xmlChar* desc_hyphen = xmlStrncatNew (info.Table[info.NCumAgentXml][Description],
+                                                  (const xmlChar*) " - ",
                                                   -1);
 
             if (desc_hyphen)
                 {
-                    xmlT* desc_code2 = xmlStrncatNew (desc_hyphen,
+                    xmlChar* desc_code2 = xmlStrncatNew (desc_hyphen,
                                                          addCode2,
                                                          -1);
 
-                    free_xml (info.Table[info.NCumAgentXml][Description]);
-                    free_xml (addCode2);
-                    free_xml (desc_hyphen);
+                    xmlFree (info.Table[info.NCumAgentXml][Description]);
+                    xmlFree (addCode2);
+                    xmlFree (desc_hyphen);
                     info.Table[info.NCumAgentXml][Description] = desc_code2;
                 }
         }
@@ -1053,11 +1053,11 @@ inline void allouer_ligne_NA (info_t &info, int &ligne, int &memoire_p_ligne_all
                               + 1;
 
     info.Table[info.NCumAgentXml].resize (memoire_p_ligne_allouee);
-    info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE] = (xmlT*) copier_xml (drapeau[0]); // TraitBrut
+    info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE] = (xmlChar*) xmlStrdup (drapeau[0]); // TraitBrut
 
     for (int k = 1; k <= INDEX_MAX_COLONNNES; ++k)
         {
-            info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE + k] = (xmlT*) copier_xml (NA_STRING);
+            info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE + k] = (xmlChar*) xmlStrdup (NA_STRING);
         }
 
     ligne = 1;
@@ -1072,7 +1072,7 @@ inline void allouer_ligne_NA (info_t &info, int &ligne, int &memoire_p_ligne_all
 /// Appelle ensuite la fonction lignePaye qui décode les lignes de paye de la balise Remuneration.
 /// Décode ensuite les champs de fin de fichier : NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer.
 
-uint64_t  parseLignesPaye (xmlN* cur, info_t& info)
+uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
 {
     bool result = true;
     int na_assign_level = 0;
@@ -1080,7 +1080,7 @@ uint64_t  parseLignesPaye (xmlN* cur, info_t& info)
     const char* local_tag[] = {"Nom", "Prénom", "Matricule", "NIR", "NbEnfants",
                                "Statut", "EmploiMetier", "Grade", "Echelon", "Indice"
                               };
-    xmlN* cur_parent = cur;
+    xmlNodePtr cur_parent = cur;
 
     cur = atteindreNoeud ("Agent", cur);
 
@@ -1093,7 +1093,7 @@ uint64_t  parseLignesPaye (xmlN* cur, info_t& info)
                  << ERROR_HTML_TAG  "Année " << info.Table[info.NCumAgentXml][Annee] << ENDL
                  << ERROR_HTML_TAG  "Mois "  << info.Table[info.NCumAgentXml][Mois]  << ENDL;
 
-            long lineN = ligne_xml (cur_parent);
+            long lineN = xmlGetLineNo (cur_parent);
 
             cerr  << WARNING_HTML_TAG "Ligne";
 
@@ -1124,7 +1124,7 @@ uint64_t  parseLignesPaye (xmlN* cur, info_t& info)
                         Nom, Prenom, Matricule, NIR, EmploiMetier, Statut, NbEnfants, Grade, Echelon, Indice
                     })
                 {
-                    info.Table[info.NCumAgentXml][l] = copier_xml ((xmlT*)"");
+                    info.Table[info.NCumAgentXml][l] = xmlStrdup ((xmlChar*)"");
                 }
 
             cur = cur_parent;
@@ -1136,12 +1136,12 @@ uint64_t  parseLignesPaye (xmlN* cur, info_t& info)
     // Décodage des caractéristiques de l'agent : Nom, Prénom, etc.
 
     cur_parent = cur;
-    cur = fils_xml(cur);
+    cur = cur->xmlChildrenNode;
 
-    if (cur == nullptr ||  blanc_xml (cur)) return 0;
+    if (cur == nullptr ||  xmlIsBlankNode (cur)) return 0;
 
 #ifdef TOLERANT_TAG_HIERARCHY
-    xmlN* cur_save = cur;
+    xmlNodePtr cur_save = cur;
 #endif
 
     // dans certains schémas on peut ne pas avoir la civilité
@@ -1326,12 +1326,12 @@ level0:
 
     if (cur) cur = cur-> next;
 
-    if (cur && comp_xml (cur->name, (const xmlT*) "Evenement") == 0)
+    if (cur && xmlStrcmp (cur->name, (const xmlChar*) "Evenement") == 0)
         {
             cur_parent = cur;
-            cur = fils_xml(cur);
+            cur = cur->xmlChildrenNode;
 
-            if (cur &&  !blanc_xml (cur))
+            if (cur &&  !xmlIsBlankNode (cur))
                 {
                     info.drapeau_cont = false;
                     BULLETIN_OBLIGATOIRE (Code);
@@ -1361,12 +1361,12 @@ level0:
     // Mieux vaut concaténer, même si le code est plus lourd et l'allocation de mémoire ponctuellement plus lente : on gagne
     // sur l'allocation-déallocation d'un très grand nombre de champs Description2 non remplis.
 
-    if (cur && comp_xml (cur->name, (const xmlT*) "Evenement") == 0)
+    if (cur && xmlStrcmp (cur->name, (const xmlChar*) "Evenement") == 0)
         {
             cur_parent = cur;
-            cur = fils_xml(cur);
+            cur = cur->xmlChildrenNode;
 
-            if (cur &&  !blanc_xml (cur))
+            if (cur &&  !xmlIsBlankNode (cur))
                 {
                     info.drapeau_cont = false;
 
@@ -1412,18 +1412,18 @@ level0:
 
     int v = 0;
 
-    while (comp_xml (cur->name, (const xmlT*) "NBI") == 0)
+    while (xmlStrcmp (cur->name, (const xmlChar*) "NBI") == 0)
         {
-            v += atoi ((const char*) prop_xml (cur,  "V"));
+            v += atoi ((const char*) xmlGetProp (cur, (const xmlChar*) "V"));
             cur =  cur->next;
         }
 
     if (v > 0)
         {
-            free_xml (info.Table[info.NCumAgentXml][NBI]);
+            xmlFree (info.Table[info.NCumAgentXml][NBI]);
             char buffer[12] = {0};
             sprintf (buffer, "%d", atoi ((const char*)info.Table[info.NCumAgentXml][NBI]) + v);
-            info.Table[info.NCumAgentXml][NBI] = copier_xml ((xmlT*) buffer);
+            info.Table[info.NCumAgentXml][NBI] = xmlStrdup ((xmlChar*) buffer);
             if (v > 1 && verbeux)
             {
                 LOCK_GUARD
@@ -1441,7 +1441,7 @@ level0:
 
     BULLETIN_OBLIGATOIRE_NUMERIQUE (QuotiteTrav);
 
-    xmlN* cur_save = cur;
+    xmlNodePtr cur_save = cur;
 
     // Décodage des données de rémunération (lignes de paye)
 
@@ -1453,11 +1453,11 @@ level0:
 
     if (cur)
         {
-            xmlN* cur_save = cur;
+            xmlNodePtr cur_save = cur;
 
             // Si la balise <Remuneration> contient des fils
 
-            if (cur != nullptr && (cur =  fils_xml(cur)) != nullptr && ! blanc_xml (cur))
+            if (cur != nullptr && (cur =  cur->xmlChildrenNode) != nullptr && ! xmlIsBlankNode (cur))
                 {
                     // ! C'est ici qu'est lancée la fonction de décodage de la ligne de paye proprement dite
 
@@ -1485,10 +1485,10 @@ level0:
 
                             LOCK_GUARD
 
-                            long lineN = ligne_xml (cur_save);
+                            long lineN = xmlGetLineNo (cur_save);
 
                             // Il y a un bug dans la bibliothèque libxml2
-                            // qui dans certains cas bloque lorsque le numéro de ligne du fichier XML renvoyé par ligne_xml est supérieur à 65535
+                            // qui dans certains cas bloque lorsque le numéro de ligne du fichier XML renvoyé par xmlGetLineNo est supérieur à 65535
                             // Ce bug est semi-systématique, certains fichiers y échappent pour des raisons non déterminées
                             // Lorsqu'il se manifeste, il faut utiliser le vecteur info.ligne_debut et le vecteur info.ligne_fin
                             // qui indiquent pour l'agent de rang info.NCumAgentXml les numéros de lignes de début et de fin du bulletin de l'agent.
@@ -1550,7 +1550,7 @@ level0:
                             if (verbeux)
                                 {
                                     LOCK_GUARD
-                                    long  lineN = ligne_xml (cur_save);
+                                    long  lineN = xmlGetLineNo (cur_save);
 
                                     cerr << WARNING_HTML_TAG "Absence de lignes de paye également";
 
@@ -1577,7 +1577,7 @@ level0:
                             if (verbeux)
                                 {
                                     LOCK_GUARD
-                                    long  lineN = ligne_xml (cur);
+                                    long  lineN = xmlGetLineNo (cur);
 
                                     cerr << WARNING_HTML_TAG "Lignes de paye néanmoins présentes";
 
@@ -1610,7 +1610,7 @@ level0:
                     if (verbeux)
                         {
                             LOCK_GUARD
-                            long  lineN = ligne_xml (cur);
+                            long  lineN = xmlGetLineNo (cur);
 
                             cerr << WARNING_HTML_TAG "Absence de lignes de paye également";
 
@@ -1662,7 +1662,7 @@ level0:
 
     cur_save = cur;
     cur = atteindreNoeud ("RepartitionBudget", cur);
-    if (cur != nullptr && (cur =  fils_xml(cur)) != nullptr && ! blanc_xml (cur))
+    if (cur != nullptr && (cur =  cur->xmlChildrenNode) != nullptr && ! xmlIsBlankNode (cur))
     {
         BULLETIN_OBLIGATOIRE(CodeBudget);
         BULLETIN_OPTIONNEL_NUMERIQUE(Taux);   // Normalement obligatoire mais la norme n'est pas toujours respectée

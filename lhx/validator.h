@@ -67,9 +67,9 @@
 #include "tags.h"
 #include "expression_reg_elus.h"
 #include "expression_reg_cata.h"
-#include "xml_lib.h"
 
-
+/// Macro tendant à forcer l'inlining sous GCC
+#define GCC_INLINE __attribute__((always_inline))
 
 /// Macro indiquant un argument non utilisé
 #define GCC_UNUSED __attribute__((__unused__))
@@ -155,7 +155,7 @@ constexpr const char* Tableau_entete[] =
 typedef struct
 {
 
-    vector<vector<xmlT*>> Table;         ///< Contient les données XML à exporter dans le fichier Table
+    vector<vector<xmlChar*>> Table;         ///< Contient les données XML à exporter dans le fichier Table
     uint64_t nbLigne;                       ///< Nombre de lignes
     vector<array<uint64_t, 3>> ligne_debut; ///< Ligne de début du bulletin dans le fichier XML
     vector<array<uint64_t, 2>> ligne_fin;   ///< Ligne de fin du bulletin dans le fichier XML
@@ -217,7 +217,7 @@ typedef struct
 
 #ifndef NA_STRING
 /// Caractérisation des non-réponses ou variables non renseignées
-#define NA_STRING  (const xmlT*) "NA"
+#define NA_STRING  (xmlChar*) "NA"
 #endif
 #ifndef MAX_LIGNES_PAYE
 /// Maximum de lignes de paye par agent par défaut
@@ -289,18 +289,18 @@ static const int nbType                  = sizeof (type_remuneration) / sizeof (
 /// drapeau est un tableau de paires permettant d'isoler en mémoire les balises de type_remuneration lorsqu'elles sont
 /// rencontrées dans un fichier XHL/XML. Le nombre d'items est donc nbType
 
-static const xmlT drapeau[][2]  = {{1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}, {8, 0}, {9, 0}, {10, 0}, {11, 0}, {12, 0}};
+static const xmlChar drapeau[][2]  = {{1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}, {8, 0}, {9, 0}, {10, 0}, {11, 0}, {12, 0}};
 
 void* decoder_fichier (info_t& tinfo);
 void* parse_info (info_t& info);
 
 
-/// Permet d'atteindre un noeud donné par son libellé de balise XML à partir d'un pointeur xmlN* de libxml2
+/// Permet d'atteindre un noeud donné par son libellé de balise XML à partir d'un pointeur XmlNodePtr de libxml2
 /// \param noeud Libellé de la balise à atteindre
 /// \param cur Noeud libxml2 courant
-/// \return Soit le noeud xmlN* correspondant au noeud trouvé, soit nullptr si pas de noeud trouvé.
+/// \return Soit le noeud XmlNodePtr correspondant au noeud trouvé, soit nullptr si pas de noeud trouvé.
 
-static inline xmlN* GCC_INLINE atteindreNoeud (const char * noeud, xmlN* cur)
+static inline xmlNodePtr GCC_INLINE atteindreNoeud (const char * noeud, xmlNodePtr cur)
 {
 
 #       ifdef DEBUG_ATTEINDRE
@@ -308,7 +308,7 @@ static inline xmlN* GCC_INLINE atteindreNoeud (const char * noeud, xmlN* cur)
     cerr << "[DEBUG] --- Recherche de " << noeud <<  ENDL;
 #       endif
 
-    while (cur && blanc_xml (cur))
+    while (cur && xmlIsBlankNode (cur))
         {
             cur = cur -> next;
 #       ifdef DEBUG_ATTEINDRE
@@ -317,7 +317,7 @@ static inline xmlN* GCC_INLINE atteindreNoeud (const char * noeud, xmlN* cur)
         }
 
 
-    while (cur != nullptr && comp_xml (cur->name,  (const xmlT*) noeud))
+    while (cur != nullptr && xmlStrcmp (cur->name,  (const xmlChar*) noeud))
         {
 #       ifdef DEBUG_ATTEINDRE
             //       cerr << "[DEBUG]      ......" << cur->name <<  ENDL;

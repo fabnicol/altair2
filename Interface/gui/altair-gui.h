@@ -92,7 +92,7 @@ public :
     // Membres données
 
     MainWindow (char*);           ///< Constructeur de l'interface graphique
-    options* dialog;              ///< dialogue d'options
+    options* dialog = nullptr;              ///< dialogue d'options
     QSettings  *settings;         ///< paramètres par défaut mémorisés.
     QStringList recentFiles;      ///< Liste des fichiers de projet \b .alt récents
     QTextEdit* consoleDialog;     ///< Editeur de l'onglet console.
@@ -120,7 +120,7 @@ public :
 
     bool isDefaultSaveProjectChecked()
     {
-        return defaultSaveProjectBehaviorBox->isChecked();
+        return  defaultSaveProjectBehaviorBox ? defaultSaveProjectBehaviorBox->isChecked() : true;
     }
 
     /// Sauvegarde du projet \b .alt selon un chemin à spécifier.
@@ -202,11 +202,11 @@ private :
 
     // Barres d'outils
 
-    QToolBar *fileToolBar;        ///< Barre fichiers de projet
-    QToolBar *processToolBar;     ///< Barre Exécution des autres modules
-    QToolBar *editToolBar;        ///< Barre Edition (projet, bases)
-    QToolBar *optionsToolBar;     ///< Barre dialogues de configuration et d'options
-    QToolBar *aboutToolBar;       ///< Barre d'aide
+    QToolBar *fileToolBar    = new QToolBar;        ///< Barre fichiers de projet
+    QToolBar *processToolBar = new QToolBar;     ///< Barre Exécution des autres modules
+    QToolBar *editToolBar    = new QToolBar;        ///< Barre Edition (projet, bases)
+    QToolBar *optionsToolBar = new QToolBar;     ///< Barre dialogues de configuration et d'options
+    QToolBar *aboutToolBar   = new QToolBar;       ///< Barre d'aide
 
     // Actions correspondant aux barres d'outils
 
@@ -249,7 +249,7 @@ private :
 
     QList<QAction*>  actionList;       ///< Liste des actions
 
-    QDialog *contentsWidget;           ///< composant du dialogue des options de configuration
+    QDialog *contentsWidget = nullptr;           ///< composant du dialogue des options de configuration
     QDialogButtonBox *closeButton;     ///< Bouton Quitter du dialogue des options
 
     // Cases à cocher du dialogue de configuration
@@ -265,7 +265,7 @@ private :
     FCheckBox    *defaultProcessToolBarBox;             ///< Case à cocher du dialogue de configuration : barre d'outils Lancer par défaut
     FCheckBox    *defaultOptionsToolBarBox;             ///< Case à cocher du dialogue de configuration : barre d'outils Options défaut
     FCheckBox    *defaultAboutToolBarBox;               ///< Case à cocher du dialogue de configuration : barre d'outils Aide défaut
-    FCheckBox    *defaultSaveProjectBehaviorBox;        ///< Case à cocher du dialogue de configuration : sauvegarder automatiquement le projet par défaut
+    FCheckBox    *defaultSaveProjectBehaviorBox = nullptr;        ///< Case à cocher du dialogue de configuration : sauvegarder automatiquement le projet par défaut
     FCheckBox    *defaultMaximumConsoleOutputBox;       ///< Case à cocher du dialogue de configuration : limiter la longueur du log en console par défaut
     FCheckBox    *defaultQuietBox;                      ///< Case à cocher du dialogue de configuration : réduire la verbosité par défaut
 
@@ -278,12 +278,6 @@ private :
     MatriculeInput *m = nullptr;  ///< Agent sélecteur de latricule pour l'extraction de bulletin particulier
 
     // Méthodes privées
-
-    /// Lit un fichier et renvoie la chaîne de caractères correspondante.
-    /// \param fileName Chemin du fichier
-    /// \result Booléen : \e true si réussite de l'ensemble des opérations, \e false sinon.
-
-    bool readFile (const QString &fileName);
 
     /// Crée les actions correspondant aux entrées des menus et barre d'outils.
 
@@ -410,6 +404,9 @@ private slots:
     
     void tarFinished();
     
+    /// Crée les dialogues d'options et de configuration
+
+    void createDialogs();
    
     
 signals:
