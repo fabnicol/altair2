@@ -28,6 +28,3 @@ Valeur de la dernière variable globale \code{variable} instanciée. Effets de b
 \description{
 Insérer un script auxiliaire, indexé par une variable globale
 }
-\author{
-Fabrice Nicol
-}

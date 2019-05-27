@@ -20,6 +20,3 @@ Prise en compte du pluriel
 \examples{
 cat("patient" \%s\% 2)
 }
-\author{
-Fabrice Nicol
-}

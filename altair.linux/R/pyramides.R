@@ -38,30 +38,12 @@
 
 
 #' Produire les pyramides des âges par versant de la fonction publique
-#' @md
 #' @param  Filtre_bulletins  Fonction permettant de filtrer les bulletins sur les lignes de data.table
 #' @param  titre  Titre de la pyramide.
 #' @param  versant Versant de la fonction publique ("FPT" ou "FPH")
 #' @param  envir Environnement de stockage des caractéristiques des âges (\code{nom.fichier.après}, \code{nom.fichier.avant}, \code{res} quartiles de distribution des âges)
-#' @note 
-#' * Prérequis : 
-#'   \preformatted{ 
-#'    année.fin.comp            Année de la fin de la comparaison
-#'    début.période.sous.revue  Début de la période sous revue
-#'    fin.période.sous.revue    Fin de la période sous revue
-#'   }     
-#'   
-#' * Appelle : [année_comparaison], [extraire.nir], [pyramides]   
-#' * Crée les noms de base noms `data.table` :    
-#'   - `envir$nom.fichier.avant`
-#'   - `envir$nom.fichier.après`
-#'   
-#' * Sauve : Ces deux bases. 
-#'   - Format : 3 colonnes numériques
-#'   - Noms de colonnes :  `age`, `Hommes`, `Femmes` 
-#' @seealso [extraire.nir]
 #' @export
-#'   
+#'
 produire_pyramides <- function(Filtre_bulletins, titre, versant = "", envir) {
   
   essayer(label = "+pyramides", produire_pyramides_(Filtre_bulletins, titre, versant, envir), cat("La", titre, "n'a pas pu être générée."))

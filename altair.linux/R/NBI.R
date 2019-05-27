@@ -1,28 +1,6 @@
 
-#' Vérification des payes de NBI, compte tenu des rappels et des quotités   
-#' 
-#' 
-#' @md
-#' @details 
-#' \tabular{ll}{
-#' lignes_NBI  \tab  Sélectionne les lignes de paye de NBI \cr    
-#' NBI_dec \tab Détecte les payes dont le nombre de points de NBI n'est pas entier    \cr        
-#' NBI.aux.non.titulaires  \tab Détecte les NBI versées aux non titulaires    \cr
-#' cumuls.nbi \tab  Cumule les points de NBI par année}   
-#' Détecte les rappels dont les années ou les mois sont inconnus. Dans de tels cas, suppose que l'année ou le mois manquant est l'année ou le mois en cours. \cr \cr       
-#' **Variables globales** \cr
-#' Affiche     \cr
-#' Sauvegarde  \cr \cr   
-#' **Principales formules**   \cr
-#' \preformatted{
-#'  nbi.eqtp.tot            = (nbi.cum.rappels + nbi.cum.hors.rappels) / adm.quotite
-#'  cumul.annuel.indiciaire = sum(nbi.cum.indiciaire, na.rm = TRUE)
-#'  cumul.annuel.montants   = sum(nbi.eqtp.tot, na.rm = TRUE)
-#' }
-#' @seealso proratisation_NBI catégories_NBI
-#' @export 
+#' @export
 #'
-
 calcul_NBI <- function() {
   
     "Paie_NBI"   %a% filtrer_Paie("NBI", 
@@ -40,6 +18,7 @@ calcul_NBI <- function() {
     "lignes.nbi.anormales.hors.rappels" %a% data.table()
     "cumuls.nbi" %a% data.table()
 
+    
     "NBI_dec" %a% Paie_NBI[NBI != as.integer(NBI)]
     
     if (nrow(NBI_dec)) {
@@ -91,7 +70,7 @@ calcul_NBI <- function() {
                                     Type)
                      ][ , `:=` (Annee.rappel = as.numeric(substr(Debut, 0, 4)),
                                 Mois.rappel  = as.numeric(substr(Debut, 6, 7))) 
-                     ][ , Debut := NULL]
+                        ][ , Debut := NULL]
     
     if (nrow(T1) == 0) {
       cat("Aucune NBI n'a été attribuée ou les points de NBI n'ont pas été rencensés en base de paye. ")

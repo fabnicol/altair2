@@ -14,6 +14,3 @@ tester.homogeneite.matricules(Base)
 Teste si, dans une base, la proportion d'enregistrements Noms-Prenoms dont les matricules ne sont pas identiques
  reste inférieure à une marge de tolérance fixée (taux.tolérance.homonymie)
 }
-\author{
-Fabrice Nicol
-}

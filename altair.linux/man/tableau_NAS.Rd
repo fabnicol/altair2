@@ -22,7 +22,3 @@ tableau_NAS(test_prime(prime_IFTS, Paie_I, verbeux = FALSE, NAS = "non"))
 |010854    |2009  |   9  |  ADMINISTRATEUR        |   CHEF DE SERVICE       |    995,20  |
 
 }
-\seealso{
-Other Tableau de primes: \code{\link{tableau_cumuls}}
-}
-\concept{Tableau de primes}

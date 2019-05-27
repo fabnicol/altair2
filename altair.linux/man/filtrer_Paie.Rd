@@ -11,6 +11,3 @@ filtrer_Paie(x, portée = NULL, Base = Paie, Var = "Code",
 Filtre la base par une expression régulière sur libellés de paye ou par valeurs fixes sur une variable donnée.
 Si le filtrage a une portée, l'ensemble des lignes de la portée (exemple "Mois") est conservé.
 }
-\author{
-Fabrice Nicol
-}

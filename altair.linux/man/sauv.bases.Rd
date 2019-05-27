@@ -26,6 +26,3 @@ envir <- environment()
 # Générer Bulletins.paie et Paie dans envir
 sauv.bases("données",  env = envir, c("Bulletins.paie", "Paie"))
 }
-\author{
-Fabrice Nicol
-}

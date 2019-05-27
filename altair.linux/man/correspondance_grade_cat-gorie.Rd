@@ -8,7 +8,6 @@ correspondance_grade_catégorie()
 }
 \value{
 La \code{data.table grade.categorie} résultant de la lecture du fichier \bold{grades.catégories.csv} sous le répertoire \bold{Données}
- classe de références (RefClass).
 }
 \description{
 Etablit la correspondance entre le grade et la catégorie statutaire à partir d'un tableau importé
@@ -16,7 +15,4 @@ Etablit la correspondance entre le grade et la catégorie statutaire à partir d
 \note{
 Requiert l'utilisation d'une table de jointure importée \bold{grades.catégories.csv} sous le répertoire \bold{Données}.
 A défaut, tente une association approximative à partir d'expressions rationnelles appliquées aux grades.
-}
-\author{
-Fabrice Nicol
 }

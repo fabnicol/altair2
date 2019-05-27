@@ -184,16 +184,14 @@
 #'                 entre le cumul des effets des variables coef.x.y exprimés en masse de salaires, partant d'un salaire moyen fictif égal à la RMPP, et la somme des salaires effectivement versés au même nombre d'agents. }
 #'                 \item{\code{delta.coef}}{Correction à ajouter en point de pourcentage au coefficient Total E/S, dues aux approximations utilisées pour le calcul des effets d'entrées-sorties}}}}                   
 #'                 
-#' @references  \href{Rapport annuel sur l'état de la fonction publique 2016}{https://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2016/DGAFP_RA2016_web_signet.pdf}   
-#'  \href{https://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2017/Rapport_annuel-FP_2017.pdf}{Rapport annuel sur l'état de la fonction publique 2017}   
-#'  \href{https://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2018/Rapport_annuel_FP-2018.PDF}{Rapport annuel sur l'état de la fonction publique 2018}   
+#' @references  Rapport annuel sur l'état de la fonction publique 2016 \url{https://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2016/DGAFP_RA2016_web_signet.pdf}
 #'    \tabular{cccc}{
 #'               \tab   RMPP  \tab Effet E/S  \tab  SMTP  \cr
 #'          brut  \tab   +3  \tab        -1,3 \tab +1,7  \cr
 #'          net   \tab   +2,7 \tab        -1,3 \tab +1,3 
 #'          }
-#' Voir aussi : \href{http://www4.minefi.gouv.fr/budget/circpdf/2BPSS-05-5044.pdf}{outil 2BPSS, Minefi, Direction du budget}          
-#'     
+#' Voir aussi : outil 2BPSS, Minefi, Direction du budget  \url{http://www4.minefi.gouv.fr/budget/circpdf/2BPSS-05-5044.pdf}          
+#' 
 #' @examples
 #'  noria()
 #' 
@@ -232,11 +230,9 @@
 #'  | 2014  | 36 576,0 |     -0,81     | -0,26 |      0,03      |  -0,13   |   -1,16   |   -0,005   | 35 956,1 |
 #'  
 #'  Lecture :
-#'  Le salaire brut moyen 2013 serait égal à la RMPP (rémunération des personnes 
-#'  présentes tout au long de 2012 et 2013)
+#'  Le salaire brut moyen 2013 serait égal à la RMPP (rémunération des personnes présentes tout au long de 2012 et 2013)
 #'  sans les effets d'entrées et de sorties en 2012 et 2013.
-#'  Ces effets interviennent en 2012 (seulement les entrées, première colonne) et en 2013
-#'  (colonnes suivantes).
+#'  Ces effets interviennent en 2012 (seulement les entrées, première colonne) et en 2013 (colonnes suivantes).
 #'  L'effet relatif des entrées 2012 est de -0,63 % : les entrants en 2012 encore présents en 2013 ont des salaires moins élevés 
 #'  que les présents-présents (sur toute les années 2012 et 2013) en moyenne.
 #'  L'effet de noria 2013 (emplacement des sortants 2013 par un même nombre d'entrants) est de -0,3 % de variation relative :

@@ -12,6 +12,3 @@ Valeur incrémentée de chapitre
 \description{
 Incrémente le numéro de chapitre courant
 }
-\author{
-Fabrice Nicol
-}

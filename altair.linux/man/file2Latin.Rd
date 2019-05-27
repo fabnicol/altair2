@@ -17,6 +17,3 @@ Lancement dun appel système à iconv -t ISO-8859-15
 \description{
 Conversion d'un fichier de UTF-8 en ISO-8859-15
 }
-\author{
-Fabrice Nicol
-}

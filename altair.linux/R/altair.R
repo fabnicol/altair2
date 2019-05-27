@@ -180,3 +180,89 @@ NULL
 #' @source \url{http://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2015/xls/vue1_emploi.xlsx}
 
 
+
+
+#' Pyramide des âges de la fonction publique territoriale au 31 décembre 2014
+#'
+#'
+#' @format Une base de données contenant 55 lignes, dont un entête, et 5 variables :
+#' \describe{
+#'   \item{age}{âge des agents au 31 décembre 2014}
+#'   \item{Hommes}{nombre d'hommes}
+#'   \item{Femmes}{nombre de femmes}
+#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
+#' }
+
+
+
+#' Pyramide des âges de la fonction publique hospitalière au 31 décembre 2014
+#'
+#'
+#' @format Une base de données contenant 55 lignes, dont un entête, et 5 variables :
+#' \describe{
+#'   \item{age}{âge des agents au 31 décembre 2014}
+#'   \item{Hommes}{nombre d'hommes}
+#'   \item{Femmes}{nombre de femmes}
+#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
+#' }
+
+
+
+#' Pyramide des âges de la fonction publique territoriale au 31 décembre 2015
+#'
+#'
+#' @format Une base de données contenant 55 lignes, dont un entête, et 5 variables :
+#' \describe{
+#'   \item{age}{âge des agents au 31 décembre 2015}
+#'   \item{Hommes}{nombre d'hommes}
+#'   \item{Femmes}{nombre de femmes}
+#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
+#' }
+
+
+
+#' Pyramide des âges de la fonction publique hospitalière au 31 décembre 2015
+#'
+#'
+#' @format Une base de données contenant 55 lignes, dont un entête, et 5 variables :
+#' \describe{
+#'   \item{age}{âge des agents au 31 décembre 2015}
+#'   \item{Hommes}{nombre d'hommes}
+#'   \item{Femmes}{nombre de femmes}
+#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
+#' }
+
+
+
+
+#' Pyramide des âges de la fonction publique territoriale au 31 décembre 2016
+#'
+#'
+#' @format Une base de données contenant 55 lignes, dont un entête, et 5 variables :
+#' \describe{
+#'   \item{age}{âge des agents au 31 décembre 2016}
+#'   \item{Hommes}{nombre d'hommes}
+#'   \item{Femmes}{nombre de femmes}
+#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
+#' }
+
+
+
+#' Pyramide des âges de la fonction publique hospitalière au 31 décembre 2016
+#'
+#'
+#' @format Une base de données contenant 55 lignes, dont un entête, et 5 variables :
+#' \describe{
+#'   \item{age}{âge des agents au 31 décembre 2016}
+#'   \item{Hommes}{nombre d'hommes}
+#'   \item{Femmes}{nombre de femmes}
+#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
+#' }
+
+

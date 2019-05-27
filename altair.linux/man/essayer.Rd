@@ -28,6 +28,3 @@ Essaye d'exécuter une portion de code et en cas d'erreur continue l'exécution 
 if (exists("e")) rm(e)
 essayer({ a <- 1/e}, "division par inconnu")  # affichage du message d'erreur
 }
-\author{
-Fabrice Nicol
-}

@@ -12,6 +12,3 @@ Valeur incrémentée de numéro.tableau
 \description{
 Incrémente le numéro de tableau courant
 }
-\author{
-Fabrice Nicol
-}

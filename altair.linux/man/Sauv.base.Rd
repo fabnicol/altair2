@@ -33,6 +33,3 @@ Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
 \examples{
 Sauv.base("données", Base, "BaseDonnée", sep = ";", dec = ",")
 }
-\author{
-Fabrice Nicol
-}

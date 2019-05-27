@@ -9,6 +9,3 @@ positive(X)
 \description{
 Sélectionne les éléments positifs d'un vecteur
 }
-\author{
-Fabrice Nicol
-}

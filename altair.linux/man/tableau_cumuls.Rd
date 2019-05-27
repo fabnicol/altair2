@@ -14,15 +14,11 @@ Affichage du tableau des cumuls de primes
 }
 \examples{
 tableau_cumuls(test_prime(prime_IAT, prime_B = prime_IFTS, Paie_I, verbeux = FALSE))
-    
-|Matricule |Annee |       Grade          |                  Régime                     |  
-|----------|------|----------------------|---------------------------------------------|  
-|010843    |2009  |ANIMATEUR TERRITORIAL |   IFTS 1 mois-IAT 10 mois-Cumul 1 mois      |  
-|010843    |2010  |ANIMATEUR TERRITORIAL |   IFTS 11 mois-IAT 0 mois-Cumul 1 mois      |  
-|010854    |2009  |REDACTEUR TERRITORIAL |   IFTS 9 mois-IAT 2 mois-Cumul 1 mois       |  
-     
+
+|Matricule |Annee |       Grade          |                  Régime                     |
+|----------|------|----------------------|---------------------------------------------|
+|010843    |2009  |ANIMATEUR TERRITORIAL |   IFTS 1 mois-IAT 10 mois-Cumul 1 mois      |
+|010843    |2010  |ANIMATEUR TERRITORIAL |   IFTS 11 mois-IAT 0 mois-Cumul 1 mois      |
+|010854    |2009  |REDACTEUR TERRITORIAL |   IFTS 9 mois-IAT 2 mois-Cumul 1 mois       | 
+
 }
-\seealso{
-Other Tableau de primes: \code{\link{tableau_NAS}}
-}
-\concept{Tableau de primes}
