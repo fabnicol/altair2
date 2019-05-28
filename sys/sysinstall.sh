@@ -189,7 +189,7 @@ else
   
   sleep 2
 fi  
-
+ln -s /usr/local/lib64/rstudio/bin/pandoc/pandoc /usr/local/bin/pandoc
 
 cd /home/fab/Dev/altair
 if [[  -f sys/install.packages && (! -f sys/packages.installed.flag || -f sys/install.packages.force) ]]; then
