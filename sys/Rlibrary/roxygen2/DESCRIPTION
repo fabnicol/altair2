@@ -1,6 +1,6 @@
 Package: roxygen2
 Title: In-Line Documentation for R
-Version: 6.1.1
+Version: 6.1.1.9000
 Authors@R: c(
     person("Hadley", "Wickham",, "hadley@rstudio.com", c("aut", "cre", "cph")),
     person("Peter", "Danenberg",, "pcd@roxygen.org", c("aut", "cph")),
@@ -22,14 +22,23 @@ Suggests: covr, devtools, knitr, rmarkdown, testthat (>= 0.8.0)
 LinkingTo: Rcpp
 VignetteBuilder: knitr
 Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
+RemoteType: github
+RemoteHost: api.github.com
+RemoteRepo: roxygen
+RemoteUsername: klutometis
+RemoteRef: master
+RemoteSha: c42a2f0ddb7006af5ce1f0462064a9c4424e510a
+GithubRepo: roxygen
+GithubUsername: klutometis
+GithubRef: master
+GithubSHA1: c42a2f0ddb7006af5ce1f0462064a9c4424e510a
 NeedsCompilation: yes
-Packaged: 2018-11-06 23:40:35 UTC; hadley
+Packaged: 2019-03-12 20:39:57 UTC; root
 Author: Hadley Wickham [aut, cre, cph],
   Peter Danenberg [aut, cph],
   Manuel Eugster [aut, cph],
   RStudio [cph]
 Maintainer: Hadley Wickham <hadley@rstudio.com>
-Repository: CRAN
-Date/Publication: 2018-11-07 05:40:12 UTC
-Built: R 3.5.2; x86_64-pc-linux-gnu; 2018-12-24 23:30:45 UTC; unix
+Built: R 3.5.3; x86_64-pc-linux-gnu; 2019-03-12 20:39:57 UTC; unix
