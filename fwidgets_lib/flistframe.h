@@ -269,8 +269,8 @@ signals:
     void imported();
     void parsed();
     void textAppend(const QString&);
-    void setProgressBar(long, long);
-    void setProgressBar(long);
+    void setProgressBar(int, int);
+    void setProgressBar(int);
     void hideProgressBar();
     void showProgressBar();
     void refreshRowPresentation(int);

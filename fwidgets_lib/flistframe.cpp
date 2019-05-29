@@ -248,12 +248,12 @@ void FListFrame::parseXhlFile(const QString& fileName)
 #   define QUOTE "(?:\"|')"
 
     string.remove(QRegularExpression("[\\(\\)]"));
-    QRegExp reg("DocumentPaye.*(?:Annee) V.?=.?" QUOTE "([0-9]+)" QUOTE ".*(?:Mois) V.?=.?" QUOTE "([0-9]+)" QUOTE "(.*)(?:Employeur).*(?:Nom) V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret) V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE ".*DonneesIndiv(.*)PayeIndivMensuel");
+    QRegExp reg("DocumentPaye.*(?:Annee)\\s*V.?=.?" QUOTE "([0-9]+)" QUOTE ".*(?:Mois)\\s*V.?=.?" QUOTE "([0-9]+)" QUOTE "(.*)(?:Employeur).*(?:Nom)\\s*V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret)\\s*V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE ".*DonneesIndiv(.*)PayeIndivMensuel");
     reg.setPatternSyntax(QRegExp::RegExp2);
     reg.setCaseSensitivity(Qt::CaseInsensitive);
-    QRegExp reg2(".*Budget.*Libelle V.?=.?" QUOTE "([^" QUOTE "]*)" QUOTE ".*");
+    QRegExp reg2(".*Budget.*Libelle\\s*V.?=.?" QUOTE "([^" QUOTE "]*)" QUOTE ".*");
     reg2.setCaseSensitivity(Qt::CaseInsensitive);
-    QRegExp reg3(".*(?:Etablissement).*(?:Nom) V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret) V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE);
+    QRegExp reg3(".*(?:Etablissement).*(?:Nom)\\s*V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret)\\s*V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE);
     reg3.setCaseSensitivity(Qt::CaseInsensitive);
 
 
@@ -514,14 +514,13 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
             else
               if (info.isFile())
               {
-
-                  const QString &tempDir = info.absolutePath() + QDir::separator() + info.baseName();
+                 const QString &tempDir = info.absolutePath() + QDir::separator() + info.baseName();
                   if (QFileInfo(tempDir).isDir())
                   {
                      QDir(tempDir).removeRecursively();
                   }
 
-                  if (info.suffix().toUpper() == "ZIP")
+                if (info.suffix().toUpper() == "ZIP")    
                   {
                       emit(textAppend(PROCESSING_HTML_TAG + QString("Décompression du fichier " + currentString + ". Patientez...")));
                       int res = system(QString("unzip -C '" + currentString + "' '*.x[hm]l' -d '" + tempDir + "'").toStdString().c_str());

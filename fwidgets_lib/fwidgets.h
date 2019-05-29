@@ -58,8 +58,8 @@ class FDialogConnections : public QDialog
 Q_OBJECT
 
 signals:
- void setProgressBar(long, long);
- void setProgressBar(long);
+ void setProgressBar(int, int);
+ void setProgressBar(int);
  void hideProgressBar();
  void showProgressBar();
 
@@ -73,7 +73,7 @@ Q_OBJECT
 public:
   QString  outputType;
   QProcess process;
-  long fileRank = 1;
+  int fileRank = 1;
 
 public slots:
   virtual void killProcess(){}
@@ -140,12 +140,15 @@ public:
  flags::commandLineType commandLineType;
  flags::status  status;
 
-  /* is used for .alt Xml project writing: refresh Widget information and injects current Widget state into Hash::qstring as left-valued of <...hashKey=...> */
+  bool  refresh() {}
+
+  // is used for .alt Xml project writing: refresh Widget information and injects current Widget state into Hash::qstring as left-valued of <...hashKey=...>
+
  virtual const FString setXmlFromWidget()=0 ;
 
-  /* does the reverse of setXmlFromWidget : reads left value of <...hashKey=...> and injects it into commandLineList. Refreshes Widget state accordingly */
-  virtual void setWidgetFromXml(const FStringList& )=0;
+  // does the reverse of setXmlFromWidget : reads left value of <...hashKey=...> and injects it into commandLineList. Refreshes Widget state accordingly
 
+  virtual void setWidgetFromXml(const FStringList& )=0;
 
  /// Retourne la clé de hashage de  Hash::wrapper correspondant au composant
  /// \return QString correspondant à la clé  hashKey
@@ -165,10 +168,12 @@ public:
  const QStringList& getDescription() const { return description; }
 
   // command-line interface maker
+
   virtual const QStringList commandLineStringList();
 
   // isEnabled() cannot be used as it would trigger lexical ambiguity with QWidget-inherited isEnabled() in subclasses
   // yet using virtual derivation makes it possible to invoke the QWidget-inherited isEnabled().
+
   virtual bool isAbstractEnabled() =0 ;
   bool isAbstractDisabled() {return !isAbstractEnabled();}
   QString optionLabel;
@@ -256,11 +261,18 @@ struct Abstract
     static QStringList hashKeys()
     {
         QStringList L;
-        for (const FAbstractWidget* a : abstractWidgetList)
+        for (auto &&a : abstractWidgetList)
             L << a->getHashKey();
 
         return L;
     }
+
+    static void refresh()
+    {
+         for (auto  &&a : abstractWidgetList)
+             a->refresh();
+    }
+
 };
 
 class FListWidget : public QWidget, public FAbstractWidget
@@ -282,7 +294,8 @@ public:
               const QList<QString> *translation = nullptr, 
               QWidget *controlledWidget = nullptr);
 
-  void setWidgetFromXml(const FStringList & );
+
+  void  setWidgetFromXml(const FStringList & );
   const FString setXmlFromWidget();
 
   bool isAbstractEnabled() {return this->isEnabled();}
@@ -346,6 +359,7 @@ public:
                 enabledObjects, {nullptr}){}
 
   void setWidgetFromXml(const FStringList& );
+  bool refresh();
   const FString setXmlFromWidget();
   bool isAbstractEnabled() {return this->QCheckBox::isEnabled();}
 
@@ -377,6 +391,7 @@ public:
       FComboBox(labelList, flags::status::defaultStatus|flags::commandLineType::noCommandLine, hashKey, description, "",  nullptr){}
 
   void setWidgetFromXml(const FStringList&);
+  bool refresh();
   const FString setXmlFromWidget();
   bool isAbstractEnabled() {return this->isEnabled();}
 
@@ -405,6 +420,7 @@ public:
      FLineEdit(defaultstring, flags::status::defaultStatus|flags::commandLineType::noCommandLine, hashKey, description, ""){}
   FLineEdit() {}
   void setWidgetFromXml(const FStringList&);
+  bool refresh();
   const FString setXmlFromWidget();
   bool isAbstractEnabled() {return this->isEnabled();}
 
@@ -428,8 +444,8 @@ public:
     QHBoxLayout* getLayout() {return layout;}
     void setToolTip(const QString & tip) { bar->setToolTip(tip); }
 
-    long  value() { return bar -> value();}
-    long maximum() { return bar->maximum();}
+    int  value() { return bar -> value();}
+    int  maximum() { return bar -> maximum();}
 
 private:
 
@@ -467,8 +483,8 @@ private:
     }
 
   private slots:
-    void setValue(long x, long y) { bar->setValue(x); bar->setMaximum(y);}
-    void setValue(long x) { bar->setValue(x); }
+    void setValue(int x, int y) { bar->setValue(x); bar->setMaximum(y);}
+    void setValue(int x) { bar->setValue(x); }
 
   public slots:
     void stop();

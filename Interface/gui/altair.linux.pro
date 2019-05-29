@@ -40,8 +40,8 @@ VERSION_TAG = $$system(cat ../../VERSION)
 DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
 
 message("Version :  $$VERSION_TAG")
-QMAKE_CXX = /usr/local/bin/g++
-QMAKE_LINK = /usr/local/bin/g++
+#QMAKE_CXX = /usr/local/bin/g++
+#QMAKE_LINK = /usr/local/bin/g++
 greaterThan(QT_MAJOR_VERSION, 5)
 
 # utiliser au moins Qt5 et g++-5.1
