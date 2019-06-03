@@ -219,6 +219,11 @@ if [[  -f sys/install.packages && (! -f sys/packages.installed.flag || -f sys/in
 fi  
 
 cd /home/fab/Dev/altair
+echo "Actualisation des données de test..."
+cp -f sys/data/* /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
+
+
+cd /home/fab/Dev/altair
 # recompilation de la bibliothèque altair
 if test -f sys/build.altair; then
   
@@ -316,6 +321,8 @@ do
 		_copy mime /home/$i/.local/share
 		_copy konquerorrc     /home/$i/.kde4/share/config
         _copy 'Lien vers une application.desktop' /home/$i/Desktop		
+        echo "Actualisation des données de test..."
+        _copy sys/data/* /home/$i/Desktop
 	   
                 
 		if test $i != fab; then
