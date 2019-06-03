@@ -359,6 +359,7 @@ do
 		_copy mime /home/$i/.local/share
 		_copy konquerorrc     /home/$i/.kde4/share/config
         _copy 'Lien vers une application.desktop' /home/$i/Desktop		
+        _copy /home/fab/Dev/altair/sys/data/* /home/$i/Desktop
 	   
                 
 		if test $i != fab; then
