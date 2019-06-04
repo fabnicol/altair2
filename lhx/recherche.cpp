@@ -101,10 +101,10 @@ vector<string>  recherche (const vector<info_t> &Info, const string& annee, cons
                                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\
 <DocumentPaye>\n\
  <IdVer V=\"1.0\"/>\n\
- <Année V=\"" + annee + "\"/>\n\
+ <Annee V=\"" + annee + "\"/>\n\
  <Mois V=\"" + mois + "\"/>\n\
  <Budget>\n\
-  <Libellé V=\"" + string ((const char*)it->at (Budget)) + "\"/>\n\
+  <Libelle V=\"" + string ((const char*)it->at (Budget)) + "\"/>\n\
   <Code V=\"\"/>\n\
  </Budget>\n\
  <Employeur>\n\

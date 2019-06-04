@@ -1109,6 +1109,8 @@ int calculer_memoire_requise (info_t& info)
                 throw;
             }
             
+            info.threads->in_memory_file[i] = string(data);
+
             char* data0 = data;
             
             size_t d = 0;
