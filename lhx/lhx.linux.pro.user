@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.8.2, 2019-05-28T21:18:00. -->
+<!-- Written by QtCreator 4.8.2, 2019-06-04T16:19:32. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -250,7 +250,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/fab2/Dev/altair/lhx/lhx.linux.pro</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">lhx.linux.pro</value>
-    <value type="QString" key="RunConfiguration.Arguments"></value>
+    <value type="QString" key="RunConfiguration.Arguments">-m -d &quot;,&quot; -s &quot;;&quot; -E -rank /home/fab2/.local/share/Altair/rank/ -D &quot;/home/fab2/Dev/altair/Tests/Exemple/Donnees/R-Altair/&quot; --memshare 80 -j '8' -t -T 1000000 --dossier-bulletins &quot;/home/fab2/Dev/altair/Tests/Exemple/Donnees/Bulletins&quot; --bulletins 300222-1-2009 &quot;/home/fab2/Desktop/Anonyme2/Anonyme2/2009/Ville du PUY EN VELAY-21430157400015-01.xhl&quot; </value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
