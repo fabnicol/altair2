@@ -55,6 +55,34 @@ fi
 # obsolète
 # sed -i 's/ALL ALL=(ALL) ALL/#ALL ALL=(ALL) ALL/' /etc/sudoers
 
+cd /home/fab/Dev/altair
+if [[  -f sys/install.packages && (! -f sys/packages.installed.flag || -f sys/install.packages.force) ]]; then
+
+   echo "Actualisation des paquets..."
+  
+   export PKGDIR="/home/fab/Dev/altair/sys/packages"
+   
+   if test -d sys/packages; then
+   
+      echo "Installation des paquets..."
+      emerge -K --nodeps  $(find /home/fab/Dev/altair/ -name 'portage.*tbz2')
+      emerge -K --nodeps  $(find /home/fab/Dev/altair/ -name '*tbz2')
+      echo "Installation des paquets terminée..."
+      eix-update
+      touch sys/packages.installed.flag
+      git add -f sys/packages.installed.flag
+      git commit -am "packages.installed"
+
+   else
+   
+      echo "Echec de l'actualisation des paquets."
+      
+   fi 
+
+  sleep 2
+fi  
+
+
 if test -f /usr/local/lib64/R/bin/R; then
  R_version=$(/usr/local/lib64/R/bin/R --version | grep "R version" | cut -f 3 -d' ') 
 else
@@ -191,32 +219,6 @@ else
 fi  
 ln -s /usr/local/lib64/rstudio/bin/pandoc/pandoc /usr/local/bin/pandoc
 
-cd /home/fab/Dev/altair
-if [[  -f sys/install.packages && (! -f sys/packages.installed.flag || -f sys/install.packages.force) ]]; then
-
-   echo "Actualisation des paquets..."
-  
-   export PKGDIR="/home/fab/Dev/altair/sys/packages"
-   
-   if test -d sys/packages; then
-   
-      echo "Installation des paquets..."
-      emerge -K --nodeps  $(find /home/fab/Dev/altair/ -name 'portage.*tbz2')
-      emerge -K --nodeps  $(find /home/fab/Dev/altair/ -name '*tbz2')
-      echo "Installation des paquets terminée..."
-      eix-update
-      touch sys/packages.installed.flag
-      git add -f sys/packages.installed.flag
-      git commit -am "packages.installed"
-
-   else
-   
-      echo "Echec de l'actualisation des paquets."
-      
-   fi 
-
-  sleep 2
-fi  
 
 cd /home/fab/Dev/altair
 echo "Actualisation des données de test..."
