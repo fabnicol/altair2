@@ -25,7 +25,7 @@ path_file               Manipulate file paths
 path_filter             Filter paths
 path_math               Path computations
 path_package            Construct a path to a location within an
-                        installed package
+                        installed or development package
 path_sanitize           Sanitize a filename by removing directory paths
                         and invalid characters
 path_tidy               Tidy paths

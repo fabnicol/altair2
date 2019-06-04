@@ -35,4 +35,4 @@ NeedsCompilation: yes
 Packaged: 2018-05-27 20:28:22 UTC; jens
 Repository: CRAN
 Date/Publication: 2018-05-29 16:56:33 UTC
-Built: R 3.5.1; x86_64-pc-linux-gnu; 2018-07-16 00:09:13 UTC; unix
+Built: R 3.6.0; x86_64-pc-linux-gnu; 2019-06-04 07:24:19 UTC; unix

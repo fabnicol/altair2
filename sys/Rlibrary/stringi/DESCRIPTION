@@ -33,4 +33,4 @@ Packaged: 2019-03-12 21:12:07 UTC; gagolews
 License_is_FOSS: yes
 Repository: CRAN
 Date/Publication: 2019-03-12 23:20:03 UTC
-Built: R 3.5.3; x86_64-pc-linux-gnu; 2019-04-08 11:11:19 UTC; unix
+Built: R 3.6.0; x86_64-pc-linux-gnu; 2019-06-04 07:09:52 UTC; unix
