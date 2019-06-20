@@ -14,3 +14,4 @@ lhx/lhx
 */*/*.user
 */*.user
 .Rproj.user
+*/*/*/*.Rmd
