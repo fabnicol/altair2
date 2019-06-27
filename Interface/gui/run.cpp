@@ -525,11 +525,42 @@ void Altair::run()
         }
 }
 
+
+void Altair::initRAltairCommandStr()
+{
+#ifdef LOCAL_BINPATH
+#  ifdef MINIMAL
+
+     RAltairDirStr = path_access ("R/bin/x64");
+     // Passer les '/' soit avec QDir::toNativeSeparators() soit utiliser QDir::separator() sous Windows.
+     RAltairCommandStr = RAltairDirStr + QDir::separator() + "Rscript" + QString (systemSuffix);
+
+#  else
+
+#    ifdef __WIN32__
+
+        /// Ligne de commande permettant de lancer RStudio
+        RAltairDirStr = path_access ("RStudio");
+        RAltairCommandStr = RAltairDirStr + QDir::separator() + "bin" + QDir::separator() + "rstudio" + QString (systemSuffix) ;
+
+#    else
+
+        /// Ligne de commande permettant de lancer RStudio
+        RAltairCommandStr = QString ("/usr/bin/rstudio");
+
+#    endif
+#  endif
+#else
+        RAltairDirStr = QString ("/lib/rstudio/bin");
+        RAltairCommandStr = PREFIX + RAltairDirStr + QString ("rstudio"); ///< Ligne de commande permettant de lancer RStudio
+#endif
+}
+
 void Altair::runRAltair()
 {
 
     Abstract::refresh();  // pour actualiser les valeurs des v(...)  sans avoir à enregistrer de projet.
-
+    initRAltairCommandStr();
     textAppend (tr (STATE_HTML_TAG "Création du rapport d'analyse des données..."));
 
     process.setWorkingDirectory (path_access ("Tests/Exemple"));
@@ -545,7 +576,13 @@ void Altair::runRAltair()
 
     if (parent->dialog &&  v(genererBudget).isFalse()) QDir(common::path_access (DONNEES_XHL)).remove("paye_budget.csv");
              
-    if (v(enchainerRapports).isFalse())
+    // Attention pour les widgets qui ne sont pas du type "commandline", Abstract::refresh ne s'applique pas en raison du code suivant dans fwidgets_lib::Fcore:
+    // if (static_cast<flags::status>(commandLineType & static_cast<int>(flags::status::excludeMask))
+    //    != flags::status::excluded)  Abstract::abstractWidgetList.append(this);
+    // Il faut donc invoquer les widgets directement en cas de changement
+
+
+    if (! parent->dialog->processTab->enchainerRapports->isChecked())
         {
             process.start (RAltairCommandStr, QStringList() << path_access ("altaïr.Rproj"));
             return;

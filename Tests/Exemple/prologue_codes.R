@@ -59,7 +59,8 @@ codes.primedetechnicite <- NA
 script_effectifs               <- TRUE    
 script_pyramides               <- TRUE    
 script_duréedeservice          <- TRUE    
-script_rémunérationsbrutes     <- TRUE    
+script_rémunérationsbrutes1    <- TRUE
+script_rémunérationsbrutes2    <- TRUE    
 script_comparaisonsdubrut      <- TRUE    
 script_rémunérationsnettes     <- TRUE    
 script_rmppetnoria             <- TRUE    
@@ -87,7 +88,7 @@ ouvrir.document                <- TRUE
 
 types.irs  <- c("IR", "S")
 
-controle<-c("YYY","YYY","YYY","MULTIBUDGET")  
+controle<-c("","","","")  
 
 codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IFSE", "IEMP", "ISS", "IHTS", "VAC", "ASTREINTES", "NAS", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(

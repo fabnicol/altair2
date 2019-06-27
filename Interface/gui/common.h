@@ -79,36 +79,15 @@ public:
    const QString sharedir = generateDatadirPath(); ///< Chemin ~/.local/share/Altair
    QString altairCommandStr = execPath + QDir::separator() + ("lhx" + QString (systemSuffix)); ///< Ligne de commande permettant de lancer lhx
    QString exportpath;
-
-#  ifdef MINIMAL
-
-     QString RAltairDirStr = path_access ("R/bin/x64");
-     // Passer les '/' soit avec QDir::toNativeSeparators() soit utiliser QDir::separator() sous Windows.
-     QString RAltairCommandStr = RAltairDirStr + QDir::separator() + "Rscript" + QString (systemSuffix);
-
-#  else
-
-#    ifdef __WIN32__
-
-        /// Ligne de commande permettant de lancer RStudio
-        QString RAltairDirStr = path_access ("RStudio");
-        QString RAltairCommandStr = RAltairDirStr + QDir::separator() + "bin" + QDir::separator() + "rstudio" + QString (systemSuffix) ;
-
-#    else
-
-        /// Ligne de commande permettant de lancer RStudio
-        QString RAltairCommandStr = QString ("/usr/bin/rstudio");
-
-#    endif
-#  endif
+   QString RAltairCommandStr;
+   QString RAltairDirStr;
 
 #else
 
     QString execPath = PREFIX + QString ("/bin"); ///< Chemin du répertoire contenant lhx
     QString sharedir = PREFIX + QString ("/share/applications/altair");
     /// Ligne de commande permettant de lancer RStudio
-    QString RAltairDirStr = QString ("/lib/rstudio/bin");
-    QString RAltairCommandStr = PREFIX + RAltairDirStr + QString ("rstudio"); ///< Ligne de commande permettant de lancer RStudio
+
     QString altairCommandStr = PREFIX + QString ("/bin/lhx"); ///< Ligne de commande permettant de lancer lhx
 
 #endif

@@ -323,6 +323,10 @@ private:
 
     void initialize();
 
+    /// Initialise la ligne de commande RAltair
+
+    void initRAltairCommandStr();
+
     /// Crée la chaîne QString permettant d'écrire un projet XML d'extension \b .alt
     /// Parcourt l'ensemble de la liste Abstract::abstractWidgetList des fwidgets (widgets fonctionnels)
     /// Enregistre le projet XML à partir du contenu des fwidgets
