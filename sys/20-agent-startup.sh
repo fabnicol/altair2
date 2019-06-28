@@ -4,4 +4,4 @@
 # Uncomment the following lines to kill the agents
 # that were started at session startup.
 
-/etc/init.d/ajuster_warning start
+/etc/init.d/actualiser_warning start
