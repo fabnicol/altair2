@@ -4,4 +4,4 @@
 # Uncomment the following lines to kill the agents
 # that were started at session startup.
 
-/home/fab/Dev/altair/sys/actualiser_warning
+nohup /home/fab/Dev/altair/sys/actualiser_warning &
