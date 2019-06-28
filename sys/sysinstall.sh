@@ -411,7 +411,9 @@ chmod 0755  /etc/init.d/ajuster_m
 rc-update add ajuster_m default
 _copy  ajuster_version    /etc/init.d 
 chmod 0755  /etc/init.d/ajuster_version
-rc-update add ajuster_version default
+copy  ajuster_warning    /etc/init.d 
+chmod 0755  /etc/init.d/ajuster_warning
+
 
 
 # no-op mais souhaitable
