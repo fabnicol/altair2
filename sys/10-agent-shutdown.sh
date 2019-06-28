@@ -54,6 +54,5 @@ if test -d $HOME/Dev/altair/.Rproj.user; then
   echo "Effacement incomplet" >> /home/Public/log
 fi
 
-/etc/init.d/actualiser_warning stop
 
 

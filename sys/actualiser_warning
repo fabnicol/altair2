@@ -1,8 +1,4 @@
-#!/sbin/openrc-run
-# $Id$
-
-
-start() {
+#!/bin/bash
 
 while true
 do
@@ -13,11 +9,10 @@ do
     exec /home/fab/Dev/altair/linux/warning
     fi
     sleep 30
+    a=$(rc-status | grep ajuster_version | grep starting)
+
+    if test "y$a" = "y"; then
+    kill -9 $(pidof warning)
+    fi
+    sleep 30
 done
-}
-
-stop() {
-
-kill -9 $(pidof warning)
-
-}
