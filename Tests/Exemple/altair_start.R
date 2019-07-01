@@ -239,10 +239,8 @@ scripts <- list(
   "script_effectifs.R",                   #### 1.1 Effectifs          ####
   "script_pyramides.R",                   #### 1.2-5 Pyramides        ####
   "script_duréedeservice.R",              #### 1.6  Effectifs par durée ####
-    list("script_rémunérationsbrutes.R",
-      index = c(début.période.sous.revue,
-                fin.période.sous.revue),
-      incrémenter = TRUE),                  #### 2 et 3 Analyse statique des rémunérations ####
+  "script_rémunérationsbrutes1.R",
+  "script_rémunérationsbrutes2.R",
   "script_comparaisonsdubrut.R",           #### 3.4  Comparatif INSEE DGCL ####
   "script_évolutiondunet.R",               #### 4. Analyse dynamique des rémunérations ####
   "script_NBI.R",                         #### 5.1  NBI               ####
@@ -289,10 +287,8 @@ if (séquentiel) {
                   "script_pyramides.R",
                   "script_duréedeservice.R")
 
-  group2 <- list(list("script_rémunérationsbrutes.R",
-                      index = c(début.période.sous.revue,
-                                fin.période.sous.revue),
-                      incrémenter = TRUE),
+  group2 <- list("script_rémunérationsbrutes1.R",
+                 "script_rémunérationsbrutes2.R",
                  "script_comparaisonsdubrut.R",
                  "script_évolutiondunet.R")
 
@@ -383,8 +379,9 @@ if (convertir.latin1) {
                     "-exec", "sed -i -e '1s/Evenement/Evénement/'     {} \\;"),
                   stderr = FALSE)
 
-    system2("find", c("Donnees/R-Altair/Bases", "-name", "'*.csv'", "-print0", "|", "xargs", "-0", "../../linux/utf82latin1"),
-                    stderr = FALSE)
+  system2("find",
+          c("Donnees/R-Altair/Bases", "-name", "'*.csv'", "-print0", "|", "xargs", "-0", "../../linux/utf82latin1"),
+          stderr = FALSE)
 }
 
 # Copie de la documentation accessoire aux rapports

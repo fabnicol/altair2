@@ -4,6 +4,10 @@
 
 brut.eqtp <- brut.eqtp(variation = TRUE)
 brut.eqtp.emploi <- brut.eqtp.emploi(variation = TRUE)   
+
+
+
+
 sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 
            environment(), "brut.eqtp.emploi")
 sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 

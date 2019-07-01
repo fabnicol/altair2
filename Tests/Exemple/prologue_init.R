@@ -59,7 +59,8 @@ codes.primedetechnicite <- NA
 script_effectifs               <- TRUE    
 script_pyramides               <- TRUE    
 script_duréedeservice          <- TRUE    
-script_rémunérationsbrutes     <- TRUE    
+script_rémunérationsbrutes1    <- TRUE
+script_rémunérationsbrutes2    <- TRUE    
 script_comparaisonsdubrut      <- TRUE    
 script_rémunérationsnettes     <- TRUE    
 script_rmppetnoria             <- TRUE    
