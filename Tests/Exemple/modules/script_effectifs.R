@@ -106,3 +106,4 @@ essayer(label = "+fichiers pyr",
           
         }}, "La lecture des fichiers de référence des pyramides (fichiers listés dans fichiers.pyr), comportant les statistiques INSEE, a échoué.")
 
+setwd(chemin.dossier)

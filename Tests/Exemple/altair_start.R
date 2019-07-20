@@ -235,33 +235,33 @@ if (setOSWindows) séquentiel <- TRUE else {
 
 
 
-scripts <- list(
-  "script_effectifs.R",                   #### 1.1 Effectifs          ####
-  "script_pyramides.R",                   #### 1.2-5 Pyramides        ####
-  "script_duréedeservice.R",              #### 1.6  Effectifs par durée ####
-  "script_rémunérationsbrutes1.R",
-  "script_rémunérationsbrutes2.R",
-  "script_comparaisonsdubrut.R",           #### 3.4  Comparatif INSEE DGCL ####
-  "script_évolutiondunet.R",               #### 4. Analyse dynamique des rémunérations ####
-  "script_NBI.R",                         #### 5.1  NBI               ####
-  "script_PFI.R",                         #### 5.2  PFI               ####
-  "script_vacataires.R",                   #### 5.3-5.4 VACATIONS      ####
-  "script_NAS.R",                         #### 5.5  NAS               ####
-  "script_IATIFTS.R",                    #### 5.6  IAT/IFTS          ####
-  "script_PFR.R",                         #### 5.7  PFR               ####
-  "script_PSR.R",                         #### 5.8  PSR               ####
-  "script_IPF.R",                         #### 5.9  IPF               ####
-  "script_RIFSEEP.R",                     #### 5.10 RIFSEEP           ####
-  "script_HS.R",                          #### 5.11 HEURES SUP        ####
-  "script_élus.R",                        #### 5.12 ELUS              ####
-  "script_comptabilité.R",                #### 5.13 COMPTE DE GESTION ####
-  "script_SFT.R",                         #### 5.14 SFT               ####
-  "script_astreintes.R",                  #### 5.15 ASTREINTES        ####
-  "script_retraites.R",                   #### 5.16 RETRAITES         ####
-  "script_FPH.R",                         #### 5.17 PRIMES FPH        ####
-  "script_annexe.R"                       #### ANNEXE                 ####
-) 
-
+scripts <- 
+   list("script_effectifs.R",
+        "script_pyramides.R",
+        "script_duréedeservice.R",
+        "script_rémunérationsbrutes1.R",
+        "script_rémunérationsbrutes2.R",
+        "script_comparaisonsdubrut.R",
+        "script_évolutiondunet.R",
+        "script_NBI.R",
+        "script_HS.R", #+
+        "script_astreintes.R",
+        "script_IATIFTS.R",
+        "script_PFR.R",
+        "script_PSR.R",
+        "script_IPF.R",
+        "script_RIFSEEP.R",
+        "script_PFI.R", #+
+        "script_vacataires.R", #+
+        "script_NAS.R", #+
+        "script_élus.R",
+        "script_comptabilité.R",
+        "script_SFT.R",
+        "script_retraites.R",
+        "script_FPH.R",
+        "script_annexe.R")
+  
+  
 générer.partie <- function(script, seq) {
                               invisible(lapply(script, function(x) do.call(insérer_script, 
                                                                              as.list(na.omit(c(file.path(chemin.modules, x[1]),

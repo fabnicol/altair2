@@ -1019,8 +1019,9 @@ invisible(sapply(index, function(x) {
              
         } else {
             
+            message("Sourcing", chemin, "...")
+                        
             source(chemin, encoding = encodage.code.source)    
-             
         }
     
   } else {
