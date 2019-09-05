@@ -1722,7 +1722,7 @@ bool MainWindow::restoreProject (QString archfile)
              
    if (v(archiveXML).isTrue() || v(archiveAll).isTrue())
     {
-       result = common::unzipDir(projectRootDir + "home", QStringList() << "*.xhl.arch" << "*.XHL.arch" << "*.xml.arch" << "*.XML.arch");
+       result = common::unzipDir(projectRootDir, QStringList() << "*.xhl.arch" << "*.XHL.arch" << "*.xml.arch" << "*.XML.arch");
    
        if (result)
             {
@@ -1734,8 +1734,8 @@ bool MainWindow::restoreProject (QString archfile)
 
       altair->outputTextEdit->repaint();
     }
-   else
-           QDir("home").removeRecursively();
+   //else
+     //      QDir("home").removeRecursively();
       
     result = common::unzipDir (projectRootDir + "Docs");
     result &= common::unzipDir (projectRootDir + "Bases");
