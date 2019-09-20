@@ -119,6 +119,7 @@ AR <- Analyse.remunerations.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIR
                                      ..colonnes.sélectionnées]
 
 attach(AR, warn.conflicts = FALSE)
+
 source("histogrammes.R", encoding = encodage.code.source)
 
 detach(AR)

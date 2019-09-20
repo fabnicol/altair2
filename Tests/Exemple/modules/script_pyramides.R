@@ -1,4 +1,5 @@
 
+
 #'## 1.2 Pyramide des âges, ensemble des personnels      
 #'   
 #'[![Notice](Notice.png)](Docs/Notices/fiche_2.odt)    
@@ -166,6 +167,8 @@ conditionnel("Lien vers la base des âges - fin de période", "Bases/Effectifs/"
 
 #'*Toutes les pyramides des âges sont établies au 31 décembre de l'année considérée.*   
 #'*Les élus ne sont pas compris dans le périmètre statistique.*     
+
+
 
 #'   
 #'   
