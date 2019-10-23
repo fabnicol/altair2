@@ -304,9 +304,67 @@ plafonds_HS <- function() {
   
   nombre.Lignes.paie.HS.sup.25 <- nrow(HS.sup.25)
   
+# Attention régimse spécial FPH 
+# IHTS payables à :
+# -cadre de santé ;
+# -infirmier anesthésiste ;
+# -infirmier de bloc opératoire ;
+# -infirmière puéricultrice ;
+# -infirmier ;
+# -orthophoniste ;
+# -orthoptiste ;
+# -diététicien ;
+# -ergothérapeute ;
+# -masseur-kinésithérapeute ;
+# -psychomotricien ;
+# -pédicure-podologue ;
+# -aide-soignant (y compris aide médico-psychologique et auxiliaire de puériculture) ;
+# -psychologue ;
+# -technicien de laboratoire ;
+# -préparateur en pharmacie ;
+# -manipulateur d'électroradiologie médicale.
+# Personnels sages-femmes :
+# -sage-femme cadre ;
+# -sage-femme.
+# Personnels administratifs :
+# -adjoint des cadres administratifs ;
+# -secrétaire médical ;
+# -adjoint administratif hospitalier ;
+# -permanencier auxiliaire de régulation médicale ;
+# -standardiste.
+# Personnels techniques :
+# -adjoint technique ;
+# -dessinateur.
+# Personnels ouvriers :
+# -contremaître ;
+# -maître ouvrier ;
+# -conducteur ambulancier ;
+# -chef de garage ;
+# -agent technique d'entretien.
+# Personnels socio-éducatif :
+# -cadre socio-éducatif ;
+# -animateur ;
+# -éducateur technique spécialisé ;
+# -éducateur de jeunes enfants ;
+# -moniteur-éducateur ;
+# -moniteur d'atelier ;
+# -assistant socio-éducatif ;
+# -conseiller en économie sociale et familiale.
+# Les personnels de l'informatique et de l'organisation recrutés en application de l'article 8 de la loi n° 86-33 du 9 janvier 1986 sont éligibles aux indemnités horaires pour travaux supplémentaires.
+
+# prochainement les corps suivants vont basculer en cat 1:
+# Décret n° 2018-731 du 21 août 2018 portant dispositions statutaires communes à certains corps de catégorie A de la fonction publique hospitalière à caractère socio-éducatif
+# Sont classés dans la catégorie A de la fonction publique hospitalière prévue à l'article 13 de la loi du 13 juillet 1983 susvisée, les corps des personnels socio-éducatifs des établissements mentionnés à l'article 2 de la loi du 9 janvier 1986 susvisée, ci-dessous énumérés :
+# 1° Le corps des conseillers en économie sociale et familiale ;
+# 2° Le corps des éducateurs techniques spécialisés ;
+# 3° Le corps des éducateurs de jeunes enfants ;
+# 4° Le corps des assistants socio-éducatifs.
+  
+  
   ihts.cat.A <- filtrer_Paie("IHTS")[Montant != 0 
                                      & Categorie == "A"
-                                     & Type %chin% c("R", "I", "T", "A"),
+                                     & ! grepl("(infirm|cadre.*sant|sage.*fem|pu..?ric|ergot|orthop|di..?t..?ti|psycho|cadre.*soc.*du|cons.*cono.*f|..?ducat.*(spec|enf)|assist.*soc.*du).*", Grade, ignore.case=TRUE, perl=TRUE)
+                                     & Type %in% c("R", "I", "T", "A"),
                                      .(Matricule, Annee, Mois, Statut, Grade, Heures.Sup., Libelle, Code, Type, Montant)]
   
   nombre.ihts.cat.A <- nrow(ihts.cat.A) 
