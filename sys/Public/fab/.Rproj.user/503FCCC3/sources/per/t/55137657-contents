@@ -12,7 +12,7 @@ source("corps_rapport_pdf.R", encoding = encodage.code.source)
       "altair.md +RTS -K512m -RTS --to",
       "docx",
       "--from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --highlight-style tango --output",
-      "altaïr.docx")
+      "altair.docx")
     )
   
   ajuster_chemins_odt(V)
@@ -23,7 +23,7 @@ source("corps_rapport_pdf.R", encoding = encodage.code.source)
       "altair.md +RTS -K512m -RTS --to",
       "odt",
       "--from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --highlight-style tango --output",
-      "altaïr.odt")
+      "altair.odt")
     )
     
   if (! keep_md) {
@@ -35,14 +35,14 @@ source("corps_rapport_pdf.R", encoding = encodage.code.source)
 
 if (setOSWindows) {
   
-  system("xcopy /Y altaïr.odt Donnees\\R-Altaïr")
-  system("xcopy /Y altaïr.docx Donnees\\R-Altaïr")
+  system("xcopy /Y altair.odt Donnees\\R-Altaïr")
+  system("xcopy /Y altair.docx Donnees\\R-Altaïr")
   
 } else {
   
-  system("cp -f altaïr.odt altaïr.docx Donnees/R-Altair")
+  system("cp -f altair.odt altair.docx Donnees/R-Altair")
 }
 
-if (setOSWindows) shell("start winword Donnees/R-Altaïr/altaïr.docx") else system("/usr/bin/lowriter Donnees/R-Altair/altaïr.odt")  
+if (setOSWindows) shell("start winword Donnees/R-Altaïr/altair.docx") else system("/usr/bin/lowriter Donnees/R-Altair/altair.odt")  
   
 setwd(initwd)

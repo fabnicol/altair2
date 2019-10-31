@@ -1342,9 +1342,9 @@ bool MainWindow::exportProject (QString dirPath)
     altair->textAppend (PROCESSING_HTML_TAG "Exportation en cours. Patientez...");
     altair->outputTextEdit->repaint();
    
-    const QString docxReportFilePath = projectRootDir + "altaïr.docx";
-    const QString odtReportFilePath = projectRootDir  + "altaïr.odt";
-    const QString pdfReportFilePath = projectRootDir  + "altaïr.pdf";
+    const QString docxReportFilePath = projectRootDir + "altair.docx";
+    const QString odtReportFilePath = projectRootDir  + "altair.odt";
+    const QString pdfReportFilePath = projectRootDir  + "altair.pdf";
     QDir dir (v(base));
     QStringList tableList = dir.entryList (QStringList ("Table*.csv"), QDir::Files);
 
@@ -1370,7 +1370,7 @@ bool MainWindow::exportProject (QString dirPath)
     if (result)
        result = common::copyDir(common::generateDatadirPath("/images"), subDirStr   + "images"); 
     
-    result &= common::copyFile (docxReportFilePath, subDirStr  + "altaïr.docx", "Le rapport Altaïr Word", REQUIRE);
+    result &= common::copyFile (docxReportFilePath, subDirStr  + "altair.docx", "Le rapport Altaïr Word", REQUIRE);
 
     if (result)
         {
@@ -1378,7 +1378,7 @@ bool MainWindow::exportProject (QString dirPath)
             altair->setProgressBar (2);
         }
 
-    result &= common::copyFile (odtReportFilePath, subDirStr  + "altaïr.odt", "Le rapport Altaïr Open Office", REQUIRE);
+    result &= common::copyFile (odtReportFilePath, subDirStr  + "altair.odt", "Le rapport Altaïr Open Office", REQUIRE);
 
     if (result)
         {
@@ -1386,7 +1386,7 @@ bool MainWindow::exportProject (QString dirPath)
             altair->setProgressBar (3);
         }
 
-    result &= common::copyFile (pdfReportFilePath, subDirStr  + "altaïr.pdf", "Le rapport Altaïr PDF", REQUIRE);
+    result &= common::copyFile (pdfReportFilePath, subDirStr  + "altair.pdf", "Le rapport Altaïr PDF", REQUIRE);
 
     if (result)
         {
@@ -1490,9 +1490,9 @@ bool MainWindow::archiveProject()
 
     on_displayLogButton_clicked(false, false);
    
-    const QString docxReportFilePath = projectRootDir  + "altaïr.docx";
-    const QString pdfReportFilePath = projectRootDir   + "altaïr.pdf";
-    const QString odtReportFilePath = projectRootDir   + "altaïr.odt";
+    const QString docxReportFilePath = projectRootDir  + "altair.docx";
+    const QString pdfReportFilePath = projectRootDir   + "altair.pdf";
+    const QString odtReportFilePath = projectRootDir   + "altair.odt";
     QDir dir (v(base));
     QStringList tableList = dir.entryList (QStringList ("Table*.csv"), QDir::Files);
 
@@ -1523,7 +1523,7 @@ bool MainWindow::archiveProject()
             altair->setProgressBar (1);
         }
     
-    result &= common::zip (docxReportFilePath, subDirStr + "altaïr.docx.arch");
+    result &= common::zip (docxReportFilePath, subDirStr + "altair.docx.arch");
 
     if (result)
         {
@@ -1531,7 +1531,7 @@ bool MainWindow::archiveProject()
             altair->setProgressBar (2);
         }
 
-    result &= common::zip (odtReportFilePath, subDirStr  + "altaïr.odt.arch");
+    result &= common::zip (odtReportFilePath, subDirStr  + "altair.odt.arch");
 
     if (result)
         {
@@ -1539,7 +1539,7 @@ bool MainWindow::archiveProject()
             altair->setProgressBar (3);
         }
 
-    result &= common::zip (pdfReportFilePath, subDirStr  + "altaïr.pdf.arch");
+    result &= common::zip (pdfReportFilePath, subDirStr  + "altair.pdf.arch");
 
     if (result)
         {
@@ -1685,19 +1685,19 @@ bool MainWindow::restoreProject (QString archfile)
             altair->setProgressBar (1);
         }
     
-    if (QFileInfo("altaïr.docx").exists())
+    if (QFileInfo("altair.docx").exists())
         {
             altair->textAppend (PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été décompressé sous : " + projectRootDir);
             altair->setProgressBar (2);
         }
 
-    if (QFileInfo("altaïr.odt").exists())
+    if (QFileInfo("altair.odt").exists())
         {
             altair->textAppend (PARAMETER_HTML_TAG  "Le rapport Altaïr ODT a été décompressé sous : " + projectRootDir);
             altair->setProgressBar (3);
         }
 
-    if (QFileInfo("altaïr.pdf").exists())
+    if (QFileInfo("altair.pdf").exists())
         {
             altair->textAppend (PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été décompressé sous : " + projectRootDir);
             altair->setProgressBar (4);

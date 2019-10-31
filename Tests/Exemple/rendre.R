@@ -93,8 +93,8 @@ rendre <- function(fw = fig.width,
           } else {
             if (chemin_pandoc != "") {
                if (to == "latex") {
-                  cat(chemin_pandoc, output_file, "-o", "altaïr.pdf", args)
-                  system2(chemin_pandoc, c(output_file, "-o", "altaïr.pdf", args))
+                  cat(chemin_pandoc, output_file, "-o", "altair.pdf", args)
+                  system2(chemin_pandoc, c(output_file, "-o", "altair.pdf", args))
                }
             } else {
               cat("Impossible de trouver pandoc et de générer le pdf.")

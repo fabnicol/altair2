@@ -570,9 +570,9 @@ void Altair::runRAltair()
     // ne pas utiliser isFalse() car la valeur peut être non-spécifiée au lancement
     QDir outputDir = QDir (common::path_access (DONNEES_SORTIE));
 
-    outputDir.remove ("altaïr.pdf");
-    outputDir.remove ("altaïr.odt");
-    outputDir.remove ("altaïr.docx");
+    outputDir.remove ("altair.pdf");
+    outputDir.remove ("altair.odt");
+    outputDir.remove ("altair.docx");
 
     if (parent->dialog &&  v(genererBudget).isFalse()) QDir(common::path_access (DONNEES_XHL)).remove("paye_budget.csv");
              
