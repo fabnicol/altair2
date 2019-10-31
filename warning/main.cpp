@@ -12,9 +12,9 @@ int main(int argc, char *argv[])
     w->setWindowIcon(QApplication::style()->standardIcon(QStyle::SP_MessageBoxCritical));
 
     edit->insertHtml("<html><br><br>"
-    "<b><span style='color:red;'>Le PC va bientôt s'arrêter (actualisation en cours).</span></b>"
-    "<br><br>Veuillez patienter jusqu'à l'arrêt..."
-    "<br>Ne pas éteindre le PC, merci.</b></html>");
+    "<b><span style='color:red;'>Le PC va bientÃ´t s'arrÃªter (actualisation en cours).</span></b>"
+    "<br><br>Veuillez patienter jusqu'Ã  l'arrÃªt..."
+    "<br>Ne pas Ã©teindre le PC, merci.</b></html>");
     edit->setFont (QFont ("Verdana", 12));
     w->show();
     w->setGeometry (400, 600, 500, 150);

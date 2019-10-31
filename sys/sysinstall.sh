@@ -12,6 +12,31 @@ fi
 
 chown -R fab .
 
+
+cd /home/fab/Dev/altair
+git config --global --unset http.proxy
+git rev-parse --verify newdev
+
+if test $? != 0; then
+
+ echo "***"
+ echo "*** Création de la branche locale newdev... ***"
+ echo "***"
+ 
+ git checkout --orphan newdev
+ 
+ if test $? = 0; then
+    git fetch --depth=1 -f -p -n $(cat entrepot.txt) newdev
+    git checkout -f FETCH_HEAD
+    git branch -D newdev
+    git checkout -b newdev 
+    git add -f .
+ fi
+ 
+ sleep 1
+
+fi 
+
 if test -f sys/install.Rproj ; then
 
    echo "Raffraichissement des paramètres éditeur"
@@ -37,31 +62,7 @@ if test -f sys/install.Rproj ; then
    fi 
 fi
 
-# DEPRECATED
-#
-if test -f sys/install.modules -a $(uname -r | cut -d '.' -f 2) = 4; then
 
-   echo "Actualisation des modules du T3..."
-   echo "Importation de la branche T3"
-   git fetch -p -n  --depth=1 origin T3
-   git checkout FETCH_HEAD -- sys/modules
-   git checkout FETCH_HEAD -- sys/modprobe.d
-   
-   if test -d sys/modules -a -d sys/modprobe.d; then
-   
-      echo "Modules importés de la branche T3"
-      _copy sys/modules /lib
-      _copy sys/modprobe.d /lib
-      chown -R root /lib/modules
-      chown -R root /lib/modprobe.d
-      echo "Actualisation des modules du T3 terminée..."
-      
-   else
-   
-      echo "Echec à l'importation des modules de la branche T3"
-      
-    fi 
-fi
 
 # Toute l'actualisation étant en mode git checkout et non pas en git pull
 # il faut effacer les résidus qui posent problème
@@ -269,41 +270,6 @@ if test -f install.lib64; then
   cp -rfd  lib64/*  /opt/lib64
 fi
 
-if test -f install.kernel -a "$(uname -r)" != "4.10.8-ck"; then
-
-   echo "Actualisation du noyau (4.10.8-ck)..."
-   echo "Importation de la branche T3"
-   git fetch -p -n  --depth=1 origin T3
-   git checkout FETCH_HEAD -- kernel 
-   
-   if test -d kernel; then
-   
-      echo "Modules importés de la branche T3"
-      _copy kernel/4.10.8-ck /lib/modules
-      chown -R root /lib/modules
-      echo "Actualisation des modules du T3 terminée..."
-      umount /boot
-      mount UUID="8b17d2d8-7905-4019-a9e7-a5d0fb961ea7" /boot
-      rm -rf /boot/*
-      cp -f kernel/*-4.10.8* /boot
-      device=$(cat /proc/mounts | grep dev.*10.*home.*ext4 | cut -f1 -d' ' | cut -f1 -d1)
-      grub-install --target i386-pc $device
-      grub-mkconfig -o /boot/grub/grub.cfg
-      echo "***************************************"
-      echo "*                                     *"
-      echo "* Nouveau noyau linux 4.10.8 installé *"
-      echo "*                                     *"
-      echo "***************************************"
-      umount UUID="8b17d2d8-7905-4019-a9e7-a5d0fb961ea7" 
-
-   else
-   
-      echo "Echec de l'actualisation du noyau linux"
-      
-   fi 
-    
-  sleep 2
-fi  
 
 
 
@@ -420,44 +386,6 @@ chmod -R 0750 /home/fab/Dev/altair/linux
 
 # correction d'un bug sur la version fab de m.sh (réimportation de /home/Public/fab/.Rproj.user à chaque ouverture de session)
 cp -vf ./autostart-scripts/m_fab.sh /home/fab/.config/autostart-scripts/m.sh
-git config --global --unset http.proxy
-
-cd /home/fab/Dev/altair
-
-git rev-parse --verify release
-
-if test $? != 0; then
-
- echo "***"
- echo "*** Création de la branche locale release... ***"
- echo "***"
- 
- git checkout --orphan release
- 
- if test $? = 0; then
-    git fetch --depth=1 -f -p -n $(cat entrepot.txt) release
-    git checkout -f FETCH_HEAD
-    git branch -D release
-    git checkout -b release 
-    git add -f .
- fi
- 
- sleep 1
- 
-else
-
- echo "***"
- echo "*** Actualisation de la branche locale release... ***"
- echo "***"
-
- git checkout -f release 
- git fetch --depth=1 -f -p -n $(cat entrepot.txt) release
- git checkout -f FETCH_HEAD 
- git branch -D release
- git checkout -b release
- git add -f .
-  
-fi 
 
 
 rm -rf .Rproj.user/
@@ -480,7 +408,7 @@ mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
 chgrp -R users /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
 chmod -R 0770 /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
 
-git checkout -f master-jf 
+git checkout -f newdev 
 
 # accès des données test
 if test ! -d /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl ; then
@@ -493,7 +421,7 @@ chgrp -R users .
 cp -f /home/fab/Dev/altair/Docs/Exemple/Anonyme2.7z  /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
 cp -f /home/fab/Dev/altair/Docs/Exemple/Anonyme2.7z  /home/jf/Dev/altair/Tests/Exemple/Donnees/xhl 
 
-echo "*** Opérations sur branche release : Terminé ***"
+echo "*** Opérations sur branche newdev : Terminé ***"
  
  
  

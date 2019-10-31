@@ -28,7 +28,7 @@ echo "****"
 cd /home/fab/Dev/altair
 
 find .git -name '*.lock' -delete
-git checkout -f master-jf
+git checkout -f newdev
 git reset --hard HEAD
 git clean -df
 adresse=$(cat entrepot.txt)
@@ -65,7 +65,7 @@ fi
 rm -f sys/build.*
 rm -f sys/install.*
 
-git fetch -p -n --depth=1 origin master-jf
+git fetch -p -n --depth=1 origin newdev
 
 for i in altair.linux sft data Docs Interface fwidgets_lib lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
 do
@@ -80,7 +80,7 @@ fi
 
 git add -f .
 
-git commit -am "Sauvegarde master-jf $(date)"
+git commit -am "Sauvegarde newdev $(date)"
 
 if test -f sys/install.sys -a -f sys/sysinstall.sh; then
 
