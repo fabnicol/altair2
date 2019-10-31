@@ -87,7 +87,7 @@ ouvrir.document                <- TRUE
 
 types.irs  <- c("IR", "S")
 
-controle<-c("","","","")  
+controle<-c("REGION OCCITANIE, REGION MIDI-PYRENEES, REGION LRMP","20005379100014 - 23310001500012","Site de TOULOUSE - REGION MIDI-PYRENEES","Multi budgets, BUDGET ANNEXE, BUDGET PRINCIPAL")  
 
 codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IFSE", "IEMP", "ISS", "IHTS", "VAC", "ASTREINTES", "NAS", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(

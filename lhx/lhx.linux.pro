@@ -41,16 +41,6 @@ greaterThan(QT_MAJOR_VERSION, 5)
 
 
 #QMAKE_CXX=/usr/bin/g++-8.1.0
-GIT_VERSION = $$system(git --version | grep -e \'git version\')
-CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
-
-
-if (!isEmpty(GIT_VERSION)) {
-    message( "Version de git : $$GIT_VERSION" )
-} else {
-    error( "Git doit être installé" )
-}
-
 
 
 # Pour une sortie en mode console pure, enlever guiOutput ci-dessous. Sinon l'output console prépare
