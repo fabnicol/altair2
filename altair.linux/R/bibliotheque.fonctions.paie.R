@@ -189,7 +189,7 @@ read.csv.skip <- function(x,
    }
   }
   
-names(T) <- iconv(names(T), to = "UTF-8")
+names(T) <- stringi::stri_trans_general(names(T), "Latin-ASCII")
 return(T)
 }
 

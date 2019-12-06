@@ -49,7 +49,7 @@
 
 convertir.accents <- function(V) {
   for (x in V) {
-    for (y in names(x)) setnames(x, y, gsub("à", "a", gsub("é", "e", gsub("è", "e", y))))
+    for (y in names(x)) stringi::stri_trans_general(y, "Latin-ASCII")
   }
 }
 
@@ -619,7 +619,7 @@ importer_ <- function() {
                                       #skip = champ.détection.1,
                                       encoding = "Latin-1"))
 
-  colonnes <- gsub("à", "a", gsub("é", "e", gsub("è", "e", colonnes)))
+  colonnes <- stringi::stri_trans_general(colonnes, "Latin-ASCII")
   type.données(colonnes)
   
   importer.bases.via.xhl2csv("Paie", fichiers.table, colClasses =  colonnes.classes.input)
