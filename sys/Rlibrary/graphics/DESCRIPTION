@@ -8,4 +8,4 @@ Description: R functions for base graphics.
 Imports: grDevices
 License: Part of R 3.6.0
 NeedsCompilation: yes
-Built: R 3.6.0; x86_64-pc-linux-gnu; 2019-12-05 22:26:20 UTC; unix
+Built: R 3.6.0; x86_64-pc-linux-gnu; 2019-12-09 12:03:35 UTC; unix

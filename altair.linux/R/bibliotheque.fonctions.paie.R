@@ -189,7 +189,7 @@ read.csv.skip <- function(x,
    }
   }
   
-names(T) <- stringi::stri_trans_general(names(T), "Latin-ASCII")
+for (y in names(T)) setnames(T, y, stringi::stri_trans_general(y, "Latin-ASCII"))
 return(T)
 }
 

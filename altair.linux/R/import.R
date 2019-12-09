@@ -48,8 +48,9 @@
 
 
 convertir.accents <- function(V) {
-  for (x in V) {
-    for (y in names(x)) stringi::stri_trans_general(y, "Latin-ASCII")
+  for (T in V) {
+     for (y in names(T))
+       setnames(T,y, stringi::stri_trans_general(y, "Latin-ASCII"))
   }
 }
 
@@ -625,7 +626,7 @@ importer_ <- function() {
   importer.bases.via.xhl2csv("Paie", fichiers.table, colClasses =  colonnes.classes.input)
   importer.bases.via.xhl2csv("Bulletins.paie", fichiers.bulletins, colClasses =  colonnes.bulletins.classes.input)
   
-  convertir.accents(list(Paie, Bulletins.paie))
+  #convertir.accents(list(Paie, Bulletins.paie))
   
   Bulletins.paie[ , Grade := toupper(Grade)]
   Paie[ , Grade := toupper(Grade)]
