@@ -290,6 +290,9 @@ identifier.personnels <- function() {
   Bulletins.paie[grepl(pattern = EXPRESSION_REG_ELUS, Emploi, perl = TRUE, ignore.case = TRUE), `:=`(Statut = "ELU",
                                                                                                      Categorie = NA)]
   
+  
+  Paie[grepl(pattern = EXPRESSION_REG_ELUS, Emploi, perl = TRUE, ignore.case = TRUE), `:=`(Statut = "ELU",
+                                                                                                     Categorie = NA)]
   EXPRESSION_REG_VACATIONS <- ".*\\bvacat.*|.*\\bvac\\.?\\b.*"
   EXPRESSION_REG_ASSMAT    <- ".*\\bass.*\\bmat.*"
   
