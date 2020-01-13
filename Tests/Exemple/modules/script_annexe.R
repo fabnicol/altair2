@@ -65,6 +65,8 @@ Evenements.mat <- setcolorder(setkey(copy(Evenements.ind),
 #'         
 #'   
 
+code.libelle.short <- unique(code.libelle[, .(Code, Libelle)])
+
 code.libelle <- remplacer_type(code.libelle)
 
 setcolorder(code.libelle, c("Code", "Libelle", "Statut", "Type", "Compte"))
@@ -91,6 +93,7 @@ plusieurs_types_par_code <- unique(code.libelle[, .(Code, Type)], by = NULL)[ , 
 plusieurs_types_par_libelle <- unique(code.libelle[, .(Libelle, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), keyby = Libelle][Multiplicité > 1]
 
 #'   
+#'[Lien vers la table Codes/Libelles](Bases/Fiabilite/code.libelle.short.csv)       
 #'[Lien vers la table Codes/Libelles](Bases/Fiabilite/code.libelle.csv)       
 conditionnel("Plusieurs libellés par code", "Bases/Fiabilite/plusieurs_libelles_par_code.csv")   
 conditionnel("Plusieurs codes par libellé", "Bases/Fiabilite/plusieurs_codes_par_libelle.csv")   
@@ -179,6 +182,7 @@ sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"),
                        "Evenements.ind",
                        "Evenements.mat",
                        "code.libelle",
+                       "code.libelle.short",
                        "plusieurs_libelles_par_code",
                        "plusieurs_codes_par_libelle",
                        "plusieurs_types_par_code",
