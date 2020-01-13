@@ -65,7 +65,7 @@ Evenements.mat <- setcolorder(setkey(copy(Evenements.ind),
 #'         
 #'   
 
-code.libelle.short <- unique(code.libelle[, .(Code, Libelle)])
+code.libelle.short <- unique(code.libelle[order(Code), .(Code, Libelle)])
 
 code.libelle <- remplacer_type(code.libelle)
 
@@ -81,20 +81,20 @@ if (afficher.table.codes) {
 #'
 
 # Plusieurs libellés par code
-plusieurs_libelles_par_code <- unique(code.libelle[ , .(Code, Libelle, Type)], by = NULL)[, Multiplicité := .N, keyby = Code][Multiplicité > 1]
+plusieurs_libelles_par_code <- unique(code.libelle[ , .(Code, Libelle, Type)])[, Multiplicité := .N, keyby = Code][Multiplicité > 1]
 
 # Plusieurs codes par libellé
-plusieurs_codes_par_libelle <- unique(code.libelle[ , .(Libelle,  Code, Type)], by = NULL)[, Multiplicité := .N, keyby = Libelle][Multiplicité > 1]
+plusieurs_codes_par_libelle <- unique(code.libelle[ , .(Libelle,  Code, Type)])[, Multiplicité := .N, keyby = Libelle][Multiplicité > 1]
 
 # Plusieurs types de ligne par code
-plusieurs_types_par_code <- unique(code.libelle[, .(Code, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), keyby = Code][Multiplicité > 1]
+plusieurs_types_par_code <- unique(code.libelle[, .(Code, Type)])[ , .(Multiplicité = .N,  Type), keyby = Code][Multiplicité > 1]
 
 # Plusieurs types de ligne par libellé
-plusieurs_types_par_libelle <- unique(code.libelle[, .(Libelle, Type)], by = NULL)[ , .(Multiplicité = .N,  Type), keyby = Libelle][Multiplicité > 1]
+plusieurs_types_par_libelle <- unique(code.libelle[, .(Libelle, Type)])[ , .(Multiplicité = .N,  Type), keyby = Libelle][Multiplicité > 1]
 
 #'   
-#'[Lien vers la table Codes/Libelles](Bases/Fiabilite/code.libelle.short.csv)       
-#'[Lien vers la table Codes/Libelles](Bases/Fiabilite/code.libelle.csv)       
+#'[Lien vers la table Codes/Libelles pour l'onglet Codes](Bases/Fiabilite/code.libelle.short.csv)       
+#'[Lien vers la table Codes/Libelles pour appariement avec les balances](Bases/Fiabilite/code.libelle.csv)       
 conditionnel("Plusieurs libellés par code", "Bases/Fiabilite/plusieurs_libelles_par_code.csv")   
 conditionnel("Plusieurs codes par libellé", "Bases/Fiabilite/plusieurs_codes_par_libelle.csv")   
 conditionnel("Plusieurs types de ligne par code", "Bases/Fiabilite/plusieurs_types_par_code.csv")   
