@@ -127,7 +127,12 @@ fi
   
       git fetch -p -n --depth=1 origin newdev | tee -a /home/Public/version.log
         
-            git checkout FETCH_HEAD -- "$i" 
+      git checkout FETCH_HEAD -- "$i" 
+
+      for i in altair.linux sft data Docs Interface fwidgets_lib lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
+-        do
+-            rm -rf "$i"
+
         done
         
         
