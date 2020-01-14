@@ -11,7 +11,6 @@ start() {
   # Un peu de ménage
 
   find /home/fab/Dev/altair/.git -name '*.lock' -delete
-  
 
 cd /home/fab/Dev/altair
 git config --global --unset http.proxy
@@ -41,8 +40,6 @@ else
   
 fi 
 
-
-
   rm -f /home/fab/Dev/altair/sys/install.*
 
   
@@ -65,8 +62,9 @@ fi
   # Vérification de la version 
   
   rm -f /home/Public/VERSION
-
-  wget   https://gitlabjf.ccomptes.fr/fnicol/master-jf/raw/newdev/VERSION -O /home/Public/VERSION    --no-check-certificate
+  export  http_proxy="100.78.88.201:8001"
+  export https_proxy="100.78.88.201:8001"
+  wget https://github.com/fabnicol/altair2/blob/master-jf/VERSION  -O /home/Public/VERSION    --no-check-certificate
   
   date >> /home/Public/version.log
 
@@ -129,9 +127,6 @@ fi
   
       git fetch -p -n --depth=1 origin newdev | tee -a /home/Public/version.log
         
-        for i in altair.linux sft data Docs Interface fwidgets_lib lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
-        do
-            rm -rf "$i"
             git checkout FETCH_HEAD -- "$i" 
         done
         
@@ -224,4 +219,7 @@ shutdown -h now
 
 
 
+
+#!/sbin/openrc-run
+# $Id$
 
