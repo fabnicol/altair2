@@ -41,7 +41,7 @@ source("rendre.R", encoding = encodage.code.source)
 
 envir <- rendre()
 
-file.rename("altair.docx", "altaïr.docx")
+file.rename("altair.docx", "altair.docx")
 
 ajuster_chemins_odt(hack_md())
 
@@ -51,7 +51,7 @@ system(
    "altair.md +RTS -K512m -RTS --to",
    "odt",
    "--from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --highlight-style tango --output",
-   "altaïr.odt")
+   "altair.odt")
 )
 
 if (! keep_md) {
@@ -60,17 +60,17 @@ if (! keep_md) {
     unlink("altair_files", recursive = TRUE)  
 }
 
-file.copy("altaïr.docx", chemin.clé)
-file.copy("altaïr.odt", chemin.clé)
+file.copy("altair.docx", chemin.clé)
+file.copy("altair.odt", chemin.clé)
 
 if (ouvrir.document && basename(chemin.clé) == racine) {
   if (setOSWindows) {
     
-    shell("start winword Donnees/R-Altaïr/altaïr.docx")
+    shell("start winword Donnees/R-Altaïr/altair.docx")
     
   } else {
     
-    system("lowriter Donnees/R-Altair/altaïr.odt")
+    system("lowriter Donnees/R-Altair/altair.odt")
   }
 }
 

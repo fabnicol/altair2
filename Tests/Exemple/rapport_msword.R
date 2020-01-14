@@ -52,8 +52,8 @@ for (rep in reps) {
 
   setwd(chemin.dossier)
   
-  invisible(lapply(c("altaïr.pdf", "altaïr.odt", "altaïr.docx"), function(x) file.remove(file.path(chemin.clé.racine, x))))
-  invisible(lapply(c("altaïr.pdf", "altaïr.odt", "altaïr.docx"), function(x) file.remove(file.path(chemin.dossier, x))))
+  invisible(lapply(c("altair.pdf", "altair.odt", "altair.docx"), function(x) file.remove(file.path(chemin.clé.racine, x))))
+  invisible(lapply(c("altair.pdf", "altair.odt", "altair.docx"), function(x) file.remove(file.path(chemin.dossier, x))))
   invisible(file.remove(list.files(chemin.modules, "*.Rmd", full.name = TRUE)))
   
   res <- try({
