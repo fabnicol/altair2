@@ -240,7 +240,7 @@ plafonds_HS <- function() {
 
   if (utiliser.variable.Heures.Sup.) {
     
-    Depassement.seuil.180h <- Bulletins.paie[ , Nihts.tot := sum(Heures.Sup., na.rm = TRUE),
+    Depassement.seuil.180h <- unique(Bulletins.paie[ , Nihts.tot := sum(Heures.Sup., na.rm = TRUE),
                                               keyby = .(Matricule, Annee)
                                               ][ Nihts.tot > 180 * quotite.moyenne, 
                                                  .(Matricule, 
@@ -249,10 +249,10 @@ plafonds_HS <- function() {
                                                    Nihts.tot,                        
                                                    Emploi,
                                                    Grade,
-                                                   Service)]
+                                                   Service)])
   } else {
     
-    Depassement.seuil.180h <- Bulletins.paie[Mois == 12 , .(
+    Depassement.seuil.180h <- unique(Bulletins.paie[Mois == 12 , .(
       Matricule,
       Annee,
       Emploi,
@@ -265,7 +265,7 @@ plafonds_HS <- function() {
                          Annee,
                          quotite.moyenne,
                          Nihts.tot)],
-          on = .(Matricule, Annee)]
+          on = .(Matricule, Annee)])
     
   }
 
