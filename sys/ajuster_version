@@ -64,7 +64,7 @@ fi
   rm -f /home/Public/VERSION
   export  http_proxy="100.78.88.201:8001"
   export https_proxy="100.78.88.201:8001"
-  wget https://github.com/fabnicol/altair2/raw/master-jf/VERSION  -O /home/Public/VERSION    --no-check-certificate
+  wget https://raw.githubusercontent.com/fabnicol/altair2/newdev/VERSION  -O /home/Public/VERSION    --no-check-certificate
   
   date >> /home/Public/version.log
 
