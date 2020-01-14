@@ -13,7 +13,7 @@ start() {
   find /home/fab/Dev/altair/.git -name '*.lock' -delete
 
 cd /home/fab/Dev/altair
-git config --global --unset http.proxy
+#git config --global --unset http.proxy
 git rev-parse --verify newdev
 
 if test $? != 0; then
@@ -64,7 +64,7 @@ fi
   rm -f /home/Public/VERSION
   export  http_proxy="100.78.88.201:8001"
   export https_proxy="100.78.88.201:8001"
-  wget https://github.com/fabnicol/altair2/blob/master-jf/VERSION  -O /home/Public/VERSION    --no-check-certificate
+  wget https://github.com/fabnicol/altair2/raw/master-jf/VERSION  -O /home/Public/VERSION    --no-check-certificate
   
   date >> /home/Public/version.log
 
@@ -111,8 +111,8 @@ fi
 
       git config user.name "Fabrice Nicol"
       git config user.email "fabrice.nicol@crtc.ccomptes.fr"
-      git config --unset http.proxy 
-      git config --global --unset http.proxy
+      #git config --unset http.proxy 
+      #git config --global --unset http.proxy
       git config http.sslVerify false
       git config credential.helper store
       
@@ -126,13 +126,11 @@ fi
        fi
   
       git fetch -p -n --depth=1 origin newdev | tee -a /home/Public/version.log
-        
-      git checkout FETCH_HEAD -- "$i" 
 
       for i in altair.linux sft data Docs Interface fwidgets_lib lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
--        do
--            rm -rf "$i"
-
+        do
+            rm -rf "$i"
+            git checkout FETCH_HEAD -- "$i" 
         done
         
         
