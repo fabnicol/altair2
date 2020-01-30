@@ -1,7 +1,7 @@
 Package: bit
 Title: A Class for Vectors of 1-Bit Booleans
-Version: 1.1-15
-Date: 2020-01-12
+Version: 1.1-15.1
+Date: 2020-01-14
 Authors@R: c(person("Jens", "Oehlschlägel", role = c('aut', 'cre'),
 	             email = "Jens.Oehlschlaegel@truecluster.com"),
              person("Brian", "Ripley", role = 'ctb'))
@@ -31,10 +31,14 @@ LazyLoad: yes
 ByteCompile: yes
 Encoding: UTF-8
 NeedsCompilation: yes
-Packaged: 2020-01-13 08:46:07 UTC; ripley
+Packaged: 2020-01-14 16:35:18 UTC; ripley
 Author: Jens Oehlschlägel [aut, cre],
   Brian Ripley [ctb]
-Maintainer: Jens Oehlschlägel <Jens.Oehlschlaegel@truecluster.com>
+Maintainer: ORPHANED
+X-CRAN-Original-Maintainer: Jens Oehlschlägel
+        <Jens.Oehlschlaegel@truecluster.com>
+X-CRAN-Comment: Orphaned on 2020-01-13 as check errors were not
+        corrected.
 Repository: CRAN
-Date/Publication: 2020-01-13 08:47:57 UTC
-Built: R 3.6.0; x86_64-pc-linux-gnu; 2020-01-14 05:13:44 UTC; unix
+Date/Publication: 2020-01-14 17:26:58 UTC
+Built: R 3.6.0; x86_64-pc-linux-gnu; 2020-01-30 14:18:40 UTC; unix

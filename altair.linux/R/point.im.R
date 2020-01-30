@@ -63,7 +63,8 @@ point_inm <- function() {
                				55.8969, # 2017 
                				rep.int(56.2323,11), # 2017
                				rep.int(56.2323,12), # 2018 idem 
-               				rep.int(56.2323,12)  # 2019 prévision idem
+               				rep.int(56.2323,12), # 2019 prévision idem
+                            rep.int(56.2323,12)  # 2020 prévision idem
                				),
          				
               				# insérer ici la valeur courante du mpoint d'indice annuel
