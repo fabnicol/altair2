@@ -91,7 +91,8 @@ chmod -R +rwx *sh
 
 # recompilation de la bibliothèque altair
 if test -f install.Rlibrary; then
-
+  rm -rf  /usr/local/lib64/R/library/*
+  rm -rf  /usr/lib64/R/library/ 
   cp -rf Rlibrary/*  /usr/local/lib64/R/library/ 
   echo "*************************************"
   echo "*                                   *"
