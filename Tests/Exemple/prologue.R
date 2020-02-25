@@ -92,7 +92,7 @@ logements.existe               <- TRUE
 plafonds.ifse.existe           <- TRUE
 apparier.sur.trois.clés        <- FALSE
 fichiers.temp                  <- FALSE
-convertir.latin1               <- TRUE
+convertir.latin1               <- FALSE
 
 numéro.tableau                 <- 0        # Numérotation de départ des tableaux
 chapitre                       <- 1        # Numérotation de départ des chapitres
@@ -222,7 +222,7 @@ expression.rég.médecin <- "(?:\\bm..?d(?:\\.|ecin)\\b\\s+|prat\\.?\\w*\\b\\s*\
 expression.rég.pfi        <- "(?:^|\\s)pfi|(?:p(?:(?=r)r\\w*|)|i(?:(?=n)nd\\w*|))\\.?\\s*(?:\\bf(?:(?=o)o\\w*|)\\.?\\s*)?\\binf(?:(?=o)o\\w*|)\\.?\\b"
 expression.rég.vacataires <- "HOR"
 
-expression.rég.heures.sup <- "(?:^|\\s)iht?[s]|i(?:(?=n)n\\w*|)\\.?\\s*\\bh(?:(?=o)o\\w*|)\\.?.*\\bs(?:(?=u)u\\w*|)\\.?\\b|h(?:(?=e)e\\w*|)\\.?\\s*\\b(?:(?=s)s\\w*)\\.?\\b"
+expression.rég.heures.sup <- "(?:^|\\s)i\\.?h\\.?t\\.?s|i(?:(?=n)n\\w*|)\\.?\\s+\\bh(?:(?=o)o\\w*|)\\.?\\s+\\bs(?:(?=u)u\\w*|)\\.?\\b|h(?:(?=e)e\\w*|)\\.?\\s+\\b(?:(?=s)s\\w*)\\.?\\b"
 expression.rég.iat        <- "(?:^|\\s)i\\.?a\\.?t|i(?:(?=n)n\\w*|)\\.?\\s*\\ba(?:(?=d)d\\w*|)\\.?\\s*\\b(?:et\\s*\\b)?t(?:(?=e)e\\w*|)\\.?\\b"
 expression.rég.ifts       <- "(?:^|\\s)i\\.?f\\.?t\\.?s|i(?:(?=n)n\\w*|)\\.?\\s*\\bf\\w*\\.?\\s*\\bt(?:(?=r)r\\w*|)\\.?\\s*\\bs(?:(?=u)u\\w*|)\\.?\\b"
 expression.rég.pfr        <- "(?:^|\\s)p\\.?f\\.?r|(?:p(?:(?=r)r\\w*|))\\.?\\s*\\bfo?\\w*\\.?.*\\s+.*\\br\\w*s\\w*\\.?\\s*\\b"
