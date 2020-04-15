@@ -114,51 +114,44 @@ DEFINES += QT_NO_OPENGL \
            REGEX_PARSING_FOR_HEADERS \                  # utiliser les expressions régulières de c++ (g++ 5.1 au moins)
            USE_RIGHT_CLICK \                            # utiliser un clic droit sur les fichiers pour ajouter, supprimer etc.
          # USE_AVERT                                    # DEPRECATED : avertissement au montage CDROM
+           HAVE_APPLICATION
 
+DEFINES += SCRIPT_DIR=\\\"Tests/Exemple/\\\"  # Dossier des scripts R
 
 windows:RC_ICONS = neptune.ico
-
+INCLUDEPATH += C:/Users/Public/Dev/altair2/fwidgets_lib
 QMAKE_CXXFLAGS_RELEASE -= -O2
 
 # ajouter -std=gnu++14 si qmake de le fait pas
 
 QMAKE_CXXFLAGS += -march=core-avx2 -std=gnu++14
 #QMAKE_CXXFLAGS += -march=native -mtune=native -std=gnu++14
+LIBS += C:/Users/Public/Dev/altair2/fwidgets_lib/libfwidgets_lib.a
+
+DEFINES += HAS_CPP17
 
 SOURCES += \
     options.cpp \
     mainwindow.cpp \
-    fwidgets.cpp \
-    fstring.cpp \
-    flistframe.cpp \
     altair.cpp \
     common.cpp \
-    forms.cpp \
     main.cpp \
-    browser.cpp \ 
     xmlparser.cpp \
     highlighter.cpp \
     run.cpp \
-    flineframe.cpp
+    matricules.cpp
+
 
 HEADERS  += \
     options.h \
-    fwidgets.h \
-    fstring.h \
-    flistframe.h \
     common.h \
     altair.h \
-    enums.h \
-    forms.h \
-    browser.h \
     altair.h \
     highlighter.h \
-    tags.h \
-    templates.h \
     altair-gui.h \
-    flineframe.hpp \
-    version.h
-
+    gui_enums.h \
+    matricules.h \
+    sommaire.h
 
 RESOURCES += \
     ../share/altair-gui/altair-gui.qrc
@@ -167,9 +160,7 @@ RESOURCES += \
 
 DISTFILES += \
     ../../A_FAIRE.txt \
-    ../share/altair-gui/images/internet-explorer.png \
-    ../share/altair-gui/images/anonymiser.png \
-    ../share/altair-gui/images/clean.png
+    ../share/altair-gui/images/internet-web-browser.png
 
 
 

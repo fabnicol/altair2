@@ -42,7 +42,7 @@
 
 #include "fonctions_auxiliaires.h"
 #include "tags.h"
-#include "filenames.h"
+
 
 /// \file    fonctions_auxiliaires.cpp
 /// \author  Fabrice Nicol
@@ -53,13 +53,6 @@
 
 extern bool verbeux;
 
-#include "entete.h"
-
-#ifndef __linux__
-#include <windows.h>
-#else
-#include <unistd.h>
-#endif
 
 #ifdef MMAP_PARSING
 #ifdef __linux__

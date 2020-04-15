@@ -18,9 +18,7 @@ greaterThan(QT_MAJOR_VERSION, 5)
 
 if (linux) {
   message("Système d'exploitation linux")
-} else {
-  error("Le système d'exploitation doit être linux")
-}
+
 
 GIT_VERSION = $$system(git --version | grep -e \"git version\")
 CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
@@ -37,7 +35,7 @@ if (!isEmpty(CXX_VERSION)){
 } else {
     error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
 }
-
+}
 
 
 QT       += widgets

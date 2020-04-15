@@ -42,14 +42,10 @@ greaterThan(QT_MAJOR_VERSION, 5)
 
 if (linux) {
   message("Système d'exploitation :  $$(OS)")
-} else {
-  error("Le système d'exploitation doit être linux")
-}
 
 QMAKE_CXX=/usr/bin/g++
 GIT_VERSION = $$system(git --version | grep -e \'git version\')
 CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
-
 
 if (!isEmpty(GIT_VERSION)) {
     message( "Version de git : $$GIT_VERSION" )
@@ -69,6 +65,7 @@ if (!isEmpty(CXX_VERSION)){
 
 } else {
     error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
+}
 }
 
 # Pour une sortie en mode console pure, enlever guiOutput ci-dessous. Sinon l'output console prépare
@@ -111,7 +108,7 @@ DEFINES +=  WARNING_LIMIT=5  \         # nombre maximum d'avertissement par fich
             #MEMORY_DEBUG \            # ajouter d ela verbosité
             USERPROFILE=\\\"HOME\\\" \         # pour la barre de progrès. Windows: "USERPROFILE"
             #LOCALDATA=\\\"/AppData/rank\\\" \   # Windows
-            LOCALDATA=\\\".local/share/Altair/rank\\\" 
+            LOCALDATA=\\\".local/share/Altair/rank\\\"
 
 
 DEFINES += __GNUC_EXTENSION \
@@ -119,7 +116,7 @@ DEFINES += __GNUC_EXTENSION \
            _GNU_SOURCE \
            __STDC_LIMIT_MACROS \
            __STDC_FORMAT_MACROS \
-           SYSTEM_PATH_SEPARATOR=\"\':\'\" \
+           SYSTEM_PATH_SEPARATOR=\"\';\'\" \
 #          USE_STRING_EXEC  \
 #          DEBUG_ATTEINDRE
 
@@ -140,9 +137,9 @@ DEFINES += \
         DECIMAL_NON_EN \                    # compilation pour des séparateurs décimaux différents de '.'
         GENERATE_RANK_SIGNAL \              # chaque fois qu'un fichier est traité, un signal externe est émis (rang dans un fichier rank sous AppData\Local\Altair).
                              \              # n'est utile que lorsqu'une interface graphique est connectée. peut ralentir l'application de 1 à 5 %.
-#        FGETC_PARSING    \                  # parcourir les fichiers par ifstream (C++)
-#       STRINGSTREAM_PARSING  \             # mise en mémoire vive des fichiers de paye par ostringstream (plus de mémoire vive ; accélère beaucoup le 1er traitement sous Windows)
-        MMAP_PARSING           \            # parcourir les fichiers par mappage mémoire (C/C++, Unix uniquement, changer la directive sou Windows).
+#       FGETC_PARSING    \                  # parcourir les fichiers par ifstream (C++)
+        STRINGSTREAM_PARSING  \             # mise en mémoire vive des fichiers de paye par ostringstream (plus de mémoire vive ; accélère beaucoup le 1er traitement sous Windows)
+#       MMAP_PARSING           \            # parcourir les fichiers par mappage mémoire (C/C++, Unix uniquement, changer la directive sou Windows).
 #       OFSTREAM_TABLE_OUTPUT  \            # enregistrer les lignes de paye ligne à ligne sur la base. Plus robuste et moins de mémoire mais plus lent sous Windows
 #       TINYXML2                            # Utiliser tinyxml2 et pas libxml2  
 
@@ -164,9 +161,9 @@ QMAKE_CXXFLAGS += -march=core-avx2 -Wextra
 #QMAKE_CXXFLAGS += -march=core2
 # Sous linux penser à installer libxml2-dev. Ceci n'est pas testé.
 
-INCLUDEPATH += ../Interface/gui ../fwidgets_lib /usr/include/libxml2
+INCLUDEPATH += ../Interface/gui ../fwidgets_lib C:/msys64/mingw64/include/libxml2
 
-LIBS =  -L/usr/lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/local/lib64 -lstdc++fs -static-libgcc -static-libstdc++ -pthread -lxml2
+LIBS =   -lstdc++fs -static-libgcc -static-libstdc++ -pthread  C:/Users/Public/Dev/altair2/lhx/libxml2.dll.a   -lz -llzma -liconv -LC:\msys64\mingw64\bin
 
 SOURCES += \
     fonctions_auxiliaires.cpp \
@@ -183,12 +180,12 @@ contains(DEFINES, TINYXML2) {
 HEADERS += \
     table.h \
     ../Interface/gui/tags.h \
-    entete.h \
+    entete_windows.h \
     expression_reg_adjoints.h \
     expression_reg_cata.h \
     expression_reg_commun.h \
     expression_reg_elus.h \
-    filenames.h \
+    filenames_windows.h \
     fonctions_auxiliaires.h \
     ligne_paye.h \
     recherche.h \

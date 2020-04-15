@@ -64,12 +64,16 @@
 #include <memory>
 #include <stdexcept>
 #include <array>
-#if defined(__WIN32__)
+#if defined(_WIN32)
 #include <windows.h>
 #include <psapi.h>
-
+#include "entete_windows.h"
+#include "filenames_windows.h"
 #elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__)
 #include <stdio.h>
+#include <unistd.h>
+#include "entete.h"
+#include "filenames.h"
 #endif
 
 #include <experimental/filesystem>

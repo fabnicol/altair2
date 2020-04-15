@@ -49,9 +49,7 @@ greaterThan(QT_MAJOR_VERSION, 5)
 
 if (linux) {
   message("Système d'exploitation linux")
-} else {
-  error("Le système d'exploitation doit être linux")
-}
+
 #QMAKE_CXX=/usr/bin/g++-8.1.0
 GIT_VERSION = $$system(git --version | grep -e \"git version\")
 CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
@@ -68,18 +66,18 @@ if (!isEmpty(CXX_VERSION)){
 } else {
     error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
 }
-
+}
 
 
 CONFIG  += ordered static 
-QTPLUGIN += qxcb
+#QTPLUGIN += qxcb
 CONFIG(debug, debug|release) {
   QMAKE_LFLAGS   += -L$$(QTDIR)/bin   # ne devrait pas en principe être rajouté mais...qmake est capricieux !
 
 } else {
   CONFIG += static
   QMAKE_CXXFLAGS += -O3 -fomit-frame-pointer -fexpensive-optimizations -Wall -Wextra -static
-  QMAKE_LFLAGS +=  -s -licui18n -licuuc -licudata  -static-libgcc -static-libstdc++
+  QMAKE_LFLAGS +=  -s   -static-libgcc -static-libstdc++
 }
 
 
@@ -94,7 +92,7 @@ TARGET = Altair
 
 VPATH = .
 INCLUDEPATH += ../../fwidgets_lib
-LIBS += libfwidgets_lib.a  
+LIBS += C:/Users/Public/Dev/altair2/fwidgets_lib/libfwidgets_lib.a
 
 DEFINES += HAS_CPP17
 

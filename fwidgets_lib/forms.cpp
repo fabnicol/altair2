@@ -57,8 +57,7 @@ FRichLabel::FRichLabel(const QString &title, flags::font flag) : QWidget()
         label->setText("<i>"+title+"</i>"); break;
     }
 
-  label->setFixedHeight(20);
-  
+  label->setFixedHeight(30);
 
   mainLayout->addStretch(100);
   mainLayout->addWidget(label, Qt::AlignRight);

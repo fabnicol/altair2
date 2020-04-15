@@ -169,7 +169,7 @@ MainWindow::MainWindow (char* projectName)
     }
     else
     {
-        QFile versionFile = QFile(versionPath);
+        QFile versionFile(versionPath);
         versionFile.open(QIODevice::ReadOnly | QIODevice::Text);
         version = QString(versionFile.readAll());
         versionFile.close();

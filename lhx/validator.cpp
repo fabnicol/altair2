@@ -196,7 +196,7 @@ static int parseFile (info_t& info)
 
 #ifdef STRICT
 
-                    if (log.open()) log.close();
+                    if (log.is_open()) log.close();
 
                     exit (-517);
 #endif
@@ -242,7 +242,7 @@ static int parseFile (info_t& info)
 
 #ifdef STRICT
 
-                    if (log.open()) log.close();
+                    if (log.is_open()) log.close();
 
                     exit (-517);
 #endif
@@ -409,7 +409,7 @@ static int parseFile (info_t& info)
                                     warning_msg ("la balise Siret", info, cur);
 #ifdef STRICT
 
-                                    if (log.open()) log.close();
+                                    if (log.is_open()) log.close();
 
                                     exit (-517);
 #endif
@@ -454,8 +454,6 @@ static int parseFile (info_t& info)
                     skip_employeur = true;
                 }
         }
-
-DI :
 
     cur = atteindreNoeud ("DonneesIndiv", cur);
 
@@ -590,7 +588,7 @@ DI :
 
 #ifdef STRICT
 
-                                    if (log.open()) log.close();
+                                    if (log.is_open()) log.close();
 
                                     exit (-517);
 #endif
@@ -615,7 +613,7 @@ DI :
                                             warning_msg ("les données nominales de l'établissement [non-conformité]", info, cur);
 #ifdef STRICT
 
-                                            if (log.open()) log.close();
+                                            if (log.is_open()) log.close();
 
                                             exit (-517);
 #endif
@@ -634,7 +632,7 @@ DI :
                                     warning_msg ("les données nominales de l'établissement [non-conformité]", info, cur);
 #ifdef STRICT
 
-                                    if (log.open()) log.close();
+                                    if (log.is_open()) log.close();
 
                                     exit (-517);
 #endif
@@ -661,7 +659,7 @@ DI :
                                             warning_msg ("les données de Siret de l'établissement [non-conformité]", info, cur);
 #ifdef STRICT
 
-                                            if (log.open()) log.close();
+                                            if (log.is_open()) log.close();
 
                                             exit (-517);
 #endif
@@ -676,7 +674,7 @@ DI :
                                 {
 #ifdef STRICT
 
-                                    if (log.open()) log.close();
+                                    if (log.is_open()) log.close();
 
                                     exit (-517);
 #endif
@@ -755,7 +753,7 @@ DI :
 //                        warning_msg("la balise PayeIndivMensuel de l'établissement [non-conformité]", info, cur);
 #ifdef STRICT
 
-                            if (log.open()) log.close();
+                            if (log.is_open()) log.close();
 
                             exit (-518);
 #endif

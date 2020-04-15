@@ -140,7 +140,7 @@ public:
  flags::commandLineType commandLineType;
  flags::status  status;
 
-  bool  refresh() {}
+  void refresh() {}
 
   // is used for .alt Xml project writing: refresh Widget information and injects current Widget state into Hash::qstring as left-valued of <...hashKey=...>
 
