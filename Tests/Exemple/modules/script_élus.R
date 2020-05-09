@@ -42,7 +42,7 @@ if (générer.table.élus)   {
   cat("Tableau des indemnités d'élu : non générée.")
 }
 
-sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), environment(), "remunerations.elu")
+sauv.bases("Reglementation", environment(), "remunerations.elu")
 
 conditionnel("Lien vers la base de données Rémunérations des élus", "Bases/Reglementation/remunerations.elu.csv")
 #'

@@ -4,28 +4,28 @@
 \alias{read.csv.skip}
 \title{Lecture d'une base CSV}
 \usage{
-read.csv.skip(x, encodage = encodage.entrée, classes = NA,
-  drop = NULL, skip = 0, rapide = FALSE,
+read.csv.skip(
+  x,
+  classes = NA,
+  drop = NULL,
+  skip = 0,
+  rapide = FALSE,
   séparateur.liste = séparateur.liste.entrée,
-  séparateur.décimal = séparateur.décimal.entrée,
-  convertir.encodage = TRUE)
+  séparateur.décimal = séparateur.décimal.entrée
+)
 }
 \arguments{
-\item{encodage}{Encodage de la base lue. Valeur par défaut : encodage.entrée}
-
 \item{classes}{Les classes ("character", "numeric") des variables en colonnes}
 
 \item{drop}{Rang de la colonne à supprimer}
 
 \item{skip}{Nombre de lignes à sauter en début de fichier (défaut aucune).}
 
-\item{rapide}{Booléen (= FALSE). Si TRUE, et si convertir.encodage est TRUE, convertir en UTF-8 avant lecture.}
+\item{rapide}{Booléen (= FALSE).}
 
 \item{séparateur.liste}{= séparateur.liste.entrée,}
 
 \item{séparateur.décimal}{= séparateur.décimal.entrée,}
-
-\item{convertir.encodage}{(= TRUE) convertir en encodage UTF-8 avant lecture}
 }
 \value{
 Une base data.table
@@ -35,5 +35,5 @@ Lecture d'un fichier CSV et conversion en data.table.
 Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
 }
 \examples{
-read.csv.skip(Base, séparateur.décimal = ",")
+read.csv.skip(Base, sÃ©parateur.dÃ©cimal = ",")
 }

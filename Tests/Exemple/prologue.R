@@ -36,7 +36,7 @@
 # 
 # 
 # prologue 
-# doit être encodé en UTF-8 au moins sous Linux. A vérifier sous Windows...pour l'interface graphique
+# doit être encodé en UTF-8 au moins sous Linux. 
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
 # dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
@@ -92,7 +92,6 @@ logements.existe               <- TRUE
 plafonds.ifse.existe           <- TRUE
 apparier.sur.trois.clés        <- FALSE
 fichiers.temp                  <- FALSE
-convertir.latin1               <- FALSE
 
 numéro.tableau                 <- 0        # Numérotation de départ des tableaux
 chapitre                       <- 1        # Numérotation de départ des chapitres
@@ -136,7 +135,7 @@ liste.exclusions <- NULL
 try ({
   chemin.liste.exclusions <- chemin("liste.exclusions.txt")
   if (file.exists(chemin.liste.exclusions))
-    liste.exclusions <- read.delim(chemin.liste.exclusions, encoding=encodage.code.source, stringsAsFactors = FALSE)[[1]]
+    liste.exclusions <- read.delim(chemin.liste.exclusions, encoding="UTF-8", stringsAsFactors = FALSE)[[1]]
 }, silent=TRUE)
 
 
@@ -180,16 +179,6 @@ date.format                    <- "%d/%m/%Y"
 
 
 ########## Problématique ##############
-
-
-# A priori les deux modes de lectures de tables (rapide et standard) lisent aussi bien le Windows ANSI/ISO-8859-1 que
-# l'UTF-8 à condition que le Windows ANSI soit encodé par Excel ou l'éditeur de RStudio.
-
-encodage.entrée                <-  "ISO-8859-1"
-  # "WINDOWS-1252"
-  # "UTF-8"
-encodage.entrée.xhl2csv        <-   encodage.entrée
-convertir.latin                <-   FALSE
 
 # expressions régulières
 

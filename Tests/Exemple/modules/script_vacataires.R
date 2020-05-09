@@ -43,7 +43,7 @@ if (nombre.fonctionnaires.et.vacations > 0) {
   cat("Pas de vacation détectée. ")
 }
 
-sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
+sauv.bases("Reglementation", 
            environment(),
            "lignes.fonctionnaires.et.vacations",
            "matricules.fonctionnaires.et.vacations",
@@ -97,7 +97,7 @@ if (exists("nombre.contractuels.et.vacations")) {
           nombre.Lignes.paie.RI.et.vacations)
 }
 
-sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
+sauv.bases("Reglementation", 
            environment(),
            "RI.et.vacations",
            "matricules.contractuels.et.vacations",
@@ -136,7 +136,7 @@ if (exists("nombre.SFT_IR.et.vacations")) {
           nrow(SFT_IR.et.vacations))
 }
 
-sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
+sauv.bases( "Reglementation", 
            environment(),
            "matricules.SFT_IR.et.vacations",
            "SFT_IR.et.vacations",

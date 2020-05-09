@@ -113,8 +113,19 @@ static void GCC_INLINE sanitize (xmlChar* s,  const char sep)
                 {
 
                 case '\n':
-                    *s = ' ';
-                    break;
+                case '<':
+                case '>':
+                case ':':
+                case '"':
+                case '/':
+                case '\\':
+                case '|':
+                case '?':
+                case '*':
+
+                    *s = '_';
+                break;
+
 
 #ifdef CONVERTIR_LATIN_1
 #if ! defined(USE_ICONV)

@@ -98,8 +98,8 @@ produire_pyramides_ <- function(Filtre_bulletins, titre, versant = "", envir) {
   
   # Sauvegarde des bases des âges début et fin de période sous revue
   
-  Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "ages.début.psr", envir$nom.fichier.avant, environment = environment(), Latin = FALSE)
-  Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "ages.fin.psr", envir$nom.fichier.après, environment = environment(), Latin = FALSE)
+  Sauv.base("Effectifs",  "ages.début.psr", envir$nom.fichier.avant, environment = environment())
+  Sauv.base("Effectifs",  "ages.fin.psr", envir$nom.fichier.après, environment = environment())
   
 }
 

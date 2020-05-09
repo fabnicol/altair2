@@ -4,7 +4,7 @@
 \alias{évolution_agrégat}
 \title{Affichage du tableau des variations des agrégats des primes A et B sur l'ensemble de la période}
 \usage{
-évolution_agrégat(résultat, verbeux)
+攼㸹volution_agr攼㸹gat(r攼㸹sultat, verbeux)
 }
 \arguments{
 \item{résultat}{Résultat retourné par la fonction \link{test_prime}}

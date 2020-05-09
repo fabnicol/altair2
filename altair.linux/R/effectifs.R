@@ -289,14 +289,17 @@ formater2 <- function(A, variation, fichier, groupe, agr, somme = FALSE, round =
     return(A)
    }
   
-  A[ , {
-     
-      fwrite(formater(.SD, variation,  agr, somme, round, type = "G"),
-             paste0(fichier, gsub("/", "-", get(groupe)), ".csv"),
-             sep = ";",
-             dec = ",")
-    
-  }, by = groupe]
+  essayer({
+    A[ , {
+       
+        fwrite(formater(.SD, variation,  agr, somme, round, type = "G"),
+               paste0(fichier, gsub("/", "-", get(groupe)), ".csv"),
+               bom = TRUE,
+               sep = ";",
+               dec = ",")
+      
+    }, by = groupe]
+  }, "Could not save " %+% paste0(fichier, gsub("/", "-", get(groupe)), ".csv") )
   
   return(NULL)
 }
@@ -422,7 +425,7 @@ eqtp.emploi <- function(Base = Bulletins.paie,
 #'                 \item \code{Annee}
 #'                 \item \code{Matricule}
 #'                 \item \code{Statut}
-#'                 \item \code{Grade}}}
+#'                 \item \code{Grade}
 #'                 \item \code{Service}}}
 #'           \item{ les variables numériques :
 #'               \describe{
@@ -482,7 +485,7 @@ eqtp.grade.serv <- function(Base = Bulletins.paie,
 #'                 \item \code{Annee}
 #'                 \item \code{Matricule}
 #'                 \item \code{Statut}
-#'                 \item \code{Grade}}}
+#'                 \item \code{Grade}
 #'                 \item \code{Service}}}
 #'           \item{ les variables numériques :
 #'               \describe{

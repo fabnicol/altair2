@@ -270,7 +270,6 @@ noria <- function(Bulletins = Bulletins.paie,
                   fichier = "", 
                   dec = ",", 
                   sep = ";",
-                  encoding = "UTF-8",
                   afficher.tableau = TRUE,
                   controle.quotite = FALSE) { 
 
@@ -286,7 +285,7 @@ if (length(période.translatée) < 2) {
 noria.sur.base.de.paie <- (fichier == ""  | ! file.exists(fichier))
 
 if (! noria.sur.base.de.paie){
-  ES <- fread(fichier, dec = dec, sep = sep, encoding = encoding)
+  ES <- fread(fichier, dec = dec, sep = sep, encoding = "UTF-8")
   
   ES$Matricule <- as.character(ES$Matricule)
   

@@ -54,16 +54,14 @@ if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 15
 
 setwd(file.path(chemin.dossier.bases, "Effectifs"))
 
-fwrite(tableau.effectifs, "tableau.effectifs.csv", sep = ";", dec = ",")
-fwrite(tableau.effectifs.grades, "tableau.effectifs.grades.csv", sep = ";", dec = ",")           
-fwrite(tableau.effectifs.grades, "tableau.effectifs.emplois.csv", sep = ";", dec = ",")           
+Sauv.base("Effectifs", "tableau.effectifs")
+Sauv.base("Effectifs", "tableau.effectifs.grades")
+Sauv.base("Effectifs", "tableau.effectifs.emplois")
 
 eqtp.grade.serv(variation = TRUE)
-
 eqtp.grade.cat(variation = TRUE)
 
 csvfiles <- list.files(".", pattern = "^effectifs.*csv")
-system2(file.path(currentDir, "linux/utf82latin1"),  system.quote(csvfiles), stderr = NULL, stdout = NULL)
 
 zip("tableau.effectifs.services.zip",   list.files(".", pattern = "effectifs.serv..*.csv"))
 zip("tableau.effectifs.categories.zip", list.files(".", pattern = "effectifs.cat..*.csv"))

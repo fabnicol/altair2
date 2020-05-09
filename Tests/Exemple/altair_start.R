@@ -119,7 +119,7 @@ newpage()
 
 # Analyser les rémunérations à partir des données importées --> bases Analyse.XXX
 
-source("analyse.rémunérations.R", encoding =  encodage.code.source)
+source("analyse.rémunérations.R", encoding =  "UTF-8")
 
 colonnes.sélectionnées <- c("traitement.indiciaire",
                             "acomptes",
@@ -361,33 +361,14 @@ message("Enregistrement de la pile des bases...")
 envir <- environment()
 
 if (sauvegarder.bases.origine)
-  sauv.bases(file.path(chemin.dossier.bases, "Paiements"),
+  sauv.bases(".",
              env = envir,
              "Paie",
              "Bulletins.paie")
 
 if (profiler)
-  sauv.bases(chemin.dossier.bases, 
+  sauv.bases(".", 
             env = envir, "PROF")
-
-# Conversion en Latin-1 des bases du rapport, pour une meilleure lecture sous Windows
-
-if (convertir.latin1 && ! setOSWindows) {
-
-  system2("find", c("Donnees/R-Altair/Bases",
-                    "-name", "'*.csv'",
-                    "-exec", "sed -i -e '1s/Categorie/Catégorie/'     {} \\;",
-                    "-exec", "sed -i -e '1s/Debut/Début/'             {} \\;",
-                    "-exec", "sed -i -e '1s/Annee/Année/'             {} \\;",
-                    "-exec", "sed -i -e '1s/Prenom/Prénom/'           {} \\;",
-                    "-exec", "sed -i -e '1s/Net.a.Payer/Net.à.Payer/' {} \\;",
-                    "-exec", "sed -i -e '1s/Evenement/Evénement/'     {} \\;"),
-                  stderr = FALSE)
-
-  system2("find",
-          c("Donnees/R-Altair/Bases", "-name", "'*.csv'", "-print0", "|", "xargs", "-0", "../../linux/utf82latin1"),
-          stderr = FALSE)
-}
 
 # Copie de la documentation accessoire aux rapports
 

@@ -36,7 +36,6 @@
 # 
 # 
 
-# Conversion en Rmd: spin(..., knit = FALSE)  dans l'encodage du système (convertir ce fichier en UTF-8 sous linux)
 
 # On revient à une analyse des rémunérations qui réinclut tous les personnels (vacataires, élus, inactifs, annexes)
 
@@ -120,7 +119,7 @@ AR <- Analyse.remunerations.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIR
 
 attach(AR, warn.conflicts = FALSE)
 
-source("histogrammes.R", encoding = encodage.code.source)
+source("histogrammes.R", encoding = "UTF-8")
 
 detach(AR)
 #'    

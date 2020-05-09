@@ -39,8 +39,8 @@
 # Ajuster les chemins accessibles et lancer le script noyau corps_rapport_pdf.R
 # puis nettoyer les fichiers intermédiaires résiduels
 
-source("syspaths.R", encoding = encodage.code.source)
-source("corps_rapport_pdf.R", encoding = encodage.code.source, echo = TRUE)
+source("syspaths.R", encoding = "UTF-8")
+source("corps_rapport_pdf.R", encoding = "UTF-8", echo = TRUE)
 
 if (! keep_md) {
   unlink("altair.ansi_pdf", recursive=TRUE)

@@ -41,7 +41,7 @@ prime_FPH_test <- function(prime, prime_lit, base, expr = NULL) {
   
   assign(base,  DT, .GlobalEnv)
 
-  fwrite(get(base, .GlobalEnv), file.path(chemin.dossier.bases, "Reglementation", base %+% ".csv"))
+  Sauv.base("Reglementation", base)
   
   primes <- unique(DT$Libelle)
   

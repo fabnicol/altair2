@@ -36,7 +36,7 @@
 # 
 # 
 
-source("smic.R", encoding = encodage.code.source)
+source("smic.R", encoding = "UTF-8")
 
 période.hors.données.smic <- FALSE
 
@@ -317,7 +317,7 @@ message("Analyse démographique réalisée.")
 if (!is.null(Paie) & !is.null(Analyse.remunerations) & !is.null(Analyse.variations.par.exercice))
   message("Statistiques de synthèse réalisées")
 
-sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 
+sauv.bases("Remunerations", 
            environment(),
            "Analyse.remunerations",
            "Analyse.variations.par.exercice",

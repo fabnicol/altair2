@@ -66,7 +66,7 @@ rendre <- function(fw = fig.width,
           
           if (to == "docx") {
             
-            V <- readLines("out.Rmd", encoding = encodage.code.source)
+            V <- readLines("out.Rmd", encoding = "UTF-8")
             V <- gsub("![Notice](Notice.png)", "Notice", V, fixed = TRUE)
             file.remove("out.Rmd")
             writeLines(V,  "out.Rmd", useBytes = TRUE)
@@ -120,11 +120,11 @@ rendre <- function(fw = fig.width,
 
 hack_md <- function() {
   
-  con <- file("altair.2.md", open = "a", encoding = encodage.code.source)
+  con <- file("altair.2.md", open = "a", encoding = "UTF-8")
   
   writeLines(text = "\n---\ntitle: false\nauthor: false\ndate: false\n---\n", con)     
   
-  V <- readLines("altair.md", encoding = encodage.code.source)[-c(1, 2)]
+  V <- readLines("altair.md", encoding = "UTF-8")[-c(1, 2)]
   
   writeLines(V, con)
   
@@ -147,7 +147,7 @@ ajuster_chemins_odt <- function(V) {
   # garde en principe inutile
   
   if (! is.null(V))  {
-    con <- file("altair.2.md", open = "a", encoding = encodage.code.source)
+    con <- file("altair.2.md", open = "a", encoding = "UTF-8")
   
     writeLines(text = "\n---\ntitle: false\nauthor: false\ndate: false\n---\n", con)   
  

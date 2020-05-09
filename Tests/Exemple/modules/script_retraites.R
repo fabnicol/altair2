@@ -37,7 +37,7 @@ Tableau(c("Cotisations salarié", "Cotisations employeur"),
         Cotisations.irreg[Type == "D", sum(Montant, na.rm = TRUE)],
         Cotisations.irreg[Type == "C", sum(Montant, na.rm = TRUE)])                   
 
-sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), environment(), "Cotisations.irreg")
+sauv.bases( "Reglementation", environment(), "Cotisations.irreg")
 
 #'   
 conditionnel("Lien vers la base des cotisations irrégulières", "Bases/Reglementation/Cotisations.irreg.csv")   
@@ -71,7 +71,7 @@ Tableau(c("Cotisations salarié", "Cotisations employeur"),
         Cotisations.irreg.ircantec[Type == "D", sum(Montant, na.rm = TRUE)],
         Cotisations.irreg.ircantec[Type == "C", sum(Montant, na.rm = TRUE)])    
 
-sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), environment(), "Cotisations.irreg.ircantec")
+sauv.bases("Reglementation", environment(), "Cotisations.irreg.ircantec")
 
 #'   
 conditionnel("Lien vers la base des cotisations irrégulières", "Bases/Reglementation/Cotisations.irreg.ircantec.csv")   

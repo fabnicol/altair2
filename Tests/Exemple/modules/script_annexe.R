@@ -176,7 +176,7 @@ if (nligne.base.heures.nulles.salaire.nonnull)
   cat("Nombre de bulletins de paie de salaires versés pour un champ Heures = 0 : ", FR(n <<- nligne.base.heures.nulles.salaire.nonnull), "[", round(n/nrow.bull * 100, 1), "%]")
 #'   
 
-sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"),
+sauv.bases("Fiabilite",
                        environment(),
                        "Evenements",
                        "Evenements.ind",
@@ -206,7 +206,7 @@ if (afficher.table.effectifs) {
   kable(grades.categories, row.names = FALSE) 
 } 
 
-sauv.bases(file.path(chemin.dossier.bases, "Effectifs"),
+sauv.bases("Effectifs",
                        environment(),
                        "matricules",
                        "grades.categories")
@@ -232,8 +232,8 @@ if (! séquentiel) {
     if (!is.null(liste.exclusions))
       message("Une liste de codes exclus pour la vérification de la concordance lignes-bulletins de paie a été jointe sous ", getwd())
     cat("   ")
-    source("delta.R", encoding=encodage.code.source)
-    sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"),
+    source("delta.R", encoding="UTF-8")
+    sauv.bases("Fiabilite",
                             environment(),
                             "Delta")
   } else {

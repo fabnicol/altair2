@@ -2,7 +2,7 @@
 #' 
 #' Etablit la correspondance entre le grade et la catégorie statutaire à partir d'un tableau importé
 #' 
-#' @note Requiert l'utilisation d'une table de jointure importée \bold{grades.catégories.csv} sous le répertoire \bold{Données}.
+#' @note Requiert l'utilisation d'une table de jointure importée \bold{grades.catégories.csv} encodée en UTF-8 sous le répertoire \bold{Données}.
 #' A défaut, tente une association approximative à partir d'expressions rationnelles appliquées aux grades.  
 #' @return La \code{data.table grade.categorie} résultant de la lecture du fichier \bold{grades.catégories.csv} sous le répertoire \bold{Données}
 #' @export
@@ -18,7 +18,7 @@ correspondance_grade_catégorie <- function() {
                 
                 grades.categorie <- fread(chemin("grades.categories.csv"), # Code, Libelle,  Statut, Type, Compte
                                       sep = ";",
-                                      encoding   = "Latin-1",
+                                      encoding   = "UTF-8",
                                       col.names  = c("Grade", "Categorie"),
                                       colClasses = c("character", "character"))  
                 

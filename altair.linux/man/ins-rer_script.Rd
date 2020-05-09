@@ -4,8 +4,14 @@
 \alias{insérer_script}
 \title{Insérer un script auxiliaire, indexé par une variable globale}
 \usage{
-insérer_script(chemin = NULL, index = 1, variable = "année",
-  gen = générer.rapport, incrémenter = FALSE, fonction = NULL)
+ins攼㸹rer_script(
+  chemin = NULL,
+  index = 1,
+  variable = "année",
+  gen = générer.rapport,
+  incrémenter = FALSE,
+  fonction = NULL
+)
 }
 \arguments{
 \item{chemin}{Chemin du script R}
@@ -14,7 +20,7 @@ insérer_script(chemin = NULL, index = 1, variable = "année",
 
 \item{variable}{Vecteur de caractères contenant le nom de la variable globale dans le script auxiliaire.}
 
-\item{gen}{Si \code{FALSE} alors se contente de sourcer le script auxiliaire selon \code{encodage.code.source}. Sinon intègre le rapport auxiliaire au format du rapport principal.}
+\item{gen}{Si \code{FALSE} alors se contente de sourcer le script auxiliaire. Sinon intègre le rapport auxiliaire au format du rapport principal.}
 
 \item{incrémenter}{INcrémenter le chapitre de présentation du script}
 

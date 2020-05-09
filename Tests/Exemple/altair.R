@@ -1,7 +1,6 @@
 
-encodage.code.source <- "UTF-8" 
 
-source("prologue_source.R", encoding = encodage.code.source)
+source("prologue_source.R", encoding = "UTF-8")
 
 for (rep in reps) {
   
@@ -16,9 +15,9 @@ for (rep in reps) {
   setwd(chemin.dossier)
   
   res <- try({
-      source(file.path("syspaths.R"), encoding = encodage.code.source)
+      source(file.path("syspaths.R"), encoding = "UTF-8")
     
-      source(file.path("altair_start.R"), encoding = encodage.code.source, echo = TRUE)
+      source(file.path("altair_start.R"), encoding = "UTF-8", echo = TRUE)
     
   })
   

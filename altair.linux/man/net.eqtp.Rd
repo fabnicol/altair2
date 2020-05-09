@@ -4,11 +4,23 @@
 \alias{net.eqtp}
 \title{Tableau des rémunérations nettes moyennes par grade.}
 \usage{
-net.eqtp(Base = Paie, grade = NULL, emploi = NULL, classe = NULL,
-  service = NULL, libellés = NULL, agr = FALSE, période = NULL,
-  variation = FALSE, statut = NULL, catégorie = NULL,
-  exclure.codes = NULL, exclure.sft = FALSE, quotite.nulle = FALSE,
-  type = "G")
+net.eqtp(
+  Base = Paie,
+  grade = NULL,
+  emploi = NULL,
+  classe = NULL,
+  service = NULL,
+  libellés = NULL,
+  agr = FALSE,
+  période = NULL,
+  variation = FALSE,
+  statut = NULL,
+  catégorie = NULL,
+  exclure.codes = NULL,
+  exclure.sft = FALSE,
+  quotite.nulle = FALSE,
+  type = "G"
+)
 }
 \arguments{
 \item{Base}{Base des bulletins de paye, comportant pour l'ensemble de la période

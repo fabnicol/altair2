@@ -546,10 +546,11 @@ net.grades <<- net.eqtp(variation = TRUE)
 net.emplois <- net.eqtp.emploi(variation = TRUE)
 net.services <- net.eqtp.serv(variation = TRUE)
 
-fwrite(net.emplois, "net.emplois.csv", sep = ";", dec = ",") 
-fwrite(net.grades, "net.grades.csv", sep = ";", dec = ",") 
+Sauv.base("Remunerations", "net.emplois")
+Sauv.base("Remunerations", "net.grades")
+
 csvfiles  <- list.files(".", pattern = "^net.serv..*.csv")
-system2(file.path(currentDir, "linux/utf82latin1"), system.quote(csvfiles), stderr = NULL, stdout = NULL)
+
 zip("net.services.zip", csvfiles)
 invisible(file.remove(csvfiles))
 

@@ -20,7 +20,7 @@ if (nombre.personnels.pfi <- uniqueN(personnels.prime.informatique$Matricule)) {
 
 primes.informatiques.potentielles <- if (nombre.personnels.pfi == 0) "aucune" else paste(unique(personnels.prime.informatique$Libelle), collpase = " ;")
 
-sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), environment(), "personnels.prime.informatique")
+sauv.bases("Reglementation", environment(), "personnels.prime.informatique")
 
 #'Primes informatiques (PFI) : `r primes.informatiques.potentielles`    
 #'  

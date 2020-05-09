@@ -36,8 +36,8 @@
 # 
 # 
 
-encodage.code.source <- "UTF-8"
-source("prologue_rapport.R", encoding = encodage.code.source)
+
+source("prologue_rapport.R", encoding = "UTF-8")
 
 for (rep in reps) {
   
@@ -56,7 +56,7 @@ for (rep in reps) {
   invisible(file.remove(list.files(chemin.modules, "*.Rmd", full.name = TRUE)))
   
   res <- try({
-      source("rapport_msword_et_pdf_start.R", encoding = encodage.code.source, echo = TRUE)
+      source("rapport_msword_et_pdf_start.R", encoding = "UTF-8", echo = TRUE)
   })
   
   if (inherits(res, "try-error")) {

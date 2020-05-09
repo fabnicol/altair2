@@ -4,18 +4,21 @@
 \alias{Sauv.base}
 \title{Sauvegarde d'une base}
 \usage{
-Sauv.base(chemin.dossier = "", nom = "", nom.sauv = nom,
-  Latin = TRUE, sep = séparateur.liste.sortie,
-  dec = séparateur.décimal.sortie, environment = .GlobalEnv)
+Sauv.base(
+  chemin.dossier = "",
+  nom = "",
+  nom.sauv = nom,
+  sep = séparateur.liste.sortie,
+  dec = séparateur.décimal.sortie,
+  environment = .GlobalEnv
+)
 }
 \arguments{
 \item{chemin.dossier}{Chemin du dossier dans lequel la base sera sauvegardée}
 
-\item{nom}{Nom de l'objet à sauvegarder}
+\item{nom}{Chaîne de caractères du nom de l'objet à sauvegarder}
 
 \item{nom.sauv}{Chaine de caractères du nom du fichier .csv sans l'extension}
-
-\item{Latin}{(= convertir.latin) Convertir en encodage latin ISO-8859-15}
 
 \item{sep}{(= séparateur.liste.sortie)}
 
@@ -31,5 +34,5 @@ Sauvegarde d'une base data.table sous forme de fichier CSV
 Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
 }
 \examples{
-Sauv.base("données", Base, "BaseDonnée", sep = ";", dec = ",")
+Sauv.base("donnÃ©es", Base, "BaseDonnÃ©e", sep = ";", dec = ",")
 }

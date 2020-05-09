@@ -8,10 +8,13 @@ brut.eqtp.emploi <- brut.eqtp.emploi(variation = TRUE)
 
 
 
-sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 
-           environment(), "brut.eqtp.emploi")
-sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 
-           environment(), "brut.eqtp")
+sauv.bases( "Remunerations", 
+           environment(), 
+           "brut.eqtp.emploi")
+
+sauv.bases("Remunerations", 
+           environment(), 
+           "brut.eqtp")
 
 
 #'   
@@ -99,14 +102,18 @@ cout.eqtp <- charges.eqtp(variation = TRUE)
 cout.eqtp.emploi <- charges.eqtp.emploi(variation = TRUE)   
 cout.eqtp.serv <- charges.eqtp.serv(variation = TRUE)
 
-sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 
-           environment(), "cout.eqtp.emploi")
-sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), 
-           environment(), "cout.eqtp")
+sauv.bases("Remunerations", 
+           environment(), 
+           "cout.eqtp.emploi")
+
+sauv.bases("Remunerations", 
+           environment(), 
+           "cout.eqtp")
 
 setwd(file.path(chemin.dossier.bases, "Remunerations"))
+
 csvfiles  <- list.files(".", pattern = "^charges.serv..*.csv")
-system2(file.path(currentDir, "linux/utf82latin1"), system.quote(csvfiles), stderr = NULL, stdout = NULL)
+
 zip("cout.eqtp.services.zip", csvfiles)
 invisible(file.remove(csvfiles))
 setwd(currentDir)
