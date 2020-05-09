@@ -261,22 +261,26 @@ scripts <-
         "script_FPH.R",
         "script_annexe.R")
   
-  
+opts_knit$set(output.dir=getwd())
+
 générer.partie <- function(script, seq) {
-                              invisible(lapply(script, function(x) do.call(insérer_script, 
-                                                                             as.list(na.omit(c(file.path(chemin.modules, x[1]),
+
+                              invisible(lapply(script, function(x) do.call(altair::insérer_script, 
+                                                                             as.list(na.omit(c(file.path("C:/Users/Public/Dev/altair2/Tests/Exemple/modules", x[1]),
                                                                                              x[-1])))))) 
 }
-                            
+
+if (file.exists("out.Rmd")) {
+  
+  file.remove("out.Rmd")
+}
+
 if (séquentiel) {
   
   générer.partie(scripts)
   
 } else {
   
-  if (setOSWindows) {
-    stop("L'exécution en parallèle n'est pas supportés sous Windows. Veuillez paramétrer la varible séquentiel <- TRUE dans le fichier prologue.R")
-  }
   
   # Les groupes sont consitutés pour :
   # a) équilibrer les charges des noeuds
@@ -322,7 +326,8 @@ if (séquentiel) {
             group5,
             group6)
   
-  cl <- makeCluster(6, type = "FORK")
+
+  cl <- makeCluster(6, type = ifelse(setOSWindows, "PSOCK", "FORK"))
   
   res <- clusterApply(cl,
                       G,
@@ -344,7 +349,7 @@ if (séquentiel) {
                    r3[[3]],
                    r5[[4]])
 
-  invisible(lapply(res, function(x) cat(unlist(x), sep = '\n')))
+  invisible(lapply(res, function(x) writeLines(unlist(x), file = "out.Rmd", useBytes = TRUE)))
 }
 
 ######### SAUVEGARDES #######
@@ -367,7 +372,7 @@ if (profiler)
 
 # Conversion en Latin-1 des bases du rapport, pour une meilleure lecture sous Windows
 
-if (convertir.latin1) {
+if (convertir.latin1 && ! setOSWindows) {
 
   system2("find", c("Donnees/R-Altair/Bases",
                     "-name", "'*.csv'",

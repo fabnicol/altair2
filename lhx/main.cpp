@@ -186,6 +186,7 @@ int main (int argc, char **argv)
         false,            // faire semblant d'extraire
         false,            // test mémoire
         false,            // extraction depuis disque optique
+        true,             // insertion par défaut d'un BOM UTF-8 dans les tables csv exportées
         1                 // nombre de fils
     };
 
@@ -997,6 +998,16 @@ int main (int argc, char **argv)
                     ++start;
                     cerr << PARAMETER_HTML_TAG "Exporter la répartition budgétaire" << ENDL;
                     continue;
+                }
+
+            // ne pas insérer de BOM UTF-8 dans les tables CSV exportées (insertion par défaut)
+
+            else if  (commandline_tab[start] == "--sans-bom")
+                {
+                   info.inserer_bom = false;
+                   ++start;
+                   cerr << PARAMETER_HTML_TAG "Pas de BOM UTF-8 dans les tables CSV exportées" << ENDL;
+                   continue;
                 }
 
             // Option inconnue

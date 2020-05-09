@@ -201,7 +201,7 @@ return(T)
 #' @param chemin.dossier Chemin du dossier dans lequel la base sera sauvegardée
 #' @param nom Nom de l'objet à sauvegarder
 #' @param nom.sauv  Chaine de caractères du nom du fichier .csv sans l'extension
-#' @param Latin (= convertir.latin) Convertir en encodage latin ISO-8859-15
+#' @param Latin (= convertir.latin1) Convertir en encodage latin ISO-8859-15
 #' @param sep (= séparateur.liste.sortie)
 #' @param dec (= séparateur.décimal.sortie),
 #' @param environment (= .GlobalEnv) environnement,
@@ -214,7 +214,7 @@ return(T)
 Sauv.base <- function(chemin.dossier = "",
                       nom = "",
                       nom.sauv = nom,
-                      Latin = TRUE,
+                      Latin = convertir.latin1,
                       sep = séparateur.liste.sortie,
                       dec = séparateur.décimal.sortie,
                       environment = .GlobalEnv)
@@ -1012,7 +1012,7 @@ invisible(sapply(index, function(x) {
                                quiet = TRUE)
                                
             if (séquentiel == TRUE) {
-              cat(vect, sep = '\n')
+              writeLines(vect, file = "out.Rmd", useBytes = TRUE)
             } else {
               return(vect)
             }

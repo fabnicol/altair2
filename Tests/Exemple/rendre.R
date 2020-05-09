@@ -62,18 +62,17 @@ rendre <- function(fw = fig.width,
           rm(list = ls(), envir = globalenv())
           render_env <- new.env(parent = globalenv())
           
-          altair_start <- ifelse(to == "docx", "temp.R", "altair_start.R")
+          altair_start <- ifelse(to == "docx", "out.Rmd", "altair_start.R")
           
           if (to == "docx") {
-            if (file.exists("temp.R")) file.remove("temp.R")
-            V <- readLines("altair_start.R", encoding = encodage.code.source)
-            V <- gsub("![Notice](Notice.png)", "Notice", V, fixed = TRUE)
             
-            writeLines(V,  "temp.R")
+            V <- readLines("out.Rmd", encoding = encodage.code.source)
+            V <- gsub("![Notice](Notice.png)", "Notice", V, fixed = TRUE)
+            file.remove("out.Rmd")
+            writeLines(V,  "out.Rmd", useBytes = TRUE)
           }
           
           render(altair_start,
-                 encoding = encodage.code.source,
                  output_format = output_format(knitr_options(opts_chunk = list(fig.width = fw, 
                                                                                fig.height = fh,
                                                                                dpi = d,
@@ -89,7 +88,7 @@ rendre <- function(fw = fig.width,
                  output_file = output_file)
           
           if (to == "docx") {
-            file.remove("temp.R") 
+#            file.remove("out.Rmd") 
           } else {
             if (chemin_pandoc != "") {
                if (to == "latex") {

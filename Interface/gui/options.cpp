@@ -688,6 +688,14 @@ standardPage::standardPage()
                                   },
                                   "S");                                                  // Ligne de commande -S si cochée
 
+    bomCheckBox = new FCheckBox ("Ne pas forcer la lecture UTF-8 des exports",   // Titre de la case à cocher
+                                 flags::status::enabledUnchecked           // Décochée par défaut
+                                | flags::commandLineType::coreApplicationCommandLine,  // ligne de commande
+                                  "sansBOM",                                 // Balise XML du projet .alt
+                                  {"Données csv", "Pas de BOM UTF-8 pour les exports CSV"},       // Présentation du gestionnaire de projets
+                                  "sans-bom");                                      // Ligne de commande --sans-bom si cochée
+
+
     QList<QString> exportRange = QList<QString>();
     exportRange << "Standard" << "Cumulative" << "Distributive" << "Distributive+";
 
@@ -723,6 +731,7 @@ standardPage::standardPage()
 
     v2Layout->addWidget (rangCheckBox,     0, 0, Qt::AlignLeft);
     v2Layout->addWidget (etabCheckBox,     1, 0, Qt::AlignLeft);
+    v2Layout->addWidget (bomCheckBox,      2, 0, Qt::AlignLeft);
     v2Layout->setColumnMinimumWidth (1, 250);
     v3Layout->setColumnMinimumWidth (1, 250);
 

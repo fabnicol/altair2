@@ -49,20 +49,23 @@ reps <- list.dirs(chemin.clé.racine, recursive = FALSE)
 reps <- reps[basename(reps) != "Bases" & basename(reps) != "Docs"]
 if (length(reps) == 0) reps <- chemin.clé.racine
 
-encodage.code.source <- if (setOSWindows) "ISO-8859-15" else "UTF-8"
+encodage.code.source <- "UTF-8"
 
 setwd(chemin.dossier)
+library(data.table, warn.conflicts = FALSE)
 
 if (setOSWindows) {
    if (basename(currentDir) == "Exemple") 
        .libPaths(file.path(currentDir, "..", "..", "R/library"))
   
    invisible(Sys.setenv(PATH = paste0(Sys.getenv("PATH"), "c:\\Users\\Public\\Dev\\altair\\texlive\\miktex\\bin;")))
+   library("altair")
+} else {
+  library("altair", lib.loc=c("/usr/local/lib64/R/library", "/usr/lib64/R/library"))
 }
 
-library(data.table, warn.conflicts = FALSE)
 options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE, datatable.integer64 = "numeric")
-library("altair", lib.loc=c("/usr/local/lib64/R/library", "/usr/lib64/R/library"))
+
 source("prologue.R", encoding = encodage.code.source)
 
 script_env <- ls()

@@ -114,6 +114,7 @@ ostringstream help()
         <<  "**-S** *sans argument*        : exporter les champs Budget, Employeur, Siret, Etablissement.  " << "\n\n"
         <<  "**-E** *sans argument*        : exporter le champ Echelon.  " << "\n\n"
         <<  "**-q** *sans argument*        : limiter la verbosité.  " << "\n\n"
+        <<  "**--sans-bom*                 : ne pas insérer de BOM UTF-8 dans les tables CSV exportées.  " << "\n\n"
         <<  "**-f** *argument obligatoire* : la ligne de commande est dans le fichier en argument, chaque élément à  la ligne.  " << "\n\n"
         <<  "**--eemployeur** *argument obligatoire* : la liste des employeurs à exclure de la sortie, séparés par des blancs. " << "\n\n"
         <<  "**--esiret** *argument obligatoire* : la liste des SIRET à exclure de la sortie, séparés par des blancs. " << "\n\n"
@@ -652,6 +653,15 @@ void ouvrir_fichier_base0 (const info_t &info, BaseCategorie categorie, BaseType
         }
 
     bool insert_header = (taille_fichier (chemin_base) == 0);
+
+    if (info.inserer_bom)
+    {
+        // BOM pour l'ouverture UTF-8 sous CSV, déclenche automatiquement l'ouverture adéquate sous tableur, utile sous Windows.
+
+        base << (uint8_t) 0xEF;
+        base << (uint8_t) 0xBB;
+        base << (uint8_t) 0xBF;
+    }
 
     if (insert_header)
         {

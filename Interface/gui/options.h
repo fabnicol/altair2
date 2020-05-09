@@ -193,7 +193,8 @@ private:
 
     FCheckBox
       *etabCheckBox,              ///< Exporter l'établissement ou pas
-      *rangCheckBox;              ///< Numéroter les lignes ou pas
+      *rangCheckBox,              ///< Numéroter les lignes ou pas
+      *bomCheckBox;               ///< Ne pas forcer la lecture en encodage UTF-8 sous tableur en n'insérant pas de BOM
 
     QLabel *maxNLigneLabel;       ///< Titre de  maxNLigneLineEdit
 

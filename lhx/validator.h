@@ -193,6 +193,7 @@ typedef struct
     bool pretend;                           ///< Ne pas exporter de données
     bool verifmem;                          ///< Vérifier l'état de la mémoire
     bool cdrom;                             ///< Importer les données de paye directement depuis un disque optique
+    bool inserer_bom;                        ///< Insérer un BOM UTF-8 dans les tables CSV exportées (vrai par défaut)
     unsigned int  nbfil;                    ///< Nombre de fils d'exécuSTATE_HTML_TAGtion
 } info_t;
 

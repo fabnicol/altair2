@@ -37,11 +37,14 @@
 # 
 
 source("syspaths.R", encoding = encodage.code.source)
+# empiler d'bord les rmd dans un fichier out.Rmd
+# (mettre l'enteête dans script effetctifs)
+source("altair_start.R", encoding = encodage.code.source, echo = TRUE)
+# il faudra fair un cat (..., file="out.Rmd", append=TRUE)
+# puis rendre out.Rmd
 source("rendre.R", encoding = encodage.code.source)
 
 envir <- rendre()
-
-file.rename("altair.docx", "altair.docx")
 
 ajuster_chemins_odt(hack_md())
 

@@ -39,7 +39,7 @@
 encodage.code.source <- "UTF-8"
 
 source("prologue_rapport.R", encoding = encodage.code.source)
-
+rep <- reps
 for (rep in reps) {
   
   env <<- new.env()
