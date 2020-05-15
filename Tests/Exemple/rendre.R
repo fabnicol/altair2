@@ -48,9 +48,9 @@ find.pandoc <- function() {
 
 chemin_pandoc <- find.pandoc()
 
-rendre <- function(fw = fig.width,
-                   fh = fig.height,
-                   d  = dpi,
+rendre <- function(fw = knitr::opts_chunk$get("fig.width"),
+                   fh = knitr::opts_chunk$get("fig.height"),
+                   d  = knitr::opts_chunk$get("dpi"),
                    keep = keep_md,
                    clean = FALSE,
                    to ="docx",

@@ -60,7 +60,14 @@ if (setOSWindows) {
    invisible(Sys.setenv(PATH = paste0(Sys.getenv("PATH"), "c:\\Users\\Public\\Dev\\altair\\texlive\\miktex\\bin;")))
    library("altair")
 } else {
-  library("altair", lib.loc=c("/usr/local/lib64/R/library", "/usr/lib64/R/library"))
+  library("altair", lib.loc=c("/usr/local/lib64/R/library",
+                              "/usr/local/lib/R/library",
+                              "/usr/lib64/R/library",
+                              "/usr/lib/R/library",
+                              "/usr/local/lib64/R/site-library",
+                              "/usr/local/lib/R/site-library",
+                              "/usr/lib64/R/site-library",
+                              "/usr/lib/R/site-library"))
 }
 
 options(warn = -1, verbose = FALSE, OutDec = ",", datatable.verbose = FALSE, datatable.integer64 = "numeric")

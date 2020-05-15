@@ -530,7 +530,7 @@ static int parseFile (info_t& info)
                                 }
                         }
 
-                    goto DI;
+                    goto out;
 
 #endif
                 }

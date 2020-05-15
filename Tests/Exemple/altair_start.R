@@ -265,9 +265,8 @@ opts_knit$set(output.dir=getwd())
 
 générer.partie <- function(script, seq) {
 
-                              invisible(lapply(script, function(x) do.call(altair::insérer_script, 
-                                                                             as.list(na.omit(c(file.path("C:/Users/Public/Dev/altair2/Tests/Exemple/modules", x[1]),
-                                                                                             x[-1])))))) 
+                              lapply(script, function(x) do.call(altair::insérer_script, 
+                                                                             as.list(na.omit(c(file.path("/home/fab/Dev/altair/Tests/Exemple/modules", x[1])))))) 
 }
 
 if (file.exists("out.Rmd")) {
@@ -287,11 +286,11 @@ if (séquentiel) {
   # b) tenir compte des relations de dépendances entre scripts afin d'éviter les files d'attentes et les mutex
   # Il faut ensuite permuter les résultats pour retrouver l'ordre canonique des rapports (qui pourrait évoluer pour éviter cela)
   
-  group1 <- list("script_effectifs.R",
+  group1 <- list( "script_effectifs.R",
                   "script_pyramides.R",
                   "script_duréedeservice.R")
 
-  group2 <- list("script_rémunérationsbrutes1.R",
+  group2 <- list( "script_rémunérationsbrutes1.R",
                  "script_rémunérationsbrutes2.R",
                  "script_comparaisonsdubrut.R",
                  "script_évolutiondunet.R")
@@ -306,7 +305,7 @@ if (séquentiel) {
                  "script_IPF.R",
                  "script_RIFSEEP.R")
 
-  group5 <- list("script_PFI.R", #+
+  group5 <- list( "script_PFI.R", #+
                  "script_vacataires.R", #+
                  "script_NAS.R", #+
                  "script_élus.R")
@@ -349,7 +348,7 @@ if (séquentiel) {
                    r3[[3]],
                    r5[[4]])
 
-  invisible(lapply(res, function(x) writeLines(unlist(x), file = "out.Rmd", useBytes = TRUE)))
+ lapply(res, function(x) writeLines(unlist(x), "out.Rmd"))
 }
 
 ######### SAUVEGARDES #######
@@ -386,12 +385,3 @@ if (fichier.personnels.existe) file.remove(chemin("matricules.csv"))
 if (grades.categories.existe)  file.remove(chemin("grades.categories.csv"))
 if (logements.existe)          file.remove(chemin("logements.csv"))
 if (plafonds.ifse.existe)      file.remove(chemin("plafonds_ifse.csv"))
-
-setwd(currentDir)
-
-message("Dossier courant : ", getwd())
-
-#if (! séquentiel) nettoyer.pile.bases()
-
-if (! debug.code)
-   rm(list = setdiff(ls(), script_env))

@@ -918,9 +918,7 @@ extraire_paye <- function(an, L, out) {
 
 #' Insérer un script auxiliaire, indexé par une variable globale
 #' @param chemin  Chemin du script R
-#' @param index   Vecteur numérique contenant les valeurs de la variable globale.
 #' @param seq Exécuter le script en mode séquentiel (si \code{TRUE}, resp. si \code{FALSE}, en mode parallèle)   
-#' @param variable Vecteur de caractères contenant le nom de la variable globale dans le script auxiliaire.
 #' @param gen  Si \code{FALSE} alors se contente de sourcer le script auxiliaire. Sinon intègre le rapport auxiliaire au format du rapport principal.
 #' @param incrémenter INcrémenter le chapitre de présentation du script
 #' @param fonction Appeler une liste de fonctions à argument vide
@@ -928,18 +926,18 @@ extraire_paye <- function(an, L, out) {
 #' @export
 
 insérer_script <- function(chemin = NULL, 
-                           index = 1, 
-                           variable = "année", 
                            gen = générer.rapport, 
                            incrémenter = FALSE, 
                            fonction = NULL)  {
 
-if (! is.null(chemin) && get(gsub(".R", "", basename(chemin), fixed = TRUE)) == FALSE) invisible(return(NULL))
-  
-invisible(sapply(index, function(x) {
+#if (! is.null(chemin) && get(gsub(".R", "", basename(chemin), fixed = TRUE)) == FALSE) invisible(return(NULL))
 
-  assign(variable, x, .GlobalEnv)
-  
+# if (is.numeric(chemin)) {
+#   rank <<- chemin
+#   return()
+# }
+
+
   if (incrémenter) incrémenter.chapitre()
   
   if (is.null(fonction)) {
@@ -950,7 +948,7 @@ invisible(sapply(index, function(x) {
                                quiet = TRUE)
                                
             if (séquentiel == TRUE) {
-              writeLines(vect, con = "out.Rmd", useBytes = TRUE)
+              write(vect, file = "out.Rmd", append = TRUE)
             } else {
               return(vect)
             }
@@ -968,7 +966,6 @@ invisible(sapply(index, function(x) {
         do.call(get(f), list())
       }
   }
-}))
 
 }
 

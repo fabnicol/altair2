@@ -65,8 +65,12 @@ for (rep in reps) {
       message(paste("*", rep, "N'a pas pu être traité"))
       message("*")
       message("************************")
-      setwd(currentDir)
+  
   }
+  
+  setwd(currentDir)
+  
+  message("Dossier courant : ", getwd())
   
  rm(list = setdiff(ls(), script_env))
 }

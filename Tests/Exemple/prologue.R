@@ -149,10 +149,10 @@ nom.bulletins               <- "Bulletins"
 
 if (setOSWindows) {
   chemin.dossier.outils <- file.path(currentDir, "Outils")
-  iconv <- file.path(chemin.dossier.outils, paste0("iconv", exec.root))
+
   sed   <- file.path(chemin.dossier.outils, paste0("sed", exec.root))
 } else {
-  iconv <- "iconv"
+
   sed   <- "sed"
 }
 
