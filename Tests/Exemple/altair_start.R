@@ -348,7 +348,7 @@ if (séquentiel) {
                    r3[[3]],
                    r5[[4]])
 
- lapply(res, function(x) writeLines(unlist(x), "out.Rmd"))
+ lapply(res, function(x) cat(unlist(x), file = "out.Rmd", append = TRUE))
 }
 
 ######### SAUVEGARDES #######

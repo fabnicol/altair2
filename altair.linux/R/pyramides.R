@@ -121,13 +121,16 @@ envir$res <- Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.
                align = 'c',
                type = "standard")
 
+mesg1 <- FALSE
+mesg2 <- FALSE
+
 if (longueur.non.na(ages.début.psr) == 0) {
-  cat("La pyramide des âges de début de période ne peut être produite.")
+  mesg1 <- TRUE
   ages.début.psr <- ages.fin.psr
 } 
 
 if (longueur.non.na(ages.fin.psr) == 0) {
-  cat("La pyramide des âges de fin de période ne peut être produite.")
+  mesg2 <- TRUE
   ages.fin.psr <- ages.début.psr
 }
 
@@ -162,6 +165,14 @@ if (longueur.non.na(ages.début.psr) > 0 || longueur.non.na(ages.fin.psr) > 0) {
                       , Total := Hommes + Femmes]
   
   H <- H1 - H0
+  
+  if (mesg1) {
+     cat("\nLa pyramide des âges de début de période ne peut être produite.\n   ")
+  }
+  
+  if (mesg2) {
+     cat("\nLa pyramide des âges de fin de période ne peut être produite.\n   ")
+  }
     
 } 
 

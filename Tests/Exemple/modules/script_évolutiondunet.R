@@ -20,9 +20,16 @@
 
 attach(Analyse.variations, warn.conflicts = FALSE)
 
-insérer_script(fonction = "evolution_net_hist")
+
+#+fig.height=6, fig.width=7   
+insérer_script(fonction = "evolution_net_hist_1")
 
 #'   
+#'   
+
+#+fig.height=6, fig.width=7   
+insérer_script(fonction = "evolution_net_hist_2")
+
 conditionnel("Lien vers la base de données synthétique", "Bases/Remunerations/Analyse.variations.csv")     
 conditionnel("Lien vers la base de données détaillée par année", "Bases/Remunerations/Analyse.variations.par.exercice.csv")     
 
@@ -546,7 +553,7 @@ net.grades <<- net.eqtp(variation = TRUE)
 net.emplois <- net.eqtp.emploi(variation = TRUE)
 net.services <- net.eqtp.serv(variation = TRUE)
 
-Sauv.base("Remunerations", "net.emplois")
+#Sauv.base("Remunerations", "net.emplois")
 Sauv.base("Remunerations", "net.grades")
 
 csvfiles  <- list.files(".", pattern = "^net.serv..*.csv")

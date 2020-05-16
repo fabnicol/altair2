@@ -55,8 +55,8 @@ if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 15
 setwd(file.path(chemin.dossier.bases, "Effectifs"))
 
 Sauv.base("Effectifs", "tableau.effectifs")
-Sauv.base("Effectifs", "tableau.effectifs.grades")
-Sauv.base("Effectifs", "tableau.effectifs.emplois")
+#Sauv.base("Effectifs", "tableau.effectifs.grades")
+#Sauv.base("Effectifs", "tableau.effectifs.emplois")
 
 eqtp.grade.serv(variation = TRUE)
 eqtp.grade.cat(variation = TRUE)

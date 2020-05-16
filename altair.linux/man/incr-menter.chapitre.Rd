@@ -4,7 +4,7 @@
 \alias{incrémenter.chapitre}
 \title{Incrémente le numéro de chapitre courant}
 \usage{
-incr攼㸹menter.chapitre()
+incrémenter.chapitre()
 }
 \value{
 Valeur incrémentée de chapitre

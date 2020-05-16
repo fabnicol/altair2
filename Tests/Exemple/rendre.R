@@ -62,8 +62,6 @@ rendre <- function(fw = knitr::opts_chunk$get("fig.width"),
           rm(list = ls(), envir = globalenv())
           render_env <- new.env(parent = globalenv())
           
-          altair_start <- ifelse(to == "docx", "out.Rmd", "altair_start.R")
-          
           if (to == "docx") {
             
             V <- readLines("out.Rmd", encoding = "UTF-8")
@@ -72,7 +70,7 @@ rendre <- function(fw = knitr::opts_chunk$get("fig.width"),
             writeLines(V,  "out.Rmd", useBytes = TRUE)
           }
           
-          render(altair_start,
+          render("out.Rmd",
                  output_format = output_format(knitr_options(opts_chunk = list(fig.width = fw, 
                                                                                fig.height = fh,
                                                                                dpi = d,

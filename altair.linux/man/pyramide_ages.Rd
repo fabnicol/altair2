@@ -56,5 +56,5 @@ Une liste de deux vecteurs numériques représentant chacun des axes (gauche pui
 Elabore une pyramide des âges verticale avec superposition du début et de la fin de la période sous revue.
 }
 \examples{
-pyramide_ages(df1, NULL, "Pyramide des Ã¢ges", 2008, 2012, versant = "FPT", comparer = TRUE)
+pyramide_ages(df1, NULL, "Pyramide des âges", 2008, 2012, versant = "FPT", comparer = TRUE)
 }

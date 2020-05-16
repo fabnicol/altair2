@@ -4,7 +4,7 @@
 \alias{rémunérations_eqtp}
 \title{Calculer la rémunération nette et brute en EQTP}
 \usage{
-r攼㸹mun攼㸹rations_eqtp(DT)
+rémunérations_eqtp(DT)
 }
 \arguments{
 \item{DT}{data.table (Bulletins.paie)}

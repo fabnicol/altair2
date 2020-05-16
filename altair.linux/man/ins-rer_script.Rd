@@ -4,10 +4,8 @@
 \alias{insérer_script}
 \title{Insérer un script auxiliaire, indexé par une variable globale}
 \usage{
-ins攼㸹rer_script(
+insérer_script(
   chemin = NULL,
-  index = 1,
-  variable = "année",
   gen = générer.rapport,
   incrémenter = FALSE,
   fonction = NULL
@@ -16,17 +14,11 @@ ins攼㸹rer_script(
 \arguments{
 \item{chemin}{Chemin du script R}
 
-\item{index}{Vecteur numérique contenant les valeurs de la variable globale.}
-
-\item{variable}{Vecteur de caractères contenant le nom de la variable globale dans le script auxiliaire.}
-
 \item{gen}{Si \code{FALSE} alors se contente de sourcer le script auxiliaire. Sinon intègre le rapport auxiliaire au format du rapport principal.}
 
 \item{incrémenter}{INcrémenter le chapitre de présentation du script}
 
 \item{fonction}{Appeler une liste de fonctions à argument vide}
-
-\item{seq}{Exécuter le script en mode séquentiel (si \code{TRUE}, resp. si \code{FALSE}, en mode parallèle)}
 }
 \value{
 Valeur de la dernière variable globale \code{variable} instanciée. Effets de bord en sortie.

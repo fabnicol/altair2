@@ -39,7 +39,7 @@
 
 # On revient à une analyse des rémunérations qui réinclut tous les personnels (vacataires, élus, inactifs, annexes)
 
-année <- début.période.sous.revue
+année <<- début.période.sous.revue
 
 Analyse.remunerations.exercice <- Analyse.remunerations[Annee == année]     
 

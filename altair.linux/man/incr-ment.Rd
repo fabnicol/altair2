@@ -4,7 +4,7 @@
 \alias{incrément}
 \title{Incrémente le numéro de tableau courant}
 \usage{
-incr攼㸹ment()
+incrément()
 }
 \value{
 Valeur incrémentée de numéro.tableau

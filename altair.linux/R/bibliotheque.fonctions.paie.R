@@ -918,12 +918,13 @@ extraire_paye <- function(an, L, out) {
 
 #' Insérer un script auxiliaire, indexé par une variable globale
 #' @param chemin  Chemin du script R
-#' @param seq Exécuter le script en mode séquentiel (si \code{TRUE}, resp. si \code{FALSE}, en mode parallèle)   
 #' @param gen  Si \code{FALSE} alors se contente de sourcer le script auxiliaire. Sinon intègre le rapport auxiliaire au format du rapport principal.
 #' @param incrémenter INcrémenter le chapitre de présentation du script
 #' @param fonction Appeler une liste de fonctions à argument vide
 #' @return Valeur de la dernière variable globale \code{variable} instanciée. Effets de bord en sortie.
 #' @export
+
+
 
 insérer_script <- function(chemin = NULL, 
                            gen = générer.rapport, 
@@ -946,9 +947,12 @@ insérer_script <- function(chemin = NULL,
             vect <- knit_child(text = readLines(spin(chemin, knit = FALSE),
                                                 encoding = "UTF-8"),
                                quiet = TRUE)
+            
+            vect <- gsub(pattern = "(figure/.*?\\.pdf)", "![](\\1) \n", vect, perl = TRUE)
                                
             if (séquentiel == TRUE) {
               write(vect, file = "out.Rmd", append = TRUE)
+              
             } else {
               return(vect)
             }

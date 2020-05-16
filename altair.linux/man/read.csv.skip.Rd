@@ -35,5 +35,5 @@ Lecture d'un fichier CSV et conversion en data.table.
 Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
 }
 \examples{
-read.csv.skip(Base, sÃ©parateur.dÃ©cimal = ",")
+read.csv.skip(Base, séparateur.décimal = ",")
 }

@@ -5,7 +5,7 @@
 \title{Sauvegarde d'une base}
 \usage{
 Sauv.base(
-  chemin.dossier = "",
+  dossier = "",
   nom = "",
   nom.sauv = nom,
   sep = séparateur.liste.sortie,
@@ -14,7 +14,7 @@ Sauv.base(
 )
 }
 \arguments{
-\item{chemin.dossier}{Chemin du dossier dans lequel la base sera sauvegardée}
+\item{dossier}{Chemin du dossier dans lequel la base sera sauvegardée dans chemin.dossier.bases}
 
 \item{nom}{Chaîne de caractères du nom de l'objet à sauvegarder}
 
@@ -34,5 +34,5 @@ Sauvegarde d'une base data.table sous forme de fichier CSV
 Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
 }
 \examples{
-Sauv.base("donnÃ©es", Base, "BaseDonnÃ©e", sep = ";", dec = ",")
+Sauv.base("Effectifs", "Base", "BaseDonnée")  -->  (dossier des bases) / Effectifs/BaseDonnée.csv
 }

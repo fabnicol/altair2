@@ -4,7 +4,7 @@
 \alias{correspondance_grade_catégorie}
 \title{Correspondance grade-catégorie}
 \usage{
-correspondance_grade_cat攼㸹gorie()
+correspondance_grade_catégorie()
 }
 \value{
 La \code{data.table grade.categorie} résultant de la lecture du fichier \bold{grades.catégories.csv} sous le répertoire \bold{Données}
