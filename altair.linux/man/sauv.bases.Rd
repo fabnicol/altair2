@@ -23,6 +23,6 @@ Sauvegarde d'une ou plusieurs base de type data.table sous forme de fichier CSV
 }
 \examples{
 envir <- environment()
-# Générer Bulletins.paie et Paie dans envir
-sauv.bases("données",  env = envir, c("Bulletins.paie", "Paie"))
+# GÃ©nÃ©rer Bulletins.paie et Paie dans envir
+sauv.bases("donnÃ©es",  env = envir, c("Bulletins.paie", "Paie"))
 }

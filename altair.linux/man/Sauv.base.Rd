@@ -26,13 +26,10 @@ Sauv.base(
 
 \item{environment}{(= .GlobalEnv) environnement,}
 }
-\value{
-Valeur booléenne de file.exists(file.path(chemin.dossier, nom.sauv %+% ".csv"))
-}
 \description{
 Sauvegarde d'une base data.table sous forme de fichier CSV
 Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
 }
 \examples{
-Sauv.base("Effectifs", "Base", "BaseDonnée")  -->  (dossier des bases) / Effectifs/BaseDonnée.csv
+Sauv.base("Effectifs", "Base", "BaseDonnÃ©e")  -->  (dossier des bases) / Effectifs/BaseDonnÃ©e.csv
 }

@@ -221,8 +221,8 @@ prime_PFI <- list(nom = "PFI",                      # Nom en majuscules
                   catégorie = c("A", "B", "C"),     # toutes les catégories
                   dossier = "Reglementation")       # dossier de bases
 #immature
-if (setOSWindows) séquentiel <- TRUE else {
 
+if (!setOSWindows) {
   system('cat /proc/meminfo > $HOME/mem.txt')
   mem <- data.table::fread(file.path(Sys.getenv("HOME"), "mem.txt"),
                sep = ":",
@@ -230,9 +230,9 @@ if (setOSWindows) séquentiel <- TRUE else {
   mem <- strtoi(unlist(strsplit(mem, " "))[1])
   if (nrow(Paie) * ratio.memoire.ligne.parallele  > mem) {
     "séquentiel" %a% TRUE  # assignation globale nécessaire
+    message("Bascule en mode séquentiel")
   }
 }
-
 
 
 scripts <- 
@@ -263,10 +263,10 @@ scripts <-
   
 opts_knit$set(output.dir=getwd())
 
-générer.partie <- function(script, seq) {
+générer.partie <- function(script, séquentiel = FALSE) {
 
                               lapply(script, function(x) do.call(altair::insérer_script, 
-                                                                             as.list(na.omit(c(file.path("/home/fab/Dev/altair/Tests/Exemple/modules", x[1])))))) 
+                                                                             as.list(na.omit(c(file.path(chemin.modules, x[1]))), gen = générer.rapport, pdf = PDF, séquentiel = séquentiel))) 
 }
 
 if (file.exists("out.Rmd")) {
@@ -276,7 +276,7 @@ if (file.exists("out.Rmd")) {
 
 if (séquentiel) {
   
-  générer.partie(scripts)
+  générer.partie(scripts, séquentiel)
   
 } else {
   
@@ -290,8 +290,8 @@ if (séquentiel) {
                   "script_pyramides.R",
                   "script_duréedeservice.R")
 
-  group2 <- list( "script_rémunérationsbrutes1.R",
-                 "script_rémunérationsbrutes2.R",
+  group2 <- list(# "script_rémunérationsbrutes1.R",
+                 #"script_rémunérationsbrutes2.R",
                  "script_comparaisonsdubrut.R",
                  "script_évolutiondunet.R")
 
@@ -325,13 +325,22 @@ if (séquentiel) {
             group5,
             group6)
   
-
-  cl <- makeCluster(6, type = ifelse(setOSWindows, "PSOCK", "FORK"))
+  
+  cluster_mode <- ifelse(setOSWindows, "PSOCK", "FORK")
+  
+  cl <- makeCluster(6, type = cluster_mode)
+  
+  clusterExport(cl, c("chemin.modules", "début.période.sous.revue", "fin.période.sous.revue", "durée.sous.revue", 
+                      "quantile.cut", "minimum.positif", "seuil.troncature", "numéro.tableau", "chapitre"))
+  
+  clusterEvalQ(cl, library(altair))
+  clusterEvalQ(cl, library(knitr))
+  clusterEvalQ(cl, library(parallel))
   
   res <- clusterApply(cl,
                       G,
                       générer.partie)
-
+  
   stopCluster(cl)
   
   # Il faut réordonner pour être dans l'ordre canonique du rapport
@@ -348,7 +357,7 @@ if (séquentiel) {
                    r3[[3]],
                    r5[[4]])
 
- lapply(res, function(x) cat(unlist(x), file = "out.Rmd", append = TRUE))
+ lapply(res, function(x) cat(unlist(x), file = ifelse(PDF, "out.Rmd", "altair.md"), append = TRUE))
 }
 
 ######### SAUVEGARDES #######

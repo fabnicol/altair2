@@ -39,21 +39,32 @@
 source("syspaths.R", encoding = "UTF-8")
 # empiler d'bord les rmd dans un fichier out.Rmd
 # (mettre l'entête dans script effetctifs)
-
-source("altair_start.R", encoding = "UTF-8", echo = TRUE)
-# il faudra fair un cat (..., file="out.Rmd", append=TRUE)
-# puis rendre out.Rmd
+# 
+ source("altair_start.R", encoding = "UTF-8", echo = TRUE)
+# # il faudra fair un cat (..., file="out.Rmd", append=TRUE)
+# # puis rendre out.Rmd
 
 source("rendre.R", encoding = "UTF-8")
 
 envir <- rendre()
+
+
+system(
+  paste(
+    ifelse(setOSWindows, file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc/pandoc.exe"), chemin_pandoc),
+    "altair2.html +RTS -K512m -RTS -f markdown --to",
+    "docx",
+    "--from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --highlight-style tango --output",
+    "altair.docx")
+)
+
 
 ajuster_chemins_odt(hack_md())
 
 system(
  paste(
    ifelse(setOSWindows, file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc/pandoc.exe"), chemin_pandoc),
-   "altair.md +RTS -K512m -RTS --to",
+   "altair2.html +RTS -K512m -RTS -f markdown --to",
    "odt",
    "--from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --highlight-style tango --output",
    "altair.odt")
@@ -61,14 +72,14 @@ system(
 
 if (! keep_md) {
     #unlink("altair.ansi_pdf", recursive=TRUE)
-    unlink("altair.md")
-    unlink("altair_files", recursive = TRUE)  
+  #  unlink("altair.md")
+  #  unlink("altair_files", recursive = TRUE)  
 }
 
 file.copy("altair.docx", chemin.clé)
 file.copy("altair.odt", chemin.clé)
 
-if (ouvrir.document && basename(chemin.clé) == racine) {
+#if (ouvrir.document && basename(chemin.clé) == racine) {
   if (setOSWindows) {
     
     shell("start winword Donnees/R-Altaïr/altair.docx")
@@ -77,7 +88,7 @@ if (ouvrir.document && basename(chemin.clé) == racine) {
     
     system("lowriter Donnees/R-Altair/altair.odt")
   }
-}
+#}
 
 
 setwd(currentDir)

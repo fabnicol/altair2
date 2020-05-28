@@ -54,9 +54,8 @@ prime_FPH_test <- function(prime, prime_lit, base, expr = NULL) {
 
 primes.potentielles <- prime_FPH_test("PRIME SPECIFIQUE", "prime spécifique", "personnels.prime.specifique.nt")
 
-#'   
-#'Primes spécifiques : `r primes.potentielles`      
-#'   
+cat("Prime spécifique", primes.potentielles)      
+   
 
 #'   
 conditionnel("Lien vers la base de données Prime spécifique NT", "Bases/Reglementation/personnels.prime.specifique.nt.csv")   
@@ -68,11 +67,10 @@ conditionnel("Lien vers la base de données Prime spécifique NT", "Bases/Reglem
 
 primes.potentielles <- prime_FPH_test("PRIME DE TECHNICITE", "prime de technicité", "personnels.prime.tech.nt")
 
-#'   
-#'Primes de technicité : `r primes.potentielles`    
-#'   
 
-#'   
+cat("Primes de technicité", primes.potentielles)    
+
+
 conditionnel("Lien vers la base de données Prime de technicité NT", "Bases/Reglementation/personnels.prime.tech.nt.csv")   
 #'   
 
@@ -82,8 +80,8 @@ conditionnel("Lien vers la base de données Prime de technicité NT", "Bases/Reg
 
 primes.potentielles <- prime_FPH_test("IFT", "indemnité forfaitaire et technique", "personnels.ift.nt")
 
-#'   
-#'Indemnités forfaitaire et technique : `r primes.potentielles`    
+   
+cat("Indemnités forfaitaire et technique", primes.potentielles)    
 #'   
 
 #'   
@@ -94,9 +92,9 @@ conditionnel("Lien vers la base de données IFT NT", "Bases/Reglementation/perso
 
 primes.potentielles <- prime_FPH_test("PRIME DE SERVICE", "prime de service", "personnels.ps.nt", expression.rég.médecin)
 
-#'   
-#'Primes de service : `r primes.potentielles`    
-#'   
+   
+cat("Primes de service", primes.potentielles)    
+   
 
 #'   
 conditionnel("Lien vers la base de données primes de service NT", "Bases/Reglementation/personnels.ps.nt.csv")   

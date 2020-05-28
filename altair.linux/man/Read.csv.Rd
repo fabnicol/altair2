@@ -12,8 +12,7 @@ Read.csv(
   skip = 0,
   drop = NULL,
   séparateur.liste = séparateur.liste.entrée,
-  séparateur.décimal = séparateur.décimal.entrée,
-  rapide = FALSE
+  séparateur.décimal = séparateur.décimal.entrée
 )
 }
 \arguments{
@@ -32,8 +31,6 @@ Read.csv(
 \item{séparateur.liste}{Séparateur des champs CSV}
 
 \item{séparateur.décimal}{Séparateur décimal}
-
-\item{rapide}{Accélération parallèle ou pas}
 }
 \value{
 Objet \code{data.table} résultant de l'empilement des bases lues.
@@ -46,10 +43,10 @@ test <- data.table(datasets::cars)
 res  <- try(Read.csv("base",
                      "test.csv",
                       colClasses = c("integer", "integer"),
-                      séparateur.liste = ";",
-                      séparateur.décimal = ",",
+                      sÃ©parateur.liste = ";",
+                      sÃ©parateur.dÃ©cimal = ",",
                       rapide = TRUE),
           silent = FALSE)
 if (inherits(res, 'try-error'))
-  stop("Problème de lecture de la base de la table bulletins-lignes de Paie")
+  stop("ProblÃ¨me de lecture de la base de la table bulletins-lignes de Paie")
 }

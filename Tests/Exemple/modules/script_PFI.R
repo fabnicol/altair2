@@ -18,13 +18,15 @@ if (nombre.personnels.pfi <- uniqueN(personnels.prime.informatique$Matricule)) {
       " percevant une PFI.")
 }
 
-primes.informatiques.potentielles <- if (nombre.personnels.pfi == 0) "aucune" else paste(unique(personnels.prime.informatique$Libelle), collpase = " ;")
+if (nombre.personnels.pfi == 0) {
+  primes.informatiques.potentielles <- "aucune"
+  } else {
+    primes.informatiques.potentielles <- paste(unique(personnels.prime.informatique$Libelle), collapse = " ;")
+  }
 
 sauv.bases("Reglementation", environment(), "personnels.prime.informatique")
 
-#'Primes informatiques (PFI) : `r primes.informatiques.potentielles`    
-#'  
+cat(primes.informatiques.potentielles)
 
-#'   
 conditionnel("Lien vers la base de données Primes informatiques", "Bases/Reglementation/personnels.prime.informatique.csv")   
 #'     

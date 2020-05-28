@@ -115,13 +115,11 @@ print(Tableau.vertical2(c("Agrégats",
 #'
 filtre.fonctionnaire <<- function (X) X[ !is.na(X)  & X > minimum.positif ]
 
-AR <- Analyse.remunerations.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIRE", 
+AT <<- Analyse.remunerations.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIRE", 
                                      ..colonnes.sélectionnées]
 
-attach(AR, warn.conflicts = FALSE)
 source("histogrammes.R", encoding = "UTF-8")
 
-detach(AR)
 #'    
 #'**Nota :**   
 #'*EQTP : Equivalent temps plein = 12 . moyenne du ratio ratio rémunération / quotite*  
@@ -131,7 +129,7 @@ detach(AR)
 #'**Tests de cohérence**
 
 if (nrow(AR) > 0) {
-  masses.fonct <- AR[ , lapply(.(Montant.brut.annuel, rémunération.indemnitaire.imposable, total.lignes.paie, acomptes), sum, na.rm = TRUE)]
+  masses.fonct <- AT[ , lapply(.(Montant.brut.annuel, rémunération.indemnitaire.imposable, total.lignes.paie, acomptes), sum, na.rm = TRUE)]
   
 } else {
   masses.fonct <- c(0,0) 
@@ -199,7 +197,7 @@ print(Résumé(c("Traitement indiciaire",
          "Autres rémunérations",
          "Quotité",
          "Effectif"),
-       AR[Grade != "V" & Grade != "A" & Statut != "ELU"
+       AT[Grade != "V" & Grade != "A" & Statut != "ELU"
           & Filtre_actif == TRUE
           & Filtre_annexe == FALSE,
              .(traitement.indiciaire,
@@ -221,7 +219,7 @@ essayer({
            "Part indemnitaire",
            "Quotité",
            "Effectif"),
-         AR[Grade != "V" & Grade != "A" & Statut != "ELU"
+         AT[Grade != "V" & Grade != "A" & Statut != "ELU"
             & Filtre_actif == TRUE
             & Filtre_annexe == FALSE,
             .(total.lignes.paie,
@@ -250,7 +248,7 @@ ARC <- data.table::data.table(NULL)
 if (analyse.par.catégorie) {
   
 essayer({
-  ARA <- AR[Categorie == "A" & Grade != "V" & Grade != "A" & Statut != "ELU" 
+  ARA <- AT[Categorie == "A" & Grade != "V" & Grade != "A" & Statut != "ELU" 
             & Filtre_actif == TRUE
             & Filtre_annexe == FALSE]
   
@@ -303,7 +301,7 @@ if (analyse.par.catégorie) {
 if (analyse.par.catégorie) {
   
   essayer({  
-    ARB <- AR[Categorie == "B" & Grade != "V" & Grade != "A" & Statut != "ELU"
+    ARB <- AT[Categorie == "B" & Grade != "V" & Grade != "A" & Statut != "ELU"
               & Filtre_actif == TRUE
               & Filtre_annexe == FALSE]
     
@@ -355,7 +353,7 @@ if (analyse.par.catégorie) {
 if (analyse.par.catégorie) {
   
   essayer({  
-    ARC <- AR[Categorie == "C" & Grade != "V" & Grade != "A" & Statut != "ELU" 
+    ARC <- AT[Categorie == "C" & Grade != "V" & Grade != "A" & Statut != "ELU" 
               & Filtre_actif == TRUE
               & Filtre_annexe == FALSE, ]
     
@@ -449,7 +447,7 @@ if (longueur.non.na(temp))
 
 #'
 
-AR <- Analyse.remunerations.exercice[Statut != "ELU"
+AM <- Analyse.remunerations.exercice[Statut != "ELU"
                                              &  Statut != "TITULAIRE"
                                              &  Statut != "STAGIAIRE"
                                              & Filtre_actif == TRUE
@@ -467,7 +465,7 @@ essayer({
              "Autres rémunérations",
              "Quotité",
              "Effectif"),
-           AR[ , .(rémunération.indemnitaire.imposable,
+           AM[ , .(rémunération.indemnitaire.imposable,
                    acomptes,
                    quotite.moyenne)],
            extra = "length"))
@@ -484,7 +482,7 @@ essayer({
            "Total rémunérations EQTP",
            "Quotité",
            "Effectif"),
-         AR[ , .(Montant.brut.annuel, Montant.brut.annuel.eqtp, quotite.moyenne)],
+         AM[ , .(Montant.brut.annuel, Montant.brut.annuel.eqtp, quotite.moyenne)],
          extra = "length"))
 }, "Le tableau des quartiles pour la catégorie C n'a pas pu être généré.")
 

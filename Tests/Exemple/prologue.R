@@ -80,7 +80,6 @@ test.delta                     <- FALSE
 if (! exists("PDF"))       PDF <<- FALSE
 keep_md                        <- FALSE
 utiliser.cplusplus.sft         <- FALSE
-sécuriser.types.sortie         <- TRUE
 utiliser.variable.Heures.Sup.  <- FALSE    # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unite
 noria.sur.base.de.paie         <- FALSE    # calculer effet de noria sur base de paie uniquement (pas de fichier E/S)
 sauter.tests.statutaires       <- FALSE
@@ -144,17 +143,6 @@ nom.fichier.paie            <- paste0(racine, "Table")
 nom.bulletin.paie           <- paste0(racine, "Bulletins")
 nom.table                   <- "Table"
 nom.bulletins               <- "Bulletins"
-
-# Outils
-
-if (setOSWindows) {
-  chemin.dossier.outils <- file.path(currentDir, "Outils")
-
-  sed   <- file.path(chemin.dossier.outils, paste0("sed", exec.root))
-} else {
-
-  sed   <- "sed"
-}
 
 
 # FORMATS

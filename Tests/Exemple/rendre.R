@@ -61,36 +61,42 @@ rendre <- function(fw = knitr::opts_chunk$get("fig.width"),
 
           rm(list = ls(), envir = globalenv())
           render_env <- new.env(parent = globalenv())
+          input_file <- "altair_start.R"
+          file.remove("altair2.md") 
+          if (to == "docx") {
+            
+            # V <- readLines("out.Rmd", encoding = "UTF-8")
+            # V <- gsub("![Notice](Notice.png)", "Notice", V, fixed = TRUE)
+            # file.remove("out.Rmd")
+            # writeLines(V,  "out.Rmd", useBytes = TRUE)
+           
+          }
+          
+          
+          # render(input_file,
+          #        output_format = output_format(knitr_options(opts_chunk = list(fig.width = 5,
+          #                                                                      fig.height = 7,
+          #                                                                      dpi = 96,
+          #                                                                      echo = FALSE,
+          #                                                                      warning = FALSE,
+          #                                                                      message = FALSE,
+          #                                                                      results = 'asis')),
+          #                                      keep_md = TRUE, clean_supporting = clean,
+          #                                      pandoc = pandoc_options(to = to,
+          #                                                              from = from,
+          #                                                              args = args)),
+                 # envir = render_env,
+                 # output_file = output_file)
+                 # 
           
           if (to == "docx") {
             
-            V <- readLines("out.Rmd", encoding = "UTF-8")
-            V <- gsub("![Notice](Notice.png)", "Notice", V, fixed = TRUE)
-            file.remove("out.Rmd")
-            writeLines(V,  "out.Rmd", useBytes = TRUE)
-          }
-          
-          render("out.Rmd",
-                 output_format = output_format(knitr_options(opts_chunk = list(fig.width = fw, 
-                                                                               fig.height = fh,
-                                                                               dpi = d,
-                                                                               echo = FALSE,
-                                                                               warning = FALSE,
-                                                                               message = FALSE,
-                                                                               results = 'asis')),
-                                               keep_md = TRUE, clean_supporting = clean,
-                                               pandoc = pandoc_options(to = to,
-                                                                       from = from,
-                                                                       args = args)),
-                 envir = render_env,
-                 output_file = output_file)
-          
-          if (to == "docx") {
-#            file.remove("out.Rmd") 
-          } else {
+            system2(chemin_pandoc, c("altair2.html", "-f", from, "-o", output_file, args))          
+            
+            } else {
             if (chemin_pandoc != "") {
                if (to == "latex") {
-                  cat(chemin_pandoc, output_file, "-o", "altair.pdf", args)
+                  cat(chemin_pandoc, input_file, "-o", "altair.pdf", args)
                   system2(chemin_pandoc, c(output_file, "-o", "altair.pdf", args))
                }
             } else {
@@ -122,12 +128,12 @@ hack_md <- function() {
   
   writeLines(text = "\n---\ntitle: false\nauthor: false\ndate: false\n---\n", con)     
   
-  V <- readLines("altair.md", encoding = "UTF-8")[-c(1, 2)]
+  V <- readLines("altair2.html", encoding = "UTF-8")[-c(1, 2)]
   
   writeLines(V, con)
   
   close(con)
-  file.rename("altair.2.md", "altair.md")
+  file.rename("altair.2.md", "altair2.html")
   
   V
 }
@@ -145,14 +151,14 @@ ajuster_chemins_odt <- function(V) {
   # garde en principe inutile
   
   if (! is.null(V))  {
-    con <- file("altair.2.md", open = "a", encoding = "UTF-8")
+    con <- file("altair.3.md", open = "a", encoding = "UTF-8")
   
     writeLines(text = "\n---\ntitle: false\nauthor: false\ndate: false\n---\n", con)   
  
     writeLines(gsub("]\\((Docs|Bases)", "]\\(../\\1", V, perl = TRUE), con)
   
     close(con)
-    file.rename("altair.2.md", "altair.md")
+    file.rename("altair.3.md", "altair2.html")
   }
 }
 

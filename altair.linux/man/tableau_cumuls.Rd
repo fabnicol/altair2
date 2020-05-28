@@ -4,7 +4,7 @@
 \alias{tableau_cumuls}
 \title{Affichage du tableau des cumuls de primes}
 \usage{
-tableau_cumuls(résultat)
+tableau_cumuls(r攼㸹sultat)
 }
 \arguments{
 \item{résultat}{Résultat retourné par la fonction \link{test_prime}}
@@ -15,7 +15,7 @@ Affichage du tableau des cumuls de primes
 \examples{
 tableau_cumuls(test_prime(prime_IAT, prime_B = prime_IFTS, Paie_I, verbeux = FALSE))
 
-|Matricule |Annee |       Grade          |                  Régime                     |
+|Matricule |Annee |       Grade          |                  RÃ©gime                     |
 |----------|------|----------------------|---------------------------------------------|
 |010843    |2009  |ANIMATEUR TERRITORIAL |   IFTS 1 mois-IAT 10 mois-Cumul 1 mois      |
 |010843    |2010  |ANIMATEUR TERRITORIAL |   IFTS 11 mois-IAT 0 mois-Cumul 1 mois      |

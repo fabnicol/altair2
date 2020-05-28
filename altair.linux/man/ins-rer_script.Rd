@@ -4,7 +4,7 @@
 \alias{insérer_script}
 \title{Insérer un script auxiliaire, indexé par une variable globale}
 \usage{
-insérer_script(
+ins攼㸹rer_script(
   chemin = NULL,
   gen = générer.rapport,
   incrémenter = FALSE,

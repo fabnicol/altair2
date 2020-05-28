@@ -82,12 +82,21 @@ MainWindow::MainWindow (char* projectName)
     width  = rec.width();
 
     settings = new QSettings ("altair", "Juridictions Financières");
+    raise();
 
     altair = new Altair;
     altair->parent = this;
+    altair->lower();
     options::RefreshFlag = interfaceStatus::hasSavedOptions;
     createActions();
     createMenus();
+
+    if (!dialog )
+    {
+        dialog = new options (altair);
+
+        dialog->setParent (altair, Qt::Window);
+    }
 
     if ((settings->value ("defaut").isValid())
             &&
@@ -1092,12 +1101,6 @@ void MainWindow::configure()
 
 void MainWindow::on_optionsButton_clicked()
 {
-    if (!dialog )
-    {
-        dialog = new options (altair);
-        dialog->setParent (altair, Qt::Window);
-    }
-
     dialog->setVisible (!dialog->isVisible());
     dialog->raise();
 }

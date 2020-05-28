@@ -91,6 +91,7 @@ int codePage::ajouterVariable (const QString& nom)
 
 codePage::codePage()
 {
+    setVisible(false);
     baseBox = new QGroupBox;
     prologue_codes_path = path_access (SCRIPT_DIR "prologue_codes.R");
 
@@ -428,6 +429,7 @@ void rapportPage::ajusterDependances(int i)
 
 rapportPage::rapportPage()
 {
+    setVisible(false);
     baseBox = new QGroupBox("Parties du rapport d'analyse");
     appliquerCodes = new QToolButton;
 
@@ -638,6 +640,7 @@ void rapportPage::substituer_valeurs_dans_script_R()
 
 standardPage::standardPage()
 {
+    setVisible(false);
     QList<QString> range = QList<QString>(), range2 = QList<QString>();
 
     range << "Standard" << "Par année" << "Par agent" << "Toutes catégories" << "Traitement" << "Indemnité"
@@ -898,11 +901,12 @@ void standardPage::substituer_versant()
 
 processPage::processPage()
 {
+    setVisible(false);
     processTypeBox = new QGroupBox (tr ("Mode d'exécution"));
 
-    QStringList range3 = QStringList();
-
-    for (int i = 1; i < 12; i++) range3 << QString::number (i);
+    const  QStringList &range3 = {"1", "2", "3", "4",
+                                  "5", "6", "7", "8",
+                                  "9", "10", "11", "12"};
 
     QLabel* processTypeLabel = new QLabel ("Nombre de fils d'exécution  ");
     processTypeWidget = new FComboBox (range3,
@@ -945,26 +949,27 @@ processPage::processPage()
                                         "Utiliser l'onglet console"
                                     });
 
-    QList<QString> ecoRange = QList<QString>(), ecoRange2 = QList<QString>();
-    ecoRange << "Intensive (100 %)" << "Standard (80 %)" << "Modérée (60 %)"
-             << "Econome (40 %)" << "Très économe (20 %)" << "Minimale (10 %)"
-             << "Rationnée (5%)";
+    const QList<QString> &ecoRange =
+                        {"Intensive (100 %)", "Standard (80 %)", "Modérée (60 %)",
+                         "Econome (40 %)", "Très économe (20 %)", "Minimale (10 %)",
+                         "Rationnée (5%)"};
 
-    ecoRange2 << "100"   << "80" << "60" << "40" << "20" << "10" << "5";
+    const QList<QString> &ecoRange2 = {"100", "80", "60", "40", "20", "10", "5"};
 
-    QLabel* memoryUseLabel = new QLabel ("Utilisation de la mémoire  ");
+    QLabel *memoryUseLabel = new QLabel ("Utilisation de la mémoire  ");
 
     /* Utiliser % devant l'option active la syntaxe `--option argument' plutôt que `--option=argument' */
 
     memoryUseWidget = new FComboBox (ecoRange,
                                      "memoryUse",
-                                    {
-                                        "Gestion de la mémoire",
-                                        "Pourcentage d'utilisation de la mémoire libre"
-                                    },
-                                    "%memshare");
+                                        {
+                                            "Gestion de la mémoire",
+                                            "Pourcentage d'utilisation de la mémoire libre"
+                                        },
+                                      "%memshare");
 
     createHash (memoryUseWidget->comboBoxTranslationHash, &ecoRange, &ecoRange2);
+
     memoryUseWidget->status = flags::status::defaultStatus;
     memoryUseWidget->commandLineType = flags::commandLineType::defaultCommandLine;
 
@@ -1001,12 +1006,12 @@ processPage::processPage()
 
 
     QLabel* rapportTypeLabel = new QLabel ("Type de rapport produit par défaut  ");
-    rapportTypeWidget = new FComboBox ((QStringList() << "WORD, ODT et PDF" << "WORD et ODT" << "PDF"),
+    rapportTypeWidget = new FComboBox ({"WORD, ODT et PDF", "WORD et ODT", "PDF"},
                                        "rapportType",
-    {
-        "Enchaînements",
-        "Type de rapport"
-    });
+                                        {
+                                            "Enchaînements",
+                                            "Type de rapport"
+                                        });
 
     rapportTypeWidget ->setToolTip (tr ("Sélectionner le type de rapport produit \nen cas d'enchaînement automatique extraction-rapport :\n"
                                         "MS Word .docx et LibreOffice .odt\n"
@@ -1022,87 +1027,6 @@ processPage::processPage()
                                         },
                                         {rapportTypeWidget, rapportTypeLabel});
 
-    rapportEntier = new FCheckBox ("Version expérimentale",
-                                   flags::status::enabledUnchecked
-                                   | flags::commandLineType::noCommandLine
-                                   | flags::status::excluded,  // exclu de la liste des widgets qui déclenche la ligne de commande
-                                   //ou la l'importation/l'exportation de la valeur sur le projet XML.
-                                   "rapportEntier",
-                                    {
-                                        "Version expérimentale",
-                                        "Produire les rapports expérimentaux (EQTP et rémunérations)"
-                                    });
-
-    // La version expérimentale n'est accessible que sous compte administrateur
-
-    if (QCoreApplication::applicationDirPath() != "/home/fab/Dev/altair/Interface_linux/gui/x64") rapportEntier->setVisible (false);
-
-    connect (rapportEntier, &FCheckBox::toggled, [this]
-    {
-
-        const std::string &root = path_access (".").toStdString();
-        int current_git_branch = system (std::string ("cd " + root + " && test \"$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)\" = \"master-jf\"").c_str());
-        int current_git_branch2 = 1;
-        if (current_git_branch  != 0) current_git_branch2 = system (std::string ("cd " + root + " && test \"$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)\" = \"dev\"").c_str());
-
-        if (rapportEntier->isChecked())
-            {
-                if (current_git_branch == 0 || current_git_branch2 == 0)
-                    {
-                        // La branche courante est la branch Test
-                        return;
-                    }
-
-                int res  = system (std::string ("cd " + root + " && git rev-parse --verify master-jf").c_str());
-                
-                int res2 = 1;
-                
-                if (res != 0) res2 = system (std::string ("cd " + root + " && git rev-parse --verify dev").c_str());
-
-                if (res != 0 && res2 != 0)
-                    {
-                        Q ("La branche Test n'est pas déployée.")
-                        return;
-                    }
-
-                Q ("Basculement vers la version Test.<br>Cela peut prendre une ou deux minutes.")
-                if (res == 0)        
-                    res = system (std::string ("cd " + root + " && git checkout -f master-jf").c_str());
-                else // res2 = 0
-                    res = system (std::string ("cd " + root + " && git checkout -f dev").c_str());
-
-                if (res == 0)
-                    {
-                        Q ("Basculement réalisé.")
-                    }
-                else
-                    {
-                        Q ("Le basculement vers la version Test n'a pas pu être réalisé.")
-                    }
-            }
-        else
-            {
-                int res = system (std::string ("cd " + root + " && git rev-parse --verify release").c_str());
-
-                if (res != 0)
-                    {
-                        Q ("La version standard n'est pas déployée.")
-                        return;
-                    }
-
-                Q ("Basculement vers la version standard.<br>Cela peut prendre une ou deux minutes.")
-                res = system (std::string ("cd " + root + " && git checkout -f release").c_str());
-
-                if (res == 0)
-                    {
-                        Q ("Basculement réalisé.")
-                    }
-                else
-                    {
-                        Q ("Le basculement vers la version standard n'a pas pu être réalisé.")
-                    }
-            }
-    });
         
     openCheckBox = new FCheckBox("Ouvrir le document à la fin de l'exécution",
                                              flags::status::enabledChecked|flags::commandLineType::noCommandLine,
@@ -1114,23 +1038,10 @@ processPage::processPage()
                                             "parallelExec",
                                             {"Rapports", "Exécution parallèle"});
     
-                   
-    for (const FCheckBox* a : {parallelCheckBox, openCheckBox})
-    {
-        
-        connect(a, &FCheckBox::toggled, [this] {
-            reinitialiser_prologue();
-            file_str = common::readFile (prologue_options_path);
-            substituer("séquentiel *<- *FALSE", QString("séquentiel <- ") + (parallelCheckBox->isChecked() ? "FALSE" : "TRUE"), file_str);
-            substituer("ouvrir.document *<- *TRUE", QString("ouvrir.document <- ") + (openCheckBox->isChecked() ? "TRUE" : "FALSE"), file_str);
-            renommer (dump (file_str), prologue_options_path);
-            });
-    }
-            
+
     v4Layout->addWidget (enchainerRapports, 0, 0, Qt::AlignLeft);
     v4Layout->addWidget (rapportTypeLabel,  1, 0, Qt::AlignRight);
     v4Layout->addWidget (rapportTypeWidget, 1, 1, Qt::AlignLeft);
-    v4Layout->addWidget (rapportEntier,     2, 0, Qt::AlignLeft);
     v4Layout->addWidget (openCheckBox,      3, 0, Qt::AlignLeft);
     v4Layout->addWidget (parallelCheckBox,  4, 0, Qt::AlignLeft);
     
@@ -1145,17 +1056,21 @@ processPage::processPage()
     mainLayout->addSpacing (150);
 
     setLayout (mainLayout);
+    for (const FCheckBox* a : {parallelCheckBox, openCheckBox})
+    {
 
-    // provisoire
-    const std::string &root = path_access (".").toStdString();
-    int current_git_branch = system(std::string ("cd " + root + " && test \"$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)\" = \"master-jf\"").c_str());
-    
-    int current_git_branch2 = 1;
-    current_git_branch2 = system(std::string ("cd " + root + " && test \"$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)\" = \"dev\"").c_str());
-    
-    rapportEntier->setChecked(current_git_branch == 0 || current_git_branch2  == 0);
-        
+        connect(a, &FCheckBox::toggled, [this] {
+            reinitialiser_prologue();
+            file_str = common::readFile (prologue_options_path);
+            substituer("séquentiel *<- *FALSE", QString("séquentiel <- ") + (parallelCheckBox->isChecked() ? "FALSE" : "TRUE"), file_str);
+            substituer("ouvrir.document *<- *TRUE", QString("ouvrir.document <- ") + (openCheckBox->isChecked() ? "TRUE" : "FALSE"), file_str);
+            renommer (dump (file_str), prologue_options_path);
+            });
+    }
+
+
     reinitialiser_prologue();
+
 }
 
 std::uint16_t options::RefreshFlag;
@@ -1163,6 +1078,7 @@ std::uint16_t options::RefreshFlag;
 
 extraPage::extraPage()
 {
+    setVisible(false);
     QGridLayout *v3Layout = new QGridLayout;
         
     budgetFrame = new FLineFrame ({"Utiliser la correspondance budgétaire", "Chemin de la table de correspondance"},
@@ -1437,7 +1353,8 @@ void extraPage::do_copies()
 options::options (Altair* parent)
 {
     /* plain old data types must be 0-initialised even though the class instance was new-initialised. */
-
+    lower();
+    //setVisible(false);
     options::RefreshFlag = interfaceStatus::optionTabs;
 
     optionWidget = new QListWidget;
@@ -1447,52 +1364,21 @@ options::options (Altair* parent)
     optionWidget->setMovement (QListView::Static);
     optionWidget->setFixedWidth (98);
     optionWidget->setSpacing (12);
-
-    pagesWidget = new QStackedWidget;
     standardTab = new standardPage;
+    codeTab     = new codePage;
+    extraTab    = new extraPage();
+    rapportTab  = new rapportPage();
     processTab  = new processPage;
-    
+    pagesWidget = new QStackedWidget;
     pagesWidget->addWidget (standardTab);
     pagesWidget->addWidget (processTab);
-
-    codeTab  = new codePage;
     pagesWidget->addWidget (codeTab);
-
-    extraTab  = new extraPage();
     pagesWidget->addWidget (extraTab);
-    
-    rapportTab  = new rapportPage();
     pagesWidget->addWidget (rapportTab);
-    
+
     closeButton = new QDialogButtonBox (QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     closeButton->button (QDialogButtonBox::Ok)->setText ("Accepter");
     closeButton->button (QDialogButtonBox::Cancel)->setText ("Annuler");
-
-    connect (closeButton,
-             &QDialogButtonBox::accepted,
-             [this, parent]
-                {
-                    options::RefreshFlag =  interfaceStatus::hasUnsavedOptions;
-                    accept();
-                    parent->execPath = execPath;
-                    parent->altairCommandStr =  parent->execPath +  QDir::separator()
-                    + ("lhx" + QString (systemSuffix));
-                    
-                    parent->updateProject (true);
-                    
-                    extraTab->do_copies();
-
-                });
-
-    connect (closeButton, SIGNAL (rejected()), this, SLOT (reject()));
-    connect (optionWidget,
-             SIGNAL (currentItemChanged (QListWidgetItem*, QListWidgetItem*)),
-             this, SLOT (changePage (QListWidgetItem*, QListWidgetItem*)));
-
-    connect (standardTab->FPHCheckBox, SIGNAL (toggled (bool)), codeTab, SLOT (activer_fph (bool)));
-    connect (standardTab->exportWidget, SIGNAL (currentIndexChanged (int)),
-             this,
-             SLOT (enchainerRapports (int)));
 
     createIcons();
     optionWidget->setCurrentRow (0);
@@ -1511,6 +1397,34 @@ options::options (Altair* parent)
     setLayout (mainLayout);
     setWindowTitle (tr ("Options"));
     setWindowIcon (QIcon (":/images/altair.png"));
+
+    connect (closeButton,
+             &QDialogButtonBox::accepted,
+             [this, parent]
+                {
+                    options::RefreshFlag =  interfaceStatus::hasUnsavedOptions;
+                    accept();
+                    parent->execPath = execPath;
+                    parent->altairCommandStr =  parent->execPath +  QDir::separator()
+                    + ("lhx" + QString (systemSuffix));
+
+                    parent->updateProject (true);
+
+                    extraTab->do_copies();
+
+                });
+
+    connect (closeButton, SIGNAL (rejected()), this, SLOT (reject()));
+    connect (optionWidget,
+             SIGNAL (currentItemChanged (QListWidgetItem*, QListWidgetItem*)),
+             this, SLOT (changePage (QListWidgetItem*, QListWidgetItem*)));
+
+    connect (standardTab->FPHCheckBox, SIGNAL (toggled (bool)), codeTab, SLOT (activer_fph (bool)));
+    connect (standardTab->exportWidget, SIGNAL (currentIndexChanged (int)),
+             this,
+             SLOT (enchainerRapports (int)));
+//#endif
+
 }
 
 void options::enchainerRapports (int index)

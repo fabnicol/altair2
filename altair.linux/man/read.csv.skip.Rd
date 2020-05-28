@@ -9,7 +9,6 @@ read.csv.skip(
   classes = NA,
   drop = NULL,
   skip = 0,
-  rapide = FALSE,
   séparateur.liste = séparateur.liste.entrée,
   séparateur.décimal = séparateur.décimal.entrée
 )
@@ -20,8 +19,6 @@ read.csv.skip(
 \item{drop}{Rang de la colonne à supprimer}
 
 \item{skip}{Nombre de lignes à sauter en début de fichier (défaut aucune).}
-
-\item{rapide}{Booléen (= FALSE).}
 
 \item{séparateur.liste}{= séparateur.liste.entrée,}
 
@@ -35,5 +32,5 @@ Lecture d'un fichier CSV et conversion en data.table.
 Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
 }
 \examples{
-read.csv.skip(Base, séparateur.décimal = ",")
+read.csv.skip(Base, sÃ©parateur.dÃ©cimal = ",")
 }

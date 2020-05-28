@@ -70,7 +70,6 @@ chemin <-  function(fichier)
 #' @param classes Les classes ("character", "numeric") des variables en colonnes
 #' @param drop  Rang de la colonne à supprimer
 #' @param skip  Nombre de lignes à sauter en début de fichier (défaut aucune).
-#' @param rapide Booléen (= FALSE). 
 #' @param séparateur.liste = séparateur.liste.entrée,
 #' @param séparateur.décimal = séparateur.décimal.entrée,
 #' @return Une base data.table
@@ -82,26 +81,10 @@ read.csv.skip <- function(x,
                           classes = NA,
                           drop = NULL,
                           skip = 0,
-                          rapide = FALSE,
                           séparateur.liste = séparateur.liste.entrée,
                           séparateur.décimal = séparateur.décimal.entrée)
 {
-  if (! rapide) {
-
-    T <- read.csv(x,
-                   comment.char = "",
-                   sep = séparateur.liste,
-                   dec = séparateur.décimal,
-                   colClasses = classes,
-                   skip = skip)
-
-    if (!is.null(drop)) { T <- T[-(drop)] }
-
-  } else {
-
-
-    # data.table n'admet d'argument dec qu'à partir de la version 1.9.5
-
+ 
     if (is.na(classes)) classes = NULL
 
     T <- try(data.table::fread(x,
@@ -114,9 +97,6 @@ read.csv.skip <- function(x,
                       showProgress = FALSE))
 
 
-  }
-
-  if (sécuriser.types.sortie) {
   # procédure de vérification et de coercition des type de sortie
   # il peut arriver que data.table produise des colonnes de type différent (classes.expost) de celui qui est demandé
   # par le paramètre classes. Cela peut arriver quand un charactère est utilisé à la place d'un chiffre dans les données
@@ -145,7 +125,7 @@ read.csv.skip <- function(x,
      })
     }
    }
-  }
+
   
 
 return(T)
@@ -162,7 +142,6 @@ return(T)
 #' @param sep (= séparateur.liste.sortie)
 #' @param dec (= séparateur.décimal.sortie),
 #' @param environment (= .GlobalEnv) environnement,
-#' @return Valeur booléenne de file.exists(file.path(chemin.dossier, nom.sauv %+% ".csv"))
 #' @examples
 #' Sauv.base("Effectifs", "Base", "BaseDonnée")  -->  (dossier des bases) / Effectifs/BaseDonnée.csv
 #' @export
@@ -193,7 +172,7 @@ Sauv.base <- function(dossier = "",
              sep = sep,
              dec = dec)
 
-  file.exists(filepath)
+  
 }
 
 #' Insertion conditionnelle de texte dans le rapport
@@ -286,7 +265,6 @@ sauv.bases <- function(chemin.dossier, env, ...)
 #' @param drop        Rang de la colonne à supprimer
 #' @param séparateur.liste  Séparateur des champs CSV
 #' @param séparateur.décimal  Séparateur décimal
-#' @param rapide      Accélération parallèle ou pas
 #' @return Objet \code{data.table} résultant de l'empilement des bases lues.
 #' @examples
 #' test <- data.table(datasets::cars)
@@ -294,8 +272,7 @@ sauv.bases <- function(chemin.dossier, env, ...)
 #'                      "test.csv",
 #'                       colClasses = c("integer", "integer"),
 #'                       séparateur.liste = ";",
-#'                       séparateur.décimal = ",",
-#'                       rapide = TRUE),
+#'                       séparateur.décimal = ","),
 #'           silent = FALSE)
 #' if (inherits(res, 'try-error'))
 #'   stop("Problème de lecture de la base de la table bulletins-lignes de Paie")
@@ -307,8 +284,7 @@ Read.csv <- function(base.string, fichiers,
                      skip = 0,
                      drop = NULL,
                      séparateur.liste = séparateur.liste.entrée,
-                     séparateur.décimal = séparateur.décimal.entrée,
-                     rapide = FALSE) {
+                     séparateur.décimal = séparateur.décimal.entrée) {
 
   Read.csv_(base.string,
             fichiers,
@@ -317,8 +293,7 @@ Read.csv <- function(base.string, fichiers,
             skip,
             drop,
             séparateur.liste,
-            séparateur.décimal,
-            rapide)
+            séparateur.décimal)
 }
 
 Read.csv_ <- function(base.string, fichiers,
@@ -327,8 +302,7 @@ Read.csv_ <- function(base.string, fichiers,
                       skip = 0,
                       drop = NULL,
                       séparateur.liste = séparateur.liste.entrée,
-                      séparateur.décimal = séparateur.décimal.entrée,
-                      rapide = FALSE) {
+                      séparateur.décimal = séparateur.décimal.entrée) {
 
     if (charger) {
 
@@ -339,8 +313,7 @@ Read.csv_ <- function(base.string, fichiers,
                                         skip = skip,
                                         séparateur.liste = séparateur.liste,
                                         séparateur.décimal = séparateur.décimal,
-                                        drop = drop,
-                                        rapide = rapide)),
+                                        drop = drop)),
                envir = .GlobalEnv)
     }
 }
@@ -918,8 +891,9 @@ extraire_paye <- function(an, L, out) {
 
 #' Insérer un script auxiliaire, indexé par une variable globale
 #' @param chemin  Chemin du script R
-#' @param gen  Si \code{FALSE} alors se contente de sourcer le script auxiliaire. Sinon intègre le rapport auxiliaire au format du rapport principal.
-#' @param incrémenter INcrémenter le chapitre de présentation du script
+#' @param gen  Si \code{TRUE (défaut)} génère un rapport. Sinon se contente de sourcer le script auxiliaire. 
+#' @param pdf Si \code{TRUE (défaut)} alors un PDF. Sinon un doucment de type .docx et .odt.
+#' @param séquentiel Si \code{TRUE (défaut)}, exécution séquentielle du code. Sinon, exécution parallèle.   
 #' @param fonction Appeler une liste de fonctions à argument vide
 #' @return Valeur de la dernière variable globale \code{variable} instanciée. Effets de bord en sortie.
 #' @export
@@ -927,33 +901,31 @@ extraire_paye <- function(an, L, out) {
 
 
 insérer_script <- function(chemin = NULL, 
-                           gen = générer.rapport, 
-                           incrémenter = FALSE, 
+                           gen = TRUE,
+                           pdf = TRUE,
+                           séquentiel = FALSE,
                            fonction = NULL)  {
 
-#if (! is.null(chemin) && get(gsub(".R", "", basename(chemin), fixed = TRUE)) == FALSE) invisible(return(NULL))
 
-# if (is.numeric(chemin)) {
-#   rank <<- chemin
-#   return()
-# }
-
-
-  if (incrémenter) incrémenter.chapitre()
-  
   if (is.null(fonction)) {
         
     if (gen) {
-            vect <- knit_child(text = readLines(spin(chemin, knit = FALSE),
+            vect <- knitr::knit(text = readLines(spin(chemin, knit = FALSE),
                                                 encoding = "UTF-8"),
+                               output = "altair.html",
                                quiet = TRUE)
             
-            vect <- gsub(pattern = "(figure/.*?\\.pdf)", "![](\\1) \n", vect, perl = TRUE)
+            #gsub(pattern = ifelse(pdf, "(figure/.*?\\.pdf)", "(figure/.*?\\.png)"), "![](\\1) \n", vect, perl = TRUE)
                                
-            if (séquentiel == TRUE) {
-              write(vect, file = "out.Rmd", append = TRUE)
+            if (séquentiel) {
+              
+              mdfile <- file("altair2.html", open = "at")
+              
+              #writeLines(unlist(stringr::str_split(vect, "\\\\n")), con = mdfile, useBytes = TRUE)
+              writeLines(readLines("altair.html", encoding = "UTF-8"), con = mdfile, useBytes = TRUE)
               
             } else {
+              
               return(vect)
             }
              

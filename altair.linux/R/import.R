@@ -60,8 +60,7 @@ importer.bases.via.xhl2csv <- function(base, fichiers, colClasses = colonnes.cla
                       fichiers,
                       colClasses = colClasses,
                       séparateur.liste = séparateur.liste.entrée,
-                      séparateur.décimal = séparateur.décimal.entrée,
-                      rapide = TRUE),
+                      séparateur.décimal = séparateur.décimal.entrée),
              silent = FALSE)
   
   if (inherits(res, 'try-error'))
