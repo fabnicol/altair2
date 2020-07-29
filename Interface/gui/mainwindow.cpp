@@ -1921,7 +1921,7 @@ void MainWindow::configureOptions()
 
     for (FCheckBox* a : outputListBox)           outputLayout->addWidget (a);
 
-    for (int i = 0; i < displayToolBarList.size(); i++)
+    for (int i = 0; i < displayToolBarList.size(); ++i)
         {
             displayToolBarsLayout->addWidget (displayToolBarCBoxListBox[i]);
 

@@ -39,6 +39,8 @@
 
 #include "flistframe.h"
 #include "custom.h"
+#include <QThread>
+#include <iostream>
 
 FListFrame::FListFrame(QAbstractItemView* tree,
                        short import_type,
@@ -145,6 +147,7 @@ void FListFrame::addParsedTreeToListWidget(const QStringList &strL)
 {
     if (strL.isEmpty()) return;
     stringList = parseTreeForFilePaths(strL);
+
     addStringListToListWidget();
 }
 
@@ -203,7 +206,7 @@ void FListFrame::launch_thread(unsigned long rank)
     if (isTerminated || size == 0 || rank >= static_cast<unsigned long>(size)) return;
 
     // Ajouter un fil d'exécution à la liste des fils thread
-
+#if 0
     thread.push_back(new QThread);
 
     const QString& fileName = stringList.at(static_cast<int>(rank));
@@ -211,84 +214,168 @@ void FListFrame::launch_thread(unsigned long rank)
     // Démarrer le fil et lui faire lire l'entête du fichier XHL en cours
 
     thread[rank]->start();
-    connect(thread[rank], &QThread::started, [this, fileName] {
-        parseXhlFile(fileName);
+    connect(thread[rank], &QThread::started, [this, fileName, rank] {
+        parseXhlFile(fileName, rank);
+
     });
 
     // Lorsque le fil a fini de lire l'année, le mois etc. le signal parsed() est émis et le fil doit être arrêté
 
-    connect(this, SIGNAL(parsed()), thread[rank], SLOT(quit()), Qt::DirectConnection);
+    connect(this, SIGNAL(parsed(int)), thread[rank], SLOT(quit()), Qt::DirectConnection);
 
     // Dès lors on peut passer au fil suivant et au fichier suivant
 
     connect(thread[rank], &QThread::finished, [this, rank] { if (! isTerminated) launch_thread(rank + 1); });
-
+#endif
     // Cette fonction pourrait être optimisée en ne lançant pas les fils d'exécution de manière successive mais par par groupe avec plusieurs fils parallèles dans chaque groupe
+
 }
-
-void FListFrame::parseXhlFile(const QString& fileName)
+// Il faut lire en mémoire
+inline bool FListFrame::regExp(const std::string &fileName, std::ifstream &htmlText, bool cont, int size, const std::regex &e, std::smatch &match)
 {
+    std::string line;
+    std::string chunk;
+    chunk.reserve(BUFFER_SIZE * 2);
 
-    QFile file(fileName);
-    long long ligne = 0;
-    bool result = file.open(QIODevice::ReadOnly);
-    if (! file.isOpen())
-             emit(textAppend(ERROR_HTML_TAG "Erreur à  l'ouverture du fichier."));
+    if (! htmlText.is_open())
+      htmlText.open(fileName, std::ifstream::in);
 
-    if (result == false || file.size()== 0)
+    if (! htmlText.good() || ! htmlText.is_open())
     {
-        emit(textAppend(WARNING_HTML_TAG "Fichier vide."));
-        return;
+        emit(textAppend(ERROR_HTML_TAG "Erreur à  l'ouverture du fichier." + QString(fileName.c_str())));
+      //  return false;
     }
 
-    file.seek(0);
-    QByteArray buffer0 = file.readAll();
-    QString string = QString::fromLatin1(buffer0, BUFFER_SIZE);
+    if (! cont) htmlText.seekg(0);
+    int nline = 0;
+
+    while (getline(htmlText, line) && nline < size)
+    {
+        ++nline;
+        chunk += line;
+    }
+
+    bool res = false;
+    res = regex_search(chunk, match, e) && match.size() > 1;
+
+    htmlText.close();
+
+    return res;
+}
+
+static int __rank;
+
+std::mutex mut;
+std::string rankFilePath = QStandardPaths::AppDataLocation + "rank";
+static int rang_global;
+std::ofstream rankFile;
+
+static inline void  generate_rank_signal()
+{
+    if (rankFilePath.empty()) return;
+
+    while (! mut.try_lock()) {}
+
+    static int temp_rank;
+
+    do
+        {
+            rankFile.open (rankFilePath, std::ios::out | std::ios::trunc);
+
+            if (rankFile.is_open())
+                {
+                    if (rang_global)
+                        rang_global = temp_rank;
+
+                    rankFile << ++rang_global ;
+                    temp_rank = rang_global;
+                }
+
+            rankFile.close();
+
+
+            mut.unlock();
+
+        }
+    while (false);
+
+}
+
+void FListFrame::parseXhlFile()
+{
+    std::ifstream htmlText;
+    std::smatch match;
+    static int i;
+
+    QString fileName = stringList[i++];
+
+    Hash::Annee[fileName].clear();
+    Hash::Mois[fileName].clear();
+    Hash::Budget[fileName].clear();
+    Hash::Employeur[fileName].clear();
+    Hash::Siret[fileName].clear();
 
 #   define QUOTE "(?:\"|')"
 
-    string.remove(QRegularExpression("[\\(\\)]"));
-    QRegExp reg("DocumentPaye.*(?:Annee)\\s*V.?=.?" QUOTE "([0-9]+)" QUOTE ".*(?:Mois)\\s*V.?=.?" QUOTE "([0-9]+)" QUOTE "(.*)(?:Employeur).*(?:Nom)\\s*V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret)\\s*V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE ".*DonneesIndiv(.*)PayeIndivMensuel");
-    reg.setPatternSyntax(QRegExp::RegExp2);
-    reg.setCaseSensitivity(Qt::CaseInsensitive);
-    QRegExp reg2(".*Budget.*Libelle\\s*V.?=.?" QUOTE "([^" QUOTE "]*)" QUOTE ".*");
-    reg2.setCaseSensitivity(Qt::CaseInsensitive);
-    QRegExp reg3(".*(?:Etablissement).*(?:Nom)\\s*V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret)\\s*V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE);
-    reg3.setCaseSensitivity(Qt::CaseInsensitive);
+    const std::regex &reg = std::regex("DocumentPaye.*(?:Annee)\\s*V.?=.?" QUOTE "([0-9]+?)"
+                               QUOTE ".*(?:Mois)\\s*V.?=.?" QUOTE "([0-9]+?)"
+                               QUOTE "(.*)(?:Employeur).*(?:Nom)\\s*V.?=.?" QUOTE "([^" QUOTE "]+?)"
+                               QUOTE ".*(?:Siret)\\s*V.?=.?" QUOTE "([0-9A-Z]+?)" QUOTE ".*DonneesIndiv(.*)PayeIndivMensuel",
+                               std::regex_constants::icase);
 
+    const std::regex &reg2 = std::regex(".*Budget.*Libelle\\s*V.?=.?" QUOTE "([^" QUOTE "]*)" QUOTE ".*", std::regex_constants::icase);
+
+    const std::regex &reg3 = std::regex(".*(?:Etablissement).*(?:Nom)\\s*V.?=.?"
+                                 QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret)\\s*V.?=.?"
+                                 QUOTE "([0-9A-Z]+)" QUOTE,
+                                 std::regex_constants::icase);
 
     QByteArray::const_iterator it;
 
-    if (string.contains(reg))
-    {
-        Hash::Annee[fileName] = reg.cap(1);
-        Hash::Mois[fileName]  = reg.cap(2);
-        QString budgetCapture = reg.cap(3);
+    bool res = regExp(fileName.toUtf8().toStdString(), htmlText, true, 50, reg, match);
 
-        if (budgetCapture.contains(reg2))
-           Hash::Budget[fileName] = tools::remAccents(reg2.cap(1).replace("&#39;", "\'").replace("&apos;", "\'").trimmed());
+    if (res)
+    {
+
+        Hash::Annee[fileName] = QString::fromStdString(match.str(1));
+        Hash::Mois[fileName]  = QString::fromStdString(match.str(2));
+        std::string budgetCapture  = match.str(3);
+
+        std::smatch match2;
+        bool res2 = regex_search(budgetCapture, match2, reg2);
+
+        if (res2)
+           Hash::Budget[fileName] = tools::remAccents(QString::fromStdString(match2.str(1)).replace("&#39;", "\'").replace("&apos;", "\'").trimmed());
         else
            Hash::Budget[fileName] = "" ;
 
-        QString etabCapture = reg.cap(6);
-        if (etabCapture.contains(reg3))
-           Hash::Etablissement[fileName] << tools::remAccents(reg3.cap(1).replace("&#39;", "\'").replace("&apos;", "\'").trimmed());
+        std::string etabCapture = match.str(6);
+
+        std::smatch match3;
+        bool res3 = regex_search(etabCapture, match3, reg3);
+
+        if (res3)
+           Hash::Etablissement[fileName] << tools::remAccents(QString::fromStdString(match3.str(1)).replace("&#39;", "\'").replace("&apos;", "\'").trimmed());
         else
            Hash::Etablissement[fileName] << "" ;
 
-        Hash::Employeur[fileName]  = tools::remAccents(reg.cap(4).replace("&#39;", "\'").replace("&apos;", "\'").trimmed());
+        Hash::Employeur[fileName]  = tools::remAccents(QString::fromStdString(match.str(4)).replace("&#39;", "\'").replace("&apos;", "\'").trimmed());
 
-        if (etabCapture.contains(reg3))
+        if (res3)
           {
-               Hash::Siret[fileName] << reg3.cap(2);
+               Hash::Siret[fileName] << QString::fromStdString(match3.str(2));
           }
         else
-             Hash::Siret[fileName] << reg.cap(5);
+             Hash::Siret[fileName] << QString::fromStdString(match.str(5));
+
+        generate_rank_signal();
+
     }
     else
     {
-        if (! string.toUpper().contains("DONNEESINDIV")) emit(textAppend(WARNING_HTML_TAG "Pas de données individuelles"));
-        if (! string.toUpper().contains("PAYEINDIVMENSUEL")) emit(textAppend(WARNING_HTML_TAG "Pas de payes individuelles"));
+        const QString &S = QString::fromStdString(match.str(0)).toUpper();
+        if (! S.contains("DONNEESINDIV")) emit(textAppend(WARNING_HTML_TAG "Pas de données individuelles"));
+        if (! S.contains("PAYEINDIVMENSUEL")) emit(textAppend(WARNING_HTML_TAG "Pas de payes individuelles"));
 
         emit(textAppend(WARNING_HTML_TAG "L'entête DocumentPaye... du fichier "
                         + fileName +
@@ -303,15 +390,18 @@ void FListFrame::parseXhlFile(const QString& fileName)
         Hash::Etablissement[fileName]  << "";
         Hash::Siret[fileName] << "";
 
-        /* effacer les fichiers mal formés de la liste des fichiers qui vont être envoyés en commandline */
+        // effacer les fichiers mal formés de la liste des fichiers qui vont être envoyés en commandline
 
         Hash::Suppression[fileName] = true;
 
-        goto out;
+       // goto out;
     }
 
-    it = buffer0.cbegin() + string.indexOf("DonneesIndiv") + 15;
 
+
+#if 0
+    it = buffer0.cbegin() + string.indexOf("DonneesIndiv") + 15;
+    long long ligne = 0;
     while(it != buffer0.cend())
       {
 
@@ -360,17 +450,29 @@ out :
 
    if (file.error() != QFileDevice::NoError)
          emit(textAppend(WARNING_HTML_TAG " Erreur de fichier."));
+#endif
 
-   emit(parsed());
+
    return;
 }
 
-void FListFrame::parseXhlFile()
+
+void _parseXhlFile(FListFrame *O)
+{
+
+    O->parseXhlFile();
+
+    return;
+}
+
+void FListFrame::parseXhlFile_()
 {
 #   ifdef HAVE_APPLICATION
        int rank = 0;
 #   endif
     size = stringList.size();
+
+    //std::vector<QThread*> V;
 
     // L'usage de threads est indiqué pour éviter un freeze de l'interface graphique
     // pendant que le disque optique est parcouru pour examiner les entêtes
@@ -384,20 +486,32 @@ void FListFrame::parseXhlFile()
                                                  | QDir::Files
                                                  | QDir::NoDotAndDotDot).isEmpty())
      {
-        for (auto &&s: stringList)
+        for (int i = 0; i < size; ++i)
         {
-            parseXhlFile(s);
-#           ifdef HAVE_APPLICATION
-              emit(setProgressBar(++rank));
-#           endif
+            Q("OK0")
+            QThread * t; QThread::create(parseXhlFile);
+            Q("OK0+")
+                    t->start();
+            t->wait();
+            //V[i] = t;
+            // Démarrer le fil et lui faire lire l'entête du fichier XHL en cours
         }
 
-        // N'utiliser des threads que si un disque optique est en input de données
+        //for (int q = 0; q < size; ++q)  connect(thread[q], &QThread::finished,  [this, q] { thread_quit(q); });
 
-        use_threads = false;
+        //connect(this, SIGNAL(parsed(int)), this, SLOT(show_finished(int)));
+
+
+        //for (QThread* t: V) t->wait();
+
+        emit(setProgressBar(rang_global));
+
+        use_threads = true;
 
         importFromMainTree->show();
+
         emit(imported());
+
         return;
      }
 
@@ -410,7 +524,7 @@ void FListFrame::parseXhlFile()
     emit(showProgressBar());
 #endif
 
-    launch_thread(0);
+    //launch_thread(0);
 
         #ifdef DEBUG_INPUT_FILES
            app->outputTextEdit->append(PROCESSING_HTML_TAG "Analyse du fichier n°" + QString::number(rank));
@@ -420,15 +534,22 @@ void FListFrame::parseXhlFile()
     // à la finalisation de la lecture du disue optique et gère aussi la barre
     // de progression.
 
-
+#if 0
      QTimer *timer = new QTimer(this);
 
      connect(timer, &QTimer::timeout, [&, timer] {
                      int test = 0;
-                     for (QThread *t : thread)
+                     for (QThread *t : )
                      {
                          if (t)
-                             test += t->isFinished() ;
+                         {
+                             if (t->isFinished())
+                             {
+                                 ++test;
+                                 t->quit();
+                             }
+
+                         }
                      }
 
                      #ifdef HAVE_APPLICATION
@@ -450,6 +571,7 @@ void FListFrame::parseXhlFile()
      });
 
      timer->start(PROGRESSBAR_TIMEOUT);
+#endif
 
 }
 
@@ -469,26 +591,36 @@ void FListFrame::addStringListToListWidget()
       emit(setProgressBar(0, stringListSize));
 #   endif
 
-    parseXhlFile();
+    parseXhlFile_();
 
 }
-constexpr const char* _7z = "7Z";
-constexpr const char* bzip2 = "BZ2";
-constexpr const char* tar = "TAR";
-constexpr const char* gzip = "GZ";
-constexpr const char* formats[4] = {_7z, bzip2, tar, gzip};
-constexpr const char* types[4] = {"7z", "bzip2", "tar", "gzip"};
+
+const QString types[4] = {"7z", "bzip2", "tar", "gzip"};
+
+void FListFrame::extractFinished(int exitcode, QProcess::ExitStatus status)
+{
+    if (status == QProcess::NormalExit)
+    {
+       emit(textAppend(STATE_HTML_TAG + QString("Le fichier ")
+                     + currentString + " a été décompressé avec le code de sortie " + QString::number(exitcode)));
+       emit(textAppend(STATE_HTML_TAG "Dossier de sortie " + tempDir));
+       stringsToBeAdded << parseTreeForFilePaths({tempDir});
+    }
+    else
+       emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
+                      + currentString + " n'a pas été décompressé ou des erreurs sont rencontrées.<br>"
+                       WARNING_HTML_TAG + "Ligne de commande " +cl));
+}
+
 
 QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
 {
-
-    QStringList stringsToBeAdded=QStringList();
     QStringListIterator i(stringList);
     if (importType != flags::importFiles) return QStringList();
 
     while (i.hasNext())
     {
-        QString currentString = i.next();
+        QString currentString = QDir::toNativeSeparators(i.next());
         if (currentString.isEmpty()) return QStringList();
 
             QFileInfo info = QFileInfo(currentString);
@@ -504,80 +636,68 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                 {
                      tempStrings <<  embeddedFileInfo.absoluteFilePath();
                 }
-
                   // Move semantics : gain de temps et de mémoire (>= Qt5.4)
                   // tempStrings est coerced dans le type const QStringList sans copie de données
-
                 stringsToBeAdded << parseTreeForFilePaths(tempStrings);
-
               }
             else
               if (info.isFile())
               {
-                 const QString &tempDir = info.absolutePath() + QDir::separator() + info.baseName();
-                  if (QFileInfo(tempDir).isDir())
+                 tempDir = QDir::toNativeSeparators(info.absolutePath() + "/" + info.baseName());
+                 bool res = false;
+
+                if (QFileInfo(tempDir).isDir())
                   {
                      QDir(tempDir).removeRecursively();
                   }
 
-                if (info.suffix().toUpper() == "ZIP")    
-                  {
-                      emit(textAppend(PROCESSING_HTML_TAG + QString("Décompression du fichier " + currentString + ". Patientez...")));
-                      int res = system(QString("unzip -C '" + currentString + "' '*.x[hm]l' -d '" + tempDir + "'").toStdString().c_str());
-                      
-                      if (res == 0)
-                         emit(textAppend(STATE_HTML_TAG + QString("Le fichier ")
-                                       + currentString + " a été décompressé."));
-                      else 
-                         emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
-                                        + currentString + " n'a pas été décompressé."));
-                      
-                      stringsToBeAdded << parseTreeForFilePaths({tempDir});
-                      emit(textAppend(tempDir));
-                      
-                  }
-                  else
-                  {
-                      int res = -2;
-                      for (short i = 0; i < 4; ++i)    
+                if (info.suffix().toUpper() == "XHL" || info.suffix().toUpper() == "XML")
+                      stringsToBeAdded << currentString;
+                else
+                {
+                   extract.setWorkingDirectory (QCoreApplication::applicationDirPath());
+
+                    if (info.suffix().toUpper() == "ZIP")
                       {
-                        if (info.suffix().toUpper() == formats[i])    
+                          emit(textAppend(PROCESSING_HTML_TAG + QString("Décompression du fichier " + currentString + ". Patientez...")));
+                          extract.start("unzip", {"-C", currentString,  "-d", tempDir});
+
+                      }
+                      else
+                      {
+
+                          for (short i = 0; i < 4; ++i)
                           {
-                              emit(textAppend(PROCESSING_HTML_TAG + QString("Décompression du fichier " + currentString + ". Patientez...")));
-                              const QString &cl = QString("7z x '" + currentString + "' -o'" + tempDir + "' -t" + QString(types[i]));
-                              res = system(cl.toStdString().c_str());
-                              
-                              if (res < 2)
+                            if (info.suffix().toUpper() == types[i].toUpper())
                               {
-                                 emit(textAppend(STATE_HTML_TAG + QString("Le fichier ")
-                                               + currentString + " a été décompressé."));
-                                 emit(textAppend(tempDir)); 
-                                 stringsToBeAdded << parseTreeForFilePaths({tempDir});
+                                  res = true;
+                                  cl = QString("7z x \"" + currentString + "\" -o\"" + tempDir + "\" -t" + types[i]);
+                                  emit(textAppend(PROCESSING_HTML_TAG + QString("Décompression du fichier par " + cl + ". Patientez...")));
+
+                                  extract.start("7z", {"x", currentString, "-o" + tempDir, "-t" + types[i]});
                               }
-                              else 
-                              
-                                 emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
-                                                + currentString + " n'a pas été décompressé ou des erreurs sont rencontrées.<br>" WARNING_HTML_TAG + "Ligne de commande " +cl));
-                                                           
                           }
-                      
-                        if (res == -2)
+
+    #                ifdef HAVE_APPLICATION
+                        if (res == false)
                           {
-                              if (info.suffix().toUpper() == "XHL" || info.suffix().toUpper() == "XML")
-                                 stringsToBeAdded << currentString;
-    #                         ifdef HAVE_APPLICATION
-                              else
-                              {
                                   emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
                                                + currentString + " sera ignoré. Les fichiers doivent avoir une extension du type .xml, .xhl, .7z, .zip, .tar.gz ou .tar.bz2"));
-                              }
-    #                         endif
                           }
-                    }
-              }
+    #                endif
+
+                     }
+
+//                  connect(&extract, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+//                                     [=](int exitCode, QProcess::ExitStatus exitStatus){
+//                                                extractFinished(exitCode, exitStatus);
+//                                        });
+                    extract.waitForFinished();
+                    extractFinished(extract.exitCode(), extract.exitStatus());
+               }
            }
     }
- 
+  
     return stringsToBeAdded;
 }
 
@@ -971,13 +1091,14 @@ void FListFrame::finalise()
     if (use_threads)
     {
         // Terminer les fils d'exécution s'il y en a.
-
+#if 0
         for (QThread* t : thread)
         {
           t->terminate();
           t->wait();
           delete t;
         }
+#endif
     }
 
     QStringList allLabels;

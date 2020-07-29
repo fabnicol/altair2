@@ -44,9 +44,16 @@
 #include "fwidgets.h"
 #include "fstring.h"
 #include "tools.h"
+#include <regex>
+#include <fstream>
 #include <QToolButton>
 #include <QFileSystemModel>
 #include <QMessageBox>
+#include <mutex>
+
+
+
+#define LOCK_GUARD  lock_guard<mutex> guard(mut);
 
 class FListWidget;
 class QToolDirButton;
@@ -62,7 +69,7 @@ public:
  QVector<QListWidget*> widgetContainer;  ///< Conteneur des widgets listes composant les onglets.
  FListWidget *fileListWidget;            ///< composant fonctionnelassocié à QWidget représentant l'onglet courant.
  QString frameHashKey;                   ///< Balise XML correspondant à la classe.
- std::vector<QThread*> thread;           ///< Vecteur de fils d'exécution permettant de lancer parseXhlFile sur chaque fichier d'onglet.
+
  int size = 0;                           ///< Nombre total de fichiers dans  FListFrame::widgetContainer.
  QToolButton *importFromMainTree = new QToolButton; ///< Bouton permettant d'importer des fichiers d'une arborescence de fichiers FListFrame::fileTreeView.
  QStringList tabLabels;                  ///< Liste des titres des onglets.
@@ -172,6 +179,8 @@ public:
 
  void setTabLabels(QStringList& tabLabels) { fileListWidget->setTabLabels(tabLabels);}
 
+  void parseXhlFile();
+
  /// Constructeur de la classe.
  /// La classe comprend une série d'onglets comprenant des lignes de texte chacun.\n
  /// Elle gouverne aussi l'importation des fichiers entrants et le déroulement de la barre de progression.\n
@@ -224,9 +233,9 @@ protected:
 
 private:
 
-
- QProcess* launch;
- QStringList stringList;
+ QString cl, tempDir, currentString;
+ QProcess extract;
+ QStringList stringList, stringsToBeAdded;
  QListWidget *currentListWidget;
 
  void clearTabLabels() {fileListWidget->clearTabLabels();}
@@ -250,12 +259,26 @@ private:
  /// Décode les champs principaux du fichier XHL: Année, Mois, Budget, ...
  /// \param fileName Chemin du fichier décodé.
 
- void parseXhlFile(const QString& fileName);
+/// Décode les champs principaux du fichier XHL: Année, Mois, Budget, ...
+/// \param  fileName Nom du fichier parcouru
+/// \param  htmlText ifstream correspondant
+/// \param  cont     Si true alors commencer à partir du début sinon continuer le parcours
+/// \param  size     Nombre de lignes parcourues
+/// \param  e        Expression régulière
+/// \param  match    expression smatch correspondant à e
+/// \return bool     true si une correspondance est trouvée dans match.
+///
+ bool regExp(const std::string &fileName, std::ifstream &htmlText, bool cont, int size, const std::regex &e, std::smatch &match);
+
+
 
  /// Appelle  parseXhlFile(const QString&) sur l'ensemble de  widgetContainer
 
- void parseXhlFile();
+ void parseXhlFile_();
 
+/// Affiche des messages après l'extraction des paquets de données de paye compressées en input
+
+ void extractFinished(int, QProcess::ExitStatus status);
 
  void addStringListToListWidget();
  QStringList parseTreeForFilePaths(const QStringList& stringList);
@@ -267,7 +290,7 @@ signals:
     void is_ntabs_changed(int);
     void is_ntracks_changed(int);
     void imported();
-    void parsed();
+    void parsed(int);
     void textAppend(const QString&);
     void setProgressBar(int, int);
     void setProgressBar(int);
@@ -287,9 +310,12 @@ public slots:
     void showContextMenu();
 
 protected slots:
+
     void on_importFromMainTree_clicked();
     void on_file_display(const QString& file);
     void finalise();
+    //void thread_quit(int r) {static int R; thread[r]->quit(); thread[r]->deleteLater() ; setProgressBar(++R);}
+    void show_finished(int r) {Q(QString::number(r))}
 };
 
 

@@ -708,7 +708,7 @@ void Altair::killProcess()
                         "Arrêt de l'importation des données du disque optique.");
 
             // Terminer les fils d'exécution s'il y en a
-
+#if 0
             for (QThread *t :  project->thread)
                 {
                     if (t)
@@ -719,7 +719,7 @@ void Altair::killProcess()
                             delete (t);
                         }
                 }
-
+#endif
             emit (project->terminated());
             closeProject();
             setProgressBar (0);
