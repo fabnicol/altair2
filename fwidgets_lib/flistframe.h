@@ -47,9 +47,11 @@
 #include <QToolButton>
 #include <QFileSystemModel>
 #include <QMessageBox>
+#include <QMutex>
 
 class FListWidget;
 class QToolDirButton;
+class Worker;
 
 class FListFrame : public FDialogConnections
 {
@@ -59,6 +61,8 @@ public:
 
 // Membres données
 
+
+ std::vector<QThread*> T;
  QVector<QListWidget*> widgetContainer;  ///< Conteneur des widgets listes composant les onglets.
  FListWidget *fileListWidget;            ///< composant fonctionnelassocié à QWidget représentant l'onglet courant.
  QString frameHashKey;                   ///< Balise XML correspondant à la classe.
@@ -172,6 +176,7 @@ public:
 
  void setTabLabels(QStringList& tabLabels) { fileListWidget->setTabLabels(tabLabels);}
 
+
  /// Constructeur de la classe.
  /// La classe comprend une série d'onglets comprenant des lignes de texte chacun.\n
  /// Elle gouverne aussi l'importation des fichiers entrants et le déroulement de la barre de progression.\n
@@ -247,10 +252,7 @@ private:
 
  void launch_thread(unsigned long rank);
 
- /// Décode les champs principaux du fichier XHL: Année, Mois, Budget, ...
- /// \param fileName Chemin du fichier décodé.
 
- void parseXhlFile(const QString& fileName);
 
  /// Appelle  parseXhlFile(const QString&) sur l'ensemble de  widgetContainer
 
@@ -285,6 +287,22 @@ public slots:
     void addNewTab(int r, const QString& label = "");
     void on_deleteItem_clicked();
     void showContextMenu();
+    void handleResults()
+    {
+        static int count;
+        ++count;
+        emit(setProgressBar(count));
+        if (count == size)
+        {
+            count = 0;
+            emit(imported());
+
+            for (QThread* t : T) {
+
+                connect(t, &QThread::finished, t, &QObject::deleteLater);
+            }
+        }
+    }
 
 protected slots:
     void on_importFromMainTree_clicked();
@@ -292,6 +310,32 @@ protected slots:
     void finalise();
 };
 
+class Worker : public QObject
+{
+    Q_OBJECT
 
+private :
+
+    int rank;
+    QString filename;
+
+    /// Décode les champs principaux du fichier XHL: Année, Mois, Budget, ...
+    /// \param fileName Chemin du fichier décodé.
+
+    void parseXhlFile(const QString& fileName);
+
+public:
+
+    Worker(const int r, const QString &s): rank {r}, filename {s} {}
+
+    void doWork() {
+
+        parseXhlFile(filename);
+        emit resultReady(rank);
+    }
+
+signals:
+    void resultReady(const int);
+};
 
 #endif // FLISTFRAME_H

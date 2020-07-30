@@ -212,7 +212,7 @@ void FListFrame::launch_thread(unsigned long rank)
 
     thread[rank]->start();
     connect(thread[rank], &QThread::started, [this, fileName] {
-        parseXhlFile(fileName);
+        //parseXhlFile(fileName);
     });
 
     // Lorsque le fil a fini de lire l'année, le mois etc. le signal parsed() est émis et le fil doit être arrêté
@@ -226,18 +226,20 @@ void FListFrame::launch_thread(unsigned long rank)
     // Cette fonction pourrait être optimisée en ne lançant pas les fils d'exécution de manière successive mais par par groupe avec plusieurs fils parallèles dans chaque groupe
 }
 
-void FListFrame::parseXhlFile(const QString& fileName)
+QMutex mutex, mutex2;
+
+void Worker::parseXhlFile(const QString& fileName)
 {
 
     QFile file(fileName);
     long long ligne = 0;
     bool result = file.open(QIODevice::ReadOnly);
-    if (! file.isOpen())
-             emit(textAppend(ERROR_HTML_TAG "Erreur à  l'ouverture du fichier."));
+    //if (! file.isOpen())
+      //       emit(textAppend(ERROR_HTML_TAG "Erreur à  l'ouverture du fichier."));
 
     if (result == false || file.size()== 0)
     {
-        emit(textAppend(WARNING_HTML_TAG "Fichier vide."));
+        //emit(textAppend(WARNING_HTML_TAG "Fichier vide."));
         return;
     }
 
@@ -261,16 +263,19 @@ void FListFrame::parseXhlFile(const QString& fileName)
 
     if (string.contains(reg))
     {
+        QString budgetCapture = reg.cap(3);
+        QString etabCapture = reg.cap(6);
+
+        mutex.lock();
+
         Hash::Annee[fileName] = reg.cap(1);
         Hash::Mois[fileName]  = reg.cap(2);
-        QString budgetCapture = reg.cap(3);
 
         if (budgetCapture.contains(reg2))
            Hash::Budget[fileName] = tools::remAccents(reg2.cap(1).replace("&#39;", "\'").replace("&apos;", "\'").trimmed());
         else
            Hash::Budget[fileName] = "" ;
 
-        QString etabCapture = reg.cap(6);
         if (etabCapture.contains(reg3))
            Hash::Etablissement[fileName] << tools::remAccents(reg3.cap(1).replace("&#39;", "\'").replace("&apos;", "\'").trimmed());
         else
@@ -284,18 +289,20 @@ void FListFrame::parseXhlFile(const QString& fileName)
           }
         else
              Hash::Siret[fileName] << reg.cap(5);
+        mutex.unlock();
     }
     else
     {
-        if (! string.toUpper().contains("DONNEESINDIV")) emit(textAppend(WARNING_HTML_TAG "Pas de données individuelles"));
-        if (! string.toUpper().contains("PAYEINDIVMENSUEL")) emit(textAppend(WARNING_HTML_TAG "Pas de payes individuelles"));
+        //if (! string.toUpper().contains("DONNEESINDIV")) emit(textAppend(WARNING_HTML_TAG "Pas de données individuelles"));
+        //if (! string.toUpper().contains("PAYEINDIVMENSUEL")) emit(textAppend(WARNING_HTML_TAG "Pas de payes individuelles"));
 
-        emit(textAppend(WARNING_HTML_TAG "L'entête DocumentPaye... du fichier "
-                        + fileName +
-                        " est non conforme à l'annexe de la convention cadre de dématérialisation."));
+        //emit(textAppend(WARNING_HTML_TAG "L'entête DocumentPaye... du fichier "
+          //              + fileName +
+            //            " est non conforme à l'annexe de la convention cadre de dématérialisation."));
 
         //      DocumentPaye.*(?:Annee) V.?=.?" QUOTE "([0-9]+)" QUOTE ".*(?:Mois) V.?=.?" QUOTE "([0-9]+)" QUOTE "(.*)(?:Employeur).*(?:Nom) V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret) V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE ".*DonneesIndiv(.*)PayeIndivMensuel")
 
+        mutex.lock();
         Hash::Budget[fileName] = "";
         Hash::Annee[fileName] = "Inconnu";
         Hash::Mois[fileName]  = "Inconnu";
@@ -306,6 +313,7 @@ void FListFrame::parseXhlFile(const QString& fileName)
         /* effacer les fichiers mal formés de la liste des fichiers qui vont être envoyés en commandline */
 
         Hash::Suppression[fileName] = true;
+        mutex.unlock();
 
         goto out;
     }
@@ -342,11 +350,13 @@ void FListFrame::parseXhlFile(const QString& fileName)
          {
             QString s1 = reg3.cap(1).replace("&#39;", "\'");
             QString s2 = reg3.cap(2);
+            mutex2.lock();
 
             if (! Hash::Etablissement[fileName].contains(s1))
                 Hash::Etablissement[fileName]  << s1;
             if (! Hash::Etablissement[fileName].contains(s2))
                 Hash::Siret[fileName] << s2;
+            mutex2.unlock();
          }
       }
 
@@ -356,12 +366,12 @@ out :
    file.close();
 
    if (file.isOpen())
-            emit(textAppend(ERROR_HTML_TAG " Erreur à  la fermeture du fichier."));
+            //emit(textAppend(ERROR_HTML_TAG " Erreur à  la fermeture du fichier."));
 
    if (file.error() != QFileDevice::NoError)
-         emit(textAppend(WARNING_HTML_TAG " Erreur de fichier."));
+         //emit(textAppend(WARNING_HTML_TAG " Erreur de fichier."));
 
-   emit(parsed());
+   //emit(parsed());
    return;
 }
 
@@ -384,20 +394,38 @@ void FListFrame::parseXhlFile()
                                                  | QDir::Files
                                                  | QDir::NoDotAndDotDot).isEmpty())
      {
-        for (auto &&s: stringList)
+        std::vector<Worker*> W;
+
+        for (const QString &s: stringList)
         {
-            parseXhlFile(s);
+                    Worker* w = new Worker(rank, s);
+                    QThread *t = new QThread;
+
+#if 1
+                    W.push_back(w);
+                    T.push_back(t);
+                    w->moveToThread(t);
+                    connect(t, &QThread::finished, W[rank], &QObject::deleteLater);
+                    connect(t, &QThread::started,  w, &Worker::doWork);
+                    connect(w, &Worker::resultReady, this, &FListFrame::handleResults);
+                    t->start();
+#endif
+
+                    ++rank;
 #           ifdef HAVE_APPLICATION
-              emit(setProgressBar(++rank));
+                    //if (rank < size - 1) emit(setProgressBar(rank));
 #           endif
         }
 
-        // N'utiliser des threads que si un disque optique est en input de données
+        //emit(setProgressBar(size));
 
+       // while (max_rank < size -1) {}
+
+        // N'utiliser des threads que si un disque optique est en input de données
         use_threads = false;
 
+
         importFromMainTree->show();
-        emit(imported());
         return;
      }
 

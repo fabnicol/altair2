@@ -125,8 +125,6 @@ DEFINES += \
 #        INCLURE_REG_ELUS \                  # Les élus indentifiés par expression régulière se voient assigner le Statut ELU et le grade NA. Peut poser des problèmes de comparabilité avec Xemelios.  
 #        INCLURE_REG_VACATAIRES \            # Les vacataires identifiés se voient assigner le Grade "V". Peu fiable.
 #        INCLURE_REG_ASSMAT \                # Les assistantes maternelles identifiées se voient assigner le Grade "A". Peu fiable.
-        WAIT_FOR_LOCK  \                    # insister jusqu'à acquérir les mutex dans les fils d'exécution. Peut entraîner des "output freeze" en cas de forte
-                        \                   # charge I/O.
         NO_DEBUG \                          # ne pas générer de messages de débogage avancé
 #       CONVERTIR_LATIN_1    \              # pour la compatiilité Windows
 #       USE_ICONV \                         # pour la compatibilité Windows, si l'on n'est pas satisfait du hack de pseudo-conversion UTF-8 vers Latin-1
@@ -169,7 +167,7 @@ linux:INCLUDEPATH += /usr/include/libxml2
 linux:QMAKE_LFLAGS += -L/usr/lib/x86_64-linux-gnu/ -L/usr/lib/ -L/usr/lib64
 
 windows:LIBS =   -lstdc++fs -static-libgcc -static-libstdc++ -pthread  C:/Users/Public/Dev/altair2/lhx/libxml2.dll.a   -lz -llzma -liconv -LC:\msys64\mingw64\bin
-linux:LIBS =   -lstdc++fs -static-libgcc -static-libstdc++ -pthread  /usr/lib/x86_64-linux-gnu/libxml2.a   -lz -llzma -licuuc#-liconv
+linux:LIBS =   -lstdc++fs -static-libgcc -static-libstdc++ -pthread  -lxml2   -lz -llzma -licuuc#-liconv
 
 SOURCES += \
     fonctions_auxiliaires.cpp \

@@ -41,7 +41,7 @@
 #ifndef GUI_OPTIONS_H
 #define GUI_OPTIONS_H
 
-#include "flineframe.hpp"
+#include "flineframe.h"
 #include "tools.h"
 
 class Altair;

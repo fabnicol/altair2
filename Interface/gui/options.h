@@ -132,7 +132,6 @@ class processPage :  public QDialog, public common
 public :
     processPage();                 ///< Constructeur de l'onglet Traitement.
     FLineFrame *logFrame;          ///< composant fonctionnelde type QLineEdit augmenté de fonctionnalités spéciales. Enregistre le chemin du log d'exécution.
-    FCheckBox  *rapportEntier;     ///< Case à cocher indiquant si le rapport doit être dans sa version longue (ou courte si non cochée).
     FCheckBox  *enchainerRapports; ///< Cas à cocher indiquant si la génération des rapports est automatiquement lancée par l'interface sans passer par RStudio.
 
 private:
