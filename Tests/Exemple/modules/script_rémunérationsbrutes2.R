@@ -124,11 +124,11 @@ source("histogrammes.R", encoding = "UTF-8")
 #'**Nota :**   
 #'*EQTP : Equivalent temps plein = 12 . moyenne du ratio ratio rémunération / quotite*  
 #'    
-#'**Effectif : `r nrow(AR)`**
+#'**Effectif : `r nrow(AT)`**
 #'
 #'**Tests de cohérence**
 
-if (nrow(AR) > 0) {
+if (nrow(AT) > 0) {
   masses.fonct <- AT[ , lapply(.(Montant.brut.annuel, rémunération.indemnitaire.imposable, total.lignes.paie, acomptes), sum, na.rm = TRUE)]
   
 } else {

@@ -123,7 +123,7 @@ source("histogrammes.R", encoding = "UTF-8")
 #'**Nota :**   
 #'*EQTP : Equivalent temps plein = 12 . moyenne du ratio ratio rémunération / quotite*  
 #'    
-#'**Effectif : `r nrow(AR)`**
+#'**Effectif : `r nrow(AQ)`**
 #'
 #'**Tests de cohérence**
 
