@@ -438,7 +438,7 @@ class FProgressBar : public QWidget
     typedef void (FDialog::*SlotFunction)();
 
 public:
-    FProgressBar(FDialog* p,
+    FProgressBar(FDialog* parent,
                  SlotFunction  killFunction = nullptr);
 
     QHBoxLayout* getLayout() {return layout;}
@@ -483,8 +483,8 @@ private:
     }
 
   private slots:
-    void setValue(int x, int y) { bar->setValue(x); bar->setMaximum(y); parent->repaint();}
-    void setValue(int x) { bar->setValue(x); parent->repaint(); }
+    void setValue(int x, int y) { bar->setValue(x); bar->setMaximum(y);}
+    void setValue(int x) { bar->setValue(x); }
 
   public slots:
     void stop();
