@@ -167,7 +167,7 @@ linux:INCLUDEPATH += /usr/include/libxml2
 linux:QMAKE_LFLAGS += -L/usr/lib/x86_64-linux-gnu/ -L/usr/lib/ -L/usr/lib64
 
 windows:LIBS =   -lstdc++fs -static-libgcc -static-libstdc++ -pthread  C:/Users/Public/Dev/altair2/lhx/libxml2.dll.a   -lz -llzma -liconv -LC:\msys64\mingw64\bin
-linux:LIBS =   -lstdc++fs -static-libgcc -static-libstdc++ -pthread  /usr/lib/x86_64-linux-gnu/libxml2.a   -lz -llzma -licuuc#-liconv
+linux:LIBS =   -lstdc++fs -static-libgcc -static-libstdc++ -pthread  -lxml2   -lz -llzma -licuuc#-liconv
 
 SOURCES += \
     fonctions_auxiliaires.cpp \

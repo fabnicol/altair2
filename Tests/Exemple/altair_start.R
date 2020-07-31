@@ -290,8 +290,8 @@ if (séquentiel) {
                   "script_pyramides.R",
                   "script_duréedeservice.R")
 
-  group2 <- list(# "script_rémunérationsbrutes1.R",
-                 #"script_rémunérationsbrutes2.R",
+  group2 <- list( "script_rémunérationsbrutes1.R",
+                 "script_rémunérationsbrutes2.R",
                  "script_comparaisonsdubrut.R",
                  "script_évolutiondunet.R")
 
