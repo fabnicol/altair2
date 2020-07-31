@@ -66,6 +66,9 @@ rendre <- function(fw = knitr::opts_chunk$get("fig.width"),
             
             V <- readLines("out.Rmd", encoding = "UTF-8")
             V <- gsub("![Notice](Notice.png)", "Notice", V, fixed = TRUE)
+            V <- gsub("\\!\\[\\](.*)\\.pdf", "\\!\\[\\]\\1\\.png", V, perl = TRUE)
+            system("for i in figure/*.pdf; do convert $i $(echo $i | sed s\"/pdf/png/g\"); done")
+
             file.remove("out.Rmd")
             writeLines(V,  "out.Rmd", useBytes = TRUE)
           }
