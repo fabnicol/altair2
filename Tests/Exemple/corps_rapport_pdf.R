@@ -62,7 +62,7 @@ rendre(to = "latex",
               "--highlight-style", # facultatif
               "tango"),
        output_file = "altair.tex",
-       keep = fichiers.temp)
+       keep = TRUE)#fichiers.temp)
 
 # Copie sur le sous-dossier de la clé (dossier R-Altair ou R-Altair/nom du dossier/
 # en mode distributif)

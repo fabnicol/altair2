@@ -92,7 +92,7 @@ TARGET = Altair
 
 VPATH = .
 INCLUDEPATH += ../../fwidgets_lib
-windows:LIBS += C:/Users/Public/Dev/altair2/fwidgets_lib/libfwidgets_lib.a
+#windows:LIBS += C:/Users/Public/Dev/altair2/fwidgets_lib/libfwidgets_lib.a
 linux:LIBS += ~/Dev/altair/fwidgets_lib/libfwidgets_lib.a
 
 DEFINES += HAS_CPP17

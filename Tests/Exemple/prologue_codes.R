@@ -83,12 +83,12 @@ script_SFT                     <- TRUE
 script_retraites               <- TRUE    
 script_FPH                     <- TRUE    
 
-séquentiel                     <- FALSE
+séquentiel                     <- TRUE
 ouvrir.document                <- TRUE
 
 types.irs  <- c("IR", "S")
 
-controle<-c("","","","")  
+controle<-c("Z","Z","Z","MULTIBUDGET")  
 
 codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IFSE", "IEMP", "ISS", "IHTS", "VAC", "ASTREINTES", "NAS", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(
