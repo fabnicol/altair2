@@ -4,21 +4,10 @@
 \alias{charges.eqtp.emploi}
 \title{Tableau des coûts moyens de personnel par type emploi.}
 \usage{
-charges.eqtp.emploi(
-  Base = Paie,
-  garde = NULL,
-  emploi = NULL,
-  classe = NULL,
-  service = NULL,
-  libellés = NULL,
-  agr = FALSE,
-  période = NULL,
-  variation = FALSE,
-  statut = NULL,
-  catégorie = NULL,
-  exclure.codes = NULL,
-  quotite.nulle = FALSE
-)
+charges.eqtp.emploi(Base = Paie, garde = NULL, emploi = NULL,
+  classe = NULL, service = NULL, libellés = NULL, agr = FALSE,
+  période = NULL, variation = FALSE, statut = NULL,
+  catégorie = NULL, exclure.codes = NULL, quotite.nulle = FALSE)
 }
 \arguments{
 \item{Base}{Base des bulletins de paye, comportant pour l'ensemble de la période

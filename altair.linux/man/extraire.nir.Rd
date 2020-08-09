@@ -4,7 +4,7 @@
 \alias{extraire.nir}
 \title{Traitement du NIR (numéro d'inscription au répertoire des personnes physiques).}
 \usage{
-extraire.nir(Base, ann攼㸹e)
+extraire.nir(Base, année)
 }
 \arguments{
 \item{Base}{data.table contenant au moins une variable nommée Nir décrivant le NIR.}

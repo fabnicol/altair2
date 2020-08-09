@@ -4,22 +4,10 @@
 \alias{brut.eqtp}
 \title{Tableau des rémunérations brutes moyennes par grade.}
 \usage{
-brut.eqtp(
-  Base = Paie,
-  grade = NULL,
-  emploi = NULL,
-  classe = NULL,
-  service = NULL,
-  libellés = NULL,
-  agr = FALSE,
-  période = NULL,
-  variation = FALSE,
-  statut = NULL,
-  catégorie = NULL,
-  exclure.codes = NULL,
-  quotite.nulle = FALSE,
-  type = "G"
-)
+brut.eqtp(Base = Paie, grade = NULL, emploi = NULL, classe = NULL,
+  service = NULL, libellés = NULL, agr = FALSE, période = NULL,
+  variation = FALSE, statut = NULL, catégorie = NULL,
+  exclure.codes = NULL, quotite.nulle = FALSE, type = "G")
 }
 \arguments{
 \item{Base}{Base des bulletins de paye, comportant pour l'ensemble de la période

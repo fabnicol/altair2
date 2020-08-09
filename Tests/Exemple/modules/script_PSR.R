@@ -19,8 +19,8 @@
 
 résultat_PSR   <- test_prime(prime_PSR, prime_IFTS, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
 
-Lignes_PSR <<- résultat_PSR$Lignes
-Paie_PSR <<- résultat_PSR$Paie
+Lignes_PSR <- résultat_PSR$Lignes
+Paie_PSR <- résultat_PSR$Paie
 
 
 #'    

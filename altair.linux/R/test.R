@@ -57,9 +57,12 @@ adm <- function(quotite) ifelse(quotite == 0.8,  6/7, ifelse (quotite == 0.9,  3
 #' @param env  Environnement
 
 sauvebase <- function(x, y, z, env) {
-  Sauv.base(z,
+  Sauv.base(file.path(chemin.dossier.bases, z),
             x,
             y,
+            FALSE,
+            sep = ";",
+            dec = ",",
             environment = env)
   
 }

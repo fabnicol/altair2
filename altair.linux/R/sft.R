@@ -138,7 +138,7 @@ SFT_sans_enfant <- function() {
             }
           }, "Le contrôle du SFT pour les agents sans enfant n'a pas pu être réalisé.")
   
-  sauv.bases("Reglementation", .GlobalEnv, "Paie.sans.enfant.reduit")
+  sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), .GlobalEnv, "Paie.sans.enfant.reduit")
 }
 
 #' @export
@@ -204,7 +204,7 @@ liquidation_SFT <- function() {
               
             }
             
-            sauv.bases( "Reglementation", .GlobalEnv, "controle.sft")
+            sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), .GlobalEnv, "controle.sft")
           }, 
           "Le contrôle de liquidation du SFT pour les agents ayant au moins un enfant n'a pas pu être réalisé.")
 }

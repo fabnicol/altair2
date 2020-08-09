@@ -1,4 +1,5 @@
 
+
 #'# 1. Statistiques de population
 #'
 #'## 1.1 Effectifs
@@ -54,14 +55,16 @@ if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 15
 
 setwd(file.path(chemin.dossier.bases, "Effectifs"))
 
-Sauv.base("Effectifs", "tableau.effectifs")
-#Sauv.base("Effectifs", "tableau.effectifs.grades")
-#Sauv.base("Effectifs", "tableau.effectifs.emplois")
+fwrite(tableau.effectifs, "tableau.effectifs.csv", sep = ";", dec = ",")
+fwrite(tableau.effectifs.grades, "tableau.effectifs.grades.csv", sep = ";", dec = ",")           
+fwrite(tableau.effectifs.grades, "tableau.effectifs.emplois.csv", sep = ";", dec = ",")           
 
 eqtp.grade.serv(variation = TRUE)
+
 eqtp.grade.cat(variation = TRUE)
 
 csvfiles <- list.files(".", pattern = "^effectifs.*csv")
+system2(file.path(currentDir, "linux/utf82latin1"),  system.quote(csvfiles), stderr = NULL, stdout = NULL)
 
 zip("tableau.effectifs.services.zip",   list.files(".", pattern = "effectifs.serv..*.csv"))
 zip("tableau.effectifs.categories.zip", list.files(".", pattern = "effectifs.cat..*.csv"))
@@ -83,6 +86,8 @@ setwd(currentDir)
 #+ pyramides-des-âges
 
 message("Statistiques de démographie réalisées.")
+
+e <- new.env()
 
 fichiers.pyr <- list.files(path= file.path(currentDir, "data"), pattern = "*.csv", full.names = TRUE)
 

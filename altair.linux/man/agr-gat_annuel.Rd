@@ -4,7 +4,7 @@
 \alias{agrégat_annuel}
 \title{Affichage du tableau des agrégats des primes A et B, pour chaque année de période}
 \usage{
-agr攼㸹gat_annuel(r攼㸹sultat, verbeux)
+agrégat_annuel(résultat, verbeux)
 }
 \arguments{
 \item{résultat}{Résultat retourné par la fonction \link{test_prime}}
@@ -15,5 +15,5 @@ agr攼㸹gat_annuel(r攼㸹sultat, verbeux)
 Affichage du tableau des agrégats des primes A et B, pour chaque année de période
 }
 \examples{
-agrÃ©gat_annuel(test_prime(prime_IAT, prime_B = prime_IFTS, Paie_I, verbeux = FALSE), verbeux = TRUE)
+agrégat_annuel(test_prime(prime_IAT, prime_B = prime_IFTS, Paie_I, verbeux = FALSE), verbeux = TRUE)
 }

@@ -4,7 +4,7 @@
 \alias{correspondance_grade_catégorie}
 \title{Correspondance grade-catégorie}
 \usage{
-correspondance_grade_cat攼㸹gorie()
+correspondance_grade_catégorie()
 }
 \value{
 La \code{data.table grade.categorie} résultant de la lecture du fichier \bold{grades.catégories.csv} sous le répertoire \bold{Données}
@@ -13,6 +13,6 @@ La \code{data.table grade.categorie} résultant de la lecture du fichier \bold{g
 Etablit la correspondance entre le grade et la catégorie statutaire à partir d'un tableau importé
 }
 \note{
-Requiert l'utilisation d'une table de jointure importée \bold{grades.catégories.csv} encodée en UTF-8 sous le répertoire \bold{Données}.
+Requiert l'utilisation d'une table de jointure importée \bold{grades.catégories.csv} sous le répertoire \bold{Données}.
 A défaut, tente une association approximative à partir d'expressions rationnelles appliquées aux grades.
 }

@@ -4,20 +4,10 @@
 \alias{eqtp.emploi}
 \title{Tableau des EQTP par emploi.}
 \usage{
-eqtp.emploi(
-  Base = Bulletins.paie,
-  emploi = NULL,
-  classe = NULL,
-  service = NULL,
-  libellés = NULL,
-  agr = FALSE,
-  période = NULL,
-  variation = FALSE,
-  statut = NULL,
-  catégorie = NULL,
-  exclure.codes = NULL,
-  quotite.nulle = FALSE
-)
+eqtp.emploi(Base = Bulletins.paie, emploi = NULL, classe = NULL,
+  service = NULL, libellés = NULL, agr = FALSE, période = NULL,
+  variation = FALSE, statut = NULL, catégorie = NULL,
+  exclure.codes = NULL, quotite.nulle = FALSE)
 }
 \arguments{
 \item{Base}{Base des bulletins de paye, comportant pour l'ensemble de la période

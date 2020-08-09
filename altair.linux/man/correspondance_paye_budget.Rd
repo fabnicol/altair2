@@ -13,6 +13,6 @@ La \code{data.table code.libellé} résultant de la lecture du fichier \bold{pay
 Etablit la correspondance entre paye et comptabilité administrative (comptes 64 et 65)
 }
 \note{
-Requiert l'utilisation d'une table de jointure importée \bold{paye_budget.csv} encodée en UTF-8 sous le répertoire \bold{Données}.
+Requiert l'utilisation d'une table de jointure importée \bold{paye_budget.csv} sous le répertoire \bold{Données}.
 A défaut, tente une association approximative à partir d'expressions rationnelles appliquées aux libellés de paye.
 }

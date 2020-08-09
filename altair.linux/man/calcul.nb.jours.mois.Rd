@@ -4,7 +4,7 @@
 \alias{calcul.nb.jours.mois}
 \title{Calcul du nombre de jours dans le mois}
 \usage{
-calcul.nb.jours.mois(Mois, ann攼㸹e)
+calcul.nb.jours.mois(Mois, année)
 }
 \description{
 Calcul du nombre de jours dans le mois

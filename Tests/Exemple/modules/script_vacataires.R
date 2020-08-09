@@ -14,7 +14,7 @@
 
 Paie_vac <- filtrer_Paie("VAC", portée = "Mois")
 
-Paie_vac <<- Paie_vac[Type %chin% c("T", "I", "R", "IR", "S")]
+Paie_vac <- Paie_vac[Type %chin% c("T", "I", "R", "IR", "S")]
 
 # ----- Produire la liste de ces libellés horaires
 
@@ -43,7 +43,7 @@ if (nombre.fonctionnaires.et.vacations > 0) {
   cat("Pas de vacation détectée. ")
 }
 
-sauv.bases("Reglementation", 
+sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
            environment(),
            "lignes.fonctionnaires.et.vacations",
            "matricules.fonctionnaires.et.vacations",
@@ -97,7 +97,7 @@ if (exists("nombre.contractuels.et.vacations")) {
           nombre.Lignes.paie.RI.et.vacations)
 }
 
-sauv.bases("Reglementation", 
+sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
            environment(),
            "RI.et.vacations",
            "matricules.contractuels.et.vacations",
@@ -136,7 +136,7 @@ if (exists("nombre.SFT_IR.et.vacations")) {
           nrow(SFT_IR.et.vacations))
 }
 
-sauv.bases( "Reglementation", 
+sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
            environment(),
            "matricules.SFT_IR.et.vacations",
            "SFT_IR.et.vacations",

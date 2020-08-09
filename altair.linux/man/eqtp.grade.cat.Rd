@@ -4,33 +4,12 @@
 \alias{eqtp.grade.cat}
 \title{Tableau des EQTP par grade et catégorie.}
 \usage{
-eqtp.grade.cat(
-  Base = Bulletins.paie,
-  grade = NULL,
-  classe = NULL,
-  libellés = NULL,
-  agr = FALSE,
-  période = NULL,
-  variation = FALSE,
-  statut = NULL,
-  exclure.codes = NULL,
-  quotite.nulle = FALSE
-)
+eqtp.grade.cat(Base = Bulletins.paie, grade = NULL, classe = NULL,
+  libellés = NULL, agr = FALSE, période = NULL,
+  variation = FALSE, statut = NULL, exclure.codes = NULL,
+  quotite.nulle = FALSE)
 }
 \arguments{
-\item{Base}{Base des bulletins de paye, comportant pour l'ensemble de la période
-\enumerate{
-  \item{ les variables charactère suivantes :
-     \itemize{
-         \item \code{Annee}
-         \item \code{Matricule}
-         \item \code{Statut}
-         \item \code{Grade}
-         \item \code{Service}}}
-   \item{ les variables numériques :
-       \describe{
-         \item{\code{quotite}}{réel entre 0 et 1}}}}.}
-
 \item{grade}{Grade particulier. Tous les grades en l'absence de spécification.}
 
 \item{classe}{Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.}

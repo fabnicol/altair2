@@ -4,10 +4,10 @@
 \alias{Résumé}
 \title{Statistiques descriptives de base (minimum, maximum et quartiles)}
 \usage{
-Résumé(X, y, align = "r", extra = 0, type = "pond")
+Résumé(x, y, align = "r", extra = 0, type = "pond")
 }
 \arguments{
-\item{X}{Vecteur de noms de variables en colonnes}
+\item{x}{Encodage de la base lue. Valeur par défaut : encodage.entrée}
 
 \item{y}{Les classes ("character", "numeric") des variables en colonnes}
 
@@ -15,7 +15,7 @@ Résumé(X, y, align = "r", extra = 0, type = "pond")
 
 \item{extra}{Nombre de lignes à sauter en début de fichier (défaut aucune).}
 
-\item{type}{Booléen (= FALSE).}
+\item{type}{Booléen (= FALSE). Si TRUE, et si convertir.encodage est TRUE, convertir en UTF-8 avant lecture.}
 }
 \value{
 Une base data.table
@@ -25,5 +25,5 @@ Lecture d'un fichier CSV et conversion en data.table.
 Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
 }
 \examples{
-read.csv.skip(Base, sÃ©parateur.dÃ©cimal = ",")
+read.csv.skip(Base, séparateur.décimal = ",")
 }

@@ -2,10 +2,10 @@
 % Please edit documentation in R/import.R
 \name{importer_base_logements}
 \alias{importer_base_logements}
-\title{Importer la base des logements de fonction (encodage UTF-8)}
+\title{Importer la base des logements de fonction}
 \usage{
 importer_base_logements()
 }
 \description{
-Importer la base des logements de fonction (encodage UTF-8)
+Importer la base des logements de fonction
 }

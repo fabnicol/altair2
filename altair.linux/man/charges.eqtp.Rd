@@ -4,22 +4,11 @@
 \alias{charges.eqtp}
 \title{Tableau des coûts moyens par agent et par grade.}
 \usage{
-charges.eqtp(
-  Base = Paie,
-  grade = NULL,
-  emploi = NULL,
-  classe = NULL,
-  service = NULL,
-  libellés = NULL,
-  agr = FALSE,
-  période = NULL,
-  variation = FALSE,
-  statut = NULL,
-  catégorie = NULL,
-  exclure.codes = NULL,
-  quotite.nulle = FALSE,
-  type = "G"
-)
+charges.eqtp(Base = Paie, grade = NULL, emploi = NULL,
+  classe = NULL, service = NULL, libellés = NULL, agr = FALSE,
+  période = NULL, variation = FALSE, statut = NULL,
+  catégorie = NULL, exclure.codes = NULL, quotite.nulle = FALSE,
+  type = "G")
 }
 \arguments{
 \item{Base}{Base des bulletins de paye, comportant pour l'ensemble de la période

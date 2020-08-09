@@ -35,8 +35,7 @@
 # termes.
 # 
 # 
-
-
+#'---    
 #'title: false    
 #'author: false     
 #'header-includes: \usepackage{graphicx}  
@@ -51,11 +50,6 @@
 #'   
 #'   
 #'## Logiciel Altaïr version `r readLines(file.path(currentDir, "VERSION"))`
-# En-tête du rapport
-# Les caractéristiques du contrôle sont contenues dans controle[1], controle[2], controle[3], controle[4]
-
-#'
-#'### Employeur : `r controle[1]`    
 
 # ---
 # Encodage obligatoire en UTF-8
@@ -83,19 +77,52 @@ invisible(enableJIT(3))
 # Appel de la biblio altair, où sont regroupées des fonctions d'analyse des rémunérations et les pyramides
 
 library(knitr, warn.conflicts = FALSE)
-options(knitr.duplicate.label = "allow")
 knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
 
 # Importer les données --> bases Paie et Bulletins.paie
 
 importer()
 
+# En-tête du rapport
+# Les caractéristiques du contrôle sont contenues dans controle[1], controle[2], controle[3], controle[4]
+
+#'
+#'### Employeur : `r controle[1]`      
+#'### Siret : `r controle[2]`   
+#'### Etablissement : `r controle[3]`   
+#'### Budget : `r controle[4]`      
+cat("**Période sous revue : ", début.période.sous.revue, " - ", fin.période.sous.revue,"**  \n")
+cat("**Nombre d'exercices : ", durée.sous.revue, "**  \n")        
+#'   
+#'   
+#'Logiciel sous licence [CeCILL v.2.1](Docs/LICENCE.html)     
+#+ echo = FALSE
+#'`r format(Sys.Date(), "%a %d %b %Y")`      
+#'      
+
+#'   
+#'   
+#'**Avertissements**   
+#'    
+#'*1. La production des rapports d'analyse nécessite que les données de paye soient continues,
+#'autrement dit qu'il n'y ait pas d'année ou de mois manquant dans la série de données
+#'disponibles. Lorsque tel est le cas, il convient de réaliser autant de rapports partiels
+#'que de séries partielles de données continues.*       
+#'    
+#'*2. Il est recommandé de renseigner, dans toute la mesure du possible, les codes de paye de l'onglet Codes de l'interface graphique*  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_onglet_codes.odt)      
+#'   
+#'En cas de dysfonctionnement logiciel, veuillez bien signaler les difficultés rencontrées au développeur.    
+
+# Pour sauter une page en html (ou pdf converti de html, faire un h6 soit six dièses dans les Rmd seulement)  
+#+ analyse-rémunérations
+
+
 
 # Analyser les rémunérations à partir des données importées --> bases Analyse.XXX
 
-source("analyse.rémunérations.R", encoding =  "UTF-8")
+source("analyse.rémunérations.R", encoding =  encodage.code.source)
 
-colonnes.sélectionnées <<- c("traitement.indiciaire",
+colonnes.sélectionnées <- c("traitement.indiciaire",
                             "acomptes",
                             "rémunération.indemnitaire.imposable",
                             "rémunération.indemnitaire.imposable.eqtp",
@@ -126,7 +153,7 @@ colonnes.sélectionnées <<- c("traitement.indiciaire",
 
 # Description des données indemnitaires
 
-Paie_I <<- Paie[Type == "I" | Type == "A" | Type == "R", 
+Paie_I <- Paie[Type == "I" | Type == "A" | Type == "R", 
                .(Nom, 
                  Prenom,
                  Matricule, 
@@ -145,58 +172,58 @@ Paie_I <<- Paie[Type == "I" | Type == "A" | Type == "R",
                  Statut,
                  Categorie)]
 
-prime_IAT <<- list(nom = "IAT",                     # Nom en majuscules
+prime_IAT <- list(nom = "IAT",                     # Nom en majuscules
                   catégorie = c("B", "C"),         # restreint aux catégories B et C
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   dossier = "Reglementation")      # dossier de bases
 
-prime_IFTS <<- list(nom = "IFTS",                   # Nom en majuscules
+prime_IFTS <- list(nom = "IFTS",                   # Nom en majuscules
                    catégorie = c("A", "B"),        # restreint aux catégories A et B
                    restreint_fonctionnaire = TRUE, # fonctionnaires
                    dossier = "Reglementation",     # dossier de bases  
                    NAS = "non",                    # logement par NAS
                    indice  = c("+", 350, "B"))     # supérieur à INM 350 pour catégorie B.
 
-prime_PFR <<- list(nom = "PFR",                     # Nom en majuscules
+prime_PFR <- list(nom = "PFR",                     # Nom en majuscules
                   catégorie = "A",                 # restreint aux catégories A
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   dossier = "Reglementation",      # dossier de bases
                   expr.rég = "")  
 
-prime_PSR <<- list(nom = "PSR",                     # Nom en majuscules
+prime_PSR <- list(nom = "PSR",                     # Nom en majuscules
                   catégorie = c("A","B"),          # restreint aux catégories A et B
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   dossier = "Reglementation",      # dossier de bases
                   expr.rég = ".*(?:ing|tech|d.*g.*s.*t|dessin|biol|phar).*")  # Contrainte sur le grade (expression régulière)
 
-prime_IPF <<- list(nom = "IPF",                     # Nom en majuscules
+prime_IPF <- list(nom = "IPF",                     # Nom en majuscules
                   catégorie = "A",                 # restreint aux catégories A et B
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   dossier = "Reglementation",      # dossier de bases
                   expr.rég = ".*(?:ing.*chef).*")  # Contrainte sur le grade (expression régulière)
 
-prime_IFSE <<- list(nom = "IFSE",                   # Nom en majuscules
+prime_IFSE <- list(nom = "IFSE",                   # Nom en majuscules
                    restreint_fonctionnaire = TRUE, # fonctionnaires
                    catégorie = c("A", "B", "C"),   # toutes les catégories
                    dossier = "Reglementation")     # dossier de bases
 
-prime_ISS <<- list(nom = "ISS",                     # Nom en majuscules
+prime_ISS <- list(nom = "ISS",                     # Nom en majuscules
                   catégorie = c("A", "B"),         # Techniciens A, B
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   dossier = "Reglementation")      # dossier de bases
 
-prime_IEMP <<- list(nom = "IEMP",                   # Nom en majuscules
+prime_IEMP <- list(nom = "IEMP",                   # Nom en majuscules
                    restreint_fonctionnaire = TRUE, # fonctionnaires
                    catégorie = c("A", "B", "C"),   # toutes les catégories
                    dossier = "Reglementation")     # dossier de bases
 
-prime_PFI <<- list(nom = "PFI",                      # Nom en majuscules
+prime_PFI <- list(nom = "PFI",                      # Nom en majuscules
                   restreint_fonctionnaire = TRUE,   # fonctionnaires
                   catégorie = c("A", "B", "C"),     # toutes les catégories
                   dossier = "Reglementation")       # dossier de bases
 #immature
+if (setOSWindows) séquentiel <- TRUE else {
 
-if (!setOSWindows) {
   system('cat /proc/meminfo > $HOME/mem.txt')
   mem <- data.table::fread(file.path(Sys.getenv("HOME"), "mem.txt"),
                sep = ":",
@@ -204,14 +231,13 @@ if (!setOSWindows) {
   mem <- strtoi(unlist(strsplit(mem, " "))[1])
   if (nrow(Paie) * ratio.memoire.ligne.parallele  > mem) {
     "séquentiel" %a% TRUE  # assignation globale nécessaire
-    message("Bascule en mode séquentiel")
   }
 }
 
 
+
 scripts <- 
-   list(#"entete.R",
-        "script_effectifs.R",
+   list("script_effectifs.R",
         "script_pyramides.R",
         "script_duréedeservice.R",
         "script_rémunérationsbrutes1.R",
@@ -236,33 +262,33 @@ scripts <-
         "script_FPH.R",
         "script_annexe.R")
   
-opts_knit$set(output.dir=getwd())
-
-générer.partie <- function(script, séquentiel = FALSE) {
-
-                              lapply(script, function(x) do.call(altair::insérer_script, 
-                                                                             as.list(na.omit(c(file.path(chemin.modules, x[1]))), gen = générer.rapport, pdf = PDF, séquentiel = séquentiel))) 
+  
+générer.partie <- function(script, seq) {
+                              invisible(lapply(script, function(x) do.call(insérer_script, 
+                                                                             as.list(na.omit(c(file.path(chemin.modules, x[1]),
+                                                                                             x[-1])))))) 
 }
-
-
+                            
 if (séquentiel) {
   
-  générer.partie(scripts, séquentiel)
+  générer.partie(scripts)
   
 } else {
   
+  if (setOSWindows) {
+    stop("L'exécution en parallèle n'est pas supportés sous Windows. Veuillez paramétrer la varible séquentiel <- TRUE dans le fichier prologue.R")
+  }
   
   # Les groupes sont consitutés pour :
   # a) équilibrer les charges des noeuds
   # b) tenir compte des relations de dépendances entre scripts afin d'éviter les files d'attentes et les mutex
   # Il faut ensuite permuter les résultats pour retrouver l'ordre canonique des rapports (qui pourrait évoluer pour éviter cela)
   
-  group1 <- list( #"entete.R",
-                  "script_effectifs.R",
+  group1 <- list("script_effectifs.R",
                   "script_pyramides.R",
                   "script_duréedeservice.R")
 
-  group2 <- list( "script_rémunérationsbrutes1.R",
+  group2 <- list("script_rémunérationsbrutes1.R",
                  "script_rémunérationsbrutes2.R",
                  "script_comparaisonsdubrut.R",
                  "script_évolutiondunet.R")
@@ -277,7 +303,7 @@ if (séquentiel) {
                  "script_IPF.R",
                  "script_RIFSEEP.R")
 
-  group5 <- list( "script_PFI.R", #+
+  group5 <- list("script_PFI.R", #+
                  "script_vacataires.R", #+
                  "script_NAS.R", #+
                  "script_élus.R")
@@ -297,22 +323,12 @@ if (séquentiel) {
             group5,
             group6)
   
-  
-  cluster_mode <- ifelse(setOSWindows, "PSOCK", "FORK")
-  
-  cl <- makeCluster(6, type = cluster_mode)
-  
-  clusterExport(cl, c("chemin.modules", "début.période.sous.revue", "fin.période.sous.revue", "durée.sous.revue", 
-                      "quantile.cut", "minimum.positif", "seuil.troncature", "numéro.tableau", "chapitre"))
-  
-  clusterEvalQ(cl, library(altair))
-  clusterEvalQ(cl, library(knitr))
-  clusterEvalQ(cl, library(parallel))
+  cl <- makeCluster(6, type = "FORK")
   
   res <- clusterApply(cl,
                       G,
                       générer.partie)
-  
+
   stopCluster(cl)
   
   # Il faut réordonner pour être dans l'ordre canonique du rapport
@@ -330,7 +346,6 @@ if (séquentiel) {
                    r5[[4]])
 
   invisible(lapply(res, function(x) cat(unlist(x), sep = '\n')))
-  
 }
 
 ######### SAUVEGARDES #######
@@ -342,14 +357,33 @@ message("Enregistrement de la pile des bases...")
 envir <- environment()
 
 if (sauvegarder.bases.origine)
-  sauv.bases(".",
+  sauv.bases(file.path(chemin.dossier.bases, "Paiements"),
              env = envir,
              "Paie",
              "Bulletins.paie")
 
 if (profiler)
-  sauv.bases(".", 
+  sauv.bases(chemin.dossier.bases, 
             env = envir, "PROF")
+
+# Conversion en Latin-1 des bases du rapport, pour une meilleure lecture sous Windows
+
+if (convertir.latin1) {
+
+  system2("find", c("Donnees/R-Altair/Bases",
+                    "-name", "'*.csv'",
+                    "-exec", "sed -i -e '1s/Categorie/Catégorie/'     {} \\;",
+                    "-exec", "sed -i -e '1s/Debut/Début/'             {} \\;",
+                    "-exec", "sed -i -e '1s/Annee/Année/'             {} \\;",
+                    "-exec", "sed -i -e '1s/Prenom/Prénom/'           {} \\;",
+                    "-exec", "sed -i -e '1s/Net.a.Payer/Net.à.Payer/' {} \\;",
+                    "-exec", "sed -i -e '1s/Evenement/Evénement/'     {} \\;"),
+                  stderr = FALSE)
+
+  system2("find",
+          c("Donnees/R-Altair/Bases", "-name", "'*.csv'", "-print0", "|", "xargs", "-0", "../../linux/utf82latin1"),
+          stderr = FALSE)
+}
 
 # Copie de la documentation accessoire aux rapports
 
@@ -367,3 +401,12 @@ if (fichier.personnels.existe) file.remove(chemin("matricules.csv"))
 if (grades.categories.existe)  file.remove(chemin("grades.categories.csv"))
 if (logements.existe)          file.remove(chemin("logements.csv"))
 if (plafonds.ifse.existe)      file.remove(chemin("plafonds_ifse.csv"))
+
+setwd(currentDir)
+
+message("Dossier courant : ", getwd())
+
+#if (! séquentiel) nettoyer.pile.bases()
+
+if (! debug.code)
+   rm(list = setdiff(ls(), script_env))

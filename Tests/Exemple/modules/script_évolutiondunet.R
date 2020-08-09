@@ -1,9 +1,9 @@
 ########### 4. Analyse dynamique des rémunérations ########################
 #'
-#'# 4. Rémunérations nettes : évolutions sur la période `r début.période.sous.revue` - `r fin.période.sous.revue`    
-#'
-#'Nombre d'exercices: `r durée.sous.revue`   
-#'
+#'# 4. Rémunérations nettes : évolutions sur la période sous revue
+#'   
+cat("**Nombre d'exercices: ", durée.sous.revue, "**\n")   
+#'   
 #'**Périmètre des données**      
 #'**Les données présentées dans cette section sont toutes relatives à des rémunérations nettes en équivalent temps plein (EQTP)**           
 #'**Les élus, les vacataires et les assistantes maternelles ont été retirés de la population étudiée**       
@@ -20,22 +20,15 @@
 
 attach(Analyse.variations, warn.conflicts = FALSE)
 
-
-#+fig.height=6, fig.width=7   
-insérer_script(fonction = "evolution_net_hist_1")
+insérer_script(fonction = "evolution_net_hist")
 
 #'   
-#'   
-
-#+fig.height=6, fig.width=7   
-insérer_script(fonction = "evolution_net_hist_2")
-
 conditionnel("Lien vers la base de données synthétique", "Bases/Remunerations/Analyse.variations.csv")     
 conditionnel("Lien vers la base de données détaillée par année", "Bases/Remunerations/Analyse.variations.par.exercice.csv")     
 
 ########### 4.2  Evolutions des rémunérations nettes ###########
 
-#'## 4.2 Evolutions du SMPT sur la période `r début.période.sous.revue` - `r fin.période.sous.revue`   
+#'## 4.2 Evolutions du SMPT sur la période sous revue 
 #'
 #'### 4.2.1 Evolution du SMPT pour l'ensemble des personnels fonctionnaires et non titulaires (hors élus)        
 #'
@@ -67,7 +60,7 @@ essayer(label = "+SMPT global", print(smpt(Filtre_neutre)),     "Le salaire moye
 essayer(label = "+distribution SMPT global", print(distribution_smpt(Filtre_neutre)), "La distribution du salaire moyen par tête n'a pas pu être calculée.")
 
 #'  
-#'*Nota :*  La population retenue est constituée des agents qui ne font pas partie des `r 2*quantile.cut` centiles extrêmaux   
+cat("*Nota :*  La population retenue est constituée des agents qui ne font pas partie des ", 2*quantile.cut, "centiles extrêmaux\n")   
 #'Les élus, vacataires et assistantes maternelles sont retirés du périmètre.   
 #'TC :  personnels à temps complet sur toute l'année            
 #'Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant eu, sur l'année, des rémunérations non annexes.  
@@ -319,7 +312,7 @@ conditionnel("Lien vers la base de données", "Bases/Remunerations/Analyse.varia
 #'     
 #'**Afin d'apprécier la sensibilité des résultats à la qualité ou aux valeurs extrêmes des données, le filtrage suivant est à présent appliqué.**    
 #'**Sont retirés les valeurs manquantes des variations, les centiles extrêmaux, les rémunérations nettes négatives (rappels) ou proche de zéro.**     
-#'**Un statut explicite doit être renseigné en fin de période. Des rémunérations doivent être versées à la fois en début et en fin de période de paiement de l'agent, supérieures à `r minimum.positif`. Le nombre de jours d'exercice doit être supérieur à `r 2 * seuil.troncature` .**                 
+cat("**Un statut explicite doit être renseigné en fin de période. Des rémunérations doivent être versées à la fois en début et en fin de période de paiement de l'agent, supérieures à ", minimum.positif, ". Le nombre de jours d'exercice doit être supérieur à ", 2 * seuil.troncature, ".**\n")                 
 #'**Ces filtres sont référencés ci-après par les termes "filtres sur RMPP".**          
 
 # Appliquer les filtres maintenant
@@ -394,12 +387,12 @@ if (durée.sous.revue > 1) {
 conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthese.csv")
 #'
 #'**Nota**   
-#'*Personnes en place :* en fonction au moins deux années consécutives avec la même quotite sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`    
+cat("*Personnes en place :* en fonction au moins deux années consécutives avec la même quotite sur la période", début.période.sous.revue, " à ", fin.période.sous.revue, "\n")    
 #'*Variation sur la période d'activité :* entre l'arrivée et le départ de la personne      
 #'*Variation normalisée :* conforme à la définition INSEE (présente en début et en fin de période avec la même quotite)  
 #'  
 #'**Commentaire**       
-#'Les différences éventuelles constatées entre l'évolution de la RMPP au tableau `r numéro.tableau-2` sont dues soit à l'effet de noria soit à l'effet périmètre.    
+cat("Les différences éventuelles constatées entre l'évolution de la RMPP au tableau ", numéro.tableau-2, "sont dues soit à l'effet de noria soit à l'effet périmètre.\n")    
 #'      
 
 detach(Analyse.variations)
@@ -480,7 +473,7 @@ essayer(invisible(noria(champ = "brut", filtre = c("TITULAIRE", "STAGIAIRE"))),
 ##### 4.3.5 Effet de noria et de variation d'effectifs sur rémunérations moyennes par catégorie statutaire  ######
 
 #'
-#'### `r chapitre`.3.5 Effet de noria et de variation d'effectifs sur rémunérations moyennes par catégorie statutaire             
+#'### 4.3.5 Effet de noria et de variation d'effectifs sur rémunérations moyennes par catégorie statutaire             
 #'   
 #'   
 #'**Effet de noria et de variations d'effectifs sur rémunérations nettes moyennes EQTP des fonctionnaires de catégorie A**   
@@ -553,11 +546,10 @@ net.grades <<- net.eqtp(variation = TRUE)
 net.emplois <- net.eqtp.emploi(variation = TRUE)
 net.services <- net.eqtp.serv(variation = TRUE)
 
-#Sauv.base("Remunerations", "net.emplois")
-Sauv.base("Remunerations", "net.grades")
-
+fwrite(net.emplois, "net.emplois.csv", sep = ";", dec = ",") 
+fwrite(net.grades, "net.grades.csv", sep = ";", dec = ",") 
 csvfiles  <- list.files(".", pattern = "^net.serv..*.csv")
-
+system2(file.path(currentDir, "linux/utf82latin1"), system.quote(csvfiles), stderr = NULL, stdout = NULL)
 zip("net.services.zip", csvfiles)
 invisible(file.remove(csvfiles))
 

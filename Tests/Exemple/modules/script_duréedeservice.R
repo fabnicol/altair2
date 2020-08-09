@@ -1,7 +1,7 @@
 
 #'## 1.6 Effectifs des personnels par durée de service
 #'
-#'**Personnels en fonction (hors élus) des exercices `r début.période.sous.revue` à `r fin.période.sous.revue` inclus :**
+cat("**Personnels en fonction (hors élus) des exercices ", début.période.sous.revue, " à ", fin.période.sous.revue," inclus :**\n")
 #'
 
 #'  

@@ -36,9 +36,10 @@
 # 
 # 
 
+encodage.code.source <- "UTF-8"
 
-source("prologue_rapport.R", encoding = "UTF-8")
-rep <- reps
+source("prologue_rapport.R", encoding = encodage.code.source)
+
 for (rep in reps) {
   
   env <<- new.env()
@@ -56,7 +57,7 @@ for (rep in reps) {
   invisible(file.remove(list.files(chemin.modules, "*.Rmd", full.name = TRUE)))
   
   res <- try({
-      source("rapport_msword_start.R", encoding = "UTF-8", echo = TRUE)
+      source("rapport_msword_start.R", encoding = encodage.code.source, echo = TRUE)
   })
   
   if (inherits(res, "try-error")) {
@@ -65,12 +66,8 @@ for (rep in reps) {
       message(paste("*", rep, "N'a pas pu être traité"))
       message("*")
       message("************************")
-  
+      setwd(currentDir)
   }
-  
-  setwd(currentDir)
-  
-  message("Dossier courant : ", getwd())
   
  rm(list = setdiff(ls(), script_env))
 }

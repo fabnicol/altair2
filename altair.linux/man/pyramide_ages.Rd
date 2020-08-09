@@ -4,16 +4,10 @@
 \alias{pyramide_ages}
 \title{Pyramide des âges.}
 \usage{
-pyramide_ages(
-  Avant,
-  Après = NULL,
-  titre = "",
+pyramide_ages(Avant, Après = NULL, titre = "",
   date.début = début.période.sous.revue,
-  date.fin = fin.période.sous.revue,
-  versant = "",
-  couleur_H = "darkslateblue",
-  couleur_F = "firebrick4"
-)
+  date.fin = fin.période.sous.revue, versant = "",
+  couleur_H = "darkslateblue", couleur_F = "firebrick4")
 }
 \arguments{
 \item{Avant}{data.table/data.frame décrivant la situation en début de période
@@ -56,5 +50,5 @@ Une liste de deux vecteurs numériques représentant chacun des axes (gauche pui
 Elabore une pyramide des âges verticale avec superposition du début et de la fin de la période sous revue.
 }
 \examples{
-pyramide_ages(df1, NULL, "Pyramide des Ã¢ges", 2008, 2012, versant = "FPT", comparer = TRUE)
+pyramide_ages(df1, NULL, "Pyramide des âges", 2008, 2012, versant = "FPT", comparer = TRUE)
 }

@@ -1,6 +1,7 @@
 
+encodage.code.source <- "UTF-8" 
 
-source("prologue_source.R", encoding = "UTF-8")
+source("prologue_source.R", encoding = encodage.code.source)
 
 for (rep in reps) {
   
@@ -15,9 +16,9 @@ for (rep in reps) {
   setwd(chemin.dossier)
   
   res <- try({
-      source(file.path("syspaths.R"), encoding = "UTF-8")
+      source(file.path("syspaths.R"), encoding = encodage.code.source)
     
-      source(file.path("altair_start.R"), encoding = "UTF-8", echo = TRUE)
+      source(file.path("altair_start.R"), encoding = encodage.code.source, echo = TRUE)
     
   })
   
@@ -27,12 +28,8 @@ for (rep in reps) {
       message(paste("*", rep, "N'a pas pu être traité"))
       message("*")
       message("************************")
-  
+      setwd(currentDir)
   }
-  
-  setwd(currentDir)
-  
-  message("Dossier courant : ", getwd())
   
   if (! debug.code)  rm(list=setdiff(ls(), script_env))
 }

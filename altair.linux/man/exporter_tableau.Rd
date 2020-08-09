@@ -4,12 +4,9 @@
 \alias{exporter_tableau}
 \title{Apparier la base des lignes de paye et une table de jointure}
 \usage{
-exporter_tableau(
-  table.jointure,
-  requis,
+exporter_tableau(table.jointure, requis,
   clés = intersect(names(table.jointure), names(Paie)),
-  calculer.indice.complexité = FALSE
-)
+  calculer.indice.complexité = FALSE)
 }
 \arguments{
 \item{table.jointure}{Tableau au format \code{data.table} indiquant la correspondance entre des clés appartenant à une \code{data.table} et un ou plusieurs vecteurs à rajouter à cette base.}

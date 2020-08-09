@@ -4,7 +4,7 @@
 \alias{type.données}
 \title{Contrôle le type des données d'entrée}
 \usage{
-type.donn攼㸹es(colonnes)
+type.données(colonnes)
 }
 \arguments{
 \item{colonnes}{Vecteur des noms de colonnes de la table globale}

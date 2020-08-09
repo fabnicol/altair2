@@ -4,21 +4,10 @@
 \alias{eqtp.grade}
 \title{Tableau des EQTP par grade.}
 \usage{
-eqtp.grade(
-  Base = Bulletins.paie,
-  grade = NULL,
-  emploi = NULL,
-  classe = NULL,
-  service = NULL,
-  libellés = NULL,
-  agr = FALSE,
-  période = NULL,
-  variation = FALSE,
-  statut = NULL,
-  catégorie = NULL,
-  exclure.codes = NULL,
-  quotite.nulle = FALSE
-)
+eqtp.grade(Base = Bulletins.paie, grade = NULL, emploi = NULL,
+  classe = NULL, service = NULL, libellés = NULL, agr = FALSE,
+  période = NULL, variation = FALSE, statut = NULL,
+  catégorie = NULL, exclure.codes = NULL, quotite.nulle = FALSE)
 }
 \arguments{
 \item{Base}{Base des bulletins de paye, comportant pour l'ensemble de la période

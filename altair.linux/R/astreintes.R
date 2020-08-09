@@ -35,7 +35,7 @@ essayer({
                                                      by = "Annee"],
                             list("Total", Controle_astreintes[, round(sum(Montant.astreinte), 1)]))
   
-  sauv.bases("Reglementation",
+  sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
              environment(),
              "Controle_astreintes",
              "libelles.astreintes")
@@ -79,7 +79,7 @@ cumul_astreintes_IHTS <- function() {
                                         Controle_astreintes_HS_irreg[indic_astr == TRUE, round(sum(Montant), 1)],
                                         Controle_astreintes_HS_irreg[indic_IHTS == TRUE, round(sum(Montant), 1)]))
   
-  sauv.bases("Reglementation",
+  sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
              environment(),
              "Controle_astreintes_HS_irreg",
              "Cum_astreintes_HS_irreg")

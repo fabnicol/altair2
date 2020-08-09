@@ -9,7 +9,7 @@
 
 #+ ipf
 
-résultat_IPF   <<- test_prime(prime_IPF, prime_IFTS, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
+résultat_IPF   <- test_prime(prime_IPF, prime_IFTS, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
 
 #'   
 #'    
@@ -25,7 +25,7 @@ conditionnel("Lien vers la base de données IPF non cat.A", "Bases/Reglementatio
 conditionnel("Lien vers la base de données IPF non tit", "Bases/Reglementation/IPF.non.tit.csv")       
 #'   
 
-résultat_IPF   <<- test_prime(prime_IPF, prime_PFR, Paie_I, Paie_PFR, Lignes_PFR, verbeux = afficher.table.effectifs)
+résultat_IPF   <- test_prime(prime_IPF, prime_PFR, Paie_I, Paie_PFR, Lignes_PFR, verbeux = afficher.table.effectifs)
 
 #'    
 #'&nbsp;*Tableau 5.9.2 : Cumul IPF/PFR*   
@@ -38,7 +38,7 @@ tableau_cumuls(résultat_IPF)
 conditionnel("Lien vers la base de données cumuls ipf/pfr", "Bases/Reglementation/personnels.ipf.pfr.csv")    
 #'   
 
-résultat_IPF   <<- test_prime(prime_IPF, prime_ISS, Paie_I, Paie_ISS, Lignes_ISS, verbeux = afficher.table.effectifs)
+résultat_IPF   <- test_prime(prime_IPF, prime_ISS, Paie_I, Paie_ISS, Lignes_ISS, verbeux = afficher.table.effectifs)
 
 #'    
 #'&nbsp;*Tableau 5.9.3 : Cumul IPF/ISS*   

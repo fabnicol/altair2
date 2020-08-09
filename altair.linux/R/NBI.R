@@ -234,11 +234,11 @@ calcul_NBI <- function() {
     if (! is.null(T2a) && nrow(T2a) >  0)
     "rappels.nbi" %a% T2a[ , sum(nbi.cum.rappels, na.rm = TRUE)]
     
-    sauv.bases("Reglementation", 
+    sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
                environment(),
                "NBI.aux.non.titulaires")
     
-    sauv.bases("Fiabilite", 
+    sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"), 
                environment(),
                "lignes.nbi.anormales",
                "lignes.nbi.anormales.hors.rappels",
@@ -287,7 +287,7 @@ proratisation_NBI <- function() {
     nrow(lignes.nbi.anormales.mensuel),
     round(montants.nbi.anormales.mensuel)))
   
-  sauv.bases("Fiabilite", 
+  sauv.bases(file.path(chemin.dossier.bases, "Fiabilite"), 
              environment(),
              "lignes.nbi.anormales.mensuel",
              "lignes.paie.nbi.anormales.mensuel")
@@ -345,7 +345,7 @@ catégories_NBI <- function() {
     nombre.mat.NBI.irrég,
     round(coût.total, 1)))
   
-  sauv.bases("Reglementation", 
+  sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
              .GlobalEnv,
              "NBI.cat.irreg")
   

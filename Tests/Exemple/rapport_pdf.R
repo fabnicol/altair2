@@ -36,8 +36,8 @@
 # 
 # 
 
-
-source("prologue_rapport.R", encoding = "UTF-8")
+encodage.code.source <- "UTF-8"
+source("prologue_rapport.R", encoding = encodage.code.source)
 
 # Pour chaque répertoire de la clé (dossier R-Altair,export des bases CSV),
 # écraser les rapports et sourcer rapport_pdf_start.R
@@ -70,12 +70,8 @@ for (rep in reps) {
       message(paste("*", rep, "N'a pas pu être traité"))
       message("*")
       message("************************")
-      
+      setwd(currentDir)
   }
-  
-  setwd(currentDir)
-  
-  message("Dossier courant : ", getwd())
   
 if (! debug.code)
  rm(list = setdiff(ls(), script_env))

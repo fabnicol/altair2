@@ -98,8 +98,8 @@ produire_pyramides_ <- function(Filtre_bulletins, titre, versant = "", envir) {
   
   # Sauvegarde des bases des âges début et fin de période sous revue
   
-  Sauv.base("Effectifs",  "ages.début.psr", envir$nom.fichier.avant, environment = environment())
-  Sauv.base("Effectifs",  "ages.fin.psr", envir$nom.fichier.après, environment = environment())
+  Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "ages.début.psr", envir$nom.fichier.avant, environment = environment(), Latin = FALSE)
+  Sauv.base(file.path(chemin.dossier.bases, "Effectifs"),  "ages.fin.psr", envir$nom.fichier.après, environment = environment(), Latin = FALSE)
   
 }
 
@@ -121,16 +121,13 @@ envir$res <- Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.
                align = 'c',
                type = "standard")
 
-mesg1 <- FALSE
-mesg2 <- FALSE
-
 if (longueur.non.na(ages.début.psr) == 0) {
-  mesg1 <- TRUE
+  cat("La pyramide des âges de début de période ne peut être produite.")
   ages.début.psr <- ages.fin.psr
 } 
 
 if (longueur.non.na(ages.fin.psr) == 0) {
-  mesg2 <- TRUE
+  cat("La pyramide des âges de fin de période ne peut être produite.")
   ages.fin.psr <- ages.début.psr
 }
 
@@ -165,14 +162,6 @@ if (longueur.non.na(ages.début.psr) > 0 || longueur.non.na(ages.fin.psr) > 0) {
                       , Total := Hommes + Femmes]
   
   H <- H1 - H0
-  
-  if (mesg1) {
-     cat("\nLa pyramide des âges de début de période ne peut être produite.\n   ")
-  }
-  
-  if (mesg2) {
-     cat("\nLa pyramide des âges de fin de période ne peut être produite.\n   ")
-  }
     
 } 
 

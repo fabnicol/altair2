@@ -1,5 +1,5 @@
 #'@export
-evolution_net_hist_1 <- function() {
+evolution_net_hist <- function() {
 
   calcul_rmpp()
   
@@ -14,12 +14,9 @@ evolution_net_hist_1 <- function() {
          nclass = 200)
   }, "Le graphique des rémunérations moyennes n'a pas pu être généré")
   
-}
-
-#'@export
-evolution_net_hist_2 <- function() {
+  #'    
+  #+ fig.height=4.5   
   
-
   temp <- na.omit(moyenne.rémunération.annuelle.sur.période[moyenne.rémunération.annuelle.sur.période > minimum.positif
                                                             & (statut == "TITULAIRE"  | statut == "STAGIAIRE")] / 1000)
   

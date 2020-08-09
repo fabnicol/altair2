@@ -36,10 +36,10 @@
 # 
 # 
 # prologue 
-# doit être encodé en UTF-8 au moins sous Linux. 
+# doit être encodé en UTF-8 au moins sous Linux. A vérifier sous Windows...pour l'interface graphique
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
-# dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
+# dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période.sous.revue et fin.période .sous.revue
 # Dans ce cas fixer extraire.années en valeur TRUE.
 # Sinon le programme travaille sur l'ensemble des années disponibles dans la base : elles sont détectées automatiquement.
 
@@ -80,6 +80,7 @@ test.delta                     <- FALSE
 if (! exists("PDF"))       PDF <<- FALSE
 keep_md                        <- FALSE
 utiliser.cplusplus.sft         <- FALSE
+sécuriser.types.sortie         <- TRUE
 utiliser.variable.Heures.Sup.  <- FALSE    # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unite
 noria.sur.base.de.paie         <- FALSE    # calculer effet de noria sur base de paie uniquement (pas de fichier E/S)
 sauter.tests.statutaires       <- FALSE
@@ -91,8 +92,7 @@ logements.existe               <- TRUE
 plafonds.ifse.existe           <- TRUE
 apparier.sur.trois.clés        <- FALSE
 fichiers.temp                  <- FALSE
-
-encodage.code.source           <- "UTF-8"
+convertir.latin1               <- TRUE
 
 numéro.tableau                 <- 0        # Numérotation de départ des tableaux
 chapitre                       <- 1        # Numérotation de départ des chapitres
@@ -136,7 +136,7 @@ liste.exclusions <- NULL
 try ({
   chemin.liste.exclusions <- chemin("liste.exclusions.txt")
   if (file.exists(chemin.liste.exclusions))
-    liste.exclusions <- read.delim(chemin.liste.exclusions, encoding="UTF-8", stringsAsFactors = FALSE)[[1]]
+    liste.exclusions <- read.delim(chemin.liste.exclusions, encoding=encodage.code.source, stringsAsFactors = FALSE)[[1]]
 }, silent=TRUE)
 
 
@@ -145,6 +145,17 @@ nom.fichier.paie            <- paste0(racine, "Table")
 nom.bulletin.paie           <- paste0(racine, "Bulletins")
 nom.table                   <- "Table"
 nom.bulletins               <- "Bulletins"
+
+# Outils
+
+if (setOSWindows) {
+  chemin.dossier.outils <- file.path(currentDir, "Outils")
+  iconv <- file.path(chemin.dossier.outils, paste0("iconv", exec.root))
+  sed   <- file.path(chemin.dossier.outils, paste0("sed", exec.root))
+} else {
+  iconv <- "iconv"
+  sed   <- "sed"
+}
 
 
 # FORMATS
@@ -169,6 +180,16 @@ date.format                    <- "%d/%m/%Y"
 
 
 ########## Problématique ##############
+
+
+# A priori les deux modes de lectures de tables (rapide et standard) lisent aussi bien le Windows ANSI/ISO-8859-1 que
+# l'UTF-8 à condition que le Windows ANSI soit encodé par Excel ou l'éditeur de RStudio.
+
+encodage.entrée                <-  "ISO-8859-1"
+  # "WINDOWS-1252"
+  # "UTF-8"
+encodage.entrée.xhl2csv        <-   encodage.entrée
+convertir.latin                <-   FALSE
 
 # expressions régulières
 
