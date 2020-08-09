@@ -4,11 +4,22 @@
 \alias{net.eqtp.emploi}
 \title{Tableau des rémunérations nettes moyennes par emploi.}
 \usage{
-net.eqtp.emploi(Base = Paie, grade = NULL, emploi = NULL,
-  classe = NULL, service = NULL, libellés = NULL, agr = FALSE,
-  période = NULL, variation = FALSE, statut = NULL,
-  catégorie = NULL, exclure.codes = NULL, exclure.sft = FALSE,
-  quotite.nulle = FALSE)
+net.eqtp.emploi(
+  Base = Paie,
+  grade = NULL,
+  emploi = NULL,
+  classe = NULL,
+  service = NULL,
+  libellés = NULL,
+  agr = FALSE,
+  période = NULL,
+  variation = FALSE,
+  statut = NULL,
+  catégorie = NULL,
+  exclure.codes = NULL,
+  exclure.sft = FALSE,
+  quotite.nulle = FALSE
+)
 }
 \arguments{
 \item{Base}{Base des bulletins de paye, comportant pour l'ensemble de la période

@@ -37,7 +37,7 @@ Evenements.ind <- setkey(Bulletins.paie[Evenement != "" & Evenement != "NA NA",
                          Annee,
                          Mois)
 
-Evenements.mat <- setcolorder(setkey(copy(Evenements.ind), 
+Evenements.mat <- setcolorder(setkey(data.table::copy(Evenements.ind), 
                                      Matricule,
                                      Annee,
                                      Mois,

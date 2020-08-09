@@ -4,10 +4,16 @@
 \alias{pyramide_ages}
 \title{Pyramide des âges.}
 \usage{
-pyramide_ages(Avant, Après = NULL, titre = "",
+pyramide_ages(
+  Avant,
+  Après = NULL,
+  titre = "",
   date.début = début.période.sous.revue,
-  date.fin = fin.période.sous.revue, versant = "",
-  couleur_H = "darkslateblue", couleur_F = "firebrick4")
+  date.fin = fin.période.sous.revue,
+  versant = "",
+  couleur_H = "darkslateblue",
+  couleur_F = "firebrick4"
+)
 }
 \arguments{
 \item{Avant}{data.table/data.frame décrivant la situation en début de période

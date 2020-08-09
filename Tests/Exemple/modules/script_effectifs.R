@@ -16,9 +16,9 @@ message("Démographie...")
 
 tableau.effectifs <<- effectifs(période, Bulletins.paie, Analyse.remunerations, Analyse.variations)
 
-tableau.effectifs.grades <- eqtp.grade(variation = TRUE)
+tableau.effectifs.grades <<- eqtp.grade(variation = TRUE)
 
-tableau.effectifs.emplois <- eqtp.emploi(variation = TRUE)
+tableau.effectifs.emplois <<- eqtp.emploi(variation = TRUE)
 
 #'  
 #  

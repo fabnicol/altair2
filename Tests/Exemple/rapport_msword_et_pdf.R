@@ -36,7 +36,7 @@
 # 
 # 
 
-source("prologue_rapport.R", encoding = encodage.code.source)
+source("prologue_rapport.R", encoding = "UTF-8")
 
 for (rep in reps) {
   

@@ -4,8 +4,7 @@
 \alias{essayer}
 \title{Essaye d'exécuter une portion de code et en cas d'erreur continue l'exécution du script en renvoyant un message d'erreur non bloquant.}
 \usage{
-essayer(X, Y, abort = FALSE, prof = profiler, times = 5,
-  label = "")
+essayer(X, Y, abort = FALSE, prof = profiler, times = 5, label = "")
 }
 \arguments{
 \item{abort}{Arrêt du programme en cas d'erreur.}

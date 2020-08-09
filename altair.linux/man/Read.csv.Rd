@@ -4,11 +4,16 @@
 \alias{Read.csv}
 \title{Lecture d'une série de bases CSV}
 \usage{
-Read.csv(base.string, fichiers, charger = TRUE, colClasses = NA,
-  skip = 0, drop = NULL,
+Read.csv(
+  base.string,
+  fichiers,
+  charger = TRUE,
+  colClasses = NA,
+  skip = 0,
+  drop = NULL,
   séparateur.liste = séparateur.liste.entrée,
-  séparateur.décimal = séparateur.décimal.entrée, rapide = FALSE,
-  convertir.encodage = TRUE, encodage = encodage.entrée)
+  séparateur.décimal = séparateur.décimal.entrée
+)
 }
 \arguments{
 \item{base.string}{Vecteur de caractères du nom de l'objet data.table retourné}
@@ -26,12 +31,6 @@ Read.csv(base.string, fichiers, charger = TRUE, colClasses = NA,
 \item{séparateur.liste}{Séparateur des champs CSV}
 
 \item{séparateur.décimal}{Séparateur décimal}
-
-\item{rapide}{Accélération parallèle ou pas}
-
-\item{convertir.encodage}{convertir d'encodage (basculer entre Latin-1 et UTF-8)}
-
-\item{encodage}{Encodage de la base d'entrée.}
 }
 \value{
 Objet \code{data.table} résultant de l'empilement des bases lues.
@@ -45,10 +44,7 @@ res  <- try(Read.csv("base",
                      "test.csv",
                       colClasses = c("integer", "integer"),
                       séparateur.liste = ";",
-                      séparateur.décimal = ",",
-                      convertir.encodage = FALSE,
-                      encodage = "UTF-8",
-                      rapide = TRUE),
+                      séparateur.décimal = ","),
           silent = FALSE)
 if (inherits(res, 'try-error'))
   stop("Problème de lecture de la base de la table bulletins-lignes de Paie")

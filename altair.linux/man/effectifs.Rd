@@ -4,8 +4,12 @@
 \alias{effectifs}
 \title{Tableau des effectifs.}
 \usage{
-effectifs(période, Bulletins = Bulletins.paie,
-  personnels = Analyse.remunerations, Analyse.v = Analyse.variations)
+effectifs(
+  période,
+  Bulletins = Bulletins.paie,
+  personnels = Analyse.remunerations,
+  Analyse.v = Analyse.variations
+)
 }
 \arguments{
 \item{période}{Vecteur des années de la période sous revue}
@@ -23,9 +27,6 @@ effectifs(période, Bulletins = Bulletins.paie,
          \item{\code{nb.mois}}{entier entre 0 et 12}}}
    \item{ la variable booléenne :
        \describe{\item{\code{permanent}}{12 bulletins sur l'année}}}}.}
-
-\item{Analyse}{Base des analyses de rémunérations, comptant les variables :
-\code{Filtre_actif, Filtre_annexe, Statut, Matricule, Annee}}
 
 \item{Analyse}{Base des analyses de variations de rémunérations, comptant les variables :
 \code{temps.complet, est.rmpp, statut, Matricule, Annee, permanent}}

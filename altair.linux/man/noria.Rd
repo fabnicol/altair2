@@ -4,11 +4,18 @@
 \alias{noria}
 \title{Décomposition de l'évolution des salaires, RMPP, SMPT et GVT}
 \usage{
-noria(Bulletins = Bulletins.paie,
-  Base = Analyse.variations.par.exercice, classe = "",
-  champ = "brut", filtre = "", fichier = "", dec = ",",
-  sep = ";", encoding = "UTF-8", afficher.tableau = TRUE,
-  controle.quotite = FALSE)
+noria(
+  Bulletins = Bulletins.paie,
+  Base = Analyse.variations.par.exercice,
+  classe = "",
+  champ = "brut",
+  filtre = "",
+  fichier = "",
+  dec = ",",
+  sep = ";",
+  afficher.tableau = TRUE,
+  controle.quotite = FALSE
+)
 }
 \arguments{
 \item{Bulletins}{Base mensuelle des bulletins de paie, comportant pour l'ensemble de la période
@@ -63,8 +70,6 @@ Si présent, fichier indique le chemin complet du fichier des entrées-sorties, 
 \item{dec}{Paramètre \code{dec} de la fonction \code{data.table::fread}.}
 
 \item{sep}{Paramètre \code{sep} de la fonction \code{data.table::fread}.}
-
-\item{encoding}{Paramètre \code{encoding} de la fonction \code{data.table::fread}.}
 
 \item{afficher.tableau}{Si TRUE, affiche quatre tableaux correspondant à la valeur de retour sur la sortie standard.}
 

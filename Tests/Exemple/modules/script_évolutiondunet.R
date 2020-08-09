@@ -548,12 +548,13 @@ conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthe
 
 setwd(file.path(chemin.dossier.bases, "Remunerations"))
       
-net.grades <<- net.eqtp(variation = TRUE)
-net.emplois <- net.eqtp.emploi(variation = TRUE)
-net.services <- net.eqtp.serv(variation = TRUE)
+net.grades   <<- net.eqtp(variation = TRUE)
+net.emplois  <<- net.eqtp.emploi(variation = TRUE)
+net.services <<- net.eqtp.serv(variation = TRUE)
 
-Sauv.base("Remunerations", net.emplois) 
-Sauv.base("Remunerations", net.grades) 
+Sauv.base("Remunerations", "net.emplois") 
+Sauv.base("Remunerations", "net.grades")
+Sauv.base("Remunerations", "net.services") 
 
 csvfiles  <- list.files(".", pattern = "^net.serv..*.csv")
 zip("net.services.zip", csvfiles)

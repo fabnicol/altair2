@@ -4,11 +4,22 @@
 \alias{net.eqtp.serv}
 \title{Tableau des rémunérations nettes moyennes par grade et service.}
 \usage{
-net.eqtp.serv(Base = Paie, grade = NULL, emploi = NULL,
-  classe = NULL, service = NULL, libellés = NULL, agr = FALSE,
-  période = NULL, variation = FALSE, statut = NULL,
-  catégorie = NULL, exclure.codes = NULL, quotite.nulle = FALSE,
-  type = "G")
+net.eqtp.serv(
+  Base = Paie,
+  grade = NULL,
+  emploi = NULL,
+  classe = NULL,
+  service = NULL,
+  libellés = NULL,
+  agr = FALSE,
+  période = NULL,
+  variation = FALSE,
+  statut = NULL,
+  catégorie = NULL,
+  exclure.codes = NULL,
+  quotite.nulle = FALSE,
+  type = "G"
+)
 }
 \arguments{
 \item{Base}{Base des bulletins de paye, comportant pour l'ensemble de la période

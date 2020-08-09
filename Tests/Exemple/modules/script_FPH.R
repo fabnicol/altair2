@@ -39,9 +39,9 @@ prime_FPH_test <- function(prime, prime_lit, base, expr = NULL) {
         DT[ , sum(Montant, na.rm = TRUE)], "euros.")
   }
   
-  assign(base,  DT, .GlobalEnv)
+  assign("base",  DT, .GlobalEnv)
 
-  Sauv.base("Reglementation", base) 
+  Sauv.base("Reglementation", "base") 
   primes <- unique(DT$Libelle)
   
   primes.potentielles <- if (length(primes) == 0) "aucune" else paste(primes, collapse = " ;")

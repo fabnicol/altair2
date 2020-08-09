@@ -4,8 +4,7 @@
 \alias{filtrer_Paie}
 \title{Filtrage d'une base de paye}
 \usage{
-filtrer_Paie(x, portée = NULL, Base = Paie, Var = "Code",
-  indic = FALSE)
+filtrer_Paie(x, portée = NULL, Base = Paie, Var = "Code", indic = FALSE)
 }
 \description{
 Filtre la base par une expression régulière sur libellés de paye ou par valeurs fixes sur une variable donnée.

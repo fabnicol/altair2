@@ -266,8 +266,7 @@ scripts <-
 opts_knit$set(output.dir=getwd())
 
 générer.partie <- function(script, séquentiel = FALSE) {
-  
-générer.partie <- function(script, seq) {
+
                               invisible(lapply(script, function(x) do.call(insérer_script, 
                                                                              as.list(na.omit(c(file.path(chemin.modules, x[1]),
                                                                                              x[-1])))))) 
