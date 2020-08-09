@@ -62,88 +62,29 @@
 chemin <-  function(fichier)
   file.path(chemin.dossier.données, fichier)
 
-#' Conversion d'un fichier de ISO-8859-15 en UTF-8
-#'
-#' Conversion d'un fichier de ISO-8859-15 en UTF-8
-#'
-#' @param nom Chemin du fichier à encoder
-#' @param encodage.in (= encodage.entrée) Encodage du fichier de lecture
-#' @return Lancement dun appel système à iconv -t UTF-8
-#' @export
-
-file2utf8 <- function(nom, encodage.in = "ISO-8859-15")  {
- err <- system2(iconv, c("-f", encodage.in, "-t", "UTF-8", shQuote(nom), "-c", "-o", "temp"))
- if (! err)  err <- system2("mv", c("temp", shQuote(nom))) else stop("Erreur d'encodage avec iconv")
- if (err) stop("Erreur de copie fichier après encodage avec iconv")
-}
-
-#' Conversion d'un fichier en ISO-8859-15
-#'
-#' Conversion d'un fichier de UTF-8 en ISO-8859-15
-#'
-#' @param nom Chemin du fichier à encoder
-#' @param encodage.in (= encodage.entrée) Encodage du fichier de lecture
-#' @return Lancement dun appel système à iconv -t ISO-8859-15
-#' @export
-
-file2Latin <- function(nom, encodage.in = "UTF-8")  {
-
-  err <- system2(iconv, c("-f", encodage.in, "-t", "ISO-8859-15", shQuote(nom), "-c", "-o", "temp"))
-  if (! err)  err <- system2("mv", c("temp", shQuote(nom))) else stop("Erreur d'encodage Latin avec iconv")
-  if (err)  stop("Erreur de copie fichier après encodage Latin avec iconv")
-}
-
 #' Lecture d'une base CSV
 #'
 #' Lecture d'un fichier CSV et conversion en data.table.
 #' Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
 #'
-#' @param encodage Encodage de la base lue. Valeur par défaut : encodage.entrée
 #' @param classes Les classes ("character", "numeric") des variables en colonnes
 #' @param drop  Rang de la colonne à supprimer
 #' @param skip  Nombre de lignes à sauter en début de fichier (défaut aucune).
-#' @param rapide Booléen (= FALSE). Si TRUE, et si convertir.encodage est TRUE, convertir en UTF-8 avant lecture.
 #' @param séparateur.liste = séparateur.liste.entrée,
 #' @param séparateur.décimal = séparateur.décimal.entrée,
-#' @param convertir.encodage (= TRUE) convertir en encodage UTF-8 avant lecture
 #' @return Une base data.table
 #' @examples
 #' read.csv.skip(Base, séparateur.décimal = ",")
 #' @export
 
 read.csv.skip <- function(x,
-                          encodage = encodage.entrée,
                           classes = NA,
                           drop = NULL,
                           skip = 0,
-                          rapide = FALSE,
                           séparateur.liste = séparateur.liste.entrée,
-                          séparateur.décimal = séparateur.décimal.entrée,
-                          convertir.encodage = TRUE)
+                          séparateur.décimal = séparateur.décimal.entrée)
 {
-  if (! rapide) {
-
-    T <- read.csv(x,
-                   comment.char = "",
-                   sep = séparateur.liste,
-                   dec = séparateur.décimal,
-                   colClasses = classes,
-                   skip = skip,
-                    # obsolète : trouver.valeur.skip(chem, encodage, séparateur.liste = séparateur.liste, séparateur.décimal = séparateur.décimal),
-                   encoding = encodage)
-
-    if (!is.null(drop)) { T <- T[-(drop)] }
-
-  } else {
-
-    if (encodage != "UTF-8" && convertir.encodage) {
-      message("La table en entrée doit être encodée en UTF-8")
-      if (convertir.encodage) message("Conversion via iconv du format " %+% encodage %+% " au format UTF-8...") else stop("Arrêt : convertir l'encodage de la table en UTF-8.")
-      file2utf8(x, encodage.in = encodage)
-  }
-
-    # data.table n'admet d'argument dec qu'à partir de la version 1.9.5
-
+ 
     if (is.na(classes)) classes = NULL
 
     T <- try(data.table::fread(x,
@@ -151,14 +92,11 @@ read.csv.skip <- function(x,
                       dec = séparateur.décimal,
                       header = TRUE,
                       skip = skip,
+                      encoding = "UTF-8",
                       colClasses = classes,
-                      showProgress = FALSE,
-                      encoding = "Latin-1"))
+                      showProgress = FALSE))
 
 
-  }
-
-  if (sécuriser.types.sortie) {
   # procédure de vérification et de coercition des type de sortie
   # il peut arriver que data.table produise des colonnes de type différent (classes.expost) de celui qui est demandé
   # par le paramètre classes. Cela peut arriver quand un charactère est utilisé à la place d'un chiffre dans les données
@@ -187,9 +125,9 @@ read.csv.skip <- function(x,
      })
     }
    }
-  }
+
   
-#names(T) <- iconv(names(T), to = "UTF-8")
+
 return(T)
 }
 
@@ -198,34 +136,31 @@ return(T)
 #' Sauvegarde d'une base data.table sous forme de fichier CSV
 #' Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
 #'
-#' @param chemin.dossier Chemin du dossier dans lequel la base sera sauvegardée
-#' @param nom Nom de l'objet à sauvegarder
+#' @param dossier Chemin du dossier dans lequel la base sera sauvegardée dans chemin.dossier.bases
+#' @param nom Chaîne de caractères du nom de l'objet à sauvegarder
 #' @param nom.sauv  Chaine de caractères du nom du fichier .csv sans l'extension
-#' @param Latin (= convertir.latin) Convertir en encodage latin ISO-8859-15
 #' @param sep (= séparateur.liste.sortie)
 #' @param dec (= séparateur.décimal.sortie),
 #' @param environment (= .GlobalEnv) environnement,
-#' @return Valeur booléenne de file.exists(file.path(chemin.dossier, nom.sauv %+% ".csv"))
 #' @examples
-#' Sauv.base("données", Base, "BaseDonnée", sep = ";", dec = ",")
+#' Sauv.base("Effectifs", "Base", "BaseDonnée")  -->  (dossier des bases) / Effectifs/BaseDonnée.csv
 #' @export
 #'
 
-Sauv.base <- function(chemin.dossier = "",
+Sauv.base <- function(dossier = "",
                       nom = "",
                       nom.sauv = nom,
-                      Latin = TRUE,
                       sep = séparateur.liste.sortie,
                       dec = séparateur.décimal.sortie,
                       environment = .GlobalEnv)
 {
-  if (chemin.dossier == "" || nom == "" || is.null(chemin.dossier) || is.null (nom)) return(FALSE)
+  if (dossier == "" || nom == "" || is.null(dossier) || is.null (nom)) return(FALSE)
   
   if (! sauvegarder.bases.analyse) return(FALSE)
 
   message("Sauvegarde de ", nom.sauv)
 
-  filepath <- file.path(chemin.dossier, nom.sauv) %+% ".csv"
+  filepath <- file.path(chemin.dossier.bases, dossier, nom.sauv) %+% ".csv"
 
   L <- get(nom, envir = environment)
 
@@ -233,15 +168,11 @@ Sauv.base <- function(chemin.dossier = "",
 
   data.table::fwrite(L,
              filepath,
+             bom = TRUE,
              sep = sep,
              dec = dec)
 
-  if (Latin) {
-    file2Latin(filepath)
-    message("Conversion de ", nom.sauv, " en encodage ISO-8859-15")
-  }
-
-  file.exists(file.path(chemin.dossier, nom.sauv %+% ".csv"))
+  
 }
 
 #' Insertion conditionnelle de texte dans le rapport
@@ -293,7 +224,7 @@ conditionnel <- function(msg = "", path = "") {
 
 sauv.bases <- function(chemin.dossier, env, ...)
 {
-  if (! dir.exists(chemin.dossier))
+  if (! dir.exists(file.path(chemin.dossier.bases, chemin.dossier)))
   {
     stop("Pas de dossier de travail spécifié")
   }
@@ -304,14 +235,13 @@ sauv.bases <- function(chemin.dossier, env, ...)
   tmp <- as.list(match.call())
   tmp[1] <- NULL
 
-  message("Dans le dossier ", chemin.dossier," :")
+  message("Dans le dossier ", file.path(chemin.dossier.bases, chemin.dossier)," :")
   invisible(lapply(tmp[-c(1:skiplist)], function(x) {
     if (exists(x, where = env))
     {
         Sauv.base(chemin.dossier,
                                x,
                                x,
-                           FALSE,
                environment = env)
     } else {
       message(x, "n'existe pas dans l'environnement.")
@@ -335,9 +265,6 @@ sauv.bases <- function(chemin.dossier, env, ...)
 #' @param drop        Rang de la colonne à supprimer
 #' @param séparateur.liste  Séparateur des champs CSV
 #' @param séparateur.décimal  Séparateur décimal
-#' @param rapide      Accélération parallèle ou pas
-#' @param convertir.encodage  convertir d'encodage (basculer entre Latin-1 et UTF-8)
-#' @param encodage    Encodage de la base d'entrée.
 #' @return Objet \code{data.table} résultant de l'empilement des bases lues.
 #' @examples
 #' test <- data.table(datasets::cars)
@@ -345,10 +272,7 @@ sauv.bases <- function(chemin.dossier, env, ...)
 #'                      "test.csv",
 #'                       colClasses = c("integer", "integer"),
 #'                       séparateur.liste = ";",
-#'                       séparateur.décimal = ",",
-#'                       convertir.encodage = FALSE,
-#'                       encodage = "UTF-8",
-#'                       rapide = TRUE),
+#'                       séparateur.décimal = ","),
 #'           silent = FALSE)
 #' if (inherits(res, 'try-error'))
 #'   stop("Problème de lecture de la base de la table bulletins-lignes de Paie")
@@ -360,10 +284,7 @@ Read.csv <- function(base.string, fichiers,
                      skip = 0,
                      drop = NULL,
                      séparateur.liste = séparateur.liste.entrée,
-                     séparateur.décimal = séparateur.décimal.entrée,
-                     rapide = FALSE,
-                     convertir.encodage = TRUE,
-                     encodage = encodage.entrée) {
+                     séparateur.décimal = séparateur.décimal.entrée) {
 
   Read.csv_(base.string,
             fichiers,
@@ -372,10 +293,7 @@ Read.csv <- function(base.string, fichiers,
             skip,
             drop,
             séparateur.liste,
-            séparateur.décimal,
-            rapide,
-            convertir.encodage,
-            encodage)
+            séparateur.décimal)
 }
 
 Read.csv_ <- function(base.string, fichiers,
@@ -384,10 +302,7 @@ Read.csv_ <- function(base.string, fichiers,
                       skip = 0,
                       drop = NULL,
                       séparateur.liste = séparateur.liste.entrée,
-                      séparateur.décimal = séparateur.décimal.entrée,
-                      rapide = FALSE,
-                      convertir.encodage = TRUE,
-                      encodage = encodage.entrée) {
+                      séparateur.décimal = séparateur.décimal.entrée) {
 
     if (charger) {
 
@@ -398,10 +313,7 @@ Read.csv_ <- function(base.string, fichiers,
                                         skip = skip,
                                         séparateur.liste = séparateur.liste,
                                         séparateur.décimal = séparateur.décimal,
-                                        drop = drop,
-                                        convertir.encodage = convertir.encodage,
-                                        encodage = encodage,
-                                        rapide = rapide)),
+                                        drop = drop)),
                envir = .GlobalEnv)
     }
 }
@@ -410,18 +322,17 @@ Read.csv_ <- function(base.string, fichiers,
 #'
 #' Lecture d'un fichier CSV et conversion en data.table.
 #' Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
-#'
-#' @param x Encodage de la base lue. Valeur par défaut : encodage.entrée
+#' @param X Vecteur de noms de variables en colonnes
 #' @param y Les classes ("character", "numeric") des variables en colonnes
 #' @param align  Rang de la colonne à supprimer
 #' @param extra  Nombre de lignes à sauter en début de fichier (défaut aucune).
-#' @param type Booléen (= FALSE). Si TRUE, et si convertir.encodage est TRUE, convertir en UTF-8 avant lecture.
+#' @param type Booléen (= FALSE). 
 #' @return Une base data.table
 #' @examples
 #' read.csv.skip(Base, séparateur.décimal = ",")
 #' @export
 
-Résumé <- function(x,
+Résumé <- function(X,
                    y,
                    align = 'r',
                    extra = 0,
@@ -503,9 +414,9 @@ essayer(label = "+quartiles", {
         }
       }
 
-     if (length(dimnames(S)[[2]]) == length(x) + 1) {
+     if (length(dimnames(S)[[2]]) == length(X) + 1) {
 
-       dimnames(S)[[2]] <- c("Statistique", x)
+       dimnames(S)[[2]] <- c("Statistique", X)
 
        kable(S, row.names = FALSE, align = align, booktabs = TRUE)
      } else {
@@ -746,9 +657,9 @@ longueur.non.na <- function(v) if (is.vector(v)) length(v[!is.na(v)]) else if (i
 
 newpage <- function() {
   if (PDF == TRUE) {
-  cat("  \n")
+  cat("\\newpage\n")
   } else {
-  cat("<p style=\"page-break-after:always;\"></p>")
+  cat("<div style=\"page-break-after: always;\"></div>")
   }
 }
 

@@ -105,7 +105,7 @@ exporter_tableau <- function(table.jointure, requis, clés = intersect(names(tab
 #' 
 #' Etablit la correspondance entre paye et comptabilité administrative (comptes 64 et 65)
 #' 
-#' @note Requiert l'utilisation d'une table de jointure importée \bold{paye_budget.csv} sous le répertoire \bold{Données}.
+#' @note Requiert l'utilisation d'une table de jointure importée \bold{paye_budget.csv} encodée en UTF-8 sous le répertoire \bold{Données}.
 #' A défaut, tente une association approximative à partir d'expressions rationnelles appliquées aux libellés de paye.  
 #' @return La \code{data.table code.libellé} résultant de la lecture du fichier \bold{paye_budget.csv} sous le répertoire \bold{Données}
 #' @export
@@ -122,7 +122,7 @@ correspondance_paye_budget <- function() {
     
     code.libelle <- fread(chemin("paye_budget.csv"), # Code, Libelle,  Statut, Type, Compte
                           sep = ";",
-                          encoding   = "Latin-1",
+                          encoding = "UTF-8",
                           col.names  = c(vect, "Compte"),
                           colClasses = c("character", "character", "character", "character", "character"))  
     
@@ -218,7 +218,7 @@ correspondance_paye_budget <- function() {
     }
   } else cat("Tableaux des correspondances bases de paye-budget : génération impossible.")
   
-  sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
+  sauv.bases("Reglementation", 
               environment(),
               "cumul.lignes.paie",
               "cumul.total.lignes.paie")

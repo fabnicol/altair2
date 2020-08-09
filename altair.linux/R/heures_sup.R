@@ -132,7 +132,7 @@ calcul_HS <- function() {
                  ][ ,  `:=`(Indice = NULL,
                               IR = NULL)]   
     
-    sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
+    sauv.bases("Reglementation", 
                environment(), 
                "lignes.IHTS",
                "lignes.IHTS.tot",
@@ -171,7 +171,7 @@ dépassements_HS <- function() {
     cat("Pas de dépassement détecté du maximum d'IHTS pouvant être liquidé au titre du mois.   \n")
   }
   
-  sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
+  sauv.bases("Reglementation",
              env = new.env(),
              "depassement.agent",
              "depassement.agent.annee")
@@ -372,7 +372,7 @@ plafonds_HS <- function() {
   print(Tableau(c("Nombre de lignes HS en excès", "Nombre de lignes IHTS cat. A"),
              nombre.Lignes.paie.HS.sup.25,   nombre.ihts.cat.A))
 
-  sauv.bases(file.path(chemin.dossier.bases, "Reglementation"),
+  sauv.bases("Reglementation",
              environment(),
              "HS.sup.25",
              "Depassement.seuil.180h",

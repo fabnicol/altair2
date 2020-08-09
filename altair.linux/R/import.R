@@ -60,10 +60,7 @@ importer.bases.via.xhl2csv <- function(base, fichiers, colClasses = colonnes.cla
                       fichiers,
                       colClasses = colClasses,
                       séparateur.liste = séparateur.liste.entrée,
-                      séparateur.décimal = séparateur.décimal.entrée,
-                      convertir.encodage = FALSE, #(encodage.entrée.xhl2csv != "UTF-8"),
-                      encodage = encodage.entrée.xhl2csv,
-                      rapide = TRUE),
+                      séparateur.décimal = séparateur.décimal.entrée),
              silent = FALSE)
   
   if (inherits(res, 'try-error'))
@@ -230,7 +227,7 @@ importer_matricules <- function() {
                                                    header = TRUE,
                                                    colClasses = c("numeric", "character", "character",
                                                                   "character", "character", "character", "character"),
-                                                   encoding = ifelse(setOSWindows, "Latin-1", "UTF-8"),
+                                                   encoding = "UTF-8",
                                                    showProgress = FALSE) 
     
     message("Chargement du fichier des catégories statutaires des personnels.")
@@ -303,7 +300,7 @@ identifier.personnels <- function() {
 
 
 
-#' Importer la base des logements de fonction
+#' Importer la base des logements de fonction (encodage UTF-8)
 #' @export
 #' 
 importer_base_logements <- function() {
@@ -312,7 +309,7 @@ importer_base_logements <- function() {
                                     sep = séparateur.liste.entrée,
                                     header = TRUE,
                                     colClasses = c("character", "integer", "integer", "character"),
-                                    encoding = "Latin-1",
+                                    encoding = "UTF-8",
                                     showProgress = FALSE) 
     
     message("Chargement du fichier des concessions de logement des personnels.")
@@ -330,7 +327,7 @@ importer_base_logements <- function() {
   return(base.logements)
 }
 
-#' Importer le base externe IFSE
+#' Importer le base externe IFSE (encodage UTF-8)
 #' @export
 #' 
 
@@ -342,7 +339,7 @@ importer_base_ifse <- function() {
                                    sep = séparateur.liste.entrée,
                                    header = TRUE,
                                    colClasses = c("character", "character", "character", "numeric"),  # Grade, Groupe, Logement, Plafond
-                                   encoding = "Latin-1",
+                                   encoding = "UTF-8",
                                    showProgress = FALSE) 
     
     message("Chargement du fichier des plafonds d'IFSE.")
@@ -392,7 +389,7 @@ Eliminer.duplications <- function() {
   Paie <- Paie[! duplications.vecteur]
   
   if (sauvegarder.bases.origine)
-    sauv.bases(chemin.dossier.bases, 
+    sauv.bases(".", 
                env = environment(),
                "duplications.paie")
   
@@ -405,11 +402,11 @@ Eliminer.duplications <- function() {
   Bulletins.paie <- Bulletins.paie[! duplications.vecteur] 
   
   if (sauvegarder.bases.origine) {
-    sauv.bases(chemin.dossier.bases, 
+    sauv.bases(".", 
                env = environment(),
                "duplications.paie")
     
-    sauv.bases(chemin.dossier.bases,
+    sauv.bases(".",
                env = environment(),
                "duplications.paie.bull")
   }
@@ -620,7 +617,7 @@ importer_ <- function() {
                                       nrows = 0,
                                       header = TRUE,
                                       #skip = champ.détection.1,
-                                      encoding = "Latin-1"))
+                                      encoding = "UTF-8"))
 
   colonnes <- gsub("à", "a", gsub("é", "e", gsub("è", "e", colonnes)))
   type.données(colonnes)
@@ -661,7 +658,7 @@ importer_ <- function() {
   setkey(Paie, Matricule, Annee, Mois)
   setkey(Bulletins.paie, Matricule, Annee, Mois)
   
-  # dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période.sous.revue et fin.période .sous.revue
+  # dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
   # dans le fichier prologue.R. Sinon le programme travaille sur l'ensemble des années disponibles.
   
   Extraire.années()

@@ -127,6 +127,6 @@ q3 <- quantile(Analyse.variations$variation.rémunération, c(quantile.cut/100, 
 "Filtre_rmpp_fonctionnaire" %a% function () Filtre_fonctionnaire() & (est.rmpp == TRUE)
 "masque.présent.sur.période" %a% bitwShiftL(1, durée.sous.revue - 1)      #  11111..1
 
-sauv.bases(file.path(chemin.dossier.bases, "Remunerations"), .GlobalEnv, "Anavar.synthese")
+sauv.bases("Remunerations", .GlobalEnv, "Anavar.synthese")
 }
 

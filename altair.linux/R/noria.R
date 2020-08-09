@@ -96,7 +96,6 @@
 #'                 \item{\code{Classe}}{une variable qualitative de type caractère définissant une sous-population.}}}}
 #' @param dec  Paramètre \code{dec} de la fonction \code{data.table::fread}.                 
 #' @param sep  Paramètre \code{sep} de la fonction \code{data.table::fread}. 
-#' @param encoding  Paramètre \code{encoding} de la fonction \code{data.table::fread}.
 #' @param afficher.tableau Si TRUE, affiche quatre tableaux correspondant à la valeur de retour sur la sortie standard.
 #' @param controle.quotite Si TRUE, calcule la RMPP comme dans la définition (quotites identiques sur deux exercices, à 0,1 point près). Si FALSE, relâche cette hypothèse.  
 #' @return Si afficher.tableau = TRUE : 
@@ -270,7 +269,6 @@ noria <- function(Bulletins = Bulletins.paie,
                   fichier = "", 
                   dec = ",", 
                   sep = ";",
-                  encoding = "UTF-8",
                   afficher.tableau = TRUE,
                   controle.quotite = FALSE) { 
 
@@ -286,7 +284,7 @@ if (length(période.translatée) < 2) {
 noria.sur.base.de.paie <- (fichier == ""  | ! file.exists(fichier))
 
 if (! noria.sur.base.de.paie){
-  ES <- fread(fichier, dec = dec, sep = sep, encoding = encoding)
+  ES <- fread(fichier, dec = dec, sep = sep, encoding = "UTF-8")
   
   ES$Matricule <- as.character(ES$Matricule)
   
