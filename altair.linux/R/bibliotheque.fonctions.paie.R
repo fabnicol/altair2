@@ -657,9 +657,9 @@ longueur.non.na <- function(v) if (is.vector(v)) length(v[!is.na(v)]) else if (i
 
 newpage <- function() {
   if (PDF == TRUE) {
-  cat("  \n")
+  cat("\\newpage\n")
   } else {
-  cat("<p style=\"page-break-after:always;\"></p>")
+  cat("<div style=\"page-break-after: always;\"></div>")
   }
 }
 
