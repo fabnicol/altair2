@@ -5,7 +5,7 @@
 #'[![Notice](Notice.png)](Docs/Notices/fiche_2.odt)    
 #' 
 #+fig.height=8, fig.width=7
-
+e <- new.env()
 produire_pyramides(NULL, 
                    "Pyramide des âges des personnels",
                    versant = VERSANT_FP, 

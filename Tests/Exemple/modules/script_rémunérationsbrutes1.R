@@ -116,9 +116,9 @@ filtre.fonctionnaire <<- function (X) X[ !is.na(X)  & X > minimum.positif ]
 
 AQ <- Analyse.remunerations.exercice[Statut == "TITULAIRE" | Statut == "STAGIAIRE", 
                                      ..colonnes.sélectionnées]
-
+attach(AQ)
 source("histogrammes.R", encoding = "UTF-8")
-
+detach(AQ)
 #'    
 #'**Nota :**   
 #'*EQTP : Equivalent temps plein = 12 . moyenne du ratio ratio rémunération / quotite*  

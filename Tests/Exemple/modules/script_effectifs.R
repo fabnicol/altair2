@@ -84,8 +84,6 @@ setwd(currentDir)
 
 message("Statistiques de démographie réalisées.")
 
-e <- new.env()
-
 fichiers.pyr <- list.files(path= file.path(currentDir, "data"), pattern = "*.csv", full.names = TRUE)
 
 # Lecture des fichiers de référence des pyramides (fichiers listés dans fichiers.pyr), comportant les statistiques INSEE

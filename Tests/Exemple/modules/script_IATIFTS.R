@@ -11,10 +11,10 @@ résultat_IAT_IFTS <- test_prime(prime = prime_IAT,
                                 Paie_I = Paie_I,
                                 verbeux = afficher.table.effectifs)
 
-Paie_IAT    <- résultat_IAT_IFTS$Paie
-Paie_IFTS   <- résultat_IAT_IFTS$Paie_B
-Lignes_IAT  <- résultat_IAT_IFTS$Lignes
-Lignes_IFTS <- résultat_IAT_IFTS$Lignes_B
+Paie_IAT    <<- résultat_IAT_IFTS$Paie
+Paie_IFTS   <<- résultat_IAT_IFTS$Paie_B
+Lignes_IAT  <<- résultat_IAT_IFTS$Lignes
+Lignes_IFTS <<- résultat_IAT_IFTS$Lignes_B
 
 #'   
 #'   

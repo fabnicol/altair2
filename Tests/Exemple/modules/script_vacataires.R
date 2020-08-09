@@ -14,7 +14,7 @@
 
 Paie_vac <- filtrer_Paie("VAC", portée = "Mois")
 
-Paie_vac <- Paie_vac[Type %chin% c("T", "I", "R", "IR", "S")]
+Paie_vac <<- Paie_vac[Type %chin% c("T", "I", "R", "IR", "S")]
 
 # ----- Produire la liste de ces libellés horaires
 

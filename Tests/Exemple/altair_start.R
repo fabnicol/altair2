@@ -62,6 +62,7 @@ invisible(enableJIT(3))
 # Appel de la biblio altair, où sont regroupées des fonctions d'analyse des rémunérations et les pyramides
 
 library(knitr, warn.conflicts = FALSE)
+options(knitr.duplicate.label = "allow")
 knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
 
 # Importer les données --> bases Paie et Bulletins.paie
@@ -73,7 +74,7 @@ importer()
 
 source("analyse.rémunérations.R", encoding =  "UTF-8")
 
-colonnes.sélectionnées <- c("traitement.indiciaire",
+colonnes.sélectionnées <<- c("traitement.indiciaire",
                             "acomptes",
                             "rémunération.indemnitaire.imposable",
                             "rémunération.indemnitaire.imposable.eqtp",
@@ -104,7 +105,7 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
 
 # Description des données indemnitaires
 
-Paie_I <- Paie[Type == "I" | Type == "A" | Type == "R", 
+Paie_I <<- Paie[Type == "I" | Type == "A" | Type == "R", 
                .(Nom, 
                  Prenom,
                  Matricule, 
@@ -123,52 +124,52 @@ Paie_I <- Paie[Type == "I" | Type == "A" | Type == "R",
                  Statut,
                  Categorie)]
 
-prime_IAT <- list(nom = "IAT",                     # Nom en majuscules
+prime_IAT <<- list(nom = "IAT",                     # Nom en majuscules
                   catégorie = c("B", "C"),         # restreint aux catégories B et C
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   dossier = "Reglementation")      # dossier de bases
 
-prime_IFTS <- list(nom = "IFTS",                   # Nom en majuscules
+prime_IFTS <<- list(nom = "IFTS",                   # Nom en majuscules
                    catégorie = c("A", "B"),        # restreint aux catégories A et B
                    restreint_fonctionnaire = TRUE, # fonctionnaires
                    dossier = "Reglementation",     # dossier de bases  
                    NAS = "non",                    # logement par NAS
                    indice  = c("+", 350, "B"))     # supérieur à INM 350 pour catégorie B.
 
-prime_PFR <- list(nom = "PFR",                     # Nom en majuscules
+prime_PFR <<- list(nom = "PFR",                     # Nom en majuscules
                   catégorie = "A",                 # restreint aux catégories A
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   dossier = "Reglementation",      # dossier de bases
                   expr.rég = "")  
 
-prime_PSR <- list(nom = "PSR",                     # Nom en majuscules
+prime_PSR <<- list(nom = "PSR",                     # Nom en majuscules
                   catégorie = c("A","B"),          # restreint aux catégories A et B
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   dossier = "Reglementation",      # dossier de bases
                   expr.rég = ".*(?:ing|tech|d.*g.*s.*t|dessin|biol|phar).*")  # Contrainte sur le grade (expression régulière)
 
-prime_IPF <- list(nom = "IPF",                     # Nom en majuscules
+prime_IPF <<- list(nom = "IPF",                     # Nom en majuscules
                   catégorie = "A",                 # restreint aux catégories A et B
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   dossier = "Reglementation",      # dossier de bases
                   expr.rég = ".*(?:ing.*chef).*")  # Contrainte sur le grade (expression régulière)
 
-prime_IFSE <- list(nom = "IFSE",                   # Nom en majuscules
+prime_IFSE <<- list(nom = "IFSE",                   # Nom en majuscules
                    restreint_fonctionnaire = TRUE, # fonctionnaires
                    catégorie = c("A", "B", "C"),   # toutes les catégories
                    dossier = "Reglementation")     # dossier de bases
 
-prime_ISS <- list(nom = "ISS",                     # Nom en majuscules
+prime_ISS <<- list(nom = "ISS",                     # Nom en majuscules
                   catégorie = c("A", "B"),         # Techniciens A, B
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   dossier = "Reglementation")      # dossier de bases
 
-prime_IEMP <- list(nom = "IEMP",                   # Nom en majuscules
+prime_IEMP <<- list(nom = "IEMP",                   # Nom en majuscules
                    restreint_fonctionnaire = TRUE, # fonctionnaires
                    catégorie = c("A", "B", "C"),   # toutes les catégories
                    dossier = "Reglementation")     # dossier de bases
 
-prime_PFI <- list(nom = "PFI",                      # Nom en majuscules
+prime_PFI <<- list(nom = "PFI",                      # Nom en majuscules
                   restreint_fonctionnaire = TRUE,   # fonctionnaires
                   catégorie = c("A", "B", "C"),     # toutes les catégories
                   dossier = "Reglementation")       # dossier de bases
@@ -188,7 +189,7 @@ if (!setOSWindows) {
 
 
 scripts <- 
-   list("entete.R",
+   list(#"entete.R",
         "script_effectifs.R",
         "script_pyramides.R",
         "script_duréedeservice.R",
@@ -239,13 +240,13 @@ if (séquentiel) {
   # b) tenir compte des relations de dépendances entre scripts afin d'éviter les files d'attentes et les mutex
   # Il faut ensuite permuter les résultats pour retrouver l'ordre canonique des rapports (qui pourrait évoluer pour éviter cela)
   
-  group1 <- list( "entete.R",
+  group1 <- list( #"entete.R",
                   "script_effectifs.R",
                   "script_pyramides.R",
                   "script_duréedeservice.R")
 
-  group2 <- list(# "script_rémunérationsbrutes1.R",
-                 #"script_rémunérationsbrutes2.R",
+  group2 <- list( "script_rémunérationsbrutes1.R",
+                 "script_rémunérationsbrutes2.R",
                  "script_comparaisonsdubrut.R",
                  "script_évolutiondunet.R")
 
