@@ -77,6 +77,7 @@ invisible(enableJIT(3))
 # Appel de la biblio altair, où sont regroupées des fonctions d'analyse des rémunérations et les pyramides
 
 library(knitr, warn.conflicts = FALSE)
+options(knitr.duplicate.label = "allow")
 knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
 
 # Importer les données --> bases Paie et Bulletins.paie
@@ -120,9 +121,9 @@ cat("**Nombre d'exercices : ", durée.sous.revue, "**  \n")
 
 # Analyser les rémunérations à partir des données importées --> bases Analyse.XXX
 
-source("analyse.rémunérations.R", encoding =  encodage.code.source)
+source("analyse.rémunérations.R", encoding =  "UTF-8")
 
-colonnes.sélectionnées <- c("traitement.indiciaire",
+colonnes.sélectionnées <<- c("traitement.indiciaire",
                             "acomptes",
                             "rémunération.indemnitaire.imposable",
                             "rémunération.indemnitaire.imposable.eqtp",
@@ -153,7 +154,7 @@ colonnes.sélectionnées <- c("traitement.indiciaire",
 
 # Description des données indemnitaires
 
-Paie_I <- Paie[Type == "I" | Type == "A" | Type == "R", 
+Paie_I <<- Paie[Type == "I" | Type == "A" | Type == "R", 
                .(Nom, 
                  Prenom,
                  Matricule, 
@@ -172,58 +173,58 @@ Paie_I <- Paie[Type == "I" | Type == "A" | Type == "R",
                  Statut,
                  Categorie)]
 
-prime_IAT <- list(nom = "IAT",                     # Nom en majuscules
+prime_IAT <<- list(nom = "IAT",                     # Nom en majuscules
                   catégorie = c("B", "C"),         # restreint aux catégories B et C
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   dossier = "Reglementation")      # dossier de bases
 
-prime_IFTS <- list(nom = "IFTS",                   # Nom en majuscules
+prime_IFTS <<- list(nom = "IFTS",                   # Nom en majuscules
                    catégorie = c("A", "B"),        # restreint aux catégories A et B
                    restreint_fonctionnaire = TRUE, # fonctionnaires
                    dossier = "Reglementation",     # dossier de bases  
                    NAS = "non",                    # logement par NAS
                    indice  = c("+", 350, "B"))     # supérieur à INM 350 pour catégorie B.
 
-prime_PFR <- list(nom = "PFR",                     # Nom en majuscules
+prime_PFR <<- list(nom = "PFR",                     # Nom en majuscules
                   catégorie = "A",                 # restreint aux catégories A
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   dossier = "Reglementation",      # dossier de bases
                   expr.rég = "")  
 
-prime_PSR <- list(nom = "PSR",                     # Nom en majuscules
+prime_PSR <<- list(nom = "PSR",                     # Nom en majuscules
                   catégorie = c("A","B"),          # restreint aux catégories A et B
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   dossier = "Reglementation",      # dossier de bases
                   expr.rég = ".*(?:ing|tech|d.*g.*s.*t|dessin|biol|phar).*")  # Contrainte sur le grade (expression régulière)
 
-prime_IPF <- list(nom = "IPF",                     # Nom en majuscules
+prime_IPF <<- list(nom = "IPF",                     # Nom en majuscules
                   catégorie = "A",                 # restreint aux catégories A et B
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   dossier = "Reglementation",      # dossier de bases
                   expr.rég = ".*(?:ing.*chef).*")  # Contrainte sur le grade (expression régulière)
 
-prime_IFSE <- list(nom = "IFSE",                   # Nom en majuscules
+prime_IFSE <<- list(nom = "IFSE",                   # Nom en majuscules
                    restreint_fonctionnaire = TRUE, # fonctionnaires
                    catégorie = c("A", "B", "C"),   # toutes les catégories
                    dossier = "Reglementation")     # dossier de bases
 
-prime_ISS <- list(nom = "ISS",                     # Nom en majuscules
+prime_ISS <<- list(nom = "ISS",                     # Nom en majuscules
                   catégorie = c("A", "B"),         # Techniciens A, B
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   dossier = "Reglementation")      # dossier de bases
 
-prime_IEMP <- list(nom = "IEMP",                   # Nom en majuscules
+prime_IEMP <<- list(nom = "IEMP",                   # Nom en majuscules
                    restreint_fonctionnaire = TRUE, # fonctionnaires
                    catégorie = c("A", "B", "C"),   # toutes les catégories
                    dossier = "Reglementation")     # dossier de bases
 
-prime_PFI <- list(nom = "PFI",                      # Nom en majuscules
+prime_PFI <<- list(nom = "PFI",                      # Nom en majuscules
                   restreint_fonctionnaire = TRUE,   # fonctionnaires
                   catégorie = c("A", "B", "C"),     # toutes les catégories
                   dossier = "Reglementation")       # dossier de bases
 #immature
-if (setOSWindows) séquentiel <- TRUE else {
 
+if (!setOSWindows) {
   system('cat /proc/meminfo > $HOME/mem.txt')
   mem <- data.table::fread(file.path(Sys.getenv("HOME"), "mem.txt"),
                sep = ":",
@@ -231,9 +232,9 @@ if (setOSWindows) séquentiel <- TRUE else {
   mem <- strtoi(unlist(strsplit(mem, " "))[1])
   if (nrow(Paie) * ratio.memoire.ligne.parallele  > mem) {
     "séquentiel" %a% TRUE  # assignation globale nécessaire
+    message("Bascule en mode séquentiel")
   }
 }
-
 
 
 scripts <- 
@@ -262,6 +263,9 @@ scripts <-
         "script_FPH.R",
         "script_annexe.R")
   
+opts_knit$set(output.dir=getwd())
+
+générer.partie <- function(script, séquentiel = FALSE) {
   
 générer.partie <- function(script, seq) {
                               invisible(lapply(script, function(x) do.call(insérer_script, 
@@ -275,9 +279,6 @@ if (séquentiel) {
   
 } else {
   
-  if (setOSWindows) {
-    stop("L'exécution en parallèle n'est pas supportés sous Windows. Veuillez paramétrer la varible séquentiel <- TRUE dans le fichier prologue.R")
-  }
   
   # Les groupes sont consitutés pour :
   # a) équilibrer les charges des noeuds
@@ -323,12 +324,22 @@ if (séquentiel) {
             group5,
             group6)
   
-  cl <- makeCluster(6, type = "FORK")
+  
+  cluster_mode <- ifelse(setOSWindows, "PSOCK", "FORK")
+  
+  cl <- makeCluster(6, type = cluster_mode)
+  
+  clusterExport(cl, c("chemin.modules", "début.période.sous.revue", "fin.période.sous.revue", "durée.sous.revue", 
+                      "quantile.cut", "minimum.positif", "seuil.troncature", "numéro.tableau", "chapitre"))
+  
+  clusterEvalQ(cl, library(altair))
+  clusterEvalQ(cl, library(knitr))
+  clusterEvalQ(cl, library(parallel))
   
   res <- clusterApply(cl,
                       G,
                       générer.partie)
-
+  
   stopCluster(cl)
   
   # Il faut réordonner pour être dans l'ordre canonique du rapport
@@ -346,6 +357,7 @@ if (séquentiel) {
                    r5[[4]])
 
   invisible(lapply(res, function(x) cat(unlist(x), sep = '\n')))
+  
 }
 
 ######### SAUVEGARDES #######
@@ -357,33 +369,14 @@ message("Enregistrement de la pile des bases...")
 envir <- environment()
 
 if (sauvegarder.bases.origine)
-  sauv.bases(file.path(chemin.dossier.bases, "Paiements"),
+  sauv.bases(".",
              env = envir,
              "Paie",
              "Bulletins.paie")
 
 if (profiler)
-  sauv.bases(chemin.dossier.bases, 
+  sauv.bases(".", 
             env = envir, "PROF")
-
-# Conversion en Latin-1 des bases du rapport, pour une meilleure lecture sous Windows
-
-if (convertir.latin1) {
-
-  system2("find", c("Donnees/R-Altair/Bases",
-                    "-name", "'*.csv'",
-                    "-exec", "sed -i -e '1s/Categorie/Catégorie/'     {} \\;",
-                    "-exec", "sed -i -e '1s/Debut/Début/'             {} \\;",
-                    "-exec", "sed -i -e '1s/Annee/Année/'             {} \\;",
-                    "-exec", "sed -i -e '1s/Prenom/Prénom/'           {} \\;",
-                    "-exec", "sed -i -e '1s/Net.a.Payer/Net.à.Payer/' {} \\;",
-                    "-exec", "sed -i -e '1s/Evenement/Evénement/'     {} \\;"),
-                  stderr = FALSE)
-
-  system2("find",
-          c("Donnees/R-Altair/Bases", "-name", "'*.csv'", "-print0", "|", "xargs", "-0", "../../linux/utf82latin1"),
-          stderr = FALSE)
-}
 
 # Copie de la documentation accessoire aux rapports
 
@@ -401,12 +394,3 @@ if (fichier.personnels.existe) file.remove(chemin("matricules.csv"))
 if (grades.categories.existe)  file.remove(chemin("grades.categories.csv"))
 if (logements.existe)          file.remove(chemin("logements.csv"))
 if (plafonds.ifse.existe)      file.remove(chemin("plafonds_ifse.csv"))
-
-setwd(currentDir)
-
-message("Dossier courant : ", getwd())
-
-#if (! séquentiel) nettoyer.pile.bases()
-
-if (! debug.code)
-   rm(list = setdiff(ls(), script_env))

@@ -36,7 +36,6 @@
 # 
 # 
 
-encodage.code.source <- "UTF-8"
 source("prologue_rapport.R", encoding = encodage.code.source)
 
 for (rep in reps) {

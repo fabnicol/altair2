@@ -39,7 +39,6 @@
 
 # encoder ce script en windows-1252
 
-encodage.code.source <- "UTF-8"
 source("syspaths.R", encoding = encodage.code.source)
 source("corps_rapport_pdf.R", encoding = encodage.code.source)  
 

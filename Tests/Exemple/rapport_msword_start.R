@@ -36,8 +36,15 @@
 # 
 # 
 
-source("syspaths.R", encoding = encodage.code.source)
-source("rendre.R", encoding = encodage.code.source)
+source("syspaths.R", encoding = "UTF-8")
+# empiler d'bord les rmd dans un fichier out.Rmd
+# (mettre l'entête dans script effetctifs)
+# 
+ source("altair_start.R", encoding = "UTF-8", echo = TRUE)
+# # il faudra fair un cat (..., file="out.Rmd", append=TRUE)
+# # puis rendre out.Rmd
+
+source("rendre.R", encoding = "UTF-8")
 
 envir <- rendre()
 
