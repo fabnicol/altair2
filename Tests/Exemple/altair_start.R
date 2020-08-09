@@ -36,6 +36,27 @@
 # 
 # 
 
+
+#'title: false    
+#'author: false     
+#'header-includes: \usepackage{graphicx}  
+#'date: false    
+#'output:   
+#'html_document:    
+#'css: style.css
+#'graphics: yes
+#'---     
+#'   
+#'![Image_Altair](Altair.png)
+#'   
+#'   
+#'## Logiciel Altaïr version `r readLines(file.path(currentDir, "VERSION"))`
+# En-tête du rapport
+# Les caractéristiques du contrôle sont contenues dans controle[1], controle[2], controle[3], controle[4]
+
+#'
+#'### Employeur : `r controle[1]`    
+
 # ---
 # Encodage obligatoire en UTF-8
 # ---
@@ -223,10 +244,6 @@ générer.partie <- function(script, séquentiel = FALSE) {
                                                                              as.list(na.omit(c(file.path(chemin.modules, x[1]))), gen = générer.rapport, pdf = PDF, séquentiel = séquentiel))) 
 }
 
-if (file.exists("out.Rmd")) {
-  
-  file.remove("out.Rmd")
-}
 
 if (séquentiel) {
   
@@ -312,7 +329,8 @@ if (séquentiel) {
                    r3[[3]],
                    r5[[4]])
 
- lapply(res, function(x) cat(unlist(x), file = ifelse(PDF, "out.Rmd", "altair.md"), append = TRUE))
+  invisible(lapply(res, function(x) cat(unlist(x), sep = '\n')))
+  
 }
 
 ######### SAUVEGARDES #######
