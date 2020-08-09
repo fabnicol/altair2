@@ -41,7 +41,6 @@ source("rendre.R", encoding = encodage.code.source)
 
 envir <- rendre()
 
-file.rename("altair.docx", "altair.docx")
 
 ajuster_chemins_odt(hack_md())
 

@@ -20,8 +20,14 @@ cat("**Nombre d'exercices: ", durée.sous.revue, "**\n")
 
 attach(Analyse.variations, warn.conflicts = FALSE)
 
-insérer_script(fonction = "evolution_net_hist")
+#+fig.height=6, fig.width=7   
+insérer_script(fonction = "evolution_net_hist_1")
 
+#'   
+#'   
+
+#+fig.height=6, fig.width=7   
+insérer_script(fonction = "evolution_net_hist_2")
 #'   
 conditionnel("Lien vers la base de données synthétique", "Bases/Remunerations/Analyse.variations.csv")     
 conditionnel("Lien vers la base de données détaillée par année", "Bases/Remunerations/Analyse.variations.par.exercice.csv")     
@@ -546,10 +552,10 @@ net.grades <<- net.eqtp(variation = TRUE)
 net.emplois <- net.eqtp.emploi(variation = TRUE)
 net.services <- net.eqtp.serv(variation = TRUE)
 
-fwrite(net.emplois, "net.emplois.csv", sep = ";", dec = ",") 
-fwrite(net.grades, "net.grades.csv", sep = ";", dec = ",") 
+Sauv.base("Remunerations", net.emplois) 
+Sauv.base("Remunerations", net.grades) 
+
 csvfiles  <- list.files(".", pattern = "^net.serv..*.csv")
-system2(file.path(currentDir, "linux/utf82latin1"), system.quote(csvfiles), stderr = NULL, stdout = NULL)
 zip("net.services.zip", csvfiles)
 invisible(file.remove(csvfiles))
 

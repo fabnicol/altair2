@@ -14,7 +14,7 @@
 
 Paie_vac <- filtrer_Paie("VAC", portée = "Mois")
 
-Paie_vac <- Paie_vac[Type %chin% c("T", "I", "R", "IR", "S")]
+Paie_vac <<- Paie_vac[Type %chin% c("T", "I", "R", "IR", "S")]
 
 # ----- Produire la liste de ces libellés horaires
 
@@ -26,7 +26,7 @@ if (is.na(codes.vacataires)) {
 
 # ----- Vérifier si des fonctionnaires titulaires ou stagiaires bénéficient de vacations horaires et donner les caractéristiques
 
-Paie_vac_fonct <- Paie_vac[Statut %chin% c("TITULAIRE", "STAGIAIRE"), 
+Paie_vac_fonct <<- Paie_vac[Statut %chin% c("TITULAIRE", "STAGIAIRE"), 
                            .(Nom, Statut, Code, Libelle, Type, Taux, Nb.Unite, Montant, Total.mensuel = sum(Montant, na.rm = TRUE)),
                            by = .(Matricule, Annee, Mois)]
 
@@ -43,7 +43,7 @@ if (nombre.fonctionnaires.et.vacations > 0) {
   cat("Pas de vacation détectée. ")
 }
 
-sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
+sauv.bases("Reglementation", 
            environment(),
            "lignes.fonctionnaires.et.vacations",
            "matricules.fonctionnaires.et.vacations",
@@ -68,7 +68,7 @@ conditionnel("Lien vers les bulletins de paie correspondants", "Bases/Reglementa
 #'de ces codes en base de paye.  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_onglet_codes.odt)        
 #'  
 
-Paie_vac_contr <- Paie_vac[Statut %chin% c("NON_TITULAIRE",  "AUTRE_STATUT"), 
+Paie_vac_contr <<- Paie_vac[Statut %chin% c("NON_TITULAIRE",  "AUTRE_STATUT"), 
                            .(Nom, Prenom, Matricule, Service, Statut, Categorie, Grade, Echelon, Libelle, Type,
                              Heures, Heures.Sup., Nb.Enfants, Code, Base, Taux, Nb.Unite,  Montant)]
 
@@ -97,7 +97,7 @@ if (exists("nombre.contractuels.et.vacations")) {
           nombre.Lignes.paie.RI.et.vacations)
 }
 
-sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
+sauv.bases("Reglementation", 
            environment(),
            "RI.et.vacations",
            "matricules.contractuels.et.vacations",
@@ -136,7 +136,7 @@ if (exists("nombre.SFT_IR.et.vacations")) {
           nrow(SFT_IR.et.vacations))
 }
 
-sauv.bases(file.path(chemin.dossier.bases, "Reglementation"), 
+sauv.bases("Reglementation", 
            environment(),
            "matricules.SFT_IR.et.vacations",
            "SFT_IR.et.vacations",

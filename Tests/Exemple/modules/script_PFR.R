@@ -18,8 +18,8 @@ PFR.plafonds <<- list( admin.g   = 58800,
 
 résultat_PFR  <- test_prime(prime_PFR, prime_IFTS, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
 
-Paie_PFR <- résultat_PFR$Paie
-Lignes_PFR <- résultat_PFR$Lignes
+Paie_PFR   <<- résultat_PFR$Paie
+Lignes_PFR <<- résultat_PFR$Lignes
 
 #'  
 #'&nbsp;*Tableau 5.7.2 : Cumuls PFR/IFTS*   
