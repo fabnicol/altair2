@@ -111,7 +111,7 @@ répartition.budgétaire <- if (intégrer.rep.budget) c("character", "numeric", 
 remplacer_type <- function(M) {
   trans2 <- data.table::copy(trans)
   setnames(trans2, c("V1", "V2"), c("Type", "Type_long"))
-  M <- unique(M, by = NULL)
+  M <- unique(M)
   M <- merge(M, trans2, by = "Type", all.x = TRUE)[, Type := NULL]
   setnames(M, "Type_long", "Type")
 }
@@ -122,7 +122,7 @@ remplacer_type <- function(M) {
 résumer_type <- function(M) {
   trans2 <- data.table::copy(trans)
   setnames(trans2, c("V1", "V2"), c("Type_court", "Type"))
-  M <- unique(M, by = NULL)
+  M <- unique(M)
   M <- merge(M, trans2, by = "Type", all.x = TRUE)[, Type := NULL]
   setnames(M, "Type_court", "Type")
 }

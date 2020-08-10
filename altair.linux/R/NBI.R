@@ -258,7 +258,8 @@ proratisation_NBI <- function() {
   "lignes.nbi.anormales.mensuel" %a% lignes_NBI[Type != "R"]
   
   if (! is.null(lignes.nbi.anormales.mensuel)) {    
-    "lignes.nbi.anormales.mensuel" %a% lignes_NBI[, .(Montant.NBI.calculé = round(NBI[1] * adm(quotite[1]) * PointMensuelIM[Annee - 2007, Mois], 2),
+    "lignes.nbi.anormales.mensuel" %a% lignes_NBI[ , point := mapply(function(x,y)  PointMensuelIM[x - 2007, y], Annee, Mois)
+                                                 ][ , .(Montant.NBI.calculé = round(NBI[1] * adm(quotite[1]) * point, 2),
                                                                         Montant.NBI.payé = sum(Montant, na.rm = TRUE)), 
                                                     by = .(Matricule, Annee, Mois)
                                                  ][ , Différence.payé.calculé := round(Montant.NBI.payé - Montant.NBI.calculé, 1)
@@ -315,7 +316,7 @@ catégories_NBI <- function() {
                               NBI,
                               quotite)]
   
-  NBI.cat[ , Contrôle := { a <- grepl("d(?:\\.|ir)\\w*\\s*\\bg(?:\\.|\\w*n)\\w*\\s*\\bs\\w*", paste(Emploi, Grade), ignore.case = TRUE, perl = TRUE)
+  NBI.cat[ , Controle := { a <- grepl("d(?:\\.|ir)\\w*\\s*\\bg(?:\\.|\\w*n)\\w*\\s*\\bs\\w*", paste(Emploi, Grade), ignore.case = TRUE, perl = TRUE)
   b <- grepl("d(?:\\.ir)\\w*\\s*\\bg(?:\\.|\\w*n)\\w*\\s*\\ba(?:\\.|d)\\w*", paste(Emploi, Grade), ignore.case = TRUE, perl = TRUE)
   ifelse ((NBI > 20 & Categorie == "C")
           | (NBI > 30 & Categorie == "B")
@@ -328,22 +329,24 @@ catégories_NBI <- function() {
   
   # Si la quotite est inconnue on la suppose égale à 1 (rare) pour l'évaluation du coût
   
-  "NBI.cat.irreg" %a% NBI.cat[Contrôle == "Rouge", 
-                               Coût := { a <- adm(quotite)
-                               round((NBI - ifelse(Categorie == "A", 50, ifelse(Categorie == "B", 30, 20))) *
-                                 PointMensuelIM[Annee - 2007, Mois] * ifelse(is.na(a), 1, a), 2)}
-                              ][! is.na(Coût)
-                              ][ , Contrôle := NULL] 
+  "NBI.cat.irreg" %a% NBI.cat[Controle == "Rouge", point := mapply(function(x,y) PointMensuelIM[x - 2007, y], Annee, Mois)
+                              ][ ,
+                                Cout := 
+                                  round((NBI - ifelse(Categorie == "A", 50, ifelse(Categorie == "B", 30, 20))) *
+                                         point * ifelse(is.na(quotite), 1, adm(quotite)),
+                                        2)
+                              ][! is.na(Cout)
+                              ][ , `:=`(Controle = NULL, point = NULL)] 
   
   "nombre.mat.NBI.irrég" %a% NBI.cat.irreg[ , uniqueN(Matricule)]
   
-  coût.total <- NBI.cat.irreg[ , sum(Coût, na.rm = TRUE)]
+  cout.total <- NBI.cat.irreg[ , sum(Cout, na.rm = TRUE)]
   
   print(Tableau(
     c("Nombre d'agents concernés",
       "Coût total des dépassements"),
     nombre.mat.NBI.irrég,
-    round(coût.total, 1)))
+    round(cout.total, 1)))
   
   sauv.bases("Reglementation", 
              .GlobalEnv,

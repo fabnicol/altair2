@@ -33,10 +33,10 @@ conditionnel("Lien vers la base de données PFR non cat.A", "Bases/Reglementatio
 conditionnel("Lien vers la base de données PFR non tit", "Bases/Reglementation/PFR.non.tit.csv")       
 #'   
 
-résultat_PFR   <- test_prime(prime_PFR, prime_ISS, Paie_I, verbeux = afficher.table.effectifs)
+résultat_PFR   <<- test_prime(prime_PFR, prime_ISS, Paie_I, verbeux = afficher.table.effectifs)
 
-Paie_ISS   <- résultat_PFR$Paie
-Lignes_ISS <- résultat_PFR$Lignes
+Paie_ISS   <<- résultat_PFR$Paie
+Lignes_ISS <<- résultat_PFR$Lignes
 
 #'    
 #'&nbsp;*Tableau 5.7.3 : Cumul PFR/ISS*   
@@ -51,8 +51,8 @@ conditionnel("Lien vers la base de données cumuls pfr/iss", "Bases/Reglementati
 
 résultat_PFR   <- test_prime(prime_PFR, prime_IEMP, Paie_I, verbeux = afficher.table.effectifs)
 
-Paie_IEMP   <- résultat_PFR$Paie
-Lignes_IEMP <- résultat_PFR$Lignes
+Paie_IEMP   <<- résultat_PFR$Paie
+Lignes_IEMP <<- résultat_PFR$Lignes
 
 #'    
 #'&nbsp;*Tableau 5.7.4 : Cumul PFR/IEMP*   
