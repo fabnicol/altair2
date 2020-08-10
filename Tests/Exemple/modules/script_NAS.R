@@ -3,12 +3,14 @@
 #'## 5.5 Contrôle sur les logements par nécessité absolue de service (NAS)       
 #'  
 #'[![Notice](Notice.png)](Docs/Notices/fiche_NAS.odt)  
-#'*Pour que le logiciel puisse contrôler sans risque d'erreur les concessions de logement, il est préférable de faire remplir, par les organismes contrôlés le tableau CSV accessible dans le bloc* **Logement** *de l'onglet Extra de l'application graphique, ou bien à ce lien. Voir aussi la notice* &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_logements.odt)      
+#'*Pour que le logiciel puisse contrôler sans risque d'erreur les concessions de logement, il est nécessaire de faire remplir, par les organismes contrôlés le tableau CSV accessible dans le bloc* **Logement** *de l'onglet Extra de l'application graphique, ou bien à ce lien. Voir aussi la notice* &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_logements.odt)      
 #'   
 
 #+ NAS
+NAS.non.declares.paye <- NULL
+NAS.non.importes <- NULL
 
-test_avn("NAS", Paie, base.logements)  # base des avantages en nature déclarés en paye pour logt par NAS
+if (!is.null(base.logements)) test_avn("NAS", Paie, base.logements)  # base des avantages en nature déclarés en paye pour logt par NAS
 
 #'   
 #' **Contrôle sur les logements par NAS**       

@@ -1,9 +1,9 @@
 ########### 4. Analyse dynamique des rémunérations ########################
 #'
-#'# 4. Rémunérations nettes : évolutions sur la période `r début.période.sous.revue` - `r fin.période.sous.revue`    
-#'
-#'Nombre d'exercices: `r durée.sous.revue`   
-#'
+#'# 4. Rémunérations nettes : évolutions sur la période sous revue
+#'   
+cat("**Nombre d'exercices: ", durée.sous.revue, "**\n")   
+#'   
 #'**Périmètre des données**      
 #'**Les données présentées dans cette section sont toutes relatives à des rémunérations nettes en équivalent temps plein (EQTP)**           
 #'**Les élus, les vacataires et les assistantes maternelles ont été retirés de la population étudiée**       
@@ -20,7 +20,6 @@
 
 attach(Analyse.variations, warn.conflicts = FALSE)
 
-
 #+fig.height=6, fig.width=7   
 insérer_script(fonction = "evolution_net_hist_1")
 
@@ -29,13 +28,13 @@ insérer_script(fonction = "evolution_net_hist_1")
 
 #+fig.height=6, fig.width=7   
 insérer_script(fonction = "evolution_net_hist_2")
-
+#'   
 conditionnel("Lien vers la base de données synthétique", "Bases/Remunerations/Analyse.variations.csv")     
 conditionnel("Lien vers la base de données détaillée par année", "Bases/Remunerations/Analyse.variations.par.exercice.csv")     
 
 ########### 4.2  Evolutions des rémunérations nettes ###########
 
-#'## 4.2 Evolutions du SMPT sur la période `r début.période.sous.revue` - `r fin.période.sous.revue`   
+#'## 4.2 Evolutions du SMPT sur la période sous revue 
 #'
 #'### 4.2.1 Evolution du SMPT pour l'ensemble des personnels fonctionnaires et non titulaires (hors élus)        
 #'
@@ -67,7 +66,7 @@ essayer(label = "+SMPT global", print(smpt(Filtre_neutre)),     "Le salaire moye
 essayer(label = "+distribution SMPT global", print(distribution_smpt(Filtre_neutre)), "La distribution du salaire moyen par tête n'a pas pu être calculée.")
 
 #'  
-#'*Nota :*  La population retenue est constituée des agents qui ne font pas partie des `r 2*quantile.cut` centiles extrêmaux   
+cat("*Nota :*  La population retenue est constituée des agents qui ne font pas partie des ", 2*quantile.cut, "centiles extrêmaux\n")   
 #'Les élus, vacataires et assistantes maternelles sont retirés du périmètre.   
 #'TC :  personnels à temps complet sur toute l'année            
 #'Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant eu, sur l'année, des rémunérations non annexes.  
@@ -83,11 +82,12 @@ essayer(label = "+distribution SMPT global", print(distribution_smpt(Filtre_neut
 
 #### INSEE/DGCL   ####
 #'  
-#'  |  net (euros)    | 2011    | 2012   |  2013  |  2014  | 2016   |       
-#'  |-----------------|--------:|-------:|-------:|-------:|-------:|     
-#'  |    Ensemble     |  21 876 | 22 176 | 22 224 | 22 524 | 22 824 |    
-#'  |   Titulaires    |  22 632 | 22 920 | 22 920 | 23 424 | 23 820 |  
-#'  | Autres salariés |  18 864 |  NA    |  NA    | 18 732 | 20 207 |   
+#'  |  net (euros)     | 2011    | 2012   |  2013  |  2014  | 2016   | 2017   |       
+#'  |------------------|--------:|-------:|-------:|-------:|-------:|-------:|     
+#'  |    Ensemble      |  21 876 | 22 176 | 22 224 | 22 524 | 22 824 | 23 328 |  
+#'  |   Titulaires     |  22 632 | 22 920 | 22 920 | 23 424 | 23 820 | 24 312 |
+#'  | Autres salariés* |  18 864 |  NA    |  NA    | 18 732 | 20 207 | 20 532 |
+#'   *Contractuels à partir de 2017
 #'   
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
 
@@ -101,18 +101,18 @@ essayer(label = "+distribution SMPT global", print(distribution_smpt(Filtre_neut
 # suivi d'un seul blanc juste après la table.
 
 #'   
-#' | Décile \ euros   | 2011 FPT | 2013 FPT| 2014 FPT | 2016 FPT| 
-#' |------------------|----------|---------|----------|---------|
-#' |    D1            | 15 288   | 15 600  | 15 768   |  15 912 |	
-#' |    D2            | 16 512   | 16 860  | 17 124   |  17 340 |	
-#' |    D3            | 17 508   | 17 844  | 18 156   |  18 432 |
-#' |    D4            | 18 480   | 18 816  | 19 164   |  19 476 |
-#' |    D5 (médiane)  | 19 632   | 19 908  | 20 256   |  20 616 |
-#' |    D6            | 21 012   | 21 300  | 21 648   |  22 020 |
-#' |    D7            | 22 860   | 23 160  | 23 496   |  23 868 |	
-#' |    D8            | 25 596   | 25 956  | 26 292   |  26 700 |
-#' |    D9            | 30 876   | 31 272  | 31 596   |  31 968 |
-#' |    Moyenne       | 21 876   | 22 212  | 22 524   |  22 824 |	
+#' | Décile \ euros   | 2011 FPT | 2013 FPT| 2014 FPT | 2016 FPT| 2017 FPT |
+#' |------------------|----------|---------|----------|---------|----------
+#' |    D1            | 15 288   | 15 600  | 15 768   |  15 912 |	16 272   |
+#' |    D2            | 16 512   | 16 860  | 17 124   |  17 340 |	17 688   |
+#' |    D3            | 17 508   | 17 844  | 18 156   |  18 432 | 18 828   |
+#' |    D4            | 18 480   | 18 816  | 19 164   |  19 476 | 19 908   |
+#' |    D5 (médiane)  | 19 632   | 19 908  | 20 256   |  20 616 | 21 096   |
+#' |    D6            | 21 012   | 21 300  | 21 648   |  22 020 | 22 548   |
+#' |    D7            | 22 860   | 23 160  | 23 496   |  23 868 |	24 444   |
+#' |    D8            | 25 596   | 25 956  | 26 292   |  26 700 | 27 336   |
+#' |    D9            | 30 876   | 31 272  | 31 596   |  31 968 | 32 652   |
+#' |    Moyenne       | 21 876   | 22 212  | 22 524   |  22 824 |	23 328   |
 #'    
 
 #'**Distribution des salaires nets annuels en EQTP dans la fonction publique d'Etat (2011-2016)**   
@@ -143,18 +143,18 @@ essayer(label = "+distribution SMPT global", print(distribution_smpt(Filtre_neut
 #'&nbsp;*Tableau 4.2.1.6*   
 #'    
 #'    
-#' | Décile \ euros   | 2011     | 2013   | 2016    |       
-#' |------------------|----------|--------|---------|     
-#' |    D1            | 16 584   | 17 016 |  17 460 |   
-#' |    D2            | 18 168   | 18 492 |  18 852 |     
-#' |    D3            | 19 620   | 19 872 |  20 160 |   
-#' |    D4            | 21 048   | 21 192 |  21 456 |   
-#' |    D5 (médiane)  | 22 596   | 22 656 |  22 848 |     
-#' |    D6            | 24 504   | 24 516 |	 24 540 |      
-#' |    D7            | 27 216   | 27 252 |  27 108 |      
-#' |    D8            | 30 996   | 31 176 |  31 092 |     
-#' |    D9            | 37 812   | 38 100 |  38 064 |     
-#' |  Moyenne         | 26 496   | 26 916 |  27 096 |   
+#' | Décile \ euros   | 2011     | 2013   | 2016    | 2017 |      
+#' |------------------|----------|--------|---------|------|     
+#' |    D1            | 16 584   | 17 016 |  17 460 | 17 688|  
+#' |    D2            | 18 168   | 18 492 |  18 852 | 19 104|    
+#' |    D3            | 19 620   | 19 872 |  20 160 | 20 460|  
+#' |    D4            | 21 048   | 21 192 |  21 456 | 21 816| 
+#' |    D5 (médiane)  | 22 596   | 22 656 |  22 848 | 23 220|    
+#' |    D6            | 24 504   | 24 516 |	 24 540 | 24 888|     
+#' |    D7            | 27 216   | 27 252 |  27 108 | 27 408|     
+#' |    D8            | 30 996   | 31 176 |  31 092 | 31 404|    
+#' |    D9            | 37 812   | 38 100 |  38 064 | 38 388|    
+#' |  Moyenne         | 26 496   | 26 916 |  27 096 | 27 456|  
 #'   
 
 #'[Source INSEE, onglets Figure3, F1web et F3web - 2011](Docs/ip1486.xls)    
@@ -319,7 +319,7 @@ conditionnel("Lien vers la base de données", "Bases/Remunerations/Analyse.varia
 #'     
 #'**Afin d'apprécier la sensibilité des résultats à la qualité ou aux valeurs extrêmes des données, le filtrage suivant est à présent appliqué.**    
 #'**Sont retirés les valeurs manquantes des variations, les centiles extrêmaux, les rémunérations nettes négatives (rappels) ou proche de zéro.**     
-#'**Un statut explicite doit être renseigné en fin de période. Des rémunérations doivent être versées à la fois en début et en fin de période de paiement de l'agent, supérieures à `r minimum.positif`. Le nombre de jours d'exercice doit être supérieur à `r 2 * seuil.troncature` .**                 
+cat("**Un statut explicite doit être renseigné en fin de période. Des rémunérations doivent être versées à la fois en début et en fin de période de paiement de l'agent, supérieures à ", minimum.positif, ". Le nombre de jours d'exercice doit être supérieur à ", 2 * seuil.troncature, ".**\n")                 
 #'**Ces filtres sont référencés ci-après par les termes "filtres sur RMPP".**          
 
 # Appliquer les filtres maintenant
@@ -394,12 +394,12 @@ if (durée.sous.revue > 1) {
 conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthese.csv")
 #'
 #'**Nota**   
-#'*Personnes en place :* en fonction au moins deux années consécutives avec la même quotite sur la période `r début.période.sous.revue` à `r fin.période.sous.revue`    
+cat("*Personnes en place :* en fonction au moins deux années consécutives avec la même quotite sur la période", début.période.sous.revue, " à ", fin.période.sous.revue, "\n")    
 #'*Variation sur la période d'activité :* entre l'arrivée et le départ de la personne      
 #'*Variation normalisée :* conforme à la définition INSEE (présente en début et en fin de période avec la même quotite)  
 #'  
 #'**Commentaire**       
-#'Les différences éventuelles constatées entre l'évolution de la RMPP au tableau `r numéro.tableau-2` sont dues soit à l'effet de noria soit à l'effet périmètre.    
+cat("Les différences éventuelles constatées entre l'évolution de la RMPP au tableau ", numéro.tableau-2, "sont dues soit à l'effet de noria soit à l'effet périmètre.\n")    
 #'      
 
 detach(Analyse.variations)
@@ -480,7 +480,7 @@ essayer(invisible(noria(champ = "brut", filtre = c("TITULAIRE", "STAGIAIRE"))),
 ##### 4.3.5 Effet de noria et de variation d'effectifs sur rémunérations moyennes par catégorie statutaire  ######
 
 #'
-#'### `r chapitre`.3.5 Effet de noria et de variation d'effectifs sur rémunérations moyennes par catégorie statutaire             
+#'### 4.3.5 Effet de noria et de variation d'effectifs sur rémunérations moyennes par catégorie statutaire             
 #'   
 #'   
 #'**Effet de noria et de variations d'effectifs sur rémunérations nettes moyennes EQTP des fonctionnaires de catégorie A**   
@@ -549,15 +549,15 @@ conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthe
 
 setwd(file.path(chemin.dossier.bases, "Remunerations"))
       
-net.grades <<- net.eqtp(variation = TRUE)
-net.emplois <- net.eqtp.emploi(variation = TRUE)
-net.services <- net.eqtp.serv(variation = TRUE)
+net.grades   <<- net.eqtp(variation = TRUE)
+net.emplois  <<- net.eqtp.emploi(variation = TRUE)
+net.services <<- net.eqtp.serv(variation = TRUE)
 
-#Sauv.base("Remunerations", "net.emplois")
+Sauv.base("Remunerations", "net.emplois") 
 Sauv.base("Remunerations", "net.grades")
+Sauv.base("Remunerations", "net.services") 
 
 csvfiles  <- list.files(".", pattern = "^net.serv..*.csv")
-
 zip("net.services.zip", csvfiles)
 invisible(file.remove(csvfiles))
 
@@ -584,12 +584,12 @@ conditionnel("Rémunérations nettes par service", "Bases/Remunerations/net.serv
 #'    
 
 #' 
-#'| Annee      | 2009 | 2010 | 2011 | 2012 | 2013 | 2014 | 2015 | 2016  |   
-#'|:----------:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|------:|   
-#'| SMPT brut  | 2,5  |  1,3 |  1,5 |  1,7 |  1,1 |  1,7 |  1,2 | 0,9   |   
-#'| SMPT net   | 3,0  |  1,4 |  1,3 |  1,4 |  0,8 |  1,3 |  0,8 | 0,6   |   
-#'| RMPP brute | 3,3  |  2,5 |  2,5 |  2,7 |  1,9 |  3,0 |  2,1 | 1,7   |  
-#'| RMPP nette | 3,3  |  2,5 |  2,3 |  2,4 |  1,6 |  2,7 |  1,7 | 1,3   |  
+#'| Annee      | 2009 | 2010 | 2011 | 2012 | 2013 | 2014 | 2015 | 2016  | 2017 |  
+#'|:----------:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|------:|-----:|   
+#'| SMPT brut  | 2,5  |  1,3 |  1,5 |  1,7 |  1,1 |  1,7 |  1,2 | 0,9   | 2,4  |  
+#'| SMPT net   | 3,0  |  1,4 |  1,3 |  1,4 |  0,8 |  1,3 |  0,8 | 0,6   | 2,1  | 
+#'| RMPP brute | 3,3  |  2,5 |  2,5 |  2,7 |  1,9 |  3,0 |  2,1 | 1,7   | 3,2  |
+#'| RMPP nette | 3,3  |  2,5 |  2,3 |  2,4 |  1,6 |  2,7 |  1,7 | 1,3   | 2,8  | 
 #'    
 
 #'*Source : fichier général de l'État (FGE), DADS, SIASP, Insee, Drees. Traitement Insee, Drees, DGCL*    
@@ -606,33 +606,33 @@ conditionnel("Rémunérations nettes par service", "Bases/Remunerations/net.serv
 #'    
 
 #' 
-#'|  Organisme   SMPT net     |  2011  | 2012     |    2013 |  2014  |  2015 |  2016    |
-#'|:-------------------------:|-------:|---------:|--------:|-------:|------:|---------:|
-#'| Communes                  | 20 784 |  21 120  | 21 096  | 21 444 |  21 552  | 21 632  | 
-#'| CCAS et caisses des écoles| 19 415 |  19 716  | 19 788  | 20 124 |  20 232  | 20 370  | 
-#'| EPCI à fiscalité propre   | 22 882 |  23 088  | 23 184  | 23 412 |  23 424  | 23 754  |
-#'| Autres structures intercommunales |   21 299 | 21 684 | 21 828 | 22 140 | 22 332   | 22 517 |
-#'|   Départements            | 24 487 |  24 744  | 24 852  | 25 068 |  25 344  | 25 391 |
-#'|   SDIS                    | 29 811 |  29 940  | 30 180  | 30 480 |  30 912  | 31 147 |
-#'|  Régions                  | 22 432 |  22 836  | 23 004  | 23 484 |  23 808  | 24 284 |
-#'| Autres collectivités locales  | 24 680  | 24 696  | 24 828  | 25 032 | 25 368   | 25 456  |
-#'| Ensemble (moyenne)        | 21 873 | 22 176   | 22 212  | 22 524 |  22 692  | 22 819  |
+#'|  Organisme   SMPT net     |  2011  | 2012     |    2013 |  2014  |  2015 |  2016    |  2017  |
+#'|:-------------------------:|-------:|---------:|--------:|-------:|------:|---------:|-------:|
+#'| Communes                  | 20 784 |  21 120  | 21 096  | 21 444 |  21 552  | 21 632| 22 116 |
+#'| CCAS et caisses des écoles| 19 415 |  19 716  | 19 788  | 20 124 |  20 232  | 20 370| 20 796 |
+#'| EPCI à fiscalité propre   | 22 882 |  23 088  | 23 184  | 23 412 |  23 424  | 23 754| 24 288 |
+#'| Autres structures intercommunales |   21 299 | 21 684 | 21 828 | 22 140 | 22 332   | 22 517| 22 908 |
+#'|   Départements            | 24 487 |  24 744  | 24 852  | 25 068 |  25 344  | 25 391| 25 908 |
+#'|   SDIS                    | 29 811 |  29 940  | 30 180  | 30 480 |  30 912  | 31 147| 31 740 |
+#'|  Régions                  | 22 432 |  22 836  | 23 004  | 23 484 |  23 808  | 24 284| 24 936 |
+#'| Autres collectivités locales  | 24 680  | 24 696  | 24 828  | 25 032 | 25 368   | 25 456| 25 848 |
+#'| Ensemble (moyenne)        | 21 873 | 22 176   | 22 212  | 22 524 |  22 692  | 22 819| 23 328 |
 #' 
 
 #'**RMPP nette (salariés présents deux années de suite avec la même quotite) en EQTP**        
 #'    
 #' 
-#'|  Organisme      RMPP net          |  2014  | 2014-2015 (%)  | 2015-2016 (%) |
-#'|:---------------------------------:|-------:|------:|------: |
-#'| Communes                          | 22 524 |  1,5 | 1,1     |
-#'| CCAS et caisses des écoles        | 21 420 |  1,6 | 1,1     |
-#'| EPCI à fiscalité propre           | 24 864 |  1,9 | 1,6     |
-#'| Autres structures intercommunales | 23 988 |  2,1 | 1,7     |
-#'|   Départements                    | 25 932 |  1,9 | 1,3     |
-#'|   SDIS                            | 31 032 |  2,6 | 1,5     |
-#'|  Régions                          | 24 240 |  2,1 | 1,3     |
-#'| Autres collectivités locales      | 21 873 |  2,0 | 1,7     |
-#'|  Ensemble (moyenne)               | 23 760 |  1,7 | 1,3     | 
+#'|  Organisme      RMPP net          |  2014  | 2014-2015 (%)  | 2015-2016 (%) | 2016-2017 (%) |
+#'|:---------------------------------:|-------:|------:|------: |----------------------------:|
+#'| Communes                          | 22 524 |  1,5 | 1,1     | 2,1 |
+#'| CCAS et caisses des écoles        | 21 420 |  1,6 | 1,1     | 2   |
+#'| EPCI à fiscalité propre           | 24 864 |  1,9 | 1,6     | 2   |
+#'| Autres structures intercommunales | 23 988 |  2,1 | 1,7     | 1,6 |
+#'|   Départements                    | 25 932 |  1,9 | 1,3     | 1,8 |
+#'|   SDIS                            | 31 032 |  2,6 | 1,5     | 1,8 |
+#'|  Régions                          | 24 240 |  2,1 | 1,3     | 2,4 |
+#'| Autres collectivités locales      | 21 873 |  2,0 | 1,7     | 1,4 |
+#'|  Ensemble (moyenne)               | 23 760 |  1,7 | 1,3     | 2,1 |
 #'     
 #'   
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
@@ -642,7 +642,8 @@ conditionnel("Rémunérations nettes par service", "Bases/Remunerations/net.serv
 #'[Source RAEFP 2016 données 2014](Docs/RA_2016.pdf)      
 #'[Source RAEFP 2017 données 2015](Docs/RA_2017.pdf)      
 #'[Source RAEFP 2018 données 2016](Docs/RA_2018.pdf)  
-#'[Source INSEE 2016](Docs/insee-premiere1616.pdf)      
+#'[Source RAEFP 2019 données 2017](Docs/RA_2019.pdf)  
+
    
 incrémenter.chapitre()
 

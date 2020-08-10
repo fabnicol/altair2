@@ -4,7 +4,7 @@
 \alias{calculer_indice_complexité}
 \title{Diagnostic des tables de jointure}
 \usage{
-calculer_indice_complexit攼㸹()
+calculer_indice_complexité()
 }
 \value{
 NULL si les variables \code{Code, Libelle, Type} suffisent, sinon le tableau des multiplicités associées aux combinaisons de ces variables auxquelles il est impossible d'associer un compte unique.

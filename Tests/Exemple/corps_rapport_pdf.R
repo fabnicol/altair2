@@ -40,14 +40,6 @@
 
 PDF <<- TRUE
 
-source("syspaths.R", encoding = "UTF-8")
-# empiler d'bord les rmd dans un fichier out.Rmd
-# (mettre l'entête dans script effetctifs)
-
-source("altair_start.R", encoding = "UTF-8", echo = TRUE)
-# il faudra fair un cat (..., file="out.Rmd", append=TRUE)
-# puis rendre out.Rmd
-
 source("rendre.R", encoding = "UTF-8")
 
 # La fonction rendre() permet de générer le rapport pdf
@@ -62,7 +54,7 @@ rendre(to = "latex",
               "--highlight-style", # facultatif
               "tango"),
        output_file = "altair.tex",
-       keep = TRUE)#fichiers.temp)
+       keep = fichiers.temp)
 
 # Copie sur le sous-dossier de la clé (dossier R-Altair ou R-Altair/nom du dossier/
 # en mode distributif)

@@ -107,7 +107,7 @@ conditionnel("Lien vers la base de données cumuls ifse/psr", "Bases/Reglementat
 
 
 résultat_IFSE   <- test_prime(prime_IFSE, prime_PFR, Paie_I, Paie_PFR, Lignes_PFR, afficher.table.effectifs)
-Lignes_IFSE     <- résultat_IFSE$Lignes
+Lignes_IFSE     <<- résultat_IFSE$Lignes
 
 #'   
 #'    
@@ -121,7 +121,7 @@ tableau_cumuls(résultat_IFSE)
 conditionnel("Lien vers la base de données cumuls ifse/ifts", "Bases/Reglementation/personnels.ifse.pfr.csv")    
 #'   
 
-depassements_IFSE <- test_plafonds(base.ifse, Lignes_IFSE, if (logements.existe) logements else NULL)
+depassements_IFSE <<- test_plafonds(base.ifse, Lignes_IFSE, if (logements.existe) logements else NULL)
 
 #'   
 #'    

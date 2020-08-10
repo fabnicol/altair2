@@ -92,6 +92,8 @@ plafonds.ifse.existe           <- TRUE
 apparier.sur.trois.clés        <- FALSE
 fichiers.temp                  <- FALSE
 
+encodage.code.source           <- "UTF-8"
+
 numéro.tableau                 <- 0        # Numérotation de départ des tableaux
 chapitre                       <- 1        # Numérotation de départ des chapitres
 seuil.troncature               <- 2        # jours

@@ -48,9 +48,9 @@ find.pandoc <- function() {
 
 chemin_pandoc <- find.pandoc()
 
-rendre <- function(fw = knitr::opts_chunk$get("fig.width"),
-                   fh = knitr::opts_chunk$get("fig.height"),
-                   d  = knitr::opts_chunk$get("dpi"),
+rendre <- function(fw = fig.width,
+                   fh = fig.height,
+                   d  = dpi,
                    keep = keep_md,
                    clean = FALSE,
                    to ="docx",
@@ -62,18 +62,18 @@ rendre <- function(fw = knitr::opts_chunk$get("fig.width"),
           rm(list = ls(), envir = globalenv())
           render_env <- new.env(parent = globalenv())
           
+          altair_start <- ifelse(to == "docx", "temp.R", "altair_start.R")
+          
           if (to == "docx") {
-            
-            V <- readLines("out.Rmd", encoding = "UTF-8")
+            if (file.exists("temp.R")) file.remove("temp.R")
+            V <- readLines("altair_start.R", encoding = encodage.code.source)
             V <- gsub("![Notice](Notice.png)", "Notice", V, fixed = TRUE)
-            V <- gsub("\\!\\[\\](.*)\\.pdf", "\\!\\[\\]\\1\\.png", V, perl = TRUE)
-            system("for i in figure/*.pdf; do convert $i $(echo $i | sed s\"/pdf/png/g\"); done")
-
-            file.remove("out.Rmd")
-            writeLines(V,  "out.Rmd", useBytes = TRUE)
+            
+            writeLines(V,  "temp.R")
           }
           
-          render("out.Rmd",
+          render(altair_start,
+                 encoding = encodage.code.source,
                  output_format = output_format(knitr_options(opts_chunk = list(fig.width = fw, 
                                                                                fig.height = fh,
                                                                                dpi = d,
@@ -89,7 +89,7 @@ rendre <- function(fw = knitr::opts_chunk$get("fig.width"),
                  output_file = output_file)
           
           if (to == "docx") {
-#            file.remove("out.Rmd") 
+            file.remove("temp.R") 
           } else {
             if (chemin_pandoc != "") {
                if (to == "latex") {
@@ -121,11 +121,11 @@ rendre <- function(fw = knitr::opts_chunk$get("fig.width"),
 
 hack_md <- function() {
   
-  con <- file("altair.2.md", open = "a", encoding = "UTF-8")
+  con <- file("altair.2.md", open = "a", encoding = encodage.code.source)
   
   writeLines(text = "\n---\ntitle: false\nauthor: false\ndate: false\n---\n", con)     
   
-  V <- readLines("altair.md", encoding = "UTF-8")[-c(1, 2)]
+  V <- readLines("altair.md", encoding = encodage.code.source)[-c(1, 2)]
   
   writeLines(V, con)
   
@@ -148,7 +148,7 @@ ajuster_chemins_odt <- function(V) {
   # garde en principe inutile
   
   if (! is.null(V))  {
-    con <- file("altair.2.md", open = "a", encoding = "UTF-8")
+    con <- file("altair.2.md", open = "a", encoding = encodage.code.source)
   
     writeLines(text = "\n---\ntitle: false\nauthor: false\ndate: false\n---\n", con)   
  

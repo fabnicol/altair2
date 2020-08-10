@@ -438,8 +438,8 @@ essayer({ if (! is.null(Paie_B) && ! résultat.manquant) {
   
   # on exclut les rappels !
   
-    indic_B <- "indic_"  %+% prime_B$nom
-    
+    indic_B <<- "indic_"  %+% prime_B$nom
+    assign(indic_B, NULL, envir = .GlobalEnv)
     NAMES <- names(Paie_B)
     
     if (! indic_B %chin% NAMES && "indic" %chin% NAMES) setnames(Paie_B, "indic", indic_B)
@@ -496,9 +496,9 @@ if(sauvegarder.bases.analyse) {
   sauvebase("personnels.A.B", "personnels." %+% tolower(ident_prime) %+% "." %+% tolower(prime_B$nom), prime$dossier, environment())
 }
 
-indic <- "indic_"  %+% prime$nom
-indic_B <- "indic_"  %+% prime_B$nom
-
+indic <<- "indic_"  %+% prime$nom
+indic_B <<- "indic_"  %+% prime_B$nom
+assign(indic_B, NULL, envir = .GlobalEnv)
 Lignes_A[ , indic := TRUE, with = FALSE]
 Lignes_B[ , indic_B := TRUE, with = FALSE]
 
@@ -612,9 +612,9 @@ test_avn <- function(avantage, Paie, base.logements = NULL) {
   val <- codes[type == avantage, valeur]
   
   essayer({  if (! is.na(val)) {
-      Paie_AV <- Paie[Code %chin% val, .(Matricule, Annee, Mois, Statut, Grade, Emploi, Type, Code, Libelle, Montant)]
+      Paie_AV <<- Paie[Code %chin% val, .(Matricule, Annee, Mois, Statut, Grade, Emploi, Type, Code, Libelle, Montant)]
   } else {
-      Paie_AV <- Paie[grepl(codes[type == avantage, expression], Libelle, ignore.case = TRUE, perl = TRUE), .(Matricule, Annee, Mois, Statut, Grade, Emploi, Code, Type, Libelle, Montant)]
+      Paie_AV <<- Paie[grepl(codes[type == avantage, expression], Libelle, ignore.case = TRUE, perl = TRUE), .(Matricule, Annee, Mois, Statut, Grade, Emploi, Code, Type, Libelle, Montant)]
   }
   
   n1 <- nrow(Paie_AV[Type == "AV"])
@@ -708,7 +708,7 @@ test_plafonds <- function(plafonds, Lignes, logements = NULL) {
       
        Paie_NAS <- merge(Lignes, logements, by = c("Matricule", "Annee", "Mois"), all.x = TRUE)
     
-       Paie_NAS <- merge(Paie_NAS[Logement == "NAS", 
+       Paie_NAS <<- merge(Paie_NAS[Logement == "NAS", 
                                      .(Matricule, 
                                        Annee, 
                                        Mois, 
@@ -730,7 +730,7 @@ test_plafonds <- function(plafonds, Lignes, logements = NULL) {
       
        Paie_NO_NAS <- merge(Lignes, logements, by = c("Matricule", "Annee", "Mois"), all.x = TRUE)
     
-       Paie_NO_NAS <- merge(Paie_NO_NAS[Logement != "NAS", 
+       Paie_NO_NAS <<- merge(Paie_NO_NAS[Logement != "NAS", 
                                         .(Matricule,
                                           Annee,
                                           Mois,

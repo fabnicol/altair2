@@ -4,7 +4,7 @@
 \alias{année_comparaison}
 \title{Annee de comparaison avec les données nationales.}
 \usage{
-ann攼㸹e_comparaison(versant)
+année_comparaison(versant)
 }
 \arguments{
 \item{versant}{Chaîne de caractères parmi "FPT", "FPH", "TIT_FPT", "TIT_FPH", "NONTIT_FPT", "NONTIT_FPH".}

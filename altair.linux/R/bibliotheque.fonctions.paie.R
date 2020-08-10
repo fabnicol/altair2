@@ -891,41 +891,40 @@ extraire_paye <- function(an, L, out) {
 
 #' Insérer un script auxiliaire, indexé par une variable globale
 #' @param chemin  Chemin du script R
-#' @param gen  Si \code{TRUE (défaut)} génère un rapport. Sinon se contente de sourcer le script auxiliaire. 
-#' @param pdf Si \code{TRUE (défaut)} alors un PDF. Sinon un doucment de type .docx et .odt.
-#' @param séquentiel Si \code{TRUE (défaut)}, exécution séquentielle du code. Sinon, exécution parallèle.   
+#' @param index   Vecteur numérique contenant les valeurs de la variable globale.
+#' @param seq Exécuter le script en mode séquentiel (si \code{TRUE}, resp. si \code{FALSE}, en mode parallèle)   
+#' @param variable Vecteur de caractères contenant le nom de la variable globale dans le script auxiliaire.
+#' @param gen  Si \code{FALSE} alors se contente de sourcer le script auxiliaire selon \code{encodage.code.source}. Sinon intègre le rapport auxiliaire au format du rapport principal.
+#' @param incrémenter INcrémenter le chapitre de présentation du script
 #' @param fonction Appeler une liste de fonctions à argument vide
 #' @return Valeur de la dernière variable globale \code{variable} instanciée. Effets de bord en sortie.
 #' @export
 
-
-
 insérer_script <- function(chemin = NULL, 
-                           gen = TRUE,
-                           pdf = TRUE,
-                           séquentiel = FALSE,
+                           index = 1, 
+                           variable = "année", 
+                           gen = générer.rapport, 
+                           incrémenter = FALSE, 
                            fonction = NULL)  {
 
+if (! is.null(chemin) && get(gsub(".R", "", basename(chemin), fixed = TRUE)) == FALSE) invisible(return(NULL))
+  
+invisible(sapply(index, function(x) {
 
+  assign(variable, x, .GlobalEnv)
+  
+  if (incrémenter) incrémenter.chapitre()
+  
   if (is.null(fonction)) {
         
     if (gen) {
-            vect <- knitr::knit(text = readLines(spin(chemin, knit = FALSE),
-                                                encoding = "UTF-8"),
-                               output = "altair.html",
+            vect <- knit_child(text = readLines(spin(chemin, knit = FALSE),
+                                                encoding = encodage.code.source),
                                quiet = TRUE)
-            
-            #gsub(pattern = ifelse(pdf, "(figure/.*?\\.pdf)", "(figure/.*?\\.png)"), "![](\\1) \n", vect, perl = TRUE)
                                
-            if (séquentiel) {
-              
-              mdfile <- file("altair2.html", open = "at")
-              
-              #writeLines(unlist(stringr::str_split(vect, "\\\\n")), con = mdfile, useBytes = TRUE)
-              writeLines(readLines("altair.html", encoding = "UTF-8"), con = mdfile, useBytes = TRUE)
-              
+            if (séquentiel == TRUE) {
+              cat(vect, sep = '\n')
             } else {
-              
               return(vect)
             }
              
@@ -933,7 +932,7 @@ insérer_script <- function(chemin = NULL,
             
             message("Sourcing", chemin, "...")
                         
-            source(chemin, encoding = "UTF-8")    
+            source(chemin, encoding = encodage.code.source)    
         }
     
   } else {
@@ -942,6 +941,7 @@ insérer_script <- function(chemin = NULL,
         do.call(get(f), list())
       }
   }
+}))
 
 }
 

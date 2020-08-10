@@ -4,7 +4,7 @@
 \alias{tableau_NAS}
 \title{Affichage du tableau des cumuls de primes et du logement par NAS}
 \usage{
-tableau_NAS(r攼㸹sultat)
+tableau_NAS(résultat)
 }
 \arguments{
 \item{résultat}{Résultat retourné par la fonction \link{test_prime}}

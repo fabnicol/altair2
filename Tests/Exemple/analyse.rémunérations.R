@@ -36,7 +36,7 @@
 # 
 # 
 
-source("smic.R", encoding = "UTF-8")
+source("smic.R", encoding = encodage.code.source)
 
 période.hors.données.smic <- FALSE
 

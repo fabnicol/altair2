@@ -39,10 +39,9 @@ prime_FPH_test <- function(prime, prime_lit, base, expr = NULL) {
         DT[ , sum(Montant, na.rm = TRUE)], "euros.")
   }
   
-  assign(base,  DT, .GlobalEnv)
+  assign("base",  DT, .GlobalEnv)
 
-  Sauv.base("Reglementation", base)
-  
+  Sauv.base("Reglementation", "base") 
   primes <- unique(DT$Libelle)
   
   primes.potentielles <- if (length(primes) == 0) "aucune" else paste(primes, collapse = " ;")
@@ -54,7 +53,7 @@ prime_FPH_test <- function(prime, prime_lit, base, expr = NULL) {
 
 primes.potentielles <- prime_FPH_test("PRIME SPECIFIQUE", "prime spécifique", "personnels.prime.specifique.nt")
 
-cat("Prime spécifique", primes.potentielles)      
+cat("Prime spécifique", primes.potentielles)  
    
 
 #'   
@@ -68,9 +67,10 @@ conditionnel("Lien vers la base de données Prime spécifique NT", "Bases/Reglem
 primes.potentielles <- prime_FPH_test("PRIME DE TECHNICITE", "prime de technicité", "personnels.prime.tech.nt")
 
 
-cat("Primes de technicité", primes.potentielles)    
+cat("Primes de technicité", primes.potentielles)  
+   
 
-
+#'   
 conditionnel("Lien vers la base de données Prime de technicité NT", "Bases/Reglementation/personnels.prime.tech.nt.csv")   
 #'   
 
@@ -80,8 +80,8 @@ conditionnel("Lien vers la base de données Prime de technicité NT", "Bases/Reg
 
 primes.potentielles <- prime_FPH_test("IFT", "indemnité forfaitaire et technique", "personnels.ift.nt")
 
-   
-cat("Indemnités forfaitaire et technique", primes.potentielles)    
+#'   
+cat("Indemnité forfaitaire et technique", primes.potentielles)
 #'   
 
 #'   
@@ -92,9 +92,9 @@ conditionnel("Lien vers la base de données IFT NT", "Bases/Reglementation/perso
 
 primes.potentielles <- prime_FPH_test("PRIME DE SERVICE", "prime de service", "personnels.ps.nt", expression.rég.médecin)
 
-   
+#'   
 cat("Primes de service", primes.potentielles)    
-   
+#'   
 
 #'   
 conditionnel("Lien vers la base de données primes de service NT", "Bases/Reglementation/personnels.ps.nt.csv")   

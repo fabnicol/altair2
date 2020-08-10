@@ -171,7 +171,7 @@ dépassements_HS <- function() {
     cat("Pas de dépassement détecté du maximum d'IHTS pouvant être liquidé au titre du mois.   \n")
   }
   
-  sauv.bases(chemin.dossier.bases, "Reglementation",
+  sauv.bases("Reglementation",
              env = new.env(),
              "depassement.agent",
              "depassement.agent.annee")

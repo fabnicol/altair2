@@ -4,7 +4,7 @@
 \alias{ajuster.médiane.temps.complet}
 \title{Ajuster la médiane des templs complets en heures}
 \usage{
-ajuster.m攼㸹diane.temps.complet()
+ajuster.médiane.temps.complet()
 }
 \description{
 Ajuster la médiane des templs complets en heures

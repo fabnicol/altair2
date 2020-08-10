@@ -37,9 +37,10 @@
 # 
 
 
+# encoder ce script en windows-1252
 
-source("syspaths.R", encoding = "UTF-8")
-source("corps_rapport_pdf.R", encoding = "UTF-8")  
+source("syspaths.R", encoding = encodage.code.source)
+source("corps_rapport_pdf.R", encoding = encodage.code.source)  
 
 
   if (file.exists("temp.R")) 
@@ -47,7 +48,7 @@ source("corps_rapport_pdf.R", encoding = "UTF-8")
       file.remove("temp.R")
   }
 
-  V <- readLines("altair.md", encoding = "UTF-8")
+  V <- readLines("altair.md", encoding = encodage.code.source)
   V <- gsub("![Notice](Notice.png)", "Notice", V, fixed = TRUE)
   
   writeLines(V,  "temp.R")

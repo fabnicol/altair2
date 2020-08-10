@@ -1,4 +1,4 @@
-
+e <- new.env()
 
 #'## 1.2 Pyramide des âges, ensemble des personnels      
 #'   

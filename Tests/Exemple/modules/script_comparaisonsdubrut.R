@@ -9,12 +9,9 @@ brut.eqtp.emploi <- brut.eqtp.emploi(variation = TRUE)
 
 
 sauv.bases( "Remunerations", 
-           environment(), 
-           "brut.eqtp.emploi")
-
-sauv.bases("Remunerations", 
-           environment(), 
-           "brut.eqtp")
+           environment(), "brut.eqtp.emploi")
+sauv.bases( "Remunerations", 
+           environment(), "brut.eqtp")
 
 
 #'   
@@ -25,7 +22,7 @@ conditionnel("Rémunérations brutes par emploi", "Bases/Remunerations/brut.eqtp
 #'   
 #'## 3.5 Comparaisons source INSEE/DGCL   
 #'   
-#'*Salaires annnuels bruts moyens 2011-2016 en EQTP (hors assistantes maternelles)*   
+#'*Salaires annnuels bruts moyens 2011-2017 en EQTP (hors assistantes maternelles)*   
 
 #'  
 #'&nbsp;*Tableau 3.5.1*   
@@ -33,16 +30,19 @@ conditionnel("Rémunérations brutes par emploi", "Bases/Remunerations/brut.eqtp
 
 #+ comparaison-insee1
 
-Tableau.vertical2(c("Agrégat (euros)", "2011", "2012", "2013", "2014", "2015", "2016"),
-                  c("Ensemble", "Titulaires", "Autres salariés"),
+Tableau.vertical2(c("Agrégat (euros)", "2011", "2012", "2013", "2014", "2015", "2016", "2017"),
+                  c("Ensemble", "Titulaires", "Autres salariés*"),
                   digits = 0,
                   12 * c(2159, 2223, 1903),
                   12 * c(2195, 2259, NA),
                   12 * c(2218, 2287, 2030),
                   12 * c(2237, 2337, 2042),
                   12 * c(2282, 2372, 2058),
-                  12 * c(2303, 2397, 2069))
-
+                  12 * c(2303, 2397, 2069),
+                  12 * c(2363, 2456, 2110))
+#'  
+#'*  *Contractuels à partir de 2017*  *    
+#'    
 #'**Eléments de la rémunération brute pour les titulaires de la fonction publique territoriale**      
 #'   
 #'  
@@ -102,18 +102,13 @@ cout.eqtp <- charges.eqtp(variation = TRUE)
 cout.eqtp.emploi <- charges.eqtp.emploi(variation = TRUE)   
 cout.eqtp.serv <- charges.eqtp.serv(variation = TRUE)
 
-sauv.bases("Remunerations", 
-           environment(), 
-           "cout.eqtp.emploi")
-
-sauv.bases("Remunerations", 
-           environment(), 
-           "cout.eqtp")
+sauv.bases( "Remunerations", 
+           environment(), "cout.eqtp.emploi")
+sauv.bases( "Remunerations", 
+           environment(), "cout.eqtp")
 
 setwd(file.path(chemin.dossier.bases, "Remunerations"))
-
 csvfiles  <- list.files(".", pattern = "^charges.serv..*.csv")
-
 zip("cout.eqtp.services.zip", csvfiles)
 invisible(file.remove(csvfiles))
 setwd(currentDir)

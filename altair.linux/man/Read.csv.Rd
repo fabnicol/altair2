@@ -43,10 +43,9 @@ test <- data.table(datasets::cars)
 res  <- try(Read.csv("base",
                      "test.csv",
                       colClasses = c("integer", "integer"),
-                      sÃ©parateur.liste = ";",
-                      sÃ©parateur.dÃ©cimal = ",",
-                      rapide = TRUE),
+                      séparateur.liste = ";",
+                      séparateur.décimal = ","),
           silent = FALSE)
 if (inherits(res, 'try-error'))
-  stop("ProblÃ¨me de lecture de la base de la table bulletins-lignes de Paie")
+  stop("Problème de lecture de la base de la table bulletins-lignes de Paie")
 }

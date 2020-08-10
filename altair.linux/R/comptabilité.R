@@ -118,8 +118,7 @@ correspondance_paye_budget <- function() {
   
   vect <- c("Code", "Libelle", "Statut", "Type")
   
-  if (paye.budget.existe){
-    
+ 
     code.libelle <- fread(chemin("paye_budget.csv"), # Code, Libelle,  Statut, Type, Compte
                           sep = ";",
                           encoding = "UTF-8",
@@ -134,43 +133,6 @@ correspondance_paye_budget <- function() {
     
     cumul.lignes.paie <- exporter_tableau(code.libelle, requis = "Compte", clés = vect)
     
-  } else {
-   
-    # Ne pas prendre les capitales ni simplifier les libellés
-    
-    code.libelle <- unique(Paie[Montant != 0, .(Code, Libelle, Statut), by = "Type"])
-    
-    # Note : des traitements et NBI sont parfois improprement codés comme indemnités.
-    
-    code.libelle[Type %in% c("T", "I", "R", "AC") & grepl(expression.rég.traitement, Libelle, ignore.case = TRUE, perl = TRUE),
-                 `:=`(Compte.tit    = "64111",
-                      Compte.nontit = "64131")]
-    
-    code.libelle[Type == "IR" | Type == "S" | (Type %in% c("T", "I", "R") & grepl(expression.rég.nbi, Libelle, ignore.case = TRUE, perl = TRUE)),
-                 `:=`(Compte.tit    = "64112",
-                      Compte.nontit = "64132")]
-    
-    code.libelle[grepl("(?:ind|prim).*(?:pr[e,é]avis|licen)", Libelle, ignore.case = TRUE, perl = TRUE), 
-                 `:=`(Compte.tit    = "64116",
-                      Compte.nontit = "64136")]
-    
-    code.libelle[Statut == "EMPLOI_AIDE"
-                 & Type %in% c("T", "I", "R", "AC"), 
-                 `:=`(Compte.nontit = "64116")]
-    
-    code.libelle[is.na(Compte.tit) 
-                 & Statut != "ELU"
-                 & ! Type %in% c("D", "C", "RE", "CO") 
-                 & (Type == "I" | grepl("(?:prim|indem)", Libelle, ignore.case = TRUE, perl = TRUE)), 
-                 `:=`(Compte.tit    = "64118",
-                      Compte.nontit = "64138")]
-    
-    code.libelle[ , Compte := ifelse(Statut == "TITULAIRE" | Statut == "STAGIAIRE", Compte.tit, Compte.nontit)
-                  ][ , Compte.tit := NULL
-                  ][ , Compte.nontit := NULL]
-    
-    cumul.lignes.paie <- code.libelle[Paie[ , .(Annee, Code, Libelle, Statut, Type, Montant)], on = vect]
-  }
   
   setkey(code.libelle, Type, Compte, Statut, Code, Libelle)
   

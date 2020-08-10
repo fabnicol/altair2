@@ -37,7 +37,7 @@ Evenements.ind <- setkey(Bulletins.paie[Evenement != "" & Evenement != "NA NA",
                          Annee,
                          Mois)
 
-Evenements.mat <- setcolorder(setkey(copy(Evenements.ind), 
+Evenements.mat <- setcolorder(setkey(data.table::copy(Evenements.ind), 
                                      Matricule,
                                      Annee,
                                      Mois,
@@ -64,6 +64,10 @@ Evenements.mat <- setcolorder(setkey(copy(Evenements.ind),
 #'[![Notice](Notice.png)](Docs/Notices/fiche_individualisation.odt)     
 #'         
 #'   
+
+# Ce cas peut se produire quand la correspondance budgétaire n'est pas générée d'abord.
+
+if (is.null(code.libelle)) code.libelle <- unique(Paie[ , .(Code, Libelle, Statut, Type)][ , Compte := ""])
 
 code.libelle.short <- unique(code.libelle[order(Code), .(Code, Libelle)])
 
@@ -145,6 +149,10 @@ cat("Nombre de bulletins : ", FR(nrow.bull))
 if (redresser.heures) {
   if (nredressements > 0) {
     cat("Les heures de travail ont été redressées avec la méthode ", ifelse(test.temps.complet, "des quotites.\n", "de l'interpolation indiciaire\n")) 
+    if (test.temps.complet) {
+      cat("La méthode des quotités ne s'applique pas aux élus, vacataires et assistantes maternelles détectés. \n")
+      cat("Pour les autres agents, si la quotité de temps de travail est non nulle, la méthode redresse le nombre d'heures réalisées à partir du nombre d'heures normal à temps plein lorsqu'une quotité de temps de travail est aussi indiquée.\n")
+    }
   }
 } else {
   cat("Les heures de travail n'ont pas été redressées.")
@@ -217,30 +225,4 @@ sauv.bases("Effectifs",
 
 #'
 #'[Lien vers la base des personnels](Bases/Effectifs/matricules.csv)        
-#'   
-
-
-#'
-#'## Divergences lignes-bulletins de paie     
-#'   
-#'*Pour exclure certains codes de paie de l'analyse, renseigner le fichier liste.exclusions.txt*  
-#'   
-if (! séquentiel) {
-  cat("La recherche des différences entre lignes et bulletins de paye n'est activée qu'en mode séquentiel (non parallèle)")
-} else {  
-  if (test.delta) {
-    if (!is.null(liste.exclusions))
-      message("Une liste de codes exclus pour la vérification de la concordance lignes-bulletins de paie a été jointe sous ", getwd())
-    cat("   ")
-    source("delta.R", encoding="UTF-8")
-    sauv.bases("Fiabilite",
-                            environment(),
-                            "Delta")
-  } else {
-    cat("Base de vérification des écarts lignes de paie-bulletins de paie non générée.")
-  }
-}
-
-#'   
-conditionnel("Divergences lignes-bulletins de paie", "Bases/Fiabilite/Delta.csv")     
 #'   
