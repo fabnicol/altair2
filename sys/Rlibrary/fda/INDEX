@@ -11,11 +11,9 @@ Lfd                     Define a Linear Differential Operator Object
 MontrealTemp            Montreal Daily Temperature
 ReginaPrecip            Regina Daily Precipitation
 StatSciChinese          Statistical Science in Chinese
-TaylorSpline            Taylor representation of a B-Spline
-argvalsy.swap           Swap argvals with y if the latter is simpler.
 arithmetic.basisfd      Arithmatic on functional basis objects
 arithmetic.fd           Arithmetic on functional data ('fd') objects
-as.POSIXct1970          as.POXIXct for number of seconds since the
+as.POSIXct1970          'as.POXIXct' for number of seconds since the
                         start of 1970.
 as.array3               Reshape a vector or array to have 3 dimensions.
 as.fd                   Convert a spline object to class 'fd'
@@ -32,6 +30,7 @@ checkLogicalInteger     Does an argument satisfy required conditions?
 coef.fd                 Extract functional coefficients
 cor.fd                  Correlation matrix from functional data
                         object(s)
+covPACE                 Estimate of the covariance surface
 create.basis            Create Basis Set for Functional Data Analysis
 create.bspline.basis    Create a B-spline Basis
 create.constant.basis   Create a Constant Basis
@@ -49,7 +48,7 @@ dateAccessories         Numeric and character vectors to facilitate
 density.fd              Compute a Probability Density Function
 deriv.fd                Compute a Derivative of a Functional Data
                         Object
-df.residual.fRegress    Degress of Freedom for Residuals from a
+df.residual.fRegress    Degrees of Freedom for Residuals from a
                         Functional Regression
 df2lambda               Convert Degrees of Freedom to a Smoothing
                         Parameter Value
@@ -76,13 +75,11 @@ fRegress.stderr         Compute Standard errors of Coefficient
                         Analysis
 fbplot                  Functional Boxplots
 fd2list                 Convert a univariate functional data object to
-                        s list
+                        a list
 fdPar                   Define a Functional Parameter Object
 fda-package             Functional Data Analysis in R
-fdaMatlabPath           Add 'fdaM' to the Matlab path
 fdlabels                Extract plot labels and names for replicates
                         and variables
-file.copy2              Copy a file with a default 'to' name
 fourier                 Fourier Basis Function Values
 fourierpen              Fourier Penalty Matrix
 gait                    Hip and knee angle while walking
@@ -116,9 +113,6 @@ landmarkreg             Landmark Registration of Functional
 lines.fd                Add Lines from Functional Data to a Plot
 linmod                  Fit Fully Functional Linear Model
 lip                     Lip motion
-lmWinsor                Winsorized Regression
-lmWinsor1               Support functions for lmWinsor
-lmeWinsor               Winsorized Regression with mixed effects
 matplot                 Plot Columns of Matrices
 mean.fd                 Mean of Functional Data
 melanoma                melanoma 1936-1972
@@ -130,8 +124,8 @@ norder                  Order of a B-spline
 objAndNames             Add names to an object
 odesolv                 Numerical Solution mth Order Differential
                         Equation System
-onechild                growth in height of one 10-year-old boy
 pca.fd                  Functional Principal Components Analysis
+pcaPACE                 Estimate the functional principal components
 pda.fd                  Principal Differential Analysis
 pda.overlay             Stability Analysis for Principle Differential
                         Analysis
@@ -142,7 +136,6 @@ plot.basisfd            Plot a Basis Object
 plot.cca.fd             Plot Functional Canonical Correlation Weight
                         Functions
 plot.fd                 Plot a Functional Data Object
-plot.lmWinsor           lmWinsor plot
 plot.pca.fd             Plot Functional Principal Components
 plot.pda.fd             Plot Principle Differential Analysis Components
 plotbeta                Plot a functional parameter object with
@@ -158,25 +151,22 @@ powerpen                Power Penalty Matrix
 ppBspline               Convert a B-spline function to piece-wise
                         polynomial form
 predict.fRegress        Predict method for Functional Regression
-predict.lmWinsor        Predict method for Winsorized linear model fits
-predict.lmeWinsor       Predict method for Winsorized linear model fits
-                        with mixed effects
 project.basis           Approximate Functional Data Using a Basis
 quadset                 Quadrature points and weights for Simpson's
                         rule
-readHMD                 Download data from the Human Mortality Database
-                        (HMD)
-refinery                Reflux and tray level in a refinery
+reconsCurves            Reconstruct data curves using functional
+                        principal components
 register.fd             Register Functional Data Objects Using a
                         Continuous Criterion
-register.fd0            Correct for initial position error between
-                        functional data objects.
 register.newfd          Register Functional Data Objects with
                         Pre-Computed Warping Functions
-residuals.fRegress      Residuals from a Functional Regression
+scoresPACE              Estimates of functional Principal Component
+                        scores through PACE
 sd.fd                   Standard Deviation of Functional Data
 seabird                 Sea Bird Counts
 smooth.basis            Construct a functional data object by smoothing
+                        data using a roughness penalty
+smooth.basis.sparse     Construct a functional data object by smoothing
                         data using a roughness penalty
 smooth.basisPar         Smooth Data Using a Directly Specified
                         Roughness Penalty
@@ -189,6 +179,10 @@ smooth.fdPar            Smooth a functional data object using a
 smooth.monotone         Monotone Smoothing of Data
 smooth.morph            Estimates a Smooth Warping Function
 smooth.pos              Smooth Data with a Positive Function
+smooth.sparse.mean      Smooth the mean function of sparse data
+sparse.list             Creates a list of sparse data from a matrix
+sparse.mat              Creates a matrix of sparse data with NAs out of
+                        a list
 sum.fd                  Sum of Functional Data
 summary.Lfd             Summarize a Linear Differential Operator Object
 summary.basisfd         Summarize a Functional Data Object
@@ -200,6 +194,9 @@ svd2                    singular value decomposition with automatic
 symsolve                solve(A, B) where A is symmetric
 tperm.fd                Permutation t-test for two groups of functional
                         data objects.
+trapzmat                Approximate the functional inner product of two
+                        functional data objects using the trapezpoidal
+                        rule over a fine mesh of value.
 var.fd                  Variance, Covariance, and Correlation Surfaces
                         for Functional Data Object(s)
 varmx                   Rotate a Matrix of Component Loadings using the
