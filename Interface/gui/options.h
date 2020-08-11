@@ -146,7 +146,9 @@ private:
     FCheckBox
         *logCheckBox,          ///< Case à cocher permettant d'activer/de désactiver logFrame.
         *consoleCheckBox,      ///< Case à cocher permettant d'activer la console (cochée par défaut).
+#ifndef Q_OS_WIN
         *parallelCheckBox,     ///< Case à cocher permettant de produire les rapports en parallèle (cochée par défaut).
+#endif
         *openCheckBox;         ///< Case à cocher permettant d'ouvrir les rapports à la fin de l'exécution (cochée par défaut).
     
     QString    file_str; ///< Contenu du fichier prologue.codes.R
@@ -282,10 +284,13 @@ public:
     extraPage();
     
     FLineFrame *budgetFrame, ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre codes, libellés de paye et sous-comptes du 64 (données externes à importer)
-               *gradesFrame, ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre grades et catégorie statutaire (données externes à importer)
-               *logtFrame,   ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre matricule et concession de logement, par année et mois (données externes à importer)
-               *ifseFrame;   ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre grade, groupe fonctionnel et plafond en euros pour l'IFSE (RIFSEEP)  
-    
+               *gradesFrame; ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre grades et catégorie statutaire (données externes à importer)
+
+#ifdef DEBUG
+    FLineFrame *logtFrame,   ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre matricule et concession de logement, par année et mois (données externes à importer)
+               *ifseFrame;   ///< Groupe ligne de chemin + navigateur de fichiers pour la correspondance entre grade, groupe fonctionnel et plafond en euros pour l'IFSE (RIFSEEP)
+#endif
+
     FCheckBox *budgetCheckBox;  ///< Case à cocher de contrôle de \link budgetFrame
      
     void do_copies();        ///< Réalise les copies des fichiers auxiliaires paye_budget.csv, grades.catégories.csv et logements.csv dans Tests/Exemple pour importation par le script R.  
@@ -293,9 +298,12 @@ public:
 private:   
     
     FCheckBox
-              *gradesCheckBox,  ///< Case à cocher de contrôle de \link gradesFrame
+              *gradesCheckBox;  ///< Case à cocher de contrôle de \link gradesFrame
+
+#ifdef DEBUG
               *logtCheckBox,    ///< Case à cocher de contrôle de \link logtFrame
               *ifseCheckBox;    ///< Case à cocher de contrôle de \link ifsetFrame
+#endif
 };
 
 

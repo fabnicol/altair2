@@ -527,3 +527,75 @@
 2020-08-11 19:27:47,239+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-fc57985a1d3ebe8e
 2020-08-11 19:27:47,246+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-fc57985a1d3ebe8e
 2020-08-11 19:27:58,804+0200 INFO  pdflatex - this process (10944) finishes with exit code 0
+2020-08-11 21:46:02,968+0200 INFO  pdflatex - this process (10692) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-fca7a9b39722d625 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-fca7a9b39722d625/input.tex
+2020-08-11 21:46:03,012+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 21:46:03,012+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 21:46:03,012+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-fca7a9b39722d625
+2020-08-11 21:46:03,012+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-fca7a9b39722d625
+2020-08-11 21:46:10,617+0200 INFO  pdflatex - this process (10692) finishes with exit code 0
+2020-08-11 21:46:11,327+0200 INFO  pdflatex - this process (12280) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-fca7a9b39722d625 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-fca7a9b39722d625/input.tex
+2020-08-11 21:46:11,371+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 21:46:11,371+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 21:46:11,371+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-fca7a9b39722d625
+2020-08-11 21:46:11,372+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-fca7a9b39722d625
+2020-08-11 21:46:18,973+0200 INFO  pdflatex - this process (12280) finishes with exit code 0
+2020-08-11 21:58:17,028+0200 INFO  pdflatex - this process (12672) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-72c56f4f54040abc C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-72c56f4f54040abc/input.tex
+2020-08-11 21:58:17,069+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 21:58:17,069+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 21:58:17,069+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-72c56f4f54040abc
+2020-08-11 21:58:17,069+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-72c56f4f54040abc
+2020-08-11 21:58:24,353+0200 INFO  pdflatex - this process (12672) finishes with exit code 0
+2020-08-11 21:58:25,129+0200 INFO  pdflatex - this process (7968) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-72c56f4f54040abc C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-72c56f4f54040abc/input.tex
+2020-08-11 21:58:25,176+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 21:58:25,176+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 21:58:25,176+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-72c56f4f54040abc
+2020-08-11 21:58:25,176+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-72c56f4f54040abc
+2020-08-11 21:58:32,341+0200 INFO  pdflatex - this process (7968) finishes with exit code 0
+2020-08-11 22:08:50,155+0200 INFO  pdflatex - this process (4864) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-d5ba4c2f183c8548 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-d5ba4c2f183c8548/input.tex
+2020-08-11 22:08:50,199+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 22:08:50,199+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 22:08:50,200+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-d5ba4c2f183c8548
+2020-08-11 22:08:50,200+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-d5ba4c2f183c8548
+2020-08-11 22:08:57,476+0200 INFO  pdflatex - this process (4864) finishes with exit code 0
+2020-08-11 22:08:58,202+0200 INFO  pdflatex - this process (9276) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-d5ba4c2f183c8548 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-d5ba4c2f183c8548/input.tex
+2020-08-11 22:08:58,259+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 22:08:58,259+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 22:08:58,260+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-d5ba4c2f183c8548
+2020-08-11 22:08:58,261+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-d5ba4c2f183c8548
+2020-08-11 22:09:05,508+0200 INFO  pdflatex - this process (9276) finishes with exit code 0
+2020-08-11 22:24:39,101+0200 INFO  pdflatex - this process (14644) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-1eb5233d2a249abf C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-1eb5233d2a249abf/input.tex
+2020-08-11 22:24:39,145+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 22:24:39,145+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 22:24:39,145+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-1eb5233d2a249abf
+2020-08-11 22:24:39,146+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-1eb5233d2a249abf
+2020-08-11 22:24:46,362+0200 INFO  pdflatex - this process (14644) finishes with exit code 0
+2020-08-11 22:24:47,126+0200 INFO  pdflatex - this process (17328) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-1eb5233d2a249abf C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-1eb5233d2a249abf/input.tex
+2020-08-11 22:24:47,169+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 22:24:47,169+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 22:24:47,169+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-1eb5233d2a249abf
+2020-08-11 22:24:47,169+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-1eb5233d2a249abf
+2020-08-11 22:24:54,509+0200 INFO  pdflatex - this process (17328) finishes with exit code 0
+2020-08-11 22:57:18,527+0200 INFO  pdflatex - this process (18200) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-251631b8dfbb67c5 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-251631b8dfbb67c5/input.tex
+2020-08-11 22:57:18,571+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 22:57:18,571+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 22:57:18,571+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-251631b8dfbb67c5
+2020-08-11 22:57:18,572+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-251631b8dfbb67c5
+2020-08-11 22:57:26,613+0200 INFO  pdflatex - this process (18200) finishes with exit code 0
+2020-08-11 22:57:27,379+0200 INFO  pdflatex - this process (8652) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-251631b8dfbb67c5 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-251631b8dfbb67c5/input.tex
+2020-08-11 22:57:27,422+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 22:57:27,422+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 22:57:27,423+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-251631b8dfbb67c5
+2020-08-11 22:57:27,423+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-251631b8dfbb67c5
+2020-08-11 22:57:34,927+0200 INFO  pdflatex - this process (8652) finishes with exit code 0
+2020-08-11 23:07:58,456+0200 INFO  pdflatex - this process (9508) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-db7471e1c0249601 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-db7471e1c0249601/input.tex
+2020-08-11 23:07:58,499+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 23:07:58,499+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 23:07:58,500+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-db7471e1c0249601
+2020-08-11 23:07:58,500+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-db7471e1c0249601
+2020-08-11 23:08:05,934+0200 INFO  pdflatex - this process (9508) finishes with exit code 0
+2020-08-11 23:08:06,629+0200 INFO  pdflatex - this process (15888) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-db7471e1c0249601 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-db7471e1c0249601/input.tex
+2020-08-11 23:08:06,671+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 23:08:06,671+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 23:08:06,672+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-db7471e1c0249601
+2020-08-11 23:08:06,672+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-db7471e1c0249601
+2020-08-11 23:08:13,991+0200 INFO  pdflatex - this process (15888) finishes with exit code 0

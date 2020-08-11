@@ -38,7 +38,7 @@
 
 source("syspaths.R", encoding = "UTF-8")
 # empiler d'bord les rmd dans un fichier out.Rmd
-# (mettre l'entête dans script effetctifs)
+# (mettre l'entête dans script effectifs)
 # 
  source("altair_start.R", encoding = "UTF-8", echo = TRUE)
 # # il faudra fair un cat (..., file="out.Rmd", append=TRUE)
@@ -72,7 +72,7 @@ file.copy("altair.odt", chemin.cle)
 if (ouvrir.document && basename(chemin.cle) == racine) {
   if (setOSWindows) {
     
-    shell("start winword Donnees/R-Altaïr/altair.docx")
+    shell(paste("start winword.exe",  file.path(chemin.cle, "altair.docx")))
     
   } else {
     

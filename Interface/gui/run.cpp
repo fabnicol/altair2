@@ -581,13 +581,13 @@ void Altair::runRAltair()
     //    != flags::status::excluded)  Abstract::abstractWidgetList.append(this);
     // Il faut donc invoquer les widgets directement en cas de changement
 
-
+#ifndef Q_OS_WIN
     if (! parent->dialog->processTab->enchainerRapports->isChecked())
         {
             process.start (RAltairCommandStr, QStringList() << path_access ("altaïr.Rproj"));
             return;
         }
-
+#endif
     outputType = "R";
     emit (setProgressBar (0, 100));
     QString  path_access_rapport;
@@ -605,8 +605,8 @@ void Altair::runRAltair()
             path_access_rapport = path_access (SCRIPT_DIR "rapport_msword_et_pdf.R");
         }
 
-#ifdef Q_OS_WIN
-    RAltairDirStr = path_access ("R/bin/x64");
+#ifdef Q_OS_WINDOWS
+    RAltairDirStr = path_access ("R-devel/bin/x64");
     RAltairCommandStr = RAltairDirStr + QDir::separator() + "Rscript" + QString (systemSuffix);
 #else
 

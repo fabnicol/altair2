@@ -277,7 +277,7 @@ generer.partie <- function(script, sequentiel = FALSE) {
                                                                                              x[-1])))))) 
 }
                             
-if (sequentiel) {
+if (sequentiel || setOSWindows) {
   
   generer.partie(scripts)
   
@@ -329,16 +329,9 @@ if (sequentiel) {
             group6)
   
   
-  cluster_mode <- ifelse(setOSWindows, "PSOCK", "FORK")
+  cluster_mode <-"FORK"
   
   cl <- makeCluster(6, type = cluster_mode)
-  
-  clusterExport(cl, c("chemin.modules", "debut.periode.sous.revue", "fin.periode.sous.revue", "duree.sous.revue", 
-                      "quantile.cut", "minimum.positif", "seuil.troncature", "numero.tableau", "chapitre"))
-  
-  clusterEvalQ(cl, library(altair))
-  clusterEvalQ(cl, library(knitr))
-  clusterEvalQ(cl, library(parallel))
   
   res <- clusterApply(cl,
                       G,

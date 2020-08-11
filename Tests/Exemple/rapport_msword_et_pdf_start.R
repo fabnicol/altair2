@@ -86,10 +86,10 @@ source("corps_rapport_pdf.R", encoding = encodage.code.source)
 file.copy("altair.docx", chemin.cle)
 file.copy("altair.odt", chemin.cle)
 
-if (ouvrir.document && basename(chemin.cle) == racine) {
+if (ouvrir.document) {
   if (setOSWindows) {
     
-    shell("start winword Donnees/R-Altaïr/altair.docx")
+    shell(paste("start winword.exe",  file.path(chemin.cle, "altair.docx")))
     
   } else {
     

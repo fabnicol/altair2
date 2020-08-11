@@ -699,6 +699,7 @@ standardPage::standardPage()
                                   "sans-bom");                                      // Ligne de commande --sans-bom si cochée
 
 
+    bomCheckBox ->setToolTip(tr("Cocher cette case pour supprimer le marquage BOM de l'encodage UTF-8\ndes fichiers CSV exportés. Utile seulement en cas de visualisation sous certains éditeurs.\nExcel et Calc ne nécessitent pas cette option."));
     QList<QString> exportRange = QList<QString>();
     exportRange << "Standard" << "Cumulative" << "Distributive" << "Distributive+";
 
@@ -1032,19 +1033,23 @@ processPage::processPage()
                                              flags::status::enabledChecked|flags::commandLineType::noCommandLine,
                                             "ouvrirDocFinExec",
                                             {"Rapports", "Ouvrir en fin d'exécution"});
-       
-    parallelCheckBox = new FCheckBox("Exécution en parallèle du rapport",
-                                            flags::status::enabledChecked|flags::commandLineType::noCommandLine,
-                                            "parallelExec",
-                                            {"Rapports", "Exécution parallèle"});
-    
 
     v4Layout->addWidget (enchainerRapports, 0, 0, Qt::AlignLeft);
     v4Layout->addWidget (rapportTypeLabel,  1, 0, Qt::AlignRight);
     v4Layout->addWidget (rapportTypeWidget, 1, 1, Qt::AlignLeft);
     v4Layout->addWidget (openCheckBox,      3, 0, Qt::AlignLeft);
-    v4Layout->addWidget (parallelCheckBox,  4, 0, Qt::AlignLeft);
-    
+
+#ifndef Q_OS_WIN
+    parallelCheckBox = new FCheckBox("Exécution en parallèle du rapport",
+                                            flags::status::enabledChecked|flags::commandLineType::noCommandLine,
+                                            "parallelExec",
+                                            {"Rapports", "Exécution parallèle"});
+     v4Layout->addWidget (parallelCheckBox,  4, 0, Qt::AlignLeft);
+     auto connectedCB = {parallelCheckBox, openCheckBox};
+#else
+     auto connectedCB = {openCheckBox};
+#endif
+
     rapportBox->setLayout (v4Layout);
 
     QVBoxLayout* mainLayout = new QVBoxLayout;
@@ -1056,13 +1061,15 @@ processPage::processPage()
     mainLayout->addSpacing (150);
 
     setLayout (mainLayout);
-    for (const FCheckBox* a : {parallelCheckBox, openCheckBox})
+    for (const FCheckBox* a : connectedCB)
     {
 
         connect(a, &FCheckBox::toggled, [this] {
             reinitialiser_prologue();
             file_str = common::readFile (prologue_options_path);
+#ifndef Q_OS_WIN
             substituer("séquentiel *<- *FALSE", QString("séquentiel <- ") + (parallelCheckBox->isChecked() ? "FALSE" : "TRUE"), file_str);
+#endif
             substituer("ouvrir.document *<- *TRUE", QString("ouvrir.document <- ") + (openCheckBox->isChecked() ? "TRUE" : "FALSE"), file_str);
             renommer (dump (file_str), prologue_options_path);
             });
@@ -1196,7 +1203,13 @@ extraPage::extraPage()
             
     gradesBox->setLayout(v4Layout);
     gradesBox->setToolTip(gradesTip);
-    
+    QVBoxLayout* mainLayout = new QVBoxLayout;
+    FRichLabel *mainLabel = new FRichLabel ("Fichiers externes");
+    mainLayout->addWidget (mainLabel);
+    mainLayout->addWidget (budgetBox);
+    mainLayout->addWidget (gradesBox);
+
+#if DEBUG
     QGridLayout *v5Layout = new QGridLayout;    
     
     logtFrame = new FLineFrame ({"Concessions de logement", "Chemin de la table Matricules-Dates"},
@@ -1301,19 +1314,12 @@ extraPage::extraPage()
     
     ifseBox->setToolTip(ifseTip);
     ifseBox->setLayout (v6Layout);
-        
-    QVBoxLayout* mainLayout = new QVBoxLayout;
-    FRichLabel *mainLabel = new FRichLabel ("Fichiers externes");
-    mainLayout->addWidget (mainLabel);
-    mainLayout->addWidget (budgetBox);
-    mainLayout->addWidget (gradesBox);
     mainLayout->addWidget (logtBox);
     mainLayout->addWidget (ifseBox);
+
+#endif
     mainLayout->addSpacing (250);
 
-    // Temporaire
-    
-    ifseCheckBox->setDisabled(true);
                 
     setLayout (mainLayout);
 }
@@ -1322,7 +1328,11 @@ extraPage::extraPage()
 void extraPage::do_copies()
 {
     short i = 0;
+#ifdef Q_OS_WINDOWS
+    FLineFrame* frameList[] = {budgetFrame, gradesFrame};
+#else
     FLineFrame* frameList[] = {budgetFrame, gradesFrame, logtFrame, ifseFrame};
+#endif
     const char* pathList[] = {"paye_budget.csv",
                      "grades.categories.csv",
                      "logements.csv",
