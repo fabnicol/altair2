@@ -1,0 +1,8 @@
+2020-08-10 23:06:16,203+0200 INFO  miktex-pdftex - this process (11728) started by 'miktex-makefmt' with command line: miktex-pdftex.exe --miktex-disable-maintenance --miktex-disable-diagnose --initialize --interaction=nonstopmode --halt-on-error --alias=pdflatex --job-name=pdflatex -tcx=cp227.tcx --enable-etex pdflatex.ini
+2020-08-10 23:06:16,234+0200 INFO  miktex-pdftex - allowing known shell commands
+2020-08-10 23:06:16,234+0200 INFO  miktex-pdftex - enabling input (output) from (to) processes
+2020-08-10 23:06:25,944+0200 INFO  miktex-pdftex - this process (11728) finishes with exit code 0
+2020-08-11 18:02:11,565+0200 INFO  miktex-pdftex - this process (10604) started by 'miktex-makefmt' with command line: miktex-pdftex.exe --miktex-enable-installer --miktex-disable-maintenance --miktex-disable-diagnose --initialize --interaction=nonstopmode --halt-on-error --alias=pdflatex --job-name=pdflatex -tcx=cp227.tcx --enable-etex pdflatex.ini
+2020-08-11 18:02:11,596+0200 INFO  miktex-pdftex - allowing known shell commands
+2020-08-11 18:02:11,596+0200 INFO  miktex-pdftex - enabling input (output) from (to) processes
+2020-08-11 18:02:28,335+0200 INFO  miktex-pdftex - this process (10604) finishes with exit code 0

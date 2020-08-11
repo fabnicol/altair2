@@ -12,17 +12,17 @@ charges.eqtp(
   service = NULL,
   libellés = NULL,
   agr = FALSE,
-  période = NULL,
+  periode = NULL,
   variation = FALSE,
   statut = NULL,
-  catégorie = NULL,
+  categorie = NULL,
   exclure.codes = NULL,
   quotite.nulle = FALSE,
   type = "G"
 )
 }
 \arguments{
-\item{Base}{Base des bulletins de paye, comportant pour l'ensemble de la période
+\item{Base}{Base des bulletins de paye, comportant pour l'ensemble de la periode
 \enumerate{
   \item{ les variables charactère suivantes :
      \itemize{
@@ -46,23 +46,23 @@ charges.eqtp(
 
 \item{agr}{Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.}
 
-\item{période}{Vecteur des années considérées.}
+\item{periode}{Vecteur des annees considérées.}
 
 \item{variation}{Booléen Insérer une colonne des variations (défaut FALSE).}
 
 \item{statut}{Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.}
 
-\item{catégorie}{Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.}
+\item{categorie}{Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.}
 
 \item{exclure.codes}{Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).}
 
 \item{quotite.nulle}{[défaut FALSE] Si TRUE, lorsque la quotité est nulle, faire comme si elle valait 1. A n'utiliser que dans le cas de défauts de bases qui utilisent 0 pour les quotités de temps plein (attesté mais rare).}
 }
 \value{
-Un tableau des coûts moyen par agent et par grade mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
+Un tableau des coûts moyen par agent et par grade mis en forme avec les grades en ligne et autant de colonnes numériques que d'annees de periode, plus une colonne de libellés.
 }
 \description{
-Elabore un tableau des charges de personnel (coût) par grade et par année.
+Elabore un tableau des charges de personnel (coût) par grade et par annee.
 }
 \examples{
 charges.eqtp()

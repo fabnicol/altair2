@@ -3,7 +3,7 @@
 \name{tester.homogeneite.matricules}
 \alias{tester.homogeneite.matricules}
 \title{Teste si, dans une base, la proportion d'enregistrements Noms-Prenoms dont les matricules ne sont pas identiques
- reste inférieure à une marge de tolérance fixée (taux.tolérance.homonymie)}
+ reste inférieure à une marge de tolerance fixée (taux.tolerance.homonymie)}
 \usage{
 tester.homogeneite.matricules(Base)
 }
@@ -12,5 +12,5 @@ tester.homogeneite.matricules(Base)
 }
 \description{
 Teste si, dans une base, la proportion d'enregistrements Noms-Prenoms dont les matricules ne sont pas identiques
- reste inférieure à une marge de tolérance fixée (taux.tolérance.homonymie)
+ reste inférieure à une marge de tolerance fixée (taux.tolerance.homonymie)
 }

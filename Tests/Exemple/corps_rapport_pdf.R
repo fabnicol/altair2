@@ -1,6 +1,6 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annees 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
 # Ce logiciel est un programme informatique servant à extraire et analyser
@@ -42,7 +42,7 @@ PDF <<- TRUE
 
 source("rendre.R", encoding = "UTF-8")
 
-# La fonction rendre() permet de générer le rapport pdf
+# La fonction rendre() permet de generer le rapport pdf
 
 rendre(to = "latex",
        args = c("-V", 
@@ -54,24 +54,24 @@ rendre(to = "latex",
               "--highlight-style", # facultatif
               "tango"),
        output_file = "altair.tex",
-       keep = fichiers.temp)
+       keep = TRUE)
 
-# Copie sur le sous-dossier de la clé (dossier R-Altair ou R-Altair/nom du dossier/
+# Copie sur le sous-dossier de la cle (dossier R-Altair ou R-Altair/nom du dossier/
 # en mode distributif)
 
-file.copy("altair.pdf", chemin.clé)
+file.copy("altair.pdf", chemin.cle)
 
 # Lancer le lecteur de PDF à la fin
 # Mais ne le faire que s'il ne s'agit pas du mode distributif(+)
 # Il serait en effet non ergonomique de lancer la lecture de 50 fichiers PDF
 
-if (ouvrir.document && basename(chemin.clé) == basename(racine)) {
+if (ouvrir.document && basename(chemin.cle) == basename(racine)) {
   if (setOSWindows) {
     
-    shell(paste("start acrord32.exe",  file.path(chemin.clé, "altair.pdf")))
+    shell(paste("start acrord32.exe",  file.path(chemin.cle, "altair.pdf")))
     
   } else {
-          system(paste("okular", file.path(chemin.clé, "altair.pdf")))
+          system(paste("okular", file.path(chemin.cle, "altair.pdf")))
   }
 }
 

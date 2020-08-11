@@ -27,7 +27,7 @@ names(remunerations.elu) <- c("Matricule",
 remunerations.elu <- na.omit(remunerations.elu)
 
 #'   
-if (générer.table.élus)   {
+if (generer.table.élus)   {
   
   if (nrow(remunerations.elu) > 0) {
     

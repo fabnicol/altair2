@@ -9,10 +9,10 @@ Tableau(x, ...)
 \arguments{
 \item{x}{Vecteur de nom de lignes pour le tableau}
 
-\item{...}{paramètres. Si sep.milliers est un paramètre, sa valeur est utiisée comme séparateur des milliers. Par défault, le séparateur blanc.}
+\item{...}{paramètres. Si sep.milliers est un paramètre, sa valeur est utiisée comme separateur des milliers. Par défault, le separateur blanc.}
 }
 \value{
-Base de données data.table mise en forme de tableau par la fonction knitr::kable comportant l'ensemble des paramètres mis en colonnes centrées, avec x comme noms de lignes.
+Base de données data.table mise en forme de tableau par la fonction knitr::kable comportant l'ensemble des paramètres mis en colonnes centrees, avec x comme noms de lignes.
 }
 \description{
 Présentation de tables sous forme de tableau d'une seule ligne de données.

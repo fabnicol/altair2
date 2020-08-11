@@ -1,6 +1,6 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annees 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
 # Ce logiciel est un programme informatique servant à extraire et analyser
@@ -59,7 +59,7 @@
 
 # comportement global du programme
 
-# Lorsque l'on n'a que une ou deux années, mettre étudier.variations à FALSE
+# Lorsque l'on n'a que une ou deux annees, mettre étudier.variations à FALSE
 # Lorsque l'on n'étudie pas une base Xémélios, mettre étudier.tests.statutaires à FALSE
 
 #+ début
@@ -77,30 +77,34 @@ invisible(enableJIT(3))
 # Appel de la biblio altair, où sont regroupées des fonctions d'analyse des rémunérations et les pyramides
 
 library(knitr, warn.conflicts = FALSE)
-options(knitr.duplicate.label = "allow")
-knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis')
+options(knitr.duplicate.label = "allow", encoding="UTF-8")
+knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis', encoding="UTF-8")
 
 # Importer les données --> bases Paie et Bulletins.paie
 
 importer()
+#+ fin_import
 
+message("Importation effectuée...")
 # En-tête du rapport
 # Les caractéristiques du contrôle sont contenues dans controle[1], controle[2], controle[3], controle[4]
+#+ entete
 
 #'
 #'### Employeur : `r controle[1]`      
 #'### Siret : `r controle[2]`   
 #'### Etablissement : `r controle[3]`   
 #'### Budget : `r controle[4]`      
-cat("**Période sous revue : ", début.période.sous.revue, " - ", fin.période.sous.revue,"**  \n")
-cat("**Nombre d'exercices : ", durée.sous.revue, "**  \n")        
+cat("**Période sous revue : ", debut.periode.sous.revue, " - ", fin.periode.sous.revue,"**  \n")
+cat("**Nombre d'exercices : ", duree.sous.revue, "**  \n")        
+#+ licence
+
 #'   
 #'   
 #'Logiciel sous licence [CeCILL v.2.1](Docs/LICENCE.html)     
-#+ echo = FALSE
+#'     
 #'`r format(Sys.Date(), "%a %d %b %Y")`      
-#'      
-
+#'    
 #'   
 #'   
 #'**Avertissements**   
@@ -117,13 +121,13 @@ cat("**Nombre d'exercices : ", durée.sous.revue, "**  \n")
 # Pour sauter une page en html (ou pdf converti de html, faire un h6 soit six dièses dans les Rmd seulement)  
 #+ analyse-rémunérations
 
+message("Analyse des rémunérations...")
 
-
-# Analyser les rémunérations à partir des données importées --> bases Analyse.XXX
+# Analyser les rémunérations à partir des données importees --> bases Analyse.XXX
 
 source("analyse.rémunérations.R", encoding =  "UTF-8")
 
-colonnes.sélectionnées <<- c("traitement.indiciaire",
+colonnes.selectionnees <<- c("traitement.indiciaire",
                             "acomptes",
                             "rémunération.indemnitaire.imposable",
                             "rémunération.indemnitaire.imposable.eqtp",
@@ -174,53 +178,53 @@ Paie_I <<- Paie[Type == "I" | Type == "A" | Type == "R",
                  Categorie)]
 
 prime_IAT <<- list(nom = "IAT",                     # Nom en majuscules
-                  catégorie = c("B", "C"),         # restreint aux catégories B et C
+                  categorie = c("B", "C"),         # restreint aux categories B et C
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   dossier = "Reglementation")      # dossier de bases
 
 prime_IFTS <<- list(nom = "IFTS",                   # Nom en majuscules
-                   catégorie = c("A", "B"),        # restreint aux catégories A et B
+                   categorie = c("A", "B"),        # restreint aux categories A et B
                    restreint_fonctionnaire = TRUE, # fonctionnaires
                    dossier = "Reglementation",     # dossier de bases  
                    NAS = "non",                    # logement par NAS
-                   indice  = c("+", 350, "B"))     # supérieur à INM 350 pour catégorie B.
+                   indice  = c("+", 350, "B"))     # supérieur à INM 350 pour categorie B.
 
 prime_PFR <<- list(nom = "PFR",                     # Nom en majuscules
-                  catégorie = "A",                 # restreint aux catégories A
+                  categorie = "A",                 # restreint aux categories A
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   dossier = "Reglementation",      # dossier de bases
-                  expr.rég = "")  
+                  expr.reg = "")  
 
 prime_PSR <<- list(nom = "PSR",                     # Nom en majuscules
-                  catégorie = c("A","B"),          # restreint aux catégories A et B
+                  categorie = c("A","B"),          # restreint aux categories A et B
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   dossier = "Reglementation",      # dossier de bases
-                  expr.rég = ".*(?:ing|tech|d.*g.*s.*t|dessin|biol|phar).*")  # Contrainte sur le grade (expression régulière)
+                  expr.reg = ".*(?:ing|tech|d.*g.*s.*t|dessin|biol|phar).*")  # Contrainte sur le grade (expression régulière)
 
 prime_IPF <<- list(nom = "IPF",                     # Nom en majuscules
-                  catégorie = "A",                 # restreint aux catégories A et B
+                  categorie = "A",                 # restreint aux categories A et B
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   dossier = "Reglementation",      # dossier de bases
-                  expr.rég = ".*(?:ing.*chef).*")  # Contrainte sur le grade (expression régulière)
+                  expr.reg = ".*(?:ing.*chef).*")  # Contrainte sur le grade (expression régulière)
 
 prime_IFSE <<- list(nom = "IFSE",                   # Nom en majuscules
                    restreint_fonctionnaire = TRUE, # fonctionnaires
-                   catégorie = c("A", "B", "C"),   # toutes les catégories
+                   categorie = c("A", "B", "C"),   # toutes les categories
                    dossier = "Reglementation")     # dossier de bases
 
 prime_ISS <<- list(nom = "ISS",                     # Nom en majuscules
-                  catégorie = c("A", "B"),         # Techniciens A, B
+                  categorie = c("A", "B"),         # Techniciens A, B
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
                   dossier = "Reglementation")      # dossier de bases
 
 prime_IEMP <<- list(nom = "IEMP",                   # Nom en majuscules
                    restreint_fonctionnaire = TRUE, # fonctionnaires
-                   catégorie = c("A", "B", "C"),   # toutes les catégories
+                   categorie = c("A", "B", "C"),   # toutes les categories
                    dossier = "Reglementation")     # dossier de bases
 
 prime_PFI <<- list(nom = "PFI",                      # Nom en majuscules
                   restreint_fonctionnaire = TRUE,   # fonctionnaires
-                  catégorie = c("A", "B", "C"),     # toutes les catégories
+                  categorie = c("A", "B", "C"),     # toutes les categories
                   dossier = "Reglementation")       # dossier de bases
 #immature
 
@@ -231,16 +235,17 @@ if (!setOSWindows) {
                header = FALSE)[V1 == "MemAvailable", V2]
   mem <- strtoi(unlist(strsplit(mem, " "))[1])
   if (nrow(Paie) * ratio.memoire.ligne.parallele  > mem) {
-    "séquentiel" %a% TRUE  # assignation globale nécessaire
-    message("Bascule en mode séquentiel")
+    "sequentiel" %a% TRUE  # assignation globale nécessaire
+    message("Bascule en mode sequentiel")
   }
 }
 
 
+options(encoding="UTF-8")
 scripts <- 
    list("script_effectifs.R",
         "script_pyramides.R",
-        "script_duréedeservice.R",
+        "script_dureedeservice.R",
         "script_rémunérationsbrutes1.R",
         "script_rémunérationsbrutes2.R",
         "script_comparaisonsdubrut.R",
@@ -265,16 +270,16 @@ scripts <-
   
 opts_knit$set(output.dir=getwd())
 
-générer.partie <- function(script, séquentiel = FALSE) {
+generer.partie <- function(script, sequentiel = FALSE) {
 
-                              invisible(lapply(script, function(x) do.call(insérer_script, 
+                              invisible(lapply(script, function(x) do.call(inserer_script, 
                                                                              as.list(na.omit(c(file.path(chemin.modules, x[1]),
                                                                                              x[-1])))))) 
 }
                             
-if (séquentiel) {
+if (sequentiel) {
   
-  générer.partie(scripts)
+  generer.partie(scripts)
   
 } else {
   
@@ -286,7 +291,7 @@ if (séquentiel) {
   
   group1 <- list("script_effectifs.R",
                   "script_pyramides.R",
-                  "script_duréedeservice.R")
+                  "script_dureedeservice.R")
 
   group2 <- list("script_rémunérationsbrutes1.R",
                  "script_rémunérationsbrutes2.R",
@@ -328,8 +333,8 @@ if (séquentiel) {
   
   cl <- makeCluster(6, type = cluster_mode)
   
-  clusterExport(cl, c("chemin.modules", "début.période.sous.revue", "fin.période.sous.revue", "durée.sous.revue", 
-                      "quantile.cut", "minimum.positif", "seuil.troncature", "numéro.tableau", "chapitre"))
+  clusterExport(cl, c("chemin.modules", "debut.periode.sous.revue", "fin.periode.sous.revue", "duree.sous.revue", 
+                      "quantile.cut", "minimum.positif", "seuil.troncature", "numero.tableau", "chapitre"))
   
   clusterEvalQ(cl, library(altair))
   clusterEvalQ(cl, library(knitr))
@@ -337,7 +342,7 @@ if (séquentiel) {
   
   res <- clusterApply(cl,
                       G,
-                      générer.partie)
+                      generer.partie)
   
   stopCluster(cl)
   
@@ -382,9 +387,9 @@ if (profiler)
 if (! dir.exists(chemin.dossier.docs)) 
   dir.create(chemin.dossier.docs, recursive = TRUE, mode="0777")
 
-res <- file.copy("Docs", chemin.clé, recursive=TRUE)
+res <- file.copy("Docs", chemin.cle, recursive=TRUE)
 
-if (res) message("Dossier Docs copié dans", chemin.clé) else message("Dossier Docs n'a pas été copié dans", chemin.clé)
+if (res) message("Dossier Docs copié dans", chemin.cle) else message("Dossier Docs n'a pas été copié dans", chemin.cle)
 
 # Nettoyage
 

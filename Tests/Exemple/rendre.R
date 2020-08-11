@@ -1,6 +1,6 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annees 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
 # Ce logiciel est un programme informatique servant à extraire et analyser
@@ -38,8 +38,16 @@
 
 find.pandoc <- function() {
   
-  for (folder in c("/usr/bin", "/usr/bin/pandoc", "/usr/local/bin", "/usr/local/bin/pandoc")) {
-    p <- file.path(folder, "pandoc")
+  if (setOSWindows) {
+     Sys.setenv(PATH = Sys.getenv("PATH")  %+%  ";C:\\Users\\Public\\Dev\\altair\\texlive2\\texmfs\\install\\miktex\\bin\\x64")
+     repert <-  "C:\\Users\\Public\\Dev\\altair\\RStudio\\bin\\pandoc"
+  } else {
+     repert <- c("/usr/bin", "/usr/bin/pandoc", "/usr/local/bin", "/usr/local/bin/pandoc")
+  }
+  
+  
+  for (folder in repert) {
+    p <- file.path(folder, "pandoc" %+% exec.root)
     if (file_test("-f", p)) return(p) 
   }
   
@@ -67,7 +75,7 @@ rendre <- function(fw = fig.width,
           if (to == "docx") {
             if (file.exists("temp.R")) file.remove("temp.R")
             V <- readLines("altair_start.R", encoding = encodage.code.source)
-            V <- gsub("![Notice](Notice.png)", "Notice", V, fixed = TRUE)
+            V <- gsub("![Notice](Notice.png)", "Notice", V, fixed = TRUE, useBytes = TRUE)
             
             writeLines(V,  "temp.R")
           }
@@ -97,7 +105,7 @@ rendre <- function(fw = fig.width,
                   system2(chemin_pandoc, c(output_file, "-o", "altair.pdf", args))
                }
             } else {
-              cat("Impossible de trouver pandoc et de générer le pdf.")
+              cat("Impossible de trouver pandoc et de generer le pdf.")
             }
             if (! keep) file.remove(output_file)
           }
@@ -111,7 +119,7 @@ rendre <- function(fw = fig.width,
 # Hack relativement laid mais très efficace qui évite de refaire tourner render pour la fabrication d'un .md
 # en recalculant les mêmes choses afin de produire le nouveau format.
 # On utilise le .md produit par keep_md = TRUE plus haut et les images conservées grâce à clean_supporting = FALSE
-# Mais il faut réinsérer un nouveau YAML header pour effacer les noms, dates etc. standard
+# Mais il faut réinserer un nouveau YAML header pour effacer les noms, dates etc. standard
 # et aussi effacer un FALSE indésirable produit par render en tête de .md (qui correspond au traitement du premier YAML header du pdf)
 # Les autres alternatives ont été essayées et échouent. La production directe de .md par render échoue sur la question
 # des liens URL comportant un caractère non-ascii.

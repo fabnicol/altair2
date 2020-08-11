@@ -1,11 +1,11 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annees 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
 # Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
 # produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-# en vigueur à compter de l'année 2008.
+# en vigueur à compter de l'annee 2008.
 # 
 # Ce logiciel est régi par la licence CeCILL soumise au droit français et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -36,22 +36,22 @@
 # 
 # 
 
-# Modélisation : en première année sous revue, est réputé absent le Matricule ayant une quotite non uniformément nulle sur l'année, qui n'a pas de quotite positive dans les trois premiers mois
-# Modélisation : en dernière année sous revue, est réputé absent le Matricule ayant une quotite non uniformément nulle sur l'année, qui n'a pas de quotite positive dans les trois derniers mois
-# Cette modélisation est adoptée par défaut si un fichier des entrées sorties n'est pas passé en paramètre fichier.
+# Modélisation : en première annee sous revue, est réputé absent le Matricule ayant une quotite non uniformément nulle sur l'annee, qui n'a pas de quotite positive dans les trois premiers mois
+# Modélisation : en dernière annee sous revue, est réputé absent le Matricule ayant une quotite non uniformément nulle sur l'annee, qui n'a pas de quotite positive dans les trois derniers mois
+# Cette modélisation est adoptée par défaut si un fichier des entrees sorties n'est pas passé en paramètre fichier.
 # Sont exclus les vacataires et assistantes maternelles détectées.
 
 #' Décomposition de l'évolution des salaires, RMPP, SMPT et GVT
 #'
-#' Elabore des tableaux permettant de relier l'évolution de la RMPP, du salaire moyen et des effets d'entrées-sorties.
+#' Elabore des tableaux permettant de relier l'évolution de la RMPP, du salaire moyen et des effets d'entrees-sorties.
 #' 
-#' La RMPP ici utilisée se distingue de la définition officielle pour la première année.
-#' On considère en effet en début de période que les salaires considérés sont ceux des agents
-#' présents toute la première année et toute la seconde avec la même quotite.
-#' Ce devrait être en principe "et toute l'année précédente", mais celle-ci n'est pas documentée
+#' La RMPP ici utilisée se distingue de la définition officielle pour la première annee.
+#' On considère en effet en début de periode que les salaires considérés sont ceux des agents
+#' présents toute la première annee et toute la seconde avec la même quotite.
+#' Ce devrait être en principe "et toute l'annee précédente", mais celle-ci n'est pas documentée
 #' et l'approximation reste valable pour l'évaluation du GVT.
 #'
-#' @param Bulletins Base mensuelle des bulletins de paie, comportant pour l'ensemble de la période
+#' @param Bulletins Base mensuelle des bulletins de paie, comportant pour l'ensemble de la periode
 #'        \enumerate{
 #'          \item{ les variables charactère suivantes :
 #'             \itemize{
@@ -63,7 +63,7 @@
 #'           \item{ les variables numériques :
 #'               \describe{
 #'                 \item{\code{quotite}}{réel entre 0 et 1, quotite mensuelle}}}}
-#' @param Base Base de paye, ou extraction de cette base, comportant pour l'ensemble de la période
+#' @param Base Base de paye, ou extraction de cette base, comportant pour l'ensemble de la periode
 #'        \enumerate{
 #'          \item{ les variables charactère suivantes :
 #'             \itemize{
@@ -77,19 +77,19 @@
 #'                 \item{\code{Montant.net.eqtp}}{salaire net moyen annuel EQTP}
 #'                 \item{\code{Montant.brut.eqtp}}{salaire brut moyen annuel en EQTP}}}}.
 #' @param classe Valeur caractère définissant une sous-population.                  
-#' @param champ  "brut" ou "net" selon que le tableau est calculé sur rémunérations brutes ou nettes.
-#' @param filtre "A", "B", "C" pour les catégories statutaires correspondantes, ou bien un vecteur de libellés de statuts possibles (exemple c("TITULAIRE", "STAGIAIRE"). Vecteur de chaînes de caractères exactes. 
+#' @param champ  "brut" ou "net" selon que le tableau est calcule sur rémunérations brutes ou nettes.
+#' @param filtre "A", "B", "C" pour les categories statutaires correspondantes, ou bien un vecteur de libellés de statuts possibles (exemple c("TITULAIRE", "STAGIAIRE"). Vecteur de chaînes de caractères exactes. 
 #' @param fichier  Si absent, seules les bases de paye seront utilisées. 
-#' En première année sous revue, est réputé absent le Matricule ayant une quotite non uniformément nulle sur l'année, qui n'a pas de quotite positive dans les trois premiers mois
-#' En dernière année sous revue, est réputé absent le Matricule ayant une quotite non uniformément nulle sur l'année, qui n'a pas de quotite positive dans les trois derniers mois
-#' Cette modélisation est adoptée par défaut si un fichier des entrées sorties n'est pas passé en paramètre fichier.
+#' En première annee sous revue, est réputé absent le Matricule ayant une quotite non uniformément nulle sur l'annee, qui n'a pas de quotite positive dans les trois premiers mois
+#' En dernière annee sous revue, est réputé absent le Matricule ayant une quotite non uniformément nulle sur l'annee, qui n'a pas de quotite positive dans les trois derniers mois
+#' Cette modélisation est adoptée par défaut si un fichier des entrees sorties n'est pas passé en paramètre fichier.
 #' Sont exclus les vacataires et assistantes maternelles détectées.
-#' Si présent, fichier indique le chemin complet du fichier des entrées-sorties, comportant pour l'ensemble de la période :  
+#' Si présent, fichier indique le chemin complet du fichier des entrees-sorties, comportant pour l'ensemble de la periode :  
 #'        \enumerate{
 #'          \item{ à titre obligatoire :
 #'             \describe{
 #'                 \item{\code{Matricule}}{Matricule de l'agent, au même format que dans les autres bases}
-#'                 \item{\code{Entrée}}{Date d'entrée de l'agent en service, de la forme numérique XX/XX/20XX}                 
+#'                 \item{\code{Entrée}}{Date d'entree de l'agent en service, de la forme numérique XX/XX/20XX}                 
 #'                 \item{\code{Sortie}}{Date de sortie de l'agent du service, de la forme numérique XX/XX/20XX}}}                 
 #'           \item{ à titre optionnel :
 #'               \describe{
@@ -101,87 +101,87 @@
 #' @return Si afficher.tableau = TRUE : 
 #'  \enumerate{
 #'      \item{
-#'        Affiche un tableau des entrées-sorties, comportant les variables numériques suivantes :
+#'        Affiche un tableau des entrees-sorties, comportant les variables numériques suivantes :
 #'               \describe{
-#'                 \item{\code{Annee}}{Annees de la période sous revue, puis le libellé "Total".}
+#'                 \item{\code{Annee}}{Annees de la periode sous revue, puis le libellé "Total".}
 #'                 \item{\code{Effectifs}}{Effectifs en janvier, hors quotites nulles, vacataires et assistantes maternelles identifiés.}
-#'                 \item{\code{ETPT}}{ETPT calculés sur base de paye, postes actifs non annexes (voir fonction \link{effectifs}).}
-#'                 \item{\code{ETPT entrants}}{ETPT des entrants de l'année, par année.}
-#'                 \item{\code{ETPT sortants}}{ETPT des sortants de l'année, par année.}
-#'                 \item{\code{Entrants}}{Entrants (effectifs physiques) de l'année, par année, puis Total.}
-#'                 \item{\code{Sortants}}{Sortants (effectifs physiques) de l'année, par année, puis Total.}                 
-#'                 \item{\code{Var. effectifs}}{différence du nombre d'entrants et de sortants, par année, puis Total.}
-#'                 \item{\code{Taux de rotation}}{ratio égal à la moyenne du nombre d'entrants et de sortants rapportée à l'effectif en janvier}}}
+#'                 \item{\code{ETPT}}{ETPT calcules sur base de paye, postes actifs non annexes (voir fonction \link{effectifs}).}
+#'                 \item{\code{ETPT entrants}}{ETPT des entrants de l'annee, par annee.}
+#'                 \item{\code{ETPT sortants}}{ETPT des sortants de l'annee, par annee.}
+#'                 \item{\code{Entrants}}{Entrants (effectifs physiques) de l'annee, par annee, puis Total.}
+#'                 \item{\code{Sortants}}{Sortants (effectifs physiques) de l'annee, par annee, puis Total.}                 
+#'                 \item{\code{Var. effectifs}}{différence du nombre d'entrants et de sortants, par annee, puis Total.}
+#'                 \item{\code{Taux de rotation}}{ratio égal à la moyenne du nombre d'entrants et de sortants rapportee à l'effectif en janvier}}}
 #'      \item{           
-#' Un deuxième tableau détaille l'effet des entrées sorties sur la masse des rémunérations brutes ou nettes. \cr
+#' Un deuxième tableau détaille l'effet des entrees sorties sur la masse des rémunérations brutes ou nettes. \cr
 #' Des colonnes indiquent la valeur de l'effet en point de pourcentage du salaire moyen (\% SMPT) : \cr
 #'               \describe{
-#'                 \item{\code{Annee}}{Annees de la période sous revue, puis le libellé "Total".}
-#'                 \item{\code{Effet noria}}{Cumul des économies (si négatif) ou des coûts (si positif) sur salaires (nets ou bruts) dus au remplacement des sortants par les entrants, par année, puis Total.}
+#'                 \item{\code{Annee}}{Annees de la periode sous revue, puis le libellé "Total".}
+#'                 \item{\code{Effet noria}}{Cumul des économies (si négatif) ou des coûts (si positif) sur salaires (nets ou bruts) dus au remplacement des sortants par les entrants, par annee, puis Total.}
 #'                 \item{\code{Effet var. effectifs}}{Cumul des économies (si négatif) ou des coûts (si positif) sur salaires (nets ou bruts) dus aux variations d'effectifs. \cr
-#'                 Est positif si le nombre d'entrants excède le nombre de sortants, par année, puis Total.}
+#'                 Est positif si le nombre d'entrants excède le nombre de sortants, par annee, puis Total.}
 #'                 \item{\code{Effet vacances}}{Cumul des économies (si négatif) ou des coûts (si positif) sur salaires (nets ou bruts) dus aux vacances d'emplois. \cr
-#'                 Est positif si les entrants intègrent l'organisme en moyenne plus tôt dans l'année que les sortants ne le quittent, par année, puis Total.}                                  
-#'                 \item{\code{Total}}{Total des trois effets liés aux entrées-sorties (GVT négatif et variation d'effectifs vacances comprises)}}}
+#'                 Est positif si les entrants intègrent l'organisme en moyenne plus tôt dans l'annee que les sortants ne le quittent, par annee, puis Total.}                                  
+#'                 \item{\code{Total}}{Total des trois effets liés aux entrees-sorties (GVT négatif et variation d'effectifs vacances comprises)}}}
 #'    \item{             
-#' Un troisième tableau détaille la décomposition du salaire moyen par tête (SMPT) en ses composantes stables (RMPP) et variables (flux d'entrées-sorties)
+#' Un troisième tableau détaille la décomposition du salaire moyen par tête (SMPT) en ses composantes stables (RMPP) et variables (flux d'entrees-sorties)
 #' Les coefficients des colonnes comprises entre la colonne "RMPP" et la colonne "SMTP" sont des variations relatives exprimées en pourcentage.
 #' Pour passer de la colonne "RMPP" à la colonne "SMPT", il suffit de multiplier successivement par chaque coefficient sur la même ligne, augmenté de 1. 
 #' 
 #'               \describe{
-#'                 \item{\code{Annee}}{Annees de la période sous revue}
-#'                 \item{\code{RMPP}}{Rémunération moyenne des personnes en place, présentes deux années complètes consécutives.\cr
-#'                  La vérification de la permanence de la quotite sur les deux années n'est pas implémentée.}
-#'                 \item{\code{Entrée n - 1}}{Effet relatif en \% des entrées de personnels en n - 1 présents en n et des variations de quotite entre n - 1 et n. Pour la première année, n - 1 est remplacé par n + 1 et "entrées" par "sorties".}
+#'                 \item{\code{Annee}}{Annees de la periode sous revue}
+#'                 \item{\code{RMPP}}{Rémunération moyenne des personnes en place, présentes deux annees complètes consécutives.\cr
+#'                  La vérification de la permanence de la quotite sur les deux annees n'est pas implémentée.}
+#'                 \item{\code{Entrée n - 1}}{Effet relatif en \% des entrees de personnels en n - 1 présents en n et des variations de quotite entre n - 1 et n. Pour la première annee, n - 1 est remplacé par n + 1 et "entrees" par "sorties".}
 #'                 \item{\code{Noria}}{Effet de noria. Effet relatif en \% du remplacement des sortants par les entrants en faisant l'hypothèse que les entrants sont aussi nombreux que les sortants.}
 #'                 \item{\code{Var. effectifs}}{Effet relatif en \% sur le salaire moyen distribué des variations d'effectifs.}
 #'                 \item{\code{Effet vacances}}{Effet relatif en \%  sur le salaire moyen distribué de la différence entre le nombre d'entrants et le nombre de sortants.}                                  
-#'                 \item{\code{Total E/S}}{Effet relatif en \%  sur le salaire moyen distribué des quatre effets précédents liés aux entrées-sorties.}
-#'                 \item{\code{Ajustement}}{Correction à ajouter en point de pourcentage au coefficient Total E/S, dues aux approximations utilisées pour le calcul des effets d'entrées-sorties.}
+#'                 \item{\code{Total E/S}}{Effet relatif en \%  sur le salaire moyen distribué des quatre effets précédents liés aux entrees-sorties.}
+#'                 \item{\code{Ajustement}}{Correction à ajouter en point de pourcentage au coefficient Total E/S, dues aux approximations utilisées pour le calcul des effets d'entrees-sorties.}
 #'                 \item{\code{SMPT}}{Salaire moyen par tête, résultant de l'application multiplicative des corefficients de variation précédents.}}}
 #'  \item{
-#'  Un quatrième tableau est déduit des précédents et indique la variation de la RMPP, du SMPT, et les effets des entrées-sorties en points de pourcentage :\cr
+#'  Un quatrième tableau est déduit des précédents et indique la variation de la RMPP, du SMPT, et les effets des entrees-sorties en points de pourcentage :\cr
 #'  
 #'  \describe{
 #'  \item{\code{Var. RMPP}}{Variation relative de la RMPP.}
-#'  \item{\code{Var. effets E/S}}{Effet des entrées-sorties : s'obtient par la différence entre la valeur du Total E/S du tableau précédent,\cr
-#'   corrigée par le coefficient d'ajustement, pour l'année n + 1, et celle de l'année n.}
-#'   \item{\code{Cumul}}{Cumul des deux effets de variation de la RMPP et des effets d'entrées-sorties. Si ce cumul est égal à celui de la variation du SMPT, alors l'ensemble des calculs est correct.}
+#'  \item{\code{Var. effets E/S}}{Effet des entrees-sorties : s'obtient par la différence entre la valeur du Total E/S du tableau précédent,\cr
+#'   corrigée par le coefficient d'ajustement, pour l'annee n + 1, et celle de l'annee n.}
+#'   \item{\code{Cumul}}{Cumul des deux effets de variation de la RMPP et des effets d'entrees-sorties. Si ce cumul est égal à celui de la variation du SMPT, alors l'ensemble des calculs est correct.}
 #'   \item{\code{Var. SMPT}}{Variation du SMPT.}
 #'  }}               
 #'                 
 #'  \item{               
 #' Le retour de la fonction est un tableau du GVT négatif au format \code{data.table}, comportant les variables numériques suivantes (les totaux de colonnes figurent seulement dans l'affichage) : 
 #'               \describe{
-#'                 \item{\code{période}}{Annees de la période sous revue, puis le libellé "Total".}
+#'                 \item{\code{periode}}{Annees de la periode sous revue, puis le libellé "Total".}
 #'                 \item{\code{effectifs.janvier}}{Effectifs physiques en janvier.}
-#'                 \item{\code{etpt.ent}}{ETPT entrants dans l'année, correspondant à des agents présents en décembre et pas en janvier.}
-#'                 \item{\code{etpt.sort}}{ETPT sortants dans l'année, correspondant à des agents présents en janvier et pas en décembre.}
-#'                 \item{\code{nent}}{Nombre d'entrants, par année, puis Total.}
-#'                 \item{\code{nsort}}{Nombre de sortants, par année, puis Total.}
-#'                 \item{\code{variation.effectifs}}{Différence du nombre d'entrants et de sortants, par année, puis Total.}
-#'                 \item{\code{taux.rotation}}{Ratio égal à la moyenne du nombre d'entrants et de sortants rapportée à l'effectifs de l'année précédente.}                 
-#'                 \item{\code{effet.noria}}{Cumul des économies (si négatif) ou des coûts (si positif) sur salaires (nets ou bruts) dus au remplacement des sortants par les entrants, par année, puis Total.}
+#'                 \item{\code{etpt.ent}}{ETPT entrants dans l'annee, correspondant à des agents présents en décembre et pas en janvier.}
+#'                 \item{\code{etpt.sort}}{ETPT sortants dans l'annee, correspondant à des agents présents en janvier et pas en décembre.}
+#'                 \item{\code{nent}}{Nombre d'entrants, par annee, puis Total.}
+#'                 \item{\code{nsort}}{Nombre de sortants, par annee, puis Total.}
+#'                 \item{\code{variation.effectifs}}{Difference du nombre d'entrants et de sortants, par annee, puis Total.}
+#'                 \item{\code{taux.rotation}}{Ratio égal à la moyenne du nombre d'entrants et de sortants rapportee à l'effectifs de l'annee précédente.}                 
+#'                 \item{\code{effet.noria}}{Cumul des économies (si négatif) ou des coûts (si positif) sur salaires (nets ou bruts) dus au remplacement des sortants par les entrants, par annee, puis Total.}
 #'                 \item{\code{effet.variation.effectifs}}{Cumul des économies (si négatif) ou des coûts (si positif) sur salaires (nets ou bruts) dus aux variations d'effectifs.\cr
-#'                  Est positif si le nombre d'entrants excède le nombre de sortants, par année, puis Total.}
+#'                  Est positif si le nombre d'entrants excède le nombre de sortants, par annee, puis Total.}
 #'                 \item{\code{effet.vacances}}{Cumul des économies (si négatif) ou des coûts (si positif) sur salaires (nets ou bruts) dus aux vacances d'emplois.\cr
-#'                  Est positif si les entrants intègrent l'organisme en moyenne plus tôt dans l'année que les sortants ne le quittent, par année, puis Total.}                                                   
-#'                 \item{\code{effet.total.entrées.sorties}}{Cumul des effets précédents, par année, puis Total.}
+#'                  Est positif si les entrants intègrent l'organisme en moyenne plus tôt dans l'annee que les sortants ne le quittent, par annee, puis Total.}                                                   
+#'                 \item{\code{effet.total.entrees.sorties}}{Cumul des effets précédents, par annee, puis Total.}
 #'                 \item{\code{rmpp.salaire}}{Rémunération moyenne des personnes en place}
 #'                 \item{\code{smpt.salaire}}{Salaire moyen par tête}
 #'                 \item{\code{rmpp.etpt}}{ETPT correpondant au calcul de la RMPP}
 #'                 \item{\code{smpt.etpt}}{ETPT correpondant au calcul du SMPT}
-#'                 \item{\code{coef.entrées.ant}}{Effet relatif en \% des entrées de personnels au cours de l'année précédente.}
+#'                 \item{\code{coef.entrees.ant}}{Effet relatif en \% des entrees de personnels au cours de l'annee précédente.}
 #'                 \item{\code{coef.noria}}{Effet de noria relatif}
 #'                 \item{\code{coef.var.effectifs}}{Effet relatif en \% sur le salaire moyen distribué des variations d'effectifs}
 #'                 \item{\code{coef.vacances}}{Effet relatif en \%  sur le salaire moyen distribué de la différence entre le nombre d'entrants et le nombre de sortants.}
 #'                 \item{\code{coef.smpt}}{Produit des variations relatives correspondant aux coefficients précédents.}
 #'                 \item{\code{var.rmpp}}{Variation de la RMPP.}
-#'                 \item{\code{effet.es}}{Effet des entrées-sorties sur la variation du SMPT.}
+#'                 \item{\code{effet.es}}{Effet des entrees-sorties sur la variation du SMPT.}
 #'                 \item{\code{var.smpt}}{Variations du SMPT.}
 #'                 \item{\code{qualité}}{Indice de qualité des calculs, égal à l'erreur relative résultant de la modélisation, \cr
 #'                 entre le cumul des effets des variables coef.x.y exprimés en masse de salaires, partant d'un salaire moyen fictif égal à la RMPP, et la somme des salaires effectivement versés au même nombre d'agents. }
-#'                 \item{\code{delta.coef}}{Correction à ajouter en point de pourcentage au coefficient Total E/S, dues aux approximations utilisées pour le calcul des effets d'entrées-sorties}}}}                   
+#'                 \item{\code{delta.coef}}{Correction à ajouter en point de pourcentage au coefficient Total E/S, dues aux approximations utilisées pour le calcul des effets d'entrees-sorties}}}}                   
 #'                 
 #' @references  Rapport annuel sur l'état de la fonction publique 2016 \url{https://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2016/DGAFP_RA2016_web_signet.pdf}
 #'    \tabular{cccc}{
@@ -206,7 +206,7 @@
 #'  Lecture : 
 #'  L'organisme comptait 939 ETPT en 2013, dont 11,5 ETPT entrant et 16,7 ETPT sortants
 #'  correspondant respectivement à 27 entrants physiques et 32 sortants physiques. 
-#'  Le taux de rotation était de 3,0 % au cours de cette année.
+#'  Le taux de rotation était de 3,0 % au cours de cette annee.
 #'  
 #'  | Annee | Effet noria | % SMPT | Effet var. effectifs | % SMPT | Effet vacances | % SMPT |   Total    | % SMPT |
 #'  |-------|-------------|--------|----------------------|--------|----------------|--------|------------|--------|
@@ -218,7 +218,7 @@
 #'  Lecture : 
 #'  L'effet de l'effet de noria en 2013 était de -0,3 % en valeur relative en proportion de
 #'  la masse des rémunérations brutes 2013 (autrement dit en points de SMPT). 
-#'  Le total des effets d'entrées-sorties était de -0,6 point de SMPT, soit une économie 
+#'  Le total des effets d'entrees-sorties était de -0,6 point de SMPT, soit une économie 
 #'  sur rémunérations brutes versées de 214 418,3 euros.  
 #'  
 #'  | Annee |   RMPP   | Entrées n - 1 | Noria | Var. effectifs | Vacances | Total E/S | Ajustement |   SMPT   |
@@ -230,15 +230,15 @@
 #'  
 #'  Lecture :
 #'  Le salaire brut moyen 2013 serait égal à la RMPP (rémunération des personnes présentes tout au long de 2012 et 2013)
-#'  sans les effets d'entrées et de sorties en 2012 et 2013.
-#'  Ces effets interviennent en 2012 (seulement les entrées, première colonne) et en 2013 (colonnes suivantes).
-#'  L'effet relatif des entrées 2012 est de -0,63 % : les entrants en 2012 encore présents en 2013 ont des salaires moins élevés 
-#'  que les présents-présents (sur toute les années 2012 et 2013) en moyenne.
+#'  sans les effets d'entrees et de sorties en 2012 et 2013.
+#'  Ces effets interviennent en 2012 (seulement les entrees, première colonne) et en 2013 (colonnes suivantes).
+#'  L'effet relatif des entrees 2012 est de -0,63 % : les entrants en 2012 encore présents en 2013 ont des salaires moins élevés 
+#'  que les présents-présents (sur toute les annees 2012 et 2013) en moyenne.
 #'  L'effet de noria 2013 (emplacement des sortants 2013 par un même nombre d'entrants) est de -0,3 % de variation relative :
 #'  les sortants avaient en moyenne des salaires plus élevés que les entrants.
 #'  L'effet relatif de la variation des effectifs 2013 est de -0,18 % : il y a eu un peu plus de sortants que d'entrants.
 #'  L'effet des vacances d'emploi est de -0,15 % : tous les sortants ne sont pas remplacés au moment de leur départ.
-#'  Le total de ces effets d'entrées-sorties est de -1,25 %, auquel s'ajoute un redressement mathématique 
+#'  Le total de ces effets d'entrees-sorties est de -1,25 %, auquel s'ajoute un redressement mathématique 
 #'  lié aux hypothèses de modélisation de 0,004 points de pourcentage.
 #'    
 #'  |   Annee   | Var. RMPP | Var. effets E/S| Cumul | Var. SMPT | 
@@ -249,13 +249,13 @@
 #'  
 #'  Lien avec les prévisions budgétaires et le GVT : 
 #'  Le GVT positif se déduit de la variation de la RMPP en retranchant l'effet, estimé par d'autres moyens,
-#'  des mesures catégorielles et générales. Le GVT négatif total, défini comme la somme de l'effet de noria
-#'  et des différents effets d'entrées-sorties (en n et n-1) est égal à la colonne "Variation des effets d'entrées-sorties".
+#'  des mesures categorielles et générales. Le GVT négatif total, défini comme la somme de l'effet de noria
+#'  et des différents effets d'entrees-sorties (en n et n-1) est égal à la colonne "Variation des effets d'entrees-sorties".
 #'  
 #'  
 #'noria(champ = "net", classe = "SPP", filtre = "A")
 #'
-#' Lecture : Produit des tableaux analogues aux précédents pour la rémunération des agents SPP de catégorie A.
+#' Lecture : Produit des tableaux analogues aux précédents pour la rémunération des agents SPP de categorie A.
 #' 
 #'
 #' @export
@@ -273,11 +273,11 @@ noria <- function(Bulletins = Bulletins.paie,
                   controle.quotite = FALSE) { 
 
   
-période.translatée <- 1:durée.sous.revue
+periode.translatée <- 1:duree.sous.revue
 
-if (length(période.translatée) < 2) {
+if (length(periode.translatée) < 2) {
   
-  cat("L'effet de noria ne peut être calculé que sur au moins deux exercices consécutifs")
+  cat("L'effet de noria ne peut être calcule que sur au moins deux exercices consécutifs")
   return(NULL)
 }
 
@@ -300,9 +300,9 @@ if (! noria.sur.base.de.paie){
   
   ES[ , `:=`(Entrée = as.Date(Entrée, format = "%d/%m/%Y"),
                                                     Sortie = as.Date(Sortie, format = "%d/%m/%Y"))
-                                          ][ , `:=`(Annee.entrée = as.numeric(format(Entrée, "%Y")),
-                                                    Mois.entrée  = as.numeric(format(Entrée, "%m")),
-                                                    Jour.entrée  = as.numeric(format(Entrée, "%d")),
+                                          ][ , `:=`(Annee.entree = as.numeric(format(Entrée, "%Y")),
+                                                    Mois.entree  = as.numeric(format(Entrée, "%m")),
+                                                    Jour.entree  = as.numeric(format(Entrée, "%d")),
                                                     Annee.sortie = as.numeric(format(Sortie, "%Y")),
                                                     Mois.sortie  = as.numeric(format(Sortie, "%m")),
                                                     Jour.sortie  = as.numeric(format(Sortie, "%d")))]
@@ -323,20 +323,20 @@ if (champ == "brut") salaire.moyen <- "Montant.brut.annuel.eqtp" else salaire.mo
 présents.bulletins <- list()
 matricules.présents <- list()
 
-transl <- function(année) année - début.période.sous.revue + 1
+transl <- function(annee) annee - debut.periode.sous.revue + 1
 
-filtrage <- function(année) {
+filtrage <- function(annee) {
   
     if (filtre != "") {
       
       if (! filtre %chin% c("A", "B", "C")) {
-        présents.bulletins[[transl(année)]] <<- Bulletins[Statut %chin% filtre
-                                                          & Annee == année & quotite.moyenne != 0
+        présents.bulletins[[transl(annee)]] <<- Bulletins[Statut %chin% filtre
+                                                          & Annee == annee & quotite.moyenne != 0
                                                           & Grade != "A" 
                                                           & Grade != "V", .(Matricule, Mois, quotite)]
       } else {
-        présents.bulletins[[transl(année)]] <<- Bulletins[Categorie == filtre 
-                                                          & Annee == année 
+        présents.bulletins[[transl(annee)]] <<- Bulletins[Categorie == filtre 
+                                                          & Annee == annee 
                                                           & quotite.moyenne != 0 
                                                           & Grade != "A" 
                                                           & Grade != "V", .(Matricule, Mois, quotite)]
@@ -344,35 +344,35 @@ filtrage <- function(année) {
       
     } else {
       
-      présents.bulletins[[transl(année)]] <<- Bulletins[Annee == année & quotite.moyenne != 0
+      présents.bulletins[[transl(annee)]] <<- Bulletins[Annee == annee & quotite.moyenne != 0
                                                         & Grade != "A" 
                                                         & Grade != "V", .(Matricule, Mois, quotite)]
     }
 
     if (! noria.sur.base.de.paie) {     
       
-       colonnes <- c("Matricule", "Annee.entrée", "Mois.entrée", "Jour.entrée",
+       colonnes <- c("Matricule", "Annee.entree", "Mois.entree", "Jour.entree",
                      "Annee.sortie", "Mois.sortie", "Jour.sortie") 
        
        if (classe != "") colonnes <- c(colonnes, "Classe")
        
-       présents.bulletins[[transl(année)]] <<- merge(présents.bulletins[[transl(année)]], ES[ , colonnes, with = FALSE], by = "Matricule", all.x = TRUE)
+       présents.bulletins[[transl(annee)]] <<- merge(présents.bulletins[[transl(annee)]], ES[ , colonnes, with = FALSE], by = "Matricule", all.x = TRUE)
        
-       if (classe != "") présents.bulletins[[transl(année)]] <<- présents.bulletins[[transl(année)]][Classe == classe]  
+       if (classe != "") présents.bulletins[[transl(annee)]] <<- présents.bulletins[[transl(annee)]][Classe == classe]  
     }
   
-    matricules.présents.base <- Base[Annee == année, unique(Matricule)]
+    matricules.présents.base <- Base[Annee == annee, unique(Matricule)]
     
-    matricules.présents[[transl(année)]] <<- intersect(unique(présents.bulletins[[transl(année)]]$Matricule), matricules.présents.base)
+    matricules.présents[[transl(annee)]] <<- intersect(unique(présents.bulletins[[transl(annee)]]$Matricule), matricules.présents.base)
 }
 
-for (année in période) filtrage(année)
+for (annee in periode) filtrage(annee)
 
-exclure.présents <- function(année, mois) {
+exclure.présents <- function(annee, mois) {
   
-    matricules.présents <- matricules.présents[[transl(année)]]
+    matricules.présents <- matricules.présents[[transl(annee)]]
  
-    matricules.mois <- présents.bulletins[[transl(année)]][Mois == mois & quotite != 0, unique(Matricule)]
+    matricules.mois <- présents.bulletins[[transl(annee)]][Mois == mois & quotite != 0, unique(Matricule)]
     
     matricules.mois <- intersect(matricules.mois, matricules.présents)
     
@@ -386,11 +386,11 @@ if (noria.sur.base.de.paie) {
   
     if (mois == 12) {
       
-      matricules.sélectionnés <- présents.bulletins[[transl(année)]][Annee.sortie == année, unique(Matricule)]
+      matricules.sélectionnés <- présents.bulletins[[transl(annee)]][Annee.sortie == annee, unique(Matricule)]
       
     } else {
       
-      matricules.sélectionnés <- présents.bulletins[[transl(année)]][Annee.entrée == année, unique(Matricule)]
+      matricules.sélectionnés <- présents.bulletins[[transl(annee)]][Annee.entree == annee, unique(Matricule)]
       
     }
     
@@ -398,17 +398,17 @@ if (noria.sur.base.de.paie) {
     
     if (mois == 12) {
       
-      date <- présents.bulletins[[transl(année)]][Matricule %chin% matricules.sélectionnés, 
+      date <- présents.bulletins[[transl(annee)]][Matricule %chin% matricules.sélectionnés, 
                                                     mean(Mois.sortie - 1 + Jour.sortie / 30, na.rm = TRUE)] / 12
       
     } else {
       
-      date <- présents.bulletins[[transl(année)]][Matricule %chin% matricules.sélectionnés, 
-                                                    mean(Mois.entrée - 1 + Jour.entrée / 30, na.rm = TRUE)] / 12
+      date <- présents.bulletins[[transl(annee)]][Matricule %chin% matricules.sélectionnés, 
+                                                    mean(Mois.entree - 1 + Jour.entree / 30, na.rm = TRUE)] / 12
     }
 }
     
-    etpt.sélectionnés <- unique(Base[Annee == année 
+    etpt.sélectionnés <- unique(Base[Annee == annee 
                                  & quotite.moyenne != 0 
                                  & Grade != "A" 
                                  & Grade != "V"
@@ -419,35 +419,35 @@ if (noria.sur.base.de.paie) {
     list(matricules = matricules.sélectionnés, effectifs = length(matricules.mois), etpt = etpt.sélectionnés,  n = length(matricules.sélectionnés), date = date)
 }
 
-entrants <- function(année)   exclure.présents(année, mois = 1)
-sortants <- function(année)   exclure.présents(année, mois = 12)
+entrants <- function(annee)   exclure.présents(annee, mois = 1)
+sortants <- function(annee)   exclure.présents(annee, mois = 12)
 
 
 
-ent   <- lapply(période, entrants)
-sort  <- lapply(période, sortants)
+ent   <- lapply(periode, entrants)
+sort  <- lapply(periode, sortants)
 
 effectifs.janvier <- sapply(ent, function(x) x$effectifs)
 
-nsort <- sapply(période.translatée, function(année) sort[[année]][["n"]])
-nent  <- sapply(période.translatée, function(année) ent[[année]][["n"]])
+nsort <- sapply(periode.translatée, function(annee) sort[[annee]][["n"]])
+nent  <- sapply(periode.translatée, function(annee) ent[[annee]][["n"]])
 
-etpt.sort <- sapply(période.translatée, function(année) sort[[année]][["etpt"]])
-etpt.ent  <- sapply(période.translatée, function(année) ent[[année]][["etpt"]])
+etpt.sort <- sapply(periode.translatée, function(annee) sort[[annee]][["etpt"]])
+etpt.ent  <- sapply(periode.translatée, function(annee) ent[[annee]][["etpt"]])
 
 
 if (noria.sur.base.de.paie) {
-  qsortants <- sapply(période.translatée, function(année) 1 - sort[[année]][["etpt"]] / nsort[année])
-  qentrants <- sapply(période.translatée,  function(année) ent[[année]][["etpt"]]) / nent
+  qsortants <- sapply(periode.translatée, function(annee) 1 - sort[[annee]][["etpt"]] / nsort[annee])
+  qentrants <- sapply(periode.translatée,  function(annee) ent[[annee]][["etpt"]]) / nent
 } else {
-  qsortants <- sapply(période.translatée, function(année)  1 - sort[[année]][["date"]]) 
-  qentrants <- sapply(période.translatée,  function(année) ent[[année]][["date"]]) 
+  qsortants <- sapply(periode.translatée, function(annee)  1 - sort[[annee]][["date"]]) 
+  qentrants <- sapply(periode.translatée,  function(annee) ent[[annee]][["date"]]) 
 }
 
 salaires <- function(X)
-                sapply(période, function(année) {
-                  B <- Base[Annee == année
-                            & Matricule %chin% as.character(X[[transl(année)]][["matricules"]]), 
+                sapply(periode, function(annee) {
+                  B <- Base[Annee == annee
+                            & Matricule %chin% as.character(X[[transl(annee)]][["matricules"]]), 
                             c(salaire.moyen, "quotite.moyenne"),
                             with = FALSE]
                   
@@ -466,44 +466,44 @@ construire.liste <- function(B) {
                         c(weighted.mean(B[[1]], B[[2]], na.rm = TRUE), sum(B[[2]], na.rm = TRUE))
 }
 
-# La RMPP ici utilisée se distingue de la définition officielle pour la première année.
-# On considère en effet en début de période que les salaires considérés sont ceux des agents
-# présents toute la première année et toute la seconde. Ce devrait être en principe "et toute l'année
+# La RMPP ici utilisée se distingue de la définition officielle pour la première annee.
+# On considère en effet en début de periode que les salaires considérés sont ceux des agents
+# présents toute la première annee et toute la seconde. Ce devrait être en principe "et toute l'annee
 # précédente, mais celle-ci n'est pas documentée et l'approximation reste valable pour l'évaluation
 # du GVT.
 
-rmpp <- data.table(t(sapply(période, function(année) {
+rmpp <- data.table(t(sapply(periode, function(annee) {
   
-  if (durée.sous.revue < 2) {
-    message("La RMPP ne peut être calculée que sur deux années au moins.")
+  if (duree.sous.revue < 2) {
+    message("La RMPP ne peut être calculee que sur deux annees au moins.")
     return(0)
   }
   
-  B <- Base[Annee == année
-            & ! Matricule %chin% as.character(ent[[transl(année)]][["matricules"]]) 
-            & ! Matricule %chin% as.character(sort[[transl(année)]][["matricules"]])]
+  B <- Base[Annee == annee
+            & ! Matricule %chin% as.character(ent[[transl(annee)]][["matricules"]]) 
+            & ! Matricule %chin% as.character(sort[[transl(annee)]][["matricules"]])]
   
-  if (année > début.période.sous.revue) {
+  if (annee > debut.periode.sous.revue) {
     
-    Matricules.cond <- unique(Base[Annee == année -1, .(Matricule, quotite.moyenne)], by = NULL)
+    Matricules.cond <- unique(Base[Annee == annee -1, .(Matricule, quotite.moyenne)], by = NULL)
     
-    C <- Matricules.cond[! Matricule %chin% as.character(ent[[transl(année - 1)]][["matricules"]])
-                         & ! Matricule %chin% as.character(sort[[transl(année - 1)]][["matricules"]])]  # en principe inutile mais sait-on jamais
+    C <- Matricules.cond[! Matricule %chin% as.character(ent[[transl(annee - 1)]][["matricules"]])
+                         & ! Matricule %chin% as.character(sort[[transl(annee - 1)]][["matricules"]])]  # en principe inutile mais sait-on jamais
 
   } else {
   
-    Matricules.cond <- unique(Base[Annee == année + 1, .(Matricule, quotite.moyenne)], by = NULL)
+    Matricules.cond <- unique(Base[Annee == annee + 1, .(Matricule, quotite.moyenne)], by = NULL)
     
-    C <- Matricules.cond[! Matricule %chin% as.character(ent[[transl(année + 1)]][["matricules"]])
-                        & ! Matricule %chin% as.character(sort[[transl(année + 1)]][["matricules"]])]  # en principe inutile mais sait-on jamais
+    C <- Matricules.cond[! Matricule %chin% as.character(ent[[transl(annee + 1)]][["matricules"]])
+                        & ! Matricule %chin% as.character(sort[[transl(annee + 1)]][["matricules"]])]  # en principe inutile mais sait-on jamais
   }
   
   if (controle.quotite) {
     
     D <- merge(B, C, by = "Matricule")  # all = FALSE impératif
-    D <- D[abs(quotite.moyenne.x - quotite.moyenne.y) < 0.1][ , quotite.moyenne.x := NULL] # présent toute l'année avec la même quotite.
+    D <- D[abs(quotite.moyenne.x - quotite.moyenne.y) < 0.1][ , quotite.moyenne.x := NULL] # présent toute l'annee avec la même quotite.
     setnames(D, "quotite.moyenne.y", "quotite.moyenne")
-    D <- unique(D[Annee == année , c("Matricule", salaire.moyen, "quotite.moyenne"), with = FALSE])
+    D <- unique(D[Annee == annee , c("Matricule", salaire.moyen, "quotite.moyenne"), with = FALSE])
     
   } else {
   
@@ -513,18 +513,18 @@ rmpp <- data.table(t(sapply(période, function(année) {
   construire.liste(D)
 })))
 
-rmpp_mod <- data.table(t(sapply(période, function(année) {
+rmpp_mod <- data.table(t(sapply(periode, function(annee) {
   
-            B <- Base[Annee == année
-                                & ! Matricule %chin% as.character(ent[[transl(année)]][["matricules"]]) 
-                                & ! Matricule %chin% as.character(sort[[transl(année)]][["matricules"]])]
+            B <- Base[Annee == annee
+                                & ! Matricule %chin% as.character(ent[[transl(annee)]][["matricules"]]) 
+                                & ! Matricule %chin% as.character(sort[[transl(annee)]][["matricules"]])]
           
             construire.liste(B)
 })))
 
-smpt <- data.table(t(sapply(période, function(année) {
+smpt <- data.table(t(sapply(periode, function(annee) {
   
-  B <- Base[Annee == année]
+  B <- Base[Annee == annee]
   
            construire.liste(B)  
 })))
@@ -555,7 +555,7 @@ form <- function(V, total = FALSE, digits = 1) {
 #  se = (nombre entrants - nombre sortants) x masse salariale moyenne unitaire des entrants
 
 
-effet.entrées.ant                 <- (rmpp_mod$salaire - rmpp$salaire) * smpt$etpt
+effet.entrees.ant                 <- (rmpp_mod$salaire - rmpp$salaire) * smpt$etpt
 effet.noria                       <- (salaire.entrants - salaire.sortants) * nsort * qsortants
 effet.noria.relatif               <- effet.noria / (smpt$salaire * smpt$etpt)
 variation.effectifs               <- nent - nsort
@@ -563,17 +563,17 @@ effet.variation.effectifs         <- salaire.entrants * variation.effectifs * qe
 effet.variation.effectifs.relatif <- effet.variation.effectifs / (smpt$salaire * smpt$etpt)
 effet.vacances                    <- nsort * (qentrants - qsortants) * salaire.entrants
 effet.vacances.relatif            <- effet.vacances / (smpt$salaire * smpt$etpt)
-effet.total.entrées.sorties       <- salaire.entrants * nent * qentrants - salaire.sortants * nsort * qsortants 
-effet.total.entrées.sorties.relatif <- effet.total.entrées.sorties / (smpt$salaire * smpt$etpt)
+effet.total.entrees.sorties       <- salaire.entrants * nent * qentrants - salaire.sortants * nsort * qsortants 
+effet.total.entrees.sorties.relatif <- effet.total.entrees.sorties / (smpt$salaire * smpt$etpt)
 
 taux.rotation                     <- 1/2 *(nent + nsort) * 100 / effectifs.janvier
-coef.entrées.ant                  <- rmpp_mod$salaire / rmpp$salaire - 1
+coef.entrees.ant                  <- rmpp_mod$salaire / rmpp$salaire - 1
 coef.noria                        <- (rmpp_mod$salaire * smpt$etpt + effet.noria)  / (rmpp_mod$salaire * smpt$etpt) - 1
 coef.var.effectifs                <-  (rmpp_mod$salaire * smpt$etpt + effet.noria + effet.variation.effectifs)  / (rmpp_mod$salaire * smpt$etpt + effet.noria) - 1
 coef.vacances                     <- (rmpp_mod$salaire * smpt$etpt + effet.noria + effet.variation.effectifs + effet.vacances) / (rmpp_mod$salaire * smpt$etpt + effet.noria + effet.variation.effectifs) - 1
-coef.smpt                         <- (1 + coef.entrées.ant) * (1 + coef.noria) * (1 + coef.var.effectifs) * (1 + coef.vacances) - 1 
+coef.smpt                         <- (1 + coef.entrees.ant) * (1 + coef.noria) * (1 + coef.var.effectifs) * (1 + coef.vacances) - 1 
 
-qualité                           <- ((rmpp$salaire * smpt$etpt + effet.entrées.ant + effet.noria + effet.variation.effectifs + effet.vacances) - smpt$salaire * smpt$etpt)/(smpt$etpt * smpt$salaire) * 100
+qualité                           <- ((rmpp$salaire * smpt$etpt + effet.entrees.ant + effet.noria + effet.variation.effectifs + effet.vacances) - smpt$salaire * smpt$etpt)/(smpt$etpt * smpt$salaire) * 100
 delta.coef                        <- (smpt$salaire / rmpp$salaire - (1 + coef.smpt))
 
 var.relative <- function(v) (shift(v, 1, type = "lead")/v - 1)
@@ -582,7 +582,7 @@ var.rmpp      <- var.relative(rmpp$salaire)
 effet.es      <- (1 + shift(coef.smpt + delta.coef, 1, type = "lead"))/(1 + coef.smpt + delta.coef) - 1
 total         <- (1 + effet.es) * (1 + var.rmpp) - 1
 var.smpt      <- var.relative(smpt$salaire)
-var.période   <- sapply(list(var.rmpp, effet.es, total, var.smpt), function(x) (prod((1 + x), na.rm = TRUE) - 1)[1])
+var.periode   <- sapply(list(var.rmpp, effet.es, total, var.smpt), function(x) (prod((1 + x), na.rm = TRUE) - 1)[1])
 
 rmpp.salaire <- rmpp$salaire
 smpt.salaire <- smpt$salaire
@@ -590,12 +590,12 @@ rmpp.etpt    <- rmpp$etpt
 smpt.etpt    <- smpt$etpt
 
 geom  <- function(x) exp(mean(log(x)))
-moy.géom.effets      <- sapply(list(rmpp.salaire, 1 + coef.entrées.ant, 1 + coef.noria, 1 + coef.var.effectifs, 1 + coef.vacances, 1 + coef.smpt, 1, smpt.salaire), geom)
+moy.géom.effets      <- sapply(list(rmpp.salaire, 1 + coef.entrees.ant, 1 + coef.noria, 1 + coef.var.effectifs, 1 + coef.vacances, 1 + coef.smpt, 1, smpt.salaire), geom)
 moy.géom.effets[2:6] <- moy.géom.effets[2:6] - 1
 moy.géom.effets[7]   <- moy.géom.effets[8] / moy.géom.effets[1] - prod(moy.géom.effets[2:6]) - 1
 
 rmpp.salaire       <- c(rmpp.salaire, moy.géom.effets[1])
-coef.entrées.ant   <- c(coef.entrées.ant, moy.géom.effets[2])
+coef.entrees.ant   <- c(coef.entrees.ant, moy.géom.effets[2])
 coef.noria         <- c(coef.noria, moy.géom.effets[3])
 coef.var.effectifs <- c(coef.var.effectifs, moy.géom.effets[4])
 coef.vacances      <- c(coef.vacances, moy.géom.effets[5])
@@ -608,7 +608,7 @@ smpt.salaire       <- c(smpt.salaire, moy.géom.effets[8])
 for (x in c("effet.noria",
             "effet.variation.effectifs",
             "effet.vacances",
-            "effet.total.entrées.sorties")) assign(x %+% ".form", form(get(x), total = TRUE))
+            "effet.total.entrees.sorties")) assign(x %+% ".form", form(get(x), total = TRUE))
 
 taux.rotation.form <- form(taux.rotation)
 rmpp.form          <- form(rmpp.salaire)
@@ -617,9 +617,9 @@ smpt.form          <- form(smpt.salaire)
 for(x in c("effet.noria.relatif", 
          "effet.variation.effectifs.relatif", 
          "effet.vacances.relatif",
-         "effet.total.entrées.sorties.relatif",
-         "effet.total.entrées.sorties.relatif",
-         "coef.entrées.ant",
+         "effet.total.entrees.sorties.relatif",
+         "effet.total.entrees.sorties.relatif",
+         "coef.entrees.ant",
          "coef.noria",
          "coef.var.effectifs",
          "coef.vacances",
@@ -630,17 +630,17 @@ for(x in c("effet.noria.relatif",
          "var.rmpp",
          "variation.effectifs")) assign(x %+% ".form", form(get(x) * 100))
 
-var.période.form <- form(var.période * 100)[1:4]
+var.periode.form <- form(var.periode * 100)[1:4]
 
-var.rmpp.form[durée.sous.revue] <-  var.période.form[1]
-effet.es.form[durée.sous.revue] <-  var.période.form[2]
-total.form[durée.sous.revue]    <-  var.période.form[3]
-var.smpt.form[durée.sous.revue] <-  var.période.form[4]
+var.rmpp.form[duree.sous.revue] <-  var.periode.form[1]
+effet.es.form[duree.sous.revue] <-  var.periode.form[2]
+total.form[duree.sous.revue]    <-  var.periode.form[3]
+var.smpt.form[duree.sous.revue] <-  var.periode.form[4]
 
-var.rmpp.form <- var.rmpp.form[1:durée.sous.revue] 
-effet.es.form <- effet.es.form[1:durée.sous.revue] 
-total.form    <- total.form[1:durée.sous.revue]    
-var.smpt.form <- var.smpt.form[1:durée.sous.revue] 
+var.rmpp.form <- var.rmpp.form[1:duree.sous.revue] 
+effet.es.form <- effet.es.form[1:duree.sous.revue] 
+total.form    <- total.form[1:duree.sous.revue]    
+var.smpt.form <- var.smpt.form[1:duree.sous.revue] 
 
 delta.coef.form <- form(delta.coef, total = FALSE, digits = 2)
 
@@ -658,7 +658,7 @@ print(
                                 "Sortants",
                                 "Var. effectifs",
                                 "Taux de rotation %"),
-                    rownames = c(as.character(période), "Total"),
+                    rownames = c(as.character(periode), "Total"),
                     form(effectifs.janvier),
                     form(smpt$etpt),
                     form(etpt.ent, total = TRUE),
@@ -678,15 +678,15 @@ print(
                                     "% SMPT",
                                     "Total",
                                     "% SMPT"),
-                      rownames = c(as.character(période), "Total"),
+                      rownames = c(as.character(periode), "Total"),
                       effet.noria.form,
                       effet.noria.relatif.form,
                       effet.variation.effectifs.form,
                       effet.variation.effectifs.relatif.form,
                       effet.vacances.form,
                       effet.vacances.relatif.form,
-                      effet.total.entrées.sorties.form,
-                      effet.total.entrées.sorties.relatif.form))
+                      effet.total.entrees.sorties.form,
+                      effet.total.entrees.sorties.relatif.form))
 
 
 chop  <- function(v) v[-length(v)]
@@ -701,9 +701,9 @@ print(
                                   "Total E/S",
                                   "Ajustement",
                                   "SMPT"),
-                    rownames = c(as.character(période), "Moyenne géom."),
+                    rownames = c(as.character(periode), "Moyenne géom."),
                     chop(rmpp.form), 
-                    chop(coef.entrées.ant.form), 
+                    chop(coef.entrees.ant.form), 
                     chop(coef.noria.form),
                     chop(coef.var.effectifs.form),
                     chop(coef.vacances.form),
@@ -711,8 +711,8 @@ print(
                     chop(delta.coef.form),     
                     chop(smpt.form)))
 
-rownames <- as.character(période %+% "-" %+% shift(période, 1, type = "lead"))
-rownames[length(rownames)] <- as.character(début.période.sous.revue) %+% "-" %+% as.character(fin.période.sous.revue)
+rownames <- as.character(periode %+% "-" %+% shift(periode, 1, type = "lead"))
+rownames[length(rownames)] <- as.character(debut.periode.sous.revue) %+% "-" %+% as.character(fin.periode.sous.revue)
 
 print(
   Tableau.vertical2(colnames = c("Annee",
@@ -727,7 +727,7 @@ print(
                     var.smpt.form))
  }
 
-output <- c("période",
+output <- c("periode",
             "effectifs.janvier",
             "etpt.ent",
             "etpt.sort",
@@ -738,12 +738,12 @@ output <- c("période",
             "effet.noria",
             "effet.variation.effectifs",
             "effet.vacances",
-            "effet.total.entrées.sorties",
+            "effet.total.entrees.sorties",
             "rmpp.salaire",
             "smpt.salaire",
             "rmpp.etpt",
             "smpt.etpt",
-            "coef.entrées.ant",
+            "coef.entrees.ant",
             "coef.noria",
             "coef.var.effectifs",
             "coef.vacances",

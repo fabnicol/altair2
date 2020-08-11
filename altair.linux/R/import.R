@@ -1,11 +1,11 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annees 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
 # Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
 # produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-# en vigueur à compter de l'année 2008.
+# en vigueur à compter de l'annee 2008.
 # 
 # Ce logiciel est régi par la licence CeCILL soumise au droit français et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -44,7 +44,7 @@
 #' @export
 #' 
 `%a%` <- function(x, y) assign(x, y, inherits = TRUE, envir = .GlobalEnv)
-"durée.sous.revue" %a% 1
+"duree.sous.revue" %a% 1
 
 
 convertir.accents <- function(V) {
@@ -59,8 +59,8 @@ importer.bases.via.xhl2csv <- function(base, fichiers, colClasses = colonnes.cla
   res <- try(Read.csv(base,
                       fichiers,
                       colClasses = colClasses,
-                      séparateur.liste = séparateur.liste.entrée,
-                      séparateur.décimal = séparateur.décimal.entrée),
+                      separateur.liste = separateur.liste.entree,
+                      separateur.decimal = separateur.decimal.entree),
              silent = FALSE)
   
   if (inherits(res, 'try-error'))
@@ -136,7 +136,7 @@ quotites <- function() {
                                                         & Heures > minimum.positif]),
                   by = .(Emploi)]
   
-  # Pour les quotites seules les périodes actives sont prises en compte
+  # Pour les quotites seules les periodes actives sont prises en compte
   
   Bulletins.paie[pop_calcul_médiane > population_minimale_calcul_médiane 
                  & Filtre_actif == TRUE, 
@@ -160,7 +160,7 @@ quotites <- function() {
   Bulletins.paie[Statut == "ELU", `:=`(MHeures = 1,
                                        quotite = 1)]
   
-  message("Quotités calculées")
+  message("Quotités calculees")
   
   return(Bulletins.paie)
 }
@@ -190,12 +190,12 @@ rémunérations_eqtp <- function(DT) {
                       key = .(Matricule, Annee)]
   
   # Indicatrice pour la rémunération moyenne des personnes en place :
-  # quotite égale pendant deux années successives contigues, permanence sur 12 mois.
+  # quotite égale pendant deux annees successives contigues, permanence sur 12 mois.
   # nous prenons les moyennes des quotites non NA.
   
   DT[ , indicatrice.quotite.pp := (Matricule[R] == Matricule 
                                                & Annee[R]   == Annee - 1 
-                                               & abs(quotite.moyenne[R] - quotite.moyenne) < tolérance.variation.quotite
+                                               & abs(quotite.moyenne[R] - quotite.moyenne) < tolerance.variation.quotite
                                                & nb.mois[R] == nb.mois
                                                & nb.mois    == 12)]
   
@@ -208,40 +208,40 @@ rémunérations_eqtp <- function(DT) {
                   
                   key = .(Matricule, Annee)]
   
-  message("Rémunérations EQTP calculées")
+  message("Rémunérations EQTP calculees")
   
   # DT est modifié par référence
 
   return(DT)
 }
 
-#' Importer la base externe des correspondance ente matricules, catégories et grades
+#' Importer la base externe des correspondance ente matricules, categories et grades
 #' @export
 
 importer_matricules <- function() {
   
   if (fichier.personnels.existe) {
     
-    base.personnels.catégorie <- data.table::fread(chemin("matricules.csv"),
-                                                   sep = séparateur.liste.entrée,
+    base.personnels.categorie <- data.table::fread(chemin("matricules.csv"),
+                                                   sep = separateur.liste.entree,
                                                    header = TRUE,
                                                    colClasses = c("numeric", "character", "character",
                                                                   "character", "character", "character", "character"),
                                                    encoding = "UTF-8",
                                                    showProgress = FALSE) 
     
-    message("Chargement du fichier des catégories statutaires des personnels.")
-    if (!is.null(base.personnels.catégorie))
+    message("Chargement du fichier des categories statutaires des personnels.")
+    if (!is.null(base.personnels.categorie))
       message("Importé.")
     else {
-      message("Impossible d'importer les catégories.")
+      message("Impossible d'importer les categories.")
       stop(" ")
     }
   } else {
-    base.personnels.catégorie <- NULL
+    base.personnels.categorie <- NULL
   }
   
-  base.personnels.catégorie
+  base.personnels.categorie
 }
 
 # Reprise du code C++
@@ -306,7 +306,7 @@ identifier.personnels <- function() {
 importer_base_logements <- function() {
   if (logements.existe) {
     base.logements <- data.table::fread(chemin("logements.csv"),
-                                    sep = séparateur.liste.entrée,
+                                    sep = separateur.liste.entree,
                                     header = TRUE,
                                     colClasses = c("character", "integer", "integer", "character"),
                                     encoding = "UTF-8",
@@ -336,7 +336,7 @@ importer_base_ifse <- function() {
   if (plafonds.ifse.existe) {
     
     base.ifse <- data.table::fread(chemin("plafonds_ifse.csv"),
-                                   sep = séparateur.liste.entrée,
+                                   sep = separateur.liste.entree,
                                    header = TRUE,
                                    colClasses = c("character", "character", "character", "numeric"),  # Grade, Groupe, Logement, Plafond
                                    encoding = "UTF-8",
@@ -362,17 +362,17 @@ importer_base_ifse <- function() {
   return(base.ifse)
 }
 
-Extraire.années <- function() {
+Extraire.annees <- function() {
   
-  if (extraire.années) {
+  if (extraire.annees) {
     
-    "Paie" %a% Paie[Annee >= début.période.sous.revue & Annee <= fin.période.sous.revue]
-    "Bulletins.paie" %a% Bulletins.paie[Annee >= début.période.sous.revue & Annee <= fin.période.sous.revue]
+    "Paie" %a% Paie[Annee >= debut.periode.sous.revue & Annee <= fin.periode.sous.revue]
+    "Bulletins.paie" %a% Bulletins.paie[Annee >= debut.periode.sous.revue & Annee <= fin.periode.sous.revue]
     
   } else {
     
-    "début.période.sous.revue" %a% min(Bulletins.paie[ , Annee])
-    "fin.période.sous.revue" %a% max(Bulletins.paie[ , Annee])
+    "debut.periode.sous.revue" %a% min(Bulletins.paie[ , Annee])
+    "fin.periode.sous.revue" %a% max(Bulletins.paie[ , Annee])
   }
 }
 
@@ -522,7 +522,7 @@ Redresser.heures <- function() {
       
       setkey(Paie, Annee, Mois, indic)  
       
-      for (A in période) {
+      for (A in periode) {
         for (M in 1:12) {
           a <- PointMensuelIM[A - 2007, M]  
           Paie[list(A, M, TRUE), 
@@ -559,13 +559,13 @@ importer <- function() {
 
 importer_ <- function() {
   
-  # Il importe que de ne pas confondre le séparateur décimal et le séparateur de champ CSV
+  # Il importe que de ne pas confondre le separateur decimal et le separateur de champ CSV
   
-  if (séparateur.décimal.entrée == séparateur.liste.entrée)
-    stop("Le séparateur décimal en entrée doit être différent du séparateur de colonnes !")
+  if (separateur.decimal.entree == separateur.liste.entree)
+    stop("Le separateur decimal en entree doit être différent du separateur de colonnes !")
   
-  if (séparateur.décimal.sortie == séparateur.liste.sortie)
-    stop("Le séparateur décimal en sortie doit être différent du séparateur de colonnes !")
+  if (separateur.decimal.sortie == separateur.liste.sortie)
+    stop("Le separateur decimal en sortie doit être différent du separateur de colonnes !")
   
   # Création des répertoires des fichiers CSV en lien dans les rapports. Attention éviter les caractères non ASCII (bug de knitr)  
   # On peut désactiver les sorties CSV en fixant   sauvegarder.bases.analyse à FALSE [défaut TRUE]
@@ -576,25 +576,25 @@ importer_ <- function() {
   }
   
   # Les bases Table et Bulletins augmentées de quelques colonnes auxiliaires et légèrement retraitées peuvent
-  # être à nouveau exportées dans Paiements. Généralement inutile, sauf aux fins de débogage. Pour cela
+  # être à nouveau exportees dans Paiements. Généralement inutile, sauf aux fins de débogage. Pour cela
   # fixer sauvegarder.bases.origine à TRUE [défaut FALSE]
   
   if (sauvegarder.bases.origine)
     dir.create(file.path(chemin.dossier.bases, "Paiements"), recursive = TRUE, mode = "0777")
   
-  "fichier.personnels.existe" %a% (charger.catégories.personnel == TRUE & file.exists(chemin("matricules.csv")))
-  "grades.categories.existe" %a%  (charger.catégories.personnel == TRUE & file.exists(chemin("grades.categories.csv")))
+  "fichier.personnels.existe" %a% (charger.categories.personnel == TRUE & file.exists(chemin("matricules.csv")))
+  "grades.categories.existe" %a%  (charger.categories.personnel == TRUE & file.exists(chemin("grades.categories.csv")))
   
   "logements.existe" %a%     file.exists(chemin("logements.csv"))
   "plafonds.ifse.existe" %a% file.exists(chemin("plafonds_ifse.csv"))
   
-  base.personnels.catégorie <- importer_matricules()
+  base.personnels.categorie <- importer_matricules()
   
   base.logements            <- importer_base_logements()
   base.ifse                 <- importer_base_ifse()
   
-  fichiers.table     <- list.files(chemin.clé, pattern = nom.table %+% "(-)?[^.]*[.]csv",     full.names  = TRUE)
-  fichiers.bulletins <- list.files(chemin.clé, pattern = nom.bulletins %+% "(-)?[^.]*[.]csv", full.names  = TRUE)
+  fichiers.table     <- list.files(chemin.cle, pattern = nom.table %+% "(-)?[^.]*[.]csv",     full.names  = TRUE)
+  fichiers.bulletins <- list.files(chemin.cle, pattern = nom.bulletins %+% "(-)?[^.]*[.]csv", full.names  = TRUE)
   
   # Programme principal
   
@@ -602,18 +602,18 @@ importer_ <- function() {
   
   # Lignes de paie
   
-  # On ne retient que les bases ayant pour années au minimum début.période.sous.revue
-  # et au maximum fin.période.sous.revue, qui contiennent toutes les colonnes requises
+  # On ne retient que les bases ayant pour annees au minimum debut.periode.sous.revue
+  # et au maximum fin.periode.sous.revue, qui contiennent toutes les colonnes requises
   # pour le contrôle
   
-  # Le mode rapide n'est disponible que avec des csv à séparateurs virgule
+  # Le mode rapide n'est disponible que avec des csv à separateurs virgule
   # Il permet d'économiser environ 8s par million de ligne lues sur une dizaine de champs
   
   if (! charger.bases) return(c(0, 0))
   
   colonnes <- names(data.table::fread(fichiers.bulletins[1],
-                                      sep = séparateur.liste.entrée,
-                                      dec = séparateur.décimal.entrée,
+                                      sep = separateur.liste.entree,
+                                      dec = separateur.decimal.entree,
                                       nrows = 0,
                                       header = TRUE,
                                       #skip = champ.détection.1,
@@ -639,11 +639,11 @@ importer_ <- function() {
     stop("Impossible de charger les lignes/bulletins de paie.")
   }
   
-  if (! is.null(base.personnels.catégorie)) {
+  if (! is.null(base.personnels.categorie)) {
     
-    message("Remplacement de la catégorie par la catégorie importée du fichier matricules.csv sous ", chemin.dossier.données)
+    message("Remplacement de la categorie par la categorie importee du fichier matricules.csv sous ", chemin.dossier.donnees)
     vect <- c("Annee", "Nom", "Prenom", "Matricule", "Grade", "Emploi")
-    BP <- base.personnels.catégorie[ , , keyby = vect]
+    BP <- base.personnels.categorie[ , , keyby = vect]
     
     Paie[, Categorie := NULL]
     Bulletins.paie[, Categorie := NULL]
@@ -658,10 +658,10 @@ importer_ <- function() {
   setkey(Paie, Matricule, Annee, Mois)
   setkey(Bulletins.paie, Matricule, Annee, Mois)
   
-  # dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
-  # dans le fichier prologue.R. Sinon le programme travaille sur l'ensemble des années disponibles.
+  # dans le cas où l'on ne lance le programme que pour certaines annees, il préciser debut.periode.sous.revue et fin.periode .sous.revue
+  # dans le fichier prologue.R. Sinon le programme travaille sur l'ensemble des annees disponibles.
   
-  Extraire.années()
+  Extraire.annees()
   
   # Elus, vacataire, assistantes maternelles
   identifier.personnels()
@@ -678,20 +678,20 @@ importer_ <- function() {
   Bulletins.paie[Categorie %in% c("A", "B", "C") & Statut == "AUTRE_STATUT", Statut := "TITULAIRE"]
   Paie[Categorie %in% c("A", "B", "C") & Statut == "AUTRE_STATUT", Statut := "TITULAIRE"]
   
-  "période" %a% début.période.sous.revue:fin.période.sous.revue
-  "durée.sous.revue" %a% (fin.période.sous.revue - début.période.sous.revue + 1)
-  "nb.années" %a% uniqueN(Bulletins.paie$Annee)
+  "periode" %a% debut.periode.sous.revue:fin.periode.sous.revue
+  "duree.sous.revue" %a% (fin.periode.sous.revue - debut.periode.sous.revue + 1)
+  "nb.annees" %a% uniqueN(Bulletins.paie$Annee)
   
-  if (durée.sous.revue != nb.années) {
+  if (duree.sous.revue != nb.annees) {
     
-    cat("Les exercices doivent être consécutifs. Or il y a", nb.années, "exercices, dans un intervalle de", durée.sous.revue, "années.")
+    cat("Les exercices doivent être consécutifs. Or il y a", nb.annees, "exercices, dans un intervalle de", duree.sous.revue, "annees.")
     stop("Sélectionner des exercices consécutifs. Fin du programme.")
   }
   
-  "années.analyse.statique" %a% ifelse(analyse.statique.totale, période, c(début.période.sous.revue, fin.période.sous.revue))
+  "annees.analyse.statique" %a% ifelse(analyse.statique.totale, periode, c(debut.periode.sous.revue, fin.periode.sous.revue))
   
-  # Le format est jour/mois/année avec deux chiffres-séparateur-deux chiffres-séparateur-4 chiffres.
-  # Le séparateur peut être changé en un autre en modifiant le "/" dans date.format
+  # Le format est jour/mois/annee avec deux chiffres-separateur-deux chiffres-separateur-4 chiffres.
+  # Le separateur peut être changé en un autre en modifiant le "/" dans date.format
   
   "avant.redressement" %a% 0
   "après.redressement" %a% 0
@@ -700,7 +700,7 @@ importer_ <- function() {
        Eliminer.duplications()  
   } 
   
-  message("Vérification de la durée légale théorique du travail (1820 h = 35h x 52 semaines soit 151,67 h/mois)")
+  message("Vérification de la duree légale théorique du travail (1820 h = 35h x 52 semaines soit 151,67 h/mois)")
   
   "test.temps.complet" %a% verif.temps.complet()[1]
   "nb.heures.temps.complet" %a% verif.temps.complet()[2]
@@ -798,9 +798,9 @@ importer_ <- function() {
   "Paie" %a% Paie
   "Bulletins.paie" %a% Bulletins.paie
   "base.ifse" %a% base.ifse
-  "base.personnels.catégorie" %a% base.personnels.catégorie
+  "base.personnels.categorie" %a% base.personnels.categorie
   "base.logements" %a% base.logements
-  "grades.categories" %a% correspondance_grade_catégorie()
+  "grades.categories" %a% correspondance_grade_categorie()
   
 }
 

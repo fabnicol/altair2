@@ -2,7 +2,7 @@
 % Please edit documentation in R/test.R
 \name{agrégat_annuel}
 \alias{agrégat_annuel}
-\title{Affichage du tableau des agrégats des primes A et B, pour chaque année de période}
+\title{Affichage du tableau des agrégats des primes A et B, pour chaque annee de periode}
 \usage{
 agrégat_annuel(résultat, verbeux)
 }
@@ -12,7 +12,7 @@ agrégat_annuel(résultat, verbeux)
 \item{verbeux}{[FALSE] Le résultat n'est affiché que si  \code{verbeux} vaut  \code{TRUE}}
 }
 \description{
-Affichage du tableau des agrégats des primes A et B, pour chaque année de période
+Affichage du tableau des agrégats des primes A et B, pour chaque annee de periode
 }
 \examples{
 agrégat_annuel(test_prime(prime_IAT, prime_B = prime_IFTS, Paie_I, verbeux = FALSE), verbeux = TRUE)

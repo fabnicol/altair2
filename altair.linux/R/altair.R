@@ -17,7 +17,7 @@ NULL
 #'   \item{age}{âge des agents au 31 décembre 2010}
 #'   \item{Hommes}{nombre d'hommes}
 #'   \item{Femmes}{nombre de femmes}
-#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{annee.reference}{référence de l'annee (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
 #' @source \url{http://www.insee.fr/fr/themes/document.asp?ref_id=ip1442}
@@ -32,7 +32,7 @@ NULL
 #'   \item{age}{âge des agents au 31 décembre 2010}
 #'   \item{Hommes}{nombre d'hommes}
 #'   \item{Femmes}{nombre de femmes}
-#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{annee.reference}{référence de l'annee (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
 #' @source \url{http://www.insee.fr/fr/themes/document.asp?ref_id=ip1442}
@@ -46,7 +46,7 @@ NULL
 #'   \item{age}{âge des agents au 31 décembre 2010}
 #'   \item{Hommes}{nombre d'hommes}
 #'   \item{Femmes}{nombre de femmes}
-#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{annee.reference}{référence de l'annee (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
 #' @source \url{http://www.insee.fr/fr/themes/document.asp?ref_id=ip1442}
@@ -60,7 +60,7 @@ NULL
 #'   \item{age}{âge des agents au 31 décembre 2010}
 #'   \item{Hommes}{nombre d'hommes}
 #'   \item{Femmes}{nombre de femmes}
-#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{annee.reference}{référence de l'annee (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
 #' @source \url{http://www.insee.fr/fr/themes/document.asp?ref_id=ip1442}
@@ -74,7 +74,7 @@ NULL
 #'   \item{age}{âge des agents au 31 décembre 2010}
 #'   \item{Hommes}{nombre d'hommes}
 #'   \item{Femmes}{nombre de femmes}
-#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{annee.reference}{référence de l'annee (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
 #' @source \url{http://www.insee.fr/fr/themes/document.asp?ref_id=ip1442}
@@ -88,7 +88,7 @@ NULL
 #'   \item{age}{âge des agents au 31 décembre 2010}
 #'   \item{Hommes}{nombre d'hommes}
 #'   \item{Femmes}{nombre de femmes}
-#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{annee.reference}{référence de l'annee (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
 #' @source \url{http://www.insee.fr/fr/themes/document.asp?ref_id=ip1442}
@@ -103,7 +103,7 @@ NULL
 #'   \item{age}{âge des agents au 31 décembre 2011}
 #'   \item{Hommes}{nombre d'hommes}
 #'   \item{Femmes}{nombre de femmes}
-#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{annee.reference}{référence de l'annee (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
 #' @source \url{http://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2012-2013/xls/vue1_2_caracteristiques_agents.xls}
@@ -117,7 +117,7 @@ NULL
 #'   \item{age}{âge des agents au 31 décembre 2011}
 #'   \item{Hommes}{nombre d'hommes}
 #'   \item{Femmes}{nombre de femmes}
-#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{annee.reference}{référence de l'annee (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
 #' @source \url{http://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2012-2013/xls/vue1_2_caracteristiques_agents.xls/}
@@ -131,7 +131,7 @@ NULL
 #'   \item{age}{âge des agents au 31 décembre 2012}
 #'   \item{Hommes}{nombre d'hommes}
 #'   \item{Femmes}{nombre de femmes}
-#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{annee.reference}{référence de l'annee (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
 #' @source \url{http://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2014/xls/vue_Emploi_Public_20140902.xls}
@@ -145,7 +145,7 @@ NULL
 #'   \item{age}{âge des agents au 31 décembre 2012}
 #'   \item{Hommes}{nombre d'hommes}
 #'   \item{Femmes}{nombre de femmes}
-#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{annee.reference}{référence de l'annee (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
 #' @source \url{http://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2014/xls/vue_Emploi_Public_20140902.xls}
@@ -160,7 +160,7 @@ NULL
 #'   \item{age}{âge des agents au 31 décembre 2013}
 #'   \item{Hommes}{nombre d'hommes}
 #'   \item{Femmes}{nombre de femmes}
-#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{annee.reference}{référence de l'annee (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
 #' @source \url{http://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2015/xls/vue1_emploi.xlsx}
@@ -174,7 +174,7 @@ NULL
 #'   \item{age}{âge des agents au 31 décembre 2013}
 #'   \item{Hommes}{nombre d'hommes}
 #'   \item{Femmes}{nombre de femmes}
-#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{annee.reference}{référence de l'annee (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
 #' @source \url{http://www.fonction-publique.gouv.fr/files/files/statistiques/rapports_annuels/2015/xls/vue1_emploi.xlsx}
@@ -190,7 +190,7 @@ NULL
 #'   \item{age}{âge des agents au 31 décembre 2014}
 #'   \item{Hommes}{nombre d'hommes}
 #'   \item{Femmes}{nombre de femmes}
-#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{annee.reference}{référence de l'annee (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
 
@@ -204,7 +204,7 @@ NULL
 #'   \item{age}{âge des agents au 31 décembre 2014}
 #'   \item{Hommes}{nombre d'hommes}
 #'   \item{Femmes}{nombre de femmes}
-#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{annee.reference}{référence de l'annee (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
 
@@ -218,7 +218,7 @@ NULL
 #'   \item{age}{âge des agents au 31 décembre 2015}
 #'   \item{Hommes}{nombre d'hommes}
 #'   \item{Femmes}{nombre de femmes}
-#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{annee.reference}{référence de l'annee (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
 
@@ -232,7 +232,7 @@ NULL
 #'   \item{age}{âge des agents au 31 décembre 2015}
 #'   \item{Hommes}{nombre d'hommes}
 #'   \item{Femmes}{nombre de femmes}
-#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{annee.reference}{référence de l'annee (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
 
@@ -247,7 +247,7 @@ NULL
 #'   \item{age}{âge des agents au 31 décembre 2016}
 #'   \item{Hommes}{nombre d'hommes}
 #'   \item{Femmes}{nombre de femmes}
-#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{annee.reference}{référence de l'annee (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
 
@@ -261,7 +261,7 @@ NULL
 #'   \item{age}{âge des agents au 31 décembre 2016}
 #'   \item{Hommes}{nombre d'hommes}
 #'   \item{Femmes}{nombre de femmes}
-#'   \item{année.référence}{référence de l'année (première ligne)}
+#'   \item{annee.reference}{référence de l'annee (première ligne)}
 #'   \item{versant}{versant de la fonction publique (FPT ou FPH)}
 #' }
 

@@ -1,11 +1,11 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2018
+# Fabrice Nicol, annees 2018
 # fabrice.nicol@crtc.ccomptes.fr
 # 
 # Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
 # produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-# en vigueur à compter de l'année 2008.
+# en vigueur à compter de l'annee 2008.
 # 
 # Ce logiciel est régi par la licence CeCILL soumise au droit français et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -37,7 +37,7 @@
 # 
 
 # prime$nom
-# prime$catégorie
+# prime$categorie
 # prime$restreint_fonctionnaire
 # si non null Paie_B doit avoir indic_B
 
@@ -106,7 +106,7 @@ tableau_NAS <- function(résultat) {
   } else cat("Pas de cumuls prime-NAS.")
 }
 
-#' Affichage du tableau des agrégats des primes A et B, pour chaque année de période 
+#' Affichage du tableau des agrégats des primes A et B, pour chaque annee de periode 
 #' 
 #' @param résultat  Résultat retourné par la fonction \link{test_prime}
 #' @param verbeux   [FALSE] Le résultat n'est affiché que si  \code{verbeux} vaut  \code{TRUE}
@@ -133,7 +133,7 @@ agrégat_annuel<- function(résultat, verbeux) {
   
 }
 
-#' Affichage du tableau des variations des agrégats des primes A et B sur l'ensemble de la période
+#' Affichage du tableau des variations des agrégats des primes A et B sur l'ensemble de la periode
 #' 
 #' @param résultat  Résultat retourné par la fonction \link{test_prime}
 #' @param verbeux   [FALSE] Le résultat n'est affiché que si  \code{verbeux} vaut  \code{TRUE}
@@ -157,12 +157,12 @@ agrégat_annuel<- function(résultat, verbeux) {
 #' @param prime     Prime au format liste comportant les arguments :
 #'   \describe{
 #'   \item{nom}{Nom de la prime en majuscules. Une expression régulière en décrivant le libellé doit être enregistrée dans l'espace global sous le nom : expression.rég.nom}
-#'   \item{catégorie}{"A", "B", "C" ou tout vecteur d'une à deux lettres comprises dans ces trois valeurs. Décrit les catégories statutaires auxquelles la prime est attribuable.}
+#'   \item{categorie}{"A", "B", "C" ou tout vecteur d'une à deux lettres comprises dans ces trois valeurs. Décrit les categories statutaires auxquelles la prime est attribuable.}
 #'   \item{restreint_fonctionnaire}{Booléen. Par défaut FALSE. Préciser TRUE si la prime est uniquement attrubuable aux fonctionnaires. Dans certains cas (mais pas pour tous), la prime peut aussi être attribuable aux non-titulaires, sous réserve d'un acte réglementaire interne à l'organisme.}
 #'   \item{dossier}{Chaîne de caractères. Sous-dossier du dossier Bases dans lequel le fichier auxiliaire CSV doit être généré. Par exemple : "Reglementation".}
-#'   \item{expr.rég.}{Chaîne de caractères. Expression régulière filtrant sur champs \code{Grade}, décriuvant une contrainte limitant l'accès de la prime à un certain sous-ensemble de grades.}
+#'   \item{expr.reg.}{Chaîne de caractères. Expression régulière filtrant sur champs \code{Grade}, décriuvant une contrainte limitant l'accès de la prime à un certain sous-ensemble de grades.}
 #'   \item{indice}{Liste. Couple d'un caractère "+" ou "-" et d'un entier, ou triplet correspondant au couple augmenté d'un vecteur d'une ou deux lettres statutaires. Exemple : list("+", 350, c("A","B)). La liste décrit un critère limitatif pour la prime : 
-#'   elle ne peut être attribuée qu'aux indices supérieurs ("+") ou inférieurs ("-") au nombre donné en deuxième position pour les fonctionnaires de catégorie précisée en troisième prosition.}}
+#'   elle ne peut être attribuée qu'aux indices supérieurs ("+") ou inférieurs ("-") au nombre donné en deuxième position pour les fonctionnaires de categorie précisée en troisième prosition.}}
 #'   
 #' @param Paie_I    Base data.table des indemnités comportant les colonnes :
 #' \itemize{
@@ -182,7 +182,7 @@ agrégat_annuel<- function(résultat, verbeux) {
 #'   \item{Indice}
 #'   \item{Statut}
 #'   \item{Categorie}}
-#' @param verbeux   [FALSE] Le résultat des tableaux "non titulaires" et "catégories" n'est affiché que si \code{verbeux} vaut \code{TRUE}
+#' @param verbeux   [FALSE] Le résultat des tableaux "non titulaires" et "categories" n'est affiché que si \code{verbeux} vaut \code{TRUE}
 #' @return  Liste constituée de :
 #'  \describe{
 #'   \item{Paye}{La base data.table de paye correspondant à la prime en premier argument, toutes primes confondues.}
@@ -192,7 +192,7 @@ agrégat_annuel<- function(résultat, verbeux) {
 #' @note  Sauvegarde deux fichiers dans le sous-dossier prime$dossier : 
 #' \itemize{
 #' {prime$nom.non.tit.csv} {Recense les attributaires non titulaires}
-#' {prime$nom.cat.A (ou AB ou B ou BC...)} {Recense les attributaires de catégorie A, B, C ou toute combinaison de ces lettres.}
+#' {prime$nom.cat.A (ou AB ou B ou BC...)} {Recense les attributaires de categorie A, B, C ou toute combinaison de ces lettres.}
 #' }   
 #' @export
 
@@ -204,7 +204,7 @@ analyser <- function(prime, Paie_I, verbeux) {
   lignes.indice.anormal <- NULL
   
   essayer({  Paie_A   <- filtrer_Paie(prime$nom, 
-                             portée = "Mois",
+                             portee = "Mois",
                              Base = Paie_I,
                              indic = TRUE)
     
@@ -268,16 +268,16 @@ analyser <- function(prime, Paie_I, verbeux) {
       }
     }
     
-    if (!is.null(prime$catégorie)){
+    if (!is.null(prime$categorie)){
       
-      if (! is.null(prime$expr.rég)) {
+      if (! is.null(prime$expr.reg)) {
         
-        A.non.cat <- Lignes_A[! Categorie %chin% prime$catégorie 
-                              | ! grepl(prime$expr.rég, Grade, ignore.case = TRUE, perl = TRUE)] 
+        A.non.cat <- Lignes_A[! Categorie %chin% prime$categorie 
+                              | ! grepl(prime$expr.reg, Grade, ignore.case = TRUE, perl = TRUE)] 
         
       } else {
         
-        A.non.cat <- Lignes_A[! Categorie %chin% prime$catégorie]
+        A.non.cat <- Lignes_A[! Categorie %chin% prime$categorie]
       }
       
       if ((N.A.non.cat <<- uniqueN(A.non.cat$Matricule)) > 0) {
@@ -285,8 +285,8 @@ analyser <- function(prime, Paie_I, verbeux) {
         cat(N.A.non.cat, 
             "attributaires de",
             prime$nom,
-            "ne sont pas identifiés en catégorie",
-            prime$catégorie,
+            "ne sont pas identifiés en categorie",
+            prime$categorie,
             ". ")
         
         if (verbeux)  print(kable(A.non.cat, align = 'r', row.names = FALSE))
@@ -295,15 +295,15 @@ analyser <- function(prime, Paie_I, verbeux) {
         
         cat("Tous les attributaires de",
             prime$nom,
-            "sont identifiés en catégorie",
-            prime$catégorie, ". ")
+            "sont identifiés en categorie",
+            prime$categorie, ". ")
       }
       
     } else {
       
-      if (! is.null(prime$expr.rég)) {
+      if (! is.null(prime$expr.reg)) {
         
-        A.non.cat <- Lignes_A[! grepl(prime$expr.rég, Grade, ignore.case = TRUE, perl = TRUE)] 
+        A.non.cat <- Lignes_A[! grepl(prime$expr.reg, Grade, ignore.case = TRUE, perl = TRUE)] 
         
         if ((N.A.non.cat <<- uniqueN(A.non.cat$Matricule)) > 0) {
           
@@ -319,7 +319,7 @@ analyser <- function(prime, Paie_I, verbeux) {
       } else {
        
         cat("La détection des incompatibilités statutaires n'a pas pu être réalisée. ")
-        stop("La prime " %+% prime$nom %+% " doit être renseignée soit pour sa catagorie statutaire (prime$catégorie) soit par une expression régulière sur libellé (prime$expr.rég).")
+        stop("La prime " %+% prime$nom %+% " doit être renseignée soit pour sa catagorie statutaire (prime$categorie) soit par une expression régulière sur libellé (prime$expr.reg).")
         
       }
     }
@@ -345,7 +345,7 @@ analyser <- function(prime, Paie_I, verbeux) {
   env <- environment()
  
   if (sauvegarder.bases.analyse) { 
-    sauvebase("A.non.cat", prime$nom %+% ".non.cat" %+% paste0("", prime$catégorie, collapse = ""), prime$dossier, env)
+    sauvebase("A.non.cat", prime$nom %+% ".non.cat" %+% paste0("", prime$categorie, collapse = ""), prime$dossier, env)
     sauvebase("A.non.tit", prime$nom %+% ".non.tit", prime$dossier, env)
     if (! is.null(prime$indice)) {
       sauvebase("lignes.indice.anormal", prime$nom %+% ".indice.anormal", prime$dossier, env)
@@ -357,17 +357,17 @@ analyser <- function(prime, Paie_I, verbeux) {
 
 #' Teste les primes et indemnités   
 #' 
-#' Analyse les contraintes relatives aux non titulaires, à la catégorie statutaire, au grade, à l'indice, aux cumuls avec d'autres indemnités.   
+#' Analyse les contraintes relatives aux non titulaires, à la categorie statutaire, au grade, à l'indice, aux cumuls avec d'autres indemnités.   
 #' 
 #' @param prime     Prime au format liste comportant les arguments :
 #'   \describe{
 #'   \item{nom}{Nom de la prime en majuscules. Une expression régulière en décrivant le libellé doit être enregistrée dans l'espace global sous le nom : expression.rég.nom}
-#'   \item{catégorie}{"A", "B", "C" ou tout vecteur d'une à deux lettres comprises dans ces trois valeurs. Décrit les catégories statutaires auxquelles la prime est attribuable.}
+#'   \item{categorie}{"A", "B", "C" ou tout vecteur d'une à deux lettres comprises dans ces trois valeurs. Décrit les categories statutaires auxquelles la prime est attribuable.}
 #'   \item{restreint_fonctionnaire}{Booléen. Par défaut FALSE. Préciser TRUE si la prime est uniquement attrubuable aux fonctionnaires. Dans certains cas (mais pas pour tous), la prime peut aussi être attribuable aux non-titulaires, sous réserve d'un acte réglementaire interne à l'organisme.}
 #'   \item{dossier}{Chaîne de caractères. Sous-dossier du dossier Bases dans lequel le fichier auxiliaire CSV doit être généré. Par exemple : "Reglementation".}
-#'   \item{expr.rég.}{Chaîne de caractères. Expression régulière filtrant sur champs \code{Grade}, décriuvant une contrainte limitant l'accès de la prime à un certain sous-ensemble de grades.}
+#'   \item{expr.reg.}{Chaîne de caractères. Expression régulière filtrant sur champs \code{Grade}, décriuvant une contrainte limitant l'accès de la prime à un certain sous-ensemble de grades.}
 #'   \item{indice}{Liste. Couple d'un caractère "+" ou "-" et d'un entier, ou triplet correspondant au couple augmenté d'un vecteur d'une ou deux lettres statutaires. Exemple : list("+", 350, c("A","B)). La liste décrit un critère limitatif pour la prime : 
-#'   elle ne peut être attribuée qu'aux indices supérieurs ("+") ou inférieurs ("-") au nombre donné en deuxième position pour les fonctionnaires de catégorie précisée en troisième prosition.}
+#'   elle ne peut être attribuée qu'aux indices supérieurs ("+") ou inférieurs ("-") au nombre donné en deuxième position pour les fonctionnaires de categorie précisée en troisième prosition.}
 #'   \item{NAS}{Si vaut "non", la prime est incompatible avec le logement par nécessité absolue de service (NAS). Si vaut un nombre, la prime doit être inférieure à ce seuil pour bénéficier d'un logement par NAS.}}
 #' @param prime_B     Prime au format liste comportant les mêmes types d'arguments. Les cumuls de \code{prime} et de \code{prime_B} seront analysés.   
 #' @param Paie_I    Base data.table des indemnités comportant les colonnes :
@@ -388,7 +388,7 @@ analyser <- function(prime, Paie_I, verbeux) {
 #'   \item{Indice}
 #'   \item{Statut}
 #'   \item{Categorie}}
-#' @param verbeux   [FALSE] Le résultat des tableaux "non titulaires" et "catégories" n'est affiché que si \code{verbeux} vaut \code{TRUE}
+#' @param verbeux   [FALSE] Le résultat des tableaux "non titulaires" et "categories" n'est affiché que si \code{verbeux} vaut \code{TRUE}
 #' @return  Liste constituée de :
 #'  \describe{
 #'   \item{Paye}{La base data.table de paye correspondant à la prime en premier argument, toutes primes confondues.}
@@ -399,7 +399,7 @@ analyser <- function(prime, Paie_I, verbeux) {
 #' @note  Sauvegarde deux fichiers dans le sous-dossier prime$dossier : 
 #' \itemize{
 #' {prime$nom.non.tit.csv} {Recense les attributaires non titulaires}
-#' {prime$nom.cat.A (ou AB ou B ou BC...)} {Recense les attributaires de catégorie A, B, C ou toute combinaison de ces lettres.}
+#' {prime$nom.cat.A (ou AB ou B ou BC...)} {Recense les attributaires de categorie A, B, C ou toute combinaison de ces lettres.}
 #' }   
 #' @export
 
@@ -444,17 +444,17 @@ essayer({ if (! is.null(Paie_B) && ! résultat.manquant) {
     
     if (! indic_B %chin% NAMES && "indic" %chin% NAMES) setnames(Paie_B, "indic", indic_B)
     
-    période.fusion <- merge(unique(Paie_A[indic == TRUE]),
+    periode.fusion <- merge(unique(Paie_A[indic == TRUE]),
                             unique(Paie_B[get(indic_B) == TRUE]),
                             by = c("Nom", "Prenom", "Matricule",
                                    "Annee", "Mois", "Emploi", "Grade",
                                    "Indice", "Statut",
                                    "Categorie"))[ , .(Matricule, Annee, Mois)]
   
-    période.fusion <- unique(période.fusion)
+    periode.fusion <- unique(periode.fusion)
     
-    A_ <- merge(unique(Paie_A), période.fusion, by = c("Matricule", "Annee", "Mois"))
-    B_ <- merge(unique(Paie_B), période.fusion, by = c("Matricule", "Annee", "Mois"))
+    A_ <- merge(unique(Paie_A), periode.fusion, by = c("Matricule", "Annee", "Mois"))
+    B_ <- merge(unique(Paie_B), periode.fusion, by = c("Matricule", "Annee", "Mois"))
     B_$indic <- A_$indic
     
     personnels.A.B <- B_[indic == TRUE | get(indic_B) == TRUE
@@ -603,7 +603,7 @@ list(Paie = Paie_A,
 #' 
 #' @param avantage Vecteur de caractères indiquant le type de logement (actuellement seul "NAS" est actif)
 #' @param Paie Base de Paye principale comportant les variables \code{Matricule, Annee, Mois, Statut, Grade, Emploi, Type, Code, Libelle, Montant}
-#' @param base.logements La base de logements facultative importée par l'onglet Extra de l'interface graphique 
+#' @param base.logements La base de logements facultative importee par l'onglet Extra de l'interface graphique 
 #' @return base de type \code{data.table} comportant les enregistrements identifiés comme problématiques.  
 #' @export
 
@@ -688,8 +688,8 @@ test_avn <- function(avantage, Paie, base.logements = NULL) {
 #' 
 #' @param plafonds Base \code{data.table} comportant les colonnes caractères \code{Grade, Groupe} et \code{Logement} suivies de la colonne numérique \code{Plafond}. Logement doit contenir le codage \code{NAS} pour les personnels logés par nécessité absolue de service.    
 #' @param Lignes Lignes de paye limitées à des montants indemnitaires fléchés (ex: IFSE) et comportant les variables \code{Matricule, Annee, Mois, Statut, Grade, Emploi, Type, Code, Libelle, Montant}
-#' @param logements La base de logements importée par l'onglet Extra de l'interface graphique, comportant la variable Logement et le codage \code{NAS} pour les personnels logés par nécessité absolue de service. A défaut tous les agents sont considérés non logés.       
-#' @return Liste constituée du coût des dépassements par année et d'une base de type \code{data.table} comportant les bulletins de paye comportant une ligne IFSE identifiée comme problématique.  
+#' @param logements La base de logements importee par l'onglet Extra de l'interface graphique, comportant la variable Logement et le codage \code{NAS} pour les personnels logés par nécessité absolue de service. A défaut tous les agents sont considérés non logés.       
+#' @return Liste constituée du coût des dépassements par annee et d'une base de type \code{data.table} comportant les bulletins de paye comportant une ligne IFSE identifiée comme problématique.  
 #' @export
 
 test_plafonds <- function(plafonds, Lignes, logements = NULL) {

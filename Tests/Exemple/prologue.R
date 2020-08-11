@@ -1,6 +1,6 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annees 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
 # Ce logiciel est un programme informatique servant à extraire et analyser
@@ -39,9 +39,9 @@
 # doit être encodé en UTF-8 au moins sous Linux. 
 # doit être dans le même répertoire que le programme principal et sa bibliothèque
 
-# dans le cas où l'on ne lance le programme que pour certaines années, il préciser début.période sous revue et fin.période .sous.revue
-# Dans ce cas fixer extraire.années en valeur TRUE.
-# Sinon le programme travaille sur l'ensemble des années disponibles dans la base : elles sont détectées automatiquement.
+# dans le cas où l'on ne lance le programme que pour certaines annees, il préciser debut.periode.sous.revue et fin.periode .sous.revue
+# Dans ce cas fixer extraire.annees en valeur TRUE.
+# Sinon le programme travaille sur l'ensemble des annees disponibles dans la base : elles sont détectées automatiquement.
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
@@ -49,9 +49,9 @@
 
 # Toujours utiliser FALSE ou TRUE en plein lettres en raison de l'éloignement avec <- (bug de l'interpréteur pour T et F)
 
-extraire.années                <- FALSE
-  début.période.sous.revue     <- 2013
-  fin.période.sous.revue       <- 2018
+extraire.annees                <- FALSE
+  debut.periode.sous.revue     <- 2013
+  fin.periode.sous.revue       <- 2018
 
 exec.root                      <- if (setOSWindows) ".exe" else ""
 
@@ -60,14 +60,14 @@ redresser.heures               <- TRUE
 enlever.quotites.nulles        <- FALSE
 enlever.quotites.na            <- FALSE
 écreter.quotites               <- TRUE
-générer.codes                  <- FALSE
-charger.catégories.personnel   <- TRUE
+generer.codes                  <- FALSE
+charger.categories.personnel   <- TRUE
 extraire.population            <- FALSE
 charger.bases                  <- TRUE
 sauvegarder.bases.analyse      <- TRUE
 sauvegarder.bases.origine      <- FALSE
 afficher.table.effectifs       <- FALSE
-générer.table.élus             <- TRUE
+generer.table.élus             <- TRUE
 tester.matricules              <- TRUE
 analyse.statique.totale        <- FALSE
 intégrer.localisation          <- FALSE   # Veut on gardet Budget Employeur Siret Etablissement ?
@@ -75,10 +75,10 @@ afficher.cumuls.détaillés.lignes.paie <- FALSE
 afficher.table.écarts.sft      <- FALSE
 afficher.table.codes           <- FALSE
 afficher.table.événements      <- FALSE
-analyse.par.catégorie          <- TRUE
+analyse.par.categorie          <- TRUE
 test.delta                     <- FALSE
 if (! exists("PDF"))       PDF <<- FALSE
-keep_md                        <- FALSE
+keep_md                        <- TRUE
 utiliser.cplusplus.sft         <- FALSE
 utiliser.variable.Heures.Sup.  <- FALSE    # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unite
 noria.sur.base.de.paie         <- FALSE    # calculer effet de noria sur base de paie uniquement (pas de fichier E/S)
@@ -89,19 +89,19 @@ fichier.personnels.existe      <- TRUE
 grades.categories.existe       <- TRUE
 logements.existe               <- TRUE
 plafonds.ifse.existe           <- TRUE
-apparier.sur.trois.clés        <- FALSE
+apparier.sur.trois.cles        <- FALSE
 fichiers.temp                  <- FALSE
 
 encodage.code.source           <- "UTF-8"
 
-numéro.tableau                 <- 0        # Numérotation de départ des tableaux
+numero.tableau                 <- 0        # Numérotation de départ des tableaux
 chapitre                       <- 1        # Numérotation de départ des chapitres
 seuil.troncature               <- 2        # jours
-taux.tolérance.homonymie       <- 2        # en %
+taux.tolerance.homonymie       <- 2        # en %
 quantile.cut                   <- 1        # en %
 minimum.positif                <- 0.5
 minimum.quotite                <- 0.1
-tolérance.variation.quotite    <- 0.05
+tolerance.variation.quotite    <- 0.05
 minimum.actif                  <- 100
 minimum.delta                  <- 5
 dpi                            <- 300 # points par pouce, précision des graphiques de rapport
@@ -117,14 +117,14 @@ minimum.Nheures.non.annexe      <- 120
 minimum.Nmois.non.annexe        <- 1
 
 population_minimale_calcul_médiane  <- 3
-tolérance.sft                       <- 1
-tolérance.nbi                       <- 2
+tolerance.sft                       <- 1
+tolerance.nbi                       <- 2
 ratio.memoire.ligne.parallele       <- 2.3
 
-séparateur.liste.entrée     <- ";"
-séparateur.décimal.entrée   <- ","
-séparateur.liste.sortie     <- ";"
-séparateur.décimal.sortie   <- ","
+separateur.liste.entree     <- ";"
+separateur.decimal.entree   <- ","
+separateur.liste.sortie     <- ";"
+separateur.decimal.sortie   <- ","
 
 # FICHIERS EN INPUT
 # conventions de nommage : les noms et chemins sont en minuscules ;

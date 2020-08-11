@@ -1,6 +1,6 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annees 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
 # Ce logiciel est un programme informatique servant à extraire et analyser
@@ -47,7 +47,7 @@
 # part fixe mensuelle
 
 
-sft_R <- function(x, indice, échelon, nbi, durée, année, mois)   {
+sft_R <- function(x, indice, échelon, nbi, duree, annee, mois)   {
 
   
   sft.fixe <- c(un = 2.29, deux = 10.67, trois = 15.24, 15.24 + 4.57 * 1:12)
@@ -60,7 +60,7 @@ sft_R <- function(x, indice, échelon, nbi, durée, année, mois)   {
   
   if (x > 15) return(-1)
   
-  if (is.na(durée) || is.na(x)) return(0)
+  if (is.na(duree) || is.na(x)) return(0)
   
   if (grepl("H.*(E|é).*[A-F]", échelon, perl = TRUE, ignore.case = TRUE)) {
     
@@ -71,17 +71,17 @@ sft_R <- function(x, indice, échelon, nbi, durée, année, mois)   {
   indice <- sum(indice, nbi, na.rm = TRUE)
   
   # "Pour les personnels non rémunérés par un traitement établi en application de l'article 2 précité,
-  # l'élément proportionnel est calculé en pourcentage du traitement afférent à l'indice majoré 449 (indice brut 524)." art. 10 bis décretn°85-1148
+  # l'élément proportionnel est calcule en pourcentage du traitement afférent à l'indice majoré 449 (indice brut 524)." art. 10 bis décretn°85-1148
   
-  part.proportionnelle <- (x != 0) * sft.prop[x] * max(449, min(indice, 717)) * PointMensuelIM[année - 2007, mois]  
+  part.proportionnelle <- (x != 0) * sft.prop[x] * max(449, min(indice, 717)) * PointMensuelIM[annee - 2007, mois]  
   
   # on prend en compte les quotites spécifiques de temps partiel
   
-  if (durée == 90) {
+  if (duree == 90) {
     coef <- 0.91429   # 32/35 
-  } else if (durée == 80) {
+  } else if (duree == 80) {
     coef <- 0.85714   # 6/7   
-  } else coef <- durée/100
+  } else coef <- duree/100
   
   if (x != 1) {
     
@@ -95,7 +95,7 @@ sft_R <- function(x, indice, échelon, nbi, durée, année, mois)   {
   # vérification du plancher des attributions minimales à temps plein
   
   if (x != 1) 
-    valeur <- max(valeur, part.proportionnelle.minimale[ , , x][année - 2007, mois] + sft.fixe[x])
+    valeur <- max(valeur, part.proportionnelle.minimale[ , , x][annee - 2007, mois] + sft.fixe[x])
   
   
   #if (is.na(valeur)) valeur <- 0
@@ -170,9 +170,9 @@ liquidation_SFT <- function() {
             
             # Paie.enfants.réduit[ , ecart := if (SFT.controle > 1) delta / SFT.controle else NA]
             
-            # On accepte un tolérance fixée dans prologue.R à tolérance.sft <- 1 euro
+            # On accepte un tolerance fixée dans prologue.R à tolerance.sft <- 1 euro
             
-            "controle.sft" %a% Paie.enfants.réduit[delta.SFT > tolérance.sft,
+            "controle.sft" %a% Paie.enfants.réduit[delta.SFT > tolerance.sft,
                                                 .(delta.SFT = round(delta.SFT, 2),
                                                   SFT.versé,
                                                   SFT.controle = round(SFT.controle, 2),
@@ -193,14 +193,14 @@ liquidation_SFT <- function() {
               cat("\nPour les agents ayant au moins un enfant, il a été détecté ",
                   nb.écart.paiements.sft,
                   " bulletin", ifelse(nb.écart.paiements.sft == 1, "", "s"),
-                  " de paie présentant un écart de paiement du SFT supérieur à ", tolérance.sft, " euro.\n", sep="")
+                  " de paie présentant un écart de paiement du SFT supérieur à ", tolerance.sft, " euro.\n", sep="")
               
               if (afficher.table.écarts.sft)
                 print(kable(controle.sft, row.names = FALSE, align = 'c'))
               
             } else {
               
-              cat("\nPour les agents ayant au moins un enfant, il n'a été détecté aucun écart de paiement sur SFT supérieur à ", tolérance.sft, " euro.\n")
+              cat("\nPour les agents ayant au moins un enfant, il n'a été détecté aucun écart de paiement sur SFT supérieur à ", tolerance.sft, " euro.\n")
               
             }
             

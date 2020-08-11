@@ -1,8 +1,8 @@
 ########### 4. Analyse dynamique des rémunérations ########################
 #'
-#'# 4. Rémunérations nettes : évolutions sur la période sous revue
+#'# 4. Rémunérations nettes : évolutions sur la periode sous revue
 #'   
-cat("**Nombre d'exercices: ", durée.sous.revue, "**\n")   
+cat("**Nombre d'exercices: ", duree.sous.revue, "**\n")   
 #'   
 #'**Périmètre des données**      
 #'**Les données présentées dans cette section sont toutes relatives à des rémunérations nettes en équivalent temps plein (EQTP)**           
@@ -15,34 +15,34 @@ cat("**Nombre d'exercices: ", durée.sous.revue, "**\n")
 ########### 4.1 Distribution de la rémunération nette moyenne ###########
 
 #'    
-#'## 4.1 Distribution de la rémunération nette moyenne sur la période    
+#'## 4.1 Distribution de la rémunération nette moyenne sur la periode    
 #+ remuneration-nette
 
 attach(Analyse.variations, warn.conflicts = FALSE)
 
 #+fig.height=6, fig.width=7   
-insérer_script(fonction = "evolution_net_hist_1")
+inserer_script(fonction = "evolution_net_hist_1")
 
 #'   
 #'   
 
 #+fig.height=6, fig.width=7   
-insérer_script(fonction = "evolution_net_hist_2")
+inserer_script(fonction = "evolution_net_hist_2")
 #'   
 conditionnel("Lien vers la base de données synthétique", "Bases/Remunerations/Analyse.variations.csv")     
-conditionnel("Lien vers la base de données détaillée par année", "Bases/Remunerations/Analyse.variations.par.exercice.csv")     
+conditionnel("Lien vers la base de données détaillée par annee", "Bases/Remunerations/Analyse.variations.par.exercice.csv")     
 
 ########### 4.2  Evolutions des rémunérations nettes ###########
 
-#'## 4.2 Evolutions du SMPT sur la période sous revue 
+#'## 4.2 Evolutions du SMPT sur la periode sous revue 
 #'
 #'### 4.2.1 Evolution du SMPT pour l'ensemble des personnels fonctionnaires et non titulaires (hors élus)        
 #'
 #+ remuneration-nette-evolution
 
-masse.salariale.nette <- rep(0, durée.sous.revue)
+masse.salariale.nette <- rep(0, duree.sous.revue)
 
-# sommation sur les matricules à année fixe 
+# sommation sur les matricules à annee fixe 
 
 #'    
 #'**Salaire net moyen par tête (SMPT net) en EQTP, hors élus**         
@@ -53,9 +53,9 @@ masse.salariale.nette <- rep(0, durée.sous.revue)
 
 #+ Salaire-moyen-par-tete    
 
-essayer(label = "+SMPT global", print(smpt(Filtre_neutre)),     "Le salaire moyen par tête n'a pas pu être calculé.")    
+essayer(label = "+SMPT global", print(smpt(Filtre_neutre)),     "Le salaire moyen par tête n'a pas pu être calcule.")    
 
-#'**Distribution et variation sur la période du salaire moyen net par tête (SMPT net) en EQTP**         
+#'**Distribution et variation sur la periode du salaire moyen net par tête (SMPT net) en EQTP**         
 #'**pour les salariés à temps complet**           
 #'  
 #'&nbsp;*Tableau 4.2.1.2*     
@@ -63,13 +63,13 @@ essayer(label = "+SMPT global", print(smpt(Filtre_neutre)),     "Le salaire moye
 
 #+ premiere-derniere-annee
 
-essayer(label = "+distribution SMPT global", print(distribution_smpt(Filtre_neutre)), "La distribution du salaire moyen par tête n'a pas pu être calculée.")
+essayer(label = "+distribution SMPT global", print(distribution_smpt(Filtre_neutre)), "La distribution du salaire moyen par tête n'a pas pu être calculee.")
 
 #'  
 cat("*Nota :*  La population retenue est constituée des agents qui ne font pas partie des ", 2*quantile.cut, "centiles extrêmaux\n")   
 #'Les élus, vacataires et assistantes maternelles sont retirés du périmètre.   
-#'TC :  personnels à temps complet sur toute l'année            
-#'Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant eu, sur l'année, des rémunérations non annexes.  
+#'TC :  personnels à temps complet sur toute l'annee            
+#'Seuls sont pris en compte les agents ayant connu au moins un mois actif et ayant eu, sur l'annee, des rémunérations non annexes.  
 #'[Compléments méthodologiques](Docs/méthodologie.pdf)     
 #'      
 
@@ -165,7 +165,7 @@ cat("*Nota :*  La population retenue est constituée des agents qui ne font pas 
 #'   
 #'### 4.2.2 Evolution du SMPT des fonctionnaires         
 #'   
-#'##### 4.2.2.1 Toutes catégories statutaires          
+#'##### 4.2.2.1 Toutes categories statutaires          
 
 #'**Salaire net moyen par tête (SMPT net) en EQTP**       
 #'    
@@ -173,10 +173,10 @@ cat("*Nota :*  La population retenue est constituée des agents qui ne font pas 
 #'&nbsp;*Tableau 4.2.2.1.1*   
 #'    
 
-essayer(label = "+SMPT fonct.", print(smpt(Filtre_fonctionnaire)), "Le salaire moyen par tête des fonctionnaires n'a pas pu être calculé.")
+essayer(label = "+SMPT fonct.", print(smpt(Filtre_fonctionnaire)), "Le salaire moyen par tête des fonctionnaires n'a pas pu être calcule.")
 
 #'    
-#'##### 4.2.2.2 Par catégorie  statutaire        
+#'##### 4.2.2.2 Par categorie  statutaire        
 #'   
 #'**Categorie A**  
 #'
@@ -185,11 +185,11 @@ essayer(label = "+SMPT fonct.", print(smpt(Filtre_fonctionnaire)), "Le salaire m
 #'  
 
 
-essayer(label = "+SMPT cat A", print(smpt(Filtre_cat_A)), "Le salaire moyen par tête des fonctionnaires de catégorie A n'a pas pu être calculé.")  
+essayer(label = "+SMPT cat A", print(smpt(Filtre_cat_A)), "Le salaire moyen par tête des fonctionnaires de categorie A n'a pas pu être calcule.")  
 
 #'  
 #'*Comparaisons nationales*    
-#'*FPT catégorie A*    
+#'*FPT categorie A*    
 #'            
 #' | Décile \ euros   | 2011     | 2013   |   2014   |  2016   |
 #' |------------------|----------|--------|----------|---------|   
@@ -213,10 +213,10 @@ essayer(label = "+SMPT cat A", print(smpt(Filtre_cat_A)), "Le salaire moyen par 
 #'    
 #'  
 
-essayer(label = "+SMPT cat B", print(smpt(Filtre_cat_B)),          "Le salaire moyen par tête des fonctionnaires de catégorie B n'a pas pu être calculé.")  
+essayer(label = "+SMPT cat B", print(smpt(Filtre_cat_B)),          "Le salaire moyen par tête des fonctionnaires de categorie B n'a pas pu être calcule.")  
 
 #'*Comparaisons nationales*    
-#'*FPT catégorie B*    
+#'*FPT categorie B*    
 #'    
 #' | Décile \ euros   | 2011     | 2013   |  2014   |  2016  |  
 #' |------------------|----------|--------|---------|--------|   
@@ -239,11 +239,11 @@ essayer(label = "+SMPT cat B", print(smpt(Filtre_cat_B)),          "Le salaire m
 #'    
 #'  
 
-essayer(label = "+SMPT cat C", print(smpt(Filtre_cat_C)),       "Le salaire moyen par tête des fonctionnaires de catégorie C n'a pas pu être calculé.")    
+essayer(label = "+SMPT cat C", print(smpt(Filtre_cat_C)),       "Le salaire moyen par tête des fonctionnaires de categorie C n'a pas pu être calcule.")    
 
 #'     
 #'*Comparaisons nationales*    
-#'*FPT catégorie C*    
+#'*FPT categorie C*    
 #'    
 #' | Décile \ euros   | 2011     | 2013   |  2014  |  2016  | 
 #' |------------------|----------|--------|--------|--------|
@@ -262,40 +262,40 @@ essayer(label = "+SMPT cat C", print(smpt(Filtre_cat_C)),       "Le salaire moye
 
 
 #'       
-#'### 4.2.3 Distribution et variation sur la période du SMPT net en EQTP         
+#'### 4.2.3 Distribution et variation sur la periode du SMPT net en EQTP         
 #'     
 
 #'       
-#'#### 4.2.3.1 Pour l'ensemble des catégories statutaires             
+#'#### 4.2.3.1 Pour l'ensemble des categories statutaires             
 #'     
 
 #'**Fonctionnaires**    
 #'&nbsp;*Tableau 4.2.3.1.1*   
 #'    
 
-essayer(label = "+distribution SMPT fonct.", print(distribution_smpt(Filtre_fonctionnaire)), "La distribution du salaire moyen par tête des fonctionnaires n'a pas pu être calculée.")
+essayer(label = "+distribution SMPT fonct.", print(distribution_smpt(Filtre_fonctionnaire)), "La distribution du salaire moyen par tête des fonctionnaires n'a pas pu être calculee.")
 
 #'       
-#'#### 4.2.3.2 Par catégorie statutaire             
+#'#### 4.2.3.2 Par categorie statutaire             
 #'     
 
 #'**Categorie A**    
 #'&nbsp;*Tableau 4.2.3.2.1*   
 #'    
 
-essayer(label = "+distribution SMPT cat. A", print(distribution_smpt(Filtre_cat_A)), "La distribution du salaire moyen par tête des fonctionnaires de catégorie A n'a pas pu être calculée.")
+essayer(label = "+distribution SMPT cat. A", print(distribution_smpt(Filtre_cat_A)), "La distribution du salaire moyen par tête des fonctionnaires de categorie A n'a pas pu être calculee.")
 
 #'**Categorie B**  
 #'&nbsp;*Tableau 4.2.3.2.2*   
 #'    
 
-essayer(label = "+distribution SMPT cat. B", print(distribution_smpt(Filtre_cat_B)), "La distribution du salaire moyen par tête des fonctionnaires de catégorie B n'a pas pu être calculée.")
+essayer(label = "+distribution SMPT cat. B", print(distribution_smpt(Filtre_cat_B)), "La distribution du salaire moyen par tête des fonctionnaires de categorie B n'a pas pu être calculee.")
 
 #'**Categorie C**  
 #'&nbsp;*Tableau 4.2.3.2.3*   
 #'    
 
-essayer(label = "+distribution SMPT cat. C", print(distribution_smpt(Filtre_cat_C)), "La distribution du salaire moyen par tête des fonctionnaires de catégorie C n'a pas pu être calculée.")
+essayer(label = "+distribution SMPT cat. C", print(distribution_smpt(Filtre_cat_C)), "La distribution du salaire moyen par tête des fonctionnaires de categorie C n'a pas pu être calculee.")
 
 #'    
 #'    
@@ -319,12 +319,12 @@ conditionnel("Lien vers la base de données", "Bases/Remunerations/Analyse.varia
 #'     
 #'**Afin d'apprécier la sensibilité des résultats à la qualité ou aux valeurs extrêmes des données, le filtrage suivant est à présent appliqué.**    
 #'**Sont retirés les valeurs manquantes des variations, les centiles extrêmaux, les rémunérations nettes négatives (rappels) ou proche de zéro.**     
-cat("**Un statut explicite doit être renseigné en fin de période. Des rémunérations doivent être versées à la fois en début et en fin de période de paiement de l'agent, supérieures à ", minimum.positif, ". Le nombre de jours d'exercice doit être supérieur à ", 2 * seuil.troncature, ".**\n")                 
+cat("**Un statut explicite doit être renseigné en fin de periode. Des rémunérations doivent être versées à la fois en début et en fin de periode de paiement de l'agent, supérieures à ", minimum.positif, ". Le nombre de jours d'exercice doit être supérieur à ", 2 * seuil.troncature, ".**\n")                 
 #'**Ces filtres sont référencés ci-après par les termes "filtres sur RMPP".**          
 
 # Appliquer les filtres maintenant
 
-if (nrow(Anavar.synthese.plus.2.ans) > 0 && durée.sous.revue > 1 ) {
+if (nrow(Anavar.synthese.plus.2.ans) > 0 && duree.sous.revue > 1 ) {
   hist(Anavar.synthese.plus.2.ans$variation.moyenne.rémunération,
        xlab ="Variation annuelle moyenne en %",
        las = 1,
@@ -339,22 +339,22 @@ if (nrow(Anavar.synthese.plus.2.ans) > 0 && durée.sous.revue > 1 ) {
 }
 
 
-#'*Cet histogramme décrit l'évolution de la rémunération moyenne des personnes en place (RMPP), définies comme présentes deux années entières consécutives avec la même quotite*   
-#'*L'évolution de la RMPP permet d'étudier le glissement vieillesse-technicité "positif", à effectifs constants sur deux années*      
+#'*Cet histogramme décrit l'évolution de la rémunération moyenne des personnes en place (RMPP), définies comme présentes deux annees entières consécutives avec la même quotite*   
+#'*L'évolution de la RMPP permet d'étudier le glissement vieillesse-technicité "positif", à effectifs constants sur deux annees*      
 
 
 #'
-#'**Variation individuelle de rémunération nette en EQTP pour les personnels présents sur toute la période**     
+#'**Variation individuelle de rémunération nette en EQTP pour les personnels présents sur toute la periode**     
 #'
 #'&nbsp;*Tableau 4.3.1.1*
 #'
-if (durée.sous.revue > 1) {
-  print(Résumé(c("Variation normalisée (%)",
+if (duree.sous.revue > 1) {
+  print(Resume(c("Variation normalisée (%)",
                  "Variation annuelle moyenne normalisée (%)",
                  "Quotité",
                  "Effectif"),
-               Anavar.synthese[bitwAnd(indicatrice.période, masque.présent.sur.période) == masque.présent.sur.période
-                               & Annee == début.période.sous.revue, .(variation.rémunération.normalisée,
+               Anavar.synthese[bitwAnd(indicatrice.periode, masque.présent.sur.periode) == masque.présent.sur.periode
+                               & Annee == debut.periode.sous.revue, .(variation.rémunération.normalisée,
                                                                       variation.moyenne.rémunération.normalisée,
                                                                       quotite.moyenne)],
                extra = "length"))
@@ -368,21 +368,21 @@ if (durée.sous.revue > 1) {
 
 
 #'
-#'**Variation individuelle de rémunération nette en EQTP pour les personnels présents sur toute la période**   
+#'**Variation individuelle de rémunération nette en EQTP pour les personnels présents sur toute la periode**   
 #'  
 #'&nbsp;*Tableau 4.3.2.1*   
 #'    
 
-if (durée.sous.revue > 1) {
-  print(Résumé(c("Variation normalisée (%)",
+if (duree.sous.revue > 1) {
+  print(Resume(c("Variation normalisée (%)",
                  "Variation annuelle moyenne normalisée (%)",
                  "Quotité",
                  "Effectif"),
                Anavar.synthese[statut %in% c("TITULAIRE", "STAGIAIRE")
-                               & bitwAnd(indicatrice.période, masque.présent.sur.période)
+                               & bitwAnd(indicatrice.periode, masque.présent.sur.periode)
                                ==
-                                 masque.présent.sur.période
-                               & Annee == début.période.sous.revue,
+                                 masque.présent.sur.periode
+                               & Annee == debut.periode.sous.revue,
                                .(variation.rémunération.normalisée, 
                                  variation.moyenne.rémunération.normalisée,
                                  quotite.moyenne)],
@@ -394,12 +394,12 @@ if (durée.sous.revue > 1) {
 conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthese.csv")
 #'
 #'**Nota**   
-cat("*Personnes en place :* en fonction au moins deux années consécutives avec la même quotite sur la période", début.période.sous.revue, " à ", fin.période.sous.revue, "\n")    
-#'*Variation sur la période d'activité :* entre l'arrivée et le départ de la personne      
-#'*Variation normalisée :* conforme à la définition INSEE (présente en début et en fin de période avec la même quotite)  
+cat("*Personnes en place :* en fonction au moins deux annees consécutives avec la même quotite sur la periode", debut.periode.sous.revue, " à ", fin.periode.sous.revue, "\n")    
+#'*Variation sur la periode d'activité :* entre l'arrivée et le départ de la personne      
+#'*Variation normalisée :* conforme à la définition INSEE (présente en début et en fin de periode avec la même quotite)  
 #'  
 #'**Commentaire**       
-cat("Les différences éventuelles constatées entre l'évolution de la RMPP au tableau ", numéro.tableau-2, "sont dues soit à l'effet de noria soit à l'effet périmètre.\n")    
+cat("Les différences éventuelles constatées entre l'évolution de la RMPP au tableau ", numero.tableau-2, "sont dues soit à l'effet de noria soit à l'effet périmètre.\n")    
 #'      
 
 detach(Analyse.variations)
@@ -415,13 +415,13 @@ detach(Analyse.variations)
 attach(Analyse.variations.par.exercice)
 
 #'   
-#'##### Les filtres RMPP appliqués au 4.3.1 et 4.3.2 ne sont plus appliqués. Il peut en résulter des variations significativement différentes de celles calculées précédemment.
+#'##### Les filtres RMPP appliqués au 4.3.1 et 4.3.2 ne sont plus appliqués. Il peut en résulter des variations significativement différentes de celles calculees précédemment.
 #'         
 
 #'
 #'### 4.3.3 Effet de noria et de variation d'effectifs sur rémunérations moyennes       
 #'     
-#'*Les calculs de RMPP sur la première année de la période sous revue sont estimatifs et ne devraient pas être pris en compte pour publication.*      
+#'*Les calculs de RMPP sur la première annee de la periode sous revue sont estimatifs et ne devraient pas être pris en compte pour publication.*      
 #'   
 #'      
 #'**Effet de noria et de variations d'effectifs sur rémunérations nettes moyennes EQTP**   
@@ -477,67 +477,67 @@ essayer(invisible(noria(champ = "net", filtre = c("TITULAIRE", "STAGIAIRE"))),
 essayer(invisible(noria(champ = "brut", filtre = c("TITULAIRE", "STAGIAIRE"))),
         "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations brutes moyennes des fonctionnaires.")
 
-##### 4.3.5 Effet de noria et de variation d'effectifs sur rémunérations moyennes par catégorie statutaire  ######
+##### 4.3.5 Effet de noria et de variation d'effectifs sur rémunérations moyennes par categorie statutaire  ######
 
 #'
-#'### 4.3.5 Effet de noria et de variation d'effectifs sur rémunérations moyennes par catégorie statutaire             
+#'### 4.3.5 Effet de noria et de variation d'effectifs sur rémunérations moyennes par categorie statutaire             
 #'   
 #'   
-#'**Effet de noria et de variations d'effectifs sur rémunérations nettes moyennes EQTP des fonctionnaires de catégorie A**   
+#'**Effet de noria et de variations d'effectifs sur rémunérations nettes moyennes EQTP des fonctionnaires de categorie A**   
 #'  
 #'&nbsp;*Tableau 4.3.5.1*   
 #'    
 #+ noria-tableau3
 
 essayer(invisible(noria(champ = "net", filtre = "A")),
-        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations nettes moyennes des fonctionnaires de catégorie A.")
+        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations nettes moyennes des fonctionnaires de categorie A.")
 
 #'  
-#'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP des fonctionnaires de catégorie A**   
+#'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP des fonctionnaires de categorie A**   
 #'  
 #'&nbsp;*Tableau 4.3.5.2*   
 #'    
 
 essayer(invisible(noria(champ = "brut", filtre = "A")),
-        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations brutes moyennes des fonctionnaires de catégorie A.")
+        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations brutes moyennes des fonctionnaires de categorie A.")
 
 #'   
-#'**Effet de noria et de variations d'effectifs sur rémunérations nettes moyennes EQTP des fonctionnaires de catégorie B**   
+#'**Effet de noria et de variations d'effectifs sur rémunérations nettes moyennes EQTP des fonctionnaires de categorie B**   
 #'  
 #'&nbsp;*Tableau 4.3.5.3*   
 #'    
 #+ noria-tableau4
 
 essayer(invisible(noria(champ = "net", filtre = "B")),
-        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations nettes moyennes des fonctionnaires de catégorie B.")
+        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations nettes moyennes des fonctionnaires de categorie B.")
 
 #'  
-#'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP des fonctionnaires de catégorie B**   
+#'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP des fonctionnaires de categorie B**   
 #'  
 #'&nbsp;*Tableau 4.3.5.4*   
 #'    
 
 essayer(invisible(noria(champ = "brut", filtre = "B")),
-        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations brutes moyennes des fonctionnaires de catégorie B.")
+        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations brutes moyennes des fonctionnaires de categorie B.")
 
 #'   
-#'**Effet de noria et de variations d'effectifs sur rémunérations nettes moyennes EQTP des fonctionnaires de catégorie C**   
+#'**Effet de noria et de variations d'effectifs sur rémunérations nettes moyennes EQTP des fonctionnaires de categorie C**   
 #'  
 #'&nbsp;*Tableau 4.3.5.5*   
 #'    
 #+ noria-tableau5
 
 essayer(invisible(noria(champ = "net", filtre = "C")),
-        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations nettes moyennes des fonctionnaires de catégorie C.")
+        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations nettes moyennes des fonctionnaires de categorie C.")
 
 #'  
-#'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP des fonctionnaires de catégorie C**   
+#'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP des fonctionnaires de categorie C**   
 #'  
 #'&nbsp;*Tableau 4.3.5.6*   
 #'    
 
 essayer(invisible(noria(champ = "brut", filtre = "C")),
-        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations brutes moyennes des fonctionnaires de catégorie C.")
+        "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations brutes moyennes des fonctionnaires de categorie C.")
 
 detach(Analyse.variations.par.exercice)
 
@@ -570,7 +570,7 @@ conditionnel("Rémunérations nettes par emploi", "Bases/Remunerations/net.emplo
 #'   
 conditionnel("Rémunérations nettes par service", "Bases/Remunerations/net.services.zip")  
 #'  
-#'*Note : les moyennes des tableaux sont pondérées en EQTP. Les rémunérations nettes sont calculées en retranchant le supplément familial de traitement.*      
+#'*Note : les moyennes des tableaux sont pondérées en EQTP. Les rémunérations nettes sont calculees en retranchant le supplément familial de traitement.*      
 #'    
 #'  
 #'
@@ -597,7 +597,7 @@ conditionnel("Rémunérations nettes par service", "Bases/Remunerations/net.serv
 #'Lecture : en 2014, le SMPT brut en EQTP a augmenté de 1,7 %
 #'SMPT : Salaire moyen par tête en EQTP.   
 #'RMPP : Agents présents 24 mois consécutifs chez le même employeur avec la même quotite de travail.   
-#'Lecture : en 2014, la rémunération nette en EQTP des agents présents deux années consécutives en 2012 et 2013 avec la même quotite a augmenté de 2,7 %   
+#'Lecture : en 2014, la rémunération nette en EQTP des agents présents deux annees consécutives en 2012 et 2013 avec la même quotite a augmenté de 2,7 %   
 #'  
 #'**Salaires nets annuels et évolution moyenne type de collectivité en euros courants  EQTP**    
 #'   
@@ -619,7 +619,7 @@ conditionnel("Rémunérations nettes par service", "Bases/Remunerations/net.serv
 #'| Ensemble (moyenne)        | 21 873 | 22 176   | 22 212  | 22 524 |  22 692  | 22 819| 23 328 |
 #' 
 
-#'**RMPP nette (salariés présents deux années de suite avec la même quotite) en EQTP**        
+#'**RMPP nette (salariés présents deux annees de suite avec la même quotite) en EQTP**        
 #'    
 #' 
 #'|  Organisme      RMPP net          |  2014  | 2014-2015 (%)  | 2015-2016 (%) | 2016-2017 (%) |
@@ -645,6 +645,6 @@ conditionnel("Rémunérations nettes par service", "Bases/Remunerations/net.serv
 #'[Source RAEFP 2019 données 2017](Docs/RA_2019.pdf)  
 
    
-incrémenter.chapitre()
+incrementer.chapitre()
 
 newpage()

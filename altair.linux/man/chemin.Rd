@@ -2,7 +2,7 @@
 % Please edit documentation in R/bibliotheque.fonctions.paie.R
 \name{chemin}
 \alias{chemin}
-\title{Chemin complet d'un fichier dans le dossier \code{chemin.dossier.données}}
+\title{Chemin complet d'un fichier dans le dossier \code{chemin.dossier.donnees}}
 \usage{
 chemin(fichier)
 }
@@ -10,5 +10,5 @@ chemin(fichier)
 \item{fichier}{Nom de fichier}
 }
 \description{
-Chemin complet d'un fichier dans le dossier \code{chemin.dossier.données}
+Chemin complet d'un fichier dans le dossier \code{chemin.dossier.donnees}
 }

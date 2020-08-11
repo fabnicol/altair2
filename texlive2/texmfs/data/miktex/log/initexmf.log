@@ -1,0 +1,388 @@
+2020-08-10 22:51:50,938+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 22:51:50,938+0200 INFO  initexmf - this process (14720) started by 'miktex-portable' with command line: initexmf --rmfndb --log-file=C:\Users\Public\Dev\altair\texlive2\texmfs/install\miktex/config\uninst.log --disable-installer --verbose
+2020-08-10 22:51:50,938+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 22:51:50,938+0200 INFO  initexmf - this process (14720) finishes with exit code 0
+2020-08-10 22:51:52,393+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 22:51:52,393+0200 INFO  initexmf - this process (4328) started by 'miktex-portable' with command line: initexmf --update-fndb --log-file=C:\Users\Public\Dev\altair\texlive2\texmfs/install\miktex/config\uninst.log --disable-installer --verbose
+2020-08-10 22:51:52,393+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 22:51:52,425+0200 INFO  initexmf - Creating fndb for common root directory (C:\Users\Public\Dev\altair\texlive2\texmfs/config)...
+2020-08-10 22:51:52,518+0200 INFO  initexmf - Creating fndb for common root directory (C:\Users\Public\Dev\altair\texlive2\texmfs/data)...
+2020-08-10 22:51:52,565+0200 INFO  initexmf - Creating fndb for common root directory (C:\Users\Public\Dev\altair\texlive2\texmfs\install)...
+2020-08-10 22:51:55,720+0200 WARN  initexmf.packagemanager - dependancy problem: miktex-doc-2.9 is required by _miktex-packages-2.9
+2020-08-10 22:51:55,751+0200 INFO  initexmf - Creating fndb for MPM...
+2020-08-10 22:51:57,642+0200 INFO  initexmf - this process (4328) finishes with exit code 0
+2020-08-10 22:51:58,251+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 22:51:58,251+0200 INFO  initexmf - this process (5620) started by 'miktex-portable' with command line: initexmf --force --mklinks --log-file=C:\Users\Public\Dev\altair\texlive2\texmfs/install\miktex/config\uninst.log --disable-installer --verbose
+2020-08-10 22:51:58,251+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 22:51:58,267+0200 INFO  initexmf - Collecting linked executables in target directory C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex/bin/x64...
+2020-08-10 22:51:58,751+0200 WARN  initexmf - The lualatex executable could not be found.
+2020-08-10 22:52:16,196+0200 INFO  initexmf - this process (5620) finishes with exit code 0
+2020-08-10 22:52:16,821+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 22:52:16,821+0200 INFO  initexmf - this process (8840) started by 'miktex-portable' with command line: initexmf --mkmaps --mklangs --log-file=C:\Users\Public\Dev\altair\texlive2\texmfs/install\miktex/config\uninst.log --disable-installer --verbose
+2020-08-10 22:52:16,821+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 22:52:16,837+0200 INFO  initexmf - Creating language.dat, language.dat.lua and language.def...
+2020-08-10 22:52:17,587+0200 INFO  initexmf - running: mkfntmap --verbose --disable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 22:52:17,634+0200 INFO  initexmf.core - start process: mkfntmap --verbose --disable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 22:53:27,223+0200 INFO  initexmf - this process (8840) finishes with exit code 0
+2020-08-10 22:53:27,928+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 22:53:27,928+0200 INFO  initexmf - this process (14052) started by 'miktex-portable' with command line: initexmf --default-paper-size=A4 --log-file=C:\Users\Public\Dev\altair\texlive2\texmfs/install\miktex/config\uninst.log --disable-installer --verbose
+2020-08-10 22:53:27,928+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 22:53:28,006+0200 INFO  initexmf - this process (14052) finishes with exit code 0
+2020-08-10 22:53:28,772+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 22:53:28,772+0200 INFO  initexmf - this process (3168) started by 'miktex-portable' with command line: initexmf --set-config-value=[MPM]AutoInstall=2 --log-file=C:\Users\Public\Dev\altair\texlive2\texmfs/install\miktex/config\uninst.log --disable-installer --verbose
+2020-08-10 22:53:28,772+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 22:53:28,772+0200 INFO  initexmf - Setting config value: [MPM]AutoInstall=2
+2020-08-10 22:53:28,850+0200 INFO  initexmf - this process (3168) finishes with exit code 0
+2020-08-10 22:53:29,538+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 22:53:29,553+0200 INFO  initexmf - this process (16020) started by 'miktex-portable' with command line: initexmf --update-fndb --log-file=C:\Users\Public\Dev\altair\texlive2\texmfs/install\miktex/config\uninst.log --disable-installer --verbose
+2020-08-10 22:53:29,553+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 22:53:29,584+0200 INFO  initexmf - Creating fndb for common root directory (C:\Users\Public\Dev\altair\texlive2\texmfs/config)...
+2020-08-10 22:53:29,663+0200 INFO  initexmf - Creating fndb for common root directory (C:\Users\Public\Dev\altair\texlive2\texmfs/data)...
+2020-08-10 22:53:29,756+0200 INFO  initexmf - Creating fndb for common root directory (C:\Users\Public\Dev\altair\texlive2\texmfs\install)...
+2020-08-10 22:53:32,807+0200 WARN  initexmf.packagemanager - dependancy problem: miktex-doc-2.9 is required by _miktex-packages-2.9
+2020-08-10 22:53:32,853+0200 INFO  initexmf - Creating fndb for MPM...
+2020-08-10 22:53:34,728+0200 INFO  initexmf - this process (16020) finishes with exit code 0
+2020-08-10 22:53:35,400+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 22:53:35,400+0200 INFO  initexmf - this process (6020) started by 'miktex-portable' with command line: initexmf --report --log-file=C:\Users\Public\Dev\altair\texlive2\texmfs/install\miktex/config\uninst.log --disable-installer --verbose
+2020-08-10 22:53:35,400+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 22:53:35,525+0200 INFO  initexmf - this process (6020) finishes with exit code 0
+2020-08-10 22:59:53,657+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 22:59:53,657+0200 INFO  initexmf - this process (6516) started by 'miktex-console' with command line: initexmf --mkmaps
+2020-08-10 22:59:53,657+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 22:59:53,667+0200 INFO  initexmf - running: mkfntmap --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 22:59:53,707+0200 INFO  initexmf.core - start process: mkfntmap --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 22:59:59,498+0200 INFO  initexmf - this process (6516) finishes with exit code 0
+2020-08-10 23:06:14,665+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:06:14,665+0200 INFO  initexmf - this process (6504) started by 'pdflatex' with command line: initexmf --dump-by-name=pdflatex --engine=pdftex
+2020-08-10 23:06:14,665+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:06:14,681+0200 INFO  initexmf - running: miktex-makefmt.exe --engine=pdftex --dest-name=pdflatex --no-dump pdflatex.ini --engine-option=-tcx=cp227.tcx --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:06:14,727+0200 INFO  initexmf.core - start process: miktex-makefmt.exe --engine=pdftex --dest-name=pdflatex --no-dump pdflatex.ini --engine-option=-tcx=cp227.tcx --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:06:26,194+0200 INFO  initexmf - this process (6504) finishes with exit code 0
+2020-08-10 23:06:40,165+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:06:40,165+0200 INFO  initexmf - this process (13652) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:06:40,165+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:06:40,181+0200 INFO  initexmf - running: mkfntmap --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:06:40,228+0200 INFO  initexmf.core - start process: mkfntmap --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:07:49,306+0200 INFO  initexmf - this process (13652) finishes with exit code 0
+2020-08-10 23:07:57,563+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:07:57,563+0200 INFO  initexmf - this process (8232) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:07:57,563+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:07:57,579+0200 INFO  initexmf - running: mkfntmap --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:07:57,626+0200 INFO  initexmf.core - start process: mkfntmap --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:09:03,364+0200 INFO  initexmf - this process (8232) finishes with exit code 0
+2020-08-10 23:09:24,852+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:09:24,852+0200 INFO  initexmf - this process (9556) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:09:24,852+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:09:24,883+0200 INFO  initexmf - running: mkfntmap --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:09:24,915+0200 INFO  initexmf.core - start process: mkfntmap --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:10:30,227+0200 INFO  initexmf - this process (9556) finishes with exit code 0
+2020-08-10 23:10:36,551+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:10:36,551+0200 INFO  initexmf - this process (10744) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:10:36,551+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:10:36,569+0200 INFO  initexmf - running: mkfntmap --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:10:36,609+0200 INFO  initexmf.core - start process: mkfntmap --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:11:42,392+0200 INFO  initexmf - this process (10744) finishes with exit code 0
+2020-08-10 23:12:06,240+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:12:06,240+0200 INFO  initexmf - this process (9224) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:12:06,240+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:12:06,257+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:12:06,298+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:13:12,191+0200 INFO  initexmf - this process (9224) finishes with exit code 0
+2020-08-10 23:13:15,087+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:13:15,088+0200 INFO  initexmf - this process (15464) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:13:15,088+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:13:15,105+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:13:15,144+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:14:21,252+0200 INFO  initexmf - this process (15464) finishes with exit code 0
+2020-08-10 23:14:24,317+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:14:24,317+0200 INFO  initexmf - this process (14328) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:14:24,317+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:14:24,334+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:14:24,374+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:15:30,403+0200 INFO  initexmf - this process (14328) finishes with exit code 0
+2020-08-10 23:15:33,530+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:15:33,530+0200 INFO  initexmf - this process (13024) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:15:33,530+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:15:33,547+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:15:33,587+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:16:39,996+0200 INFO  initexmf - this process (13024) finishes with exit code 0
+2020-08-10 23:16:43,041+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:16:43,041+0200 INFO  initexmf - this process (3380) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:16:43,041+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:16:43,058+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:16:43,099+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:17:49,540+0200 INFO  initexmf - this process (3380) finishes with exit code 0
+2020-08-10 23:17:52,455+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:17:52,455+0200 INFO  initexmf - this process (16240) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:17:52,455+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:17:52,472+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:17:52,512+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:18:58,647+0200 INFO  initexmf - this process (16240) finishes with exit code 0
+2020-08-10 23:19:01,533+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:19:01,533+0200 INFO  initexmf - this process (13324) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:19:01,533+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:19:01,551+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:19:01,592+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:20:07,793+0200 INFO  initexmf - this process (13324) finishes with exit code 0
+2020-08-10 23:20:10,655+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:20:10,655+0200 INFO  initexmf - this process (7728) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:20:10,655+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:20:10,672+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:20:10,712+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:21:16,953+0200 INFO  initexmf - this process (7728) finishes with exit code 0
+2020-08-10 23:21:19,732+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:21:19,732+0200 INFO  initexmf - this process (1656) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:21:19,732+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:21:19,751+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:21:19,814+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:22:26,175+0200 INFO  initexmf - this process (1656) finishes with exit code 0
+2020-08-10 23:22:28,943+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:22:28,943+0200 INFO  initexmf - this process (16352) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:22:28,943+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:22:28,960+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:22:29,001+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:23:35,701+0200 INFO  initexmf - this process (16352) finishes with exit code 0
+2020-08-10 23:23:38,774+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:23:38,774+0200 INFO  initexmf - this process (11740) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:23:38,774+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:23:38,791+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:23:38,831+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:24:45,172+0200 INFO  initexmf - this process (11740) finishes with exit code 0
+2020-08-10 23:24:48,034+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:24:48,034+0200 INFO  initexmf - this process (6080) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:24:48,034+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:24:48,052+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:24:48,093+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:25:54,659+0200 INFO  initexmf - this process (6080) finishes with exit code 0
+2020-08-10 23:25:57,798+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:25:57,799+0200 INFO  initexmf - this process (2156) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:25:57,799+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:25:57,817+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:25:57,857+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:27:04,261+0200 INFO  initexmf - this process (2156) finishes with exit code 0
+2020-08-10 23:27:07,070+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:27:07,071+0200 INFO  initexmf - this process (12236) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:27:07,071+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:27:07,088+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:27:07,128+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:28:12,923+0200 INFO  initexmf - this process (12236) finishes with exit code 0
+2020-08-10 23:28:15,786+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:28:15,786+0200 INFO  initexmf - this process (8320) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:28:15,787+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:28:15,804+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:28:15,844+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:29:22,071+0200 INFO  initexmf - this process (8320) finishes with exit code 0
+2020-08-10 23:29:24,898+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:29:24,898+0200 INFO  initexmf - this process (10168) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:29:24,898+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:29:24,915+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:29:24,955+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:30:33,346+0200 INFO  initexmf - this process (10168) finishes with exit code 0
+2020-08-10 23:30:36,167+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:30:36,167+0200 INFO  initexmf - this process (16196) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:30:36,167+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:30:36,185+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:30:36,239+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:31:45,179+0200 INFO  initexmf - this process (16196) finishes with exit code 0
+2020-08-10 23:31:48,171+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:31:48,172+0200 INFO  initexmf - this process (10308) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:31:48,172+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:31:48,189+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:31:48,229+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:32:58,444+0200 INFO  initexmf - this process (10308) finishes with exit code 0
+2020-08-10 23:33:01,360+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:33:01,360+0200 INFO  initexmf - this process (14676) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:33:01,360+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:33:01,377+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:33:01,418+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:34:11,379+0200 INFO  initexmf - this process (14676) finishes with exit code 0
+2020-08-10 23:34:14,059+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:34:14,059+0200 INFO  initexmf - this process (4428) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:34:14,059+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:34:14,076+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:34:14,116+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:35:23,758+0200 INFO  initexmf - this process (4428) finishes with exit code 0
+2020-08-10 23:35:26,977+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:35:26,977+0200 INFO  initexmf - this process (2032) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:35:26,977+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:35:26,996+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:35:27,038+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:36:36,499+0200 INFO  initexmf - this process (2032) finishes with exit code 0
+2020-08-10 23:36:40,387+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:36:40,388+0200 INFO  initexmf - this process (2404) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:36:40,388+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:36:40,405+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:36:40,446+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:37:50,066+0200 INFO  initexmf - this process (2404) finishes with exit code 0
+2020-08-10 23:37:52,937+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 23:37:52,938+0200 INFO  initexmf - this process (16240) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-10 23:37:52,938+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-10 23:37:52,955+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:37:52,995+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-10 23:39:02,292+0200 INFO  initexmf - this process (16240) finishes with exit code 0
+2020-08-11 17:33:07,827+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.7 Portable)
+2020-08-11 17:33:07,827+0200 INFO  initexmf - this process (15964) started by 'miktex-update' with command line: initexmf --mkmaps
+2020-08-11 17:33:07,827+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-11 17:33:07,843+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-11 17:33:07,874+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-11 17:34:34,797+0200 INFO  initexmf - this process (15964) finishes with exit code 0
+2020-08-11 17:34:36,672+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.7 Portable)
+2020-08-11 17:34:36,672+0200 INFO  initexmf - this process (888) started by 'miktex-update' with command line: initexmf --update-fndb --disable-installer --verbose
+2020-08-11 17:34:36,672+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-11 17:34:36,703+0200 INFO  initexmf - Creating fndb for common root directory (C:\Users\Public\Dev\altair\texlive2\texmfs/config)...
+2020-08-11 17:34:36,812+0200 INFO  initexmf - Creating fndb for common root directory (C:\Users\Public\Dev\altair\texlive2\texmfs/data)...
+2020-08-11 17:34:36,906+0200 INFO  initexmf - Creating fndb for common root directory (C:\Users\Public\Dev\altair\texlive2\texmfs\install)...
+2020-08-11 17:34:37,422+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:37,422+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:37,422+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:37,422+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\miktex-console.exe.(old)"
+2020-08-11 17:34:37,422+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:34:37,422+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:37,422+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:37,422+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:37,422+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\MiKTeX200629-apr.dll.(old)"
+2020-08-11 17:34:37,422+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:34:37,437+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:37,437+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:37,437+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:37,437+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\MiKTeX200629-aprutil.dll.(old)"
+2020-08-11 17:34:37,437+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:34:37,437+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:37,437+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:37,437+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:37,437+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\MiKTeX200629-core.dll.(old)"
+2020-08-11 17:34:37,437+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:34:37,437+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:37,437+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:37,437+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:37,437+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\MiKTeX200629-curl.dll.(old)"
+2020-08-11 17:34:37,437+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:34:37,437+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:37,437+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:37,437+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:37,437+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\MiKTeX200629-expat.dll.(old)"
+2020-08-11 17:34:37,437+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:34:37,453+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:37,453+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:37,453+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:37,453+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\MiKTeX200629-extractor.dll.(old)"
+2020-08-11 17:34:37,453+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:34:37,453+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:37,453+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:37,453+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:37,453+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\MiKTeX200629-fmt.dll.(old)"
+2020-08-11 17:34:37,453+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:34:37,453+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:37,453+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:37,453+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:37,453+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\MiKTeX200629-libressl-crypto.dll.(old)"
+2020-08-11 17:34:37,453+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:34:37,453+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:37,453+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:37,453+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:37,453+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\MiKTeX200629-log4cxx.dll.(old)"
+2020-08-11 17:34:37,453+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:34:37,468+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:37,468+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:37,468+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:37,468+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\MiKTeX200629-lzma2.dll.(old)"
+2020-08-11 17:34:37,468+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:34:37,468+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:37,468+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:37,468+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:37,468+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\MiKTeX200629-md5.dll.(old)"
+2020-08-11 17:34:37,468+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:34:37,468+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:37,468+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:37,468+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:37,468+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\MiKTeX200629-packagemanager.dll.(old)"
+2020-08-11 17:34:37,468+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:34:37,468+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:37,468+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:37,468+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:37,468+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\MiKTeX200629-popt.dll.(old)"
+2020-08-11 17:34:37,468+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:34:37,484+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:37,484+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:37,484+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:37,484+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\MiKTeX200629-setup.dll.(old)"
+2020-08-11 17:34:37,484+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:34:37,484+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:37,484+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:37,484+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:37,484+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\MiKTeX200629-trace.dll.(old)"
+2020-08-11 17:34:37,484+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:34:37,484+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:37,484+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:37,484+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:37,484+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\MiKTeX200629-ui-Qt.dll.(old)"
+2020-08-11 17:34:37,484+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:34:37,484+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:37,484+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:37,484+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:37,484+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\MiKTeX200629-utf8wrap.dll.(old)"
+2020-08-11 17:34:37,484+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:34:37,500+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:37,500+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:37,500+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:37,500+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\MiKTeX200629-util.dll.(old)"
+2020-08-11 17:34:37,500+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:34:39,814+0200 WARN  initexmf.packagemanager - dependancy problem: miktex-doc-2.9 is required by _miktex-packages-2.9
+2020-08-11 17:34:39,845+0200 INFO  initexmf - Creating fndb for MPM...
+2020-08-11 17:34:41,626+0200 INFO  initexmf - this process (888) finishes with exit code 0
+2020-08-11 17:34:42,298+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.7 Portable)
+2020-08-11 17:34:42,298+0200 INFO  initexmf - this process (14652) started by 'miktex-update' with command line: initexmf --force --mklinks --disable-installer --verbose
+2020-08-11 17:34:42,298+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-11 17:34:42,314+0200 INFO  initexmf - Collecting linked executables in target directory C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex/bin/x64...
+2020-08-11 17:34:57,833+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:57,833+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:57,833+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:57,833+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\miktex-taskbar-icon.exe"
+2020-08-11 17:34:57,833+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:34:57,927+0200 ERROR initexmf.core - Accès refusé.
+
+2020-08-11 17:34:57,927+0200 ERROR initexmf.core - Function: DeleteFileW
+2020-08-11 17:34:57,927+0200 ERROR initexmf.core - Result: 5
+2020-08-11 17:34:57,927+0200 ERROR initexmf.core - Data: path="C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\miktex-update.exe"
+2020-08-11 17:34:57,927+0200 ERROR initexmf.core - Source: Libraries\MiKTeX\Core\File\win\winFile.cpp:326
+2020-08-11 17:35:20,979+0200 INFO  initexmf.core - starting finish script
+2020-08-11 17:35:21,058+0200 INFO  initexmf - this process (14652) finishes with exit code 0
+2020-08-11 17:35:31,162+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.7 Portable)
+2020-08-11 17:35:31,162+0200 INFO  initexmf - this process (1740) started by 'miktex-update' with command line: initexmf --mkmaps --mklangs --disable-installer --verbose
+2020-08-11 17:35:31,162+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-11 17:35:31,162+0200 INFO  initexmf - Creating language.dat, language.dat.lua and language.def...
+2020-08-11 17:35:31,912+0200 INFO  initexmf - running: mkfntmap --verbose --disable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-11 17:35:31,959+0200 INFO  initexmf.core - start process: mkfntmap --verbose --disable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-11 17:36:18,163+0200 INFO  initexmf - this process (1740) finishes with exit code 0
+2020-08-11 18:02:09,840+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.7 Portable)
+2020-08-11 18:02:09,840+0200 INFO  initexmf - this process (10384) started by 'pdflatex' with command line: initexmf --enable-installer --dump-by-name=pdflatex --engine=pdftex
+2020-08-11 18:02:09,840+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-11 18:02:09,871+0200 INFO  initexmf - running: miktex-makefmt.exe --engine=pdftex --dest-name=pdflatex --no-dump pdflatex.ini --engine-option=-tcx=cp227.tcx --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-11 18:02:09,918+0200 INFO  initexmf.core - start process: miktex-makefmt.exe --engine=pdftex --dest-name=pdflatex --no-dump pdflatex.ini --engine-option=-tcx=cp227.tcx --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-11 18:02:28,554+0200 INFO  initexmf - this process (10384) finishes with exit code 0
+2020-08-11 19:07:44,623+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.7 Portable)
+2020-08-11 19:07:44,623+0200 INFO  initexmf - this process (3656) started by 'pdflatex' with command line: initexmf --mkmaps
+2020-08-11 19:07:44,623+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-11 19:07:44,635+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-11 19:07:44,680+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-11 19:08:50,223+0200 INFO  initexmf - this process (3656) finishes with exit code 0

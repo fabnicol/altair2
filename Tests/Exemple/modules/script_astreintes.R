@@ -11,7 +11,7 @@
 #'&nbsp;*Tableau 5.12.1 : Cumuls irréguliers NBI et astreintes (responsabilité supérieure)*   
 #'  
 
-insérer_script(fonction = "calcul_astreintes")
+inserer_script(fonction = "calcul_astreintes")
 
 #'**Nota**    
 #'Vérifier l'adéquation des libellés de paye d'astreinte dans le tableau en lien ci-après.      
@@ -22,7 +22,7 @@ conditionnel("Lien vers la base des cumuls astreintes/NBI", "Bases/Reglementatio
 conditionnel("Lien vers les libellés et codes astreintes", "Bases/Reglementation/libelles.astreintes.csv")     
 #'   
 
-insérer_script(fonction = "cumul_astreintes_IHTS")
+inserer_script(fonction = "cumul_astreintes_IHTS")
   
 #'  
 #'&nbsp;*Tableau 5.12.2 : Cumuls potentiellement irréguliers IHTS et astreintes*   
@@ -36,7 +36,7 @@ with(Cum_astreintes_HS_irreg,
 )
 
 #'**Nota**:     
-#'Les cumuls peuvent être réguliers s'il y a eu des interventions non compensées en période d'astreinte.      
+#'Les cumuls peuvent être réguliers s'il y a eu des interventions non compensées en periode d'astreinte.      
 conditionnel("Lien vers la base des cumuls astreintes/IHTS", "Bases/Reglementation/Controle_astreintes_HS_irreg.csv")
 conditionnel("Lien vers les cumuls annuels", "Bases/Reglementation/Cum_astreintes_HS_irreg.csv")
 

@@ -1,6 +1,6 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annees 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
 # Ce logiciel est un programme informatique servant à extraire et analyser
@@ -42,11 +42,11 @@ point_inm <- function() {
 
   an <- as.numeric(format(Sys.time(), "%Y"))
   
-  if (début.période.sous.revue < 2008) {
+  if (debut.periode.sous.revue < 2008) {
     
-    cat("Ce programme ne peut pas traiter les périodes sous revue commençant avant le 1er janvier 2008. Ces années seront écartées.")
-    "extraire.années" %a% TRUE
-    "début.période.sous.revue" %a% 2008
+    cat("Ce programme ne peut pas traiter les periodes sous revue commençant avant le 1er janvier 2008. Ces annees seront écartées.")
+    "extraire.annees" %a% TRUE
+    "debut.periode.sous.revue" %a% 2008
   }
     
   # Période couverte : 2008-2019 inclus
@@ -58,7 +58,7 @@ point_inm <- function() {
                       rep.int(54.8475, 9), # 2008 10-12 et 2009 1-6
                       rep.int(55.1217, 3), # 2009 6-9
                       rep.int(55.2871, 9), # 2009 10-12 et 2010 1-6
-                      rep.int(55.5635, 72),# 2010 7 -> 2016 6  (6 années de blocage)
+                      rep.int(55.5635, 72),# 2010 7 -> 2016 6  (6 annees de blocage)
                				rep.int(55.8969, 6), # 2016 7 -> 2016 12
                				55.8969, # 2017 
                				rep.int(56.2323,11), # 2017
@@ -68,7 +68,7 @@ point_inm <- function() {
                				rep.int(56.2323,12)  # 2021 prévision idem
                				),
          				
-              				# insérer ici la valeur courante du mpoint d'indice annuel
+              				# inserer ici la valeur courante du mpoint d'indice annuel
               				# par exemple pour 56 € par point/an :
               				# rep.int(56, 12)
               				# si passage à 56.5 au 1er juillet:
@@ -82,21 +82,21 @@ point_inm <- function() {
   
   if (an >= limite_inm) {
     
-    cat("AVERTISSEMENT : Il faut actualiser la matrice PointIM du fichier point.im.R comme indiqué en commentaires en rajoutant la valeur annuelle du point d'indice net pour les années après", limite_inm)
+    cat("AVERTISSEMENT : Il faut actualiser la matrice PointIM du fichier point.im.R comme indiqué en commentaires en rajoutant la valeur annuelle du point d'indice net pour les annees après", limite_inm)
     
-    if (fin.période.sous.revue >= limite_inm) {
+    if (fin.periode.sous.revue >= limite_inm) {
       
-      cat("ERREUR : La période sous revue dépasse la valeur limite du tableau en référence du point d'indice net. Actualiser ce tableau (fichier point.im.R) et relancer", limite_inm - 1)
-      if (fin.période.sous.revue > limite_inm) {
-        cat("Il faut rajouter la période", limite_inm, " - ",  fin.période.sous.revue)
+      cat("ERREUR : La periode sous revue dépasse la valeur limite du tableau en référence du point d'indice net. Actualiser ce tableau (fichier point.im.R) et relancer", limite_inm - 1)
+      if (fin.periode.sous.revue > limite_inm) {
+        cat("Il faut rajouter la periode", limite_inm, " - ",  fin.periode.sous.revue)
       } else {
-        cat("Il faut rajouter l'année", limite_inm)
+        cat("Il faut rajouter l'annee", limite_inm)
       }
       
-      cat("Pour continuer à s'exécuter le programme va écarter les années ci-dessus mentionnées...")
+      cat("Pour continuer à s'exécuter le programme va écarter les annees ci-dessus mentionnées...")
       
-      "extraire.années" %a% TRUE
-      "fin.période.sous.revue" %a% limite_inm - 1
+      "extraire.annees" %a% TRUE
+      "fin.periode.sous.revue" %a% limite_inm - 1
     }
   }
   
@@ -106,10 +106,10 @@ point_inm <- function() {
   
   "valeur.point.inm.pivot" %a% round(PointMensuelIMMoyen, 1)     
   
-  # année >= 2008 et année <= 2016
+  # annee >= 2008 et annee <= 2016
   
-  # pour avoir la valeur du point d'indice retrancher 2007 à l'année :
-  #   PointIM[année - 2007, mois]
+  # pour avoir la valeur du point d'indice retrancher 2007 à l'annee :
+  #   PointIM[annee - 2007, mois]
   
   # 1/01/2015	55.5635	
   # 1/01/2014	55.5635	

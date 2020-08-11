@@ -1,6 +1,6 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annees 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
 # Ce logiciel est un programme informatique servant à extraire et analyser
@@ -38,17 +38,17 @@
 # 
 # 
 
-chemin.clé <- get("chemin.cle", envir = env)
-chemin.dossier.bases        <- file.path(chemin.clé, "Bases")
+chemin.cle <- get("chemin.cle", envir = env)
+chemin.dossier.bases        <- file.path(chemin.cle, "Bases")
 user <- if (setOSWindows) Sys.getenv("USERNAME") else Sys.getenv("USER")
-chemin.dossier.données      <- file.path(chemin.clé, "..", "xhl", ifelse(user == "fab", "", user))
-chemin.dossier.docs <- file.path(chemin.clé, "Docs")
+chemin.dossier.donnees      <- file.path(chemin.cle, "..", "xhl", ifelse(user == "fab", "", user))
+chemin.dossier.docs <- file.path(chemin.cle, "Docs")
 
 for (type in c("codes", "options", "scripts")) {
-    if (basename(chemin.clé) == basename(racine)) {
+    if (basename(chemin.cle) == basename(racine)) {
         source("prologue_"  %+% type %+% ".R", encoding = encodage.code.source)
     } else {
-        source(file.path(chemin.clé, "prologue_" %+% type %+% ".R"), encoding = encodage.code.source)
+        source(file.path(chemin.cle, "prologue_" %+% type %+% ".R"), encoding = encodage.code.source)
     }
 }
 

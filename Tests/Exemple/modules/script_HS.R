@@ -13,7 +13,7 @@
 
 # Vérification des seuils annuels :
 
-insérer_script(fonction = c("calcul_HS", "dépassements_HS"))
+inserer_script(fonction = c("calcul_HS", "dépassements_HS"))
 
 # On considère le taux horaire maximum de nuit et la somme des IHTS 
 
@@ -27,15 +27,15 @@ conditionnel("Lien vers la base de données dépassements individuels des seuils
 conditionnel("Lien vers la base de données calcul des taux horaires individuels", "Bases/Reglementation/Taux.horaires.csv")        
 #'       
 #'     
-#'*Le cumul des heures supplémentaires déclarées (colonne Heures.Sup. des bases) est, par année, comparé au cumul des bases de liquidation IHTS, pour l'année et en régularisation l'année suivante au titre du même exercice*    
+#'*Le cumul des heures supplémentaires déclarées (colonne Heures.Sup. des bases) est, par annee, comparé au cumul des bases de liquidation IHTS, pour l'annee et en régularisation l'annee suivante au titre du même exercice*    
 #'*Le volume d'heures supplémentaires déclarées et non liquidées sous forme d'IHTS peut correspondre à d'autres régimes d'heures supplémentaires (enseignants, élections) ou à des heures supplémentaires non effectuées ou sous-déclarées*   
 #'*Des différences importantes peuvent indiquer une mauvaise fiabilité des déclarations d'heures supplémentaires et/ou des bases de liquidation IHTS*             
 #'           
 #'       
-#'&nbsp;*Tableau 5.11.2 : Cumuls d'heures supplémentaires déclarées et des IHTS payées, en nombre d'heures*     
+#'&nbsp;*Tableau 5.11.2 : Cumuls d'heures supplémentaires déclarées et des IHTS payees, en nombre d'heures*     
 #'    
 
-insérer_script(fonction = "cumuls_HS")
+inserer_script(fonction = "cumuls_HS")
 
 #'    
 conditionnel("Lien vers les données du tableau", "Bases/Reglementation/CumHS.csv")     
@@ -47,7 +47,7 @@ conditionnel("Lien vers les lignes IHTS", "Bases/Reglementation/lignes.IHTS.csv"
 #'&nbsp;*Tableau 5.11.3 : Heures supplémentaires au-delà des seuils*   
 #'    
 
-insérer_script(fonction = "plafonds_HS")
+inserer_script(fonction = "plafonds_HS")
 
 #'
 conditionnel("Lien vers la base de données Heures supplémentaires en excès du seuil de 15h (FPH) ou de 25h/mois (FPT)", "Bases/Reglementation/HS.sup.25.csv")     
@@ -58,5 +58,5 @@ conditionnel("Lien vers la base de données IHTS versées à des fonctionnaires 
 #'   
 #'**Nota :**   
 #'HS en excès : au-delà de 25 heures par mois dans la FPT et 15 heures par mois dans la FPH, sauf pour certains emplois (18,3 heures par mois)     
-#'IHTS cat.A : attribuées à des fonctionnaires ou non-titulaires de catégorie A ou assimilés.    
-#'Dans les tableaux en lien les grades, emplois et service sont ceux connus en fin d'année.    
+#'IHTS cat.A : attribuées à des fonctionnaires ou non-titulaires de categorie A ou assimilés.    
+#'Dans les tableaux en lien les grades, emplois et service sont ceux connus en fin d'annee.    

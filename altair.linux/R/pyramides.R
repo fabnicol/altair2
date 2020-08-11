@@ -1,11 +1,11 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annees 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
 # Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
 # produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-# en vigueur à compter de l'année 2008.
+# en vigueur à compter de l'annee 2008.
 # 
 # Ce logiciel est régi par la licence CeCILL soumise au droit français et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -41,7 +41,7 @@
 #' @param  Filtre_bulletins  Fonction permettant de filtrer les bulletins sur les lignes de data.table
 #' @param  titre  Titre de la pyramide.
 #' @param  versant Versant de la fonction publique ("FPT" ou "FPH")
-#' @param  envir Environnement de stockage des caractéristiques des âges (\code{nom.fichier.après}, \code{nom.fichier.avant}, \code{res} quartiles de distribution des âges)
+#' @param  envir Environnement de stockage des caractéristiques des âges (\code{nom.fichier.apres}, \code{nom.fichier.avant}, \code{res} quartiles de distribution des âges)
 #' @export
 #'
 produire_pyramides <- function(Filtre_bulletins, titre, versant = "", envir) {
@@ -51,29 +51,29 @@ produire_pyramides <- function(Filtre_bulletins, titre, versant = "", envir) {
   
 produire_pyramides_ <- function(Filtre_bulletins, titre, versant = "", envir) {
 
-  année.fin.comp <- if (versant != "") {
-                      max(début.période.sous.revue,
-                      min(altair::année_comparaison(versant)$année, fin.période.sous.revue))
-                  } else fin.période.sous.revue
+  annee.fin.comp <- if (versant != "") {
+                      max(debut.periode.sous.revue,
+                      min(altair::annee_comparaison(versant)$annee, fin.periode.sous.revue))
+                  } else fin.periode.sous.revue
 
-  # Extraire les matricules et Nir du début et de la fin de la période sous revue
+  # Extraire les matricules et Nir du début et de la fin de la periode sous revue
   
-  extraire_paye(début.période.sous.revue, Filtre_bulletins, out = "Bulletins.début.psr")
+  extraire_paye(debut.periode.sous.revue, Filtre_bulletins, out = "Bulletins.début.psr")
   
-  extraire_paye(fin.période.sous.revue, Filtre_bulletins, out = "Bulletins.fin.psr")
+  extraire_paye(fin.periode.sous.revue, Filtre_bulletins, out = "Bulletins.fin.psr")
   
-  # Répartition par âge et sexe des individus ayant un NIR en début et fin de période sous revue
+  # Répartition par âge et sexe des individus ayant un NIR en début et fin de periode sous revue
   
-       ages.début.psr <- extraire.nir(Bulletins.début.psr, début.période.sous.revue)
+       ages.début.psr <- extraire.nir(Bulletins.début.psr, debut.periode.sous.revue)
   
-         ages.fin.psr <- extraire.nir(Bulletins.fin.psr, fin.période.sous.revue)
+         ages.fin.psr <- extraire.nir(Bulletins.fin.psr, fin.periode.sous.revue)
   
   # Extrait la répartition par âge et sexe des individus ayant un NIR.
-  #    extraire.nir(Base, année)
+  #    extraire.nir(Base, annee)
          # 
          # Base	
          #    data.table contenant au moins une variable nommée Nir décrivant le NIR.
-         # année	
+         # annee	
          #    Annee civile à la fin de laquelle est évalué l'âge de l'individu. 
          # 
 
@@ -91,15 +91,15 @@ produire_pyramides_ <- function(Filtre_bulletins, titre, versant = "", envir) {
   
   stub <- gsub(" ", "-", sub("â", "a", titre)) %+% "_"
   
-  # Utilisation de l'environnement e pour récupérer les noms de fichier des âges début et fin de période sous revue
+  # Utilisation de l'environnement e pour récupérer les noms de fichier des âges début et fin de periode sous revue
   
-  envir$nom.fichier.avant <- stub %+% début.période.sous.revue
-  envir$nom.fichier.après <- stub %+% fin.période.sous.revue
+  envir$nom.fichier.avant <- stub %+% debut.periode.sous.revue
+  envir$nom.fichier.apres <- stub %+% fin.periode.sous.revue
   
-  # Sauvegarde des bases des âges début et fin de période sous revue
+  # Sauvegarde des bases des âges début et fin de periode sous revue
   
   Sauv.base("Effectifs",  "ages.début.psr", envir$nom.fichier.avant, environment = environment())
-  Sauv.base("Effectifs",  "ages.fin.psr", envir$nom.fichier.après, environment = environment())
+  Sauv.base("Effectifs",  "ages.fin.psr", envir$nom.fichier.apres, environment = environment())
   
 }
 
@@ -111,9 +111,9 @@ pyramides <- function(Bulletins.début.psr,
                       versant,
                       envir) {
 
-envir$res <- Résumé(c("Âge des personnels <br>au 31/12/" %+% début.période.sous.revue,
+envir$res <- Resume(c("Âge des personnels <br>au 31/12/" %+% debut.periode.sous.revue,
                "Effectif",
-               "Âge des personnels <br>au 31/12/" %+% fin.période.sous.revue,
+               "Âge des personnels <br>au 31/12/" %+% fin.periode.sous.revue,
                "Effectif"),
                list(Bulletins.début.psr[ , age], 
                     Bulletins.fin.psr[ , age]),
@@ -145,7 +145,7 @@ if (longueur.non.na(ages.début.psr) > 0 || longueur.non.na(ages.fin.psr) > 0) {
     pyramide_ages(ages.début.psr, ages.fin.psr, titre) 
 
     if (versant != "")  {  
-          pyramide_ages(ages.fin.psr, date.fin = fin.période.sous.revue, versant = versant)
+          pyramide_ages(ages.fin.psr, date.fin = fin.periode.sous.revue, versant = versant)
     } 
     
   } else {
@@ -167,11 +167,11 @@ if (longueur.non.na(ages.début.psr) > 0 || longueur.non.na(ages.fin.psr) > 0) {
   H <- H1 - H0
   
   if (mesg1) {
-     cat("\nLa pyramide des âges de début de période ne peut être produite.\n   ")
+     cat("\nLa pyramide des âges de début de periode ne peut être produite.\n   ")
   }
   
   if (mesg2) {
-     cat("\nLa pyramide des âges de fin de période ne peut être produite.\n   ")
+     cat("\nLa pyramide des âges de fin de periode ne peut être produite.\n   ")
   }
     
 } 
@@ -218,7 +218,7 @@ if  (exists("H") && ! identical(ages.fin.psr, ages.début.psr) && longueur.non.n
           add = TRUE)
   
   legend("bottomleft", fill=c("lightgreen", "deeppink"), density=c(NA, 20),
-         legend=c("Total " %+% début.période.sous.revue %+% "-" %+% fin.période.sous.revue,
+         legend=c("Total " %+% debut.periode.sous.revue %+% "-" %+% fin.periode.sous.revue,
                   "    dont Femmes "), cex = 0.8)
   
 
@@ -332,9 +332,9 @@ pyramidf <- function(data,
 
 #' Pyramide des âges.
 #'
-#' Elabore une pyramide des âges verticale avec superposition du début et de la fin de la période sous revue.
+#' Elabore une pyramide des âges verticale avec superposition du début et de la fin de la periode sous revue.
 #'
-#' @param Avant data.table/data.frame décrivant la situation en début de période
+#' @param Avant data.table/data.frame décrivant la situation en début de periode
 #'        Cette base doit avoir la forme suivante (bornes d'âges non impératifs):
 #'        \tabular{ccc}{
 #'          age \tab Hommes \tab Femmes \cr
@@ -346,13 +346,13 @@ pyramidf <- function(data,
 #'          68  \tab 2216 \tab    NA
 #'        }
 #'        dans laquelle "age" peut être soit un vecteur de nom de lignes soit une colonne.
-#' @param Après data.table/data.frame décrivant la situation en fin de période. Même format que \code{Avant}.
+#' @param Après data.table/data.frame décrivant la situation en fin de periode. Même format que \code{Avant}.
 #' @param titre Titre du graphique.
-#' @param date.début date du début de la période.
-#' @param date.fin date de fin de période.
+#' @param date.début date du début de la periode.
+#' @param date.fin date de fin de periode.
 #' @param versant Si non renseigné, sans effet. Si renseigné par "FPT" (resp. "FPH"), le deuxième argument \code{Après} ne
 #'                doit pas être renseigné. Il est automatiquement remplacé par une base de données disponible dans le répertoire \code{data/}
-#'                du paquet, correspondant à l'année la plus proche du versant de la fonction publique correspondant. La pyramide superposée représente
+#'                du paquet, correspondant à l'annee la plus proche du versant de la fonction publique correspondant. La pyramide superposée représente
 #'                celle qu'aurait l'organisme si la distribution de ses âges était celle du versant mentionné de la fonction publique.
 #' @param couleur_H couleur utilisée pour représenter les hommes (partie droite de la pyramide). Par défaut \code{darkslateblue}
 #' @param couleur_F couleur utilisée pour représenter les femmes (partie gauche de la pyramide). Par défaut \code{firebrick4}
@@ -366,8 +366,8 @@ pyramidf <- function(data,
 pyramide_ages <- function(Avant,
                           Après = NULL,
                           titre = "",
-                          date.début = début.période.sous.revue,
-                          date.fin = fin.période.sous.revue,
+                          date.début = debut.periode.sous.revue,
+                          date.fin = fin.periode.sous.revue,
                           versant = "",
                           couleur_H = "darkslateblue",
                           couleur_F = "firebrick4") {
@@ -375,8 +375,8 @@ pyramide_ages <- function(Avant,
   
   if (versant != "") {
 
-    compar <- année_comparaison(versant)
-    année.référence <- compar$année
+    compar <- annee_comparaison(versant)
+    annee.reference <- compar$annee
     pyr <- compar$pyr
     
     if (is.null(pyr)) {
@@ -402,9 +402,9 @@ pyramide_ages <- function(Avant,
     
     pyramide_ages(Avant,
                   pyr,
-                  "Comparaison avec les données nationales au 31 décembre " %+% année.référence,
+                  "Comparaison avec les données nationales au 31 décembre " %+% annee.reference,
                   "organisme " %+% date.fin,
-                  paste(leg, année.référence))
+                  paste(leg, annee.reference))
 
     cat("Pour obtenir les effectifs nationaux, multiplier les abscisses des hommes par", formatC(round(1 / H.coef.forme), big.mark = " "),
         "et les abscisses des femmes par", formatC(round(1 / F.coef.forme), big.mark = " "))

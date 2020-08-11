@@ -25,9 +25,9 @@ newpage()
 print(e$res)
 #'   
 #'[![Notice](Notice.png)](Docs/Notices/fiche_1.odt)   
-conditionnel("Lien vers la base des âges - début de période", "Bases/Effectifs/" %+%  e$nom.fichier.avant %+% ".csv")  
+conditionnel("Lien vers la base des âges - début de periode", "Bases/Effectifs/" %+%  e$nom.fichier.avant %+% ".csv")  
 #'    
-conditionnel("Lien vers la base des âges - fin de période", "Bases/Effectifs/" %+%  e$nom.fichier.après %+% ".csv")  
+conditionnel("Lien vers la base des âges - fin de periode", "Bases/Effectifs/" %+%  e$nom.fichier.apres %+% ".csv")  
 #'     
 #'   
 #'   
@@ -46,10 +46,10 @@ conditionnel("Lien vers la base des âges - fin de période", "Bases/Effectifs/"
 #' 
 #+fig.height=8, fig.width=7
 
-produire_pyramides(c("TITULAIRE", "STAGIAIRE"), 
+essayer(produire_pyramides(c("TITULAIRE", "STAGIAIRE"), 
                    "Pyramide des âges des fonctionnaires",
                    versant = "TIT_" %+% VERSANT_FP,
-                   e)
+                   e),  "Impossible de produire la pyramide des fonctionnaires")
 
 #'   
 #'[![Notice](Notice.png)](Docs/Notices/fiche_3.odt)     
@@ -64,9 +64,9 @@ newpage()
 print(e$res)
 
 #'  
-conditionnel("Lien vers la base des âges - début de période", "Bases/Effectifs/" %+%  e$nom.fichier.avant %+% ".csv")  
+conditionnel("Lien vers la base des âges - début de periode", "Bases/Effectifs/" %+%  e$nom.fichier.avant %+% ".csv")  
 #'  
-conditionnel("Lien vers la base des âges - fin de période", "Bases/Effectifs/" %+%  e$nom.fichier.après %+% ".csv")  
+conditionnel("Lien vers la base des âges - fin de periode", "Bases/Effectifs/" %+%  e$nom.fichier.apres %+% ".csv")  
 #'[![Notice](Notice.png)](Docs/Notices/fiche_1.odt)      
 #'   
 #'   
@@ -78,7 +78,7 @@ conditionnel("Lien vers la base des âges - fin de période", "Bases/Effectifs/"
 #'   
 #' 
 
-########### 1.4 Pyramides non Tit ########################
+########### 1.4 Pyramides des personnels contractuels ########################
 
 #'## 1.4 Pyramide des âges, personnels non titulaires   &nbsp; 
 #'  
@@ -89,7 +89,7 @@ conditionnel("Lien vers la base des âges - fin de période", "Bases/Effectifs/"
 essayer(produire_pyramides(c("NON_TITULAIRE"), 
                            "Pyramide des âges des non titulaires", 
                            versant = "NONTIT_" %+% VERSANT_FP,
-                           e))
+                           e), "Impossible de produire la pyramide des contractuels")
 
 
 #'   
@@ -106,9 +106,9 @@ print(e$res)
 
 
 #'  
-conditionnel("Lien vers la base des âges - début de période", "Bases/Effectifs/" %+% e$nom.fichier.avant %+% ".csv")  
+conditionnel("Lien vers la base des âges - début de periode", "Bases/Effectifs/" %+% e$nom.fichier.avant %+% ".csv")  
 #'  
-conditionnel("Lien vers la base des âges - fin de période", "Bases/Effectifs/" %+% e$nom.fichier.après %+% ".csv")  
+conditionnel("Lien vers la base des âges - fin de periode", "Bases/Effectifs/" %+% e$nom.fichier.apres %+% ".csv")  
 #'[![Notice](Notice.png)](Docs/Notices/fiche_1.odt)      
 
 #'   
@@ -132,7 +132,7 @@ Filtre_bulletins <<- setdiff(unique(Bulletins.paie$Statut), c("TITULAIRE", "NON_
 essayer(produire_pyramides(Filtre_bulletins,
                            "Pyramide des âges des autres personnels",
                            versant = "",
-                           e))
+                           e),  "Impossible de produire la pyramide des autres statuts")
 
 #'   
 #'[![Notice](Notice.png)](Docs/Notices/fiche_3.odt)     
@@ -153,9 +153,9 @@ newpage()
 print(e$res)
 
 #'  
-conditionnel("Lien vers la base des âges - début de période", "Bases/Effectifs/" %+% e$nom.fichier.avant %+% ".csv")  
+conditionnel("Lien vers la base des âges - début de periode", "Bases/Effectifs/" %+% e$nom.fichier.avant %+% ".csv")  
 #'  
-conditionnel("Lien vers la base des âges - fin de période", "Bases/Effectifs/" %+% e$nom.fichier.après %+% ".csv")  
+conditionnel("Lien vers la base des âges - fin de periode", "Bases/Effectifs/" %+% e$nom.fichier.apres %+% ".csv")  
 #'[![Notice](Notice.png)](Docs/Notices/fiche_1.odt)    
 #'  
 #'*Source des comparaisons avec les données nationales*      
@@ -165,7 +165,7 @@ conditionnel("Lien vers la base des âges - fin de période", "Bases/Effectifs/"
 #'[Pyramide 2013 FPT](Docs/insee_pyramide_fpt_2013.csv)     
 
 
-#'*Toutes les pyramides des âges sont établies au 31 décembre de l'année considérée.*   
+#'*Toutes les pyramides des âges sont établies au 31 décembre de l'annee considérée.*   
 #'*Les élus ne sont pas compris dans le périmètre statistique.*     
 
 

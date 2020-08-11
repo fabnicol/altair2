@@ -20,12 +20,12 @@
 #'       
 
 essayer( {
-insérer_script(fonction = "calcul_NBI")
+inserer_script(fonction = "calcul_NBI")
 }, "Le contrôle de la NBI n'a pas pu être réalisé.")
 
 #'   
 conditionnel("Lien vers la base de données NBI aux non titulaires", "Bases/Reglementation/NBI.aux.non.titulaires.csv")
-#'[![Notice](Notice.png)]("Docs/Notices/fiche_NBI_nt.odt")       
+#'[![Notice](Notice.png)](Docs/Notices/fiche_NBI_nt.odt)       
 #'     
 
 #'  
@@ -64,7 +64,7 @@ conditionnel("Lien vers la base de données des anomalies de NBI", "Bases/Fiabil
 conditionnel("Lien vers la base de données des anomalies de NBI hors rappels", "Bases/Fiabilite/lignes.nbi.anormales.hors.rappels.csv")          
 #'   
 #'**Nota :**   
-#'*Est considéré comme anomalie manifeste un total annuel de rémunérations NBI correspondant à un point d'indice net mensuel inférieur à la moyenne de l'année moins 1 euro ou supérieur à cette moyenne plus 1 euro.*    
+#'*Est considéré comme anomalie manifeste un total annuel de rémunérations NBI correspondant à un point d'indice net mensuel inférieur à la moyenne de l'annee moins 1 euro ou supérieur à cette moyenne plus 1 euro.*    
 #'*Les rappels ne sont pas pris en compte dans les montants versés. Certains écarts peuvent être régularisés en les prenant en compte*     
 #'  
 #'    
@@ -97,7 +97,7 @@ conditionnel("Lien vers la base de données des cumuls annuels de NBI", "Bases/F
 # Calcul plus exact de liquidation, attention à exclure les rappels
 
 essayer({
-  insérer_script(fonction = "proratisation_NBI")
+  inserer_script(fonction = "proratisation_NBI")
 }, "Le contrôle de la proratisation n'a pas pu être réalisé.")
 
 #'   
@@ -107,24 +107,24 @@ conditionnel("Lien vers les bulletins anormaux du contrôle de proratisation/liq
 conditionnel("Lien vers les lignes de paye du contrôle de proratisation/liquidation de la NBI", "Bases/Fiabilite/lignes.paie.nbi.anormales.mensuel.csv")   
 #'   
 #'  
-#'&nbsp;*Tableau 5.1.5 : Contrôle d'attribution de NBI par catégorie statutaire*  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_plafonds_NBI.odt)           
+#'&nbsp;*Tableau 5.1.5 : Contrôle d'attribution de NBI par categorie statutaire*  &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_plafonds_NBI.odt)           
 #'  
 
 essayer({
-insérer_script(fonction = "catégories_NBI")
-}, "Le contrôle du lien entre NBI et catégorie statutaire n'a pas pu être réalisé.")
+inserer_script(fonction = "categories_NBI")
+}, "Le contrôle du lien entre NBI et categorie statutaire n'a pas pu être réalisé.")
 
 #'   
 #'**Nota :**   
-#'Coût annuel calculé pour la quotite de travail observée, limité aux dépassements des maxima ci-après.   
+#'Coût annuel calcule pour la quotite de travail observée, limité aux dépassements des maxima ci-après.   
 #'Dépassements de NBI :     
-#' - plus de 50 points pour la catégorie A;   
-#' - plus de 30 points pour la catégorie B;   
-#' - plus de 20 points pour la catégorie C.     
+#' - plus de 50 points pour la categorie A;   
+#' - plus de 30 points pour la categorie B;   
+#' - plus de 20 points pour la categorie C.     
 #'Directeurs généraux adjoints : plus de 80 points.   
 #'Directeurs généraux adjoints : plus de 120 points.           
 #'  
 
 #'   
-conditionnel("Lien vers les NBI dépassant les seuils par catégorie statutaire", "Bases/Reglementation/NBI.cat.irreg.csv")   
+conditionnel("Lien vers les NBI dépassant les seuils par categorie statutaire", "Bases/Reglementation/NBI.cat.irreg.csv")   
 #'   

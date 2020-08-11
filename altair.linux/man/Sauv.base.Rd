@@ -8,8 +8,8 @@ Sauv.base(
   dossier = "",
   nom = "",
   nom.sauv = nom,
-  sep = séparateur.liste.sortie,
-  dec = séparateur.décimal.sortie,
+  sep = separateur.liste.sortie,
+  dec = separateur.decimal.sortie,
   environment = .GlobalEnv
 )
 }
@@ -20,9 +20,9 @@ Sauv.base(
 
 \item{nom.sauv}{Chaine de caractères du nom du fichier .csv sans l'extension}
 
-\item{sep}{(= séparateur.liste.sortie)}
+\item{sep}{(= separateur.liste.sortie)}
 
-\item{dec}{(= séparateur.décimal.sortie),}
+\item{dec}{(= separateur.decimal.sortie),}
 
 \item{environment}{(= .GlobalEnv) environnement,}
 }

@@ -30,7 +30,7 @@ calcul_HS <- function() {
   
   "Base.IHTS" %a% filtrer_Paie("IHTS",
                                 Base = Paie[Type %chin% c("I", "T", "R", "IR", "A"), ..colonnes],
-                                portée = "Mois",
+                                portee = "Mois",
                                 indic = TRUE)[ , `:=` (Annee.rappel = as.numeric(substr(Debut, 0, 4)),
                                                        Mois.rappel  = as.numeric(substr(Debut, 6, 7))) ]
   
@@ -48,7 +48,7 @@ calcul_HS <- function() {
                                                                               sum(abs(Nb.Unite[Annee.rappel   < Annee]) * sign(Montant), na.rm = TRUE),
                                                                               a)), 
                                               by = .(Matricule, Annee.rappel, Mois.rappel)
-                                    ][Annee.rappel >= début.période.sous.revue 
+                                    ][Annee.rappel >= debut.periode.sous.revue 
                                           & Mois.rappel >=1 
                                           & Mois.rappel <= 12
                                     ][ , .(Matricule, Annee, Mois, quotite, quotite.moyenne, Annee.rappel,
@@ -204,13 +204,13 @@ cumuls_HS <- function() {
     
     "CumHS" %a% merge(CumHS, TotBaseIHTS, all = TRUE, by = "Annee")
     },
-    "La base des cumuls d'IHTS par année, des régularisations et des IHTS apparemment non liquidées n'a pas pu être générée.   \n")
+    "La base des cumuls d'IHTS par annee, des régularisations et des IHTS apparemment non liquidées n'a pas pu être générée.   \n")
     
     if (!is.null(CumHS)) {
       
       with(CumHS,
            
-           print(Tableau.vertical2(c("Annee N", "Cumul HS N", "Cumul IHTS N", "dont du mois", "dont rappels N", "dont payés N+1"),
+           print(Tableau.vertical2(c("Annee N", "Cumul HS N", "Cumul IHTS N", "dont du mois", "dont rappels N", "dont payes N+1"),
                              Annee,             toths,    totihts,   totihts.hors.rappels, totihts.rappels,  totihts.rappels.ant))
            
       )
@@ -219,7 +219,7 @@ cumuls_HS <- function() {
         cat("  \n", "  \n", 
             "Le nombre d'heures supplémentaires déclarées pour ")     
         cat(v, sep = ", ")
-        cat(" est incohérent avec le nombre d'heures IHTS payées au titre de", ifelse(l > 1, "ces", "cet"), ifelse(l > 1, "exercices. ","exercice.   \n"))
+        cat(" est incohérent avec le nombre d'heures IHTS payees au titre de", ifelse(l > 1, "ces", "cet"), ifelse(l > 1, "exercices. ","exercice.   \n"))
       }
     
       sauvebase("CumHS", "CumHS", "Reglementation", environment())
@@ -298,7 +298,7 @@ plafonds_HS <- function() {
     
   } else {
     
-    cat ("Les cumuls d'IHTS sont déterminés à partir des paiements de l'année, rappels compris, et des rappels payés l'année suivante.   \n")      
+    cat ("Les cumuls d'IHTS sont déterminés à partir des paiements de l'annee, rappels compris, et des rappels payes l'annee suivante.   \n")      
     "HS.sup.25" %a% CumBaseIHTS[nihts.tot > seuil.HS * quotite]
   }
   
@@ -353,8 +353,8 @@ plafonds_HS <- function() {
 # Les personnels de l'informatique et de l'organisation recrutés en application de l'article 8 de la loi n° 86-33 du 9 janvier 1986 sont éligibles aux indemnités horaires pour travaux supplémentaires.
 
 # prochainement les corps suivants vont basculer en cat 1:
-# Décret n° 2018-731 du 21 août 2018 portant dispositions statutaires communes à certains corps de catégorie A de la fonction publique hospitalière à caractère socio-éducatif
-# Sont classés dans la catégorie A de la fonction publique hospitalière prévue à l'article 13 de la loi du 13 juillet 1983 susvisée, les corps des personnels socio-éducatifs des établissements mentionnés à l'article 2 de la loi du 9 janvier 1986 susvisée, ci-dessous énumérés :
+# Décret n° 2018-731 du 21 août 2018 portant dispositions statutaires communes à certains corps de categorie A de la fonction publique hospitalière à caractère socio-éducatif
+# Sont classés dans la categorie A de la fonction publique hospitalière prévue à l'article 13 de la loi du 13 juillet 1983 susvisée, les corps des personnels socio-éducatifs des établissements mentionnés à l'article 2 de la loi du 9 janvier 1986 susvisée, ci-dessous énumérés :
 # 1° Le corps des conseillers en économie sociale et familiale ;
 # 2° Le corps des éducateurs techniques spécialisés ;
 # 3° Le corps des éducateurs de jeunes enfants ;

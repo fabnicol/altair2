@@ -128,7 +128,7 @@ depassements_IFSE <<- test_plafonds(base.ifse, Lignes_IFSE, if (logements.existe
 #'&nbsp;*Tableau 5.10.8 : Coûts des dépassements de plafond IFSE*   
 #' 
 if (plafonds.ifse.existe) {
-  Tableau(as.character(période), depassements_IFSE)
+  Tableau(as.character(periode), depassements_IFSE)
 } else {
   cat("Pas d'analyse des plafonds IFSE.")
 }

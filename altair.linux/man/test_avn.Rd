@@ -11,7 +11,7 @@ test_avn(avantage, Paie, base.logements = NULL)
 
 \item{Paie}{Base de Paye principale comportant les variables \code{Matricule, Annee, Mois, Statut, Grade, Emploi, Type, Code, Libelle, Montant}}
 
-\item{base.logements}{La base de logements facultative importée par l'onglet Extra de l'interface graphique}
+\item{base.logements}{La base de logements facultative importee par l'onglet Extra de l'interface graphique}
 }
 \value{
 base de type \code{data.table} comportant les enregistrements identifiés comme problématiques.

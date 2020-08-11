@@ -1,6 +1,6 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annees 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
 # Ce logiciel est un programme informatique servant à extraire et analyser
@@ -58,7 +58,7 @@ codes.primedetechnicite <- NA
 
 script_effectifs               <- TRUE    
 script_pyramides               <- TRUE    
-script_duréedeservice          <- TRUE    
+script_dureedeservice          <- TRUE    
 script_rémunérationsbrutes1    <- TRUE
 script_rémunérationsbrutes2    <- TRUE    
 script_comparaisonsdubrut      <- TRUE    
@@ -83,7 +83,7 @@ script_SFT                     <- TRUE
 script_retraites               <- TRUE    
 script_FPH                     <- TRUE    
 
-séquentiel                     <- TRUE
+sequentiel                     <- TRUE
 ouvrir.document                <- TRUE
 
 types.irs  <- c("IR", "S")

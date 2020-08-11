@@ -1,6 +1,6 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annees 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
 # Ce logiciel est un programme informatique servant à extraire et analyser
@@ -38,15 +38,15 @@
 # 
 # 
 
-# SMIC mensuel net x 3 utilisé pour la condition alternative sur les périodes non annexes
-# un salarié qui au cours de l'année connait une rémunération supérieure à 3 fois le smic mensuel
-# est dans une période non annexe, quelle que soit la durée de cette période dans l'année.
-# remarque :  - on ne vérifie pas la continuité de cette période
-#             - on prend la moyenne annuelle des smic net déduction faite de la csg et de la crds, arrondie à la première décimale
+# SMIC mensuel net x 3 utilisé pour la condition alternative sur les periodes non annexes
+# un salarié qui au cours de l'annee connait une rémunération supérieure à 3 fois le smic mensuel
+# est dans une periode non annexe, quelle que soit la duree de cette periode dans l'annee.
+# remarque :  - on ne vérifie pas la continuité de cette periode
+#             - on prend la moyenne annuelle des smic net déduction faite de la csg et de la crds, arrondie à la première decimale
 
 smic.net <- data.table::fread(
   
-  # Rajouter ici les valeurs futures sous la forme année,  valeur au début de la chaine de caractères :
+  # Rajouter ici les valeurs futures sous la forme annee,  valeur au début de la chaine de caractères :
   
                    "2020,  3657.0
                     2019,  3608.8
@@ -66,7 +66,7 @@ smic.net <- data.table::fread(
 
 # actualiser aussi ceci, pour éviter à recalculer :
 
-smic.net.dernière.année.renseignée <- 2020
-smic.net.première.année.renseignée <- 2008
+smic.net.dernière.annee.renseignée <- 2020
+smic.net.première.annee.renseignée <- 2008
 
 # http://www.bdm.insee.fr/ et documents altair/Docs/SMIC_NET.xls 

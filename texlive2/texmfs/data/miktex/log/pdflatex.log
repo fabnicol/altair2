@@ -1,0 +1,529 @@
+2020-08-10 23:06:13,943+0200 INFO  pdflatex - this process (5648) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-46140a9603bbda3a C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-46140a9603bbda3a/input.tex
+2020-08-10 23:06:13,974+0200 INFO  pdflatex - allowing known shell commands
+2020-08-10 23:06:13,974+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-10 23:06:13,974+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-46140a9603bbda3a
+2020-08-10 23:06:13,974+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-46140a9603bbda3a
+2020-08-10 23:06:14,005+0200 INFO  pdflatex - going to create file: pdflatex.fmt
+2020-08-10 23:06:14,051+0200 INFO  pdflatex.core - start process: initexmf --dump-by-name=pdflatex --engine=pdftex
+2020-08-10 23:06:29,120+0200 WARN  pdflatex.packagemanager - dependancy problem: miktex-doc-2.9 is required by _miktex-packages-2.9
+2020-08-10 23:06:37,062+0200 INFO  pdflatex - installing package upquote triggered by tex/latex/upquote\upquote.sty
+2020-08-10 23:06:37,066+0200 INFO  pdflatex.packagemanager - going to download https://api2.miktex.org/hello
+2020-08-10 23:06:37,448+0200 INFO  pdflatex.packagemanager - going to download https://api2.miktex.org/repositories?&releaseState=Stable&orderBy=ranking&take=1
+2020-08-10 23:06:37,464+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:06:37,464+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:06:37,464+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:06:37,734+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:06:37,734+0200 INFO  pdflatex - mpm: going to download 167179 bytes
+2020-08-10 23:06:37,734+0200 INFO  pdflatex - mpm: going to install 5 file(s) (1 package(s))
+2020-08-10 23:06:38,551+0200 INFO  pdflatex.packagemanager - installing package upquote
+2020-08-10 23:06:38,619+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/upquote.tar.lzma...
+2020-08-10 23:06:38,619+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/upquote.tar.lzma
+2020-08-10 23:06:38,877+0200 INFO  pdflatex - mpm: 0.17 MB, 5.22 Mbit/s
+2020-08-10 23:06:38,881+0200 INFO  pdflatex - mpm: extracting files from upquote.tar.lzma...
+2020-08-10 23:06:39,574+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:07:54,058+0200 INFO  pdflatex - installing package microtype triggered by tex/latex/microtype\microtype.sty
+2020-08-10 23:07:54,069+0200 INFO  pdflatex.packagemanager - going to download https://api2.miktex.org/repositories/3b69f091b76261c43337e22fe17bd363
+2020-08-10 23:07:54,288+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:07:54,288+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:07:54,288+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:07:54,579+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:07:54,579+0200 INFO  pdflatex - mpm: going to download 1838453 bytes
+2020-08-10 23:07:54,579+0200 INFO  pdflatex - mpm: going to install 31 file(s) (1 package(s))
+2020-08-10 23:07:55,362+0200 INFO  pdflatex.packagemanager - installing package microtype
+2020-08-10 23:07:55,362+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/microtype.tar.lzma...
+2020-08-10 23:07:55,362+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/microtype.tar.lzma
+2020-08-10 23:07:55,730+0200 INFO  pdflatex - mpm: 1.84 MB, 40.41 Mbit/s
+2020-08-10 23:07:55,746+0200 INFO  pdflatex - mpm: extracting files from microtype.tar.lzma...
+2020-08-10 23:07:56,976+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:09:22,011+0200 INFO  pdflatex - installing package parskip triggered by tex/latex/parskip\parskip.sty
+2020-08-10 23:09:22,011+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:09:22,011+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:09:22,011+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:09:22,235+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:09:22,235+0200 INFO  pdflatex - mpm: going to download 322070 bytes
+2020-08-10 23:09:22,235+0200 INFO  pdflatex - mpm: going to install 8 file(s) (1 package(s))
+2020-08-10 23:09:23,057+0200 INFO  pdflatex.packagemanager - installing package parskip
+2020-08-10 23:09:23,057+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/parskip.tar.lzma...
+2020-08-10 23:09:23,057+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/parskip.tar.lzma
+2020-08-10 23:09:23,324+0200 INFO  pdflatex - mpm: 0.32 MB, 9.37 Mbit/s
+2020-08-10 23:09:23,340+0200 INFO  pdflatex - mpm: extracting files from parskip.tar.lzma...
+2020-08-10 23:09:24,231+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:10:33,861+0200 INFO  pdflatex - installing package kvoptions triggered by tex/latex/kvoptions\kvoptions.sty
+2020-08-10 23:10:33,861+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:10:33,861+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:10:33,861+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:10:34,101+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:10:34,101+0200 INFO  pdflatex - mpm: going to download 507783 bytes
+2020-08-10 23:10:34,101+0200 INFO  pdflatex - mpm: going to install 7 file(s) (1 package(s))
+2020-08-10 23:10:34,898+0200 INFO  pdflatex.packagemanager - installing package kvoptions
+2020-08-10 23:10:34,900+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/kvoptions.tar.lzma...
+2020-08-10 23:10:34,900+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/kvoptions.tar.lzma
+2020-08-10 23:10:35,190+0200 INFO  pdflatex - mpm: 0.51 MB, 14.06 Mbit/s
+2020-08-10 23:10:35,196+0200 INFO  pdflatex - mpm: extracting files from kvoptions.tar.lzma...
+2020-08-10 23:10:35,965+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:12:03,585+0200 INFO  pdflatex - installing package ltxcmds triggered by tex/generic/ltxcmds\ltxcmds.sty
+2020-08-10 23:12:03,585+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:12:03,585+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:12:03,585+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:12:03,847+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:12:03,847+0200 INFO  pdflatex - mpm: going to download 406142 bytes
+2020-08-10 23:12:03,847+0200 INFO  pdflatex - mpm: going to install 5 file(s) (1 package(s))
+2020-08-10 23:12:04,641+0200 INFO  pdflatex.packagemanager - installing package ltxcmds
+2020-08-10 23:12:04,642+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/ltxcmds.tar.lzma...
+2020-08-10 23:12:04,642+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/ltxcmds.tar.lzma
+2020-08-10 23:12:04,911+0200 INFO  pdflatex - mpm: 0.41 MB, 12.12 Mbit/s
+2020-08-10 23:12:04,913+0200 INFO  pdflatex - mpm: extracting files from ltxcmds.tar.lzma...
+2020-08-10 23:12:05,658+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:13:12,430+0200 INFO  pdflatex - installing package kvsetkeys triggered by tex/generic/kvsetkeys\kvsetkeys.sty
+2020-08-10 23:13:12,430+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:13:12,430+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:13:12,430+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:13:12,662+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:13:12,662+0200 INFO  pdflatex - mpm: going to download 386446 bytes
+2020-08-10 23:13:12,662+0200 INFO  pdflatex - mpm: going to install 6 file(s) (1 package(s))
+2020-08-10 23:13:13,492+0200 INFO  pdflatex.packagemanager - installing package kvsetkeys
+2020-08-10 23:13:13,493+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/kvsetkeys.tar.lzma...
+2020-08-10 23:13:13,493+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/kvsetkeys.tar.lzma
+2020-08-10 23:13:13,761+0200 INFO  pdflatex - mpm: 0.39 MB, 11.58 Mbit/s
+2020-08-10 23:13:13,763+0200 INFO  pdflatex - mpm: extracting files from kvsetkeys.tar.lzma...
+2020-08-10 23:13:14,490+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:14:21,824+0200 INFO  pdflatex - installing package xurl triggered by tex/latex/xurl\xurl.sty
+2020-08-10 23:14:21,824+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:14:21,824+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:14:21,824+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:14:22,045+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:14:22,045+0200 INFO  pdflatex - mpm: going to download 59844 bytes
+2020-08-10 23:14:22,045+0200 INFO  pdflatex - mpm: going to install 6 file(s) (1 package(s))
+2020-08-10 23:14:22,793+0200 INFO  pdflatex.packagemanager - installing package xurl
+2020-08-10 23:14:22,794+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/xurl.tar.lzma...
+2020-08-10 23:14:22,794+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/xurl.tar.lzma
+2020-08-10 23:14:23,043+0200 INFO  pdflatex - mpm: 0.06 MB, 1.93 Mbit/s
+2020-08-10 23:14:23,046+0200 INFO  pdflatex - mpm: extracting files from xurl.tar.lzma...
+2020-08-10 23:14:23,713+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:15:30,680+0200 INFO  pdflatex - installing package bookmark triggered by tex/latex/bookmark\bookmark.sty
+2020-08-10 23:15:30,680+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:15:30,680+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:15:30,680+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:15:30,909+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:15:30,909+0200 INFO  pdflatex - mpm: going to download 491718 bytes
+2020-08-10 23:15:30,909+0200 INFO  pdflatex - mpm: going to install 12 file(s) (1 package(s))
+2020-08-10 23:15:31,702+0200 INFO  pdflatex.packagemanager - installing package bookmark
+2020-08-10 23:15:31,703+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/bookmark.tar.lzma...
+2020-08-10 23:15:31,703+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/bookmark.tar.lzma
+2020-08-10 23:15:31,992+0200 INFO  pdflatex - mpm: 0.49 MB, 13.66 Mbit/s
+2020-08-10 23:15:31,997+0200 INFO  pdflatex - mpm: extracting files from bookmark.tar.lzma...
+2020-08-10 23:15:32,943+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:16:40,393+0200 INFO  pdflatex - installing package infwarerr triggered by tex/generic/infwarerr\infwarerr.sty
+2020-08-10 23:16:40,393+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:16:40,393+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:16:40,393+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:16:40,637+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:16:40,637+0200 INFO  pdflatex - mpm: going to download 293465 bytes
+2020-08-10 23:16:40,637+0200 INFO  pdflatex - mpm: going to install 5 file(s) (1 package(s))
+2020-08-10 23:16:41,403+0200 INFO  pdflatex.packagemanager - installing package infwarerr
+2020-08-10 23:16:41,405+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/infwarerr.tar.lzma...
+2020-08-10 23:16:41,405+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/infwarerr.tar.lzma
+2020-08-10 23:16:41,663+0200 INFO  pdflatex - mpm: 0.29 MB, 9.17 Mbit/s
+2020-08-10 23:16:41,667+0200 INFO  pdflatex - mpm: extracting files from infwarerr.tar.lzma...
+2020-08-10 23:16:42,423+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:17:49,796+0200 INFO  pdflatex - installing package kvdefinekeys triggered by tex/generic/kvdefinekeys\kvdefinekeys.sty
+2020-08-10 23:17:49,796+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:17:49,796+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:17:49,796+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:17:50,035+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:17:50,035+0200 INFO  pdflatex - mpm: going to download 304244 bytes
+2020-08-10 23:17:50,035+0200 INFO  pdflatex - mpm: going to install 5 file(s) (1 package(s))
+2020-08-10 23:17:50,810+0200 INFO  pdflatex.packagemanager - installing package kvdefinekeys
+2020-08-10 23:17:50,811+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/kvdefinekeys.tar.lzma...
+2020-08-10 23:17:50,811+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/kvdefinekeys.tar.lzma
+2020-08-10 23:17:51,063+0200 INFO  pdflatex - mpm: 0.30 MB, 9.74 Mbit/s
+2020-08-10 23:17:51,067+0200 INFO  pdflatex - mpm: extracting files from kvdefinekeys.tar.lzma...
+2020-08-10 23:17:51,861+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:18:58,899+0200 INFO  pdflatex - installing package pdfescape triggered by tex/generic/pdfescape\pdfescape.sty
+2020-08-10 23:18:58,899+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:18:58,899+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:18:58,899+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:18:59,119+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:18:59,119+0200 INFO  pdflatex - mpm: going to download 355594 bytes
+2020-08-10 23:18:59,119+0200 INFO  pdflatex - mpm: going to install 5 file(s) (1 package(s))
+2020-08-10 23:18:59,865+0200 INFO  pdflatex.packagemanager - installing package pdfescape
+2020-08-10 23:18:59,866+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/pdfescape.tar.lzma...
+2020-08-10 23:18:59,866+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/pdfescape.tar.lzma
+2020-08-10 23:19:00,127+0200 INFO  pdflatex - mpm: 0.36 MB, 10.94 Mbit/s
+2020-08-10 23:19:00,132+0200 INFO  pdflatex - mpm: extracting files from pdfescape.tar.lzma...
+2020-08-10 23:19:00,893+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:20:08,009+0200 INFO  pdflatex - installing package hycolor triggered by tex/latex/hycolor\hycolor.sty
+2020-08-10 23:20:08,009+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:20:08,009+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:20:08,009+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:20:08,252+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:20:08,252+0200 INFO  pdflatex - mpm: going to download 389104 bytes
+2020-08-10 23:20:08,252+0200 INFO  pdflatex - mpm: going to install 6 file(s) (1 package(s))
+2020-08-10 23:20:09,027+0200 INFO  pdflatex.packagemanager - installing package hycolor
+2020-08-10 23:20:09,028+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/hycolor.tar.lzma...
+2020-08-10 23:20:09,028+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/hycolor.tar.lzma
+2020-08-10 23:20:09,303+0200 INFO  pdflatex - mpm: 0.39 MB, 11.36 Mbit/s
+2020-08-10 23:20:09,306+0200 INFO  pdflatex - mpm: extracting files from hycolor.tar.lzma...
+2020-08-10 23:20:10,060+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:21:17,144+0200 INFO  pdflatex - installing package letltxmacro triggered by tex/latex/letltxmacro\letltxmacro.sty
+2020-08-10 23:21:17,144+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:21:17,145+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:21:17,145+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:21:17,369+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:21:17,369+0200 INFO  pdflatex - mpm: going to download 298537 bytes
+2020-08-10 23:21:17,369+0200 INFO  pdflatex - mpm: going to install 6 file(s) (1 package(s))
+2020-08-10 23:21:18,150+0200 INFO  pdflatex.packagemanager - installing package letltxmacro
+2020-08-10 23:21:18,151+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/letltxmacro.tar.lzma...
+2020-08-10 23:21:18,151+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/letltxmacro.tar.lzma
+2020-08-10 23:21:18,424+0200 INFO  pdflatex - mpm: 0.30 MB, 8.78 Mbit/s
+2020-08-10 23:21:18,428+0200 INFO  pdflatex - mpm: extracting files from letltxmacro.tar.lzma...
+2020-08-10 23:21:19,163+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:22:26,378+0200 INFO  pdflatex - installing package auxhook triggered by tex/latex/auxhook\auxhook.sty
+2020-08-10 23:22:26,379+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:22:26,379+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:22:26,379+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:22:26,605+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:22:26,605+0200 INFO  pdflatex - mpm: going to download 292852 bytes
+2020-08-10 23:22:26,605+0200 INFO  pdflatex - mpm: going to install 5 file(s) (1 package(s))
+2020-08-10 23:22:27,379+0200 INFO  pdflatex.packagemanager - installing package auxhook
+2020-08-10 23:22:27,381+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/auxhook.tar.lzma...
+2020-08-10 23:22:27,381+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/auxhook.tar.lzma
+2020-08-10 23:22:27,653+0200 INFO  pdflatex - mpm: 0.29 MB, 8.61 Mbit/s
+2020-08-10 23:22:27,658+0200 INFO  pdflatex - mpm: extracting files from auxhook.tar.lzma...
+2020-08-10 23:22:28,374+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:23:36,112+0200 INFO  pdflatex - installing package intcalc triggered by tex/generic/intcalc\intcalc.sty
+2020-08-10 23:23:36,113+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:23:36,113+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:23:36,113+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:23:36,346+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:23:36,346+0200 INFO  pdflatex - mpm: going to download 441613 bytes
+2020-08-10 23:23:36,346+0200 INFO  pdflatex - mpm: going to install 5 file(s) (1 package(s))
+2020-08-10 23:23:37,130+0200 INFO  pdflatex.packagemanager - installing package intcalc
+2020-08-10 23:23:37,131+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/intcalc.tar.lzma...
+2020-08-10 23:23:37,131+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/intcalc.tar.lzma
+2020-08-10 23:23:37,406+0200 INFO  pdflatex - mpm: 0.44 MB, 12.89 Mbit/s
+2020-08-10 23:23:37,411+0200 INFO  pdflatex - mpm: extracting files from intcalc.tar.lzma...
+2020-08-10 23:23:38,135+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:24:45,410+0200 INFO  pdflatex - installing package etexcmds triggered by tex/generic/etexcmds\etexcmds.sty
+2020-08-10 23:24:45,411+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:24:45,411+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:24:45,411+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:24:45,644+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:24:45,644+0200 INFO  pdflatex - mpm: going to download 308618 bytes
+2020-08-10 23:24:45,644+0200 INFO  pdflatex - mpm: going to install 5 file(s) (1 package(s))
+2020-08-10 23:24:46,409+0200 INFO  pdflatex.packagemanager - installing package etexcmds
+2020-08-10 23:24:46,410+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/etexcmds.tar.lzma...
+2020-08-10 23:24:46,410+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/etexcmds.tar.lzma
+2020-08-10 23:24:46,676+0200 INFO  pdflatex - mpm: 0.31 MB, 9.35 Mbit/s
+2020-08-10 23:24:46,680+0200 INFO  pdflatex - mpm: extracting files from etexcmds.tar.lzma...
+2020-08-10 23:24:47,366+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:25:55,207+0200 INFO  pdflatex - installing package bitset triggered by tex/generic/bitset\bitset.sty
+2020-08-10 23:25:55,208+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:25:55,208+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:25:55,208+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:25:55,433+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:25:55,434+0200 INFO  pdflatex - mpm: going to download 638837 bytes
+2020-08-10 23:25:55,434+0200 INFO  pdflatex - mpm: going to install 5 file(s) (1 package(s))
+2020-08-10 23:25:56,191+0200 INFO  pdflatex.packagemanager - installing package bitset
+2020-08-10 23:25:56,192+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/bitset.tar.lzma...
+2020-08-10 23:25:56,192+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/bitset.tar.lzma
+2020-08-10 23:25:56,488+0200 INFO  pdflatex - mpm: 0.64 MB, 17.38 Mbit/s
+2020-08-10 23:25:56,492+0200 INFO  pdflatex - mpm: extracting files from bitset.tar.lzma...
+2020-08-10 23:25:57,216+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:27:04,493+0200 INFO  pdflatex - installing package bigintcalc triggered by tex/generic/bigintcalc\bigintcalc.sty
+2020-08-10 23:27:04,493+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:27:04,493+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:27:04,493+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:27:04,717+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:27:04,717+0200 INFO  pdflatex - mpm: going to download 478294 bytes
+2020-08-10 23:27:04,717+0200 INFO  pdflatex - mpm: going to install 5 file(s) (1 package(s))
+2020-08-10 23:27:05,470+0200 INFO  pdflatex.packagemanager - installing package bigintcalc
+2020-08-10 23:27:05,472+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/bigintcalc.tar.lzma...
+2020-08-10 23:27:05,472+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/bigintcalc.tar.lzma
+2020-08-10 23:27:05,756+0200 INFO  pdflatex - mpm: 0.48 MB, 13.52 Mbit/s
+2020-08-10 23:27:05,762+0200 INFO  pdflatex - mpm: extracting files from bigintcalc.tar.lzma...
+2020-08-10 23:27:06,470+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:28:13,166+0200 INFO  pdflatex - installing package atbegshi triggered by tex/generic/atbegshi\atbegshi.sty
+2020-08-10 23:28:13,166+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:28:13,166+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:28:13,166+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:28:13,388+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:28:13,388+0200 INFO  pdflatex - mpm: going to download 418256 bytes
+2020-08-10 23:28:13,389+0200 INFO  pdflatex - mpm: going to install 7 file(s) (1 package(s))
+2020-08-10 23:28:14,158+0200 INFO  pdflatex.packagemanager - installing package atbegshi
+2020-08-10 23:28:14,159+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/atbegshi.tar.lzma...
+2020-08-10 23:28:14,159+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/atbegshi.tar.lzma
+2020-08-10 23:28:14,432+0200 INFO  pdflatex - mpm: 0.42 MB, 12.35 Mbit/s
+2020-08-10 23:28:14,437+0200 INFO  pdflatex - mpm: extracting files from atbegshi.tar.lzma...
+2020-08-10 23:28:15,189+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:29:22,332+0200 INFO  pdflatex - installing package atveryend triggered by tex/latex/atveryend\atveryend.sty
+2020-08-10 23:29:22,332+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:29:22,332+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:29:22,332+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:29:22,585+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:29:22,585+0200 INFO  pdflatex - mpm: going to download 389295 bytes
+2020-08-10 23:29:22,585+0200 INFO  pdflatex - mpm: going to install 5 file(s) (1 package(s))
+2020-08-10 23:29:23,328+0200 INFO  pdflatex.packagemanager - installing package atveryend
+2020-08-10 23:29:23,329+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/atveryend.tar.lzma...
+2020-08-10 23:29:23,329+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/atveryend.tar.lzma
+2020-08-10 23:29:23,591+0200 INFO  pdflatex - mpm: 0.39 MB, 11.98 Mbit/s
+2020-08-10 23:29:23,595+0200 INFO  pdflatex - mpm: extracting files from atveryend.tar.lzma...
+2020-08-10 23:29:24,270+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:30:33,540+0200 INFO  pdflatex - installing package rerunfilecheck triggered by tex/latex/rerunfilecheck\rerunfilecheck.sty
+2020-08-10 23:30:33,540+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:30:33,541+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:30:33,541+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:30:33,764+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:30:33,764+0200 INFO  pdflatex - mpm: going to download 324460 bytes
+2020-08-10 23:30:33,765+0200 INFO  pdflatex - mpm: going to install 6 file(s) (1 package(s))
+2020-08-10 23:30:34,566+0200 INFO  pdflatex.packagemanager - installing package rerunfilecheck
+2020-08-10 23:30:34,567+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/rerunfilecheck.tar.lzma...
+2020-08-10 23:30:34,567+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/rerunfilecheck.tar.lzma
+2020-08-10 23:30:34,836+0200 INFO  pdflatex - mpm: 0.32 MB, 9.69 Mbit/s
+2020-08-10 23:30:34,838+0200 INFO  pdflatex - mpm: extracting files from rerunfilecheck.tar.lzma...
+2020-08-10 23:30:35,519+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:31:45,522+0200 INFO  pdflatex - installing package uniquecounter triggered by tex/generic/uniquecounter\uniquecounter.sty
+2020-08-10 23:31:45,522+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:31:45,522+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:31:45,522+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:31:45,754+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:31:45,754+0200 INFO  pdflatex - mpm: going to download 298441 bytes
+2020-08-10 23:31:45,754+0200 INFO  pdflatex - mpm: going to install 6 file(s) (1 package(s))
+2020-08-10 23:31:46,528+0200 INFO  pdflatex.packagemanager - installing package uniquecounter
+2020-08-10 23:31:46,530+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/uniquecounter.tar.lzma...
+2020-08-10 23:31:46,530+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/uniquecounter.tar.lzma
+2020-08-10 23:31:46,793+0200 INFO  pdflatex - mpm: 0.30 MB, 9.08 Mbit/s
+2020-08-10 23:31:46,795+0200 INFO  pdflatex - mpm: extracting files from uniquecounter.tar.lzma...
+2020-08-10 23:31:47,556+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:32:58,871+0200 INFO  pdflatex - installing package booktabs triggered by tex/latex/booktabs\booktabs.sty
+2020-08-10 23:32:58,872+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:32:58,872+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:32:58,872+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:32:59,123+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:32:59,123+0200 INFO  pdflatex - mpm: going to download 313410 bytes
+2020-08-10 23:32:59,124+0200 INFO  pdflatex - mpm: going to install 5 file(s) (1 package(s))
+2020-08-10 23:32:59,857+0200 INFO  pdflatex.packagemanager - installing package booktabs
+2020-08-10 23:32:59,858+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/booktabs.tar.lzma...
+2020-08-10 23:32:59,858+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/booktabs.tar.lzma
+2020-08-10 23:33:00,109+0200 INFO  pdflatex - mpm: 0.31 MB, 10.03 Mbit/s
+2020-08-10 23:33:00,111+0200 INFO  pdflatex - mpm: extracting files from booktabs.tar.lzma...
+2020-08-10 23:33:00,764+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:34:11,572+0200 INFO  pdflatex - installing package footnotehyper triggered by tex/latex/footnotehyper\footnotehyper.sty
+2020-08-10 23:34:11,572+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:34:11,572+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:34:11,572+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:34:11,805+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:34:11,805+0200 INFO  pdflatex - mpm: going to download 74935 bytes
+2020-08-10 23:34:11,805+0200 INFO  pdflatex - mpm: going to install 5 file(s) (1 package(s))
+2020-08-10 23:34:12,586+0200 INFO  pdflatex.packagemanager - installing package footnotehyper
+2020-08-10 23:34:12,587+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/footnotehyper.tar.lzma...
+2020-08-10 23:34:12,587+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/footnotehyper.tar.lzma
+2020-08-10 23:34:12,795+0200 INFO  pdflatex - mpm: 0.07 MB, 2.90 Mbit/s
+2020-08-10 23:34:12,796+0200 INFO  pdflatex - mpm: extracting files from footnotehyper.tar.lzma...
+2020-08-10 23:34:13,468+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:35:24,302+0200 INFO  pdflatex - installing package grffile triggered by tex/latex/grffile\grffile.sty
+2020-08-10 23:35:24,302+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:35:24,302+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:35:24,302+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:35:24,581+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:35:24,581+0200 INFO  pdflatex - mpm: going to download 366182 bytes
+2020-08-10 23:35:24,581+0200 INFO  pdflatex - mpm: going to install 6 file(s) (1 package(s))
+2020-08-10 23:35:25,309+0200 INFO  pdflatex.packagemanager - installing package grffile
+2020-08-10 23:35:25,310+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/grffile.tar.lzma...
+2020-08-10 23:35:25,310+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/grffile.tar.lzma
+2020-08-10 23:35:25,573+0200 INFO  pdflatex - mpm: 0.37 MB, 11.18 Mbit/s
+2020-08-10 23:35:25,575+0200 INFO  pdflatex - mpm: extracting files from grffile.tar.lzma...
+2020-08-10 23:35:26,373+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:36:37,792+0200 INFO  pdflatex - installing package refcount triggered by tex/latex/refcount\refcount.sty
+2020-08-10 23:36:37,792+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:36:37,792+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:36:37,792+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:36:38,054+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:36:38,054+0200 INFO  pdflatex - mpm: going to download 336386 bytes
+2020-08-10 23:36:38,054+0200 INFO  pdflatex - mpm: going to install 5 file(s) (1 package(s))
+2020-08-10 23:36:38,824+0200 INFO  pdflatex.packagemanager - installing package refcount
+2020-08-10 23:36:38,825+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/refcount.tar.lzma...
+2020-08-10 23:36:38,825+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/refcount.tar.lzma
+2020-08-10 23:36:39,087+0200 INFO  pdflatex - mpm: 0.34 MB, 10.35 Mbit/s
+2020-08-10 23:36:39,091+0200 INFO  pdflatex - mpm: extracting files from refcount.tar.lzma...
+2020-08-10 23:36:39,810+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:37:50,276+0200 INFO  pdflatex - installing package gettitlestring triggered by tex/generic/gettitlestring\gettitlestring.sty
+2020-08-10 23:37:50,276+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-10 23:37:50,276+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-10 23:37:50,276+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-10 23:37:50,511+0200 INFO  pdflatex - mpm: package repository digest: bd5068f7198a760c9aa3dca2b3ddf9ed
+2020-08-10 23:37:50,511+0200 INFO  pdflatex - mpm: going to download 327428 bytes
+2020-08-10 23:37:50,511+0200 INFO  pdflatex - mpm: going to install 5 file(s) (1 package(s))
+2020-08-10 23:37:51,289+0200 INFO  pdflatex.packagemanager - installing package gettitlestring
+2020-08-10 23:37:51,290+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/gettitlestring.tar.lzma...
+2020-08-10 23:37:51,290+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/gettitlestring.tar.lzma
+2020-08-10 23:37:51,581+0200 INFO  pdflatex - mpm: 0.33 MB, 9.03 Mbit/s
+2020-08-10 23:37:51,586+0200 INFO  pdflatex - mpm: extracting files from gettitlestring.tar.lzma...
+2020-08-10 23:37:52,327+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-10 23:39:05,945+0200 INFO  pdflatex - this process (5648) finishes with exit code 0
+2020-08-10 23:39:05,955+0200 FATAL pdflatex - major issue: So far, you have not checked for MiKTeX updates.
+2020-08-10 23:39:06,733+0200 INFO  pdflatex - this process (14596) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-46140a9603bbda3a C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-46140a9603bbda3a/input.tex
+2020-08-10 23:39:06,776+0200 INFO  pdflatex - allowing known shell commands
+2020-08-10 23:39:06,777+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-10 23:39:06,777+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-46140a9603bbda3a
+2020-08-10 23:39:06,777+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-46140a9603bbda3a
+2020-08-10 23:39:16,818+0200 INFO  pdflatex - this process (14596) finishes with exit code 0
+2020-08-10 23:39:16,828+0200 FATAL pdflatex - major issue: So far, you have not checked for MiKTeX updates.
+2020-08-10 23:41:16,767+0200 INFO  pdflatex - this process (15860) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-e6a0bc0baaaa2644 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-e6a0bc0baaaa2644/input.tex
+2020-08-10 23:41:16,815+0200 INFO  pdflatex - allowing known shell commands
+2020-08-10 23:41:16,815+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-10 23:41:16,815+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-e6a0bc0baaaa2644
+2020-08-10 23:41:16,815+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-e6a0bc0baaaa2644
+2020-08-10 23:41:26,177+0200 INFO  pdflatex - this process (15860) finishes with exit code 0
+2020-08-10 23:41:26,193+0200 FATAL pdflatex - major issue: So far, you have not checked for MiKTeX updates.
+2020-08-10 23:41:26,936+0200 INFO  pdflatex - this process (7244) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-e6a0bc0baaaa2644 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-e6a0bc0baaaa2644/input.tex
+2020-08-10 23:41:26,967+0200 INFO  pdflatex - allowing known shell commands
+2020-08-10 23:41:26,967+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-10 23:41:26,967+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-e6a0bc0baaaa2644
+2020-08-10 23:41:26,983+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-e6a0bc0baaaa2644
+2020-08-10 23:41:36,425+0200 INFO  pdflatex - this process (7244) finishes with exit code 0
+2020-08-10 23:41:36,457+0200 FATAL pdflatex - major issue: So far, you have not checked for MiKTeX updates.
+2020-08-10 23:42:01,413+0200 INFO  pdflatex - this process (9524) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-53157f6e50792726 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-53157f6e50792726/input.tex
+2020-08-10 23:42:01,460+0200 INFO  pdflatex - allowing known shell commands
+2020-08-10 23:42:01,460+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-10 23:42:01,460+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-53157f6e50792726
+2020-08-10 23:42:01,460+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-53157f6e50792726
+2020-08-10 23:42:11,056+0200 INFO  pdflatex - this process (9524) finishes with exit code 0
+2020-08-10 23:42:11,072+0200 FATAL pdflatex - major issue: So far, you have not checked for MiKTeX updates.
+2020-08-10 23:42:11,866+0200 INFO  pdflatex - this process (3068) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-53157f6e50792726 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-53157f6e50792726/input.tex
+2020-08-10 23:42:11,912+0200 INFO  pdflatex - allowing known shell commands
+2020-08-10 23:42:11,912+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-10 23:42:11,912+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-53157f6e50792726
+2020-08-10 23:42:11,912+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-53157f6e50792726
+2020-08-10 23:42:21,435+0200 INFO  pdflatex - this process (3068) finishes with exit code 0
+2020-08-10 23:42:21,435+0200 FATAL pdflatex - major issue: So far, you have not checked for MiKTeX updates.
+2020-08-11 17:24:03,972+0200 INFO  pdflatex - this process (6940) started by 'cmd' with command line: pdflatex --version
+2020-08-11 17:24:04,066+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 17:24:04,066+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 17:24:04,222+0200 INFO  pdflatex - this process (6940) finishes with exit code 0
+2020-08-11 17:24:04,269+0200 FATAL pdflatex - major issue: So far, you have not checked for MiKTeX updates.
+2020-08-11 17:27:05,446+0200 INFO  pdflatex - this process (11784) started by 'cmd' with command line: pdflatex --help
+2020-08-11 17:27:05,493+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 17:27:05,493+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 17:27:05,555+0200 INFO  pdflatex - this process (11784) finishes with exit code 0
+2020-08-11 17:27:05,587+0200 FATAL pdflatex - major issue: So far, you have not checked for MiKTeX updates.
+2020-08-11 17:28:37,982+0200 INFO  pdflatex - this process (11268) started by 'cmd' with command line: pdflatex C:\Users\Public\Dev\altair\Tests\Exemple\altair.tex -o C:\Users\Public\Dev\altair\Tests\Exemple\altair.pdf
+2020-08-11 17:28:38,013+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 17:28:38,013+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 17:28:38,013+0200 FATAL pdflatex.core - The command line options could not be processed.
+2020-08-11 17:28:38,013+0200 FATAL pdflatex.core - Data: optionError="unknown option"
+2020-08-11 17:28:38,013+0200 FATAL pdflatex.core - Source: Libraries\MiKTeX\TeXAndFriends\webapp.cpp:379
+2020-08-11 17:28:38,013+0200 FATAL pdflatex - The command line options could not be processed.
+2020-08-11 17:28:38,013+0200 FATAL pdflatex - Info: optionError="unknown option"
+2020-08-11 17:28:38,013+0200 FATAL pdflatex - Source: Libraries\MiKTeX\TeXAndFriends\webapp.cpp
+2020-08-11 17:28:38,013+0200 FATAL pdflatex - Line: 379
+2020-08-11 17:28:38,028+0200 INFO  pdflatex - this process (11268) finishes with exit code 1
+2020-08-11 17:28:38,028+0200 FATAL pdflatex - major issue: So far, you have not checked for MiKTeX updates.
+2020-08-11 17:28:49,660+0200 INFO  pdflatex - this process (15844) started by 'cmd' with command line: pdflatex C:\Users\Public\Dev\altair\Tests\Exemple\altair.tex
+2020-08-11 17:28:49,707+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 17:28:49,707+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 17:29:20,275+0200 INFO  pdflatex - this process (15844) finishes with exit code 1
+2020-08-11 17:29:20,291+0200 FATAL pdflatex - major issue: So far, you have not checked for MiKTeX updates.
+2020-08-11 17:29:20,291+0200 WARN  miktex.core - still open: C:/Users/Public/Dev/altair/Tests/Exemple/altair.tex
+2020-08-11 18:02:09,080+0200 INFO  pdflatex - this process (15392) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-b8c0c029ffc2231a C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-b8c0c029ffc2231a/input.tex
+2020-08-11 18:02:09,121+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 18:02:09,121+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 18:02:09,121+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-b8c0c029ffc2231a
+2020-08-11 18:02:09,121+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-b8c0c029ffc2231a
+2020-08-11 18:02:09,168+0200 INFO  pdflatex - going to create file: pdflatex.fmt
+2020-08-11 18:02:09,215+0200 INFO  pdflatex.core - start process: initexmf --enable-installer --dump-by-name=pdflatex --engine=pdftex
+2020-08-11 18:02:38,290+0200 INFO  pdflatex - this process (15392) finishes with exit code 0
+2020-08-11 18:02:39,040+0200 INFO  pdflatex - this process (15292) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-b8c0c029ffc2231a C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-b8c0c029ffc2231a/input.tex
+2020-08-11 18:02:39,087+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 18:02:39,087+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 18:02:39,087+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-b8c0c029ffc2231a
+2020-08-11 18:02:39,087+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-b8c0c029ffc2231a
+2020-08-11 18:02:47,137+0200 INFO  pdflatex - this process (15292) finishes with exit code 0
+2020-08-11 18:54:08,860+0200 INFO  pdflatex - this process (944) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-6b1c2535f2ac4110 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-6b1c2535f2ac4110/input.tex
+2020-08-11 18:54:08,900+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 18:54:08,900+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 18:54:08,900+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-6b1c2535f2ac4110
+2020-08-11 18:54:08,900+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-6b1c2535f2ac4110
+2020-08-11 18:54:16,698+0200 INFO  pdflatex - this process (944) finishes with exit code 0
+2020-08-11 18:54:17,425+0200 INFO  pdflatex - this process (12156) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-6b1c2535f2ac4110 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-6b1c2535f2ac4110/input.tex
+2020-08-11 18:54:17,468+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 18:54:17,468+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 18:54:17,468+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-6b1c2535f2ac4110
+2020-08-11 18:54:17,468+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-6b1c2535f2ac4110
+2020-08-11 18:54:25,130+0200 INFO  pdflatex - this process (12156) finishes with exit code 0
+2020-08-11 18:58:45,337+0200 INFO  pdflatex - this process (1276) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-fc035ec972c4f6fe C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-fc035ec972c4f6fe/input.tex
+2020-08-11 18:58:45,379+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 18:58:45,379+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 18:58:45,379+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-fc035ec972c4f6fe
+2020-08-11 18:58:45,379+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-fc035ec972c4f6fe
+2020-08-11 18:58:56,463+0200 INFO  pdflatex - this process (1276) finishes with exit code 0
+2020-08-11 18:58:57,257+0200 INFO  pdflatex - this process (12400) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-fc035ec972c4f6fe C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-fc035ec972c4f6fe/input.tex
+2020-08-11 18:58:57,298+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 18:58:57,298+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 18:58:57,298+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-fc035ec972c4f6fe
+2020-08-11 18:58:57,298+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-fc035ec972c4f6fe
+2020-08-11 18:59:08,404+0200 INFO  pdflatex - this process (12400) finishes with exit code 0
+2020-08-11 19:03:42,158+0200 INFO  pdflatex - this process (14132) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-354236a9e80320c2 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-354236a9e80320c2/input.tex
+2020-08-11 19:03:42,202+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 19:03:42,206+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 19:03:42,206+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-354236a9e80320c2
+2020-08-11 19:03:42,206+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-354236a9e80320c2
+2020-08-11 19:03:53,583+0200 INFO  pdflatex - this process (14132) finishes with exit code 0
+2020-08-11 19:03:54,370+0200 INFO  pdflatex - this process (8428) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-354236a9e80320c2 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-354236a9e80320c2/input.tex
+2020-08-11 19:03:54,411+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 19:03:54,411+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 19:03:54,411+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-354236a9e80320c2
+2020-08-11 19:03:54,411+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-354236a9e80320c2
+2020-08-11 19:04:05,521+0200 INFO  pdflatex - this process (8428) finishes with exit code 0
+2020-08-11 19:07:35,219+0200 INFO  pdflatex - this process (15756) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-6ff73135c4d4b136 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-6ff73135c4d4b136/input.tex
+2020-08-11 19:07:35,260+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 19:07:35,260+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 19:07:35,260+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-6ff73135c4d4b136
+2020-08-11 19:07:35,262+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-6ff73135c4d4b136
+2020-08-11 19:07:39,724+0200 INFO  pdflatex - installing package geometry triggered by tex/latex/geometry\geometry.sty
+2020-08-11 19:07:39,733+0200 INFO  pdflatex.packagemanager - going to download https://api2.miktex.org/hello
+2020-08-11 19:07:40,246+0200 INFO  pdflatex.packagemanager - going to download https://api2.miktex.org/repositories?&releaseState=Stable&orderBy=ranking&take=1
+2020-08-11 19:07:40,261+0200 INFO  pdflatex - mpm: starting package maintenance...
+2020-08-11 19:07:40,261+0200 INFO  pdflatex - mpm: installation directory: C:\Users\Public\Dev\altair\texlive2\texmfs\install
+2020-08-11 19:07:40,261+0200 INFO  pdflatex - mpm: package repository: http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/
+2020-08-11 19:07:41,762+0200 WARN  pdflatex.packagemanager - dependancy problem: miktex-doc-2.9 is required by _miktex-packages-2.9
+2020-08-11 19:07:41,980+0200 INFO  pdflatex - mpm: package repository digest: 4af9114013276066b130de5c35a2fbb9
+2020-08-11 19:07:41,980+0200 INFO  pdflatex - mpm: going to download 921500 bytes
+2020-08-11 19:07:41,980+0200 INFO  pdflatex - mpm: going to install 8 file(s) (1 package(s))
+2020-08-11 19:07:42,655+0200 INFO  pdflatex.packagemanager - installing package geometry
+2020-08-11 19:07:42,729+0200 INFO  pdflatex - mpm: downloading http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/geometry.tar.lzma...
+2020-08-11 19:07:42,729+0200 INFO  pdflatex.packagemanager - going to download http://ctan.tetaneutral.net/systems/win32/miktex/tm/packages/geometry.tar.lzma
+2020-08-11 19:07:43,041+0200 INFO  pdflatex - mpm: 0.92 MB, 24.09 Mbit/s
+2020-08-11 19:07:43,041+0200 INFO  pdflatex - mpm: extracting files from geometry.tar.lzma...
+2020-08-11 19:07:43,939+0200 INFO  pdflatex.core - start process: initexmf --mkmaps
+2020-08-11 19:08:57,167+0200 INFO  pdflatex - this process (15756) finishes with exit code 0
+2020-08-11 19:08:57,918+0200 INFO  pdflatex - this process (8416) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-6ff73135c4d4b136 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-6ff73135c4d4b136/input.tex
+2020-08-11 19:08:57,957+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 19:08:57,957+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 19:08:57,957+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-6ff73135c4d4b136
+2020-08-11 19:08:57,957+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-6ff73135c4d4b136
+2020-08-11 19:09:09,010+0200 INFO  pdflatex - this process (8416) finishes with exit code 0
+2020-08-11 19:10:03,139+0200 INFO  pdflatex - this process (3976) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-2e7db5d68e2e2bfb C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-2e7db5d68e2e2bfb/input.tex
+2020-08-11 19:10:03,179+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 19:10:03,179+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 19:10:03,179+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-2e7db5d68e2e2bfb
+2020-08-11 19:10:03,179+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-2e7db5d68e2e2bfb
+2020-08-11 19:10:14,338+0200 INFO  pdflatex - this process (3976) finishes with exit code 0
+2020-08-11 19:10:15,041+0200 INFO  pdflatex - this process (4160) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-2e7db5d68e2e2bfb C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-2e7db5d68e2e2bfb/input.tex
+2020-08-11 19:10:15,083+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 19:10:15,083+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 19:10:15,083+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-2e7db5d68e2e2bfb
+2020-08-11 19:10:15,083+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-2e7db5d68e2e2bfb
+2020-08-11 19:10:26,154+0200 INFO  pdflatex - this process (4160) finishes with exit code 0
+2020-08-11 19:27:34,769+0200 INFO  pdflatex - this process (10320) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-fc57985a1d3ebe8e C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-fc57985a1d3ebe8e/input.tex
+2020-08-11 19:27:34,817+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 19:27:34,817+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 19:27:34,819+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-fc57985a1d3ebe8e
+2020-08-11 19:27:34,819+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-fc57985a1d3ebe8e
+2020-08-11 19:27:46,473+0200 INFO  pdflatex - this process (10320) finishes with exit code 0
+2020-08-11 19:27:47,199+0200 INFO  pdflatex - this process (10944) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-fc57985a1d3ebe8e C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-fc57985a1d3ebe8e/input.tex
+2020-08-11 19:27:47,239+0200 INFO  pdflatex - allowing known shell commands
+2020-08-11 19:27:47,239+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-11 19:27:47,239+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-fc57985a1d3ebe8e
+2020-08-11 19:27:47,246+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-fc57985a1d3ebe8e
+2020-08-11 19:27:58,804+0200 INFO  pdflatex - this process (10944) finishes with exit code 0

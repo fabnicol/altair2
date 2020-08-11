@@ -9,8 +9,8 @@ read.csv.skip(
   classes = NA,
   drop = NULL,
   skip = 0,
-  séparateur.liste = séparateur.liste.entrée,
-  séparateur.décimal = séparateur.décimal.entrée
+  separateur.liste = separateur.liste.entree,
+  separateur.decimal = separateur.decimal.entree
 )
 }
 \arguments{
@@ -20,9 +20,9 @@ read.csv.skip(
 
 \item{skip}{Nombre de lignes à sauter en début de fichier (défaut aucune).}
 
-\item{séparateur.liste}{= séparateur.liste.entrée,}
+\item{separateur.liste}{= separateur.liste.entree,}
 
-\item{séparateur.décimal}{= séparateur.décimal.entrée,}
+\item{separateur.decimal}{= separateur.decimal.entree,}
 }
 \value{
 Une base data.table
@@ -32,5 +32,5 @@ Lecture d'un fichier CSV et conversion en data.table.
 Si sécuriser.types.sortie = TRUE, forçage des types en sortie.
 }
 \examples{
-read.csv.skip(Base, séparateur.décimal = ",")
+read.csv.skip(Base, separateur.decimal = ",")
 }

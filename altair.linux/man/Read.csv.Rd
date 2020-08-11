@@ -11,8 +11,8 @@ Read.csv(
   colClasses = NA,
   skip = 0,
   drop = NULL,
-  séparateur.liste = séparateur.liste.entrée,
-  séparateur.décimal = séparateur.décimal.entrée
+  separateur.liste = separateur.liste.entree,
+  separateur.decimal = separateur.decimal.entree
 )
 }
 \arguments{
@@ -28,9 +28,9 @@ Read.csv(
 
 \item{drop}{Rang de la colonne à supprimer}
 
-\item{séparateur.liste}{Séparateur des champs CSV}
+\item{separateur.liste}{Séparateur des champs CSV}
 
-\item{séparateur.décimal}{Séparateur décimal}
+\item{separateur.decimal}{Séparateur decimal}
 }
 \value{
 Objet \code{data.table} résultant de l'empilement des bases lues.
@@ -43,8 +43,8 @@ test <- data.table(datasets::cars)
 res  <- try(Read.csv("base",
                      "test.csv",
                       colClasses = c("integer", "integer"),
-                      séparateur.liste = ";",
-                      séparateur.décimal = ","),
+                      separateur.liste = ";",
+                      separateur.decimal = ","),
           silent = FALSE)
 if (inherits(res, 'try-error'))
   stop("Problème de lecture de la base de la table bulletins-lignes de Paie")

@@ -2,14 +2,14 @@
 % Please edit documentation in R/effectifs.R
 \name{extraire.nir}
 \alias{extraire.nir}
-\title{Traitement du NIR (numéro d'inscription au répertoire des personnes physiques).}
+\title{Traitement du NIR (numero d'inscription au répertoire des personnes physiques).}
 \usage{
-extraire.nir(Base, année)
+extraire.nir(Base, annee)
 }
 \arguments{
 \item{Base}{data.table contenant au moins une variable nommée Nir décrivant le NIR.}
 
-\item{année}{Annee civile à la fin de laquelle est évalué l'âge de l'individu.}
+\item{annee}{Annee civile à la fin de laquelle est évalué l'âge de l'individu.}
 }
 \value{
 Une base data.table ayant la forme suivante (les bornes d'âge ne sont pas impératives) :

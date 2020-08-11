@@ -44,15 +44,15 @@ générer.rapport <- TRUE
 
 PDF <<- FALSE
 
-if (setOSWindows) {
+#if (setOSWindows) {
   
   invisible(Sys.setenv(PATH = paste(Sys.getenv("PATH"), 
             file.path(Sys.getenv("R_HOME"),
-                      "../texlive/miktex/bin"),
+                      "../texlive2/texmfs/install/miktex/bin/x64"),
                       file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc"),
                       sep=";")))
  
-}
+#}
 
 library(rmarkdown)
 

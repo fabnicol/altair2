@@ -42,12 +42,12 @@ racine                      <- ifelse(setOSWindows, "R-Altaïr/", "R-Altair")
 currentDir                  <- getwd()
 chemin.dossier              <- file.path(currentDir, "Tests/Exemple")
 chemin.modules              <- file.path(chemin.dossier, "modules")
-chemin.clé.racine           <- file.path(chemin.dossier, "Donnees", racine)
-générer.rapport             <- FALSE
+chemin.cle.racine           <- file.path(chemin.dossier, "Donnees", racine)
+generer.rapport             <- TRUE
 
-reps <- list.dirs(chemin.clé.racine, recursive = FALSE)
+reps <- list.dirs(chemin.cle.racine, recursive = FALSE)
 reps <- reps[basename(reps) != "Bases" & basename(reps) != "Docs"]
-if (length(reps) == 0) reps <- chemin.clé.racine
+if (length(reps) == 0) reps <- chemin.cle.racine
 
 
 setwd(chemin.dossier)
@@ -57,7 +57,7 @@ if (setOSWindows) {
    if (basename(currentDir) == "Exemple") 
        .libPaths(file.path(currentDir, "..", "..", "R/library"))
   
-   invisible(Sys.setenv(PATH = paste0(Sys.getenv("PATH"), "c:\\Users\\Public\\Dev\\altair\\texlive\\miktex\\bin;")))
+   
    library("altair")
 } else {
   library("altair", lib.loc=c("/usr/local/lib64/R/library",

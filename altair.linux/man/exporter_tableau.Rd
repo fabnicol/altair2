@@ -7,30 +7,30 @@
 exporter_tableau(
   table.jointure,
   requis,
-  clés = intersect(names(table.jointure), names(Paie)),
+  cles = intersect(names(table.jointure), names(Paie)),
   calculer.indice.complexité = FALSE
 )
 }
 \arguments{
-\item{table.jointure}{Tableau au format \code{data.table} indiquant la correspondance entre des clés appartenant à une \code{data.table} et un ou plusieurs vecteurs à rajouter à cette base.}
+\item{table.jointure}{Tableau au format \code{data.table} indiquant la correspondance entre des cles appartenant à une \code{data.table} et un ou plusieurs vecteurs à rajouter à cette base.}
 
-\item{requis}{Vecteur des noms des colonnes qui sont attendues dans le tableau de jointure, autre que les clés d'appariement, pour ajout à la base de paye.}
+\item{requis}{Vecteur des noms des colonnes qui sont attendues dans le tableau de jointure, autre que les cles d'appariement, pour ajout à la base de paye.}
 
-\item{clés}{Vecteur des noms de clés d'appariement. Par défaut, les noms de colonnes communs à la base des lignes de paye et à la table de jointure.}
+\item{cles}{Vecteur des noms de cles d'appariement. Par défaut, les noms de colonnes communs à la base des lignes de paye et à la table de jointure.}
 
-\item{calculer.indice.complexité}{Pour l'appariement avec la comptabilité, vérifier s'il est éventuellement possible d'apparier sur les seules clés \code{Code, Libelle, Type}}
+\item{calculer.indice.complexité}{Pour l'appariement avec la comptabilité, vérifier s'il est éventuellement possible d'apparier sur les seules cles \code{Code, Libelle, Type}}
 }
 \value{
 Base des lignes de paye \code{Paie} appariée avec la table de jointure restreinte aux variables : \code{Annee, Code, Libelle, Statut, Type} et aux colonnes ajoutées par la table de jointure
 }
 \description{
-Ajoute une ou plusieurs colonnes à la base des lignes de paye, étant donnée une table de jointure comportant des clés d'appariement de la base de paye et des vecteurs à apparier.
+Ajoute une ou plusieurs colonnes à la base des lignes de paye, étant donnée une table de jointure comportant des cles d'appariement de la base de paye et des vecteurs à apparier.
 }
 \details{
-La table de jointure doit satisfaire une condition d'unicité de la valeur associée à chaque combinaison de clés.
+La table de jointure doit satisfaire une condition d'unicité de la valeur associée à chaque combinaison de cles.
 }
 \note{
-Pour chaque combinaison de valeurs des clés, il doit y avoir une et une seule valeur des colonnes supplémentaires apportées par la table de jointure.
+Pour chaque combinaison de valeurs des cles, il doit y avoir une et une seule valeur des colonnes supplémentaires apportees par la table de jointure.
 
 Effet de bord : Base des lignes de paye \code{Paie} appariée avec la table de jointure.
 }

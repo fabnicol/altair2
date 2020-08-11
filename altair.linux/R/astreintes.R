@@ -4,7 +4,7 @@ calcul_astreintes <- function() {
 
 essayer({  
   
-  "Paie_astreintes" %a% filtrer_Paie("ASTREINTES", portée = "Mois", indic = TRUE)
+  "Paie_astreintes" %a% filtrer_Paie("ASTREINTES", portee = "Mois", indic = TRUE)
   
   libelles.astreintes <- unique(Paie_astreintes[indic == TRUE, .(Code, Libelle)], by = NULL)
   
@@ -28,7 +28,7 @@ essayer({
   nb.agents.NBI.astreintes <- uniqueN(Controle_astreintes$Matricule)
   
   if (nrow(Controle_astreintes)) {
-    cat("Des astreintes sont payées à", nb.agents.NBI.astreintes, "personnels bénéficiaires de NBI")
+    cat("Des astreintes sont payees à", nb.agents.NBI.astreintes, "personnels bénéficiaires de NBI")
   }
   
   "Cum_astreintes" %a% rbind(Controle_astreintes[, round(sum(Montant.astreinte), 1),
@@ -69,7 +69,7 @@ cumul_astreintes_IHTS <- function() {
   nb.agents.IHTS.astreintes <- uniqueN(Controle_astreintes_HS_irreg$Matricule)
   
   if (nrow(Controle_astreintes_HS_irreg)) {
-    cat("Des astreintes sont payées à", nb.agents.IHTS.astreintes, "personnels bénéficiaires d'IHTS.")
+    cat("Des astreintes sont payees à", nb.agents.IHTS.astreintes, "personnels bénéficiaires d'IHTS.")
   }
   
   "Cum_astreintes_HS_irreg" %a% rbind(Controle_astreintes_HS_irreg[, .(round(sum(Montant[indic_astr == TRUE]), 1),

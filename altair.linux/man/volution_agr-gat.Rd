@@ -2,7 +2,7 @@
 % Please edit documentation in R/test.R
 \name{évolution_agrégat}
 \alias{évolution_agrégat}
-\title{Affichage du tableau des variations des agrégats des primes A et B sur l'ensemble de la période}
+\title{Affichage du tableau des variations des agrégats des primes A et B sur l'ensemble de la periode}
 \usage{
 évolution_agrégat(résultat, verbeux)
 }
@@ -12,5 +12,5 @@
 \item{verbeux}{[FALSE] Le résultat n'est affiché que si  \code{verbeux} vaut  \code{TRUE}}
 }
 \description{
-Affichage du tableau des variations des agrégats des primes A et B sur l'ensemble de la période
+Affichage du tableau des variations des agrégats des primes A et B sur l'ensemble de la periode
 }

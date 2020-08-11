@@ -14,7 +14,7 @@ message("Démographie...")
 # Calcul du tableau des effectifs, qui nécessite les deux bases d'analyse (mensuelle, Analyse.remunerations et annuelle Analyse.variations)
 # Utilisation de la fonction effectifs() de la biblio altair.
 
-tableau.effectifs <<- effectifs(période, Bulletins.paie, Analyse.remunerations, Analyse.variations)
+tableau.effectifs <<- effectifs(periode, Bulletins.paie, Analyse.remunerations, Analyse.variations)
 
 tableau.effectifs.grades <<- eqtp.grade(variation = TRUE)
 
@@ -31,7 +31,7 @@ kable(tableau.effectifs, row.names = TRUE, align='c')
 
 #'    
 #'**Nota:**   
-#'*(a) Nombre de matricules distincts ayant eu au moins un bulletin de paie dans l'année, en fonction ou non. Tous ces personnels ne sont pas en fonction : sont inclus des régularisations, des personnels hors position d'activité ou des ayants droit (reversion, etc.)*   
+#'*(a) Nombre de matricules distincts ayant eu au moins un bulletin de paie dans l'annee, en fonction ou non. Tous ces personnels ne sont pas en fonction : sont inclus des régularisations, des personnels hors position d'activité ou des ayants droit (reversion, etc.)*   
 #'*(b) Titulaires ou stagiaires*   
 #'*(c) Sur la base des libellés d'emploi et des libellés de lignes de paie. La détection peut être lacunaire.*   
 #'*(d) ETP  : la quotité est retenue au mois de décembre. Un mi-temps sur 6 mois compte 0,5.*  
@@ -39,17 +39,17 @@ kable(tableau.effectifs, row.names = TRUE, align='c')
 #'*(f) Personnes en place : présentes en N et N-1 avec la même quotite, postes actifs et non annexes uniquement.*     
 #'*(g) Postes actifs et non annexes :* voir [Compléments méthodologiques](Docs/méthodologie.pdf)    
 #'*&nbsp;&nbsp;&nbsp;Un poste actif est défini par au moins un bulletin de paie comportant un traitement positif pour un volume d'heures de travail mensuel non nul.*             
-#'*&nbsp;&nbsp;&nbsp;Un poste non annexe est défini comme la conjonction de critères horaires et de revenu sur une année. La période minimale de référence est le mois.*   
-#'*Les dix dernières lignes du tableau sont calculées en ne tenant pas compte des élus.*    
+#'*&nbsp;&nbsp;&nbsp;Un poste non annexe est défini comme la conjonction de critères horaires et de revenu sur une annee. La periode minimale de référence est le mois.*   
+#'*Les dix dernières lignes du tableau sont calculees en ne tenant pas compte des élus.*    
 
-#+ durée-du-travail
+#+ duree-du-travail
 
-cat("\nLa durée du travail prise en compte dans la base de données est de ", nb.heures.temps.complet, " h par mois.\n")  
+cat("\nLa duree du travail prise en compte dans la base de données est de ", nb.heures.temps.complet, " h par mois.\n")  
 
 if (nb.heures.temps.complet > 1.1 * 151.67 || nb.heures.temps.complet < 0.9 * 151.67)  {
   semaine.de.travail <<- nb.heures.temps.complet * 12 / 52
   
-  cat("\nAttention !\nLe temps de travail hebdomadaire s'écarte significativement de la durée légale : ", 
+  cat("\nAttention !\nLe temps de travail hebdomadaire s'écarte significativement de la duree légale : ", 
       round(semaine.de.travail,1), " h par semaine.\n")
 }
 
@@ -76,7 +76,7 @@ conditionnel("Lien vers la base des effectifs", "Bases/Effectifs/tableau.effecti
 conditionnel("Lien vers la base des effectifs en ETPT par grade", "Bases/Effectifs/tableau.effectifs.grades.csv")  
 conditionnel("Lien vers la base des effectifs en ETPT par emploi", "Bases/Effectifs/tableau.effectifs.emplois.csv")  
 conditionnel("Lien vers la base des effectifs en ETPT par grade et service", "Bases/Effectifs/tableau.effectifs.services.zip")  
-conditionnel("Lien vers la base des effectifs en ETPT par grade et catégorie", "Bases/Effectifs/tableau.effectifs.categories.zip")  
+conditionnel("Lien vers la base des effectifs en ETPT par grade et categorie", "Bases/Effectifs/tableau.effectifs.categories.zip")  
 
 #'   
 #'

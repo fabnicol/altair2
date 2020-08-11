@@ -10,12 +10,12 @@ analyser(prime, Paie_I, verbeux)
 \item{prime}{Prime au format liste comportant les arguments :
 \describe{
 \item{nom}{Nom de la prime en majuscules. Une expression régulière en décrivant le libellé doit être enregistrée dans l'espace global sous le nom : expression.rég.nom}
-\item{catégorie}{"A", "B", "C" ou tout vecteur d'une à deux lettres comprises dans ces trois valeurs. Décrit les catégories statutaires auxquelles la prime est attribuable.}
+\item{categorie}{"A", "B", "C" ou tout vecteur d'une à deux lettres comprises dans ces trois valeurs. Décrit les categories statutaires auxquelles la prime est attribuable.}
 \item{restreint_fonctionnaire}{Booléen. Par défaut FALSE. Préciser TRUE si la prime est uniquement attrubuable aux fonctionnaires. Dans certains cas (mais pas pour tous), la prime peut aussi être attribuable aux non-titulaires, sous réserve d'un acte réglementaire interne à l'organisme.}
 \item{dossier}{Chaîne de caractères. Sous-dossier du dossier Bases dans lequel le fichier auxiliaire CSV doit être généré. Par exemple : "Reglementation".}
-\item{expr.rég.}{Chaîne de caractères. Expression régulière filtrant sur champs \code{Grade}, décriuvant une contrainte limitant l'accès de la prime à un certain sous-ensemble de grades.}
+\item{expr.reg.}{Chaîne de caractères. Expression régulière filtrant sur champs \code{Grade}, décriuvant une contrainte limitant l'accès de la prime à un certain sous-ensemble de grades.}
 \item{indice}{Liste. Couple d'un caractère "+" ou "-" et d'un entier, ou triplet correspondant au couple augmenté d'un vecteur d'une ou deux lettres statutaires. Exemple : list("+", 350, c("A","B)). La liste décrit un critère limitatif pour la prime : 
-elle ne peut être attribuée qu'aux indices supérieurs ("+") ou inférieurs ("-") au nombre donné en deuxième position pour les fonctionnaires de catégorie précisée en troisième prosition.}}}
+elle ne peut être attribuée qu'aux indices supérieurs ("+") ou inférieurs ("-") au nombre donné en deuxième position pour les fonctionnaires de categorie précisée en troisième prosition.}}}
 
 \item{Paie_I}{Base data.table des indemnités comportant les colonnes :
 \itemize{
@@ -36,7 +36,7 @@ elle ne peut être attribuée qu'aux indices supérieurs ("+") ou inférieurs ("
   \item{Statut}
   \item{Categorie}}}
 
-\item{verbeux}{[FALSE] Le résultat des tableaux "non titulaires" et "catégories" n'est affiché que si \code{verbeux} vaut \code{TRUE}}
+\item{verbeux}{[FALSE] Le résultat des tableaux "non titulaires" et "categories" n'est affiché que si \code{verbeux} vaut \code{TRUE}}
 }
 \value{
 Liste constituée de :
@@ -53,6 +53,6 @@ Analyse des contraintes principales associées à une indemnité
 Sauvegarde deux fichiers dans le sous-dossier prime$dossier : 
 \itemize{
 {prime$nom.non.tit.csv} {Recense les attributaires non titulaires}
-{prime$nom.cat.A (ou AB ou B ou BC...)} {Recense les attributaires de catégorie A, B, C ou toute combinaison de ces lettres.}
+{prime$nom.cat.A (ou AB ou B ou BC...)} {Recense les attributaires de categorie A, B, C ou toute combinaison de ces lettres.}
 }
 }

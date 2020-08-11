@@ -1,11 +1,11 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annees 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
 # Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
 # produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-# en vigueur à compter de l'année 2008.
+# en vigueur à compter de l'annee 2008.
 # 
 # Ce logiciel est régi par la licence CeCILL soumise au droit français et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -35,17 +35,17 @@
 # termes.
 # 
 # 
-# Il est important de maîtriser le type des données en entrée de lecture de base
+# Il est important de maîtriser le type des données en entree de lecture de base
 
 # Exemple : si pas de hors échelle lettres dans une base, l'algorithme de lecture de base de data.table et d'inférence de type
 # va proposer "numeric" au lieu de "character" pour l'échelon
 
-# Autre exemple : les matricules composés exclusivement de chiffres vont être traités comme des nombres en entrée, alors qu'ils
+# Autre exemple : les matricules composés exclusivement de chiffres vont être traités comme des nombres en entree, alors qu'ils
 # sont utilisés comme des chaînes de caractères dans le code
 
 library(bit64)
 
-#' Contrôle le type des données d'entrée
+#' Contrôle le type des données d'entree
 #' @param colonnes Vecteur des noms de colonnes de la table globale
 #' @export
 

@@ -55,8 +55,8 @@ Evenements.mat <- setcolorder(setkey(data.table::copy(Evenements.ind),
 
 #'  
 #'[Lien vers la nomenclature des événements de paye](Bases/Fiabilite/Evenements.csv)     
-#'[Tri par type d'évement, agent, année, mois](Bases/Fiabilite/Evenements.ind.csv)     
-#'[Tri par agent, année, mois, évenement](Bases/Fiabilite/Evenements.mat.csv)     
+#'[Tri par type d'évement, agent, annee, mois](Bases/Fiabilite/Evenements.ind.csv)     
+#'[Tri par agent, annee, mois, évenement](Bases/Fiabilite/Evenements.mat.csv)     
 #'  
 
 #'  
@@ -207,7 +207,7 @@ conditionnel("Lien vers la base de données des salaires versés à quotite ind�
 #'## Tableau des personnels  
 #'    
 #'   
-#'*Pour vérifier que le logiciel déduit correctement les catégories statutaires des libellés de grade, il est préférable de faire remplir, par les organismes contrôlés le tableau CSV accessible dans le bloc* **Grade et catégorie statutaire** *de l'onglet Extra de l'application graphique, ou bien à ce lien. Voir aussi la notice* &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_categories.odt)      
+#'*Pour vérifier que le logiciel déduit correctement les categories statutaires des libellés de grade, il est préférable de faire remplir, par les organismes contrôlés le tableau CSV accessible dans le bloc* **Grade et categorie statutaire** *de l'onglet Extra de l'application graphique, ou bien à ce lien. Voir aussi la notice* &nbsp; [![Notice](Notice.png)](Docs/Notices/fiche_tableau_categories.odt)      
 #'   
 
 if (afficher.table.effectifs) {
@@ -220,7 +220,7 @@ sauv.bases("Effectifs",
                        "grades.categories")
 
 #'
-#'[Lien vers la base des grades et catégories](Bases/Effectifs/grades.categories.csv)        
+#'[Lien vers la base des grades et categories](Bases/Effectifs/grades.categories.csv)        
 #'   
 
 #'

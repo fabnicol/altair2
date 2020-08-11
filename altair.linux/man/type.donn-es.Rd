@@ -2,7 +2,7 @@
 % Please edit documentation in R/types.données.R
 \name{type.données}
 \alias{type.données}
-\title{Contrôle le type des données d'entrée}
+\title{Contrôle le type des données d'entree}
 \usage{
 type.données(colonnes)
 }
@@ -10,5 +10,5 @@ type.données(colonnes)
 \item{colonnes}{Vecteur des noms de colonnes de la table globale}
 }
 \description{
-Contrôle le type des données d'entrée
+Contrôle le type des données d'entree
 }

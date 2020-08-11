@@ -1,11 +1,11 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annees 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 #
 # Ce logiciel est un programme informatique servant à extraire et analyser les fichiers de paye
 # produits au format spécifié par l'annexe de la convention-cadre nationale de dématérialisation
-# en vigueur à compter de l'année 2008.
+# en vigueur à compter de l'annee 2008.
 #
 # Ce logiciel est régi par la licence CeCILL soumise au droit français et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
@@ -55,12 +55,12 @@
 
 `%+%` <- function(x, y) paste0(x, y)
 
-#' Chemin complet d'un fichier dans le dossier \code{chemin.dossier.données}
+#' Chemin complet d'un fichier dans le dossier \code{chemin.dossier.donnees}
 #' @param fichier Nom de fichier
 #' @export
 
 chemin <-  function(fichier)
-  file.path(chemin.dossier.données, fichier)
+  file.path(chemin.dossier.donnees, fichier)
 
 #' Lecture d'une base CSV
 #'
@@ -70,26 +70,26 @@ chemin <-  function(fichier)
 #' @param classes Les classes ("character", "numeric") des variables en colonnes
 #' @param drop  Rang de la colonne à supprimer
 #' @param skip  Nombre de lignes à sauter en début de fichier (défaut aucune).
-#' @param séparateur.liste = séparateur.liste.entrée,
-#' @param séparateur.décimal = séparateur.décimal.entrée,
+#' @param separateur.liste = separateur.liste.entree,
+#' @param separateur.decimal = separateur.decimal.entree,
 #' @return Une base data.table
 #' @examples
-#' read.csv.skip(Base, séparateur.décimal = ",")
+#' read.csv.skip(Base, separateur.decimal = ",")
 #' @export
 
 read.csv.skip <- function(x,
                           classes = NA,
                           drop = NULL,
                           skip = 0,
-                          séparateur.liste = séparateur.liste.entrée,
-                          séparateur.décimal = séparateur.décimal.entrée)
+                          separateur.liste = separateur.liste.entree,
+                          separateur.decimal = separateur.decimal.entree)
 {
  
     if (is.na(classes)) classes = NULL
 
     T <- try(data.table::fread(x,
-                      sep = séparateur.liste,
-                      dec = séparateur.décimal,
+                      sep = separateur.liste,
+                      dec = separateur.decimal,
                       header = TRUE,
                       skip = skip,
                       encoding = "UTF-8",
@@ -139,8 +139,8 @@ return(T)
 #' @param dossier Chemin du dossier dans lequel la base sera sauvegardée dans chemin.dossier.bases
 #' @param nom Chaîne de caractères du nom de l'objet à sauvegarder
 #' @param nom.sauv  Chaine de caractères du nom du fichier .csv sans l'extension
-#' @param sep (= séparateur.liste.sortie)
-#' @param dec (= séparateur.décimal.sortie),
+#' @param sep (= separateur.liste.sortie)
+#' @param dec (= separateur.decimal.sortie),
 #' @param environment (= .GlobalEnv) environnement,
 #' @examples
 #' Sauv.base("Effectifs", "Base", "BaseDonnée")  -->  (dossier des bases) / Effectifs/BaseDonnée.csv
@@ -150,8 +150,8 @@ return(T)
 Sauv.base <- function(dossier = "",
                       nom = "",
                       nom.sauv = nom,
-                      sep = séparateur.liste.sortie,
-                      dec = séparateur.décimal.sortie,
+                      sep = separateur.liste.sortie,
+                      dec = separateur.decimal.sortie,
                       environment = .GlobalEnv)
 {
   if (dossier == "" || nom == "" || is.null(dossier) || is.null (nom)) return(FALSE)
@@ -190,9 +190,9 @@ conditionnel <- function(msg = "", path = "") {
     
     # Le fichier existe et il y a plus qu'un entête
     
-    chemin <- file.path(chemin.clé, path)
+    chemin <- file.path(chemin.cle, path)
    
-    if (générer.rapport && file.exists(chemin)) {
+    if (generer.rapport && file.exists(chemin)) {
       
       vect <- readLines(chemin, 2, warn = FALSE, encoding = "UTF-8")
       
@@ -263,16 +263,16 @@ sauv.bases <- function(chemin.dossier, env, ...)
 #' @param colClasses  Vecteur de classes ("numeric" ou "character", etc.) caractérisant les colonnes
 #' @param skip        Sauter les N premières lignes
 #' @param drop        Rang de la colonne à supprimer
-#' @param séparateur.liste  Séparateur des champs CSV
-#' @param séparateur.décimal  Séparateur décimal
+#' @param separateur.liste  Séparateur des champs CSV
+#' @param separateur.decimal  Séparateur decimal
 #' @return Objet \code{data.table} résultant de l'empilement des bases lues.
 #' @examples
 #' test <- data.table(datasets::cars)
 #' res  <- try(Read.csv("base",
 #'                      "test.csv",
 #'                       colClasses = c("integer", "integer"),
-#'                       séparateur.liste = ";",
-#'                       séparateur.décimal = ","),
+#'                       separateur.liste = ";",
+#'                       separateur.decimal = ","),
 #'           silent = FALSE)
 #' if (inherits(res, 'try-error'))
 #'   stop("Problème de lecture de la base de la table bulletins-lignes de Paie")
@@ -283,8 +283,8 @@ Read.csv <- function(base.string, fichiers,
                      colClasses = NA,
                      skip = 0,
                      drop = NULL,
-                     séparateur.liste = séparateur.liste.entrée,
-                     séparateur.décimal = séparateur.décimal.entrée) {
+                     separateur.liste = separateur.liste.entree,
+                     separateur.decimal = separateur.decimal.entree) {
 
   Read.csv_(base.string,
             fichiers,
@@ -292,8 +292,8 @@ Read.csv <- function(base.string, fichiers,
             colClasses,
             skip,
             drop,
-            séparateur.liste,
-            séparateur.décimal)
+            separateur.liste,
+            separateur.decimal)
 }
 
 Read.csv_ <- function(base.string, fichiers,
@@ -301,8 +301,8 @@ Read.csv_ <- function(base.string, fichiers,
                       colClasses = NA,
                       skip = 0,
                       drop = NULL,
-                      séparateur.liste = séparateur.liste.entrée,
-                      séparateur.décimal = séparateur.décimal.entrée) {
+                      separateur.liste = separateur.liste.entree,
+                      separateur.decimal = separateur.decimal.entree) {
 
     if (charger) {
 
@@ -311,8 +311,8 @@ Read.csv_ <- function(base.string, fichiers,
                                      read.csv.skip,
                                         classes = colClasses,
                                         skip = skip,
-                                        séparateur.liste = séparateur.liste,
-                                        séparateur.décimal = séparateur.décimal,
+                                        separateur.liste = separateur.liste,
+                                        separateur.decimal = separateur.decimal,
                                         drop = drop)),
                envir = .GlobalEnv)
     }
@@ -329,10 +329,10 @@ Read.csv_ <- function(base.string, fichiers,
 #' @param type Booléen (= FALSE). 
 #' @return Une base data.table
 #' @examples
-#' read.csv.skip(Base, séparateur.décimal = ",")
+#' read.csv.skip(Base, separateur.decimal = ",")
 #' @export
 
-Résumé <- function(X,
+Resume <- function(X,
                    y,
                    align = 'r',
                    extra = 0,
@@ -402,7 +402,7 @@ essayer(label = "+quartiles", {
 
                  temp <- cbind(temp, c("", "", "", ifelse(is.vector(Y[[i]]), length(Y[[i]]), nrow(Y[[i]])), "", ""))
                } else {
-                 cat("Impossible de générer le tableau : ligne manquante.")
+                 cat("Impossible de generer le tableau : ligne manquante.")
                  return("")
                }
 
@@ -431,8 +431,8 @@ essayer(label = "+quartiles", {
 #' Le tableau ne peut pas présenter plus d'une seule ligne.
 #'
 #' @param x Vecteur de nom de lignes pour le tableau
-#' @param ...  paramètres. Si sep.milliers est un paramètre, sa valeur est utiisée comme séparateur des milliers. Par défault, le séparateur blanc.
-#' @return Base de données data.table mise en forme de tableau par la fonction knitr::kable comportant l'ensemble des paramètres mis en colonnes centrées, avec x comme noms de lignes.
+#' @param ...  paramètres. Si sep.milliers est un paramètre, sa valeur est utiisée comme separateur des milliers. Par défault, le separateur blanc.
+#' @return Base de données data.table mise en forme de tableau par la fonction knitr::kable comportant l'ensemble des paramètres mis en colonnes centrees, avec x comme noms de lignes.
 #' @examples
 #' Tableau(c("a", "b", "c", "d"), 1, 2, 3, 4)
 #'
@@ -472,9 +472,9 @@ Tableau <- function(x, ...) {
 #'
 #' @param colnames Vecteur de nom de colonnes pour le tableau
 #' @param rownames Vecteur de nom de lignes pour le tableau
-#' @param extra (= "") Si la valeur de ce paramètre est "variation", la variation relative est calculée entre le début et la fin de la période en lignes
+#' @param extra (= "") Si la valeur de ce paramètre est "variation", la variation relative est calculee entre le début et la fin de la periode en lignes
 #' @param ...  paramètres fonctionnels uniquement. Si un paramètre n'est pas une fonction, le tableau est vide dans son ensemble
-#' @return Base de données data.table mise en forme de tableau par la fonction knitr::kable comportant l'ensemble des paramètres mis en colonnes centrées, avec x comme noms de lignes.
+#' @return Base de données data.table mise en forme de tableau par la fonction knitr::kable comportant l'ensemble des paramètres mis en colonnes centrees, avec x comme noms de lignes.
 #' @examples
 #' Tableau(c("a", "b", "c", "d"), 1, 2, 3, 4)
 #'
@@ -518,7 +518,7 @@ Tableau.vertical <- function(colnames, rownames, extra = "", ...)   # extra func
         res2 <- try(T2 <- g(tmp[[x]]))
 
         if (inherits(T1, 'try-error') || inherits(res2, 'try-error')) {
-          cat("Impossible de générer le tableau.")
+          cat("Impossible de generer le tableau.")
           return("")
         }
 
@@ -595,7 +595,7 @@ v.jmois.leap  <-  c(31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 #' Calcul du nombre de jours dans le mois
 #' @export
 
-calcul.nb.jours.mois <- function(Mois, année)   if ((année - 2008) %% 4 == 0) {
+calcul.nb.jours.mois <- function(Mois, annee)   if ((annee - 2008) %% 4 == 0) {
     return(sum(v.jmois.leap[Mois]))
     } else {
     return(sum(v.jmois[Mois]))
@@ -610,7 +610,7 @@ positive <- function(X) X[!is.na(X) & X > 0]
 non.null <- function(X) X[!is.na(X) & X != 0]
 
 #' Teste si, dans une base, la proportion d'enregistrements Noms-Prenoms dont les matricules ne sont pas identiques
-#'  reste inférieure à une marge de tolérance fixée (taux.tolérance.homonymie)
+#'  reste inférieure à une marge de tolerance fixée (taux.tolerance.homonymie)
 #'
 #' @param Base Base à tester
 #' @export
@@ -619,7 +619,7 @@ tester.homogeneite.matricules <- function(Base) {
 
   message("Contrôle sur la cohérence de l'association Nom-Prenom-Matricule (homonymies et changements de matricule)")
 
-    convertir.nom.prénom.majuscules <- function(S)
+    convertir.nom.prenom.majuscules <- function(S)
   {
     S[ , c("Nom", "Prenom")] <- apply(S[ , c("Nom", "Prenom")],
                                       2,
@@ -627,7 +627,7 @@ tester.homogeneite.matricules <- function(Base) {
                                         toupper(chartr("éèôâçë","eeoaice", x)))
   }
 
-  S <- convertir.nom.prénom.majuscules(Base[ , c("Nom", "Prenom", "Matricule")])
+  S <- convertir.nom.prenom.majuscules(Base[ , c("Nom", "Prenom", "Matricule")])
 
   with.matr    <-   nrow(unique(S))
   without.matr <-   nrow(unique(S[ , c("Nom", "Prenom")]))
@@ -635,9 +635,9 @@ tester.homogeneite.matricules <- function(Base) {
   message("Matricules distincts: ", with.matr)
   message("Noms-Prenoms distincs: ", without.matr)
 
-  if (with.matr  >   (1 + taux.tolérance.homonymie / 100) * without.matr)
+  if (with.matr  >   (1 + taux.tolerance.homonymie / 100) * without.matr)
   {
-     msg <- paste0("Résultats trop différents (", taux.tolérance.homonymie, " % de marge tolérée). Changement de régime de matricule.")
+     msg <- paste0("Résultats trop différents (", taux.tolerance.homonymie, " % de marge tolérée). Changement de régime de matricule.")
      message(msg)
      cat(msg)
   }
@@ -676,29 +676,29 @@ newline <- function() {
   }
 }
 
-# numérotation des tableaux
+# numerotation des tableaux
 
-#' Incrémente le numéro de tableau courant
+#' Incrémente le numero de tableau courant
 #'
-#' @return Valeur incrémentée de numéro.tableau
+#' @return Valeur incrementée de numero.tableau
 #' @export
 
-incrément <- function() {
-  numéro.tableau <<- numéro.tableau + 1
-  numéro.tableau
+increment <- function() {
+  numero.tableau <<- numero.tableau + 1
+  numero.tableau
 }
 
-#' Incrémente le numéro de chapitre courant
+#' Incrémente le numero de chapitre courant
 #'
-#' @return Valeur incrémentée de chapitre
+#' @return Valeur incrementée de chapitre
 #' @export
 
-incrémenter.chapitre <- function() {
+incrementer.chapitre <- function() {
   chapitre <<- chapitre + 1
   invisible(chapitre)
 }
 
-#' Ajoute le séparateur des milliers et sans décimale en français
+#' Ajoute le separateur des milliers et sans decimale en français
 #'
 #' @param  x Vecteur de valeurs numériques
 #' @return Vecteur de chaînes de caractères modifiées
@@ -785,11 +785,11 @@ filtre <- function(x) {
 #' Filtrage d'une base de paye
 #'
 #' Filtre la base par une expression régulière sur libellés de paye ou par valeurs fixes sur une variable donnée.
-#' Si le filtrage a une portée, l'ensemble des lignes de la portée (exemple "Mois") est conservé.
+#' Si le filtrage a une portee, l'ensemble des lignes de la portee (exemple "Mois") est conservé.
 #' @export
 
 filtrer_Paie <- function(x,
-                         portée = NULL,
+                         portee = NULL,
                          Base = Paie,
                          Var = "Code",
                          indic = FALSE) {
@@ -802,7 +802,7 @@ filtrer_Paie <- function(x,
   # En i, la variable Var ne peut pas être évaluée mais peut filtrer sur Paie[get(Var)...]
   # en by, utiliser dans c(...) directement
 
-  if (is.null(portée)) {
+  if (is.null(portee)) {
 
     if (is.na(codes[x, valeur])) {
 
@@ -821,11 +821,11 @@ filtrer_Paie <- function(x,
 
         P_  <- Base[ , indic := grepl(filtre_, Libelle, ignore.case=TRUE, perl=TRUE)
                    ][ , indic0 := any(indic),
-                           by = c("Matricule", "Annee", portée)][indic0 == TRUE][, indic0 := NULL]
+                           by = c("Matricule", "Annee", portee)][indic0 == TRUE][, indic0 := NULL]
       } else {
 
         P_  <- Base[ , indic0 := any(grepl(filtre_, Libelle, ignore.case=TRUE, perl=TRUE)),
-                     by = c("Matricule", "Annee", portée)
+                     by = c("Matricule", "Annee", portee)
                    ][indic0 == TRUE][, indic0 := NULL]
       }
 
@@ -836,12 +836,12 @@ filtrer_Paie <- function(x,
         P_  <- Base[ , indic := get(Var) %chin% filtre_,
 
                    ][ , indic0 := any(indic),
-                            by = c("Matricule", "Annee", portée)
+                            by = c("Matricule", "Annee", portee)
                    ][indic0 == TRUE][, indic0 := NULL]
       } else {
 
         P_  <- Base[ , indic0 := any(get(Var) %chin% filtre_),
-                     by = c("Matricule", "Annee", portée)
+                     by = c("Matricule", "Annee", portee)
                  ][indic0 == TRUE][, indic0 := NULL]
       }
     }
@@ -892,19 +892,19 @@ extraire_paye <- function(an, L, out) {
 #' Insérer un script auxiliaire, indexé par une variable globale
 #' @param chemin  Chemin du script R
 #' @param index   Vecteur numérique contenant les valeurs de la variable globale.
-#' @param seq Exécuter le script en mode séquentiel (si \code{TRUE}, resp. si \code{FALSE}, en mode parallèle)   
+#' @param seq Exécuter le script en mode sequentiel (si \code{TRUE}, resp. si \code{FALSE}, en mode parallèle)   
 #' @param variable Vecteur de caractères contenant le nom de la variable globale dans le script auxiliaire.
 #' @param gen  Si \code{FALSE} alors se contente de sourcer le script auxiliaire selon \code{encodage.code.source}. Sinon intègre le rapport auxiliaire au format du rapport principal.
-#' @param incrémenter INcrémenter le chapitre de présentation du script
+#' @param incrementer INcrémenter le chapitre de présentation du script
 #' @param fonction Appeler une liste de fonctions à argument vide
 #' @return Valeur de la dernière variable globale \code{variable} instanciée. Effets de bord en sortie.
 #' @export
 
-insérer_script <- function(chemin = NULL, 
+inserer_script <- function(chemin = NULL, 
                            index = 1, 
-                           variable = "année", 
-                           gen = générer.rapport, 
-                           incrémenter = FALSE, 
+                           variable = "annee", 
+                           gen = generer.rapport, 
+                           incrementer = FALSE, 
                            fonction = NULL)  {
 
 if (! is.null(chemin) && get(gsub(".R", "", basename(chemin), fixed = TRUE)) == FALSE) invisible(return(NULL))
@@ -913,16 +913,17 @@ invisible(sapply(index, function(x) {
 
   assign(variable, x, .GlobalEnv)
   
-  if (incrémenter) incrémenter.chapitre()
+  if (incrementer) incrementer.chapitre()
   
   if (is.null(fonction)) {
         
     if (gen) {
             vect <- knit_child(text = readLines(spin(chemin, knit = FALSE),
                                                 encoding = encodage.code.source),
+                               options = list(encoding = "UTF-8"),
                                quiet = TRUE)
                                
-            if (séquentiel == TRUE) {
+            if (sequentiel == TRUE) {
               cat(vect, sep = '\n')
             } else {
               return(vect)

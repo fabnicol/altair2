@@ -11,12 +11,12 @@ Tableau.vertical(colnames, rownames, extra = "", ...)
 
 \item{rownames}{Vecteur de nom de lignes pour le tableau}
 
-\item{extra}{(= "") Si la valeur de ce paramètre est "variation", la variation relative est calculée entre le début et la fin de la période en lignes}
+\item{extra}{(= "") Si la valeur de ce paramètre est "variation", la variation relative est calculee entre le début et la fin de la periode en lignes}
 
 \item{...}{paramètres fonctionnels uniquement. Si un paramètre n'est pas une fonction, le tableau est vide dans son ensemble}
 }
 \value{
-Base de données data.table mise en forme de tableau par la fonction knitr::kable comportant l'ensemble des paramètres mis en colonnes centrées, avec x comme noms de lignes.
+Base de données data.table mise en forme de tableau par la fonction knitr::kable comportant l'ensemble des paramètres mis en colonnes centrees, avec x comme noms de lignes.
 }
 \description{
 Présentation de tables sous forme de tableau de plusieurs lignes de données.

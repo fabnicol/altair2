@@ -18,14 +18,14 @@ Lignes_IFTS <<- résultat_IAT_IFTS$Lignes_B
 
 #'   
 #'   
-#'### Contrôle sur les IAT pour catégories B C et non-titulaires      
+#'### Contrôle sur les IAT pour categories B C et non-titulaires      
 #'   
 #'   
 conditionnel("Lien vers la base de données IAT aux non-titulaires", "Bases/Reglementation/IAT.non.tit.csv")    
 conditionnel("Lien vers la base de données IAT non cat B-C", "Bases/Reglementation/IAT.non.catBC.csv")   
 #'     
 #'     
-#'### Contrôle sur les IFTS pour catégories B et non-titulaires      
+#'### Contrôle sur les IFTS pour categories B et non-titulaires      
 
 #IFTS et IB >= 380 (IM >= 350)
 #'  

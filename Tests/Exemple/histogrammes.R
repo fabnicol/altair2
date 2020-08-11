@@ -1,6 +1,6 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annees 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
 # Ce logiciel est un programme informatique servant à extraire et analyser
@@ -46,7 +46,7 @@ if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel.eqtp) > 0))
        xlab = "En milliers d'euros EQTP\n",
        ylab = "Effectif",
        xlim = c(0, 40),
-       main = "Rémunération brute annuelle des fonctionnaires en " %+% année,
+       main = "Rémunération brute annuelle des fonctionnaires en " %+% annee,
        col = "blue",
        breaks = 250)
 
@@ -58,7 +58,7 @@ if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel.eqtp[Montant.brut.a
        xlab = "En milliers d'euros EQTP\n",
        ylab = "Effectif",
        xlim = c(40, 120),
-       main = "Rémunération brute annuelle des fonctionnaires en " %+% année,
+       main = "Rémunération brute annuelle des fonctionnaires en " %+% annee,
        col = "blue",
        breaks = 250)
 
@@ -68,7 +68,7 @@ if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable.e
        xlab = "En milliers d'euros EQTP\n",
        ylab = "Effectif",
        xlim = c(0, 10),
-       main = "Rémunération indemnitaire imposable annuelle des fonctionnaires\n  en " %+% année,
+       main = "Rémunération indemnitaire imposable annuelle des fonctionnaires\n  en " %+% annee,
        col = "blue",
        breaks = 150)
   cat("\n\n")
@@ -77,7 +77,7 @@ if (longueur.non.na(filtre.fonctionnaire(rémunération.indemnitaire.imposable.e
        xlab = "En milliers d'euros EQTP\n",
        ylab = "Effectif",
        xlim = c(10, 60),
-       main = "Rémunération indemnitaire imposable annuelle\n des fonctionnaires en " %+% année,
+       main = "Rémunération indemnitaire imposable annuelle\n des fonctionnaires en " %+% annee,
        col = "blue",
        breaks = 150)
   cat("\n\n")
@@ -85,7 +85,7 @@ if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire[part.r
   hist(filtre.fonctionnaire(part.rémunération.indemnitaire[part.rémunération.indemnitaire < 30]),
        xlab = "Part des indemnités imposables (< 30 %) dans la rémunération brute en %\n",
        ylab = "Effectif",
-       main = "Part indemnitaire de la rémunération annuelle\n des fonctionnaires en " %+% année,
+       main = "Part indemnitaire de la rémunération annuelle\n des fonctionnaires en " %+% annee,
        xlim = c(0,30),
        col = "blue",
        breaks = 250)
@@ -94,7 +94,7 @@ if (longueur.non.na(filtre.fonctionnaire(part.rémunération.indemnitaire[part.r
   hist(filtre.fonctionnaire(part.rémunération.indemnitaire[part.rémunération.indemnitaire > 30]),
        xlab = "Part des indemnités imposables (> 30 %)  dans la rémunération brute en %\n",
        ylab = "Effectif",
-       main = "Part indemnitaire de la rémunération annuelle\n des fonctionnaires en " %+% année,
+       main = "Part indemnitaire de la rémunération annuelle\n des fonctionnaires en " %+% annee,
        xlim = c(30,100),
        col = "blue",
        include.lowest=TRUE,

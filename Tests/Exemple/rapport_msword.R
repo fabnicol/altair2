@@ -1,6 +1,6 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annees 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
 # Ce logiciel est un programme informatique servant à extraire et analyser
@@ -51,7 +51,7 @@ for (rep in reps) {
 
   setwd(chemin.dossier)
   
-  invisible(lapply(c("altair.pdf", "altair.odt", "altair.docx"), function(x) file.remove(file.path(chemin.clé.racine, x))))
+  invisible(lapply(c("altair.pdf", "altair.odt", "altair.docx"), function(x) file.remove(file.path(chemin.cle.racine, x))))
   invisible(lapply(c("altair.pdf", "altair.odt", "altair.docx"), function(x) file.remove(file.path(chemin.dossier, x))))
   invisible(file.remove(list.files(chemin.modules, "*.Rmd", full.name = TRUE)))
   

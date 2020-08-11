@@ -1,2 +1,2 @@
-séquentiel                     <- TRUE
+# sequentiel                     <- TRUE
 ouvrir.document                <- TRUE

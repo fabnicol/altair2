@@ -4,9 +4,9 @@
 \alias{filtrer_Paie}
 \title{Filtrage d'une base de paye}
 \usage{
-filtrer_Paie(x, portée = NULL, Base = Paie, Var = "Code", indic = FALSE)
+filtrer_Paie(x, portee = NULL, Base = Paie, Var = "Code", indic = FALSE)
 }
 \description{
 Filtre la base par une expression régulière sur libellés de paye ou par valeurs fixes sur une variable donnée.
-Si le filtrage a une portée, l'ensemble des lignes de la portée (exemple "Mois") est conservé.
+Si le filtrage a une portee, l'ensemble des lignes de la portee (exemple "Mois") est conservé.
 }

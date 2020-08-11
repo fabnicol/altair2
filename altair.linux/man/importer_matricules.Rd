@@ -2,10 +2,10 @@
 % Please edit documentation in R/import.R
 \name{importer_matricules}
 \alias{importer_matricules}
-\title{Importer la base externe des correspondance ente matricules, catégories et grades}
+\title{Importer la base externe des correspondance ente matricules, categories et grades}
 \usage{
 importer_matricules()
 }
 \description{
-Importer la base externe des correspondance ente matricules, catégories et grades
+Importer la base externe des correspondance ente matricules, categories et grades
 }

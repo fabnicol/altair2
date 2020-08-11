@@ -1,6 +1,6 @@
 # Copyright Cour des comptes, 2017
 # Contributeur :
-# Fabrice Nicol, années 2012 à 2017
+# Fabrice Nicol, annees 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
 # 
 # Ce logiciel est un programme informatique servant à extraire et analyser
@@ -66,10 +66,10 @@ if (! keep_md) {
     unlink("altair_files", recursive = TRUE)  
 }
 
-file.copy("altair.docx", chemin.clé)
-file.copy("altair.odt", chemin.clé)
+file.copy("altair.docx", chemin.cle)
+file.copy("altair.odt", chemin.cle)
 
-if (ouvrir.document && basename(chemin.clé) == racine) {
+if (ouvrir.document && basename(chemin.cle) == racine) {
   if (setOSWindows) {
     
     shell("start winword Donnees/R-Altaïr/altair.docx")

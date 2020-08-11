@@ -12,7 +12,7 @@
 #       une de ces lignes horaires, assimilée à un paiement de vacation.
 
 
-Paie_vac <- filtrer_Paie("VAC", portée = "Mois")
+Paie_vac <- filtrer_Paie("VAC", portee = "Mois")
 
 Paie_vac <<- Paie_vac[Type %chin% c("T", "I", "R", "IR", "S")]
 
@@ -50,7 +50,7 @@ sauv.bases("Reglementation",
            "Paie_vac_fonct")
 
 conditionnel("Matricules des fonctionnaires concernés", "Bases/Reglementation/matricules.fonctionnaires.et.vacations.csv")       
-conditionnel("Lien vers les vacations payées à des fonctionnaires", "Bases/Reglementation/lignes.fonctionnaires.et.vacations.csv")       
+conditionnel("Lien vers les vacations payees à des fonctionnaires", "Bases/Reglementation/lignes.fonctionnaires.et.vacations.csv")       
 conditionnel("Lien vers les bulletins de paie correspondants", "Bases/Reglementation/Paie_vac_fonct.csv")            
 
 ####  5.4 CEV ####  
@@ -92,7 +92,7 @@ nombre.Lignes.paie.RI.et.vacations <- nrow(RI.et.vacations)
 if (exists("nombre.contractuels.et.vacations")) {
   
   Tableau(c("Nombre de CEV",
-            "Nombre de lignes indemnitaires payées"),
+            "Nombre de lignes indemnitaires payees"),
           nombre.contractuels.et.vacations,
           nombre.Lignes.paie.RI.et.vacations)
 }
@@ -110,7 +110,7 @@ conditionnel("Lien vers les bulletins de paye correspondants", "Bases/Reglementa
 #'    
 
 essayer({ Paie_vac_sft_ir <- filtrer_Paie("IR_S", 
-                                          portée = "Mois", 
+                                          portee = "Mois", 
                                           Var = "Type", 
                                           Base = Paie_vac)[! Statut %chin% c("TITULAIRE", "STAGIAIRE"), 
                                                            .(Nom, Prenom, Matricule, Service, Statut, Categorie, Grade, Echelon, Libelle, Type,

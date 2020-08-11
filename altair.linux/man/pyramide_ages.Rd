@@ -8,15 +8,15 @@ pyramide_ages(
   Avant,
   Après = NULL,
   titre = "",
-  date.début = début.période.sous.revue,
-  date.fin = fin.période.sous.revue,
+  date.début = debut.periode.sous.revue,
+  date.fin = fin.periode.sous.revue,
   versant = "",
   couleur_H = "darkslateblue",
   couleur_F = "firebrick4"
 )
 }
 \arguments{
-\item{Avant}{data.table/data.frame décrivant la situation en début de période
+\item{Avant}{data.table/data.frame décrivant la situation en début de periode
 Cette base doit avoir la forme suivante (bornes d'âges non impératifs):
 \tabular{ccc}{
   age \tab Hommes \tab Femmes \cr
@@ -29,17 +29,17 @@ Cette base doit avoir la forme suivante (bornes d'âges non impératifs):
 }
 dans laquelle "age" peut être soit un vecteur de nom de lignes soit une colonne.}
 
-\item{Après}{data.table/data.frame décrivant la situation en fin de période. Même format que \code{Avant}.}
+\item{Après}{data.table/data.frame décrivant la situation en fin de periode. Même format que \code{Avant}.}
 
 \item{titre}{Titre du graphique.}
 
-\item{date.début}{date du début de la période.}
+\item{date.début}{date du début de la periode.}
 
-\item{date.fin}{date de fin de période.}
+\item{date.fin}{date de fin de periode.}
 
 \item{versant}{Si non renseigné, sans effet. Si renseigné par "FPT" (resp. "FPH"), le deuxième argument \code{Après} ne
 doit pas être renseigné. Il est automatiquement remplacé par une base de données disponible dans le répertoire \code{data/}
-du paquet, correspondant à l'année la plus proche du versant de la fonction publique correspondant. La pyramide superposée représente
+du paquet, correspondant à l'annee la plus proche du versant de la fonction publique correspondant. La pyramide superposée représente
 celle qu'aurait l'organisme si la distribution de ses âges était celle du versant mentionné de la fonction publique.}
 
 \item{couleur_H}{couleur utilisée pour représenter les hommes (partie droite de la pyramide). Par défaut \code{darkslateblue}}
@@ -53,7 +53,7 @@ Une liste de deux vecteurs numériques représentant chacun des axes (gauche pui
         Un graphique comprenat une pyramide, une légende et éventuellement un titre.
 }
 \description{
-Elabore une pyramide des âges verticale avec superposition du début et de la fin de la période sous revue.
+Elabore une pyramide des âges verticale avec superposition du début et de la fin de la periode sous revue.
 }
 \examples{
 pyramide_ages(df1, NULL, "Pyramide des âges", 2008, 2012, versant = "FPT", comparer = TRUE)

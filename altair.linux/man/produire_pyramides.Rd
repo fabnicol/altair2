@@ -13,7 +13,7 @@ produire_pyramides(Filtre_bulletins, titre, versant = "", envir)
 
 \item{versant}{Versant de la fonction publique ("FPT" ou "FPH")}
 
-\item{envir}{Environnement de stockage des caractéristiques des âges (\code{nom.fichier.après}, \code{nom.fichier.avant}, \code{res} quartiles de distribution des âges)}
+\item{envir}{Environnement de stockage des caractéristiques des âges (\code{nom.fichier.apres}, \code{nom.fichier.avant}, \code{res} quartiles de distribution des âges)}
 }
 \description{
 Produire les pyramides des âges par versant de la fonction publique
