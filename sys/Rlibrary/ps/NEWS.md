@@ -1,4 +1,20 @@
 
+# ps 1.3.3
+
+* New function `errno()` returns a table of `errno.h` error codes and
+  their description.
+
+* ps now compiles again on Solaris.
+
+# ps 1.3.2
+
+* ps now compiles again on unsupported platforms like Solaris.
+
+# ps 1.3.1
+
+* Fixed an installation problem on some Windows versions, where the
+  output of `cmd /c ver` looks different (#69).
+
 # ps 1.3.0
 
 * New `ps_cpu_count()` function returns the number of logical or
