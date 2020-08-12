@@ -102,27 +102,28 @@ enum class BaseCategorie : int
     BULLETINS = 1 ///< Type de base CSV en sortie : Bulletins.paie.csv
 };
 /// Enum des types de base en sortie (tri par catégorie de ligne de paye)
+
 enum class BaseType : int
 {
-    MONOLITHIQUE = -1, ///< Base complète, en un seul bloc
-    PAR_ANNEE = 0, ///< Base par année
-    PAR_AGENT = 1, ///< Une base par agent, par mois et par année ("Bulletins de paye")
-    PAR_TRAITEMENT = 2, ///< Base par type de ligne de paye "Traitement"
-    PAR_INDEMNITE_RESIDENCE = 3, ///< Base par type de ligne de paye "Indemnité de résidence"
-    PAR_SFT = 4, ///< Base par type de ligne de paye "Supplément familial de traitement"
-    PAR_AVANTAGE_NATURE = 5, ///< Base par type de ligne de paye "Avantage en nature"
-    PAR_INDEMNITE = 6, ///< Base par type de ligne de paye "Indemnité"
-    PAR_REM_DIVERSES = 7, ///< Base par type de ligne de paye "Rémunérations diverses"
-    PAR_DEDUCTION = 8,  ///< Base par type de ligne de paye "Déduction"
-    PAR_ACOMPTE = 9, ///< Base par type de ligne de paye "Acompte"
-    PAR_RAPPEL = 10, ///< Base par type de ligne de paye "Rappel"
-    PAR_RETENUE = 11, ///< Base par type de ligne de paye "Retenue"
-    PAR_COTISATION = 12, ///< Base par type de ligne de paye "Cotisation"
-    PAR_COMMENTAIRE = 13, ///< Base par type de ligne de paye "Commentaire"
-    NA = 14,
-    TOUTES_CATEGORIES = 15, ///< Base par type de ligne de paye "Toutes catégories"
-    MAXIMUM_LIGNES = 16,     ///< Taille maximum de la base de paye "Table" en nombre de lignes.
-    MAXIMUM_LIGNES_PAR_ANNEE = 17 ///< Taille maximum de la base de paye "Table" en nombre de lignes, cas d'une exportation annuelle.
+    MONOLITHIQUE = -3, ///< Base complète, en un seul bloc
+    PAR_ANNEE = -2, ///< Base par année
+    PAR_AGENT = -1, ///< Une base par agent, par mois et par année ("Bulletins de paye")
+    PAR_TRAITEMENT = 1, ///< Base par type de ligne de paye "Traitement"
+    PAR_INDEMNITE_RESIDENCE = 2, ///< Base par type de ligne de paye "Indemnité de résidence"
+    PAR_SFT = 3, ///< Base par type de ligne de paye "Supplément familial de traitement"
+    PAR_AVANTAGE_NATURE = 4, ///< Base par type de ligne de paye "Avantage en nature"
+    PAR_INDEMNITE = 5, ///< Base par type de ligne de paye "Indemnité"
+    PAR_REM_DIVERSES = 6, ///< Base par type de ligne de paye "Rémunérations diverses"
+    PAR_DEDUCTION = 7,  ///< Base par type de ligne de paye "Déduction"
+    PAR_ACOMPTE = 8, ///< Base par type de ligne de paye "Acompte"
+    PAR_RAPPEL = 9, ///< Base par type de ligne de paye "Rappel"
+    PAR_RETENUE = 10, ///< Base par type de ligne de paye "Retenue"
+    PAR_COTISATION = 11, ///< Base par type de ligne de paye "Cotisation"
+    PAR_COMMENTAIRE = 12, ///< Base par type de ligne de paye "Commentaire"
+    NA = 13,
+    TOUTES_CATEGORIES = 14, ///< Base par type de ligne de paye "Toutes catégories"
+    MAXIMUM_LIGNES = 15,     ///< Taille maximum de la base de paye "Table" en nombre de lignes.
+    MAXIMUM_LIGNES_PAR_ANNEE = 16 ///< Taille maximum de la base de paye "Table" en nombre de lignes, cas d'une exportation annuelle.
 };
 
 /// Nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, NbUnite, Montant, DébutPeriode, FinPeriode) moins 1
