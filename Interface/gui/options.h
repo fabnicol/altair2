@@ -77,7 +77,7 @@ public :
         label->setText ("") ;
     }
 
-     static QString prologue_codes_path;  ///< Chemin initial de \em prologue_codes.R sous #SCRIPT_DIR. Ce fichier contient les exportations de valeurs de l'onglet \b Codes de l'interface graphique.
+     static QString prologue_options_path;  ///< Chemin initial de \em prologue_codes.R sous #SCRIPT_DIR. Ce fichier contient les exportations de valeurs de l'onglet \b Codes de l'interface graphique.
      
 private:
     QList<FLineEdit*> listeCodes; ///< Liste des pointeurs vers des composants fonctionnels de classe FLineEdit, qui rassemble l'ensemble des lignes correspondant à variables.
@@ -91,13 +91,13 @@ private:
     int ajouterVariable (const QString& nom);
     
     /// Réinitialise l'exportation des codes d'éléments de paye
-    /// Ecrase prologue_codes.R ( prologue_codes_path) par sa valeur d'initialisation prologue_init.R
+    /// Ecrase prologue_options.R ( prologue_options_path) par sa valeur d'initialisation prologue_init.R
     /// \return \e true si la réinitialisation par écrasement a réussi, \e false sinon.
     
     bool reinitialiser_prologue()
     {
-        QFile (codePage::prologue_codes_path).remove();
-        return QFile (common::path_access (SCRIPT_DIR "prologue_init.R")).copy(codePage::prologue_codes_path);
+        QFile (codePage::prologue_options_path).remove();
+        return QFile (common::path_access (SCRIPT_DIR "prologue_init.R")).copy(codePage::prologue_options_path);
     }
     
 protected : 
@@ -133,6 +133,7 @@ public :
     processPage();                 ///< Constructeur de l'onglet Traitement.
     FLineFrame *logFrame;          ///< composant fonctionnelde type QLineEdit augmenté de fonctionnalités spéciales. Enregistre le chemin du log d'exécution.
     FCheckBox  *enchainerRapports; ///< Cas à cocher indiquant si la génération des rapports est automatiquement lancée par l'interface sans passer par RStudio.
+    FCheckBox *openCheckBox;         ///< Case à cocher permettant d'ouvrir les rapports à la fin de l'exécution (cochée par défaut).
 
 private:
     FComboBox
@@ -144,24 +145,23 @@ private:
         *processTypeBox;       ///< Groupe "Mode d'exécution"
 
     FCheckBox
-        *logCheckBox,          ///< Case à cocher permettant d'activer/de désactiver logFrame.
-        *consoleCheckBox,      ///< Case à cocher permettant d'activer la console (cochée par défaut).
 #ifndef Q_OS_WIN
-        *parallelCheckBox,     ///< Case à cocher permettant de produire les rapports en parallèle (cochée par défaut).
+        *parallelCheckBox     ///< Case à cocher permettant de produire les rapports en parallèle (cochée par défaut).
 #endif
-        *openCheckBox;         ///< Case à cocher permettant d'ouvrir les rapports à la fin de l'exécution (cochée par défaut).
+    *logCheckBox,          ///< Case à cocher permettant d'activer/de désactiver logFrame.
+    *consoleCheckBox;      ///< Case à cocher permettant d'activer la console (cochée par défaut).
     
     QString    file_str; ///< Contenu du fichier prologue.codes.R
-    const QString prologue_options_path = common::path_access (SCRIPT_DIR "prologue_options.R");
+    const QString prologue_options_path = common::path_access (SCRIPT_DIR "prologue_codes.R");
     
     /// Réinitialise l'exportation des options de rapport (oouvrir et exécution séquentielle notamment)
-    /// Ecrase prologue_options.R ( prologue_options_path) par sa valeur d'initialisation prologue_init_options.R
+    /// Ecrase prologue_codes.R ( prologue_options_path) par sa valeur d'initialisation prologue_init.R
     /// \return \e true si la réinitialisation par écrasement a réussi, \e false sinon.
     
     bool reinitialiser_prologue()
     {
             QFile (prologue_options_path).remove();
-            return QFile (common::path_access (SCRIPT_DIR "prologue_init_options.R")).copy(prologue_options_path);
+            return QFile (common::path_access (SCRIPT_DIR "prologue_init.R")).copy(prologue_options_path);
     }
     
 };
@@ -232,7 +232,7 @@ private:
     QStringList variables;        ///< Libellés des éléments de paye faisant l'objet d'une ligne dans l'onglet.
     QLabel *label;                             ///< Elément de texte variable servant à afficher des messaes d'erreur ou de réussite de l'exportation des codes.
     QString init_label_text ;                  ///< Message "Appuyer pour exporter..."
-    const QString prologue_scripts_path = path_access(SCRIPT_DIR "prologue_scripts.R");
+    const QString prologue_options_path = path_access(SCRIPT_DIR "prologue_options.R");
     QToolButton* appliquerCodes ;              ///< Bouton "Exporter" (flèche verte) .
     
     QString file_str; ///< Lecture dans QString du contenu du fichier prologue.codes.R
@@ -253,8 +253,8 @@ private:
     
     bool reinitialiser_prologue()
     {
-            QFile (prologue_scripts_path).remove();
-            return QFile (common::path_access (SCRIPT_DIR "prologue_init_scripts.R")).copy(prologue_scripts_path);
+            QFile (prologue_options_path).remove();
+            return QFile (common::path_access (SCRIPT_DIR "prologue_init.R")).copy(prologue_options_path);
     }
     
     
@@ -356,6 +356,7 @@ private slots:
     
     /// Coche la case "Enchainer les rapports" qui permet de lancer R pour produire des rapports d'analyse à partir de l'interface sans lancer RStudio
     
-    void enchainerRapports (int index);                                   
+    void enchainerRapports (int index);
+    void ne_pas_ouvrir_documents();
 };
 #endif // OPTIONS_H

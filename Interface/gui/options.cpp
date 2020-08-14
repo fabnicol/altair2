@@ -55,7 +55,7 @@
 #include "flineframe.h"
 
 
-QString codePage::prologue_codes_path;
+QString codePage::prologue_options_path;
 
 int codePage::ajouterVariable (const QString& nom)
 {
@@ -93,7 +93,7 @@ codePage::codePage()
 {
     setVisible(false);
     baseBox = new QGroupBox;
-    prologue_codes_path = path_access (SCRIPT_DIR "prologue_codes.R");
+    prologue_options_path = path_access (SCRIPT_DIR "prologue_codes.R");
 
     appliquerCodes = new QToolButton;
 
@@ -216,7 +216,7 @@ void codePage::activer_fph (bool activer)
 void codePage::substituer_valeurs_dans_script_R()
 {
     reinitialiser_prologue();
-    QString file_str = common::readFile (prologue_codes_path);
+    QString file_str = common::readFile (prologue_options_path);
     common::exporter_identification_controle (file_str);
     bool res = false;
     bool res2 = true;
@@ -245,7 +245,7 @@ void codePage::substituer_valeurs_dans_script_R()
 
             icon = icon2;
 
-            res = renommer (dump(file_str), prologue_codes_path);
+            res = renommer (dump(file_str), prologue_options_path);
 
             if (Hash::Reference.isEmpty()) return;
 
@@ -303,7 +303,7 @@ void codePage::substituer_valeurs_dans_script_R()
                 }
         }
 
-    res = renommer (dump (file_str), prologue_codes_path);
+    res = renommer (dump (file_str), prologue_options_path);
 
     appliquerCodes->setIcon (icon);
 
@@ -608,7 +608,7 @@ void rapportPage::substituer_valeurs_dans_script_R()
 {
     reinitialiser_prologue();
     liste_cb.clear();
-    file_str = common::readFile (prologue_scripts_path);
+    file_str = common::readFile (prologue_options_path);
     
     bool res = false;
 
@@ -628,7 +628,7 @@ void rapportPage::substituer_valeurs_dans_script_R()
 
     if (size % 2 && size > 0) message(size - 1, icon, false);
     
-    res = renommer (dump (file_str), prologue_scripts_path);
+    res = renommer (dump (file_str), prologue_options_path);
 
     if (res == true)
         label->setText ("Les parties suivantes :"
@@ -727,6 +727,7 @@ standardPage::standardPage()
                                   "Cumulative : A chaque contrôle, les bases s'empilent\n\tà la fin des bases précédemment exportées.\n"
                                   "Distributive : A chaque contrôle, un sous répertoire est créé\n\tsur la clé du nom de chaque dossier\n\timporté du répertoire Données.\n"
                                   "Distributive+ : Exportation Distributive et Cumulative activées.\n"));
+
 
     QGridLayout *v1Layout = new QGridLayout,
     *v2Layout = new QGridLayout,
@@ -1030,7 +1031,7 @@ processPage::processPage()
 
         
     openCheckBox = new FCheckBox("Ouvrir le document à la fin de l'exécution",
-                                             flags::status::enabledChecked|flags::commandLineType::noCommandLine,
+                                            flags::status::enabledChecked|flags::commandLineType::noCommandLine,
                                             "ouvrirDocFinExec",
                                             {"Rapports", "Ouvrir en fin d'exécution"});
 
@@ -1076,7 +1077,6 @@ processPage::processPage()
             renommer (dump (file_str), prologue_options_path);
             });
     }
-
 
     reinitialiser_prologue();
 
@@ -1435,8 +1435,17 @@ options::options (Altair* parent)
     connect (standardTab->exportWidget, SIGNAL (currentIndexChanged (int)),
              this,
              SLOT (enchainerRapports (int)));
+    connect (standardTab->exportWidget, SIGNAL(currentIndexChanged(int)),
+             this,
+             SLOT(ne_pas_ouvrir_documents()));
 //#endif
 
+}
+
+void options::ne_pas_ouvrir_documents()
+{
+    if (standardTab->exportWidget->currentText().left(4) == "Dist")
+                          processTab->openCheckBox->setChecked(false);
 }
 
 void options::enchainerRapports (int index)

@@ -2035,24 +2035,14 @@ void MainWindow::feedLHXConsoleWithHtml()
 
 void MainWindow::feedRConsoleWithHtml()
 {
-    QRegExp reg ("([0-9]+).*%");
-
-    while (altair->process.canReadLine())
-
-        while (altair->process.canReadLine())
-            {
-                QString buffer = QString::fromLocal8Bit (altair->process.readLine());
-
-                if (buffer.contains (reg))
-                    {
-                        altair->fileRank = reg.cap (1).toInt();
-
-                        if (altair->fileRank <= 0) altair->fileRank = 1;
-                    }
+                QString buffer = QString::fromUtf8 (altair->process.readAll());
+                if (altair->fileRank > 100) altair->fileRank = 5;
+                else if (altair->fileRank > 90) ++altair->fileRank;
+                else
+                     altair->fileRank += ceil((100 - altair->fileRank) / 10);
 
                 consoleDialog->insertHtml (buffer.replace ("\n", "<br>"));
                 consoleDialog->moveCursor (QTextCursor::End);
-            }
 }
 
 

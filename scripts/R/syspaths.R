@@ -46,13 +46,13 @@ user <- if (setOSWindows) Sys.getenv("USERNAME") else Sys.getenv("USER")
 chemin.dossier.donnees      <- file.path(chemin.cle, "..", "xhl", ifelse(user == "fab", "", user))
 chemin.dossier.docs <- file.path(chemin.cle, "Docs")
 
-for (type in c("codes", "options", "scripts")) {
-    if (basename(chemin.cle) == basename(racine)) {
-        source("prologue_"  %+% type %+% ".R", encoding = encodage.code.source)
-    } else {
-        source(file.path(chemin.cle, "prologue_" %+% type %+% ".R"), encoding = encodage.code.source)
-    }
+
+if (basename(chemin.cle) == basename(racine)) {
+    source("prologue_codes.R", encoding = encodage.code.source)
+} else {
+    source(file.path(chemin.cle, "prologue_codes.R"), encoding = encodage.code.source)
 }
+
 
 if (setOSWindows) sequentiel <- TRUE
 

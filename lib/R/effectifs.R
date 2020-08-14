@@ -455,7 +455,7 @@ eqtp.grade.serv <- function(Base = Bulletins.paie,
   
   setwd(file.path(chemin.dossier.bases, "Effectifs"))
   
-  formater2(T [ , .(VAR = sum(quotite, na.rm = TRUE) / 12), by = c("Annee",  groupage(type, agr), "Service")],
+  formater2(T [ , .(VAR = sum(quotite, na.rm = TRUE) / 12), by = c("Annee",  groupage(type = "G", agr), "Service")],
             variation,
             fichier = "effectifs.serv.", 
             groupe = "Service", 
@@ -513,7 +513,7 @@ eqtp.grade.cat <- function(Base = Bulletins.paie,
   
   setwd(file.path(chemin.dossier.bases, "Effectifs"))
   
-  formater2(T [ , .(VAR = sum(quotite, na.rm = TRUE) / 12), by = c("Annee",  groupage(type, agr), "Categorie")], 
+  formater2(T [ , .(VAR = sum(quotite, na.rm = TRUE) / 12), by = c("Annee",  groupage(type = "C", agr), "Categorie")], 
             variation, 
             fichier = "effectifs.cat.", 
             groupe = "Categorie",
@@ -552,6 +552,7 @@ eqtp.grade.cat <- function(Base = Bulletins.paie,
 #' @param categorie Catégorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
 #' @param exclure.codes Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).  
 #' @param quotite.nulle [défaut FALSE] Si TRUE, lorsque la quotité est nulle, faire comme si elle valait 1. A n'utiliser que dans le cas de défauts de bases qui utilisent 0 pour les quotités de temps plein (attesté mais rare).
+#' @param type Type de groupage, par grade par défaut. 
 #' @return Un tableau des coûts moyen par agent et par grade mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
 #' charges.eqtp()
@@ -675,6 +676,7 @@ charges.eqtp.emploi <- function(Base = Paie,
 #' @param categorie Catégorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
 #' @param exclure.codes Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).  
 #' @param quotite.nulle [défaut FALSE] Si TRUE, lorsque la quotité est nulle, faire comme si elle valait 1. A n'utiliser que dans le cas de défauts de bases qui utilisent 0 pour les quotités de temps plein (attesté mais rare).
+#' @param type Type de groupage, par grade par défaut. 
 #' @return Un tableau des coûts chargés moyens par grade et service mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
 #' charges.eqtp.serv()
@@ -691,7 +693,8 @@ charges.eqtp.serv <- function(Base = Paie,
                           statut = NULL,
                           categorie = NULL,
                           exclure.codes = NULL,
-                          quotite.nulle = FALSE)  {
+                          quotite.nulle = FALSE,
+                          type = "G")  {
   
   curD <- getwd()
   
@@ -940,6 +943,7 @@ calcul.charges <- function(T, var, quotite.nulle, Gr) {
 #' @param categorie Catégorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
 #' @param exclure.codes Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).  
 #' @param quotite.nulle [défaut FALSE] Si TRUE, lorsque la quotité est nulle, faire comme si elle valait 1. A n'utiliser que dans le cas de défauts de bases qui utilisent 0 pour les quotités de temps plein (attesté mais rare).
+#' @param type Type de groupage, par grade par défaut.
 #' @return Un tableau des rémunérations nettes par grade mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
 #' net.eqtp()
@@ -1015,6 +1019,7 @@ net.eqtp <- function(Base = Paie,
 #' @param categorie Categorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
 #' @param exclure.codes Codes de paye à exclure pour le calcul du coût salarial (vecteur de chaînes de caractères).  
 #' @param quotite.nulle [défaut FALSE] Si TRUE, lorsque la quotité est nulle, faire comme si elle valait 1. A n'utiliser que dans le cas de défauts de bases qui utilisent 0 pour les quotités de temps plein (attesté mais rare).
+#' @param type Type de groupage, par grade par défaut. 
 #' @return Un tableau des rémunérations nettes par grade mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
 #' net.eqtp.serv()

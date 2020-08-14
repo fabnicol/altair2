@@ -48,7 +48,7 @@ Analyse.remunerations.exercice <- Analyse.remunerations[Annee == annee]
 #'   
 cat("**Exercice : ", annee, "**\n")
 #'      
-#'## 2.1 Masse salariale brute de l'ensemble des agents     
+#'## 2.1 Rémunérations brutes de l'ensemble des agents     
   
 masses.personnels <- Analyse.remunerations.exercice[Statut != "ELU",
                                                     .(Montant.brut.annuel = sum(Montant.brut.annuel, na.rm = TRUE),
@@ -112,7 +112,7 @@ print(Tableau.vertical2(c("Agrégats",
 #'
 
 #'   
-#'## 2.2 Masse salariale brute des fonctionnaires
+#'## 2.2 Rémunérations brutes des fonctionnaires
 #'
 #'*Cette section concerne les personnels fonctionnaires titulaires et stagiaires*  
 #'

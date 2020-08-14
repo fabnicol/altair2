@@ -453,7 +453,7 @@ private:
     QToolButton* killButton=new QToolButton;
     QTimer *timer= new QTimer(this);
     QProgressBar *bar=new QProgressBar ;
-    int startshift = 3;
+    int startshift = 5;
     void computeRProgressBar();
     void computeLHXParsingProgressBar();
     void computeLHXWritingProgressBar(bool = false);

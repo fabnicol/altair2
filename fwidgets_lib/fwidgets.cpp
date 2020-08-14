@@ -691,7 +691,7 @@ void FProgressBar::computeLHXWritingProgressBar(bool print_message)
 
     internalState = State::WritingStarted;
 
-    if (parent->fileRank >= 100) parent->fileRank = 0;
+    if (parent->fileRank >= 100) parent->fileRank = startshift;
 
     setValue(std::max(parent->fileRank, value()));
 
