@@ -68,14 +68,17 @@ generer_docx_odt <- function(pandoc,
   
   file.copy(c(outfile, outfile2), chemin.cle)
 
+  cle_outfile <- file.path(chemin.cle, outfile)
+  cle_outfile2 <- file.path(chemin.cle, outfile2)
+  
   if (ouvrir.document) {
     if (setOSWindows) {
       
-      shell(paste("start winword.exe",  file.path(chemin.cle, outfile)))
+      if (file.exists(cle_outfile)) shell(paste("start winword.exe",  cle_outfile))
       
     } else {
       
-      system(paste("lowriter",  file.path(chemin.cle, outfile2)))
+      if (file.exists(cle_outfile2)) system(paste("lowriter",  cle_outfile2))
     }
   }
 }

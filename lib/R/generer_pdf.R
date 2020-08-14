@@ -54,10 +54,12 @@ tex2pdf <- function(chemin_pandoc, infile = "altair.tex", outfile = "altair.pdf"
   
   file.copy(outfile, chemin.cle)
   
-  if (ouvrir.document) {
+  cle_outfile <- file.path(chemin.cle, outfile)
+
+  if (ouvrir.document && file.exists(cle_outfile)) {
     if (setOSWindows) {
       
-      shell(paste("start acrord32.exe",  file.path(chemin.cle, outfile)))
+       shell(paste("start acrord32.exe",  cle_outfile))
       
     } else {
       system(paste("okular", file.path(chemin.cle, outfile)))

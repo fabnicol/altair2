@@ -100,7 +100,7 @@ seuil.troncature               <- 2        # jours
 taux.tolerance.homonymie       <- 2        # en %
 quantile.cut                   <- 1        # en %
 minimum.positif                <- 0.5
-minimum.quotite                <- 0.1
+minimum.quotite                <- 0.05
 tolerance.variation.quotite    <- 0.05
 minimum.actif                  <- 100
 minimum.delta                  <- 5

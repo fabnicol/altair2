@@ -566,6 +566,15 @@ void Altair::runRAltair()
     outputDir.remove ("altaïr.pdf");
     outputDir.remove ("altaïr.odt");
     outputDir.remove ("altaïr.docx");
+    outputDir.remove ("altair.pdf");
+    outputDir.remove ("altair.odt");
+    outputDir.remove ("altair.docx");
+
+    QDir::setCurrent (path_access (SCRIPT_DIR));
+    QDir dir(".");
+    dir.setFilter(QDir::Files);
+    QFileInfoList list = dir.entryInfoList(QStringList("Rplots*.pdf") << "alta*r.docx" << "alta*r.pdf" << "alta*r.odt" << "alta*r.tex");
+    for (auto &&l : list) QFile::remove(l.fileName());
 
     if (parent->dialog &&  v(genererBudget).isFalse()) QDir(common::path_access (DONNEES_XHL)).remove("paye_budget.csv");
              
@@ -615,11 +624,6 @@ void Altair::runRAltair()
         }
 
 #endif
-    QDir::setCurrent (path_access (SCRIPT_DIR));
-    QDir dir(".");
-    dir.setFilter(QDir::Files);
-    QFileInfoList list = dir.entryInfoList(QStringList("Rplots*.pdf"));
-    for (auto &&l : list) QFile::remove(l.fileName());
 
     QDir::setCurrent (path_access (""));
     process.setWorkingDirectory (path_access (""));

@@ -177,14 +177,26 @@ quotites <- function() {
 
 rémunérations_eqtp <- function(DT) {
   
-  # DT[ ,   Montant.net.eqtp  := Net.a.Payer / quotite]
-  # DT[is.na(Montant.net.eqtp) | ! is.finite(Montant.net.eqtp),   Montant.net.eqtp  := 0]
-  # 
-  # DT[ ,   Montant.brut.eqtp  := Brut / quotite]
-  # DT[is.na(Montant.brut.eqtp) | ! is.finite(Montant.brut.eqtp),   Montant.brut.eqtp  := 0]
+  # Pour éviter les problèmes de qualité résultant de la divergence à l'infini d'une division par un dénominateur tendant vers 0
+  # on impose un minimum de quotité pour le calcul des EQTP. A défaut, on utilise la rémunération constatée.
+  # ceci pour éviter les difficultés liées aux données brutes
+  # ne concerne qu'un nombre réduit de cas, sauf si les quotités sont souvent abusivement nulles
   
-  DT[ , Montant.brut.eqtp := Brut]
-  DT[ , Montant.net.eqtp  := Net.a.Payer]
+  DT[  ,   Montant.net.eqtp  := Net.a.Payer]
+  DT[quotite > minimum.quotite,   Montant.net.eqtp  := Net.a.Payer / quotite]
+  
+  DT[  ,   Montant.brut.eqtp  := Brut]
+  DT[quotite > minimum.quotite,   Montant.brut.eqtp  := Brut / quotite]
+    
+  DT[ ,   `:=`(Statut.sortie   = Statut[length(Montant.net.eqtp)],
+               nb.jours        = calcul.nb.jours.mois(Mois, Annee[1]),
+               nb.mois         = length(Mois),
+               cumHeures       = sum(Heures, na.rm = TRUE),
+               quotite.moyenne = sum(quotite, na.rm = TRUE) / 12,
+               quotite.moyenne.orig = sum(Temps.de.travail, na.rm = TRUE) / 1200),
+                  
+                      key = .(Matricule, Annee)]
+  
   
   DT[ ,   `:=`(Statut.sortie   = Statut[length(Montant.net.eqtp)],
                nb.jours        = calcul.nb.jours.mois(Mois, Annee[1]),
@@ -426,13 +438,15 @@ Eliminer.duplications <- function() {
 
 Redresser.heures <- function() {
     
+    "nredressements" %a% 0
+  
     if (redresser.heures) {
       
-      # On ne peut pas inférer sur quotite Trav (Temps.de.travail) de manière générale
+    # On ne peut pas inférer sur quotite Trav (Temps.de.travail) de manière générale
 	  # car il s'agit d'une quotité de temps de travail théorique, ou contractuelle, et non effectivement constatée en service fait.
-      # Mais on peut exclure les cas dans lesquels les heures sont non renseignées, alors que soit la quotité théorique soit le traitement l'est,
-      # pour un paiement non nul et un indice connu
-      # (cette dernière condition afin d'éviter le redresser à tort des vacations à la tâche ou forfaitaire)
+    # Mais on peut exclure les cas dans lesquels les heures sont non renseignées, alors que soit la quotité théorique soit le traitement l'est,
+    # pour un paiement non nul et un indice connu
+    # (cette dernière condition afin d'éviter le redresser à tort des vacations à la tâche ou forfaitaire)
 	  # On part donc du principe que le service fait est régulier.
 	  # contrairement à l'approche juridicationnelle qui part du nombre d'heures comme élément de liquidation
       
@@ -456,14 +470,15 @@ Redresser.heures <- function() {
 	
 		  
           "Paie" %a% merge(Paie[ , Heures := NULL] , 
-		                   Bulletins.paie[, .(Matricule, 
-												Annee,
-												Mois,
-												Service,
-												Statut,
-												Emploi,
-												Heures), 
-												by = c("Matricule","Annee","Mois","Service", "Statut", "Emploi"))		  
+		                       Bulletins.paie[, .(Matricule, 
+                      												Annee,
+                      												Mois,
+                      												Service,
+                      												Statut,
+                      												Emploi,
+                      												Heures)], 
+												                         by = c("Matricule","Annee","Mois","Service", "Statut", "Emploi"))		  
+      }
 		
       message("Correction (méthode 1), compte tenu des temps complets vérifiés, sur ",
               nredressements, " bulletins de paie")
@@ -477,14 +492,14 @@ Redresser.heures <- function() {
                         & Indice != ""
                         & !is.na(Indice) 
                         & Statut != "ELU" 
-						& Grade != "V"
-						& Grade!= "A"
+            						& Grade != "V"
+            						& Grade!= "A"
                         & Temps.de.travail != 0
-						& !is.na(Temps.de.travail)
+            						& !is.na(Temps.de.travail)
                         & Type == "T"
-						& Montant > 0
+            						& Montant > 0
                         & grepl(".*salaire|trait.*", Libelle, perl=TRUE, ignore.case=TRUE)
-		 ][ , indic := any(indic), by = .(Matricule, Annee, Mois)]
+		      ][ , indic := any(indic), by = .(Matricule, Annee, Mois)]
       
       # attention ifelse pas if...else
       # La recherche binaire est 20 fois plus rapide que la recherche vscan (gain de 4s par million de lignes sur corei3)
@@ -501,13 +516,13 @@ Redresser.heures <- function() {
 	  
 	  Bulletins.paie[ , Heures := NULL]
 	  	      
-      "Bulletins.paie" %a% unique(Paie[ , c(names(Bulletins.paie),  "indic")])
+    "Bulletins.paie" %a% unique(Paie[ , c(names(Bulletins.paie),  "indic")])
       
-      "nredressements" %a% nrow(Bulletins.paie[indic == TRUE])
+    "nredressements" %a% nrow(Bulletins.paie[indic == TRUE])
 	  
 	  Bulletins.paie[, indic := NULL]
       
-      message("Correction (méthode 2), compte tenu des temps complets vérifiés, sur ", 
+    message("Correction (méthode 2), compte tenu des temps complets vérifiés, sur ", 
               nredressements, " lignes de paie")
   }
 }
@@ -584,7 +599,9 @@ importer_ <- function() {
                                       #skip = champ.détection.1,
                                       encoding = "UTF-8")
 
-  colonnes <- convertir.accents(colonnes)
+  convertir.accents(list(colonnes))
+  
+  colonnes <- names(colonnes)
   
   # Caractérise les données d'input : présence ou pas de certaines variables, identification des colonnes dans colonnes.classes.input 
   # et colonnes.bulletins.classes.input etc.

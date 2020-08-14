@@ -17,9 +17,6 @@ Tableau.vertical2       Tableau vertical 2
 adm                     Quotité administrative
 agrégat_annuel          Affichage du tableau des agrégats des primes A
                         et B, pour chaque année de période
-ajuster.médiane.temps.complet
-                        Ajuster la médiane des templs complets en
-                        heures
 altair                  Altaïr: un paquet pour analyser les bases de
                         paye XML.
 analyser                Analyse des contraintes principales associées à
