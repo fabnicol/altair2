@@ -260,7 +260,7 @@
 /// L'IDE Qt creator est livrée avec le compte administrateur de la plateforme. Une icône verte (Qt) est disposée sur le bureau et permet de lancer l'IDE.\n    
 /// Il est paramétré pour utiliser les bibliothèques et le compilateur indiqués dans les prérequis.\n    
 /// Au lancement de l'IDE :
-/// - cliquer sur Fichier > Ouvrir un fichier ou un projet > Sélectionner le fichier de projet altair.linux.pro dans le dossier `~/Dev/altair/Interface/gui`
+/// - cliquer sur Fichier > Ouvrir un fichier ou un projet > Sélectionner le fichier de projet lib.pro dans le dossier `~/Dev/altair/Interface/gui`
 /// - cliquer sur Fichier > Ouvrir un fichier ou un projet > Sélectionner le fichier de projet lhx.linux.pro dans le dossier `~/Dev/altair/lhx`
 /// - cliquer sur Fichier > Ouvrir un fichier ou un projet > Sélectionner le fichier de projet fwidgets_lib.pro dans le dossier `~/Dev/altair/fwidgets_lib`
 /// - cliquer sur Compiler > Exécuter qmake
@@ -272,7 +272,7 @@
 /// \section proc_other Avec les Makefile
 /// Les Makefile sont générés à chaque invocation de qmake.\n    
 /// Cet outil peut être utilisé manuellement comme suit :      
-/// - "/home/fab/Qt5.7/5.7/Src/qtbase/bin/qmake" /home/fab/Dev/altair/Interface/gui/altair.linux.pro -r -spec linux-g++     
+/// - "/home/fab/Qt5.7/5.7/Src/qtbase/bin/qmake" /home/fab/Dev/altair/Interface/gui/lib.pro -r -spec linux-g++     
 /// - "/home/fab/Qt5.7/5.7/Src/qtbase/bin/qmake" /home/fab/Dev/altair/lhx/lhx.linux.pro -r -spec linux-g++    
 /// - "/home/fab/Qt5.7/5.7/Src/qtbase/bin/qmake" /home/fab/Dev/altair/fwidgets_lib/fwidgets_lib.pro -r -spec linux-g++ \n     
 /// Puis, dans chaque répertoire contenant les fichiers .pro des trois lignes de commande ci-dessus, lancer `make -j8`.\n     
@@ -303,7 +303,7 @@
 ///   Une annexe propose quelques indicateurs d'appréciation de la fiabilité des bases de paye et des tableaux auxiliaires en lien, qui peuvent faciliter l'analyse personnalisée de certains aspects qui ne font pas l'objet d'un traitement automatisé.\n
 ///   Les rapports d'analyse sont accompagnés d'un dossier documentaire, qui comprend des notices méthodologiques et des documents de référence.<br>
 ///   Ils contiennent des liens hypertextes vers des fichiers auxiliaires au format CSV, qui précisent les analyses statistiques et réglementaires présentées dans le rapport.<br>
-/// Ces scripts d'extension .R sont distribués, pour certains, dans le répertoire racine et, pour la plupart d'entre eux, dans le répertoire \b Tests/Exemple.
+/// Ces scripts d'extension .R sont distribués, pour certains, dans le répertoire racine et, pour la plupart d'entre eux, dans le répertoire \b scripts/R.
 /// </li>
 /// </ul>
 /// \section sec2_docum La documentation des modules
@@ -339,8 +339,8 @@
 ///
 /// Le répertoire de génération de <i>défaut.alt</i> est celui dans lequel sont placées les données de paye du gestionnaire de fichiers (partie gauche de l'interface).\n
 /// Sauf spécification contraire de la constante de compilation #DONNEES_XHL, ce répertoire est en général :
-/// - \b ~/Dev/altair/Tests/Exemple/Donnees/xhl pour l'administrateur
-/// - \b ~/Dev/altair/Tests/Exemple/Donnees/xhl/<i>login</i> pour les autres utilisateurs.
+/// - \b ~/Dev/altair/scripts/R/Donnees/xhl pour l'administrateur
+/// - \b ~/Dev/altair/scripts/R/Donnees/xhl/<i>login</i> pour les autres utilisateurs.
 ///
 /// \section lancement_alt Chargement automatique d'un projet Altaïr dans l'interface graphique
 /// - Il est possible d'utiliser les fichiers de projet .alt pour lancer directement l'interface graphique, chargée des paramètres et données contenus dans le projet.\n
@@ -483,7 +483,7 @@
 ///         B="BUDGET PRINCIPAL"
 ///         E="ETABLISSEMENT
 ///         X" EM="EMPLOYEUR Y">
-///     /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/2011/01.xhl
+///     /home/fab/Dev/altair/scripts/R/Donnees/xhl/2011/01.xhl
 ///     </item>
 ///                                      Fichier de paye 01.xhl dans le répertoire xhl/2011 de rang 1, correspondant au Siret 28..., à un budget principal de l'établissement X de l'employeur Y.
 ///   </onglet>
@@ -493,7 +493,7 @@
 ///          B="BUDGET PRINCIPAL"
 ///          E="ETABLISSEMENT X"
 ///          EM="EMPLOYEUR Y">
-///     /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/2012/02.xhl
+///     /home/fab/Dev/altair/scripts/R/Donnees/xhl/2012/02.xhl
 ///     </item>
 ///                                      Fichier de paye 02.xhl dans le répertoire xhl/2012 du mois 1 (janvier), correspondant au Siret 28..., à un budget principal de l'établissement X de l'employeur Y.
 ///     <item V="1"
@@ -501,7 +501,7 @@
 ///          B="BUDGET ANNEXE FORMATION"
 ///          E="ETABLISSEMENT X"
 ///          EM="EMPLOYEUR Y">
-///      /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/2012/03.xhl
+///      /home/fab/Dev/altair/scripts/R/Donnees/xhl/2012/03.xhl
 ///      </item>
 ///                                      Fichier de paye 03.xhl dans le répertoire xhl/2012 du mois 1 (janvier), correspondant au Siret 28..., à un budget principal de l'établissement X de l'employeur Y.
 ///   <onglet V="Siret">                 Onglet des Siret
@@ -678,7 +678,7 @@
 ///  &nbsp;                              Pas de matricule saisi pour extraction d'un bulletin de paye donné. (3e ligne)
 ///  </MatriculesC>
 ///  <dossierBulletins profondeur="0">
-///   /home/fab/Dev/altair/Tests/Exemple/Donnees/Bulletins   Dossier d'extraction des bulletins de paye individuels.
+///   /home/fab/Dev/altair/scripts/R/Donnees/Bulletins   Dossier d'extraction des bulletins de paye individuels.
 ///  </dossierBulletins>
 /// </systeme>                           Fin des paramètres système.
 /// </projet>                            Fin du projet.

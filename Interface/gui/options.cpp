@@ -1068,7 +1068,9 @@ processPage::processPage()
             reinitialiser_prologue();
             file_str = common::readFile (prologue_options_path);
 #ifndef Q_OS_WIN
-            substituer("séquentiel *<- *FALSE", QString("séquentiel <- ") + (parallelCheckBox->isChecked() ? "FALSE" : "TRUE"), file_str);
+            substituer("sequentiel *<- *FALSE", QString("sequentiel <- ") + (parallelCheckBox->isChecked() ? "FALSE" : "TRUE"), file_str);
+#else
+            substituer("sequentiel *<- *TRUE", QString("sequentiel <- FALSE"), file_str);
 #endif
             substituer("ouvrir.document *<- *TRUE", QString("ouvrir.document <- ") + (openCheckBox->isChecked() ? "TRUE" : "FALSE"), file_str);
             renommer (dump (file_str), prologue_options_path);
@@ -1318,8 +1320,8 @@ extraPage::extraPage()
     mainLayout->addWidget (ifseBox);
 
 #endif
-    mainLayout->addSpacing (250);
 
+    mainLayout->addSpacing (250);
                 
     setLayout (mainLayout);
 }

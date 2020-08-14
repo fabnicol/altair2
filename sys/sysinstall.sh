@@ -71,7 +71,7 @@ if test -f sys/install.data; then
   git checkout FETCH_HEAD -- data
   cp -rf data /home/jf/Dev/altair
   rm -f sys/Rlibrary/altair/data/*
-  rm -f altair.linux/data/*
+  rm -f lib/data/*
   rm -f altair/data/*
 fi  
 
@@ -250,7 +250,7 @@ if test -f sys/build.altair; then
   rm -rf /usr/local/lib64/R/library/altair
   rm -rf /usr/lib64/R/library/altair
   
-  R CMD INSTALL --byte-compile  -l  /usr/local/lib64/R/library/ altair.linux
+  R CMD INSTALL --byte-compile  -l  /usr/local/lib64/R/library/ lib
   echo "*************************************"
   echo "*                                   *"
   echo "* Nouvelle bibliothèque altair      *"
@@ -310,20 +310,20 @@ fi
 
 # patch temporaire
 
-cp -f /home/fab/Dev/altair/prologue_rapport.R /home/jf/Dev/altair
-chown jf /home/jf/Dev/altair/prologue_rapport.R
-chgrp users /home/jf/Dev/altair/prologue_rapport.R
-chmod +rwx /home/jf/Dev/altair/prologue_rapport.R
+cp -f /home/fab/Dev/altair/scripts/R/prologue_rapport.R /home/jf/Dev/altair
+chown jf /home/jf/Dev/altair/scripts/R/prologue_rapport.R
+chgrp users /home/jf/Dev/altair/scripts/R/prologue_rapport.R
+chmod +rwx /home/jf/Dev/altair/scripts/R/prologue_rapport.R
 
 # création du dossier Bulletins sous jf
 
-mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
-chgrp -R users /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
-chmod -R 0770 /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
+mkdir -p /home/jf/Dev/altair/scripts/R/Donnees/Bulletins
+chgrp -R users /home/jf/Dev/altair/scripts/R/Donnees/Bulletins
+chmod -R 0770 /home/jf/Dev/altair/scripts/R/Donnees/Bulletins
              
 
-if test ! -d /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl ; then
-   mkdir -p /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
+if test ! -d /home/fab/Dev/altair/scripts/R/Donnees/xhl ; then
+   mkdir -p /home/fab/Dev/altair/scripts/R/Donnees/xhl
 fi   
 
 # script exécuté à la fin d'une session plasma (démontage de la clé)
@@ -353,7 +353,7 @@ do
 	if test -d /home/$i; then
 		# intégration de l'icone dans le menu développement + clic sur projet *.alt
 		mkdir -p /home/$i/.local/share/applications
-		mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/xhl/$i
+		mkdir -p /home/jf/Dev/altair/scripts/R/Donnees/xhl/$i
 		_copy mimeapps.list   /home/$i/.config/
 		_copy mimeapps.list   /home/$i/.local/share/applications
 		_copy images          /home/$i/.local/share/Altair     
@@ -382,7 +382,7 @@ do
             sed -i "s/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl\/fab/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl/" temp2
             _copy Altair.desktop  /home/fab/Desktop/Altaïr.desktop	
             _copy Altair.desktop  /home/fab/.local/share/applications
-			chown -R fab /home/fab/Dev/altair/Tests/Exemple/Donnees
+			chown -R fab /home/fab/Dev/altair/scripts/R/Donnees
         fi
 
         chown -R $i      /home/$i/Dev/altair/.Rproj.user
@@ -463,36 +463,36 @@ fi
 
 rm -rf .Rproj.user/
 cp -rf /home/Public/fab/.Rproj.user .
-mkdir -p Tests/Exemple/Donnees/R-Altair
+mkdir -p scripts/R/Donnees/R-Altair
 rm -rf /home/jf/Dev/altair
 cp -rf /home/fab/Dev/altair  /home/jf/Dev/
 chown -R jf   /home/jf/Dev/altair
 chgrp -R users /home/jf/Dev/altair
 chmod -R 0770  /home/jf/Dev/altair
 
-mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/R-Altair
+mkdir -p /home/jf/Dev/altair/scripts/R/Donnees/R-Altair
 
-chgrp -R users /home/jf/Dev/altair/Tests/Exemple/Donnees/
-chmod -R 0770 /home/jf/Dev/altair/Tests/Exemple/Donnees/
+chgrp -R users /home/jf/Dev/altair/scripts/R/Donnees/
+chmod -R 0770 /home/jf/Dev/altair/scripts/R/Donnees/
 
 # création du dossier Bulletins sous jf
 
-mkdir -p /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
-chgrp -R users /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
-chmod -R 0770 /home/jf/Dev/altair/Tests/Exemple/Donnees/Bulletins
+mkdir -p /home/jf/Dev/altair/scripts/R/Donnees/Bulletins
+chgrp -R users /home/jf/Dev/altair/scripts/R/Donnees/Bulletins
+chmod -R 0770 /home/jf/Dev/altair/scripts/R/Donnees/Bulletins
 
 git checkout -f master-jf 
 
 # accès des données test
-if test ! -d /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl ; then
-   mkdir -p /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
+if test ! -d /home/fab/Dev/altair/scripts/R/Donnees/xhl ; then
+   mkdir -p /home/fab/Dev/altair/scripts/R/Donnees/xhl
 fi  
 
 chown -R fab .
 chgrp -R users .
 
-cp -f /home/fab/Dev/altair/Docs/Exemple/Anonyme2.7z  /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl
-cp -f /home/fab/Dev/altair/Docs/Exemple/Anonyme2.7z  /home/jf/Dev/altair/Tests/Exemple/Donnees/xhl 
+cp -f /home/fab/Dev/altair/Docs/Exemple/Anonyme2.7z  /home/fab/Dev/altair/scripts/R/Donnees/xhl
+cp -f /home/fab/Dev/altair/Docs/Exemple/Anonyme2.7z  /home/jf/Dev/altair/scripts/R/Donnees/xhl 
 
 echo "*** Opérations sur branche release : Terminé ***"
  

@@ -14,7 +14,7 @@ Dépendances R : automatiquement installées par
 
 dans altair/ :
 
-  R CMD INSTALL altair.linux
+  R CMD INSTALL lib
 (sous Windows :  R CMD INSTALL altair)  
 
   R CMD INSTALL sft

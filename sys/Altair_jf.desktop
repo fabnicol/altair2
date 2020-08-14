@@ -5,7 +5,7 @@ Comment=
 Exec=LD_LIBRARY_PATH=/opt/lib64  /home/jf/Dev/altair/Interface_linux/gui/x64/Altair
 GenericName[fr_FR]=
 GenericName=
-Icon=/home/jf/Dev/altair/Tests/Exemple/neptune.png
+Icon=/home/jf/Dev/altair/scripts/R/neptune.png
 MimeType=application/alt;
 Name[fr_FR]=Altaïr
 Name=Altaïr

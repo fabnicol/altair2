@@ -33,6 +33,8 @@ extraire_paye	extraire_paye
 filtre	filtre
 filtrer_Paie	filtrer_Paie
 FR	FR
+generer_docx_odt	generer_docx_odt
+generer_pdf	generer_pdf
 importer	importer
 importer_base_ifse	importer_base_ifse
 importer_base_logements	importer_base_logements
@@ -55,12 +57,14 @@ quotites	quotites
 Read.csv	Read.csv
 read.csv.skip	read.csv.skip
 Redresser.heures	Redresser.heures
+rendre	rendre
 Resume	Resume
 rémunérations_eqtp	r-mun-rations_eqtp
 Sauv.base	Sauv.base
 sauv.bases	sauv.bases
 sauvebase	sauvebase
 SFT_sans_enfant	SFT_sans_enfant
+smic.net	smic.net
 smpt	smpt
 system.quote	system.quote
 Tableau	Tableau
@@ -72,5 +76,6 @@ tester.homogeneite.matricules	tester.homogeneite.matricules
 test_avn	test_avn
 test_plafonds	test_plafonds
 test_prime	test_prime
+tex2pdf	tex2pdf
 type.données	type.donn-es
 évolution_agrégat	volution_agr-gat

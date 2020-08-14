@@ -1,6 +1,6 @@
-Copyright  Cour des comptes, 2017, sauf mentions contraires dans le code source
+Copyright  Cour des comptes, 2014-2020, sauf mentions contraires dans le code source
 Contributeur : 
-Fabrice Nicol, années 2012 à 2017
+Fabrice Nicol, années 2012 à 2020
 fabrice.nicol@crtc.ccomptes.fr
 
 Ce logiciel est un programme informatique servant à extraire et analyser les 

@@ -167,7 +167,7 @@ linux:INCLUDEPATH += /usr/include/libxml2
 
 linux:QMAKE_LFLAGS += -L/usr/lib/x86_64-linux-gnu/ -L/usr/lib/ -L/usr/lib64
 
-windows:LIBS =   -lstdc++fs -static-libgcc -static-libstdc++ -pthread  C:\msys64\mingw64\lib\libxml2.dll.a C:\msys64\mingw64\lib\libxml2.a   -lz -llzma -liconv -LC:\msys64\mingw64\bin -LC:\msys64\mingw64\lib
+windows:LIBS =   -lstdc++fs -static-libgcc -static-libstdc++ -pthread C:\msys64\mingw64\lib\libxml2.dll.a C:\msys64\mingw64\lib\libxml2.a   -lz -llzma -liconv -LC:\msys64\mingw64\bin -LC:\msys64\mingw64\lib
 linux:LIBS =   -lstdc++fs -static-libgcc -static-libstdc++ -pthread  /usr/lib/x86_64-linux-gnu/libxml2.a   -lz -llzma -licuuc#-liconv
 
 SOURCES += \

@@ -28,14 +28,14 @@ udisksctl unmount --force --no-user-interaction --block-device  $cle
 # Il faut effacer le lien symbolique pour éviter des problème de conflits potentiels de clés si les clés changent entre deux connexions
 # Il sera recréé à la prochaine connection
 
-if test -h ~/Dev/altair/Tests/Exemple/Donnees/R-Altair; then
-  rm ~/Dev/altair/Tests/Exemple/Donnees/R-Altair
+if test -h ~/Dev/altair/scripts/R/Donnees/R-Altair; then
+  rm ~/Dev/altair/scripts/R/Donnees/R-Altair
 else
 
 #  Il faut effacer les donssiers "durs" qui pourraient avoir été créés en l'absence de clé. En effet la création d'un lien symbolique pourrait échouer "par dessus"
 
-  if test -d ~/Dev/altair/Tests/Exemple/Donnees/R-Altair; then
-    rm -rf ~/Dev/altair/Tests/Exemple/Donnees/R-Altair
+  if test -d ~/Dev/altair/scripts/R/Donnees/R-Altair; then
+    rm -rf ~/Dev/altair/scripts/R/Donnees/R-Altair
   fi
 fi
 

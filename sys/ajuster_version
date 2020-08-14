@@ -20,11 +20,11 @@ start() {
     do 
         if test -d /home/$i; then
 
-             if test -d "/home/$i/Dev/altair/Tests/Exemple/altair_files"; then
-                rm -rf "/home/$i/Dev/altair/Tests/Exemple/altair_files"
+             if test -d "/home/$i/Dev/altair/scripts/R/altair_files"; then
+                rm -rf "/home/$i/Dev/altair/scripts/R/altair_files"
              fi
-             if test -d "/home/$i/Dev/altair/Tests/Exemple/Donnees/R-Altair"; then
-                rm -rf "/home/$i/Dev/altair/Tests/Exemple/Donnees/R-Altair"
+             if test -d "/home/$i/Dev/altair/scripts/R/Donnees/R-Altair"; then
+                rm -rf "/home/$i/Dev/altair/scripts/R/Donnees/R-Altair"
              fi
              chgrp -R users /home/$i/.local/share/applications
         fi
@@ -99,7 +99,7 @@ start() {
   
       git fetch -p -n --depth=1 origin master-jf | tee -a /home/Public/version.log
         
-        for i in altair.linux sft data Docs Interface fwidgets_lib lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'Tests/Exemple' 'Tests/Exemple/Docs' sys
+        for i in lib sft data Docs Interface fwidgets_lib lhx Interface_linux linux '*.txt' '*.R' '*.sh' '*.desktop' VERSION LICENCE '*.ico' '*.bmp' '*.png'  postinstall.sh altaïr.Rproj 'scripts/R' 'scripts/R/Docs' sys
         do
             rm -rf "$i"
             git checkout FETCH_HEAD -- "$i" 
@@ -136,7 +136,7 @@ start() {
         echo "****"
         
   
-        chmod 0770 /home/jf/Dev/altair/Tests/Exemple/*.*
+        chmod 0770 /home/jf/Dev/altair/scripts/R/*.*
         chmod 0770 -R /home/jf/Dev/altair/Interface_linux/gui/x64
         chmod 0770 /home/jf/Dev/altair/*.*
         chgrp -R users /home/jf/Dev/altair
@@ -167,7 +167,7 @@ start() {
 	         find "/home/$i/Desktop/" -name '*.docx' -delete
              cp -f "/home/fab/Dev/altair/Docs/Guide utilisateurs.pptx" /home/$i/Desktop
 	         cp -f "/home/fab/Dev/altair/Docs/Documentation du projet.docx" /home/$i/Desktop
-             chown -R $i "/home/$i/Dev/altair/Tests/Exemple/Donnees/xhl/$i"
+             chown -R $i "/home/$i/Dev/altair/scripts/R/Donnees/xhl/$i"
              cp -rvf /home/Public/.rstudio-desktop /home/$i
              chown -R $i /home/$i/.rstudio-desktop
              chgrp -R users /home/$i/.rstudio-desktop

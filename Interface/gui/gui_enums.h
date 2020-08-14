@@ -76,7 +76,7 @@ static constexpr const int  TYPE_LOOP_LIMIT = 50;
 
 /// Répertoire principal des scripts R
 
-#  define SCRIPT_DIR "Tests/Exemple/"
+#  define SCRIPT_DIR "scripts/R/"
 #endif
 
 #ifndef DONNEES

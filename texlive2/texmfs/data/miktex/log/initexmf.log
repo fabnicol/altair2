@@ -386,3 +386,18 @@
 2020-08-11 19:07:44,635+0200 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
 2020-08-11 19:07:44,680+0200 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
 2020-08-11 19:08:50,223+0200 INFO  initexmf - this process (3656) finishes with exit code 0
+2020-08-14 06:10:02,466+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.7 Portable)
+2020-08-14 06:10:02,466+0200 INFO  initexmf - this process (5532) started by 'cmd' with command line: C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\initexmf.exe -u
+2020-08-14 06:10:02,466+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-14 06:10:02,466+0200 INFO  initexmf - Creating fndb for common root directory (C:\Users\Public\Dev\altair\texlive2\texmfs/config)...
+2020-08-14 06:10:02,591+0200 INFO  initexmf - Creating fndb for common root directory (C:\Users\Public\Dev\altair\texlive2\texmfs/data)...
+2020-08-14 06:10:02,654+0200 INFO  initexmf - Creating fndb for common root directory (C:\Users\Public\Dev\altair\texlive2\texmfs\install)...
+2020-08-14 06:10:05,326+0200 WARN  initexmf.packagemanager - dependancy problem: miktex-doc-2.9 is required by _miktex-packages-2.9
+2020-08-14 06:10:05,373+0200 INFO  initexmf - Creating fndb for MPM...
+2020-08-14 06:10:07,154+0200 INFO  initexmf - this process (5532) finishes with exit code 0
+2020-08-14 06:19:02,761+0200 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.7 Portable)
+2020-08-14 06:19:02,761+0200 INFO  initexmf - this process (8292) started by 'pdflatex' with command line: initexmf --enable-installer --dump-by-name=pdflatex --engine=pdftex
+2020-08-14 06:19:02,762+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2020-08-14 06:19:02,775+0200 INFO  initexmf - running: miktex-makefmt.exe --engine=pdftex --dest-name=pdflatex --no-dump pdflatex.ini --engine-option=-tcx=cp227.tcx --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-14 06:19:02,818+0200 INFO  initexmf.core - start process: miktex-makefmt.exe --engine=pdftex --dest-name=pdflatex --no-dump pdflatex.ini --engine-option=-tcx=cp227.tcx --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2020-08-14 06:19:06,560+0200 INFO  initexmf - this process (8292) finishes with exit code 0

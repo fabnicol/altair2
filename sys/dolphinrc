@@ -16,7 +16,7 @@ FontWeight=50
 Favorites=
 
 [General]
-HomeUrl=/home/utilisateur/Dev/altair/Tests/Exemple/Donnees/xhl/utilisateur
+HomeUrl=/home/utilisateur/Dev/altair/scripts/R/Donnees/xhl/utilisateur
 SplitView=true
 Version=200
 ViewPropsTimestamp=2016,11,27,6,38,9

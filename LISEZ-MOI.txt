@@ -32,11 +32,7 @@ dans le répertoire Altair.
 Une interface utilisateur s'affiche qui permet d'exécuter l'extraction des
 données de paye des fichiers .xhl pour les convertir en fichiers plats .csv
 
-Pour l'installation avancée, une interface d'exécution du script R est utilisée,
-l'interface RStudio.
-Pour l'installation minimale, cette deuxième interface n'est pas installée.
-
-Interface RStudio
+Interface RStudio (sous Linux)
 -----------------------
 
 1. L'interface Altaïr permet le lancement de l'interface RStudio pour afficher 
@@ -59,8 +55,8 @@ LINUX:
   fichier  'rapport_msword.R'  dans la fenêtre supérieure gauche. 
   Sinon, dans la fenêtre inférieure droite, cliquer sur le fichier 
 
-               Altair\Tests\Exemple\rapport_msword.R
-
+       rapport_msword.R
+  dans scripts/R.
   Pour les lancements suivants de l'interface RStudio, cette opération de 
   sélection de fichier ne sera plus nécessaire.
 
@@ -74,13 +70,7 @@ LINUX:
   possible de produire les deux types de rapport en même temps avec le fichier 
   rapport_msword_pdf.R
 
-  Le rapport d'exécution est généré dans le dossier :
-
-               Altair\Tests\Exemple
-
-  Les bases de données sont produites dans le dossier :
-
-               Altair\Tests\Exemple\Bases
+  Le rapport d'exécution et les bases de données sont générés dans le dossier clé R-Altair.
 
 Il est possible de visualiser sous Excel ou Wordpad les bases liées par
 des liens hypertextes dans les rapports (.pdf, .docx, .html)
@@ -216,5 +206,5 @@ Historique
 				
      mars 2017  Déploiement de l'extracteur de données et de l'interface graphique.				
 septembre 2017  Finalisation de la version de production du modules de production des rapports.
-
+juillet 2020    Dernière actualisation du projet.
 

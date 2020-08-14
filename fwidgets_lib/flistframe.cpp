@@ -198,30 +198,19 @@ void FListFrame::clearWidgetContainer()
 }
 
 
-void FListFrame::launch_thread(unsigned long rank)
+void FListFrame::launch_thread(int rank, const QString& s)
 {
-    if (isTerminated || size == 0 || rank >= static_cast<unsigned long>(size)) return;
+    Worker* w = new Worker(rank, s);
+    QThread *t = new QThread;
 
-    // Ajouter un fil d'exécution à la liste des fils thread
 
-    thread.push_back(new QThread);
-
-    const QString& fileName = stringList.at(static_cast<int>(rank));
-
-    // Démarrer le fil et lui faire lire l'entête du fichier XHL en cours
-
-    thread[rank]->start();
-    connect(thread[rank], &QThread::started, [this, fileName] {
-        //parseXhlFile(fileName);
-    });
-
-    // Lorsque le fil a fini de lire l'année, le mois etc. le signal parsed() est émis et le fil doit être arrêté
-
-    connect(this, SIGNAL(parsed()), thread[rank], SLOT(quit()), Qt::DirectConnection);
-
-    // Dès lors on peut passer au fil suivant et au fichier suivant
-
-    connect(thread[rank], &QThread::finished, [this, rank] { if (! isTerminated) launch_thread(rank + 1); });
+    W.push_back(w);
+    Threads.push_back(t);
+    w->moveToThread(t);
+    connect(t, &QThread::finished, W[rank], &QObject::deleteLater);
+    connect(t, &QThread::started,  w, &Worker::doWork);
+    connect(w, &Worker::resultReady, this, &FListFrame::handleResults);
+    t->start();
 
     // Cette fonction pourrait être optimisée en ne lançant pas les fils d'exécution de manière successive mais par par groupe avec plusieurs fils parallèles dans chaque groupe
 }
@@ -234,12 +223,18 @@ void Worker::parseXhlFile(const QString& fileName)
     QFile file(fileName);
     long long ligne = 0;
     bool result = file.open(QIODevice::ReadOnly);
-    //if (! file.isOpen())
-      //       emit(textAppend(ERROR_HTML_TAG "Erreur à  l'ouverture du fichier."));
+    if (! file.isOpen())
+    {
+        mutex.lock();
+        emit(textAppend(ERROR_HTML_TAG "Erreur à  l'ouverture du fichier."));
+        mutex.unlock();
+    }
 
     if (result == false || file.size()== 0)
     {
-        //emit(textAppend(WARNING_HTML_TAG "Fichier vide."));
+        mutex.lock();
+        emit(textAppend(WARNING_HTML_TAG "Fichier vide."));
+        mutex.unlock();
         return;
     }
 
@@ -293,16 +288,17 @@ void Worker::parseXhlFile(const QString& fileName)
     }
     else
     {
-        //if (! string.toUpper().contains("DONNEESINDIV")) emit(textAppend(WARNING_HTML_TAG "Pas de données individuelles"));
-        //if (! string.toUpper().contains("PAYEINDIVMENSUEL")) emit(textAppend(WARNING_HTML_TAG "Pas de payes individuelles"));
+        mutex.lock();
+        if (! string.toUpper().contains("DONNEESINDIV")) emit(textAppend(WARNING_HTML_TAG "Pas de données individuelles"));
+        if (! string.toUpper().contains("PAYEINDIVMENSUEL")) emit(textAppend(WARNING_HTML_TAG "Pas de payes individuelles"));
 
-        //emit(textAppend(WARNING_HTML_TAG "L'entête DocumentPaye... du fichier "
-          //              + fileName +
-            //            " est non conforme à l'annexe de la convention cadre de dématérialisation."));
+        emit(textAppend(WARNING_HTML_TAG "L'entête DocumentPaye... du fichier "
+                        + fileName +
+                       " est non conforme à l'annexe de la convention cadre de dématérialisation."));
 
         //      DocumentPaye.*(?:Annee) V.?=.?" QUOTE "([0-9]+)" QUOTE ".*(?:Mois) V.?=.?" QUOTE "([0-9]+)" QUOTE "(.*)(?:Employeur).*(?:Nom) V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret) V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE ".*DonneesIndiv(.*)PayeIndivMensuel")
 
-        mutex.lock();
+
         Hash::Budget[fileName] = "";
         Hash::Annee[fileName] = "Inconnu";
         Hash::Mois[fileName]  = "Inconnu";
@@ -366,12 +362,19 @@ out :
    file.close();
 
    if (file.isOpen())
-            //emit(textAppend(ERROR_HTML_TAG " Erreur à  la fermeture du fichier."));
+   {
+       mutex.lock();
+       emit(textAppend(ERROR_HTML_TAG " Erreur à  la fermeture du fichier."));
+       mutex.unlock();
+   }
 
    if (file.error() != QFileDevice::NoError)
-         //emit(textAppend(WARNING_HTML_TAG " Erreur de fichier."));
+   {
+       mutex.lock();
+       emit(textAppend(WARNING_HTML_TAG " Erreur de fichier."));
+       mutex.unlock();
+   }
 
-   //emit(parsed());
    return;
 }
 
@@ -383,7 +386,6 @@ void FListFrame::parseXhlFile()
     size = stringList.size();
 
     // L'usage de threads est indiqué pour éviter un freeze de l'interface graphique
-    // pendant que le disque optique est parcouru pour examiner les entêtes
 
     const QString cdROM = tools::cdRomMounted();
 
@@ -394,22 +396,10 @@ void FListFrame::parseXhlFile()
                                                  | QDir::Files
                                                  | QDir::NoDotAndDotDot).isEmpty())
      {
-        std::vector<Worker*> W;
 
         for (const QString &s: stringList)
         {
-                    Worker* w = new Worker(rank, s);
-                    QThread *t = new QThread;
-
-#if 1
-                    W.push_back(w);
-                    T.push_back(t);
-                    w->moveToThread(t);
-                    connect(t, &QThread::finished, W[rank], &QObject::deleteLater);
-                    connect(t, &QThread::started,  w, &Worker::doWork);
-                    connect(w, &Worker::resultReady, this, &FListFrame::handleResults);
-                    t->start();
-#endif
+                 launch_thread(rank, s);
 
                     ++rank;
 #           ifdef HAVE_APPLICATION
@@ -438,7 +428,13 @@ void FListFrame::parseXhlFile()
     emit(showProgressBar());
 #endif
 
-    launch_thread(0);
+    launch_thread(0, stringList.at(0));
+
+    while (rank < size)
+    {
+        ++rank;
+        connect(W.back(), &Worker::resultReady, [this, rank] { if (! isTerminated) launch_thread(rank + 1, stringList.at(rank)); });
+     }
 
         #ifdef DEBUG_INPUT_FILES
            app->outputTextEdit->append(PROCESSING_HTML_TAG "Analyse du fichier n°" + QString::number(rank));
@@ -453,10 +449,10 @@ void FListFrame::parseXhlFile()
 
      connect(timer, &QTimer::timeout, [&, timer] {
                      int test = 0;
-                     for (QThread *t : thread)
+                     for (Worker *t : W)
                      {
                          if (t)
-                             test += t->isFinished() ;
+                             test += static_cast<int>(t->isFinished());
                      }
 
                      #ifdef HAVE_APPLICATION
@@ -476,6 +472,9 @@ void FListFrame::parseXhlFile()
          use_threads = false;
          importFromMainTree->show();
      });
+
+     for (Worker* w : W)
+       connect(w, SIGNAL(textAppend(const QString&)), this, SLOT(textAppend(const QString&)));
 
      timer->start(PROGRESSBAR_TIMEOUT);
 
@@ -925,7 +924,7 @@ void FListFrame::on_importFromMainTree_clicked()
 void FListFrame::on_file_display(const QString& file)
 {
 #ifdef Q_OS_WIN
-    QString strnotepad = tools::path_access("Outils/npp/notepad++.exe");
+    QString strnotepad = tools::path_access("npp/notepad++.exe");
 #else
     QString strnotepad = "/usr/bin/kate";
 #endif
@@ -1000,7 +999,7 @@ void FListFrame::finalise()
     {
         // Terminer les fils d'exécution s'il y en a.
 
-        for (QThread* t : thread)
+        foreach (QThread* t, Threads)
         {
           t->terminate();
           t->wait();

@@ -9,8 +9,8 @@
     "id" : "2E2D7DC5",
     "lastKnownWriteTime" : 1503665154,
     "last_content_update" : 1503665154,
-    "path" : "~/Dev/altair/Tests/Exemple/rapport_msword.R",
-    "project_path" : "Tests/Exemple/rapport_msword.R",
+    "path" : "~/Dev/altair/scripts/R/rapport_msword.R",
+    "project_path" : "scripts/R/rapport_msword.R",
     "properties" : {
     },
     "relative_order" : 2,

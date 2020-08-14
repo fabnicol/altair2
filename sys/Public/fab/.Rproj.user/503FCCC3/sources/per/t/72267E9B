@@ -9,8 +9,8 @@
     "id" : "72267E9B",
     "lastKnownWriteTime" : 1483923328,
     "last_content_update" : 1483923328,
-    "path" : "~/Dev/altair/Tests/Exemple/rapport_pdf.R",
-    "project_path" : "Tests/Exemple/rapport_pdf.R",
+    "path" : "~/Dev/altair/scripts/R/rapport_pdf.R",
+    "project_path" : "scripts/R/rapport_pdf.R",
     "properties" : {
     },
     "relative_order" : 3,

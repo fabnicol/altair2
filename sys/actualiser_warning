@@ -6,8 +6,8 @@ do
   a=$(rc-status | grep ajuster_version | grep starting)
 
     if test "y$a" != "y"; then
-    chmod +x  /home/fab/Dev/altair/linux/warning
-    exec /home/fab/Dev/altair/linux/warning
+    chmod +x  /home/fab/Dev/lib/warning
+    exec /home/fab/Dev/lib/warning
     fi
     sleep 60
     a=$(rc-status | grep ajuster_version | grep starting)

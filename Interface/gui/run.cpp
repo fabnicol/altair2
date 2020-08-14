@@ -528,32 +528,25 @@ void Altair::run()
 
 void Altair::initRAltairCommandStr()
 {
-#ifdef LOCAL_BINPATH
-#  ifdef MINIMAL
 
-     RAltairDirStr = path_access ("R/bin/x64");
-     // Passer les '/' soit avec QDir::toNativeSeparators() soit utiliser QDir::separator() sous Windows.
-     RAltairCommandStr = RAltairDirStr + QDir::separator() + "Rscript" + QString (systemSuffix);
 
-#  else
-
-#    ifdef __WIN32__
+#ifdef Q_OS_WIN
 
         /// Ligne de commande permettant de lancer RStudio
-        RAltairDirStr = path_access ("RStudio");
-        RAltairCommandStr = RAltairDirStr + QDir::separator() + "bin" + QDir::separator() + "rstudio" + QString (systemSuffix) ;
+        RAltairDirStr = path_access ("R-devel");
+        RAltairCommandStr = RAltairDirStr + QDir::separator() + "bin" + QDir::separator() + "RScript" + QString (systemSuffix) ;
 
-#    else
-
+#else
+#  ifdef LOCAL_BINPATH
         /// Ligne de commande permettant de lancer RStudio
         RAltairCommandStr = QString ("/usr/bin/rstudio");
-
-#    endif
-#  endif
-#else
+#  else
         RAltairDirStr = QString ("/lib/rstudio/bin");
         RAltairCommandStr = PREFIX + RAltairDirStr + QString ("rstudio"); ///< Ligne de commande permettant de lancer RStudio
+
+#  endif
 #endif
+
 }
 
 void Altair::runRAltair()
@@ -563,7 +556,7 @@ void Altair::runRAltair()
     initRAltairCommandStr();
     textAppend (tr (STATE_HTML_TAG "Création du rapport d'analyse des données..."));
 
-    process.setWorkingDirectory (path_access ("Tests/Exemple"));
+    process.setWorkingDirectory (path_access ("scripts/R"));
 
     process.setProcessChannelMode (QProcess::MergedChannels);
 
@@ -580,6 +573,7 @@ void Altair::runRAltair()
     // if (static_cast<flags::status>(commandLineType & static_cast<int>(flags::status::excludeMask))
     //    != flags::status::excluded)  Abstract::abstractWidgetList.append(this);
     // Il faut donc invoquer les widgets directement en cas de changement
+
 
 #ifndef Q_OS_WIN
     if (! parent->dialog->processTab->enchainerRapports->isChecked())
@@ -605,10 +599,7 @@ void Altair::runRAltair()
             path_access_rapport = path_access (SCRIPT_DIR "rapport_msword_et_pdf.R");
         }
 
-#ifdef Q_OS_WINDOWS
-    RAltairDirStr = path_access ("R-devel/bin/x64");
-    RAltairCommandStr = RAltairDirStr + QDir::separator() + "Rscript" + QString (systemSuffix);
-#else
+#ifndef Q_OS_WINDOWS
 
     bool global_R = QFileInfo ("/usr/bin/Rscript").exists();
     bool local_R = QFileInfo ("/usr/local/bin/Rscript").exists();
@@ -624,8 +615,14 @@ void Altair::runRAltair()
         }
 
 #endif
-    process.setWorkingDirectory (path_access (""));
+    QDir::setCurrent (path_access (SCRIPT_DIR));
+    QDir dir(".");
+    dir.setFilter(QDir::Files);
+    QFileInfoList list = dir.entryInfoList(QStringList("Rplots*.pdf"));
+    for (auto &&l : list) QFile::remove(l.fileName());
+
     QDir::setCurrent (path_access (""));
+    process.setWorkingDirectory (path_access (""));
     process.start (RAltairCommandStr + " " + path_access_rapport);
 
     if (process.waitForStarted())
@@ -668,6 +665,7 @@ void Altair::processFinished (exitCode code)
 
         default :
             textAppend (PROCESSING_HTML_TAG  + tr (" Terminé."));
+
         }
 
     if (process.exitStatus() == QProcess::CrashExit) return;
@@ -709,7 +707,7 @@ void Altair::killProcess()
 
             // Terminer les fils d'exécution s'il y en a
 
-            for (QThread *t :  project->thread)
+            for (QThread *t :  project->Threads)
                 {
                     if (t)
                         {

@@ -1,22 +1,10 @@
 Pour lancer un test, ouvrir l'interface à l'aide de l'icône de raccourci
 sur le bureau ou dans le menu démarrer.
-Sélectionner Fichier > Ouvrir le projet .alt 
-puis :
 
-  Tests\Exemple\Projets\anonyme[2].alt 
-
-ou :
-
-    Tests\Exemple\Projets\anonyme.minimal[2].alt
-    pour l'interface minimale.
-
-OU BIEN :
-
-Importer un des deux répertoires  :
+Importer un répertoires par exemple :
    
     Tests\Exemple\Donnees\xhl\Anonyme
-    ou Tests\Exemple\Donnees\xhl\Anonyme2
-   
+      
 par glisser-déposer depuis le gestionnaire de fichiers Windows vers l'onglet 
 central de l'application.
 
@@ -27,20 +15,5 @@ Cliquer sur l'icône .csv pour lancer un processus de transformation des
 données .xhl en données .csv.
 
 Lorsque la barre de progression verte est stable à 100 % et/ou que le message
-"Terminé" est apparu dans l'onglet de messages de l'interface, appuyer sur
-l'icône "A" bleue.
-
-Avec l'installation minimale, attendre que le script s'exécute. A la fin de 
-l'exécution, le fichier Word s'affiche, sinon un ou plusieurs dialogues d'erreur
-apparaissent.
-
-Avec l'installation avancée, l'interface RStudio s'affiche.
-
-Lancer l'exécution d'un rapport en cliquant sur l'icône en forme de
-cahier au milieu du quart supérieur droit de l'interface. Sélectionner le format
-voulu. Le fichier sera automatiquement affiché au terme de l'exécution par 
-l'application adéquate.
-
-Note : pour accéder aux bases .csv en lien du document .pdf, fermer l'affichage
-par défaut sous Sumatra puis rouvrir le fichier altair.pdf généré sous 
-Tests\Exemple avec acrobat Reader(R) d'Adobe.
+"Terminé" est apparu dans l'onglet de messages de l'interface, le traitement 
+automatisé des rapports se lance.

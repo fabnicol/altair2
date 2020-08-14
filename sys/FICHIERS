@@ -3,7 +3,7 @@
 actualiser_sys            Fichier vide dont l'existence active l'installation
                           des fichiers système
 build.altair              Fichier vide dont l'existence active la compilation R
-                          de la bibliothèque altair.linux
+                          de la bibliothèque lib
 compte_utilisateur.sh     Crée un compte utilisateur automatiquement
 m.sh                      Monte la clé dans le répertoire R-Altair à la connection 
 sysinstall.sh             Installe le fichiers système

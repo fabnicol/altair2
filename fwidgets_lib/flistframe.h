@@ -62,11 +62,10 @@ public:
 // Membres données
 
 
- std::vector<QThread*> T;
+ std::vector<QThread*> Threads;
  QVector<QListWidget*> widgetContainer;  ///< Conteneur des widgets listes composant les onglets.
  FListWidget *fileListWidget;            ///< composant fonctionnelassocié à QWidget représentant l'onglet courant.
  QString frameHashKey;                   ///< Balise XML correspondant à la classe.
- std::vector<QThread*> thread;           ///< Vecteur de fils d'exécution permettant de lancer parseXhlFile sur chaque fichier d'onglet.
  int size = 0;                           ///< Nombre total de fichiers dans  FListFrame::widgetContainer.
  QToolButton *importFromMainTree = new QToolButton; ///< Bouton permettant d'importer des fichiers d'une arborescence de fichiers FListFrame::fileTreeView.
  QStringList tabLabels;                  ///< Liste des titres des onglets.
@@ -82,7 +81,7 @@ public:
  QFileSystemModel *model = new QFileSystemModel; ///< Modèle de fichiers sous-jacent à  FListFrame::fileTreeView.
  QGroupBox *controlButtonBox = new QGroupBox;    ///< Boîte permettant de regrouper divers boutons de contrôle (haut/bas etc.).
  bool use_threads = false;                       ///< Par défaut, les fils d'exécution ne seront pas utilisés. Seront activés en cas d'input disque optique.
-
+ std::vector<Worker*> W;  ///< Vecteur de fils d'exécution permettant de lancer parseXhlFile sur chaque fichier d'onglet.
  // Méthodes
  /// Efface  widgetContainer
 
@@ -250,7 +249,7 @@ private:
 
  void deleteAllGroups(bool insertFirstGroup = true, bool eraseAllData = true);
 
- void launch_thread(unsigned long rank);
+ void launch_thread(int, const QString&);
 
 
 
@@ -297,7 +296,7 @@ public slots:
             count = 0;
             emit(imported());
 
-            for (QThread* t : T) {
+            for (QThread* t : Threads) {
 
                 connect(t, &QThread::finished, t, &QObject::deleteLater);
             }
@@ -317,6 +316,7 @@ class Worker : public QObject
 private :
 
     int rank;
+    bool finished = false;
     QString filename;
 
     /// Décode les champs principaux du fichier XHL: Année, Mois, Budget, ...
@@ -332,10 +332,15 @@ public:
 
         parseXhlFile(filename);
         emit resultReady(rank);
+        finished = true;
     }
+
+    bool isFinished() {return finished;}
+
 
 signals:
     void resultReady(const int);
+    void textAppend(const QString& s);
 };
 
 #endif // FLISTFRAME_H

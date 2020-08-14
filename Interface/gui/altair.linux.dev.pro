@@ -97,7 +97,7 @@ LIBS += libfwidgets_lib.a
 
 DEFINES += HAS_CPP17
 
-DEFINES += SCRIPT_DIR=\\\"Tests/Exemple/\\\"  # Dossier des scripts R
+DEFINES += SCRIPT_DIR=\\\"scripts/R/\\\"  # Dossier des scripts R
 
 DEFINES += MAX_FICHIERS_RECENTS=5     # Nombre maximum de fichiers récents
 

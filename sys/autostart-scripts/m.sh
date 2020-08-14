@@ -3,7 +3,7 @@
 
 cle=/dev/$(lsblk -O | grep -E ".*exfat.*[0-9,.]{2,5}G.*part.*scsi:usb" | cut -f 3 -d \ )
 
-DATA=$HOME/Dev/altair/Tests/Exemple/Donnees
+DATA=$HOME/Dev/altair/scripts/R/Donnees
 
 udisksctl mount --no-user-interaction -b $cle
 

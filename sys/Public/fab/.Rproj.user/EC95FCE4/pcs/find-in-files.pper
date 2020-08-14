@@ -19,7 +19,7 @@
             "*.c",
             "*.cpp"
         ],
-        "path" : "/home/jf/Dev/altair/Tests/Exemple/Donnees/entrepot",
+        "path" : "/home/jf/Dev/altair/scripts/R/Donnees/entrepot",
         "query" : "expression.rég.primedetechnicite",
         "regex" : false
     }
