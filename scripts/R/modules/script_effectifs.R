@@ -98,7 +98,7 @@ essayer(label = "+fichiers pyr",
                  fread(f, 
                        sep = ";",
                        header = TRUE,
-                       encoding = "Latin-1",
+                       encoding = "UTF-8",
                        dec = ",",
                        colClasses = c("integer", "numeric", "numeric", "integer", "character")),
                  envir = .GlobalEnv)

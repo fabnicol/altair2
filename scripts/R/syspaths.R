@@ -53,8 +53,14 @@ if (basename(chemin.cle) == basename(racine)) {
     source(file.path(chemin.cle, "prologue_codes.R"), encoding = encodage.code.source)
 }
 
+if (setOSWindows)   {
+  sequentiel <- TRUE
+  sep_syspaths <- ";"
+}  else {
+  sep_syspaths <- ":"
+}
 
-if (setOSWindows) sequentiel <- TRUE
+Sys.setenv(LD_LIBRARY_PATH="/usr/lib/libreoffice/program" %+% sep_syspaths %+% Sys.getenv("LD_LIBRARY_PATH"))
 
 # DOSSIERS
 # Attention, si l'on lance la génération de document pour la première fois sans répertoire Bases existant, on aura un write error.

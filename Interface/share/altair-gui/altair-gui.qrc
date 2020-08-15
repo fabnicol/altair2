@@ -7,6 +7,7 @@
         <file>images/edit-delete.png</file>
         <file>images/folder-new.png</file>
         <file>images/help-contents.png</file>
+        <file>images/process2.png</file>
         <file>images/process-stop.png</file>
         <file>images/retrieve.png</file>
         <file>images/include.png</file>
@@ -35,6 +36,7 @@
         <file>whatsthis.info</file>
         <file>images/application-xml.png</file>
         <file>images/csv.png</file>
+        <file>images/csv2.png</file>
         <file>images/export.png</file>
         <file>images/archive.png</file>
         <file>images/restore.png</file>
@@ -45,13 +47,13 @@
         <file>images/npp.ico</file>
         <file>images/internet-explorer.png</file>
         <file>images/anonymiser.png</file>
-        <file>images/data-icon.png</file>
+        <file>images/data-icon2.png</file>
         <file>images/view-refresh.png</file>
         <file>images/clean.png</file>
         <file>images/print.png</file>
         <file>images/internet-web-browser.png</file>
         <file>images/altair.png</file>
-        <file>images/extra.png</file>
-        <file>images/rapport.png</file>
+        <file>images/extra2.png</file>
+        <file>images/rapport2.png</file>
     </qresource>
 </RCC>

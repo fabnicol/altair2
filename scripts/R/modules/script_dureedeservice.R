@@ -22,18 +22,18 @@ Tableau(c("Plus de 2 ans",
 
 #'
 
-if (nrow(Analyse.variations) > 0)
-  ggplot2::qplot(factor(Annee),
-                 data = Analyse.variations,
-                 geom = "bar",
-                 fill = factor(!Analyse.variations$plus.2.ans),
-                 main = "Evolutions entre " %+% debut.periode.sous.revue %+% " et " %+% fin.periode.sous.revue,
-                 xlab = "Annee",
-                 ylab = "Effectif",
-                 asp = 1.4)        +
-  ggplot2::scale_fill_discrete(name = "Personnels (non élus) en fonction",
-                               breaks = c(TRUE, FALSE),
-                               labels = c("Moins de deux ans", "Plus de deux ans"))
+# if (nrow(Analyse.variations) > 0)
+#   ggplot2::qplot(factor(Annee),
+#                  data = Analyse.variations,
+#                  geom = "bar",
+#                  fill = factor(!Analyse.variations$plus.2.ans),
+#                  main = "Evolutions entre " %+% debut.periode.sous.revue %+% " et " %+% fin.periode.sous.revue,
+#                  xlab = "Annee",
+#                  ylab = "Effectif",
+#                  asp = 1.4)        +
+#   ggplot2::scale_fill_discrete(name = "Personnels (non élus) en fonction",
+#                                breaks = c(TRUE, FALSE),
+#                                labels = c("Moins de deux ans", "Plus de deux ans"))
 
 
 

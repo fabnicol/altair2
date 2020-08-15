@@ -5,7 +5,10 @@
 sys/kernel
 R/* 
 RStudio/* 
-Interface/gui/altair.windows.pro
+*/*/*.pro
+*/*.pro
+*/*.pro.user
+*/*/*.pro.user
 */*.o
 *.o
 Makefile

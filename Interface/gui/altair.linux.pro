@@ -35,8 +35,8 @@
 # termes.
 # 
 # 
-
-VERSION_TAG = $$system(cat ../../VERSION)
+#$$system(cat ../../VERSION)
+VERSION_TAG = "20.08-x" 
 DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
 
 message("Version :  $$VERSION_TAG")
@@ -93,7 +93,7 @@ TARGET = Altair
 VPATH = .
 INCLUDEPATH += ../../fwidgets_lib
 #windows:LIBS += C:/Users/Public/Dev/altair2/fwidgets_lib/libfwidgets_lib.a
-linux:LIBS += ~/Dev/altair/fwidgets_lib/libfwidgets_lib.a
+#linux:LIBS += ~/Dev/altair/fwidgets_lib/libfwidgets_lib.a
 
 DEFINES += HAS_CPP17
 
@@ -124,6 +124,13 @@ QMAKE_CXXFLAGS += -march=core-avx2  -pipe -m64         # facultatif
 
 
 SOURCES += \
+    ../../fwidgets_lib/flineframe.cpp \
+    ../../fwidgets_lib/flistframe.cpp \
+    ../../fwidgets_lib/forms.cpp \
+    ../../fwidgets_lib/fstring.cpp \
+    ../../fwidgets_lib/fwidgets.cpp \
+    ../../fwidgets_lib/fwidgets_lib.cpp \
+    ../../fwidgets_lib/tools.cpp \
     options.cpp \
     mainwindow.cpp \
     altair.cpp \
@@ -136,6 +143,18 @@ SOURCES += \
 
 
 HEADERS  += \
+    ../../fwidgets_lib/custom.h \
+    ../../fwidgets_lib/enums.h \
+    ../../fwidgets_lib/flineframe.h \
+    ../../fwidgets_lib/flistframe.h \
+    ../../fwidgets_lib/forms.h \
+    ../../fwidgets_lib/fstring.h \
+    ../../fwidgets_lib/fwidgets.h \
+    ../../fwidgets_lib/fwidgets_lib.h \
+    ../../fwidgets_lib/fwidgets_lib_global.h \
+    ../../fwidgets_lib/tags.h \
+    ../../fwidgets_lib/templates.h \
+    ../../fwidgets_lib/tools.h \
     options.h \
     common.h \
     altair.h \
@@ -150,11 +169,80 @@ HEADERS  += \
 RESOURCES += \
     ../share/altair-gui/altair-gui.qrc
 
-   
 
 DISTFILES += \
     ../../A_FAIRE.txt \
-    ../share/altair-gui/images/internet-web-browser.png
+    ../share/altair-gui/images/internet-web-browser.png \
+    ../share/altair-gui/images/process.png \
+    ../share/altair-gui/images/log_file_icon.jpg \
+    ../share/altair-gui/images/about.png \
+    ../share/altair-gui/images/accessories-text-editor.png \
+    ../share/altair-gui/images/altair.png \
+    ../share/altair-gui/images/anonymiser.png \
+    ../share/altair-gui/images/application-exit.png \
+    ../share/altair-gui/images/application-xml.png \
+    ../share/altair-gui/images/applyEffectsToOneTrackToggledIcon.png \
+    ../share/altair-gui/images/applyEffectsToOneTrackUntoggledIcon.png \
+    ../share/altair-gui/images/archive.png \
+    ../share/altair-gui/images/arrow-down.png \
+    ../share/altair-gui/images/arrow-up.png \
+    ../share/altair-gui/images/breakpoint.png \
+    ../share/altair-gui/images/burn-deprecated.png \
+    ../share/altair-gui/images/clean.png \
+    ../share/altair-gui/images/configure-deprecated.png \
+    ../share/altair-gui/images/configure-toolbars.png \
+    ../share/altair-gui/images/configure-toolbars2.png \
+    ../share/altair-gui/images/console.png \
+    ../share/altair-gui/images/csv.png \
+    ../share/altair-gui/images/data-icon.png \
+    ../share/altair-gui/images/directory.png \
+    ../share/altair-gui/images/display-output-deprecated.png \
+    ../share/altair-gui/images/display-output.png \
+    ../share/altair-gui/images/document-close.png \
+    ../share/altair-gui/images/document-import.png \
+    ../share/altair-gui/images/document-open-folder.png \
+    ../share/altair-gui/images/document-open.png \
+    ../share/altair-gui/images/document-save-as.png \
+    ../share/altair-gui/images/document-save.png \
+    ../share/altair-gui/images/edit-clear.png \
+    ../share/altair-gui/images/edit-delete.png \
+    ../share/altair-gui/images/encode.png \
+    ../share/altair-gui/images/error.png \
+    ../share/altair-gui/images/export.png \
+    ../share/altair-gui/images/extra.png \
+    ../share/altair-gui/images/extraire.png \
+    ../share/altair-gui/images/folder-new.png \
+    ../share/altair-gui/images/gplv3.png \
+    ../share/altair-gui/images/help-contents.png \
+    ../share/altair-gui/images/include.png \
+    ../share/altair-gui/images/information.png \
+    ../share/altair-gui/images/internet-explorer.png \
+    ../share/altair-gui/images/internet-web-browser.png \
+    ../share/altair-gui/images/kpresenter.png \
+    ../share/altair-gui/images/list-remove.png \
+    ../share/altair-gui/images/manager.png \
+    ../share/altair-gui/images/mode_Project.png \
+    ../share/altair-gui/images/msg.png \
+    ../share/altair-gui/images/parameter.png \
+    ../share/altair-gui/images/play.png \
+    ../share/altair-gui/images/print.png \
+    ../share/altair-gui/images/process-stop.png \
+    ../share/altair-gui/images/process.png \
+    ../share/altair-gui/images/project-open.png \
+    ../share/altair-gui/images/rapport.png \
+    ../share/altair-gui/images/restore.png \
+    ../share/altair-gui/images/retrieve.png \
+    ../share/altair-gui/images/show-maximized.png \
+    ../share/altair-gui/images/show-normal.png \
+    ../share/altair-gui/images/tab-close-other.png \
+    ../share/altair-gui/images/tab-new.png \
+    ../share/altair-gui/images/video.png \
+    ../share/altair-gui/images/view-list-tree.png \
+    ../share/altair-gui/images/view-refresh.png \
+    ../share/altair-gui/images/warning.png \
+    ../share/altair-gui/images/window-close.png \
+    ../share/altair-gui/images/directory.svg \
+    ../share/altair-gui/images/npp.ico
 
 
 
