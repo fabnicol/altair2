@@ -2,7 +2,7 @@
 #     Filtre    : filtre expression rationnelle expression.rég.pfi dans Libelle.   
 
 #'  
-#'## 5.2 Contrôle de la prime de fonctions informatiques (PFI)     
+#'## 5.9 Contrôle de la prime de fonctions informatiques (PFI)     
 #'   
 #'[![Notice](icones/Notice.png)](Docs/Notices/fiche_PFI.odt)   
 #'   

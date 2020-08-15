@@ -377,9 +377,9 @@ do
     	    if ! test -d /home/fab/Dev/altair/.Rproj.user; then
 	           cp -rvf /home/Public/fab/.Rproj.user  /home/fab/Dev/altair
             fi
-            sed "s/\/home\/utilisateur\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl\/utilisateur/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl/" dolphinrc > temp
+            sed "s/\/home\/utilisateur\/Dev\/altair\/scripts\/R\/Donnees\/xhl\/utilisateur/\/home\/fab\/Dev\/altair\/scripts\/R\/Donnees\/xhl/" dolphinrc > temp
             sed "s/utilisateur/$i/g" user-places.xbel > temp2
-            sed -i "s/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl\/fab/\/home\/fab\/Dev\/altair\/Tests\/Exemple\/Donnees\/xhl/" temp2
+            sed -i "s/\/home\/fab\/Dev\/altair\/scripts\/R\/Donnees\/xhl\/fab/\/home\/fab\/Dev\/altair\/scripts\/R\/Donnees\/xhl/" temp2
             _copy Altair.desktop  /home/fab/Desktop/Altaïr.desktop	
             _copy Altair.desktop  /home/fab/.local/share/applications
 			chown -R fab /home/fab/Dev/altair/scripts/R/Donnees
@@ -424,6 +424,15 @@ cp -vf ./autostart-scripts/m_fab.sh /home/fab/.config/autostart-scripts/m.sh
 git config --global --unset http.proxy
 
 cd /home/fab/Dev/altair
+
+############################
+############################
+# A décommenter pour éviter l'actualisation systématique.
+rm -f VERSION
+git commit -am"Réactualisation forcéee"
+
+###########################
+
 
 git rev-parse --verify release
 

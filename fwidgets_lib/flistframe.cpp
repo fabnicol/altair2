@@ -201,16 +201,12 @@ void FListFrame::clearWidgetContainer()
 void FListFrame::launch_thread(int rank, const QString& s)
 {
     Worker* w = new Worker(rank, s);
-    QThread *t = new QThread;
-
 
     W.push_back(w);
-    Threads.push_back(t);
-    w->moveToThread(t);
-    connect(t, &QThread::finished, W[rank], &QObject::deleteLater);
-    connect(t, &QThread::started,  w, &Worker::doWork);
+
+    QThreadPool::globalInstance()->start(w);
+
     connect(w, &Worker::resultReady, this, &FListFrame::handleResults);
-    t->start();
 
     // Cette fonction pourrait être optimisée en ne lançant pas les fils d'exécution de manière successive mais par par groupe avec plusieurs fils parallèles dans chaque groupe
 }
@@ -380,9 +376,8 @@ out :
 
 void FListFrame::parseXhlFile()
 {
-#   ifdef HAVE_APPLICATION
-       int rank = 0;
-#   endif
+    int rank = 0;
+
     size = stringList.size();
 
     // L'usage de threads est indiqué pour éviter un freeze de l'interface graphique
@@ -397,23 +392,13 @@ void FListFrame::parseXhlFile()
                                                  | QDir::NoDotAndDotDot).isEmpty())
      {
 
-        for (const QString &s: stringList)
+        while (rank < size)
         {
-                 launch_thread(rank, s);
-
-                    ++rank;
-#           ifdef HAVE_APPLICATION
-                    //if (rank < size - 1) emit(setProgressBar(rank));
-#           endif
+             launch_thread(rank , stringList.at(rank));
+             ++rank;
         }
 
-        //emit(setProgressBar(size));
-
-       // while (max_rank < size -1) {}
-
-        // N'utiliser des threads que si un disque optique est en input de données
-        use_threads = false;
-
+        sequentiel = false;
 
         importFromMainTree->show();
         return;
@@ -421,7 +406,7 @@ void FListFrame::parseXhlFile()
 
     isTerminated = false;
     importFromMainTree->hide();
-    use_threads = true;
+    sequentiel = true;
     if (size == 0) return;
 
 #ifdef HAVE_APPLICATION
@@ -430,11 +415,9 @@ void FListFrame::parseXhlFile()
 
     launch_thread(0, stringList.at(0));
 
-    while (rank < size)
-    {
-        ++rank;
-        connect(W.back(), &Worker::resultReady, [this, rank] { if (! isTerminated) launch_thread(rank + 1, stringList.at(rank)); });
-     }
+    while (++rank < size)
+        connect(W.back(), &Worker::resultReady, [this, rank] { if (! isTerminated) launch_thread(rank, stringList.at(rank)); });
+
 
         #ifdef DEBUG_INPUT_FILES
            app->outputTextEdit->append(PROCESSING_HTML_TAG "Analyse du fichier n°" + QString::number(rank));
@@ -469,14 +452,11 @@ void FListFrame::parseXhlFile()
      connect(this, SIGNAL(terminated()), timer, SLOT(stop()));
      connect(this, &FListFrame::terminated, [this] {
          isTerminated = true;
-         use_threads = false;
+         sequentiel = false;
          importFromMainTree->show();
      });
 
-     for (Worker* w : W)
-       connect(w, SIGNAL(textAppend(const QString&)), this, SLOT(textAppend(const QString&)));
-
-     timer->start(PROGRESSBAR_TIMEOUT);
+       timer->start(PROGRESSBAR_TIMEOUT);
 
 }
 
@@ -495,16 +475,17 @@ void FListFrame::addStringListToListWidget()
       emit(showProgressBar());
       emit(setProgressBar(0, stringListSize));
 #   endif
+    int size = stringList.size();
 
+    int slice = 0;
     parseXhlFile();
-
 }
 constexpr const char* _7z = "7Z";
 constexpr const char* bzip2 = "BZ2";
 constexpr const char* tar = "TAR";
 constexpr const char* gzip = "GZ";
 constexpr const char* zip = "ZIP";
-constexpr const char* formats[5] = {zip, _7z, bzip2, tar, gzip};
+constexpr const char* formats[5] = {_7z, bzip2, tar, gzip, zip};
 
 QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
 {
@@ -548,7 +529,7 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                   }
 
                   int res = 0;
-#ifdef Q_OS_WIN
+
 
                   if (info.suffix().toUpper() == "XHL" || info.suffix().toUpper() == "XML")
                   {
@@ -556,6 +537,8 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                          res = 1;
                   }
                   else
+#ifdef Q_OS_WIN
+
                   {
                       for (short i = 0; i < 5; ++i)
                       {
@@ -589,7 +572,7 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                  }
 #else
 
-
+               {
 
                   if (info.suffix().toUpper() == "ZIP")
                     {
@@ -616,6 +599,7 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                           if (info.suffix().toUpper() == formats[i])
                             {
                                 emit(textAppend(PROCESSING_HTML_TAG + QString("Décompression du fichier " + currentString + ". Patientez...")));
+                                constexpr const char* types[4] = {"7z", "bzip2", "tar", "gzip"};
                                 const QString &cl = QString("7z x '" + currentString + "' -o'" + tempDir + "' -t" + QString(types[i]));
                                 res = system(cl.toStdString().c_str());
 
@@ -635,7 +619,8 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                             }
 
                       }
-                }
+                   }
+              }
 #endif
 
 #  ifdef HAVE_APPLICATION
@@ -1039,18 +1024,6 @@ void FListFrame::finalise()
 #ifdef HAVE_APPLICATION
     emit(hideProgressBar());
 #endif
-
-    if (use_threads)
-    {
-        // Terminer les fils d'exécution s'il y en a.
-
-        foreach (QThread* t, Threads)
-        {
-          t->terminate();
-          t->wait();
-          delete t;
-        }
-    }
 
     QStringList allLabels;
 

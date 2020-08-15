@@ -704,23 +704,10 @@ void Altair::processFinished (exitCode code)
 
 void Altair::killProcess()
 {
-    if (project->use_threads && process.state() != QProcess::Running)
+    if (project->sequentiel && process.state() != QProcess::Running)
         {
             textAppend (PROCESSING_HTML_TAG
                         "Arrêt de l'importation des données du disque optique.");
-
-            // Terminer les fils d'exécution s'il y en a
-
-            for (QThread *t :  project->Threads)
-                {
-                    if (t)
-                        {
-                            t->requestInterruption();
-                            t->quit();
-                            t->wait();
-                            delete (t);
-                        }
-                }
 
             emit (project->terminated());
             closeProject();

@@ -1330,11 +1330,8 @@ extraPage::extraPage()
 void extraPage::do_copies()
 {
     short i = 0;
-#ifdef Q_OS_WINDOWS
+
     FLineFrame* frameList[] = {budgetFrame, gradesFrame};
-#else
-    FLineFrame* frameList[] = {budgetFrame, gradesFrame, logtFrame, ifseFrame};
-#endif
     const char* pathList[] = {"paye_budget.csv",
                      "grades.categories.csv",
                      "logements.csv",
