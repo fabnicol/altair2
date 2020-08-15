@@ -146,7 +146,7 @@ private:
 
     FCheckBox
 #ifndef Q_OS_WIN
-        *parallelCheckBox     ///< Case à cocher permettant de produire les rapports en parallèle (cochée par défaut).
+        *parallelCheckBox,     ///< Case à cocher permettant de produire les rapports en parallèle (cochée par défaut).
 #endif
     *logCheckBox,          ///< Case à cocher permettant d'activer/de désactiver logFrame.
     *consoleCheckBox;      ///< Case à cocher permettant d'activer la console (cochée par défaut).

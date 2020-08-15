@@ -504,7 +504,7 @@ constexpr const char* bzip2 = "BZ2";
 constexpr const char* tar = "TAR";
 constexpr const char* gzip = "GZ";
 constexpr const char* zip = "ZIP";
-constexpr const char* formats[5] = {zip, _7z, bzip2, tar, gzip};
+constexpr const char* formats[5] = {_7z, bzip2, tar, gzip, zip};
 
 QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
 {
@@ -548,7 +548,7 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                   }
 
                   int res = 0;
-#ifdef Q_OS_WIN
+
 
                   if (info.suffix().toUpper() == "XHL" || info.suffix().toUpper() == "XML")
                   {
@@ -556,6 +556,8 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                          res = 1;
                   }
                   else
+#ifdef Q_OS_WIN
+
                   {
                       for (short i = 0; i < 5; ++i)
                       {
@@ -589,7 +591,7 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                  }
 #else
 
-
+               {
 
                   if (info.suffix().toUpper() == "ZIP")
                     {
@@ -616,6 +618,7 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                           if (info.suffix().toUpper() == formats[i])
                             {
                                 emit(textAppend(PROCESSING_HTML_TAG + QString("Décompression du fichier " + currentString + ". Patientez...")));
+                                constexpr const char* types[4] = {"7z", "bzip2", "tar", "gzip"};
                                 const QString &cl = QString("7z x '" + currentString + "' -o'" + tempDir + "' -t" + QString(types[i]));
                                 res = system(cl.toStdString().c_str());
 
@@ -635,7 +638,8 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                             }
 
                       }
-                }
+                   }
+              }
 #endif
 
 #  ifdef HAVE_APPLICATION
