@@ -503,8 +503,8 @@ constexpr const char* _7z = "7Z";
 constexpr const char* bzip2 = "BZ2";
 constexpr const char* tar = "TAR";
 constexpr const char* gzip = "GZ";
-constexpr const char* formats[4] = {_7z, bzip2, tar, gzip};
-constexpr const char* types[4] = {"7z", "bzip2", "tar", "gzip"};
+constexpr const char* zip = "ZIP";
+constexpr const char* formats[5] = {zip, _7z, bzip2, tar, gzip};
 
 QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
 {
@@ -547,61 +547,106 @@ QStringList FListFrame::parseTreeForFilePaths(const QStringList& stringList)
                      QDir(tempDir).removeRecursively();
                   }
 
-                if (info.suffix().toUpper() == "ZIP")    
+                  int res = 0;
+#ifdef Q_OS_WIN
+
+                  if (info.suffix().toUpper() == "XHL" || info.suffix().toUpper() == "XML")
                   {
-                      emit(textAppend(PROCESSING_HTML_TAG + QString("Décompression du fichier " + currentString + ". Patientez...")));
-                      int res = system(QString("unzip -C '" + currentString + "' '*.x[hm]l' -d '" + tempDir + "'").toStdString().c_str());
-                      
-                      if (res == 0)
-                         emit(textAppend(STATE_HTML_TAG + QString("Le fichier ")
-                                       + currentString + " a été décompressé."));
-                      else 
-                         emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
-                                        + currentString + " n'a pas été décompressé."));
-                      
-                      stringsToBeAdded << parseTreeForFilePaths({tempDir});
-                      emit(textAppend(tempDir));
-                      
+                         stringsToBeAdded << currentString;
+                         res = 1;
                   }
                   else
                   {
-                      int res = -2;
-                      for (short i = 0; i < 4; ++i)    
+                      for (short i = 0; i < 5; ++i)
                       {
-                        if (info.suffix().toUpper() == formats[i])    
+                        if (info.suffix().toUpper() == formats[i])
                           {
+                              res = 1;
                               emit(textAppend(PROCESSING_HTML_TAG + QString("Décompression du fichier " + currentString + ". Patientez...")));
-                              const QString &cl = QString("7z x '" + currentString + "' -o'" + tempDir + "' -t" + QString(types[i]));
-                              res = system(cl.toStdString().c_str());
-                              
-                              if (res < 2)
+
+                              QStringList cl = QStringList() <<  "-ext2folder" << QDir::toNativeSeparators(currentString) ;
+
+                              QString app = "peazip" + QString(tools::systemSuffix);
+                              process.setWorkingDirectory(QApplication::applicationDirPath());
+                              process.start(app, cl);
+
+                              emit(textAppend(STATE_HTML_TAG + app + " " + cl.join(" ")));
+                              if (process.waitForStarted())
                               {
-                                 emit(textAppend(STATE_HTML_TAG + QString("Le fichier ")
-                                               + currentString + " a été décompressé."));
-                                 emit(textAppend(tempDir)); 
-                                 stringsToBeAdded << parseTreeForFilePaths({tempDir});
+                                 emit(textAppend(PROCESSING_HTML_TAG + QString("Le fichier ")
+                                               + currentString + " est en cours de décompression..."));
+
                               }
-                              else 
-                              
-                                 emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
-                                                + currentString + " n'a pas été décompressé ou des erreurs sont rencontrées.<br>" WARNING_HTML_TAG + "Ligne de commande " +cl));
-                                                           
-                          }
-                      
-                        if (res == -2)
-                          {
-                              if (info.suffix().toUpper() == "XHL" || info.suffix().toUpper() == "XML")
-                                 stringsToBeAdded << currentString;
-    #                         ifdef HAVE_APPLICATION
                               else
-                              {
-                                  emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
-                                               + currentString + " sera ignoré. Les fichiers doivent avoir une extension du type .xml, .xhl, .7z, .zip, .tar.gz ou .tar.bz2"));
-                              }
-    #                         endif
+                                 emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
+                                                + currentString + " n'a pas été décompressé ou des erreurs sont rencontrées.<br>" WARNING_HTML_TAG + "Ligne de commande " +cl.join(" ")));
+
+                              process.waitForFinished();
+                              stringsToBeAdded << parseTreeForFilePaths({tempDir});
+
                           }
+                     }
+                 }
+#else
+
+
+
+                  if (info.suffix().toUpper() == "ZIP")
+                    {
+                        emit(textAppend(PROCESSING_HTML_TAG + QString("Décompression du fichier " + currentString + ". Patientez...")));
+                        int res = system(QString("unzip -C '" + currentString + "' '*.x[hm]l' -d '" + tempDir + "'").toStdString().c_str());
+
+                        if (res == 0)
+                           emit(textAppend(STATE_HTML_TAG + QString("Le fichier ")
+                                         + currentString + " a été décompressé."));
+                        else
+                           emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
+                                          + currentString + " n'a pas été décompressé."));
+
+                        stringsToBeAdded << parseTreeForFilePaths({tempDir});
+                        emit(textAppend(tempDir));
+                        res = 1;
+
                     }
-              }
+                    else
+                    {
+
+                        for (short i = 0; i < 4; ++i)
+                        {
+                          if (info.suffix().toUpper() == formats[i])
+                            {
+                                emit(textAppend(PROCESSING_HTML_TAG + QString("Décompression du fichier " + currentString + ". Patientez...")));
+                                const QString &cl = QString("7z x '" + currentString + "' -o'" + tempDir + "' -t" + QString(types[i]));
+                                res = system(cl.toStdString().c_str());
+
+                                if (res < 2)
+                                {
+                                   emit(textAppend(STATE_HTML_TAG + QString("Le fichier ")
+                                                 + currentString + " a été décompressé."));
+                                   emit(textAppend(tempDir));
+                                   stringsToBeAdded << parseTreeForFilePaths({tempDir});
+
+                                }
+                                else
+
+                                   emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
+                                                  + currentString + " n'a pas été décompressé ou des erreurs sont rencontrées.<br>" WARNING_HTML_TAG + "Ligne de commande " +cl));
+                               res = 1;
+                            }
+
+                      }
+                }
+#endif
+
+#  ifdef HAVE_APPLICATION
+                 if (! res)
+                 {
+                          emit(textAppend(WARNING_HTML_TAG + QString("Le fichier ")
+                                       + currentString + " sera ignoré. Les fichiers doivent avoir une extension du type .xml, .xhl, .7z, .zip, .tar.gz ou .tar.bz2"));
+                 }
+#   endif
+
+
            }
     }
  

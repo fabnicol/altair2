@@ -87,8 +87,7 @@ public:
     QString projectName; ///< Nom du projet \b .alt
     QString rootDir = ""; ///< Fichier racine des données
     QString username; ///< Nom de l'utilisateur Unix
-
-    const QStringList  XML_FILTERS = {"*.xml", "*.xhl", "*.XML", "*.XHL", "*.zip", "*.ZIP", "*.7z", "*.7Z", "*.tar.bz2", "*.TAR.BZ2", "*.tar.gz", "*.TAR.GZ"}; ///< Liste des extensions valides pour les fichiers entrants
+    QStringList  XML_FILTERS; ///< Liste des extensions valides pour les fichiers entrants
 
     static std::uint16_t RefreshFlag; ///< Drapeau permettant d'indiquer l'état de rafraichissement de l'interface.
 

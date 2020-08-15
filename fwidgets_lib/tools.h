@@ -90,7 +90,7 @@ static const QString   systemPathPrefix; ///< permet de remonter de l'applicatio
 #ifdef Q_OS_WIN
 
     QString   System = "windows";
-    QString   systemSuffix = ".exe";
+    static constexpr const char*   systemSuffix = ".exe";
 
     #ifndef LOCAL_BINPATH
     #define LOCAL_BINPATH

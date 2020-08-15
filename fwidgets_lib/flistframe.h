@@ -229,7 +229,7 @@ protected:
 private:
 
 
- QProcess* launch;
+ QProcess process;
  QStringList stringList;
  QListWidget *currentListWidget;
 

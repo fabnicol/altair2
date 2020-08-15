@@ -123,6 +123,7 @@ void Altair::refreshModel()
     model->sort (Qt::AscendingOrder);
     model->setFilter (QDir::AllDirs | QDir::Files | QDir::NoDotAndDotDot);
     model->setNameFilterDisables (false);
+    XML_FILTERS = QStringList({"*.xml", "*.xhl", "*.XML", "*.XHL", "*.zip", "*.ZIP", "*.7z", "*.7Z", "*.tar.bz2", "*.TAR.BZ2", "*.tar.gz", "*.TAR.GZ"});
     model->setNameFilters (XML_FILTERS);
 }
 
