@@ -2039,7 +2039,7 @@ void MainWindow::feedRConsoleWithHtml()
                 if (altair->fileRank > 100) altair->fileRank = 5;
                 else if (altair->fileRank > 90) ++altair->fileRank;
                 else
-                     altair->fileRank += ceil((100 - altair->fileRank) / 10);
+                     altair->fileRank += ceil((100 - altair->fileRank) / 25);
 
                 consoleDialog->insertHtml (buffer.replace ("\n", "<br>"));
                 consoleDialog->moveCursor (QTextCursor::End);

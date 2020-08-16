@@ -84,11 +84,11 @@ script_retraites               <- TRUE
 script_FPH                     <- TRUE    
 
 sequentiel                     <- TRUE
-ouvrir.document                <- TRUE
+ouvrir.document <- FALSE
 
 types.irs  <- c("IR", "S")
 
-controle<-c("REGION LANGUEDOC ROUSSILLON","23340001900029","REGION LANGUEDOC ROUSSILLON","")  
+controle<-c("","","","")  
 
 codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IFSE", "IEMP", "ISS", "IHTS", "VAC", "ASTREINTES", "NAS", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(

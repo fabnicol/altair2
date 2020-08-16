@@ -201,16 +201,12 @@ void FListFrame::clearWidgetContainer()
 void FListFrame::launch_thread(int rank, const QString& s)
 {
     Worker* w = new Worker(rank, s);
-    QThread *t = new QThread;
-
 
     W.push_back(w);
-    Threads.push_back(t);
-    w->moveToThread(t);
-    connect(t, &QThread::finished, W[rank], &QObject::deleteLater);
-    connect(t, &QThread::started,  w, &Worker::doWork);
+
+    QThreadPool::globalInstance()->start(w);
+
     connect(w, &Worker::resultReady, this, &FListFrame::handleResults);
-    t->start();
 
     // Cette fonction pourrait être optimisée en ne lançant pas les fils d'exécution de manière successive mais par par groupe avec plusieurs fils parallèles dans chaque groupe
 }
@@ -380,9 +376,8 @@ out :
 
 void FListFrame::parseXhlFile()
 {
-#   ifdef HAVE_APPLICATION
-       int rank = 0;
-#   endif
+    int rank = 0;
+
     size = stringList.size();
 
     // L'usage de threads est indiqué pour éviter un freeze de l'interface graphique
@@ -397,23 +392,13 @@ void FListFrame::parseXhlFile()
                                                  | QDir::NoDotAndDotDot).isEmpty())
      {
 
-        for (const QString &s: stringList)
+        while (rank < size)
         {
-                 launch_thread(rank, s);
-
-                    ++rank;
-#           ifdef HAVE_APPLICATION
-                    //if (rank < size - 1) emit(setProgressBar(rank));
-#           endif
+             launch_thread(rank , stringList.at(rank));
+             ++rank;
         }
 
-        //emit(setProgressBar(size));
-
-       // while (max_rank < size -1) {}
-
-        // N'utiliser des threads que si un disque optique est en input de données
-        use_threads = false;
-
+        sequentiel = false;
 
         importFromMainTree->show();
         return;
@@ -421,7 +406,7 @@ void FListFrame::parseXhlFile()
 
     isTerminated = false;
     importFromMainTree->hide();
-    use_threads = true;
+    sequentiel = true;
     if (size == 0) return;
 
 #ifdef HAVE_APPLICATION
@@ -469,14 +454,11 @@ void FListFrame::parseXhlFile()
      connect(this, SIGNAL(terminated()), timer, SLOT(stop()));
      connect(this, &FListFrame::terminated, [this] {
          isTerminated = true;
-         use_threads = false;
+         sequentiel = false;
          importFromMainTree->show();
      });
 
-     for (Worker* w : W)
-       connect(w, SIGNAL(textAppend(const QString&)), this, SLOT(textAppend(const QString&)));
-
-     timer->start(PROGRESSBAR_TIMEOUT);
+       timer->start(PROGRESSBAR_TIMEOUT);
 
 }
 
@@ -495,9 +477,10 @@ void FListFrame::addStringListToListWidget()
       emit(showProgressBar());
       emit(setProgressBar(0, stringListSize));
 #   endif
+    int size = stringList.size();
 
+    int slice = 0;
     parseXhlFile();
-
 }
 constexpr const char* _7z = "7Z";
 constexpr const char* bzip2 = "BZ2";
@@ -1043,18 +1026,6 @@ void FListFrame::finalise()
 #ifdef HAVE_APPLICATION
     emit(hideProgressBar());
 #endif
-
-    if (use_threads)
-    {
-        // Terminer les fils d'exécution s'il y en a.
-
-        foreach (QThread* t, Threads)
-        {
-          t->terminate();
-          t->wait();
-          delete t;
-        }
-    }
 
     QStringList allLabels;
 
