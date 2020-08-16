@@ -1163,3 +1163,105 @@
 2020-08-15 02:28:49,688+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-7468bc3111b9b398
 2020-08-15 02:28:49,688+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-7468bc3111b9b398
 2020-08-15 02:28:54,846+0200 INFO  pdflatex - this process (15048) finishes with exit code 0
+2020-08-17 05:46:25,717+0200 INFO  pdflatex - this process (6876) started by 'Rscript' with command line: C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\pdflatex.exe -halt-on-error -interaction=batchmode altair.tex
+2020-08-17 05:46:25,772+0200 INFO  pdflatex - allowing known shell commands
+2020-08-17 05:46:25,773+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-17 05:46:25,868+0200 INFO  pdflatex - this process (6876) finishes with exit code 1
+2020-08-17 05:46:25,881+0200 WARN  miktex.core - still open: altair.tex
+2020-08-17 05:46:28,065+0200 INFO  pdflatex - this process (10764) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-09f6212e5b6ff59a C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-09f6212e5b6ff59a/input.tex
+2020-08-17 05:46:28,089+0200 INFO  pdflatex - allowing known shell commands
+2020-08-17 05:46:28,089+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-17 05:46:28,089+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-09f6212e5b6ff59a
+2020-08-17 05:46:28,090+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-09f6212e5b6ff59a
+2020-08-17 05:46:33,835+0200 INFO  pdflatex - this process (10764) finishes with exit code 0
+2020-08-17 05:46:34,475+0200 INFO  pdflatex - this process (10912) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-09f6212e5b6ff59a C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-09f6212e5b6ff59a/input.tex
+2020-08-17 05:46:34,501+0200 INFO  pdflatex - allowing known shell commands
+2020-08-17 05:46:34,501+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-17 05:46:34,502+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-09f6212e5b6ff59a
+2020-08-17 05:46:34,502+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-09f6212e5b6ff59a
+2020-08-17 05:46:39,407+0200 INFO  pdflatex - this process (10912) finishes with exit code 0
+2020-08-17 06:13:48,215+0200 INFO  pdflatex - this process (1164) started by 'Rscript' with command line: C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\pdflatex.exe -halt-on-error -interaction=batchmode altair.tex
+2020-08-17 06:13:48,240+0200 INFO  pdflatex - allowing known shell commands
+2020-08-17 06:13:48,240+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-17 06:13:48,278+0200 INFO  pdflatex - this process (1164) finishes with exit code 1
+2020-08-17 06:13:48,305+0200 WARN  miktex.core - still open: altair.tex
+2020-08-17 06:13:50,616+0200 INFO  pdflatex - this process (8648) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-05add9c9b62ef0d8 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-05add9c9b62ef0d8/input.tex
+2020-08-17 06:13:50,642+0200 INFO  pdflatex - allowing known shell commands
+2020-08-17 06:13:50,642+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-17 06:13:50,643+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-05add9c9b62ef0d8
+2020-08-17 06:13:50,643+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-05add9c9b62ef0d8
+2020-08-17 06:13:55,498+0200 INFO  pdflatex - this process (8648) finishes with exit code 0
+2020-08-17 06:13:56,107+0200 INFO  pdflatex - this process (13708) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-05add9c9b62ef0d8 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-05add9c9b62ef0d8/input.tex
+2020-08-17 06:13:56,132+0200 INFO  pdflatex - allowing known shell commands
+2020-08-17 06:13:56,132+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-17 06:13:56,132+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-05add9c9b62ef0d8
+2020-08-17 06:13:56,133+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-05add9c9b62ef0d8
+2020-08-17 06:14:00,889+0200 INFO  pdflatex - this process (13708) finishes with exit code 0
+2020-08-17 06:15:40,783+0200 INFO  pdflatex - this process (12452) started by 'Rscript' with command line: C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\pdflatex.exe -halt-on-error -interaction=batchmode altair.tex
+2020-08-17 06:15:40,808+0200 INFO  pdflatex - allowing known shell commands
+2020-08-17 06:15:40,808+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-17 06:15:40,861+0200 INFO  pdflatex - this process (12452) finishes with exit code 1
+2020-08-17 06:15:40,878+0200 WARN  miktex.core - still open: altair.tex
+2020-08-17 06:15:42,912+0200 INFO  pdflatex - this process (8152) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-7741790714f3b25e C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-7741790714f3b25e/input.tex
+2020-08-17 06:15:42,938+0200 INFO  pdflatex - allowing known shell commands
+2020-08-17 06:15:42,938+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-17 06:15:42,939+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-7741790714f3b25e
+2020-08-17 06:15:42,939+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-7741790714f3b25e
+2020-08-17 06:15:47,959+0200 INFO  pdflatex - this process (8152) finishes with exit code 0
+2020-08-17 06:15:48,588+0200 INFO  pdflatex - this process (1472) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-7741790714f3b25e C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-7741790714f3b25e/input.tex
+2020-08-17 06:15:48,612+0200 INFO  pdflatex - allowing known shell commands
+2020-08-17 06:15:48,612+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-17 06:15:48,612+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-7741790714f3b25e
+2020-08-17 06:15:48,613+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-7741790714f3b25e
+2020-08-17 06:15:53,546+0200 INFO  pdflatex - this process (1472) finishes with exit code 0
+2020-08-17 07:07:03,824+0200 INFO  pdflatex - this process (2580) started by 'Rscript' with command line: C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\pdflatex.exe -halt-on-error -interaction=batchmode altair.tex
+2020-08-17 07:07:03,840+0200 INFO  pdflatex - allowing known shell commands
+2020-08-17 07:07:03,840+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-17 07:07:03,902+0200 INFO  pdflatex - this process (2580) finishes with exit code 1
+2020-08-17 07:07:03,918+0200 WARN  miktex.core - still open: altair.tex
+2020-08-17 07:07:06,121+0200 INFO  pdflatex - this process (5848) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-9c48c2bace7de562 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-9c48c2bace7de562/input.tex
+2020-08-17 07:07:06,152+0200 INFO  pdflatex - allowing known shell commands
+2020-08-17 07:07:06,152+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-17 07:07:06,152+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-9c48c2bace7de562
+2020-08-17 07:07:06,152+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-9c48c2bace7de562
+2020-08-17 07:07:10,764+0200 INFO  pdflatex - this process (5848) finishes with exit code 0
+2020-08-17 07:07:11,373+0200 INFO  pdflatex - this process (14232) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-9c48c2bace7de562 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-9c48c2bace7de562/input.tex
+2020-08-17 07:07:11,389+0200 INFO  pdflatex - allowing known shell commands
+2020-08-17 07:07:11,389+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-17 07:07:11,405+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-9c48c2bace7de562
+2020-08-17 07:07:11,405+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-9c48c2bace7de562
+2020-08-17 07:07:15,969+0200 INFO  pdflatex - this process (14232) finishes with exit code 0
+2020-08-17 07:08:54,851+0200 INFO  pdflatex - this process (10852) started by 'Rscript' with command line: C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\pdflatex.exe -halt-on-error -interaction=batchmode altair.tex
+2020-08-17 07:08:54,882+0200 INFO  pdflatex - allowing known shell commands
+2020-08-17 07:08:54,882+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-17 07:08:54,929+0200 INFO  pdflatex - this process (10852) finishes with exit code 1
+2020-08-17 07:08:54,945+0200 WARN  miktex.core - still open: altair.tex
+2020-08-17 07:08:56,790+0200 INFO  pdflatex - this process (4112) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-6a72499e662b6c5b C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-6a72499e662b6c5b/input.tex
+2020-08-17 07:08:56,821+0200 INFO  pdflatex - allowing known shell commands
+2020-08-17 07:08:56,821+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-17 07:08:56,821+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-6a72499e662b6c5b
+2020-08-17 07:08:56,821+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-6a72499e662b6c5b
+2020-08-17 07:09:01,728+0200 INFO  pdflatex - this process (4112) finishes with exit code 0
+2020-08-17 07:09:02,353+0200 INFO  pdflatex - this process (2188) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-6a72499e662b6c5b C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-6a72499e662b6c5b/input.tex
+2020-08-17 07:09:02,384+0200 INFO  pdflatex - allowing known shell commands
+2020-08-17 07:09:02,384+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-17 07:09:02,384+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-6a72499e662b6c5b
+2020-08-17 07:09:02,384+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-6a72499e662b6c5b
+2020-08-17 07:09:07,213+0200 INFO  pdflatex - this process (2188) finishes with exit code 0
+2020-08-17 16:13:18,810+0200 INFO  pdflatex - this process (6712) started by 'Rterm' with command line: C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\pdflatex.exe -halt-on-error -interaction=batchmode altair.tex
+2020-08-17 16:13:18,841+0200 INFO  pdflatex - allowing known shell commands
+2020-08-17 16:13:18,841+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-17 16:13:18,872+0200 INFO  pdflatex - this process (6712) finishes with exit code 1
+2020-08-17 16:13:18,888+0200 WARN  miktex.core - still open: altair.tex
+2020-08-17 16:13:20,808+0200 INFO  pdflatex - this process (2084) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-af124d894064c4ea C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-af124d894064c4ea/input.tex
+2020-08-17 16:13:20,824+0200 INFO  pdflatex - allowing known shell commands
+2020-08-17 16:13:20,824+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-17 16:13:20,824+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-af124d894064c4ea
+2020-08-17 16:13:20,824+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-af124d894064c4ea
+2020-08-17 16:13:25,642+0200 INFO  pdflatex - this process (2084) finishes with exit code 0
+2020-08-17 16:13:26,262+0200 INFO  pdflatex - this process (2716) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-af124d894064c4ea C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-af124d894064c4ea/input.tex
+2020-08-17 16:13:26,293+0200 INFO  pdflatex - allowing known shell commands
+2020-08-17 16:13:26,293+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-08-17 16:13:26,293+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-af124d894064c4ea
+2020-08-17 16:13:26,293+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-af124d894064c4ea
+2020-08-17 16:13:31,175+0200 INFO  pdflatex - this process (2716) finishes with exit code 0

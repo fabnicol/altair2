@@ -29,9 +29,9 @@ GithubUsername: hadley
 GithubRef: HEAD
 GithubSHA1: 9cce240578a2846fc6ff908568aa853da8561d4f
 NeedsCompilation: yes
-Packaged: 2020-08-10 18:31:40 UTC; root
+Packaged: 2020-08-17 20:39:57 UTC; root
 Author: Hadley Wickham [aut, cre],
   Yue Hue [aut],
   R Core team [ctb] (guess_bandwidth adapted from stats::bw.SJ)
 Maintainer: Hadley Wickham <hadley@rstudio.com>
-Built: R 4.0.2; x86_64-pc-linux-gnu; 2020-08-10 18:31:40 UTC; unix
+Built: R 4.0.2; x86_64-pc-linux-gnu; 2020-08-17 20:39:57 UTC; unix

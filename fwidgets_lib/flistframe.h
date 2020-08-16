@@ -48,6 +48,7 @@
 #include <QFileSystemModel>
 #include <QMessageBox>
 #include <QMutex>
+#include <QThreadPool>
 
 class FListWidget;
 class QToolDirButton;
@@ -62,7 +63,6 @@ public:
 // Membres données
 
 
- std::vector<QThread*> Threads;
  QVector<QListWidget*> widgetContainer;  ///< Conteneur des widgets listes composant les onglets.
  FListWidget *fileListWidget;            ///< composant fonctionnelassocié à QWidget représentant l'onglet courant.
  QString frameHashKey;                   ///< Balise XML correspondant à la classe.
@@ -80,7 +80,7 @@ public:
  QAbstractItemView *fileTreeView;                ///< Onglet central matrice.
  QFileSystemModel *model = new QFileSystemModel; ///< Modèle de fichiers sous-jacent à  FListFrame::fileTreeView.
  QGroupBox *controlButtonBox = new QGroupBox;    ///< Boîte permettant de regrouper divers boutons de contrôle (haut/bas etc.).
- bool use_threads = false;                       ///< Par défaut, les fils d'exécution ne seront pas utilisés. Seront activés en cas d'input disque optique.
+ bool sequentiel = false;                       ///< En cas d'input disque optique, l'exécution des fils de la classe Worker est séquentielle.
  std::vector<Worker*> W;  ///< Vecteur de fils d'exécution permettant de lancer parseXhlFile sur chaque fichier d'onglet.
  // Méthodes
  /// Efface  widgetContainer
@@ -257,7 +257,6 @@ private:
 
  void parseXhlFile();
 
-
  void addStringListToListWidget();
  QStringList parseTreeForFilePaths(const QStringList& stringList);
  void setStrikeOutFileNames(flags::colors color);
@@ -291,15 +290,10 @@ public slots:
         static int count;
         ++count;
         emit(setProgressBar(count));
-        if (count == size)
+        if (count == stringList.size())
         {
             count = 0;
             emit(imported());
-
-            for (QThread* t : Threads) {
-
-                connect(t, &QThread::finished, t, &QObject::deleteLater);
-            }
         }
     }
 
@@ -309,14 +303,14 @@ protected slots:
     void finalise();
 };
 
-class Worker : public QObject
+class Worker : public QObject, public QRunnable
 {
-    Q_OBJECT
 
+Q_OBJECT
 private :
 
     int rank;
-    bool finished = false;
+    bool _finished  = false;
     QString filename;
 
     /// Décode les champs principaux du fichier XHL: Année, Mois, Budget, ...
@@ -328,19 +322,24 @@ public:
 
     Worker(const int r, const QString &s): rank {r}, filename {s} {}
 
-    void doWork() {
+    void run() override {
 
         parseXhlFile(filename);
-        emit resultReady(rank);
-        finished = true;
+
+        emit(resultReady(rank));
+        if (! QFile(filename).isOpen())
+        {
+            emit(finished());
+            _finished = true;
+        }
     }
 
-    bool isFinished() {return finished;}
-
+    bool isFinished() {return _finished; }
 
 signals:
     void resultReady(const int);
     void textAppend(const QString& s);
+    void finished();
 };
 
 #endif // FLISTFRAME_H

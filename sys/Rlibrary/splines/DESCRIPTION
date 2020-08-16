@@ -10,4 +10,4 @@ Description: Regression spline functions and classes.
 License: Part of R 4.0.2
 Suggests: Matrix, methods
 NeedsCompilation: yes
-Built: R 4.0.2; x86_64-pc-linux-gnu; 2020-08-10 16:22:30 UTC; unix
+Built: R 4.0.2; x86_64-pc-linux-gnu; 2020-08-17 20:03:50 UTC; unix

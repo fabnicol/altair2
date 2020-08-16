@@ -2,12 +2,81 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <body>
 <h2>La documentation utilisateurs</h2>
-<p>La documentation comprend trois guides :</p>
+<p>La documentation comprend deux guides :</p>
 <ul>
   <li><a href="../../Docs/Guide%20utilisateurs.pptx">Guide utilisateurs de l'interface graphique pour l'extraction des données</a></li>
   <li><a href="../../Docs/Guide_Altaïr.pdf">Guide des rapports d'analyse : tests statutaires et réglementaires</a></li> 
 
 </ul>
+
+<h2>En un mot...</h2>
+
+<p>Le présent logiciel produit automatiquement des statistiques et des tests
+de cohérence et de conformité comptable et réglementaire, à partir de bases
+de données pouvant être lues par l'application Xemelios (Direction générale des finances 
+publiques, http://xemelios.org).</p>
+
+<p>Cliquer sur l'icône "A" bleue sur le Bureau.</p>
+<p>Une interface utilisateur s'affiche qui permet d'exécuter l'extraction des
+données de paye des fichiers .xhl pour les convertir en fichiers plats .csv
+<h2>Importer les données</h2>
+
+<ul>
+<li>Par glisser-déposer depuis le bureau ou tout autre dossier vers l'onglet central au milieu de l'interface.</li>
+<li>Ou bien en déposant les données dans le répertoire 
+<pre>     C:\Users\Public\Dev\Altair\scripts\R\Donnees\xhl    [Windows]
+            ~/Dev/altair/scripts/R/Donnees/xhl                   [Linux]
+  </pre>
+</li>
+</ul>
+
+
+<h2>Lancer...</h2>
+<p>En cliquant sur l'icône en forme de base de données quadrillée CSV dans la barre d'icônes.</p>
+
+Par défaut les rapports d'analyse sont automatiquement produits aux formats
+pdf, docx et odt.
+Alternativement, sous linux, il est possible d'utiliser RStudio pour les produire
+à partir des bases de données extraites.</p>
+
+
+  <p>Le rapport d'exécution et les bases de données sont générés dans le dossier clé R-Altair situé sous : <bre>
+  <pre>     C:\Users\Public\Dev\Altair\scripts\R\Donnees\R-Altaïr    [Windows]
+            ~/Dev/altair/scripts/R/Donnees/R-Altair                   [Linux]
+  </pre>
+  <p>Ce dossier peut être ouvert en cliquant sur l'icône "dossier" de la barre d'outils ou dans le menu :</p>
+   <h4><pre>           Lancer - Ouvrir le répertoire des bases    </pre></h4>
+
+<h2>Interface RStudio (sous Linux, non fourni sous Windows)</h2>
+
+<ul>
+<li> L'interface Altaïr permet le lancement de l'interface RStudio pour afficher 
+   le script  en langage R et lancer son exécution.</li>
+   
+   
+<li><p> Affichage du script dans l'interface RStudio</p>
+
+  <p>Au lancement de l'interface RStudio, vérifier que l'onglet actif est bien le 
+  fichier  'rapport_msword.R'  dans la fenêtre supérieure gauche. 
+  Sinon, dans la fenêtre inférieure droite, cliquer sur le fichier 
+
+       rapport_msword.R
+  dans scripts/R.
+  Pour les lancements suivants de l'interface RStudio, cette opération de 
+  sélection de fichier ne sera plus nécessaire.</p></li>
+
+<li><p> Production d'un nouveau rapport par exécution du script.</p>
+
+  <p>Appuyer sur l'icône "Source" à la droite du quadrant supérieur gauche de l'interface,
+  en vérifiant que l'onglet actif de ce quadrant est bien le fichier rapport_msword.R.
+  
+  Ce qui précède est également valable pour un rapport pdf avec le fichier rapport_pdf.R,
+  qui doit alors être sélectionné dans le quadrant supérieur gauche. Il est également
+  possible de produire les deux types de rapport en même temps avec le fichier 
+  rapport_msword_et_pdf.R</p>
+
+
+   
 
 <hr>
 <h2>Le schéma XML</h2>

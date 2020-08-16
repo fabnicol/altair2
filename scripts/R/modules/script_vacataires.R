@@ -1,5 +1,8 @@
 #'  
-#'## 5.3 Contrôle des vacations horaires pour les fonctionnaires      
+#'## 5.10 Contrôle des vacations horaires pour les fonctionnaires      
+
+
+#'**Attention ces tests sont souvent peu opérants car les vacataires ne sont pas toujours identifiables comme tels en base de paye.**   
 
 # Vacations et statut de fonctionnaire
 
@@ -53,10 +56,10 @@ conditionnel("Matricules des fonctionnaires concernés", "Bases/Reglementation/m
 conditionnel("Lien vers les vacations payees à des fonctionnaires", "Bases/Reglementation/lignes.fonctionnaires.et.vacations.csv")       
 conditionnel("Lien vers les bulletins de paie correspondants", "Bases/Reglementation/Paie_vac_fonct.csv")            
 
-####  5.4 CEV ####  
+####  5.11 CEV ####  
 
 #'
-#'## 5.4 Contrôles sur les contractuels effectuant des vacations horaires   
+#'## 5.11 Contrôles sur les contractuels effectuant des vacations horaires   
 #'   
 #'[![Notice](icones/Notice.png)](Docs/Notices/fiche_CEV_droit.odt)     
 
@@ -86,7 +89,7 @@ if (nombre.contractuels.et.vacations)
 nombre.Lignes.paie.RI.et.vacations <- nrow(RI.et.vacations)
 
 #'  
-#'&nbsp;*Tableau 5.4.1 : Contractuels effectuant des vacations horaires (CEV)*  &nbsp; [![Notice](icones/Notice.png)](Docs/Notices/fiche_CEV_horaires.odt)   
+#'&nbsp;*Tableau 5.11.1 : Contractuels effectuant des vacations horaires (CEV)*  &nbsp; [![Notice](icones/Notice.png)](Docs/Notices/fiche_CEV_horaires.odt)   
 #'    
 
 if (exists("nombre.contractuels.et.vacations")) {
@@ -125,7 +128,7 @@ nombre.SFT_IR.et.vacations     <- nrow(matricules.SFT_IR.et.vacations)
 
 
 #'  
-#'&nbsp;*Tableau 5.4.2 : CEV percevant le supplément familial de traitement ou l'indemnité de résidence*     &nbsp; [![Notice](icones/Notice.png)](Docs/Notices/fiche_CEV_SFT.odt)   
+#'&nbsp;*Tableau 5.11.2 : CEV percevant le supplément familial de traitement ou l'indemnité de résidence*     &nbsp; [![Notice](icones/Notice.png)](Docs/Notices/fiche_CEV_SFT.odt)   
 #'    
 
 if (exists("nombre.SFT_IR.et.vacations")) {

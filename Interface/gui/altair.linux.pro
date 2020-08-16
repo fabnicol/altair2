@@ -93,7 +93,7 @@ TARGET = Altair
 VPATH = .
 INCLUDEPATH += ../../fwidgets_lib
 #windows:LIBS += C:/Users/Public/Dev/altair2/fwidgets_lib/libfwidgets_lib.a
-linux:LIBS += ~/Dev/altair/fwidgets_lib/libfwidgets_lib.a
+#linux:LIBS += ~/Dev/altair/fwidgets_lib/libfwidgets_lib.a
 
 DEFINES += HAS_CPP17
 
@@ -124,6 +124,13 @@ QMAKE_CXXFLAGS += -march=core-avx2  -pipe -m64         # facultatif
 
 
 SOURCES += \
+    ../../fwidgets_lib/flineframe.cpp \
+    ../../fwidgets_lib/flistframe.cpp \
+    ../../fwidgets_lib/forms.cpp \
+    ../../fwidgets_lib/fstring.cpp \
+    ../../fwidgets_lib/fwidgets.cpp \
+    ../../fwidgets_lib/fwidgets_lib.cpp \
+    ../../fwidgets_lib/tools.cpp \
     options.cpp \
     mainwindow.cpp \
     altair.cpp \
@@ -136,6 +143,18 @@ SOURCES += \
 
 
 HEADERS  += \
+    ../../fwidgets_lib/custom.h \
+    ../../fwidgets_lib/enums.h \
+    ../../fwidgets_lib/flineframe.h \
+    ../../fwidgets_lib/flistframe.h \
+    ../../fwidgets_lib/forms.h \
+    ../../fwidgets_lib/fstring.h \
+    ../../fwidgets_lib/fwidgets.h \
+    ../../fwidgets_lib/fwidgets_lib.h \
+    ../../fwidgets_lib/fwidgets_lib_global.h \
+    ../../fwidgets_lib/tags.h \
+    ../../fwidgets_lib/templates.h \
+    ../../fwidgets_lib/tools.h \
     options.h \
     common.h \
     altair.h \

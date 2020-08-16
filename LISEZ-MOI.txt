@@ -12,11 +12,6 @@ de données pouvant être lues par l'application Xemelios (Direction générale des 
 publiques, http://xemelios.org).
 
 
-Installation
-------------
-
-Voir fichier INSTALLATION.
-
 Documentation
 ---------------------
 
@@ -32,8 +27,16 @@ dans le répertoire Altair.
 Une interface utilisateur s'affiche qui permet d'exécuter l'extraction des
 données de paye des fichiers .xhl pour les convertir en fichiers plats .csv
 
-Interface RStudio (sous Linux)
------------------------
+
+Par défaut les rapports d'analyse sont automatiquement produits aux formats
+pdf, docx et odt.
+
+Alternativement, il est possible d'utiliser RStudio pour les produire
+à partir des bases de données extraites.
+
+
+Interface RStudio (sous Linux, non fourni sous Windows)
+--------------------------------------------------------
 
 1. L'interface Altaïr permet le lancement de l'interface RStudio pour afficher 
    le script  en langage R et lancer son exécution.
@@ -153,9 +156,9 @@ Composition du paquet distribué
 LINUX:
 
 Le module Interface graphique est distribué sous forme binaire dans le répertoire
-Interface_linux. Elle a été compilée sous GNU g++ version 6.2.  
+Interface_linux. Elle a été compilée sous GNU g++ version 9.3.  
 
-Les dépendances logicielles Qt5 de l'éditeur Digia, ont été recompilées par l'auteur
+Les dépendances logicielles Qt5 ont été recompilées par l'auteur
 à partir du code source, le compilateur étant le même.
 
 Le module noyau LHX, qui effectue la conversion des données au format .xhl vers les 
@@ -206,5 +209,5 @@ Historique
 				
      mars 2017  Déploiement de l'extracteur de données et de l'interface graphique.				
 septembre 2017  Finalisation de la version de production du modules de production des rapports.
-juillet 2020    Dernière actualisation du projet.
+  juillet 2020  Dernière actualisation du projet.
 
