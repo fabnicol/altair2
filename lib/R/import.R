@@ -467,17 +467,19 @@ Redresser.heures <- function() {
 						 & !is.na(Temps.de.travail), 
 							Heures := {"nredressements" %a% .N 
 										round(Temps.de.travail * nb.heures.temps.complet / 100, 1)}]
-	
-		  
-          "Paie" %a% merge(Paie[ , Heures := NULL] , 
-		                       Bulletins.paie[, .(Matricule, 
-                      												Annee,
-                      												Mois,
-                      												Service,
-                      												Statut,
-                      												Emploi,
-                      												Heures)], 
-												                         by = c("Matricule","Annee","Mois","Service", "Statut", "Emploi"))		  
+	   
+      # la solution de merge ne donne pas de meilleurs résultats et est moins fiable  
+        
+      Paie[(Heures == 0 | is.na(Heures))
+                       & Indice != "" 
+                       & !is.na(Indice) 
+                       & Statut != "ELU" 
+                       & Grade  != "V" 
+                       & Grade  != "A"
+                       & Temps.de.travail != 0 
+                       & !is.na(Temps.de.travail), 
+                       Heures :=  round(Temps.de.travail * nb.heures.temps.complet / 100, 1)]
+         
       }
 		
       message("Correction (méthode 1), compte tenu des temps complets vérifiés, sur ",
