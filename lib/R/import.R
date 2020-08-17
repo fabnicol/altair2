@@ -224,7 +224,7 @@ rémunérations_eqtp <- function(DT) {
   DT[ ,   `:=`(Montant.brut.annuel      = sum(Brut, na.rm = TRUE),
                            Montant.brut.annuel.eqtp = 365 / nb.jours * sum(Montant.brut.eqtp , na.rm = TRUE),
                            Montant.net.annuel.eqtp  = 365 / nb.jours * sum(Montant.net.eqtp, na.rm = TRUE),
-                           Montant.net.annuel       = sum(Montant.net, na.rm = TRUE),
+                           Montant.net.annuel       = sum(Net.a.Payer, na.rm = TRUE),
                            permanent                = nb.jours >= 365,
                            indicatrice.quotite.pp   = indicatrice.quotite.pp[1]),
 
