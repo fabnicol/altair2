@@ -162,15 +162,13 @@ Section
   File /r  "${prodname.simple}\Docs" 
   File /r  "${prodname.simple}\lib" 
   File     "${prodname.simple}\*.*" 
-  File /r  "${prodname.simple}\.Rproj.user" 
-  
+    
   SetOutPath $INSTDIR\${prodname.simple}
   File   "${prodname.simple}\windows\*.*" 
   
   SetOutPath $INSTDIR\${exemple}
   File /r  Docs
   File /r  ${exemple}
-  File     ${prodname.simple}\*windows*.Rproj
 
 SectionEnd
 
