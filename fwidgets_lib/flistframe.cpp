@@ -415,11 +415,9 @@ void FListFrame::parseXhlFile()
 
     launch_thread(0, stringList.at(0));
 
-    while (rank < size)
-    {
-        ++rank;
-        connect(W.back(), &Worker::resultReady, [this, rank] { if (! isTerminated) launch_thread(rank + 1, stringList.at(rank)); });
-     }
+    while (++rank < size)
+        connect(W.back(), &Worker::resultReady, [this, rank] { if (! isTerminated) launch_thread(rank, stringList.at(rank)); });
+
 
         #ifdef DEBUG_INPUT_FILES
            app->outputTextEdit->append(PROCESSING_HTML_TAG "Analyse du fichier n°" + QString::number(rank));

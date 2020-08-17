@@ -1,5 +1,5 @@
 #'
-#'## 5.7 Contrôle de la prime de fonctions et de résultats (PFR) 
+#'## 5.5 Contrôle de la prime de fonctions et de résultats (PFR) 
 #'   
 #'  
 #'[![Notice](icones/Notice.png)](Docs/Notices/fiche_PFR.odt)   
@@ -7,7 +7,7 @@
 #+ pfr
 
 #'    
-#'&nbsp;*Tableau 5.7.1 : Cumul PFR/IFTS*   
+#'&nbsp;*Tableau 5.5.1 : Cumul PFR/IFTS*   
 #'      
 
 PFR.plafonds <<- list( admin.g   = 58800, 
@@ -22,7 +22,7 @@ Paie_PFR   <<- résultat_PFR$Paie
 Lignes_PFR <<- résultat_PFR$Lignes
 
 #'  
-#'&nbsp;*Tableau 5.7.2 : Cumuls PFR/IFTS*   
+#'&nbsp;*Tableau 5.5.2 : Cumuls PFR/IFTS*   
 #'      
 
 tableau_cumuls(résultat_PFR)
@@ -39,7 +39,7 @@ Paie_ISS   <<- résultat_PFR$Paie
 Lignes_ISS <<- résultat_PFR$Lignes
 
 #'    
-#'&nbsp;*Tableau 5.7.3 : Cumul PFR/ISS*   
+#'&nbsp;*Tableau 5.5.3 : Cumul PFR/ISS*   
 #'      
 
 tableau_cumuls(résultat_PFR)
@@ -55,7 +55,7 @@ Paie_IEMP   <<- résultat_PFR$Paie
 Lignes_IEMP <<- résultat_PFR$Lignes
 
 #'    
-#'&nbsp;*Tableau 5.7.4 : Cumul PFR/IEMP*   
+#'&nbsp;*Tableau 5.5.4 : Cumul PFR/IEMP*   
 #'      
 
 tableau_cumuls(résultat_PFR)
@@ -74,7 +74,7 @@ conditionnel("Lien vers la base de données cumuls pfr/iemp", "Bases/Reglementat
 # SM/AT 20 100
 
 #'  
-#'&nbsp;*Tableau 5.7.5 : Rappel des plafonds annuels de la PFR*   
+#'&nbsp;*Tableau 5.5.5 : Rappel des plafonds annuels de la PFR*   
 #'      
 
 Tableau(c("Adm. général", "Adm. HC", "Adm.", "Direct./Attaché princ.", "Secr. mairie/Attaché"),
@@ -114,7 +114,7 @@ if (nrow(dépassements.PFR.plafonds) > 0) {
 }
 
 #'  
-#'&nbsp;*Tableau 5.7.6 : Valeurs de l'agrégat annuel (PFR ou IFTS) pour les bénéficiaires de la PFR*        
+#'&nbsp;*Tableau 5.5.6 : Valeurs de l'agrégat annuel (PFR ou IFTS) pour les bénéficiaires de la PFR*        
 #'          
 
 agrégat_annuel(résultat_PFR, afficher.table.effectifs)  
@@ -124,7 +124,7 @@ conditionnel("Lien vers la base de données agrégat PFR-IFTS", "Bases/Remunerat
 #'    
 
 #'  
-#'&nbsp;*Tableau 5.7.7 : Variations de l'agrégat mensuel moyen (PFR ou IFTS) pour les bénéficiaires de la PFR*   
+#'&nbsp;*Tableau 5.5.7 : Variations de l'agrégat mensuel moyen (PFR ou IFTS) pour les bénéficiaires de la PFR*   
 #'          
 
 évolution_agrégat(résultat_PFR, afficher.table.effectifs)

@@ -84,7 +84,7 @@ script_retraites               <- TRUE
 script_FPH                     <- TRUE    
 
 sequentiel                     <- TRUE
-ouvrir.document <- FALSE
+ouvrir.document                <- TRUE
 
 types.irs  <- c("IR", "S")
 

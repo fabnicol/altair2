@@ -1,5 +1,5 @@
 #'
-#'## 5.6 Contrôle sur les indemnités IAT et IFTS 
+#'## 5.4 Contrôle sur les indemnités IAT et IFTS 
 #'   
 #'[![Notice](icones/Notice.png)](Docs/Notices/fiche_IAT_IFTS.odt)   
 #'   
@@ -35,7 +35,7 @@ conditionnel("Lien vers la base de données IFTS aux non-titulaires", "Bases/Reg
 conditionnel("Lien vers la base de données IFTS non cat A-B", "Bases/Reglementation/IFTS.non.catAB.csv")    
 #' 
 #'  
-#'&nbsp;*Tableau 5.6.1 : Cumul IAT/IFTS*   
+#'&nbsp;*Tableau 5.4.1 : Cumul IAT/IFTS*   
 #'      
 
 tableau_cumuls(résultat_IAT_IFTS)
@@ -47,7 +47,7 @@ conditionnel("Lien vers la base de données cumuls IAT/IFTS", "Bases/Reglementat
 #'      
 
 #'  
-#'&nbsp;*Tableau 5.6.2 : Cumul logement par NAS/IFTS*   
+#'&nbsp;*Tableau 5.4.2 : Cumul logement par NAS/IFTS*   
 #'      
 
 

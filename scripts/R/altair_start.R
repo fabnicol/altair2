@@ -260,7 +260,7 @@ scripts <-
         "script_RIFSEEP.R",
         "script_PFI.R", #+
         "script_vacataires.R", #+
-        "script_NAS.R", #+
+#       "script_NAS.R", #+ [inachevé]
         "script_élus.R",
         "script_comptabilité.R",
         "script_SFT.R",
@@ -310,7 +310,7 @@ if (sequentiel || setOSWindows) {
 
   group5 <- list("script_PFI.R", #+
                  "script_vacataires.R", #+
-                 "script_NAS.R", #+
+#                "script_NAS.R", #+  [inachevé]
                  "script_élus.R")
 
   group6 <- list("script_comptabilité.R",
@@ -338,22 +338,6 @@ if (sequentiel || setOSWindows) {
                       generer.partie)
   
   stopCluster(cl)
-  
-  # Il faut réordonner pour être dans l'ordre canonique du rapport
-
-  r3 <- res[[3]]
-  r5 <- res[[5]]
-
-  res[[3]] <- list(r3[[1]],
-                   r5[[1]],
-                   r5[[2]],
-                   r5[[3]])
-
-  res[[5]] <- list(r3[[2]],
-                   r3[[3]],
-                   r5[[4]])
-
-  invisible(lapply(res, function(x) cat(unlist(x), sep = '\n')))
   
 }
 
