@@ -23,8 +23,8 @@
 !define prodname     "Altaïr"
 !define prodname.simple "Altair"
 !define setup        "Altaïr-${version}.win.${processeur}.installer.exe"
-!define exemple      "${prodname.simple}\scripts\R"
-!define xhl          "${exemple}\Donnees\xhl"
+!define exemple      "scripts\R"
+
 !define Interface    Interface_windows
 !define icon         neptune.ico
 !define RDir         "R-devel"
@@ -40,13 +40,13 @@
 !define MEMENTO_REGISTRY_ROOT HKLM
 !define MEMENTO_REGISTRY_KEY "${REG_UNINST_KEY}"
 
-!define MUI_ICON     "${exemple}\icones\${icon}"
+!define MUI_ICON     "${prodname.simple}\${exemple}\icones\${icon}"
 !define MUI_WELCOMEFINISHPAGE
 !define MUI_WELCOMEPAGE_TEXT  $(wizard1)
 !define MUI_WELCOMEPAGE_TITLE $(wizard2)
 !define MUI_HEADERIMAGE
-!define MUI_HEADERIMAGE_BITMAP "${exemple}\icones\${prodname}.bmp"
-!define MUI_WELCOMEFINISHPAGE_BITMAP "${exemple}\icones\neptune.bmp"
+!define MUI_HEADERIMAGE_BITMAP "${prodname.simple}\${exemple}\icones\${prodname}.bmp"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "${prodname.simple}\${exemple}\icones\neptune.bmp"
 !define MUI_ABORTWARNING
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT "HKCU" 
 !define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\Modern UI Test" 
@@ -121,7 +121,7 @@ SetDatablockOptimize on
 CRCCheck on
 SilentInstall normal
 
-Icon "${exemple}\icones\${icon}"
+Icon "${prodname.simple}\${exemple}\icones\${icon}"
 
 RequestExecutionLevel user
 AutoCloseWindow false
@@ -129,7 +129,7 @@ AutoCloseWindow false
 Function .onInit
  
   SetOutPath $TEMP	
-  File /oname=spltmp.bmp "${exemple}\icones\spltmp.bmp"
+  File /oname=spltmp.bmp "${prodname.simple}\${exemple}\icones\spltmp.bmp"
 
   advsplash::show 2300 600 400 -1 $TEMP\spltmp
 
@@ -150,42 +150,36 @@ FunctionEnd
 
 
 Section
-  CreateDirectory  $INSTDIR\${exemple}\Donnees\R-Altaïr
-  CreateDirectory  $INSTDIR\${xhl}
-  CreateDirectory  $INSTDIR\${prodname.simple}\lib
-  CreateDirectory  $INSTDIR\${prodname.simple}\win
+  CreateDirectory  $INSTDIR\${prodname.simple}\${exemple}\Donnees\R-Altaïr
+  CreateDirectory  $INSTDIR\${prodname.simple}\${exemple}\Donnees\xhl
   CreateDirectory  $INSTDIR\${prodname.simple}\lhx
+  CreateDirectory  $INSTDIR\${prodname.simple}\scripts
   CreateDirectory $LOCALAPPDATA\${prodname}  
+  
   
   SetDetailsPrint both
   SetOutPath $INSTDIR\${prodname.simple}
   File /r  "${prodname.simple}\Docs" 
-  File /r  "${prodname.simple}\lib" 
   File     "${prodname.simple}\*.*" 
     
   SetOutPath $INSTDIR\${prodname.simple}
-  File   "${prodname.simple}\windows\*.*" 
+  File /r "${prodname.simple}\windows"
+  File /r  "${prodname.simple}\${Interface}" 
+  File /r  "${prodname.simple}\${RDir}"
+  File /r  "${prodname.simple}\${nppDir}"
+  File /r  "${prodname.simple}\${texDir}"
+  File /r  "${prodname.simple}\${RStudioDir}"
+  File /r "${prodname.simple}\data"; pyramides
   
-  SetOutPath $INSTDIR\${exemple}
-  File /r  Docs
-  File /r  ${exemple}
+  SetOutPath $INSTDIR\${prodname.simple}\scripts
+  File /r "${prodname.simple}\${exemple}"
 
 SectionEnd
 
- Section /o $(AdvancedName) Advanced
-    SetOutPath $INSTDIR\${prodname.simple}
-    File /r  "${prodname.simple}\${Interface}" 
-    File /r  "${prodname.simple}\${RDir}"
-    File /r  "${prodname.simple}\${nppDir}"
-    File /r  "${prodname.simple}\${texDir}"
-    File /r  "${prodname.simple}\${RStudioDir}"
-
- SectionEnd
-
+ 
  
  !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
    !insertmacro MUI_DESCRIPTION_TEXT ${sec1} $(DESC_sec1)
-   !insertmacro MUI_DESCRIPTION_TEXT ${Advanced} $(DESC_Advanced)
  !insertmacro MUI_FUNCTION_DESCRIPTION_END
   
  
@@ -195,18 +189,18 @@ Section
   SetShellVarContext current
   
   SetOutPath       "$INSTDIR\${prodname.simple}\${Interface}"
-  CreateShortCut   "$DESKTOP\${prodname}.lnk" "$INSTDIR\${prodname.simple}\${Interface}\gui\x64\${prodname.simple}.exe"  "" "$INSTDIR\${exemple}\icones\${icon}"
+  CreateShortCut   "$DESKTOP\${prodname}.lnk" "$INSTDIR\${prodname.simple}\${Interface}\gui\x64\${prodname.simple}.exe"  "" "$INSTDIR\${prodname.simple}\${exemple}\icones\${icon}"
   WriteRegStr HKLM "${prodname}\Shell\open\command\" "" "$INSTDIR\${prodname.simple}\${Interface}\gui\x64\${prodname.simple}.exe"
   
   CreateDirectory  "$SMPROGRAMS\$StartMenuFolder"
   CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\Désinstaller.lnk" "$INSTDIR\Désinstaller.exe" "" "$INSTDIR\Désinstaller.exe" 0
-  CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\${prodname}.lnk" "$INSTDIR\${prodname.simple}\${Interface}\gui\x64\${prodname.simple}.exe" "" "$INSTDIR\${exemple}\icones\${icon}" 0
+  CreateShortCut   "$SMPROGRAMS\$StartMenuFolder\${prodname}.lnk" "$INSTDIR\${prodname.simple}\${Interface}\gui\x64\${prodname.simple}.exe" "" "$INSTDIR\${prodname.simple}\${exemple}\icones\${icon}" 0
   
   SetDetailsPrint textonly
   DetailPrint "Création des clés d'enregistrement..."
   SetDetailsPrint listonly
 
-  WriteRegStr HKLM "${prodname}\DefaultIcon" "${prodname}" "$INSTDIR\${exemple}\icones\${icon}"
+  WriteRegStr HKLM "${prodname}\DefaultIcon" "${prodname}" "$INSTDIR\${prodname.simple}\${exemple}\icones\${icon}"
   WriteRegStr HKLM SOFTWARE\${prodname} \
      "Install_Dir" "$INSTDIR"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${prodname}" \
