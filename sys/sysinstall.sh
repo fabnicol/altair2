@@ -425,6 +425,15 @@ git config --global --unset http.proxy
 
 cd /home/fab/Dev/altair
 
+############################
+############################
+# A décommenter pour éviter l'actualisation systématique.
+rm -f VERSION
+git commit -am"Réactualisation forcéee"
+
+###########################
+
+
 git rev-parse --verify release
 
 if test $? != 0; then
