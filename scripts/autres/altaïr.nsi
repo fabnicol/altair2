@@ -152,9 +152,10 @@ FunctionEnd
 Section
   CreateDirectory  $INSTDIR\${prodname.simple}\${exemple}\Donnees\R-Altaïr
   CreateDirectory  $INSTDIR\${prodname.simple}\${exemple}\Donnees\xhl
-  CreateDirectory  $INSTDIR\${prodname.simple}\windows
   CreateDirectory  $INSTDIR\${prodname.simple}\lhx
+  CreateDirectory  $INSTDIR\${prodname.simple}\scripts
   CreateDirectory $LOCALAPPDATA\${prodname}  
+  
   
   SetDetailsPrint both
   SetOutPath $INSTDIR\${prodname.simple}
@@ -163,12 +164,15 @@ Section
     
   SetOutPath $INSTDIR\${prodname.simple}
   File /r "${prodname.simple}\windows"
-  File  /r "${prodname.simple}\${exemple}"
   File /r  "${prodname.simple}\${Interface}" 
   File /r  "${prodname.simple}\${RDir}"
   File /r  "${prodname.simple}\${nppDir}"
   File /r  "${prodname.simple}\${texDir}"
   File /r  "${prodname.simple}\${RStudioDir}"
+  File /r "${prodname.simple}\data"; pyramides
+  
+  SetOutPath $INSTDIR\${prodname.simple}\scripts
+  File /r "${prodname.simple}\${exemple}"
 
 SectionEnd
 
