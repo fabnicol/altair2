@@ -160,7 +160,10 @@ Section
   SetDetailsPrint both
   SetOutPath $INSTDIR\${prodname.simple}
   File /r  "${prodname.simple}\Docs" 
-  File     "${prodname.simple}\*.*" 
+  File     "${prodname.simple}\*.txt" 
+  File     "${prodname.simple}\*.html" 
+  File     "${prodname.simple}\LICENCE" 
+  File     "${prodname.simple}\VERSION" 
     
   SetOutPath $INSTDIR\${prodname.simple}
   File /r "${prodname.simple}\windows"
