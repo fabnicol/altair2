@@ -53,7 +53,7 @@ produire_pyramides_ <- function(Filtre_bulletins, titre, versant = "", envir) {
 
   annee.fin.comp <- if (versant != "") {
                       max(debut.periode.sous.revue,
-                      min(altair::annee_comparaison(versant)$annee, fin.periode.sous.revue))
+                           min(altair::annee_comparaison(versant)$annee, fin.periode.sous.revue, na.rm = TRUE), na.rm = TRUE)
                   } else fin.periode.sous.revue
 
   # Extraire les matricules et Nir du début et de la fin de la periode sous revue
@@ -182,7 +182,7 @@ if  (exists("H") && ! identical(ages.fin.psr, ages.début.psr) && longueur.non.n
   
   # la valeur y du plot serait plutôt c(-3,20) pour une sortie R pure. On privilégie le formatage Rmd à c(-1, 20)
   
-  plot(c(min(H$Total), max(H$Total)), c(-1, 20), type = "n", frame = FALSE, axes = FALSE, xlab = "", ylab = "",
+  plot(c(min(H$Total, na.rm = TRUE), max(H$Total, na.rm = TRUE)), c(-1, 20), type = "n", frame = FALSE, axes = FALSE, xlab = "", ylab = "",
        main = "Evolution des effectifs par tranche d'âge")
   
   barplot(H$Total, 
@@ -200,7 +200,7 @@ if  (exists("H") && ! identical(ages.fin.psr, ages.début.psr) && longueur.non.n
                       "65-70"),
           xlab = "Variation d'effectifs",
           ylab = "Tranche d'âge",
-          xlim = c(min(H$Total), max(H$Total)),
+          xlim = c(min(H$Total, na.rm = TRUE), max(H$Total, na.rm = TRUE)),
           xpd  = FALSE,
           col  = "lightgreen",
           horiz = TRUE,
@@ -213,7 +213,7 @@ if  (exists("H") && ! identical(ages.fin.psr, ages.début.psr) && longueur.non.n
           col  = "deeppink",
           horiz = TRUE,
           density = 10,
-          xlim = c(min(H$Total), max(H$Total)),
+          xlim = c(min(H$Total, na.rm = TRUE), max(H$Total, na.rm = TRUE)),
           xpd  = FALSE,
           add = TRUE)
   
@@ -270,12 +270,12 @@ pyramidf <- function(data,
 
   # scaling factors
 
-  LL <- max(Laxis)
-  LR <- min(Laxis)
+  LL <- max(Laxis, na.rm = TRUE)
+  LR <- min(Laxis, na.rm = TRUE)
   LS <- LL-LR
   LI <- length(Laxis)
-  RL <- min(Raxis)
-  RR <- max(Raxis)
+  RL <- min(Raxis, na.rm = TRUE)
+  RR <- max(Raxis, na.rm = TRUE)
   RS <- RR-RL
   RI <- length(Raxis)
 

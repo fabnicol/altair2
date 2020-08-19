@@ -11,6 +11,8 @@ LazyData: true
 RoxygenNote: 7.1.1
 ByteCompile: true
 Encoding: UTF-8
+NeedsCompilation: no
+Packaged: 2020-08-19 18:21:40 UTC; fabrn
 Author: Fabrice Nicol [aut, cre]
 Maintainer: Fabrice Nicol <fabrice.nicol@crtc.ccomptes.fr>
-Built: R 4.1.0; ; 2020-08-17 12:32:44 UTC; windows
+Built: R 4.1.0; ; 2020-08-19 18:21:43 UTC; windows
