@@ -499,9 +499,7 @@ fi
 
 chown -R fab .
 chgrp -R users .
-
-cp -f /home/fab/Dev/altair/Docs/Exemple/Anonyme2.7z  /home/fab/Dev/altair/scripts/R/Donnees/xhl
-cp -f /home/fab/Dev/altair/Docs/Exemple/Anonyme2.7z  /home/jf/Dev/altair/scripts/R/Donnees/xhl 
+sed -i 's/Tests\/Exemple/scripts\/Exemple/g' /etc/fstab
 
 echo "*** Opérations sur branche release : Terminé ***"
  
