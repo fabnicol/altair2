@@ -669,7 +669,7 @@ importer_ <- function() {
 
   "periode" %a% debut.periode.sous.revue:fin.periode.sous.revue
   "duree.sous.revue" %a% (fin.periode.sous.revue - debut.periode.sous.revue + 1)
-  "nb.annees" %a% uniqueN(Bulletins.paie$Annee)
+  "nb.annees" %a% uniqueN(Bulletins.paie[! is.na(Annee), Annee])
 
   if (duree.sous.revue != nb.annees) {
 

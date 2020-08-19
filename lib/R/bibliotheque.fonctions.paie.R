@@ -595,11 +595,25 @@ v.jmois.leap  <-  c(31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 #' Calcul du nombre de jours dans le mois
 #' @export
 
-calcul.nb.jours.mois <- function(Mois, annee)   if ((annee - 2008) %% 4 == 0) {
-    return(sum(v.jmois.leap[Mois]))
+calcul.nb.jours.mois <- function(Mois, annee)   {
+  if (is.na(annee) || is.na(Mois)) {
+
+    return(30)
+
+  }  else {
+
+    if ((annee - 2008) %% 4 == 0) {
+      
+         return(v.jmois.leap[Mois])
+      
     } else {
-    return(sum(v.jmois[Mois]))
-  }
+      
+      
+         return(v.jmois[Mois])
+      
+    }  
+ }
+}
 
 #' Sélectionne les éléments positifs d'un vecteur
 #' @export
