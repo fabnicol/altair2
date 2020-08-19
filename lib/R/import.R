@@ -393,8 +393,8 @@ Extraire.annees <- function() {
 
   } else {
 
-    "debut.periode.sous.revue" %a% min(Bulletins.paie[ , Annee])
-    "fin.periode.sous.revue" %a% max(Bulletins.paie[ , Annee])
+    "debut.periode.sous.revue" %a% min(Bulletins.paie[ , Annee], na.rm = TRUE)
+    "fin.periode.sous.revue" %a% max(Bulletins.paie[ , Annee], na.rm = TRUE)
   }
 }
 

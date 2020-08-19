@@ -104,14 +104,12 @@ fi
   
       git fetch -p -n --depth=1 origin master-jf | tee -a /home/Public/version.log
         
-        for i in A_FAIRE.txt    data             entrepot.txt  Interface_linux    lib           LICENSE       scripts       TESTS.txt  warning \
-clonage        DEPENDANCES.txt  fwidgets_lib  Interface_windows  LICENCE       linux           STATISTIQUES  \ 
-COPYRIGHT.txt  Docs             Interface     lhx                LICENCE.html  LISEZ-MOI.txt  renv     sys           VERSION 
+        for i in A_FAIRE.txt data entrepot.txt Interface_linux lib scripts TESTS.txt warning clonage DEPENDANCES.txt fwidgets_lib Interface_windows LICENCE linux STATISTIQUES COPYRIGHT.txt Docs Interface lhx LICENCE.html LISEZ-MOI.txt renv sys VERSION 
         do
             rm -rf "$i"
             git checkout FETCH_HEAD -- "$i" 
         done
-        
+      
         
 	if ! test -d  lhx
         then
@@ -185,10 +183,14 @@ COPYRIGHT.txt  Docs             Interface     lhx                LICENCE.html  L
         fi
         done
 
-
-chmod +x /home/fab/Dev/altair/scripts/autres/postinstall.sh
-/bin/bash /home/fab/Dev/altair/scripts/autres/postinstall.sh 
-echo "postinstall"| tee -a /home/Public/version.log
+git checkout -f master-jf
+git commit -am"Sauvegarde master-jf $(date)"
+chown -R fab .
+sleep 2
+cp -vf "scripts/autres/Actualiser.sh" ../
+sleep 1
+echo "****** Terminé ******* "
+sleep 1
 
 echo "****" 
 echo "* Fin de l'opération."

@@ -320,11 +320,6 @@ chmod +rwx /home/jf/Dev/altair/scripts/R/prologue_rapport.R
 mkdir -p /home/jf/Dev/altair/scripts/R/Donnees/Bulletins
 chgrp -R users /home/jf/Dev/altair/scripts/R/Donnees/Bulletins
 chmod -R 0770 /home/jf/Dev/altair/scripts/R/Donnees/Bulletins
-             
-
-if test ! -d /home/fab/Dev/altair/scripts/R/Donnees/xhl ; then
-   mkdir -p /home/fab/Dev/altair/scripts/R/Donnees/xhl
-fi   
 
 # script exécuté à la fin d'une session plasma (démontage de la clé)
 _copy 10-agent-shutdown.sh /etc/plasma/shutdown
@@ -353,7 +348,14 @@ do
 	if test -d /home/$i; then
 		# intégration de l'icone dans le menu développement + clic sur projet *.alt
 		mkdir -p /home/$i/.local/share/applications
-		mkdir -p /home/jf/Dev/altair/scripts/R/Donnees/xhl/$i
+		
+		if test "x$(grep scripts /etc/fstab)" != "x"; then 
+		
+				mkdir -p /home/jf/Dev/altair/scripts/R/Donnees/xhl/$i
+        else
+				rm -rf /home/jf/Dev/altair/scripts/R/Donnees/*
+        fi
+
 		_copy mimeapps.list   /home/$i/.config/
 		_copy mimeapps.list   /home/$i/.local/share/applications
 		_copy images          /home/$i/.local/share/Altair     
@@ -493,15 +495,15 @@ chmod -R 0770 /home/jf/Dev/altair/scripts/R/Donnees/Bulletins
 git checkout -f master-jf 
 
 # accès des données test
-if test ! -d /home/fab/Dev/altair/scripts/R/Donnees/xhl ; then
-   mkdir -p /home/fab/Dev/altair/scripts/R/Donnees/xhl
-fi  
-
 chown -R fab .
 chgrp -R users .
 
-cp -f /home/fab/Dev/altair/Docs/Exemple/Anonyme2.7z  /home/fab/Dev/altair/scripts/R/Donnees/xhl
-cp -f /home/fab/Dev/altair/Docs/Exemple/Anonyme2.7z  /home/jf/Dev/altair/scripts/R/Donnees/xhl 
+sed -i 's/Tests/scripts/g' /etc/fstab
+sed -i 's/Exemple/R/g'     /etc/fstab
+
+if test ! -d /home/fab/Dev/altair/scripts/R/Donnees/xhl ; then
+   mkdir -p /home/fab/Dev/altair/scripts/R/Donnees/xhl
+fi   
 
 echo "*** Opérations sur branche release : Terminé ***"
  

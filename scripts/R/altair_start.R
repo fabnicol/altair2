@@ -49,7 +49,8 @@
 #'![](icones/altair.png)
 #'   
 #'   
-#'## Logiciel Altaïr version `r readLines(file.path(currentDir, "VERSION"))`
+#'## Logiciel Altaïr version 20.08-x 
+### deprecated  `r readLines(file.path(currentDir, "VERSION"))`
 
 # ---
 # Encodage obligatoire en UTF-8

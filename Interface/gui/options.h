@@ -232,7 +232,7 @@ private:
     QStringList variables;        ///< Libellés des éléments de paye faisant l'objet d'une ligne dans l'onglet.
     QLabel *label;                             ///< Elément de texte variable servant à afficher des messaes d'erreur ou de réussite de l'exportation des codes.
     QString init_label_text ;                  ///< Message "Appuyer pour exporter..."
-    const QString prologue_options_path = path_access(SCRIPT_DIR "prologue_options.R");
+    const QString prologue_options_path = path_access(SCRIPT_DIR "prologue_codes.R");
     QToolButton* appliquerCodes ;              ///< Bouton "Exporter" (flèche verte) .
     
     QString file_str; ///< Lecture dans QString du contenu du fichier prologue.codes.R
@@ -346,7 +346,7 @@ private:
     /// \param path  Chemin de l'icône
     /// \param text  Libellé de  l'icône
     
-    void createIcon (const char* path, const char* text);   
+    void createIcon (const char* path);
 
 private slots:
     

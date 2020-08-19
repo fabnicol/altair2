@@ -1462,29 +1462,28 @@ void options::clearOptionData()
 }
 
 
-void options::createIcon (const char* path, const char* text)
+void options::createIcon (const char* path)
 {
     QListWidgetItem *button = new QListWidgetItem (optionWidget);
     QString strpath = QString (path);
-    QString strtext = QString (text);
-    button->setIcon (QIcon (strpath));
-    button->setText (strtext);
-    button->setTextAlignment (Qt::AlignRight);
+
+    QIcon icon = QIcon (strpath);
+    button->setIcon(icon);
     button->setFlags (Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    // toutes les icones devraient être de taille 48x48 ici
 }
 
 
 void options::createIcons()
 {
     QList<const char*> iconList = QList<const char*>()
-                                  << ":/images/csv.png" << "   Format  "
-                                  << ":/images/configure-toolbars.png" << "Traitement "
-                                  << ":/images/data-icon.png" << "   Codes   "
-                                  << ":/images/extra.png" << "   Extra   "
-                                  << ":/images/rapport.png" << "  Rapport  ";  
+                                  << ":/images/csv2.png"
+                                  << ":/images/process2.png"
+                                  << ":/images/data-icon2.png"
+                                  << ":/images/extra2.png"
+                                  << ":/images/rapport2.png";
 
-    for (int i = 0; i < iconList.size() / 2 ; ++i) createIcon (iconList[2 * i], iconList[2 * i + 1]);
-
+    for (auto && i : iconList) createIcon (i);
 }
 
 void options::changePage (QListWidgetItem *current, QListWidgetItem *previous)
