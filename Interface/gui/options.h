@@ -77,8 +77,7 @@ public :
         label->setText ("") ;
     }
 
-     static QString prologue_options_path;  ///< Chemin initial de \em prologue_codes.R sous #SCRIPT_DIR. Ce fichier contient les exportations de valeurs de l'onglet \b Codes de l'interface graphique.
-     
+
 private:
     QList<FLineEdit*> listeCodes; ///< Liste des pointeurs vers des composants fonctionnels de classe FLineEdit, qui rassemble l'ensemble des lignes correspondant à variables.
     QGridLayout *vLayout = new QGridLayout;    ///< Disposition secondaire.
@@ -94,12 +93,7 @@ private:
     /// Ecrase prologue_options.R ( prologue_options_path) par sa valeur d'initialisation prologue_init.R
     /// \return \e true si la réinitialisation par écrasement a réussi, \e false sinon.
     
-    bool reinitialiser_prologue()
-    {
-        QFile (codePage::prologue_options_path).remove();
-        return QFile (common::path_access (SCRIPT_DIR "prologue_init.R")).copy(codePage::prologue_options_path);
-    }
-    
+
 protected : 
    
     QStringList variables;        ///< Libellés des éléments de paye faisant l'objet d'une ligne dans l'onglet.
@@ -154,16 +148,7 @@ private:
     QString    file_str; ///< Contenu du fichier prologue.codes.R
     const QString prologue_options_path = common::path_access (SCRIPT_DIR "prologue_codes.R");
     
-    /// Réinitialise l'exportation des options de rapport (oouvrir et exécution séquentielle notamment)
-    /// Ecrase prologue_codes.R ( prologue_options_path) par sa valeur d'initialisation prologue_init.R
-    /// \return \e true si la réinitialisation par écrasement a réussi, \e false sinon.
-    
-    bool reinitialiser_prologue()
-    {
-            QFile (prologue_options_path).remove();
-            return QFile (common::path_access (SCRIPT_DIR "prologue_init.R")).copy(prologue_options_path);
-    }
-    
+
 };
 
 
@@ -247,16 +232,7 @@ private:
     
     void message(int r, QIcon& icon, bool paire = true); ///< Affichage de la liste des parties du rapport qui seront générées.
     
-    /// Réinitialise l'exportation des codes d'éléments de paye
-    /// Ecrase prologue_scripts.R ( prologue_script_path) par sa valeur d'initialisation prologue_init_scripts.R
-    /// \return \e true si la réinitialisation par écrasement a réussi, \e false sinon.
-    
-    bool reinitialiser_prologue()
-    {
-            QFile (prologue_options_path).remove();
-            return QFile (common::path_access (SCRIPT_DIR "prologue_init.R")).copy(prologue_options_path);
-    }
-    
+
     
 private slots:
     

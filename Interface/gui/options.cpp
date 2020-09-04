@@ -55,7 +55,7 @@
 #include "flineframe.h"
 
 
-QString codePage::prologue_options_path;
+QString common::prologue_options_path;
 
 int codePage::ajouterVariable (const QString& nom)
 {
@@ -138,7 +138,7 @@ codePage::codePage()
 
     connect (appliquerCodes, SIGNAL (clicked()), this, SLOT (substituer_valeurs_dans_script_R()));
 
-    // A chaque fois qu'une ligne est éditée à la main, réinitialiser l'état d'exportation (bouton et fichier prologue_codes.R à partor de prologue_init.R)
+    // A chaque fois qu'une ligne est éditée à la main, réinitialiser l'état d'exportation (bouton et fichier prologue_codes.R à partir de prologue_init.R)
 
     for (FLineEdit *a : listeCodes)
         {
@@ -1066,19 +1066,17 @@ processPage::processPage()
     {
 
         connect(a, &FCheckBox::toggled, [this] {
-            reinitialiser_prologue();
+
             file_str = common::readFile (prologue_options_path);
 #ifndef Q_OS_WIN
-            substituer("sequentiel *<- *FALSE", QString("sequentiel <- ") + (parallelCheckBox->isChecked() ? "FALSE" : "TRUE"), file_str);
+            substituer("sequentiel *<- .*", QString("sequentiel <- ") + (parallelCheckBox->isChecked() ? "FALSE" : "TRUE"), file_str);
 #else
-            substituer("sequentiel *<- *TRUE", QString("sequentiel <- FALSE"), file_str);
+            substituer("sequentiel *<- *FALSE", QString("sequentiel <- TRUE"), file_str);
 #endif
             substituer("ouvrir.document *<- *TRUE", QString("ouvrir.document <- ") + (openCheckBox->isChecked() ? "TRUE" : "FALSE"), file_str);
             renommer (dump (file_str), prologue_options_path);
             });
     }
-
-    reinitialiser_prologue();
 
 }
 

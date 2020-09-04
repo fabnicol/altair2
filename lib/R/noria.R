@@ -277,7 +277,7 @@ periode.translatée <- 1:duree.sous.revue
 
 if (length(periode.translatée) < 2) {
   
-  cat("L'effet de noria ne peut être calcule que sur au moins deux exercices consécutifs")
+  cat("L'effet de noria ne peut être calculé que sur au moins deux exercices consécutifs")
   return(NULL)
 }
 

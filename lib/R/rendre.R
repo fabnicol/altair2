@@ -69,6 +69,7 @@ find.pandoc <- function() {
 #' @param texfile Nom du fichier latex de sortie (altair.tex par défaut)
 #' @param outfile Nom du premier fichier de sortie (pdf ou docx)
 #' @param outfile2 Nom du deuxième fichier de sortie optionnel (par défaut odt si précisé)
+#' @param verbose Par défaut, 0. Si fixé à 1, 2, 3, augmente la verbosité progressivement.
 #' @export
 
 rendre <- function(fw = fig.width,
@@ -82,19 +83,23 @@ rendre <- function(fw = fig.width,
                              "papersize=A4"), 
 				   texfile = "altair.tex",			 
                    outfile = "altair.pdf",
-				   outfile2 = "altair.odt") {
+				   outfile2 = "altair.odt",
+				   verbose = 0) {
 
           rm(list = ls(), envir = globalenv())
           render_env <- new.env(parent = globalenv())
           essayer({         
+            
+        knitr::opts_chunk$set(echo = (verbose >= 1), warning = (verbose >= 2), message = (verbose >= 3))     
+            
 			  render("altair_start.R",
 					 encoding = encodage.code.source,
 					 output_format = output_format(knitr_options(opts_chunk = list(fig.width = fw, 
 																				   fig.height = fh,
 																				   dpi = d,
-																				   echo = FALSE,
-																				   warning = FALSE,
-																				   message = FALSE,
+																				   echo = (verbose >= 1),
+																				   warning = (verbose >= 2),
+																				   message = (verbose >= 3),
 																				   results = 'asis')),
 												   keep_md = TRUE, clean_supporting = clean,
 												   pandoc = pandoc_options(to = "latex",

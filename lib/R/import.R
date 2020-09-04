@@ -189,23 +189,13 @@ rémunérations_eqtp <- function(DT) {
   DT[quotite > minimum.quotite,   Montant.brut.eqtp  := Brut / quotite]
 
   DT[ ,   `:=`(Statut.sortie   = Statut[length(Montant.net.eqtp)],
-               nb.jours        = calcul.nb.jours.mois(Mois, Annee[1]),
+               nb.jours        = sum(calcul.nb.jours.mois(Mois, Annee[1]), na.rm = TRUE),
                nb.mois         = length(Mois),
                cumHeures       = sum(Heures, na.rm = TRUE),
                quotite.moyenne = sum(quotite, na.rm = TRUE) / 12,
                quotite.moyenne.orig = sum(Temps.de.travail, na.rm = TRUE) / 1200),
 
-                      key = .(Matricule, Annee)]
-
-
-  DT[ ,   `:=`(Statut.sortie   = Statut[length(Montant.net.eqtp)],
-               nb.jours        = calcul.nb.jours.mois(Mois, Annee[1]),
-               nb.mois         = length(Mois),
-               cumHeures       = sum(Heures, na.rm = TRUE),
-               quotite.moyenne = sum(quotite, na.rm = TRUE) / 12,
-               quotite.moyenne.orig = sum(Temps.de.travail, na.rm = TRUE) / 1200),
-
-                      key = .(Matricule, Annee)]
+                      keyby = .(Matricule, Annee)]
 
   # Analyser les différences entre quotite.moyenne et quotite.moyenne.orig permettrait de localiser les cas
   # dans lesquels la quotité "théorique" (Temps.de.travail) mensuelle est fausse ou représentatif d'une réalité
@@ -225,10 +215,10 @@ rémunérations_eqtp <- function(DT) {
                            Montant.brut.annuel.eqtp = 365 / nb.jours * sum(Montant.brut.eqtp , na.rm = TRUE),
                            Montant.net.annuel.eqtp  = 365 / nb.jours * sum(Montant.net.eqtp, na.rm = TRUE),
                            Montant.net.annuel       = sum(Net.a.Payer, na.rm = TRUE),
-                           permanent                = nb.jours >= 365,
+                           annee_entiere            = nb.jours >= 365,
                            indicatrice.quotite.pp   = indicatrice.quotite.pp[1]),
 
-                  key = .(Matricule, Annee)]
+                  keyby = .(Matricule, Annee)]
 
   message("Rémunérations EQTP calculees")
 
@@ -769,7 +759,7 @@ importer_ <- function() {
                                            nb.jours,
                                            nb.mois,
                                            indicatrice.quotite.pp,
-                                           permanent)]),
+                                           annee_entiere)]),
                 Paie,
                 by = c("Matricule","Annee","Mois","Service", "Statut"))
 
