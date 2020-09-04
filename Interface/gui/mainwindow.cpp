@@ -180,7 +180,7 @@ MainWindow::MainWindow (char* projectName)
     {
         QFile versionFile(versionPath);
         versionFile.open(QIODevice::ReadOnly | QIODevice::Text);
-        version = QString(versionFile.readAll());
+        version = QString(versionFile.readLine(8));
         versionFile.close();
     }
 
@@ -1987,7 +1987,6 @@ void MainWindow::configureOptions()
 
     });
 
-    setWindowTitle (tr ("Configuration"));
     setWindowIcon (QIcon (":/images/altair.png"));
 }
 

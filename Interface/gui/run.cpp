@@ -427,6 +427,14 @@ void Altair::run()
             return;
         }
 
+#ifndef Q_OS_WIN
+
+        QString file_str = common::readFile (common::prologue_options_path);
+        substituer("sequentiel *<- *\\w{4,5}", QString("sequentiel <- ") + (v(parallelExec).isTrue() ? "FALSE" : "TRUE"), file_str);
+        renommer (dump (file_str), common::prologue_options_path);
+
+#endif
+
     const QStringList& files = targetDirObject.entryList (QDir::Files
                                | QDir::Dirs
                                | QDir::NoDotAndDotDot);

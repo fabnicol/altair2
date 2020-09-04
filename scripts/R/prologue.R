@@ -110,12 +110,12 @@ fig.height                     <- 5
 
 
 # définitions INSEE pour le poste non annexe
-# poste non annexe = minimum d'un mois et de 120h à raison d'au moins 1,5 h/jour.
+# poste non annexe = minimum de 30 jours et de 120h à raison d'au moins 1,5 h/jour.
 
 reference.nb.heures.par.mois    <<- 151.61 # = 1820 /12
 minimum.Nheures.jour.non.annexe <- 1.5
 minimum.Nheures.non.annexe      <- 120
-minimum.Nmois.non.annexe        <- 1
+minimum.Njours.non.annexe        <- 30
 
 population_minimale_calcul_médiane  <- 3
 tolerance.sft                       <- 1
