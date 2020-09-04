@@ -84,11 +84,11 @@ script_retraites               <- TRUE
 script_FPH                     <- TRUE    
 
 sequentiel                     <- TRUE
-ouvrir.document <- TRUE
+ouvrir.document                <- TRUE
 
 types.irs  <- c("IR", "S")
 
-controle<-c("YYY","YYY","YYY","MULTIBUDGET")  
+controle<-c("","","","")  
 
 codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IFSE", "IEMP", "ISS", "IHTS", "VAC", "ASTREINTES", "NAS", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(
