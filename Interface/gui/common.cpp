@@ -61,7 +61,7 @@ void common::exporter_identification_controle (QString &file_str, const QString 
 
 void common::exporter_identification_controle (const QString &subdir)
 {
-    const QString &prologue_options_path = path_access (SCRIPT_DIR "prologue_codes.R");
+
     QString file_str = readFile (prologue_options_path);
     exporter_identification_controle (file_str, subdir);
 

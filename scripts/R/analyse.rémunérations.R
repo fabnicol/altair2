@@ -36,8 +36,6 @@
 # 
 # 
 
-#+ analyse rémunérations
-
 message("Calcul des rémunérations...")
 
 smic_net    <<- smic.net()
@@ -61,7 +59,9 @@ smic.net.sup <- smic_net[Annee == smic.net.dernière.annee.renseignée, SMIC_NET
 
 
 # cle.fusion = Matricule, en principe (mais pourrait être NIR)
-# Sommation : on pass du niveau infra-annuel (détails au mois de niveau Paie) au niveau de la periode (détail de niveau annee)
+# Sommation : on passe du niveau infra-annuel (détails au mois de niveau Paie) au niveau de la periode (détail de niveau annee)
+
+#+ Table-Analyse.remunerations
 
 Analyse.remunerations <- Paie[ , .(Nir          = Nir[1],
                                    Montant.net.annuel = Montant.net.annuel[1],
@@ -72,14 +72,14 @@ Analyse.remunerations <- Paie[ , .(Nir          = Nir[1],
                                    Statut       = Statut[1],
                                    nb.jours     = nb.jours[1],
                                    nb.mois      = nb.mois[1],
-                                   permanent    = permanent[1],
+                                   annee_entiere = annee_entiere[1],
                                    ind.quotite  = indicatrice.quotite.pp[1],
                                    Filtre_actif = Filtre_actif[1],
                                    quotite.moyenne = quotite.moyenne[1],
                                    Emploi       = Emploi[1],
                                    Grade        = Grade[1],
                                    Categorie    = Categorie[1],
-                                   temps.complet = all(quotite == 1),
+                                   temps.complet.sur.annee = all(quotite == 1),
                                    Service      = Service[1],
                                    traitement.indiciaire   = sum(Montant[Type == "T"], na.rm = TRUE),
                                    sft          = sum(Montant[Type == "S"], na.rm = TRUE),
@@ -95,12 +95,14 @@ Analyse.remunerations <- Paie[ , .(Nir          = Nir[1],
 
 
                                                     
-# soit le nombre de mois est supérieur à 1, avec un nombre d'heure supérieur à 120 à raison d'une heure trente par jour en moyenne
+# soit le nombre de jours, avec un nombre d'heure supérieur à 120 à raison d'une heure trente par jour en moyenne
 # soit la rémunération totale annuelle gagnée est supérieure à 3 fois le smic (Vérifier_non_annexe)
 
-Analyse.remunerations[ , Filtre_annexe :=  (nb.mois < minimum.Nmois.non.annexe 
+Analyse.remunerations[ , Filtre_annexe :=  (nb.jours < minimum.Njours.non.annexe
                                                 | cumHeures < minimum.Nheures.non.annexe 
                                                 | cumHeures / nb.jours < minimum.Nheures.jour.non.annexe)]
+
+#+ Table-Analyse.remunerations-Filtre-annexe
 
 if (periode.hors.données.smic) {
   
@@ -142,6 +144,8 @@ message("Analyse des rémunérations réalisée.")
 
 # On retire les assistantes maternelles (Grade A), les vacataires (Grade V) les élus les inactifs et les postes annexes
 
+#+ Table-Analyse.variations.par.exercice
+
 Analyse.variations.par.exercice <- Analyse.remunerations[Grade != "A"  
                                                          & Grade != "V" 
                                                          & Statut != "ELU"
@@ -157,10 +161,10 @@ Analyse.variations.par.exercice <- Analyse.remunerations[Grade != "A"
                                                              Grade,
                                                              Categorie,
                                                              nb.jours,
-                                                             temps.complet,
+                                                             temps.complet.sur.annee,
                                                              ind.quotite,
                                                              quotite.moyenne,
-                                                             permanent)]
+                                                             annee_entiere)]
 
 # indicatrice binaire annee
 # Ex: si Annee = debut.periode.sous.revue + 3, indicatrice.annee = 1 << 3 soit le binaire 1000 = 8 ou encore 2^3
@@ -192,6 +196,8 @@ if (enlever.quotites.nulles) {
 # Pour cette matrice on retient le statut en fin de periode
 # sont considérés comme temps complets ou permanents seulement ceux qui le sont sur l'ensemble de la periode 
 
+#+ Table-Analyse.variations
+
 Analyse.variations <- Analyse.variations.par.exercice[ ,
                                                        .(Annee,
                                                          ind.quotite,
@@ -199,15 +205,15 @@ Analyse.variations <- Analyse.variations.par.exercice[ ,
                                                          Nexercices = length(Annee),
                                                          Statut,
                                                          Categorie,
-                                                         statut = Statut[length(Annee)],
+                                                         statut.fin.annee = Statut[length(Annee)],
                                                          total.jours = sum(nb.jours, na.rm = TRUE),
                                                          indicatrice.periode = sum(indicatrice.annee),
                                                          quotite.moyenne,
                                                          Montant.net.annuel.eqtp,
                                                          Montant.net.annuel.eqtp.début  = Montant.net.annuel.eqtp[1],
                                                          Montant.net.annuel.eqtp.sortie = Montant.net.annuel.eqtp[length(Annee)],
-                                                         permanent = all(permanent),
-                                                         temps.complet = all(temps.complet),
+                                                         periode_entiere = all(annee_entiere),
+                                                         temps.complet.sur.periode = all(temps.complet.sur.annee), # sur toute la période
                                                          moyenne.rémunération.annuelle.sur.periode =
                                                            sum(Montant.net.annuel.eqtp, na.rm = TRUE) / length(Annee[!is.na(Montant.net.annuel.eqtp) 
                                                                                                                      & Montant.net.annuel.eqtp > minimum.positif])),

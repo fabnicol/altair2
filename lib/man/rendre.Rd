@@ -16,7 +16,8 @@ rendre(
   args = c("-V", "papersize=A4"),
   texfile = "altair.tex",
   outfile = "altair.pdf",
-  outfile2 = "altair.odt"
+  outfile2 = "altair.odt",
+  verbose = 0
 )
 }
 \arguments{
@@ -41,6 +42,8 @@ rendre(
 \item{outfile}{Nom du premier fichier de sortie (pdf ou docx)}
 
 \item{outfile2}{Nom du deuxième fichier de sortie optionnel (par défaut odt si précisé)}
+
+\item{verbose}{Par défaut, 0. Si fixé à 1, 2, 3, augmente la verbosité progressivement.}
 }
 \description{
 Générer le fichier latex du rapport, puis le pdf ou le docx et l'odt

@@ -21,7 +21,7 @@ evolution_net_hist_2 <- function() {
   
 
   temp <- na.omit(moyenne.rémunération.annuelle.sur.periode[moyenne.rémunération.annuelle.sur.periode > minimum.positif
-                                                            & (statut == "TITULAIRE"  | statut == "STAGIAIRE")] / 1000)
+                                                            & (statut.fin.annee == "TITULAIRE"  | statut.fin.annee == "STAGIAIRE")] / 1000)
   
   essayer(label = "+histogramme",
           {  if (longueur.non.na(temp) > 0)

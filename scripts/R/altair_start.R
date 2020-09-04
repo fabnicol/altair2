@@ -79,7 +79,7 @@ invisible(enableJIT(3))
 
 library(knitr, warn.conflicts = FALSE)
 options(knitr.duplicate.label = "allow", encoding="UTF-8")
-knitr::opts_chunk$set(fig.width = 7.5, echo = FALSE, warning = FALSE, message = FALSE, results = 'asis', encoding="UTF-8")
+knitr::opts_chunk$set(fig.width = 7.5,  results = 'asis', encoding = "UTF-8")
 
 # Importer les données --> bases Paie et Bulletins.paie
 
@@ -285,7 +285,7 @@ if (sequentiel || setOSWindows) {
 } else {
   
   
-  # Les groupes sont consitutés pour :
+  # Les groupes sont constitutés pour :
   # a) équilibrer les charges des noeuds
   # b) tenir compte des relations de dépendances entre scripts afin d'éviter les files d'attentes et les mutex
   # Il faut ensuite permuter les résultats pour retrouver l'ordre canonique des rapports (qui pourrait évoluer pour éviter cela)
