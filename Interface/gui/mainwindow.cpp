@@ -180,7 +180,7 @@ MainWindow::MainWindow (char* projectName)
     {
         QFile versionFile(versionPath);
         versionFile.open(QIODevice::ReadOnly | QIODevice::Text);
-        version = QString(versionFile.readAll());
+        version = QString(versionFile.readLine(8));
         versionFile.close();
     }
 
@@ -189,7 +189,7 @@ MainWindow::MainWindow (char* projectName)
 
     m = new MatriculeInput (width / 4, height / 6);
 
-    connect(m, SIGNAL(updateProject(bool)), altair, SLOT(updateProject(bool)));
+    connect(m, SIGNAL(updateProject(int)), altair, SLOT(updateProject(int)));
     connect(altair, SIGNAL(ajouterLigneMatricules()), m, SLOT(ajouterLigneMatricules()));
 
     Altair::RefreshFlag =  Altair::RefreshFlag  | interfaceStatus::parseXml;
@@ -205,6 +205,7 @@ MainWindow::MainWindow (char* projectName)
     connect (consoleDialog, SIGNAL (copyAvailable (bool)), consoleDialog, SLOT (copy()));
     connect (& (altair->process), SIGNAL (finished (int)), this, SLOT (resetCounter()));
     connect (& (altair->process), SIGNAL (finished (int)), this, SLOT (resetTableCheckBox()));
+    connect (altair, SIGNAL(substituer_valeurs_dans_script_R()), this, SLOT (substituer_valeurs_dans_script_R()));
 
     if (projectName[0] != '\0')
         {
@@ -225,6 +226,11 @@ MainWindow::MainWindow (char* projectName)
             repaint();
             altair->importData();
         }
+}
+
+void MainWindow::substituer_valeurs_dans_script_R()
+{
+    for (auto &&a: dialog->tabs) a->substituer_valeurs_dans_script_R();
 }
 
 void MainWindow::on_displayLogButton_clicked(bool show, bool absolute_path)
@@ -346,7 +352,7 @@ void MainWindow::createActions()
     saveAction = new QAction (tr ("&Enregistrer"), this);
     saveAction->setShortcut (QKeySequence ("Ctrl+S"));
     saveAction->setIcon (QIcon (":/images/document-save.png"));
-    connect (saveAction, &QAction::triggered, [this] { altair->updateProject (true); });
+    connect (saveAction, &QAction::triggered, [this] { altair->updateProject (update::saveProject | update::noWarnRExport); });
 
     saveAsAction = new QAction (tr ("En&registrer le projet comme..."), this);
     saveAsAction->setIcon (QIcon (":/images/document-save-as.png"));
@@ -473,7 +479,9 @@ void MainWindow::createActions()
        case  QMessageBox::Ignore : return ;
        default : break;
      }
-     emit (exitSignal());});
+
+    dialog->reinitialiser_prologue();
+    emit (exitSignal());});
 
     aboutAction = new QAction (tr ("&Au sujet de"), this);
     aboutAction->setIcon (QIcon (":/images/about.png"));
@@ -822,7 +830,7 @@ void MainWindow::launch_process (const QString& path)
     // Il est souhaitable d'actualiser le projet avant de lancer v() car en cas de non actualisation récente la valeur de la case
     // peut être en décalage avec la réalité. C'est au cours de ces actualisations que la valeur est enregistrée dans une table de hashage.
 
-    altair->updateProject (true);
+    altair->updateProject (update::saveProject | update::noWarnRExport);
 }
 
 const vector <unsigned char>  MainWindow::nettoyer_donnees (vector <unsigned char>& st)
@@ -1036,13 +1044,13 @@ void MainWindow::clean_process (const QString& path)
         {
             altair->textAppend (PROCESSING_HTML_TAG  "Nettoyage de " + path + " terminé.");
             altair->outputTextEdit->repaint();
-            altair->updateProject (true);
+            altair->updateProject (update::saveProject| update::noWarnRExport);
         }
     else
         {
             altair->textAppend (ERROR_HTML_TAG  "Le nettoyage de " + path + " a échoué.");
             altair->outputTextEdit->repaint();
-            altair->updateProject (true);
+            altair->updateProject (update::saveProject | update::noWarnRExport);
         }
 }
 
@@ -1050,7 +1058,7 @@ void MainWindow::anonymiser()
 {
     QStringList args;
 
-    altair->updateProject (true);
+    altair->updateProject (update::saveProject | update::noWarnRExport);
 
     args << altair->createCommandLineString();
 
@@ -1071,7 +1079,7 @@ void MainWindow::cleanBase()
 {
     QStringList args;
 
-    altair->updateProject (true);
+    altair->updateProject (update::saveProject | update::noWarnRExport);
 
     args << altair->createCommandLineString();
 
@@ -1228,7 +1236,7 @@ void MainWindow::on_editProjectButton_clicked()
              &QAction::triggered,
              [this]
     {
-        altair->updateProject (true);
+        altair->updateProject (update::saveProject | update::noWarnRExport);
 
         if (projectFile.open (QFile::ReadWrite |  QFile::Text))
             {
@@ -1345,9 +1353,9 @@ bool MainWindow::exportProject (QString dirPath)
     altair->textAppend (PROCESSING_HTML_TAG "Exportation en cours. Patientez...");
     altair->outputTextEdit->repaint();
    
-    const QString docxReportFilePath = projectRootDir + "altaïr.docx";
-    const QString odtReportFilePath = projectRootDir  + "altaïr.odt";
-    const QString pdfReportFilePath = projectRootDir  + "altaïr.pdf";
+    const QString docxReportFilePath = projectRootDir + "altair.docx";
+    const QString odtReportFilePath = projectRootDir  + "altair.odt";
+    const QString pdfReportFilePath = projectRootDir  + "altair.pdf";
     QDir dir (v(base));
     QStringList tableList = dir.entryList (QStringList ("Table*.csv"), QDir::Files);
 
@@ -1373,7 +1381,7 @@ bool MainWindow::exportProject (QString dirPath)
     if (result)
        result = common::copyDir(common::generateDatadirPath("/images"), subDirStr   + "images"); 
     
-    result &= common::copyFile (docxReportFilePath, subDirStr  + "altaïr.docx", "Le rapport Altaïr Word", REQUIRE);
+    result &= common::copyFile (docxReportFilePath, subDirStr  + "altair.docx", "Le rapport Altaïr Word", REQUIRE);
 
     if (result)
         {
@@ -1381,7 +1389,7 @@ bool MainWindow::exportProject (QString dirPath)
             altair->setProgressBar (2);
         }
 
-    result &= common::copyFile (odtReportFilePath, subDirStr  + "altaïr.odt", "Le rapport Altaïr Open Office", REQUIRE);
+    result &= common::copyFile (odtReportFilePath, subDirStr  + "altair.odt", "Le rapport Altaïr Open Office", REQUIRE);
 
     if (result)
         {
@@ -1389,7 +1397,7 @@ bool MainWindow::exportProject (QString dirPath)
             altair->setProgressBar (3);
         }
 
-    result &= common::copyFile (pdfReportFilePath, subDirStr  + "altaïr.pdf", "Le rapport Altaïr PDF", REQUIRE);
+    result &= common::copyFile (pdfReportFilePath, subDirStr  + "altair.pdf", "Le rapport Altaïr PDF", REQUIRE);
 
     if (result)
         {
@@ -1493,9 +1501,9 @@ bool MainWindow::archiveProject()
 
     on_displayLogButton_clicked(false, false);
    
-    const QString docxReportFilePath = projectRootDir  + "altaïr.docx";
-    const QString pdfReportFilePath = projectRootDir   + "altaïr.pdf";
-    const QString odtReportFilePath = projectRootDir   + "altaïr.odt";
+    const QString docxReportFilePath = projectRootDir  + "altair.docx";
+    const QString pdfReportFilePath = projectRootDir   + "altair.pdf";
+    const QString odtReportFilePath = projectRootDir   + "altair.odt";
     QDir dir (v(base));
     QStringList tableList = dir.entryList (QStringList ("Table*.csv"), QDir::Files);
 
@@ -1521,34 +1529,50 @@ bool MainWindow::archiveProject()
     result &= common::zipDir(common::generateDatadirPath("/images"), subDirStr  + "images");
             
     if (result)
-        {
-            altair->textAppend (PARAMETER_HTML_TAG  "Le log a été archivé sous : " + subDirStr);
-            altair->setProgressBar (1);
-        }
+    {
+        altair->textAppend (PARAMETER_HTML_TAG  "Le log a été archivé sous : " + subDirStr);
+        altair->setProgressBar (1);
+    }
+    else
+    {
+            altair->textAppend (PARAMETER_HTML_TAG  "Le log n'a pas été archivé");
+    }
     
-    result &= common::zip (docxReportFilePath, subDirStr + "altaïr.docx.arch");
+    result = common::zip (docxReportFilePath, subDirStr + "altair.docx.arch");
 
     if (result)
-        {
-            altair->textAppend (PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été archivé sous : " + subDirStr);
-            altair->setProgressBar (2);
-        }
+    {
+        altair->textAppend (PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été archivé sous : " + subDirStr);
+        altair->setProgressBar (2);
+    }
+    else
+    {
+        altair->textAppend (PARAMETER_HTML_TAG  "Le rapport Word n'a pas été archivé");
+    }
 
-    result &= common::zip (odtReportFilePath, subDirStr  + "altaïr.odt.arch");
-
-    if (result)
-        {
-            altair->textAppend (PARAMETER_HTML_TAG  "Le rapport Altaïr Open Office a été archivé sous : " + subDirStr);
-            altair->setProgressBar (3);
-        }
-
-    result &= common::zip (pdfReportFilePath, subDirStr  + "altaïr.pdf.arch");
+    result = common::zip (odtReportFilePath, subDirStr  + "altair.odt.arch");
 
     if (result)
-        {
-            altair->textAppend (PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été archivé sous : " + subDirStr);
-            altair->setProgressBar (4);
-        }
+    {
+        altair->textAppend (PARAMETER_HTML_TAG  "Le rapport Altaïr Open Office a été archivé sous : " + subDirStr);
+        altair->setProgressBar (3);
+    }
+    else
+    {
+        altair->textAppend (PARAMETER_HTML_TAG  "Le rapport Altaïr Open Office n'a pas été archivé.");
+    }
+
+    result = common::zip (pdfReportFilePath, subDirStr  + "altair.pdf.arch");
+
+    if (result)
+    {
+        altair->textAppend (PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été archivé sous : " + subDirStr);
+        altair->setProgressBar (4);
+    }
+    else
+    {
+        altair->textAppend (PARAMETER_HTML_TAG  "Le rapport Altaïr PDF n'a pas été archivé");
+    }
 
     int bar = 4;
 
@@ -1565,7 +1589,7 @@ bool MainWindow::archiveProject()
                             altair->setProgressBar (++bar);
                         }
                     else
-                        altair->textAppend (ERROR_HTML_TAG  "La base " + v(base) + QDir::separator() + st + " n'a pas pu être archivée sous : " + subDirStr);
+                        altair->textAppend (ERROR_HTML_TAG  "La base " + v(base) + QDir::separator() + st + " n'a pas été archivée");
 
                     altair->outputTextEdit->repaint();
                 }
@@ -1579,7 +1603,7 @@ bool MainWindow::archiveProject()
                 }
 
             else
-                altair->textAppend (ERROR_HTML_TAG  "La base des bulletins de paye n'a pas pu être archivée sous : " + subDirStr);
+                altair->textAppend (ERROR_HTML_TAG  "La base des bulletins de paye n'a pas été archivée");
         }
 
     if (v(archiveXML).isTrue() || v(archiveAll).isTrue())
@@ -1596,7 +1620,7 @@ bool MainWindow::archiveProject()
                                     altair->setProgressBar (++bar);
                                 }
                             else
-                                altair->textAppend (ERROR_HTML_TAG  "La base " +  s + " n'a pas pu être archivée sous : " + subDirStr);
+                                altair->textAppend (ERROR_HTML_TAG  "La base " +  s + " n'a pas été archivée");
 
                             altair->outputTextEdit->repaint();
                         }
@@ -1611,15 +1635,17 @@ bool MainWindow::archiveProject()
             altair->textAppend (PARAMETER_HTML_TAG  "Les bases en lien ont été archivées sous : " + subDirStr + "Bases");
         }
     else
-        altair->textAppend (ERROR_HTML_TAG  "Les bases en lien n'ont pas pu être archivées sous : " + subDirStr + "Bases");
+        altair->textAppend (ERROR_HTML_TAG  "Les bases en lien n'ont été archivées");
+
     QFile (altair->projectName).close();
     saveProjectAs (subDirStr + "projet.alt");
-    
-#ifdef Q_OS_UNIX
-    process.start ("tar", QStringList() << "-cf" << subDirStr.chopped(1) + ".arch" <<  "-C" << subDirStr << ".");
+
+    // Add Tar for Windows under directory windows
+
+    process.start ("tar" + tools::systemSuffix, QStringList() << "-cf" << subDirStr.chopped(1) + ".arch" <<  "-C" << subDirStr << ".");
+
     connect(&process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(tarFinished()));
-#endif    
-  
+
     altair->setProgressBar (max);
     altair->textAppend (STATE_HTML_TAG "Archivage terminé.");
     return result;
@@ -1646,12 +1672,9 @@ bool MainWindow::restoreProject (QString archfile)
     if (QMessageBox::Ok != QMessageBox::warning (nullptr, "", "Les résultats seront restaurés depuis le paquet <br>" + subDirStr,  QMessageBox::Cancel | QMessageBox::Ok, QMessageBox::Ok))
         return false;
        
-#ifdef Q_OS_UNIX
     process.setWorkingDirectory(QFileInfo(subDirStr).absolutePath());
-    process.start ("tar", QStringList() << "-xf" << subDirStr << "-C" << projectRootDir);
+    process.start ("tar" + tools::systemSuffix, QStringList() << "-xf" << subDirStr << "-C" << projectRootDir);
     process.waitForFinished();
-    
-#endif    
 
     QDir dir (projectRootDir);
     QStringList tableList = dir.entryList (QStringList () << "Table*.csv.arch" << "Bulletins*.csv.arch", QDir::Files);
@@ -1677,30 +1700,37 @@ bool MainWindow::restoreProject (QString archfile)
     altair->textAppend (PROCESSING_HTML_TAG "Restauration en cours. Patientez...");
     altair->outputTextEdit->repaint();
    
-    result &= common::unzip(projectRootDir, rapportList);
+    result = common::unzip(projectRootDir, rapportList);
     result &= common::unzip(dir_images.absolutePath(), imagesList);
    
-    if (result) altair->textAppend(PARAMETER_HTML_TAG "Extraction des données... fait.");
+    if (result)
+        altair->textAppend(PARAMETER_HTML_TAG "Extraction des rapports... fait.");
+    else
+        altair->textAppend(PARAMETER_HTML_TAG "Les rapports ne sont pas désarchivés");
                                    
     if (QFileInfo("log.html").exists())
-        {
+    {
             altair->textAppend (PARAMETER_HTML_TAG  "Le log a été désarchivé sous : " + projectRootDir);
             altair->setProgressBar (1);
-        }
+    }
+    else
+    {
+        altair->textAppend (PARAMETER_HTML_TAG  "Le log n'est pas désarchivé.");
+    }
     
-    if (QFileInfo("altaïr.docx").exists())
+    if (QFileInfo("altair.docx").exists())
         {
             altair->textAppend (PARAMETER_HTML_TAG  "Le rapport Altaïr Word a été décompressé sous : " + projectRootDir);
             altair->setProgressBar (2);
         }
 
-    if (QFileInfo("altaïr.odt").exists())
+    if (QFileInfo("altair.odt").exists())
         {
             altair->textAppend (PARAMETER_HTML_TAG  "Le rapport Altaïr ODT a été décompressé sous : " + projectRootDir);
             altair->setProgressBar (3);
         }
 
-    if (QFileInfo("altaïr.pdf").exists())
+    if (QFileInfo("altair.pdf").exists())
         {
             altair->textAppend (PARAMETER_HTML_TAG  "Le rapport Altaïr PDF a été décompressé sous : " + projectRootDir);
             altair->setProgressBar (4);
@@ -1733,7 +1763,7 @@ bool MainWindow::restoreProject (QString archfile)
                 altair->setProgressBar (0.8 * max);
             }
        else
-            altair->textAppend (ERROR_HTML_TAG  "Les bases XML/XHL n'ont pas été décompressées sous : " + projectRootDir);
+            altair->textAppend (ERROR_HTML_TAG  "Les bases XML/XHL n'ont pas été décompressées" );
 
       altair->outputTextEdit->repaint();
     }
@@ -1749,7 +1779,7 @@ bool MainWindow::restoreProject (QString archfile)
             altair->textAppend (PARAMETER_HTML_TAG  "Les bases en lien ont été décompressées sous : " + projectRootDir + "Bases");
         }
     else
-        altair->textAppend (ERROR_HTML_TAG  "Les bases en lien n'ont pas été décompressées sous : " + projectRootDir + "Bases");
+        altair->textAppend (ERROR_HTML_TAG  "Les bases en lien n'ont pas été décompressées");
 
     // nettoyage
     tools::cleanDir(projectRootDir, {"*.arch", "*.tmp"}, QFileInfo(subDirStr).absolutePath());
@@ -1951,7 +1981,7 @@ void MainWindow::configureOptions()
                         tr ("Le projet n'a pas été sauvegardé.\nAppuyer sur Oui pour le sauvegarder\nou sur Non pour fermer le dialogue sans sauvegarder le projet."),
                         QMessageBox::Yes | QMessageBox::No))
            )
-            altair->updateProject (true);
+            altair->updateProject (update::saveProject | update::noWarnRExport);
 
         contentsWidget->accept();
     });
@@ -1987,7 +2017,6 @@ void MainWindow::configureOptions()
 
     });
 
-    setWindowTitle (tr ("Configuration"));
     setWindowIcon (QIcon (":/images/altair.png"));
 }
 

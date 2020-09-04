@@ -51,7 +51,7 @@
 #include "gui_enums.h"
 
 /// Classe permettant de construire un dialogue d'extraction des bulletins de paye par matricule, année(s) et mois
-class MatriculeInput : public QDialog
+class MatriculeInput : public QDialog, private flags
 {
 Q_OBJECT
 
@@ -76,7 +76,7 @@ public:
         matrLineEdit->setText("");
         matrLineEdit2->setText("");
         matrLineEdit3->setText("");
-        updateProject(true);
+        updateProject(update::saveProject | update::noWarnRExport);
         return filled;
     }
 
@@ -87,7 +87,7 @@ public:
         if (dossier->getText().isEmpty())
         {
             dossier->setText(dirpath);
-            updateProject(true);
+            updateProject(update::saveProject | update::noWarnRExport);
         }
     }
 
@@ -136,7 +136,7 @@ private:
 
 signals:
     /// Signal envoyé pour forcer l'enregistrement du projet .alt.
-    void updateProject(bool);
+    void updateProject(int);
 };
 
 

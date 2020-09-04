@@ -207,7 +207,7 @@ MatriculeInput::MatriculeInput (int width, int height)
                        matricules += matricules.isEmpty() ? "" : ";" + ligne->text();
                 }
 
-                emit(updateProject(true));
+                emit(updateProject(update::saveProject | update::noWarnRExport));
 
                 if (res) accept();
                 else

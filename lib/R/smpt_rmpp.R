@@ -12,7 +12,7 @@ smpt <- function(Filtre, type =  "smpt net") {
                                    .(moy = weighted.mean(Montant.net.annuel.eqtp, quotite.moyenne, na.rm = TRUE)),
                                    by = "Annee"]
   
-  S_net.eqtp.100 <- Analyse.variations[Filtre() == TRUE & temps.complet == TRUE & permanent == TRUE,
+  S_net.eqtp.100 <- Analyse.variations[Filtre() == TRUE & quotite.moyenne == 1,
                                        .(moy = weighted.mean(Montant.net.annuel.eqtp, quotite.moyenne, na.rm = TRUE)),
                                        by = "Annee"]
   
@@ -53,16 +53,16 @@ distribution_smpt <- function(Filtre) {
                               .(Montant.net.annuel.eqtp, quotite.moyenne)],   
            Analyse.variations[Annee == debut.periode.sous.revue
                               & Filtre() == TRUE
-                              & permanent == TRUE
-                              & temps.complet == TRUE,
+                              & periode_entiere == TRUE
+                              & quotite.moyenne == 1,
                               .(Montant.net.annuel.eqtp, quotite.moyenne)],
            Analyse.variations[Annee == fin.periode.sous.revue 
                               & Filtre() == TRUE,
                               .(Montant.net.annuel.eqtp, quotite.moyenne)],
            Analyse.variations[Annee == fin.periode.sous.revue 
                               & Filtre() == TRUE
-                              & permanent == TRUE
-                              & temps.complet == TRUE,
+                              & periode_entiere == TRUE
+                              & quotite.moyenne == 1,
                               .(Montant.net.annuel.eqtp, quotite.moyenne)]),
          extra = "length")
   
@@ -91,7 +91,7 @@ q3 <- quantile(Analyse.variations$variation.rémunération, c(quantile.cut/100, 
 # (paramètre seuil.troncature) 
 
 # Filtrage pour l'étude des variations : on enlève les valeurs manquantes des variations, les centiles extrêmaux,
-# les rémunérations nettes négatives ou proche de zéro. On exige un statut explicite en fin de periode.
+# les rémunérations nettes négatives ou proche de zéro. On exige un statut explicite en fin de periode (statut.fin.annee).
 # Paramétrable par :
 # minimum.positif, quantile.cut 
 
@@ -99,7 +99,7 @@ q3 <- quantile(Analyse.variations$variation.rémunération, c(quantile.cut/100, 
 
 "Anavar.synthese" %a% Analyse.variations[total.jours > seuil.troncature
                                       & pris.en.compte == TRUE
-                                      & ! is.na(statut)   
+                                      & ! is.na(statut.fin.annee)   
                                       & ! is.na(variation.rémunération) 
                                       & variation.rémunération > q3[[1]]
                                       & variation.rémunération < q3[[2]]]

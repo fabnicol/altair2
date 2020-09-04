@@ -54,7 +54,7 @@ class FListWidget;
 class QToolDirButton;
 class Worker;
 
-class FListFrame : public FDialogConnections
+class FListFrame : public FDialogConnections, private flags
 {
 Q_OBJECT
 
@@ -274,7 +274,7 @@ signals:
     void hideProgressBar();
     void showProgressBar();
     void refreshRowPresentation(int);
-    void updateProject(bool);
+    void updateProject(int);
     void appRepaint();
 
 public slots:

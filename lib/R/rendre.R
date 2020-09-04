@@ -69,6 +69,9 @@ find.pandoc <- function() {
 #' @param texfile Nom du fichier latex de sortie (altair.tex par défaut)
 #' @param outfile Nom du premier fichier de sortie (pdf ou docx)
 #' @param outfile2 Nom du deuxième fichier de sortie optionnel (par défaut odt si précisé)
+#' @param verbose Par défaut, 0. Si fixé à 1, 2, 3, augmente la verbosité progressivement.
+#' @param sync Booléen. Décrit le caractère synchone ou asynchrone de la génération des éléments de rapport. Géré par le système selon le paramètre global #sequentiel
+#' @return Retourne le vecteur des chemins des fichiers .tex temporaires
 #' @export
 
 rendre <- function(fw = fig.width,
@@ -78,44 +81,56 @@ rendre <- function(fw = fig.width,
                    clean = FALSE,
                    to ="latex",
                    from = "markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures",
-                   args = c("-V", 
-                             "papersize=A4"), 
-				   texfile = "altair.tex",			 
-                   outfile = "altair.pdf",
-				   outfile2 = "altair.odt") {
+                   args = if (to == "docx") c("-V", "papersize=A4") else c("-V", "papersize=A4", "-V", "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm", "-V", "urlcolor=cyan", "--highlight-style", "tango"), 
+				           texfile = "altair.tex",			 
+                   outfile = ifelse(to == "docx", "altair.docx", "altair.pdf"),
+        				   outfile2 = "altair.odt",
+        				   verbose = 0,
+				           sync = sequentiel) {
 
           rm(list = ls(), envir = globalenv())
-          render_env <- new.env(parent = globalenv())
           essayer({         
-			  render("altair_start.R",
-					 encoding = encodage.code.source,
-					 output_format = output_format(knitr_options(opts_chunk = list(fig.width = fw, 
-																				   fig.height = fh,
-																				   dpi = d,
-																				   echo = FALSE,
-																				   warning = FALSE,
-																				   message = FALSE,
-																				   results = 'asis')),
-												   keep_md = TRUE, clean_supporting = clean,
-												   pandoc = pandoc_options(to = "latex",
-																		   from = from,
-																		   args = args)),
-					 envir = render_env,
-					 output_file = outfile)
-					 }, "Conversion pandoc imparfaite")
-    
-		 chemin_pandoc <- find.pandoc()            
+                    knitr::opts_chunk$set(echo = (verbose >= 1), warning = (verbose >= 2), message = (verbose >= 3))     
+                    assign("chemin_pandoc", find.pandoc(), envir = .GlobalEnv)              
+                    
+            			  render("altair_start.R",
+            					 encoding = encodage.code.source,
+            					 output_format = output_format(knitr_options(opts_chunk = list(fig.width = fw, 
+            																				   fig.height = fh,
+            																				   dpi = d,
+            																				   echo = (verbose >= 1),
+            																				   warning = (verbose >= 2),
+            																				   message = (verbose >= 3),
+            																				   results = 'asis')),
+            												   keep_md = keep, clean_supporting = clean,
+            												   pandoc = pandoc_options(to = "latex",
+            																		   from = from,
+            																		   args = args)),
+            					 envir = .GlobalEnv,
+            					 output_file = outfile)
+            					 }, "Conversion pandoc imparfaite")
 
-		 if (chemin_pandoc != "") {          
-			  if (to == "docx") {
-					 generer_docx_odt(chemin_pandoc, texfile, outfile, outfile2)
-			  } 
+         if (! sync)   texfile <- c(texfile, list.files(chemin.dossier, "modules.*\\.tex"))   
+        
+        pandoc <- get("chemin_pandoc", envir = .GlobalEnv)
+        
+    		 if (pandoc != "") {          
+    			  
+    		   if (to == "docx") {
+    		     
+    		       assign("PDF", FALSE, envir = .GlobalEnv)
+    					 generer_docx_odt(texfile, outfile, outfile2)
+    		     
+    			  } else {
+    			    
+    			    assign("PDF", TRUE, envir = .GlobalEnv)
+    			    tex2pdf(texfile, outfile, args)					 
 
-		 } else {
-			cat("Impossible de trouver pandoc et de generer le rapport.")
-		 }
-		 if (! keep) file.remove(outfile)
-				  
-     chemin_pandoc
-     
+    			  }
+    		 } else {
+    			stop("Impossible de trouver pandoc et de generer le rapport.")
+    		 }
+        
+    		 if (! keep) file.remove(outfile)
+        texfile
 }

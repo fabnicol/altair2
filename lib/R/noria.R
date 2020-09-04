@@ -277,7 +277,7 @@ periode.translatée <- 1:duree.sous.revue
 
 if (length(periode.translatée) < 2) {
   
-  cat("L'effet de noria ne peut être calcule que sur au moins deux exercices consécutifs")
+  cat("L'effet de noria ne peut être calculé que sur au moins deux exercices consécutifs")
   return(NULL)
 }
 
@@ -356,7 +356,7 @@ filtrage <- function(annee) {
        
        if (classe != "") colonnes <- c(colonnes, "Classe")
        
-       présents.bulletins[[transl(annee)]] <<- merge(présents.bulletins[[transl(annee)]], ES[ , colonnes, with = FALSE], by = "Matricule", all.x = TRUE)
+       présents.bulletins[[transl(annee)]] <<- merge(présents.bulletins[[transl(annee)]], ES[ , ..colonnes], by = "Matricule", all.x = TRUE)
        
        if (classe != "") présents.bulletins[[transl(annee)]] <<- présents.bulletins[[transl(annee)]][Classe == classe]  
     }
@@ -448,8 +448,7 @@ salaires <- function(X)
                 sapply(periode, function(annee) {
                   B <- Base[Annee == annee
                             & Matricule %chin% as.character(X[[transl(annee)]][["matricules"]]), 
-                            c(salaire.moyen, "quotite.moyenne"),
-                            with = FALSE]
+                            c(..salaire.moyen, "quotite.moyenne")]
                   
                   weighted.mean(B[[1]], B[[2]], na.rm = TRUE)
                 })
@@ -461,7 +460,7 @@ salaire.sortants <- salaires(sort)
 
 construire.liste <- function(B) {
   
-                        B <- B[ , c(salaire.moyen, "quotite.moyenne"), with = FALSE]
+                        B <- B[ , c(..salaire.moyen, "quotite.moyenne")]
                         
                         c(weighted.mean(B[[1]], B[[2]], na.rm = TRUE), sum(B[[2]], na.rm = TRUE))
 }
@@ -503,7 +502,7 @@ rmpp <- data.table(t(sapply(periode, function(annee) {
     D <- merge(B, C, by = "Matricule")  # all = FALSE impératif
     D <- D[abs(quotite.moyenne.x - quotite.moyenne.y) < 0.1][ , quotite.moyenne.x := NULL] # présent toute l'annee avec la même quotite.
     setnames(D, "quotite.moyenne.y", "quotite.moyenne")
-    D <- unique(D[Annee == annee , c("Matricule", salaire.moyen, "quotite.moyenne"), with = FALSE])
+    D <- unique(D[Annee == annee , c("Matricule", ..salaire.moyen, "quotite.moyenne")])
     
   } else {
   

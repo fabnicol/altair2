@@ -26,10 +26,10 @@ effectifs(
          \item{\code{quotite}}{réel entre 0 et 1}
          \item{\code{nb.mois}}{entier entre 0 et 12}}}
    \item{ la variable booléenne :
-       \describe{\item{\code{permanent}}{12 bulletins sur l'année}}}}.}
+       \describe{\item{\code{annee_entiere}}{12 bulletins sur l'année}}}}.}
 
 \item{Analyse}{Base des analyses de variations de rémunérations, comptant les variables :
-\code{temps.complet, est.rmpp, statut, Matricule, Annee, permanent}}
+\code{quotite.moyenne, est.rmpp, statut.fin.annee, Matricule, Annee}}
 }
 \value{
 Un tableau des effectifs mis en forme de 22 lignes et autant de colonnes numériques que d'années de période, plus une colonne de libellés.

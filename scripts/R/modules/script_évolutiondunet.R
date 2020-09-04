@@ -54,7 +54,7 @@ masse.salariale.nette <- rep(0, duree.sous.revue)
 
 #+ Salaire-moyen-par-tete    
 
-essayer(label = "+SMPT global", print(smpt(Filtre_neutre)),     "Le salaire moyen par tête n'a pas pu être calcule.")    
+essayer(label = "+SMPT global", print(smpt(Filtre_neutre)),     "Le salaire moyen par tête n'a pas pu être calculé.")    
 
 #'**Distribution et variation sur la periode du salaire moyen net par tête (SMPT net) en EQTP**         
 #'**pour les salariés à temps complet**           
@@ -64,7 +64,7 @@ essayer(label = "+SMPT global", print(smpt(Filtre_neutre)),     "Le salaire moye
 
 #+ premiere-derniere-annee
 
-essayer(label = "+distribution SMPT global", print(distribution_smpt(Filtre_neutre)), "La distribution du salaire moyen par tête n'a pas pu être calculee.")
+essayer(label = "+distribution SMPT global", print(distribution_smpt(Filtre_neutre)), "La distribution du salaire moyen par tête n'a pas pu être calculée.")
 
 #'  
 cat("*Nota :*  La population retenue est constituée des agents qui ne font pas partie des ", 2*quantile.cut, "centiles extrêmaux\n")   
@@ -174,7 +174,7 @@ cat("*Nota :*  La population retenue est constituée des agents qui ne font pas 
 #'&nbsp;*Tableau 4.2.2.1.1*   
 #'    
 
-essayer(label = "+SMPT fonct.", print(smpt(Filtre_fonctionnaire)), "Le salaire moyen par tête des fonctionnaires n'a pas pu être calcule.")
+essayer(label = "+SMPT fonct.", print(smpt(Filtre_fonctionnaire)), "Le salaire moyen par tête des fonctionnaires n'a pas pu être calculé.")
 
 #'    
 #'##### 4.2.2.2 Par categorie  statutaire        
@@ -186,7 +186,7 @@ essayer(label = "+SMPT fonct.", print(smpt(Filtre_fonctionnaire)), "Le salaire m
 #'  
 
 
-essayer(label = "+SMPT cat A", print(smpt(Filtre_cat_A)), "Le salaire moyen par tête des fonctionnaires de categorie A n'a pas pu être calcule.")  
+essayer(label = "+SMPT cat A", print(smpt(Filtre_cat_A)), "Le salaire moyen par tête des fonctionnaires de categorie A n'a pas pu être calculé.")  
 
 #'  
 #'*Comparaisons nationales*    
@@ -214,7 +214,7 @@ essayer(label = "+SMPT cat A", print(smpt(Filtre_cat_A)), "Le salaire moyen par 
 #'    
 #'  
 
-essayer(label = "+SMPT cat B", print(smpt(Filtre_cat_B)),          "Le salaire moyen par tête des fonctionnaires de categorie B n'a pas pu être calcule.")  
+essayer(label = "+SMPT cat B", print(smpt(Filtre_cat_B)),          "Le salaire moyen par tête des fonctionnaires de categorie B n'a pas pu être calculé.")  
 
 #'*Comparaisons nationales*    
 #'*FPT categorie B*    
@@ -240,7 +240,7 @@ essayer(label = "+SMPT cat B", print(smpt(Filtre_cat_B)),          "Le salaire m
 #'    
 #'  
 
-essayer(label = "+SMPT cat C", print(smpt(Filtre_cat_C)),       "Le salaire moyen par tête des fonctionnaires de categorie C n'a pas pu être calcule.")    
+essayer(label = "+SMPT cat C", print(smpt(Filtre_cat_C)),       "Le salaire moyen par tête des fonctionnaires de categorie C n'a pas pu être calculé.")    
 
 #'     
 #'*Comparaisons nationales*    
@@ -274,7 +274,7 @@ essayer(label = "+SMPT cat C", print(smpt(Filtre_cat_C)),       "Le salaire moye
 #'&nbsp;*Tableau 4.2.3.1.1*   
 #'    
 
-essayer(label = "+distribution SMPT fonct.", print(distribution_smpt(Filtre_fonctionnaire)), "La distribution du salaire moyen par tête des fonctionnaires n'a pas pu être calculee.")
+essayer(label = "+distribution SMPT fonct.", print(distribution_smpt(Filtre_fonctionnaire)), "La distribution du salaire moyen par tête des fonctionnaires n'a pas pu être calculée.")
 
 #'       
 #'#### 4.2.3.2 Par categorie statutaire             
@@ -284,19 +284,19 @@ essayer(label = "+distribution SMPT fonct.", print(distribution_smpt(Filtre_fonc
 #'&nbsp;*Tableau 4.2.3.2.1*   
 #'    
 
-essayer(label = "+distribution SMPT cat. A", print(distribution_smpt(Filtre_cat_A)), "La distribution du salaire moyen par tête des fonctionnaires de categorie A n'a pas pu être calculee.")
+essayer(label = "+distribution SMPT cat. A", print(distribution_smpt(Filtre_cat_A)), "La distribution du salaire moyen par tête des fonctionnaires de categorie A n'a pas pu être calculée.")
 
 #'**Categorie B**  
 #'&nbsp;*Tableau 4.2.3.2.2*   
 #'    
 
-essayer(label = "+distribution SMPT cat. B", print(distribution_smpt(Filtre_cat_B)), "La distribution du salaire moyen par tête des fonctionnaires de categorie B n'a pas pu être calculee.")
+essayer(label = "+distribution SMPT cat. B", print(distribution_smpt(Filtre_cat_B)), "La distribution du salaire moyen par tête des fonctionnaires de categorie B n'a pas pu être calculée.")
 
 #'**Categorie C**  
 #'&nbsp;*Tableau 4.2.3.2.3*   
 #'    
 
-essayer(label = "+distribution SMPT cat. C", print(distribution_smpt(Filtre_cat_C)), "La distribution du salaire moyen par tête des fonctionnaires de categorie C n'a pas pu être calculee.")
+essayer(label = "+distribution SMPT cat. C", print(distribution_smpt(Filtre_cat_C)), "La distribution du salaire moyen par tête des fonctionnaires de categorie C n'a pas pu être calculée.")
 
 #'    
 #'    
@@ -379,7 +379,7 @@ if (duree.sous.revue > 1) {
                  "Variation annuelle moyenne normalisée (%)",
                  "Quotité",
                  "Effectif"),
-               Anavar.synthese[statut %in% c("TITULAIRE", "STAGIAIRE")
+               Anavar.synthese[statut.fin.annee %in% c("TITULAIRE", "STAGIAIRE")
                                & bitwAnd(indicatrice.periode, masque.présent.sur.periode)
                                ==
                                  masque.présent.sur.periode

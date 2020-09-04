@@ -55,7 +55,7 @@
 #include "flineframe.h"
 
 
-QString codePage::prologue_options_path;
+QString common::prologue_options_path;
 
 int codePage::ajouterVariable (const QString& nom)
 {
@@ -138,7 +138,7 @@ codePage::codePage()
 
     connect (appliquerCodes, SIGNAL (clicked()), this, SLOT (substituer_valeurs_dans_script_R()));
 
-    // A chaque fois qu'une ligne est éditée à la main, réinitialiser l'état d'exportation (bouton et fichier prologue_codes.R à partor de prologue_init.R)
+    // A chaque fois qu'une ligne est éditée à la main, réinitialiser l'état d'exportation (bouton et fichier prologue_codes.R à partir de prologue_init.R)
 
     for (FLineEdit *a : listeCodes)
         {
@@ -149,7 +149,6 @@ codePage::codePage()
                 label->setText (init_label_text);
                 appliquerCodes->setChecked (false);
                 appliquerCodes->setIcon (QIcon (":/images/view-refresh.png"));
-                reinitialiser_prologue();
             });
         }
 
@@ -160,7 +159,7 @@ codePage::codePage()
 
 inline const QString regexp (const QString& X)
 {
-    return "codes." + X + " *<- *NA";
+    return "\"codes." + X + "\" *%a% *NA";
 }
 
 inline QString rempl_str (const QString &X, const QString &Y)
@@ -178,9 +177,9 @@ inline QString rempl_str (const QString &X, const QString &Y)
             Z = "c(" + L.join (",") + ")";
         }
     else
-        return   "codes." + X + " <- NA";
+        return   "\"codes." + X + "\" %a% NA";
 
-    return   "codes." + X + " <- " + Z;
+    return   "\"codes." + X + "\" %a% " + Z;
 }
 
 void codePage::activer_fph (bool activer)
@@ -215,7 +214,7 @@ void codePage::activer_fph (bool activer)
 
 void codePage::substituer_valeurs_dans_script_R()
 {
-    reinitialiser_prologue();
+
     QString file_str = common::readFile (prologue_options_path);
     common::exporter_identification_controle (file_str);
     bool res = false;
@@ -499,7 +498,6 @@ rapportPage::rapportPage()
                             label->setText (init_label_text);
                             appliquerCodes->setChecked (false);
                             appliquerCodes->setIcon (QIcon (":/images/view-refresh.png"));
-                            reinitialiser_prologue();
                         });
         }
     
@@ -547,8 +545,6 @@ rapportPage::rapportPage()
                 });
 
     setLayout (mainLayout);
-
-    reinitialiser_prologue();
 }
 
 void rapportPage::message(int r, QIcon& icon, bool paire)
@@ -568,8 +564,8 @@ void rapportPage::message(int r, QIcon& icon, bool paire)
     t.remove(" ");
     if (paire) t2.remove(" ");
                 
-    res = substituer ("script_" + t + " *<- *TRUE", "script_" + t + " <- " + (value ? "TRUE" : "FALSE"), file_str);
-    if (paire) res2 = substituer ("script_" + t2 + " *<- *TRUE", "script_" + t2 + " <- " + (value2 ? "TRUE" : "FALSE"), file_str);
+    res = substituer ("\"script_" + t + "\" *%a% *\\w{4,5}", "\"script_" + t + "\" %a% " + (value ? "TRUE" : "FALSE"), file_str);
+    if (paire) res2 = substituer ("script_" + t2 + " *%a% *\\w{4,5}", "script_" + t2 + " %a% " + (value2 ? "TRUE" : "FALSE"), file_str);
     
     if (value) 
     {
@@ -606,7 +602,6 @@ void rapportPage::message(int r, QIcon& icon, bool paire)
 
 void rapportPage::substituer_valeurs_dans_script_R()
 {
-    reinitialiser_prologue();
     liste_cb.clear();
     file_str = common::readFile (prologue_options_path);
     
@@ -822,27 +817,38 @@ standardPage::standardPage()
                                                 "archiveTable",
                                                 {"Données csv", "Archiver/Restaurer les données CSV"});
 
+    archiveTableBox->setToolTip("Rapport, bases annexées<br>Bases CSV<br>Log, projet");
 
     FCheckBox* exportTableBox  = new FCheckBox ("Données tableur",
                                                 flags::status::enabledChecked | flags::commandLineType::noCommandLine,
                                                  "exportTable",
                                                 {"Données csv", "Exporter les données CSV"});
 
+    exportTableBox->setToolTip("Rapport, bases annexées<br>Bases CSV<br>Log, projet");
+
     FCheckBox* archiveAllBox = new FCheckBox ("Tout",
                                               "archiveAll",
                                              {"Données XML", "Archiver/Restaurer les données tableur et XML"});
+
+    archiveAllBox->setToolTip("Rapport, bases annexées<br>Bases CSV<br>Bases XHL/XML<br>Log, projet");
 
     FCheckBox* exportAllBox  = new FCheckBox ("Tout",
                                               "exportAll",
                                               {"Données XML", "Exporter les données tableur et XML"});
 
+    exportAllBox->setToolTip("Rapport, bases annexées<br>Bases CSV<br>Bases XHL/XML<br>Log, projet");
+
     FCheckBox* archiveXhlBox = new FCheckBox ("Bases XML",
                                               "archiveXML",
                                               {"Données XML", "Archiver/Restaurer les bases XML"});
 
+    archiveXhlBox->setToolTip("Rapport, bases annexées<br>Bases XHL/XML<br>Log, projet");
+
     FCheckBox* exportXhlBox  = new FCheckBox ("Bases XML",
                                               "exportXML",
                                               {"Données XML", "Exporter les bases XML"});
+
+    archiveXhlBox->setToolTip("Rapport, bases annexées<br>Bases XHL/XML<br>Log, projet");
 
     v1Layout->addWidget (tableCheckBox,     1, 0, Qt::AlignLeft);
     v1Layout->addWidget (FPHCheckBox,       2, 0, Qt::AlignLeft);
@@ -878,6 +884,34 @@ standardPage::standardPage()
     mainLayout->addWidget (exportBox);
     mainLayout->addWidget (archBox);
 
+    connect(archiveAllBox, &FCheckBox::toggled, [archiveTableBox, archiveXhlBox, archiveAllBox] {
+        if (archiveAllBox->isChecked()) archiveTableBox-> setChecked(true) ;
+        if (archiveAllBox->isChecked()) archiveXhlBox-> setChecked(true) ;
+    });
+
+    connect(exportAllBox, &FCheckBox::toggled, [exportTableBox, exportXhlBox, exportAllBox] {
+        if (exportAllBox->isChecked()) exportTableBox-> setChecked(true) ;
+        if (exportAllBox->isChecked()) exportXhlBox-> setChecked(true) ;
+    });
+
+
+    connect(archiveTableBox, &FCheckBox::toggled, [archiveTableBox, archiveAllBox] {
+        if (! archiveTableBox->isChecked()) archiveAllBox-> setChecked(false) ;
+    });
+
+    connect(archiveXhlBox, &FCheckBox::toggled, [archiveXhlBox, archiveAllBox] {
+        if (! archiveXhlBox->isChecked()) archiveAllBox-> setChecked(false) ;
+    });
+
+
+    connect(exportTableBox, &FCheckBox::toggled, [exportTableBox, exportAllBox] {
+        if (! exportTableBox->isChecked()) exportAllBox-> setChecked(false) ;
+    });
+
+    connect(exportXhlBox, &FCheckBox::toggled, [exportXhlBox, exportAllBox] {
+        if (! exportXhlBox->isChecked()) exportAllBox-> setChecked(false) ;
+    });
+
     setLayout (mainLayout);
     substituer_versant();
 }
@@ -885,15 +919,15 @@ standardPage::standardPage()
 void standardPage::substituer_versant()
 {
 
-    const QString &versant_path = path_access (SCRIPT_DIR "versant.R");
+    const QString &versant_path = path_access (SCRIPT_DIR "prologue_codes.R");
 
     QString file_str = readFile (versant_path);
 
 
     if (FPHCheckBox->isChecked())
-        substituer ("VERSANT_FP <<- .*", "VERSANT_FP <<- \"FPH\"", file_str);
+        substituer ("\"VERSANT_FP\" *%a% *\\w{3}", "\"VERSANT_FP\" %a% \"FPH\"", file_str);
     else
-        substituer ("VERSANT_FP <<- .*", "VERSANT_FP <<- \"FPT\"", file_str);
+        substituer ("\"VERSANT_FP\" *%a% *\\w{3}", "\"VERSANT_FP\" %a% \"FPT\"", file_str);
 
     bool res = renommer (dump (file_str), versant_path);
 
@@ -1008,7 +1042,7 @@ processPage::processPage()
 
 
     QLabel* rapportTypeLabel = new QLabel ("Type de rapport produit par défaut  ");
-    rapportTypeWidget = new FComboBox ({"WORD, ODT et PDF", "WORD et ODT", "PDF"},
+    rapportTypeWidget = new FComboBox ({"WORD, ODT et PDF", "WORD et ODT", "PDF", "Pas de rapport (Bases seules)"},
                                        "rapportType",
                                         {
                                             "Enchaînements",
@@ -1066,24 +1100,26 @@ processPage::processPage()
     {
 
         connect(a, &FCheckBox::toggled, [this] {
-            reinitialiser_prologue();
-            file_str = common::readFile (prologue_options_path);
-#ifndef Q_OS_WIN
-            substituer("sequentiel *<- *FALSE", QString("sequentiel <- ") + (parallelCheckBox->isChecked() ? "FALSE" : "TRUE"), file_str);
-#else
-            substituer("sequentiel *<- *TRUE", QString("sequentiel <- FALSE"), file_str);
-#endif
-            substituer("ouvrir.document *<- *TRUE", QString("ouvrir.document <- ") + (openCheckBox->isChecked() ? "TRUE" : "FALSE"), file_str);
-            renommer (dump (file_str), prologue_options_path);
-            });
+                 substituer_valeurs_dans_script_R();
+           });
     }
-
-    reinitialiser_prologue();
 
 }
 
-std::uint16_t options::RefreshFlag;
 
+void processPage::substituer_valeurs_dans_script_R()
+{
+    file_str = common::readFile (prologue_options_path);
+    #ifndef Q_OS_WIN
+    substituer("\"sequentiel\" *%a% *\\w{4,5}", QString("\"sequentiel\" %a% ") + (parallelCheckBox->isChecked() ? "FALSE" : "TRUE"), file_str);
+    #else
+    substituer("\"sequentiel\" *%a% *FALSE", QString("\"sequentiel\" %a% TRUE"), file_str);
+    #endif
+    substituer("\"ouvrir.document\" *%a% *\\w{4,5}", QString("\"ouvrir.document\" %a% ") + (openCheckBox->isChecked() ? "TRUE" : "FALSE"), file_str);
+    renommer (dump (file_str), prologue_options_path);
+}
+
+std::uint16_t options::RefreshFlag;
 
 extraPage::extraPage()
 {
@@ -1378,6 +1414,8 @@ options::options (Altair* parent)
     extraTab    = new extraPage();
     rapportTab  = new rapportPage();
     processTab  = new processPage;
+    tabs = {standardTab, codeTab, rapportTab, processTab};
+
     pagesWidget = new QStackedWidget;
     pagesWidget->addWidget (standardTab);
     pagesWidget->addWidget (processTab);
@@ -1417,7 +1455,7 @@ options::options (Altair* parent)
                     parent->altairCommandStr =  parent->execPath +  QDir::separator()
                     + ("lhx" + QString (systemSuffix));
 
-                    parent->updateProject (true);
+                    parent->updateProject (update::saveProject | update::noWarnRExport);
 
                     extraTab->do_copies();
 

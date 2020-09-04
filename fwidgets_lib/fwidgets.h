@@ -57,6 +57,9 @@ class FDialogConnections : public QDialog
 {
 Q_OBJECT
 
+public:
+virtual void substituer_valeurs_dans_script_R(){}
+
 signals:
  void setProgressBar(int, int);
  void setProgressBar(int);

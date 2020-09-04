@@ -1,96 +1,59 @@
-# Copyright Cour des comptes, 2017
-# Contributeur :
-# Fabrice Nicol, annees 2012 à 2017
-# fabrice.nicol@crtc.ccomptes.fr
-# 
-# Ce logiciel est un programme informatique servant à extraire et analyser
-# les fichiers de paye produits au format spécifié par l'annexe de la  
-# convention-cadre de dématérialisation en vigueur à partir de 2008.
-# 
-# Ce logiciel est régi par la licence CeCILL soumise au droit français et
-# respectant les principes de diffusion des logiciels libres. Vous pouvez
-# utiliser, modifier et/ou redistribuer ce programme sous les conditions
-# de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
-# sur le site "http://www.cecill.info".
-# 
-# En contrepartie de l'accessibilité au code source et des droits de copie,
-# de modification et de redistribution accordés par cette licence, il n'est
-# offert aux utilisateurs qu'une garantie limitée. Pour les mêmes raisons,
-# seule une responsabilité restreinte pèse sur l'auteur du programme, le
-# titulaire des droits patrimoniaux et les concédants successifs.
-# 
-# A cet égard l'attention de l'utilisateur est attirée sur les risques
-# associés au chargement, à l'utilisation, à la modification et/ou au
-# développement et à la reproduction du logiciel par l'utilisateur étant
-# donné sa spécificité de logiciel libre, qui peut le rendre complexe à
-# manipuler et qui le réserve donc à des développeurs et des professionnels
-# avertis possédant des connaissances informatiques approfondies. Les
-# utilisateurs sont donc invités à charger et tester l'adéquation du
-# logiciel à leurs besoins dans des conditions permettant d'assurer la
-# sécurité de leurs systèmes et ou de leurs données et, plus généralement,
-# à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
-# 
-# Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
-# pris connaissance de la licence CeCILL, et que vous en avez accepté les
-# termes.
-# 
-# 
+"VERSANT_FP"       %a% "FPT"
+"codes.traitement" %a% NA
+"codes.nbi"        %a% NA
+"codes.pfi"        %a% NA
+"codes.pfr"        %a% NA
+"codes.psr"        %a% NA
+"codes.ipf"        %a% NA
+"codes.ifts"       %a% NA
+"codes.iat"        %a% NA
+"codes.ifse"       %a% NA
+"codes.iemp"       %a% NA
+"codes.iss"        %a% NA
+"codes.ihts"       %a% NA
+"codes.vacataires" %a% NA
+"codes.astreintes" %a% NA
+"codes.nas"        %a% NA
+"codes.primespecifique" %a% NA  
+"codes.ift"             %a% NA  
+"codes.primedeservice"  %a% NA  
+"codes.primedetechnicite" %a% NA
 
-codes.traitement <- NA
-codes.nbi        <- NA
-codes.pfi        <- NA
-codes.pfr        <- NA
-codes.psr        <- NA
-codes.ipf        <- NA
-codes.ifts       <- NA
-codes.iat        <- NA
-codes.ifse       <- NA
-codes.iemp       <- NA
-codes.iss        <- NA
-codes.ihts       <- NA
-codes.vacataires <- NA
-codes.astreintes <- NA
-codes.nas        <- NA
-codes.primespecifique <- NA  
-codes.ift             <- NA  
-codes.primedeservice  <- NA  
-codes.primedetechnicite <- NA
+"script_effectifs" %a% TRUE    
+"script_pyramides"               %a% TRUE    
+"script_dureedeservice"          %a% TRUE    
+"script_rémunérationsbrutes1"    %a% TRUE
+"script_rémunérationsbrutes2"    %a% TRUE    
+"script_comparaisonsdubrut" %a% TRUE    
+"script_rémunérationsnettes"     %a% TRUE    
+"script_rmppetnoria" %a% TRUE    
+"script_évolutiondunet"          %a% TRUE    
+"script_NBI" %a% TRUE    
+"script_PFI"                     %a% TRUE    
+"script_vacataires" %a% TRUE    
+"script_NAS"                     %a% TRUE    
+"script_IATIFTS" %a% TRUE    
+"script_PFR"                     %a% TRUE    
+"script_PSR" %a% TRUE    
+"script_IPF"                     %a% TRUE    
+"script_RIFSEEP" %a% TRUE    
+"script_HS"                      %a% TRUE    
+"script_astreintes" %a% TRUE    
+"script_élus"                    %a% TRUE    
+"script_comptabilité" %a% TRUE    
+"script_annexe" %a% TRUE    
+"script_SFT"                     %a% TRUE    
+"script_retraites" %a% TRUE    
+"script_FPH"                     %a% TRUE    
 
-script_effectifs               <- TRUE    
-script_pyramides               <- TRUE    
-script_dureedeservice          <- TRUE    
-script_rémunérationsbrutes1    <- TRUE
-script_rémunérationsbrutes2    <- TRUE    
-script_comparaisonsdubrut      <- TRUE    
-script_rémunérationsnettes     <- TRUE    
-script_rmppetnoria             <- TRUE    
-script_évolutiondunet          <- TRUE    
-script_NBI                     <- TRUE    
-script_PFI                     <- TRUE    
-script_vacataires              <- TRUE    
-script_NAS                     <- TRUE    
-script_IATIFTS                 <- TRUE    
-script_PFR                     <- TRUE    
-script_PSR                     <- TRUE    
-script_IPF                     <- TRUE    
-script_RIFSEEP                 <- TRUE    
-script_HS                      <- TRUE    
-script_astreintes              <- TRUE    
-script_élus                    <- TRUE    
-script_comptabilité            <- TRUE    
-script_annexe                  <- TRUE    
-script_SFT                     <- TRUE    
-script_retraites               <- TRUE    
-script_FPH                     <- TRUE    
+"sequentiel" %a% FALSE
+"ouvrir.document" %a% TRUE
 
-sequentiel                     <- TRUE
-ouvrir.document                <- TRUE
+"types.irs"  %a% c("IR", "S")
 
-types.irs  <- c("IR", "S")
+"controle" %a% c("YYY, YYY12, YYY11, YYY9, YYY8, YYY8.2, YYY10","YYY","YYY","Multi budgets, BUDGET PRINCIPAL, ASSAINISSEMENT")  
 
-controle<-c("","","","")  
-
-codes <- data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IFSE", "IEMP", "ISS", "IHTS", "VAC", "ASTREINTES", "NAS", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
+"codes" %a% data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IFSE", "IEMP", "ISS", "IHTS", "VAC", "ASTREINTES", "NAS", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(
                                codes.traitement,
                                codes.nbi, 

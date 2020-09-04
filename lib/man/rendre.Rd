@@ -13,10 +13,14 @@ rendre(
   to = "latex",
  
     from = "markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures",
-  args = c("-V", "papersize=A4"),
+  args = if (to == "docx") c("-V", "papersize=A4") else c("-V", "papersize=A4", "-V",
+    "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm", "-V", "urlcolor=cyan",
+    "--highlight-style", "tango"),
   texfile = "altair.tex",
-  outfile = "altair.pdf",
-  outfile2 = "altair.odt"
+  outfile = ifelse(to == "docx", "altair.docx", "altair.pdf"),
+  outfile2 = "altair.odt",
+  verbose = 0,
+  sync = sequentiel
 )
 }
 \arguments{
@@ -41,6 +45,13 @@ rendre(
 \item{outfile}{Nom du premier fichier de sortie (pdf ou docx)}
 
 \item{outfile2}{Nom du deuxième fichier de sortie optionnel (par défaut odt si précisé)}
+
+\item{verbose}{Par défaut, 0. Si fixé à 1, 2, 3, augmente la verbosité progressivement.}
+
+\item{sync}{Booléen. Décrit le caractère synchone ou asynchrone de la génération des éléments de rapport. Géré par le système selon le paramètre global #sequentiel}
+}
+\value{
+Retourne le vecteur des chemins des fichiers .tex temporaires
 }
 \description{
 Générer le fichier latex du rapport, puis le pdf ou le docx et l'odt

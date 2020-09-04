@@ -61,6 +61,7 @@ public:
 
     common() {}
 
+
     /// Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement
     /// \param  file_str Chaîne de caractères dans laquelle insérer ces informations
     /// \param  subdir Répertoire du rapport
@@ -72,6 +73,19 @@ public:
     /// \param subdir Répertoire du rapport
 
     void exporter_identification_controle (const QString &subdir = "");
+
+
+    /// Réinitialiser prologue_codes.R à partir de prologue_init.R
+    /// \note utilise le fichier #SCRIPT_DIR "prologue_init.R"
+    /// \return Booléen selon le succès de l'opération de copie.
+
+    bool reinitialiser_prologue()
+    {
+        QFile (prologue_options_path).remove();
+        return QFile (path_access (SCRIPT_DIR "prologue_init.R")).copy(prologue_options_path);
+    }
+
+  static QString prologue_options_path;  ///< Chemin initial de \em prologue_codes.R sous #SCRIPT_DIR. Ce fichier contient les exportations de valeurs de l'onglet \b Codes de l'interface graphique.
 
 #ifdef LOCAL_BINPATH
 
