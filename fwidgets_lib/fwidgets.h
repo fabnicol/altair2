@@ -87,6 +87,8 @@ public slots:
 class QToolDirButton : public QToolButton
 {
 public:
+    enum class openBehavior : int {Directory, File};
+
     QToolDirButton(actionType type=actionType::Select)
     {
         switch (type)
@@ -105,6 +107,17 @@ public:
     }
 
     QToolDirButton(const QString&  st, const actionType  type=actionType::Select):QToolDirButton(type){setToolTip(st);}
+    void setOpenBehavior(openBehavior value) { openType = value;
+                                               QString icon = value == openBehavior::File ? ":images/document-open.png" : ":images/directory.png";
+                                               setIcon(QIcon(icon));
+                                               setToolTip( value == openBehavior::File ? "Ouvrir le fichier " : "Ouvrir le dossier ");}
+
+
+    openBehavior getOpenBehavior() {return openType; }
+
+ private:
+    openBehavior openType = openBehavior::Directory;
+
 
 };
 

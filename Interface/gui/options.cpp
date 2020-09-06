@@ -92,7 +92,7 @@ void codePage::ajouterVariable (const QString& nom)
 codePage::codePage()
 {
     setVisible(false);
-    baseBox = new QGroupBox;
+
     prologue_options_path = path_access (SCRIPT_DIR "prologue_codes.R");
 
     appliquerCodes = new QToolButton;
@@ -112,14 +112,18 @@ codePage::codePage()
 
     for (const QString& s : variables) ajouterVariable (s);
 
-    label = new QLabel;
     label->setFont(QFont("Verdana", 12));
+
+    /***********************************************************************************************************************/
+    /* Les lignes de codes ci-après Copyright privé Fabrice Nicol septembre 2020, sous licence identique au reste du code. */
+    /* Jusqu'à la ligne indiquée plus loin.                       */
+    /************************************************************ */
 
     codesFrame = new FLineFrame ({"Utiliser un fichier de codes importés", "Chemin du fichier de codes de paye :"},
                                    QDir::toNativeSeparators (path_access(DONNEES_SORTIE "/codes.csv")),
                                    "codesImport",
                                    {0, 2},
-                                   vLayout,
+                                   v2Layout,
                                    "",   // pas de ligne de commande
                                    directory::noCheck, // ne pas vérifier que le chemin est vide
                                    flags::flineframe::isFilePath,
@@ -133,6 +137,8 @@ codePage::codePage()
                            "est présent dans le répertoire d'exportation des données (clé, etc.),<br>"
                            "il est automatiquement importé dans la grille de cet onglet.");
 
+    static_cast<QToolDirButton*>(codesFrame->getComponentList()[1])->setOpenBehavior(QToolDirButton::openBehavior::File);
+
     if (QFileInfo(codesFrame->getText()).isFile())
     {
         importCodesCSV(codesFrame->getText());
@@ -140,18 +146,50 @@ codePage::codePage()
 
     connect(codesFrame, SIGNAL(textChanged(const QString &)), this, SLOT(importCodesCSV(const QString& )));
 
-    vLayout->addWidget (label, 3, 2, Qt::AlignLeft);
-    vLayout->addWidget (appliquerCodes, 2, 2, Qt::AlignLeft);
-    vLayout->setColumnMinimumWidth (1, MINIMUM_LINE_WIDTH);
+    const QString& chemin_table_code_libelle = path_access(QString(DONNEES_SORTIE) + QDir::separator() + "Bases" + QDir::separator() + "Fiabilite" +QDir::separator() + "code.libelle.short.csv");
 
-    vLayout->setSpacing (10);
+    codesLibellesFrame = new FLineFrame ({"Ouvrir la table des correspondances Codes-Libellés après génération du rapport", "Chemin de la table Codes-Libellés générée par le logiciel :"},
+                                   QDir::toNativeSeparators (chemin_table_code_libelle),
+                                   "codesLibellesAltair",
+                                   {2, 2},
+                                   v2Layout,
+                                   "",   // pas de ligne de commande
+                                   directory::noCheck, // ne pas vérifier que le chemin est vide
+                                   flags::flineframe::isFilePath,
+                                   "Fichier CSV (*.csv)"); // il s'agit d'un chemin de fichier
+
+    codesLibellesFrame->setSaveFileName(false);
+    codesLibellesFrame->setFont("Verdana", 12);
+    codesLibellesFrame->setToolTip(
+                                   "Si elle n'est pas à l'emplacement standard,<br>"
+                                   "cliquer sur l'icône foncée pour rechercher<br>"
+                                   "la table Codes-Libellés<br>"
+                                   "générée par le logiciel dans l'annexe<br>"
+                                   "<b>après</b> génération du rapport<br>");
+
+    static_cast<QToolDirButton*>(codesLibellesFrame->getComponentList()[1])->setOpenBehavior(QToolDirButton::openBehavior::File);
+
+    v2Layout->addWidget (label, 5, 2, Qt::AlignLeft);
+    v2Layout->addWidget (appliquerCodes, 4, 2, Qt::AlignLeft);
+    v2Layout->setColumnMinimumWidth (1, 20);
+    v2Layout->setSpacing (10);
+    importBox->setLayout (v2Layout);
+
+    /*********************************************/
+    /* Fin du copyright privé sous licence libre */
+    /********************************************/
 
     baseBox->setLayout (vLayout);
 
+    vLayout->setSpacing (10);
     FRichLabel *mainLabel = new FRichLabel ("Code de paye des tests");
 
     mainLayout->addWidget (mainLabel);
-    mainLayout->addWidget (baseBox);
+    QGridLayout* hLayout= new QGridLayout;
+    hLayout->addWidget (baseBox,   0, 0, Qt::AlignTop);
+    hLayout->addWidget (importBox, 0, 1, Qt::AlignTop);
+
+    mainLayout->addLayout (hLayout);
     mainLayout->addSpacing (100);
 
     init_label_text = "Appuyer pour exporter<br> vers les rapports d'analyse ";
@@ -180,6 +218,11 @@ codePage::codePage()
 
     reinitialiser_prologue();
 }
+
+/***********************************************************************************************************************/
+/* Les lignes de codes ci-après Copyright privé Fabrice Nicol septembre 2020, sous licence identique au reste du code. */
+/* Jusqu'à la ligne indiquée plus loin. */
+
 
 
 bool codePage::importCodesCSV(const QString& path)
@@ -273,6 +316,11 @@ bool codePage::importCodesCSV(const QString& path)
     return true;
 
 }
+
+/*********************************************/
+/* Fin du copyright privé sous licence libre */
+/********************************************/
+
 inline const QString regexp (const QString& X)
 {
     return "\"codes." + X + "\" *%a% *NA";
@@ -280,7 +328,7 @@ inline const QString regexp (const QString& X)
 
 inline QString rempl_str (const QString &X, const QString &Y)
 {
-    QStringList L = Y.split (";", QString::SkipEmptyParts);
+    QStringList L = Y.split (";", Qt::SkipEmptyParts);
     QString Z;
 
     if (L.size() >= 0)

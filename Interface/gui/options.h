@@ -82,9 +82,12 @@ public :
 
 private:
     QList<FLineEdit*> listeCodes; ///< Liste des pointeurs vers des composants fonctionnels de classe FLineEdit, qui rassemble l'ensemble des lignes correspondant à variables.
-    QGridLayout *vLayout = new QGridLayout;    ///< Disposition secondaire.
+    QGridLayout *vLayout = new QGridLayout;    ///< Disposition secondaire (codes).
+    QGridLayout *v2Layout = new QGridLayout;    ///< Disposition secondaire (messages d'importation).
     QVBoxLayout *mainLayout = new QVBoxLayout; ///< Disposition principale.
-    QGroupBox *baseBox;                        ///< Boite regroupant les codes.    
+    QGroupBox *baseBox = new QGroupBox;                        ///< Boite regroupant les codes.
+    QGroupBox *importBox = new QGroupBox;                      ///< Boite regroupant les messages et dialogues d'importation des bases CSV.
+
     /// Crée une ligne de codes pour un type donné d'éléments de paye
     /// \param nom Nom de l'élément de paye
     /// \return Nombre d'éléments de paye empilés
@@ -96,11 +99,12 @@ protected :
     QStringList variables;        ///< Libellés des éléments de paye faisant l'objet d'une ligne dans l'onglet.
     QList<QString> listeLabels;   ///< Elements de variables dont les espaces ont été retirées.
     QList<QLabel*> listeDialogueLabels;        ///< Mise en forme des éléments de listeLabels au format QLabel.
-    QLabel *label;                             ///< Elément de texte variable servant à afficher des messaes d'erreur ou de réussite de l'exportation des codes.
+    QLabel *label = new QLabel;                             ///< Elément de texte variable servant à afficher des messaes d'erreur ou de réussite de l'exportation des codes.
     FLineFrame *codesFrame;                    ///< Elément de texte et chemin du fichier pour l'importation du fichier de codes de paye
+    FLineFrame *codesLibellesFrame;            ///< Elément de texte et chemin de la table Codes-Libellés générée par le logiciel dans l'annexe
     QString init_label_text ;                  ///< Message "Appuyer pour exporter..."
     QToolButton* appliquerCodes ;              ///< Bouton "Exporter" (flèche verte) .
-  
+
 public slots:
     /// Substitue certaines valeurs caractéristiques du contrôle dans le fichier \em prologue_codes.R dans common::exportpath, notamment le Siret, le budget et l'employeur
 
@@ -117,6 +121,7 @@ private slots:
     /// \return true en cas de réussite, false sinon.
 
     bool importCodesCSV(const QString& chemin);
+
 
 };
 
