@@ -93,6 +93,12 @@ void setPathCategory(flags::flineframe t)     {    pathCategory = t;    }
 
 void setSaveFileName(bool value) { saveFileName = value; }
 
+/// Fixer la police (type et taille)
+
+void setFont(const char* type, const int size) { label->setFont(QFont(type, size)); lineEdit->setFont(QFont(type, size));}
+
+void setToolTip(const QString& s) {label->setToolTip(s);}
+
 private:
 
 QGridLayout* frameLayout; ///< Disposition de la FLineFrame de type \e QGridLayout
@@ -103,6 +109,10 @@ QToolDirButton *oButton;  ///< Bouton permettant d'ouvrir le répertoire ou le f
 QVector<QWidget*> componentList; ///< Liste des composants de type \e QWidget*
 flags::flineframe pathCategory;  ///< Type de chemin représenté dans  lineEdit : soit chemin de fichier soit chemin de répertoire
 bool saveFileName = true;  ///< Si \e false, utilise \e QFileDialog::getSaveFileName sinon utilise \e QFileDialog::getOpenFileName
+
+signals:
+
+void textChanged(const QString &);
 };
 
 #endif

@@ -57,7 +57,7 @@
 
 QString common::prologue_options_path;
 
-int codePage::ajouterVariable (const QString& nom)
+void codePage::ajouterVariable (const QString& nom)
 {
     const QString NOM = nom.toUpper();
 
@@ -86,7 +86,7 @@ int codePage::ajouterVariable (const QString& nom)
 
     vLayout->addWidget (listeCodes.last(), listeCodes.size() - 1, 1, Qt::AlignLeft);
 
-    return listeCodes.size();
+
 }
 
 codePage::codePage()
@@ -105,21 +105,45 @@ codePage::codePage()
     variables << "traitement" << "nbi" << "pfi" 
               << "pfr" <<  "ipf" << "psr" << "ifts" << "iat" 
               << "ifse" << "iemp" << "iss" 
-              << "ihts" << "vacataires" << "astreintes" 
-              << "nas";
-
-    int index = 0;
+              << "ihts" << "vacataires" << "astreintes" ;
 
     // Pour chacun des membres de variables, ajouter une ligne FLineEdit au dialogue
     // qui donnera lieu à exportation dans prologue_codes.R
 
-    for (const QString& s : variables) index = ajouterVariable (s);
+    for (const QString& s : variables) ajouterVariable (s);
 
     label = new QLabel;
+    label->setFont(QFont("Verdana", 12));
 
-    vLayout->addWidget (label, index + 1, 1, Qt::AlignLeft);
-    vLayout->addWidget (appliquerCodes, index, 1, Qt::AlignLeft);
+    codesFrame = new FLineFrame ({"Utiliser un fichier de codes importés", "Chemin du fichier de codes de paye :"},
+                                   QDir::toNativeSeparators (path_access(DONNEES_SORTIE "/codes.csv")),
+                                   "codesImport",
+                                   {0, 2},
+                                   vLayout,
+                                   "",   // pas de ligne de commande
+                                   directory::noCheck, // ne pas vérifier que le chemin est vide
+                                   flags::flineframe::isFilePath,
+                                   "Fichier CSV (*.csv)"); // il s'agit d'un chemin de fichier
+
+    codesFrame->setSaveFileName(false);
+    codesFrame->setFont("Verdana", 12);
+    codesFrame->setToolTip("Cliquer sur le bouton Dossier pour importer les codes de paye<br>"
+                           "saisis dans un fichier tableur CSV<br>"
+                           "Si un fichier nommé <b>codes.csv</b><br>"
+                           "est présent dans le répertoire d'exportation des données (clé, etc.),<br>"
+                           "il est automatiquement importé dans la grille de cet onglet.");
+
+    if (QFileInfo(codesFrame->getText()).isFile())
+    {
+        importCodesCSV(codesFrame->getText());
+    }
+
+    connect(codesFrame, SIGNAL(textChanged(const QString &)), this, SLOT(importCodesCSV(const QString& )));
+
+    vLayout->addWidget (label, 3, 2, Qt::AlignLeft);
+    vLayout->addWidget (appliquerCodes, 2, 2, Qt::AlignLeft);
     vLayout->setColumnMinimumWidth (1, MINIMUM_LINE_WIDTH);
+
     vLayout->setSpacing (10);
 
     baseBox->setLayout (vLayout);
@@ -157,6 +181,98 @@ codePage::codePage()
     reinitialiser_prologue();
 }
 
+
+bool codePage::importCodesCSV(const QString& path)
+{
+    QFile csvFile(path);
+
+    if (!csvFile.open(QIODevice::ReadOnly | QIODevice::Text))
+             return false;
+
+    QTextStream in(&csvFile);
+
+    QString headers = in.readLine();
+    QString sep = ";";
+
+    QStringList headerList = headers.split(sep);
+    if (headerList.size() <= 1)
+    {
+        headerList = headers.split(",");
+        if (headerList.size() <= 1)
+        {
+            Warning("Attention", "Le fichier CSV doit être à séparateur point-virgule ou virgule");
+            return false;
+        }
+        else sep = ",";
+    }
+
+    in.seek(0);
+
+    // on élimine les lignes vides au début
+
+    int nbElem = 0;
+
+    do {
+          headers = in.readLine();
+          headerList = headers.split(sep, Qt::SkipEmptyParts);
+          nbElem = headerList.size();
+    } while (nbElem == 0);
+
+    int skipCol = headers.split(sep).size() - nbElem;  // Si width > size, il y a des colonnes vides à gauche
+
+    int i = 0;
+    for (auto && s : variables)
+    {
+        if (i > nbElem - 1)
+        {
+
+            QString remainder;
+
+            for (int j = i; j < variables.size(); ++j)
+                remainder += variables.at(j);
+
+            Warning("Attention", "il manque des variables dans le fichier CSV : "
+                    + remainder
+                    );
+
+            return false;
+        }
+        if (headerList.at(i).toUpper() == s.toUpper())
+        {
+            ++i;
+        }
+        else
+        {
+            Warning("Attention", "Le fichier CSV doit contenir, dans l'ordre, les variables suivantes en colonnes : "
+                    + variables.join("<br>")
+                    );
+
+            return false;
+        }
+    }
+
+    for (auto && a : listeCodes) a->setText("");
+
+    while (! in.atEnd())
+    {
+            QString line = in.readLine();
+            QStringList varList = line.split(sep);
+            if (skipCol) varList.erase(varList.begin(), varList.begin() + skipCol);
+            for (int i = 0; i < variables.size() && i < varList.size(); ++i)
+            {
+                QString text = listeCodes[i]->text();
+                if (! text.isEmpty())
+                   text += ";";
+                if (! varList.at(i).isEmpty())
+                    listeCodes[i]->setText( text + varList.at(i));
+            }
+    }
+
+    csvFile.close();
+
+    return true;
+
+}
 inline const QString regexp (const QString& X)
 {
     return "\"codes." + X + "\" *%a% *NA";

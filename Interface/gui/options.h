@@ -89,12 +89,7 @@ private:
     /// \param nom Nom de l'élément de paye
     /// \return Nombre d'éléments de paye empilés
 
-    int ajouterVariable (const QString& nom);
-    
-    /// Réinitialise l'exportation des codes d'éléments de paye
-    /// Ecrase prologue_options.R ( prologue_options_path) par sa valeur d'initialisation prologue_init.R
-    /// \return \e true si la réinitialisation par écrasement a réussi, \e false sinon.
-    
+    void ajouterVariable (const QString& nom);
 
 protected : 
    
@@ -102,6 +97,7 @@ protected :
     QList<QString> listeLabels;   ///< Elements de variables dont les espaces ont été retirées.
     QList<QLabel*> listeDialogueLabels;        ///< Mise en forme des éléments de listeLabels au format QLabel.
     QLabel *label;                             ///< Elément de texte variable servant à afficher des messaes d'erreur ou de réussite de l'exportation des codes.
+    FLineFrame *codesFrame;                    ///< Elément de texte et chemin du fichier pour l'importation du fichier de codes de paye
     QString init_label_text ;                  ///< Message "Appuyer pour exporter..."
     QToolButton* appliquerCodes ;              ///< Bouton "Exporter" (flèche verte) .
   
@@ -115,6 +111,13 @@ private slots:
     /// Active les contrôles réglementaires sur la fonction publique hospitalière (FPH) même s'ils n'ont pas été activés par reconnaissnce automatique.
     
     void activer_fph (bool);
+
+    /// Importation du fichier CSV des codes de paye
+    /// \param chemin chemin du fichier
+    /// \return true en cas de réussite, false sinon.
+
+    bool importCodesCSV(const QString& chemin);
+
 };
 
 /// Classe de l'onglet Traitement du dialgue d'options

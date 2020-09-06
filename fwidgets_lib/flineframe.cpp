@@ -131,6 +131,8 @@ FLineFrame::FLineFrame(const QStringList& titre,
 
                           if (path.isNull() || path.isEmpty())
                            return;
+                          else
+                              emit(textChanged(path));
                        }
 
                     lineEdit->setText(path);
@@ -139,7 +141,7 @@ FLineFrame::FLineFrame(const QStringList& titre,
     
     componentList = {sButton, oButton, label, lineEdit};
     frameLayout->addWidget(lineEdit,    row + 1, column);
-    frameLayout->addWidget(label,       row, column);
+    frameLayout->addWidget(label,       row, column, Qt::AlignBottom);
     frameLayout->addWidget(sButton,     row + 1, column + 1);
     frameLayout->addWidget(oButton,     row + 1, column + 2);
 }
