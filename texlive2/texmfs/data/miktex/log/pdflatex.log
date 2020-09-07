@@ -1333,3 +1333,37 @@
 2020-09-07 06:34:43,254+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-12248f087b4668da
 2020-09-07 06:34:43,254+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-12248f087b4668da
 2020-09-07 06:34:47,285+0200 INFO  pdflatex - this process (5292) finishes with exit code 0
+2020-09-07 10:05:42,921+0200 INFO  pdflatex - this process (10528) started by 'Rscript' with command line: C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\pdflatex.exe -halt-on-error -interaction=batchmode altair.tex
+2020-09-07 10:05:42,960+0200 INFO  pdflatex - allowing known shell commands
+2020-09-07 10:05:42,960+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-09-07 10:05:43,007+0200 INFO  pdflatex - this process (10528) finishes with exit code 1
+2020-09-07 10:05:43,032+0200 WARN  miktex.core - still open: altair.tex
+2020-09-07 10:05:45,156+0200 INFO  pdflatex - this process (11772) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-f076c84a871a085e C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-f076c84a871a085e/input.tex
+2020-09-07 10:05:45,181+0200 INFO  pdflatex - allowing known shell commands
+2020-09-07 10:05:45,181+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-09-07 10:05:45,181+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-f076c84a871a085e
+2020-09-07 10:05:45,182+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-f076c84a871a085e
+2020-09-07 10:05:50,075+0200 INFO  pdflatex - this process (11772) finishes with exit code 0
+2020-09-07 10:05:50,685+0200 INFO  pdflatex - this process (11632) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-f076c84a871a085e C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-f076c84a871a085e/input.tex
+2020-09-07 10:05:50,709+0200 INFO  pdflatex - allowing known shell commands
+2020-09-07 10:05:50,709+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-09-07 10:05:50,709+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-f076c84a871a085e
+2020-09-07 10:05:50,710+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-f076c84a871a085e
+2020-09-07 10:05:55,657+0200 INFO  pdflatex - this process (11632) finishes with exit code 0
+2020-09-07 10:54:20,742+0200 INFO  pdflatex - this process (12000) started by 'Rscript' with command line: C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\pdflatex.exe -halt-on-error -interaction=batchmode altair.tex
+2020-09-07 10:54:20,782+0200 INFO  pdflatex - allowing known shell commands
+2020-09-07 10:54:20,782+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-09-07 10:54:20,875+0200 INFO  pdflatex - this process (12000) finishes with exit code 1
+2020-09-07 10:54:20,888+0200 WARN  miktex.core - still open: altair.tex
+2020-09-07 10:54:24,749+0200 INFO  pdflatex - this process (1580) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-97c768d19bebbde1 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-97c768d19bebbde1/input.tex
+2020-09-07 10:54:24,782+0200 INFO  pdflatex - allowing known shell commands
+2020-09-07 10:54:24,783+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-09-07 10:54:24,783+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-97c768d19bebbde1
+2020-09-07 10:54:24,784+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-97c768d19bebbde1
+2020-09-07 10:54:31,187+0200 INFO  pdflatex - this process (1580) finishes with exit code 0
+2020-09-07 10:54:31,778+0200 INFO  pdflatex - this process (3380) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-97c768d19bebbde1 C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-97c768d19bebbde1/input.tex
+2020-09-07 10:54:31,803+0200 INFO  pdflatex - allowing known shell commands
+2020-09-07 10:54:31,803+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-09-07 10:54:31,803+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-97c768d19bebbde1
+2020-09-07 10:54:31,803+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-97c768d19bebbde1
+2020-09-07 10:54:36,930+0200 INFO  pdflatex - this process (3380) finishes with exit code 0
