@@ -45,8 +45,6 @@ generer_rapport <- function(type = "latex") {
   
   "currentDir" %a% getwd()
   
-  if (basename(currentDir) != "altair") stop("*Le dossier courant doit être le dossier altair: faites la commande R setwd(chemin du dossier altair)")
-  
   # dossier d'exécution principal
   
   "chemin.dossier" %a% file.path(currentDir, "scripts", "R")
