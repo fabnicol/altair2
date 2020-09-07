@@ -117,7 +117,7 @@ plusieurs_types_par_libelle <- unique(code.libelle[, .(Libelle, Type)])[ , .(Mul
 #'Table à utiliser pour l'onglet Codes du dialogue d'options (**CTRL+T puis icône Codes**)        
 #'[Lien vers la table Codes/Libelles pour l'onglet Codes](Bases/Fiabilite/code.libelle.short.csv)       
 #'   
-#'Table plus complète à utiliser pour la fonctionnalité avancée de mise en correspondance des données comptables et de paye, onglet **Butdget**     
+#'Table plus complète à utiliser pour la fonctionnalité avancée de mise en correspondance des données comptables et de paye, onglet **Budget**     
 #'[Lien vers la table Codes/Libelles pour appariement avec les balances](Bases/Fiabilite/code.libelle.csv)       
 #'  
 
