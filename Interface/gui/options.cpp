@@ -191,13 +191,13 @@ codePage::codePage()
     hLayout->addWidget (baseBox,   0, 0, Qt::AlignTop);
     hLayout->addWidget (importBox, 0, 1, Qt::AlignTop);
 
-    QToolButton* reinit = new QToolButton;
-    reinit->setText("Réinitialiser");
-    connect(reinit, SIGNAL(clicked()), this, SLOT(reinit()));
-    reinit->setToolTip("Réinitialiser tous les champs de cet onglet");
+    QToolButton* reinitButton = new QToolButton;
+    reinitButton->setText("Réinitialiser");
+    connect(reinitButton, &QToolButton::clicked, [this] { reinit(update::warnRExport); });
+    reinitButton->setToolTip("Réinitialiser tous les champs de cet onglet");
 
     mainLayout->addLayout (hLayout);
-    mainLayout->addWidget (reinit, 0, Qt::AlignRight);
+    mainLayout->addWidget (reinitButton, 0, Qt::AlignRight);
     mainLayout->addSpacing (100);
 
     init_label_text = "Appuyer pour exporter<br> vers les rapports d'analyse ";
@@ -398,7 +398,7 @@ void codePage::activer_fph (bool activer)
     repaint();
 }
 
-void codePage::reinit()
+void codePage::reinit(int value)
 {
   for (auto && a : listeCodes) a->setText("");
   codesLibellesFrame->setText("");
@@ -406,7 +406,7 @@ void codePage::reinit()
   label->setText(init_label_text);
   appliquerCodes->setChecked (false);
   appliquerCodes->setIcon (QIcon (":/images/view-refresh.png"));
-  substituer_valeurs_dans_script_R();
+  if ((value & update::warnRExport) == update::warnRExport) substituer_valeurs_dans_script_R();
 }
 
 void codePage::substituer_valeurs_dans_script_R()
@@ -434,13 +434,11 @@ void codePage::substituer_valeurs_dans_script_R()
 
     if (res == false)
         {
-        // W10 bug : appelé trop souvent
-#ifndef Q_OS_WINDOWS
             Warning ("Attention",
                      "Les codes sont tous non renseignés.<br>"
                      "Les tests statutaires se feront <br>"
                      "sous algorithme heuristique seulement.");
-#endif
+
             icon = icon2;
 
             res = renommer (dump(file_str), prologue_options_path);

@@ -103,9 +103,13 @@ public slots:
 
     void substituer_valeurs_dans_script_R();
 
-    /// Réinitialise les champs de code et les chemins
+    /// Réinitialise les champs de code et les chemins, surcharge
 
-    void reinit();
+    void reinit(int );
+
+    /// Réinitialise les champs de code et les chemins
+    ///
+    void reinit(flags::update value) { reinit(static_cast<int>(value)); }
 
 private slots:
 
