@@ -26,13 +26,13 @@ default.txt
 0
 
 [Initial dir for file/archive browser]
-Computer's root
+C:\Users\Public\Dev\altair0\RStudio\bin\pandoc\
 
 [default archiving format]
 18
 
 [last used archiving format]
-15
+12
 
 [default PEA compression level]
 1
@@ -84,8 +84,8 @@ Computer's root
 
 [save history of recent archives]
 1
-C:\Users\fabrn\Desktop\Archives Altaïr\07 09 2020-06 52 39 - 1.zip
-
+C:\Users\Public\Dev\altair0\RStudio\bin\pandoc\pandoc-citeproc.exe
+C:\Users\Public\Dev\altair0\RStudio\bin\pandoc\pandoc.exe
 
 
 
@@ -114,10 +114,10 @@ C:\Users\fabrn\Desktop\Archives Altaïr\07 09 2020-06 52 39 - 1.zip
 0
 
 [left]
-64
+916
 
 [top]
-64
+319
 
 [width]
 960
@@ -215,7 +215,7 @@ C:\Users\fabrn\Desktop\
 1
 
 [last output path]
-C:\Users\fabrn\Desktop\Archives Altaïr\
+C:\Users\Public\Dev\altair0\RStudio\bin\pandoc\
 
 [height of the navigation's splitter]
 220
@@ -409,7 +409,7 @@ PeaZip
 0
 
 [save history of recent directories]
-<none>
+C:\Users\Public\Dev\altair0\RStudio\bin\pandoc\
 C:\Users\fabrn\Desktop\Archives Altaïr\
 
 
