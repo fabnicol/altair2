@@ -36,7 +36,7 @@
 # 
 # 
 # 
-
+knitr::opts_chunk$set(fig.width = 7.5,  echo = FALSE, warning = FALSE, message = FALSE, results = 'asis', encoding = "UTF-8")
 
 if (longueur.non.na(filtre.fonctionnaire(Montant.brut.annuel.eqtp) > 0)) 
   hist(filtre.fonctionnaire(Montant.brut.annuel.eqtp)/1000,

@@ -59,9 +59,11 @@ class FListFrame;
 class FLineFrame;
 
 
+
+
 /// Classe de l'onglet Codes permettant d'exporter des codes de paye manuellement spécifiés vers les scripts R.
 
-class codePage :  public QDialog, public common
+class codePage :  public FDialogConnections, public common
 {
     Q_OBJECT
 
@@ -70,56 +72,60 @@ public :
 
     codePage();
 
-    /// Réinitialisation de l'élément de texte variable de l'onglet.
-    
-    void resetLabel()
-    {
-        label->setText ("") ;
-    }
-
-
 private:
+    int nbVar; ///< Nombre de champs de codes de l'onglet (hors FPH)
     QList<FLineEdit*> listeCodes; ///< Liste des pointeurs vers des composants fonctionnels de classe FLineEdit, qui rassemble l'ensemble des lignes correspondant à variables.
-    QGridLayout *vLayout = new QGridLayout;    ///< Disposition secondaire.
+    QGridLayout *vLayout = new QGridLayout;    ///< Disposition secondaire (codes).
+    QGridLayout *v2Layout = new QGridLayout;    ///< Disposition secondaire (messages d'importation).
     QVBoxLayout *mainLayout = new QVBoxLayout; ///< Disposition principale.
-    QGroupBox *baseBox;                        ///< Boite regroupant les codes.    
+    QGroupBox *baseBox = new QGroupBox;                        ///< Boite regroupant les codes.
+    QGroupBox *importBox = new QGroupBox;                      ///< Boite regroupant les messages et dialogues d'importation des bases CSV.
+
     /// Crée une ligne de codes pour un type donné d'éléments de paye
     /// \param nom Nom de l'élément de paye
     /// \return Nombre d'éléments de paye empilés
 
-    int ajouterVariable (const QString& nom);
-    
-    /// Réinitialise l'exportation des codes d'éléments de paye
-    /// Ecrase prologue_options.R ( prologue_options_path) par sa valeur d'initialisation prologue_init.R
-    /// \return \e true si la réinitialisation par écrasement a réussi, \e false sinon.
-    
+    void ajouterVariable (const QString& nom);
 
 protected : 
    
     QStringList variables;        ///< Libellés des éléments de paye faisant l'objet d'une ligne dans l'onglet.
     QList<QString> listeLabels;   ///< Elements de variables dont les espaces ont été retirées.
     QList<QLabel*> listeDialogueLabels;        ///< Mise en forme des éléments de listeLabels au format QLabel.
-    QLabel *label;                             ///< Elément de texte variable servant à afficher des messaes d'erreur ou de réussite de l'exportation des codes.
+    QLabel *label = new QLabel;                             ///< Elément de texte variable servant à afficher des messaes d'erreur ou de réussite de l'exportation des codes.
+    FLineFrame *codesFrame;                    ///< Elément de texte et chemin du fichier pour l'importation du fichier de codes de paye
+    FLineFrame *codesLibellesFrame;            ///< Elément de texte et chemin de la table Codes-Libellés générée par le logiciel dans l'annexe
     QString init_label_text ;                  ///< Message "Appuyer pour exporter..."
     QToolButton* appliquerCodes ;              ///< Bouton "Exporter" (flèche verte) .
-  
-    
-private slots:
-    
+
+public slots:
     /// Substitue certaines valeurs caractéristiques du contrôle dans le fichier \em prologue_codes.R dans common::exportpath, notamment le Siret, le budget et l'employeur
-    
+
     void substituer_valeurs_dans_script_R();
-    
+
+    /// Réinitialise les champs de code et les chemins
+
+    void reinit();
+
+private slots:
+
     /// Active les contrôles réglementaires sur la fonction publique hospitalière (FPH) même s'ils n'ont pas été activés par reconnaissnce automatique.
     
     void activer_fph (bool);
+
+    /// Importation du fichier CSV des codes de paye
+    /// \param chemin chemin du fichier
+    /// \return true en cas de réussite, false sinon.
+
+    bool importCodesCSV(const QString& chemin);
+
 };
 
 /// Classe de l'onglet Traitement du dialgue d'options
 /// 
 /// Cette classe précise les modalités d'exécution de l'application-noyau \em lhx (nombre de fils d'exécution, consommation mémoire, log, mode d'exécution cumulatif, distributif ou standard, etc.;) et le type de rapports d'analyse produits (version avancée ou standard).
 
-class processPage :  public QDialog, public common
+class processPage :  public FDialogConnections, public common
 {
     Q_OBJECT
 
@@ -128,6 +134,11 @@ public :
     FLineFrame *logFrame;          ///< composant fonctionnelde type QLineEdit augmenté de fonctionnalités spéciales. Enregistre le chemin du log d'exécution.
     FCheckBox  *enchainerRapports; ///< Cas à cocher indiquant si la génération des rapports est automatiquement lancée par l'interface sans passer par RStudio.
     FCheckBox *openCheckBox;         ///< Case à cocher permettant d'ouvrir les rapports à la fin de l'exécution (cochée par défaut).
+
+    /// Réimplémentation de la fonction virtuelle de la classe common.
+    /// Exporte les valeurs de parallelCheckBox et openCheckBox  dans prologue_init.R
+
+   void substituer_valeurs_dans_script_R();
 
 private:
     FComboBox
@@ -154,7 +165,7 @@ private:
 
 /// Classe de l'onglet "Format des bases" du dialogue d'options
 
-class standardPage :  public QDialog, public common
+class standardPage :  public FDialogConnections, public common
 {
     Q_OBJECT
 
@@ -169,6 +180,13 @@ public :
       *FPHCheckBox,           ///< Données Fonction publique hospitalière ou pas
       *repBudgetCheckBox;     ///< Générer la répartition de la paye individuelle par budget (surtout utile pour la FPH)
     FComboBox* exportWidget;  ///< Modalités d'exportation (standard, cumulative, distributive etc.)
+
+     /// Réimplémentation de la fonction virtuelle de la classe common. Renvoie à substituer_versant.
+
+    void substituer_valeurs_dans_script_R()
+    {
+        substituer_versant();
+    }
 
 private:
     FComboBox  *baseTypeWidget;   ///< Type de base en sortie : "Standard", "Par année", "Par agent", "Toutes catégories", "Traitement" etc.
@@ -191,7 +209,7 @@ private slots:
 
 
 
-class rapportPage :  public  QDialog, public common
+class rapportPage :  public  FDialogConnections, public common
 {
     Q_OBJECT
 
@@ -233,13 +251,14 @@ private:
     void message(int r, QIcon& icon, bool paire = true); ///< Affichage de la liste des parties du rapport qui seront générées.
     
 
-    
-private slots:
+public slots:
     
     /// Substitue certaines valeurs caractéristiques du contrôle dans le fichier \em prologue_codes.R dans common::exportpath, notamment le Siret, le budget et l'employeur
     
     void substituer_valeurs_dans_script_R();
-    
+
+private slots:
+
     /// Active/désactive certaines cases liées à d'autres. 
     /// \param int Index de la case dans \link listeCB
     /// \note Pourrait être reformuler avec le cadre setEnableObjects/setDisableObjects
@@ -249,7 +268,7 @@ private slots:
 
 /// Classe de l'onglet Extra permettant d'importer les fichiers auxiliaires optionnels (correspondance budgétaire, fichier des catégories statutaires rectifié, concessions de logement, plafonds IFSE)     
 
-class extraPage: public QDialog, public common
+class extraPage: public FDialogConnections, public common
 {
 
 Q_OBJECT
@@ -302,7 +321,8 @@ public:
     static std::uint16_t RefreshFlag;  ///< Drapeau indiquant si si l'interface a été actualisée ou doit l'être
     QListWidget *optionWidget;         ///< composant du dialogue d'options
     QDialogButtonBox *closeButton;     ///< Bouton "Quitter"    
-    
+    QList<FDialogConnections*> tabs;              ///< Liste des onglets
+
     /// Efface les données de  Hash::wrapper et de  Hash::Reference
     
     void clearOptionData();            

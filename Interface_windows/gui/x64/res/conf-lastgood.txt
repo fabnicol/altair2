@@ -84,7 +84,7 @@ Computer's root
 
 [save history of recent archives]
 1
-
+C:\Users\fabrn\Desktop\Archives Altaïr\07 09 2020-06 52 39 - 1.zip
 
 
 
@@ -206,7 +206,7 @@ Deflate
 1
 
 [desktop path]
-
+C:\Users\fabrn\Desktop\
 
 [job definition encoding]
 0
@@ -215,7 +215,7 @@ Deflate
 1
 
 [last output path]
-
+C:\Users\fabrn\Desktop\Archives Altaïr\
 
 [height of the navigation's splitter]
 220
@@ -409,8 +409,8 @@ PeaZip
 0
 
 [save history of recent directories]
-Computer's root
-
+<none>
+C:\Users\fabrn\Desktop\Archives Altaïr\
 
 
 

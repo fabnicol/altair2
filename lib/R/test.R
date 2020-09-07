@@ -438,8 +438,8 @@ essayer({ if (! is.null(Paie_B) && ! résultat.manquant) {
   
   # on exclut les rappels !
   
-    indic_B <<- "indic_"  %+% prime_B$nom
-    assign(indic_B, NULL, envir = .GlobalEnv)
+    indic_B %a% "indic_"  %+% prime_B$nom
+
     NAMES <- names(Paie_B)
     
     if (! indic_B %chin% NAMES && "indic" %chin% NAMES) setnames(Paie_B, "indic", indic_B)
@@ -457,10 +457,9 @@ essayer({ if (! is.null(Paie_B) && ! résultat.manquant) {
     B_ <- merge(unique(Paie_B), periode.fusion, by = c("Matricule", "Annee", "Mois"))
     B_$indic <- A_$indic
     
-    personnels.A.B <- B_[indic == TRUE | get(indic_B) == TRUE
+    personnels.A.B <- B_[indic == TRUE | get(indic_B, envir = .GlobalEnv) == TRUE
                         ][ , indic := NULL
-                        ][ , indic_B := NULL
-                             , with = FALSE]
+                        ][ , (indic_B) := NULL]
     
     nombre.mois.cumuls <- uniqueN(personnels.A.B[ , .(Matricule, Annee, Mois)], by = NULL)
     
@@ -499,13 +498,13 @@ if(sauvegarder.bases.analyse) {
 indic <<- "indic_"  %+% prime$nom
 indic_B <<- "indic_"  %+% prime_B$nom
 assign(indic_B, NULL, envir = .GlobalEnv)
-Lignes_A[ , indic := TRUE, with = FALSE]
-Lignes_B[ , indic_B := TRUE, with = FALSE]
+Lignes_A[ , (indic) := TRUE]
+Lignes_B[ , (indic_B) := TRUE]
 
 beneficiaires.A <- merge(unique(Lignes_A), unique(Lignes_B), all = TRUE, by = c("Nom", "Prenom", "Matricule", "Annee", "Mois", "Debut", "Fin", "Grade", "Emploi", "Temps.de.travail", "Indice", "Categorie", "Statut", "Type", "Montant"))
 
 beneficiaires.A[ , Régime := if (all(is.na(get(indic)))) { if (any(get(indic_B))) "I" else NA } else { if (all(is.na(get(indic_B)))) "P" else "C" },
-                   by = .(Matricule, Annee, Mois)][ , indic := NULL, with = FALSE][ , indic_B := NULL, with = FALSE]
+                   by = .(Matricule, Annee, Mois)][ , (indic) := NULL][ , (indic_B) := NULL]
 
 matricules.A <- unique(Lignes_A$Matricule)
 

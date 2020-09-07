@@ -287,8 +287,6 @@ void Altair::runWorker (const QString& subdir)
     // Lancement
     // nécessaire pour avoir l'état réel de certains champs de contrôle comme activerConsole
 
-    updateProject (true);
-
     rankFile.setFileName (sharedir + "/rank");
 
     if (! rankFile.exists())
@@ -385,7 +383,7 @@ void Altair::runWorker (const QString& subdir)
 void Altair::run()
 {
 
-    updateProject (true);
+    updateProject (update::saveProject | update::warnRExport);
 
     // crucial otherwise some dynamic settings in the option dialog
     // may not get through to command line
@@ -427,13 +425,6 @@ void Altair::run()
             return;
         }
 
-#ifndef Q_OS_WIN
-
-        QString file_str = common::readFile (common::prologue_options_path);
-        substituer("sequentiel *<- *\\w{4,5}", QString("sequentiel <- ") + (v(parallelExec).isTrue() ? "FALSE" : "TRUE"), file_str);
-        renommer (dump (file_str), common::prologue_options_path);
-
-#endif
 
     const QStringList& files = targetDirObject.entryList (QDir::Files
                                | QDir::Dirs
@@ -571,9 +562,9 @@ void Altair::runRAltair()
     // ne pas utiliser isFalse() car la valeur peut être non-spécifiée au lancement
     QDir outputDir = QDir (common::path_access (DONNEES_SORTIE));
 
-    outputDir.remove ("altaïr.pdf");
-    outputDir.remove ("altaïr.odt");
-    outputDir.remove ("altaïr.docx");
+    outputDir.remove ("altair.pdf");
+    outputDir.remove ("altair.odt");
+    outputDir.remove ("altair.docx");
     outputDir.remove ("altair.pdf");
     outputDir.remove ("altair.odt");
     outputDir.remove ("altair.docx");
@@ -603,17 +594,21 @@ void Altair::runRAltair()
     emit (setProgressBar (0, 100));
     QString  path_access_rapport;
 
-    if (v(rapportType) == "WORD et ODT")
+    if (v(rapportType) == "WORD, ODT et PDF")
         {
-            path_access_rapport = path_access (SCRIPT_DIR "rapport_msword.R");
+            path_access_rapport = path_access (SCRIPT_DIR "rapport_msword_et_pdf.R");
         }
     else if (v(rapportType) == "PDF")
         {
             path_access_rapport = path_access (SCRIPT_DIR "rapport_pdf.R");
         }
-    else if (v(rapportType) == "WORD, ODT et PDF")
+    else if (v(rapportType) == "WORD et ODT")
         {
-            path_access_rapport = path_access (SCRIPT_DIR "rapport_msword_et_pdf.R");
+            path_access_rapport = path_access (SCRIPT_DIR "rapport_msword.R");
+        }
+    else if (v(rapportType) == "Pas de rapport (Bases seules)")
+        {
+            path_access_rapport = path_access (SCRIPT_DIR "altair.R");
         }
 
 #ifndef Q_OS_WINDOWS

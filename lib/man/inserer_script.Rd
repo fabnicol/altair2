@@ -8,9 +8,10 @@ inserer_script(
   chemin = NULL,
   index = 1,
   variable = "annee",
-  gen = generer.rapport,
-  incrementer = FALSE,
-  fonction = NULL
+  gen = get("generer.rapport", envir = .GlobalEnv),
+  fonction = NULL,
+  clean = TRUE,
+  sync = get("sequentiel", envir = .GlobalEnv)
 )
 }
 \arguments{
@@ -22,9 +23,11 @@ inserer_script(
 
 \item{gen}{Si \code{FALSE} alors se contente de sourcer le script auxiliaire selon \code{encodage.code.source}. Sinon intègre le rapport auxiliaire au format du rapport principal.}
 
-\item{incrementer}{INcrémenter le chapitre de présentation du script}
-
 \item{fonction}{Appeler une liste de fonctions à argument vide}
+
+\item{clean}{Booléen. Nettoyer les fichiers intermédiaires}
+
+\item{sync}{Caractère synchrone ou pas, géré par défaut par la variable globale #sequentiel}
 
 \item{seq}{Exécuter le script en mode sequentiel (si \code{TRUE}, resp. si \code{FALSE}, en mode parallèle)}
 }

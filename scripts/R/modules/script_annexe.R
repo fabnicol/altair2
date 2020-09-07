@@ -69,9 +69,30 @@ Evenements.mat <- setcolorder(setkey(data.table::copy(Evenements.ind),
 
 if (is.null(code.libelle)) code.libelle <- unique(Paie[ , .(Code, Libelle, Statut, Type)][ , Compte := ""])
 
-code.libelle.short <- unique(code.libelle[order(Code), .(Code, Libelle)])
+code.libelle.short <- unique(code.libelle[!is.na(Code), .(Code, Libelle, Type)])
+code.libelle.short <- remplacer_type(code.libelle.short)
 
-code.libelle <- remplacer_type(code.libelle)
+### Ces lignes de code Copyright Fabrice Nicol septembre 2020
+# réordonner
+
+code.libelle.short[, ord := 10]
+code.libelle.short[Type == "Traitement",  ord := 1]
+code.libelle.short[Type == "Indemnité",  ord := 2]
+code.libelle.short[Type == "Indemnité de résidence", ord := 3]
+code.libelle.short[Type == "Supplément familial",  ord := 4]
+code.libelle.short[Type == "Rappels",  ord := 5]
+code.libelle.short[Type == "Autres rémunérations",  ord := 6]
+code.libelle.short[Type == "Déductions",  ord := 7]
+code.libelle.short[Type == "Cotisations",  ord := 8]
+setkey(code.libelle.short, ord)
+
+# coller les libellés et types pour chaque code distinct
+
+code.libelle.short <- code.libelle.short[, ord := NULL
+                                       ][, lapply(.SD, function(x) paste(unique(x), collapse = " / ")), 
+                                            by= Code, .SDcols=c("Libelle", "Type")]
+
+### Fin du Copyright Fabrice Nicol septembre 2020
 
 setcolorder(code.libelle, c("Code", "Libelle", "Statut", "Type", "Compte"))
 
@@ -79,10 +100,6 @@ if (afficher.table.codes) {
   kable(code.libelle, align="c")
 }
 
-#'Certains libellés ou codes de paye peuvent être équivoques et entraîner des erreurs de requête.       
-#'Les liens ci-après donnent les codes correspondant à au moins deux libellés distincts, les libellés correspondant à au moins deux codes et les codes ou libellés correspondant à au moins deux types de ligne de paye distincts.           
-#'L'association d'un même code à plusieurs libellés de paye peut induire des erreurs d'analyse comptable et financière lorsque les libellés correspondent à des types de ligne de paye distincts.    
-#'
 
 # Plusieurs libellés par code
 plusieurs_libelles_par_code <- unique(code.libelle[ , .(Code, Libelle, Type)])[, Multiplicité := .N, keyby = Code][Multiplicité > 1]
@@ -96,15 +113,24 @@ plusieurs_types_par_code <- unique(code.libelle[, .(Code, Type)])[ , .(Multiplic
 # Plusieurs types de ligne par libellé
 plusieurs_types_par_libelle <- unique(code.libelle[, .(Libelle, Type)])[ , .(Multiplicité = .N,  Type), keyby = Libelle][Multiplicité > 1]
 
-#'   
+#'Les tables ci-dessous donnent les correspondances entre codes de paye et libellés de paye   
+#'Table à utiliser pour l'onglet Codes du dialogue d'options (**CTRL+T puis icône Codes**)        
 #'[Lien vers la table Codes/Libelles pour l'onglet Codes](Bases/Fiabilite/code.libelle.short.csv)       
+#'   
+#'Table plus complète à utiliser pour la fonctionnalité avancée de mise en correspondance des données comptables et de paye, onglet **Butdget**     
 #'[Lien vers la table Codes/Libelles pour appariement avec les balances](Bases/Fiabilite/code.libelle.csv)       
+#'  
+#'  
+#'Certains libellés ou codes de paye peuvent être équivoques et entraîner des erreurs de requête.       
+#'Les liens ci-après donnent les codes correspondant à au moins deux libellés distincts, les libellés correspondant à au moins deux codes et les codes ou libellés correspondant à au moins deux types de ligne de paye distincts.           
+#'L'association d'un même code à plusieurs libellés de paye peut induire des erreurs d'analyse comptable et financière lorsque les libellés correspondent à des types de ligne de paye distincts.    
+#'Ces liens ne sont insérés que si de tels cas de multiplicité sont détectés.       
+#'     
 conditionnel("Plusieurs libellés par code", "Bases/Fiabilite/plusieurs_libelles_par_code.csv")   
 conditionnel("Plusieurs codes par libellé", "Bases/Fiabilite/plusieurs_codes_par_libelle.csv")   
 conditionnel("Plusieurs types de ligne par code", "Bases/Fiabilite/plusieurs_types_par_code.csv")   
 conditionnel("Plusieurs types de ligne par libellé", "Bases/Fiabilite/plusieurs_types_par_libelle.csv")   
 #'   
-
 #'  
 #'## Doublons                
 #'

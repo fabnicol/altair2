@@ -48,12 +48,19 @@
 #ifndef BUFFER_SIZE
     static constexpr int BUFFER_SIZE = 1500;
 #endif
+#include <cstdint>
+#include <cstdlib>
 
 enum exitCode {exitFailure=EXIT_FAILURE, shouldLaunchRAltairAlone=13};
 
 class flags
 {
 public:
+
+   enum class update : uint8_t { noSave = 0x0,
+                                  saveProject = 0x1,
+                                  noWarnRExport = 0x0,
+                                  warnRExport = 0x2};
 
    enum class flineframe {isFilePath,     ///< Une ligne d'input qui est  un chemin de fichier
                           isDirectoryPath ///< Une ligne d'input qui est un chemin de répertoire
@@ -66,7 +73,7 @@ public:
    enum class colors {yes, ///< Coloriser (palette fixe colorée
                       no}; ///< Ne pas coloriser
 
-   enum class font : std::uint8_t {boldTitle,     ///< Police en gras
+   enum class font : uint8_t {boldTitle,     ///< Police en gras
                                    regularTitle,  ///< Police normale
                                    italicTitle};  ///< Police en italiques
 
@@ -74,14 +81,14 @@ public:
                                 checkEmptyness = true  ///< Vérifier si le répertoire est videv
                                } ;
 
-   enum class commandLineType : std::uint8_t {
+   enum class commandLineType : uint8_t {
                                                 coreApplicationCommandLine = 0x01,               ///< Ligne de commande de l'application noyau externe0
                                                 defaultCommandLine = coreApplicationCommandLine, ///< Par défaut
                                                 noCommandLine = 0x03,                            ///< Pas de ligne de commande assicoée au fwidget
                                                 commandLineMask = 0xF                           ///< Masque permettant de récupérer commandLineType sur un multi-octets
                                              };
 
-   enum class status : std::uint32_t {
+   enum class status : uint32_t {
        enabled = 0x100,              ///< Activer le composant fonctionnelpar défaut
        disabled = 0x200,             ///< Désactiver composant fonctionnelpar défaut
        checked = 0x1000,             ///< Cocher par défaut
@@ -110,13 +117,22 @@ public:
    /// Plongement de l'opérateur | des types flags::commandLineType et flag::status dans les entiers int
    friend int operator | (flags::commandLineType x, flags::status y) {return static_cast<int>(x) | static_cast<int>(y);}
 
-   /// Plongement de l'opérateur | du type flag::status et du type flags::commandLineType dans les entiers int
+   /// Plongement de l'opérateur | du type flags::status et du type flags::commandLineType dans les entiers int
    friend int operator | (flags::status y, flags::commandLineType x) {return static_cast<int>(x) | static_cast<int>(y);}
 
-   /// Plongement de l'opérateur & du type flag::status et du type flags::commandLineType dans les entiers int
+   /// Plongement de l'opérateur | du type flags::update  dans les entiers int
+   friend int operator | (flags::update y, flags::update x) {return static_cast<int>(x) | static_cast<int>(y);}
+
+   /// Plongement de l'opérateur & du type int et flags::update dans les entiers int
+   friend int operator & (int y, flags::update x) {return static_cast<int>(x) & y;}
+
+   /// Plongement de l'opérateur & du type flags::status et du type flags::commandLineType dans les entiers int
    friend int operator & (flags::status y, flags::commandLineType x) {return static_cast<int>(x) & static_cast<int>(y);}
 
-   /// Plongement de l'opérateur & du type flags::commandLineType et du type flag::status dans les entiers int
+   /// Plongement de l'opérateur == du type int et du type flags::update dans les entiers int
+   friend int operator == (int y, flags::update x) {return static_cast<int>(x) == y;}
+
+   /// Plongement de l'opérateur & du type flagss::commandLineType et du type flags::status dans les entiers int
    friend int operator & (flags::commandLineType x, flags::status y) {return static_cast<int>(x) & static_cast<int>(y);}
 };
 

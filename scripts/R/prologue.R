@@ -43,11 +43,60 @@
 # Dans ce cas fixer extraire.annees en valeur TRUE.
 # Sinon le programme travaille sur l'ensemble des annees disponibles dans la base : elles sont détectées automatiquement.
 
+# OPTIONS GLOBALES ET DUBUGGAGE
+
+debug.code                     <- FALSE
+
+options(warn = ifelse(debug.code, 1, -1), verbose = debug.code, OutDec = ",", datatable.verbose = debug.code, datatable.integer64 = "numeric")
+options(knitr.duplicate.label = "allow", encoding="UTF-8")
+knitr::opts_chunk$set(fig.width = 7.5,  echo = debug.code, warning = debug.code, message = debug.code, results = 'asis', encoding = "UTF-8")
+
+library(compiler, warn.conflicts = FALSE)
+
+invisible(setCompilerOptions(suppressAll = TRUE, optimize = 3))
+invisible(enableJIT(3))
+
+library(knitr, warn.conflicts = FALSE)
+
+# CHEMINS ET ENVIRONNEMENT
+
+setOSWindows                <- Sys.info()["sysname"] != "Linux"
+racine                      <- ifelse(setOSWindows, "R-Altaïr/", "R-Altair")
+
+chemin.modules              <- file.path(chemin.dossier, "modules")
+chemin.cle.racine           <- file.path(chemin.dossier, "Donnees", racine)
+
+reps <- list.dirs(chemin.cle.racine, recursive = FALSE)
+reps <- reps[basename(reps) != "Bases" & basename(reps) != "Docs"]
+if (length(reps) == 0) reps <- chemin.cle.racine
+
+if (setOSWindows) {
+
+  invisible(Sys.setenv(PATH = paste(Sys.getenv("PATH"), 
+                                    file.path(Sys.getenv("R_HOME"),
+                                              "../texlive2/texmfs/install/miktex/bin/x64"),
+                                    file.path(Sys.getenv("R_HOME"), "../RStudio/bin/pandoc"),
+                                    sep=";")))
+  
+  if (basename(currentDir) == "R") 
+    .libPaths(file.path(currentDir, "..", "..", "R-devel/library"))
+  
+  user <- Sys.getenv("USERNAME")
+  sep_syspaths <- ";"
+  
+} else {
+  path.libreoffice <- "/usr/lib/libreoffice/program" 
+  user <-  Sys.getenv("USER")
+  sep_syspaths <- ":"
+  Sys.setenv(LD_LIBRARY_PATH=path.libreoffice %+% sep_syspaths %+% Sys.getenv("LD_LIBRARY_PATH"))
+}
+
+
+
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 
-
-
 # Toujours utiliser FALSE ou TRUE en plein lettres en raison de l'éloignement avec <- (bug de l'interpréteur pour T et F)
+
 
 extraire.annees                <- FALSE
   debut.periode.sous.revue     <- 2013
@@ -222,11 +271,9 @@ expression.rég.admin.hc   <- "(?:^|\\s)adm\\w*\\.?\\bh\\w*\\.?\\s?c\\w*\\.?\\b"
 expression.rég.admin.g    <- "(?:^|\\s)adm\\w*\\.?\\b\\s?g\\w*\\.?\\b"
 
 # Trace de profilage.
+library(data.table, warn.conflicts = FALSE)
 PROF <<- data.table()
 
-# Les valeurs ci-après seront changées par le "préprocesseur" de l'interface graphique si les valeurs explicites des codes de paye
-
-source("versant.R", encoding = "UTF-8")
 # point d'indice majoré
 
 point_inm()

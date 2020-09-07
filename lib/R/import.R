@@ -712,7 +712,7 @@ importer_ <- function() {
 
   # Attention, NA, pas FALSE
 
-  set(Bulletins.paie, 1, "R", NA)
+  set(Bulletins.paie, 1L, "R", NA)
 
   # Médiane des services horaires à temps complet par emploi et par sexe
 
@@ -737,8 +737,7 @@ importer_ <- function() {
 
   # Housecleaning
 
-  Bulletins.paie[ , indic := NULL]
-
+  
   Paie <- merge(unique(Bulletins.paie[ , .(Matricule,
                                            Annee,
                                            Mois,

@@ -212,7 +212,6 @@ Altair::Altair()
              &QToolButton::clicked,
              [this]
     {
-        updateProject();
         displayTotalSize();
         checkAnnumSpan();
 
@@ -226,7 +225,7 @@ Altair::Altair()
     connect (project, SIGNAL (setProgressBar (int)), this, SIGNAL (setProgressBar (int)));
     connect (project, SIGNAL (textAppend (const QString&)), this, SLOT (textAppend (const QString&)));
     connect (project, SIGNAL (refreshRowPresentation (int)), this, SLOT (refreshRowPresentation (int)));
-    connect (project, SIGNAL (updateProject (bool)), this, SLOT (updateProject (bool)));
+    connect (project, SIGNAL (updateProject (int)), this, SLOT (updateProject (int)));
     connect (project, SIGNAL (appRepaint()), this, SLOT (repaint()));
 #ifndef USE_RIGHT_CLICK
     connect (project->deleteGroupButton, SIGNAL (clicked()), this, SLOT (deleteGroup()));
@@ -463,6 +462,7 @@ void Altair::closeProject()
 
     QFile projectFile (projectName);
     projectFile.close();
+    common::reinitialiser_prologue();
 }
 
 void Altair::clearProjectData()
@@ -514,7 +514,9 @@ void Altair::clearProjectData()
 
     project->mainTabWidget->setCurrentIndex (0);
     project->initializeWidgetContainer();
-    if (parent->dialog) parent->dialog->codeTab->resetLabel();
+    if (parent->dialog) {
+        parent->dialog->codeTab->reinit();
+    }
 
     fileSizeDataBase[0].clear();
 
@@ -581,7 +583,7 @@ void Altair::deleteGroup()
 
     // Réactualiser le projet .alt et le gestionnaire de projet à droite de l'interface
 
-    updateProject();
+    updateProject(update::noSave | update::noWarnRExport);
 
     // Afficher la taille des bases de paye dans l'onglet Messages
     // Elle sera en principe inférieure à la taille avant suppression de l'onglet
@@ -604,7 +606,7 @@ void Altair::on_deleteItem_clicked()
     RefreshFlag = RefreshFlag & ~interfaceStatus::parseXml; // reparser le projet pour actualiser le gestionnaire de projet
 
     // Supprimer le fichier dans le projet
-    updateProject();
+    updateProject(update::noSave | update::noWarnRExport);
 
     // Actualiser l'index courant
     updateIndexInfo();
@@ -619,25 +621,27 @@ void Altair::requestSaveProject()
                   tr ("Entrer le nom du projet"),
                   userdatadir + "défaut.alt",
                   tr ("projets altair (*.alt)"));
-    updateProject (true);
+    updateProject (update::saveProject | update::noWarnRExport);
 }
 
-bool Altair::updateProject (bool requestSave)
+bool Altair::updateProject (int requestSave)
 {
     RefreshFlag = RefreshFlag | interfaceStatus::saveTree // ouvrir le fichier projet pour le modifier
                   | interfaceStatus::tree;  // actualisation le gestionnaire de projet
 
     setCurrentFile (projectName);
 
-    // Si la case du dialogue de confirguration est cochée, ou si la sauvegarde est forcée
+    // Si la case du dialogue de confrguration est cochée, ou si la sauvegarde est forcée
     // par requetSave = true alors réécrire le projet .alt
 
-    if (parent->isDefaultSaveProjectChecked() || requestSave)
+    if (parent->isDefaultSaveProjectChecked() || (requestSave & update::saveProject == update::saveProject))
         writeProjectFile();
 
     Abstract::initH ("base", path_access (DONNEES_SORTIE));
 
     Abstract::initH ("lhxDir", path_access (System));
+
+    if ((requestSave & update::warnRExport) == update::warnRExport) emit(substituer_valeurs_dans_script_R());
 
     return refreshProjectManager();
 }
@@ -886,7 +890,7 @@ void Altair::dropEvent (QDropEvent *event)
             closeProject();
             project->addParsedTreeToListWidget (stringsDragged);
             checkAnnumSpan();
-            updateProject();
+            updateProject(update::noSave | update::noWarnRExport);
         }
 }
 
