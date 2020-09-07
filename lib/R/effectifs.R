@@ -275,7 +275,7 @@ formater <- function(A, variation,  agr, somme = FALSE, round = TRUE, type = "G"
       
     }
     
-    set(tab, nrow(tab), 1, ifelse(somme, "Total", "Moyenne"))
+    set(tab, nrow(tab), 1L, ifelse(somme, "Total", "Moyenne"))
     
   return(tab)
 }
@@ -776,7 +776,7 @@ filtrer.base <- function(Base, grade, emploi, classe, service, libellés, agr, p
   
   if ("G1" %in% names(Base)) {
     
-    G <- rowSums(Base[ , paste0("G", 1:dim), with = FALSE], na.rm = TRUE)
+    G <- rowSums(Base[ , paste0("G", 1:dim)], na.rm = TRUE)
     Base <- cbind(Base, G)
     Base <- Base[G != 0]
   }

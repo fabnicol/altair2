@@ -51,7 +51,7 @@ void common::exporter_identification_controle (QString &file_str, const QString 
     const QString &siret = Hash::aplatir (Hash::Siret, " - ", subdir);
     const QString &etablissement = Hash::aplatir (Hash::Etablissement, " - ", subdir);
 
-    substituer ("controle<-c\\(\"\",\"\",\"\",\"\"\\)", "controle<-c(\""
+    substituer ("\"controle\" *%a% *c\\(\"\\w*\",\"\\w*\",\"\\w*\",\"\\w*\"\\)", "\"controle\" %a% c(\""
                 + employeur + "\",\""
                 + siret + "\",\""
                 + etablissement + "\",\""

@@ -401,8 +401,12 @@ void FListFrame::parseXhlFile()
         sequentiel = false;
 
         importFromMainTree->show();
+
         return;
      }
+
+    int res = QMessageBox::warning(nullptr, "Vous avez un disque optique", "Cliquer Non et enlevez-le du lecteur<br>si vous ne souhaitez pas importer les données du disque.<br>Sinon confirmer par Oui pour poursuivre l'extraction.", QMessageBox::No, QMessageBox::Yes);
+    if (res == QMessageBox::No) return;
 
     isTerminated = false;
     importFromMainTree->hide();
@@ -732,7 +736,7 @@ Référence : " + QString::number(Hash::Reference.size()) +
         setStrikeOutFileNames(flags::colors::yes);
 
         currentListWidget->setCurrentRow(localrow);
-        emit(updateProject(true));
+        emit(updateProject(update::saveProject | update::noWarnRExport));
 }
 
 
@@ -1096,7 +1100,7 @@ void FListFrame::finalise()
 
 #ifdef HAVE_APPLICATION
   emit(textAppend(STATE_HTML_TAG "Fichiers ajoutés au projet." ));
-  emit(updateProject(true));
+  emit(updateProject(update::saveProject | update::noWarnRExport));
 #endif
 
   Hash::createReference(widgetContainer.size() - 1);

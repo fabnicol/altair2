@@ -49,14 +49,13 @@
 #'![](icones/altair.png)
 #'   
 #'   
-#'## Logiciel Altaïr version 20.08-x 
-### deprecated  `r readLines(file.path(currentDir, "VERSION"))`
+#'## Logiciel Altaïr `r readLines(file.path(currentDir, "VERSION"))`
 
 # ---
 # Encodage obligatoire en UTF-8
 # ---
 
-#+ echo = FALSE, warning = TRUE, message = FALSE
+#+ echo = FALSE, warning = FALSE, message = FALSE
 
 # comportement global du programme
 
@@ -64,22 +63,6 @@
 # Lorsque l'on n'étudie pas une base Xémélios, mettre étudier.tests.statutaires à FALSE
 
 #+ début
-  
-# Utiliser la compilation JIT
-
-library(compiler, warn.conflicts = FALSE)
-
-invisible(setCompilerOptions(suppressAll = TRUE, optimize = 3))
-invisible(enableJIT(3))
-
-# Options générales
-
-# Sourcer la biblio de fonctions auxiliaires
-# Appel de la biblio altair, où sont regroupées des fonctions d'analyse des rémunérations et les pyramides
-
-library(knitr, warn.conflicts = FALSE)
-options(knitr.duplicate.label = "allow", encoding="UTF-8")
-knitr::opts_chunk$set(fig.width = 7.5,  results = 'asis', encoding = "UTF-8")
 
 # Importer les données --> bases Paie et Bulletins.paie
 
@@ -237,7 +220,7 @@ if (!setOSWindows) {
   mem <- strtoi(unlist(strsplit(mem, " "))[1])
   if (nrow(Paie) * ratio.memoire.ligne.parallele  > mem) {
     "sequentiel" %a% TRUE  # assignation globale nécessaire
-    message("Bascule en mode sequentiel")
+    message("Bascule en mode synchrone")
   }
 }
 
@@ -275,7 +258,7 @@ generer.partie <- function(script, sequentiel = FALSE) {
 
                               invisible(lapply(script, function(x) do.call(inserer_script, 
                                                                              as.list(na.omit(c(file.path(chemin.modules, x[1]),
-                                                                                             x[-1])))))) 
+                                                                                             x[-1], clean =  ! keep_md)))))) 
 }
                             
 if (sequentiel || setOSWindows) {
@@ -288,37 +271,37 @@ if (sequentiel || setOSWindows) {
   # Les groupes sont constitutés pour :
   # a) équilibrer les charges des noeuds
   # b) tenir compte des relations de dépendances entre scripts afin d'éviter les files d'attentes et les mutex
-  # Il faut ensuite permuter les résultats pour retrouver l'ordre canonique des rapports (qui pourrait évoluer pour éviter cela)
   
-  group1 <- list("script_effectifs.R",
-                  "script_pyramides.R",
-                  "script_dureedeservice.R")
+  # Les indices donnent l'ordre de numérotation des fichiers  scripts/modulesXX.Rmd, cela permettrait de réordonner éventuellement.
+  
+  group1 <- list(list("script_effectifs.R", "a"),
+                 list("script_pyramides.R", "b"),
+                 list("script_dureedeservice.R", "c"))
 
-  group2 <- list("script_rémunérationsbrutes1.R",
-                 "script_rémunérationsbrutes2.R",
-                 "script_comparaisonsdubrut.R",
-                 "script_évolutiondunet.R")
+  group2 <- list(list("script_rémunérationsbrutes1.R", "d"),
+                 list("script_rémunérationsbrutes2.R", "e"),
+                 list("script_comparaisonsdubrut.R", "f"),
+                 list("script_évolutiondunet.R", "g"))
 
-  group3 <- list("script_NBI.R",
-                 "script_HS.R", #+
-                 "script_astreintes.R")  #+
+  group3 <- list(list("script_NBI.R", "h"),
+                 list("script_HS.R", "i"),
+                 list("script_astreintes.R", "j"))  
 
-  group4 <- list("script_IATIFTS.R",
-                 "script_PFR.R",
-                 "script_PSR.R",
-                 "script_IPF.R",
-                 "script_RIFSEEP.R")
+  group4 <- list(list("script_IATIFTS.R", "k"),
+                 list("script_PFR.R", "l"),
+                 list("script_PSR.R", "m"),
+                 list("script_IPF.R", "n"),
+                 list("script_RIFSEEP.R", "o"))
 
-  group5 <- list("script_PFI.R", #+
-                 "script_vacataires.R", #+
-#                "script_NAS.R", #+  [inachevé]
-                 "script_élus.R")
+  group5 <- list(list("script_PFI.R", "p"),
+                 list("script_vacataires.R", "q"),
+                 list("script_élus.R", "r"))
 
-  group6 <- list("script_comptabilité.R",
-                 "script_SFT.R",
-                 "script_retraites.R",
-                 "script_FPH.R",
-                 "script_annexe.R")
+  group6 <- list(list("script_comptabilité.R", "s"),
+                 list("script_SFT.R", "t"),
+                 list("script_retraites.R", "u"),
+                 list("script_FPH.R", "v"),
+                 list("script_annexe.R", "w"))
   
   library(parallel)
   
@@ -333,8 +316,7 @@ if (sequentiel || setOSWindows) {
   cluster_mode <-"FORK"
   
   cl <- makeCluster(6, type = cluster_mode)
-  
-  res <- clusterApply(cl,
+  clusterApply(cl,
                       G,
                       generer.partie)
   

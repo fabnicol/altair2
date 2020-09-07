@@ -199,7 +199,7 @@ public slots:
     /// Rafraichir le projet \b .alt après avoir actualisé l'interface
     /// \param enreg Si \e true, enregistre le projet actualisé.
 
-    bool updateProject (bool enreg = false);
+    bool updateProject (int enreg = 0);
 
     /// Ouvre le projet, le décode en appelant  parseProjectFile et actualise l'interface \n
     /// en conséquence
@@ -435,6 +435,11 @@ signals:
     /// Ajout d'une ligne de saisie des matricules au dialogue \em Extraction des bulletins (classe MatriculeInput).
 
     void ajouterLigneMatricules();
+
+    /// Exporter les valeurs qui ne passent pas en ligne de commande mais en paramétrage du script R prologue_init.R
+
+    void substituer_valeurs_dans_script_R();
+
 };
 
 

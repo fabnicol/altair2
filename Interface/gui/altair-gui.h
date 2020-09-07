@@ -83,7 +83,7 @@ class MatriculeInput;
 /// Classe principale de l'interface graphique utilisateur.
 /// Régit une classe agent Altair à laquelle sont déléguées des rôles non stictement liés à l'interfaçage graphique.
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, public tools
 {
     Q_OBJECT
 
@@ -408,7 +408,10 @@ private slots:
 
     void createDialogs();
    
-    
+    /// Lancer l'actualisation de l'exportation des valeurs pertinentes dans le module R (prologue_init.R)
+
+    void substituer_valeurs_dans_script_R();
+
 signals:
     /// Fermer l'interface
 

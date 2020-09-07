@@ -60,7 +60,7 @@
 #' @export
 
 chemin <-  function(fichier)
-  file.path(chemin.dossier.donnees, fichier)
+  file.path(get("chemin.dossier.donnees", envir = .GlobalEnv), fichier)
 
 #' Lecture d'une base CSV
 #'
@@ -78,15 +78,13 @@ chemin <-  function(fichier)
 #' @export
 
 read.csv.skip <- function(x,
-                          classes = NA,
+                          classes = NULL,
                           drop = NULL,
                           skip = 0,
                           separateur.liste = separateur.liste.entree,
                           separateur.decimal = separateur.decimal.entree)
 {
  
-    if (is.na(classes)) classes = NULL
-
     T <- try(data.table::fread(x,
                       sep = separateur.liste,
                       dec = separateur.decimal,
@@ -192,7 +190,7 @@ conditionnel <- function(msg = "", path = "") {
     
     chemin <- file.path(chemin.cle, path)
    
-    if (generer.rapport && file.exists(chemin)) {
+    if (get("generer.rapport", envir = .GlobalEnv) && file.exists(chemin)) {
       
       vect <- readLines(chemin, 2, warn = FALSE, encoding = "UTF-8")
       
@@ -909,26 +907,26 @@ extraire_paye <- function(an, L, out) {
 #' @param seq Exécuter le script en mode sequentiel (si \code{TRUE}, resp. si \code{FALSE}, en mode parallèle)   
 #' @param variable Vecteur de caractères contenant le nom de la variable globale dans le script auxiliaire.
 #' @param gen  Si \code{FALSE} alors se contente de sourcer le script auxiliaire selon \code{encodage.code.source}. Sinon intègre le rapport auxiliaire au format du rapport principal.
-#' @param incrementer INcrémenter le chapitre de présentation du script
 #' @param fonction Appeler une liste de fonctions à argument vide
+#' @param clean Booléen. Nettoyer les fichiers intermédiaires
+#' @param sync Caractère synchrone ou pas, géré par défaut par la variable globale #sequentiel
 #' @return Valeur de la dernière variable globale \code{variable} instanciée. Effets de bord en sortie.
 #' @export
 
 inserer_script <- function(chemin = NULL, 
                            index = 1, 
                            variable = "annee", 
-                           gen = generer.rapport, 
-                           incrementer = FALSE, 
-                           fonction = NULL)  {
+                           gen = get("generer.rapport", envir = .GlobalEnv), 
+                           fonction = NULL,
+                           clean = TRUE,
+                           sync = get("sequentiel", envir = .GlobalEnv))  {
 
 if (! is.null(chemin) && get(gsub(".R", "", basename(chemin), fixed = TRUE)) == FALSE) invisible(return(NULL))
   
 invisible(sapply(index, function(x) {
 
   assign(variable, x, .GlobalEnv)
-  
-  if (incrementer) incrementer.chapitre()
-  
+
   if (is.null(fonction)) {
         
     if (gen) {
@@ -937,12 +935,19 @@ invisible(sapply(index, function(x) {
                                options = list(encoding = "UTF-8"),
                                quiet = TRUE)
                                
-            if (sequentiel == TRUE) {
+            if (sync == TRUE) {
+              
               cat(vect, sep = '\n')
+              
             } else {
-              return(vect)
-            }
-             
+                  rmdfile <- get("chemin.modules", envir = .GlobalEnv) %+% x %+% ".Rmd"
+                  writeLines(vect, rmdfile)
+                  texfile <- get("chemin.modules", envir = .GlobalEnv) %+% x %+% ".tex"
+                  if (clean) file.remove(texfile)
+                  system2(get("chemin_pandoc", envir = .GlobalEnv), c(rmdfile, "-o", texfile))
+                  if (clean) file.remove(rmdfile)
+           }
+
         } else {
             
             message("Sourcing", chemin, "...")

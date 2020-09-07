@@ -30,6 +30,15 @@ données de paye des fichiers .xhl pour les convertir en fichiers plats .csv
 </li>
 </ul>
 
+<h2>L'analyse des lignes de paye en mode <i>heuristique</i></h2>
+<p>Le logiciel utilise des motifs de recherche comparables à ceux des systèmes documentaires pour identifier les lignes de paye.</p>
+<p>Ce système de recherche ne peut pas être parfait mais donne des résultats satisfaisants dans la majorité des cas.</p>
+<p>Pour une approche plus approfondie, plus exhaustive ou plus exacte, il est possible de modifier le comportement du logiciel.</p>
+<p>Les recherches sur les libellés de paye s'effectuent alors en mode dit <b>exact</b>, à partir des codes de paye.</p>
+<p>Ces codes peuvent être renseignés dans l'onglet Codes du dialogue d'options (<b>Ctrl + T</b> puis cliquer sur l'icône Codes) ou bien en important un fichier de codes au format CSV.</p>
+<p>Un <a href="codes.csv" />exemple de fichier</a> de ce type peut être utilisé. Le séparateur du fichier CSV doit être soit la virgule soit le point-virgule. Les données sont renseignées en colonnes pour les éléments de rémunération indiciaire ou indemnitaire correspondant au libellé des colonnes. Le fichier peut contenir des lignes ou des colonnes vides, mais pas à l'intérieur du tableau de données. </p>
+<p>Il est possible de ne pas renseigner toutes les colonnes, mais les noms de colonnes doivent être tous présents dans l'ordre, en minuscules ou majuscules, en respectant l'orthographe.</p>Ce fichier de codes de paye est <b>automatiquement importé</b> lorsqu'il est placé dans le répertoire d'exportation des données (clé, disque...) si son nom est <b>codes.csv</b></p>
+<p>Sinon il peut être importé en utilisant le dialogue d'importation de l'onglet Codes.</p>
 
 <h2>Lancer...</h2>
 <p>En cliquant sur l'icône en forme de base de données quadrillée CSV dans la barre d'icônes.</p>

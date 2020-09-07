@@ -1,1 +1,0 @@
-VERSANT_FP <<- "FPT"

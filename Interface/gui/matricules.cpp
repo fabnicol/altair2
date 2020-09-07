@@ -207,7 +207,7 @@ MatriculeInput::MatriculeInput (int width, int height)
                        matricules += matricules.isEmpty() ? "" : ";" + ligne->text();
                 }
 
-                emit(updateProject(true));
+                emit(updateProject(update::saveProject | update::noWarnRExport));
 
                 if (res) accept();
                 else
@@ -231,9 +231,9 @@ bool MatriculeInput::checkInput (FLineEdit* l)
     QString s = l->text();
     QList<QString> L;
 
-    for (auto &&S : s.split (';', QString::SkipEmptyParts))
+    for (auto &&S : s.split (';', Qt::SkipEmptyParts))
         {
-            QList<QString> sublist = S.split ('-', QString::SkipEmptyParts);
+            QList<QString> sublist = S.split ('-', Qt::SkipEmptyParts);
 
             if (sublist.size() != 3)
                 {
@@ -257,7 +257,7 @@ bool MatriculeInput::checkInput (FLineEdit* l)
 
             if (s1.contains ("..."))
                 {
-                    auto l1 = s1.split ("...", QString::SkipEmptyParts);
+                    auto l1 = s1.split ("...", Qt::SkipEmptyParts);
                     cut  = l1.at (0).toInt();
                     cut2 = l1.at (1).toInt();
                     range_month = true;
@@ -265,7 +265,7 @@ bool MatriculeInput::checkInput (FLineEdit* l)
 
             if (s2.contains ("..."))
                 {
-                    auto l2 = s2.split ("...", QString::SkipEmptyParts);
+                    auto l2 = s2.split ("...", Qt::SkipEmptyParts);
                     cut3 = l2.at (0).toInt();
                     cut4 = l2.at (1).toInt();
                     range_year = true;

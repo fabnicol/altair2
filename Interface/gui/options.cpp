@@ -57,7 +57,7 @@
 
 QString common::prologue_options_path;
 
-int codePage::ajouterVariable (const QString& nom)
+void codePage::ajouterVariable (const QString& nom)
 {
     const QString NOM = nom.toUpper();
 
@@ -86,13 +86,13 @@ int codePage::ajouterVariable (const QString& nom)
 
     vLayout->addWidget (listeCodes.last(), listeCodes.size() - 1, 1, Qt::AlignLeft);
 
-    return listeCodes.size();
+
 }
 
 codePage::codePage()
 {
-    setVisible(false);
-    baseBox = new QGroupBox;
+   // setVisible(false);
+
     prologue_options_path = path_access (SCRIPT_DIR "prologue_codes.R");
 
     appliquerCodes = new QToolButton;
@@ -105,29 +105,99 @@ codePage::codePage()
     variables << "traitement" << "nbi" << "pfi" 
               << "pfr" <<  "ipf" << "psr" << "ifts" << "iat" 
               << "ifse" << "iemp" << "iss" 
-              << "ihts" << "vacataires" << "astreintes" 
-              << "nas";
+              << "ihts" << "vacataires" << "astreintes" ;
 
-    int index = 0;
+    nbVar = variables.size();
 
     // Pour chacun des membres de variables, ajouter une ligne FLineEdit au dialogue
     // qui donnera lieu à exportation dans prologue_codes.R
 
-    for (const QString& s : variables) index = ajouterVariable (s);
+    for (const QString& s : variables) ajouterVariable (s);
 
-    label = new QLabel;
+    label->setFont(QFont("Verdana", 12));
 
-    vLayout->addWidget (label, index + 1, 1, Qt::AlignLeft);
-    vLayout->addWidget (appliquerCodes, index, 1, Qt::AlignLeft);
-    vLayout->setColumnMinimumWidth (1, MINIMUM_LINE_WIDTH);
-    vLayout->setSpacing (10);
+    /***********************************************************************************************************************/
+    /* Les lignes de codes ci-après Copyright privé Fabrice Nicol septembre 2020, sous licence identique au reste du code. */
+    /* Jusqu'à la ligne indiquée plus loin.                       */
+    /************************************************************ */
+
+    codesFrame = new FLineFrame ({"Utiliser un fichier de codes importés", "Chemin du fichier de codes de paye :"},
+                                   QDir::toNativeSeparators (path_access(DONNEES_SORTIE "/codes.csv")),
+                                   "codesImport",
+                                   {0, 2},
+                                   v2Layout,
+                                   "",   // pas de ligne de commande
+                                   directory::noCheck, // ne pas vérifier que le chemin est vide
+                                   flags::flineframe::isFilePath,
+                                   "Fichier CSV (*.csv)"); // il s'agit d'un chemin de fichier
+
+    codesFrame->setSaveFileName(false);
+    codesFrame->setFont("Verdana", 12);
+    codesFrame->setToolTip("Cliquer sur le bouton Dossier pour importer les codes de paye<br>"
+                           "saisis dans un fichier tableur CSV<br>"
+                           "Si un fichier nommé <b>codes.csv</b><br>"
+                           "est présent dans le répertoire d'exportation des données (clé, etc.),<br>"
+                           "il est automatiquement importé dans la grille de cet onglet.");
+
+    static_cast<QToolDirButton*>(codesFrame->getComponentList()[1])->setOpenBehavior(QToolDirButton::openBehavior::File);
+
+    if (QFileInfo(codesFrame->getText()).isFile())
+    {
+        importCodesCSV(codesFrame->getText());
+    }
+
+    connect(codesFrame, SIGNAL(textChanged(const QString &)), this, SLOT(importCodesCSV(const QString& )));
+
+    const QString& chemin_table_code_libelle = path_access(QString(DONNEES_SORTIE) + QDir::separator() + "Bases" + QDir::separator() + "Fiabilite" +QDir::separator() + "code.libelle.short.csv");
+
+    codesLibellesFrame = new FLineFrame ({"Ouvrir la table des correspondances Codes-Libellés après génération du rapport", "Chemin de la table Codes-Libellés générée par le logiciel :"},
+                                   QDir::toNativeSeparators (chemin_table_code_libelle),
+                                   "codesLibellesAltair",
+                                   {2, 2},
+                                   v2Layout,
+                                   "",   // pas de ligne de commande
+                                   directory::noCheck, // ne pas vérifier que le chemin est vide
+                                   flags::flineframe::isFilePath,
+                                   "Fichier CSV (*.csv)"); // il s'agit d'un chemin de fichier
+
+    codesLibellesFrame->setSaveFileName(false);
+    codesLibellesFrame->setFont("Verdana", 12);
+    codesLibellesFrame->setToolTip(
+                                   "Si elle n'est pas à l'emplacement standard,<br>"
+                                   "cliquer sur l'icône foncée pour rechercher<br>"
+                                   "la table Codes-Libellés<br>"
+                                   "générée par le logiciel dans l'annexe<br>"
+                                   "<b>après</b> génération du rapport<br>");
+
+    static_cast<QToolDirButton*>(codesLibellesFrame->getComponentList()[1])->setOpenBehavior(QToolDirButton::openBehavior::File);
+
+    v2Layout->addWidget (label, 5, 2, Qt::AlignLeft);
+    v2Layout->addWidget (appliquerCodes, 4, 2, Qt::AlignLeft);
+    v2Layout->setColumnMinimumWidth (1, 20);
+    v2Layout->setSpacing (10);
+    importBox->setLayout (v2Layout);
+
+    /*********************************************/
+    /* Fin du copyright privé sous licence libre */
+    /********************************************/
 
     baseBox->setLayout (vLayout);
 
+    vLayout->setSpacing (10);
     FRichLabel *mainLabel = new FRichLabel ("Code de paye des tests");
 
     mainLayout->addWidget (mainLabel);
-    mainLayout->addWidget (baseBox);
+    QGridLayout* hLayout= new QGridLayout;
+    hLayout->addWidget (baseBox,   0, 0, Qt::AlignTop);
+    hLayout->addWidget (importBox, 0, 1, Qt::AlignTop);
+
+    QToolButton* reinit = new QToolButton;
+    reinit->setText("Réinitialiser");
+    connect(reinit, SIGNAL(clicked()), this, SLOT(reinit()));
+    reinit->setToolTip("Réinitialiser tous les champs de cet onglet");
+
+    mainLayout->addLayout (hLayout);
+    mainLayout->addWidget (reinit, 0, Qt::AlignRight);
     mainLayout->addSpacing (100);
 
     init_label_text = "Appuyer pour exporter<br> vers les rapports d'analyse ";
@@ -149,7 +219,6 @@ codePage::codePage()
                 label->setText (init_label_text);
                 appliquerCodes->setChecked (false);
                 appliquerCodes->setIcon (QIcon (":/images/view-refresh.png"));
-                reinitialiser_prologue();
             });
         }
 
@@ -158,14 +227,116 @@ codePage::codePage()
     reinitialiser_prologue();
 }
 
+/***********************************************************************************************************************/
+/* Les lignes de codes ci-après Copyright privé Fabrice Nicol septembre 2020, sous licence identique au reste du code. */
+/* Jusqu'à la ligne indiquée plus loin. */
+
+
+
+bool codePage::importCodesCSV(const QString& path)
+{
+    QFile csvFile(path);
+
+    if (!csvFile.open(QIODevice::ReadOnly | QIODevice::Text))
+             return false;
+
+    QTextStream in(&csvFile);
+
+    QString headers = in.readLine();
+    QString sep = ";";
+
+    QStringList headerList = headers.split(sep);
+    if (headerList.size() <= 1)
+    {
+        headerList = headers.split(",");
+        if (headerList.size() <= 1)
+        {
+            Warning("Attention", "Le fichier CSV doit être à séparateur point-virgule ou virgule");
+            return false;
+        }
+        else sep = ",";
+    }
+
+    in.seek(0);
+
+    // on élimine les lignes vides au début
+
+    int nbElem = 0;
+
+    do {
+          headers = in.readLine();
+          headerList = headers.split(sep, Qt::SkipEmptyParts);
+          nbElem = headerList.size();
+    } while (nbElem == 0);
+
+    int skipCol = headers.split(sep).size() - nbElem;  // Si width > size, il y a des colonnes vides à gauche
+
+    int i = 0;
+    for (auto && s : variables)
+    {
+        if (i > nbElem - 1)
+        {
+
+            QString remainder;
+
+            for (int j = i; j < variables.size(); ++j)
+                remainder += variables.at(j);
+
+            Warning("Attention", "il manque des variables dans le fichier CSV : "
+                    + remainder
+                    );
+
+            return false;
+        }
+        if (headerList.at(i).toUpper() == s.toUpper())
+        {
+            ++i;
+        }
+        else
+        {
+            Warning("Attention", "Le fichier CSV doit contenir, dans l'ordre, les variables suivantes en colonnes : "
+                    + variables.join("<br>")
+                    );
+
+            return false;
+        }
+    }
+
+    for (auto && a : listeCodes) a->setText("");
+
+    while (! in.atEnd())
+    {
+            QString line = in.readLine();
+            QStringList varList = line.split(sep);
+            if (skipCol) varList.erase(varList.begin(), varList.begin() + skipCol);
+            for (int i = 0; i < variables.size() && i < varList.size(); ++i)
+            {
+                QString text = listeCodes[i]->text();
+                if (! text.isEmpty())
+                   text += ";";
+                if (! varList.at(i).isEmpty())
+                    listeCodes[i]->setText( text + varList.at(i));
+            }
+    }
+
+    csvFile.close();
+
+    return true;
+
+}
+
+/*********************************************/
+/* Fin du copyright privé sous licence libre */
+/********************************************/
+
 inline const QString regexp (const QString& X)
 {
-    return "codes." + X + " *<- *NA";
+    return "\"codes." + X + "\" *%a% *NA";
 }
 
 inline QString rempl_str (const QString &X, const QString &Y)
 {
-    QStringList L = Y.split (";", QString::SkipEmptyParts);
+    QStringList L = Y.split (";", Qt::SkipEmptyParts);
     QString Z;
 
     if (L.size() >= 0)
@@ -178,44 +349,69 @@ inline QString rempl_str (const QString &X, const QString &Y)
             Z = "c(" + L.join (",") + ")";
         }
     else
-        return   "codes." + X + " <- NA";
+        return   "\"codes." + X + "\" %a% NA";
 
-    return   "codes." + X + " <- " + Z;
+    return   "\"codes." + X + "\" %a% " + Z;
 }
 
 void codePage::activer_fph (bool activer)
 {
     const QStringList variables_fph = {"prime specifique", "prime de service", "prime de technicite", "ift"};
 
-    if (listeCodes.size() > variables.size())
+//    if (listeCodes.size() > variables.size())
+//        {
+//            for (int i = variables.size(); i < listeCodes.size() ; ++i)
+//                {
+//                    listeCodes[i]->setVisible (activer);
+//                    listeDialogueLabels[i]->setVisible (activer);
+//                }
+
+//            repaint();
+//            return;
+//        }
+
+    if (variables.size() == nbVar)
+    {
+        if (activer)
         {
-            for (int i = variables.size(); i < listeCodes.size() ; ++i)
-                {
-                    listeCodes[i]->setVisible (activer);
-                    listeDialogueLabels[i]->setVisible (activer);
-                }
-
-            repaint();
-            return;
+          variables << variables_fph;
+          for (const QString &s : variables_fph) ajouterVariable (s);
         }
+    } else {
+       if (!activer)
+       {
+         for (int i = 0; i < variables_fph.size(); ++i)
+         {
+           variables.removeLast();
+           vLayout->removeWidget(listeCodes.last());
+           listeCodes.last()->hide();
+           vLayout->removeWidget(listeDialogueLabels.last());
+           listeDialogueLabels.last()->hide();
+           listeCodes.removeLast();
+           listeLabels.removeLast();
+           listeDialogueLabels.removeLast();
 
-    if (! activer) return;
+         }
+       }
+    }
 
-    vLayout->removeWidget (label);
-    vLayout->removeWidget (appliquerCodes);
+    repaint();
+}
 
-    for (const QString &s : variables_fph) ajouterVariable (s);
-
-    int index = variables.size() + variables_fph.size();
-
-    vLayout->addWidget (label, index + 1, 1, Qt::AlignLeft);
-    vLayout->addWidget (appliquerCodes, index, 1, Qt::AlignLeft);
-
+void codePage::reinit()
+{
+  for (auto && a : listeCodes) a->setText("");
+  codesLibellesFrame->setText("");
+  codesFrame->setText("");
+  label->setText(init_label_text);
+  appliquerCodes->setChecked (false);
+  appliquerCodes->setIcon (QIcon (":/images/view-refresh.png"));
+  substituer_valeurs_dans_script_R();
 }
 
 void codePage::substituer_valeurs_dans_script_R()
 {
-    reinitialiser_prologue();
+
     QString file_str = common::readFile (prologue_options_path);
     common::exporter_identification_controle (file_str);
     bool res = false;
@@ -499,7 +695,6 @@ rapportPage::rapportPage()
                             label->setText (init_label_text);
                             appliquerCodes->setChecked (false);
                             appliquerCodes->setIcon (QIcon (":/images/view-refresh.png"));
-                            reinitialiser_prologue();
                         });
         }
     
@@ -547,8 +742,6 @@ rapportPage::rapportPage()
                 });
 
     setLayout (mainLayout);
-
-    reinitialiser_prologue();
 }
 
 void rapportPage::message(int r, QIcon& icon, bool paire)
@@ -568,8 +761,8 @@ void rapportPage::message(int r, QIcon& icon, bool paire)
     t.remove(" ");
     if (paire) t2.remove(" ");
                 
-    res = substituer ("script_" + t + " *<- *TRUE", "script_" + t + " <- " + (value ? "TRUE" : "FALSE"), file_str);
-    if (paire) res2 = substituer ("script_" + t2 + " *<- *TRUE", "script_" + t2 + " <- " + (value2 ? "TRUE" : "FALSE"), file_str);
+    res = substituer ("\"script_" + t + "\" *%a% *\\w{4,5}", "\"script_" + t + "\" %a% " + (value ? "TRUE" : "FALSE"), file_str);
+    if (paire) res2 = substituer ("script_" + t2 + " *%a% *\\w{4,5}", "script_" + t2 + " %a% " + (value2 ? "TRUE" : "FALSE"), file_str);
     
     if (value) 
     {
@@ -606,7 +799,6 @@ void rapportPage::message(int r, QIcon& icon, bool paire)
 
 void rapportPage::substituer_valeurs_dans_script_R()
 {
-    reinitialiser_prologue();
     liste_cb.clear();
     file_str = common::readFile (prologue_options_path);
     
@@ -822,27 +1014,38 @@ standardPage::standardPage()
                                                 "archiveTable",
                                                 {"Données csv", "Archiver/Restaurer les données CSV"});
 
+    archiveTableBox->setToolTip("Rapport, bases annexées<br>Bases CSV<br>Log, projet");
 
     FCheckBox* exportTableBox  = new FCheckBox ("Données tableur",
                                                 flags::status::enabledChecked | flags::commandLineType::noCommandLine,
                                                  "exportTable",
                                                 {"Données csv", "Exporter les données CSV"});
 
+    exportTableBox->setToolTip("Rapport, bases annexées<br>Bases CSV<br>Log, projet");
+
     FCheckBox* archiveAllBox = new FCheckBox ("Tout",
                                               "archiveAll",
                                              {"Données XML", "Archiver/Restaurer les données tableur et XML"});
+
+    archiveAllBox->setToolTip("Rapport, bases annexées<br>Bases CSV<br>Bases XHL/XML<br>Log, projet");
 
     FCheckBox* exportAllBox  = new FCheckBox ("Tout",
                                               "exportAll",
                                               {"Données XML", "Exporter les données tableur et XML"});
 
+    exportAllBox->setToolTip("Rapport, bases annexées<br>Bases CSV<br>Bases XHL/XML<br>Log, projet");
+
     FCheckBox* archiveXhlBox = new FCheckBox ("Bases XML",
                                               "archiveXML",
                                               {"Données XML", "Archiver/Restaurer les bases XML"});
 
+    archiveXhlBox->setToolTip("Rapport, bases annexées<br>Bases XHL/XML<br>Log, projet");
+
     FCheckBox* exportXhlBox  = new FCheckBox ("Bases XML",
                                               "exportXML",
                                               {"Données XML", "Exporter les bases XML"});
+
+    archiveXhlBox->setToolTip("Rapport, bases annexées<br>Bases XHL/XML<br>Log, projet");
 
     v1Layout->addWidget (tableCheckBox,     1, 0, Qt::AlignLeft);
     v1Layout->addWidget (FPHCheckBox,       2, 0, Qt::AlignLeft);
@@ -878,6 +1081,34 @@ standardPage::standardPage()
     mainLayout->addWidget (exportBox);
     mainLayout->addWidget (archBox);
 
+    connect(archiveAllBox, &FCheckBox::toggled, [archiveTableBox, archiveXhlBox, archiveAllBox] {
+        if (archiveAllBox->isChecked()) archiveTableBox-> setChecked(true) ;
+        if (archiveAllBox->isChecked()) archiveXhlBox-> setChecked(true) ;
+    });
+
+    connect(exportAllBox, &FCheckBox::toggled, [exportTableBox, exportXhlBox, exportAllBox] {
+        if (exportAllBox->isChecked()) exportTableBox-> setChecked(true) ;
+        if (exportAllBox->isChecked()) exportXhlBox-> setChecked(true) ;
+    });
+
+
+    connect(archiveTableBox, &FCheckBox::toggled, [archiveTableBox, archiveAllBox] {
+        if (! archiveTableBox->isChecked()) archiveAllBox-> setChecked(false) ;
+    });
+
+    connect(archiveXhlBox, &FCheckBox::toggled, [archiveXhlBox, archiveAllBox] {
+        if (! archiveXhlBox->isChecked()) archiveAllBox-> setChecked(false) ;
+    });
+
+
+    connect(exportTableBox, &FCheckBox::toggled, [exportTableBox, exportAllBox] {
+        if (! exportTableBox->isChecked()) exportAllBox-> setChecked(false) ;
+    });
+
+    connect(exportXhlBox, &FCheckBox::toggled, [exportXhlBox, exportAllBox] {
+        if (! exportXhlBox->isChecked()) exportAllBox-> setChecked(false) ;
+    });
+
     setLayout (mainLayout);
     substituer_versant();
 }
@@ -885,15 +1116,15 @@ standardPage::standardPage()
 void standardPage::substituer_versant()
 {
 
-    const QString &versant_path = path_access (SCRIPT_DIR "versant.R");
+    const QString &versant_path = path_access (SCRIPT_DIR "prologue_codes.R");
 
     QString file_str = readFile (versant_path);
 
 
     if (FPHCheckBox->isChecked())
-        substituer ("VERSANT_FP <<- .*", "VERSANT_FP <<- \"FPH\"", file_str);
+        substituer ("\"VERSANT_FP\" *%a% *\"\\w{3}\"", "\"VERSANT_FP\" %a% \"FPH\"", file_str);
     else
-        substituer ("VERSANT_FP <<- .*", "VERSANT_FP <<- \"FPT\"", file_str);
+        substituer ("\"VERSANT_FP\" *%a% *\"\\w{3}\"", "\"VERSANT_FP\" %a% \"FPT\"", file_str);
 
     bool res = renommer (dump (file_str), versant_path);
 
@@ -1008,7 +1239,7 @@ processPage::processPage()
 
 
     QLabel* rapportTypeLabel = new QLabel ("Type de rapport produit par défaut  ");
-    rapportTypeWidget = new FComboBox ({"WORD, ODT et PDF", "WORD et ODT", "PDF"},
+    rapportTypeWidget = new FComboBox ({"WORD, ODT et PDF", "WORD et ODT", "PDF", "Pas de rapport (Bases seules)"},
                                        "rapportType",
                                         {
                                             "Enchaînements",
@@ -1066,22 +1297,26 @@ processPage::processPage()
     {
 
         connect(a, &FCheckBox::toggled, [this] {
-
-            file_str = common::readFile (prologue_options_path);
-#ifndef Q_OS_WIN
-            substituer("sequentiel *<- .*", QString("sequentiel <- ") + (parallelCheckBox->isChecked() ? "FALSE" : "TRUE"), file_str);
-#else
-            substituer("sequentiel *<- *FALSE", QString("sequentiel <- TRUE"), file_str);
-#endif
-            substituer("ouvrir.document *<- *TRUE", QString("ouvrir.document <- ") + (openCheckBox->isChecked() ? "TRUE" : "FALSE"), file_str);
-            renommer (dump (file_str), prologue_options_path);
-            });
+                 substituer_valeurs_dans_script_R();
+           });
     }
 
 }
 
-std::uint16_t options::RefreshFlag;
 
+void processPage::substituer_valeurs_dans_script_R()
+{
+    file_str = common::readFile (prologue_options_path);
+    #ifndef Q_OS_WIN
+    substituer("\"sequentiel\" *%a% *\\w{4,5}", QString("\"sequentiel\" %a% ") + (parallelCheckBox->isChecked() ? "FALSE" : "TRUE"), file_str);
+    #else
+    substituer("\"sequentiel\" *%a% *FALSE", QString("\"sequentiel\" %a% TRUE"), file_str);
+    #endif
+    substituer("\"ouvrir.document\" *%a% *\\w{4,5}", QString("\"ouvrir.document\" %a% ") + (openCheckBox->isChecked() ? "TRUE" : "FALSE"), file_str);
+    renommer (dump (file_str), prologue_options_path);
+}
+
+std::uint16_t options::RefreshFlag;
 
 extraPage::extraPage()
 {
@@ -1376,6 +1611,8 @@ options::options (Altair* parent)
     extraTab    = new extraPage();
     rapportTab  = new rapportPage();
     processTab  = new processPage;
+    tabs = {standardTab, codeTab, rapportTab, processTab};
+
     pagesWidget = new QStackedWidget;
     pagesWidget->addWidget (standardTab);
     pagesWidget->addWidget (processTab);
@@ -1415,7 +1652,7 @@ options::options (Altair* parent)
                     parent->altairCommandStr =  parent->execPath +  QDir::separator()
                     + ("lhx" + QString (systemSuffix));
 
-                    parent->updateProject (true);
+                    parent->updateProject (update::saveProject | update::noWarnRExport);
 
                     extraTab->do_copies();
 

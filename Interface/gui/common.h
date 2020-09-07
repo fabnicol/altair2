@@ -61,6 +61,7 @@ public:
 
     common() {}
 
+
     /// Exporter les caractéristiques du contrôle dans le rapport : Siret, Budget, Employeur, Etablissement
     /// \param  file_str Chaîne de caractères dans laquelle insérer ces informations
     /// \param  subdir Répertoire du rapport
