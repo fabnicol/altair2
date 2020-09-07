@@ -434,11 +434,13 @@ void codePage::substituer_valeurs_dans_script_R()
 
     if (res == false)
         {
+        // W10 bug : appelé trop souvent
+#ifndef Q_OS_WINDOWS
             Warning ("Attention",
                      "Les codes sont tous non renseignés.<br>"
                      "Les tests statutaires se feront <br>"
                      "sous algorithme heuristique seulement.");
-
+#endif
             icon = icon2;
 
             res = renommer (dump(file_str), prologue_options_path);

@@ -33,7 +33,7 @@ filtre	filtre
 filtrer_Paie	filtrer_Paie
 FR	FR
 generer_docx_odt	generer_docx_odt
-generer_pdf	generer_pdf
+generer_rapport	generer_rapport
 importer	importer
 importer_base_ifse	importer_base_ifse
 importer_base_logements	importer_base_logements

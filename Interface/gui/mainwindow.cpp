@@ -1616,11 +1616,11 @@ bool MainWindow::archiveProject()
 
                             if (result)
                                 {
-                                    altair->textAppend (PARAMETER_HTML_TAG  "La base " +  s + " a été archivée sous : " + subDirStr);
+                                    altair->textAppend (PARAMETER_HTML_TAG  "La base " + QDir::toNativeSeparators(s) + " a été archivée sous : " + subDirStr);
                                     altair->setProgressBar (++bar);
                                 }
                             else
-                                altair->textAppend (ERROR_HTML_TAG  "La base " +  s + " n'a pas été archivée");
+                                altair->textAppend (ERROR_HTML_TAG  "La base " +  QDir::toNativeSeparators(s) + " n'a pas été archivée");
 
                             altair->outputTextEdit->repaint();
                         }
@@ -1640,14 +1640,21 @@ bool MainWindow::archiveProject()
     QFile (altair->projectName).close();
     saveProjectAs (subDirStr + "projet.alt");
 
-    // Add Tar for Windows under directory windows
-
-    process.start ("tar" + tools::systemSuffix, QStringList() << "-cf" << subDirStr.chopped(1) + ".arch" <<  "-C" << subDirStr << ".");
-
+#ifdef Q_OS_WINDOWS
+    process.start (QString("peazip") + tools::systemSuffix, QStringList() << "-add27z" <<  subDirStr.chopped(1));
+#else
+    process.start (QString("tar") + tools::systemSuffix, QStringList() << "-cf" << subDirStr.chopped(1) + ".arch" <<  "-C" << subDirStr << ".");
+#endif
     connect(&process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(tarFinished()));
 
     altair->setProgressBar (max);
-    altair->textAppend (STATE_HTML_TAG "Archivage terminé.");
+    altair->textAppend (STATE_HTML_TAG "Archivage terminé sous " + subDirStr.chopped(1) +
+                    #ifdef Q_OS_WINDOWS
+                        "7z"
+                    #else
+                        ".arch"
+                    #endif
+                        );
     return result;
 }
 
@@ -1673,8 +1680,20 @@ bool MainWindow::restoreProject (QString archfile)
         return false;
        
     process.setWorkingDirectory(QFileInfo(subDirStr).absolutePath());
-    process.start ("tar" + tools::systemSuffix, QStringList() << "-xf" << subDirStr << "-C" << projectRootDir);
+
+#ifdef Q_OS_WINDOWS
+
+    QDir d = QDir(subDirStr.chopped(3));
+    if (d.exists()) d.removeRecursively();
+    process.start (QString("peazip") + tools::systemSuffix, QStringList() << "-ext2here" <<  subDirStr);
     process.waitForFinished();
+    QDir(projectRootDir).removeRecursively();
+    QDir(subDirStr.chopped(3)).rename(subDirStr.chopped(3), projectRootDir);
+#else
+    process.start (QString("tar") + tools::systemSuffix, QStringList() << "-xf" << subDirStr << "-C" << subDirStr);
+    process.waitForFinished();
+#endif
+
 
     QDir dir (projectRootDir);
     QStringList tableList = dir.entryList (QStringList () << "Table*.csv.arch" << "Bulletins*.csv.arch", QDir::Files);
@@ -1740,8 +1759,12 @@ bool MainWindow::restoreProject (QString archfile)
     
     if (v(archiveTable).isTrue() || v(archiveAll).isTrue())
     {
-        result = common::unzip(projectRootDir, tableList);
+        common::unzip(projectRootDir, tableList);
+        result = true;
         for (auto& f: tableList) result &= QFileInfo(f.chopped(5)).exists();
+
+        // W10 bug ?
+#ifndef Q_OS_WINDOWS
         if (result)    
             {
                 altair->textAppend (PARAMETER_HTML_TAG  "La base des bulletins de paye a été décompressée sous : " + projectRootDir);
@@ -1749,6 +1772,7 @@ bool MainWindow::restoreProject (QString archfile)
             }
         else
             altair->textAppend (ERROR_HTML_TAG  "La base des bulletins de paye n'a pas décompressée sous : " + projectRootDir);
+#endif
     }
     else 
            for (auto& f: tableList) QFile(f).remove();

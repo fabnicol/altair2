@@ -10,7 +10,7 @@
 
 
 
-!define version  "2020.08"
+!define version  "2020.09"
 !define processeur  core
 !define VER_MAJOR 2018
 !define VER_MINOR 06

@@ -316,7 +316,6 @@ Makefile: ../../../Interface/gui/altair.windows.pro C:/msys64/mingw64/qt5-static
 		C:/msys64/mingw64/qt5-static/share/qt5/mkspecs/features/qt_config.prf \
 		C:/msys64/mingw64/qt5-static/share/qt5/mkspecs/win32-g++/qmake.conf \
 		C:/msys64/mingw64/qt5-static/share/qt5/mkspecs/features/spec_post.prf \
-		.qmake.stash \
 		C:/msys64/mingw64/qt5-static/share/qt5/mkspecs/features/exclusive_builds.prf \
 		C:/msys64/mingw64/qt5-static/share/qt5/mkspecs/features/toolchain.prf \
 		C:/msys64/mingw64/qt5-static/share/qt5/mkspecs/features/default_pre.prf \
@@ -356,6 +355,7 @@ Makefile: ../../../Interface/gui/altair.windows.pro C:/msys64/mingw64/qt5-static
 		C:/msys64/mingw64/qt5-static/lib/Qt5Xml.prl \
 		C:/msys64/mingw64/qt5-static/lib/Qt5Core.prl \
 		C:/msys64/mingw64/qt5-static/lib/qtmain.prl \
+		.qmake.stash \
 		C:/msys64/mingw64/qt5-static/share/qt5/mkspecs/features/build_pass.prf \
 		../../../Interface/share/altair-gui/altair-gui.qrc \
 		C:/msys64/mingw64/qt5-static/share/qt5/plugins/styles/qwindowsvistastyled.prl \
@@ -620,7 +620,6 @@ C:/msys64/mingw64/qt5-static/share/qt5/mkspecs/features/qt_functions.prf:
 C:/msys64/mingw64/qt5-static/share/qt5/mkspecs/features/qt_config.prf:
 C:/msys64/mingw64/qt5-static/share/qt5/mkspecs/win32-g++/qmake.conf:
 C:/msys64/mingw64/qt5-static/share/qt5/mkspecs/features/spec_post.prf:
-.qmake.stash:
 C:/msys64/mingw64/qt5-static/share/qt5/mkspecs/features/exclusive_builds.prf:
 C:/msys64/mingw64/qt5-static/share/qt5/mkspecs/features/toolchain.prf:
 C:/msys64/mingw64/qt5-static/share/qt5/mkspecs/features/default_pre.prf:
@@ -660,6 +659,7 @@ C:/msys64/mingw64/qt5-static/lib/Qt5Gui.prl:
 C:/msys64/mingw64/qt5-static/lib/Qt5Xml.prl:
 C:/msys64/mingw64/qt5-static/lib/Qt5Core.prl:
 C:/msys64/mingw64/qt5-static/lib/qtmain.prl:
+.qmake.stash:
 C:/msys64/mingw64/qt5-static/share/qt5/mkspecs/features/build_pass.prf:
 ../../../Interface/share/altair-gui/altair-gui.qrc:
 C:/msys64/mingw64/qt5-static/share/qt5/plugins/styles/qwindowsvistastyled.prl:
@@ -687,7 +687,7 @@ all: release-all debug-all  FORCE
 clean: release-clean debug-clean  FORCE
 distclean: release-distclean debug-distclean  FORCE
 	-$(DEL_FILE) Makefile
-	-$(DEL_FILE) C:\Users\Public\Dev\altair2\Interface_windows\gui\x64\altair_plugin_import.cpp .qmake.stash
+	-$(DEL_FILE) C:\Users\Public\Dev\altair\Interface_windows\gui\x64\altair_plugin_import.cpp .qmake.stash
 
 release-mocclean:
 	$(MAKE) -f $(MAKEFILE).Release mocclean
