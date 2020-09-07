@@ -1,0 +1,13 @@
+altair_plugin_import.cpp
+moc_altair-gui.cpp
+moc_altair.cpp
+moc_flineframe.cpp
+moc_flistframe.cpp
+moc_fwidgets.cpp
+moc_highlighter.cpp
+moc_matricules.cpp
+moc_options.cpp
+moc_predefs.h
+qrc_altair-gui.cpp
+uic_wrapper.sh
+.qmake.stash

@@ -16,11 +16,11 @@
 #'                 \item{\code{quotite}}{réel entre 0 et 1}
 #'                 \item{\code{nb.mois}}{entier entre 0 et 12}}}
 #'           \item{ la variable booléenne :
-#'               \describe{\item{\code{permanent}}{12 bulletins sur l'année}}}}.
+#'               \describe{\item{\code{annee_entiere}}{12 bulletins sur l'année}}}}.
 #' @param Analyse Base des analyses de rémunérations, comptant les variables :
 #'        \code{Filtre_actif, Filtre_annexe, Statut, Matricule, Annee}
 #' @param Analyse Base des analyses de variations de rémunérations, comptant les variables :
-#'       \code{temps.complet, est.rmpp, statut, Matricule, Annee, permanent}
+#'       \code{quotite.moyenne, est.rmpp, statut.fin.annee, Matricule, Annee}
 #' @return Un tableau des effectifs mis en forme de 22 lignes et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
 #' effectifs(2010:2015)
@@ -32,12 +32,12 @@ effectifs <- function(periode, Bulletins = Bulletins.paie,
   essayer(label = "+effectifs", effectifs_(periode, 
                     Bulletins,
                     personnels,
-                    Analyse.v), "Les effectifs n'ont pas pu être calcules")
+                    Analyse.v), "Les effectifs n'ont pas pu être calculés. ")
 }
 
-# Bulletins : "Matricule", "Statut", "permanent", "quotite", "nb.mois", "Grade"
+# Bulletins : "Matricule", "Statut", "annee_entiere", "quotite", "nb.mois", "Grade"
 # Analyse.rémunérations : Filtre_actif, Filtre_annexe, Statut, Matricule, Annee (+filtres sur lignes)
-# Analyse.v : temps.complet, est.rmpp, statut, Matricule, Annee, permanent   (+ filtres sur lignes)
+# Analyse.v : quotite.moyenne , est.rmpp, statut.fin.annee, Matricule, Annee, annee_entiere   (+ filtres sur lignes)
 
 effectifs_ <- function(periode, Bulletins = Bulletins.paie,
                       personnels = Analyse.remunerations,
@@ -46,23 +46,23 @@ effectifs_ <- function(periode, Bulletins = Bulletins.paie,
   eff <- lapply(periode,
                 function(x) {
                   A <- Bulletins[Annee == x,
-                                  .(Matricule, Statut, permanent, quotite, nb.mois, Grade)]
+                                  .(Matricule, Statut, annee_entiere, quotite, nb.mois, Grade)]
 
-                  E <- unique(A[ , .(Matricule, permanent)])
+                  E <- unique(A[ , .(Matricule, annee_entiere)])
                   ETP <- unique(Bulletins[Annee == x & Statut != "ELU",
-                                               .(quotite, Matricule, Statut, permanent, Mois, nb.mois)])
-                  F <- E[permanent == TRUE, ]
+                                               .(quotite, Matricule, Statut, annee_entiere, Mois, nb.mois)])
+                  F <- E[annee_entiere == TRUE, ]
 
-                  G <- unique(A[Statut == "TITULAIRE" | Statut == "STAGIAIRE", .(Matricule, permanent)])
+                  G <- unique(A[Statut == "TITULAIRE" | Statut == "STAGIAIRE", .(Matricule, annee_entiere)])
 
-                  H <- G[permanent == TRUE, ]
+                  H <- G[annee_entiere == TRUE, ]
 
                   postes.non.titulaires <- unique(A[Statut == "NON_TITULAIRE", Matricule])
 
-                  I <- unique(A[Statut == "ELU", .(Matricule, permanent)])
-                  J <- I[permanent == TRUE, ]
-                  K <- unique(A[Statut != "TITULAIRE" & Statut != "STAGIAIRE" & Grade == "V", .(Matricule, permanent)])
-                  L <- unique(A[Grade == "A", .(Matricule, permanent)])
+                  I <- unique(A[Statut == "ELU", .(Matricule, annee_entiere)])
+                  J <- I[annee_entiere == TRUE, ]
+                  K <- unique(A[Statut != "TITULAIRE" & Statut != "STAGIAIRE" & Grade == "V", .(Matricule, annee_entiere)])
+                  L <- unique(A[Grade == "A", .(Matricule, annee_entiere)])
                   postes.non.actifs <- unique(personnels[Statut != "ELU"
                                                                     & Filtre_actif == FALSE
                                                                     & Annee == x,
@@ -94,27 +94,33 @@ effectifs_ <- function(periode, Bulletins = Bulletins.paie,
                     length(postes.actifs.non.annexes),  # Postes actifs non annexes
                     ETP[Mois == 12, sum(quotite, na.rm=TRUE)],  # Total ETP/annee
                     ETP[ , sum(quotite, na.rm=TRUE)] / 12,     # Total ETPT/annee
+                    
+                    ## Ci-dessous on va chercher les matricules dans la table Analyse.variations pour éliminer élus, vacataires, assit. mat,
+                    ## ainsi que les agents sur emplois annexes ou non actifs, qui sont exclus de cette table
+                    
                     ETP[Matricule %chin% unique(Analyse.v[est.rmpp == TRUE    # Total ETPT/annee personnes en place
                                                                    & Annee == x,
                                                                    Matricule]),
                         sum(quotite, na.rm=TRUE)] / 12,
 
                     ETP[(Statut == "TITULAIRE" | Statut == "STAGIAIRE")       # Total ETPT/annee fonctionnaires
-                        & Matricule %chin% unique(Analyse.v[Statut == "TITULAIRE"
-                                                                     | Statut == "STAGIAIRE",
+                        & Matricule %chin% unique(Analyse.v[(Statut  == "TITULAIRE"
+                                                             | Statut == "STAGIAIRE") 
+                                                            & Annee == x,
                                                                      Matricule]),
                         sum(quotite, na.rm=TRUE)] / 12,
-                    ETP[Statut == "TITULAIRE"                                 # Total ETPT/annee titulaires à temps complet
-                        & permanent == TRUE
-                        & Matricule %chin% unique(Analyse.v[permanent == TRUE
-                                                                     & statut == "TITULAIRE"
-                                                                     & temps.complet == TRUE
-                                                                     & Annee == x,
+                    
+                    ETP[(Statut == "TITULAIRE" | Statut == "STAGIAIRE") & quotite == 1                                              # Total ETPT/annee titulaires à temps complet
+                        & Matricule %chin% unique(Analyse.v[statut.fin.annee == "TITULAIRE" | statut.fin.annee == "STAGIAIRE"
+                                                                                                                                    # temps.complet.sur.periode == TRUE serait à temps complet pour toute la période
+                                                            & Annee == x,
                                                                      Matricule]),
                         sum(quotite, na.rm=TRUE)] / 12,
 
                     ETP[Statut == "NON_TITULAIRE"                             # Total ETPT non titulaires
-                        & Matricule %chin% postes.non.titulaires,
+                        & Matricule %chin%  unique(Analyse.v[statut.fin.annee == "NON_TITULAIRE"
+                                                            & Annee == x,
+                                                                    Matricule]),
                         sum(quotite, na.rm=TRUE)] / 12,
 
                     ETP[Statut == "AUTRE_STATUT"                              # Total ETPT autre statut
@@ -269,7 +275,7 @@ formater <- function(A, variation,  agr, somme = FALSE, round = TRUE, type = "G"
       
     }
     
-    set(tab, nrow(tab), 1, ifelse(somme, "Total", "Moyenne"))
+    set(tab, nrow(tab), 1L, ifelse(somme, "Total", "Moyenne"))
     
   return(tab)
 }
@@ -770,7 +776,7 @@ filtrer.base <- function(Base, grade, emploi, classe, service, libellés, agr, p
   
   if ("G1" %in% names(Base)) {
     
-    G <- rowSums(Base[ , paste0("G", 1:dim), with = FALSE], na.rm = TRUE)
+    G <- rowSums(Base[ , paste0("G", 1:dim)], na.rm = TRUE)
     Base <- cbind(Base, G)
     Base <- Base[G != 0]
   }

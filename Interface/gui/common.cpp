@@ -51,7 +51,7 @@ void common::exporter_identification_controle (QString &file_str, const QString 
     const QString &siret = Hash::aplatir (Hash::Siret, " - ", subdir);
     const QString &etablissement = Hash::aplatir (Hash::Etablissement, " - ", subdir);
 
-    substituer ("controle<-c\\(\"\",\"\",\"\",\"\"\\)", "controle<-c(\""
+    substituer ("\"controle\" *%a% *c\\(\"\\w*\",\"\\w*\",\"\\w*\",\"\\w*\"\\)", "\"controle\" %a% c(\""
                 + employeur + "\",\""
                 + siret + "\",\""
                 + etablissement + "\",\""
@@ -61,7 +61,7 @@ void common::exporter_identification_controle (QString &file_str, const QString 
 
 void common::exporter_identification_controle (const QString &subdir)
 {
-    const QString &prologue_options_path = path_access (SCRIPT_DIR "prologue_codes.R");
+
     QString file_str = readFile (prologue_options_path);
     exporter_identification_controle (file_str, subdir);
 

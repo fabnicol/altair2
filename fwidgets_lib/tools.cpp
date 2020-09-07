@@ -429,7 +429,8 @@ return QDir::toNativeSeparators(path);
 
 bool tools::zip (const QString& filename , const QString& zipfilename)
 {
-    IOControl(filename, zipfilename);
+    bool res = IOControl(filename, zipfilename);
+    if (! res) return false;
     QFile infile(filename);
     QFile outfile(zipfilename);
     qint64 n=0;
@@ -542,7 +543,9 @@ bool tools::unzipDir (const QString& inPath ,  const QStringList& filter)
 
 bool tools::unzip (const QString& zipfilename , const QString& filename, bool del)
 {
-    IOControl(zipfilename, filename);
+    bool res = IOControl(zipfilename, filename);
+    if (! res) return false;
+
     QFile infile(zipfilename);
     QFile outfile(filename);
     const QString din  = QFileInfo(zipfilename).absolutePath();
@@ -582,7 +585,9 @@ bool tools::unzip (const QString& zipfilename , const QString& filename, bool de
 bool tools::unzip (const QString& zipfilename)
 {
     QString tmp = zipfilename + ".tmp";
-    IOControl(zipfilename, tmp);
+    bool res = IOControl(zipfilename, tmp);
+    if (! res) return false;
+
     QFile infile(zipfilename);
     QFile outfile(tmp);
     

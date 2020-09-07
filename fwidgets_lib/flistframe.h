@@ -54,7 +54,7 @@ class FListWidget;
 class QToolDirButton;
 class Worker;
 
-class FListFrame : public FDialogConnections
+class FListFrame : public FDialogConnections, private flags
 {
 Q_OBJECT
 
@@ -144,7 +144,7 @@ public:
  /// Accesseur en lecture du composant (\em widget) courant dans le conteneur widgetContainer. 
  /// \return Composant courant.
 
- QListWidget*  getCurrentWidget() { return widgetContainer.at(getCurrentIndex());}
+ QListWidget*  getCurrentWidget() { int index = getCurrentIndex(); return (widgetContainer.size() > index && index > 0) ? widgetContainer.at(index) : nullptr;}
 
  /// Accesseur en lecture du titre de l'onglet courant.
  /// \return Valeur du titre.
@@ -163,7 +163,7 @@ public:
 
  /// Accesseur en lecture de la ligne courante
  /// \return Valeur de l'index (\em 0-based) de la ligne courante.
- int getCurrentRow() { return getCurrentWidget()->currentRow(); }
+ int getCurrentRow() { QListWidget* w = getCurrentWidget(); if (w) return w->currentRow(); else return 0; }
 
  /// Assigne le séparateur qui permet de passer d'une liste d'items (chemins de fichiers) à une ligne de commande.
  /// \param sep Séparateur (blanc en l'occurrence).
@@ -274,7 +274,7 @@ signals:
     void hideProgressBar();
     void showProgressBar();
     void refreshRowPresentation(int);
-    void updateProject(bool);
+    void updateProject(int);
     void appRepaint();
 
 public slots:

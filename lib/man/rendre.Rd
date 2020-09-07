@@ -13,10 +13,12 @@ rendre(
   to = "latex",
  
     from = "markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures",
-  args = c("-V", "papersize=A4"),
-  texfile = "altair.tex",
-  outfile = "altair.pdf",
-  outfile2 = "altair.odt"
+  args = c("-V", "papersize=A4", "-V",
+    "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm", "-V", "urlcolor=cyan",
+    "--highlight-style", "tango"),
+  filename = "altair",
+  verbose = 0,
+  sync = sequentiel
 )
 }
 \arguments{
@@ -36,11 +38,14 @@ rendre(
 
 \item{args}{Options à passer à pandoc}
 
-\item{texfile}{Nom du fichier latex de sortie (altair.tex par défaut)}
+\item{filename}{Racine du nom du fichier de sortie (altair par défaut)}
 
-\item{outfile}{Nom du premier fichier de sortie (pdf ou docx)}
+\item{verbose}{Par défaut, 0. Si fixé à 1, 2, 3, augmente la verbosité progressivement.}
 
-\item{outfile2}{Nom du deuxième fichier de sortie optionnel (par défaut odt si précisé)}
+\item{sync}{Booléen. Décrit le caractère synchone ou asynchrone de la génération des éléments de rapport. Géré par le système selon le paramètre global #sequentiel}
+}
+\value{
+Retourne le vecteur des chemins des fichiers .tex temporaires
 }
 \description{
 Générer le fichier latex du rapport, puis le pdf ou le docx et l'odt

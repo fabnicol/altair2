@@ -3,8 +3,7 @@
 .RData
 .Ruserdata
 sys/kernel
-R/* 
-RStudio/* 
+R/*
 */*/*.pro
 */*.pro
 */*.pro.user
@@ -18,3 +17,6 @@ lhx/lhx
 */*.user
 .Rproj.user
 */*/*/*.Rmd
+build-lhx.linux-Desktop-Release
+altair.Rproj
+scripts/R/Donnees/R-Altair/*/*/*

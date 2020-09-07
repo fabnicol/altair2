@@ -65,8 +65,11 @@ extraire_paye           Extraire les matricules et Nir des mois de
 filtre                  Sélection du filtre correspondant à une chaîne
                         de caractères associée
 filtrer_Paie            Filtrage d'une base de paye
-generer_docx_odt        Générer les fichiers docx et odt
-generer_pdf             Générer le fichier pdf du rapport
+generer_docx_odt        Générer les fichiers docx et odt à partir des
+                        fichier intermédiaires .tex générés pour le
+                        rapport pdf
+generer_rapport         Génération d'un rapport d'analyse pdf, docx
+                        et/ou odt ou exécution sans rapport
 importer                Importer les données
 importer_base_ifse      Importer le base externe IFSE (encodage UTF-8)
 importer_base_logements

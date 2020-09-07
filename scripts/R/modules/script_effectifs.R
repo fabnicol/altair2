@@ -27,7 +27,12 @@ tableau.effectifs.emplois <<- eqtp.emploi(variation = TRUE)
 
 # Mise en forme sous tableau aligné en central par la fonction knitr::kable
 
-kable(tableau.effectifs, row.names = TRUE, align='c')
+if (class(tableau.effectifs) != "try-error") {
+  
+    kable(tableau.effectifs, row.names = TRUE, align='c')
+} else {
+  cat("Problème sérieux de qualité des données sur les effectifs ou problème logiciel.")
+}
 
 #'    
 #'**Nota:**   
