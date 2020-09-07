@@ -515,7 +515,7 @@ void Altair::clearProjectData()
     project->mainTabWidget->setCurrentIndex (0);
     project->initializeWidgetContainer();
     if (parent->dialog) {
-        parent->dialog->codeTab->reinit();
+        parent->dialog->codeTab->reinit(update::noWarnRExport);
     }
 
     fileSizeDataBase[0].clear();
@@ -634,7 +634,7 @@ bool Altair::updateProject (int requestSave)
     // Si la case du dialogue de confrguration est cochée, ou si la sauvegarde est forcée
     // par requetSave = true alors réécrire le projet .alt
 
-    if (parent->isDefaultSaveProjectChecked() || (requestSave & update::saveProject == update::saveProject))
+    if (parent->isDefaultSaveProjectChecked() || ((requestSave & update::saveProject) == update::saveProject))
         writeProjectFile();
 
     Abstract::initH ("base", path_access (DONNEES_SORTIE));

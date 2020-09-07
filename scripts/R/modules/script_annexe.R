@@ -120,6 +120,15 @@ plusieurs_types_par_libelle <- unique(code.libelle[, .(Libelle, Type)])[ , .(Mul
 #'Table plus complète à utiliser pour la fonctionnalité avancée de mise en correspondance des données comptables et de paye, onglet **Butdget**     
 #'[Lien vers la table Codes/Libelles pour appariement avec les balances](Bases/Fiabilite/code.libelle.csv)       
 #'  
+
+sauv.bases("Fiabilite",
+           environment(),
+           "plusieurs_libelles_par_code",
+           "plusieurs_codes_par_libelle",
+           "plusieurs_types_par_code",
+           "plusieurs_types_par_libelle")
+
+
 #'  
 #'Certains libellés ou codes de paye peuvent être équivoques et entraîner des erreurs de requête.       
 #'Les liens ci-après donnent les codes correspondant à au moins deux libellés distincts, les libellés correspondant à au moins deux codes et les codes ou libellés correspondant à au moins deux types de ligne de paye distincts.           
@@ -217,10 +226,6 @@ sauv.bases("Fiabilite",
                        "Evenements.mat",
                        "code.libelle",
                        "code.libelle.short",
-                       "plusieurs_libelles_par_code",
-                       "plusieurs_codes_par_libelle",
-                       "plusieurs_types_par_code",
-                       "plusieurs_types_par_libelle",
                        "base.heures.nulles.salaire.nonnull",
                        "base.quotite.indefinie.salaire.non.nul")
 
