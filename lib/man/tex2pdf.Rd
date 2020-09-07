@@ -9,7 +9,8 @@ tex2pdf(
   outfile = "altair.pdf",
   args = c("-V", "papersize=A4", "-V",
     "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm", "-V", "urlcolor=cyan",
-    "--highlight-style", "tango")
+    "--highlight-style", "tango"),
+  keep = keep_md
 )
 }
 \arguments{
@@ -18,6 +19,8 @@ tex2pdf(
 \item{outfile}{le nom de sortie du fichier, par défaut altair.pdf}
 
 \item{args}{Arguments à passer à pandoc comme options de forme}
+
+\item{keep}{Garder les fichier .tex temporaires à la fin de l'exécution}
 }
 \description{
 Convertir le fichier tex du rapport en pdf

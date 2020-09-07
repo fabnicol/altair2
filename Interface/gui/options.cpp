@@ -91,7 +91,7 @@ void codePage::ajouterVariable (const QString& nom)
 
 codePage::codePage()
 {
-    setVisible(false);
+   // setVisible(false);
 
     prologue_options_path = path_access (SCRIPT_DIR "prologue_codes.R");
 
@@ -106,6 +106,8 @@ codePage::codePage()
               << "pfr" <<  "ipf" << "psr" << "ifts" << "iat" 
               << "ifse" << "iemp" << "iss" 
               << "ihts" << "vacataires" << "astreintes" ;
+
+    nbVar = variables.size();
 
     // Pour chacun des membres de variables, ajouter une ligne FLineEdit au dialogue
     // qui donnera lieu à exportation dans prologue_codes.R
@@ -189,7 +191,13 @@ codePage::codePage()
     hLayout->addWidget (baseBox,   0, 0, Qt::AlignTop);
     hLayout->addWidget (importBox, 0, 1, Qt::AlignTop);
 
+    QToolButton* reinit = new QToolButton;
+    reinit->setText("Réinitialiser");
+    connect(reinit, SIGNAL(clicked()), this, SLOT(reinit()));
+    reinit->setToolTip("Réinitialiser tous les champs de cet onglet");
+
     mainLayout->addLayout (hLayout);
+    mainLayout->addWidget (reinit, 0, Qt::AlignRight);
     mainLayout->addSpacing (100);
 
     init_label_text = "Appuyer pour exporter<br> vers les rapports d'analyse ";
@@ -350,30 +358,55 @@ void codePage::activer_fph (bool activer)
 {
     const QStringList variables_fph = {"prime specifique", "prime de service", "prime de technicite", "ift"};
 
-    if (listeCodes.size() > variables.size())
+//    if (listeCodes.size() > variables.size())
+//        {
+//            for (int i = variables.size(); i < listeCodes.size() ; ++i)
+//                {
+//                    listeCodes[i]->setVisible (activer);
+//                    listeDialogueLabels[i]->setVisible (activer);
+//                }
+
+//            repaint();
+//            return;
+//        }
+
+    if (variables.size() == nbVar)
+    {
+        if (activer)
         {
-            for (int i = variables.size(); i < listeCodes.size() ; ++i)
-                {
-                    listeCodes[i]->setVisible (activer);
-                    listeDialogueLabels[i]->setVisible (activer);
-                }
-
-            repaint();
-            return;
+          variables << variables_fph;
+          for (const QString &s : variables_fph) ajouterVariable (s);
         }
+    } else {
+       if (!activer)
+       {
+         for (int i = 0; i < variables_fph.size(); ++i)
+         {
+           variables.removeLast();
+           vLayout->removeWidget(listeCodes.last());
+           listeCodes.last()->hide();
+           vLayout->removeWidget(listeDialogueLabels.last());
+           listeDialogueLabels.last()->hide();
+           listeCodes.removeLast();
+           listeLabels.removeLast();
+           listeDialogueLabels.removeLast();
 
-    if (! activer) return;
+         }
+       }
+    }
 
-    vLayout->removeWidget (label);
-    vLayout->removeWidget (appliquerCodes);
+    repaint();
+}
 
-    for (const QString &s : variables_fph) ajouterVariable (s);
-
-    int index = variables.size() + variables_fph.size();
-
-    vLayout->addWidget (label, index + 1, 1, Qt::AlignLeft);
-    vLayout->addWidget (appliquerCodes, index, 1, Qt::AlignLeft);
-
+void codePage::reinit()
+{
+  for (auto && a : listeCodes) a->setText("");
+  codesLibellesFrame->setText("");
+  codesFrame->setText("");
+  label->setText(init_label_text);
+  appliquerCodes->setChecked (false);
+  appliquerCodes->setIcon (QIcon (":/images/view-refresh.png"));
+  substituer_valeurs_dans_script_R();
 }
 
 void codePage::substituer_valeurs_dans_script_R()
@@ -1089,9 +1122,9 @@ void standardPage::substituer_versant()
 
 
     if (FPHCheckBox->isChecked())
-        substituer ("\"VERSANT_FP\" *%a% *\\w{3}", "\"VERSANT_FP\" %a% \"FPH\"", file_str);
+        substituer ("\"VERSANT_FP\" *%a% *\"\\w{3}\"", "\"VERSANT_FP\" %a% \"FPH\"", file_str);
     else
-        substituer ("\"VERSANT_FP\" *%a% *\\w{3}", "\"VERSANT_FP\" %a% \"FPT\"", file_str);
+        substituer ("\"VERSANT_FP\" *%a% *\"\\w{3}\"", "\"VERSANT_FP\" %a% \"FPT\"", file_str);
 
     bool res = renommer (dump (file_str), versant_path);
 

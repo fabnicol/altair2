@@ -13,12 +13,10 @@ rendre(
   to = "latex",
  
     from = "markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures",
-  args = if (to == "docx") c("-V", "papersize=A4") else c("-V", "papersize=A4", "-V",
+  args = c("-V", "papersize=A4", "-V",
     "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm", "-V", "urlcolor=cyan",
     "--highlight-style", "tango"),
-  texfile = "altair.tex",
-  outfile = ifelse(to == "docx", "altair.docx", "altair.pdf"),
-  outfile2 = "altair.odt",
+  filename = "altair",
   verbose = 0,
   sync = sequentiel
 )
@@ -40,11 +38,7 @@ rendre(
 
 \item{args}{Options à passer à pandoc}
 
-\item{texfile}{Nom du fichier latex de sortie (altair.tex par défaut)}
-
-\item{outfile}{Nom du premier fichier de sortie (pdf ou docx)}
-
-\item{outfile2}{Nom du deuxième fichier de sortie optionnel (par défaut odt si précisé)}
+\item{filename}{Racine du nom du fichier de sortie (altair par défaut)}
 
 \item{verbose}{Par défaut, 0. Si fixé à 1, 2, 3, augmente la verbosité progressivement.}
 

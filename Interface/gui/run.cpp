@@ -596,7 +596,7 @@ void Altair::runRAltair()
 
     if (v(rapportType) == "WORD, ODT et PDF")
         {
-            path_access_rapport = path_access (SCRIPT_DIR "rapport_msword.R");
+            path_access_rapport = path_access (SCRIPT_DIR "rapport_msword_et_pdf.R");
         }
     else if (v(rapportType) == "PDF")
         {
@@ -604,7 +604,7 @@ void Altair::runRAltair()
         }
     else if (v(rapportType) == "WORD et ODT")
         {
-            path_access_rapport = path_access (SCRIPT_DIR "rapport_msword_et_pdf.R");
+            path_access_rapport = path_access (SCRIPT_DIR "rapport_msword.R");
         }
     else if (v(rapportType) == "Pas de rapport (Bases seules)")
         {

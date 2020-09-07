@@ -72,15 +72,8 @@ public :
 
     codePage();
 
-    /// Réinitialisation de l'élément de texte variable de l'onglet.
-    
-    void resetLabel()
-    {
-        label->setText ("") ;
-    }
-
-
 private:
+    int nbVar; ///< Nombre de champs de codes de l'onglet (hors FPH)
     QList<FLineEdit*> listeCodes; ///< Liste des pointeurs vers des composants fonctionnels de classe FLineEdit, qui rassemble l'ensemble des lignes correspondant à variables.
     QGridLayout *vLayout = new QGridLayout;    ///< Disposition secondaire (codes).
     QGridLayout *v2Layout = new QGridLayout;    ///< Disposition secondaire (messages d'importation).
@@ -110,6 +103,10 @@ public slots:
 
     void substituer_valeurs_dans_script_R();
 
+    /// Réinitialise les champs de code et les chemins
+
+    void reinit();
+
 private slots:
 
     /// Active les contrôles réglementaires sur la fonction publique hospitalière (FPH) même s'ils n'ont pas été activés par reconnaissnce automatique.
@@ -121,7 +118,6 @@ private slots:
     /// \return true en cas de réussite, false sinon.
 
     bool importCodesCSV(const QString& chemin);
-
 
 };
 

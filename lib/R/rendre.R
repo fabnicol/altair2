@@ -66,9 +66,7 @@ find.pandoc <- function() {
 #' @param to Format de sortie (par défaut latex)
 #' @param from Format d'entrée (par défaut une variété de markdown)
 #' @param args Options à passer à pandoc
-#' @param texfile Nom du fichier latex de sortie (altair.tex par défaut)
-#' @param outfile Nom du premier fichier de sortie (pdf ou docx)
-#' @param outfile2 Nom du deuxième fichier de sortie optionnel (par défaut odt si précisé)
+#' @param filename Racine du nom du fichier de sortie (altair par défaut)
 #' @param verbose Par défaut, 0. Si fixé à 1, 2, 3, augmente la verbosité progressivement.
 #' @param sync Booléen. Décrit le caractère synchone ou asynchrone de la génération des éléments de rapport. Géré par le système selon le paramètre global #sequentiel
 #' @return Retourne le vecteur des chemins des fichiers .tex temporaires
@@ -81,10 +79,8 @@ rendre <- function(fw = fig.width,
                    clean = FALSE,
                    to ="latex",
                    from = "markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures",
-                   args = if (to == "docx") c("-V", "papersize=A4") else c("-V", "papersize=A4", "-V", "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm", "-V", "urlcolor=cyan", "--highlight-style", "tango"), 
-				           texfile = "altair.tex",			 
-                   outfile = ifelse(to == "docx", "altair.docx", "altair.pdf"),
-        				   outfile2 = "altair.odt",
+                   args = c("-V", "papersize=A4", "-V", "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm", "-V", "urlcolor=cyan", "--highlight-style", "tango"), 
+                   filename = "altair",
         				   verbose = 0,
 				           sync = sequentiel) {
 
@@ -107,26 +103,34 @@ rendre <- function(fw = fig.width,
             																		   from = from,
             																		   args = args)),
             					 envir = .GlobalEnv,
-            					 output_file = outfile)
+            					 output_file = filename %+% ".pdf")
             					 }, "Conversion pandoc imparfaite")
 
-         if (! sync)   texfile <- c(texfile, list.files(chemin.dossier, "modules.*\\.tex"))   
+        texfile <-  filename %+% ".tex"  
+        
+        if (! sync)   texfile <- c(texfile, list.files(chemin.dossier, "modules.*\\.tex"))   
         
         pandoc <- get("chemin_pandoc", envir = .GlobalEnv)
-        
-    		 if (pandoc != "") {          
-    			  
-    		   if (to == "docx") {
-    		     
-    		       assign("PDF", FALSE, envir = .GlobalEnv)
-    					 generer_docx_odt(texfile, outfile, outfile2)
-    		     
-    			  } else {
-    			    
-    			    assign("PDF", TRUE, envir = .GlobalEnv)
-    			    tex2pdf(texfile, outfile, args)					 
 
-    			  }
+    		 if (pandoc != "") {          
+    			 
+    		   for (type in to) {
+      		   if (type == "docx") {
+      		     
+      		       outfile <-  filename %+% ".docx" 
+      		       outfile2 <- filename %+% ".odt"
+      		       assign("PDF", FALSE, envir = .GlobalEnv)
+      					 generer_docx_odt(infile = texfile, outfile, outfile2)
+      		     
+      			  } else {
+      			    
+      			     outfile <-  filename %+% ".pdf" 
+      			     assign("PDF", TRUE, envir = .GlobalEnv)
+      			     tex2pdf(texfile, outfile, args, keep = (length(to) > 1 || keep))					 
+  
+      			  }
+    		   }
+    		   
     		 } else {
     			stop("Impossible de trouver pandoc et de generer le rapport.")
     		 }

@@ -37,7 +37,8 @@
 # 
 
 #'Génération d'un rapport d'analyse pdf, docx et/ou odt ou exécution sans rapport
-#'@param type Type du rapport : "latex" pour pdf, "docx" pour MS Word et ODT, "sans" pour seulement créer les bases auxiliaires
+#'@param type Type du rapport : "latex" pour pdf, "docx" pour MS Word et ODT, "sans" pour seulement créer les bases auxiliaires, 
+#' et c("pdf", "docx") ou "pdf,docx" ou toute expression combinant "pdf" et "docx" pour obtenir les deux formats de rapport.
 #'@export
 #'
 generer_rapport <- function(type = "latex") {
@@ -61,7 +62,7 @@ generer_rapport <- function(type = "latex") {
   script_env <- ls()
   script_env <- c(script_env, "script_env")
   
-  //if (type != "sans") library(rmarkdown)
+  if (type != "sans") library(rmarkdown)
 
   # Pour chaque répertoire de la cle (dossier R-Altair,export des bases CSV),
   # écraser les rapports et sourcer rapport_pdf_start.R
@@ -105,7 +106,24 @@ generer_rapport <- function(type = "latex") {
       res <- source("altair_start.R", encoding = "UTF-8")
     } else {
       
-      res <- try({rendre(to = type)})
+      if (grepl("pdf", type)) { 
+        
+        t <- "pdf"  
+        if (grepl("docx", type)) t <- c("pdf", "docx")
+        
+        } else {
+          
+         if (grepl("docx", type)) {
+           
+            t <- "docx"
+            
+          } else {
+            
+            t <- "sans"
+          }
+       }
+      
+      res <- try({rendre(to = t)})
     }
     
     # test d'erreur
@@ -137,10 +155,12 @@ generer_rapport <- function(type = "latex") {
 #' @param infile  le nom de sortie du fichier, par défaut altair.tex
 #' @param outfile le nom de sortie du fichier, par défaut altair.pdf
 #' @param args Arguments à passer à pandoc comme options de forme
+#' @param keep Garder les fichier .tex temporaires à la fin de l'exécution
 #' @export
 
 tex2pdf <- function(infile = "altair.tex", outfile = "altair.pdf", 
-                    args = c("-V", "papersize=A4", "-V", "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm", "-V", "urlcolor=cyan", "--highlight-style", "tango")) {
+                    args = c("-V", "papersize=A4", "-V", "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm", "-V", "urlcolor=cyan", "--highlight-style", "tango"),
+                    keep = keep_md) {
   
   system2(get("chemin_pandoc", envir = .GlobalEnv), c(infile, args, "-o", outfile))
   
@@ -159,7 +179,8 @@ tex2pdf <- function(infile = "altair.tex", outfile = "altair.pdf",
       system(paste("okular", file.path(chemin.cle, outfile)))
     }
   }
-  file.remove(infile)
+  
+  if (! keep) file.remove(infile)
   
 }
 

@@ -7,7 +7,8 @@
 generer_rapport(type = "latex")
 }
 \arguments{
-\item{type}{Type du rapport : "latex" pour pdf, "docx" pour MS Word et ODT, "sans" pour seulement créer les bases auxiliaires}
+\item{type}{Type du rapport : "latex" pour pdf, "docx" pour MS Word et ODT, "sans" pour seulement créer les bases auxiliaires, 
+et c("pdf", "docx") ou "pdf,docx" ou toute expression combinant "pdf" et "docx" pour obtenir les deux formats de rapport.}
 }
 \description{
 Génération d'un rapport d'analyse pdf, docx et/ou odt ou exécution sans rapport

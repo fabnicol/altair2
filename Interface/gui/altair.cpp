@@ -514,7 +514,9 @@ void Altair::clearProjectData()
 
     project->mainTabWidget->setCurrentIndex (0);
     project->initializeWidgetContainer();
-    if (parent->dialog) parent->dialog->codeTab->resetLabel();
+    if (parent->dialog) {
+        parent->dialog->codeTab->reinit();
+    }
 
     fileSizeDataBase[0].clear();
 

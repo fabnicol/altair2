@@ -6,7 +6,7 @@
 \usage{
 read.csv.skip(
   x,
-  classes = NA,
+  classes = NULL,
   drop = NULL,
   skip = 0,
   separateur.liste = separateur.liste.entree,
