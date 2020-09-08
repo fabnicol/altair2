@@ -497,6 +497,8 @@ if test ! -d /home/fab/Dev/altair/scripts/R/Donnees/xhl ; then
    mkdir -p /home/fab/Dev/altair/scripts/R/Donnees/xhl
 fi   
 
+sed -i "/Tests\/Exemple\/Donnees/scripts\/R\/Donnees/' /etc/fstab
+
 echo "*** Opérations sur branche release : Terminé ***"
  
  
