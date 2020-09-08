@@ -27,21 +27,21 @@ prime_FPH_test <- function(prime, prime_lit, base, expr = NULL) {
   
   if (nombre.personnels.nt <- uniqueN(DT$Matricule)) {
     
-    cat("Il existe ", 
+    cat("\nIl existe ", 
         FR(nombre.personnels.nt),
         "agent" %s% nombre.personnels.nt,
-        "non titulaire" %s% nombre.personnels.nt, "percevant une", prime_lit)
+        "non titulaire" %s% nombre.personnels.nt, "percevant une", prime_lit, "\n")
   }
   
   if (nombre.personnels.nt) {
     
-    cat("Coût des anomalies ", 
-        DT[ , sum(Montant, na.rm = TRUE)], "euros.")
+    cat("\nCoût des anomalies ", 
+        DT[ , sum(Montant, na.rm = TRUE)], "euros.\n")
   }
   
-  assign("base",  DT, .GlobalEnv)
+  assign(base,  DT, .GlobalEnv)
 
-  Sauv.base("Reglementation", "base") 
+  Sauv.base("Reglementation", base) 
   primes <- unique(DT$Libelle)
   
   primes.potentielles <- if (length(primes) == 0) "aucune" else paste(primes, collapse = " ;")
@@ -53,7 +53,7 @@ prime_FPH_test <- function(prime, prime_lit, base, expr = NULL) {
 
 primes.potentielles <- prime_FPH_test("PRIME SPECIFIQUE", "prime spécifique", "personnels.prime.specifique.nt")
 
-cat("Prime spécifique", primes.potentielles)  
+cat("Prime spécifique : ", primes.potentielles, "\n")  
    
 
 #'   
@@ -67,7 +67,7 @@ conditionnel("Lien vers la base de données Prime spécifique NT", "Bases/Reglem
 primes.potentielles <- prime_FPH_test("PRIME DE TECHNICITE", "prime de technicité", "personnels.prime.tech.nt")
 
 
-cat("Primes de technicité", primes.potentielles)  
+cat("Primes de technicité : ", primes.potentielles, "\n")  
    
 
 #'   
@@ -81,7 +81,7 @@ conditionnel("Lien vers la base de données Prime de technicité NT", "Bases/Reg
 primes.potentielles <- prime_FPH_test("IFT", "indemnité forfaitaire et technique", "personnels.ift.nt")
 
 #'   
-cat("Indemnité forfaitaire et technique", primes.potentielles)
+cat("Indemnité forfaitaire et technique : ", primes.potentielles, "\n")
 #'   
 
 #'   
@@ -93,7 +93,7 @@ conditionnel("Lien vers la base de données IFT NT", "Bases/Reglementation/perso
 primes.potentielles <- prime_FPH_test("PRIME DE SERVICE", "prime de service", "personnels.ps.nt", expression.rég.médecin)
 
 #'   
-cat("Primes de service", primes.potentielles)    
+cat("Primes de service : ", primes.potentielles, "\n")    
 #'   
 
 #'   
