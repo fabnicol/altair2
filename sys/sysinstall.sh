@@ -500,6 +500,7 @@ fi
 # Si absence de reclonage, ajustements nécessaires
 sed -i "/Tests\/Exemple\/Donnees/scripts\/R\/Donnees/" /etc/fstab
 rm -rf /home/fab/Dev/altair/Tests
+umount /home/jf/Dev/altair/Tests/Exemple/Donnees
 rm -rf /home/jf/Dev/altair/Tests
 
 
