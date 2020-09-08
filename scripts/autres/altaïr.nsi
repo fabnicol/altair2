@@ -154,8 +154,10 @@ Section
   CreateDirectory  $INSTDIR\${prodname.simple}\${exemple}\Donnees\xhl
   CreateDirectory  $INSTDIR\${prodname.simple}\lhx
   CreateDirectory  $INSTDIR\${prodname.simple}\scripts
-  CreateDirectory $LOCALAPPDATA\${prodname}  
+  CreateDirectory  $LOCALAPPDATA\${prodname.simple}  
   
+  SetOutPath       $LOCALAPPDATA\${prodname.simple}
+  File /r  "${prodname.simple}\Interface\share\altair-gui\images"
   
   SetDetailsPrint both
   SetOutPath $INSTDIR\${prodname.simple}

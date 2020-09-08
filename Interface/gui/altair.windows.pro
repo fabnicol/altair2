@@ -36,40 +36,16 @@
 # 
 # 
 
-VERSION_TAG = $$system(cat ../../VERSION)
+VERSION_TAG = $$system("C:\\Users\\Public\\Dev\\altair_SDK\\usr\\bin\\cat.exe ..\\..\\VERSION")
 DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
 
 message("Version :  $$VERSION_TAG")
-#QMAKE_CXX = /usr/local/bin/g++
-#QMAKE_LINK = /usr/local/bin/g++
 greaterThan(QT_MAJOR_VERSION, 5)
 
-# utiliser au moins Qt5 et g++-5.1
 # ENCODAGE : UTILISER UTF-8 PARTOUT, y compris sur le fichier .pro.
 
-if (linux) {
-  message("Système d'exploitation linux")
-
-GIT_VERSION = $$system(git --version | grep -e \"git version\")
-CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[1-9][0-9]?.[0-9]')
-
-if (!isEmpty(GIT_VERSION)) {
-    message( "Version de git : $$GIT_VERSION" )
-} else {
-#    error( "Git doit être installé" )
-}
-
-
-if (!isEmpty(CXX_VERSION)){
-    message( "Version du compilateur : $$CXX_VERSION" )
-} else {
-    error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
-}
-}
-
-
 CONFIG  += ordered static 
-#QTPLUGIN += qxcb
+
 CONFIG(debug, debug|release) {
   QMAKE_LFLAGS   += -L$$(QTDIR)/bin   # ne devrait pas en principe être rajouté mais...qmake est capricieux !
 
@@ -91,7 +67,7 @@ TARGET = Altair
 
 VPATH = .
 INCLUDEPATH += ../../fwidgets_lib
-#windows:LIBS += C:/Users/Public/Dev/altair2/fwidgets_lib/debug/libfwidgets_lib.a
+
 linux:LIBS += ~/Dev/altair/fwidgets_lib/libfwidgets_lib.a
 
 DEFINES += HAS_CPP17

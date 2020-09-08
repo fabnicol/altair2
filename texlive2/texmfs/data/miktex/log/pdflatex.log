@@ -1367,3 +1367,20 @@
 2020-09-07 10:54:31,803+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-97c768d19bebbde1
 2020-09-07 10:54:31,803+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-97c768d19bebbde1
 2020-09-07 10:54:36,930+0200 INFO  pdflatex - this process (3380) finishes with exit code 0
+2020-09-08 03:04:56,598+0200 INFO  pdflatex - this process (15672) started by 'Rscript' with command line: C:\Users\Public\Dev\altair\texlive2\texmfs\install\miktex\bin\x64\pdflatex.exe -halt-on-error -interaction=batchmode altair.tex
+2020-09-08 03:04:56,623+0200 INFO  pdflatex - allowing known shell commands
+2020-09-08 03:04:56,623+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-09-08 03:04:56,660+0200 INFO  pdflatex - this process (15672) finishes with exit code 1
+2020-09-08 03:04:56,670+0200 WARN  miktex.core - still open: altair.tex
+2020-09-08 03:04:59,446+0200 INFO  pdflatex - this process (1092) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-616f918fa087ebea C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-616f918fa087ebea/input.tex
+2020-09-08 03:04:59,471+0200 INFO  pdflatex - allowing known shell commands
+2020-09-08 03:04:59,471+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-09-08 03:04:59,472+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-616f918fa087ebea
+2020-09-08 03:04:59,472+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-616f918fa087ebea
+2020-09-08 03:05:04,597+0200 INFO  pdflatex - this process (1092) finishes with exit code 0
+2020-09-08 03:05:05,189+0200 INFO  pdflatex - this process (13036) started by 'pandoc' with command line: pdflatex -halt-on-error -interaction nonstopmode -output-directory C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-616f918fa087ebea C:\/Users/fabrn/AppData/Local/Temp/tex2pdf.-616f918fa087ebea/input.tex
+2020-09-08 03:05:05,217+0200 INFO  pdflatex - allowing known shell commands
+2020-09-08 03:05:05,217+0200 INFO  pdflatex - enabling input (output) from (to) processes
+2020-09-08 03:05:05,217+0200 INFO  pdflatex - setting output directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-616f918fa087ebea
+2020-09-08 03:05:05,218+0200 INFO  pdflatex - setting aux directory: C:\Users\fabrn\AppData\Local\Temp\tex2pdf.-616f918fa087ebea
+2020-09-08 03:05:10,306+0200 INFO  pdflatex - this process (13036) finishes with exit code 0
