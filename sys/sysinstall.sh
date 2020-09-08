@@ -497,6 +497,12 @@ if test ! -d /home/fab/Dev/altair/scripts/R/Donnees/xhl ; then
    mkdir -p /home/fab/Dev/altair/scripts/R/Donnees/xhl
 fi   
 
+# Si absence de reclonage, ajustements nécessaires
+sed -i "/Tests\/Exemple\/Donnees/scripts\/R\/Donnees/" /etc/fstab
+rm -rf /home/fab/Dev/altair/Tests
+rm -rf /home/jf/Dev/altair/Tests
+
+
 echo "*** Opérations sur branche release : Terminé ***"
  
  
