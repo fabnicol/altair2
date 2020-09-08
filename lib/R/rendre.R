@@ -40,8 +40,8 @@
 find.pandoc <- function() {
   
   if (setOSWindows) {
-     Sys.setenv(PATH = Sys.getenv("PATH")  %+%  ";C:\\Users\\Public\\Dev\\altair\\texlive2\\texmfs\\install\\miktex\\bin\\x64")
-     repert <-  "C:\\Users\\Public\\Dev\\altair\\RStudio\\bin\\pandoc"
+     Sys.setenv(PATH = Sys.getenv("PATH")  %+%  ";C:\\Users\\Public\\Dev\\altair\\texlive2\\texmfs\\install\\miktex\\bin\\x64"  %+%  ";C:\\Users\\Public\\Altair\\texlive2\\texmfs\\install\\miktex\\bin\\x64")
+     repert <-  c("C:\\Users\\Public\\Dev\\altair\\RStudio\\bin\\pandoc", "C:\\Users\\Public\\Altair\\RStudio\\bin\\pandoc")
   } else {
      repert <- c("/usr/bin", "/usr/bin/pandoc", "/usr/local/bin", "/usr/local/bin/pandoc")
   }

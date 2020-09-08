@@ -51,7 +51,7 @@ start() {
   
     version_current=$(cat /home/Public/VERSION)
     version=$(cat /home/fab/Dev/altair/VERSION)
-    if test x$version = x$version_current
+    if test x$version = x$version_current && ! test -f /home/fab/Dev/altair/sys/forcer.actualisation
     then
       clear
       echo "*** Pas de mise à jour ***"  | tee -a /home/Public/version.log
