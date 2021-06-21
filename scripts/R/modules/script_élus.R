@@ -12,17 +12,15 @@ remunerations.elu <- Analyse.remunerations[ indemnités.élu > minimum.positif,
                                               acomptes,
                                               rémunération.indemnitaire.imposable)]
 
-remunerations.elu <- remunerations.elu[ , rémunération.indemnitaire.imposable := indemnités.élu +  rémunération.indemnitaire.imposable]
-
 remunerations.elu <- unique(matricules[ , .(Nom,  Matricule)])[remunerations.elu, on = "Matricule"]
 
 names(remunerations.elu) <- c("Matricule",
                               "Nom",
                               "Annee",
                               "Emploi",
-                              "Indemnités ",
+                              "Total paye ",
                               "Autres ",
-                              "Total ")
+                              "Total indemnités ")
 
 remunerations.elu <- na.omit(remunerations.elu)
 
