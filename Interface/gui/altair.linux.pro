@@ -39,6 +39,8 @@ VERSION_TAG = "21.06-1"
 DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
 
 message("Version :  $$VERSION_TAG")
+#QMAKE_CXX = /usr/local/bin/g++
+#QMAKE_LINK = /usr/local/bin/g++
 greaterThan(QT_MAJOR_VERSION, 5)
 
 # utiliser au moins Qt5 et g++-5.1
@@ -47,6 +49,7 @@ greaterThan(QT_MAJOR_VERSION, 5)
 if (linux) {
   message("Système d'exploitation linux")
 
+#QMAKE_CXX=/usr/bin/g++-8.1.0
 GIT_VERSION = $$system(git --version | grep -e \"git version\")
 CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
 
@@ -56,6 +59,12 @@ if (!isEmpty(GIT_VERSION)) {
 #    error( "Git doit être installé" )
 }
 
+
+if (!isEmpty(CXX_VERSION)){
+    message( "Version du compilateur : $$CXX_VERSION" )
+} else {
+    error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
+}
 }
 
 

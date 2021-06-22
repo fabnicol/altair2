@@ -12,13 +12,12 @@
 # utiliser, modifier et/ou redistribuer ce programme sous les conditions
 # de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
 # sur le site "http://www.cecill.info".
-#
+# 
 # En contrepartie de l'accessibilité au code source et des droits de copie,
 # de modification et de redistribution accordés par cette licence, il n'est
 # offert aux utilisateurs qu'une garantie limitée. Pour les mêmes raisons,
 # seule une responsabilité restreinte pèse sur l'auteur du programme, le
 # titulaire des droits patrimoniaux et les concédants successifs.
-#
 # A cet égard l'attention de l'utilisateur est attirée sur les risques
 # associés au chargement, à l'utilisation, à la modification et/ou au
 # développement et à la reproduction du logiciel par l'utilisateur étant
@@ -200,7 +199,6 @@ cleanup <- function() {
 }
 
 ajuster_chemins_odt <- function(files) {
-
   for (f in files) {
     con <- file(f, open = "r", encoding = encodage.code.source)
     con2 <- file("temp.tex", open = "w", encoding = encodage.code.source)
@@ -269,7 +267,6 @@ generer_docx_odt <- function(infile = "altair.tex",
       if (file.exists(cle_outfile)) shell(paste("start winword.exe",  cle_outfile))
 
     } else {
-
       if (file.exists(cle_outfile2)) system(paste("lowriter",  cle_outfile2))
     }
   }

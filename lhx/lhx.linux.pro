@@ -56,9 +56,6 @@ if (!isEmpty(GIT_VERSION)) {
 
 if (!isEmpty(CXX_VERSION)){
     message( "Version du compilateur : $$CXX_VERSION" )
-} else {
-    error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
-}
 }
 
 # Pour une sortie en mode console pure, enlever guiOutput ci-dessous. Sinon l'output console prépare

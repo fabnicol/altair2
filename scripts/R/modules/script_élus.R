@@ -12,19 +12,22 @@ remunerations.elu <- Analyse.remunerations[ indemnités.élu > minimum.positif,
                                               acomptes,
                                               rémunération.indemnitaire.imposable)]
 
+remunerations.elu <- remunerations.elu[ , rémunération.indemnitaire.imposable := indemnités.élu + acomptes]
+
 remunerations.elu <- unique(matricules[ , .(Nom,  Matricule)])[remunerations.elu, on = "Matricule"]
 
 names(remunerations.elu) <- c("Matricule",
                               "Nom",
                               "Annee",
                               "Emploi",
-                              "Total paye ",
+                              "Indemnités ",
                               "Autres ",
-                              "Total indemnités ")
+                              "Total ")
 
 remunerations.elu <- na.omit(remunerations.elu)
 
 #'   
+
 if (generer.table.élus)   {
   
   if (nrow(remunerations.elu) > 0) {
@@ -43,4 +46,4 @@ if (generer.table.élus)   {
 sauv.bases("Reglementation", environment(), "remunerations.elu")
 
 conditionnel("Lien vers la base de données Rémunérations des élus", "Bases/Reglementation/remunerations.elu.csv")
-#'
+#'   
