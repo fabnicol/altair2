@@ -244,6 +244,17 @@ if [[ -f sys/install.packages && (! -f sys/packages.installed.flag || -f sys/ins
   sleep 2
 fi  
 
+# recompilation des exécutables principaux
+
+cd Interface/gui
+make clean
+make -j4
+cp -f Altair ../../Interface_linux/gui/x64/
+cd ../../lhx
+make clean
+make -j4
+cp -f lhx ../linux/
+cd ..
 
 # recompilation de la bibliothèque altair
 if test -f sys/build.altair; then
@@ -305,8 +316,6 @@ if test -f install.kernel -a "$(uname -r)" != "4.10.8-ck"; then
     
   sleep 2
 fi  
-
-
 
 # patch temporaire
 

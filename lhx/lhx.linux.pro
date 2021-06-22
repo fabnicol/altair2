@@ -45,7 +45,7 @@ if (linux) {
 
 QMAKE_CXX=/usr/bin/g++
 GIT_VERSION = $$system(git --version | grep -e \'git version\')
-CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
+CXX_VERSION = $$system($$QMAKE_CXX --version)
 
 if (!isEmpty(GIT_VERSION)) {
     message( "Version de git : $$GIT_VERSION" )
@@ -56,13 +56,6 @@ if (!isEmpty(GIT_VERSION)) {
 
 if (!isEmpty(CXX_VERSION)){
     message( "Version du compilateur : $$CXX_VERSION" )
-    VERSION_8 = $$system($$QMAKE_CXX --version | grep -e '8.')
-    if (! isEmpty(VERSION_8)) {
-       message( "Utilisation de C++17")
-    } else {
-       message( "Utilisation de C++11")
-   }
-
 } else {
     error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
 }
