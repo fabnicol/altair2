@@ -243,9 +243,7 @@ if [[ -f sys/install.packages && (! -f sys/packages.installed.flag || -f sys/ins
 
   sleep 2
 fi  
-
 # recompilation des exécutables principaux
-
 cd Interface/gui
 make clean
 make -j4
@@ -255,6 +253,23 @@ make clean
 make -j4
 cp -f lhx ../linux/
 cd ..
+[ -f sysinstall.log ] && rm -f sysinstall.log
+
+if ! [ -f Interface_linux/gui/x64 ]
+then
+    echo "L'interface graphique n'a pas été réinstallée après compilation." > sysinstall.log
+else
+    git add -f Interface_linux/gui/x64/Altair
+    git commit -am"Add Altair to x64" > sysinstall.log
+fi
+
+if ! [ -f linux/lhx ]
+then
+    echo "L'application noyau n'a pas été réinstallée après compilation." >> sysinstall.log
+else
+    git add -f linux/lhx
+    git commit -am"Add lhx to x64" >> sysinstall.log
+fi
 
 # recompilation de la bibliothèque altair
 if test -f sys/build.altair; then
