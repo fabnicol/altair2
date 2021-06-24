@@ -242,20 +242,27 @@ if [[ -f sys/install.packages && (! -f sys/packages.installed.flag || -f sys/ins
    fi 
 
   sleep 2
-fi  
-# recompilation des exécutables principaux
-cd Interface/gui
-/usr/lib64/qt5/bin/qmake altair.linux.pro
-make clean
-make -j4
-cp -f Altair ../../Interface_linux/gui/x64/
-cd ../../lhx
-make clean
-/usr/lib64/qt5/bin/qmake lhx.linux.pro 
-make -j4
-cp -f lhx ../linux/
-cd ..
-[ -f sysinstall.log ] && rm -f sysinstall.log
+fi 
+
+# La recompilation locale des exécutables principaux est liée 
+# à l'existence d'un fichier build.applications
+
+if [ -f build.applications ]
+then
+	# recompilation des exécutables principaux
+	cd Interface/gui
+	/usr/lib64/qt5/bin/qmake altair.linux.pro
+	make clean
+	make -j4
+	cp -f Altair ../../Interface_linux/gui/x64/
+	cd ../../lhx
+	make clean
+	/usr/lib64/qt5/bin/qmake lhx.linux.pro 
+	make -j4
+	cp -f lhx ../linux/
+	cd ..
+	[ -f sysinstall.log ] && rm -f sysinstall.log
+fi
 
 if ! [ -f Interface_linux/gui/x64 ]
 then
