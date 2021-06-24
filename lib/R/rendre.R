@@ -78,7 +78,7 @@ rendre <- function(fw = fig.width,
                    clean = FALSE,
                    to ="latex",
                    from = "markdown-auto_identifiers+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures",
-                   args = c("-M", "lang=fr", "-V", "papersize=A4", "-V", "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm", "-V", "urlcolor=cyan", "--highlight-style", "tango"),
+                   args = c("-V", "papersize=A4", "-V", "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm", "-V", "urlcolor=cyan", "--highlight-style", "tango"),
                    filename = "altair",
 		   verbose = 0,
 	           sync = sequentiel) {

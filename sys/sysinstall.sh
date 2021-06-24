@@ -245,11 +245,13 @@ if [[ -f sys/install.packages && (! -f sys/packages.installed.flag || -f sys/ins
 fi  
 # recompilation des exécutables principaux
 cd Interface/gui
+/usr/lib64/qt5/bin/qmake altair.linux.pro
 make clean
 make -j4
 cp -f Altair ../../Interface_linux/gui/x64/
 cd ../../lhx
 make clean
+/usr/lib64/qt5/bin/qmake lhx.linux.pro 
 make -j4
 cp -f lhx ../linux/
 cd ..

@@ -157,7 +157,6 @@ generer_rapport <- function(type = "latex") {
 
 tex2pdf <- function(infile = "altair.tex", outfile = "altair.pdf",
                     args = c("-V", "papersize=A4", 
-                    "-M", "lang=fr",
                     "-V", "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm",
                     "-V", "urlcolor=cyan",
                     "--highlight-style", "tango"),
@@ -224,7 +223,7 @@ ajuster_chemins_odt <- function(files) {
 generer_docx_odt <- function(infile = "altair.tex",
                              outfile = "altair.docx",
                              outfile2 = "altair.odt",
-                             args = c("-M", "lang=fr", "-V", "papersize=A4",  "-V", "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm", "-V", "urlcolor=cyan", "--highlight-style", "tango")) {
+                             args = c("-V", "papersize=A4",  "-V", "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm", "-V", "urlcolor=cyan", "--highlight-style", "tango")) {
 
   pandoc <- get("chemin_pandoc", envir = .GlobalEnv)
 
