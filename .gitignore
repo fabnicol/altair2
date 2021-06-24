@@ -20,3 +20,5 @@ lhx/lhx
 build-lhx.linux-Desktop-Release
 altair.Rproj
 scripts/R/Donnees/R-Altair/*/*/*
+Interface/gui/Altair
+linux/lhx
