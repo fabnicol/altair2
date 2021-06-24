@@ -48,25 +48,15 @@ greaterThan(QT_MAJOR_VERSION, 5)
 
 if (linux) {
   message("Système d'exploitation linux")
-
+}
 #QMAKE_CXX=/usr/bin/g++-8.1.0
 GIT_VERSION = $$system(git --version | grep -e \"git version\")
-CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
 
 if (!isEmpty(GIT_VERSION)) {
     message( "Version de git : $$GIT_VERSION" )
 } else {
 #    error( "Git doit être installé" )
 }
-
-
-if (!isEmpty(CXX_VERSION)){
-    message( "Version du compilateur : $$CXX_VERSION" )
-} else {
-    error( "Le compilateur doit être GNU g++, dont la version doit être au moins 5.1" )
-}
-}
-
 
 CONFIG  += ordered static 
 #QTPLUGIN += qxcb

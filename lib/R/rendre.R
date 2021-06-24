@@ -104,7 +104,6 @@ rendre <- function(fw = fig.width,
             					 output_file = filename %+% ".pdf")
             					 }, "Conversion pandoc imparfaite")
 
-<<<<<<< HEAD
         texfile <-  filename %+% ".tex"
 
         if (! sync)   texfile <- c(texfile, list.files(chemin.dossier, "modules.*\\.tex"))

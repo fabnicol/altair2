@@ -30,7 +30,7 @@ conditionnel("Rémunérations brutes par emploi", "Bases/Remunerations/brut.eqtp
 
 #+ comparaison-insee1
 
-Tableau.vertical2(c("Agrégat (euros)", "2011", "2012", "2013", "2014", "2015", "2016", "2017"),
+Tableau.vertical2(c("Agrégat (euros)", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"),
                   c("Ensemble", "Titulaires", "Autres salariés*"),
                   digits = 0,
                   12 * c(2159, 2223, 1903),
@@ -39,7 +39,8 @@ Tableau.vertical2(c("Agrégat (euros)", "2011", "2012", "2013", "2014", "2015", 
                   12 * c(2237, 2337, 2042),
                   12 * c(2282, 2372, 2058),
                   12 * c(2303, 2397, 2069),
-                  12 * c(2363, 2456, 2110))
+                  12 * c(2363, 2456, 2110),
+                  12 * c(2417, 2507, 2110))
 #'  
 #'*  *Contractuels à partir de 2017*  *    
 #'    
@@ -67,7 +68,7 @@ Tableau.vertical2(
 #'      
 
 Tableau.vertical2(
-  c("Rém. annuelles", "2014", "Primes", "2015", "Primes", "2016", "Primes"),
+  c("Rém. annuelles", "2014", "Primes", "2015", "Primes", "2016", "Primes", "2018", "Primes"),
   c("Salaire brut",
     "Traitement brut",
     "Primes et rémunérations annexes",
@@ -78,7 +79,9 @@ Tableau.vertical2(
   12 * c(2372, 1818, 0, 554),
   c("", "23,4 %", "", "" ),
   12 * c(2397, 1842, 0, 555),
-  c("", "23,2 %", "", "" )
+  c("", "23,2 %", "", "" ),
+  12 * c(2507, 0, 0, 0),
+  c("", "%", "", "" )
 )
 
 

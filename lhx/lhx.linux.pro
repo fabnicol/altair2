@@ -42,6 +42,7 @@ greaterThan(QT_MAJOR_VERSION, 5)
 
 if (linux) {
   message("Système d'exploitation :  $$(OS)")
+}
 
 QMAKE_CXX=/usr/bin/g++
 GIT_VERSION = $$system(git --version | grep -e \'git version\')

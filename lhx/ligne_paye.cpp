@@ -739,6 +739,8 @@ static inline LineCount lignePaye (xmlNodePtr cur, info_t& info)
                                 {
                                     cerr << ERROR_HTML_TAG "En excès du nombre de réordonnancements autorisés (" << type_loop_counter  << "/" << TYPE_LOOP_LIMIT << ")." ENDL;
                                     cerr << ERROR_HTML_TAG "En excès du nombre de types de lignes de paye autorisé (" << nbType << ")." ENDL;
+
+                                    cerr << ERROR_HTML_TAG "Ligne: " <<  xmlGetLineNo(cur) << ENDL;  
                                 }
 
                             if (cur)
@@ -1192,10 +1194,19 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
                                             //  et situé entre NIR et NbEnfants, ce champ devant être regardé comme trop volatile
                                             //  pour que le contrôle s'y attarde.
 
+                                            // NOTA2: on ne contrôle pas le champ optionnel:
+					    //
+					    // <RefNomenStatutaire>
+                                            //   <Code V="YYX2"/>
+                                            //   <Libelle V="..."/>
+                                            // </RefNomenStatutaire>
+					    //
+					    // TODO: peut être utile notamment s'agissant des élus.
+					    // Problème: renseigné de manière inconsistante.
+					    
                                             if (result)
                                                 {
                                                     result &= BULLETIN_OBLIGATOIRE (EmploiMetier);
-
                                                     if (result)
                                                         {
 #ifdef TOLERANT_TAG_HIERARCHY
