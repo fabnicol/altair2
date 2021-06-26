@@ -621,21 +621,19 @@ importer_ <- function() {
     stop("Impossible de charger les lignes/bulletins de paie.")
   }
 
-  if (! is.null(base.personnels.categorie)) {
+    if (! is.null(base.personnels.categorie)) {
 
     message("Remplacement de la categorie par la categorie importee du fichier matricules.csv sous ", chemin.dossier.donnees)
     vect <- c("Annee", "Nom", "Prenom", "Matricule", "Grade", "Emploi")
-    BP <- base.personnels.categorie[ , , keyby = vect]
+    BP <- unique(base.personnels.categorie[ , , keyby = vect])
 
-    Paie[, Categorie := NULL]
+    Paie[ , Categorie := NULL]
     Bulletins.paie[, Categorie := NULL]
 
     Paie <- merge(Paie[ , , keyby = vect], BP, all = TRUE, by = vect)
 
     Bulletins.paie  <- merge(Bulletins.paie[ , , keyby = vect], BP, all = TRUE, by = vect)
-
   }
-
 
   setkey(Paie, Matricule, Annee, Mois)
   setkey(Bulletins.paie, Matricule, Annee, Mois)
@@ -724,7 +722,7 @@ importer_ <- function() {
   # Les élus sont réputés travailler à temps complet.
 
   message("Calcul des quotites")
-
+  message("cle.fusion")
   #on va trouver la plupart du temps 151,67...
   # Tableau de référence des matrices de médianes
   # A ce niveau de généralité, le filtre actif est inutile, sauf peut-être pour de très petits effectifs.
@@ -736,33 +734,35 @@ importer_ <- function() {
   Bulletins.paie <- rémunérations_eqtp(quotites())
 
   # Housecleaning
+  # La clé d'appariement entre Paie et Bulletins.paie est 
+  # .(Nom, Prenom, Matricule, Annee, Mois, Emploi, Service, Statut, Grade, Nb.Enfants, Temps.de.travail, Heures.Sup., Heures, Indice, NBI, MtBrut, MtNet)
+    
+  cle.fusion <- c("Nom", "Prenom", "Matricule", "Annee", "Mois", "Emploi", "Service", "Statut", "Grade", "Nb.Enfants", "Temps.de.travail",
+                  "Heures.Sup.", "Heures.orig", "Indice", "NBI", "Brut", "Net")
 
+  cols.fusion <- c(cle.fusion, 
+                    "cumHeures",
+                    "quotite",
+                    "quotite.moyenne",
+                    "quotite.moyenne.orig",
+                    "Montant.net.eqtp",
+                    "Montant.brut.eqtp",
+                    "Montant.brut.annuel",
+                    "Montant.brut.annuel.eqtp",
+                    "Montant.net.annuel",
+                    "Montant.net.annuel.eqtp",
+                    "Statut.sortie",
+                    "Sexe",
+                    "nb.jours",
+                    "nb.mois",
+                    "indicatrice.quotite.pp",
+                    "annee_entiere")
   
-  Paie <- merge(unique(Bulletins.paie[ , .(Matricule,
-                                           Annee,
-                                           Mois,
-                                           Service,
-                                           Statut,
-                                           cumHeures,
-                                           quotite,
-                                           quotite.moyenne,
-                                           quotite.moyenne.orig,
-                                           Montant.net.eqtp,
-                                           Montant.brut.eqtp,
-                                           Montant.brut.annuel,
-                                           Montant.brut.annuel.eqtp,
-                                           Montant.net.annuel,
-                                           Montant.net.annuel.eqtp,
-                                           Statut.sortie,
-                                           Sexe,
-                                           nb.jours,
-                                           nb.mois,
-                                           indicatrice.quotite.pp,
-                                           annee_entiere)]),
+  Paie <- merge(unique(Bulletins.paie[ , ..cols.fusion]),
                 Paie,
-                by = c("Matricule","Annee","Mois","Service", "Statut"))
+                by = cle.fusion)
 
-  matricules <- unique(Bulletins.paie[ , .(Annee, Nom, Prenom, Matricule, Categorie, Grade, Emploi)], by = NULL)
+  matricules <- unique(Bulletins.paie[ , .(Annee, Nom, Prenom, Matricule, Categorie, Grade, Emploi)])
 
   "matricules" %a% matricules[order(Matricule, Annee)]
 
@@ -777,7 +777,6 @@ importer_ <- function() {
   "base.personnels.categorie" %a% base.personnels.categorie
   "base.logements" %a% base.logements
   "grades.categories" %a% correspondance_grade_categorie()
-
 }
 
 
