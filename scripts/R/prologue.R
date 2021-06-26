@@ -99,8 +99,8 @@ if (setOSWindows) {
 
 
 extraire.annees                <- FALSE
-  debut.periode.sous.revue     <- 2013
-  fin.periode.sous.revue       <- 2018
+  debut.periode.sous.revue     <- 2015
+  fin.periode.sous.revue       <- 2020
 
 exec.root                      <- if (setOSWindows) ".exe" else ""
 
