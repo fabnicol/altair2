@@ -94,12 +94,13 @@ code.libelle.short <- code.libelle.short[, ord := NULL
 
 ### Fin du Copyright Fabrice Nicol septembre 2020
 
+code.libelle <- remplacer_type(code.libelle)
+
 setcolorder(code.libelle, c("Code", "Libelle", "Statut", "Type", "Compte"))
 
 if (afficher.table.codes) {
   kable(code.libelle, align="c")
 }
-
 
 # Plusieurs libellés par code
 plusieurs_libelles_par_code <- unique(code.libelle[ , .(Code, Libelle, Type)])[, Multiplicité := .N, keyby = Code][Multiplicité > 1]

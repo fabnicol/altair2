@@ -48,6 +48,7 @@
 
 "sequentiel"                     %a% TRUE
 "ouvrir.document"                %a% TRUE
+"paye.budget.existe"             %a% FALSE
 
 "types.irs"  %a% c("IR", "S")
 

@@ -293,7 +293,7 @@ public:
     FCheckBox *budgetCheckBox;  ///< Case à cocher de contrôle de \link budgetFrame
      
     void do_copies();        ///< Réalise les copies des fichiers auxiliaires paye_budget.csv, grades.catégories.csv et logements.csv dans scripts/R pour importation par le script R.  
-   
+    void substituer_valeurs_dans_script_R();  ///< Ajuste la valeur du paramètre paye.budget.existe dans le fichier prologue_codes.R
 private:   
     
     FCheckBox

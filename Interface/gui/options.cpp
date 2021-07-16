@@ -1308,11 +1308,13 @@ void processPage::substituer_valeurs_dans_script_R()
 {
     file_str = common::readFile (prologue_options_path);
     #ifndef Q_OS_WIN
-    substituer("\"sequentiel\" *%a% *\\w{4,5}", QString("\"sequentiel\" %a% ") + (parallelCheckBox->isChecked() ? "FALSE" : "TRUE"), file_str);
+    substituer("\"sequentiel\" *%a% *\\w{4,5}", QString("\"sequentiel\" %a% ")
+               + (parallelCheckBox->isChecked() ? "FALSE" : "TRUE"), file_str);
     #else
     substituer("\"sequentiel\" *%a% *FALSE", QString("\"sequentiel\" %a% TRUE"), file_str);
     #endif
-    substituer("\"ouvrir.document\" *%a% *\\w{4,5}", QString("\"ouvrir.document\" %a% ") + (openCheckBox->isChecked() ? "TRUE" : "FALSE"), file_str);
+    substituer("\"ouvrir.document\" *%a% *\\w{4,5}", QString("\"ouvrir.document\" %a% ")
+               + (openCheckBox->isChecked() ? "TRUE" : "FALSE"), file_str);
     renommer (dump (file_str), prologue_options_path);
 }
 
@@ -1339,7 +1341,7 @@ extraPage::extraPage()
                                       "le code de paye et le sous-compte du compte 64 <br>"
                                       "utilisé par les comptes administratifs et de gestion.<br>"
                                       "Il doit être au format CSV (séparateur point-virgule)<br>"
-                                      "et encodé en caractères Latin-1 ou Windows-1252.<br>"
+                                      "et encodé en caractères UTF-8.<br>"
                                       "Les colonnes doivent comporter les intitulés Code,<br>"
                                       "Libellé, Statut, Type et Compte, dans cet ordre : <br>"
                                       "<ul><li><b>Code</b> : code de  paye de la base dématérialisée.</li>"
@@ -1425,7 +1427,7 @@ extraPage::extraPage()
                                       "fichier et dans toute les bases de paye produites par<br>"
                                       "l'extracteur de données.<br>"
                                       "Le fichier importé doit être de type CSV à séparateur<br>"
-                                      "point-virgule et encodé en Latin-1 ou Windows-1252.<br>"
+                                      "point-virgule et encodé en UTF-8.<br>"
                                       "Il doit comporter une ligne d'intitulés de colonnes.<br>"
                                       "La première colonne est intitulée <b>Grade</b> et la seconde <br>"
                                       "<b>Categorie</b>.<br>"
@@ -1555,7 +1557,7 @@ extraPage::extraPage()
 #endif
 
     mainLayout->addSpacing (250);
-                
+
     setLayout (mainLayout);
 }
 
@@ -1590,6 +1592,14 @@ void extraPage::do_copies()
             
             ++i;
         }
+}
+
+void extraPage::substituer_valeurs_dans_script_R()
+{
+    QString file_str = common::readFile (prologue_options_path);
+    substituer("\"paye.budget.existe\" *%a% *\\w{4,5}", QString("\"paye.budget.existe\" %a% ")
+               + (budgetCheckBox ->isChecked() ? "TRUE" : "FALSE"), file_str);
+    renommer (dump (file_str), prologue_options_path);
 }
 
 options::options (Altair* parent)
@@ -1655,6 +1665,7 @@ options::options (Altair* parent)
                     parent->updateProject (update::saveProject | update::noWarnRExport);
 
                     extraTab->do_copies();
+                    extraTab->substituer_valeurs_dans_script_R();
 
                 });
 

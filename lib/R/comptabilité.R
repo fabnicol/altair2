@@ -25,7 +25,7 @@ calculer_indice_complexité <- function() {
     } else {
       
       cat("L'appariement peut être tenté avec **Code, Libelle, Type**, mais les résultats différeront de ", 100 - q , "% de la comptabilité administrative.  \n")
-      multiplicité[m == 1][ , c(m, Statut2) := NULL]
+      multiplicité[m == 1][ , c("m", "Statut2") := NULL]
     }
   }
 }
@@ -114,9 +114,9 @@ correspondance_paye_budget <- function() {
 
  essayer(label ="+comptabilité",
  {  
-  "paye.budget.existe" %a%  file.exists(chemin("paye_budget.csv"))  
+    "paye.budget.existe" %a%  file.exists(chemin("paye_budget.csv"))  
   
-  vect <- c("Code", "Libelle", "Statut", "Type")
+    vect <- c("Code", "Libelle", "Statut", "Type")
   
  
     code.libelle <- fread(chemin("paye_budget.csv"), # Code, Libelle,  Statut, Type, Compte
