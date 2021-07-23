@@ -81,9 +81,9 @@ generer_rapport <- function(type = "latex") {
     "chemin.dossier.bases"   %a% file.path(chemin.cle, "Bases")
 	
 	if (setOSWindows) {
-        "chemin.dossier.donnees" %a% file.path(chemin.cle, "..", "xhl", ifelse(user == "fab", "", user))
+	    "chemin.dossier.donnees" %a% file.path(chemin.cle, "..", "xhl")       
 	} else {
-	    "chemin.dossier.donnees" %a% file.path(chemin.cle, "..", "xhl")
+		"chemin.dossier.donnees" %a% file.path(chemin.cle, "..", "xhl", ifelse(user == "fab", "", user))
 	}
 	
     "chemin.dossier.docs"    %a% file.path(chemin.cle, "Docs")
