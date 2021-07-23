@@ -79,7 +79,13 @@ generer_rapport <- function(type = "latex") {
     # il faut exporter tous ces chemins dans l'environnement global
 
     "chemin.dossier.bases"   %a% file.path(chemin.cle, "Bases")
-    "chemin.dossier.donnees" %a% file.path(chemin.cle, "..", "xhl", ifelse(user == "fab", "", user))
+	
+	if (setOSWindows) {
+        "chemin.dossier.donnees" %a% file.path(chemin.cle, "..", "xhl", ifelse(user == "fab", "", user))
+	} else {
+	    "chemin.dossier.donnees" %a% file.path(chemin.cle, "..", "xhl")
+	}
+	
     "chemin.dossier.docs"    %a% file.path(chemin.cle, "Docs")
 
     if (basename(chemin.cle) == basename(racine)) {
