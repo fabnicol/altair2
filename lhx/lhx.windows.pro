@@ -162,12 +162,12 @@ QMAKE_CXXFLAGS += -march=core-avx2 -Wextra
 # Sous linux penser à installer libxml2-dev. Ceci n'est pas testé.
 
 INCLUDEPATH += ../Interface/gui ../fwidgets_lib
-windows:INCLUDEPATH += C:/msys64/mingw64/include/libxml2
+windows:INCLUDEPATH += C:/Users/Public/Dev/altair_SDK/mingw64/include/libxml2
 linux:INCLUDEPATH += /usr/include/libxml2
 
 linux:QMAKE_LFLAGS += -L/usr/lib/x86_64-linux-gnu/ -L/usr/lib/ -L/usr/lib64
 
-windows:LIBS =   -lstdc++fs -static-libgcc -static-libstdc++ -pthread C:\msys64\mingw64\lib\libxml2.dll.a C:\msys64\mingw64\lib\libxml2.a   -lz -llzma -liconv -LC:\msys64\mingw64\bin -LC:\msys64\mingw64\lib
+windows:LIBS =   -lstdc++fs -static-libgcc -static-libstdc++ -pthread "C:\Users\Public\Dev\altair_SDK\mingw64\lib\libxml2.dll.a" "C:\Users\Public\Dev\altair_SDK\mingw64\lib\libxml2.a"   -lz -llzma -liconv -LC:/Users/Public/Dev/altair_SDK/msys64/mingw64/bin -LC:/Users/Public/Dev/altair_SDK/msys64/mingw64/lib
 linux:LIBS =   -lstdc++fs -static-libgcc -static-libstdc++ -pthread  /usr/lib/x86_64-linux-gnu/libxml2.a   -lz -llzma -licuuc#-liconv
 
 SOURCES += \
