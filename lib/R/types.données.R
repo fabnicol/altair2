@@ -93,6 +93,7 @@ répartition.budgétaire <- if (intégrer.rep.budget) c("character", "numeric", 
 
 
 "trans" %a% data.table(t(matrix( c("I",  "Indemnité",
+                                "AC", "Acompte",
                                 "R" , "Rappels",
                                 "IR", "Indemnité de résidence",
                                 "T" , "Traitement",
