@@ -291,10 +291,10 @@ private :
 
     void createToolBars();
 
-    std::vector<std::string> extraire_donnees_protegees (const std::string& st);
+    QByteArray extraire_donnees_protegees (const QByteArray& st);
 
     /// Nettoie les données de paye.
-    /// \param st Fichier de paye converti en vecteur de caractères non signés.
+    /// \param st Fichier de paye converti en tableay d'octets.
     /// \return vecteur de caractères non signés.
     /// \note Essaie de repérer les séquences html qui sont illicites sous libxml2 : \code &accute; \endcode par exemple. \n
     /// Elimine les caractères non imprimables, sauf les voyelles accentuées, et les remplace par une espace.
