@@ -1,4 +1,15 @@
 Bugs
 ----
 
-   
+24/07/2021  Bug identifié dans l'interface :
+               - pour les XML encodés en Latin-1 seulement
+               - ET lorsque des caractères accentués sont présents
+               - la fonctionnalité d'anonymisation produit des output inadéquats pour ces caractères en sortie.
+            Contounement provisioire :
+               - convertir en UTF-8
+               - anonymiser
+               - convertir en Latin-1
+               
+            Fichier concerné : mainwindow.cpp:~900
+            Sévérité : moyenne.
+            Idée : parser l'entête pour déterminer l'encodage.
