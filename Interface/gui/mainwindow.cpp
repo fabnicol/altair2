@@ -462,10 +462,13 @@ void MainWindow::createActions()
     exitAction->setShortcut (QKeySequence ("Ctrl+Q"));
     connect (exitAction, &QAction::triggered,  [this] {
 
-     QMessageBox::StandardButton res = QMessageBox::warning(this,
-                                                            "Protection de la confidentialité des données",
-                                                            QString("Nettoyage des <b>Données</b> du répertoire <br>") + altair->userdatadir + "<br>Attention, toutes les données de ce répertoire seront effacées.<br>Appuyer sur <b>Non</b> pour annuler ce nettoyage ou sur <b>Ignorer</b> pour ne pas fermer l'application.",
-                                                            QMessageBox::No | QMessageBox::Ignore | QMessageBox::Ok);
+     QMessageBox::StandardButton
+             res = QMessageBox::warning(this,
+                     "Protection de la confidentialité des données",
+                     QString("Nettoyage des <b>Données</b> du répertoire <br>")
+                             + altair->userdatadir +
+                               "<br>Attention, toutes les données de ce répertoire seront effacées.<br>Appuyer sur <b>Non</b> pour annuler ce nettoyage ou sur <b>Ignorer</b> pour ne pas fermer l'application.",
+                              QMessageBox::No | QMessageBox::Ignore | QMessageBox::Ok);
      switch (res)
      {
        case  QMessageBox::Ok :
@@ -569,12 +572,12 @@ void MainWindow::resetTableCheckBox()
     if (dialog) dialog->standardTab->tableCheckBox->setChecked (true);
 }
 
-vector<string> MainWindow::extraire_donnees_protegees (const string& st)
+QByteArray MainWindow::extraire_donnees_protegees (const QByteArray& st)
 {
-    vector<string> out;
+    QByteArray out;
     const size_t taille = st.size();
-    out.reserve (static_cast<size_t>(taille / 5));
-    string::const_iterator iter = st.begin();
+    out.reserve(static_cast<size_t>(taille / 5));
+    QByteArray::const_iterator iter = st.begin();
 
     size_t i = 0;
     const size_t pas = taille / 20;
@@ -582,13 +585,16 @@ vector<string> MainWindow::extraire_donnees_protegees (const string& st)
 
     while (*iter != '<' && ++iter != st.end()) continue;
 
+    out.push_back('<');
+
     if (* (iter + 1) == '?')
         {
-            string::const_iterator iter1 = iter;
-
-            while (++iter != st.end() && *iter != '>') continue;
-
-            out.emplace_back (string (iter1, iter + 1) + "\n");
+            while (++iter != st.end())
+            {
+                out.push_back(*iter);
+                if (*iter == '>') break;
+            }
+            out.push_back('\n');
         }
 
 start:
@@ -600,24 +606,23 @@ start:
                 {
                     ++i;
                     ++k;
-                    continue;
-                };
+                }
 
             if (iter == st.end()) break;
 
+            out.push_back ('<');
+
             if (* (iter + 1) == '/') /* </TAG>  */
                 {
-                    string::const_iterator iter1 = iter;
-
-                    while (++iter != st.end() && *iter != '>')
+                    while (++iter != st.end() )
                         {
                             ++i;
                             ++k;
-                            continue;
+                            out.push_back (*iter);
+                            if (*iter == '>') break;
                         };
 
-                    out.emplace_back (string (iter1, iter + 1) + "\n");
-
+                    out.push_back('\n');
                     continue;
                 }
 
@@ -630,26 +635,34 @@ start:
                     k = 0;
                 }
 
-            string::const_iterator iter1 = iter;
-            string tag;
+            QByteArray tag;
 
             while (++iter != st.end())
                 {
                     ++i;
                     ++k;
 
-                    if (*iter == ' ')  /* <TAG ...> */
+                    if (*iter == ' '  /* <TAG ...> */
+                         || *iter == '>')  /* <TAG> */
                         {
-                            tag = string (iter1 + 1, iter);
                             break;
                         }
-
-                    if (*iter == '>')  /* <TAG> */
-                        {
-                            out.emplace_back ("<" + string (iter1 + 1, iter) + ">\n");
-                            goto start;
-                        }
+                   tag.push_back(*iter);
                 }
+
+            out.push_back(tag);
+
+            if (*iter == '>')
+            {
+                out.push_back(">\n");
+                ++iter;
+                goto start;
+            }
+            else
+            if (*iter == ' ')
+            {
+                out.push_back(' ');
+            }
 
             if (iter == st.end()) break;
 
@@ -662,45 +675,37 @@ start:
                         {
                             while (++iter != st.end() && *iter == ' ')
                                 {
-                                    ++ i;
+                                    ++i;
                                     ++k;
-                                    continue;
-                                };
+                                }
 
                             if (*iter == '=')
                                 {
-                                    break; /*<TAG  V  =... /> */
+                                   break; /*<TAG  V  =... /> */
                                 }
-                            else continue; /*<TAG  x ... /> */
+                            else
+                                continue; /*<TAG  x ... /> */
                         }
-                    else /* <TAG> */ /*<TAG  x... /> */
-                        if (*iter == '>')
-                            {
-                                out.emplace_back (string (iter1, iter + 1) + "\n");
-                                ++iter;
-                                ++i;
-                                ++k;
-                                goto start;
-                            }
-                        else   /*<TAG  x... /> */
-                            continue;
+                    else /* <TAG  x... /> */
+                    if (*iter == '>')
+                        {
+                            out.push_back (">\n");
+                            ++iter;
+                            ++i;
+                            ++k;
+                            goto start;
+                        }
+                    else   /*<TAG  x... /> */
+                    {
+                      out.push_back(*iter);
+                    }
                 }
 
             if (iter == st.end()) break;
 
             /*<TAG  V  =... /> */
 
-            while (++iter != st.end())
-                {
-                    ++i;
-                    ++k;
-
-                    if (*iter == '\"') break;
-                }
-
-            if (iter == st.end()) break;
-
-            iter1 = iter;
+            QByteArray value;
 
             while (++iter != st.end())
                 {
@@ -712,24 +717,34 @@ start:
 
             if (iter == st.end()) break;
 
-            string value = string (iter1 + 1, iter);
-            auto iter2 = iter;
+            while (++iter != st.end())
+                {
+                    ++i;
+                    ++k;
+                    if (*iter == '\"') break;
+                    value.push_back(*iter);
+                }
+
+            if (iter == st.end()) break;
+
+            QByteArray reste;
 
             while (++iter != st.end())
                 {
                     ++i;
                     ++k;
+
+                    reste.push_back(*iter);
 
                     if (*iter == '>') break;
                 }
 
             if (iter == st.end()) break;
 
-            string reste = string (iter2 + 1, iter + 1);
-
-            const array<string, 19> Tags =
+            const array<QByteArray, 20> Tags =
             {
                 "Civilite",
+                "ComplNom",
                 "Nom",
                 "Prenom",
                 "Adr1",
@@ -750,27 +765,28 @@ start:
                 "NIR"
             };
 
-            for (const string& t : Tags)
+            for (auto &&t : Tags)
                 {
                     if (tag == t)
                         {
-                            const string& remplacement = tag == "NIR" ? "<NIR  V = \"" + value.substr (0, 5) + "Z\"" + reste + "\n"
-                                                                      : (tag != "Service" ? "<" + tag + " V = \"Z\"" + reste + "\n" 
-                                                                                          : (value.substr(0, 3) != "ELU" ? "<" + tag + " V = \"Z\"" + reste + "\n" 
-                                                                                                                         : "<" + tag + " V = \"ELU\"" + reste + "\n"));
+                            const QByteArray& remplacement =
+                                    tag == "NIR" ? "V = \"" + value.mid (0, 5) + "Z\"" + reste + "\n"
+                                                                      :
+                                    (tag != "Service" ? "V = \"Z\"" + reste + "\n"
+                                                                      :
+                                    (value.mid(0, 3) != "ELU" ? "V = \"Z\"" + reste + "\n"
+                                                                      :
+                                                                "V = \"ELU\"" + reste + "\n"));
 
-                            out.emplace_back (remplacement);
-
+                            out.push_back (remplacement);
                             ++iter;
                             ++i;
                             ++k;
-
                             goto start;
                         }
                 }
 
-            out.emplace_back ("<" + tag + " V = \"" + value + "\"" + reste + "\n");
-
+            out.push_back ("V = \"" + value + "\"" + reste + "\n");
         }
 
     return (out);
@@ -780,20 +796,18 @@ void MainWindow::launch_process (const QString& path)
 {
     QFile xml (path);
 
-    std::string xml_out (path.toStdString() + ".new");
-    std::ofstream out;
+    QString xml_out (path + ".new");
+    QFile out(xml_out);
 
     if (!xml.open (QIODevice::ReadOnly | QIODevice::Text))
         {
-            Q ("Erreur de lancement du processus")
+            Q ("Erreur de lancement du processus (ouverture du fichier entrée)")
             return;
         }
 
-    out.open (xml_out, std::ofstream::out | std::ofstream::trunc);
-
-    if (! out.is_open())
+    if (! out.open (QIODevice::WriteOnly))
         {
-            Q ("Erreur de lancement du processus")
+            Q ("Erreur de lancement du processus (ouverture du fchier sortie)")
             return;
         }
 
@@ -801,7 +815,7 @@ void MainWindow::launch_process (const QString& path)
     emit (altair->showProgressBar());
     emit (altair->setProgressBar (0));
     altair->outputTextEdit->repaint();
-    QString xml_mod = QString (xml.readAll());
+    QByteArray xml_mod = xml.readAll();
 
     altair->textAppend (PROCESSING_HTML_TAG "Remplacement des informations protégées. Patientez...");
     altair->outputTextEdit->repaint();
@@ -810,18 +824,19 @@ void MainWindow::launch_process (const QString& path)
 
     emit (altair->setProgressBar (0, bar_range));
 
-    const vector<string>& v = extraire_donnees_protegees (xml_mod.toStdString());
+    const QByteArray& v = extraire_donnees_protegees (xml_mod);
 
-    for (const string &s : v)
-        out << s;
+    if (out.write(v) == -1)
+    {
+        altair->textAppend (ERROR_HTML_TAG  "Anonymisation de " + path + " : erreur d'écriture en sortie de fichier.");
+    }
 
     out.close();
 
     emit (altair->setProgressBar (0));
-
     xml.close();
     xml.remove();
-    rename (xml_out.c_str(), path.toStdString().c_str());
+    out.rename(path);
 
     altair->textAppend (PROCESSING_HTML_TAG  "Anonymisation de " + path + " terminée.");
     altair->outputTextEdit->repaint();
@@ -839,7 +854,7 @@ const vector <unsigned char>  MainWindow::nettoyer_donnees (vector <unsigned cha
     const size_t taille = st.size();
 
     // Découper le fichier en 5
-    out.reserve ( taille / 5);
+    out.reserve (taille / 5);
     vector <unsigned char>::const_iterator iter = st.begin();
     vector <unsigned char>::const_iterator iter2;
     size_t i = 0;
