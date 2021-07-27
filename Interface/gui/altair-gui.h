@@ -299,7 +299,7 @@ private :
     /// \note Essaie de repérer les séquences html qui sont illicites sous libxml2 : \code &accute; \endcode par exemple. \n
     /// Elimine les caractères non imprimables, sauf les voyelles accentuées, et les remplace par une espace.
 
-    const std::vector <unsigned char>  nettoyer_donnees (std::vector <unsigned char>& st);
+    const std::vector <uint8_t>  nettoyer_donnees (std::vector <uint8_t>& st);
 
 private slots:
 

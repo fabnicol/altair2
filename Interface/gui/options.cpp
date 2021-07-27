@@ -148,9 +148,14 @@ codePage::codePage()
 
     connect(codesFrame, SIGNAL(textChanged(const QString &)), this, SLOT(importCodesCSV(const QString& )));
 
-    const QString& chemin_table_code_libelle = path_access(QString(DONNEES_SORTIE) + QDir::separator() + "Bases" + QDir::separator() + "Fiabilite" +QDir::separator() + "code.libelle.short.csv");
+    const QString& chemin_table_code_libelle
+            = path_access(QString(DONNEES_SORTIE)
+              + QDir::separator() + "Bases" + QDir::separator() + "Fiabilite"
+              + QDir::separator() + "code.libelle.short.csv");
 
-    codesLibellesFrame = new FLineFrame ({"Ouvrir la table des correspondances Codes-Libellés après génération du rapport", "Chemin de la table Codes-Libellés générée par le logiciel :"},
+    codesLibellesFrame = new FLineFrame (
+                                  {"Ouvrir la table des correspondances Codes-Libellés après génération du rapport",
+                                   "Chemin de la table Codes-Libellés générée par le logiciel :"},
                                    QDir::toNativeSeparators (chemin_table_code_libelle),
                                    "codesLibellesAltair",
                                    {2, 2},
@@ -208,7 +213,8 @@ codePage::codePage()
 
     connect (appliquerCodes, SIGNAL (clicked()), this, SLOT (substituer_valeurs_dans_script_R()));
 
-    // A chaque fois qu'une ligne est éditée à la main, réinitialiser l'état d'exportation (bouton et fichier prologue_codes.R à partir de prologue_init.R)
+    // A chaque fois qu'une ligne est éditée à la main,
+    // réinitialiser l'état d'exportation (bouton et fichier prologue_codes.R à partir de prologue_init.R)
 
     for (FLineEdit *a : listeCodes)
         {
@@ -230,8 +236,6 @@ codePage::codePage()
 /***********************************************************************************************************************/
 /* Les lignes de codes ci-après Copyright privé Fabrice Nicol septembre 2020, sous licence identique au reste du code. */
 /* Jusqu'à la ligne indiquée plus loin. */
-
-
 
 bool codePage::importCodesCSV(const QString& path)
 {
@@ -294,9 +298,9 @@ bool codePage::importCodesCSV(const QString& path)
         }
         else
         {
-            Warning("Attention", "Le fichier CSV doit contenir, dans l'ordre, les variables suivantes en colonnes : "
-                    + variables.join("<br>")
-                    );
+            Warning("Attention",
+                    "Le fichier CSV doit contenir, dans l'ordre, les variables suivantes en colonnes : "
+                    + variables.join("<br>"));
 
             return false;
         }
@@ -684,7 +688,8 @@ rapportPage::rapportPage()
     
     for (int i = 0; i < listeCB.size(); ++i) connect( listeCB[i], &QCheckBox::toggled, [this, i] { ajusterDependances(i); });
 
-    // A chaque fois qu'une case est éditée à la main, réinitialiser l'état d'exportation (bouton et fichier prologue_codes.R à partir de prologue_init.R)
+    // A chaque fois qu'une case est éditée à la main,
+    // réinitialiser l'état d'exportation (bouton et fichier prologue_codes.R à partir de prologue_init.R)
 
     for (FCheckBox *a : listeCB)
         {
@@ -761,8 +766,10 @@ void rapportPage::message(int r, QIcon& icon, bool paire)
     t.remove(" ");
     if (paire) t2.remove(" ");
                 
-    res = substituer ("\"script_" + t + "\" *%a% *\\w{4,5}", "\"script_" + t + "\" %a% " + (value ? "TRUE" : "FALSE"), file_str);
-    if (paire) res2 = substituer ("script_" + t2 + " *%a% *\\w{4,5}", "script_" + t2 + " %a% " + (value2 ? "TRUE" : "FALSE"), file_str);
+    res = substituer ("\"script_" + t + "\" *%a% *\\w{4,5}", "\"script_" + t
+                      + "\" %a% " + (value ? "TRUE" : "FALSE"), file_str);
+    if (paire) res2 = substituer ("script_" + t2 + " *%a% *\\w{4,5}", "script_" + t2
+                                  + " %a% " + (value2 ? "TRUE" : "FALSE"), file_str);
     
     if (value) 
     {
@@ -890,7 +897,6 @@ standardPage::standardPage()
                                   {"Données csv", "Pas de BOM UTF-8 pour les exports CSV"},       // Présentation du gestionnaire de projets
                                   "sans-bom");                                      // Ligne de commande --sans-bom si cochée
 
-
     bomCheckBox ->setToolTip(tr("Cocher cette case pour supprimer le marquage BOM de l'encodage UTF-8\ndes fichiers CSV exportés. Utile seulement en cas de visualisation sous certains éditeurs.\nExcel et Calc ne nécessitent pas cette option."));
     QList<QString> exportRange = QList<QString>();
     exportRange << "Standard" << "Cumulative" << "Distributive" << "Distributive+";
@@ -919,7 +925,6 @@ standardPage::standardPage()
                                   "Cumulative : A chaque contrôle, les bases s'empilent\n\tà la fin des bases précédemment exportées.\n"
                                   "Distributive : A chaque contrôle, un sous répertoire est créé\n\tsur la clé du nom de chaque dossier\n\timporté du répertoire Données.\n"
                                   "Distributive+ : Exportation Distributive et Cumulative activées.\n"));
-
 
     QGridLayout *v1Layout = new QGridLayout,
     *v2Layout = new QGridLayout,
@@ -1302,7 +1307,6 @@ processPage::processPage()
     }
 
 }
-
 
 void processPage::substituer_valeurs_dans_script_R()
 {

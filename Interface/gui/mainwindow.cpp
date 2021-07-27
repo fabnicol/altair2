@@ -655,7 +655,6 @@ start:
             if (*iter == '>')
             {
                 out.push_back(">\n");
-                ++iter;
                 goto start;
             }
             else
@@ -848,26 +847,28 @@ void MainWindow::launch_process (const QString& path)
     altair->updateProject (update::saveProject | update::noWarnRExport);
 }
 
-const vector <unsigned char>  MainWindow::nettoyer_donnees (vector <unsigned char>& st)
+const vector <uint8_t>  MainWindow::nettoyer_donnees (vector <uint8_t>& st)
 {
-    vector <unsigned char> out;
+    vector <uint8_t> out;
     const size_t taille = st.size();
 
     // Découper le fichier en 5
     out.reserve (taille / 5);
-    vector <unsigned char>::const_iterator iter = st.begin();
-    vector <unsigned char>::const_iterator iter2;
+    vector <uint8_t>::const_iterator iter = st.begin();
+    vector <uint8_t>::const_iterator iter2;
     size_t i = 0;
     size_t k = 0;
 
     // Découper le fichier en pas de 1/20 ème de la taille
     const size_t pas = taille / 20;
     bool quote = false; // drapeau d'indentification d'une chaine
+    bool is_open_tag = true;
 
 loop :
 
     while (iter != st.end())
         {
+
             switch (*iter)
                 {
                 case  0x22 :    // Repérer "
@@ -914,79 +915,82 @@ loop :
                     continue;
 
                 case 0x3e :  //  Repérer fin balise '>'
-                    if (quote)
+
+                    if (quote) // C'est un '>' cité, qui n'est pas une ouverture de tag
                         {
                             out.push_back (0x3e);
+
                             ++iter;
                             break;
                         }
 
+                    is_open_tag = false;
                     out.push_back (0x3e);
                     out.push_back ('\n');
 
-                    while (*++iter != 0x3c  //  '<'
-                            && iter != st.end())  ;
+                    while (*++iter != 0x3c  //  Repérer '<'
+                            && iter != st.end())  {}
 
+                    is_open_tag = true;
+                    break;
+
+                case 0x0A : // Saut de ligne interne aux tags, sauter car provoque des fails.
+                    if (is_open_tag)
+                    {
+                        ++iter;
+                        break;
+                    }
+                    ++iter;
+                    out.push_back (0x0A);
                     break;
 
                 default :
 
                     // Cas général
-                    // Empiler tous les caractères imprimables
-                    // La locale au sens de C++ est principe "C" même si la locate Qt est différente
-                    // Donc isprint est false sur l'étendue des caractères accentués
-                    if (isprint (*iter)) out.emplace_back (*iter);
+                    // Empiler tous les caractères imprimables **et** non potentiellement problématiques
+
+                    if (*iter >= 0x1F && *iter < 0x7F)   // ASCII non-control range
+                        out.emplace_back (*iter);
                     else
-                        switch (*iter)
+                        if (*iter >= 0xC0)
+                        {
+                            // Pour les caractères non ASCII, avec diacritiques, <= 0xFF par construction.
+                            // ISO-8859-1
+                            //      0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15
+                            // Cx 	À 	Á 	Â 	Ã 	Ä 	Å 	Æ 	Ç 	È 	É 	Ê 	Ë 	Ì 	Í 	Î 	Ï
+                            // Dx 	Ð 	Ñ 	Ò 	Ó 	Ô 	Õ 	Ö 	× 	Ø 	Ù 	Ú 	Û 	Ü 	Ý 	Þ 	ß
+                            // Ex 	à 	á 	â 	ã 	ä 	å 	æ 	ç 	è 	é 	ê 	ë 	ì 	í 	î 	ï
+                            // Fx 	ð 	ñ 	ò 	ó 	ô 	õ 	ö 	÷ 	ø 	ù 	ú 	û 	ü 	ý 	þ 	ÿ
+
+                            if (*iter != 0xC3)
                             {
-                            // Pour les caractères non
-                            // Latin-1
-                            case 0xe8 : // è
-                            case 0xe9 : // é
-                            case 0xea : // ê
-                            case 0xc8 : // E accent aigu
-                            case 0xc9 : // E accent grave
-                            case 0xca : // E accent circ
-                            case 0xee : // î
-                            case 0xce : // I accent circ
-                            case 0xd4 :  // ô
-                            case 0xf4 :  // O accent circ
                                 out.emplace_back (*iter); // Empiler les caractères accentués (1 octet en Latin-1)
-                                break;
-
-                            // UTF-8
-                            case 0xc3 :
-                                switch (* (iter + 1))
-                                    {
-                                    case 0xa8 : // è
-                                    case 0xa9 : // é
-                                    case 0xaa : // ê
-                                    case 0x88 : // E accent aigu
-                                    case 0x89 : // E accent grave
-                                    case 0x8a : // E accent circ
-                                    case 0xae : // î
-                                    case 0x8e : // I accent circ
-                                    case 0xb4 :  // ô
-                                    case 0x94 :  // O accent circ
-                                        out.emplace_back (*iter);
-                                        out.emplace_back (*++iter); // Empiler les caractères accentués (2 octets en UTF-8)
-                                        break;
-
-                                    default :
-                                        break;
-                                    }
-
-                                break;
-
-                            default :
-                                out.push_back (0x20); // Sinon par défaut remplacer par une espace tout caractère non imprimable non accentué (SP ' ')
-                                break;
-
                             }
+                            else
+                            {
+                                // UTF-8. Ã va être excessivement rare, sinon inexistante dans les bases.
+                                // On part donc du principe que l'occurrence de 0xC3 sert à encoder un fichier UTF-8
+                                // et non pas le caractère Ã suivi d'une lettre Latin-1.
+
+                                if (*(iter + 1) >= 0x80 && *(iter + 1) <= 0xBF)
+                                {
+                                    out.emplace_back (*iter);   // 0xC3
+                                    out.emplace_back (*++iter); // Empiler les caractères accentués (2 octets en UTF-8)
+                                }
+                                else
+                                {
+                                    out.push_back (0x20); // Sinon par défaut remplacer par une espace tout caractère nettoyé (SP ' ')
+                                }
+                            }
+                        }
+                        else
+                        {
+                            out.push_back (0x20); // Sinon par défaut remplacer par une espace tout caractère nettoyé (SP ' ')
+                        }
 
                     ++iter;
                     break;
-                }
+               }
 
             ++i;
             ++k;
@@ -1031,7 +1035,7 @@ void MainWindow::clean_process (const QString& path)
     emit (altair->setProgressBar (0));
     altair->outputTextEdit->repaint();
 
-    vector <unsigned char> xml_mod;
+    vector <uint8_t> xml_mod;
     long bar_range = (long) common::getFileSize (path);
     xml_mod.reserve (bar_range);
     xml_mod.insert (
@@ -1042,9 +1046,11 @@ void MainWindow::clean_process (const QString& path)
     altair->outputTextEdit->repaint();
 
     emit (altair->setProgressBar (0, bar_range));
+    altair->textAppend (PROCESSING_HTML_TAG + tr ("Longueur du fichier: ") + QString::number(xml_mod.size()));
 
-    for (unsigned char c : nettoyer_donnees (xml_mod))
-        out << std::move (c);
+    const vector<uint8_t>& res = nettoyer_donnees(xml_mod);
+
+    out.write((char*) res.data(), res.size());
 
     out.close();
 
