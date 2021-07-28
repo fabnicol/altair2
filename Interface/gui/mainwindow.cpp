@@ -874,6 +874,7 @@ loop :
                 case  0x22 :    // Repérer "
                     quote = ! quote; // On a identifié un "
                     out.push_back (0x22); // L'empiler
+                    if (! quote) out.push_back(' '); // Eviter les champs collés
                     ++iter;
                     break;
 
