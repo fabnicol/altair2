@@ -21,7 +21,7 @@ if (linux) {
 
 
 GIT_VERSION = $$system(git --version | grep -e \"git version\")
-CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[5-9].[0-9]')
+CXX_VERSION = $$system($$QMAKE_CXX --version | grep -e '[1-9].[0-9]')
 
 if (!isEmpty(GIT_VERSION)) {
     message( "Version de git : $$GIT_VERSION" )

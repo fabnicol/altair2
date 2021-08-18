@@ -18,7 +18,7 @@ if (Evenements[1] == "") Evenements <- Evenements[-1]
 Evenements <- data.table(Evenements = Evenements)
 
 if (afficher.table.événements) {
-  kable(Evenements)
+  kable(Evenements, format = "simple")
 }
 
 Evenements.ind <- setkey(Bulletins.paie[Evenement != "" & Evenement != "NA NA", 
@@ -99,7 +99,7 @@ code.libelle <- remplacer_type(code.libelle)
 setcolorder(code.libelle, c("Code", "Libelle", "Statut", "Type", "Compte"))
 
 if (afficher.table.codes) {
-  kable(code.libelle, align="c")
+  kable(code.libelle, align="c", format = "simple")
 }
 
 # Plusieurs libellés par code
@@ -141,32 +141,6 @@ conditionnel("Plusieurs codes par libellé", "Bases/Fiabilite/plusieurs_codes_pa
 conditionnel("Plusieurs types de ligne par code", "Bases/Fiabilite/plusieurs_types_par_code.csv")   
 conditionnel("Plusieurs types de ligne par libellé", "Bases/Fiabilite/plusieurs_types_par_libelle.csv")   
 #'   
-#'  
-#'## Doublons                
-#'
-
-if (éliminer.duplications) {
-  if (après.redressement != avant.redressement) {
-    
-    cat("Retraitement de la base de lignes de paie : ")
-    
-  } else {
-    cat("Aucune duplication de ligne de paie n'a été détectée. ")
-  }
-  
-} else {
-  
-  if (anyDuplicated(Paie) || anyDuplicated(Bulletins.paie)) {
-    cat("Attention : Altaïr a détecté des lignes dupliquées alors qu'aucun retraitement des lignes dupliquées n'est prévu par défaut.")
-  } else {
-    cat("Aucune duplication de ligne n'a été détectée. ")
-  }
-}
-
-#'  
-if (après.redressement != avant.redressement)
-  cat("Elimination de ", FR(avant.redressement - après.redressement), " lignes dupliquées")
-#'  
 #'## Fiabilite des heures et des quotités de travail           
 #'   
 
@@ -188,13 +162,15 @@ if (redresser.heures) {
     if (test.temps.complet) {
       cat("La méthode des quotités ne s'applique pas aux élus, vacataires et assistantes maternelles détectés. \n")
       cat("Pour les autres agents, si la quotité de temps de travail est non nulle, la méthode redresse le nombre d'heures réalisées à partir du nombre d'heures normal à temps plein lorsqu'une quotité de temps de travail est aussi indiquée.\n")
+      cat("La médiane du nombre d'heures accomplies par les agents à temps complet est retenue comme dénominateur pour le calcul des ETPT. Voir notice méthodologique:")
+      conditionnel("Compléments méthodologiques", "Docs/méthodologie.pdf")         
     }
   }
 } else {
   cat("Les heures de travail n'ont pas été redressées.")
 }
 #'    
-cat(" Nombre de bulletins de paie redressés :", FR(nredressements)) 
+cat(" Nombre de bulletins de paie redressés pour le calcul de la quotité de travail :", FR(nredressements)) 
 #'    
 cat(" Pourcentage de redressements :", round((nredressements)/nrow.bull*100, 2), "% des bulletins de paie.")
 #'  
@@ -243,7 +219,7 @@ conditionnel("Lien vers la base de données des salaires versés à quotité ind
 #'   
 
 if (afficher.table.effectifs) {
-  kable(grades.categories, row.names = FALSE) 
+  kable(grades.categories, row.names = FALSE, format = "simple") 
 } 
 
 sauv.bases("Effectifs",

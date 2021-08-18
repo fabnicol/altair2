@@ -1294,8 +1294,10 @@ void MainWindow::saveProjectAs (const QString &newstr)
 
     if (QFileInfo (newstr).isFile())
         {
-            QMessageBox::StandardButton result = QMessageBox::warning (nullptr, "Ecraser le fichier ?", "Le projet " + newstr + " va être écrasé.\nAppuyer sur Oui pour confirmer.",
-                                                 QMessageBox::Ok | QMessageBox::Cancel);
+            QMessageBox::StandardButton result = QMessageBox::warning (nullptr,
+                                                                       "Ecraser le fichier ?",
+                                                                       "Le projet " + newstr + " va être écrasé.\nAppuyer sur Oui pour confirmer.",
+                                                                       QMessageBox::Ok | QMessageBox::Cancel);
 
 
             if (result != QMessageBox::Ok)
@@ -2100,7 +2102,11 @@ void MainWindow::feedLHXConsoleWithHtml()
 {
     altair->readRankSignal();
 
+#ifdef Q_OS_LINUX
     QString buffer = QString::fromUtf8 (altair->process.readAllStandardOutput());
+#else // Windows
+    QString buffer = QString::fromLatin1(altair->process.readAllStandardOutput());
+#endif
 
     consoleDialog->insertHtml (buffer);
     ++consoleCounter;
@@ -2110,7 +2116,11 @@ void MainWindow::feedLHXConsoleWithHtml()
 
 void MainWindow::feedRConsoleWithHtml()
 {
+#ifdef Q_OS_LINUX
                 QString buffer = QString::fromUtf8 (altair->process.readAll());
+#else
+                QString buffer = QString::fromLatin1(altair->process.readAll());
+#endif
                 if (altair->fileRank > 100) altair->fileRank = 5;
                 else if (altair->fileRank > 25) ++altair->fileRank;
                 else

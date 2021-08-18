@@ -1244,17 +1244,20 @@ processPage::processPage()
 
 
     QLabel* rapportTypeLabel = new QLabel ("Type de rapport produit par défaut  ");
-    rapportTypeWidget = new FComboBox ({"WORD, ODT et PDF", "WORD et ODT", "PDF", "Pas de rapport (Bases seules)"},
+    rapportTypeWidget = new FComboBox ({"WORD, ODT et PDF", "WORD et ODT", "PDF", "HTML", "Pas de rapport (Bases seules)"},
                                        "rapportType",
                                         {
                                             "Enchaînements",
                                             "Type de rapport"
                                         });
 
-    rapportTypeWidget ->setToolTip (tr ("Sélectionner le type de rapport produit \nen cas d'enchaînement automatique extraction-rapport :\n"
+    rapportTypeWidget ->setToolTip (tr ("Sélectionner le type de rapport produit \n"
+                                        "en cas d'enchaînement automatique extraction-rapport :\n"
                                         "MS Word .docx et LibreOffice .odt\n"
                                         "Adobe .pdf ou les trois formats "
-                                        "en même temps"));
+                                        "en même temps"
+                                        "HTML est proposé sans combinaison possible \n"
+                                        "avec d'autres formats"));
 
     enchainerRapports = new FCheckBox ("Enchaîner extraction et analyse",
                                        flags::status::enabledChecked | flags::commandLineType::noCommandLine,

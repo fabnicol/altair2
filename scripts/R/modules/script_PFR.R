@@ -106,7 +106,7 @@ if (length(dépassements.PFR.boolean) > 0)
 if (nrow(dépassements.PFR.plafonds) > 0) {
   
   cat("\nLes plafonds annuels de la PFR sont dépassés pour ", nrow(dépassements.PFR.plafonds), " cumuls annuels.\n")
-  kable(dépassements.PFR.plafonds, align = 'r', row.names = FALSE)
+  kable(dépassements.PFR.plafonds, align = 'r', row.names = FALSE, format = "simple")
   
 } else {
   

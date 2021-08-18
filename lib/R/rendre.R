@@ -84,6 +84,7 @@ rendre <- function(fw = fig.width,
 	           sync = sequentiel) {
 
           rm(list = ls(), envir = globalenv())
+          type <- ifelse(to != "html", "latex", "markdown")
           essayer({
                     knitr::opts_chunk$set(echo = (verbose >= 1), warning = (verbose >= 2), message = (verbose >= 3))
                     assign("chemin_pandoc", find.pandoc(), envir = .GlobalEnv)
@@ -97,37 +98,51 @@ rendre <- function(fw = fig.width,
             				         warning = (verbose >= 2),
             				         message = (verbose >= 3),
             					 results = 'asis')),
- 						 keep_md = keep, clean_supporting = clean,        							     pandoc = pandoc_options(to = "latex",
+ 						 keep_md = keep, clean_supporting = clean,
+ 						 pandoc = pandoc_options(to = type,
 						                         from = from,
 									 args = args)),
             					 envir = .GlobalEnv,
             					 output_file = filename %+% ".pdf")
             					 }, "Conversion pandoc imparfaite")
 
-        texfile <-  filename %+% ".tex"
+        if (type == "latex") {
+        
+          texfile <-  filename %+% ".tex" 
 
-        if (! sync)   texfile <- c(texfile, list.files(chemin.dossier, "modules.*\\.tex"))
+          if (! sync)   texfile <- c(texfile, list.files(chemin.dossier, "modules.*\\.tex"))
+          
+        } else {
+        
+          texfile <- filename %+% ".md"
+          
+          if (! sync)   texfile <- c(texfile, list.files(chemin.dossier, "modules.*\\.md"))
+        }
 
         pandoc <- get("chemin_pandoc", envir = .GlobalEnv)
 
     		 if (pandoc != "") {
 
-    		   for (type in to) {
-      		   if (type == "docx") {
+    		   for (t in to) {
+                if (t == "docx") {
 
-      		       outfile <-  filename %+% ".docx"
-      		       outfile2 <- filename %+% ".odt"
-      		       assign("PDF", FALSE, envir = .GlobalEnv)
-      					 generer_docx_odt(infile = texfile, outfile, outfile2)
+                    outfile <-  filename %+% ".docx"
+                    outfile2 <- filename %+% ".odt"
+                    assign("PDF", FALSE, envir = .GlobalEnv)
+                            generer_docx_odt(infile = texfile, outfile, outfile2)
 
-      			  } else {
+                    } else if (t == "latex") {
 
-      			     outfile <-  filename %+% ".pdf"
-      			     assign("PDF", TRUE, envir = .GlobalEnv)
-      			     tex2pdf(texfile, outfile, args, keep = (length(to) > 1 || keep))
-
-      			  }
-    		   }
+                        outfile <-  filename %+% ".pdf"
+                        assign("PDF", TRUE, envir = .GlobalEnv)
+                        tex2pdf(texfile, outfile, args, keep = (length(to) > 1 || keep))
+                        
+                    } else if (t == "html")  {
+                        outfile <-  filename %+% ".html"
+                        assign("HTML", TRUE, envir = .GlobalEnv)
+                        to_html(texfile, outfile, args, keep = (length(to) > 1 || keep))
+                    }
+                }
 
     		 } else {
     			stop("Impossible de trouver pandoc et de generer le rapport.")

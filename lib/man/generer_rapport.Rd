@@ -2,14 +2,14 @@
 % Please edit documentation in R/generer_rapport.R
 \name{generer_rapport}
 \alias{generer_rapport}
-\title{Génération d'un rapport d'analyse pdf, docx et/ou odt ou exécution sans rapport}
+\title{Génération d'un rapport d'analyse pdf, HTML, docx et/ou odt ou exécution sans rapport}
 \usage{
 generer_rapport(type = "latex")
 }
 \arguments{
-\item{type}{Type du rapport : "latex" pour pdf, "docx" pour MS Word et ODT, "sans" pour seulement créer les bases auxiliaires, 
-et c("pdf", "docx") ou "pdf,docx" ou toute expression combinant "pdf" et "docx" pour obtenir les deux formats de rapport.}
+\item{type}{Type du rapport : "latex" pour pdf, "html" pour HTML, "docx" pour MS Word et ODT, "sans" pour seulement créer les bases auxiliaires,
+et par exemple c("pdf", "docx") ou "pdf,docx" ou toute expression combinant "pdf" et "docx" pour obtenir les deux formats de rapport.}
 }
 \description{
-Génération d'un rapport d'analyse pdf, docx et/ou odt ou exécution sans rapport
+Génération d'un rapport d'analyse pdf, HTML, docx et/ou odt ou exécution sans rapport
 }

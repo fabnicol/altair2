@@ -60,7 +60,12 @@ int main (int argc, char *argv[])
     QString translationsPath (QCoreApplication::applicationDirPath() + "/../translations");
     QLocale locale = QLocale::system();
 
+#ifdef Q_OS_LINUX
     QTextCodec::setCodecForLocale (QTextCodec::codecForName ("UTF-8"));
+#else
+    QTextCodec::setCodecForLocale (QTextCodec::codecForName ("ISO-8859-1"));
+#endif
+
     QTranslator qtTranslator;
     bool res = false;
 

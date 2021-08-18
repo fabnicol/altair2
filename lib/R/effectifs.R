@@ -158,8 +158,7 @@ for (i in 1:length(eff)) names(eff[[i]]) <- c("Effectifs",
                                                           "ETPT_annexe",
                                                           "ETPT_actif_nonannexe")
 
-effectifs.locale <- as.data.table(lapply(eff,
-                                   function(x) formatC(x, big.mark = " ", format="f", digits=1, decimal.mark=",")))
+effectifs.locale <- as.data.table(eff)
 
 tableau.effectifs <- cbind(row.names = c("Matricules gérés en base (a)",
                                                  "&nbsp;&nbsp;&nbsp;dont présents 12 mois",

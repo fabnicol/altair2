@@ -148,7 +148,7 @@ private:
     FComboBox
         *processTypeWidget,    ///< Sélectionne le nombre de fils d'exécution.
         *memoryUseWidget,      ///< Sélectionne le pourcentage d'utilisation de la RAM disponible.
-        *rapportTypeWidget;    ///< Sélectionne le type de rapport en sortie (PDF, DOCX et ODT ou les trois formats).
+        *rapportTypeWidget;    ///< Sélectionne le type de rapport en sortie (PDF, DOCX et ODT ou les trois formats, plus HTML).
 
     QGroupBox
         *processTypeBox;       ///< Groupe "Mode d'exécution"

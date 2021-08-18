@@ -81,7 +81,7 @@ sauvebase <- function(x, y, z, env) {
 tableau_cumuls <- function(résultat) {
   
   if (! is.null(résultat) && ! is.null(résultat$cumuls) && nrow(résultat$cumuls[c != 0]) > 0) {
-    kable(résultat$cumuls[c != 0, .(Matricule, Annee, Grade, Régime)])
+    kable(résultat$cumuls[c != 0, .(Matricule, Annee, Grade, Régime)], format = "simple")
   } else cat("Pas de cumuls.")
 }
 
@@ -102,7 +102,7 @@ tableau_cumuls <- function(résultat) {
 tableau_NAS <- function(résultat) {
   
   if (! is.null(résultat) && ! is.null(résultat$NAS) && nrow(résultat$NAS) > 0) {
-    kable(résultat$NAS[ , .(Matricule, Annee, Mois, Grade, Emploi, Montant)])
+    kable(résultat$NAS[ , .(Matricule, Annee, Mois, Grade, Emploi, Montant)], format = "simple")
   } else cat("Pas de cumuls prime-NAS.")
 }
 
@@ -124,7 +124,7 @@ agrégat_annuel<- function(résultat, verbeux) {
       
       beneficiaires$Agrégat <- formatC(beneficiaires$Agrégat, big.mark = " ", format="fg")
       
-      kable(beneficiaires, align = 'r', row.names = FALSE)
+      kable(beneficiaires, align = 'r', format = "simple", row.names = FALSE)
       
     } else {
       cat("\nAucun bénéficiaire détecté.\n")
@@ -145,7 +145,7 @@ agrégat_annuel<- function(résultat, verbeux) {
     
     if (nrow(résultat$variations)) {
       
-      kable(résultat$variations, align = 'r', row.names = FALSE)
+      kable(résultat$variations, align = 'r', format = "simple", row.names = FALSE)
       
     } else {
       cat("\nAucun tableau de variation.\n")
@@ -258,6 +258,7 @@ analyser <- function(prime, Paie_I, verbeux) {
         
         if (verbeux) print(kable(A.non.tit,
                                  align = 'r',
+                                 format = "simple",
                                  row.names = FALSE))
         
       } else {
@@ -289,7 +290,7 @@ analyser <- function(prime, Paie_I, verbeux) {
             prime$categorie,
             ". ")
         
-        if (verbeux)  print(kable(A.non.cat, align = 'r', row.names = FALSE))
+        if (verbeux)  print(kable(A.non.cat, align = 'r', format = "simple", row.names = FALSE))
         
       } else {
         
@@ -312,7 +313,7 @@ analyser <- function(prime, Paie_I, verbeux) {
               prime$nom,
               "ne sont pas identifiés comme relevant de grades conformes. ")
           
-          if (verbeux)  print(kable(A.non.cat, align = 'r', row.names = FALSE))
+          if (verbeux)  print(kable(A.non.cat, align = 'r', format = "simple", row.names = FALSE))
           
         }
         

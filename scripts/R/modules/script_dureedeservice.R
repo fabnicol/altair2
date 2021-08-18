@@ -62,7 +62,7 @@ names(tableau.effectifs.var) <- as.character(periode)
 #'&nbsp;*Tableau 1.6.2*   
 #'    
 
-kable(tableau.effectifs.var, row.names = TRUE, align='c')
+kable(tableau.effectifs.var, row.names = TRUE, align='c', format = "simple")
 #'
 #'
 #'**Nota :**
