@@ -416,7 +416,7 @@ essayer(label = "+quartiles", {
 
        dimnames(S)[[2]] <- c("Statistique", X)
 
-       kable(S, row.names = FALSE, align = align, booktabs = TRUE)
+       kable(S, row.names = FALSE, align = align,  format = "simple")
      } else {
        cat("Table non générée.")
      }
@@ -460,7 +460,7 @@ Tableau <- function(x, ...) {
   T <- data.table(T)
 
   names(T) <- x
-  kable(T, row.names = FALSE, align = "c", booktabs= TRUE)
+  kable(T, row.names = FALSE, align = "c", format = "simple")
 }
 
 
@@ -550,7 +550,7 @@ Tableau.vertical <- function(colnames, rownames, extra = "", ...)   # extra func
       }
     }
 
-    kable(T, row.names = FALSE, align = "c", booktabs= TRUE)
+    kable(T, row.names = FALSE, align = "c",  format = "simple")
     
 }
 
@@ -582,7 +582,7 @@ Tableau.vertical2 <- function(colnames, rownames, ...)
 
   names(T) <- colnames
 
-  kable(T, row.names = FALSE, align = NULL, booktabs= TRUE)
+  kable(T, row.names = FALSE, align = NULL,  format = "simple")
 }
 
 

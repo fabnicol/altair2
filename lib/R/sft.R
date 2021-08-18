@@ -129,7 +129,7 @@ SFT_sans_enfant <- function() {
                   " de paie présentant un paiement du SFT apparemment anormal.\n", sep="")  
               
               if (afficher.table.écarts.sft)
-                print(kable(Paie.sans.enfant.reduit, row.names = FALSE, align = 'c'))
+                print(kable(Paie.sans.enfant.reduit, row.names = FALSE, format = "simple", align = 'c'))
               
             } else {
               
@@ -196,7 +196,7 @@ liquidation_SFT <- function() {
                   " de paie présentant un écart de paiement du SFT supérieur à ", tolerance.sft, " euro.\n", sep="")
               
               if (afficher.table.écarts.sft)
-                print(kable(controle.sft, row.names = FALSE, align = 'c'))
+                print(kable(controle.sft, row.names = FALSE, format = "simple", align = 'c'))
               
             } else {
               

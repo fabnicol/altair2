@@ -32,7 +32,7 @@ if (generer.table.élus)   {
   
   if (nrow(remunerations.elu) > 0) {
     
-    kable(remunerations.elu, row.names = FALSE)
+    kable(remunerations.elu, row.names = FALSE, format = "simple")
     
   } else {
     

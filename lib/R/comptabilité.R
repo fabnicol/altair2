@@ -82,7 +82,7 @@ exporter_tableau <- function(table.jointure, requis, cles = intersect(names(tabl
     cat("L'opération d'appariement ne peut se faire sur ces cles. Elle se fera sur les autres cles au prix d'une perte de données.   \n
         Les agrégats seront donc inférieurs à ceux de la comptabilité.  \n")
     cat("Il est envisageable de récupérer les montants correspondants en examinant manuellement le tableau fourni en lien ci-dessous, correspondant aux cles suivantes:  \n")
-    kable(TabDupl)
+    kable(TabDupl,  format = "simple")
     # Insérer lien condiditionnel sur TabDupl dans le rapport.
     
   } else {
@@ -160,7 +160,7 @@ correspondance_paye_budget <- function() {
     for (i in 1:duree.sous.revue) {
       
       cat("\nTableau 5.14." %+% inc, " Annee ", debut.periode.sous.revue + i - 1)
-      print(kable(L[[i]][, .(Compte, Code, Libelle, Total)], row.names = FALSE, align = 'r'))
+      print(kable(L[[i]][, .(Compte, Code, Libelle, Total)], row.names = FALSE, align = 'r',  format = "simple"))
       inc <- inc + 1
       
     }
@@ -173,7 +173,7 @@ correspondance_paye_budget <- function() {
        cat("   \nTableau 5.14." %+% inc %+% " Annee ",
                     debut.periode.sous.revue + i - 1)
         
-        print(kable(L[[i]][, .(Compte, `Cumul annuel`)], row.names = FALSE, align = 'r'))
+        print(kable(L[[i]][, .(Compte, `Cumul annuel`)], row.names = FALSE, align = 'r', format = "simple"))
         
         inc <- inc + 1
       

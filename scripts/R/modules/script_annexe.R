@@ -18,7 +18,7 @@ if (Evenements[1] == "") Evenements <- Evenements[-1]
 Evenements <- data.table(Evenements = Evenements)
 
 if (afficher.table.événements) {
-  kable(Evenements)
+  kable(Evenements, format = "simple")
 }
 
 Evenements.ind <- setkey(Bulletins.paie[Evenement != "" & Evenement != "NA NA", 
@@ -99,7 +99,7 @@ code.libelle <- remplacer_type(code.libelle)
 setcolorder(code.libelle, c("Code", "Libelle", "Statut", "Type", "Compte"))
 
 if (afficher.table.codes) {
-  kable(code.libelle, align="c")
+  kable(code.libelle, align="c", format = "simple")
 }
 
 # Plusieurs libellés par code
@@ -243,7 +243,7 @@ conditionnel("Lien vers la base de données des salaires versés à quotité ind
 #'   
 
 if (afficher.table.effectifs) {
-  kable(grades.categories, row.names = FALSE) 
+  kable(grades.categories, row.names = FALSE, format = "simple") 
 } 
 
 sauv.bases("Effectifs",
