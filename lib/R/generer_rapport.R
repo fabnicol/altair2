@@ -35,9 +35,9 @@
 #
 #
 
-#'Génération d'un rapport d'analyse pdf, docx et/ou odt ou exécution sans rapport
-#'@param type Type du rapport : "latex" pour pdf, "docx" pour MS Word et ODT, "sans" pour seulement créer les bases auxiliaires,
-#' et c("pdf", "docx") ou "pdf,docx" ou toute expression combinant "pdf" et "docx" pour obtenir les deux formats de rapport.
+#'Génération d'un rapport d'analyse pdf, HTML, docx et/ou odt ou exécution sans rapport
+#'@param type Type du rapport : "latex" pour pdf, "html" pour HTML, "docx" pour MS Word et ODT, "sans" pour seulement créer les bases auxiliaires,
+#' et par exemple c("pdf", "docx") ou "pdf,docx" ou toute expression combinant "pdf" et "docx" pour obtenir les deux formats de rapport.
 #'@export
 #'
 generer_rapport <- function(type = "latex") {
@@ -99,14 +99,15 @@ generer_rapport <- function(type = "latex") {
 
     # nettoyage
 
-    invisible(lapply(c("altair.pdf", "altair.odt", "altair.docx"), function(x) file.remove(file.path(chemin.cle.racine, x))))
-    invisible(file.remove(list.files(chemin.dossier, "*.(Rmd|tex|docx|odt|pdf)$", full.name = TRUE)))
+    invisible(lapply(c("altair.pdf", "altair.odt", "altair.docx", "altair.html"), function(x) file.remove(file.path(chemin.cle.racine, x))))
+    invisible(file.remove(list.files(chemin.dossier, "*.(Rmd|tex|docx|odt|pdf|html)$", full.name = TRUE)))
 
     # lancement de la fabrication du rapport
 
     if (type == "sans") {
 
       res <- source("altair_start.R", encoding = "UTF-8")
+      
     } else {
 
       if (grepl("pdf", type)) {
@@ -121,8 +122,15 @@ generer_rapport <- function(type = "latex") {
             t <- "docx"
 
           } else {
+          
+            if (grepl("html", type)) {
 
-            t <- "sans"
+              t <- "html"
+              
+            } else {
+
+              t <- "sans"
+            }
           }
        }
 
@@ -191,7 +199,41 @@ tex2pdf <- function(infile = "altair.tex", outfile = "altair.pdf",
 }
 
 
+#' Convertir le fichier tex du rapport en html
+#' @param infile  le nom de sortie du fichier, par défaut altair.md
+#' @param outfile le nom de sortie du fichier, par défaut altair.html
+#' @param args Arguments à passer à pandoc comme options de forme
+#' @param keep Garder les fichier .md temporaires à la fin de l'exécution
+#' @export
 
+to_html <- function(infile = "altair.md" , outfile = "altair.html",
+                    args = c("-V", "papersize=A4", 
+                    "-V", "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm",
+                    "-V", "urlcolor=cyan",
+                    "--highlight-style", "tango"),
+                    keep = keep_md) {
+
+  system2(get("chemin_pandoc", envir = .GlobalEnv), c(infile, args, "-o", outfile))
+
+  cleanup()
+
+  file.copy(outfile, chemin.cle)
+
+  cle_outfile <- file.path(chemin.cle, outfile)
+
+  if (ouvrir.document && file.exists(cle_outfile)) {
+    if (setOSWindows) {
+
+      shell(paste("start iexplorer.exe",  cle_outfile))
+
+    } else {
+      system(paste("firefox", file.path(chemin.cle, outfile)))
+    }
+  }
+
+  if (! keep) file.remove(infile)
+
+}
 
 cleanup <- function() {
 

@@ -606,6 +606,10 @@ void Altair::runRAltair()
         {
             path_access_rapport = path_access (SCRIPT_DIR "rapport_msword.R");
         }
+    else if (v(rapportType) == "HTML")
+        {
+            path_access_rapport = path_access (SCRIPT_DIR "rapport_html.R");
+        }
     else if (v(rapportType) == "Pas de rapport (Bases seules)")
         {
             path_access_rapport = path_access (SCRIPT_DIR "altair.R");

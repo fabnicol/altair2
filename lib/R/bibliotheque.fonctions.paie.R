@@ -943,8 +943,13 @@ invisible(sapply(index, function(x) {
                   rmdfile <- get("chemin.modules", envir = .GlobalEnv) %+% x %+% ".Rmd"
                   writeLines(vect, rmdfile)
                   texfile <- get("chemin.modules", envir = .GlobalEnv) %+% x %+% ".tex"
-                  if (clean) file.remove(texfile)
+                  mdfile <- get("chemin.modules", envir = .GlobalEnv) %+% x %+% ".md"
+                  if (clean) {
+                    file.remove(texfile)
+                    file.remove(mdfile)
+                  }
                   system2(get("chemin_pandoc", envir = .GlobalEnv), c(rmdfile, "-o", texfile))
+                  system2(get("chemin_pandoc", envir = .GlobalEnv), c(rmdfile, "-o", mdfile))
                   if (clean) file.remove(rmdfile)
            }
 

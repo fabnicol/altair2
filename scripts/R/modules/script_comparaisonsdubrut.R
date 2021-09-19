@@ -20,15 +20,20 @@ conditionnel("Rémunérations brutes par grade", "Bases/Remunerations/brut.eqtp.
 conditionnel("Rémunérations brutes par emploi", "Bases/Remunerations/brut.eqtp.emploi.csv")  
 #'   
 #'   
-#'## 3.5 Comparaisons source INSEE/DGCL   
+#'## 3.5 Comparaisons source INSEE/DGCL 
+#+ collapse = TRUE
 #'   
 #'*Salaires annnuels bruts moyens 2011-2017 en EQTP (hors assistantes maternelles)*   
-
-#'  
-#'&nbsp;*Tableau 3.5.1*   
 #'    
 
-#+ comparaison-insee1
+#'  
+#'&nbsp;*Tableau 3.5.1*  
+#'  
+
+#' collapse = TRUE
+hist(1:10)
+   
+#+ comparaison-insee1, collapse = TRUE
 
 Tableau.vertical2(c("Agrégat (euros)", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"),
                   c("Ensemble", "Titulaires", "Autres salariés*"),
