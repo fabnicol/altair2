@@ -1,4 +1,4 @@
-"VERSANT_FP"       %a% "FPT"
+"VERSANT_FP" %a% "FPT"
 "codes.traitement" %a% NA
 "codes.nbi"        %a% NA
 "codes.pfi"        %a% NA
@@ -19,40 +19,40 @@
 "codes.primedeservice"  %a% NA  
 "codes.primedetechnicite" %a% NA
 
-"script_effectifs"               %a% TRUE    
+"script_effectifs" %a% TRUE    
 "script_pyramides"               %a% TRUE    
 "script_dureedeservice"          %a% TRUE    
 "script_rémunérationsbrutes1"    %a% TRUE
 "script_rémunérationsbrutes2"    %a% TRUE    
-"script_comparaisonsdubrut"      %a% TRUE    
+"script_comparaisonsdubrut" %a% TRUE    
 "script_rémunérationsnettes"     %a% TRUE    
-"script_rmppetnoria"             %a% TRUE    
+"script_rmppetnoria" %a% TRUE    
 "script_évolutiondunet"          %a% TRUE    
-"script_NBI"                     %a% TRUE    
+"script_NBI" %a% TRUE    
 "script_PFI"                     %a% TRUE    
-"script_vacataires"              %a% TRUE    
+"script_vacataires" %a% TRUE    
 "script_NAS"                     %a% TRUE    
-"script_IATIFTS"                 %a% TRUE    
+"script_IATIFTS" %a% TRUE    
 "script_PFR"                     %a% TRUE    
-"script_PSR"                     %a% TRUE    
+"script_PSR" %a% TRUE    
 "script_IPF"                     %a% TRUE    
-"script_RIFSEEP"                 %a% TRUE    
+"script_RIFSEEP" %a% TRUE    
 "script_HS"                      %a% TRUE    
-"script_astreintes"              %a% TRUE    
+"script_astreintes" %a% TRUE    
 "script_élus"                    %a% TRUE    
-"script_comptabilité"            %a% TRUE    
-"script_annexe"                  %a% TRUE    
+"script_comptabilité" %a% TRUE    
+"script_annexe" %a% TRUE    
 "script_SFT"                     %a% TRUE    
-"script_retraites"               %a% TRUE    
+"script_retraites" %a% TRUE    
 "script_FPH"                     %a% TRUE    
 
-"sequentiel"                     %a% TRUE
-"ouvrir.document"                %a% TRUE
-"paye.budget.existe"             %a% FALSE
+"sequentiel" %a% FALSE
+"ouvrir.document" %a% TRUE
+"paye.budget.existe" %a% FALSE
 
 "types.irs"  %a% c("IR", "S")
 
-"controle" %a% c("","","","")  
+"controle" %a% c("Z","Z","Z","COM")  
 
 "codes" %a% data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IFSE", "IEMP", "ISS", "IHTS", "VAC", "ASTREINTES", "NAS", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(

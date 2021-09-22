@@ -84,27 +84,28 @@ rendre <- function(fw = fig.width,
 	           sync = sequentiel) {
 
           rm(list = ls(), envir = globalenv())
-          type <- ifelse(to != "html", "latex", "markdown")
+          type <- ifelse(to == "html", "markdown", "latex")
           essayer({
                     knitr::opts_chunk$set(echo = (verbose >= 1), warning = (verbose >= 2), message = (verbose >= 3))
                     assign("chemin_pandoc", find.pandoc(), envir = .GlobalEnv)
 
-            			  render("altair_start.R",
-            					 encoding = encodage.code.source,
-            					 output_format = output_format(knitr_options(opts_chunk = list(fig.width = fw,
-		  	 		         fig.height = fh,
-            				         dpi = d,
-            				         echo = (verbose >= 1),
-            				         warning = (verbose >= 2),
-            				         message = (verbose >= 3),
-            					 results = 'asis')),
- 						 keep_md = keep, clean_supporting = clean,
- 						 pandoc = pandoc_options(to = type,
-						                         from = from,
-									 args = args)),
-            					 envir = .GlobalEnv,
-            					 output_file = filename %+% ".pdf")
-            					 }, "Conversion pandoc imparfaite")
+                        render("altair_start.R",
+                                 encoding = encodage.code.source,
+                                 output_format = output_format(knitr_options(opts_chunk = list(fig.width = fw,
+                                                                fig.height = fh,
+                                                                dpi = d,
+                                                                echo = (verbose >= 1),
+                                                                warning = (verbose >= 2),
+                                                                message = (verbose >= 3),
+                                                                results = 'asis')),
+                                                    keep_md = keep, 
+                                                    clean_supporting = clean,
+                                                    pandoc = pandoc_options(to = type,
+                                                                    from = from,
+                                                                    args = args)),
+                                 envir = .GlobalEnv,
+                                 output_file = filename %+% ifelse(to == "html", ".md", ".pdf"))
+                                 }, "Conversion pandoc imparfaite")
 
         if (type == "latex") {
         
