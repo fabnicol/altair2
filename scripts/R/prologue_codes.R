@@ -52,7 +52,7 @@
 
 "types.irs"  %a% c("IR", "S")
 
-"controle" %a% c("Z","Z","Z","COM")  
+"controle" %a% c("CCPTM","20007079500014","Budget Principal","COM")  
 
 "codes" %a% data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IFSE", "IEMP", "ISS", "IHTS", "VAC", "ASTREINTES", "NAS", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(

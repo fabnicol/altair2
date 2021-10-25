@@ -12,7 +12,7 @@
 # utiliser, modifier et/ou redistribuer ce programme sous les conditions
 # de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
 # sur le site "http://www.cecill.info".
-# 
+#
 # En contrepartie de l'accessibilité au code source et des droits de copie,
 # de modification et de redistribution accordés par cette licence, il n'est
 # offert aux utilisateurs qu'une garantie limitée. Pour les mêmes raisons,
@@ -79,13 +79,13 @@ generer_rapport <- function(type = "latex") {
     # il faut exporter tous ces chemins dans l'environnement global
 
     "chemin.dossier.bases"   %a% file.path(chemin.cle, "Bases")
-	
+
 	if (setOSWindows) {
-	    "chemin.dossier.donnees" %a% file.path(chemin.cle, "..", "xhl")       
+	    "chemin.dossier.donnees" %a% file.path(chemin.cle, "..", "xhl")
 	} else {
 		"chemin.dossier.donnees" %a% file.path(chemin.cle, "..", "xhl", ifelse(user == "fab", "", user))
 	}
-	
+
     "chemin.dossier.docs"    %a% file.path(chemin.cle, "Docs")
 
     if (basename(chemin.cle) == basename(racine)) {
@@ -107,13 +107,13 @@ generer_rapport <- function(type = "latex") {
     if (type == "sans") {
 
       res <- source("altair_start.R", encoding = "UTF-8")
-      
+
     } else {
 
-      if (grepl("pdf", type)) {
+      if (grepl("latex", type)) {
 
-        t <- "pdf"
-        if (grepl("docx", type)) t <- c("pdf", "docx")
+        t <- "latex"
+        if (grepl("docx", type)) t <- c("latex", "docx")
 
         } else {
 
@@ -122,11 +122,11 @@ generer_rapport <- function(type = "latex") {
             t <- "docx"
 
           } else {
-          
+
             if (grepl("html", type)) {
 
               t <- "html"
-              
+
             } else {
 
               t <- "sans"
@@ -169,15 +169,16 @@ generer_rapport <- function(type = "latex") {
 #' @param keep Garder les fichier .tex temporaires à la fin de l'exécution
 #' @export
 
-tex2pdf <- function(infile = "altair.tex", outfile = "altair.pdf",
-                    args = c("-V", "papersize=A4", 
+tex2pdf <- function(infile = "altair.tex", 
+                    outfile = "altair.pdf",
+                    args = c("-V", "papersize=A4",
                     "-V", "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm",
                     "-V", "urlcolor=cyan",
                     "--highlight-style", "tango"),
                     keep = keep_md) {
 
   system2(get("chemin_pandoc", envir = .GlobalEnv), c(infile, args, "-o", outfile))
-
+  
   cleanup()
 
   file.copy(outfile, chemin.cle)
@@ -207,7 +208,7 @@ tex2pdf <- function(infile = "altair.tex", outfile = "altair.pdf",
 #' @export
 
 to_html <- function(infile = "altair.md" , outfile = "altair.html",
-                    args = c("-V", "papersize=A4", 
+                    args = c("-V", "papersize=A4",
                     "-V", "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm",
                     "-V", "urlcolor=cyan",
                     "--highlight-style", "tango"),

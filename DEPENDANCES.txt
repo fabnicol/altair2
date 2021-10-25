@@ -29,6 +29,8 @@ dans altair/ :
 
   R CMD INSTALL data.table
   
+== Le paquet texlive doit être compilé avec support de graphicx == 
+  
   
   
 
