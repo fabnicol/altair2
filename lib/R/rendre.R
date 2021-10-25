@@ -80,11 +80,11 @@ rendre <- function(fw = fig.width,
                    from = "markdown-auto_identifiers+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures",
                    args = c("-V", "papersize=A4", "-V", "geometry:top=2cm,bottom=1.5cm,left=2cm,right=1.5cm", "-V", "urlcolor=cyan", "--highlight-style", "tango"),
                    filename = "altair",
-		   verbose = 0,
-	           sync = sequentiel) {
+		               verbose = 0,
+	                 sync = sequentiel) {
 
           rm(list = ls(), envir = globalenv())
-          type <- ifelse(to == "html", "markdown", "latex")
+          type <- ifelse(to[1] == "html", "markdown", "latex")
           essayer({
                     knitr::opts_chunk$set(echo = (verbose >= 1), warning = (verbose >= 2), message = (verbose >= 3))
                     assign("chemin_pandoc", find.pandoc(), envir = .GlobalEnv)
@@ -98,13 +98,13 @@ rendre <- function(fw = fig.width,
                                                                 warning = (verbose >= 2),
                                                                 message = (verbose >= 3),
                                                                 results = 'asis')),
-                                                    keep_md = keep, 
-                                                    clean_supporting = clean,
-                                                    pandoc = pandoc_options(to = type,
-                                                                    from = from,
-                                                                    args = args)),
+                                                                keep_md = keep, 
+                                                                clean_supporting = clean,
+                                                                pandoc = pandoc_options(to = type,
+                                                                                from = from,
+                                                                                args = args)),
                                  envir = .GlobalEnv,
-                                 output_file = filename %+% ifelse(to == "html", ".md", ".pdf"))
+                                 output_file = filename %+% ifelse(to[1] == "html", ".md", ".tex"))
                                  }, "Conversion pandoc imparfaite")
 
         if (type == "latex") {
@@ -138,7 +138,7 @@ rendre <- function(fw = fig.width,
                         assign("PDF", TRUE, envir = .GlobalEnv)
                         tex2pdf(texfile, outfile, args, keep = (length(to) > 1 || keep))
                         
-                    } else if (t == "html")  {
+                    } else if (t == "html") {
                         outfile <-  filename %+% ".html"
                         assign("HTML", TRUE, envir = .GlobalEnv)
                         to_html(texfile, outfile, args, keep = (length(to) > 1 || keep))

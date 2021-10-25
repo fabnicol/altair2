@@ -1,3 +1,3 @@
 
 library(altair)
-generer_rapport("pdf,docx")
+generer_rapport("latex,docx")

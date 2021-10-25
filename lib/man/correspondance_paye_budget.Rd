@@ -7,12 +7,16 @@
 correspondance_paye_budget()
 }
 \value{
-La \code{data.table code.libellé} résultant de la lecture du fichier \bold{paye_budget.csv} sous le répertoire \bold{Données}
+La \code{data.table code.libellé} résultant de la lecture du fichier
+\bold{paye_budget.csv} sous le répertoire \bold{Données}
 }
 \description{
-Etablit la correspondance entre paye et comptabilité administrative (comptes 64 et 65)
+Etablit la correspondance entre paye et comptabilité administrative
+(comptes 64 et 65)
 }
 \note{
-Requiert l'utilisation d'une table de jointure importee \bold{paye_budget.csv} encodée en UTF-8 sous le répertoire \bold{Données}.
-A défaut, tente une association approximative à partir d'expressions rationnelles appliquées aux libellés de paye.
+Requiert l'utilisation d'une table de jointure importée
+\bold{paye_budget.csv} encodée en UTF-8 sous le répertoire \bold{Données}.
+A défaut, tente une association approximative à partir d'expressions
+rationnelles appliquées aux libellés de paye.
 }
