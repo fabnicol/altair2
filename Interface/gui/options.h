@@ -193,7 +193,9 @@ public :
     }
 
 private:
-    FComboBox  *baseTypeWidget;   ///< Type de base en sortie : "Standard", "Par année", "Par agent", "Toutes catégories", "Traitement" etc.
+    FComboBox  *baseWidthWidget;   ///< Largeur de la base (nombre de colonnes) : "Standard", "Etendu", "Maximal"
+
+    FComboBox  *baseTypeWidget;   ///< Format de base en sortie : "Standard", "Par année", "Par agent", "Toutes catégories", "Traitement" etc.
 
     FLineEdit *maxNLigneLineEdit; ///< Nombre maximal de lignes de la base
 

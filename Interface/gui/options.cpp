@@ -840,10 +840,10 @@ void rapportPage::substituer_valeurs_dans_script_R()
 standardPage::standardPage()
 {
     setVisible(false);
-    QList<QString> range = QList<QString>(), range2 = QList<QString>();
+    QList<QString> range = QList<QString>(), range2 = QList<QString>(), range2b = QList<QString>();
 
     range << "Standard" << "Par année" << "Par agent" << "Toutes catégories" << "Traitement" << "Indemnité"
-          << "SFT"      << "Rémunérations diverses"           << "Rappel"     << "Acompte"
+          << "SFT"      << "Rémunérations diverses"   << "Rappel"     << "Acompte"
           << "Avantage en nature" << "Indemnité de résidence" << "Cotisations"
           << "Déductions"         << "Retenue";
 
@@ -852,14 +852,35 @@ standardPage::standardPage()
            << "AV" << "IR" << "C"
            << "D"  << "RE";
 
-    QLabel* baseTypeLabel = new QLabel ("Type de base  ");
+    range2b << "Standard" << "Etendu" << "Maximal";
+
     baseTypeBox = new QGroupBox (tr ("Type de base en sortie"));
+
+    QLabel* baseWidthLabel = new QLabel ("Nombre de colonnes  ");
+    baseWidthWidget = new FComboBox (range2b,                         // Contenu du menu déroulant
+                                    "baseWidth",                     // Balise XML du projet .alt
+                                    {"Données csv",
+                                     "Nombre de colonnes"},          // Présentation du gestionnaire de projets
+                                     "W");                           // Ligne de commande -W valeur
+
+    baseWidthWidget->setFixedWidth (175);
+    baseWidthWidget->setFixedHeight (35);
+    baseWidthWidget->setCurrentIndex (0);
+
+    baseWidthWidget->setToolTip (tr ("Sélectionner le nombre de colonnes"
+                                  " des bases de données CSV."
+                                  "\nStandard : Exporte les colonnes\n\tles plus couramment utilisées.\n"
+                                  "Etendu : Exporte les colonnes du mode Standard\n\tplus Civilité, Adresse, Compte bancaire\n\tet nomenclature de l'emploi.\n"
+                                  "Maximal : Toutes les données des fichiers XML\n\thormis les nomenclatures globales.\n"));
+
+    QLabel* baseTypeLabel = new QLabel ("Format des bases ");
 
     baseTypeWidget = new FComboBox (range,                          // Contenu du menu déroulant
                                     "baseType",                     // Balise XML du projet .alt
                                     {"Données csv",
                                      "Type de base par catégorie"}, // Présentation du gestionnaire de projets
-                                    "T");                           // Ligne de commande -T valeur
+                                     "T");                           // Ligne de commande -T valeur
+
 
     maxNLigneLabel = new QLabel ("Nombre maximum de lignes\npar segment de base  ");
 
@@ -897,7 +918,8 @@ standardPage::standardPage()
                                   {"Données csv", "Pas de BOM UTF-8 pour les exports CSV"},       // Présentation du gestionnaire de projets
                                   "sans-bom");                                      // Ligne de commande --sans-bom si cochée
 
-    bomCheckBox ->setToolTip(tr("Cocher cette case pour supprimer le marquage BOM de l'encodage UTF-8\ndes fichiers CSV exportés. Utile seulement en cas de visualisation sous certains éditeurs.\nExcel et Calc ne nécessitent pas cette option."));
+    bomCheckBox ->setToolTip(tr("Cocher cette case pour supprimer le marquage BOM de l'encodage UTF-8\ndes fichiers CSV exportés. \
+Utile seulement en cas de visualisation sous certains éditeurs.\nExcel et Calc ne nécessitent pas cette option."));
     QList<QString> exportRange = QList<QString>();
     exportRange << "Standard" << "Cumulative" << "Distributive" << "Distributive+";
 
@@ -917,7 +939,7 @@ standardPage::standardPage()
     exportWidget->commandLineType = flags::commandLineType::defaultCommandLine;
 
     exportWidget->setFixedWidth (175);
-    exportWidget->setFixedHeight (30);
+    exportWidget->setFixedHeight (35);
     exportWidget->setCurrentIndex (0);
     exportWidget->setToolTip (tr ("Sélectionner la modalité d'exportation"
                                   " des bases de données CSV."
@@ -984,7 +1006,7 @@ standardPage::standardPage()
 
     createHash (baseTypeWidget->comboBoxTranslationHash, &range, &range2);
     baseTypeWidget->setFixedWidth (175);
-    baseTypeWidget->setFixedHeight (30);
+    baseTypeWidget->setFixedHeight (35);
     baseTypeWidget->setCurrentIndex (0);
     baseTypeWidget->setToolTip (tr ("Sélectionner le type de base en sortie"));
 
@@ -1055,12 +1077,14 @@ standardPage::standardPage()
     v1Layout->addWidget (tableCheckBox,     1, 0, Qt::AlignLeft);
     v1Layout->addWidget (FPHCheckBox,       2, 0, Qt::AlignLeft);
     v1Layout->addWidget (repBudgetCheckBox, 3, 0, Qt::AlignLeft);
-    v1Layout->addWidget (baseTypeLabel,     4, 0, Qt::AlignRight);
-    v1Layout->addWidget (baseTypeWidget,    4, 1, Qt::AlignLeft);
-    v1Layout->addWidget (exportLabel,       5, 0, Qt::AlignRight);
-    v1Layout->addWidget (exportWidget,      5, 1, Qt::AlignLeft);
-    v1Layout->addWidget (maxNLigneLabel,    6, 0, Qt::AlignRight);
-    v1Layout->addWidget (maxNLigneLineEdit, 6, 1, Qt::AlignLeft);
+    v1Layout->addWidget (baseWidthLabel,    4, 0, Qt::AlignRight);
+    v1Layout->addWidget (baseWidthWidget,   4, 1, Qt::AlignLeft);
+    v1Layout->addWidget (baseTypeLabel,     5, 0, Qt::AlignRight);
+    v1Layout->addWidget (baseTypeWidget,    5, 1, Qt::AlignLeft);
+    v1Layout->addWidget (exportLabel,       6, 0, Qt::AlignRight);
+    v1Layout->addWidget (exportWidget,      6, 1, Qt::AlignLeft);
+    v1Layout->addWidget (maxNLigneLabel,    7, 0, Qt::AlignRight);
+    v1Layout->addWidget (maxNLigneLineEdit, 7, 1, Qt::AlignLeft);
 
     baseTypeBox->setLayout (v1Layout);
 
