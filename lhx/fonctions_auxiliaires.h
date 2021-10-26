@@ -357,7 +357,7 @@ static inline void generate_rank_signal (int progression)
 /// \param func_tag Chaîne de caractères donnant un libellé à afficher.
 /// \note Thread-safe. N'est activé que si la constante MEMORY_DEBUG est définie.
 
-static inline void  memory_debug (GCC_UNUSED const string& func_tag)
+static inline void  memory_debug (const string& GCC_UNUSED func_tag)
 {
 #ifdef MEMORY_DEBUG
     LOCK_GUARD

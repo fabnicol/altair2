@@ -35,6 +35,7 @@
 // termes.
 //
 //
+#include <string.h>
 #include "ligne_paye.h"
 #include "validator.h"
 
@@ -73,6 +74,7 @@ using namespace std;
 ///          \b Autres Pas de conversion.
 /// \param     s     Chaîne à contrôler
 /// \param     sep   Caractère à nettoyer (le séparateur des bases CSV)
+/// \return    ret   Chaîne nettoyée ou entre guillemets.
 /// \details Le caractère de remplacement ne doit jamais être séparateur de champ CSV. \n
 ///          Il est donc interdit d'avoir des bases de type CSV séparées par le caractère
 ///  '_' (au lieu de ',' ou ';').
@@ -100,10 +102,9 @@ using namespace std;
 ///           info.Table[info.NCumAgentXml][l][i] = 0x65; \endcode
 ///  \note A surveiller en cas de développement Windows.
 
-
-static void GCC_INLINE sanitize (xmlChar* s,  const char sep)
+static xmlChar* GCC_INLINE sanitize (xmlChar* s,  const char GCC_UNUSED sep)
 {
-
+#ifdef NO_SANITIZING_QUOTES
     while (*s != 0)
         {
             // Non-switchable car info.seperateur n'est pas une expression constante.
@@ -166,6 +167,25 @@ static void GCC_INLINE sanitize (xmlChar* s,  const char sep)
 
             ++s;
         }
+
+    return s;
+
+#else
+
+    unsigned long L = xmlStrlen(s);
+    xmlChar ss[L+3];
+    memcpy(ss + 1, s, L);
+    ss[L+1] = '"';
+    ss[0] = '"';
+    ss[L + 2] = 0;
+    xmlFree(s);
+    s = xmlStrdup(ss);
+    if (s == NULL)
+      s = xmlStrdup((xmlChar*) NA_STRING);
+
+#endif
+
+return s;
 }
 
 
@@ -210,10 +230,6 @@ static inline int GCC_INLINE Bulletin (const char*  tag, xmlNodePtr& cur, int l,
                 return NO_NEXT_ITEM;  // pour garantir que cur ne devient pas nul.
         }
 
-//     sanitisation
-
-    sanitize (info.Table[info.NCumAgentXml][l], info.separateur);
-
     return NODE_FOUND;
 
 }
@@ -236,12 +252,17 @@ static inline int GCC_INLINE Bulletin (const char*  tag, xmlNodePtr& cur, int l,
 /// de code -1.
 
 
-static inline bool GCC_INLINE bulletin_obligatoire (const char* tag, xmlNodePtr& cur, int l,  info_t& info)
+static inline bool GCC_INLINE bulletin_obligatoire_char (const char* tag, xmlNodePtr& cur, int l,  info_t& info)
 {
 
 //     attention faire en sorte que cur ne soit JAMAIS nul
+    int res = Bulletin (tag, cur, l, info);
 
-    switch (Bulletin (tag, cur, l, info))
+//     sanitisation
+
+    info.Table[info.NCumAgentXml][l] = sanitize (info.Table[info.NCumAgentXml][l], info.separateur);
+
+    switch (res)
         {
 //         on sait que cur ne sera jamais nul
         case NODE_FOUND :
@@ -358,8 +379,13 @@ static inline bool GCC_INLINE bulletin_optionnel_char (const char* tag,
         info_t& info)
 {
 //     attention faire en sorte que cur ne soit JAMAIS nul
+    int res = Bulletin (tag, cur, l, info);
 
-    switch (Bulletin (tag, cur, l, info))
+//     sanitisation
+
+    info.Table[info.NCumAgentXml][l] = sanitize (info.Table[info.NCumAgentXml][l], info.separateur);
+
+    switch(res)
         {
 //         on sait que cur ne sera jamais nul
         case NODE_FOUND :
@@ -436,7 +462,9 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique (const char* tag,
 {
 //     attention faire en sorte que cur ne soit JAMAIS nul
 
-    switch (Bulletin (tag, cur, l, info))
+    int res = Bulletin (tag, cur, l, info);
+
+    switch(res)
         {
 //         on sait que cur ne sera jamais nul
         case NODE_FOUND :
@@ -517,7 +545,9 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique (const char* tag, x
 {
     // attention faire en sorte que cur ne soit JAMAIS nul
 
-    switch (Bulletin (tag, cur, l, info))
+    int res = Bulletin (tag, cur, l, info);
+
+    switch(res)
         {
         // on sait que cur ne sera jamais nul
         case NODE_FOUND :
@@ -672,7 +702,7 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique (const char* tag, x
 /// \subsection subsec7 Cas général
 /// \par
 /// Dans le cas général, examen des noeuds fils.\n
-/// Appel succesif de #bulletin_obligatoire à 2 reprises et #bulletin_optionnel_numerique
+/// Appel successif de #bulletin_obligatoire à 2 reprises et #bulletin_optionnel_numerique
 /// à 4 reprises, pour les noeuds cités \e supra. Au terme de la lecture de ces 6 noeuds
 /// fils, le noeud courant est assigné au noeud \code <Remuneration> \endcode suivant.
 
@@ -831,13 +861,13 @@ static inline LineCount lignePaye (xmlNodePtr cur, info_t& info)
 
 //      Libellé, obligatoire
 
-            bulletin_obligatoire ("Libelle", cur, l, info);
+            bulletin_obligatoire_char ("Libelle", cur, l, info);
 
             ++l;
 
 //      Code, obligatoire
 
-            bulletin_obligatoire ("Code", cur, l, info);
+            bulletin_obligatoire_char ("Code", cur, l, info);
 
             ++l;
 
@@ -928,7 +958,6 @@ static inline LineCount lignePaye (xmlNodePtr cur, info_t& info)
 
         }
 
-
     return  { nbLignePaye, l};
 }
 
@@ -936,13 +965,7 @@ static inline LineCount lignePaye (xmlNodePtr cur, info_t& info)
 /// de la table d'informations est donné (soit X = #Grade, #Echelon, etc.)
 /// \param X  indice de la table d'informations info
 
-#define BULLETIN_OBLIGATOIRE_(X) bulletin_obligatoire(#X, cur, X, info)
-
-/// Macro permettant de simplifier l'appel de #bulletin_obligatoire lorsque l'indice \n
-/// de la table d'informations est donné (soit X = #Grade, #Echelon, etc.)
-/// \param X  indice de la table d'informations info
-
-#define BULLETIN_OBLIGATOIRE(X) BULLETIN_OBLIGATOIRE_(X)
+#define BULLETIN_OBLIGATOIRE(X) bulletin_obligatoire_char(#X, cur, X, info)
 
 /// Macro permettant de simplifier l'appel de #bulletin_obligatoire_numerique lorsque \n
 /// l'indice de la table d'informations est donné (soit X = #Grade, #Echelon, etc.)
@@ -1008,9 +1031,6 @@ inline void GCC_INLINE concat (xmlNodePtr cur, info_t& info)
 
     if (addCode2)
         {
-
-            sanitize (addCode2, info.separateur);
-
             xmlChar* desc_hyphen = xmlStrncatNew (info.Table[info.NCumAgentXml][Description],
                                                   (const xmlChar*) " - ",
                                                   -1);
@@ -1024,7 +1044,8 @@ inline void GCC_INLINE concat (xmlNodePtr cur, info_t& info)
                     xmlFree (info.Table[info.NCumAgentXml][Description]);
                     xmlFree (addCode2);
                     xmlFree (desc_hyphen);
-                    info.Table[info.NCumAgentXml][Description] = desc_code2;
+                    info.Table[info.NCumAgentXml][Description]
+                            = sanitize (desc_code2, info.separateur);
                 }
         }
 }
@@ -1184,7 +1205,7 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
 
                             if (result)
                                 {
-                                    result &= BULLETIN_OBLIGATOIRE (NbEnfants);
+                                    result &= BULLETIN_OBLIGATOIRE_NUMERIQUE(NbEnfants);
 
                                     if (result)
                                         {

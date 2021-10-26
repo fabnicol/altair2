@@ -24,7 +24,7 @@
 // développement et à la reproduction du logiciel par l'utilisateur étant
 // donné sa spécificité de logiciel libre, qui peut le rendre complexe à
 // manipuler et qui le réserve donc à des développeurs et des professionnels
-// avertis possédant des connaissances informatiques approfondies. Les
+// avertis possédant des connaissances informatiques approfondies. L   xmlMallocFunces
 // utilisateurs sont donc invités à charger et tester l'adéquation du
 // logiciel à leurs besoins dans des conditions permettant d'assurer la
 // sécurité de leurs systèmes et ou de leurs données et, plus généralement,
@@ -151,12 +151,13 @@ int main (int argc, char **argv)
         {{}},             //    bulletinPtr* Table;
         0,                //    uint64_t nbLigne;
         vector<array<uint64_t, 3>>(),                //    ligne_debut
-                                vector<array<uint64_t, 2>>(),                //    ligne_fin
+        vector<array<uint64_t, 2>>(),                //    ligne_fin
         {},               //    int32_t  *NAgent;
         0,                //    uint32_t nbAgentUtilisateur
         0,                //    uint32_t NCumAgent;
         0,                //    uint32_t NCumAgentXml;
-        0, // taille base
+        0,                //    taille base
+        VERSION_LARGEUR,  //    nombre de colonnes (drapeau, pas nombre effectif)
         BaseType::MONOLITHIQUE,         //    type base
         vector<uint16_t>(),             //    vector<uint16_t> NLigne;
         &mon_thread,      //    thread_t threads;
@@ -1010,6 +1011,49 @@ int main (int argc, char **argv)
                    continue;
                 }
 
+            // largeur de la base
+
+            else if  (commandline_tab[start] == "-W")
+            {
+                ++start;
+                if (commandline_tab[start] == "'Standard'")
+                {
+                   info.largeur_base = LARGEUR_STD;
+                   cerr << PARAMETER_HTML_TAG "Nombre de colonnes standard." << ENDL;
+                }
+                else if (commandline_tab[start] == "'Etendu'")
+                {
+                    info.largeur_base = LARGEUR_EXT;
+                    cerr << PARAMETER_HTML_TAG "Nombre de colonnes étendu." << ENDL;
+                }
+                else if (commandline_tab[start] == "'Maximal'")
+                {
+                    info.largeur_base = LARGEUR_MAX;
+                    cerr << PARAMETER_HTML_TAG "Nombre de colonnes maximum." << ENDL;
+                }
+                else
+                {
+                    info.largeur_base = LARGEUR_STD;
+                    cerr << PARAMETER_HTML_TAG "Valeur inadéquate pour -W: utilisation de la valeur standard." << ENDL;
+                }
+                ++start;
+
+                #if VERSION_LARGEUR == LARGEUR_STD
+                   if (info.largeur_base != LARGEUR_STD)
+                       throw runtime_error("Cet exécutable peut seulement gérer les bases de largeur standard.");
+                #elif VERSION_LARGEUR == LARGEUR_EXT
+                   if (info.largeur_base != LARGEUR_EXT)
+                       throw runtime_error("Cet exécutable peut seulement gérer les bases de largeur étendue.");
+                #elif VERSION_LARGEUR == LARGEUR_MAX
+                   if (info.largeur_base != LARGEUR_MAX)
+                       throw runtime_error("Cet exécutable peut seulement gérer les bases de largeur maximale.");
+                #else
+                #error "Cet exécutable ne peut pas gérer le nombre de colonnes prévu pour les bases en sortie."
+                #endif
+
+                continue;
+            }
+
             // Option inconnue
 
             else if (commandline_tab[start][0] == '-')
@@ -1017,7 +1061,8 @@ int main (int argc, char **argv)
                     cerr << ERROR_HTML_TAG "Option inconnue " << commandline_tab[start] << ENDL;
                     exit (-100);
                 }
-            else break;
+            else
+                break;
         }
 
     // Fin de l'analyse de la ligne de commande
