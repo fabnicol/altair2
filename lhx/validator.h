@@ -165,6 +165,7 @@ typedef struct
     uint32_t NCumAgent;                     ///< Cumul du nombre d'agents pour l'opération de préallocation  calculer_memoire_requise
     uint32_t NCumAgentXml;                  ///< Cumul du nombre d'agents après décodage XML
     uint32_t taille_base;                   ///< Taille de la base
+    uint32_t largeur_base;                  ///< Drapeau pour le nombre de colonnes des bases
     BaseType  type_base;                    ///< Type de la base
     vector<uint16_t> NLigne;                ///< Nombre de lignes par agent
     thread_t* threads;                      ///< Structure thread_t permettant de communiquer une partie des données de paye à chaque thread.
@@ -194,7 +195,7 @@ typedef struct
     bool pretend;                           ///< Ne pas exporter de données
     bool verifmem;                          ///< Vérifier l'état de la mémoire
     bool cdrom;                             ///< Importer les données de paye directement depuis un disque optique
-    bool inserer_bom;                        ///< Insérer un BOM UTF-8 dans les tables CSV exportées (vrai par défaut)
+    bool inserer_bom;                       ///< Insérer un BOM UTF-8 dans les tables CSV exportées (vrai par défaut)
     unsigned int  nbfil;                    ///< Nombre de fils d'exécuSTATE_HTML_TAGtion
 } info_t;
 
@@ -229,9 +230,15 @@ typedef struct
 // MAX_NB_AGENTS détermine le nombre maximal d'agents par mois potentiellement traités
 
 #ifndef MAX_NB_AGENTS
-///Maximum de nombre d'agents par mois par défaut
+/// Maximum de nombre d'agents par mois par défaut
 #define MAX_NB_AGENTS 8000
 #endif
+
+/// Nombre de colonnes standard, étendu et maximal (drapeaux) pour les bases en sortie
+
+#define LARGEUR_STD 0
+#define LARGEUR_EXT 1
+#define LARGEUR_MAX 2
 
 #ifndef NO_DEBUG
 /// Fonctions de débogage
