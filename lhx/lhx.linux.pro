@@ -106,6 +106,7 @@ DEFINES +=  WARNING_LIMIT=5  \         # nombre maximum d'avertissement par fich
             #LOCALDATA=\\\"/AppData/rank\\\" \   # Windows
             LOCALDATA=\\\".local/share/Altair/rank\\\"
 
+#DEFINES += LARGEUR=0
 
 DEFINES += __GNUC_EXTENSION \
            _REENTRANT \

@@ -299,12 +299,12 @@ static const char* type_remuneration[]   =
 
 
 /// nbType donne le nombre d'items du tableau précédent
-static const int nbType                  = sizeof (type_remuneration) / sizeof (char*); // + NA
+static constexpr const int nbType                  = sizeof (type_remuneration) / sizeof (char*); // + NA
 
 /// drapeau est un tableau de paires permettant d'isoler en mémoire les balises de type_remuneration lorsqu'elles sont
 /// rencontrées dans un fichier XHL/XML. Le nombre d'items est donc nbType
 
-static const xmlChar drapeau[][2]  = {{1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}, {8, 0}, {9, 0}, {10, 0}, {11, 0}, {12, 0}};
+static constexpr const xmlChar drapeau[][2]  = {{1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}, {8, 0}, {9, 0}, {10, 0}, {11, 0}, {12, 0}};
 
 void* decoder_fichier (info_t& tinfo);
 void* parse_info (info_t& info);

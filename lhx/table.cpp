@@ -150,7 +150,7 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG (int i, uint32_t agent,
 {
     if (VAR (Annee)[0] == '*') return 0;
 
-    base <<  rang << sep;
+    base << rang << sep;
     NO_QUOTE(Annee)
     NO_QUOTE(Mois)
 
@@ -187,9 +187,9 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG_ECHELON (int i, uint32_
 {
     if (VAR (Annee)[0] == '*') return 0;
 
-    base <<  rang << sep;
-    base  << VAR (Annee) << sep
-          << VAR (Mois) << sep;
+    base << rang << sep;
+    NO_QUOTE(Annee)
+    NO_QUOTE(Mois)
 
     if (Info[0].select_siret)
         {
@@ -226,8 +226,8 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l_SIRET (int i, uint32_t agent, int l,
 {
     if (VAR (Annee)[0] == '*') return 0;
 
-    base  << VAR (Annee) << sep
-          << VAR (Mois) << sep;
+    NO_QUOTE(Annee)
+    NO_QUOTE(Mois)
 
     QUOTE(Budget)
     QUOTE(Employeur)
@@ -261,8 +261,8 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l_SIRET_ECHELON (int i, uint32_t agent
 {
     if (VAR (Annee)[0] == '*') return 0;
 
-    base  << VAR (Annee) << sep
-          << VAR (Mois) << sep;
+    NO_QUOTE(Annee)
+    NO_QUOTE(Mois)
 
     QUOTE(Budget)
     QUOTE(Employeur)
@@ -295,8 +295,8 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l (int i, uint32_t agent, int l, char*
 {
     if (VAR (Annee)[0] == '*') return 0;
 
-    base  << VAR (Annee) << sep
-          << VAR (Mois) << sep;
+    NO_QUOTE(Annee)
+    NO_QUOTE(Mois)
 
     ECRIRE_LIGNE_l_COMMUN (i, agent, l, type, base, sep, Info, rang);
 
@@ -323,8 +323,8 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l_ECHELON (int i, uint32_t agent, int 
 {
     if (VAR (Annee)[0] == '*') return 0;
 
-    base  << VAR (Annee) << sep
-          << VAR (Mois) << sep;
+    NO_QUOTE(Annee)
+    NO_QUOTE(Mois)
 
     ECRIRE_LIGNE_l_COMMUN (i, agent, l, type, base, sep, Info, rang);
 
@@ -413,8 +413,8 @@ static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG (int i, uint32_
 
     base <<  rang << sep;
 
-    base << VAR (Annee) << sep
-         << VAR (Mois) << sep;
+    NO_QUOTE(Annee)
+    NO_QUOTE(Mois)
 
     if (Info[0].select_siret)
         {
@@ -448,7 +448,7 @@ static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON (int i,
 {
     if (VAR (Annee)[0] == '*') return 0;
 
-    NO_QUOTE(rang)
+    base << rang << sep;
 
     NO_QUOTE(Annee)
     NO_QUOTE(Mois)
@@ -764,7 +764,9 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                             type = (char*) NA_STRING;
                                         }
                                     else
-                                        while (VAR (l) &&  (test_drapeau_categorie = VAR (l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+                                        while (VAR (l)
+                                               &&  (test_drapeau_categorie = VAR (l)[0], test_drapeau_categorie <= nbType)
+                                               && (test_drapeau_categorie >= 1))
                                             {
                                                 type = const_cast<char*> (type_remuneration_traduit[test_drapeau_categorie - 1]);
                                                 ++l;
@@ -1263,7 +1265,9 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
 
                             BaseType valeur_drapeau_categorie = BaseType::MONOLITHIQUE;
 
-                            if (VAR (l + 1) == nullptr || VAR (l + 1)[0] == 0 || xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                            // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
+
+                            if ((VAR (l + 1) != nullptr && VAR (l + 1)[0] == 0))
                                 {
                                     while (ligne < NLigneAgent)
                                         {
@@ -1273,9 +1277,10 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                             // Var(l)[0] est un xmlChar càd un unsigned char; on doit le caster en int pour indicier les tableau des types
                                             // mais il ne peut être inférieur à 0 par construction.
 
-                                            while (VAR (l) &&  (test_drapeau_categorie = (int) VAR (l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie != 0))
+                                            while (VAR (l)
+                                                   && (test_drapeau_categorie = (int) VAR (l)[0], test_drapeau_categorie <= nbType)
+                                                   && (test_drapeau_categorie != 0))
                                                 {
-                                                    valeur_drapeau_categorie = static_cast<BaseType> (test_drapeau_categorie);
 
                                                     type = const_cast<char*> (type_remuneration_traduit[test_drapeau_categorie - 1]);
                                                     ++l;
