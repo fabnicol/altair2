@@ -1112,9 +1112,8 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
     bool result = true;
     int na_assign_level = 0;
     constexpr
-    const char* local_tag[] = {"Nom", "Prénom", "Matricule", "NIR", "NbEnfants",
-                               "Statut", "EmploiMetier", "Grade", "Echelon", "Indice"
-                              };
+    const char* local_tag[] = {"Civilité", "Nom", "Prénom", "Matricule", "Adresse", "NIR", "NbEnfants",
+                                  "Statut", "RefNomenStatutaire", "EmploiMetier", "Grade", "Echelon", "Indice", "CptBancaire" };
     xmlNodePtr cur_parent = cur;
 
     cur = atteindreNoeud ("Agent", cur);
@@ -1156,7 +1155,8 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
 
             for (int l :
                     {
-                        Nom, Prenom, Matricule, NIR, EmploiMetier, Statut, NbEnfants, Grade, Echelon, Indice
+                         Civilite, Nom, Prenom, Matricule, Adresse, NIR, RefNomenStatutaire,
+                         EmploiMetier, Statut, NbEnfants, Grade, Echelon, Indice, CptBancaire
                     })
                 {
                     NA_ASSIGN(l);
@@ -1186,6 +1186,10 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
 
     // if (result) va garantir notamment que le pointeur cur filé implicitement est non nul
 
+#ifdef VERSION_EXPORT_ETENDU
+    BULLETIN_OPTIONNEL_CHAR(Civilite);
+#endif
+
     result    = BULLETIN_OBLIGATOIRE (Nom);
 
     if (result)
@@ -1203,9 +1207,85 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
 #ifdef TOLERANT_TAG_HIERARCHY       // on refait le parcours depuis le haut en cas d'ordre inexact des balises
                             cur = cur_save;
 #endif
-
+#ifdef VERSION_EXPORT_ETENDU
+                            xmlNodePtr cur1 = cur;
+#endif
                             if (result)
                                 {
+#ifdef VERSION_EXPORT_ETENDU
+                                    cur = atteindreNoeud("Adresse", cur);
+
+                                    if (cur)
+                                    {
+
+                                        xmlNodePtr cur_parent = cur;
+                                        xmlChar *adr1 = nullptr, *adr2 = nullptr, *adr3 = nullptr,
+                                                *cp = nullptr, *ville = nullptr;
+
+                                        cur = cur->xmlChildrenNode;
+                                        if (cur)
+                                        {
+                                            ATTEINDRE_NOEUD(Adr1, adr1);
+                                            ATTEINDRE_NOEUD(Adr2, adr2);
+                                            ATTEINDRE_NOEUD(Adr3, adr3);
+                                            ATTEINDRE_NOEUD(CP, cp);
+                                            ATTEINDRE_NOEUD(Ville, ville);
+                                            int l1 = 0, l2 = 0, l2b = 0, l3 = 0, l4 = 0;
+
+                                            if (adr1)   l1 = xmlStrlen(adr1);
+                                            if (adr2)   l2 = xmlStrlen(adr2);
+                                            if (adr3)   l2b = xmlStrlen(adr3);
+                                            if (cp)     l3 = xmlStrlen(cp);
+                                            if (ville)  l4 = xmlStrlen(ville);
+
+                                            xmlChar buffer[2056] = {0};
+                                            if (l1)
+                                            {
+                                                memcpy(buffer, adr1, l1);
+                                                buffer[l1] = ' ';
+                                            }
+                                            if (l2)
+                                            {
+                                                memcpy(buffer + l1 + 1, adr2, l2);
+                                                buffer[l1 + 1 + l2] = ' ';
+                                            }
+                                            if (l2b)
+                                            {
+                                                memcpy(buffer + l1 + l2 + 2, adr3, l2b);
+                                                buffer[l1 + l2 + 2 + l2b] = ' ';
+                                            }
+                                            if (l3)
+                                            {
+                                                memcpy(buffer + l1 + l2 + l2b + 3, cp, l3);
+                                                buffer[l1 + l2 + l2b + 3 + l3] = ' ';
+                                            }
+                                            if (l4)
+                                            {
+                                                memcpy(buffer + l1 + l2 + l2b + l3 + 4, ville, l4);
+                                            }
+                                            xmlChar* adresse = xmlStrdup((const xmlChar*) buffer);
+                                            if (adr1)  xmlFree(adr1);
+                                            if (adr2)  xmlFree(adr2);
+                                            if (adr3)  xmlFree(adr3);
+                                            if (cp)    xmlFree(cp);
+                                            if (ville) xmlFree(ville);
+                                            if (! adresse) adresse =(xmlChar*) xmlStrdup(NA_STRING);
+                                            info.Table[info.NCumAgentXml][Adresse] = adresse;
+                                            cur = cur_parent;
+                                        }
+                                        else
+                                        {
+                                            cur = cur_parent;
+                                            NA_ASSIGN(Adresse);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        cur = cur1;
+                                        NA_ASSIGN(Adresse);
+                                    }
+
+#endif
                                     result &= BULLETIN_OBLIGATOIRE_NUMERIQUE(NbEnfants);
 
                                     if (result)
@@ -1228,6 +1308,49 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
 					    
                                             if (result)
                                                 {
+#ifdef VERSION_EXPORT_ETENDU
+                                                      cur1 = cur;
+                                                      cur = atteindreNoeud("RefNomenStatutaire", cur);
+
+                                                      if (cur)
+                                                      {
+                                                        xmlNodePtr cur_parent = cur;
+                                                        cur = cur->xmlChildrenNode;
+                                                        cur1 = cur;
+                                                        xmlChar* code = nullptr, *libelle = nullptr;
+
+                                                        ATTEINDRE_NOEUD(Code, code);
+                                                        ATTEINDRE_NOEUD(Libelle, libelle);
+
+                                                        int l1 = 0, l2 = 0;
+
+                                                        if (code)    l1 = xmlStrlen(code);
+                                                        if (libelle) l2 = xmlStrlen(libelle);
+
+                                                        xmlChar buffer[1024] = {0};
+                                                        if (l1)
+                                                        {
+                                                            memcpy(buffer, code, l1);
+                                                            buffer[l1] = ' ';
+                                                        }
+                                                        if (l2)
+                                                        {
+                                                            memcpy(buffer + l1 + 1, libelle, l2);
+                                                        }
+                                                        xmlChar* refnomenstat = xmlStrdup((const xmlChar*) buffer);
+                                                        if (code)    xmlFree(code);
+                                                        if (libelle) xmlFree(libelle);
+                                                        if (! refnomenstat) refnomenstat=(xmlChar*) xmlStrdup(NA_STRING);
+                                                        info.Table[info.NCumAgentXml][RefNomenStatutaire] = refnomenstat;
+                                                        cur = cur_parent;
+                                                    }
+                                                    else
+                                                    {
+                                                        cur = cur1;
+                                                        NA_ASSIGN(RefNomenStatutaire);
+                                                    }
+#endif
+
                                                     result &= BULLETIN_OBLIGATOIRE (EmploiMetier);
                                                     if (result)
                                                         {
@@ -1255,6 +1378,147 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
 #endif
 
                                                                             result &= BULLETIN_OBLIGATOIRE_NUMERIQUE (Indice);
+#ifdef VERSION_EXPORT_ETENDU
+                                                                            cur = atteindreNoeud("CptBancaire", cur);
+                                                                            if (cur)
+                                                                            {
+
+                                                                                // xmlNodePtr cur_parent = cur;
+                                                                                cur = cur->xmlChildrenNode;
+
+                                                                                if (cur)
+                                                                                {
+                                                                                    xmlChar *codeetab = nullptr, *codeguic = nullptr,
+                                                                                            *idcpte = nullptr, *clerib = nullptr,
+                                                                                            *libbanc = nullptr, *titcpte = nullptr,
+                                                                                            *bic = nullptr, *iban = nullptr,
+                                                                                            *dtebanc = nullptr;
+                                                                                    xmlChar buffer[2056] = {0};
+                                                                                    int l5 = 0, l6 = 0, l9 = 0;
+
+                                                                                    cur1 = cur;
+                                                                                    cur = atteindreNoeud("BIC", cur);
+                                                                                    if (cur)
+                                                                                    {
+                                                                                        bic = xmlGetProp (cur, (const xmlChar *) "V");
+
+                                                                                        cur1 = cur;
+                                                                                        ATTEINDRE_NOEUD(IBAN, iban);
+                                                                                        int l7 = 0, l8 = 0;
+
+                                                                                        if (bic)  l7 = xmlStrlen(bic);
+                                                                                        if (iban) l8 =  xmlStrlen(iban);
+
+                                                                                        if (l7)
+                                                                                        {
+                                                                                            memcpy(buffer, bic, l7);
+                                                                                            buffer[l7] = ' ';
+                                                                                        }
+                                                                                        if (l8)
+                                                                                        {
+                                                                                            memcpy(buffer + l7 + 1, iban, l8);
+                                                                                            buffer[l7 + 1 + l8] = ' ';
+                                                                                        }
+                                                                                        ATTEINDRE_NOEUD(LibBanc, libbanc);
+                                                                                        ATTEINDRE_NOEUD(TitCpte, titcpte);
+                                                                                        ATTEINDRE_NOEUD(DteBanc, dtebanc);
+                                                                                        if (libbanc) l5 = xmlStrlen(libbanc);
+                                                                                        if (titcpte) l6 = xmlStrlen(titcpte);
+                                                                                        if (dtebanc) l9 = xmlStrlen(dtebanc);
+                                                                                        if (l5)
+                                                                                        {
+                                                                                            memcpy(buffer + l7 + l8 + 2, libbanc, l5);
+                                                                                            buffer[l7 + l8 + 2 + l5] = ' ';
+                                                                                        }
+                                                                                        if (l6)
+                                                                                        {
+                                                                                            memcpy(buffer + l7 + l8 + l5 + 3, titcpte, l6);
+                                                                                            buffer[l7 + l8 + l5 + 3 + l6] = ' ';
+                                                                                        }
+                                                                                        if (l9)
+                                                                                        {
+                                                                                            memcpy(buffer + l7 + l8 + l5 + l6 + 4, dtebanc, l9);
+                                                                                        }
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        cur = cur1;
+                                                                                        ATTEINDRE_NOEUD(CodeEtab, codeetab);
+                                                                                        ATTEINDRE_NOEUD(CodeGuic, codeguic);
+                                                                                        ATTEINDRE_NOEUD(IdCpte, idcpte);
+                                                                                        ATTEINDRE_NOEUD(CleRib, clerib);
+                                                                                        int l1 = 0, l2 = 0, l3 = 0, l4 = 0;
+                                                                                        if (codeetab)  l1 = xmlStrlen(codeetab);
+                                                                                        if (codeguic)  l2 = xmlStrlen(codeguic);
+                                                                                        if (idcpte)    l3 = xmlStrlen(idcpte);
+                                                                                        if (clerib)    l4 = xmlStrlen(clerib);
+                                                                                        if (l1)
+                                                                                        {
+                                                                                            memcpy(buffer, codeetab, l1);
+                                                                                            buffer[l1] = ' ';
+                                                                                        }
+                                                                                        if (l2)
+                                                                                        {
+                                                                                            memcpy(buffer + l1 + 1, codeguic, l2);
+                                                                                            buffer[l1 + 1 + l2] = ' ';
+                                                                                        }
+                                                                                        if (l3)
+                                                                                        {
+                                                                                            memcpy(buffer + l1 + l2 + 2, idcpte, l3);
+                                                                                            buffer[l1 + l2 + 2 + l3] = ' ';
+                                                                                        }
+                                                                                        if (l4)
+                                                                                        {
+                                                                                            memcpy(buffer + l1 + l2 + l3 + 3, clerib, l4);
+                                                                                            buffer[l1 + l2 + l3 + 3 + l4] = ' ';
+                                                                                        }
+                                                                                        ATTEINDRE_NOEUD(LibBanc, libbanc);
+                                                                                        ATTEINDRE_NOEUD(TitCpte, titcpte);
+                                                                                        ATTEINDRE_NOEUD(DteBanc, dtebanc);
+                                                                                        if (libbanc) l5 = xmlStrlen(libbanc);
+                                                                                        if (titcpte) l6 = xmlStrlen(titcpte);
+                                                                                        if (dtebanc) l9 = xmlStrlen(dtebanc);
+                                                                                        if (l5)
+                                                                                        {
+                                                                                            memcpy(buffer + l1 + l2 + l3 + l4 + 4, libbanc, l5);
+                                                                                            buffer[l1 + l2 + l3 + l4 + 4 + l5] = ' ';
+                                                                                        }
+                                                                                        if (l6)
+                                                                                        {
+                                                                                            memcpy(buffer + l1 + l2 + l3 + l4 + l5 + 5, titcpte, l6);
+                                                                                            buffer[l1 + l2 + l3 + l4 + l5 + 5 + l6] = ' ';
+                                                                                        }
+                                                                                        if (l9)
+                                                                                        {
+                                                                                            memcpy(buffer + l1 + l2 + l3 + l4 + l5 + l6 + 6, dtebanc, l9);
+                                                                                        }
+                                                                                    }
+
+                                                                                xmlChar* rib = xmlStrdup((const xmlChar*) buffer);
+                                                                                if (bic)      xmlFree(bic);
+                                                                                if (iban)     xmlFree(iban);
+                                                                                if (codeetab) xmlFree(codeetab);
+                                                                                if (codeguic) xmlFree(codeguic);
+                                                                                if (idcpte)   xmlFree(idcpte);
+                                                                                if (clerib)   xmlFree(clerib);
+                                                                                if (libbanc)  xmlFree(libbanc);
+                                                                                if (titcpte)  xmlFree(titcpte);
+                                                                                if (dtebanc)  xmlFree(dtebanc);
+                                                                                if (! rib) rib =(xmlChar*) xmlStrdup(NA_STRING);
+                                                                                info.Table[info.NCumAgentXml][CptBancaire] = rib;
+                                                                               }
+                                                                               else
+                                                                               {
+                                                                                  NA_ASSIGN(CptBancaire);
+                                                                               }
+
+                                                                            }
+                                                                            else
+                                                                            {
+
+                                                                                NA_ASSIGN(CptBancaire);
+                                                                            }
+#endif
 
                                                                             if (! result) na_assign_level = 10;
                                                                         }
@@ -1680,7 +1944,7 @@ level0:
             errorLine_t env = afficher_environnement_xhl (info, nullptr);
             cerr << env.pres;
 #       endif
-            cur = cur_save->next;
+            if (cur_save) cur = cur_save->next;
 
 #       ifdef STRICT
             exit (-4);

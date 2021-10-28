@@ -92,9 +92,20 @@ static const char* type_remuneration_traduit[] =
 
 static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN (int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
+#ifdef VERSION_EXPORT_ETENDU
+    QUOTE(Civilite)
+#endif
+
     QUOTE(Nom)
     QUOTE(Prenom)
     QUOTE(Matricule)
+
+#ifdef VERSION_EXPORT_ETENDU
+    QUOTE(Adresse)
+    QUOTE(RefNomenStatutaire)
+    QUOTE(CptBancaire)
+#endif
+
     QUOTE(Service)
     NO_QUOTE(NbEnfants)
     QUOTE(Statut)
@@ -366,9 +377,19 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l_ECHELON (int i, uint32_t agent, int 
 
 static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN (int i, uint32_t agent, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
+#ifdef VERSION_EXPORT_ETENDU
+    QUOTE(Civilite)
+#endif
     QUOTE(Nom)
     QUOTE(Prenom)
     QUOTE(Matricule)
+
+#ifdef VERSION_EXPORT_ETENDU
+    QUOTE(Adresse)
+    QUOTE(RefNomenStatutaire)
+    QUOTE(CptBancaire)
+#endif
+
     QUOTE(Service)
 
     NO_QUOTE(NbEnfants)
@@ -759,7 +780,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     int test_drapeau_categorie;
 
                                     // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                    if (VAR (l + 1) == nullptr || VAR (l + 1)[0] == 0 || xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                    if (VAR (l + 1) == nullptr || xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
                                         {
                                             type = (char*) NA_STRING;
                                         }
@@ -840,7 +861,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     int      test_drapeau_categorie;
 
                                     // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                    if (VAR (l + 1) == nullptr || VAR (l + 1)[0] == 0 || xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                    if (VAR (l + 1) == nullptr || xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
                                         {
                                             type = (char*) NA_STRING;
                                         }
@@ -910,7 +931,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     int      test_drapeau_categorie;
 
                                     // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                    if (VAR (l + 1) == nullptr || VAR (l + 1)[0] == 0 || xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                    if (VAR (l + 1) == nullptr || xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
                                         {
                                             type = (char*) NA_STRING;
                                         }
@@ -1005,7 +1026,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     int test_drapeau_categorie;
 
                                     // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                    if (VAR (l + 1) == nullptr || VAR (l + 1)[0] == 0 || xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                    if (VAR (l + 1) == nullptr || xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
                                         {
                                             type = (char*) NA_STRING;
                                         }
@@ -1129,7 +1150,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     int      test_drapeau_categorie;
 
                                     // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                    if (VAR (l + 1) == nullptr || VAR (l + 1)[0] == 0 || xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                    if (VAR (l + 1) == nullptr || xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
                                         {
                                             type = (char*) NA_STRING;
                                         }
@@ -1192,7 +1213,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
 
                             int int_drapeau_categorie = -1;
 
-                            if (VAR (l + 1) == nullptr || VAR (l + 1)[0] == 0 || xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                            if (VAR (l + 1) != nullptr && xmlStrcmp (VAR (l + 1), NA_STRING) != 0)
                                 {
                                     while (ligne < NLigneAgent)
                                         {
@@ -1201,7 +1222,8 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
 
                                             // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
 
-                                            while (VAR (l) &&  (test_drapeau_categorie = VAR (l)[0], test_drapeau_categorie <= nbType) && (test_drapeau_categorie >= 1))
+                                            while (VAR (l) &&  (test_drapeau_categorie = VAR (l)[0], test_drapeau_categorie <= nbType)
+                                                           && (test_drapeau_categorie >= 1))
                                                 {
                                                     int_drapeau_categorie = test_drapeau_categorie - 1;
 
@@ -1267,7 +1289,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
 
                             // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
 
-                            if ((VAR (l + 1) != nullptr && VAR (l + 1)[0] == 0))
+                            if (VAR (l + 1) != nullptr && xmlStrcmp (VAR (l + 1), NA_STRING))
                                 {
                                     while (ligne < NLigneAgent)
                                         {
@@ -1281,7 +1303,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                                    && (test_drapeau_categorie = (int) VAR (l)[0], test_drapeau_categorie <= nbType)
                                                    && (test_drapeau_categorie != 0))
                                                 {
-
+                                                    valeur_drapeau_categorie = static_cast<BaseType> (test_drapeau_categorie);
                                                     type = const_cast<char*> (type_remuneration_traduit[test_drapeau_categorie - 1]);
                                                     ++l;
                                                     //break;  NO BREAK!

@@ -130,14 +130,14 @@ enum class BaseType : int
 #define INDEX_MAX_COLONNNES 7
 
 /// Nombre d'éléments de l'énum ci-dessous, correspondant aux champs des bulletins (répétés à chaque ligne de paye)
-#define BESOIN_MEMOIRE_ENTETE  30
+#define BESOIN_MEMOIRE_ENTETE  34
 
 /// Enum des libellés de balises XML donnant lieu à extraction
 typedef enum
 {
     Annee, Mois, Budget, Employeur, Siret, Etablissement,
-    Nom, Prenom, Matricule, NIR, NbEnfants, Statut,
-    EmploiMetier, Grade, Echelon, Indice, Code, Description, Service, NBI, 
+    Civilite, Nom, Prenom, Matricule, Adresse, NIR, RefNomenStatutaire, NbEnfants, Statut,
+    EmploiMetier, Grade, Echelon, Indice, CptBancaire, Code, Description, Service, NBI,
     CodeBudget, Taux, MtBudget, QuotiteTrav, // FPH si RepartitionBudget
     NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer, Categorie
 } Entete;

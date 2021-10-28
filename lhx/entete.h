@@ -52,9 +52,17 @@ static const char* entete_char[] = {"R",      // Rang
                                     "Employeur",
                                     "Siret",
                                     "Etablissement",
+                                    #ifdef VERSION_EXPORT_ETENDU
+                                      "Civilité",
+                                    #endif
                                     "Nom",
                                     "Prénom",
                                     "Matricule",
+                                    #ifdef VERSION_EXPORT_ETENDU
+                                      "Adresse",
+                                      "RefNomenclature",
+                                      "CompteBancaire",
+                                    #endif
                                     "Service",
                                     "Nb.Enfants",
                                     "Statut",
@@ -94,9 +102,17 @@ static const char* entete_char_bulletins[] = {"R",
                                               "Employeur",
                                               "Siret",
                                               "Etablissement",
+                                              #ifdef VERSION_EXPORT_ETENDU
+                                                "Civilité",
+                                              #endif
                                               "Nom",
                                               "Prénom",
                                               "Matricule",
+                                              #ifdef VERSION_EXPORT_ETENDU
+                                                "Adresse",
+                                                "RefNomenclature",
+                                                "CompteBancaire",
+                                              #endif
                                               "Service",
                                               "Nb.Enfants",
                                               "Statut",

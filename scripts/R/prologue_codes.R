@@ -52,7 +52,7 @@
 
 "types.irs"  %a% c("IR", "S")
 
-"controle" %a% c("GRENOBLE ALPES METROPOLE","24380090100023 - 24380090100015","REGIE ASSAINISSEMENT - GRENOBLE ALPES METROPOLE","ASSAINISSEMENT, BUDGET PRINCIPAL, Multi budgets")  
+"controle" %a% c("VILLE DE LYON","21690123100011","Etablissement du Rhone","")  
 
 "codes" %a% data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IFSE", "IEMP", "ISS", "IHTS", "VAC", "ASTREINTES", "NAS", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(

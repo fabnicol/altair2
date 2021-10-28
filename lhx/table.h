@@ -57,7 +57,7 @@ static inline void convertir (const std::string& filepath)
     std::system ((std::string ("set PATH=%PATH%; C:/Users/Public/Dev/altair/Outils && CALL iconv.exe -c -s -f UTF-8 -t ISO-8859-1 " )
                   + filepath + ".temp" + CSV
                   + std::string (" > ")
-                  + filepath + CSV + " 2>nullptr").c_str());
+                  + filepath + CSV + " 2>/dev/null").c_str());
 
     if (verbeux) std::cerr << PROCESSING_HTML_TAG "Conversion terminée"  ENDL;
 }

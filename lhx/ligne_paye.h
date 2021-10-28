@@ -50,6 +50,14 @@
 #include "table.h"
 #include "tags.h"
 
+#define ATTEINDRE_NOEUD(X, Y)    cur = atteindreNoeud(#X, cur); \
+    if (cur) \
+      { \
+        Y = xmlGetProp (cur, (const xmlChar *) "V"); \
+        cur1 = cur; \
+      } \
+    else cur = cur1
+
 extern bool verbeux;
 extern std::mutex mut;
 extern std::vector<errorLine_t> errorLineStack;
