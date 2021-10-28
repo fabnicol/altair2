@@ -1557,7 +1557,7 @@ pair<uint64_t, uint64_t> produire_segment (info_t& info, const vString& segment)
                     if (! Info[i].Table[agent].empty())
                         for (xmlChar* u : Info[i].Table[agent])
                             {
-                                if (u != NULL) xmlFree (u);
+                                xmlFree (u);
                             }
                 }
 

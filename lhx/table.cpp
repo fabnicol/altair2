@@ -92,41 +92,44 @@ static const char* type_remuneration_traduit[] =
 
 static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN (int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
+    QUOTE(Nom)
+    QUOTE(Prenom)
+    QUOTE(Matricule)
+    QUOTE(Service)
+    NO_QUOTE(NbEnfants)
+    QUOTE(Statut)
 
-    base   << VAR (Nom)         << sep
-           << VAR (Prenom)      << sep
-           << VAR (Matricule)   << sep
-           << VAR (Service)     << sep
-           << VAR (NbEnfants)   << sep
-           << VAR (Statut)      << sep
-           << VAR (QuotiteTrav) << sep
-           << VAR (NbHeureSup)  << sep
-           << VAR (NbHeureTotal) << sep
-           << VAR (Indice)      << sep
-           << VAR (MtBrut)      << sep
-           << VAR (MtNet)       << sep
-           << VAR (MtNetAPayer) << sep
-           << VAR (NBI)         << sep;
+    NO_QUOTE(QuotiteTrav)
+    NO_QUOTE(NbHeureSup)
+    NO_QUOTE(NbHeureTotal)
+
+    QUOTE(Indice)
+
+    NO_QUOTE(MtBrut)
+    NO_QUOTE(MtNet)
+    NO_QUOTE(MtNetAPayer)
+    NO_QUOTE(NBI)
 
     if (Info[i].generer_repartition_budget)
     {
-      base << VAR (CodeBudget) << sep
-           << VAR (Taux)       << sep
-           << VAR (MtBudget)   << sep;
+      QUOTE(CodeBudget)
+      NO_QUOTE(Taux)
+      NO_QUOTE(MtBudget)
     }
 
-      base << VAR (l) << sep
-           << VAR (l + 1) << sep
-           << VAR (l + 2) << sep
-           << VAR (l + 3) << sep
-           << VAR (l + 4) << sep
-           << VAR (l + 5) << sep
-           << VAR (l + 6) << sep
-           << VAR (l + INDEX_MAX_COLONNNES) << sep    // Il doit y avoir au plus INDEX_MAX_COLONNES + 1 types de colonnes de lignes de paye différents
-           << type << sep
-           << VAR (EmploiMetier) << sep
-           << VAR (Grade) << sep;
+    QUOTE(l) //Libellé
+    QUOTE(l+1) // Code
+    NO_QUOTE(l+2) // Base
+    NO_QUOTE(l+3) // Taux
+    NO_QUOTE(l+4) // Nb.Unite
+    NO_QUOTE(l+5) // Montant
+    QUOTE(l+6) // Début (date)
+    QUOTE(l + INDEX_MAX_COLONNNES) // Fin (date) pour INDEX_MAX_COLONNES = 7, ajuster sinon !
+            // Il doit y avoir au plus INDEX_MAX_COLONNES + 1 types de colonnes de lignes de paye différents
+    if (type) base << type << sep; else base << sep; // valeur nulle de type rarissime mais pas impossible
 
+    QUOTE(EmploiMetier)
+    QUOTE(Grade)
 }
 
 /// Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier \n
@@ -148,22 +151,21 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG (int i, uint32_t agent,
     if (VAR (Annee)[0] == '*') return 0;
 
     base <<  rang << sep;
-    base  << VAR (Annee) << sep
-          << VAR (Mois) << sep;
+    NO_QUOTE(Annee)
+    NO_QUOTE(Mois)
 
     if (Info[0].select_siret)
         {
-            base  << VAR (Budget) << sep
-                  << VAR (Employeur) << sep
-                  << VAR (Siret) << sep
-                  << VAR (Etablissement) << sep;
+            QUOTE(Budget)
+            QUOTE(Employeur)
+            QUOTE(Siret)
+            QUOTE(Etablissement)
         }
 
     ECRIRE_LIGNE_l_COMMUN (i, agent, l, type, base, sep, Info, rang);
 
-    base << VAR (Categorie) << sep
-         << VAR (NIR) << "\n";
-
+    NO_QUOTE(Categorie)
+    QUOTE_EOL(NIR)
     return 1;
 }
 
@@ -191,17 +193,17 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG_ECHELON (int i, uint32_
 
     if (Info[0].select_siret)
         {
-            base  << VAR (Budget) << sep
-                  << VAR (Employeur) << sep
-                  << VAR (Siret) << sep
-                  << VAR (Etablissement) << sep;
+            QUOTE(Budget)
+            QUOTE(Employeur)
+            QUOTE(Siret)
+            QUOTE(Etablissement)
         }
 
     ECRIRE_LIGNE_l_COMMUN (i, agent, l, type, base, sep, Info, rang);
 
-    base << VAR (Echelon) << sep
-         << VAR (Categorie) << sep
-         << VAR (NIR) << "\n";
+    QUOTE(Echelon)
+    NO_QUOTE(Categorie)
+    QUOTE_EOL(NIR)
 
     return 1;
 }
@@ -227,15 +229,15 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l_SIRET (int i, uint32_t agent, int l,
     base  << VAR (Annee) << sep
           << VAR (Mois) << sep;
 
-    base  << VAR (Budget) << sep
-          << VAR (Employeur) << sep
-          << VAR (Siret) << sep
-          << VAR (Etablissement) << sep;
+    QUOTE(Budget)
+    QUOTE(Employeur)
+    QUOTE(Siret)
+    QUOTE(Etablissement)
 
     ECRIRE_LIGNE_l_COMMUN (i, agent, l, type, base, sep, Info, rang);
 
-    base  << VAR (Categorie) << sep
-          << VAR (NIR) << "\n";
+    NO_QUOTE(Categorie)
+    QUOTE_EOL(NIR)
 
     return 1;
 }
@@ -262,17 +264,16 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l_SIRET_ECHELON (int i, uint32_t agent
     base  << VAR (Annee) << sep
           << VAR (Mois) << sep;
 
-    base  << VAR (Budget) << sep
-          << VAR (Employeur) << sep
-          << VAR (Siret) << sep
-          << VAR (Etablissement) << sep;
+    QUOTE(Budget)
+    QUOTE(Employeur)
+    QUOTE(Siret)
+    QUOTE(Etablissement)
 
     ECRIRE_LIGNE_l_COMMUN (i, agent, l, type, base, sep, Info, rang);
 
-    base << VAR (Echelon) << sep
-         << VAR (Categorie) << sep
-         << VAR (NIR) << "\n";
-
+    QUOTE(Echelon)
+    NO_QUOTE(Categorie)
+    QUOTE_EOL(NIR)
     return 1;
 }
 
@@ -299,8 +300,8 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l (int i, uint32_t agent, int l, char*
 
     ECRIRE_LIGNE_l_COMMUN (i, agent, l, type, base, sep, Info, rang);
 
-    base << VAR (Categorie) << sep
-         << VAR (NIR) << "\n";
+    NO_QUOTE(Categorie)
+    QUOTE_EOL(NIR)
 
     return 1;
 }
@@ -327,9 +328,9 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l_ECHELON (int i, uint32_t agent, int 
 
     ECRIRE_LIGNE_l_COMMUN (i, agent, l, type, base, sep, Info, rang);
 
-    base << VAR (Echelon) << sep
-         << VAR (Categorie) << sep
-         << VAR (NIR) << "\n";
+    QUOTE(Echelon)
+    NO_QUOTE(Categorie)
+    QUOTE_EOL(NIR)
     return 1;
 }
 
@@ -363,32 +364,35 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l_ECHELON (int i, uint32_t agent, int 
 /// <li>Description : Description de l'événement de paye</li>
 /// </ul>
 
-static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN (int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
+static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN (int i, uint32_t agent, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
+    QUOTE(Nom)
+    QUOTE(Prenom)
+    QUOTE(Matricule)
+    QUOTE(Service)
 
-    bulletins << VAR (Nom) << sep
-              << VAR (Prenom) << sep
-              << VAR (Matricule) << sep
-              << VAR (Service) << sep
-              << VAR (NbEnfants) << sep
-              << VAR (Statut) << sep
-              << VAR (QuotiteTrav) << sep
-              << VAR (NbHeureSup) << sep
-              << VAR (NbHeureTotal) << sep
-              << VAR (Indice) << sep
-              << VAR (MtBrut) << sep
-              << VAR (MtNet) << sep
-              << VAR (MtNetAPayer) << sep
-              << VAR (NBI) << sep;
-             if (Info[i].generer_repartition_budget)
-             {
-               bulletins << VAR (CodeBudget) << sep
-                    << VAR (Taux)       << sep
-                    << VAR (MtBudget)   << sep;
-             }
-             bulletins << VAR (EmploiMetier) << sep
-              << VAR (Grade) << sep
-              << VAR (Code) <<  " " << VAR (Description) << sep;
+    NO_QUOTE(NbEnfants)
+    QUOTE(Statut)
+    NO_QUOTE(QuotiteTrav)
+    NO_QUOTE(NbHeureSup)
+    NO_QUOTE(NbHeureTotal)
+    QUOTE(Indice)
+
+    NO_QUOTE(MtBrut)
+    NO_QUOTE(MtNet)
+    NO_QUOTE(MtNetAPayer)
+    NO_QUOTE(NBI)
+
+    if (Info[i].generer_repartition_budget)
+      {
+        QUOTE(CodeBudget)
+        NO_QUOTE(Taux)
+        NO_QUOTE(MtBudget)
+      }
+
+    QUOTE(EmploiMetier)
+    QUOTE(Grade)
+    QUOTE2(Code, Description)
 }
 
 /// Ecrit une ligne de bulletin de paye pour un agent donné dans le fichier CSV Bulletins.paie et, en outre, génère le rang de la ligne dans le fichier\n
@@ -403,27 +407,27 @@ static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN (int i, uint32_t agen
 /// \param rang Rang de la ligne
 /// \note Si la variable Année contient le caractère `*` en tête de chaîne, la ligne est sautée
 
-static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG (int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int rang)
+static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG (int i, uint32_t agent, table_t& base, char sep, vector<info_t> &Info, int rang)
 {
     if (VAR (Annee)[0] == '*') return 0;
 
-    bulletins <<  rang << sep;
+    base <<  rang << sep;
 
-    bulletins << VAR (Annee) << sep
-              << VAR (Mois) << sep;
+    base << VAR (Annee) << sep
+         << VAR (Mois) << sep;
 
     if (Info[0].select_siret)
         {
-            bulletins  << VAR (Budget) << sep
-                       << VAR (Employeur) << sep
-                       << VAR (Siret) << sep
-                       << VAR (Etablissement) << sep;
+            QUOTE(Budget)
+            QUOTE(Employeur)
+            QUOTE(Siret)
+            QUOTE(Etablissement)
         }
 
-    ECRIRE_LIGNE_BULLETIN_COMMUN (i, agent, bulletins, sep, Info, rang);
+    ECRIRE_LIGNE_BULLETIN_COMMUN (i, agent, base, sep, Info, rang);
 
-    bulletins   << VAR (Categorie) << sep
-                << VAR (NIR) << "\n";
+    NO_QUOTE(Categorie)
+    QUOTE_EOL(NIR);
     return 1;
 }
 
@@ -440,28 +444,28 @@ static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG (int i, uint32_
 /// \param rang Rang de la ligne
 /// \note Si la variable Année contient le caractère `*` en tête de chaîne, la ligne est sautée
 
-static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON (int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int rang)
+static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON (int i, uint32_t agent, table_t& base, char sep, vector<info_t> &Info, int rang)
 {
     if (VAR (Annee)[0] == '*') return 0;
 
-    bulletins <<  rang << sep;
+    NO_QUOTE(rang)
 
-    bulletins << VAR (Annee) << sep
-              << VAR (Mois) << sep;
+    NO_QUOTE(Annee)
+    NO_QUOTE(Mois)
 
     if (Info[0].select_siret)
         {
-            bulletins  << VAR (Budget) << sep
-                       << VAR (Employeur) << sep
-                       << VAR (Siret) << sep
-                       << VAR (Etablissement) << sep;
+            QUOTE(Budget)
+            QUOTE(Employeur)
+            QUOTE(Siret)
+            QUOTE(Etablissement)
         }
 
-    ECRIRE_LIGNE_BULLETIN_COMMUN (i, agent, bulletins, sep, Info, rang);
+    ECRIRE_LIGNE_BULLETIN_COMMUN (i, agent, base, sep, Info, rang);
 
-    bulletins    << VAR (Echelon)   << sep
-                 << VAR (Categorie) << sep
-                 << VAR (NIR) << "\n";
+    QUOTE(Echelon)
+    NO_QUOTE(Categorie)
+    QUOTE_EOL(NIR)
     return 1;
 }
 
@@ -479,22 +483,22 @@ static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON (int i,
 /// \param rang Rang de la ligne
 /// \note Si la variable Année contient le caractère `*` en tête de chaîne, la ligne est sautée
 
-static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET (int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
+static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET (int i, uint32_t agent, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
     if (VAR (Annee)[0] == '*') return 0;
 
-    bulletins << VAR (Annee) << sep
-              << VAR (Mois) << sep;
+    NO_QUOTE(Annee)
+    NO_QUOTE(Mois)
 
-    bulletins  << VAR (Budget) << sep
-               << VAR (Employeur) << sep
-               << VAR (Siret) << sep
-               << VAR (Etablissement) << sep;
+    QUOTE(Budget)
+    QUOTE(Employeur)
+    QUOTE(Siret)
+    QUOTE(Etablissement)
 
-    ECRIRE_LIGNE_BULLETIN_COMMUN (i, agent, bulletins, sep, Info, rang);
+    ECRIRE_LIGNE_BULLETIN_COMMUN (i, agent, base, sep, Info, rang);
 
-    bulletins    << VAR (Categorie) << sep
-                 << VAR (NIR) << "\n";
+    NO_QUOTE(Categorie)
+    QUOTE_EOL(NIR)
     return 1;
 }
 
@@ -511,23 +515,23 @@ static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET (int i, uint32_t agent
 /// \param rang Rang de la ligne
 /// \note Si la variable Année contient le caractère `*` en tête de chaîne, la ligne est sautée
 
-static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON (int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
+static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON (int i, uint32_t agent, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
     if (VAR (Annee)[0] == '*') return 0;
 
-    bulletins << VAR (Annee) << sep
-              << VAR (Mois) << sep;
+    NO_QUOTE(Annee)
+    NO_QUOTE(Mois)
 
-    bulletins  << VAR (Budget) << sep
-               << VAR (Employeur) << sep
-               << VAR (Siret) << sep
-               << VAR (Etablissement) << sep;
+    QUOTE(Budget)
+    QUOTE(Employeur)
+    QUOTE(Siret)
+    QUOTE(Etablissement)
 
-    ECRIRE_LIGNE_BULLETIN_COMMUN (i, agent, bulletins, sep, Info, rang);
+    ECRIRE_LIGNE_BULLETIN_COMMUN (i, agent, base, sep, Info, rang);
 
-    bulletins    << VAR (Echelon)   << sep
-                 << VAR (Categorie) << sep
-                 << VAR (NIR) << "\n";
+    QUOTE(Echelon)
+    NO_QUOTE(Categorie)
+    QUOTE_EOL(NIR)
     return 1;
 }
 
@@ -543,17 +547,17 @@ static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON (int i, uint32
 /// \param rang Rang de la ligne
 /// \note Si la variable Année contient le caractère `*` en tête de chaîne, la ligne est sautée
 
-static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETINS (int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
+static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETINS (int i, uint32_t agent, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
     if (VAR (Annee)[0] == '*') return 0;
 
-    bulletins << VAR (Annee) << sep
-              << VAR (Mois) << sep;
+    NO_QUOTE(Annee)
+    NO_QUOTE(Mois)
 
-    ECRIRE_LIGNE_BULLETIN_COMMUN (i, agent, bulletins, sep, Info, rang);
+    ECRIRE_LIGNE_BULLETIN_COMMUN (i, agent, base, sep, Info, rang);
 
-    bulletins    << VAR (Categorie) << sep
-                 << VAR (NIR) << "\n";
+    NO_QUOTE(Categorie)
+    QUOTE_EOL(NIR)
     return 1;
 }
 
@@ -568,18 +572,18 @@ static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETINS (int i, uint32_t agent, tab
 /// \param rang Rang de la ligne
 /// \note Si la variable Année contient le caractère `*` en tête de chaîne, la ligne est sautée
 
-static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETINS_ECHELON (int i, uint32_t agent, table_t& bulletins, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
+static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETINS_ECHELON (int i, uint32_t agent, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
     if (VAR (Annee)[0] == '*') return 0;
 
-    bulletins << VAR (Annee) << sep
-              << VAR (Mois) << sep;
+    NO_QUOTE(Annee)
+    NO_QUOTE(Mois)
 
-    ECRIRE_LIGNE_BULLETIN_COMMUN (i, agent, bulletins, sep, Info, rang);
+    ECRIRE_LIGNE_BULLETIN_COMMUN (i, agent, base, sep, Info, rang);
 
-    bulletins    << VAR (Echelon)   << sep
-                 << VAR (Categorie) << sep
-                 << VAR (NIR) << "\n";
+    QUOTE(Echelon)
+    NO_QUOTE(Categorie)
+    QUOTE_EOL(NIR)
     return 1;
 }
 
@@ -755,7 +759,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     int test_drapeau_categorie;
 
                                     // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                    if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                    if (VAR (l + 1) == nullptr || VAR (l + 1)[0] == 0 || xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
                                         {
                                             type = (char*) NA_STRING;
                                         }
@@ -834,7 +838,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     int      test_drapeau_categorie;
 
                                     // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                    if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                    if (VAR (l + 1) == nullptr || VAR (l + 1)[0] == 0 || xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
                                         {
                                             type = (char*) NA_STRING;
                                         }
@@ -904,7 +908,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     int      test_drapeau_categorie;
 
                                     // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                    if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                    if (VAR (l + 1) == nullptr || VAR (l + 1)[0] == 0 || xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
                                         {
                                             type = (char*) NA_STRING;
                                         }
@@ -999,7 +1003,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     int test_drapeau_categorie;
 
                                     // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                    if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                    if (VAR (l + 1) == nullptr || VAR (l + 1)[0] == 0 || xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
                                         {
                                             type = (char*) NA_STRING;
                                         }
@@ -1123,7 +1127,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
                                     int      test_drapeau_categorie;
 
                                     // teste si un drapeau de nouvelle catégorie de ligne de paye (T, I,...) a été introduit en base
-                                    if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
+                                    if (VAR (l + 1) == nullptr || VAR (l + 1)[0] == 0 || xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
                                         {
                                             type = (char*) NA_STRING;
                                         }
@@ -1186,7 +1190,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
 
                             int int_drapeau_categorie = -1;
 
-                            if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING))
+                            if (VAR (l + 1) == nullptr || VAR (l + 1)[0] == 0 || xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
                                 {
                                     while (ligne < NLigneAgent)
                                         {
@@ -1259,7 +1263,7 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
 
                             BaseType valeur_drapeau_categorie = BaseType::MONOLITHIQUE;
 
-                            if (VAR (l + 1) && xmlStrcmp (VAR (l + 1), NA_STRING))
+                            if (VAR (l + 1) == nullptr || VAR (l + 1)[0] == 0 || xmlStrcmp (VAR (l + 1), NA_STRING) == 0)
                                 {
                                     while (ligne < NLigneAgent)
                                         {

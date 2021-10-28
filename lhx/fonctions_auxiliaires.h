@@ -231,7 +231,7 @@ string string_exec (const char* cmd);
 /// \return structure de type errorLine_t contenant la ligne du fichier où apparaît
 /// l'erreur ainsi qu'un message comprenant le fichier et le nom de la balise, s'il est
 /// analysable. Sinon affiche un message indiquant son absence et retourne pour le numéro
-/// de ligne. Retourne NA pour un noeud null.
+/// de ligne. Retourne NA pour un noeud nullptr.
 
 errorLine_t afficher_environnement_xhl (const info_t& info, const xmlNodePtr cur);
 

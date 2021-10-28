@@ -219,9 +219,15 @@ typedef struct
 #endif
 
 #ifndef NA_STRING
+#ifdef NA_STRING_IS_EMPTY
 /// Caractérisation des non-réponses ou variables non renseignées
-#define NA_STRING  (xmlChar*) "NA"
+  #define NA_STRING  (xmlChar*) ""
+#else
+/// Caractérisation des non-réponses ou variables non renseignées
+  #define NA_STRING  (xmlChar*) "NA"
 #endif
+#endif
+
 #ifndef MAX_LIGNES_PAYE
 /// Maximum de lignes de paye par agent par défaut
 #define MAX_LIGNES_PAYE 1000

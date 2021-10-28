@@ -57,10 +57,36 @@ static inline void convertir (const std::string& filepath)
     std::system ((std::string ("set PATH=%PATH%; C:/Users/Public/Dev/altair/Outils && CALL iconv.exe -c -s -f UTF-8 -t ISO-8859-1 " )
                   + filepath + ".temp" + CSV
                   + std::string (" > ")
-                  + filepath + CSV + " 2>null").c_str());
+                  + filepath + CSV + " 2>nullptr").c_str());
 
     if (verbeux) std::cerr << PROCESSING_HTML_TAG "Conversion terminée"  ENDL;
 }
 #endif
+
+#if !defined SANITIZING_QUOTES && !defined NO_SANITIZING_QUOTES
+  #define  QUOTE(X) { if (VAR(X) == nullptr || VAR(X)[0] == 0) base << sep ; else base << '"' << VAR(X) << '"' << sep;}
+  #define  QUOTE2(X, Y) { if (VAR(X) == nullptr || VAR(X)[0] == 0) \
+                           { \
+                                if (VAR(Y) != nullptr && VAR(Y)[0] != 0) \
+                                  base << " - " << VAR(Y) << '"' << sep; \
+                                else \
+                                  base << sep; \
+                           } else { \
+                                base << '"' << VAR(X) << " - " ; \
+                                if (VAR(Y) != nullptr) \
+                                    base << VAR(Y) << '"' << sep; \
+                                else \
+                                    base << '"' << sep; \
+                          }\
+                        }
+
+  #define  QUOTE_EOL(X) { if (VAR(X) == nullptr || VAR(X)[0] == 0) base << sep; else base << '"' << VAR(X) << '"' << "\n";}
+#else
+  #define  QUOTE(X) base << VAR(X) << sep;
+  #define  QUOTE2(X, Y) base << VAR(X) << " - " << VAR(Y) << sep ;
+  #define  QUOTE_EOL(X) base << VAR(X) << "\n";
+#endif
+
+#define NO_QUOTE(X) { if (VAR(X) == nullptr || VAR(X)[0] == 0) base << sep ; else base << VAR(X) << sep; }
 
 #endif // TABLE_HPP_INCLUDED

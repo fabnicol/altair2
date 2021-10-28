@@ -308,7 +308,7 @@ size_t getFreeSystemMemory()
     char *p2 = strchr (p1, 'k');
     p1[p2 - p1] = '\0';
     ++p1;
-    return (size_t) (strtoull (p1, NULL, 10));
+    return (size_t) (strtoull (p1, nullptr, 10));
 #  else
     MEMORYSTATUSEX status;
     status.dwLength = sizeof (status);
@@ -330,9 +330,9 @@ size_t getCurrentRSS( )
 #elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__)
     /* Linux ---------------------------------------------------- */
     long rss = 0L;
-    FILE* fp = NULL;
+    FILE* fp = nullptr;
 
-    if ( (fp = fopen ( "/proc/self/statm", "r" )) == NULL )
+    if ( (fp = fopen ( "/proc/self/statm", "r" )) == nullptr )
         return (size_t)0L;		/* Can't open? */
 
     if ( fscanf ( fp, "%*s%ld", &rss ) != 1 )
@@ -762,7 +762,7 @@ string string_exec (const char* cmd)
 
     while (!feof (pipe.get()))
         {
-            if (fgets (buffer.data(), 999, pipe.get()) != NULL)
+            if (fgets (buffer.data(), 999, pipe.get()) != nullptr)
                 result += buffer.data();
         }
 
@@ -1104,7 +1104,7 @@ int calculer_memoire_requise (info_t& info)
             *    The application intends to access the pages in the specified range in the near future. */
 
                                 
-            char* data = (char*) mmap(NULL, file_size, PROT_READ,
+            char* data = (char*) mmap(nullptr, file_size, PROT_READ,
                         MAP_PRIVATE, fd, 0);
             if (data == MAP_FAILED)
             {

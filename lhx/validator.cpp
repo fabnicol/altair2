@@ -287,7 +287,7 @@ static int parseFile (info_t& info)
             if (budget_fichier == nullptr || budget_fichier[0] == '\0')
                 {
                     if (budget_fichier  != nullptr) xmlFree (budget_fichier);
-                    budget_fichier = xmlStrdup (NA_STRING);
+                    budget_fichier = nullptr;
 
                     if (verbeux)
                         {
@@ -302,7 +302,7 @@ static int parseFile (info_t& info)
         }
     else
         {
-            budget_fichier = xmlStrdup (NA_STRING);
+            budget_fichier = nullptr;
 
             if (verbeux)
                 {
@@ -356,8 +356,8 @@ static int parseFile (info_t& info)
 
             if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
 
-            employeur_fichier = xmlStrdup (NA_STRING);
-            siret_fichier = xmlStrdup (NA_STRING);
+            employeur_fichier = nullptr;
+            siret_fichier = nullptr;
             cur = cur_save;
         }
     else
@@ -380,8 +380,8 @@ static int parseFile (info_t& info)
                                     mut.unlock();
                                 }
 
-                            employeur_fichier = xmlStrdup (NA_STRING);
-                            siret_fichier = xmlStrdup (NA_STRING);
+                            employeur_fichier = nullptr;
+                            siret_fichier = nullptr;
                             break;
                         }
 
@@ -395,7 +395,7 @@ static int parseFile (info_t& info)
                     else
                         {
                             cerr << ERROR_HTML_TAG "Employeur non identifié [non-conformité à la norme]." ENDL;
-                            employeur_fichier = xmlStrdup (NA_STRING);
+                            employeur_fichier = nullptr;
                         }
 
                     if (cur != nullptr) cur = atteindreNoeud ("Siret", cur);
@@ -417,7 +417,7 @@ static int parseFile (info_t& info)
                                     if (verbeux)  cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
 
                                     xmlFree (siret_fichier);
-                                    siret_fichier = xmlStrdup (NA_STRING);
+                                    siret_fichier = nullptr;
 
                                 }
                         }
@@ -429,7 +429,7 @@ static int parseFile (info_t& info)
 
                             cerr << "Année " << annee_fichier
                                  << " Mois "  << mois_fichier << ENDL;
-                            siret_fichier = xmlStrdup (NA_STRING);
+                            siret_fichier = nullptr;
                         }
 
                 }
@@ -555,7 +555,6 @@ static int parseFile (info_t& info)
                             cerr << STATE_HTML_TAG "Pas d'information sur l'Etablissement" ENDL;
                         }
 
-                    etablissement_fichier = xmlStrdup (NA_STRING);
                 }
             else
                 {
@@ -595,7 +594,7 @@ static int parseFile (info_t& info)
 
                                     if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
 
-                                    etablissement_fichier = xmlStrdup (NA_STRING);
+                                    etablissement_fichier = nullptr;
 
                                     // on garde le siret de l'employeur
 
@@ -621,7 +620,7 @@ static int parseFile (info_t& info)
                                             if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
 
                                             xmlFree (etablissement_fichier);
-                                            etablissement_fichier = xmlStrdup (NA_STRING);
+                                            etablissement_fichier = nullptr;
                                         }
 
                                     cur = (cur) ? cur->next : nullptr;
@@ -639,7 +638,7 @@ static int parseFile (info_t& info)
 
                                     if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
 
-                                    etablissement_fichier = xmlStrdup (NA_STRING);
+                                    etablissement_fichier = nullptr;
 
                                     // on garde le siret de l'employeur
                                 }
@@ -667,7 +666,7 @@ static int parseFile (info_t& info)
                                             if (verbeux) cerr << PROCESSING_HTML_TAG "Poursuite du traitement (mode souple)." ENDL;
 
                                             xmlFree (siret_fichier);
-                                            siret_fichier = xmlStrdup (NA_STRING);
+                                            siret_fichier = nullptr;
                                         }
                                 }
                             else
@@ -679,7 +678,7 @@ static int parseFile (info_t& info)
                                     exit (-517);
 #endif
                                     warning_msg ("les données de Siret de l'établissement [non-conformité]", info, cur);
-                                    siret_fichier = xmlStrdup (NA_STRING);
+                                    siret_fichier = nullptr;
                                 }
 
                         }
@@ -1266,7 +1265,7 @@ void* parse_info (info_t& info)
                  {
                     xmlFree (VAR (Statut)) ;
                     VAR (Statut) =  xmlStrdup ((const xmlChar*)"ELU");
-                    VAR (Catégorie) = xmlStrdup (NA_STRING);
+                    VAR (Catégorie) = nullptr;
                  }
             else
 #           endif                                
@@ -1317,7 +1316,7 @@ void* parse_info (info_t& info)
                         }
                     else
                         {
-                            VAR (Categorie) = xmlStrdup (NA_STRING);
+                            VAR (Categorie) = nullptr;
                         }
                 }
 

@@ -679,27 +679,27 @@ public:
         return _document;
     }
 
-    /// Safely cast to an Element, or null.
+    /// Safely cast to an Element, or nullptr.
     virtual XMLElement*		ToElement()		{
         return 0;
     }
-    /// Safely cast to Text, or null.
+    /// Safely cast to Text, or nullptr.
     virtual XMLText*		ToText()		{
         return 0;
     }
-    /// Safely cast to a Comment, or null.
+    /// Safely cast to a Comment, or nullptr.
     virtual XMLComment*		ToComment()		{
         return 0;
     }
-    /// Safely cast to a Document, or null.
+    /// Safely cast to a Document, or nullptr.
     virtual XMLDocument*	ToDocument()	{
         return 0;
     }
-    /// Safely cast to a Declaration, or null.
+    /// Safely cast to a Declaration, or nullptr.
     virtual XMLDeclaration*	ToDeclaration()	{
         return 0;
     }
-    /// Safely cast to an Unknown, or null.
+    /// Safely cast to an Unknown, or nullptr.
     virtual XMLUnknown*		ToUnknown()		{
         return 0;
     }
@@ -725,7 +725,7 @@ public:
 
     /** The meaning of 'value' changes for the specific type.
     	@verbatim
-    	Document:	empty (NULL is returned, not an empty string)
+    	Document:	empty (nullptr is returned, not an empty string)
     	Element:	name of the element
     	Comment:	the comment text
     	Unknown:	the tag contents
@@ -756,7 +756,7 @@ public:
         return !_firstChild;
     }
 
-    /// Get the first child node, or null if none exists.
+    /// Get the first child node, or nullptr if none exists.
     const XMLNode*  FirstChild() const		{
         return _firstChild;
     }
@@ -774,7 +774,7 @@ public:
         return const_cast<XMLElement*>(const_cast<const XMLNode*>(this)->FirstChildElement( name ));
     }
 
-    /// Get the last child node, or null if none exists.
+    /// Get the last child node, or nullptr if none exists.
     const XMLNode*	LastChild() const						{
         return _lastChild;
     }
@@ -868,17 +868,17 @@ public:
     	Make a copy of this node, but not its children.
     	You may pass in a Document pointer that will be
     	the owner of the new Node. If the 'document' is
-    	null, then the node returned will be allocated
+    	nullptr, then the node returned will be allocated
     	from the current Document. (this->GetDocument())
 
-    	Note: if called on a XMLDocument, this will return null.
+    	Note: if called on a XMLDocument, this will return nullptr.
     */
     virtual XMLNode* ShallowClone( XMLDocument* document ) const = 0;
 
 	/**
 		Make a copy of this node and all its children.
 
-		If the 'target' is null, then the nodes will
+		If the 'target' is nullptr, then the nodes will
 		be allocated in the current document. If 'target'
         is specified, the memory will be allocated is the
         specified XMLDocument.
@@ -1264,14 +1264,14 @@ public:
     virtual bool Accept( XMLVisitor* visitor ) const;
 
     /** Given an attribute name, Attribute() returns the value
-    	for the attribute of that name, or null if none
+    	for the attribute of that name, or nullptr if none
     	exists. For example:
 
     	@verbatim
     	const char* value = ele->Attribute( "foo" );
     	@endverbatim
 
-    	The 'value' parameter is normally null. However, if specified,
+    	The 'value' parameter is normally nullptr. However, if specified,
     	the attribute will only be returned if the 'name' and 'value'
     	match. This allow you to write code:
 
@@ -1478,7 +1478,7 @@ public:
     	and accessing it directly.
 
     	If the first child of 'this' is a XMLText, the GetText()
-    	returns the character string of the Text node, else null is returned.
+    	returns the character string of the Text node, else nullptr is returned.
 
     	This is a convenient method for getting the text of simple contained text:
     	@verbatim
@@ -1494,7 +1494,7 @@ public:
     		<foo><b>This is text</b></foo>
     	@endverbatim
 
-    	then the value of str would be null. The first child node isn't a text node, it is
+    	then the value of str would be nullptr. The first child node isn't a text node, it is
     	another element. From this XML:
     	@verbatim
     		<foo>This is <b>text</b></foo>
@@ -1680,7 +1680,7 @@ public:
     	You may optionally pass in the 'nBytes', which is
     	the number of bytes which will be parsed. If not
     	specified, TinyXML-2 will assume 'xml' points to a
-    	null terminated string.
+    	nullptr terminated string.
     */
     XMLError Parse( const char* xml, size_t nBytes=(size_t)(-1) );
 
@@ -1789,7 +1789,7 @@ public:
     	this Document. The memory for the object
     	is managed by the Document.
 
-    	If the 'text' param is null, the standard
+    	If the 'text' param is nullptr, the standard
     	declaration is used.:
     	@verbatim
     		<?xml version="1.0" encoding="UTF-8"?>
@@ -1846,7 +1846,7 @@ public:
 		The target will be completely cleared before the copy.
 		If you want to copy a sub-tree, see XMLNode::DeepClone().
 
-		NOTE: that the 'target' must be non-null.
+		NOTE: that the 'target' must be non-nullptr.
 	*/
 	void DeepCopy(XMLDocument* target) const;
 
@@ -1931,7 +1931,7 @@ inline NodeType* XMLDocument::CreateUnlinkedNode( MemPoolT<PoolElementSize>& poo
 }
 
 /**
-	A XMLHandle is a class that wraps a node pointer with null checks; this is
+	A XMLHandle is a class that wraps a node pointer with nullptr checks; this is
 	an incredibly useful thing. Note that XMLHandle is not part of the TinyXML-2
 	DOM structure. It is a separate utility class.
 
@@ -1965,7 +1965,7 @@ inline NodeType* XMLDocument::CreateUnlinkedNode( MemPoolT<PoolElementSize>& poo
 	@endverbatim
 
 	And that doesn't even cover "else" cases. XMLHandle addresses the verbosity
-	of such code. A XMLHandle checks for null pointers so it is perfectly safe
+	of such code. A XMLHandle checks for nullptr pointers so it is perfectly safe
 	and correct to use:
 
 	@verbatim
@@ -1988,7 +1988,7 @@ inline NodeType* XMLDocument::CreateUnlinkedNode( MemPoolT<PoolElementSize>& poo
 class TINYXML2_LIB XMLHandle
 {
 public:
-    /// Create a handle from any node (at any depth of the tree.) This can be a null pointer.
+    /// Create a handle from any node (at any depth of the tree.) This can be a nullptr pointer.
     XMLHandle( XMLNode* node ) : _node( node ) {
     }
     /// Create a handle from a node.
@@ -2036,23 +2036,23 @@ public:
         return XMLHandle( _node ? _node->NextSiblingElement( name ) : 0 );
     }
 
-    /// Safe cast to XMLNode. This can return null.
+    /// Safe cast to XMLNode. This can return nullptr.
     XMLNode* ToNode()							{
         return _node;
     }
-    /// Safe cast to XMLElement. This can return null.
+    /// Safe cast to XMLElement. This can return nullptr.
     XMLElement* ToElement() 					{
         return ( _node ? _node->ToElement() : 0 );
     }
-    /// Safe cast to XMLText. This can return null.
+    /// Safe cast to XMLText. This can return nullptr.
     XMLText* ToText() 							{
         return ( _node ? _node->ToText() : 0 );
     }
-    /// Safe cast to XMLUnknown. This can return null.
+    /// Safe cast to XMLUnknown. This can return nullptr.
     XMLUnknown* ToUnknown() 					{
         return ( _node ? _node->ToUnknown() : 0 );
     }
-    /// Safe cast to XMLDeclaration. This can return null.
+    /// Safe cast to XMLDeclaration. This can return nullptr.
     XMLDeclaration* ToDeclaration() 			{
         return ( _node ? _node->ToDeclaration() : 0 );
     }
@@ -2242,7 +2242,7 @@ public:
     /**
     	If in print to memory mode, return the size
     	of the XML file in memory. (Note the size returned
-    	includes the terminating null.)
+    	includes the terminating nullptr.)
     */
     int CStrSize() const {
         return _buffer.Size();

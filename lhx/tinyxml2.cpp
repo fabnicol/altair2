@@ -762,7 +762,7 @@ XMLNode::~XMLNode()
 
 const char* XMLNode::Value() const
 {
-    // Edge case: XMLDocuments don't have a Value. Return null.
+    // Edge case: XMLDocuments don't have a Value. Return nullptr.
     if ( this->ToDocument() )
         return 0;
     return _value.GetStr();
@@ -2168,7 +2168,7 @@ XMLError XMLDocument::LoadFile( const char* filename )
 {
     if ( !filename ) {
         TIXMLASSERT( false );
-        SetError( XML_ERROR_FILE_COULD_NOT_BE_OPENED, 0, "filename=<null>" );
+        SetError( XML_ERROR_FILE_COULD_NOT_BE_OPENED, 0, "filename=<nullptr>" );
         return _errorID;
     }
 
@@ -2226,7 +2226,7 @@ XMLError XMLDocument::LoadFile( FILE* fp )
     TIXMLASSERT( filelength >= 0 );
 
     if ( !LongFitsIntoSizeTMinusOne<>::Fits( filelength ) ) {
-        // Cannot handle files which won't fit in buffer together with null terminator
+        // Cannot handle files which won't fit in buffer together with nullptr terminator
         SetError( XML_ERROR_FILE_READ_ERROR, 0, 0 );
         return _errorID;
     }
@@ -2256,7 +2256,7 @@ XMLError XMLDocument::SaveFile( const char* filename, bool compact )
 {
     if ( !filename ) {
         TIXMLASSERT( false );
-        SetError( XML_ERROR_FILE_COULD_NOT_BE_OPENED, 0, "filename=<null>" );
+        SetError( XML_ERROR_FILE_COULD_NOT_BE_OPENED, 0, "filename=<nullptr>" );
         return _errorID;
     }
 
@@ -2450,7 +2450,7 @@ void XMLPrinter::Print( const char* format, ... )
         TIXMLASSERT( len >= 0 );
         va_start( va, format );
         TIXMLASSERT( _buffer.Size() > 0 && _buffer[_buffer.Size() - 1] == 0 );
-        char* p = _buffer.PushArr( len ) - 1;	// back up over the null terminator.
+        char* p = _buffer.PushArr( len ) - 1;	// back up over the nullptr terminator.
 		TIXML_VSNPRINTF( p, len+1, format, va );
     }
     va_end( va );
@@ -2463,7 +2463,7 @@ void XMLPrinter::Write( const char* data, size_t size )
         fwrite ( data , sizeof(char), size, _fp);
     }
     else {
-        char* p = _buffer.PushArr( static_cast<int>(size) ) - 1;   // back up over the null terminator.
+        char* p = _buffer.PushArr( static_cast<int>(size) ) - 1;   // back up over the nullptr terminator.
         memcpy( p, data, size );
         p[size] = 0;
     }
@@ -2476,7 +2476,7 @@ void XMLPrinter::Putc( char ch )
         fputc ( ch, _fp);
     }
     else {
-        char* p = _buffer.PushArr( sizeof(char) ) - 1;   // back up over the null terminator.
+        char* p = _buffer.PushArr( sizeof(char) ) - 1;   // back up over the nullptr terminator.
         p[0] = ch;
         p[1] = 0;
     }

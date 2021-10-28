@@ -95,9 +95,12 @@ DEFINES +=  WARNING_LIMIT=5  \         # nombre maximum d'avertissement par fich
             TYPE_LOOP_LIMIT=50 \       # nombre de "rembobinages des drapeaux de catégories (voir ligne_paye.cpp,
             MAX_STRING_LENGTH=200 \    # taille maximum des strings pour la conversion latin-1
             VERSION_LARGEUR=LARGEUR \  # nombre de colonnes étendu. Définir LARGEUR comme symbole de compilation en ligne de commande.
-#           NO_SANITIZING_QUOTES \     # définir pour remplacer les guillemets des champs de texte par une procédure d'élimination des caractères problématiques.
+#           NO_SANITIZING_QUOTES \     # définir pour remplacer les guillemets des champs de texte par une procédure d'élimination des caractères problématiques (dont ';').
+#           SANITIZING_QUOTES    \     # insérer des '"' autour des chaînes de caractères en mémoire (par défaut: en export de table CSV).
             MAX_MEMORY_SHARE=0.5  \    # part maximum de la mémoire vive disponible consommée par défaut (si --memshare n'est pas précisé)
-            AVERAGE_RAM_DENSITY=12 \    # constante empirique déterminant la quantité de mémoire nécessitée par 1 unité de mémoire de fichier xhl en cours de traitement.
+            AVERAGE_RAM_DENSITY=12 \   # constante empirique déterminant la quantité de mémoire nécessitée par 1 unité de mémoire de fichier xhl en cours de traitement.
+            NA_STRING_IS_EMPTY     \   # NA est généré comme une chaîne vide. == Dans ce cas réinterpréter "" par NA sous R. ==
+                                   \   # Il faut utiliser SANITIZING_QUOTES ou NO_SANITIZING_QUOTES sinon
             #MEMORY_DEBUG \            # ajouter d ela verbosité
             USERPROFILE=\\\"HOME\\\" \         # pour la barre de progrès. Windows: "USERPROFILE"
             #LOCALDATA=\\\"/AppData/rank\\\" \   # Windows

@@ -57,7 +57,7 @@ using namespace std;
 ///          \e NbHeureTotal, \e NbHeureSup, \e MtBrut, \e MtNet, \e MtNetAPayer ne sont \n
 ///          jamais NA mais à 0
 
-#define NA_ASSIGN(X)        info.Table[info.NCumAgentXml][X] = (xmlChar*) xmlStrdup(NA_STRING)
+#define NA_ASSIGN(X)        info.Table[info.NCumAgentXml][X] = nullptr;
 
 
 /// Assigne la valeur "0" de type xmlChar* à l'élément courant de info.Table
@@ -170,7 +170,7 @@ static xmlChar* GCC_INLINE sanitize (xmlChar* s,  const char GCC_UNUSED sep)
 
     return s;
 
-#else
+#elif defined SANITIZING_QUOTES
 
     unsigned long L = xmlStrlen(s);
     xmlChar ss[L+3];
@@ -180,8 +180,7 @@ static xmlChar* GCC_INLINE sanitize (xmlChar* s,  const char GCC_UNUSED sep)
     ss[L + 2] = 0;
     xmlFree(s);
     s = xmlStrdup(ss);
-    if (s == NULL)
-      s = xmlStrdup((xmlChar*) NA_STRING);
+
 
 #endif
 
@@ -902,7 +901,9 @@ static inline LineCount lignePaye (xmlNodePtr cur, info_t& info)
                             if (verbeux)
                                 {
                                     LOCK_GUARD
-                                    cerr << WARNING_HTML_TAG "Pas de période de référence pour le rappel" " pour le matricule " << info.Table[info.NCumAgentXml][Matricule] << " -- Ligne";
+                                    cerr << WARNING_HTML_TAG "Pas de période de référence pour le rappel" " pour le matricule "
+                                         << info.Table[info.NCumAgentXml][Matricule]
+                                         << " -- Ligne";
                                     long lineN = xmlGetLineNo (cur);
 
                                     if (lineN != 65535)
@@ -1091,7 +1092,7 @@ inline void allouer_ligne_NA (info_t &info, int &ligne, int &memoire_p_ligne_all
 
     for (int k = 1; k <= INDEX_MAX_COLONNNES; ++k)
         {
-            info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE + k] = (xmlChar*) xmlStrdup (NA_STRING);
+            info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE + k] = nullptr;
         }
 
     ligne = 1;
@@ -1158,7 +1159,7 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
                         Nom, Prenom, Matricule, NIR, EmploiMetier, Statut, NbEnfants, Grade, Echelon, Indice
                     })
                 {
-                    info.Table[info.NCumAgentXml][l] = xmlStrdup ((xmlChar*)"");
+                    NA_ASSIGN(l);
                 }
 
             cur = cur_parent;
@@ -1455,7 +1456,7 @@ level0:
 
     int v = 0;
 
-    while (xmlStrcmp (cur->name, (const xmlChar*) "NBI") == 0)
+    while (cur && xmlStrcmp (cur->name, (const xmlChar*) "NBI") == 0)
         {
             v += atoi ((const char*) xmlGetProp (cur, (const xmlChar*) "V"));
             cur =  cur->next;
