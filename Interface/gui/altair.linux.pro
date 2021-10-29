@@ -35,9 +35,9 @@
 # termes.
 # 
 # 
-VERSION_TAG = "21.06-1" 
-DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
 
+VERSION_TAG = $$system(cat ../VERSION)
+DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
 message("Version :  $$VERSION_TAG")
 #QMAKE_CXX = /usr/local/bin/g++
 #QMAKE_LINK = /usr/local/bin/g++
