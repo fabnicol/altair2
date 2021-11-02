@@ -118,7 +118,7 @@ void FAbstractConnection::meta_connect(FAbstractWidget* w,  const Q2VectorWidget
 
                 connect(component, SIGNAL(toggled(bool)), item , SLOT(setDisabled(bool)));
 
-                // this connection must follow the general enabling adjustments above
+                // this connexion must follow the general enabling adjustments above
                 if (item->metaObject()->className() == QString("FCheckBox"))
                     connect(component, SIGNAL(toggled(bool)), item, SLOT(uncheckDisabledBox()));
             }
@@ -569,7 +569,7 @@ FComboBox::FComboBox(const QStringList &labelList,
         createHash(comboBoxTranslationHash, &labelList, &translation);
     }
 
-    connect(this, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(fromCurrentIndex(const QString &)));
+    connect(this, SIGNAL(currentTextChanged(const QString &)), this, SLOT(fromCurrentIndex(const QString &)));
  }
 
 void FComboBox::fromCurrentIndex(const QString &text)

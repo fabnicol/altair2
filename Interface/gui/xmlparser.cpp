@@ -119,7 +119,7 @@ void Altair::writeProjectFile()
         }
 
     QTextStream out (&projectFile);
-    out.setCodec ("UTF-8");
+    out.setEncoding(QStringConverter::Utf8);
 
     out << "<?xml version=\"1.0\"?>\n"
         << "<projet version=\"" VERSION "\">\n";
@@ -332,8 +332,8 @@ void displayTextData (const QStringList &firstColumn,
 
             if (color.isValid())
                 {
-                    item2->setTextColor (3, color);
-                    item2->setTextColor (4, color);
+                    item2->setForeground(3, color);
+                    item2->setForeground(4, color);
                 }
 
             item2->setTextAlignment (2, Qt::AlignLeft);
@@ -503,7 +503,7 @@ void Altair::parseProjectFile (QIODevice* file)
                 // Insérer cette ligne plus loin n'aurait pas d'impact pour le fichier, qui est déjà chargé en mémoire
                 // et sera in fine réécrit avec les bonnes valeurs, mais cela fausserait l'actualisation de la ligne.
 
-                if (key.contains(QRegExp("Matricules[1-9]+"))) emit(ajouterLigneMatricules());
+                if (key.contains(QRegularExpression("Matricules[1-9]+"))) emit(ajouterLigneMatricules());
 
                 // Empiler les informations des différentes balises
                 // dans une FStringList et ajouter à la table de hashage Hash::wrapper

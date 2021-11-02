@@ -54,7 +54,7 @@
 
 #include "options.h"
 #include "common.h"
-#include "highlighter.h"
+
 #include "gui_enums.h"
 #include "altair.h"
 #include "matricules.h"
@@ -272,7 +272,7 @@ private :
     QList<FCheckBox*> displayWidgetListBox, behaviorWidgetListBox, displayToolBarCBoxListBox, outputListBox;
 
     QTextEdit *editor = nullptr;  ///< Editeur de projet
-    Highlighter *highlighter;     ///< Agent colorisateur de la syntaxe XML du projet
+
     QFile projectFile;            ///< Fichier du projet
     QProcess process;             ///< Processus associé au lancement de l'application-noyau \e lhx ou de \e RStudio
     MatriculeInput *m = nullptr;  ///< Agent sélecteur de latricule pour l'extraction de bulletin particulier

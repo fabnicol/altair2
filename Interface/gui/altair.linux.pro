@@ -36,7 +36,7 @@
 # 
 # 
 
-VERSION_TAG = $$system(cat ../VERSION)
+VERSION_TAG = $$system(cat $HOME/Dev/altair/VERSION)
 DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
 message("Version :  $$VERSION_TAG")
 #QMAKE_CXX = /usr/local/bin/g++
@@ -76,6 +76,7 @@ QT       += core gui xml widgets
 
 QT       -= opengl
 QT       -= openssl
+
 
 TARGET = Altair
 
@@ -126,7 +127,6 @@ SOURCES += \
     common.cpp \
     main.cpp \
     xmlparser.cpp \
-    highlighter.cpp \
     run.cpp \
     matricules.cpp
 
@@ -148,7 +148,6 @@ HEADERS  += \
     common.h \
     altair.h \
     altair.h \
-    highlighter.h \
     altair-gui.h \
     gui_enums.h \
     matricules.h \
@@ -161,6 +160,7 @@ RESOURCES += \
 
 DISTFILES += \
     ../../A_FAIRE.txt \
+    ../../VERSION \
     ../share/altair-gui/images/internet-web-browser.png \
     ../share/altair-gui/images/process.png \
     ../share/altair-gui/images/log_file_icon.jpg \

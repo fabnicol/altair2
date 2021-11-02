@@ -49,6 +49,7 @@
 #include <QMessageBox>
 #include <QMutex>
 #include <QThreadPool>
+#include <QRegularExpression>
 
 class FListWidget;
 class QToolDirButton;

@@ -76,10 +76,7 @@ void MainWindow::standardDisplay()
 
 MainWindow::MainWindow (char* projectName)
 {
-    QRect rec = QApplication::desktop()->availableGeometry();
 
-    height = rec.height();
-    width  = rec.width();
 
     settings = new QSettings ("altair", "Juridictions Financières");
     raise();
@@ -123,12 +120,18 @@ MainWindow::MainWindow (char* projectName)
 
     fileTreeViewDockWidget = new QDockWidget;
     fileTreeViewDockWidget->setWidget (altair->fileTreeView);
-    fileTreeViewDockWidget->setFeatures (QDockWidget::AllDockWidgetFeatures);
+    fileTreeViewDockWidget->setFeatures (QDockWidget::DockWidgetVerticalTitleBar |
+                                         QDockWidget::DockWidgetFloatable |
+                                         QDockWidget::DockWidgetMovable |
+                                         QDockWidget::DockWidgetClosable);
     addDockWidget (Qt::LeftDockWidgetArea, fileTreeViewDockWidget);
 
     managerDockWidget = new QDockWidget;
     managerDockWidget->setWidget (altair->managerWidget);
-    managerDockWidget->setFeatures (QDockWidget::AllDockWidgetFeatures);
+    managerDockWidget->setFeatures (QDockWidget::DockWidgetVerticalTitleBar |
+                                    QDockWidget::DockWidgetFloatable |
+                                    QDockWidget::DockWidgetMovable |
+                                    QDockWidget::DockWidgetClosable);
     addDockWidget (Qt::RightDockWidgetArea, managerDockWidget);
 
     Abstract::initH();
@@ -136,8 +139,8 @@ MainWindow::MainWindow (char* projectName)
     createToolBars();
 
     bottomTabWidget->setCurrentIndex (0);
-    double h = static_cast<double>(height) / 3.6;
-    bottomTabWidget->setMinimumHeight (static_cast<int>(round(h)));
+
+    bottomTabWidget->setMinimumHeight (static_cast<int>(round(300)));
 
     QToolButton *clearBottomTabWidgetButton = new QToolButton;
     const QIcon clearOutputText = QIcon (QString::fromUtf8 (":/images/edit-clear.png"));
@@ -187,7 +190,7 @@ MainWindow::MainWindow (char* projectName)
 
     setWindowTitle ("Interface  Altaïr " + version);
 
-    m = new MatriculeInput (width / 4, height / 6);
+    m = new MatriculeInput (150, 50);
 
     connect(m, SIGNAL(updateProject(int)), altair, SLOT(updateProject(int)));
     connect(altair, SIGNAL(ajouterLigneMatricules()), m, SLOT(ajouterLigneMatricules()));
@@ -1184,65 +1187,18 @@ void MainWindow::createToolBars()
 
 void MainWindow::on_editProjectButton_clicked()
 {
-    if (altair->projectName.isEmpty()) return;
-
-    editWidget = new QMainWindow (this);
-    editWidget->setWindowTitle (tr ("Edition du projet ") + altair->projectName.left (8) + "..." + altair->projectName.right (12));
-    QMenu *fileMenu = new QMenu (tr ("&Fichier"), this);
-    editWidget->menuBar()->addMenu (fileMenu);
-
-    const char* keys[] = {"Nouveau", "Ouvrir", "Enregistrer", "Enregistrer comme...", "Actualiser", "Enregistrer et quitter", "Quitter"};
-    const char* seq[] = {"Ctrl+N", "Ctrl+O", "Ctrl+S", "Ctrl+T", "Ctrl+R", "Ctrl+E", "Ctrl+Q"};
-    int j = 0;
-
-    for (const char* k :  keys)
-        {
-            actionHash[k] = new QAction (tr (k), this);
-            fileMenu->addAction (actionHash[k]);
-            actionHash[k]->setShortcut (QKeySequence (seq[j++]));
-        }
-
-    QFont font;
-    font.setFamily ("Courier");
-    font.setFixedPitch (true);
-    font.setPointSize (fontsize);
-
-    editor = new QTextEdit;
-    editor->setFont (font);
-
-    highlighter = new Highlighter (editor->document());
 
     if (altair->projectName.isEmpty()) return;
 
-    projectFile.setFileName (altair->projectName);
+    QProcess* p = new QProcess;
 
-    if (projectFile.open (QFile::ReadWrite | QFile::Text))
-        {
-            editor->setPlainText (projectFile.readAll());
-            projectFile.close();
-        }
-
-    // do not capture file by reference!
-    connect (actionHash["Nouveau"],
-             &QAction::triggered,
-             [this] { altair->on_newProjectButton_clicked(); });
-
-    connect (actionHash["Ouvrir"],
-             &QAction::triggered,
+    p->start("kate", {altair->projectName});
+    p->waitForStarted();
+    connect (p,
+             &QProcess::finished,
              [this]
     {
-        altair->on_openProjectButton_clicked() ;
-        editWidget->~QMainWindow();
-        on_editProjectButton_clicked();
-    });
 
-    connect (actionHash["Enregistrer"],
-             &QAction::triggered,
-             [this]
-    {
-        projectFile.open (QFile::Truncate | QFile::WriteOnly | QFile::Text);
-        projectFile.write (editor->document()->toPlainText().toUtf8()) ;
-        projectFile.close();
         altair->closeProject();
         altair->RefreshFlag = altair->RefreshFlag | interfaceStatus::parseXml;
         altair->clearInterfaceAndParseProject();
@@ -1250,42 +1206,6 @@ void MainWindow::on_editProjectButton_clicked()
         altair->RefreshFlag = altair->RefreshFlag & (~interfaceStatus::parseXml);
     });
 
-    connect (actionHash["Enregistrer comme..."],
-             &QAction::triggered,
-             [this] {saveProjectAs();});
-
-    connect (actionHash["Actualiser"],
-             &QAction::triggered,
-             [this]
-    {
-        altair->updateProject (update::saveProject | update::noWarnRExport);
-
-        if (projectFile.open (QFile::ReadWrite |  QFile::Text))
-            {
-                editor->clear();
-                editor->setPlainText (projectFile.readAll());
-                projectFile.close();
-            }
-    });
-
-    connect (actionHash["Enregistrer et quitter"],
-             &QAction::triggered,
-             [this]
-    {
-        actionHash["Enregistrer"]->trigger();
-        actionHash["Quitter"]->trigger();
-    });
-
-    connect (actionHash["Quitter"],
-             &QAction::triggered,
-             [this]
-    {
-        editWidget->~QMainWindow() ;
-    });
-
-    editWidget->setCentralWidget (editor);
-    editWidget->setGeometry (200, 200, 600, 800);
-    editWidget->show();
 }
 
 

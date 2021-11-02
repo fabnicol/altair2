@@ -314,10 +314,7 @@ void MatriculeInput::ajouterLigneMatricules()
     layout->addWidget(new QLabel("Matricules"), pos - 1, 2);
     layout->addWidget(ligne, pos, 2);
     layout->addWidget(button, pos, 3);
-    QRect rec = QApplication::desktop()->availableGeometry();
-    int h = rec.height();
-    h = h/4 + rank * h / 25;
-    setMinimumHeight(h);
+    setMinimumHeight(400);
 
     QList<QToolButton*>::Iterator b = eraseButtonList.begin();
     QList<FLineEdit*>::Iterator it = matrLineEditList.begin();

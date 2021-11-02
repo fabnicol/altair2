@@ -369,7 +369,7 @@ void Altair::refreshRowPresentation (int j)
     for (int r = 0; (r < composant->count()) && (r < size); r++)
         {
             composant->item (r)->setText (strL.at (r).section ('/', -1));
-            composant->item (r)->setTextColor (QColor ("navy"));
+            composant->item (r)->setForeground( QColor ("navy"));
         }
     
     composant->sortItems();
@@ -820,12 +820,12 @@ void Altair::checkAnnumSpan()
             QList<int> monthList;
 
             for (const QString& fileName : Hash::wrapper["XHL"]->at (i))
-                monthList << Hash::Mois[fileName].toInt();
+            {
+                int test = Hash::Mois[fileName].toInt();
+                if (! monthList.contains(test)) monthList << test ;
+            }
 
-            monthList = monthList.toSet().toList();
             std::sort (monthList.begin(), monthList.end());
-
-            QMutableListIterator<int> w (monthList);
 
             QString annee = years.at (i);
 

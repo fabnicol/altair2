@@ -189,7 +189,7 @@ QString tools::dump(const QString &chaine)
 
 const QString tools::remAccents(QString &&str, bool toUpper)
   {
-      QRegExp rem("[éèê]");
+      QRegularExpression rem("[éèê]");
       str.replace(rem, "e").replace("à", "a").replace("ô","o").replace("\'", " ");
       if (toUpper)
           return str.toUpper();
@@ -200,8 +200,7 @@ const QString tools::remAccents(QString &&str, bool toUpper)
 
 bool tools::substituer(const QString& s, const QString& repl,  QString& file_str)
 {
-    QRegExp reg = QRegExp(s);
-    reg.setPatternSyntax(QRegExp::RegExp2);
+    QRegularExpression reg = QRegularExpression(s);
 
     file_str.replace(reg, repl);
     return (! file_str.isEmpty());
@@ -358,7 +357,7 @@ bool tools::copyDir(const QString &in, const QString &out, const QString& commen
 
 QString tools::generateDatadirPath(const QString &path)
 {
-  QString pathstr= QDir::cleanPath(QStandardPaths::writableLocation(QStandardPaths::DataLocation) 
+  QString pathstr= QDir::cleanPath(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
                                    + ((path.isEmpty()) ? "" : QString("/")) + path);
   return pathstr;
 }
@@ -625,7 +624,7 @@ bool tools::unzip (const QString& dir, const QStringList& filelist)
     bool result = true;
     for (auto& a: filelist) 
     {
-        result &= unzip(dir.rightRef(1) == "/" || dir.rightRef(1) == "\\" ? dir + a : dir + "/" + a);
+        result &= unzip(dir.right(1) == "/" || dir.right(1) == "\\" ? dir + a : dir + "/" + a);
     }
     return result;
 }

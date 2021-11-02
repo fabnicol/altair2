@@ -45,26 +45,18 @@
 #include <QApplication>
 #include <QTranslator>
 #include <QLibraryInfo>
-#include <QTextCodec>
+
 #include "altair-gui.h"
 
 
 int main (int argc, char *argv[])
 {
     QApplication app (argc, argv);
-    QRect rec = QApplication::desktop()->screenGeometry();
-    int width0 = rec.width();
-    int fontsize = (width0 > 2000) ? width0 / 1920 * 10 : 10;
-    app.setFont (QFont ("Verdana", fontsize));
+
+    app.setFont (QFont ("Verdana", 10));
 
     QString translationsPath (QCoreApplication::applicationDirPath() + "/../translations");
-    QLocale locale = QLocale::system();
-
-#ifdef Q_OS_LINUX
-    QTextCodec::setCodecForLocale (QTextCodec::codecForName ("UTF-8"));
-#else
-    QTextCodec::setCodecForLocale (QTextCodec::codecForName ("ISO-8859-1"));
-#endif
+    QLocale locale = QLocale::French;
 
     QTranslator qtTranslator;
     bool res = false;
@@ -125,7 +117,7 @@ int main (int argc, char *argv[])
     QObject::connect (mainWin, &MainWindow::exitSignal, [&] { app.quit();});
     mainWin->show();
     
-    mainWin->fontsize = fontsize;
+    mainWin->fontsize = 9;
 
     return app.exec();
 }

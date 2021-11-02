@@ -338,7 +338,7 @@ public:
       {
           QVariant v=i.next();
           if (!v.isValid()) continue;
-          if (v.canConvert(QMetaType::QStringList))
+          if (v.canConvert(QMetaType(QMetaType::QStringList)))
                         this->append(v.toStringList());
       }
   }
@@ -360,12 +360,12 @@ public:
               
 };
 
-class FStringListIterator : public QVectorIterator<QStringList>
+class FStringListIterator : public QListIterator<QStringList>
 {
 public:
-  FStringListIterator(const FStringList& list) : QVectorIterator(list) {}
-  FStringListIterator(FStringList *list) : QVectorIterator(*list) {}
-  FStringListIterator(const FStringList *list) : QVectorIterator(*list) {}
+  FStringListIterator(const FStringList& list) : QListIterator(list) {}
+  FStringListIterator(FStringList *list) : QListIterator(*list) {}
+  FStringListIterator(const FStringList *list) : QListIterator(*list) {}
  };
 
 

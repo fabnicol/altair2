@@ -207,7 +207,7 @@ void FListFrame::launch_thread(int rank, const QString& s)
     QThreadPool::globalInstance()->start(w);
 
     connect(w, &Worker::resultReady, this, &FListFrame::handleResults);
-
+    connect(w, &Worker::textAppend, this, &FListFrame::textAppend);
     // Cette fonction pourrait être optimisée en ne lançant pas les fils d'exécution de manière successive mais par par groupe avec plusieurs fils parallèles dans chaque groupe
 }
 
@@ -236,57 +236,68 @@ void Worker::parseXhlFile(const QString& fileName)
 
     file.seek(0);
     QByteArray buffer0 = file.readAll();
-    QString string = QString::fromLatin1(buffer0, BUFFER_SIZE);
+    QString str = QString::fromLatin1(buffer0, BUFFER_SIZE);
 
 #   define QUOTE "(?:\"|')"
 
-    string.remove(QRegularExpression("[\\(\\)]"));
-    QRegExp reg("DocumentPaye.*(?:Annee)\\s*V.?=.?" QUOTE "([0-9]+)" QUOTE ".*(?:Mois)\\s*V.?=.?" QUOTE "([0-9]+)" QUOTE "(.*)(?:Employeur).*(?:Nom)\\s*V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret)\\s*V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE ".*DonneesIndiv(.*)PayeIndivMensuel");
-    reg.setPatternSyntax(QRegExp::RegExp2);
-    reg.setCaseSensitivity(Qt::CaseInsensitive);
-    QRegExp reg2(".*Budget.*Libelle\\s*V.?=.?" QUOTE "([^" QUOTE "]*)" QUOTE ".*");
-    reg2.setCaseSensitivity(Qt::CaseInsensitive);
-    QRegExp reg3(".*(?:Etablissement).*(?:Nom)\\s*V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret)\\s*V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE);
-    reg3.setCaseSensitivity(Qt::CaseInsensitive);
+    str.remove(QRegularExpression("[\\(\\)]"));
 
+    QRegularExpression reg("DocumentPaye.*(?:Annee)\\s*V.?=.?" QUOTE "([0-9]+)"
+                           QUOTE ".*(?:Mois)\\s*V.?=.?" QUOTE "([0-9]+)"
+                           QUOTE "(.*)(?:Employeur).*(?:Nom)\\s*V.?=.?"
+                           QUOTE "([^" QUOTE "]+)"
+                           QUOTE ".*(?:Siret)\\s*V.?=.?"
+                           QUOTE "([0-9A-Z]+)"
+                           QUOTE ".*DonneesIndiv(.*)PayeIndivMensuel");
 
+    QFlags<QRegularExpression::PatternOption> pattern = QRegularExpression::CaseInsensitiveOption| QRegularExpression::DotMatchesEverythingOption| QRegularExpression::UseUnicodePropertiesOption;
+    reg.setPatternOptions(pattern);// | QRegularExpression::UseUnicodePropertiesOption| QRegularExpression::ExtendedPatternSyntaxOption);
+    QRegularExpression reg2(".*Budget.*Libelle\\s*V.?=.?" QUOTE "([^" QUOTE "]*)" QUOTE ".*");
+    reg2.setPatternOptions(pattern);
+    QRegularExpression reg3(".*(?:Etablissement).*(?:Nom)\\s*V.?=.?" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret)\\s*V.?=.?" QUOTE "([0-9A-Z]+)" QUOTE);
+    reg3.setPatternOptions(pattern);
+
+    QRegularExpressionMatch match = reg.match(str);
     QByteArray::const_iterator it;
 
-    if (string.contains(reg))
+    if (match.hasMatch())
     {
-        QString budgetCapture = reg.cap(3);
-        QString etabCapture = reg.cap(6);
+        QString budgetCapture = match.captured(3);
+        QString etabCapture = match.captured(6);
 
         mutex.lock();
 
-        Hash::Annee[fileName] = reg.cap(1);
-        Hash::Mois[fileName]  = reg.cap(2);
+        Hash::Annee[fileName] = match.captured(1);
+        Hash::Mois[fileName]  = match.captured(2);
 
-        if (budgetCapture.contains(reg2))
-           Hash::Budget[fileName] = tools::remAccents(reg2.cap(1).replace("&#39;", "\'").replace("&apos;", "\'").trimmed());
+        QRegularExpressionMatch match2 = reg2.match(budgetCapture);
+        if (match2.hasMatch())
+           Hash::Budget[fileName] = tools::remAccents(match2.captured(1).replace("&#39;", "\'").replace("&apos;", "\'").trimmed());
         else
            Hash::Budget[fileName] = "" ;
 
-        if (etabCapture.contains(reg3))
-           Hash::Etablissement[fileName] << tools::remAccents(reg3.cap(1).replace("&#39;", "\'").replace("&apos;", "\'").trimmed());
+        QRegularExpressionMatch match3 = reg3.match(etabCapture);
+        if (match3.hasMatch())
+           Hash::Etablissement[fileName] << tools::remAccents(match3.captured(1).replace("&#39;", "\'").replace("&apos;", "\'").trimmed());
         else
            Hash::Etablissement[fileName] << "" ;
 
-        Hash::Employeur[fileName]  = tools::remAccents(reg.cap(4).replace("&#39;", "\'").replace("&apos;", "\'").trimmed());
+        Hash::Employeur[fileName]  = tools::remAccents(match.captured(4).replace("&#39;", "\'").replace("&apos;", "\'").trimmed());
 
-        if (etabCapture.contains(reg3))
+        if (match3.hasMatch())
           {
-               Hash::Siret[fileName] << reg3.cap(2);
+               Hash::Siret[fileName] << match3.captured(2);
           }
         else
-             Hash::Siret[fileName] << reg.cap(5);
+             Hash::Siret[fileName] << match.captured(5);
         mutex.unlock();
     }
     else
     {
         mutex.lock();
-        if (! string.toUpper().contains("DONNEESINDIV")) emit(textAppend(WARNING_HTML_TAG "Pas de données individuelles"));
-        if (! string.toUpper().contains("PAYEINDIVMENSUEL")) emit(textAppend(WARNING_HTML_TAG "Pas de payes individuelles"));
+
+        if (! str.toUpper().contains("DONNEESINDIV")) emit(textAppend(WARNING_HTML_TAG "Pas de données individuelles"));
+        if (! str.toUpper().contains("PAYEINDIVMENSUEL")) emit(textAppend(WARNING_HTML_TAG "Pas de payes individuelles"));
 
         emit(textAppend(WARNING_HTML_TAG "L'entête DocumentPaye... du fichier "
                         + fileName +
@@ -310,7 +321,7 @@ void Worker::parseXhlFile(const QString& fileName)
         goto out;
     }
 
-    it = buffer0.cbegin() + string.indexOf("DonneesIndiv") + 15;
+    it = buffer0.cbegin() + str.indexOf("DonneesIndiv") + 15;
 
     while(it != buffer0.cend())
       {
@@ -333,15 +344,17 @@ void Worker::parseXhlFile(const QString& fileName)
 
         it += 6;
 
-        for (int u = 0; u < BUFFER_SIZE; ++u) string[u] = *++it;
+        for (int u = 0; u < BUFFER_SIZE; ++u) str[u] = *++it;
 
-        QRegExp reg3("(?:Etablissement|Employeur).*(?:Nom) V=" QUOTE "([^" QUOTE "]+)" QUOTE ".*(?:Siret) V=" QUOTE "([0-9A-Z]+)" QUOTE "");
-        reg3.setPatternSyntax(QRegExp::RegExp2);
+        QRegularExpression reg4("(?:Etablissement|Employeur).*(?:Nom) V=" QUOTE "([^" QUOTE "]+)"
+                                QUOTE ".*(?:Siret) V=" QUOTE "([0-9A-Z]+)" QUOTE "");
+        reg4.setPatternOptions(pattern);
 
-        if (string.contains(reg3))
+        QRegularExpressionMatch match4 = reg4.match(str);
+        if (match4.hasMatch())
          {
-            QString s1 = reg3.cap(1).replace("&#39;", "\'");
-            QString s2 = reg3.cap(2);
+            QString s1 = match4.captured(1).replace("&#39;", "\'");
+            QString s2 = match4.captured(2);
             mutex2.lock();
 
             if (! Hash::Etablissement[fileName].contains(s1))
@@ -405,7 +418,11 @@ void FListFrame::parseXhlFile()
         return;
      }
 
-    int res = QMessageBox::warning(nullptr, "Vous avez un disque optique", "Cliquer Non et enlevez-le du lecteur<br>si vous ne souhaitez pas importer les données du disque.<br>Sinon confirmer par Oui pour poursuivre l'extraction.", QMessageBox::No, QMessageBox::Yes);
+    int res = QMessageBox::warning(nullptr, "Vous avez un disque optique",
+                                   "Cliquer Non et enlevez-le du lecteur<br>"
+                                   "si vous ne souhaitez pas importer les données du disque."
+                                   "<br>Sinon confirmer par Oui pour poursuivre l'extraction.",
+                                   QMessageBox::No, QMessageBox::Yes);
     if (res == QMessageBox::No) return;
 
     isTerminated = false;
@@ -479,9 +496,7 @@ void FListFrame::addStringListToListWidget()
       emit(showProgressBar());
       emit(setProgressBar(0, stringListSize));
 #   endif
-    int size = stringList.size();
 
-    int slice = 0;
     parseXhlFile();
 }
 constexpr const char* _7z = "7Z";
@@ -719,7 +734,7 @@ void FListFrame::showContextMenu()
             font.setStrikeOut(isDeleteAction);
 
             item->setFont(font);
-            item->setTextColor(isDeleteAction ? "red" : "navy");
+            item->setForeground(QBrush(isDeleteAction ? "red" : "navy"));
         }
 
         if (Hash::Reference.size() != size || getRank()+1 != size)
@@ -802,7 +817,7 @@ void FListFrame::setStrikeOutFileNames(flags::colors color)
                        item->setFont(font);
 
                        if (color == flags::colors::yes)
-                           item->setTextColor("red");
+                           item->setForeground(QBrush("red"));
                     }
                     else
                     {
@@ -818,7 +833,7 @@ void FListFrame::setStrikeOutFileNames(flags::colors color)
                         font.setStrikeOut(false);
                         item->setFont(font);
                         if (color == flags::colors::yes)
-                            item->setTextColor("green");
+                            item->setForeground(QBrush("green"));
                     }
         }
 
@@ -1007,7 +1022,7 @@ inline void finalise_macro(FListFrame* listFrame, QStringList& pairs, const QStr
 
     for (int i=0; i < listFrame->widgetContainer[rank]->count(); i++)
      {
-        listFrame->widgetContainer[rank]->item(i)->setTextColor(colorList.at(i % colorListSize));
+        listFrame->widgetContainer[rank]->item(i)->setForeground(QBrush(colorList.at(i % colorListSize)));
     }
 
 }
