@@ -45,52 +45,52 @@
 
 library(bit64)
 
-#' Contrôle le type des données d'entree
-#' @param colonnes Vecteur des noms de colonnes de la table globale
+#' Contrôle le type des données d'entrée
 #' @export
 
-type.données <- function(colonnes) {
+type.données <- function() {
   
-"intégrer.rang" %a% ("R" %in% colonnes) 
-"intégrer.échelon" %a% ("Echelon" %in% colonnes)
-"intégrer.localisation" %a% ("Siret" %in% colonnes)
-"intégrer.rep.budget" %a% ("Code.Budget" %in% colonnes)
+"bulletins.noms"  %a% c("Année", "Mois",
+                       "Nom", "Prénom", "Matricule",
+                       "Service", "Nb.Enfants", "Statut",
+                       "Temps.de.travail", "Heures.Sup.", "Heures",
+                       "Indice", "Brut", "Net",
+                       "Net.à.Payer","NBI",
+                       "Emploi", "Grade", "Evénement",
+                       "Echelon", "Catégorie", "Nir")
+ 
+  "lignes.noms"  %a% c("Année", "Mois",
+                       "Nom", "Prénom", "Matricule",
+                       "Service", "Nb.Enfants", "Statut",
+                       "Temps.de.travail", "Heures.Sup.", "Heures",
+                       "Indice", "Brut", "Net",
+                       "Net.à.Payer", "NBI",
+                       "Libellé", "Code", "Base",
+                       "Taux", "Nb.Unite", "Montant",
+                       "Début","Fin","Type",
+                       "Emploi", "Grade", 
+                       "Echelon", "Catégorie", "Nir")
 
-if (intégrer.rang) message("Intégration du Rang")
-if (intégrer.échelon) message("Intégration de l'échelon")
-if (intégrer.localisation) message("Intégration des données établissement")
-if (intégrer.localisation) message("Intégration de la répartition budgétaire")
+"colonnes.classes.input"    %a% c(Année = "integer", Mois = "integer",  
+                                  Nom = "character", Prénom = "character", Matricule = "character",
+                                  Service = "character", Nb.Enfants = "numeric", Statut = "character", 
+                                  Temps.de.travail =  "numeric",  Heures.Sup. = "numeric", Heures = "numeric",
+                                  Indice = "integer", Brut = "numeric", Net = "numeric", 
+                                  Net.à.Payer = "numeric", NBI = "numeric",
+                                  Libellé = "character",  Code = "character", Base = "numeric", 
+                                  Taux = "numeric", Nb.Unite = "numeric", Montant = "numeric",
+                                  Début =  "character", Fin = "character", Type = "character",
+                                  Emploi =  "character", Grade = "character", 
+                                  Echelon =  "character", Catégorie = "character", Nir = "character")
 
-localisation.classes <- if (intégrer.localisation) c("character", "character", "character", "character") else NULL
-échelon.classe <- if (intégrer.échelon) "character" else NULL
-rang.classe    <- if (intégrer.rang) "integer" else NULL
-répartition.budgétaire <- if (intégrer.rep.budget) c("character", "numeric", "numeric") else NULL
-
-"colonnes.classes.input"    %a% c(rang.classe, "integer", "integer",  
-                                   localisation.classes,
-                                   "character", "character", "character",
-                                   "character", "numeric", "character", 
-                                   "numeric", "numeric", "numeric",
-                                   "integer",  "numeric", "numeric", 
-                                   "numeric", "numeric",
-                                   répartition.budgétaire,
-                                   "character",  "character", "numeric", 
-                                   "numeric", "numeric", "numeric",
-                                   "character", "character", "character",
-                                   "character", "character", 
-                                   échelon.classe, "character", "character")
-
-"colonnes.bulletins.classes.input" %a% c(rang.classe, "integer", "integer",
-                                      localisation.classes,
-                                      "character", "character", "character",
-                                      "character", "numeric", "character", 
-                                      "numeric", "numeric", "numeric",
-                                      "integer",  "numeric", "numeric",
-                                     "numeric", "numeric",
-                                      répartition.budgétaire,
-                                      "character", "character", "character",
-                                      échelon.classe, "character", "character")
-
+"colonnes.bulletins.classes.input" %a% c(Année = "integer", Mois = "integer",  
+                                         Nom = "character", Prénom = "character", Matricule = "character",
+                                         Service = "character", Nb.Enfants = "numeric", Statut = "character", 
+                                         Temps.de.travail =  "numeric",  Heures.Sup. = "numeric", Heures = "numeric",
+                                         Indice = "integer", Brut = "numeric", Net = "numeric", 
+                                         Net.à.Payer = "numeric", NBI = "numeric",
+                                         Emploi = "character", Grade = "character", Evénement = "character",
+                                         Echelon = "character", Catégorie = "character", Nir = "character")
 
 "trans" %a% data.table(t(matrix( c("I",  "Indemnité",
                                 "AC", "Acompte",

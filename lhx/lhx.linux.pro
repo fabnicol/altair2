@@ -94,7 +94,7 @@ DEFINES +=  WARNING_LIMIT=5  \         # nombre maximum d'avertissement par fich
             MAX_LIGNES_PAYE=3000 \     # nombre maximum de lignes de paye par bulletin
             TYPE_LOOP_LIMIT=50 \       # nombre de "rembobinages des drapeaux de catégories (voir ligne_paye.cpp,
             MAX_STRING_LENGTH=200 \    # taille maximum des strings pour la conversion latin-1
-            VERSION_LARGEUR=LARGEUR \  # nombre de colonnes étendu. Définir LARGEUR comme symbole de compilation en ligne de commande.
+#           LARGEUR=...           \    # nombre de colonnes étendu. Définir LARGEUR comme symbole de compilation en ligne de commande.
 #           NO_SANITIZING_QUOTES \     # définir pour remplacer les guillemets des champs de texte par une procédure d'élimination des caractères problématiques (dont ';').
 #           SANITIZING_QUOTES    \     # insérer des '"' autour des chaînes de caractères en mémoire (par défaut: en export de table CSV).
             MAX_MEMORY_SHARE=0.5  \    # part maximum de la mémoire vive disponible consommée par défaut (si --memshare n'est pas précisé)
@@ -105,9 +105,6 @@ DEFINES +=  WARNING_LIMIT=5  \         # nombre maximum d'avertissement par fich
             USERPROFILE=\\\"HOME\\\" \         # pour la barre de progrès. Windows: "USERPROFILE"
             #LOCALDATA=\\\"/AppData/rank\\\" \   # Windows
             LOCALDATA=\\\".local/share/Altair/rank\\\"
-
-DEFINES += LARGEUR=1
-DEFINES += VERSION_EXPORT_ETENDU
 
 DEFINES += __GNUC_EXTENSION \
            _REENTRANT \
@@ -164,7 +161,7 @@ linux:INCLUDEPATH += /usr/include/libxml2
 
 linux:QMAKE_LFLAGS += -L/usr/lib/x86_64-linux-gnu/ -L/usr/lib/ -L/usr/lib64
 
-windows:LIBS =   -lstdc++fs -static-libgcc -static-libstdc++ -pthread  C:/Users/Public/Dev/altair2/lhx/libxml2.dll.a   -lz -llzma -liconv -LC:\msys64\mingw64\bin
+windows:LIBS =   -lstdc++fs -static-libgcc -static-libstdc++ -pthread  C:/Users/Public/Dev/altair/lhx/libxml2.dll.a   -lz -llzma -liconv -LC:\msys64\mingw64\bin
 linux:LIBS =   -lstdc++fs -static-libgcc -static-libstdc++ -pthread  -lxml2   -lz -llzma -licuuc#-liconv
 
 SOURCES += \
@@ -176,7 +173,7 @@ SOURCES += \
     recherche.cpp
 
 contains(DEFINES, TINYXML2) {
-  SOURCES += tinyxml2.cpp
+  SOURCES +=
 }
 
 HEADERS += \
@@ -195,5 +192,5 @@ HEADERS += \
     xmlconv.h
 
 contains(DEFINES, TINYXML2) {
-  HEADERS += tinyxml2.h xmlconv.h
+  HEADERS += xmlconv.h
 }

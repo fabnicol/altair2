@@ -130,27 +130,44 @@ enum class BaseType : int
 #define INDEX_MAX_COLONNNES 7
 
 /// Nombre d'éléments de l'énum ci-dessous, correspondant aux champs des bulletins (répétés à chaque ligne de paye)
+#if LARGEUR == 0
+#define BESOIN_MEMOIRE_ENTETE  30
+#elif LARGEUR == 1
 #define BESOIN_MEMOIRE_ENTETE  34
+#endif
 
 /// Enum des libellés de balises XML donnant lieu à extraction
+#if LARGEUR == 0
 typedef enum
 {
     Annee, Mois, Budget, Employeur, Siret, Etablissement,
-    Civilite, Nom, Prenom, Matricule, Adresse, NIR, RefNomenStatutaire, NbEnfants, Statut,
-    EmploiMetier, Grade, Echelon, Indice, CptBancaire, Code, Description, Service, NBI,
+    Nom, Prenom, Matricule, NIR, NbEnfants, Statut,
+    EmploiMetier, Grade, Echelon, Indice, Code, Description, Service, NBI,
     CodeBudget, Taux, MtBudget, QuotiteTrav, // FPH si RepartitionBudget
     NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer, Categorie
 } Entete;
+#elif LARGEUR == 1
+typedef enum
+{
+    Annee, Mois, Budget, Employeur, Siret, Etablissement,
+    Civilite, Nom, Prenom, Matricule, Adresse, RefNomenStatutaire, CptBancaire,
+    NIR, NbEnfants, Statut,
+    EmploiMetier, Grade, Echelon, Indice, Code, Description, Service, NBI,
+    CodeBudget, Taux, MtBudget, QuotiteTrav, // FPH si RepartitionBudget
+    NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer, Categorie
+} Entete;
+#endif
 
 /// Tableau des noms de colonnes associés à ces libellés de balises XML
 constexpr const char* Tableau_entete[] =
 {
     "Année", "Mois", "Budget", "Employeur", "Siret", "Etablissement",
     "Nom", "Prénom", "Matricule", "NIR", "NbEnfants", "Statut",
-    "EmploiMetier", "Grade", "Echelon", "Indice", "Evenement", "Service", "NBI", 
+    "EmploiMetier", "Grade", "Echelon", "Indice", "Evenement", "Service", "NBI",
     "CodeBudget", "Taux", "MtBudget", "QuotiteTrav",
     "NbHeureTotal", "NbHeureSup", "MtBrut", "MtNet", "MtNetAPayer"
 };
+
 
 /// Structure de stockage de l'information sur les lignes de paye
 typedef struct
@@ -190,7 +207,6 @@ typedef struct
     bool generer_rang;                      ///< Générer un index dans un fichier temporaire permettant de raffraîchier une barre de progression d'interface graphique
     bool generer_bulletins;                 ///< Générer des bulletins de paye particuliers
     bool select_siret;                      ///< Sélectionner un SIRET particulier
-    bool select_echelon;                    ///< Sélectionne run échelon particulier
     bool generer_repartition_budget;        ///< Exporter la répartition budgétaire (surtout pertinent pour la FPH)
     bool pretend;                           ///< Ne pas exporter de données
     bool verifmem;                          ///< Vérifier l'état de la mémoire

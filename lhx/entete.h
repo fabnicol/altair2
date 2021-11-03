@@ -52,13 +52,13 @@ static const char* entete_char[] = {"R",      // Rang
                                     "Employeur",
                                     "Siret",
                                     "Etablissement",
-                                    #ifdef VERSION_EXPORT_ETENDU
+                                    #if LARGEUR == 1
                                       "Civilité",
                                     #endif
                                     "Nom",
                                     "Prénom",
                                     "Matricule",
-                                    #ifdef VERSION_EXPORT_ETENDU
+                                    #if LARGEUR == 1
                                       "Adresse",
                                       "RefNomenclature",
                                       "CompteBancaire",
@@ -102,13 +102,13 @@ static const char* entete_char_bulletins[] = {"R",
                                               "Employeur",
                                               "Siret",
                                               "Etablissement",
-                                              #ifdef VERSION_EXPORT_ETENDU
+                                              #if LARGEUR == 1
                                                 "Civilité",
                                               #endif
                                               "Nom",
                                               "Prénom",
                                               "Matricule",
-                                              #ifdef VERSION_EXPORT_ETENDU
+                                              #if LARGEUR == 1
                                                 "Adresse",
                                                 "RefNomenclature",
                                                 "CompteBancaire",

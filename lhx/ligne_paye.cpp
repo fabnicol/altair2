@@ -1155,8 +1155,11 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
 
             for (int l :
                     {
-                         Civilite, Nom, Prenom, Matricule, Adresse, NIR, RefNomenStatutaire,
-                         EmploiMetier, Statut, NbEnfants, Grade, Echelon, Indice, CptBancaire
+                         #if LARGEUR == 1
+                         Civilite, Adresse, RefNomenStatutaire, CptBancaire,
+                         #endif
+                         Nom, Prenom, Matricule,
+                         EmploiMetier, Statut, NbEnfants, Grade, Echelon, Indice, NIR
                     })
                 {
                     NA_ASSIGN(l);
@@ -1186,7 +1189,7 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
 
     // if (result) va garantir notamment que le pointeur cur filé implicitement est non nul
 
-#ifdef VERSION_EXPORT_ETENDU
+#if LARGEUR == 1
     BULLETIN_OPTIONNEL_CHAR(Civilite);
 #endif
 
@@ -1207,12 +1210,12 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
 #ifdef TOLERANT_TAG_HIERARCHY       // on refait le parcours depuis le haut en cas d'ordre inexact des balises
                             cur = cur_save;
 #endif
-#ifdef VERSION_EXPORT_ETENDU
+#if LARGEUR == 1
                             xmlNodePtr cur1 = cur;
 #endif
                             if (result)
                                 {
-#ifdef VERSION_EXPORT_ETENDU
+#if LARGEUR == 1
                                     cur = atteindreNoeud("Adresse", cur);
 
                                     if (cur)
@@ -1308,7 +1311,7 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
 					    
                                             if (result)
                                                 {
-#ifdef VERSION_EXPORT_ETENDU
+#if LARGEUR == 1
                                                       cur1 = cur;
                                                       cur = atteindreNoeud("RefNomenStatutaire", cur);
 
@@ -1378,7 +1381,7 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
 #endif
 
                                                                             result &= BULLETIN_OBLIGATOIRE_NUMERIQUE (Indice);
-#ifdef VERSION_EXPORT_ETENDU
+#if LARGEUR == 1
                                                                             cur = atteindreNoeud("CptBancaire", cur);
                                                                             if (cur)
                                                                             {

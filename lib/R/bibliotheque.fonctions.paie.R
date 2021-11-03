@@ -81,6 +81,7 @@ read.csv.skip <- function(x,
                           classes = NULL,
                           drop = NULL,
                           skip = 0,
+                          select,
                           separateur.liste = separateur.liste.entree,
                           separateur.decimal = separateur.decimal.entree)
 {
@@ -92,6 +93,7 @@ read.csv.skip <- function(x,
                       skip = skip,
                       encoding = "UTF-8",
                       colClasses = classes,
+                      select = select,
                       showProgress = FALSE))
 
 
@@ -281,6 +283,7 @@ Read.csv <- function(base.string, fichiers,
                      colClasses = NA,
                      skip = 0,
                      drop = NULL,
+                     select,
                      separateur.liste = separateur.liste.entree,
                      separateur.decimal = separateur.decimal.entree) {
 
@@ -290,6 +293,7 @@ Read.csv <- function(base.string, fichiers,
             colClasses,
             skip,
             drop,
+            select,
             separateur.liste,
             separateur.decimal)
 }
@@ -299,6 +303,7 @@ Read.csv_ <- function(base.string, fichiers,
                       colClasses = NA,
                       skip = 0,
                       drop = NULL,
+                      select,
                       separateur.liste = separateur.liste.entree,
                       separateur.decimal = separateur.decimal.entree) {
 
@@ -309,6 +314,7 @@ Read.csv_ <- function(base.string, fichiers,
                                      read.csv.skip,
                                         classes = colClasses,
                                         skip = skip,
+                                        select,
                                         separateur.liste = separateur.liste,
                                         separateur.decimal = separateur.decimal,
                                         drop = drop)),

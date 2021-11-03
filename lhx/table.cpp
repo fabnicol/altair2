@@ -92,7 +92,7 @@ static const char* type_remuneration_traduit[] =
 
 static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN (int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
-#ifdef VERSION_EXPORT_ETENDU
+#if LARGEUR == 1
     QUOTE(Civilite)
 #endif
 
@@ -100,7 +100,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN (int i, uint32_t agent, int 
     QUOTE(Prenom)
     QUOTE(Matricule)
 
-#ifdef VERSION_EXPORT_ETENDU
+#if LARGEUR == 1
     QUOTE(Adresse)
     QUOTE(RefNomenStatutaire)
     QUOTE(CptBancaire)
@@ -377,14 +377,14 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l_ECHELON (int i, uint32_t agent, int 
 
 static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN (int i, uint32_t agent, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
-#ifdef VERSION_EXPORT_ETENDU
+#if LARGEUR == 1
     QUOTE(Civilite)
 #endif
     QUOTE(Nom)
     QUOTE(Prenom)
     QUOTE(Matricule)
 
-#ifdef VERSION_EXPORT_ETENDU
+#if LARGEUR == 1
     QUOTE(Adresse)
     QUOTE(RefNomenStatutaire)
     QUOTE(CptBancaire)
@@ -622,14 +622,14 @@ static int (*ecrire_ligne_bulletin) (int i, uint32_t, table_t&, char, vector<inf
 /// <li>Info[0].separateur (x dans -s x) </li>\n
 /// <li>Info[0].taille_base (x numérique dans -T x)</li>\n
 /// <li>Info[0].type_base (x dans -T x si x est dans {"X", "AN", "A", "AC", "AV", "C", "D", "I", "IR", "RE", "S", "T"} </li>\n
-/// <li>Info[0].select_echelon (-E) </li>\n
 /// <li>Info[0].select_siret (-S) </li>\n
 /// </ul>\n
 /// Le rang de la ligne sera généré en première colonne si -rank est dans la ligne de commande\n
 /// Le séparateur CSV est donné par -s \n
 /// La taille de la base induit les découpages de base en morceaux de taille fixe \n
 /// Le type de la base induit une limitation sur la catégorie de lignes de paye exportées \n
-/// L'échelon et l'ensemble Budget-Employeur-Siret-Etablissement sont des colonnes optionnelles \n
+/// L'ensemble Budget-Employeur-Siret-Etablissement sont des colonnes optionnelles \n
+/// L'échelon est intégré comme obligatoire depuis Nov. 2021.
 /// \return Paire du nombre de lignes de paye et du nombre de ligne de bulletins exportés.
 
 pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
@@ -670,43 +670,20 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
 
     if (Info[0].generer_rang)
         {
-            if (Info[0].select_echelon)
-                {
+
                     ecrire_ligne_table = ECRIRE_LIGNE_l_GENERER_RANG_ECHELON;
                     ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON;
-                }
-            else
-                {
-                    ecrire_ligne_table = ECRIRE_LIGNE_l_GENERER_RANG;
-                    ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_GENERER_RANG;
-                }
         }
     else if (Info[0].select_siret)
         {
-            if (Info[0].select_echelon)
-                {
+
                     ecrire_ligne_table = ECRIRE_LIGNE_l_SIRET_ECHELON;
                     ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON;
-                }
-            else
-                {
-                    ecrire_ligne_table = ECRIRE_LIGNE_l_SIRET;
-                    ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_SIRET;
-                }
-
         }
     else
         {
-            if (Info[0].select_echelon)
-                {
                     ecrire_ligne_table = ECRIRE_LIGNE_l_ECHELON;
                     ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETINS_ECHELON;
-                }
-            else
-                {
-                    ecrire_ligne_table = ECRIRE_LIGNE_l;
-                    ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETINS;
-                }
         }
 
     switch (type_base)

@@ -112,7 +112,6 @@ ostringstream help()
         <<  "**-m** *sans argument*        : calculer les maxima d'agents et de lignes de paye.  " << "\n\n"
         <<  "**-L** *argument obligatoire* : chemin du log d'exécution du test de cohérence entre analyseurs C et XML.  " << "\n\n"
         <<  "**-S** *sans argument*        : exporter les champs Budget, Employeur, Siret, Etablissement.  " << "\n\n"
-        <<  "**-E** *sans argument*        : exporter le champ Echelon.  " << "\n\n"
         <<  "**-q** *sans argument*        : limiter la verbosité.  " << "\n\n"
         <<  "**--sans-bom*                 : ne pas insérer de BOM UTF-8 dans les tables CSV exportées.  " << "\n\n"
         <<  "**-f** *argument obligatoire* : la ligne de commande est dans le fichier en argument, chaque élément à  la ligne.  " << "\n\n"
@@ -421,8 +420,7 @@ void ecrire_entete0 (const info_t &info, ofstream& base, const char* entete[], i
 {
     int i;
 
-    if (info.select_echelon)
-    {
+
         if (info.generer_repartition_budget)
         {
           for (i = !info.generer_rang; i < N - 1; ++i)
@@ -456,58 +454,6 @@ void ecrire_entete0 (const info_t &info, ofstream& base, const char* entete[], i
                         }
 
         }
-    }
-    else
-    {
-            if (info.select_siret)
-            {
-              if (info.generer_repartition_budget)
-              {
-                for (i = !info.generer_rang; i < N - 1; ++i)
-                    {
-                         if (entete[i][0] != 'E' || entete[i][1] != 'c')  // Pour "Echelon"
-                                base << entete[i] << info.separateur;
-
-                    }
-              }
-              else
-              {
-                  for (i = !info.generer_rang; i < N - 1; ++i)
-                      {
-                        if (i != CodeBudget + 1 && i != Taux + 1 && i != MtBudget + 1)
-                        {
-                          if (entete[i][0] != 'E' || entete[i][1] != 'c')  // Pour "Echelon"
-                               base << entete[i] << info.separateur;
-                        }
-                       }
-              }
-
-            }
-            else
-            {
-                if (info.generer_repartition_budget)
-                {
-                    for (i = ! info.generer_rang; i < N - 1; ++i)
-                      {
-                            if (i != Budget + 1 &&  i != Employeur + 1 && i != Siret + 1 && i != Etablissement + 1
-                                            && (entete[i][0] != 'E' || entete[i][1] != 'c'))  // Pour "Echelon"
-
-                                base << entete[i] << info.separateur;
-                      }
-                 }
-                else
-                {
-                    for (i = ! info.generer_rang; i < N - 1; ++i)
-                    {
-                                if (i != CodeBudget + 1 && i != Taux + 1 && i != MtBudget + 1
-                                     && i != Budget + 1 &&  i != Employeur + 1 && i != Siret + 1 && i != Etablissement + 1
-                                            && (entete[i][0] != 'E' || entete[i][1] != 'c'))  // Pour "Echelon"
-
-                                        base << entete[i] << info.separateur;
-                    }
-                }
-            }
-    }
 
     base << entete[i] << "\n";
 }

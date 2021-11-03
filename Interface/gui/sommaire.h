@@ -372,7 +372,6 @@
 /// <ul><li>-m : calcul des maxima du nombre de bulletins de paye par mois et du nombre de lignes de paye par agent par bulletin</li>
 /// <li>-d ',' : séparateur décimal virgule</li>
 /// <li>-s ';' : séparateur de champs point-virgule</li>
-/// <li>-E : Générer l'échelon</li>
 /// <li>-rank tools::sharedir + "/rank" : fichier exporté dans ~/.local/share/applications/Altair (tools::sharedir par défaut) <br> indiquant l'index de la barre de progression</li>
 /// <li>&ndash;&ndash;cdrom : si depuis un disque optique</li>
 /// <li>-D  ~/Dev/altair/#DONNEES_SORTIE /subdir : répertoire d'exportation des bases si subdir est non vide </li>

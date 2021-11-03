@@ -158,11 +158,10 @@ void Altair::runWorker (const QString& subdir)
     // -m : libérer la mémoire en fin d'exécution
     // -d ',' : séparateur décimal virgule
     // -s ';' : séparateur de champs point-virgule
-    // -E : Générer l'échelon
     // -rank sharedir + "/rank" : fichier exporté dans ~/.local/share/applications/Altair (sharedir par défaut)
     //                            indiquant l'index de la barre de progression
 
-    args0 <<  "-m" << "-d" << "," << "-s" << ";" << "-E" << "-rank" << sharedir + "/rank";
+    args0 <<  "-m" << "-d" << "," << "-s" << ";" << "-rank" << sharedir + "/rank";
 
     // Si les bases sont directement importées du CDROM dans l'onglet sans passer une copie
     // dans le répertoire v(base) (par défaut .../Donnees/R-Altair) alors basculer en un
@@ -248,7 +247,7 @@ void Altair::runWorker (const QString& subdir)
                                    / (1024 * 1024))
                 + tr (" Mo)..."));
 
-    command = QString ("-m -d \",\" -s \";\" -E -rank ") + sharedir + "/rank" ;
+    command = QString ("-m -d \",\" -s \";\" -rank ") + sharedir + "/rank" ;
 
 #   ifndef INSERT_PAGE
     command  += QDir::separator() + subdir;
@@ -634,7 +633,7 @@ void Altair::runRAltair()
 
     QDir::setCurrent (path_access (""));
     process.setWorkingDirectory (path_access (""));
-    process.start (RAltairCommandStr + " " + path_access_rapport);
+    process.start(RAltairCommandStr,  {path_access_rapport});
 
     if (process.waitForStarted())
         {

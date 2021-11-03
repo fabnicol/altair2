@@ -157,7 +157,7 @@ int main (int argc, char **argv)
         0,                //    uint32_t NCumAgent;
         0,                //    uint32_t NCumAgentXml;
         0,                //    taille base
-        VERSION_LARGEUR,  //    nombre de colonnes (drapeau, pas nombre effectif)
+        LARGEUR,  //    nombre de colonnes (drapeau, pas nombre effectif)
         BaseType::MONOLITHIQUE,         //    type base
         vector<uint16_t>(),             //    vector<uint16_t> NLigne;
         &mon_thread,      //    thread_t threads;
@@ -182,7 +182,6 @@ int main (int argc, char **argv)
         false,            // numéroter les lignes
         false,            // ne pas générer des bulletins particuliers pour impression
         false,            // ne pas exporter les informations sur l'établissement
-        false,            // ne pas exporter l'échelon
         false,            // ne pas exporeter la répartition budgétaire
         false,            // faire semblant d'extraire
         false,            // test mémoire
@@ -718,23 +717,6 @@ int main (int argc, char **argv)
                     continue;
                 }
 
-            // Générer les échelons
-
-            else if (commandline_tab[start] == "-E")
-                {
-                    if (argc > start + 1)
-                        {
-                            info.select_echelon = true;
-                        }
-                    else
-                        {
-                            cout << "Il faut au moins un fichier";
-                            exit (-116);
-                        }
-
-                    ++start;
-                    continue;
-                }
 
             // Exclure le siret en argument
 
@@ -1038,13 +1020,13 @@ int main (int argc, char **argv)
                 }
                 ++start;
 
-                #if VERSION_LARGEUR == LARGEUR_STD
+                #if LARGEUR == LARGEUR_STD
                    if (info.largeur_base != LARGEUR_STD)
                        throw runtime_error("Cet exécutable peut seulement gérer les bases de largeur standard.");
-                #elif VERSION_LARGEUR == LARGEUR_EXT
+                #elif LARGEUR == LARGEUR_EXT
                    if (info.largeur_base != LARGEUR_EXT)
                        throw runtime_error("Cet exécutable peut seulement gérer les bases de largeur étendue.");
-                #elif VERSION_LARGEUR == LARGEUR_MAX
+                #elif LARGEUR == LARGEUR_MAX
                    if (info.largeur_base != LARGEUR_MAX)
                        throw runtime_error("Cet exécutable peut seulement gérer les bases de largeur maximale.");
                 #else

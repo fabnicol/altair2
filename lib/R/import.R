@@ -53,11 +53,12 @@ convertir.accents <- function(V) {
 }
 
 
-importer.bases.via.xhl2csv <- function(base, fichiers, colClasses = colonnes.classes.input) {
+importer.bases.via.xhl2csv <- function(base, fichiers, colClasses = types.variables, select = noms.variables) {
 
   res <- try(Read.csv(base,
                       fichiers,
                       colClasses = colClasses,
+                      select = select,
                       separateur.liste = separateur.liste.entree,
                       separateur.decimal = separateur.decimal.entree),
              silent = FALSE)
@@ -587,25 +588,10 @@ importer_ <- function() {
 
   if (! charger.bases) return(c(0, 0))
 
-  colonnes <- data.table::fread(fichiers.bulletins[1],
-                                      sep = separateur.liste.entree,
-                                      dec = separateur.decimal.entree,
-                                      nrows = 0,
-                                      header = TRUE,
-                                      #skip = champ.détection.1,
-                                      encoding = "UTF-8")
+  type.données()
 
-  convertir.accents(list(colonnes))
-
-  colonnes <- names(colonnes)
-
-  # Caractérise les données d'input : présence ou pas de certaines variables, identification des colonnes dans colonnes.classes.input
-  # et colonnes.bulletins.classes.input etc.
-
-  type.données(colonnes)
-
-  importer.bases.via.xhl2csv("Paie", fichiers.table, colClasses =  colonnes.classes.input)
-  importer.bases.via.xhl2csv("Bulletins.paie", fichiers.bulletins, colClasses =  colonnes.bulletins.classes.input)
+  importer.bases.via.xhl2csv("Paie", fichiers.table, colClasses =  colonnes.classes.input, select = lignes.noms)
+  importer.bases.via.xhl2csv("Bulletins.paie", fichiers.bulletins, colClasses =  colonnes.bulletins.classes.input, select = bulletins.noms)
 
   convertir.accents(list(Paie, Bulletins.paie))
 
