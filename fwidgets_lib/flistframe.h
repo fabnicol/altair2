@@ -84,9 +84,6 @@ public:
  bool sequentiel = false;                       ///< En cas d'input disque optique, l'exécution des fils de la classe Worker est séquentielle.
  std::vector<Worker*> W;  ///< Vecteur de fils d'exécution permettant de lancer parseXhlFile sur chaque fichier d'onglet.
  // Méthodes
- /// Efface  widgetContainer
-
- void clearWidgetContainer();
 
  /// Lancer un fil d'exécution pour lire l'entête d'un fichier XHL (Année, Mois,...) et classer les fichiers par onglet automatiquement
  /// \param rank Rang du fichier dans la liste des fichiers de l'onglet central

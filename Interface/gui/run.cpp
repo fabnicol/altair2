@@ -64,6 +64,7 @@ QStringList Altair::createCommandLineString (const QStringList& files)
     // liste des composant fonctionnels
 
     QVectorIterator<FAbstractWidget*> w (Abstract::abstractWidgetList);
+
     QStringList commandLine;
 
     w.toBack();
@@ -91,6 +92,7 @@ QStringList Altair::createCommandLineString (const QStringList& files)
                         // Cas général : on récupère le bout de ligne de commande généré par chaque composant fonctionnel:
 
                         commandLineChunk = item->commandLineStringList();
+
                 }
 
             // Certains fidgets génèrent une ligne de commande
@@ -104,7 +106,7 @@ QStringList Altair::createCommandLineString (const QStringList& files)
 
             // Collage des bouts de ligne de commande :
 
-            if (! commandLineChunk.isEmpty() && ! commandLineChunk[0].isEmpty())
+           // if (! commandLineChunk.isEmpty() && ! commandLineChunk[0].isEmpty())
                 commandLine +=  commandLineChunk;
 
             // Le nombre de fichiers de paye filecount est simplement égal à la taille de la liste commandLineChunk
@@ -550,7 +552,7 @@ void Altair::initRAltairCommandStr()
 void Altair::runRAltair()
 {
 
-    Abstract::refresh();  // pour actualiser les valeurs des v(...)  sans avoir à enregistrer de projet.
+   // Abstract::refresh();  // pour actualiser les valeurs des v(...)  sans avoir à enregistrer de projet.
     initRAltairCommandStr();
     textAppend (tr (STATE_HTML_TAG "Création du rapport d'analyse des données..."));
 
@@ -561,9 +563,6 @@ void Altair::runRAltair()
     // ne pas utiliser isFalse() car la valeur peut être non-spécifiée au lancement
     QDir outputDir = QDir (common::path_access (DONNEES_SORTIE));
 
-    outputDir.remove ("altair.pdf");
-    outputDir.remove ("altair.odt");
-    outputDir.remove ("altair.docx");
     outputDir.remove ("altair.pdf");
     outputDir.remove ("altair.odt");
     outputDir.remove ("altair.docx");

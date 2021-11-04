@@ -108,13 +108,6 @@ public :
 
     void on_clearOutputTextButton_clicked();           ///< Nettoie l'onglet courant Console ou Messages
 
-    /// Renvoie l'éditeur du fichier de projet \b .alt
-
-    QTextEdit* getEditor()
-    {
-        return editor;
-    }
-
     /// Vérifie si par défaut le projet \b .alt doit être enregistré à chaque modification de l'état de l'interface.
     /// \return Booléen \e true si la case du dialogue de configuration est cochée, \e false sinon
 
@@ -270,8 +263,6 @@ private :
     FCheckBox    *defaultQuietBox;                      ///< Case à cocher du dialogue de configuration : réduire la verbosité par défaut
 
     QList<FCheckBox*> displayWidgetListBox, behaviorWidgetListBox, displayToolBarCBoxListBox, outputListBox;
-
-    QTextEdit *editor = nullptr;  ///< Editeur de projet
 
     QFile projectFile;            ///< Fichier du projet
     QProcess process;             ///< Processus associé au lancement de l'application-noyau \e lhx ou de \e RStudio

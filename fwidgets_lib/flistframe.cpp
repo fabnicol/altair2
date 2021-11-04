@@ -192,12 +192,6 @@ void FListFrame::deleteAllGroups(bool insertFirstGroup, bool eraseAllData)
     if (insertFirstGroup) fileListWidget->addGroup();
 }
 
-void FListFrame::clearWidgetContainer()
-{
-   widgetContainer.clear(); ;
-}
-
-
 void FListFrame::launch_thread(int rank, const QString& s)
 {
     Worker* w = new Worker(rank, s);
@@ -438,7 +432,6 @@ void FListFrame::parseXhlFile()
 
     while (++rank < size)
         connect(W.back(), &Worker::resultReady, [this, rank] { if (! isTerminated) launch_thread(rank, stringList.at(rank)); });
-
 
         #ifdef DEBUG_INPUT_FILES
            app->outputTextEdit->append(PROCESSING_HTML_TAG "Analyse du fichier n°" + QString::number(rank));

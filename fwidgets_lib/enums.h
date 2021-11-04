@@ -57,10 +57,10 @@ class flags
 {
 public:
 
-   enum class update : uint8_t { noSave = 0x0,
+   enum class update : uint8_t {  noSave = 0x0,
                                   saveProject = 0x1,
-                                  noWarnRExport = 0x0,
-                                  warnRExport = 0x2};
+                                  noWarnRExport = 0x2,
+                                  warnRExport = 0x3};
 
    enum class flineframe {isFilePath,     ///< Une ligne d'input qui est  un chemin de fichier
                           isDirectoryPath ///< Une ligne d'input qui est un chemin de répertoire
@@ -96,7 +96,7 @@ public:
        multimodal = 0x3000,          ///< composant multi-modes
        enabledChecked = 0x1100,      ///< Raccourci pour enabled & checked
        enabledUnchecked = 0x2100,    ///< Raccourci pour enabled & unchecked
-       hasListCommandLine = 0x4000,  ///< Profondeur au moins 2
+       hasListCommandLine = 0xF000,  ///< Profondeur au moins 2
        defaultStatus = enabled,      ///< Statut par défaut
        excluded = 0x10000,           ///< Exclure le composant fonctionnelde la liste Abstract::abstractWidgetList
        enabledMask = 0xF00,          ///< Masque permettant de récupérer enabled

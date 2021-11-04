@@ -119,7 +119,6 @@ SOURCES += \
     ../../fwidgets_lib/forms.cpp \
     ../../fwidgets_lib/fstring.cpp \
     ../../fwidgets_lib/fwidgets.cpp \
-    ../../fwidgets_lib/fwidgets_lib.cpp \
     ../../fwidgets_lib/tools.cpp \
     options.cpp \
     mainwindow.cpp \
@@ -139,8 +138,6 @@ HEADERS  += \
     ../../fwidgets_lib/forms.h \
     ../../fwidgets_lib/fstring.h \
     ../../fwidgets_lib/fwidgets.h \
-    ../../fwidgets_lib/fwidgets_lib.h \
-    ../../fwidgets_lib/fwidgets_lib_global.h \
     ../../fwidgets_lib/tags.h \
     ../../fwidgets_lib/templates.h \
     ../../fwidgets_lib/tools.h \

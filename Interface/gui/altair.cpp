@@ -400,7 +400,8 @@ void  Altair::openProjectFileCommonCode()
     clearInterfaceAndParseProject();
 
     // resetting interfaceStatus::parseXml bits to 0
-    RefreshFlag = RefreshFlag & (~interfaceStatus::parseXml);
+    RefreshFlag &= ~interfaceStatus::parseXml;
+    RefreshFlag |=  interfaceStatus::XmlParsed;
 
     Hash::createReference (project->getRank());
 }
@@ -413,8 +414,8 @@ void Altair::on_openProjectButton_clicked()
     if (projectName.isEmpty()) return;
 
     openProjectFileCommonCode();
-}
 
+}
 
 void Altair::openProjectFile()
 {
@@ -424,19 +425,10 @@ void Altair::openProjectFile()
     openProjectFileCommonCode();
 }
 
-
 bool Altair::clearInterfaceAndParseProject()
 {
     options::RefreshFlag = options::RefreshFlag | interfaceStatus::optionTabs;
     RefreshFlag = RefreshFlag | interfaceStatus::tree;
-
-    QTextEdit* editor = parent->getEditor();
-
-    try
-        {
-            if (editor) editor->clear();
-        }
-    catch (...) {}
 
     return refreshProjectManager();
 }
@@ -627,15 +619,24 @@ void Altair::requestSaveProject()
 bool Altair::updateProject (int requestSave)
 {
     RefreshFlag = RefreshFlag | interfaceStatus::saveTree // ouvrir le fichier projet pour le modifier
-                  | interfaceStatus::tree;  // actualisation le gestionnaire de projet
+                              | interfaceStatus::tree;  // actualisation le gestionnaire de projet
 
     setCurrentFile (projectName);
 
     // Si la case du dialogue de confrguration est cochée, ou si la sauvegarde est forcée
     // par requetSave = true alors réécrire le projet .alt
 
-    if (parent->isDefaultSaveProjectChecked() || ((requestSave & update::saveProject) == update::saveProject))
-        writeProjectFile();
+    if  ((RefreshFlag & interfaceStatus::XmlParsedMask) == interfaceStatus::XmlParsed)
+    {
+        // Do not write a project just after load.
+        RefreshFlag &= ~interfaceStatus::XmlParsed;
+    }
+    else
+    if (parent->isDefaultSaveProjectChecked()
+           || ((requestSave & update::saveProject) == update::saveProject))
+    {
+            writeProjectFile();
+    }
 
     Abstract::initH ("base", path_access (DONNEES_SORTIE));
 

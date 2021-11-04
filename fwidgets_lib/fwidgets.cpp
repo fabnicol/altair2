@@ -203,15 +203,15 @@ const QStringList FAbstractWidget::commandLineStringList()
 //Warning(nullptr, "", optionLabel+":"+QString::number(commandLineType & flags::::widgetMask));
 
     if (
-               optionLabel.isEmpty() 
-            || commandLineList.isEmpty()
-            || commandLineList[0].isFalse()
-           // ||  (commandLineList[0].toQString().isEmpty())
+               optionLabel.isEmpty()
+//            || commandLineList.isEmpty()
+            || (! commandLineList.isEmpty() && commandLineList[0].isFalse())
+//           // ||  (commandLineList[0].toQString().isEmpty())
             ||  (this->isAbstractDisabled())) return {};
 
     QStringList strL=QStringList();
 
-      if ((this->status & flags::status::widgetMask) == flags::status::hasListCommandLine)
+      if ((this->status & flags::status::widgetMask) == flags::status::hasListCommandLine)  // hashkey == XHL
         {
             QListIterator<FString> i(commandLineList);
             while (i.hasNext())
@@ -323,7 +323,7 @@ const FString& FListWidget::translate(const FStringList &s)
         L << QStringList();
         QStringList translation=QStringList();
         translation=i.next();
-        L[j++]= std::move(applyHashToStringList(listWidgetTranslationHash, translation));
+        L[j++]= applyHashToStringList(listWidgetTranslationHash, translation);
     }
 
     commandLineList[0] = L.join(separator);
@@ -348,7 +348,6 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
         }
 
         /* add as many groups as there are QStringLists in excess of 1 and fill in the tabs with files */
-
         for (int j=0; j <= size; j++)
           {
              if (j) addGroup();
@@ -378,7 +377,7 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
            // Hash::wrapper[hashKey]->removeAll(QStringList());
             int size = Hash::wrapper[hashKey]->size();
 
-            for (int i = 0; i < size -3; ++i)
+            for (int i = 0; i < size - 2; ++i)
             {
                 QStringList strL = Hash::wrapper[hashKey]->at(i);
 
@@ -387,23 +386,25 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
                 {
                     if (QFileInfo(s).exists())
                         commandLineList << FString(s);
-//                    else
-//                    {
-//                        QMessageBox::critical(nullptr,
-//                                              "Erreur d'importation du projet .alt",
-//                                              "Le fichier " + s + " n'existe pas.\n Importation annulée.\n"
-//                                              "N onglets = " +QString::number(size) + " onglet = " + QString::number(i) + "\n" +
-//                                              + " Hash : " + hashKey,
-//                                              QMessageBox::Ok);
-//                        emit(forceCloseProject());
-//                       return;
-//                    }
+                    else
+                    {
+                        QMessageBox::critical(nullptr,
+                                              "Erreur d'importation du projet .alt",
+                                              "Le fichier " + s + " n'existe pas.\n Importation annulée.\n"
+                                              "N onglets = " +QString::number(size) + " onglet = " + QString::number(i) + "\n" +
+                                              + " Hash : " + hashKey,
+                                              QMessageBox::Ok);
+                        emit(forceCloseProject());
+                       return;
+                    }
                 }
             }
         }
         else
             commandLineList[0]= Hash::wrapper[hashKey]->join(separator);
     }
+
+
 }
 
 

@@ -1228,23 +1228,8 @@ void MainWindow::saveProjectAs (const QString &newstr)
             std::remove (newstr.toStdString().c_str());
         }
 
-    if (editor)
-        {
-            QFile file (newstr);
-
-            if (file.open (QFile::WriteOnly | QFile::Truncate | QFile::Text))
-                {
-                    file.write (editor->document()->toPlainText().toUtf8()) ;
-                    file.close();
-                }
-
-            altair->projectName = newstr;
-        }
-    else
-        {
-            altair->projectName = newstr;
-            altair->writeProjectFile();
-        }
+    altair->projectName = newstr;
+    altair->writeProjectFile();
 
     Altair::RefreshFlag =  Altair::RefreshFlag
                            | interfaceStatus::tree;

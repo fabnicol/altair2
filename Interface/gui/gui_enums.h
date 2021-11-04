@@ -122,6 +122,8 @@ public:
     static constexpr std::uint16_t keepOptionTabs = 0x4000;   ///< Force l'enregostrement des éléments de statut de l'interface non encore enregistrés dans un projet \b .alt
     static constexpr std::uint16_t parseXml = 0xF000;         ///< Autorise le décodage (parsing) du projet \b .alt
     static constexpr std::uint16_t parseXmlMask = 0xF000;     ///< Masque de interfaceStatus::parseXml
+    static constexpr std::uint16_t XmlParsed = 0xA000;         ///< Autorise le décodage (parsing) du projet \b .alt
+    static constexpr std::uint16_t XmlParsedMask = 0xF000;     ///< Masque de interfaceStatus::parseXml
 };
 
 /// Décrit la portée des actualisations à opérer sur le gestionnaire de projets et le fichier projet \b .alt

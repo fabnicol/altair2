@@ -103,6 +103,7 @@ inline const QString  Altair::makeSystemString()
 
 void Altair::writeProjectFile()
 {
+
     checkEmptyProjectName();
     QFile projectFile (projectName);
     QErrorMessage *errorMessageDialog = new QErrorMessage (this);
@@ -117,6 +118,7 @@ void Altair::writeProjectFile()
                                      "ne s'affichera plus à  nouveau."));
             return;
         }
+
 
     QTextStream out (&projectFile);
     out.setEncoding(QStringConverter::Utf8);
@@ -551,6 +553,7 @@ void Altair::parseProjectFile (QIODevice* file)
     refreshProjectManagerValues (manager::refreshProjectInteractiveMode
                                  | manager::refreshXHLZone
                                  | manager::refreshSystemZone);
+
 }
 
 
