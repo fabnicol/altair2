@@ -592,26 +592,34 @@ void Altair::runRAltair()
     emit (setProgressBar (0, 100));
     QString  path_access_rapport;
 
-    if (v(rapportType) == "WORD, ODT et PDF")
+    if (v(rapportType).remove("'") == "WORD, ODT et PDF")
         {
             path_access_rapport = path_access (SCRIPT_DIR "rapport_msword_et_pdf.R");
         }
-    else if (v(rapportType) == "PDF")
+    else if (v(rapportType).remove("'") == "PDF")
         {
             path_access_rapport = path_access (SCRIPT_DIR "rapport_pdf.R");
         }
-    else if (v(rapportType) == "WORD et ODT")
+    else if (v(rapportType).remove("'") == "WORD et ODT")
         {
             path_access_rapport = path_access (SCRIPT_DIR "rapport_msword.R");
         }
-    else if (v(rapportType) == "HTML")
+    else if (v(rapportType).remove("'") == "HTML")
         {
             path_access_rapport = path_access (SCRIPT_DIR "rapport_html.R");
         }
-    else if (v(rapportType) == "Pas de rapport (Bases seules)")
+    else if (v(rapportType).remove("'") == "Pas de rapport (Bases seules)")
         {
             path_access_rapport = path_access (SCRIPT_DIR "altair.R");
         }
+    else
+    {
+        QMessageBox::critical(nullptr,
+                              "Erreur",
+                              "Pas d'information au chargement"
+                              "sur le type de rapport", QMessageBox::Ok);
+        return;
+    }
 
 #ifndef Q_OS_WINDOWS
 
@@ -648,7 +656,7 @@ void Altair::runRAltair()
                                    "Erreur",
                                    "Echec du traitement des données."
                                    "Recommencer en mode avancé ou en mode expert.",
-                                   "Fermer");
+                                   QMessageBox::Ok);
         }
 
 

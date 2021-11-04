@@ -45,6 +45,7 @@
 #include <QApplication>
 #include <QTranslator>
 #include <QLibraryInfo>
+#include <QScreen>
 
 #include "altair-gui.h"
 
@@ -53,7 +54,9 @@ int main (int argc, char *argv[])
 {
     QApplication app (argc, argv);
 
+
     app.setFont (QFont ("Verdana", 10));
+
 
     QString translationsPath (QCoreApplication::applicationDirPath() + "/../translations");
     QLocale locale = QLocale::French;
@@ -114,10 +117,9 @@ int main (int argc, char *argv[])
 
     MainWindow *mainWin = new MainWindow (s);
 
+
     QObject::connect (mainWin, &MainWindow::exitSignal, [&] { app.quit();});
     mainWin->show();
     
-    mainWin->fontsize = 9;
-
     return app.exec();
 }

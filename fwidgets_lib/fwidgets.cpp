@@ -377,7 +377,7 @@ void FListWidget::setWidgetFromXml(const FStringList &s)
            // Hash::wrapper[hashKey]->removeAll(QStringList());
             int size = Hash::wrapper[hashKey]->size();
 
-            for (int i = 0; i < size - 2; ++i)
+            for (int i = 0; i < size - 3; ++i)
             {
                 QStringList strL = Hash::wrapper[hashKey]->at(i);
 

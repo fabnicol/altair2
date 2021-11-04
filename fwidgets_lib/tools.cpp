@@ -381,8 +381,6 @@ void tools::openDir(const QString& path)
 
 }
 
-
-
 const QString tools::openDirDialog(flags::directory checkEmptyness)
 {
 QString path=QFileDialog::getExistingDirectory(nullptr, QString("Sélection du répertoire"),

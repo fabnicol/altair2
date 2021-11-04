@@ -318,7 +318,7 @@ class options :   public QDialog, public common
 
 public:
 
-    options (Altair* parent = nullptr);      ///< Constructeur de l'onglet correspondant à un pointeur \em parent vers une instance de la classe Altair
+    options (Altair* parent = nullptr);///< Constructeur de l'onglet correspondant à un pointeur \em parent vers une instance de la classe Altair
     standardPage* standardTab;         ///< Onglet d'accueil Format : type de base en sortie, modalité d'extraction des données, exportation/archivage
     processPage* processTab;           ///< Onglet de Traitement : nombre de fils, utilisation de la mémoire, log et enchainement avec la production des rapports
     codePage* codeTab;                 ///< Onglet des codes de paye : renseignement manuel des codes de paye utilisés pour certains types d'éléments de paye
@@ -327,13 +327,15 @@ public:
     static std::uint16_t RefreshFlag;  ///< Drapeau indiquant si si l'interface a été actualisée ou doit l'être
     QListWidget *optionWidget;         ///< composant du dialogue d'options
     QDialogButtonBox *closeButton;     ///< Bouton "Quitter"    
-    QList<FDialogConnections*> tabs;              ///< Liste des onglets
+    QList<FDialogConnections*> tabs;   ///< Liste des onglets
 
     /// Efface les données de  Hash::wrapper et de  Hash::Reference
     
     void clearOptionData();            
 
 private:
+
+    QString lhx_name = "lhx";                  ///< Nom de l'exécutable lhx (lhx, lhx-ext ou lhx-max)
 
     QStackedWidget *pagesWidget;       ///< composant permettant d'empiler les onglets du dialogue d'options (standardPage,  processPage,  codePage)
 

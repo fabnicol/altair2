@@ -91,7 +91,7 @@ public:
 
    QString execPath = path_access (System); ///< Chemin du répertoire lhx, soit ~/Dev/lib/lhx sous linux et ~/Dev/altair/win/lhx sous Windows
    const QString sharedir = generateDatadirPath(); ///< Chemin ~/.local/share/Altair
-   QString altairCommandStr = execPath + QDir::separator() + ("lhx" + QString (systemSuffix)); ///< Ligne de commande permettant de lancer lhx
+   QString altairCommandStr = execPath + QDir::separator();   ///< Ligne de commande permettant de lancer lhx. Incomplet ici.
    QString exportpath;
    QString RAltairCommandStr;
    QString RAltairDirStr;
@@ -102,7 +102,7 @@ public:
     QString sharedir = PREFIX + QString ("/share/applications/altair");
     /// Ligne de commande permettant de lancer RStudio
 
-    QString altairCommandStr = PREFIX + QString ("/bin/lhx"); ///< Ligne de commande permettant de lancer lhx
+    QString altairCommandStr = PREFIX ; ///< Ligne de commande permettant de lancer lhx
 
 #endif
 

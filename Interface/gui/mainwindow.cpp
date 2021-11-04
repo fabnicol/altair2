@@ -57,6 +57,9 @@ using namespace std;
 
 void MainWindow::standardDisplay()
 {
+
+
+
 #ifdef HEIGHT
     height = HEIGHT;
 #endif
@@ -68,7 +71,7 @@ void MainWindow::standardDisplay()
 #ifdef MINIMAL
     setGeometry (QRect (200, 200, 600, 400));
 #else
-    setGeometry (QRect (200, 300, width / 2, height / 2));
+    setGeometry(QRect(width / 2, height / 2, width, height));
 #endif
 
     displayAction->setIcon (QIcon (":/images/show-maximized.png"));
@@ -76,7 +79,12 @@ void MainWindow::standardDisplay()
 
 MainWindow::MainWindow (char* projectName)
 {
-
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QRect  screenSize= screen->geometry();
+    height = screenSize.height() / 2;
+    width = screenSize.width() / 2;
+    setGeometry(QRect(width / 2, height / 2, width, height));
+    fontsize = 10;
 
     settings = new QSettings ("altair", "Juridictions Financières");
     raise();
@@ -357,7 +365,7 @@ void MainWindow::createActions()
     saveAction->setIcon (QIcon (":/images/document-save.png"));
     connect (saveAction, &QAction::triggered, [this] { altair->updateProject (update::saveProject | update::noWarnRExport); });
 
-    saveAsAction = new QAction (tr ("En&registrer le projet comme..."), this);
+    saveAsAction = new QAction (tr ("En&registrer le projet\ncomme..."), this);
     saveAsAction->setIcon (QIcon (":/images/document-save-as.png"));
     connect (saveAsAction, SIGNAL (triggered()), altair, SLOT (requestSaveProject()));
 
@@ -1165,8 +1173,8 @@ void MainWindow::createToolBars()
     bar = addToolBar(tr(text));\
     bar->setIconSize(QSize(48, 48));
 
-    buildToolBar (fileToolBar, "&File")
 
+    buildToolBar (fileToolBar, "&File")
     buildToolBar (editToolBar, "&Edit")
     buildToolBar (processToolBar, "&Process")
     buildToolBar (optionsToolBar, "&Data")
@@ -1886,7 +1894,7 @@ void MainWindow::configureOptions()
 
     QList<QToolBar*> displayToolBarList ;
 
-    displayToolBarList <<  fileToolBar
+    displayToolBarList << fileToolBar
                        << editToolBar
                        << processToolBar
                        << optionsToolBar

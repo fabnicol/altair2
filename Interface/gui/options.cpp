@@ -1647,6 +1647,7 @@ options::options (Altair* parent)
     optionWidget->setMovement (QListView::Static);
     optionWidget->setFixedWidth (98);
     optionWidget->setSpacing (12);
+    optionWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     standardTab = new standardPage;
     codeTab     = new codePage;
     extraTab    = new extraPage();
@@ -1689,11 +1690,34 @@ options::options (Altair* parent)
                 {
                     options::RefreshFlag =  interfaceStatus::hasUnsavedOptions;
                     accept();
-                    parent->execPath = execPath;
-                    parent->altairCommandStr =  parent->execPath +  QDir::separator()
-                    + ("lhx" + QString (systemSuffix));
 
                     parent->updateProject (update::saveProject | update::noWarnRExport);
+
+                    parent->execPath = execPath;
+                    if (v(baseWidth).remove("'") == "Standard")
+                    {
+                        lhx_name = "lhx";
+                    }
+                    else
+                    if (v(baseWidth).remove("'") == "Etendu")
+                    {
+                        lhx_name = "lhx-ext";
+                    }
+                    else
+                    if (v(baseWidth).remove("'") == "Maximal")
+                    {
+                        lhx_name = "lhx-max";
+                    }
+                    else
+                    {
+                        QMessageBox::critical(nullptr,"Erreur", "Valeur inconnue de la largeur de la base<br>"
+                                                                "Utiliser : Standard, Etendu ou Maximal.",
+                                                                QMessageBox::Cancel);
+                        return ;
+                    }
+
+                    parent->altairCommandStr =  parent->execPath +  QDir::separator()
+                    + (lhx_name + QString (systemSuffix));
 
                     extraTab->do_copies();
                     extraTab->substituer_valeurs_dans_script_R();
