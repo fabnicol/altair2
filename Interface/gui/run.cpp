@@ -167,7 +167,7 @@ void Altair::runWorker (const QString& subdir)
 
     // Si les bases sont directement importées du CDROM dans l'onglet sans passer une copie
     // dans le répertoire v(base) (par défaut .../Donnees/R-Altair) alors basculer en un
-    // seul fil d'exécution. TODO : le faire plus proprement en manipulant processWidget.
+    // seul fil d'exécution. TODO : le faire plus proprement en manipulant prNocessWidget.
 
 #   ifdef Q_OS_WIN
 
@@ -189,7 +189,6 @@ void Altair::runWorker (const QString& subdir)
 
     foreach (const QString &str, fileList)
         {
-
             for (int i = 0; i < Hash::Siret[str].size() && i < Hash::Etablissement[str].size(); ++i)
                 {
                     const QString siret = Hash::Siret[str].at (i);
@@ -304,7 +303,7 @@ void Altair::runWorker (const QString& subdir)
     QString commandStr = (args0 << args1).join ("\n");
     f.write (commandStr.replace ('"', "")
 #ifndef Q_OS_LINUX
-             .toLatin1());
+             .toLatin1());N
 #else
              .toLocal8Bit());
 #endif
@@ -458,6 +457,31 @@ void Altair::run()
         }
 
     Hash::fileList.clear();
+    QString lhx_name;
+
+    if (v(baseWidth).remove("'") == "Standard")
+    {
+        lhx_name = "lhx";
+    }
+    else
+    if (v(baseWidth).remove("'") == "Etendu")
+    {
+        lhx_name = "lhx-ext";
+    }
+    else
+    if (v(baseWidth).remove("'") == "Maximal")
+    {
+        lhx_name = "lhx-max";
+    }
+    else
+    {
+        QMessageBox::critical(nullptr,"Erreur", "Valeur inconnue de la largeur de la base<br>"
+                                                "Utiliser : Standard, Etendu ou Maximal.",
+                                                QMessageBox::Cancel);
+        return ;
+    }
+
+    altairCommandStr =  execPath +  QDir::separator() + (lhx_name + QString (systemSuffix));
 
     if (v(exportMode).left (12) == "Distributive")
         {

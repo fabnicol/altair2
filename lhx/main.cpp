@@ -182,7 +182,6 @@ int main (int argc, char **argv)
         false,            // numéroter les lignes
         false,            // ne pas générer des bulletins particuliers pour impression
         false,            // ne pas exporter les informations sur l'établissement
-        false,            // ne pas exporeter la répartition budgétaire
         false,            // faire semblant d'extraire
         false,            // test mémoire
         false,            // extraction depuis disque optique
@@ -973,16 +972,6 @@ int main (int argc, char **argv)
                     continue;
                 }
 
-            // Exportation de la répartition budgétaire (FPH)
-
-            else if  (commandline_tab[start] == "--repartition-budget")
-                {
-                    info.generer_repartition_budget = true;
-                    ++start;
-                    cerr << PARAMETER_HTML_TAG "Exporter la répartition budgétaire" << ENDL;
-                    continue;
-                }
-
             // ne pas insérer de BOM UTF-8 dans les tables CSV exportées (insertion par défaut)
 
             else if  (commandline_tab[start] == "--sans-bom")
@@ -998,25 +987,30 @@ int main (int argc, char **argv)
             else if  (commandline_tab[start] == "-W")
             {
                 ++start;
-                if (commandline_tab[start] == "'Standard'")
+                string opt = commandline_tab[start];
+
+                //erase_all('\'', opt);
+
+                if (opt == "Standard" || opt == "'Standard'")
                 {
                    info.largeur_base = LARGEUR_STD;
                    cerr << PARAMETER_HTML_TAG "Nombre de colonnes standard." << ENDL;
                 }
-                else if (commandline_tab[start] == "'Etendu'")
+                else if (opt == "Etendu" || opt == "'Etendu'")
                 {
                     info.largeur_base = LARGEUR_EXT;
                     cerr << PARAMETER_HTML_TAG "Nombre de colonnes étendu." << ENDL;
                 }
-                else if (commandline_tab[start] == "'Maximal'")
+                else if (opt == "Maximal" || opt == "'Maximal'")
                 {
                     info.largeur_base = LARGEUR_MAX;
                     cerr << PARAMETER_HTML_TAG "Nombre de colonnes maximum." << ENDL;
                 }
                 else
                 {
-                    info.largeur_base = LARGEUR_STD;
-                    cerr << PARAMETER_HTML_TAG "Valeur inadéquate pour -W: utilisation de la valeur standard." << ENDL;
+
+                    cerr << PARAMETER_HTML_TAG "Valeur inadéquate pour -W: " << commandline_tab[start] << ENDL;
+                    return -1;
                 }
                 ++start;
 

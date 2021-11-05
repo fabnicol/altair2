@@ -13,3 +13,7 @@ Bugs
             Fichier concerné : mainwindow.cpp:~900
             Sévérité : moyenne.
             Idée : parser l'entête pour déterminer l'encodage.
+
+7/11/2021  Bug: Platage écriture bases lorsque PJRef est référencé en paye. 
+           Bug: Platage import bases sous R
+           

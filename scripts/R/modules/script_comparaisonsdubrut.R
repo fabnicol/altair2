@@ -6,13 +6,10 @@ brut.eqtp <- brut.eqtp(variation = TRUE)
 brut.eqtp.emploi <- brut.eqtp.emploi(variation = TRUE)   
 
 
-
-
 sauv.bases( "Remunerations", 
            environment(), "brut.eqtp.emploi")
 sauv.bases( "Remunerations", 
            environment(), "brut.eqtp")
-
 
 #'   
 conditionnel("Rémunérations brutes par grade", "Bases/Remunerations/brut.eqtp.csv")      

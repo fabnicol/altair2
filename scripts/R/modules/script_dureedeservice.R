@@ -4,38 +4,6 @@
 cat("**Personnels en fonction (hors élus) des exercices ", debut.periode.sous.revue, " à ", fin.periode.sous.revue," inclus :**\n")
 #'
 
-#'  
-#'&nbsp;*Tableau 1.6.1*   
-#'    
-
-#+ effectifs-par-duree
-
-Tableau(c("Plus de 2 ans",
-          "Moins de 2 ans",
-          "Moins d'un an",
-          "Moins de six mois"),
-        sum(Analyse.variations$plus.2.ans, na.rm=TRUE),
-        sum(Analyse.variations$moins.2.ans, na.rm=TRUE),
-        sum(Analyse.variations$moins.1.an, na.rm=TRUE),
-        sum(Analyse.variations$moins.six.mois, na.rm=TRUE))
-
-
-#'
-
-# if (nrow(Analyse.variations) > 0)
-#   ggplot2::qplot(factor(Annee),
-#                  data = Analyse.variations,
-#                  geom = "bar",
-#                  fill = factor(!Analyse.variations$plus.2.ans),
-#                  main = "Evolutions entre " %+% debut.periode.sous.revue %+% " et " %+% fin.periode.sous.revue,
-#                  xlab = "Annee",
-#                  ylab = "Effectif",
-#                  asp = 1.4)        +
-#   ggplot2::scale_fill_discrete(name = "Personnels (non élus) en fonction",
-#                                breaks = c(TRUE, FALSE),
-#                                labels = c("Moins de deux ans", "Plus de deux ans"))
-
-
 
 #'
 #'**Effectifs (hors élus)**   
@@ -59,7 +27,7 @@ tableau.effectifs.var <- as.data.frame(effectifs.var.locale, row.names = c("Plus
 
 names(tableau.effectifs.var) <- as.character(periode)
 #'  
-#'&nbsp;*Tableau 1.6.2*   
+#'&nbsp;*Tableau 1.6.1*   
 #'    
 
 kable(tableau.effectifs.var, row.names = TRUE, align='c', format = "simple")

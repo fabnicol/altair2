@@ -45,15 +45,8 @@ if (linux) {
 }
 
 QMAKE_CXX=/usr/bin/g++
-GIT_VERSION = $$system(git --version | grep -e \'git version\')
+
 CXX_VERSION = $$system($$QMAKE_CXX --version)
-
-if (!isEmpty(GIT_VERSION)) {
-    message( "Version de git : $$GIT_VERSION" )
-} else {
-    error( "Git doit être installé" )
-}
-
 
 if (!isEmpty(CXX_VERSION)){
     message( "Version du compilateur : $$CXX_VERSION" )
@@ -159,7 +152,7 @@ INCLUDEPATH += ../Interface/gui ../fwidgets_lib
 windows:INCLUDEPATH += C:/msys64/mingw64/include/libxml2
 linux:INCLUDEPATH += /usr/include/libxml2
 
-linux:QMAKE_LFLAGS += -L/usr/lib/x86_64-linux-gnu/ -L/usr/lib/ -L/usr/lib64
+linux:QMAKE_LFLAGS += -L/usr/lib/x86_64-linux-gnu/ -L/usr/lib64
 
 windows:LIBS =   -lstdc++fs -static-libgcc -static-libstdc++ -pthread  C:/Users/Public/Dev/altair/lhx/libxml2.dll.a   -lz -llzma -liconv -LC:\msys64\mingw64\bin
 linux:LIBS =   -lstdc++fs -static-libgcc -static-libstdc++ -pthread  -lxml2   -lz -llzma -licuuc#-liconv
@@ -177,7 +170,6 @@ contains(DEFINES, TINYXML2) {
 }
 
 HEADERS += \
-    entete.h \
     table.h \
     ../Interface/gui/tags.h \
     expression_reg_adjoints.h \

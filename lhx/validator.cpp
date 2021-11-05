@@ -1249,15 +1249,17 @@ void* parse_info (info_t& info)
             xmlChar* em = VAR (EmploiMetier);
             xmlChar* gr = VAR (Grade);
 #else
-
+#if defined INCLURE_REG_ELUS || defined INCLURE_REG_VACATAIRES || defined INCLURE_REG_ASSMAT
             xmlChar* em = xmlStrdup (VAR (EmploiMetier));
+            normaliser_accents (em);
+#endif
             xmlChar* gr = xmlStrdup (VAR (Grade));
 
 #endif
 
             // La normalisation des accents facilite et sécurise les analyses d'expressions régulières
 
-            normaliser_accents (em);
+
             normaliser_accents (gr);
             
 #           ifdef INCLURE_REG_ELUS
@@ -1298,26 +1300,49 @@ void* parse_info (info_t& info)
                     // à la fin de main.cpp dans la double boucle de libération de mémoire car
                     // A, B, C, NA ne sont pas alloués sur le tas.
 
-                    if (regex_match ((const char*) gr, pat_adjoints)
-                            || regex_match ((const char*) gr, pat_agents))
-                        {
-                            VAR (Categorie) = xmlStrdup ((xmlChar*)"C");
-                        }
-                    else if (regex_match ((const char*) gr, pat_cat_a))
-                        {
-                            VAR (Categorie) = xmlStrdup ((xmlChar*)"A");
-                        }
+                    if (gr)
+                    {
+                        if (regex_match ((const char*) gr, pat_adjoints)
+                                || regex_match ((const char*) gr, pat_agents))
+                            {
+                                VAR (Categorie) = xmlStrdup ((xmlChar*)"C");
+                            }
+                        else if (regex_match ((const char*) gr, pat_cat_a))
+                            {
+                                VAR (Categorie) = xmlStrdup ((xmlChar*)"A");
+                            }
+                        else if (regex_match ((const char*) gr, pat_cat_b))
+                            {
+                                VAR (Categorie) = xmlStrdup ((xmlChar*)"B");
+                            }
+                        else
+                            {
+                                VAR (Categorie) = nullptr;
+                            }
+
+                    }
+                    else
+                    {
+                        cerr << ERROR_HTML_TAG "Impossible de trouver le champ obligatoire Grade pour l'année : "
+                             << VAR(Annee) << " et le mois: " << VAR(Mois) << ENDL;
+                        cerr << WARNING_HTML_TAG "Réexécuter en mode verbeux pour disposer de plus d'informations. "
+                             << ENDL;
+                            if (verbeux
+                                    && info.ligne_debut.size() > agent
+                                    && info.ligne_fin.size() > agent)
+                            {
+                                 cerr << " entre les lignes "
+                                 << info.ligne_debut.at (agent)[0] + 1
+                                 << " et "
+                                 <<   info.ligne_fin.at (agent)[0];
+                            }
+
+                        cerr <<  ENDL;
+                        VAR(Categorie) = nullptr;
+                    }
 
                     // Il faut tester d'abord cat A et seulement ensuite cat B
 
-                    else if (regex_match ((const char*) gr, pat_cat_b))
-                        {
-                            VAR (Categorie) = xmlStrdup ((xmlChar*)"B");
-                        }
-                    else
-                        {
-                            VAR (Categorie) = nullptr;
-                        }
                 }
 
             // Les vacations peuvent être indiquées comme telles dans les libellés de paie mais pas dans les emplois métiers.
@@ -1345,7 +1370,9 @@ void* parse_info (info_t& info)
                 }
 #        endif 
 #ifndef NORMALISER_ACCENTS
+#if defined INCLURE_REG_ELUS || defined INCLURE_REG_VACATAIRES || defined INCLURE_REG_ASSMAT
             xmlFree (em);
+#endif
             xmlFree (gr);
 #endif
         }

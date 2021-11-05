@@ -357,6 +357,12 @@ public:
 
   /* copy constructor */
   FStringList(const FStringList  & L):QVector<QStringList>(L)  { }
+
+  /// Assignation par copie.
+  /// \param s Liste FStringList.
+  /// \return Copie du FStringList.
+
+  FStringList& operator= (const FStringList &s) { this->clear(); this->append(s); return *this;}
               
 };
 

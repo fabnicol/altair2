@@ -137,7 +137,8 @@ public :
     processPage();                 ///< Constructeur de l'onglet Traitement.
     FLineFrame *logFrame;          ///< composant fonctionnelde type QLineEdit augmenté de fonctionnalités spéciales. Enregistre le chemin du log d'exécution.
     FCheckBox  *enchainerRapports; ///< Cas à cocher indiquant si la génération des rapports est automatiquement lancée par l'interface sans passer par RStudio.
-    FCheckBox *openCheckBox;         ///< Case à cocher permettant d'ouvrir les rapports à la fin de l'exécution (cochée par défaut).
+    FCheckBox *openCheckBox,         ///< Case à cocher permettant d'ouvrir les rapports à la fin de l'exécution (cochée par défaut).
+              *consoleCheckBox;      ///< Case à cocher permettant d'activer la console (cochée par défaut).
 
     /// Réimplémentation de la fonction virtuelle de la classe common.
     /// Exporte les valeurs de parallelCheckBox et openCheckBox  dans prologue_init.R
@@ -157,9 +158,8 @@ private:
 #ifndef Q_OS_WIN
         *parallelCheckBox,     ///< Case à cocher permettant de produire les rapports en parallèle (cochée par défaut).
 #endif
-    *logCheckBox,          ///< Case à cocher permettant d'activer/de désactiver logFrame.
-    *consoleCheckBox;      ///< Case à cocher permettant d'activer la console (cochée par défaut).
-    
+    *logCheckBox;          ///< Case à cocher permettant d'activer/de désactiver logFrame.
+
     QString    file_str; ///< Contenu du fichier prologue.codes.R
     const QString prologue_options_path = common::path_access (SCRIPT_DIR "prologue_codes.R");
     
@@ -181,8 +181,7 @@ public :
 
     FCheckBox
       *tableCheckBox,         ///< Exporter la table ou pas
-      *FPHCheckBox,           ///< Données Fonction publique hospitalière ou pas
-      *repBudgetCheckBox;     ///< Générer la répartition de la paye individuelle par budget (surtout utile pour la FPH)
+      *FPHCheckBox;           ///< Données Fonction publique hospitalière ou pas
     FComboBox* exportWidget;  ///< Modalités d'exportation (standard, cumulative, distributive etc.)
 
      /// Réimplémentation de la fonction virtuelle de la classe common. Renvoie à substituer_versant.

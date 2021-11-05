@@ -126,14 +126,22 @@ enum class BaseType : int
     MAXIMUM_LIGNES_PAR_ANNEE = 16 ///< Taille maximum de la base de paye "Table" en nombre de lignes, cas d'une exportation annuelle.
 };
 
+
+#if LARGEUR == 2
+/// Nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, NbUnite, Montant, DébutPeriode, FinPeriode, CodeCaisse, Ordre) moins 1
+  #define INDEX_MAX_COLONNNES 9
+#else
 /// Nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, NbUnite, Montant, DébutPeriode, FinPeriode) moins 1
-#define INDEX_MAX_COLONNNES 7
+  #define INDEX_MAX_COLONNNES 7
+#endif
 
 /// Nombre d'éléments de l'énum ci-dessous, correspondant aux champs des bulletins (répétés à chaque ligne de paye)
 #if LARGEUR == 0
-#define BESOIN_MEMOIRE_ENTETE  30
+#define BESOIN_MEMOIRE_ENTETE  27
 #elif LARGEUR == 1
 #define BESOIN_MEMOIRE_ENTETE  34
+#elif LARGEUR == 2
+#define BESOIN_MEMOIRE_ENTETE  43
 #endif
 
 /// Enum des libellés de balises XML donnant lieu à extraction
@@ -143,8 +151,8 @@ typedef enum
     Annee, Mois, Budget, Employeur, Siret, Etablissement,
     Nom, Prenom, Matricule, NIR, NbEnfants, Statut,
     EmploiMetier, Grade, Echelon, Indice, Code, Description, Service, NBI,
-    CodeBudget, Taux, MtBudget, QuotiteTrav, // FPH si RepartitionBudget
-    NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer, Categorie
+    QuotiteTrav, NbHeureTotal, NbHeureSup,
+    MtBrut, MtNet, MtNetAPayer, Categorie
 } Entete;
 #elif LARGEUR == 1
 typedef enum
@@ -153,21 +161,22 @@ typedef enum
     Civilite, Nom, Prenom, Matricule, Adresse, RefNomenStatutaire, CptBancaire,
     NIR, NbEnfants, Statut,
     EmploiMetier, Grade, Echelon, Indice, Code, Description, Service, NBI,
-    CodeBudget, Taux, MtBudget, QuotiteTrav, // FPH si RepartitionBudget
+    CodeBudget, TauxBudget, MtBudget, QuotiteTrav,
     NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer, Categorie
 } Entete;
-#endif
-
-/// Tableau des noms de colonnes associés à ces libellés de balises XML
-constexpr const char* Tableau_entete[] =
+#elif LARGEUR == 2
+typedef enum
 {
-    "Année", "Mois", "Budget", "Employeur", "Siret", "Etablissement",
-    "Nom", "Prénom", "Matricule", "NIR", "NbEnfants", "Statut",
-    "EmploiMetier", "Grade", "Echelon", "Indice", "Evenement", "Service", "NBI",
-    "CodeBudget", "Taux", "MtBudget", "QuotiteTrav",
-    "NbHeureTotal", "NbHeureSup", "MtBrut", "MtNet", "MtNetAPayer"
-};
-
+    Annee, Mois, Budget, Employeur, Siret, Etablissement,
+    Civilite, Nom, Prenom, Matricule, Adresse, RefNomenStatutaire, CptBancaire,
+    NIR, NbEnfants, Statut,
+    EmploiMetier, Grade, Echelon, Indice, Code, Description, Service, NBI,
+    CodeBudget, TauxBudget, MtBudget, QuotiteTrav,
+    NbHeureTotal, TauxHor, NbHeureSup, MtBrut, MtNet, MtNetAPayer,
+    DatePaiement, MtImposable, CumulMtImposable, CumulMtBrut,
+    CumulBaseSS, Support, IdUnique, NomPJ, Categorie
+} Entete;
+#endif
 
 /// Structure de stockage de l'information sur les lignes de paye
 typedef struct
@@ -207,7 +216,6 @@ typedef struct
     bool generer_rang;                      ///< Générer un index dans un fichier temporaire permettant de raffraîchier une barre de progression d'interface graphique
     bool generer_bulletins;                 ///< Générer des bulletins de paye particuliers
     bool select_siret;                      ///< Sélectionner un SIRET particulier
-    bool generer_repartition_budget;        ///< Exporter la répartition budgétaire (surtout pertinent pour la FPH)
     bool pretend;                           ///< Ne pas exporter de données
     bool verifmem;                          ///< Vérifier l'état de la mémoire
     bool cdrom;                             ///< Importer les données de paye directement depuis un disque optique
@@ -325,7 +333,6 @@ static constexpr const xmlChar drapeau[][2]  = {{1, 0}, {2, 0}, {3, 0}, {4, 0}, 
 void* decoder_fichier (info_t& tinfo);
 void* parse_info (info_t& info);
 
-
 /// Permet d'atteindre un noeud donné par son libellé de balise XML à partir d'un pointeur XmlNodePtr de libxml2
 /// \param noeud Libellé de la balise à atteindre
 /// \param cur Noeud libxml2 courant
@@ -341,7 +348,9 @@ static inline xmlNodePtr GCC_INLINE atteindreNoeud (const char * noeud, xmlNodeP
 
     while (cur && xmlIsBlankNode (cur))
         {
-            cur = cur -> next;
+            cur = cur -> next;/// Efface le premier caractère d'une chaîne et translate la chaîne d'un caractère vers la gauche
+            /// \param c chaine de caractères libXml2 à modifier par pointeur
+
 #       ifdef DEBUG_ATTEINDRE
             cerr << "[DEBUG] Saut de noeud blanc" << ENDL;
 #       endif

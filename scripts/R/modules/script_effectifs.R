@@ -14,9 +14,9 @@ message("Démographie...")
 # Calcul du tableau des effectifs, qui nécessite les deux bases d'analyse (mensuelle, Analyse.remunerations et annuelle Analyse.variations)
 # Utilisation de la fonction effectifs() de la biblio altair.
 
-tableau.effectifs <<- effectifs(periode, Bulletins.paie, Analyse.remunerations, Analyse.variations)
+tableau.effectifs         <<- effectifs(periode, Bulletins.paie, Analyse.remunerations, Analyse.variations)
 
-tableau.effectifs.grades <<- eqtp.grade(variation = TRUE)
+tableau.effectifs.grades  <<- eqtp.grade(variation = TRUE)
 
 tableau.effectifs.emplois <<- eqtp.emploi(variation = TRUE)
 
@@ -31,7 +31,7 @@ tableau.effectifs.emplois <<- eqtp.emploi(variation = TRUE)
 if (class(tableau.effectifs) != "try-error") {
   
   kable(tableau.effectifs, row.names = TRUE, 
-        format = "simple", align='c', digits = 1, 
+        format = "simple", align = c('l', rep('r', nb.annees)), digits = 1, 
         format.args = list(big.mark = ' ', decimal.mark = ','))
 } else {
   cat("Problème sérieux de qualité des données sur les effectifs ou problème logiciel.")

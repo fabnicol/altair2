@@ -53,7 +53,7 @@ convertir.accents <- function(V) {
 }
 
 
-importer.bases.via.xhl2csv <- function(base, fichiers, colClasses = types.variables, select = noms.variables) {
+importer.bases.via.xhl2csv <- function(base, fichiers, colClasses, select) {
 
   res <- try(Read.csv(base,
                       fichiers,

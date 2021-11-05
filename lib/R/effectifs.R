@@ -51,47 +51,17 @@ effectifs_ <- function(periode, Bulletins = Bulletins.paie,
                   E <- unique(A[ , .(Matricule, annee_entiere)])
                   ETP <- unique(Bulletins[Annee == x & Statut != "ELU",
                                                .(quotite, Matricule, Statut, annee_entiere, Mois, nb.mois)])
-                  F <- E[annee_entiere == TRUE, ]
 
-                  G <- unique(A[Statut == "TITULAIRE" | Statut == "STAGIAIRE", .(Matricule, annee_entiere)])
-
-                  H <- G[annee_entiere == TRUE, ]
-
-                  postes.non.titulaires <- unique(A[Statut == "NON_TITULAIRE", Matricule])
 
                   I <- unique(A[Statut == "ELU", .(Matricule, annee_entiere)])
-                  J <- I[annee_entiere == TRUE, ]
-                  K <- unique(A[Statut != "TITULAIRE" & Statut != "STAGIAIRE" & Grade == "V", .(Matricule, annee_entiere)])
-                  L <- unique(A[Grade == "A", .(Matricule, annee_entiere)])
-                  postes.non.actifs <- unique(personnels[Statut != "ELU"
-                                                                    & Filtre_actif == FALSE
-                                                                    & Annee == x,
-                                                                    Matricule])
-                  postes.actifs.annexes <- unique(personnels[Statut != "ELU"
-                                                                        & Filtre_annexe == TRUE
-                                                                        & Filtre_actif == TRUE
-                                                                        & Annee == x,
-                                                                        Matricule])
                   postes.actifs.non.annexes <- unique(personnels[Statut != "ELU"
                                                                             & Filtre_annexe == FALSE
                                                                             & Filtre_actif == TRUE
                                                                             & Annee == x,
                                                                             Matricule])
 
-
-
                   c(nrow(E),   # Matricules gérés en base
-                    nrow(F),   # dont présents 12 mois
-                    nrow(G),   # dont fonctionnaires
-                    nrow(H),   # dont fonct. présents 12 mois
-                    length(postes.non.titulaires),  # dont non titulaires
                     nrow(I),   # dont élus
-                    nrow(J),   # dont élus présents 12 mois
-                    nrow(K),   # dont vacataires détectés
-                    nrow(L),   # dont assistantes maternelles détectées
-                    length(postes.non.actifs),      # Postes non actifs
-                    length(postes.actifs.annexes),  # Postes actifs annexes
-                    length(postes.actifs.non.annexes),  # Postes actifs non annexes
                     ETP[Mois == 12, sum(quotite, na.rm=TRUE)],  # Total ETP/annee
                     ETP[ , sum(quotite, na.rm=TRUE)] / 12,     # Total ETPT/annee
                     
@@ -128,60 +98,34 @@ effectifs_ <- function(periode, Bulletins = Bulletins.paie,
                                                                         Matricule]),
                         sum(quotite, na.rm=TRUE)] / 12,
 
-                    ETP[Matricule %chin% postes.non.actifs, sum(quotite, na.rm=TRUE)] / 12,         # Total ETPT postes non actifs
-                    ETP[Matricule %chin% postes.actifs.annexes, sum(quotite, na.rm=TRUE)] / 12,     # Total ETPT postes actifs annexes
                     ETP[Matricule %chin% postes.actifs.non.annexes, sum(quotite, na.rm=TRUE)] / 12)	# Total ETPT actif non annexes
                     
                     })
 
 
 for (i in 1:length(eff)) names(eff[[i]]) <- c("Effectifs",
-                                                          "Effectifs_12",
-                                                          "Effectifs_12_fonct",
-                                                          "Effectifs_12_fonct",
-                                                          "Effectifs_nontit",
-                                                          "Effectifs_élus",
-                                                          "Effectifs_12_élus",
-                                                          "Effectifs_vac",
-                                                          "Effectifs_am",
-                                                          "Effectifs_non.actifs",
-                                                          "Effectifs_actifs_annexes",
-                                                          "Effectifs_actifs_non.annexes",
-                                                          "ETP",
-                                                          "ETPT",
-                                                          "ETPT_pp",
-                                                          "ETPT_fonct",
-                                                          "Tit_12_100",
-                                                          "ETPT_nontit",
-                                                          "ETPT_autre",
-                                                          "ETPT_non_actif",
-                                                          "ETPT_annexe",
-                                                          "ETPT_actif_nonannexe")
+                                              "Effectifs_élus",
+                                              "ETP",
+                                              "ETPT",
+                                              "ETPT_pp",
+                                              "ETPT_fonct",
+                                              "Tit_12_100",
+                                              "ETPT_nontit",
+                                              "ETPT_autre",
+                                              "ETPT_actif_nonannexe")
 
 effectifs.locale <- as.data.table(eff)
 
 tableau.effectifs <- cbind(row.names = c("Matricules gérés en base (a)",
-                                                 "&nbsp;&nbsp;&nbsp;dont présents 12 mois",
-                                                 "&nbsp;&nbsp;&nbsp;dont fonctionnaires (b)",
-                                                 "&nbsp;&nbsp;&nbsp;dont fonct. présents 12 mois",
-                                                 "&nbsp;&nbsp;&nbsp;dont non titulaires",
-                                                 "&nbsp;&nbsp;&nbsp;dont élus",
-                                                 "&nbsp;&nbsp;&nbsp;dont élus présents 12 mois",
-                                                 "&nbsp;&nbsp;&nbsp;dont vacataires détectés (c)",
-                                                 "&nbsp;&nbsp;&nbsp;dont assistantes maternelles détectées (c)",
-                                                 "Postes non actifs (g)",
-                                                 "Postes actifs annexes (g)",
-                                                 "Postes actifs non annexes (g)",
-                                                 "Total ETP au 31/12 (d)",
-                                                 "Total ETPT/année (e)",
-                                                 "Total ETPT/année personnes en place (f)(g)",
-                                                 "Total ETPT/année fonctionnaires (g)",
-                                                 "Total ETPT/année titulaires à temps complet (g)",
-                                                 "Total ETPT non titulaires (g)",
-                                                 "Total ETPT autre statut",
-                                                 "Total ETPT postes non actifs (g)",
-                                                 "Total ETPT postes actifs annexes (g)",
-                                                 "Total ETPT postes actifs non annexes (g)"),
+                                         "&nbsp;&nbsp;&nbsp;dont élus",
+                                         "Total ETP au 31/12 (d)",
+                                         "Total ETPT/année (e)",
+                                         "&nbsp;&nbsp;&nbsp;dont personnes en place (f)(g)",
+                                         "&nbsp;&nbsp;&nbsp;dont fonctionnaires (b)(g)",
+                                         "&nbsp;&nbsp;&nbsp;dont titulaires à temps complet (g)",
+                                         "&nbsp;&nbsp;&nbsp;dont non titulaires (g)",
+                                         "&nbsp;&nbsp;&nbsp;dont autre statut",
+                                         "&nbsp;&nbsp;&nbsp;dont postes actifs non annexes (c)(g)"),
                            effectifs.locale)
 
 setnames(tableau.effectifs, 1, "Effectifs")

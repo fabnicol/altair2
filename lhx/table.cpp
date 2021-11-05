@@ -92,7 +92,7 @@ static const char* type_remuneration_traduit[] =
 
 static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN (int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
-#if LARGEUR == 1
+#if LARGEUR >= 1
     QUOTE(Civilite)
 #endif
 
@@ -100,7 +100,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN (int i, uint32_t agent, int 
     QUOTE(Prenom)
     QUOTE(Matricule)
 
-#if LARGEUR == 1
+#if LARGEUR >= 1
     QUOTE(Adresse)
     QUOTE(RefNomenStatutaire)
     QUOTE(CptBancaire)
@@ -113,20 +113,30 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN (int i, uint32_t agent, int 
     NO_QUOTE(QuotiteTrav)
     NO_QUOTE(NbHeureSup)
     NO_QUOTE(NbHeureTotal)
-
-    QUOTE(Indice)
+#if LARGEUR == 2
+    NO_QUOTE(TauxHor)
+#endif
+    NO_QUOTE(Indice)
 
     NO_QUOTE(MtBrut)
     NO_QUOTE(MtNet)
     NO_QUOTE(MtNetAPayer)
+#if LARGEUR == 2
+    QUOTE(DatePaiement)
+    NO_QUOTE(MtImposable)
+    NO_QUOTE(CumulMtImposable)
+    NO_QUOTE(CumulMtBrut)
+    NO_QUOTE(CumulBaseSS)
+    NO_QUOTE(Support)
+    QUOTE2(IdUnique, NomPJ)
+#endif
     NO_QUOTE(NBI)
 
-    if (Info[i].generer_repartition_budget)
-    {
+#if LARGEUR >= 1
       QUOTE(CodeBudget)
-      NO_QUOTE(Taux)
+      NO_QUOTE(TauxBudget)
       NO_QUOTE(MtBudget)
-    }
+#endif
 
     QUOTE(l) //Libellé
     QUOTE(l+1) // Code
@@ -135,18 +145,25 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN (int i, uint32_t agent, int 
     NO_QUOTE(l+4) // Nb.Unite
     NO_QUOTE(l+5) // Montant
     QUOTE(l+6) // Début (date)
-    QUOTE(l + INDEX_MAX_COLONNNES) // Fin (date) pour INDEX_MAX_COLONNES = 7, ajuster sinon !
-            // Il doit y avoir au plus INDEX_MAX_COLONNES + 1 types de colonnes de lignes de paye différents
+    QUOTE(l+7)  // Fin (date)
+#if LARGEUR == 2
+    QUOTE(l+8)  // CodeCaisse
+    NO_QUOTE(l+9) //Ordre
+#endif
+                // Il doit y avoir au plus INDEX_MAX_COLONNES + 1 types de colonnes de lignes de paye différents
     if (type) base << type << sep; else base << sep; // valeur nulle de type rarissime mais pas impossible
 
     QUOTE(EmploiMetier)
     QUOTE(Grade)
+    QUOTE(Echelon)
+    NO_QUOTE(Categorie)
+    QUOTE_EOL(NIR)
 }
 
-/// Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier \n
+/// Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier\n
 /// Ajoute l'Année et le Mois comme deux premières colonnes\n
 /// Optionnellement ajoute le Budget, l'Employeur, le Siret et l'Etablissement comme colonnes suivantes\n
-/// Ajoute dans tous les cas la Catégorie ainsi que le NIR en dernières colonnes
+/// Ajoute dans tous les cas l'Echelon, la Catégorie ainsi que le NIR en dernières colonnes
 /// \param i Rang du fil d'exécution
 /// \param agent Rang de l'agent
 /// \param l Index permettant de localiser le premier champ de la ligne de paye
@@ -175,54 +192,13 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG (int i, uint32_t agent,
 
     ECRIRE_LIGNE_l_COMMUN (i, agent, l, type, base, sep, Info, rang);
 
-    NO_QUOTE(Categorie)
-    QUOTE_EOL(NIR)
-    return 1;
-}
-
-/// Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier\n
-/// Ajoute l'Année et le Mois comme deux premières colonnes\n
-/// Optionnellement ajoute le Budget, l'Employeur, le Siret et l'Etablissement comme colonnes suivantes\n
-/// Ajoute dans tous les cas l'Echelon, la Catégorie ainsi que le NIR en dernières colonnes
-/// \param i Rang du fil d'exécution
-/// \param agent Rang de l'agent
-/// \param l Index permettant de localiser le premier champ de la ligne de paye
-/// \param type Type de ligne de paye
-/// \param base Base de type ofstream permettant d'écrire le fichier CSV
-/// \param sep Séparateur de champs CSV (usuellement ';')
-/// \param Info Vecteur de structures info_t contenant les bases de paye décodées
-/// \param rang Rang de la ligne
-/// \note Si la variable Année contient le caractère `*` en tête de chaîne, la ligne est sautée
-
-static inline int GCC_INLINE ECRIRE_LIGNE_l_GENERER_RANG_ECHELON (int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int rang)
-{
-    if (VAR (Annee)[0] == '*') return 0;
-
-    base << rang << sep;
-    NO_QUOTE(Annee)
-    NO_QUOTE(Mois)
-
-    if (Info[0].select_siret)
-        {
-            QUOTE(Budget)
-            QUOTE(Employeur)
-            QUOTE(Siret)
-            QUOTE(Etablissement)
-        }
-
-    ECRIRE_LIGNE_l_COMMUN (i, agent, l, type, base, sep, Info, rang);
-
-    QUOTE(Echelon)
-    NO_QUOTE(Categorie)
-    QUOTE_EOL(NIR)
-
     return 1;
 }
 
 /// Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table \n
 /// Ajoute l'Année et le Mois comme deux premières colonnes\n
 /// Ajoute ensuite le Budget, l'Employeur, le Siret et l'Etablissement\n
-/// Ajoute dans tous les cas la Catégorie ainsi que le NIR en dernières colonnes
+/// Ajoute dans tous les cas l'Echelon, la Catégorie ainsi que le NIR en dernières colonnes
 /// \param i Rang du fil d'exécution
 /// \param agent Rang de l'agent
 /// \param l Index permettant de localiser le premier champ de la ligne de paye
@@ -247,49 +223,10 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l_SIRET (int i, uint32_t agent, int l,
 
     ECRIRE_LIGNE_l_COMMUN (i, agent, l, type, base, sep, Info, rang);
 
-    NO_QUOTE(Categorie)
-    QUOTE_EOL(NIR)
-
     return 1;
 }
 
-
-/// Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table \n
-/// Ajoute l'Année et le Mois comme deux premières colonnes\n
-/// Ajoute ensuite le Budget, l'Employeur, le Siret et l'Etablissement\n
-/// Ajoute dans tous les cas l'Echelon, la Catégorie ainsi que le NIR en dernières colonnes
-/// \param i Rang du fil d'exécution
-/// \param agent Rang de l'agent
-/// \param l Index permettant de localiser le premier champ de la ligne de paye
-/// \param type Type de ligne de paye
-/// \param base Base de type ofstream permettant d'écrire le fichier CSV
-/// \param sep Séparateur de champs CSV (usuellement ';')
-/// \param Info Vecteur de structures info_t contenant les bases de paye décodées
-/// \param rang Inutilisé
-/// \note Si la variable Année contient le caractère `*` en tête de chaîne, la ligne est sautée
-
-static inline int GCC_INLINE ECRIRE_LIGNE_l_SIRET_ECHELON (int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
-{
-    if (VAR (Annee)[0] == '*') return 0;
-
-    NO_QUOTE(Annee)
-    NO_QUOTE(Mois)
-
-    QUOTE(Budget)
-    QUOTE(Employeur)
-    QUOTE(Siret)
-    QUOTE(Etablissement)
-
-    ECRIRE_LIGNE_l_COMMUN (i, agent, l, type, base, sep, Info, rang);
-
-    QUOTE(Echelon)
-    NO_QUOTE(Categorie)
-    QUOTE_EOL(NIR)
-    return 1;
-}
-
-
-/// Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table \n
+/// Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table\n
 /// Ajoute l'Année et le Mois comme deux premières colonnes\n
 /// Ajoute dans tous les cas la Catégorie ainsi que le NIR en dernières colonnes
 /// \param i Rang du fil d'exécution
@@ -310,38 +247,6 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l (int i, uint32_t agent, int l, char*
     NO_QUOTE(Mois)
 
     ECRIRE_LIGNE_l_COMMUN (i, agent, l, type, base, sep, Info, rang);
-
-    NO_QUOTE(Categorie)
-    QUOTE_EOL(NIR)
-
-    return 1;
-}
-
-/// Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table\n
-/// Ajoute l'Année et le Mois comme deux premières colonnes\n
-/// Ajoute dans tous les cas la Catégorie ainsi que le NIR en dernières colonnes
-/// \param i Rang du fil d'exécution
-/// \param agent Rang de l'agent
-/// \param l Index permettant de localiser le premier champ de la ligne de paye
-/// \param type Type de ligne de paye
-/// \param base Base de type ofstream permettant d'écrire le fichier CSV
-/// \param sep Séparateur de champs CSV (usuellement ';')
-/// \param Info Vecteur de structures info_t contenant les bases de paye décodées
-/// \param rang Inutilisé
-/// \note Si la variable Année contient le caractère `*` en tête de chaîne, la ligne est sautée
-
-static inline int GCC_INLINE ECRIRE_LIGNE_l_ECHELON (int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
-{
-    if (VAR (Annee)[0] == '*') return 0;
-
-    NO_QUOTE(Annee)
-    NO_QUOTE(Mois)
-
-    ECRIRE_LIGNE_l_COMMUN (i, agent, l, type, base, sep, Info, rang);
-
-    QUOTE(Echelon)
-    NO_QUOTE(Categorie)
-    QUOTE_EOL(NIR)
     return 1;
 }
 
@@ -377,14 +282,14 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l_ECHELON (int i, uint32_t agent, int 
 
 static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN (int i, uint32_t agent, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
-#if LARGEUR == 1
+#if LARGEUR >= 1
     QUOTE(Civilite)
 #endif
     QUOTE(Nom)
     QUOTE(Prenom)
     QUOTE(Matricule)
 
-#if LARGEUR == 1
+#if LARGEUR >= 1
     QUOTE(Adresse)
     QUOTE(RefNomenStatutaire)
     QUOTE(CptBancaire)
@@ -397,59 +302,37 @@ static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN (int i, uint32_t agen
     NO_QUOTE(QuotiteTrav)
     NO_QUOTE(NbHeureSup)
     NO_QUOTE(NbHeureTotal)
-    QUOTE(Indice)
+#if LARGEUR == 2
+    NO_QUOTE(TauxHor)
+#endif
+    NO_QUOTE(Indice)
 
     NO_QUOTE(MtBrut)
     NO_QUOTE(MtNet)
     NO_QUOTE(MtNetAPayer)
+    #if LARGEUR == 2
+        QUOTE(DatePaiement)
+        NO_QUOTE(MtImposable)
+        NO_QUOTE(CumulMtImposable)
+        NO_QUOTE(CumulMtBrut)
+        NO_QUOTE(CumulBaseSS)
+        NO_QUOTE(Support)
+        QUOTE2(IdUnique, NomPJ)
+    #endif
     NO_QUOTE(NBI)
 
-    if (Info[i].generer_repartition_budget)
-      {
+#if LARGEUR >= 1
         QUOTE(CodeBudget)
-        NO_QUOTE(Taux)
+        NO_QUOTE(TauxBudget)
         NO_QUOTE(MtBudget)
-      }
+#endif
 
     QUOTE(EmploiMetier)
     QUOTE(Grade)
     QUOTE2(Code, Description)
-}
-
-/// Ecrit une ligne de bulletin de paye pour un agent donné dans le fichier CSV Bulletins.paie et, en outre, génère le rang de la ligne dans le fichier\n
-/// Ajoute les colonnes Année et Mois en début de fichier \n
-/// Ajoute optionnellement les colonnes Budget, Employeur, Siret et Etablissement
-/// Ajoute les colonnes Catégorie et NIR en fin de fichier \n
-/// \param i Rang du fil d'exécution
-/// \param agent Rang de l'agent
-/// \param bulletins Base de type ofstream permettant d'écrire le fichier CSV
-/// \param sep Séparateur de champs CSV (usuellement ';')
-/// \param Info Vecteur de structures info_t contenant les bases de paye décodées
-/// \param rang Rang de la ligne
-/// \note Si la variable Année contient le caractère `*` en tête de chaîne, la ligne est sautée
-
-static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG (int i, uint32_t agent, table_t& base, char sep, vector<info_t> &Info, int rang)
-{
-    if (VAR (Annee)[0] == '*') return 0;
-
-    base <<  rang << sep;
-
-    NO_QUOTE(Annee)
-    NO_QUOTE(Mois)
-
-    if (Info[0].select_siret)
-        {
-            QUOTE(Budget)
-            QUOTE(Employeur)
-            QUOTE(Siret)
-            QUOTE(Etablissement)
-        }
-
-    ECRIRE_LIGNE_BULLETIN_COMMUN (i, agent, base, sep, Info, rang);
-
+    QUOTE(Echelon)
     NO_QUOTE(Categorie)
-    QUOTE_EOL(NIR);
-    return 1;
+    QUOTE_EOL(NIR)
 }
 
 
@@ -465,7 +348,7 @@ static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG (int i, uint32_
 /// \param rang Rang de la ligne
 /// \note Si la variable Année contient le caractère `*` en tête de chaîne, la ligne est sautée
 
-static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON (int i, uint32_t agent, table_t& base, char sep, vector<info_t> &Info, int rang)
+static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG (int i, uint32_t agent, table_t& base, char sep, vector<info_t> &Info, int rang)
 {
     if (VAR (Annee)[0] == '*') return 0;
 
@@ -484,18 +367,14 @@ static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON (int i,
 
     ECRIRE_LIGNE_BULLETIN_COMMUN (i, agent, base, sep, Info, rang);
 
-    QUOTE(Echelon)
-    NO_QUOTE(Categorie)
-    QUOTE_EOL(NIR)
     return 1;
 }
-
 
 
 /// Ecrit une ligne de bulletin de paye pour un agent donné dans le fichier CSV Bulletins.paie \n
 /// Ajoute les colonnes Année et Mois en début de fichier \n
 /// Ajoute les colonnes Budget, Employeur, Siret et Etablissement
-/// Ajoute les colonnes Catégorie et NIR en fin de fichier \n
+/// Ajoute les colonnes Echelon, Catégorie et NIR en fin de fichier \n
 /// \param i Rang du fil d'exécution
 /// \param agent Rang de l'agent
 /// \param bulletins Base de type ofstream permettant d'écrire le fichier CSV
@@ -518,48 +397,13 @@ static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET (int i, uint32_t agent
 
     ECRIRE_LIGNE_BULLETIN_COMMUN (i, agent, base, sep, Info, rang);
 
-    NO_QUOTE(Categorie)
-    QUOTE_EOL(NIR)
     return 1;
 }
 
 
 /// Ecrit une ligne de bulletin de paye pour un agent donné dans le fichier CSV Bulletins.paie \n
 /// Ajoute les colonnes Année et Mois en début de fichier \n
-/// Ajoute les colonnes Budget, Employeur, Siret et Etablissement
 /// Ajoute les colonnes Echelon, Catégorie et NIR en fin de fichier \n
-/// \param i Rang du fil d'exécution
-/// \param agent Rang de l'agent
-/// \param bulletins Base de type ofstream permettant d'écrire le fichier CSV
-/// \param sep Séparateur de champs CSV (usuellement ';')
-/// \param Info Vecteur de structures info_t contenant les bases de paye décodées
-/// \param rang Rang de la ligne
-/// \note Si la variable Année contient le caractère `*` en tête de chaîne, la ligne est sautée
-
-static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON (int i, uint32_t agent, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
-{
-    if (VAR (Annee)[0] == '*') return 0;
-
-    NO_QUOTE(Annee)
-    NO_QUOTE(Mois)
-
-    QUOTE(Budget)
-    QUOTE(Employeur)
-    QUOTE(Siret)
-    QUOTE(Etablissement)
-
-    ECRIRE_LIGNE_BULLETIN_COMMUN (i, agent, base, sep, Info, rang);
-
-    QUOTE(Echelon)
-    NO_QUOTE(Categorie)
-    QUOTE_EOL(NIR)
-    return 1;
-}
-
-
-/// Ecrit une ligne de bulletin de paye pour un agent donné dans le fichier CSV Bulletins.paie \n
-/// Ajoute les colonnes Année et Mois en début de fichier \n
-/// Ajoute les colonnes Catégorie et NIR en fin de fichier \n
 /// \param i Rang du fil d'exécution
 /// \param agent Rang de l'agent
 /// \param bulletins Base de type ofstream permettant d'écrire le fichier CSV
@@ -576,35 +420,6 @@ static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETINS (int i, uint32_t agent, tab
     NO_QUOTE(Mois)
 
     ECRIRE_LIGNE_BULLETIN_COMMUN (i, agent, base, sep, Info, rang);
-
-    NO_QUOTE(Categorie)
-    QUOTE_EOL(NIR)
-    return 1;
-}
-
-/// Ecrit une ligne de bulletin de paye pour un agent donné dans le fichier CSV Bulletins.paie \n
-/// Ajoute les colonnes Année et Mois en début de fichier \n
-/// Ajoute les colonnes Echelon, Catégorie et NIR en fin de fichier \n
-/// \param i Rang du fil d'exécution
-/// \param agent Rang de l'agent
-/// \param bulletins Base de type ofstream permettant d'écrire le fichier CSV
-/// \param sep Séparateur de champs CSV (usuellement ';')
-/// \param Info Vecteur de structures info_t contenant les bases de paye décodées
-/// \param rang Rang de la ligne
-/// \note Si la variable Année contient le caractère `*` en tête de chaîne, la ligne est sautée
-
-static inline int GCC_INLINE  ECRIRE_LIGNE_BULLETINS_ECHELON (int i, uint32_t agent, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
-{
-    if (VAR (Annee)[0] == '*') return 0;
-
-    NO_QUOTE(Annee)
-    NO_QUOTE(Mois)
-
-    ECRIRE_LIGNE_BULLETIN_COMMUN (i, agent, base, sep, Info, rang);
-
-    QUOTE(Echelon)
-    NO_QUOTE(Categorie)
-    QUOTE_EOL(NIR)
     return 1;
 }
 
@@ -671,19 +486,19 @@ pair<uint64_t, uint32_t> boucle_ecriture (vector<info_t>& Info, int nsegment)
     if (Info[0].generer_rang)
         {
 
-                    ecrire_ligne_table = ECRIRE_LIGNE_l_GENERER_RANG_ECHELON;
-                    ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON;
+                    ecrire_ligne_table = ECRIRE_LIGNE_l_GENERER_RANG;
+                    ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_GENERER_RANG;
         }
     else if (Info[0].select_siret)
         {
 
-                    ecrire_ligne_table = ECRIRE_LIGNE_l_SIRET_ECHELON;
-                    ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON;
+                    ecrire_ligne_table = ECRIRE_LIGNE_l_SIRET;
+                    ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETIN_SIRET;
         }
     else
         {
-                    ecrire_ligne_table = ECRIRE_LIGNE_l_ECHELON;
-                    ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETINS_ECHELON;
+                    ecrire_ligne_table = ECRIRE_LIGNE_l;
+                    ecrire_ligne_bulletin = ECRIRE_LIGNE_BULLETINS;
         }
 
     switch (type_base)

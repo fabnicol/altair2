@@ -178,23 +178,6 @@ cat("\nPourcentage d'heures renseignées (après redressement éventuel):", roun
 #'   
 cat("\nPourcentage de quotités renseignées :", round(nrow.bull.quotites/nrow.bull*100, 1), "%")
 #'   
-cat("\nNombre de bulletins à heures et quotités : ", n <- nrow(Bulletins.paie[Heures != 0 & Temps.de.travail != 0]), "[", round(n/nrow.bull*100, 1), "%]")
-#'   
-cat("\nNombre de bulletins à heures sans quotités : ", n <- nrow(Bulletins.paie[Heures != 0 & Temps.de.travail == 0]), "[", round(n/nrow.bull*100, 1), "%]")
-#'   
-cat("\nNombre de bulletins à quotités sans heures : ", n <- nrow(Bulletins.paie[Heures == 0 & Temps.de.travail != 0]), "[", round(n/nrow.bull*100, 1), "%]")
-#'   
-cat("\nNombre de bulletins apparemment inactifs : ", n <- nrow(Bulletins.paie[(Heures == 0 | is.na(Heures)) & (Temps.de.travail == 0 | is.na(Temps.de.travail))]), "[", round(n/nrow.bull*100, 1), "%]")  
-#'   
-base.heures.nulles.salaire.nonnull     <- Bulletins.paie[Heures == 0  & (Net.a.Payer != 0 | Brut != 0)]
-base.quotite.indefinie.salaire.non.nul <- Bulletins.paie[MHeures == 0 & (Net.a.Payer != 0 | Brut != 0)]
-
-nligne.base.heures.nulles.salaire.nonnull     <- nrow(base.heures.nulles.salaire.nonnull)
-nligne.base.quotite.indefinie.salaire.non.nul <- nrow(base.quotite.indefinie.salaire.non.nul)
-#'  
-if (nligne.base.heures.nulles.salaire.nonnull)
-  cat("Nombre de bulletins de paie de salaires versés pour un champ Heures = 0 : ", FR(n <<- nligne.base.heures.nulles.salaire.nonnull), "[", round(n/nrow.bull * 100, 1), "%]")
-#'   
 
 sauv.bases("Fiabilite",
                        environment(),
@@ -202,15 +185,8 @@ sauv.bases("Fiabilite",
                        "Evenements.ind",
                        "Evenements.mat",
                        "code.libelle",
-                       "code.libelle.short",
-                       "base.heures.nulles.salaire.nonnull",
-                       "base.quotite.indefinie.salaire.non.nul")
+                       "code.libelle.short")
 
-if (nligne.base.quotite.indefinie.salaire.non.nul)
-  cat("\nNombre de bulletins de paie de salaires versés pour une quotité de travail indéfinie : ", FR(nligne.base.heures.nulles.salaire.nonnull))
-#'   
-conditionnel("Lien vers la base de données des salaires versés pour Heures=0", "Bases/Fiabilite/base.heures.nulles.salaire.nonnull.csv")   
-conditionnel("Lien vers la base de données des salaires versés à quotité indéfinie", "Bases/Fiabilite/base.quotite.indefinie.salaire.non.nul.csv")   
 #'    
 #'## Tableau des personnels  
 #'    

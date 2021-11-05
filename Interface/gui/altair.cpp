@@ -886,8 +886,7 @@ void Altair::dropEvent (QDropEvent *event)
                 }
 
             if (size == 0) return;
-            openProjectFileCommonCode();
-            updateIndexInfo();
+
             closeProject();
             project->addParsedTreeToListWidget (stringsDragged);
             checkAnnumSpan();

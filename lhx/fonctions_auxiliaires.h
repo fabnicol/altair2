@@ -64,7 +64,6 @@
 #include <memory>
 #include <stdexcept>
 #include <array>
-#include "entete.h"
 #if defined(_WIN32)
 #include <windows.h>
 #include <psapi.h>
@@ -92,6 +91,45 @@ typedef struct
     string filePath;  ///< Chemin du fichier XML
     string pres;      ///< Message d eprésentation à afficher
 } errorLine_t;
+
+
+/// Tableau des noms de colonnes associés à ces libellés de balises XML
+
+#if LARGEUR == 0
+constexpr const char* Tableau_entete[] =
+{
+    "Année", "Mois", "Budget", "Employeur", "Siret", "Etablissement",
+    "Nom", "Prénom", "Matricule", "NIR", "NbEnfants", "Statut",
+    "EmploiMetier", "Grade", "Echelon", "Indice", "Service", "NBI",
+    "QuotiteTrav", "NbHeureTotal", "NbHeureSup",
+    "MtBrut", "MtNet", "MtNetAPayer"
+};
+#elif LARGEUR == 1
+constexpr const char* Tableau_entete[] =
+{
+    "Année", "Mois", "Budget", "Employeur", "Siret", "Etablissement",
+    "Civilite", "Nom", "Prénom", "Matricule",
+    "Adresse", "RefNomenStatutaire", "CptBancaire",
+    "NIR", "NbEnfants", "Statut",
+    "EmploiMetier", "Grade", "Echelon", "Indice", "Service", "NBI",
+    "CodeBudget", "TauxBudget", "MtBudget", "QuotiteTrav",
+    "NbHeureTotal", "NbHeureSup", "MtBrut", "MtNet", "MtNetAPayer"
+};
+
+#elif LARGEUR == 2
+constexpr const char* Tableau_entete[] =
+{
+    "Année", "Mois", "Budget", "Employeur", "Siret", "Etablissement",
+    "Civilite", "Nom", "Prénom", "Matricule",
+    "Adresse", "RefNomenStatutaire", "CptBancaire",
+    "NIR", "NbEnfants", "Statut",
+    "EmploiMetier", "Grade", "Echelon", "Indice", "Service", "NBI",
+    "CodeBudget", "TauxBudget", "MtBudget", "QuotiteTrav",
+    "NbHeureTotal", "TauxHor", "NbHeureSup", "MtBrut",
+    "MtNet", "MtNetAPayer", "DatePaiement", "MtImposable",
+    "CumulMtImposable", "CumulMtBrut", "CumulBaseSS"
+};
+#endif
 
 
 /// \page page_lhx La documentation de la ligne de commande de l'application-noyau lhx
@@ -259,6 +297,11 @@ void ecrire_log (const info_t& info, ofstream& log, int diff);
 
 string read_stream_into_string (ifstream& in);
 
+/// Efface le premier caractère d'une chaîne et translate la chaîne d'un caractère vers la gauche
+/// \param c chaine de caractères libXml2 à modifier par pointeur
+
+void effacer_char (xmlChar* c);
+
 /// Calcule le maximum de lignes de paye par bulletin de paye d'un agent et
 /// le maximum du nombre d'agents par mois
 /// \param Info Vecteur de structures info_t, une par fil d'exécution
@@ -267,6 +310,18 @@ string read_stream_into_string (ifstream& in);
 void calculer_maxima (const vector<info_t> &Info, ofstream* LOG = nullptr);
 
 #ifdef GENERATE_RANK_SIGNAL
+
+/// Incrémente le rang de la progression de la barre de progrès.\n
+/// \note Est en principe thread-safe, mais peut causer des ralentissements en raison du \n
+///  bloquage des fils concurrents
+
+void  generate_rank_signal();
+
+/// Actualise le rang de la progression de la barre de progrès.
+/// \param progression indice d'actualisation
+/// \note Thread-safe.
+
+void generate_rank_signal (int progression);
 
 /// Rang global de la progression de l'extraction.\n
 /// Utilisé pour la barre de progression de l'interface graphique
@@ -278,102 +333,17 @@ inline void reset_rank_signal()
 {
     rang_global = 0;
 }
-
-/// Efface le premier caractère d'une chaîne et translate la chaîne d'un caractère vers la gauche
-/// \param c chaine de caractères libXml2 à modifier par pointeur
-
-static inline void effacer_char (xmlChar* c)
-{
-   if (c == nullptr) return;
-   int j = 0;
-   
-   do
-      {
-          * (c + j) = * (c + j + 1);
-          ++j;
-      } while (* (c + j));
-}
-
-/// Incrémente le rang de la progression de la barre de progrès.\n
-/// \note Est en principe thread-safe, mais peut causer des ralentissements en raison du \n
-///  bloquage des fils concurrents
-
-static inline void  generate_rank_signal()
-{
-    if (rankFilePath.empty()) return;
-
-    while (! mut.try_lock()) {}
-
-    static int temp_rank;
-
-    do
-        {
-            rankFile.open (rankFilePath, ios::out | ios::trunc);
-
-            if (rankFile.is_open())
-                {
-                    if (rang_global)
-                        rang_global = temp_rank;
-
-                    rankFile << ++rang_global ;
-                    temp_rank = rang_global;
-                }
-
-            rankFile.close();
-
-
-            mut.unlock();
-
-        }
-    while (false);
-
-}
+#endif
 
 /// Rajoute un s au pluriel de Y si X est non unique
 
 #define pluriel(X, Y)  ((X > 1)? " " Y "s ": " " Y " ")
 
-/// Actualise le rang de la progression de la barre de progrès.
-/// \param progression indice d'actualisation
-/// \note Thread-safe.
-
-static inline void generate_rank_signal (int progression)
-{
-    LOCK_GUARD
-
-    if (rankFilePath.empty()) return;
-
-    rankFile.open (rankFilePath, ios::out | ios::trunc);
-
-    if (rankFile.is_open())
-        {
-            rankFile << progression ;
-        }
-
-    rankFile.close();
-}
-
-/// Débogage de la mémoire
-/// \param func_tag Chaîne de caractères donnant un libellé à afficher.
-/// \note Thread-safe. N'est activé que si la constante MEMORY_DEBUG est définie.
-
-static inline void  memory_debug (const string& GCC_UNUSED func_tag)
-{
 #ifdef MEMORY_DEBUG
-    LOCK_GUARD
-    cerr << STATE_HTML_TAG << func_tag << " : Calcul de la mémoire disponible : " << getFreeSystemMemory() << ENDL;
+inline void  memory_debug (const string& GCC_UNUSED func_tag);
+#else
+  #define memory_debug(X)
 #endif
-}
-
-/// Concaténation de deux vecteurs dans le premier d'entre eux.
-/// \param first Premier vecteur
-/// \param second Deuxième vecteur
-/// \warning Les deux vecteurs ne doivent pas se superposer (comportement indéfini sinon).
-
-static inline void vect_concat(vector<string> &first, const vector<string> &second)
-{
-  move(second.begin(), second.end(), back_inserter(first));
-}
 
 #ifndef HAS_CPP17
 static inline void create_directories(const string & path)
@@ -389,6 +359,11 @@ static inline bool exists(const string &path) { return false; }
 
 #endif
 
+/// Concaténation de deux vecteurs dans le premier d'entre eux.
+/// \param first Premier vecteur
+/// \param second Deuxième vecteur
+/// \warning Les deux vecteurs ne doivent pas se superposer (comportement indéfini sinon).
 
-#endif
+void vect_concat(vector<string> &first, const vector<string> &second);
+
 #endif // FONCTIONS_AUXILIAIRES_HPP_INCLUDED

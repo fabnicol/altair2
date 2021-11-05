@@ -50,13 +50,22 @@
 #include "table.h"
 #include "tags.h"
 
-#define ATTEINDRE_NOEUD(X, Y)    cur = atteindreNoeud(#X, cur); \
+#define ATTEINDRE_NOEUD(X, Y)  {  cur = atteindreNoeud(#X, cur); \
     if (cur) \
       { \
         Y = xmlGetProp (cur, (const xmlChar *) "V"); \
-        cur1 = cur; \
+        if (!Y) { result = false; cur = cur1;}\
       } \
-    else cur = cur1
+    else {result = false; cur = cur1; } \
+    }
+
+#define ATTEINDRE_NOEUD_OPT(X, Y)  {  cur = atteindreNoeud(#X, cur); \
+    if (cur) \
+      { \
+        Y = xmlGetProp (cur, (const xmlChar *) "V"); \
+      } else cur = cur1;\
+    }
+
 
 extern bool verbeux;
 extern std::mutex mut;
@@ -68,7 +77,7 @@ extern std::vector<errorLine_t> errorLineStack;
 /// \param cur   Noeud libxml2 courant
 /// \note Le nombre de message d'avertissement est au plus #WARNING_LIMIT si cette constante est définie
 
-static inline void GCC_INLINE warning_msg (const char* noeud, const info_t& info, const xmlNodePtr GCC_UNUSED cur)
+inline void warning_msg (const char* noeud, const info_t& info, const xmlNodePtr GCC_UNUSED cur)
 {
     // pour des raisons pratiques il peut être nécessaire de limiter le nombre de sorties de ce type
 
@@ -83,7 +92,11 @@ static inline void GCC_INLINE warning_msg (const char* noeud, const info_t& info
         {
             ++warning_count;
 
-            if (verbeux) std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ENDL;
+            if (verbeux)
+            {
+
+                std::cerr << WARNING_HTML_TAG "Impossible d'atteindre " << noeud << ENDL;
+            }
 
             //    errorLineStack.emplace_back(afficher_environnement_xhl(info, cur));
 
@@ -117,7 +130,7 @@ static inline void GCC_INLINE warning_msg (const char* noeud, const info_t& info
 /// \param nbLignePaye nombre de lignes de paye courant
 /// \param info Structure info_t contenant les données de paye
 
-static inline void GCC_INLINE  verifier_taille (const int nbLignePaye, info_t& info)
+inline void  verifier_taille (const int nbLignePaye, info_t& info)
 {
     if (nbLignePaye >= info.nbLigneUtilisateur)
         {
@@ -132,6 +145,25 @@ static inline void GCC_INLINE  verifier_taille (const int nbLignePaye, info_t& i
 }
 
 
+#if LARGEUR >= 1
+
+/// Sous-routine d'analyse du champ CptBancaire (compte bancaire)
+/// \note Seulement si LARGEUR >= 1
+/// \param cur Pointer XmlNodeePtr courant
+/// \param info structure de données principales
+
+
+inline void GCC_INLINE analyser_compte_bancaire(xmlNodePtr& cur, info_t& info);
+
+/// Sous-routine d'analyse du champ Adresse
+/// \note Seulement si LARGEUR >= 1
+/// \param cur Pointer XmlNodeePtr courant
+/// \param info structure de données principales
+/// \return Booléen vrai si l'adresse est identifiée, faux sinon.
+
+inline bool GCC_INLINE analyser_adresse(xmlNodePtr& cur, info_t& info);
+
+#endif
 
 #endif // LIGNE_PAYE
 

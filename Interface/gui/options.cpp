@@ -960,18 +960,7 @@ Utile seulement en cas de visualisation sous certains éditeurs.\nExcel et Calc 
     v3Layout->setColumnMinimumWidth (1, 250);
 
     optionalFieldBox->setLayout (v2Layout);
-  
-    repBudgetCheckBox = new FCheckBox("Exporter la répartition budgétaire",
-                                      flags::status::enabledUnchecked                         // Par défaut, case cochée génératrice de ligne de commande
-                                      | flags::commandLineType::coreApplicationCommandLine,
-                                      "repartBudget",                                    
-                                      {
-                                        "Données csv",
-                                        "générer la répartition budgétaire"  
-                                      },
-                                      "repartition-budget"
-                                      );
-    
+
     FPHCheckBox = new FCheckBox ("Fonction publique hospitalière",         // Titre de la case à cocher
                                  flags::status::enabledUnchecked           // Décochée par défaut
                                 | flags::commandLineType::noCommandLine,  // ligne de commande
@@ -981,8 +970,6 @@ Utile seulement en cas de visualisation sous certains éditeurs.\nExcel et Calc 
                                     "Ajuster le rapport pour la FPH"       // Présentation du gestionnaire de projets
                                  }
                                 );
-
-    connect(FPHCheckBox, &FCheckBox::toggled, [this] {repBudgetCheckBox->setChecked(FPHCheckBox->isChecked()); });
 
     tableCheckBox = new FCheckBox ("Créer la base de données",                           // Titre de la case à cocher
                                    flags::status::enabledChecked                         // Par défaut, case cochée génératrice de ligne de commande
@@ -1076,7 +1063,6 @@ Utile seulement en cas de visualisation sous certains éditeurs.\nExcel et Calc 
 
     v1Layout->addWidget (tableCheckBox,     1, 0, Qt::AlignLeft);
     v1Layout->addWidget (FPHCheckBox,       2, 0, Qt::AlignLeft);
-    v1Layout->addWidget (repBudgetCheckBox, 3, 0, Qt::AlignLeft);
     v1Layout->addWidget (baseWidthLabel,    4, 0, Qt::AlignRight);
     v1Layout->addWidget (baseWidthWidget,   4, 1, Qt::AlignLeft);
     v1Layout->addWidget (baseTypeLabel,     5, 0, Qt::AlignRight);
@@ -1332,7 +1318,6 @@ processPage::processPage()
                  substituer_valeurs_dans_script_R();
            });
     }
-
 }
 
 void processPage::substituer_valeurs_dans_script_R()
@@ -1653,6 +1638,17 @@ options::options (Altair* parent)
     extraTab    = new extraPage();
     rapportTab  = new rapportPage();
     processTab  = new processPage;
+
+    connect(processTab->consoleCheckBox, &FCheckBox::toggled,
+            [this, parent]
+    {
+        if (processTab->consoleCheckBox->isChecked())
+           emit(parent->textAppend(PARAMETER_HTML_TAG "Console activée."));
+        else
+           emit(parent->textAppend(PARAMETER_HTML_TAG "Console désactivée."));
+
+    });
+
     tabs = {standardTab, codeTab, rapportTab, processTab};
 
     pagesWidget = new QStackedWidget;
@@ -1694,30 +1690,6 @@ options::options (Altair* parent)
                     parent->updateProject (update::saveProject | update::noWarnRExport);
 
                     parent->execPath = execPath;
-                    if (v(baseWidth).remove("'") == "Standard")
-                    {
-                        lhx_name = "lhx";
-                    }
-                    else
-                    if (v(baseWidth).remove("'") == "Etendu")
-                    {
-                        lhx_name = "lhx-ext";
-                    }
-                    else
-                    if (v(baseWidth).remove("'") == "Maximal")
-                    {
-                        lhx_name = "lhx-max";
-                    }
-                    else
-                    {
-                        QMessageBox::critical(nullptr,"Erreur", "Valeur inconnue de la largeur de la base<br>"
-                                                                "Utiliser : Standard, Etendu ou Maximal.",
-                                                                QMessageBox::Cancel);
-                        return ;
-                    }
-
-                    parent->altairCommandStr =  parent->execPath +  QDir::separator()
-                    + (lhx_name + QString (systemSuffix));
 
                     extraTab->do_copies();
                     extraTab->substituer_valeurs_dans_script_R();

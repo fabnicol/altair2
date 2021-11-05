@@ -50,22 +50,142 @@
 /// ainsi que l'aide en ligne. Il contient en outre la fonction permettant de calculer la préallocation des la structure de données
 /// info_t qui va recueillir les données XML décodées après utilisation des fonctions  parseLignesPaye et  lignePaye
 
-
 extern bool verbeux;
 
-
 #ifdef MMAP_PARSING
-#ifdef __linux__
-#include <fcntl.h>
-#include <sys/mman.h>
-#include <assert.h>
-#include <sys/stat.h>
-#include <stdlib.h>
-#include <unistd.h>
-#else
-#error "La compilation MMAP ne peut se faire que sous unix."
+    #ifdef __linux__
+    #include <fcntl.h>
+    #include <sys/mman.h>
+    #include <assert.h>
+    #include <sys/stat.h>
+    #include <stdlib.h>
+    #include <unistd.h>
+    #else
+    #error "La compilation MMAP ne peut se faire que sous unix."
+    #endif
 #endif
-#endif
+
+static const char* entete_char[] = {"R",      // Rang
+                                    "Année",
+                                    "Mois",
+                                    "Budget",
+                                    "Employeur",
+                                    "Siret",
+                                    "Etablissement",
+                                    #if LARGEUR >= 1
+                                      "Civilité",
+                                    #endif
+                                    "Nom",
+                                    "Prénom",
+                                    "Matricule",
+                                    #if LARGEUR >= 1
+                                      "Adresse",
+                                      "RefNomenclature",
+                                      "CompteBancaire",
+                                    #endif
+                                    "Service",
+                                    "Nb.Enfants",
+                                    "Statut",
+                                    "Temps.de.travail",
+                                    "Heures.Sup.",
+                                    "Heures",
+                                    #if LARGEUR == 2
+                                       "TauxHor",
+                                    #endif
+                                    "Indice",
+                                    "Brut",
+                                    "Net",
+                                    "Net.à.Payer",
+                                    #if LARGEUR == 2
+                                       "DatePaiement",
+                                       "MtImposable",
+                                       "CumulMtImposable",
+                                       "CumulMtBrut",
+                                       "CumulBaseSS",
+                                       "Support",
+                                       "IdUnique-NomPJ",
+                                    #endif
+                                    "NBI",
+                                    #if LARGEUR >= 1
+                                      "Code.Budget",
+                                      "Taux.Budget",
+                                      "Montant.Budget",
+                                    #endif
+                                    "Libellé",
+                                    "Code",
+                                    "Base",
+                                    "Taux",
+                                    "Nb.Unite",
+                                    "Montant",
+                                    "Début",
+                                    "Fin",
+                                    #if LARGEUR == 2
+                                      "CodeCaisse",
+                                      "Ordre",
+                                    #endif
+                                    "Type",
+                                    "Emploi",
+                                    "Grade",
+                                    "Echelon",
+                                    "Catégorie",
+                                    "Nir"
+                                   };
+
+// Pour les fichiers Bulletins.paiexxx.csv
+
+static const char* entete_char_bulletins[] = {"R",
+                                              "Année",
+                                              "Mois",
+                                              "Budget",
+                                              "Employeur",
+                                              "Siret",
+                                              "Etablissement",
+                                              #if LARGEUR >= 1
+                                                "Civilité",
+                                              #endif
+                                              "Nom",
+                                              "Prénom",
+                                              "Matricule",
+                                              #if LARGEUR >= 1
+                                                "Adresse",
+                                                "RefNomenclature",
+                                                "CompteBancaire",
+                                              #endif
+                                              "Service",
+                                              "Nb.Enfants",
+                                              "Statut",
+                                              "Temps.de.travail",
+                                              "Heures.Sup.",
+                                              "Heures",
+                                              #if LARGEUR == 2
+                                                "TauxHor",
+                                              #endif
+                                              "Indice",
+                                              "Brut",
+                                              "Net",
+                                              "Net.à.Payer",
+                                              #if LARGEUR == 2
+                                                "DatePaiement",
+                                                "MtImposable",
+                                                "CumulMtImposable",
+                                                "CumulMtBrut",
+                                                "CumulBaseSS",
+                                                "Support",
+                                                "IdUnique-NomPJ",
+                                              #endif
+                                              "NBI",
+                                              #if LARGEUR >= 1
+                                                "Code.Budget",
+                                                "Taux.Budget",
+                                                "Montant.Budget",
+                                              #endif
+                                              "Emploi",
+                                              "Grade",
+                                              "Evénement",
+                                              "Echelon",
+                                              "Catégorie",
+                                              "Nir"
+                                             };
 
 #define RETRAIT "                        "
 
@@ -118,7 +238,6 @@ ostringstream help()
         <<  "**--eemployeur** *argument obligatoire* : la liste des employeurs à exclure de la sortie, séparés par des blancs. " << "\n\n"
         <<  "**--esiret** *argument obligatoire* : la liste des SIRET à exclure de la sortie, séparés par des blancs. " << "\n\n"
         <<  "**--ebudget** *argument obligatoire* : la liste des budgets à exclure de la sortie, séparés par des blancs. " << "\n\n"
-        <<  "**--repartition-budget** *sans argument* : afficher la répartition budgétaire : Code.Budget, Taux.Budget, Montant.Budget. " << "\n\n"    
         <<  "**--xhlmem** *arg. oblig.*    : taille des fichiers à  analyser en octets.  " << "\n\n"
         <<  "**--memshare** *arg. oblig.*  : part de la mémoire vive utilisée, en points de pourcentage.  " << "\n\n"
         <<  "**--segments** *arg. oblig.*  : nombre minimum de segments de base.  " << "\n\n"
@@ -126,7 +245,7 @@ ostringstream help()
         <<  "**--verifmem** *sans argument*: seulement vérifier la consommation mémoire.  " << "\n\n"
         <<  "**--hmarkdown** *sans argument*: aide en format markdown.  " << "\n\n"
         <<  "**--pdf**     *sans argument* : aide en format pdf.  " << "\n\n"
-        <<  "**--html**    *sans argument* : aide en format html.  " << "\n\n"            
+        <<  "**--html**    *sans argument* : aide en format html.  " << "\n\n"
         <<  "**--cdrom**   *sans argument* : lire les données directement sur le disque optique.  " << "\n\n"
         <<  "**--dossier-bulletins** *arg.oblig.*: dossier vers lequel seront exportés les bulletins extraits.\n  "
             RETRAIT                          "      " "Les dossiers sont nettoyés à chaque extraction de bulletins.  "     << "\n\n"
@@ -300,7 +419,11 @@ size_t getFreeSystemMemory()
         {
             res = fgets (buf, 1024, fp);
 
-            if (res == nullptr) cerr << ERROR_HTML_TAG "Erreur dans getFreeSystemMemory()" ENDL;
+            if (res == nullptr)
+            {
+                LOCK_GUARD
+                cerr << ERROR_HTML_TAG "Erreur dans getFreeSystemMemory()" ENDL;
+            }
         }
 
     char *p1 = strchr (buf, ':');
@@ -408,54 +531,38 @@ char* ecrire_chemin_base (const char* chemin_base, int rang_fichier_base)
 
 void ecrire_entete_bulletins (const info_t &info, ofstream& base)
 {
-    ecrire_entete0 (info, base, entete_char_bulletins, sizeof (entete_char_bulletins) / sizeof (char*));
+    ecrire_entete0 (info, base, (const char **) entete_char_bulletins, sizeof (entete_char_bulletins) / sizeof (char*));
 }
 
 void ecrire_entete_table (const info_t &info, ofstream& base)
 {
-    ecrire_entete0 (info, base, entete_char, sizeof (entete_char) / sizeof (char*));
+    ecrire_entete0 (info, base, (const char**) entete_char, sizeof (entete_char) / sizeof (char*));
 }
 
-void ecrire_entete0 (const info_t &info, ofstream& base, const char* entete[], int N)
+void ecrire_entete0 (const info_t &info, ofstream& base, const char** entete, int N)
 {
-    int i;
 
+        if (N <= 1) return;
 
-        if (info.generer_repartition_budget)
+        if (info.select_siret)
         {
-          for (i = !info.generer_rang; i < N - 1; ++i)
-                if (info.select_siret)
-                        base << entete[i] << info.separateur;
-                else
-                        {
-                            if (i != Budget + 1 &&  i != Employeur + 1 && i != Siret + 1 && i != Etablissement + 1)
-                                base << entete[i] << info.separateur;
-                        }
-
+            for (int i = !info.generer_rang; i < N - 1; ++i)
+                     base << entete[i] << info.separateur;
         }
         else
         {
-                if (info.select_siret)
+            for (int i = !info.generer_rang; i < N - 1; ++i)
                 {
-                    for (i = !info.generer_rang; i < N - 1; ++i)
-                        if (i != CodeBudget + 1 && i != Taux + 1 && i != MtBudget + 1)
-                        {
-                           base << entete[i] << info.separateur;
-                        }
+                    if (strcmp(entete[i], "Budget")
+                        && strcmp(entete[i], "Employeur")
+                        && strcmp(entete[i], "Siret")
+                        && strcmp(entete[i], "Etablissement"))
+
+                       base << entete[i] << info.separateur;
                 }
-                else
-                    for (i = !info.generer_rang; i < N - 1; ++i)
-                        {
-                            if (i != Budget + 1 &&  i != Employeur + 1 && i != Siret + 1 && i != Etablissement + 1
-                                    && i != CodeBudget + 1 && i != Taux + 1 && i != MtBudget + 1)
-                                    {
-                                       base << entete[i] << info.separateur;
-                                    }
-                        }
-
         }
-
-    base << entete[i] << "\n";
+        // PAS de séparateur en fin de ligne !
+        base << entete[N - 1] << endl;
 }
 
 
@@ -620,6 +727,78 @@ void ouvrir_fichier_base0 (const info_t &info, BaseCategorie categorie, BaseType
     return;
 }
 
+void effacer_char (xmlChar* c)
+{
+   if (c == nullptr) return;
+   int j = 0;
+
+   do
+      {
+          * (c + j) = * (c + j + 1);
+          ++j;
+      } while (* (c + j));
+}
+
+void  generate_rank_signal()
+{
+    if (rankFilePath.empty()) return;
+
+    while (! mut.try_lock()) {}
+
+    static int temp_rank;
+
+    do
+        {
+            rankFile.open (rankFilePath, ios::out | ios::trunc);
+
+            if (rankFile.is_open())
+                {
+                    if (rang_global)
+                        rang_global = temp_rank;
+
+                    rankFile << ++rang_global ;
+                    temp_rank = rang_global;
+                }
+
+            rankFile.close();
+
+
+            mut.unlock();
+
+        }
+    while (false);
+
+}
+
+void generate_rank_signal (int progression)
+{
+    LOCK_GUARD
+
+    if (rankFilePath.empty()) return;
+
+    rankFile.open (rankFilePath, ios::out | ios::trunc);
+
+    if (rankFile.is_open())
+        {
+            rankFile << progression ;
+        }
+
+    rankFile.close();
+}
+
+#ifdef MEMORY_DEBUG
+inline void  memory_debug (const string& GCC_UNUSED func_tag)
+    {
+        LOCK_GUARD
+        cerr << STATE_HTML_TAG << func_tag << " : Calcul de la mémoire disponible : " << getFreeSystemMemory() << ENDL;
+    }
+#endif
+
+void vect_concat(vector<string> &first, const vector<string> &second)
+{
+  move(second.begin(), second.end(), back_inserter(first));
+}
+
 int32_t lire_argument (int argc, char* c_str)
 {
     if (argc > 2)
@@ -638,14 +817,17 @@ int32_t lire_argument (int argc, char* c_str)
 
             if (end == c_str)
                 {
+                    LOCK_GUARD
                     cerr << ERROR_HTML_TAG "" << c_str << ": pas un décimal" ENDL;
                 }
             else if (sl > INT32_MAX)
                 {
+                    LOCK_GUARD
                     cerr << ERROR_HTML_TAG "" <<  sl << " entier excédant la limite des entiers à 32 bits" ENDL;
                 }
             else if (sl < 0)
                 {
+                    LOCK_GUARD
                     cerr << ERROR_HTML_TAG "" << sl << ". L'entier doit être positif" ENDL;
                 }
             else
@@ -755,13 +937,13 @@ int calculer_memoire_requise (info_t& info)
 
     for (unsigned i = 0; i < info.threads->argc; ++i)
         {
-        
+
          compteur_ligne = 0;
-         
+
 #if defined(FGETC_PARSING) || defined(STRINGSTREAM_PARSING)
 
             char d = 0;
-            
+
             ifstream c (info.threads->argv[i]);
 
             if (verbeux)
@@ -790,16 +972,16 @@ int calculer_memoire_requise (info_t& info)
 #ifdef FGETC_PARSING
 
             d = c.get();
-            
+
             while (! c.eof())
                 {
                     if (d == '\n')
                         {
                             ++compteur_ligne;
                         }
-                    
+
                     bool remuneration_xml_open = false;
-                    
+
                     if  ((d = c.get()) != '<')  continue;
 
                     if  ((d = c.get()) != 'P')  continue;
@@ -837,7 +1019,7 @@ int calculer_memoire_requise (info_t& info)
                               {
                                 ++compteur_ligne;
                               }
-                            
+
                             if ((d = c.get()) != '<') continue;
 
                             if ((d = c.get())  != 'C')
@@ -907,9 +1089,9 @@ int calculer_memoire_requise (info_t& info)
 #ifdef ss
 #  undef ss
 #endif
-            
+
 #define ss info.threads->in_memory_file[i]
-            
+
             ss = read_stream_into_string (c);
 
             string::const_iterator iter = ss.begin();
@@ -1019,7 +1201,7 @@ int calculer_memoire_requise (info_t& info)
 
                 }
 
-#undef ss            
+#undef ss
 #endif
             c.clear();
             c.close();
@@ -1033,23 +1215,23 @@ int calculer_memoire_requise (info_t& info)
 #endif
 
 #endif
-#ifdef MMAP_PARSING  
-            
+#ifdef MMAP_PARSING
+
             int fd = open (info.threads->argv[i].c_str(), O_RDONLY);
-            
+
             assert (fd != -1);
-            
+
             struct stat sb;
             if (fstat(fd, &sb) == -1) throw runtime_error(ERROR_HTML_TAG "Impossible d'obtenir la taille du fichier.");
-            
+
             size_t file_size = sb.st_size;
-            
+
             /* MADV_SEQUENTIAL
             *    The application intends to access the pages in the specified range sequentially, from lower to higher addresses.
             *   MADV_WILLNEED
             *    The application intends to access the pages in the specified range in the near future. */
 
-                                
+
             char* data = (char*) mmap(nullptr, file_size, PROT_READ,
                         MAP_PRIVATE, fd, 0);
             if (data == MAP_FAILED)
@@ -1057,13 +1239,13 @@ int calculer_memoire_requise (info_t& info)
                 perror (ERROR_HTML_TAG "problème sur mmap, fonctions_auxiliaires.cpp");
                 throw;
             }
-            
+
             info.threads->in_memory_file[i] = string(data);
 
             char* data0 = data;
-            
+
             size_t d = 0;
-            
+
             while (data - data0 < (long long int) file_size - 14)
                 {
                     if (*data == '\n')
@@ -1071,7 +1253,7 @@ int calculer_memoire_requise (info_t& info)
                             ++compteur_ligne;
                         }
 
-                                        
+
                     bool remuneration_xml_open = false;
 
                     if  (*++data != '<') continue;
@@ -1104,7 +1286,7 @@ int calculer_memoire_requise (info_t& info)
                             remuneration_xml_open = false;
                             continue;  // Balise simple vide
                         }
-                    
+
                     size_t test = data - data0;
 
                     while (test < file_size)
@@ -1171,7 +1353,7 @@ int calculer_memoire_requise (info_t& info)
                         }
 
                 }
-            
+
             munmap(data, file_size);
             close (fd);
 #endif

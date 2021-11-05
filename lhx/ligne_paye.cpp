@@ -39,6 +39,8 @@
 #include "ligne_paye.h"
 #include "validator.h"
 
+extern mutex mut;
+
 using namespace std;
 
 
@@ -102,71 +104,71 @@ using namespace std;
 ///           info.Table[info.NCumAgentXml][l][i] = 0x65; \endcode
 ///  \note A surveiller en cas de développement Windows.
 
-static xmlChar* GCC_INLINE sanitize (xmlChar* s,  const char GCC_UNUSED sep)
+static inline xmlChar*  sanitize (xmlChar* s,  const char GCC_UNUSED sep)
 {
 #ifdef NO_SANITIZING_QUOTES
     while (*s != 0)
+    {
+        // Non-switchable car info.seperateur n'est pas une expression constante.
+        if (*s == sep)  *s = '_';
+
+        switch (*s)
         {
-            // Non-switchable car info.seperateur n'est pas une expression constante.
-            if (*s == sep)  *s = '_';
 
-            switch (*s)
-                {
+        case '\n':
+        case '<':
+        case '>':
+        case ':':
+        case '"':
+        case '/':
+        case '\\':
+        case '|':
+        case '?':
+        case '*':
 
-                case '\n':
-                case '<':
-                case '>':
-                case ':':
-                case '"':
-                case '/':
-                case '\\':
-                case '|':
-                case '?':
-                case '*':
-
-                    *s = '_';
-                break;
+            *s = '_';
+            break;
 
 
 #ifdef CONVERTIR_LATIN_1
 #if ! defined(USE_ICONV)
 
-//   Gros hack de pseudo-conversion UTF-8 vers Latin-1, qui permet d'économiser les 40 %
-//   de surcoût d'exécution lié à l'utilisation d'iconv pour retraiter les fichiers de
-//   sortie (fonction convertir(const char*))
-//   Ce hack est presque sans coût. Il se base sur les hypothèses suivantes :
-//       a) pas de caractères spéciaux multioctets
-//       b) seuls sont convertis : à, â, ç, è, é, ê, ë, î, ï, ô, û ... et les majuscules
-//         correspondantes càd
-//   dont le code UTF-8 commence par 0xC3. Il suffit d'ajouter 0x40 sur les quatre bits
-//   hauts de l'octet.
+            //   Gros hack de pseudo-conversion UTF-8 vers Latin-1, qui permet d'économiser les 40 %
+            //   de surcoût d'exécution lié à l'utilisation d'iconv pour retraiter les fichiers de
+            //   sortie (fonction convertir(const char*))
+            //   Ce hack est presque sans coût. Il se base sur les hypothèses suivantes :
+            //       a) pas de caractères spéciaux multioctets
+            //       b) seuls sont convertis : à, â, ç, è, é, ê, ë, î, ï, ô, û ... et les majuscules
+            //         correspondantes càd
+            //   dont le code UTF-8 commence par 0xC3. Il suffit d'ajouter 0x40 sur les quatre bits
+            //   hauts de l'octet.
 
-                case 0xC3:
+        case 0xC3:
 
-                    *s = ((* (s + 1) & 0xF0) + 0x40) | (* (s + 1) & 0x0F);
+            *s = ((* (s + 1) & 0xF0) + 0x40) | (* (s + 1) & 0x0F);
 
-                    effacer_char (s + 1);
+            effacer_char (s + 1);
 
-                    break;
+            break;
 
-                case 0xC2:
+        case 0xC2:
 
-                    *s = * (s + 1);
-//    Le caractère ° (degré) est bien codé en Latin-1 comme 0xB0, mais il y a un
-//    problème avec le paquet texlive inputenc pour la conversion pdf.
-//    On remplace donc par (0x65). Apparemment plus nécessaire */
-//    if (info.Table[info.NCumAgentXml][l][i] == 0xB0)
-//            info.Table[info.NCumAgentXml][l][i] = 0x65;
+            *s = * (s + 1);
+            //    Le caractère ° (degré) est bien codé en Latin-1 comme 0xB0, mais il y a un
+            //    problème avec le paquet texlive inputenc pour la conversion pdf.
+            //    On remplace donc par (0x65). Apparemment plus nécessaire */
+            //    if (info.Table[info.NCumAgentXml][l][i] == 0xB0)
+            //            info.Table[info.NCumAgentXml][l][i] = 0x65;
 
-                    effacer_char (s + 1);
+            effacer_char (s + 1);
 
-                    break;
+            break;
 #endif
 #endif
-                }
-
-            ++s;
         }
+
+        ++s;
+    }
 
     return s;
 
@@ -184,7 +186,7 @@ static xmlChar* GCC_INLINE sanitize (xmlChar* s,  const char GCC_UNUSED sep)
 
 #endif
 
-return s;
+    return s;
 }
 
 
@@ -203,31 +205,31 @@ return s;
 
 static inline int GCC_INLINE Bulletin (const char*  tag, xmlNodePtr& cur, int l, info_t& info)
 {
-// attention faire en sorte que cur ne soit JAMAIS nul en entrée ou en sortie
+    // attention faire en sorte que cur ne soit JAMAIS nul en entrée ou en sortie
 
     const xmlNodePtr nextcur = atteindreNoeud (tag, cur);
 
     if ( nullptr == nextcur)
-        {
-            return NODE_NOT_FOUND;
-        }
+    {
+        return NODE_NOT_FOUND;
+    }
 
-// On a à présent la garantie que cur->name correspond à tag
+    // On a à présent la garantie que cur->name correspond à tag
 
 
     if ((info.Table[info.NCumAgentXml][l]
-            = xmlGetProp (nextcur, (const xmlChar *) "V"))
+         = xmlGetProp (nextcur, (const xmlChar *) "V"))
             == nullptr)
 
         return LINE_MEMORY_EXCEPTION;
 
     if (info.drapeau_cont)
-        {
-            if (nextcur->next != nullptr)
-                cur = nextcur->next;
-            else
-                return NO_NEXT_ITEM;  // pour garantir que cur ne devient pas nul.
-        }
+    {
+        if (nextcur->next != nullptr)
+            cur = nextcur->next;
+        else
+            return NO_NEXT_ITEM;  // pour garantir que cur ne devient pas nul.
+    }
 
     return NODE_FOUND;
 
@@ -254,23 +256,24 @@ static inline int GCC_INLINE Bulletin (const char*  tag, xmlNodePtr& cur, int l,
 static inline bool GCC_INLINE bulletin_obligatoire_char (const char* tag, xmlNodePtr& cur, int l,  info_t& info)
 {
 
-//     attention faire en sorte que cur ne soit JAMAIS nul
+    //     attention faire en sorte que cur ne soit JAMAIS nul
     int res = Bulletin (tag, cur, l, info);
 
-//     sanitisation
+    //     sanitisation
 
     info.Table[info.NCumAgentXml][l] = sanitize (info.Table[info.NCumAgentXml][l], info.separateur);
 
     switch (res)
-        {
-//         on sait que cur ne sera jamais nul
-        case NODE_FOUND :
-            return true;
+    {
+    //         on sait que cur ne sera jamais nul
+    case NODE_FOUND :
+        return true;
 
-        case NODE_NOT_FOUND :
+    case NODE_NOT_FOUND :
         {
             LOCK_GUARD
-            cerr << ERROR_HTML_TAG "Balise manquante " << tag << " avant la balise " << cur->name << ENDL;
+                    cerr << ERROR_HTML_TAG "Balise manquante "
+                         << tag << " avant la balise " << cur->name << ENDL;
         }
 
         if (verbeux)
@@ -279,11 +282,11 @@ static inline bool GCC_INLINE bulletin_obligatoire_char (const char* tag, xmlNod
         NA_ASSIGN (l);
         break;
 
-        case LINE_MEMORY_EXCEPTION :
-        {
-            LOCK_GUARD
-            cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
-        }
+    case LINE_MEMORY_EXCEPTION :
+    {
+        LOCK_GUARD
+                cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
+    }
 
         if (verbeux)
             afficher_environnement_xhl (info, cur);
@@ -291,20 +294,20 @@ static inline bool GCC_INLINE bulletin_obligatoire_char (const char* tag, xmlNod
         NA_ASSIGN (l);
         break;
 
-        case NO_NEXT_ITEM :
-        {
-            LOCK_GUARD
-            cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
-        }
+    case NO_NEXT_ITEM :
+    {
+        LOCK_GUARD
+                cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
+    }
 
         if (verbeux)
             afficher_environnement_xhl (info, cur);
 
         break;
 
-        }
+    }
 
-//     Ne pas mettre de lock ici, il y en a un dans warning_msg
+    //     Ne pas mettre de lock ici, il y en a un dans warning_msg
 
     warning_msg (tag, info, cur);
 
@@ -313,10 +316,9 @@ static inline bool GCC_INLINE bulletin_obligatoire_char (const char* tag, xmlNod
 #else
 
     if (nullptr != cur->next)
-        {
-            //cur = cur->next;
-            return true;
-        }
+    {
+        return true;
+    }
     else
         return false;
 
@@ -343,7 +345,7 @@ static inline bool GCC_INLINE bulletin_obligatoire_char (const char* tag, xmlNod
 /// \param decimal séparateur décimal substitué à '.'
 /// \note potentiellement optimisable
 
-static void GCC_INLINE substituer_separateur_decimal (xmlChar* ligne, const char decimal)
+static inline void substituer_separateur_decimal (xmlChar* ligne, const char decimal)
 {
     const int size = xmlStrlen (ligne);
 
@@ -373,48 +375,48 @@ static void GCC_INLINE substituer_separateur_decimal (xmlChar* ligne, const char
 ///
 
 static inline bool GCC_INLINE bulletin_optionnel_char (const char* tag,
-        xmlNodePtr& cur,
-        int l,
-        info_t& info)
+                                                       xmlNodePtr& cur,
+                                                       int l,
+                                                       info_t& info)
 {
-//     attention faire en sorte que cur ne soit JAMAIS nul
+    //     attention faire en sorte que cur ne soit JAMAIS nul
     int res = Bulletin (tag, cur, l, info);
 
-//     sanitisation
+    //     sanitisation
 
     info.Table[info.NCumAgentXml][l] = sanitize (info.Table[info.NCumAgentXml][l], info.separateur);
 
     switch(res)
+    {
+    //         on sait que cur ne sera jamais nul
+    case NODE_FOUND :
+        return true;
+
+    case NODE_NOT_FOUND :
+        NA_ASSIGN (l);
+        return true;
+
+    case LINE_MEMORY_EXCEPTION :
+        if (verbeux)
         {
-//         on sait que cur ne sera jamais nul
-        case NODE_FOUND :
-            return true;
-
-        case NODE_NOT_FOUND :
-            NA_ASSIGN (l);
-            return true;
-
-        case LINE_MEMORY_EXCEPTION :
-            if (verbeux)
-                {
-                    LOCK_GUARD
+            LOCK_GUARD
                     cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
-                }
-
-            NA_ASSIGN (l);
-            break;
-
-        case NO_NEXT_ITEM :
-            if (verbeux)
-                {
-                    LOCK_GUARD
-                    cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
-                }
-
-            break;
         }
 
-//     Ne pas mettre de lock ici, il y en a un dans warning_msg
+        NA_ASSIGN (l);
+        break;
+
+    case NO_NEXT_ITEM :
+        if (verbeux)
+        {
+            LOCK_GUARD
+                    cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
+        }
+
+        break;
+    }
+
+    //     Ne pas mettre de lock ici, il y en a un dans warning_msg
 
     warning_msg (tag, info, cur);
 
@@ -423,10 +425,10 @@ static inline bool GCC_INLINE bulletin_optionnel_char (const char* tag,
 #else
 
     if (nullptr != cur->next)
-        {
-            cur = cur->next;
-            return true;
-        }
+    {
+        cur = cur->next;
+        return true;
+    }
     else
         return false;
 
@@ -455,52 +457,56 @@ static inline bool GCC_INLINE bulletin_optionnel_char (const char* tag,
 
 
 static inline bool GCC_INLINE bulletin_optionnel_numerique (const char* tag,
-        xmlNodePtr& cur,
-        int l,
-        info_t& info)
+                                                            xmlNodePtr& cur,
+                                                            int l,
+                                                            info_t& info)
 {
-//     attention faire en sorte que cur ne soit JAMAIS nul
+    //     attention faire en sorte que cur ne soit JAMAIS nul
 
     int res = Bulletin (tag, cur, l, info);
 
     switch(res)
+    {
+    //         on sait que cur ne sera jamais nul
+    case NODE_FOUND :
+#ifndef DECIMAL_NON_EN
+        if (info.decimal != '.')
+#endif
+            substituer_separateur_decimal (info.Table[info.NCumAgentXml][l], info.decimal);
+
+        return true;
+
+    case NODE_NOT_FOUND :
+        ZERO_ASSIGN (l);
+        return true;
+
+    case LINE_MEMORY_EXCEPTION :
+        if (verbeux)
         {
-//         on sait que cur ne sera jamais nul
-        case NODE_FOUND :
-#ifndef DECIMAL_NON_EN
-            if (info.decimal != '.')
-#endif
-                substituer_separateur_decimal (info.Table[info.NCumAgentXml][l], info.decimal);
-
-            return true;
-
-        case NODE_NOT_FOUND :
-            ZERO_ASSIGN (l);
-            return true;
-
-        case LINE_MEMORY_EXCEPTION :
-            if (verbeux)
-                {
-                    LOCK_GUARD
+            LOCK_GUARD
                     cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
-                }
-
-            ZERO_ASSIGN (l);
-            break;
-
-        case NO_NEXT_ITEM :
-            if (verbeux) cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
-
-#ifndef DECIMAL_NON_EN
-
-            if (info.decimal != '.')
-#endif
-                substituer_separateur_decimal (info.Table[info.NCumAgentXml][l], info.decimal);
-
-            break;
         }
 
-//     Ne pas mettre de lock ici, il y en a un dans warning_msg
+        ZERO_ASSIGN (l);
+        break;
+
+    case NO_NEXT_ITEM :
+        if (verbeux)
+        {
+            LOCK_GUARD
+            cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
+        }
+
+#ifndef DECIMAL_NON_EN
+
+        if (info.decimal != '.')
+#endif
+            substituer_separateur_decimal (info.Table[info.NCumAgentXml][l], info.decimal);
+
+        break;
+    }
+
+    //     Ne pas mettre de lock ici, il y en a un dans warning_msg
 
     warning_msg (tag, info, cur);
 
@@ -509,10 +515,10 @@ static inline bool GCC_INLINE bulletin_optionnel_numerique (const char* tag,
 #else
 
     if (nullptr != cur->next)
-        {
-            cur = cur->next;
-            return true;
-        }
+    {
+        cur = cur->next;
+        return true;
+    }
     else
         return false;
 
@@ -547,38 +553,45 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique (const char* tag, x
     int res = Bulletin (tag, cur, l, info);
 
     switch(res)
+    {
+    // on sait que cur ne sera jamais nul
+    case NODE_FOUND :
+#ifndef DECIMAL_NON_EN
+        if (info.decimal != '.')
+#endif
+            substituer_separateur_decimal (info.Table[info.NCumAgentXml][l], info.decimal);
+
+        return true;
+
+    case NODE_NOT_FOUND :
+        ZERO_ASSIGN (l);
+        return true;
+
+    case LINE_MEMORY_EXCEPTION :
+        if (verbeux)
         {
-        // on sait que cur ne sera jamais nul
-        case NODE_FOUND :
-#ifndef DECIMAL_NON_EN
-            if (info.decimal != '.')
-#endif
-                substituer_separateur_decimal (info.Table[info.NCumAgentXml][l], info.decimal);
-
-            return true;
-
-        case NODE_NOT_FOUND :
-            ZERO_ASSIGN (l);
-            return true;
-
-        case LINE_MEMORY_EXCEPTION :
-            if (verbeux) cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
-
-            NA_ASSIGN (l);
-            break;
-
-        case NO_NEXT_ITEM :
-            cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
-#ifndef DECIMAL_NON_EN
-
-            if (info.decimal != '.')
-#endif
-                substituer_separateur_decimal (info.Table[info.NCumAgentXml][l], info.decimal);
-
-            break;
+            LOCK_GUARD
+            cerr << ERROR_HTML_TAG "Allocation mémoire impossible pour la ligne " << l << ENDL;
         }
 
-//    Ne pas mettre de lock ici, il y en a un dans warning_msg
+        NA_ASSIGN (l);
+        break;
+
+    case NO_NEXT_ITEM :
+        {
+           LOCK_GUARD
+           cerr << ERROR_HTML_TAG "Pas d'item successeur pour le noeud " << tag <<  ENDL;
+        }
+#ifndef DECIMAL_NON_EN
+
+        if (info.decimal != '.')
+#endif
+            substituer_separateur_decimal (info.Table[info.NCumAgentXml][l], info.decimal);
+
+        break;
+    }
+
+    //    Ne pas mettre de lock ici, il y en a un dans warning_msg
 
     warning_msg (tag, info, cur);
 
@@ -587,10 +600,10 @@ static inline bool GCC_INLINE bulletin_obligatoire_numerique (const char* tag, x
 #else
 
     if (nullptr != cur->next)
-        {
-            cur = cur->next;
-            return true;
-        }
+    {
+        cur = cur->next;
+        return true;
+    }
     else
         return false;
 
@@ -723,241 +736,261 @@ static inline LineCount lignePaye (xmlNodePtr cur, info_t& info)
 
     unsigned int t = 0;
 
-//  +1 pour éviter la confusion avec \0 des chaines vides
+    //  +1 pour éviter la confusion avec \0 des chaines vides
     info.Table[info.NCumAgentXml][l] = (xmlChar*) xmlStrdup (drapeau[t]);
     ++l;
 
-//  Besoins en mémoire :
-//    BESOIN_MEMOIRE_ENTETE [champs hors ligne] + nombre de lignes
-//        + flags (maximum nbType * nb de rembobinages)
+    //  Besoins en mémoire :
+    //    BESOIN_MEMOIRE_ENTETE [champs hors ligne] + nombre de lignes
+    //        + flags (maximum nbType * nb de rembobinages)
 
     int type_loop_counter = 0;
 
     while (cur != nullptr)
+    {
+        bool new_type = false;
+
+        while (xmlStrcmp (cur->name, (const xmlChar *) type_remuneration[t]))
         {
-            bool new_type = false;
+            // Cas rare dans lequel <Remuneration> n'existe pas
+            if (xmlStrcmp (cur->name, (const xmlChar *) "NbHeureTotal") == 0)
+                return  { nbLignePaye, l};
 
-            while (xmlStrcmp (cur->name, (const xmlChar *) type_remuneration[t]))
+            ++t;
+
+            if (t == nbType)
+            {
+                //              En principe les éléments constitutifs des enregistrements
+                //                <Remunération>....</Remuneration> sont enregistrés
+                //              dans l'ordre du tableau type_remuneration. Toutefois quelques cas de
+                //              désordre sont observés. Dans ces cas là on peut
+                //              "rembobiner le tableau". On évite toutefois de faire une recherche
+                //              ensembliste systématique, qui éviterait cela mais
+                //              freinerait 99,9 % des recherches
+                LOCK_GUARD
+                if (++type_loop_counter < TYPE_LOOP_LIMIT)
                 {
-                    // Cas rare dans lequel <Remuneration> n'existe pas
-                    if (xmlStrcmp (cur->name, (const xmlChar *) "NbHeureTotal") == 0)
-                        return  { nbLignePaye, l};
-
-                    ++t;
-
-                    if (t == nbType)
-                        {
-//              En principe les éléments constitutifs des enregistrements
-//                <Remunération>....</Remuneration> sont enregistrés
-//              dans l'ordre du tableau type_remuneration. Toutefois quelques cas de
-//              désordre sont observés. Dans ces cas là on peut
-//              "rembobiner le tableau". On évite toutefois de faire une recherche
-//              ensembliste systématique, qui éviterait cela mais
-//              freinerait 99,9 % des recherches
-
-                            if (++type_loop_counter < TYPE_LOOP_LIMIT)
-                                {
-                                    t = 0;
-                                    continue;
-                                }
-
-//              On ne rembobine qu'au maximum TYPE_LOOP_LIMIT. Si l'essai échoue,
-//              on déclenche une exception ou on retourne
-
-                            if (type_loop_counter ==  TYPE_LOOP_LIMIT)
-                                {
-                                    cerr << ERROR_HTML_TAG "En excès du nombre de réordonnancements autorisés (" << type_loop_counter  << "/" << TYPE_LOOP_LIMIT << ")." ENDL;
-                                    cerr << ERROR_HTML_TAG "En excès du nombre de types de lignes de paye autorisé (" << nbType << ")." ENDL;
-
-                                    cerr << ERROR_HTML_TAG "Ligne: " <<  xmlGetLineNo(cur) << ENDL;  
-                                }
-
-                            if (cur)
-                                cerr << ERROR_HTML_TAG "Type litigieux " << cur->name
-                                     << " aux alentours du matricule "
-                                     << info.Table[info.NCumAgentXml][Matricule] << ENDL;
-                            else
-                                cerr << ERROR_HTML_TAG "Pointeur noeud courant nul" << ENDL;
-
-#ifdef STRICT
-                            exit (-11);
-#else
-                            cerr << ERROR_HTML_TAG "Arrêt du décodage de la ligne de paye." << ENDL;
-                            return {nbLignePaye, l};
-#endif
-                        }
-
-                    new_type = true;
-                }
-
-            if (new_type && t < nbType)
-                {
-//          +1 pour éviter la confusion avec \0 des chaines vides
-                    if ((info.Table[info.NCumAgentXml][l]
-                            = (xmlChar*) xmlStrdup (drapeau[t])) == nullptr)
-                        {
-                            LOCK_GUARD
-
-                            if (verbeux) cerr << ERROR_HTML_TAG "Erreur dans l'allocation des drapeaux de catégories." << ENDL;
-
-#ifdef STRICT
-                            exit (-12);
-#else
-
-                            if (verbeux) cerr << ERROR_HTML_TAG "Arrêt du décodage de la ligne de paye." << ENDL;
-
-#endif
-                            return {nbLignePaye, l};
-                        }
-
-                    ++l;
-                }
-
-//         ici on pourrait in fine se passer de ce test par compilation séparée
-
-            if (! info.reduire_consommation_memoire)
-                {
-                    verifier_taille (nbLignePaye, info);
-                }
-
-//         Si on arrive à un noeud de type Commentaire, on le saute et on réinitialise
-//          "gratuitement" le parcours des drapeaux.
-
-            if (xmlStrcmp (cur->name, (const xmlChar*) "Commentaire") == 0)
-                {
-                    cur = cur->next;
                     t = 0;
-                    --type_loop_counter; // 'Rembobinage gratuit'
-
-                    continue; // garantit incidemment que cur != nullptr dans la boucle
+                    continue;
                 }
 
-//      cur n'est pas nul à ce point
+                //              On ne rembobine qu'au maximum TYPE_LOOP_LIMIT. Si l'essai échoue,
+                //              on déclenche une exception ou on retourne
 
-            cur = cur->xmlChildrenNode;
-
-            if (cur == nullptr)
+                if (type_loop_counter ==  TYPE_LOOP_LIMIT)
                 {
-                    NA_ASSIGN (l);
+
+                    cerr << ERROR_HTML_TAG "En excès du nombre de réordonnancements autorisés (" << type_loop_counter  << "/" << TYPE_LOOP_LIMIT << ")." ENDL;
+                    cerr << ERROR_HTML_TAG "En excès du nombre de types de lignes de paye autorisé (" << nbType << ")." ENDL;
+
+                    cerr << ERROR_HTML_TAG "Ligne: " <<  xmlGetLineNo(cur) << ENDL;
+                }
+
+                if (cur)
+                {
+
+                    cerr << ERROR_HTML_TAG "Type litigieux " << cur->name
+                         << " aux alentours du matricule "
+                                     << info.Table[info.NCumAgentXml][Matricule] << ENDL;
+                } else
+                {
+
+                    cerr << ERROR_HTML_TAG "Pointeur noeud courant nul" << ENDL;
+                }
+
+
+#ifdef STRICT
+                exit (-11);
+#else
+                cerr << ERROR_HTML_TAG "Arrêt du décodage de la ligne de paye." << ENDL;
+                return {nbLignePaye, l};
+#endif
+            }
+
+            new_type = true;
+        }
+
+        if (new_type && t < nbType)
+        {
+            //          +1 pour éviter la confusion avec \0 des chaines vides
+            if ((info.Table[info.NCumAgentXml][l]
+                 = (xmlChar*) xmlStrdup (drapeau[t])) == nullptr)
+            {
+                LOCK_GUARD
+
+                        if (verbeux) cerr << ERROR_HTML_TAG "Erreur dans l'allocation des drapeaux de catégories." << ENDL;
+
+#ifdef STRICT
+                exit (-12);
+#else
+
+                if (verbeux) cerr << ERROR_HTML_TAG "Arrêt du décodage de la ligne de paye." << ENDL;
+
+#endif
+                return {nbLignePaye, l};
+            }
+
+            ++l;
+        }
+
+        //         ici on pourrait in fine se passer de ce test par compilation séparée
+
+        if (! info.reduire_consommation_memoire)
+        {
+            verifier_taille (nbLignePaye, info);
+        }
+
+        //         Si on arrive à un noeud de type Commentaire, on le saute et on réinitialise
+        //          "gratuitement" le parcours des drapeaux.
+
+        if (xmlStrcmp (cur->name, (const xmlChar*) "Commentaire") == 0)
+        {
+            cur = cur->next;
+            t = 0;
+            --type_loop_counter; // 'Rembobinage gratuit'
+
+            continue; // garantit incidemment que cur != nullptr dans la boucle
+        }
+
+        //      cur n'est pas nul à ce point
+
+        cur = cur->xmlChildrenNode;
+
+        if (cur == nullptr)
+        {
+            NA_ASSIGN (l);
 #if 0
 
-                    // Normalement c'est ce qu'il faudrait faire
-                    // Mais il n'y a pas eu de préallocation de mémoire pour ce cas
+            // Normalement c'est ce qu'il faudrait faire
+            // Mais il n'y a pas eu de préallocation de mémoire pour ce cas
 
-                    for (short c = 0; c < 6; ++c) NA_ASSIGN (l++);
-
-                    ++nbLignePaye;
-
-                    if (verbeux) cerr << WARNING_HTML_TAG
-                                          "Anomalie : la ligne de paye est vide."
-                                          << ENDL;
-
-#endif
-                    break;
-                }
-
-//      cur n'est pas nul à ce point et ne devient jamais nul ci-après
-
-//      Libellé, obligatoire
-
-            bulletin_obligatoire_char ("Libelle", cur, l, info);
-
-            ++l;
-
-//      Code, obligatoire
-
-            bulletin_obligatoire_char ("Code", cur, l, info);
-
-            ++l;
-
-//      Base, si elle existe
-
-            bulletin_optionnel_numerique ("Base", cur,  l, info);
-
-            ++l;
-
-//     Taux, s'il existe
-
-            bulletin_optionnel_numerique ("Taux", cur, l, info);
-
-            ++l;
-
-//      Nombre d'unités, s'il existe
-
-            bulletin_optionnel_numerique ("NbUnite", cur, l, info);
-
-            ++l;
-
-//      Montant obligatoire
-
-            bulletin_obligatoire_numerique ("Mt", cur, l, info);
-
-            ++l;
-
-            if (t == 8) // La catégorie de ligne de paye est "Rappel"
-                {
-                    if (cur->xmlChildrenNode == nullptr)
-                        {
-                            if (verbeux)
-                                {
-                                    LOCK_GUARD
-                                    cerr << WARNING_HTML_TAG "Pas de période de référence pour le rappel" " pour le matricule "
-                                         << info.Table[info.NCumAgentXml][Matricule]
-                                         << " -- Ligne";
-                                    long lineN = xmlGetLineNo (cur);
-
-                                    if (lineN != 65535)
-                                        {
-                                            cerr << " " << lineN << ENDL;
-                                        }
-                                    else
-                                        {
-                                            if (info.ligne_debut.size() > info.NCumAgentXml
-                                                    && info.ligne_fin.size() > info.NCumAgentXml)
-                                                {
-                                                    cerr << "s "  << info.ligne_debut.at (info.NCumAgentXml)[0] + 1
-                                                         << " - " << info.ligne_fin.at (info.NCumAgentXml)[0] + 1 << ENDL;
-                                                }
-                                        }
-                                }
-
-                            NA_ASSIGN (l);
-                            NA_ASSIGN (++l);
-                        }
-                    else
-                        {
-                            cur = cur->xmlChildrenNode;
-                            // On ne tient pas rigueur du manque de qualité éventuelle
-                            // tellement la norme est peu respectée
-
-                            bulletin_optionnel_char ("DateDébut", cur, l, info);
-
-                            ++l;
-                            info.drapeau_cont = false; // pas de noeud successeur
-                            bulletin_optionnel_char ("DateFin", cur, l, info);
-                            cur = cur->parent->next;
-                            info.drapeau_cont = true; // noeud successeur existe
-                        }
-                }
-            else
-                {
-                    NA_ASSIGN (l);
-                    NA_ASSIGN (++l);
-                }
-
-            ++l;
-//      cur ne sera pas nul à ce point
+            for (short c = 0; c < 6; ++c) NA_ASSIGN (l++);
 
             ++nbLignePaye;
 
-            cur =  cur->parent->next;
+            if (verbeux) cerr << WARNING_HTML_TAG
+                                 "Anomalie : la ligne de paye est vide."
+                                          << ENDL;
 
-//      Le parent ne peut être nul
-//      attention si du code est rajouté ici il doit l'être sous garde cur != nullptr
-//      Lorsque on a épuisé tous les types licites on a nécessairement cur = nullptr et
-//      la boucle s'arrête
-
+#endif
+            break;
         }
+
+        //      cur n'est pas nul à ce point et ne devient jamais nul ci-après
+        //      Libellé, obligatoire
+        info.drapeau_cont = true;
+        bulletin_obligatoire_char ("Libelle", cur, l, info);
+
+        ++l;
+
+        //      Code, obligatoire
+
+        bulletin_obligatoire_char ("Code", cur, l, info);
+
+        ++l;
+
+        //      Base, si elle existe
+
+        bulletin_optionnel_numerique ("Base", cur,  l, info);
+
+        ++l;
+
+        //     Taux, s'il existe
+
+        bulletin_optionnel_numerique ("Taux", cur, l, info);
+
+        ++l;
+
+        //      Nombre d'unités, s'il existe
+
+        bulletin_optionnel_numerique ("NbUnite", cur, l, info);
+
+        ++l;
+
+        //      Montant obligatoire
+
+        bulletin_obligatoire_numerique ("Mt", cur, l, info);
+
+        ++l;
+
+        if (t == 8) // La catégorie de ligne de paye est "Rappel"
+        {
+            if (cur->xmlChildrenNode == nullptr)
+            {
+                if (verbeux)
+                {
+                    LOCK_GUARD
+                            cerr << WARNING_HTML_TAG "Pas de période de référence pour le rappel "
+
+                                    " pour le matricule "
+                                 << info.Table[info.NCumAgentXml][Matricule]
+                                 << " -- Ligne";
+
+                    // Regrettablement xmlGetLineNo ne peut pas aller au-delà de 65535 (unsigned short).
+                    long lineN = xmlGetLineNo (cur);
+
+                    if (lineN != 65535)
+                    {
+                        cerr << " " << lineN << ENDL;
+                    }
+                    else
+                    {
+                        if (info.ligne_debut.size() > info.NCumAgentXml
+                                && info.ligne_fin.size() > info.NCumAgentXml)
+                        {
+                            cerr << "s "  << info.ligne_debut.at (info.NCumAgentXml)[0] + 1
+                                 << " - " << info.ligne_fin.at (info.NCumAgentXml)[0] + 1 << ENDL;
+                        }
+                    }
+                }
+
+                NA_ASSIGN (l);
+                NA_ASSIGN (++l);
+            }
+            else
+            {
+                cur = cur->xmlChildrenNode;
+
+                bulletin_optionnel_char ("DateDebut", cur, l, info);  // Attention pas d'accent
+
+                ++l;
+                info.drapeau_cont = false; // pas de noeud successeur
+                bulletin_optionnel_char ("DateFin", cur, l, info);
+                cur = cur->parent->next;
+                info.drapeau_cont = true; // noeud successeur existe
+            }
+        }
+        else
+        {
+            NA_ASSIGN (l);
+            NA_ASSIGN (++l);
+        }
+
+#if LARGEUR == 2
+            ++l;
+            //    CodeCaisse, optionnel
+
+            bulletin_optionnel_char ("CodeCaisse", cur, l, info);
+
+            ++l;
+            // Ordre, obligatoire
+            info.drapeau_cont = false; // pas de noeud successeur
+            bulletin_obligatoire_numerique("Ordre", cur, l, info);
+#endif
+
+        ++l;
+        //      cur ne sera pas nul à ce point
+
+        ++nbLignePaye;
+
+        cur =  cur->parent->next;
+
+        //      Le parent ne peut être nul
+        //      attention si du code est rajouté ici il doit l'être sous garde cur != nullptr
+        //      Lorsque on a épuisé tous les types licites on a nécessairement cur = nullptr et
+        //      la boucle s'arrête
+
+    }
 
     return  { nbLignePaye, l};
 }
@@ -1031,24 +1064,24 @@ inline void GCC_INLINE concat (xmlNodePtr cur, info_t& info)
     xmlChar* addCode2 = xmlGetProp (cur, (const xmlChar*) "V");
 
     if (addCode2)
+    {
+        xmlChar* desc_hyphen = xmlStrncatNew (info.Table[info.NCumAgentXml][Description],
+                (const xmlChar*) " - ",
+                -1);
+
+        if (desc_hyphen)
         {
-            xmlChar* desc_hyphen = xmlStrncatNew (info.Table[info.NCumAgentXml][Description],
-                                                  (const xmlChar*) " - ",
-                                                  -1);
+            xmlChar* desc_code2 = xmlStrncatNew (desc_hyphen,
+                                                 addCode2,
+                                                 -1);
 
-            if (desc_hyphen)
-                {
-                    xmlChar* desc_code2 = xmlStrncatNew (desc_hyphen,
-                                                         addCode2,
-                                                         -1);
-
-                    xmlFree (info.Table[info.NCumAgentXml][Description]);
-                    xmlFree (addCode2);
-                    xmlFree (desc_hyphen);
-                    info.Table[info.NCumAgentXml][Description]
-                            = sanitize (desc_code2, info.separateur);
-                }
+            xmlFree (info.Table[info.NCumAgentXml][Description]);
+            xmlFree (addCode2);
+            xmlFree (desc_hyphen);
+            info.Table[info.NCumAgentXml][Description]
+                    = sanitize (desc_code2, info.separateur);
         }
+    }
 }
 
 
@@ -1063,14 +1096,14 @@ inline void test_bulletin_irregulier (info_t& info)
     int net = atoi ((const char*) info.Table[info.NCumAgentXml][MtNetAPayer]);
 
     if (brut || net)
-        {
-            LOCK_GUARD
-            cerr << ERROR_HTML_TAG "Bulletin irrégulier : montant "
+    {
+        LOCK_GUARD
+                cerr << ERROR_HTML_TAG "Bulletin irrégulier : montant "
                  <<   (net ? "net" : "brut")
-                 << " payé : "
+                   << " payé : "
                  << (net ? net : brut)
                  << " mais pas de ligne de paye." ENDL;
-        }
+    }
 }
 
 
@@ -1084,16 +1117,16 @@ inline void allouer_ligne_NA (info_t &info, int &ligne, int &memoire_p_ligne_all
 {
     info.NLigne[info.NCumAgentXml] = 1;  // 1 ldp
     memoire_p_ligne_allouee = BESOIN_MEMOIRE_ENTETE + INDEX_MAX_COLONNNES // nombre de NAs mis pour les variables de paye de la ligne
-                              + 1  // TraitBrut
-                              + 1;
+            + 1  // TraitBrut
+            + 1;
 
     info.Table[info.NCumAgentXml].resize (memoire_p_ligne_allouee);
     info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE] = (xmlChar*) xmlStrdup (drapeau[0]); // TraitBrut
 
     for (int k = 1; k <= INDEX_MAX_COLONNNES; ++k)
-        {
-            info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE + k] = nullptr;
-        }
+    {
+        info.Table[info.NCumAgentXml][BESOIN_MEMOIRE_ENTETE + k] = nullptr;
+    }
 
     ligne = 1;
 }
@@ -1112,8 +1145,10 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
     bool result = true;
     int na_assign_level = 0;
     constexpr
-    const char* local_tag[] = {"Civilité", "Nom", "Prénom", "Matricule", "Adresse", "NIR", "NbEnfants",
-                                  "Statut", "RefNomenStatutaire", "EmploiMetier", "Grade", "Echelon", "Indice", "CptBancaire" };
+    // Ne recense que les balises obligatoires !
+
+    const char* local_tag[] = {"Nom", "Matricule",  "NIR", "Adresse", "NbEnfants",
+                               "Statut", "EmploiMetier", "Grade", "Echelon", "Indice" };
     xmlNodePtr cur_parent = cur;
 
     cur = atteindreNoeud ("Agent", cur);
@@ -1121,54 +1156,54 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
     // Vérification de l'identification de l'agent
 
     if (cur == nullptr)
+    {
+        LOCK_GUARD
+                cerr << ERROR_HTML_TAG "L'agent est non identifié pour le fichier : " << info.threads->argv[info.fichier_courant] << ENDL
+                     << ERROR_HTML_TAG  "Année " << info.Table[info.NCumAgentXml][Annee] << ENDL
+                     << ERROR_HTML_TAG  "Mois "  << info.Table[info.NCumAgentXml][Mois]  << ENDL;
+
+        long lineN = xmlGetLineNo (cur_parent);
+
+        cerr  << WARNING_HTML_TAG "Ligne";
+
+        if (lineN != 65535)
         {
-            LOCK_GUARD
-            cerr << ERROR_HTML_TAG "L'agent est non identifié pour le fichier : " << info.threads->argv[info.fichier_courant] << ENDL
-                 << ERROR_HTML_TAG  "Année " << info.Table[info.NCumAgentXml][Annee] << ENDL
-                 << ERROR_HTML_TAG  "Mois "  << info.Table[info.NCumAgentXml][Mois]  << ENDL;
-
-            long lineN = xmlGetLineNo (cur_parent);
-
-            cerr  << WARNING_HTML_TAG "Ligne";
-
-            if (lineN != 65535)
-                {
-                    cerr << " "
+            cerr << " "
                          << lineN
                          << ENDL;
-                }
-            else
-                {
-                    if (verbeux
-                            && info.ligne_debut.size() > info.NCumAgentXml
-                            && info.ligne_fin.size() > info.NCumAgentXml)
-                        {
-                            cerr << "s "  << info.ligne_debut.at (info.NCumAgentXml)[0] + 1
-                                 << " - " << info.ligne_fin.at (info.NCumAgentXml)[0] + 1 << ENDL;
-                        }
-                }
-
-            if (info.NCumAgentXml &&  info.Table[info.NCumAgentXml - 1].size() > Matricule
-                    && info.Table[info.NCumAgentXml - 1][Matricule] != nullptr)
-
-                cerr << WARNING_HTML_TAG "Matricule précédent : " << info.Table[info.NCumAgentXml - 1][Matricule] << ENDL;
-
-            for (int l :
-                    {
-                         #if LARGEUR == 1
-                         Civilite, Adresse, RefNomenStatutaire, CptBancaire,
-                         #endif
-                         Nom, Prenom, Matricule,
-                         EmploiMetier, Statut, NbEnfants, Grade, Echelon, Indice, NIR
-                    })
-                {
-                    NA_ASSIGN(l);
-                }
-
-            cur = cur_parent;
-            cur = atteindreNoeud ("Service", cur);
-            goto level0;
         }
+        else
+        {
+            if (verbeux
+                    && info.ligne_debut.size() > info.NCumAgentXml
+                    && info.ligne_fin.size() > info.NCumAgentXml)
+            {
+                cerr << "s "  << info.ligne_debut.at (info.NCumAgentXml)[0] + 1
+                     << " - " << info.ligne_fin.at (info.NCumAgentXml)[0] + 1 << ENDL;
+            }
+        }
+
+        if (info.NCumAgentXml &&  info.Table[info.NCumAgentXml - 1].size() > Matricule
+                && info.Table[info.NCumAgentXml - 1][Matricule] != nullptr)
+
+            cerr << WARNING_HTML_TAG "Matricule précédent : " << info.Table[info.NCumAgentXml - 1][Matricule] << ENDL;
+
+        for (int l :
+        {
+     #if LARGEUR >= 1
+             Civilite, Adresse, RefNomenStatutaire, CptBancaire,
+     #endif
+             Nom, Prenom, Matricule,
+             EmploiMetier, Statut, NbEnfants, Grade, Echelon, Indice, NIR
+    })
+        {
+            NA_ASSIGN(l);
+        }
+
+        cur = cur_parent;
+        cur = atteindreNoeud ("Service", cur);
+        goto level0;
+    }
 
     // cur n'est pas nul à ce point
     // Décodage des caractéristiques de l'agent : Nom, Prénom, etc.
@@ -1189,427 +1224,251 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
 
     // if (result) va garantir notamment que le pointeur cur filé implicitement est non nul
 
-#if LARGEUR == 1
+#if LARGEUR >= 1
     BULLETIN_OPTIONNEL_CHAR(Civilite);
+    // Balise optionnelle, il ne faut pas bloquer la suite
 #endif
 
-    result    = BULLETIN_OBLIGATOIRE (Nom);
+        result  &= BULLETIN_OBLIGATOIRE (Nom);
 
-    if (result)
+        if (result)
         {
-            result &= BULLETIN_OBLIGATOIRE (Prenom);
+                BULLETIN_OPTIONNEL_CHAR(Prenom);
 
-            if (result)
+                result &= BULLETIN_OBLIGATOIRE (Matricule);
+
+                if (result)
                 {
-                    result &= BULLETIN_OBLIGATOIRE (Matricule);
-
-                    if (result)
-                        {
-                            result &= BULLETIN_OBLIGATOIRE (NIR);
+                    result &= BULLETIN_OBLIGATOIRE (NIR);
 
 #ifdef TOLERANT_TAG_HIERARCHY       // on refait le parcours depuis le haut en cas d'ordre inexact des balises
-                            cur = cur_save;
+                    cur = cur_save;
 #endif
-#if LARGEUR == 1
-                            xmlNodePtr cur1 = cur;
+#if LARGEUR >= 1
+                    xmlNodePtr cur1 = cur;
 #endif
+                    if (result)
+                    {
+#if LARGEUR >= 1
+                        result &= analyser_adresse(cur, info);
+
+                        if (result)
+                        {
+#endif
+                            result &= BULLETIN_OBLIGATOIRE_NUMERIQUE(NbEnfants);
+
                             if (result)
+                            {
+                                result &= BULLETIN_OBLIGATOIRE (Statut);
+
+                                //  NOTA : on ne contrôle pas le respect du champ Adresse, normalement obligatoire
+                                //  et situé entre NIR et NbEnfants, ce champ devant être regardé comme trop volatile
+                                //  pour que le contrôle s'y attarde.
+
+                                // NOTA2: on ne contrôle pas le champ optionnel:
+                                //
+                                // <RefNomenStatutaire>
+                                //   <Code V="YYX2"/>
+                                //   <Libelle V="..."/>
+                                // </RefNomenStatutaire>
+                                //
+                                // TODO: peut être utile notamment s'agissant des élus.
+                                // Problème: renseigné de manière inconsistante.
+
+                                if (result)
                                 {
-#if LARGEUR == 1
-                                    cur = atteindreNoeud("Adresse", cur);
+#if LARGEUR >= 1
+                                    cur1 = cur;
+                                    cur = atteindreNoeud("RefNomenStatutaire", cur);
 
                                     if (cur)
                                     {
-
                                         xmlNodePtr cur_parent = cur;
-                                        xmlChar *adr1 = nullptr, *adr2 = nullptr, *adr3 = nullptr,
-                                                *cp = nullptr, *ville = nullptr;
-
                                         cur = cur->xmlChildrenNode;
-                                        if (cur)
-                                        {
-                                            ATTEINDRE_NOEUD(Adr1, adr1);
-                                            ATTEINDRE_NOEUD(Adr2, adr2);
-                                            ATTEINDRE_NOEUD(Adr3, adr3);
-                                            ATTEINDRE_NOEUD(CP, cp);
-                                            ATTEINDRE_NOEUD(Ville, ville);
-                                            int l1 = 0, l2 = 0, l2b = 0, l3 = 0, l4 = 0;
+                                        cur1 = cur;
+                                        xmlChar* code = nullptr, *libelle = nullptr;
+                                        result = true;
 
-                                            if (adr1)   l1 = xmlStrlen(adr1);
-                                            if (adr2)   l2 = xmlStrlen(adr2);
-                                            if (adr3)   l2b = xmlStrlen(adr3);
-                                            if (cp)     l3 = xmlStrlen(cp);
-                                            if (ville)  l4 = xmlStrlen(ville);
+                                        ATTEINDRE_NOEUD_OPT(Code, code);
+                                        ATTEINDRE_NOEUD_OPT(Libelle, libelle);
 
-                                            xmlChar buffer[2056] = {0};
-                                            if (l1)
-                                            {
-                                                memcpy(buffer, adr1, l1);
-                                                buffer[l1] = ' ';
-                                            }
-                                            if (l2)
-                                            {
-                                                memcpy(buffer + l1 + 1, adr2, l2);
-                                                buffer[l1 + 1 + l2] = ' ';
-                                            }
-                                            if (l2b)
-                                            {
-                                                memcpy(buffer + l1 + l2 + 2, adr3, l2b);
-                                                buffer[l1 + l2 + 2 + l2b] = ' ';
-                                            }
-                                            if (l3)
-                                            {
-                                                memcpy(buffer + l1 + l2 + l2b + 3, cp, l3);
-                                                buffer[l1 + l2 + l2b + 3 + l3] = ' ';
-                                            }
-                                            if (l4)
-                                            {
-                                                memcpy(buffer + l1 + l2 + l2b + l3 + 4, ville, l4);
-                                            }
-                                            xmlChar* adresse = xmlStrdup((const xmlChar*) buffer);
-                                            if (adr1)  xmlFree(adr1);
-                                            if (adr2)  xmlFree(adr2);
-                                            if (adr3)  xmlFree(adr3);
-                                            if (cp)    xmlFree(cp);
-                                            if (ville) xmlFree(ville);
-                                            if (! adresse) adresse =(xmlChar*) xmlStrdup(NA_STRING);
-                                            info.Table[info.NCumAgentXml][Adresse] = adresse;
-                                            cur = cur_parent;
-                                        }
-                                        else
+                                        int l1 = 0, l2 = 0;
+
+                                        if (code)    l1 = xmlStrlen(code);
+                                        if (libelle) l2 = xmlStrlen(libelle);
+
+                                        xmlChar buffer[1024] = {0};
+                                        if (l1)
                                         {
-                                            cur = cur_parent;
-                                            NA_ASSIGN(Adresse);
+                                            memcpy(buffer, code, l1);
+                                            buffer[l1] = ' ';
                                         }
+                                        if (l2)
+                                        {
+                                            memcpy(buffer + l1 + 1, libelle, l2);
+                                        }
+                                        xmlChar* refnomenstat = xmlStrdup((const xmlChar*) buffer);
+                                        if (code)    xmlFree(code);
+                                        if (libelle) xmlFree(libelle);
+                                        if (! refnomenstat) refnomenstat=(xmlChar*) xmlStrdup(NA_STRING);
+                                        info.Table[info.NCumAgentXml][RefNomenStatutaire] = refnomenstat;
+                                        cur = cur_parent;
                                     }
                                     else
                                     {
                                         cur = cur1;
-                                        NA_ASSIGN(Adresse);
+                                        // Balise optionnelle
+                                        // ile ne faut pas bloquer la suite...
                                     }
 
 #endif
-                                    result &= BULLETIN_OBLIGATOIRE_NUMERIQUE(NbEnfants);
 
+
+                                    result &= BULLETIN_OBLIGATOIRE (EmploiMetier);
                                     if (result)
+                                    {
+#ifdef TOLERANT_TAG_HIERARCHY
+                                        cur = cur_save;
+#endif
+                                        result &= BULLETIN_OBLIGATOIRE (Grade);
+
+                                        if (result)
                                         {
-                                            result &= BULLETIN_OBLIGATOIRE (Statut);
+#ifdef TOLERANT_TAG_HIERARCHY
+                                            cur = cur_save;
+#endif
 
-                                            //  NOTA : on ne contrôle pas le respect du champ Adresse, normalement obligatoire
-                                            //  et situé entre NIR et NbEnfants, ce champ devant être regardé comme trop volatile
-                                            //  pour que le contrôle s'y attarde.
+                                            result &= BULLETIN_OBLIGATOIRE (Echelon);
 
-                                            // NOTA2: on ne contrôle pas le champ optionnel:
-					    //
-					    // <RefNomenStatutaire>
-                                            //   <Code V="YYX2"/>
-                                            //   <Libelle V="..."/>
-                                            // </RefNomenStatutaire>
-					    //
-					    // TODO: peut être utile notamment s'agissant des élus.
-					    // Problème: renseigné de manière inconsistante.
-					    
+                                            // ne pas obligatoirement lire la balise adjacente : fin du niveau subordonné Agent
+
+                                            info.drapeau_cont = false;
+
                                             if (result)
+                                            {
+                                                result &= BULLETIN_OBLIGATOIRE_NUMERIQUE (Indice);
+#ifdef TOLERANT_TAG_HIERARCHY
+                                                cur = cur_save;
+#endif
+                                                if (result)
                                                 {
-#if LARGEUR == 1
-                                                      cur1 = cur;
-                                                      cur = atteindreNoeud("RefNomenStatutaire", cur);
+#if LARGEUR >= 1
+                                                    analyser_compte_bancaire(cur, info);
 
-                                                      if (cur)
-                                                      {
-                                                        xmlNodePtr cur_parent = cur;
-                                                        cur = cur->xmlChildrenNode;
-                                                        cur1 = cur;
-                                                        xmlChar* code = nullptr, *libelle = nullptr;
-
-                                                        ATTEINDRE_NOEUD(Code, code);
-                                                        ATTEINDRE_NOEUD(Libelle, libelle);
-
-                                                        int l1 = 0, l2 = 0;
-
-                                                        if (code)    l1 = xmlStrlen(code);
-                                                        if (libelle) l2 = xmlStrlen(libelle);
-
-                                                        xmlChar buffer[1024] = {0};
-                                                        if (l1)
-                                                        {
-                                                            memcpy(buffer, code, l1);
-                                                            buffer[l1] = ' ';
-                                                        }
-                                                        if (l2)
-                                                        {
-                                                            memcpy(buffer + l1 + 1, libelle, l2);
-                                                        }
-                                                        xmlChar* refnomenstat = xmlStrdup((const xmlChar*) buffer);
-                                                        if (code)    xmlFree(code);
-                                                        if (libelle) xmlFree(libelle);
-                                                        if (! refnomenstat) refnomenstat=(xmlChar*) xmlStrdup(NA_STRING);
-                                                        info.Table[info.NCumAgentXml][RefNomenStatutaire] = refnomenstat;
-                                                        cur = cur_parent;
-                                                    }
-                                                    else
-                                                    {
-                                                        cur = cur1;
-                                                        NA_ASSIGN(RefNomenStatutaire);
-                                                    }
 #endif
-
-                                                    result &= BULLETIN_OBLIGATOIRE (EmploiMetier);
-                                                    if (result)
-                                                        {
-#ifdef TOLERANT_TAG_HIERARCHY
-                                                            cur = cur_save;
-#endif
-                                                            result &= BULLETIN_OBLIGATOIRE (Grade);
-
-                                                            if (result)
-                                                                {
-#ifdef TOLERANT_TAG_HIERARCHY
-                                                                    cur = cur_save;
-#endif
-
-                                                                    result &= BULLETIN_OBLIGATOIRE (Echelon);
-
-                                                                    // ne pas lire la balise adjacente : fin du niveau subordonné Agent
-
-                                                                    info.drapeau_cont = false;
-
-                                                                    if (result)
-                                                                        {
-#ifdef TOLERANT_TAG_HIERARCHY
-                                                                            cur = cur_save;
-#endif
-
-                                                                            result &= BULLETIN_OBLIGATOIRE_NUMERIQUE (Indice);
-#if LARGEUR == 1
-                                                                            cur = atteindreNoeud("CptBancaire", cur);
-                                                                            if (cur)
-                                                                            {
-
-                                                                                // xmlNodePtr cur_parent = cur;
-                                                                                cur = cur->xmlChildrenNode;
-
-                                                                                if (cur)
-                                                                                {
-                                                                                    xmlChar *codeetab = nullptr, *codeguic = nullptr,
-                                                                                            *idcpte = nullptr, *clerib = nullptr,
-                                                                                            *libbanc = nullptr, *titcpte = nullptr,
-                                                                                            *bic = nullptr, *iban = nullptr,
-                                                                                            *dtebanc = nullptr;
-                                                                                    xmlChar buffer[2056] = {0};
-                                                                                    int l5 = 0, l6 = 0, l9 = 0;
-
-                                                                                    cur1 = cur;
-                                                                                    cur = atteindreNoeud("BIC", cur);
-                                                                                    if (cur)
-                                                                                    {
-                                                                                        bic = xmlGetProp (cur, (const xmlChar *) "V");
-
-                                                                                        cur1 = cur;
-                                                                                        ATTEINDRE_NOEUD(IBAN, iban);
-                                                                                        int l7 = 0, l8 = 0;
-
-                                                                                        if (bic)  l7 = xmlStrlen(bic);
-                                                                                        if (iban) l8 =  xmlStrlen(iban);
-
-                                                                                        if (l7)
-                                                                                        {
-                                                                                            memcpy(buffer, bic, l7);
-                                                                                            buffer[l7] = ' ';
-                                                                                        }
-                                                                                        if (l8)
-                                                                                        {
-                                                                                            memcpy(buffer + l7 + 1, iban, l8);
-                                                                                            buffer[l7 + 1 + l8] = ' ';
-                                                                                        }
-                                                                                        ATTEINDRE_NOEUD(LibBanc, libbanc);
-                                                                                        ATTEINDRE_NOEUD(TitCpte, titcpte);
-                                                                                        ATTEINDRE_NOEUD(DteBanc, dtebanc);
-                                                                                        if (libbanc) l5 = xmlStrlen(libbanc);
-                                                                                        if (titcpte) l6 = xmlStrlen(titcpte);
-                                                                                        if (dtebanc) l9 = xmlStrlen(dtebanc);
-                                                                                        if (l5)
-                                                                                        {
-                                                                                            memcpy(buffer + l7 + l8 + 2, libbanc, l5);
-                                                                                            buffer[l7 + l8 + 2 + l5] = ' ';
-                                                                                        }
-                                                                                        if (l6)
-                                                                                        {
-                                                                                            memcpy(buffer + l7 + l8 + l5 + 3, titcpte, l6);
-                                                                                            buffer[l7 + l8 + l5 + 3 + l6] = ' ';
-                                                                                        }
-                                                                                        if (l9)
-                                                                                        {
-                                                                                            memcpy(buffer + l7 + l8 + l5 + l6 + 4, dtebanc, l9);
-                                                                                        }
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        cur = cur1;
-                                                                                        ATTEINDRE_NOEUD(CodeEtab, codeetab);
-                                                                                        ATTEINDRE_NOEUD(CodeGuic, codeguic);
-                                                                                        ATTEINDRE_NOEUD(IdCpte, idcpte);
-                                                                                        ATTEINDRE_NOEUD(CleRib, clerib);
-                                                                                        int l1 = 0, l2 = 0, l3 = 0, l4 = 0;
-                                                                                        if (codeetab)  l1 = xmlStrlen(codeetab);
-                                                                                        if (codeguic)  l2 = xmlStrlen(codeguic);
-                                                                                        if (idcpte)    l3 = xmlStrlen(idcpte);
-                                                                                        if (clerib)    l4 = xmlStrlen(clerib);
-                                                                                        if (l1)
-                                                                                        {
-                                                                                            memcpy(buffer, codeetab, l1);
-                                                                                            buffer[l1] = ' ';
-                                                                                        }
-                                                                                        if (l2)
-                                                                                        {
-                                                                                            memcpy(buffer + l1 + 1, codeguic, l2);
-                                                                                            buffer[l1 + 1 + l2] = ' ';
-                                                                                        }
-                                                                                        if (l3)
-                                                                                        {
-                                                                                            memcpy(buffer + l1 + l2 + 2, idcpte, l3);
-                                                                                            buffer[l1 + l2 + 2 + l3] = ' ';
-                                                                                        }
-                                                                                        if (l4)
-                                                                                        {
-                                                                                            memcpy(buffer + l1 + l2 + l3 + 3, clerib, l4);
-                                                                                            buffer[l1 + l2 + l3 + 3 + l4] = ' ';
-                                                                                        }
-                                                                                        ATTEINDRE_NOEUD(LibBanc, libbanc);
-                                                                                        ATTEINDRE_NOEUD(TitCpte, titcpte);
-                                                                                        ATTEINDRE_NOEUD(DteBanc, dtebanc);
-                                                                                        if (libbanc) l5 = xmlStrlen(libbanc);
-                                                                                        if (titcpte) l6 = xmlStrlen(titcpte);
-                                                                                        if (dtebanc) l9 = xmlStrlen(dtebanc);
-                                                                                        if (l5)
-                                                                                        {
-                                                                                            memcpy(buffer + l1 + l2 + l3 + l4 + 4, libbanc, l5);
-                                                                                            buffer[l1 + l2 + l3 + l4 + 4 + l5] = ' ';
-                                                                                        }
-                                                                                        if (l6)
-                                                                                        {
-                                                                                            memcpy(buffer + l1 + l2 + l3 + l4 + l5 + 5, titcpte, l6);
-                                                                                            buffer[l1 + l2 + l3 + l4 + l5 + 5 + l6] = ' ';
-                                                                                        }
-                                                                                        if (l9)
-                                                                                        {
-                                                                                            memcpy(buffer + l1 + l2 + l3 + l4 + l5 + l6 + 6, dtebanc, l9);
-                                                                                        }
-                                                                                    }
-
-                                                                                xmlChar* rib = xmlStrdup((const xmlChar*) buffer);
-                                                                                if (bic)      xmlFree(bic);
-                                                                                if (iban)     xmlFree(iban);
-                                                                                if (codeetab) xmlFree(codeetab);
-                                                                                if (codeguic) xmlFree(codeguic);
-                                                                                if (idcpte)   xmlFree(idcpte);
-                                                                                if (clerib)   xmlFree(clerib);
-                                                                                if (libbanc)  xmlFree(libbanc);
-                                                                                if (titcpte)  xmlFree(titcpte);
-                                                                                if (dtebanc)  xmlFree(dtebanc);
-                                                                                if (! rib) rib =(xmlChar*) xmlStrdup(NA_STRING);
-                                                                                info.Table[info.NCumAgentXml][CptBancaire] = rib;
-                                                                               }
-                                                                               else
-                                                                               {
-                                                                                  NA_ASSIGN(CptBancaire);
-                                                                               }
-
-                                                                            }
-                                                                            else
-                                                                            {
-
-                                                                                NA_ASSIGN(CptBancaire);
-                                                                            }
-#endif
-
-                                                                            if (! result) na_assign_level = 10;
-                                                                        }
-                                                                    else na_assign_level = 9;
-
-                                                                }
-                                                            else na_assign_level = 8;
-
-                                                        }
-                                                    else na_assign_level = 7;
                                                 }
-                                            else na_assign_level = 6;
+                                                else
+                                                    na_assign_level = 10;
+                                            }
+                                            else
+                                                na_assign_level = 9;
                                         }
-                                    else na_assign_level = 5;
-                                }
-                            else na_assign_level = 4;
-                        }
-                    else na_assign_level = 3;
-                }
-            else na_assign_level = 2;
-        }
-    else na_assign_level = 1;
+                                        else
+                                            na_assign_level = 8;
 
-// Pas de break
-// Ce switch permet d'assigner NA ou 0 sélectivement aux variables d'identification de l'agent qui ne sont pas
-// identifiées faute de données adéquates. Pour une variable de nature caractère (y compris le NIR),
-// assignation de NA; Pour Indice et NbEnfants, assignation de 0.
+                                   }
+                                   else
+                                       na_assign_level = 7;
+
+                               }
+                                else
+                                   na_assign_level = 6;
+
+
+                            }
+                            else
+                            na_assign_level = 5;
+#if LARGEUR >= 1
+                        }
+                        else
+                            na_assign_level = 4;
+#endif
+                    }
+                    else
+                        na_assign_level = 3;
+                }
+                else
+                    na_assign_level = 2;
+        }
+        else
+            na_assign_level = 1;
+
+    // Pas de break
+    // Ce switch permet d'assigner NA ou 0 sélectivement aux variables d'identification de l'agent qui ne sont pas
+    // identifiées si la balise n'est pas trouvée ET qu'il n'y a pas de noeud suivant.
+    // Ce cas arrive notamment en cas de fichier XML corrompu.
+    // Pour une variable de nature caractère (y compris le NIR),
+    // assignation de NA; Pour Indice et NbEnfants, assignation de 0.
 
     switch (na_assign_level)
-        {
-        case 1:
-            NA_ASSIGN (Nom);
-            [[fallthrough]];
+    {
+    case 1:
+        NA_ASSIGN (Nom);
+        [[fallthrough]];
 
-        case 2:
-            NA_ASSIGN (Prenom);
-            [[fallthrough]];
-        case 3:
-            NA_ASSIGN (Matricule);
-            [[fallthrough]];
-        case 4:
-            NA_ASSIGN (NIR);
-            [[fallthrough]];
-        case 5:
-            ZERO_ASSIGN (NbEnfants);
-            [[fallthrough]];
-        case 6:
-            NA_ASSIGN (Statut);
-            [[fallthrough]];
-        case 7:
-            NA_ASSIGN (EmploiMetier);
-            [[fallthrough]];
-        case 8:
-            NA_ASSIGN (Grade);
-            [[fallthrough]];
-        case 9:
-            NA_ASSIGN (Echelon);
-            [[fallthrough]];
-        case 10:
-            ZERO_ASSIGN (Indice);
-            [[fallthrough]];
-        default:
-            break;
-        }
+    case 2:
+        NA_ASSIGN (Matricule);
+        [[fallthrough]];
 
+    case 3:
+        NA_ASSIGN (NIR);
+        [[fallthrough]];
 
+#if LARGEUR >=1
+    case 4:
+        NA_ASSIGN (Adresse);
+        [[fallthrough]];
+#endif
+    case 5:
+        ZERO_ASSIGN (NbEnfants);
+        [[fallthrough]];
+
+    case 6:
+        NA_ASSIGN (Statut);
+        [[fallthrough]];
+
+    case 7:
+        NA_ASSIGN (EmploiMetier);
+        [[fallthrough]];
+
+    case 8:
+        NA_ASSIGN (Grade);
+        [[fallthrough]];
+
+    case 9:
+        NA_ASSIGN (Echelon);
+        [[fallthrough]];
+
+    case 10:
+        ZERO_ASSIGN (Indice);
+        [[fallthrough]];
+
+    default:
+        break;
+    }
 
     if (! result)
+    {
+        if (na_assign_level)
         {
-            if (na_assign_level)
-                {
-                    LOCK_GUARD
-                    cerr << ERROR_HTML_TAG "Problème de conformité des données : absence de la balise obligatoire " << local_tag[na_assign_level - 1] << ENDL;
+            LOCK_GUARD
+            cerr << ERROR_HTML_TAG "Problème de conformité des données : absence de la balise obligatoire " << local_tag[na_assign_level - 1] << ENDL;
+            cerr << ERROR_HTML_TAG "Ligne n°" << xmlGetLineNo(cur) << ENDL;
 
-                    if (verbeux)
-                        {
-                            for (int i = na_assign_level; i < 10; ++i)
-                                cerr << ERROR_HTML_TAG "Les balises suivantes n'ont pas été décodées : " << local_tag[i] << ENDL;
+            if (verbeux)
+            {
+                for (unsigned long i = na_assign_level; i < sizeof(local_tag) / sizeof(char*); ++i)
+                    cerr << ERROR_HTML_TAG "Les balises suivantes n'ont pas été décodées : " << local_tag[i] << ENDL;
 
-                            cerr << ERROR_HTML_TAG "Remontée d'un niveau" ENDL;
-                        }
-                }
+                cerr << ERROR_HTML_TAG "Remontée d'un niveau" ENDL;
 
+            }
+        }
 
 #ifdef STRICT
-            exit (-512);
+        exit (-512);
 #endif
-        }
+    }
 
     // on remonte d'un niveau : décodage de Evenement puis NBI
 
@@ -1623,13 +1482,13 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
 
 level0:
 
-//  Référence
-//
-//    <Evenement>
-//      <Code V="">{1,1}</Code>
-//      <Description V="">{0,1}</Description>
-//    </Evenement>
-//
+    //  Référence
+    //
+    //    <Evenement>
+    //      <Code V="">{1,1}</Code>
+    //      <Description V="">{0,1}</Description>
+    //    </Evenement>
+    //
 
     info.drapeau_cont = true;
 
@@ -1638,76 +1497,76 @@ level0:
     if (cur) cur = cur-> next;
 
     if (cur && xmlStrcmp (cur->name, (const xmlChar*) "Evenement") == 0)
+    {
+        cur_parent = cur;
+        cur = cur->xmlChildrenNode;
+
+        if (cur &&  !xmlIsBlankNode (cur))
         {
-            cur_parent = cur;
-            cur = cur->xmlChildrenNode;
+            info.drapeau_cont = false;
+            BULLETIN_OBLIGATOIRE (Code);
+            cur = cur->next;
 
-            if (cur &&  !xmlIsBlankNode (cur))
-                {
-                    info.drapeau_cont = false;
-                    BULLETIN_OBLIGATOIRE (Code);
-                    cur = cur->next;
+            if (cur)
+            {
+                BULLETIN_OPTIONNEL_CHAR (Description);
+            }
+            else
+            {
+                NA_ASSIGN (Description);
+            }
 
-                    if (cur)
-                        {
-                            BULLETIN_OPTIONNEL_CHAR (Description);
-                        }
-                    else
-                        {
-                            NA_ASSIGN (Description);
-                        }
-
-                    info.drapeau_cont = true;
-                }
-
-            cur = cur_parent->next;
+            info.drapeau_cont = true;
         }
+
+        cur = cur_parent->next;
+    }
     else
-        {
-            NA_ASSIGN (Code);
-            NA_ASSIGN (Description);
-        }
+    {
+        NA_ASSIGN (Code);
+        NA_ASSIGN (Description);
+    }
 
     // Vu la rareté du 2e évenement, il est rationnel de ne pas réserver systématiquement de place en mémoire de type Description2.
     // Mieux vaut concaténer, même si le code est plus lourd et l'allocation de mémoire ponctuellement plus lente : on gagne
     // sur l'allocation-déallocation d'un très grand nombre de champs Description2 non remplis.
 
     if (cur && xmlStrcmp (cur->name, (const xmlChar*) "Evenement") == 0)
+    {
+        cur_parent = cur;
+        cur = cur->xmlChildrenNode;
+
+        if (cur &&  !xmlIsBlankNode (cur))
         {
-            cur_parent = cur;
-            cur = cur->xmlChildrenNode;
+            info.drapeau_cont = false;
 
-            if (cur &&  !xmlIsBlankNode (cur))
-                {
-                    info.drapeau_cont = false;
+            concat (cur, info);
 
-                    concat (cur, info);
+            cur = cur->next;
 
-                    cur = cur->next;
+            if (cur)
+            {
+                concat (cur, info);
+            }
 
-                    if (cur)
-                        {
-                            concat (cur, info);
-                        }
-
-                    info.drapeau_cont = true;
-                }
-
-            cur = cur_parent->next;
+            info.drapeau_cont = true;
         }
+
+        cur = cur_parent->next;
+    }
 
     if (cur)
-        {
-            BULLETIN_OBLIGATOIRE (Service);
-        }
+    {
+        BULLETIN_OBLIGATOIRE (Service);
+    }
     else
-        {
-            LOCK_GUARD
-            cerr << ERROR_HTML_TAG "Service introuvable." ENDL;
+    {
+        LOCK_GUARD
+                cerr << ERROR_HTML_TAG "Service introuvable." ENDL;
 #ifdef STRICT
-            exit (-5);
+        exit (-5);
 #endif
-        }
+    }
 
 #ifdef TOLERANT_TAG_HIERARCHY
     cur = cur_save;
@@ -1724,24 +1583,24 @@ level0:
     int v = 0;
 
     while (cur && xmlStrcmp (cur->name, (const xmlChar*) "NBI") == 0)
-        {
-            v += atoi ((const char*) xmlGetProp (cur, (const xmlChar*) "V"));
-            cur =  cur->next;
-        }
+    {
+        v += atoi ((const char*) xmlGetProp (cur, (const xmlChar*) "V"));
+        cur =  cur->next;
+    }
 
     if (v > 0)
+    {
+        xmlFree (info.Table[info.NCumAgentXml][NBI]);
+        char buffer[12] = {0};
+        sprintf (buffer, "%d", atoi ((const char*)info.Table[info.NCumAgentXml][NBI]) + v);
+        info.Table[info.NCumAgentXml][NBI] = xmlStrdup ((xmlChar*) buffer);
+        if (v > 1 && verbeux)
         {
-            xmlFree (info.Table[info.NCumAgentXml][NBI]);
-            char buffer[12] = {0};
-            sprintf (buffer, "%d", atoi ((const char*)info.Table[info.NCumAgentXml][NBI]) + v);
-            info.Table[info.NCumAgentXml][NBI] = xmlStrdup ((xmlChar*) buffer);
-            if (v > 1 && verbeux)
-            {
-                LOCK_GUARD
-                cerr << WARNING_HTML_TAG << v << " NBI détectées - " << "Année : " << info.Table[info.NCumAgentXml][Annee]
-                     << ", Mois : "  << info.Table[info.NCumAgentXml][Mois]  << ", Matricule : " << info.Table[info.NCumAgentXml][Matricule] << ENDL;
-            }
+            LOCK_GUARD
+                    cerr << WARNING_HTML_TAG << v << " NBI détectées - " << "Année : " << info.Table[info.NCumAgentXml][Annee]
+                            << ", Mois : "  << info.Table[info.NCumAgentXml][Mois]  << ", Matricule : " << info.Table[info.NCumAgentXml][Matricule] << ENDL;
         }
+    }
 
 #ifdef TOLERANT_TAG_HIERARCHY
     cur = cur_save;
@@ -1763,202 +1622,204 @@ level0:
     bool pas_de_ligne_de_paye = false;
 
     if (cur)
+    {
+        xmlNodePtr cur_save = cur;
+
+        // Si la balise <Remuneration> contient des fils
+
+        if (cur != nullptr && (cur =  cur->xmlChildrenNode) != nullptr && ! xmlIsBlankNode (cur))
         {
-            xmlNodePtr cur_save = cur;
+            // ! C'est ici qu'est lancée la fonction de décodage de la ligne de paye proprement dite
 
-            // Si la balise <Remuneration> contient des fils
+            LineCount result = lignePaye (cur, info);
 
-            if (cur != nullptr && (cur =  cur->xmlChildrenNode) != nullptr && ! xmlIsBlankNode (cur))
-                {
-                    // ! C'est ici qu'est lancée la fonction de décodage de la ligne de paye proprement dite
+            // Elle renvoie le nombre de lignes de paye ainsi que l'allocation de mémoire effective
+            // après décodage XML correspondant à ces données "ligne de paye" dans memoire_p_ligne_allouee
 
-                    LineCount result = lignePaye (cur, info);
-
-                    // Elle renvoie le nombre de lignes de paye ainsi que l'allocation de mémoire effective
-                    // après décodage XML correspondant à ces données "ligne de paye" dans memoire_p_ligne_allouee
-
-                    ligne = result.nbLignePaye;
-                    memoire_p_ligne_allouee = result.memoire_p_ligne_allouee;
-                }
-            else
-                // si la balise <Remuneration/> est fermante ou
-                // si <Remuneration>....</Remuneration> ne contient pas de ligne de paye codée
-                // alors on attribue quand même une ligne, codée NA sur tous les champs
-                {
-                    // on devrait utiliser la fonction allouer_ligne_NA mais le problème qui se pose est
-                    // celui de la compatibilité avec la préallocation de mémoire dans fonctions_auxiliaires.cpp
-                    // TODO : mettre en cohérence la préallocation et allouer_ligne_NA
-                    //
-                    //allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
-
-                    if (verbeux)
-                        {
-
-                            LOCK_GUARD
-
-                            long lineN = xmlGetLineNo (cur_save);
-
-                            // Il y a un bug dans la bibliothèque libxml2
-                            // qui dans certains cas bloque lorsque le numéro de ligne du fichier XML renvoyé par xmlGetLineNo est supérieur à 65535
-                            // Ce bug est semi-systématique, certains fichiers y échappent pour des raisons non déterminées
-                            // Lorsqu'il se manifeste, il faut utiliser le vecteur info.ligne_debut et le vecteur info.ligne_fin
-                            // qui indiquent pour l'agent de rang info.NCumAgentXml les numéros de lignes de début et de fin du bulletin de l'agent.
-                            // Manuellement, il est alors assez facile de localiser la balise Remuneration problématique par édition du fichier XML
-
-                            if (lineN == 65535)
-                                {
-                                    cerr << WARNING_HTML_TAG;
-
-                                    if (info.ligne_debut.size() > info.NCumAgentXml && info.ligne_fin.size() > info.NCumAgentXml)
-                                        {
-                                            cerr << "Ligne " << info.ligne_debut.at (info.NCumAgentXml)[0] + 1
-                                                 << " à " << info.ligne_fin.at (info.NCumAgentXml)[0]
-                                                 << " :";
-                                        }
-
-                                    cerr     << " Balise Remuneration sans ligne de paye."  ENDL;
-
-                                }
-                            else
-                                cerr << WARNING_HTML_TAG "Ligne " << lineN <<  " : Balise Remuneration sans ligne de paye."  ENDL; // apparemment ça marche ici...mais pas toujours !
-                        }
-
-                    pas_de_ligne_de_paye =  true;
-
-                }
-
-            cur = cur_save->next;
+            ligne = result.nbLignePaye;
+            memoire_p_ligne_allouee = result.memoire_p_ligne_allouee;
         }
-    else
+        else
+            // si la balise <Remuneration/> est fermante ou
+            // si <Remuneration>....</Remuneration> ne contient pas de ligne de paye codée
+            // alors on attribue quand même une ligne, codée NA sur tous les champs
         {
+            // on devrait utiliser la fonction allouer_ligne_NA mais le problème qui se pose est
+            // celui de la compatibilité avec la préallocation de mémoire dans fonctions_auxiliaires.cpp
+            // TODO : mettre en cohérence la préallocation et allouer_ligne_NA
+            //
+            //allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
+
+            if (verbeux)
             {
+
                 LOCK_GUARD
-                cerr << ERROR_HTML_TAG "Absence de la balise Remuneration " ENDL;
+
+                        long lineN = xmlGetLineNo (cur_save);
+
+                // Il y a un bug dans la bibliothèque libxml2
+                // qui dans certains cas bloque lorsque le numéro de ligne du fichier XML renvoyé par xmlGetLineNo est supérieur à 65535
+                // Ce bug est semi-systématique, certains fichiers y échappent pour des raisons non déterminées
+                // Lorsqu'il se manifeste, il faut utiliser le vecteur info.ligne_debut et le vecteur info.ligne_fin
+                // qui indiquent pour l'agent de rang info.NCumAgentXml les numéros de lignes de début et de fin du bulletin de l'agent.
+                // Manuellement, il est alors assez facile de localiser la balise Remuneration problématique par édition du fichier XML
+
+                if (lineN == 65535)
+                {
+                    cerr << WARNING_HTML_TAG;
+
+                    if (info.ligne_debut.size() > info.NCumAgentXml && info.ligne_fin.size() > info.NCumAgentXml)
+                    {
+                        cerr << "Ligne " << info.ligne_debut.at (info.NCumAgentXml)[0] + 1
+                             << " à " << info.ligne_fin.at (info.NCumAgentXml)[0]
+                             << " :";
+                    }
+
+                    cerr     << " Balise Remuneration sans ligne de paye."  ENDL;
+
+                }
+                else
+                    cerr << WARNING_HTML_TAG "Ligne " << lineN <<  " : Balise Remuneration sans ligne de paye."  ENDL; // apparemment ça marche ici...mais pas toujours !
             }
 
-            // Soit il y a des lignes de paye soit il n'y a rien
-            // premier cas : il y a des lignes de paye, au maximum info.NLigne[info.NCumAgentXml]
+            pas_de_ligne_de_paye =  true;
 
-            if (info.NLigne[info.NCumAgentXml])
-                {
-                    cur = cur_save;
-
-                    for (int k = 0; k < nbType; ++k)
-                        {
-                            cur = atteindreNoeud (type_remuneration[k], cur);
-
-                            if (cur) break;
-                        }
-
-                    // premier sous-cas : pas de ligne de paye stricto sensu
-                    // on avait un cas excessivement rare d'événement codé mais sans ldp
-
-                    if (cur == nullptr)
-                        {
-                            //allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
-                            cur = cur_save;
-
-                            if (verbeux)
-                                {
-                                    LOCK_GUARD
-                                    long  lineN = xmlGetLineNo (cur_save);
-
-                                    cerr << WARNING_HTML_TAG "Absence de lignes de paye également";
-
-                                    if (lineN != 65535)
-                                        cerr << ", ligne : " << lineN;
-
-                                    cerr << ENDL;
-
-                                    if (info.ligne_debut.size() > info.NCumAgentXml
-                                            && info.ligne_fin.size() > info.NCumAgentXml)
-                                        {
-                                            cerr << WARNING_HTML_TAG  "Bulletin entre les lignes "
-                                                 << info.ligne_debut.at (info.NCumAgentXml)[0] + 1 << " et "
-                                                 <<  info.ligne_fin.at (info.NCumAgentXml)[0]
-                                                 << ENDL;
-                                        }
-
-                                }
-
-                            pas_de_ligne_de_paye = true;
-                        }
-                    else
-                        {
-                            if (verbeux)
-                                {
-                                    LOCK_GUARD
-                                    long  lineN = xmlGetLineNo (cur);
-
-                                    cerr << WARNING_HTML_TAG "Lignes de paye néanmoins présentes";
-
-                                    if (lineN != 65535)
-                                        cerr << ", ligne : " << lineN;
-
-                                    cerr << ENDL;
-
-                                    if (info.ligne_debut.size() > info.NCumAgentXml
-                                            && info.ligne_fin.size() > info.NCumAgentXml)
-                                        {
-                                            cerr << WARNING_HTML_TAG  "Bulletin entre les lignes "
-                                                 << info.ligne_debut.at (info.NCumAgentXml)[0] + 1 << " et "
-                                                 <<  info.ligne_fin.at (info.NCumAgentXml)[0]
-                                                 << ENDL;
-                                        }
-                                }
-
-                            LineCount result = lignePaye (cur, info);
-                            ligne = result.nbLignePaye;
-                            memoire_p_ligne_allouee = result.memoire_p_ligne_allouee;
-                        }
-                }
-            else
-                // Il n'y a pas de ligne de paye. On en met quand même une remplie de NAs.
-                {
-                    // allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
-                    cur = cur_save;
-
-                    if (verbeux)
-                        {
-                            LOCK_GUARD
-                            long  lineN = xmlGetLineNo (cur);
-
-                            cerr << WARNING_HTML_TAG "Absence de lignes de paye également";
-
-                            if (lineN != 65535)
-                                cerr << ", ligne : " << lineN;
-
-                            cerr << ENDL;
-
-                            if (info.ligne_debut.size() > info.NCumAgentXml
-                                    && info.ligne_fin.size() > info.NCumAgentXml)
-                                {
-                                    cerr << WARNING_HTML_TAG  "Bulletin entre les lignes "
-                                         << info.ligne_debut.at (info.NCumAgentXml)[0] + 1 << " et "
-                                         <<  info.ligne_fin.at (info.NCumAgentXml)[0]
-                                         << ENDL;
-                                }
-                        }
-
-                    pas_de_ligne_de_paye = true;
-                }
-
-#       if ! NO_DEBUG
-            errorLine_t env = afficher_environnement_xhl (info, nullptr);
-            cerr << env.pres;
-#       endif
-            if (cur_save) cur = cur_save->next;
-
-#       ifdef STRICT
-            exit (-4);
-#       endif
         }
 
-    // Décodage des autres champs : NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer
+        cur = cur_save->next;
+    }
+    else
+    {
+        {
+            LOCK_GUARD
+                    cerr << ERROR_HTML_TAG "Absence de la balise Remuneration " ENDL;
+        }
 
+        // Soit il y a des lignes de paye soit il n'y a rien
+        // premier cas : il y a des lignes de paye, au maximum info.NLigne[info.NCumAgentXml]
+
+        if (info.NLigne[info.NCumAgentXml])
+        {
+            cur = cur_save;
+
+            for (int k = 0; k < nbType; ++k)
+            {
+                cur = atteindreNoeud (type_remuneration[k], cur);
+
+                if (cur) break;
+            }
+
+            // premier sous-cas : pas de ligne de paye stricto sensu
+            // on avait un cas excessivement rare d'événement codé mais sans ldp
+
+            if (cur == nullptr)
+            {
+                //allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
+                cur = cur_save;
+
+                if (verbeux)
+                {
+                    LOCK_GUARD
+                            long  lineN = xmlGetLineNo (cur_save);
+
+                    cerr << WARNING_HTML_TAG "Absence de lignes de paye également";
+
+                    if (lineN != 65535)
+                        cerr << ", ligne : " << lineN;
+
+                    cerr << ENDL;
+
+                    if (info.ligne_debut.size() > info.NCumAgentXml
+                            && info.ligne_fin.size() > info.NCumAgentXml)
+                    {
+                        cerr << WARNING_HTML_TAG  "Bulletin entre les lignes "
+                                                 << info.ligne_debut.at (info.NCumAgentXml)[0] + 1 << " et "
+                                                 <<  info.ligne_fin.at (info.NCumAgentXml)[0]
+                                                  << ENDL;
+                    }
+
+                }
+
+                pas_de_ligne_de_paye = true;
+            }
+            else
+            {
+                if (verbeux)
+                {
+                    LOCK_GUARD
+                    long  lineN = xmlGetLineNo (cur);
+                    cerr << WARNING_HTML_TAG "Lignes de paye néanmoins présentes";
+
+                    if (lineN != 65535)
+                        cerr << ", ligne : " << lineN;
+
+                    cerr << ENDL;
+
+                    if (info.ligne_debut.size() > info.NCumAgentXml
+                            && info.ligne_fin.size() > info.NCumAgentXml)
+                    {
+                        cerr << WARNING_HTML_TAG  "Bulletin entre les lignes "
+                                                 << info.ligne_debut.at (info.NCumAgentXml)[0] + 1 << " et "
+                                                 <<  info.ligne_fin.at (info.NCumAgentXml)[0]
+                                                  << ENDL;
+                    }
+                }
+
+                LineCount result = lignePaye (cur, info);
+                ligne = result.nbLignePaye;
+                memoire_p_ligne_allouee = result.memoire_p_ligne_allouee;
+            }
+        }
+        else
+            // Il n'y a pas de ligne de paye. On en met quand même une remplie de NAs.
+        {
+            // allouer_ligne_NA(info, ligne, memoire_p_ligne_allouee);
+            cur = cur_save;
+
+            if (verbeux)
+            {
+                LOCK_GUARD
+                        long  lineN = xmlGetLineNo (cur);
+
+                cerr << WARNING_HTML_TAG "Absence de lignes de paye également";
+
+                if (lineN != 65535)
+                    cerr << ", ligne : " << lineN;
+
+                cerr << ENDL;
+
+                if (info.ligne_debut.size() > info.NCumAgentXml
+                        && info.ligne_fin.size() > info.NCumAgentXml)
+                {
+                    cerr << WARNING_HTML_TAG  "Bulletin entre les lignes "
+                                         << info.ligne_debut.at (info.NCumAgentXml)[0] + 1 << " et "
+                                         <<  info.ligne_fin.at (info.NCumAgentXml)[0]
+                                          << ENDL;
+                }
+            }
+
+            pas_de_ligne_de_paye = true;
+        }
+
+#       if ! NO_DEBUG
+        errorLine_t env = afficher_environnement_xhl (info, nullptr);
+        cerr << env.pres;
+#       endif
+        if (cur_save) cur = cur_save->next;
+
+#       ifdef STRICT
+        exit (-4);
+#       endif
+    }
+
+    // Décodage des autres champs : NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer
     // obligatoire , substitution du sparateur décimal
 
     result = BULLETIN_OPTIONNEL_NUMERIQUE (NbHeureTotal);
+
+#if LARGEUR == 2
+    result = result & BULLETIN_OPTIONNEL_NUMERIQUE (TauxHor);
+#endif
 
     cur = atteindreNoeud ("NbHeureSup", cur);
 
@@ -1967,39 +1828,101 @@ level0:
     result = result & BULLETIN_OPTIONNEL_NUMERIQUE (NbHeureSup);
     result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE (MtBrut);
     result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE (MtNet);
-
-    info.drapeau_cont = false; // fin du niveau PayeIndivMensuel
     result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE (MtNetAPayer);
 
+#if LARGEUR == 2
+    result = result & BULLETIN_OBLIGATOIRE (DatePaiement);
+    result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE (MtImposable);
+    result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE (CumulMtImposable);
+    result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE(CumulMtBrut);
+
+    // ce drapeau signifie que l'on peut ne plus avoir de champ successeur au même niveau d'enchassement
+    // après la recherche de bulletin de l'expression qui suit l'indications du drapeau.
+
+    info.drapeau_cont = false;
+
+    result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE(CumulBaseSS);
+#endif
+
+    // Pour RepartitionBudget et PJRef un implémentation exacte bouclerait, car les champs sont "unbounded"
+    // Mais c'est rare.
+
     cur_save = cur;
+
+#if LARGEUR >= 1
     cur = atteindreNoeud ("RepartitionBudget", cur);
-    if (cur != nullptr && (cur =  cur->xmlChildrenNode) != nullptr && ! xmlIsBlankNode (cur))
+
+    if (cur == nullptr)
     {
-        BULLETIN_OBLIGATOIRE(CodeBudget);
-        BULLETIN_OPTIONNEL_NUMERIQUE(Taux);   // Normalement obligatoire mais la norme n'est pas toujours respectée
-        BULLETIN_OPTIONNEL_NUMERIQUE(MtBudget);  // Normalement obligatoire mais la norme n'est pas toujours respectée
+        NA_ASSIGN(CodeBudget);
+        NA_ASSIGN(TauxBudget);
+        NA_ASSIGN(MtBudget);
+        cur = cur_save;
     }
     else
     {
-        NA_ASSIGN(CodeBudget);
-        NA_ASSIGN(Taux);
-        NA_ASSIGN(MtBudget);
+        cur_save = cur;
+        if ((cur =  cur->xmlChildrenNode) != nullptr && ! xmlIsBlankNode (cur))
+        {
+            BULLETIN_OBLIGATOIRE(CodeBudget);
+            BULLETIN_OPTIONNEL_NUMERIQUE(TauxBudget);   // Normalement obligatoire mais la norme n'est pas toujours respectée
+            BULLETIN_OPTIONNEL_NUMERIQUE(MtBudget);  // Normalement obligatoire mais la norme n'est pas toujours respectée
+        }
+        else
+        {
+            NA_ASSIGN(CodeBudget);
+            NA_ASSIGN(TauxBudget);
+            NA_ASSIGN(MtBudget);
+        }
+        cur = cur_save;
     }
+#endif
+
+#if LARGEUR == 2
+    cur_save = cur;
+    cur = atteindreNoeud("PJRef", cur);
+
+    if (cur == nullptr)
+    {
+        NA_ASSIGN(Support);
+        NA_ASSIGN(IdUnique);
+        NA_ASSIGN(NomPJ);
+       // cur = cur_save;
+    }
+    else
+    {
+        //cur_save = cur;
+        if ((cur =  cur->xmlChildrenNode) != nullptr && ! xmlIsBlankNode (cur))
+        {
+            BULLETIN_OBLIGATOIRE(Support);
+            BULLETIN_OBLIGATOIRE(IdUnique);
+            BULLETIN_OPTIONNEL_CHAR(NomPJ);
+        }
+        else
+        {
+            NA_ASSIGN(Support);
+            NA_ASSIGN(IdUnique);
+            NA_ASSIGN(NomPJ);
+        }
+        //cur = cur_save;
+    }
+#endif
+
 
     // Tester si le bulletin contient des paiements globaux (MtBrut, MtNetAPayer) sans détail de la liquidation
 
     if (result && pas_de_ligne_de_paye)
-        {
-            test_bulletin_irregulier (info);
-        }
+    {
+        test_bulletin_irregulier (info);
+    }
 
     if (! result)
-        {
-            cerr << ERROR_HTML_TAG "Problème de conformité des données sur les champs des bulletins de paye." ENDL;
+    {
+        cerr << ERROR_HTML_TAG "Problème de conformité des données sur les champs des bulletins de paye." ENDL;
 #ifdef STRICT
-            exit (-513);
+        exit (-513);
 #endif
-        }
+    }
 
     // Si la balise Remuneration est vide, allouer une ligne de NA
 
@@ -2008,3 +1931,245 @@ level0:
 
     return ligne;
 }
+
+#if LARGEUR >= 1
+
+inline bool analyser_adresse(xmlNodePtr& cur, info_t& info)
+{
+
+    xmlNodePtr cur_save = cur;
+    cur = atteindreNoeud("Adresse", cur);
+    bool result = true;
+
+    if (cur)
+    {
+
+        xmlChar *adr1 = nullptr, *adr2 = nullptr, *adr3 = nullptr,
+                *cp = nullptr, *ville = nullptr;
+        cur_save = cur;
+        cur = cur->xmlChildrenNode;
+        if (cur)
+        {
+            xmlNodePtr cur1 = cur;
+            ATTEINDRE_NOEUD_OPT(Adr1, adr1);
+            ATTEINDRE_NOEUD_OPT(Adr2, adr2);
+            ATTEINDRE_NOEUD_OPT(Adr3, adr3);
+            ATTEINDRE_NOEUD(CP, cp);
+            ATTEINDRE_NOEUD_OPT(Ville, ville);
+            int l1 = 0, l2 = 0, l2b = 0, l3 = 0, l4 = 0;
+
+            if (adr1)   l1 = xmlStrlen(adr1);
+            if (adr2)   l2 = xmlStrlen(adr2);
+            if (adr3)   l2b = xmlStrlen(adr3);
+            if (cp)     l3 = xmlStrlen(cp);
+            if (ville)  l4 = xmlStrlen(ville);
+
+            xmlChar buffer[2056] = {0};
+            if (l1)
+            {
+                memcpy(buffer, adr1, l1);
+                buffer[l1] = ' ';
+            }
+            if (l2)
+            {
+                memcpy(buffer + l1 + 1, adr2, l2);
+                buffer[l1 + 1 + l2] = ' ';
+            }
+            if (l2b)
+            {
+                memcpy(buffer + l1 + l2 + 2, adr3, l2b);
+                buffer[l1 + l2 + 2 + l2b] = ' ';
+            }
+            if (l3)
+            {
+                memcpy(buffer + l1 + l2 + l2b + 3, cp, l3);
+                buffer[l1 + l2 + l2b + 3 + l3] = ' ';
+            }
+            if (l4)
+            {
+                memcpy(buffer + l1 + l2 + l2b + l3 + 4, ville, l4);
+            }
+            xmlChar* adresse = xmlStrdup((const xmlChar*) buffer);
+            if (adr1)  xmlFree(adr1);
+            if (adr2)  xmlFree(adr2);
+            if (adr3)  xmlFree(adr3);
+            if (cp)    xmlFree(cp);
+            if (ville) xmlFree(ville);
+            if (! adresse) adresse =(xmlChar*) xmlStrdup(NA_STRING);
+            info.Table[info.NCumAgentXml][Adresse] = adresse;
+            cur = cur_save;
+        }
+        else
+        {
+            cur = cur_save;
+            result = false;
+        }
+    }
+    else
+    {
+        cur = cur_save;
+        result = false;
+    }
+
+    return result;
+}
+
+void analyser_compte_bancaire(xmlNodePtr& cur, info_t& info)
+{
+
+    bool result = true;
+    xmlNodePtr cur_save = cur;
+
+    cur = atteindreNoeud("CptBancaire", cur);
+    if (cur)
+    {
+        cur = cur->xmlChildrenNode;
+
+        if (cur)
+        {
+            xmlChar *codeetab = nullptr, *codeguic = nullptr,
+                    *idcpte = nullptr, *clerib = nullptr,
+                    *libbanc = nullptr, *titcpte = nullptr,
+                    *bic = nullptr, *iban = nullptr,
+                    *dtebanc = nullptr;
+            xmlChar buffer[2056] = {0};
+            xmlNodePtr cur1;
+            int l5 = 0, l6 = 0, l9 = 0;
+
+            cur1 = cur;
+            cur = atteindreNoeud("BIC", cur);
+            if (cur)
+            {
+                bic = xmlGetProp (cur, (const xmlChar *) "V");
+
+                cur1 = cur;
+                ATTEINDRE_NOEUD(IBAN, iban);
+                int l7 = 0, l8 = 0;
+
+                if (bic)  l7 = xmlStrlen(bic);
+                if (iban) l8 =  xmlStrlen(iban);
+
+                if (l7)
+                {
+                    memcpy(buffer, bic, l7);
+                    buffer[l7] = ' ';
+                }
+                if (l8)
+                {
+                    memcpy(buffer + l7 + 1, iban, l8);
+                    buffer[l7 + 1 + l8] = ' ';
+                }
+                ATTEINDRE_NOEUD_OPT(LibBanc, libbanc);
+                ATTEINDRE_NOEUD(TitCpte, titcpte);
+                ATTEINDRE_NOEUD_OPT(DteBanc, dtebanc);
+                if (libbanc) l5 = xmlStrlen(libbanc);
+                if (titcpte) l6 = xmlStrlen(titcpte);
+                if (dtebanc) l9 = xmlStrlen(dtebanc);
+                if (l5)
+                {
+                    memcpy(buffer + l7 + l8 + 2, libbanc, l5);
+                    buffer[l7 + l8 + 2 + l5] = ' ';
+                }
+                if (l6)
+                {
+                    memcpy(buffer + l7 + l8 + l5 + 3, titcpte, l6);
+                    buffer[l7 + l8 + l5 + 3 + l6] = ' ';
+                }
+                if (l9)
+                {
+                    memcpy(buffer + l7 + l8 + l5 + l6 + 4, dtebanc, l9);
+                }
+
+            }
+            else
+            {
+                cur = cur1;
+                ATTEINDRE_NOEUD(CodeEtab, codeetab);
+                ATTEINDRE_NOEUD(CodeGuic, codeguic);
+                ATTEINDRE_NOEUD(IdCpte, idcpte);
+                ATTEINDRE_NOEUD(CleRib, clerib);
+                int l1 = 0, l2 = 0, l3 = 0, l4 = 0;
+                if (codeetab)  l1 = xmlStrlen(codeetab);
+                if (codeguic)  l2 = xmlStrlen(codeguic);
+                if (idcpte)    l3 = xmlStrlen(idcpte);
+                if (clerib)    l4 = xmlStrlen(clerib);
+                if (l1)
+                {
+                    memcpy(buffer, codeetab, l1);
+                    buffer[l1] = ' ';
+                }
+                if (l2)
+                {
+                    memcpy(buffer + l1 + 1, codeguic, l2);
+                    buffer[l1 + 1 + l2] = ' ';
+                }
+                if (l3)
+                {
+                    memcpy(buffer + l1 + l2 + 2, idcpte, l3);
+                    buffer[l1 + l2 + 2 + l3] = ' ';
+                }
+                if (l4)
+                {
+                    memcpy(buffer + l1 + l2 + l3 + 3, clerib, l4);
+                    buffer[l1 + l2 + l3 + 3 + l4] = ' ';
+                }
+                ATTEINDRE_NOEUD_OPT(LibBanc, libbanc);
+                ATTEINDRE_NOEUD(TitCpte, titcpte);
+                ATTEINDRE_NOEUD_OPT(DteBanc, dtebanc);
+                if (libbanc) l5 = xmlStrlen(libbanc);
+                if (titcpte) l6 = xmlStrlen(titcpte);
+                if (dtebanc) l9 = xmlStrlen(dtebanc);
+                if (l5)
+                {
+                    memcpy(buffer + l1 + l2 + l3 + l4 + 4, libbanc, l5);
+                    buffer[l1 + l2 + l3 + l4 + 4 + l5] = ' ';
+                }
+                if (l6)
+                {
+                    memcpy(buffer + l1 + l2 + l3 + l4 + l5 + 5, titcpte, l6);
+                    buffer[l1 + l2 + l3 + l4 + l5 + 5 + l6] = ' ';
+                }
+                if (l9)
+                {
+                    memcpy(buffer + l1 + l2 + l3 + l4 + l5 + l6 + 6, dtebanc, l9);
+                }
+
+            }
+
+            xmlChar* rib = xmlStrdup((const xmlChar*) buffer);
+            if (bic)      xmlFree(bic);
+            if (iban)     xmlFree(iban);
+            if (codeetab) xmlFree(codeetab);
+            if (codeguic) xmlFree(codeguic);
+            if (idcpte)   xmlFree(idcpte);
+            if (clerib)   xmlFree(clerib);
+            if (libbanc)  xmlFree(libbanc);
+            if (titcpte)  xmlFree(titcpte);
+            if (dtebanc)  xmlFree(dtebanc);
+            if (! rib) rib =(xmlChar*) xmlStrdup(NA_STRING);
+            info.Table[info.NCumAgentXml][CptBancaire] = rib;
+        }
+        else
+        {
+            result = false;
+        }
+    }
+    else
+    {
+        result = false;
+    }
+
+    if (! result && verbeux)
+    {
+        LOCK_GUARD
+        cerr << WARNING_HTML_TAG "Données bancaires incomplètes : "
+                       << "Année : " << info.Table[info.NCumAgentXml][Annee]
+                       << " Mois : " << info.Table[info.NCumAgentXml][Mois];
+
+       if (info.Table[info.NCumAgentXml][Matricule] )
+           cerr << " pour le matricule : " << info.Table[info.NCumAgentXml][Matricule]
+                << ENDL;
+    }
+    cur = cur_save;
+}
+#endif

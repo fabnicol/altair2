@@ -1,6 +1,4 @@
 #### 5.3 ASTREINTES ####
-
-
 #'
 #'## 5.3 Contrôle des indemnités pour astreintes    
 #'  

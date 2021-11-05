@@ -488,7 +488,7 @@ void Altair::parseProjectFile (QIODevice* file)
 
     Altair::totalSize = 0;
 
-    for (const QString& maintag : {"data", "systeme"})
+    for (const auto& maintag : {"data", "systeme"})
     {
         if (node.toElement().tagName() != maintag) return;
 
