@@ -48,7 +48,6 @@
 
 #include <QModelIndex>
 #include <QtXml>
-#include <QSettings>
 #include <mutex>
 #include "fstring.h"
 #include "altair.h"
@@ -632,11 +631,7 @@ bool Altair::updateProject (int requestSave)
         RefreshFlag &= ~interfaceStatus::XmlParsed;
     }
     else
-    if (parent->isDefaultSaveProjectChecked()
-           || ((requestSave & update::saveProject) == update::saveProject))
-    {
-            writeProjectFile();
-    }
+           writeProjectFile();
 
     Abstract::initH ("base", path_access (DONNEES_SORTIE));
 
@@ -660,8 +655,6 @@ void Altair::setCurrentFile (const QString &fileName)
             parent->updateRecentFileActions();
 
         }
-
-    parent->settings->setValue ("defaut", QVariant (fileName));
 }
 
 void Altair::assignWidgetValues()
@@ -675,33 +668,7 @@ void Altair::assignWidgetValues()
         {
             FAbstractWidget* composant = w.next();
             const QString key = composant->getHashKey();
-
-            if (! keyList.contains (key))
-                {
-                    textAppend (WARNING_HTML_TAG "Le composant de clé "
-                                + key +
-                                " n'est pas référencé pas dans cette version des fichiers de projet Altaïr"
-                                + (Hash::wrapper["version"]->isEmpty() ? "." :
-                                   " (version" + v(version) + " )."));
-
-                    continue;
-                }
-
-
-            if (key == "XHL")
-                {
-                    if (Altair::RefreshFlag & interfaceStatus::mainTabs)
-                        {
-                            composant->setWidgetFromXml (*Hash::wrapper[key]);
-                        }
-                }
-            else
-                {
-                    if (options::RefreshFlag & interfaceStatus::optionTabs)
-                        {
-                            composant->setWidgetFromXml (*Hash::wrapper[key]);
-                        }
-                }
+            composant->setWidgetFromXml (*Hash::wrapper[key]);
         }
 
     if (v(quiet).isFalse())

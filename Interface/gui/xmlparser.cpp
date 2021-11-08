@@ -48,20 +48,23 @@
 #include "common.h"
 
 
-inline const QString Altair::makeParserString (int start, int end)
+
+inline const QString Altair::makeParserString (xmlCategory start)
 {
     QStringList L = QStringList();
-    auto origin = Abstract::abstractWidgetList.begin();
 
     // Parcourir l'ensemble de la liste abstractWidgetList des fwidgets
 
-    for (auto  u = origin + start; u != Abstract::abstractWidgetList.end() && u <= origin + end; ++u)
+    for (auto  u : Abstract::abstractWidgetList)
         {
-            FAbstractWidget* v = *u;
+            if (start == xmlCategory::systeme)
+            {
+                start = xmlCategory::noblock;
+                continue;
+            }
 
-            if (v == nullptr) return "";
-
-            QString hK = v->getHashKey();
+            if (u == nullptr) continue;
+            QString hK = u->getHashKey();
 
             if (hK.isEmpty())
                 {
@@ -71,17 +74,19 @@ inline const QString Altair::makeParserString (int start, int end)
 
             // Enregistrer le projet XML à partir du contenu des widgets
 
-            QString xml = v->setXmlFromWidget().toQString();
+            QString xml = u->setXmlFromWidget().toQString();
 
             if (hK == "XHL" && xml.isEmpty()) continue;
 
             // La profondeur permet d'ecrire des objets complexes
 
-            QString widgetDepth = v->getDepth();
+            QString widgetDepth = u->getDepth();
 
             L <<  "  <" + hK + " profondeur=\"" + widgetDepth +  "\">\n   "
               + xml
               + "\n  </" + hK + ">\n";
+
+            if (start == xmlCategory::data) break;
         }
 
     // Retourner le QString du projet .alt
@@ -90,20 +95,8 @@ inline const QString Altair::makeParserString (int start, int end)
 }
 
 
-inline const QString  Altair::makeDataString()
-{
-    return  makeParserString (0, 0);
-}
-
-inline const QString  Altair::makeSystemString()
-{
-    return makeParserString (1);
-}
-
-
 void Altair::writeProjectFile()
 {
-
     checkEmptyProjectName();
     QFile projectFile (projectName);
     QErrorMessage *errorMessageDialog = new QErrorMessage (this);
@@ -113,12 +106,12 @@ void Altair::writeProjectFile()
     if (! projectFile.open (QFile::WriteOnly | QFile::Truncate | QFile::Text))
         {
             errorMessageDialog->showMessage ("Impossible d'ouvrir le fichier du projet " + projectName + "\n" + qPrintable (projectFile.errorString()));
+
             QLabel *errorLabel = new QLabel;
             errorLabel->setText (tr ("Si cette case est décochée, ce message "
                                      "ne s'affichera plus à  nouveau."));
             return;
         }
-
 
     QTextStream out (&projectFile);
     out.setEncoding(QStringConverter::Utf8);
@@ -127,19 +120,19 @@ void Altair::writeProjectFile()
         << "<projet version=\"" VERSION "\">\n";
     out << " <data>\n";
 
-    out << Altair::makeDataString();
+    out << Altair::makeParserString(xmlCategory::data);
 
     out << " </data>\n";
     out << " <systeme>\n";
 
-    out << Altair::makeSystemString();
+    out << Altair::makeParserString(xmlCategory::systeme);
 
     out << " </systeme>\n";
 
     out << "</projet>\n";
     out.flush();
-    options::RefreshFlag = interfaceStatus::hasSavedOptions;
 
+    options::RefreshFlag = interfaceStatus::hasSavedOptions;
 }
 
 namespace XmlMethod

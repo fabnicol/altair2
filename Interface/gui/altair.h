@@ -291,6 +291,7 @@ private:
     int row = 0;             ///< Ligne courante de l'onglet sélectionné
     int currentIndex = 0;   ///< Index courant de l'onglet sélectionné
     static qint64 totalSize; ///< Taille des données extraites
+    enum class xmlCategory {data = 0, systeme = 1, noblock = 2};
 
     QHash <int,  QVector<QStringList>> fileSizeDataBase; ///< Table de hashage contenant les tailles de fichier
 
@@ -330,22 +331,13 @@ private:
     /// Parcourt l'ensemble de la liste Abstract::abstractWidgetList des fwidgets (widgets fonctionnels)
     /// Enregistre le projet XML à partir du contenu des fwidgets
     /// \param  start  Index de départ dans la liste (0-based, inclus)
-    /// \param  end    Index de fin dans la liste (0-based, inclus)
     /// \return Retourner le QString du projet \b .alt
     /// \note \e profondeur permet d'ecrire des objets complexes en encodant le degré d'enchâssement (0 à 2)
     /// \note Utilise une des fonctionnalités des FWidget (setXmlFromWidget) qui permet
     /// de transposer l'état du composant en valeurs
     /// \sa FAbstractWidget, FAbstractWidget::setXmlFromWidget
 
-    const QString  makeParserString (int start, int end = Abstract::abstractWidgetList.size() - 1);
-
-    /// Lance  Altair::makeParserString sur le premier item courant de abstractWidgetList (celui des données de paye)
-
-    const QString  makeDataString();
-
-    /// Lance  Altair::makeParserString sur l'ensemble de la liste des FWidgets sauf le premier (tous les widgets sauif les données de paye)
-
-    const QString  makeSystemString();
+    const QString  makeParserString (xmlCategory start);
 
     /// Parcourt la table de chachage  Hash::wrapper dans laquelle sont stockés à la clé "XHL" les chemins
     /// des fichiers de paye des onglets, calcule leur taille, affiche leurs données dans le gestionnaire de projets

@@ -14,6 +14,7 @@ Bugs
             Sévérité : moyenne.
             Idée : parser l'entête pour déterminer l'encodage.
 
-7/11/2021  Bug: Platage écriture bases lorsque PJRef est référencé en paye. 
-           Bug: Platage import bases sous R
+8/11/2021:
+            Pas d'effectivité de la confuration de l'interface dans le projet (restauration non effectuée)
+            Pb au lancement de kate pour l'édition du projet.
            

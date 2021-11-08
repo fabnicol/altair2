@@ -355,7 +355,7 @@
 /// \endcode
 /// - Une dernière façon de charger automatiquement un projet est d'utiliser le projet par défaut.\n
 /// Il est possible de charger automatiquement le projet par défaut en cochant la case <b>Charger le projet par défaut au lancement</b> du dialogue de configuration.\n
-/// Si la case <b>Sauvegarder le projet .alt automatiquement</b> est aussi cochée, le projet par défaut <i>défaut.alt</i> a sauvegardé l'ensemble des paramètres de l'interface décrits dans le  \ref sec_alt1 "tableau des paramètres" avant sa dernière fermeture.\n
+/// Le projet .alt est automatiquement sauvegardé.\n
 /// Au lancement suivant, l'état antérieur de l'interface est alors automatiquement restauré.
 /// \warning Ce paramétrage peut occasionner des plantages de l'interface si les fichiers de paye présents dans le projet automatiquement sauvegardé à la dernière exécution de l'interface ne sont plus présents sur le disque à l'emplacement indiqué par le projet .alt.\n
 /// Dans ce cas, écraser le projet <i>défaut.alt</i>  et relancer.
@@ -426,7 +426,6 @@
 /// <tr><td style="font-weight:bold;">processToolBar</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher la barre d'outils du menu Lancer.</td><td>MainWindow::defaultProcessToolBarBox</td></tr>
 /// <tr><td style="font-weight:bold;">optionsToolBar</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher la barre d'outils du menu Configurer.</td><td>MainWindow::defaultOptionsToolBarBox</td></tr>
 /// <tr><td style="font-weight:bold;">aboutToolBar</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher la barre d'outils du menu Aide.</td><td>MainWindow::defaultAboutToolBarBox</td></tr>
-/// <tr><td style="font-weight:bold;">saveProjectBehavior</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Enregistrer les projet .alt automatiquement à chaque modification d'un paramètre.</td><td>MainWindow::defaultSaveProjectBehaviorBox</td></tr>
 /// <tr><td style="font-weight:bold;">importerAuLancement</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Importer les données de paye du répertoire Données (.xhl/.xml) au lancement de l'interface.</td><td>MainWindow::importerAuLancementBox</td></tr>
 /// <tr><td style="font-weight:bold;">loadProjectBehavior</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Charger le projet .alt par défaut au lancement de l'interface.</td><td>MainWindow::defaultLoadProjectBehaviorBox</td></tr>
 /// <tr><td style="font-weight:bold;">limitConsoleOutput</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Limiter le nombre de lignes du log de l'onglet Console.</td><td>MainWindow::defaultMaximumConsoleOutputBox</td></tr>

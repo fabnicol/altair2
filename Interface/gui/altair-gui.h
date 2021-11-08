@@ -93,7 +93,6 @@ public :
 
     MainWindow (char*);           ///< Constructeur de l'interface graphique
     options* dialog = nullptr;              ///< dialogue d'options
-    QSettings  *settings;         ///< paramètres par défaut mémorisés.
     QStringList recentFiles;      ///< Liste des fichiers de projet \b .alt récents
     QTextEdit* consoleDialog;     ///< Editeur de l'onglet console.
     int   fontsize; ///<Taille de la fonte
@@ -108,13 +107,6 @@ public :
 
     void on_clearOutputTextButton_clicked();           ///< Nettoie l'onglet courant Console ou Messages
 
-    /// Vérifie si par défaut le projet \b .alt doit être enregistré à chaque modification de l'état de l'interface.
-    /// \return Booléen \e true si la case du dialogue de configuration est cochée, \e false sinon
-
-    bool isDefaultSaveProjectChecked()
-    {
-        return  defaultSaveProjectBehaviorBox ? defaultSaveProjectBehaviorBox->isChecked() : true;
-    }
 
     /// Sauvegarde du projet \b .alt selon un chemin à spécifier.
 
@@ -258,7 +250,7 @@ private :
     FCheckBox    *defaultProcessToolBarBox;             ///< Case à cocher du dialogue de configuration : barre d'outils Lancer par défaut
     FCheckBox    *defaultOptionsToolBarBox;             ///< Case à cocher du dialogue de configuration : barre d'outils Options défaut
     FCheckBox    *defaultAboutToolBarBox;               ///< Case à cocher du dialogue de configuration : barre d'outils Aide défaut
-    FCheckBox    *defaultSaveProjectBehaviorBox = nullptr;        ///< Case à cocher du dialogue de configuration : sauvegarder automatiquement le projet par défaut
+
     FCheckBox    *defaultMaximumConsoleOutputBox;       ///< Case à cocher du dialogue de configuration : limiter la longueur du log en console par défaut
     FCheckBox    *defaultQuietBox;                      ///< Case à cocher du dialogue de configuration : réduire la verbosité par défaut
 

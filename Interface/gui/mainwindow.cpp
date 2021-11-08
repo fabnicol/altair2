@@ -86,7 +86,6 @@ MainWindow::MainWindow (char* projectName)
     setGeometry(QRect(width / 2, height / 2, width, height));
     fontsize = 10;
 
-    settings = new QSettings ("altair", "Juridictions Financières");
     raise();
 
     altair = new Altair;
@@ -103,15 +102,6 @@ MainWindow::MainWindow (char* projectName)
         dialog->setParent (altair, Qt::Window);
     }
 
-    if ((settings->value ("defaut").isValid())
-            &&
-            (!settings->value ("defaut").toString().isEmpty()))
-        altair->setCurrentFile (settings->value ("defaut").toString());
-    else
-        {
-            altair->setCurrentFile (projectName);
-            settings->setValue ("defaut", projectName);
-        }
 
     setCentralWidget (altair);
 
@@ -205,8 +195,6 @@ MainWindow::MainWindow (char* projectName)
 
     Altair::RefreshFlag =  Altair::RefreshFlag  | interfaceStatus::parseXml;
 
-    if (settings->value ("loadProjectBehavior") == true)
-        altair->clearInterfaceAndParseProject();
 
     // resetting interfaceStatus::parseXml bits to 0
     Altair::RefreshFlag = Altair::RefreshFlag & (~interfaceStatus::parseXml);
@@ -218,6 +206,8 @@ MainWindow::MainWindow (char* projectName)
     connect (& (altair->process), SIGNAL (finished (int)), this, SLOT (resetTableCheckBox()));
     connect (altair, SIGNAL(substituer_valeurs_dans_script_R()), this, SLOT (substituer_valeurs_dans_script_R()));
 
+    altair->checkEmptyProjectName();
+
     if (projectName[0] != '\0')
         {
             // Paraît étrange... mais c'est pour éviter de lire deux fois le projet
@@ -226,17 +216,17 @@ MainWindow::MainWindow (char* projectName)
             altair->openProjectFileCommonCode();
         }
 
-    // Mettre un lien symbolique dans le dossier xhl vers cdrom
-    // Pour des raisons de dépendances cycliques il faut placer ceci à la fin et dans MainWindow.
+    createDialogs();
 
-    if (! settings->value ("importerAuLancement").isValid())
-        settings->value ("importerAuLancement") = true;
+    QRegularExpression reg(defaultLoadProjectBehaviorBox->getHashKey()
+                           + QString(".*$\\s*oui"),
+                           QRegularExpression::MultilineOption
+                           | QRegularExpression::UseUnicodePropertiesOption);
 
-    if (settings->value ("importerAuLancement") == true)
-        {
-            repaint();
-            altair->importData();
-        }
+    if (reg.match(readFile(altair->projectName)).hasMatch())
+    {
+        altair->openProjectFileCommonCode();
+    }
 }
 
 void MainWindow::substituer_valeurs_dans_script_R()
@@ -363,7 +353,10 @@ void MainWindow::createActions()
     saveAction = new QAction (tr ("&Enregistrer"), this);
     saveAction->setShortcut (QKeySequence ("Ctrl+S"));
     saveAction->setIcon (QIcon (":/images/document-save.png"));
-    connect (saveAction, &QAction::triggered, [this] { altair->updateProject (update::saveProject | update::noWarnRExport); });
+    connect (saveAction, &QAction::triggered, [this] {
+        Altair::RefreshFlag &= ~interfaceStatus::XmlParsed;
+        altair->updateProject (update::saveProject | update::noWarnRExport);
+    });
 
     saveAsAction = new QAction (tr ("En&registrer le projet\ncomme..."), this);
     saveAsAction->setIcon (QIcon (":/images/document-save-as.png"));
@@ -1835,29 +1828,10 @@ void MainWindow::configureOptions()
 
     QGroupBox* behaviorGroupBox = new QGroupBox (tr ("Sauvegarder/Lancer"));
 
-    defaultSaveProjectBehaviorBox = new FCheckBox ("Sauvegarder le projet .alt automatiquement",
-                                                    flags::status::enabledChecked | flags::commandLineType::noCommandLine,
-                                                    "saveProjectBehavior",
-                                                    {"Interface", "Sauvegarder le projet .alt automatiquement"});
-
-    importerAuLancementBox = new FCheckBox ("Charger les données utilisateur au lancement",
-                                            (settings->value ("importerAuLancement") == true ? flags::status::enabledChecked :
-                                                    flags::status::enabledUnchecked)
-                                            | flags::commandLineType::noCommandLine,
-                                            "importerAuLancement",
-    {"Interface", "Charger les données xhl du disque optique\nou du répertoire de données au lancement"});
-
     defaultLoadProjectBehaviorBox = new FCheckBox ("Charger le projet par défaut au lancement",
                                                     flags::status::enabledUnchecked | flags::commandLineType::noCommandLine,
                                                     "loadProjectBehavior",
                                                     {"Interface", "Charger le projet .alt au lancement"});
-
-    // Ces deux cases sont mutuellement exclusives. On aurait pu mettre un FRadioButton à la place. On laisse des FCheckBox par esthétique
-    // et aussi pour éviter de devoir rajouter toute cette classe pour ce seul cas de figure.
-    // apparemment ne fonctionne pas sous Windows si l'ordre des deux instruction est inversé... OK sous Linux.
-
-    defaultLoadProjectBehaviorBox->setDisableObjects ({importerAuLancementBox});
-    importerAuLancementBox->setDisableObjects ({defaultLoadProjectBehaviorBox});
 
     QGroupBox *outputGroupBox = new QGroupBox (tr ("Console"));
 
@@ -1878,10 +1852,7 @@ void MainWindow::configureOptions()
                            << defaultFullScreenLayoutBox;
 
 
-    behaviorWidgetListBox  << defaultSaveProjectBehaviorBox
-                           << defaultLoadProjectBehaviorBox
-                           << importerAuLancementBox;
-
+    behaviorWidgetListBox  << defaultLoadProjectBehaviorBox;
 
     displayToolBarCBoxListBox  <<  defaultFileToolBarBox
                                <<  defaultEditToolBarBox
@@ -1906,15 +1877,16 @@ void MainWindow::configureOptions()
     QVBoxLayout *behaviourLayout = new QVBoxLayout;
     QVBoxLayout *outputLayout = new QVBoxLayout;
 
-    for (FCheckBox* a : displayWidgetListBox)    displayDocksLayout->addWidget (a);
+    for (FCheckBox* a : displayWidgetListBox)    { displayDocksLayout->addWidget (a); Abstract::abstractWidgetList.append(a);}
 
-    for (FCheckBox* a : behaviorWidgetListBox)   behaviourLayout->addWidget (a);
+    for (FCheckBox* a : behaviorWidgetListBox)   { behaviourLayout->addWidget (a); Abstract::abstractWidgetList.append(a);}
 
-    for (FCheckBox* a : outputListBox)           outputLayout->addWidget (a);
+    for (FCheckBox* a : outputListBox)           { outputLayout->addWidget (a); Abstract::abstractWidgetList.append(a); }
 
     for (int i = 0; i < displayToolBarList.size(); ++i)
         {
             displayToolBarsLayout->addWidget (displayToolBarCBoxListBox[i]);
+             Abstract::abstractWidgetList.append(displayToolBarCBoxListBox[i]);
 
             connect (displayToolBarCBoxListBox[i], SIGNAL (toggled (bool)), displayToolBarList[i], SLOT (setVisible (bool)));
         }
@@ -1931,21 +1903,8 @@ void MainWindow::configureOptions()
     layout->addWidget (closeButton, 2, 0);
     contentsWidget->setLayout (layout);
 
-    connect (closeButton, &QDialogButtonBox::accepted,
-             [this]
-    {
-        settings->setValue ("importerAuLancement", importerAuLancementBox->isChecked());
-        settings->setValue ("loadProjectBehavior", defaultLoadProjectBehaviorBox->isChecked());
-
-        if ((isDefaultSaveProjectChecked())
-                || (QMessageBox::Yes == QMessageBox::warning (nullptr, tr ("Sauvegarder le projet"),
-                        tr ("Le projet n'a pas été sauvegardé.\nAppuyer sur Oui pour le sauvegarder\nou sur Non pour fermer le dialogue sans sauvegarder le projet."),
-                        QMessageBox::Yes | QMessageBox::No))
-           )
-            altair->updateProject (update::saveProject | update::noWarnRExport);
-
-        contentsWidget->accept();
-    });
+    connect (closeButton, SIGNAL(accepted()), saveAction, SLOT(trigger()));
+    connect (closeButton, SIGNAL(accepted()), contentsWidget, SLOT(accept()));
 
     /* note on connection syntax
      * Here the new Qt5 connection syntax should be used with care and disregarded when both an action button and an FCheckBox activate a slot as the slots

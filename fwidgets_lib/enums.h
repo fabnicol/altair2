@@ -60,7 +60,7 @@ public:
    enum class update : uint8_t {  noSave = 0x0,
                                   saveProject = 0x1,
                                   noWarnRExport = 0x2,
-                                  warnRExport = 0x3};
+                                  warnRExport = 0x4};
 
    enum class flineframe {isFilePath,     ///< Une ligne d'input qui est  un chemin de fichier
                           isDirectoryPath ///< Une ligne d'input qui est un chemin de répertoire
