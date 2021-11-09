@@ -226,13 +226,11 @@ essayer(label = "+SMPT cat B", print(smpt(Filtre_cat_B)),          "Le salaire m
 #' |    D3            | 23 652   |        |         |        |        |
 #' |    D4            | 24 960   |        |         |        |        | 
 #' |    D5 (médiane)  | 26 244   | 26 820 |  27 000 | 27 216 | 27 768 |28 045
-#'**RMPP nette (salariés présents deux années de
 #' |    D6            | 27 636   |        |         |        |        |
 #' |    D7            | 29 160   |        |         |        |        |
 #' |    D8            | 30 984   |        |         |        |        |
 #' |    D9            | 33 804   | 34 224 | 34 344  | 34 560 | 35 304 |36 460
 #' |  Moyenne         | 26 940   | 27 408 | 27 588  | 27 828 | 28 428 |28 925
-
 #'  
 
 #'   
@@ -414,7 +412,7 @@ detach(Analyse.variations)
 
 ##### 4.3.3 Effet de noria et de variation d'effectifs sur rémunérations moyennes ######
 
-attach(Analyse.variations.pa23 917r.exercice)
+attach(Analyse.variations.par.exercice)
 
 #'   
 #'##### Les filtres RMPP appliqués au 4.3.1 et 4.3.2 ne sont plus appliqués. Il peut en résulter des variations significativement différentes de celles calculees précédemment.
@@ -645,6 +643,7 @@ conditionnel("Rémunérations nettes par service", "Bases/Remunerations/net.serv
 #'[Source RAEFP 2018 données 2016](Docs/RA_2018.pdf)  
 #'[Source RAEFP 2019 données 2017](Docs/RA_2019.pdf)  
 #'[Source RAEFP 2020 données 2018](Docs/RA_2020.pdf)  
+#'[Source RAEFP 2020 données 2019](Docs/RA_2021.pdf)  
    
 incrementer.chapitre()
 

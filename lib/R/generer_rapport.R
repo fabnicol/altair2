@@ -105,7 +105,7 @@ generer_rapport <- function(type = "latex") {
     # lancement de la fabrication du rapport
 
     if (type == "sans") {
-
+      sequentiel <<- TRUE  # override
       res <- source("altair_start.R", encoding = "UTF-8")
 
     } else {
