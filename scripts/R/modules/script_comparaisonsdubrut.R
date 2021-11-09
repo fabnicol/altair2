@@ -20,7 +20,7 @@ conditionnel("Rémunérations brutes par emploi", "Bases/Remunerations/brut.eqtp
 #'## 3.5 Comparaisons source INSEE/DGCL 
 #+ collapse = TRUE
 #'   
-#'*Salaires annnuels bruts moyens 2011-2017 en EQTP (hors assistantes maternelles)*   
+#'*Salaires annnuels bruts moyens 2011-2019 en EQTP (hors assistantes maternelles)*
 #'    
 
 #'  
@@ -32,7 +32,7 @@ hist(1:10)
    
 #+ comparaison-insee1, collapse = TRUE
 
-Tableau.vertical2(c("Agrégat (euros)", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"),
+Tableau.vertical2(c("Agrégat (euros)", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019"),
                   c("Ensemble", "Titulaires", "Autres salariés*"),
                   digits = 0,
                   12 * c(2159, 2223, 1903),
@@ -42,7 +42,9 @@ Tableau.vertical2(c("Agrégat (euros)", "2011", "2012", "2013", "2014", "2015", 
                   12 * c(2282, 2372, 2058),
                   12 * c(2303, 2397, 2069),
                   12 * c(2363, 2456, 2110),
-                  12 * c(2417, 2507, 2110))
+                  12 * c(2417, 2507, 2110),
+                  12 * c(2456, 2548, 2132))
+
 #'  
 #'*  *Contractuels à partir de 2017*  *    
 #'    
@@ -64,27 +66,23 @@ Tableau.vertical2(
   12 * c(2259, 1727, 0, 532),
   c("", "23,6 %", "", "" ),
   12 * c(2287, 1755, 0, 532),
-  c("", "23,6 %", "", "" )
-  )
+  c("", "23,6 %", "", "" ))
 #'      
 #'      
 
 Tableau.vertical2(
-  c("Rém. annuelles", "2014", "Primes", "2015", "Primes", "2016", "Primes", "2018", "Primes"),
+  c("Rém. annuelles",  "2015", "Primes", "2016", "Primes", "2019", "Primes"),
   c("Salaire brut",
     "Traitement brut",
     "Primes et rémunérations annexes",
     "y compris IR et SFT"),
   digits = 0,
-  12 * c(2337, 1788, 0, 549),
-  c("", "23,5 %", "", "" ),
   12 * c(2372, 1818, 0, 554),
   c("", "23,4 %", "", "" ),
   12 * c(2397, 1842, 0, 555),
   c("", "23,2 %", "", "" ),
-  12 * c(2507, 0, 0, 0),
-  c("", "%", "", "" )
-)
+  12 * c(2548, 1923, 0, 625),
+  c("", "24,5 %", "", ""))
 
 
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*   												
@@ -92,10 +90,14 @@ Tableau.vertical2(
 #'[Source INSEE](Docs/ip1486.xls)    
 #'[Source DGCL](Docs/Vue3_Remuneration_2017.xlsx)    
 #'[Source DGCL](Docs/Vue-Remunerations-2018.xlsx)   
+#'[Source DGCL](Docs/Vue-Remunerations-2019.xlsx)
 #'[Source RAEFP 2015](Docs/RA_2015.pdf)   
 #'[Source RAEFP 2016](Docs/RA_2016.pdf)   
 #'[Source RAEFP 2017](Docs/RA_2017.pdf)    
 #'[Source RAEFP 2018](Docs/RA_2018.pdf)    
+#'[Source RAEFP 2019](Docs/RA_2019.pdf)
+#'[Source RAEFP 2020](Docs/RA_2020.pdf)
+#'[Source RAEFP 2021](Docs/RA_2021.pdf)
 #'   
 #'   
 #'## 3.6 Coût chargé  
