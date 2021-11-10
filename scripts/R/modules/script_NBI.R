@@ -29,19 +29,25 @@ conditionnel("Lien vers la base de données NBI aux non titulaires", "Bases/Regl
 #'    
 #'&nbsp;*Tableau 5.1.3 : Contrôle global de la liquidation des NBI*     &nbsp; [![Notice](icones/Notice.png)](Docs/Notices/fiche_NBI_glob.odt)       
 #'    
-essayer({
-with(cumuls.nbi,
+
+attach(cumuls.nbi)
+
+essayer ({
+
+# Ne pas oublier print
+
+print(Tableau.vertical2(c("Annee", "Cumuls des NBI", "Montants versés (a)", "Point d'INM apparent", "Point d'INM moyen", "Contrôle"),
+                Annee,
+                cumul.annuel.indiciaire,
+                cumul.annuel.montants,
+                a <- cumul.annuel.montants/cumul.annuel.indiciaire,
+                b <- PointMensuelIMMoyen[Annee - 2007],
+                ifelse(abs(b - a) > 0.3, "Rouge", ifelse(abs(b - a) > 0.15, "Orange", "Vert"))))
+
+                },
+"Le tableau de contrôle global de la liquidation des NBI n'a pas pu être produit")
      
-     Tableau.vertical2(c("Annee", "Cumuls des NBI", "Montants versés (a)", "Point d'INM apparent", "Point d'INM moyen", "Contrôle"), 
-                       Annee, 
-                       cumul.annuel.indiciaire,
-                       cumul.annuel.montants,
-                       a <- cumul.annuel.montants/cumul.annuel.indiciaire,
-                       b <- PointMensuelIMMoyen[Annee - 2007],
-                       ifelse(abs(b - a) > 0.3, "Rouge", ifelse(abs(b - a) > 0.15, "Orange", "Vert")))
-     
-)
-}, "Le tableau ne peut pas être généré (pas de cumuls de NBI)")
+detach(cumuls.nbi)
 
 #'   
 conditionnel("Lien vers la base de données des cumuls annuels de NBI", "Bases/Fiabilite/cumuls.nbi.csv")   
