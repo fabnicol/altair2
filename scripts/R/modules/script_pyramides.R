@@ -48,7 +48,7 @@ conditionnel("Lien vers la base des âges - fin de periode", "Bases/Effectifs/" 
 
 essayer(produire_pyramides(c("TITULAIRE", "STAGIAIRE"), 
                    "Pyramide des âges des fonctionnaires",
-                   versant = "TIT_" %+% VERSANT_FP,
+                   versant = "",  #"TIT_" %+% VERSANT_FP : à réactiver lorsque les statistiques de pyramides des âges par versant ET statut seront dispo
                    e),  "Impossible de produire la pyramide des fonctionnaires")
 
 #'   
@@ -88,7 +88,7 @@ conditionnel("Lien vers la base des âges - fin de periode", "Bases/Effectifs/" 
 
 essayer(produire_pyramides(c("NON_TITULAIRE"), 
                            "Pyramide des âges des non titulaires", 
-                           versant = "NONTIT_" %+% VERSANT_FP,
+                           versant = "", #"NONTIT_" %+% VERSANT_FP, à réactiver lorsque les statistiques de pyramides des âges par versant ET statut seront dispo
                            e), "Impossible de produire la pyramide des contractuels")
 
 
@@ -158,11 +158,7 @@ conditionnel("Lien vers la base des âges - début de periode", "Bases/Effectifs
 conditionnel("Lien vers la base des âges - fin de periode", "Bases/Effectifs/" %+% e$nom.fichier.apres %+% ".csv")  
 #'[![Notice](icones/Notice.png)](Docs/Notices/fiche_1.odt)    
 #'  
-#'*Source des comparaisons avec les données nationales*      
-#'         
-#'Rapport annuel sur l'état de la fonction publique pour 2016      
-#'[Pyramide 2013 FPH](Docs/insee_pyramide_fph_2013.csv)   
-#'[Pyramide 2013 FPT](Docs/insee_pyramide_fpt_2013.csv)     
+
 
 
 #'*Toutes les pyramides des âges sont établies au 31 décembre de l'annee considérée.*   

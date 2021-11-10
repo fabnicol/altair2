@@ -226,31 +226,6 @@ if (!setOSWindows) {
 
 
 options(encoding="UTF-8")
-scripts <- 
-   list("script_effectifs.R",
-        "script_pyramides.R",
-        "script_dureedeservice.R",
-        "script_rémunérationsbrutes1.R",
-        "script_rémunérationsbrutes2.R",
-        "script_comparaisonsdubrut.R",
-        "script_évolutiondunet.R",
-        "script_NBI.R",
-        "script_HS.R", #+
-        "script_astreintes.R",
-        "script_IATIFTS.R",
-        "script_PFR.R",
-        "script_PSR.R",
-        "script_IPF.R",
-        "script_RIFSEEP.R",
-        "script_PFI.R", #+
-        "script_vacataires.R", #+
-#       "script_NAS.R", #+ [inachevé]
-        "script_élus.R",
-        "script_comptabilité.R",
-        "script_SFT.R",
-        "script_retraites.R",
-        "script_FPH.R",
-        "script_annexe.R")
   
 opts_knit$set(output.dir=getwd())
 
@@ -262,7 +237,32 @@ generer.partie <- function(script, sequentiel = FALSE) {
 }
                             
 if (sequentiel || setOSWindows) {
-  
+
+scripts <-
+   list("script_effectifs.R",
+        "script_pyramides.R",
+        "script_dureedeservice.R",
+        "script_rémunérationsbrutes1.R",
+        "script_rémunérationsbrutes2.R",
+        "script_comparaisonsdubrut.R",
+        "script_évolutiondunet.R",
+        "script_noria.R",
+        "script_NBI.R",
+        "script_HS.R", #+
+        "script_astreintes.R",
+        "script_IATIFTS.R",
+        "script_PFR.R",
+        "script_PSR.R",
+        "script_IPF.R",
+        "script_RIFSEEP.R",
+        "script_PFI.R", #+
+        "script_élus.R",
+        "script_comptabilité.R", #+
+        "script_SFT.R",
+        "script_retraites.R",
+        "script_FPH.R",
+        "script_annexe.R")
+
   generer.partie(scripts, sequentiel)
   
 } else {
@@ -272,7 +272,7 @@ if (sequentiel || setOSWindows) {
   # a) équilibrer les charges des noeuds
   # b) tenir compte des relations de dépendances entre scripts afin d'éviter les files d'attentes et les mutex
   
-  # Les indices donnent l'ordre de numérotation des fichiers  scripts/modulesXX.Rmd, cela permettrait de réordonner éventuellement.
+  # Les indices donnent l'ordre de numérotation des fichiers  scripts/modulesXX.Rmd, cela permet de réordonner.
   
   group1 <- list(list("script_effectifs.R", "a"),
                  list("script_pyramides.R", "b"),
@@ -281,20 +281,20 @@ if (sequentiel || setOSWindows) {
   group2 <- list(list("script_rémunérationsbrutes1.R", "d"),
                  list("script_rémunérationsbrutes2.R", "e"),
                  list("script_comparaisonsdubrut.R", "f"),
-                 list("script_évolutiondunet.R", "g"))
+                 list("script_évolutiondunet.R", "g"),
+                 list("script_noria.R", "h"))
 
-  group3 <- list(list("script_NBI.R", "h"),
-                 list("script_HS.R", "i"),
-                 list("script_astreintes.R", "j"))  
+  group3 <- list(list("script_NBI.R", "i"),
+                 list("script_HS.R", "j"),
+                 list("script_astreintes.R", "k"))
 
-  group4 <- list(list("script_IATIFTS.R", "k"),
-                 list("script_PFR.R", "l"),
-                 list("script_PSR.R", "m"),
-                 list("script_IPF.R", "n"),
-                 list("script_RIFSEEP.R", "o"))
+  group4 <- list(list("script_IATIFTS.R", "l"),
+                 list("script_PFR.R", "m"),
+                 list("script_PSR.R", "n"),
+                 list("script_IPF.R", "o"),
+                 list("script_RIFSEEP.R", "p"))
 
-  group5 <- list(list("script_PFI.R", "p"),
-                 list("script_vacataires.R", "q"),
+  group5 <- list(list("script_PFI.R", "q"),
                  list("script_élus.R", "r"))
 
   group6 <- list(list("script_comptabilité.R", "s"),

@@ -28,10 +28,9 @@
 "script_rémunérationsnettes"     %a% TRUE    
 "script_rmppetnoria"             %a% TRUE    
 "script_évolutiondunet"          %a% TRUE    
+"script_noria"                   %a% TRUE
 "script_NBI"                     %a% TRUE    
 "script_PFI"                     %a% TRUE    
-"script_vacataires"              %a% TRUE    
-"script_NAS"                     %a% TRUE    
 "script_IATIFTS"                 %a% TRUE    
 "script_PFR"                     %a% TRUE    
 "script_PSR"                     %a% TRUE    

@@ -9,7 +9,7 @@
 #'&nbsp;*Tableau 5.2.1 : Paiements au-delà des seuils de liquidation pour l'exercice* 
 #'    
 
-# On considère le taux horaire maximum de nuit et la somme des IHTS et on teste su la somme des IHTS est supérieures à ce que donnerait l'application du taux de nuit
+# On considère le taux horaire maximum de nuit et la somme des IHTS et on teste si la somme des IHTS est supérieures à ce que donnerait l'application du taux de nuit
 
 # Vérification des seuils annuels :
 
