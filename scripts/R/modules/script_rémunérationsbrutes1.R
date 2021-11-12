@@ -68,14 +68,10 @@ essayer({
 print(Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Brut annuel (bulletins)",
-                    "Brut annuel (lignes) :",
                     "\\ dont \\ Primes :",
-                    "\\ dont \\ Autres rémunérations",
                     "Part de primes en %"),
                   c(masses.personnels$Montant.brut.annuel,
-                    masses.personnels$total.lignes.paie,
                     masses.personnels$rémunération.indemnitaire.imposable,
-                    masses.personnels$acomptes,
                     masses.personnels$rémunération.indemnitaire.imposable/masses.personnels$Montant.brut.annuel * 100)))
 }, "Le tableau des rémunérations brutes pour l'ensemble des personnels n'a pas pu être généré.")
 
@@ -83,34 +79,10 @@ print(Tableau.vertical2(c("Agrégats",
 #'**Définitions :**
 #'
 #'  *Brut annuel (bulletins)*   : somme du champ *Brut*    
-#'  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :    
-#'  *Primes*                    : indemnités sauf remboursements, certaines IJSS, indemnités d'élu le cas échéant, Supplément familial de traitement et Indemnité de résidence        
-#'  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
+#'  *Primes*                    : indemnités sauf remboursements, certaines IJSS, 
+#'  indemnités d'élu le cas échéant, Supplément familial de traitement et Indemnité de résidence        
+#'  Ne sont pas pris en compte : acomptes, retenues sur brut, rémunérations diverses, rappels   
 #'  
-
-#'**Tests de cohérence**
-#'
-#'Somme des rémunérations brutes versées aux personnels (non élus) :  
-#'  
-#'  
-#'&nbsp;*Tableau 2.1.2*   
-#'    
-essayer({
-print(Tableau.vertical2(c("Agrégats",
-                    "k&euro;"),
-                  c("Bulletins de paie ",
-                    "Lignes de paie ",
-                    "Difference "),
-                  c(masses.personnels$Montant.brut.annuel,
-                    masses.personnels$total.lignes.paie,
-                    masses.personnels$Montant.brut.annuel -
-                      masses.personnels$total.lignes.paie)))
-}, "Le tableau de cohérence pour l'ensemble des personnels n'a pas pu être généré.")
-
-#'
-#'à comparer aux soldes des comptes 641 et 648 du compte de gestion.
-#'
-
 #'   
 #'## 2.2 Rémunérations brutes des fonctionnaires
 #'
@@ -127,11 +99,6 @@ source("histogrammes.R", encoding = encodage.code.source)
 
 detach(AR)
 #'    
-#'**Nota :**   
-#'*Cet histogramme décrit l'évolution de la rémunération moyenne des personnes en place (RMPP), définies comme présentes deux annees entières consécutives avec la même quotité*   
-#'*L'évolution de la RMPP permet d'étudier le glissement vieillesse-technicité "positif", à effectifs constants sur deux années*      
-#'    
-#'  
 cat("**Effectif : ", nrow(AR), "**\n")
 #'   
 
@@ -139,7 +106,10 @@ cat("**Effectif : ", nrow(AR), "**\n")
 #'**Tests de cohérence**
 
 if (nrow(AR) > 0) {
-  masses.fonct <- AR[ , lapply(.(Montant.brut.annuel, rémunération.indemnitaire.imposable, total.lignes.paie, acomptes), sum, na.rm = TRUE)]
+  masses.fonct <- AR[ , 
+                      lapply(.(Montant.brut.annuel, 
+                               rémunération.indemnitaire.imposable, 
+                               total.lignes.paie, acomptes), sum, na.rm = TRUE)]
   
 } else {
   masses.fonct <- c(0,0) 
@@ -154,14 +124,10 @@ essayer({
 print(Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Brut annuel (bulletins)",
-                    "Brut annuel (lignes) : ",
                     "\\ dont \\ \\ primes :",
-                    "\\ dont \\ autres rémunérations :",
                     "Part de primes en %"),
                   c(masses.fonct[[1]],  
-                    masses.fonct[[3]],
                     masses.fonct[[2]],
-                    masses.fonct[[4]],
                     masses.fonct[[2]]/masses.fonct[[1]] * 100)))
 }, "Le tableau des rémunérations brutes pour les focntionnaires n'a pas pu être généré.")
 
@@ -169,9 +135,8 @@ print(Tableau.vertical2(c("Agrégats",
 #'**Définitions :**
 #'
 #'  *Brut annuel (bulletins)*   : somme du champ *Brut*   
-#'  *Brut annuel (lignes)*      : somme du champ *Montant* des lignes de paye, dont :   
-#'  *Primes*                    : indemnités sauf remboursements, certaines IJSS, Supplément familial de traitement et Indemnité de résidence       
-#'  *Autres rémunérations*      : acomptes, retenues sur brut, rémunérations diverses, rappels   
+#'  *Primes*                    : indemnités sauf remboursements, certaines IJSS, 
+#'  Supplément familial de traitement et Indemnité de résidence       
 #'
 #'**Tests de cohérence**
 #'
@@ -184,17 +149,11 @@ essayer({
 print(Tableau.vertical2(c("Agrégats",
                     "k&euro;"),
                   c("Bulletins de paie ",
-                    "Lignes de paie ",
                     "Difference "),
                   c(masses.fonct[[1]],  # Brut
-                    masses.fonct[[3]],  # lignes
                     masses.fonct[[1]] -
                       masses.fonct[[3]])))
-
 }, "Le tableau de cohérence pour les fonctionnaires n'a pas pu être généré.")
-
-#'
-#'A comparer aux soldes des comptes 6411, 6419 et 648 du compte de gestion.
 
 #'   
 cat("**Formation et distribution du salaire brut moyen par tête (SMPT) en EQTP pour l'annee ", annee, "**\n")     
@@ -278,8 +237,6 @@ essayer({
   cat("Pas de statistiques par categorie.\n")
 }
 #'
-
-
 #'  
 #'&nbsp;*Tableau 2.2.6*   
 #'    
@@ -299,7 +256,6 @@ if (analyse.par.categorie) {
 } else {
   cat("Pas de statistiques par categorie.\n")
 }
-
 
 #'  
 cat("**Effectif : ", nrow(ARA), "**\n")
@@ -502,20 +458,13 @@ essayer({
 }, "Le tableau des quartiles pour la categorie C n'a pas pu être généré.")
 
 #'
-
-
 # pour année fin #
 
 rm(Analyse.remunerations.exercice)
 
-
-
 #'  
 conditionnel("Lien vers la base des rémunérations", "Bases/Remunerations/Analyse.remunerations.csv")  
 #'   
-
-
-
 
 newpage()
 
