@@ -27,7 +27,8 @@
 "script_comparaisonsdubrut"      %a% TRUE    
 "script_rémunérationsnettes"     %a% TRUE    
 "script_rmppetnoria"             %a% TRUE    
-"script_évolutiondunet"          %a% TRUE    
+"script_évolutiondunet"          %a% TRUE
+"script_parite"                  %a% TRUE
 "script_noria"                   %a% TRUE
 "script_NBI"                     %a% TRUE    
 "script_PFI"                     %a% TRUE    

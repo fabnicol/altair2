@@ -247,6 +247,7 @@ scripts <-
         "script_comparaisonsdubrut.R",
         "script_évolutiondunet.R",
         "script_noria.R",
+        "script_parite.R",
         "script_NBI.R",
         "script_HS.R", #+
         "script_astreintes.R",
@@ -282,26 +283,27 @@ scripts <-
                  list("script_rémunérationsbrutes2.R", "e"),
                  list("script_comparaisonsdubrut.R", "f"),
                  list("script_évolutiondunet.R", "g"),
-                 list("script_noria.R", "h"))
+                 list("script_noria.R", "h"),
+                 list("script_parite.R", "i"))
 
-  group3 <- list(list("script_NBI.R", "i"),
-                 list("script_HS.R", "j"),
-                 list("script_astreintes.R", "k"))
+  group3 <- list(list("script_NBI.R", "ji"),
+                 list("script_HS.R", "k"),
+                 list("script_astreintes.R", "l"))
 
-  group4 <- list(list("script_IATIFTS.R", "l"),
-                 list("script_PFR.R", "m"),
-                 list("script_PSR.R", "n"),
-                 list("script_IPF.R", "o"),
-                 list("script_RIFSEEP.R", "p"))
+  group4 <- list(list("script_IATIFTS.R", "m"),
+                 list("script_PFR.R", "n"),
+                 list("script_PSR.R", "o"),
+                 list("script_IPF.R", "p"),
+                 list("script_RIFSEEP.R", "q"))
 
-  group5 <- list(list("script_PFI.R", "q"),
-                 list("script_élus.R", "r"))
+  group5 <- list(list("script_PFI.R", "r"),
+                 list("script_élus.R", "s"))
 
-  group6 <- list(list("script_comptabilité.R", "s"),
-                 list("script_SFT.R", "t"),
-                 list("script_retraites.R", "u"),
-                 list("script_FPH.R", "v"),
-                 list("script_annexe.R", "w"))
+  group6 <- list(list("script_comptabilité.R", "t"),
+                 list("script_SFT.R", "u"),
+                 list("script_retraites.R", "v"),
+                 list("script_FPH.R", "w"),
+                 list("script_annexe.R", "x"))
   
   library(parallel)
   

@@ -1,6 +1,7 @@
 #'  
-#' 4.5 Disparités de rémunérations entre les femmes et les hommes
+#'## 4.6 Disparités de rémunérations entre les femmes et les hommes   
 #'  
+
 
 Analyse.remunerations[Categorie %in% c("A", "B", "C") 
                & ! is.na(Montant.net.annuel.eqtp) 
@@ -59,48 +60,73 @@ Analyse.remunerations[Categorie %in% c("A", "B", "C")
 #'    
 #'  
 
-kable(T1a, 
-      caption = "Rémunérations nettes annuelles en EQTP en euros et effectifs physiques des fonctionnaires et emplois fonctionnels hommes et femmes" 
-                %+% "\n\t\tsur la période " %+% periode[1] %+% " - " %+% periode[length(periode)],
-      format.args = list(big.mark =' '))
+cat("**Rémunérations nettes annuelles en EQTP en euros et effectifs physiques des fonctionnaires et emplois fonctionnels hommes et femmes ",    
+"sur la période ", debut.periode.sous.revue, " - ", fin.periode.sous.revue, "**  ")    
+
+#'  
+#'&nbsp;*Tableau 4.6.1*  
+#'  
+
+kable(T1a, format.args = list(big.mark =' '))
 
 #'  
 #'  
-kable(T1, 
-      caption = "Rémunérations nettes en EQTP en euros et effectifs physiques des fonctionnaires et emplois fonctionnels hommes et femmes"
-                 %+%  "\n\t\tpar catégorie statutaire" %+% " sur la période " %+% periode[1] %+% " - " %+% periode[length(periode)], 
-      format.args = list(big.mark =' '))
-#'    
-#'    
-
-kable(T2a, 
-      caption = "Rémunérations nettes en EQTP en euros et effectifs physiques des contractuels (hors emplois aidés) hommes et femmes"
-                 %+% "\n\t\tsur la période " %+% periode[1] %+% " - " %+% periode[length(periode)],
-      format.args = list(big.mark =' '))
-
+cat("**Rémunérations nettes en EQTP en euros et effectifs physiques des fonctionnaires et emplois fonctionnels hommes et femmes",    
+"par catégorie statutaire, sur la période", debut.periode.sous.revue, " - ", fin.periode.sous.revue, "**  ")
+   
 #'  
+#'&nbsp;*Tableau 4.6.2*  
 #'  
 
-kable(T2, 
-      caption = "Rémunérations nettes en EQTP en euros et effectifs physiques des contractuels (hors emplois aidés) hommes et femmes"
-      %+% "\n\t\tpar catégorie statutaire"
-      %+% " sur la période " %+% periode[1] %+% " - " %+% periode[length(periode)], 
-      format.args = list(big.mark =' '))
+kable(T1, format.args = list(big.mark =' '))
 
 #'    
 #'    
 
-kable(T3,
-      caption = "Ecarts de rémunérations et d'effectifs physiques des femmes par rapport aux hommes en %"
-      %+% "\n\t\tChamp des fonctionnaires et emplois fonctionnels"
-      %+% " sur la période " %+% periode[1] %+% " - " %+% periode[length(periode)])
+cat("**Rémunérations nettes en EQTP en euros et effectifs physiques des contractuels (hors emplois aidés) hommes et femmes sur la période ", 
+    debut.periode.sous.revue, " - ", fin.periode.sous.revue, "**  ")
+
+#'  
+#'&nbsp;*Tableau 4.6.3*  
+#'  
+
+kable(T2a, format.args = list(big.mark =' '))
+
+#'  
+cat("**Rémunérations nettes en EQTP en euros et effectifs physiques des contractuels (hors emplois aidés) hommes et femmes",   
+"par catégorie statutaire, sur la période ", debut.periode.sous.revue, " - ", fin.periode.sous.revue, "**  ")
+
+#'  
+
+
+#'  
+#'&nbsp;*Tableau 4.6.4*  
+#'  
+
+kable(T2, format.args = list(big.mark =' '))
+
 
 #'    
-#'    
+#'   
+cat("**Ecarts de rémunérations et d'effectifs physiques des femmes par rapport aux hommes en % sur la période ", debut.periode.sous.revue, " - ", fin.periode.sous.revue,
+"- champ des fonctionnaires et emplois fonctionnels**  ")
 
-kable(T4,
-      caption = "Ecarts de rémunérations et d'effectifs physiques des femmes par rapport aux hommes en % "
-      %+% "\n\t\tChamp des contractuels (hors emplois aidés)"
-      %+% " sur la période " %+% periode[1] %+% " - " %+% periode[length(periode)])
+#'   
+#'  
+#'&nbsp;*Tableau 4.6.5*  
+#'  
 
-# Remplacer Analyse.remunerations par Analyse.rémunérations après avoir intégré le sexe 
+
+kable(T3)
+
+#'  
+#'&nbsp;*Tableau 4.6.6*  
+#'  
+#'   
+
+cat("**Ecarts de rémunérations et d'effectifs physiques des femmes par rapport aux hommes en % - champ des contractuels (hors emplois aidés) sur la période", 
+    debut.periode.sous.revue, " - ", fin.periode.sous.revue, "**    ")
+
+#'   
+
+kable(T4)

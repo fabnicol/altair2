@@ -27,9 +27,7 @@ conditionnel("Rémunérations brutes par emploi", "Bases/Remunerations/brut.eqtp
 #'&nbsp;*Tableau 3.5.1*  
 #'  
 
-#' collapse = TRUE
-hist(1:10)
-   
+
 #+ comparaison-insee1, collapse = TRUE
 
 Tableau.vertical2(c("Agrégat (euros)", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019"),
