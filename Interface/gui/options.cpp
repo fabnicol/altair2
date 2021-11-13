@@ -519,7 +519,6 @@ void codePage::substituer_valeurs_dans_script_R()
 
 int rapportPage::ajouterVariable (const QString& nom)
 {
-
     // ligne de codes de primes nom
     QString NOM = nom.toUpper();
     
@@ -530,6 +529,8 @@ int rapportPage::ajouterVariable (const QString& nom)
     
     // Ajouter ici les FCheckBox en pile dans listeCB
 
+    box->set_tag(nom);
+
     listeCB << box;
     int size = listeCB.size() - 1;    
     vLayout->addWidget (listeCB.last(), size  % 13, size / 13, Qt::AlignLeft);
@@ -538,93 +539,62 @@ int rapportPage::ajouterVariable (const QString& nom)
 }
 
 
-void rapportPage::ajusterDependances(int i)
+void rapportPage::ajusterDependances(const QString& s, bool checked)
 {
-    QVector<int> L, M;
-    switch (i)
+    QStringList L, M;
+
+    if (s == "effectifs")
     {
-     case 0:
-        if (! listeCB[0]->isChecked())
-            {
-                L << 1 << 2 ;  // Effectifs nécessaires pour pyramides et durée de service
-            }
-        if (listeCB[0]->isChecked())
-        {
-            M << 1 << 2 ;  // Effectifs nécessaires pour pyramides et durée de service
-        }
-        break;
-       
-     case 3:
-        if (! listeCB[3]->isChecked())
-            {
-                L << 4;  // Rémunérations et comparaisons du brut liées
-            }
-        if (listeCB[3]->isChecked())
-        {
-            M << 4;  // Rémunérations et comparaisons du brut liées
-        }
-        
-        break;
-        
-     case 5: 
-         if (! listeCB[5]->isChecked())
-            {
-                L << 6 << 7; // Rémunérations nettes liées à RMPP/noria et évolutions du net
-            }
-         if (listeCB[5]->isChecked())
-         {
-             M <<  6 << 7; // Rémunérations nettes liées à RMPP/noria et évolutions du net
-         }
-         
-        break;
-         
-     case 8:    
-        if (! listeCB[8]->isChecked())
-        {
-            L << 11 << 18;  // NBI nécessaire pour contrôle NAS et astreintes
-        }
-        if (listeCB[8]->isChecked())
-        {
-            M << 11 << 18;  // NBI nécessaire pour contrôle NAS et astreintes
-        }
-        break;
-     
-     case 12:   
-        if (! listeCB[12]->isChecked())
-        {
-            L << 13 << 14 << 15 << 16;  // cumuls indemnités et IFTS
-        }
-        if (listeCB[12]->isChecked())
-        {
-            M << 13 << 14 << 15 << 16;  // cumuls indemnités et IFTS
-        }
-        
-        break;
-        
-     case 17:   
-        if (! listeCB[17]->isChecked())
-        {
-            L << 18; //HS et astreintes liées
-        }
-        if (listeCB[17]->isChecked())
-        {
-            M << 18; //HS et astreintes liées
-        }
-        break;
-     
-     case 20:   
-        if (! listeCB[20]->isChecked())
-        {
-            L << 24; // comptabilité et annexe liées par objet code.libelle
-        }
-        if (listeCB[20]->isChecked())
-        {
-            M << 24; // comptabilité et annexe liées par objet code.libelle
-        }
-        break;
+             L << "pyramides" << "durée de service" ;  // Effectifs nécessaires pour pyramides et durée de service
+             M << "pyramides" << "durée de service" ;  // Effectifs nécessaires pour pyramides et durée de service
     }
-    for (int l : L) listeCB[l]->setEnabled(false); // si la case maître est décochée alors désactiver les cases dépendantes
-    for (int m : M) listeCB[m]->setEnabled(true);  // si la case maître est réactivée alors réactiver les cases dépendantes 
+    else
+    if (s == "rémunérations brutes")
+    {
+             L << "comparaisons du brut";  // Rémunérations et comparaisons du brut liées
+             M << "comparaisons du brut";  // Rémunérations et comparaisons du brut liées
+    }
+    else
+    if (s == "évolution du net")
+    {
+             L << "rmpp"; // Rémunérations nettes liées à RMPP/noria et évolutions du net
+             M << "rmpp"; // Rémunérations nettes liées à RMPP/noria et évolutions du net
+    }
+    else
+    if (s == "noria")
+    {
+        L = {}; // Rémunérations nettes liées à RMPP/noria et évolutions du net
+        M << "rémunérations nettes" <<  "évolution du net" << "rmpp"; // Rémunérations nettes liées à RMPP/noria et évolutions du net
+    }
+    else
+    if (s == "astreintes")
+    {
+             L = {}; //HS et astreintes liées
+             M << "HS"; //HS et astreintes liées
+    }
+    else
+    if (s == "comptabilité")
+    {
+            L << "annexe"; // comptabilité et annexe liées par objet code.libelle
+            M << "annexe"; // comptabilité et annexe liées par objet code.libelle
+    }
+
+    if (checked)
+    {
+      for (auto&& l : listeCB)
+          if (M.contains(l->get_tag()))
+          {
+              l->setChecked(true); // si la case maître est réactivée alors réactiver les cases dépendantes
+          }
+    }
+    else
+    {
+      for (auto&& l : listeCB)
+          if (L.contains(l->get_tag()))
+          {
+              l->setChecked(false);
+          } // si la case maître est décochée alors désactiver les cases dépendantes
+    }
 }
 
 rapportPage::rapportPage()
@@ -637,21 +607,30 @@ rapportPage::rapportPage()
     appliquerCodes->setToolTip ("Appuyer pour modifier la sélection <br>    "
                                 "des parties des rapports d'analyse.   ");
     appliquerCodes->setCheckable (true);
-    variables << "effectifs" << "pyramides" << "durée de service" << "rémunérations brutes" << "comparaisons du brut" 
-              << "rémunérations nettes" << "rmpp et noria" << "évolution du net" << "NBI" << "PFI" 
-              << "vacataires" << "NAS" << "IAT IFTS" << "PFR" << "PSR" 
-              << "IPF" << "RIFSEEP" << "HS" << "astreintes" << "élus" 
-              << "comptabilité" << "SFT" << "retraites" << "FPH" << "annexe";  
+
+    variables << "effectifs" << "pyramides" << "durée de service"
+              << "rémunérations brutes" << "comparaisons du brut"
+              << "rémunérations nettes" << "rmpp" << "évolution du net"
+              << "noria"
+              << "NBI" << "PFI"
+              << "IAT IFTS" << "PFR" << "PSR"
+              << "IPF" << "RIFSEEP" << "HS"
+              << "astreintes"   << "élus"
+              << "comptabilité" << "SFT" << "retraites"
+              << "FPH" << "annexe";
     
     int index = 0;
 
     // Pour chacun des membres de variables, ajouter une ligne FCheckBox au dialogue
     // qui donnera lieu à exportation dans prologue_codes.R
 
-    for (const QString& s : variables) index = ajouterVariable (s);
+    for (const QString& s : variables)
+        index = ajouterVariable(s);
     
-    profils = new FComboBox({"Complet", "Allégé", "Minimal", "Démographie", "Démographie et revenus", "Contrôles juridiques"},
-                            "profilRapport",
+    profils = new FComboBox({"Complet", "Allégé",
+                             "Démographie", "Démographie et revenus",
+                             "Contrôles juridiques", "Réinitialiser"},
+                             "profilRapport",
                             {"Rapport", "Niveau de détail du rapport"});
     
     label = new QLabel;
@@ -686,7 +665,8 @@ rapportPage::rapportPage()
     
     // Lorsqu'une case est modifiée, vérifier l'adéquation des dépendances
     
-    for (int i = 0; i < listeCB.size(); ++i) connect( listeCB[i], &QCheckBox::toggled, [this, i] { ajusterDependances(i); });
+    for (auto &&cb : listeCB)
+        connect(cb, &QCheckBox::toggled, [cb, this] { ajusterDependances(cb->get_tag(), cb->isChecked()); });
 
     // A chaque fois qu'une case est éditée à la main,
     // réinitialiser l'état d'exportation (bouton et fichier prologue_codes.R à partir de prologue_init.R)
@@ -707,43 +687,58 @@ rapportPage::rapportPage()
             &QComboBox::currentTextChanged, 
             [this] 
                 {
-                    
                     QString text = profils->currentText();
-                    QVector<int> L;
-                    if (text == "Complet") // 25 points
+                    QStringList L;
+
+                    if (text == "Allégé")
                     {
-                        for (int i = 0;  i < variables.size(); ++i)
-                            L << i;
+                        L = { "effectifs" , "pyramides" , "durée de service",
+                               "rémunérations brutes",  "comparaisons du brut",
+                               "rémunérations nettes", "rmpp", "évolution du net",
+                               "NBI", "RIFSEEP", "HS",
+                               "astreintes", "élus", "SFT",
+                               "retraites", "FPH", "annexe" };
                     }
                     else
-                    if (text == "Minimal") // 7 sur 25
+                    if (text == "Complet")
                     {
-                            
-                            L = {0, 1, 3, 8, 12, 17, 21 };
+                        L = variables;
+                    }
+                    else
+                    if (text == "Démographie")
+                    {
+                        L = {"effectifs", "pyramides", "durée de service", "annexe"};
                     }
                     else 
-                    if (text == "Démographie") // 3 sur 25
+                    if (text == "Démographie et revenus")
                     {
-                            L = {0, 1, 2};   
+                        L = {"effectifs" , "pyramides" , "durée de service",
+                             "rémunérations brutes",  "comparaisons du brut",
+                             "rémunérations nettes", "rmpp", "évolution du net",
+                             "noria", "annexe"};
                     }
                     else 
-                    if (text == "Allégé")   // 15 sur 25
+                    if (text == "Contrôles juridiques")
                     {
-                            L = {0, 1, 2, 5, 7, 8, 12, 13, 14, 16, 17, 18, 20, 21, 24};   
+                        L = { "NBI", "PFI",
+                               "IAT IFTS", "PFR", "PSR",
+                               "IPF", "RIFSEEP", "HS",
+                               "astreintes", "élus",
+                               "comptabilité", "SFT", "retraites",
+                               "FPH", "annexe"};
                     }
-                    else 
-                    if (text == "Démographie et revenus") // 8 sur 25
+                    else
+                    if (text == "Réinitialiser")
+
                     {
-                            L = {0, 1, 2, 3, 4, 5, 6, 7};   
+                        L = {};
                     }
-                    else 
-                    if (text == "Contrôles juridiques") // 17 sur 25
+
+                    for (auto &&cb : listeCB)
                     {
-                            for (int i = 8 ; i <= 24; ++i)  L << i;
+                        cb->setChecked(L.contains(cb->get_tag()));
                     }
-                    
-                    for (int i = 0; i < listeCB.size(); ++i) 
-                        listeCB[i]->setChecked(L.contains(i));
+
                 });
 
     setLayout (mainLayout);
@@ -781,8 +776,6 @@ void rapportPage::message(int r, QIcon& icon, bool paire)
         if (value2) liste_cb += "<li>" + s2.toUpper() + "</li>";
     }
 
-   
-    
     if (res == false)
         {
             Warning ("Attention",
@@ -842,8 +835,10 @@ standardPage::standardPage()
     setVisible(false);
     QList<QString> range = QList<QString>(), range2 = QList<QString>(), range2b = QList<QString>();
 
-    range << "Standard" << "Par année" << "Par agent" << "Toutes catégories" << "Traitement" << "Indemnité"
-          << "SFT"      << "Rémunérations diverses"   << "Rappel"     << "Acompte"
+    range << "Standard" << "Par année" << "Par agent"
+          << "Toutes catégories" << "Traitement" << "Indemnité"
+          << "SFT"      << "Rémunérations diverses"  
+          << "Rappel"     << "Acompte"
           << "Avantage en nature" << "Indemnité de résidence" << "Cotisations"
           << "Déductions"         << "Retenue";
 
@@ -884,22 +879,22 @@ standardPage::standardPage()
 
     maxNLigneLabel = new QLabel ("Nombre maximum de lignes\npar segment de base  ");
 
-    maxNLigneLineEdit = new FLineEdit ("1000000",                                                // Valeur par défaut
-                                       "maxLigne",                                               // Balise XML du projet .alt
+    maxNLigneLineEdit = new FLineEdit ("1000000",           // Valeur par défaut
+                                       "maxLigne",          // Balise XML du projet .alt
                                         {
                                             "Données csv",
                                             "Découper la base de données"
                                             " par segment d'au maximum ce nombre de lignes."
-                                        },                                                       // Présentation du gestionnaire de projets
-                                        "T");                                                    // Ligne de commande -T valeur
+                                        },                  // Présentation du gestionnaire de projets
+                                        "T");               // Ligne de commande -T valeur
 
     maxNLigneLineEdit->setFixedWidth (150);
 
     QGroupBox* optionalFieldBox = new QGroupBox (tr ("Variables optionnelles"));
 
-    rangCheckBox = new FCheckBox ("Numéroter les lignes",                   // Titre de la case à cocher
+    rangCheckBox = new FCheckBox ("Numéroter les lignes",   // Titre de la case à cocher
                                   "genererNumLigne",                        // Balise XML du projet .alt
-                                  {"Données csv", "numéroter les lignes"},  ///
+                                  {"Données csv", "numéroter les lignes"},
                                   "l");
 
     etabCheckBox = new FCheckBox ("Exporter les informations\nsur l'établissement",      // Titre de la case à cocher
@@ -968,8 +963,7 @@ Utile seulement en cas de visualisation sous certains éditeurs.\nExcel et Calc 
                                  {
                                     "Contrôle hospitalier",
                                     "Ajuster le rapport pour la FPH"       // Présentation du gestionnaire de projets
-                                 }
-                                );
+                                 });
 
     tableCheckBox = new FCheckBox ("Créer la base de données",                           // Titre de la case à cocher
                                    flags::status::enabledChecked                         // Par défaut, case cochée génératrice de ligne de commande
@@ -1021,7 +1015,6 @@ Utile seulement en cas de visualisation sous certains éditeurs.\nExcel et Calc 
     // Elles ne sont pas génératrices de ligne de commande.
     // Leur portée est limitée à l'interface graphique
     // L'archivage et l'exportation sont deux commandes déclenchées par l'utilisateurs (menus et boutons)
-
 
     FCheckBox* archiveTableBox = new FCheckBox ("Données tableur",
                                                 flags::status::enabledChecked | flags::commandLineType::noCommandLine,
@@ -1106,7 +1099,6 @@ Utile seulement en cas de visualisation sous certains éditeurs.\nExcel et Calc 
         if (exportAllBox->isChecked()) exportXhlBox-> setChecked(true) ;
     });
 
-
     connect(archiveTableBox, &FCheckBox::toggled, [archiveTableBox, archiveAllBox] {
         if (! archiveTableBox->isChecked()) archiveAllBox-> setChecked(false) ;
     });
@@ -1114,7 +1106,6 @@ Utile seulement en cas de visualisation sous certains éditeurs.\nExcel et Calc 
     connect(archiveXhlBox, &FCheckBox::toggled, [archiveXhlBox, archiveAllBox] {
         if (! archiveXhlBox->isChecked()) archiveAllBox-> setChecked(false) ;
     });
-
 
     connect(exportTableBox, &FCheckBox::toggled, [exportTableBox, exportAllBox] {
         if (! exportTableBox->isChecked()) exportAllBox-> setChecked(false) ;

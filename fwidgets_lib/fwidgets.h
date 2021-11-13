@@ -378,7 +378,11 @@ public:
   bool refresh();
   const FString setXmlFromWidget();
   bool isAbstractEnabled() {return this->QCheckBox::isEnabled();}
+  QString get_tag() {return special_tag; }
+  void set_tag(const QString& s) { special_tag = s; }
 
+private :
+  QString special_tag;
 private slots:
   void uncheckDisabledBox();
 

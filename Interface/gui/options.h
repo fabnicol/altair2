@@ -265,9 +265,9 @@ public slots:
 private slots:
 
     /// Active/désactive certaines cases liées à d'autres. 
-    /// \param int Index de la case dans \link listeCB
-    /// \note Pourrait être reformuler avec le cadre setEnableObjects/setDisableObjects
-    void ajusterDependances(int i);
+    /// \param s Libellé (#special_tag) de la case dans \link listeCB
+
+    void ajusterDependances(const QString& s, bool checked);
     
 };
 
