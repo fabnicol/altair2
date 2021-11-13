@@ -11,6 +11,7 @@ Read.csv(
   colClasses = NA,
   skip = 0,
   drop = NULL,
+  select,
   separateur.liste = separateur.liste.entree,
   separateur.decimal = separateur.decimal.entree
 )

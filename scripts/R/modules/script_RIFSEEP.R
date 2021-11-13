@@ -19,6 +19,7 @@
 
 #+ rifseep
 
+if (! exists("Paie_IFTS")) Paie_IFTS <- NULL
 
 résultat_IFSE   <- test_prime(prime_IFSE, prime_IFTS, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
 
@@ -39,6 +40,8 @@ conditionnel("Lien vers la base de données IFSE non cat. A-B-C", "Bases/Regleme
 #'&nbsp;*Tableau 5.8.2 : Cumul IFSE/IAT*   
 #'      
 
+if (! exists("Paie_IAT")) Paie_IAT <- NULL
+
 résultat_IFSE   <- test_prime(prime_IFSE, prime_IAT, Paie_I, Paie_IAT, Lignes_IAT, afficher.table.effectifs)
 
 tableau_cumuls(résultat_IFSE)
@@ -48,6 +51,7 @@ tableau_cumuls(résultat_IFSE)
 conditionnel("Lien vers la base de données cumuls ifse/ifts", "Bases/Reglementation/personnels.ifse.iat.csv")    
 #'   
 
+if (! exists("Paie_ISS")) Paie_ISS <- NULL
 
 résultat_IFSE   <- test_prime(prime_IFSE, prime_ISS, Paie_I, verbeux = afficher.table.effectifs)
 
@@ -63,6 +67,8 @@ tableau_cumuls(résultat_IFSE)
 conditionnel("Lien vers la base de données cumuls ifse/iss", "Bases/Reglementation/personnels.ifse.iss.csv")    
 #'   
 
+if (! exists("Paie_IEMP")) Paie_IEMP <- NULL
+
 résultat_IFSE   <- test_prime(prime_IFSE, prime_IEMP, Paie_I, verbeux = afficher.table.effectifs)
 
 #'   
@@ -76,6 +82,8 @@ tableau_cumuls(résultat_IFSE)
 #'      
 conditionnel("Lien vers la base de données cumuls ifse/iemp", "Bases/Reglementation/personnels.ifse.iemp.csv")    
 #'   
+
+if (! exists("Paie_PFI")) Paie_PFI <- NULL
 
 résultat_IFSE   <- test_prime(prime_IFSE, prime_PFI, Paie_I, verbeux = afficher.table.effectifs)
 
@@ -91,6 +99,8 @@ tableau_cumuls(résultat_IFSE)
 conditionnel("Lien vers la base de données cumuls ifse/pfi", "Bases/Reglementation/personnels.ifse.pfi.csv")    
 #'   
 
+if (! exists("Paie_PSR")) Paie_PSR <- NULL
+
 résultat_IFSE   <- test_prime(prime_IFSE, prime_PSR, Paie_I, Paie_PSR, Lignes_PSR, afficher.table.effectifs)
 
 #'   
@@ -105,6 +115,7 @@ tableau_cumuls(résultat_IFSE)
 conditionnel("Lien vers la base de données cumuls ifse/psr", "Bases/Reglementation/personnels.ifse.psr.csv")    
 #'   
 
+if (! exists("Paie_PFR")) Paie_PFR <- NULL
 
 résultat_IFSE   <- test_prime(prime_IFSE, prime_PFR, Paie_I, Paie_PFR, Lignes_PFR, afficher.table.effectifs)
 Lignes_IFSE     <<- résultat_IFSE$Lignes

@@ -2,13 +2,10 @@
 % Please edit documentation in R/types.données.R
 \name{type.données}
 \alias{type.données}
-\title{Contrôle le type des données d'entree}
+\title{Contrôle le type des données d'entrée}
 \usage{
-type.données(colonnes)
-}
-\arguments{
-\item{colonnes}{Vecteur des noms de colonnes de la table globale}
+type.données()
 }
 \description{
-Contrôle le type des données d'entree
+Contrôle le type des données d'entrée
 }

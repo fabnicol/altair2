@@ -241,13 +241,13 @@ if (sequentiel || setOSWindows) {
 scripts <-
    list("script_effectifs.R",
         "script_pyramides.R",
-        "script_dureedeservice.R",
+        "script_duréedeservice.R",
         "script_rémunérationsbrutes1.R",
         "script_rémunérationsbrutes2.R",
         "script_comparaisonsdubrut.R",
         "script_évolutiondunet.R",
         "script_noria.R",
-        "script_parite.R",
+        "script_parité.R",
         "script_NBI.R",
         "script_HS.R", #+
         "script_astreintes.R",
@@ -277,14 +277,14 @@ scripts <-
   
   group1 <- list(list("script_effectifs.R", "a"),
                  list("script_pyramides.R", "b"),
-                 list("script_dureedeservice.R", "c"))
+                 list("script_duréedeservice.R", "c"))
 
   group2 <- list(list("script_rémunérationsbrutes1.R", "d"),
                  list("script_rémunérationsbrutes2.R", "e"),
                  list("script_comparaisonsdubrut.R", "f"),
                  list("script_évolutiondunet.R", "g"),
                  list("script_noria.R", "h"),
-                 list("script_parite.R", "i"))
+                 list("script_parité.R", "i"))
 
   group3 <- list(list("script_NBI.R", "ji"),
                  list("script_HS.R", "k"),

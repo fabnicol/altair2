@@ -67,7 +67,7 @@ Evenements.mat <- setcolorder(setkey(data.table::copy(Evenements.ind),
 
 # Ce cas peut se produire quand la correspondance budgétaire n'est pas générée d'abord.
 
-if (is.null(code.libelle)) code.libelle <- unique(Paie[ , .(Code, Libelle, Statut, Type)][ , Compte := ""])
+if (! exists("code.libelle") || is.null(code.libelle)) code.libelle <- unique(Paie[ , .(Code, Libelle, Statut, Type)][ , Compte := ""])
 
 code.libelle.short <- unique(code.libelle[!is.na(Code), .(Code, Libelle, Type)])
 code.libelle.short <- remplacer_type(code.libelle.short)

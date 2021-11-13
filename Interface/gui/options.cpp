@@ -611,7 +611,7 @@ rapportPage::rapportPage()
     variables << "effectifs" << "pyramides" << "durée de service"
               << "rémunérations brutes" << "comparaisons du brut"
               << "rémunérations nettes" << "rmpp" << "évolution du net"
-              << "noria"
+              << "parité" << "noria"
               << "NBI" << "PFI"
               << "IAT IFTS" << "PFR" << "PSR"
               << "IPF" << "RIFSEEP" << "HS"
@@ -627,7 +627,7 @@ rapportPage::rapportPage()
     for (const QString& s : variables)
         index = ajouterVariable(s);
     
-    profils = new FComboBox({"Complet", "Allégé",
+    profils = new FComboBox({ "Complet", "Allégé",
                              "Démographie", "Démographie et revenus",
                              "Contrôles juridiques", "Réinitialiser"},
                              "profilRapport",
@@ -666,7 +666,10 @@ rapportPage::rapportPage()
     // Lorsqu'une case est modifiée, vérifier l'adéquation des dépendances
     
     for (auto &&cb : listeCB)
-        connect(cb, &QCheckBox::toggled, [cb, this] { ajusterDependances(cb->get_tag(), cb->isChecked()); });
+        connect(cb, &QCheckBox::toggled,
+                [cb, this] {
+            ajusterDependances(cb->get_tag(), cb->isChecked());
+        });
 
     // A chaque fois qu'une case est éditée à la main,
     // réinitialiser l'état d'exportation (bouton et fichier prologue_codes.R à partir de prologue_init.R)
@@ -694,7 +697,8 @@ rapportPage::rapportPage()
                     {
                         L = { "effectifs" , "pyramides" , "durée de service",
                                "rémunérations brutes",  "comparaisons du brut",
-                               "rémunérations nettes", "rmpp", "évolution du net",
+                               "rémunérations nettes", "rmpp",
+                               "évolution du net", "parité",
                                "NBI", "RIFSEEP", "HS",
                                "astreintes", "élus", "SFT",
                                "retraites", "FPH", "annexe" };
@@ -741,6 +745,8 @@ rapportPage::rapportPage()
 
                 });
 
+    profils->setCurrentIndex(1);
+
     setLayout (mainLayout);
 }
 
@@ -748,32 +754,20 @@ void rapportPage::message(int r, QIcon& icon, bool paire)
 {
     const QIcon& icon2 = QIcon (":/images/error.png");
     
-    QString s     = variables.at(r);
-    QString s2;
-    if (paire) s2 = variables.at(r + 1);
-    const bool value    = listeCB.at(r)->isChecked();
-    bool value2 = false;
-    if (paire) value2 = listeCB.at(r + 1)->isChecked();
-    bool res  = true;
-    bool res2 = true; 
-    QString t  = s;
-    QString t2 = s2;
+    QString s = variables.at(r);
+
+    const bool value = listeCB.at(r)->isChecked();
+    bool res = true;
+    QString t = s;
+
     t.remove(" ");
-    if (paire) t2.remove(" ");
-                
+
     res = substituer ("\"script_" + t + "\" *%a% *\\w{4,5}", "\"script_" + t
                       + "\" %a% " + (value ? "TRUE" : "FALSE"), file_str);
-    if (paire) res2 = substituer ("script_" + t2 + " *%a% *\\w{4,5}", "script_" + t2
-                                  + " %a% " + (value2 ? "TRUE" : "FALSE"), file_str);
-    
+
     if (value) 
     {
         liste_cb += "<li>" + s.toUpper();
-        liste_cb += value2 ? (" &nbsp; &nbsp; -  &nbsp; &nbsp;" + s2.toUpper() + "</li>") : "</li>";
-    }
-    else
-    {
-        if (value2) liste_cb += "<li>" + s2.toUpper() + "</li>";
     }
 
     if (res == false)
@@ -784,17 +778,8 @@ void rapportPage::message(int r, QIcon& icon, bool paire)
 
             icon = icon2;
         }
-    
-     if (res2 == false)
-         {
-             Warning ("Attention",
-                      "Le remplacement de la variable script_" + t + "<br>"
-                      "n'a pas pu être effectué dans le fichier prologue_codes.R<br>");
-    
-             icon = icon2;
-         }
-     
-      appliquerCodes->setIcon (icon);
+         
+    appliquerCodes->setIcon (icon);
 }
 
 void rapportPage::substituer_valeurs_dans_script_R()
@@ -812,13 +797,12 @@ void rapportPage::substituer_valeurs_dans_script_R()
                  icon1 :
                  icon0;
     
-    for (int rang = 0; rang < size / 2; ++rang)
+    for (int rang = 0; rang < size; ++rang)
         {
-            int r = 2 * rang;
-            message(r, icon);
+            message(rang, icon);
         }
 
-    if (size % 2 && size > 0) message(size - 1, icon, false);
+
     
     res = renommer (dump (file_str), prologue_options_path);
 

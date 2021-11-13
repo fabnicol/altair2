@@ -82,29 +82,9 @@ tableau_cumuls <- function(résultat) {
   
   if (! is.null(résultat) && ! is.null(résultat$cumuls) && nrow(résultat$cumuls[c != 0]) > 0) {
     kable(résultat$cumuls[c != 0, .(Matricule, Annee, Grade, Régime)], format = "simple")
-  } else cat("Pas de cumuls.")
+  } else cat("Pas de cumuls en l'absence de données.")
 }
 
-#' Affichage du tableau des cumuls de primes et du logement par NAS
-#' 
-#' @param résultat  Résultat retourné par la fonction \link{test_prime}
-#' @examples
-#' tableau_NAS(test_prime(prime_IFTS, Paie_I, verbeux = FALSE, NAS = "non"))
-#' 
-#' |Matricule |Annee | Mois |       Grade            |       Emploi            |    Montant |
-#' |----------|------|-------------------------------|-------------------------|------------|
-#' |010843    |2009  |   8  |  ATTACHE PRINCIPAL     |   CHEF DE DIVISION      |    785,25  |
-#' |010843    |2009  |   9  |  ATTACHE PRINCIPAL     |   CHEF DE DIVISION      |    785,25  |
-#' |010854    |2009  |   9  |  ADMINISTRATEUR        |   CHEF DE SERVICE       |    995,20  |
-#' 
-#' @export
-
-tableau_NAS <- function(résultat) {
-  
-  if (! is.null(résultat) && ! is.null(résultat$NAS) && nrow(résultat$NAS) > 0) {
-    kable(résultat$NAS[ , .(Matricule, Annee, Mois, Grade, Emploi, Montant)], format = "simple")
-  } else cat("Pas de cumuls prime-NAS.")
-}
 
 #' Affichage du tableau des agrégats des primes A et B, pour chaque année de période 
 #' 
@@ -408,7 +388,7 @@ test_prime <- function(prime, prime_B, Paie_I = NULL, Paie_B = NULL, Lignes_B = 
 
 if (is.null(Paie_B) || is.null(Lignes_B)) {
   
-  if (is.null(prime_B)) stop("prime_B ne doit pas être NULL si Paie_B ou Lignes_B est NULL.")
+  if (is.null(prime_B)) return(NULL);
   
   res      <- analyser(prime_B, Paie_I, verbeux)
   Paie_B   <- res$Paye

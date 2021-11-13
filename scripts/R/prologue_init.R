@@ -21,14 +21,13 @@
 
 "script_effectifs"               %a% TRUE    
 "script_pyramides"               %a% TRUE    
-"script_dureedeservice"          %a% TRUE    
-"script_rémunérationsbrutes1"    %a% TRUE
-"script_rémunérationsbrutes2"    %a% TRUE    
+"script_duréedeservice"          %a% TRUE
+"script_rémunérationsbrutes"     %a% TRUE
 "script_comparaisonsdubrut"      %a% TRUE    
 "script_rémunérationsnettes"     %a% TRUE    
-"script_rmppetnoria"             %a% TRUE    
+"script_rmpp"                    %a% TRUE
 "script_évolutiondunet"          %a% TRUE
-"script_parite"                  %a% TRUE
+"script_parité"                  %a% TRUE
 "script_noria"                   %a% TRUE
 "script_NBI"                     %a% TRUE    
 "script_PFI"                     %a% TRUE    
@@ -41,10 +40,22 @@
 "script_astreintes"              %a% TRUE    
 "script_élus"                    %a% TRUE    
 "script_comptabilité"            %a% TRUE    
-"script_annexe"                  %a% TRUE    
 "script_SFT"                     %a% TRUE    
 "script_retraites"               %a% TRUE    
 "script_FPH"                     %a% TRUE    
+"script_annexe"                  %a% TRUE
+
+
+# White space indent
+
+if (script_rémunérationsbrutes) {
+    "script_rémunérationsbrutes1" %a% TRUE
+    "script_rémunérationsbrutes2" %a% TRUE
+} else {
+   "script_rémunérationsbrutes1" %a% FALSE
+   "script_rémunérationsbrutes2" %a% FALSE
+}
+
 
 "sequentiel"                     %a% TRUE
 "ouvrir.document"                %a% TRUE

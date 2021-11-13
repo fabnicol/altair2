@@ -9,6 +9,7 @@ read.csv.skip(
   classes = NULL,
   drop = NULL,
   skip = 0,
+  select,
   separateur.liste = separateur.liste.entree,
   separateur.decimal = separateur.decimal.entree
 )
