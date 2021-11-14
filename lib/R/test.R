@@ -78,11 +78,22 @@ sauvebase <- function(x, y, z, env) {
 #' 
 #' @export
 
-tableau_cumuls <- function(résultat) {
+tableau_cumuls <- function(résultat, e = NULL) {
+  
+  if (is.null(e)) return(NULL)
   
   if (! is.null(résultat) && ! is.null(résultat$cumuls) && nrow(résultat$cumuls[c != 0]) > 0) {
-    kable(résultat$cumuls[c != 0, .(Matricule, Annee, Grade, Régime)], format = "simple")
-  } else cat("Pas de cumuls en l'absence de données.")
+    
+    e$tableau <- kable(résultat$cumuls[c != 0, .(Matricule, Annee, Grade, Régime)], format = "simple")
+    
+    e$res <- TRUE
+    
+  } else {
+    
+    e$res <- FALSE
+  }
+  
+  e
 }
 
 
@@ -176,7 +187,7 @@ agrégat_annuel<- function(résultat, verbeux) {
 #' }   
 #' @export
 
-analyser <- function(prime, Paie_I, verbeux) {
+analyser <- function(prime, Paie_I, verbeux, echo = TRUE) {
 
   Paie_A <- NULL
   Lignes_A <- NULL
@@ -208,15 +219,17 @@ analyser <- function(prime, Paie_I, verbeux) {
           
       nr <- nrow(lignes.indice.anormal)
       
-      if (! is.null(nr) && nr > 0) {
-        cat(nr,
-            "attributaires de",
-            prime$nom,
-            "ne satisfont pas au critère de la borne indiciaire (INM", prime$indice[2] %+% "). " )
-      } else {
-        cat("Les attributaires de",
-            prime$nom,
-            "satisfont tous au critère de la borne indiciaire (INM", prime$indice[2] %+% "). ") 
+      if (echo) {
+        if (! is.null(nr) && nr > 0) {
+          cat(nr,
+              "attributaires de",
+              prime$nom,
+              "ne satisfont pas au critère de la borne indiciaire (INM", prime$indice[2] %+% "). " )
+        } else {
+          cat("Les attributaires de",
+              prime$nom,
+              "satisfont tous au critère de la borne indiciaire (INM", prime$indice[2] %+% "). ") 
+        }
       }
       
     }, 
@@ -229,23 +242,26 @@ analyser <- function(prime, Paie_I, verbeux) {
       
       A.non.tit  <- Lignes_A[Statut != "TITULAIRE" & Statut != "STAGIAIRE"]
       
-      if ((N.A.non.tit <- uniqueN(A.non.tit$Matricule)) > 0) {
+      if (echo) {
         
-        cat(N.A.non.tit,
-            "attributaire" %s% N.A.non.tit,
-            prime$nom,
-            "sont des non-titulaires. ")
+        if ((N.A.non.tit <- uniqueN(A.non.tit$Matricule)) > 0) {
         
-        if (verbeux) print(kable(A.non.tit,
-                                 align = 'r',
-                                 format = "simple",
-                                 row.names = FALSE))
+          cat(N.A.non.tit,
+              "attributaire" %s% N.A.non.tit,
+              prime$nom,
+              "sont des non-titulaires. ")
+          
+          if (verbeux) print(kable(A.non.tit,
+                                   align = 'r',
+                                   format = "simple",
+                                   row.names = FALSE))
         
-      } else {
+        } else {
         
-        cat("Tous les attributaires de",
-            prime$nom,
-            "sont titulaires ou stagiaires. ")
+          cat("Tous les attributaires de",
+              prime$nom,
+              "sont titulaires ou stagiaires. ")
+        }
       }
     }
     
@@ -261,23 +277,25 @@ analyser <- function(prime, Paie_I, verbeux) {
         A.non.cat <- Lignes_A[! Categorie %chin% prime$categorie]
       }
       
-      if ((N.A.non.cat <<- uniqueN(A.non.cat$Matricule)) > 0) {
-        
-        cat(N.A.non.cat, 
-            "attributaires de",
-            prime$nom,
-            "ne sont pas identifiés en categorie",
-            prime$categorie,
-            ". ")
-        
-        if (verbeux)  print(kable(A.non.cat, align = 'r', format = "simple", row.names = FALSE))
-        
-      } else {
-        
-        cat("Tous les attributaires de",
-            prime$nom,
-            "sont identifiés en categorie",
-            prime$categorie, ". ")
+      if (echo) {
+        if ((N.A.non.cat <<- uniqueN(A.non.cat$Matricule)) > 0) {
+          
+          cat(N.A.non.cat, 
+              "attributaires de",
+              prime$nom,
+              "ne sont pas identifiés en categorie",
+              prime$categorie,
+              ". ")
+          
+          if (verbeux)  print(kable(A.non.cat, align = 'r', format = "simple", row.names = FALSE))
+          
+        } else {
+          
+          if (echo) cat("Tous les attributaires de",
+                        prime$nom,
+                        "sont identifiés en categorie",
+                        prime$categorie, ". ")
+        }
       }
       
     } else {
@@ -286,7 +304,8 @@ analyser <- function(prime, Paie_I, verbeux) {
         
         A.non.cat <- Lignes_A[! grepl(prime$expr.reg, Grade, ignore.case = TRUE, perl = TRUE)] 
         
-        if ((N.A.non.cat <<- uniqueN(A.non.cat$Matricule)) > 0) {
+        if (echo) {
+          if ((N.A.non.cat <<- uniqueN(A.non.cat$Matricule)) > 0) {
           
           cat(N.A.non.cat,
               "attributaires de",
@@ -295,6 +314,7 @@ analyser <- function(prime, Paie_I, verbeux) {
           
           if (verbeux)  print(kable(A.non.cat, align = 'r', format = "simple", row.names = FALSE))
           
+          }
         }
         
       } else {
@@ -384,13 +404,13 @@ analyser <- function(prime, Paie_I, verbeux) {
 #' }   
 #' @export
 
-test_prime <- function(prime, prime_B, Paie_I = NULL, Paie_B = NULL, Lignes_B = NULL, verbeux = FALSE) {
+test_prime <- function(prime, prime_B, Paie_I = NULL, Paie_B = NULL, Lignes_B = NULL, verbeux = FALSE, echo = TRUE) {
 
+if (is.null(prime_B)) return(NULL);  
+  
 if (is.null(Paie_B) || is.null(Lignes_B)) {
   
-  if (is.null(prime_B)) return(NULL);
-  
-  res      <- analyser(prime_B, Paie_I, verbeux)
+  res      <- analyser(prime_B, Paie_I, verbeux, echo)
   Paie_B   <- res$Paye
   Lignes_B <- res$Lignes
 }
@@ -408,7 +428,7 @@ ident_prime <- prime$nom
 
 nombre.agents.cumulant.A.B <- 0
 
-résultat <- analyser(prime, Paie_I, verbeux)
+résultat <- analyser(prime, Paie_I, verbeux, echo)
 
 Paie_A   <- résultat$Paye
 Lignes_A <- résultat$Lignes
@@ -418,59 +438,66 @@ résultat.manquant <- résultat$manquant
 essayer({ if (! is.null(Paie_B) && ! résultat.manquant) {
   
   # on exclut les rappels !
-  
-    indic_B %a% "indic_"  %+% prime_B$nom
+     
+    indic_B <- "indic_"  %+% prime_B$nom
+    
+    if (exists(indic_B, envir = .GlobalEnv)) {
+      
+      INDIC_B <- get(indic_B, envir = .GlobalEnv)
+      
+      NAMES <- names(Paie_B)
+      
+      if (! indic_B %chin% NAMES && "indic" %chin% NAMES) setnames(Paie_B, "indic", indic_B)
+      
+        periode.fusion <- merge(unique(Paie_A[indic == TRUE]),
+                                unique(Paie_B[INDIC_B == TRUE]),
+                                by = c("Nom", "Prenom", "Matricule",
+                                       "Annee", "Mois", "Emploi", "Grade",
+                                       "Indice", "Statut",
+                                       "Categorie"))[ , .(Matricule, Annee, Mois)]
+      
+        periode.fusion <- unique(periode.fusion)
+        
+        A_ <- merge(unique(Paie_A), periode.fusion, by = c("Matricule", "Annee", "Mois"))
+        B_ <- merge(unique(Paie_B), periode.fusion, by = c("Matricule", "Annee", "Mois"))
+        B_$indic <- A_$indic
+        
+        personnels.A.B <- B_[indic == TRUE | INDIC_B  == TRUE
+                            ][ , indic := NULL
+                            ][ , (indic_B) := NULL]
+        
+        nombre.mois.cumuls <- uniqueN(personnels.A.B[ , .(Matricule, Annee, Mois)], by = NULL)
+        
+        nombre.agents.cumulant.A.B <- uniqueN(personnels.A.B$Matricule)
+        
+        setkey(personnels.A.B, Matricule,Annee, Mois)
 
-    NAMES <- names(Paie_B)
-    
-    if (! indic_B %chin% NAMES && "indic" %chin% NAMES) setnames(Paie_B, "indic", indic_B)
-    
-    periode.fusion <- merge(unique(Paie_A[indic == TRUE]),
-                            unique(Paie_B[get(indic_B) == TRUE]),
-                            by = c("Nom", "Prenom", "Matricule",
-                                   "Annee", "Mois", "Emploi", "Grade",
-                                   "Indice", "Statut",
-                                   "Categorie"))[ , .(Matricule, Annee, Mois)]
-  
-    periode.fusion <- unique(periode.fusion)
-    
-    A_ <- merge(unique(Paie_A), periode.fusion, by = c("Matricule", "Annee", "Mois"))
-    B_ <- merge(unique(Paie_B), periode.fusion, by = c("Matricule", "Annee", "Mois"))
-    B_$indic <- A_$indic
-    
-    personnels.A.B <- B_[indic == TRUE | get(indic_B, envir = .GlobalEnv) == TRUE
-                        ][ , indic := NULL
-                        ][ , (indic_B) := NULL]
-    
-    nombre.mois.cumuls <- uniqueN(personnels.A.B[ , .(Matricule, Annee, Mois)], by = NULL)
-    
-    nombre.agents.cumulant.A.B <- uniqueN(personnels.A.B$Matricule)
-    
-    setkey(personnels.A.B, Matricule,Annee, Mois)
+    }
   
 }
  },
    "La détection des cumuls d'indemnités " %+% ident_prime %+% " et " %+% prime_B$nom %+% " n'a pas pu être réalisée. ")
 
-
-essayer(label = "Tableau cumuls", {
-  
-  L <- length(K)
+if (exists("nombre.agents.cumulant.A.B") && nombre.agents.cumulant.A.B > 0) {
+  essayer(label = "Tableau cumuls", {
     
-  if (L < 6) {
-    
-    print(Tableau(c("Codes " %+% ident_prime,
-                    "Agents cumulant " %+% ident_prime %+% " et " %+% prime_B$nom),
-            sep.milliers = "",
-            paste(unlist(K), collapse = " "),
-            nombre.agents.cumulant.A.B))
-    
-  } else {
-    
-    cat("Codes " %+% ident_prime %+% " : ", paste(unlist(K), collapse = " "))
-    
-  }
-}, "Le tableau des cumuls ne peut pas être généré. ")
+    L <- length(K)
+      
+    if (L < 6) {
+      
+      print(Tableau(c("Codes " %+% ident_prime,
+                      "Agents cumulant " %+% ident_prime %+% " et " %+% prime_B$nom),
+              sep.milliers = "",
+              paste(unlist(K), collapse = " "),
+              nombre.agents.cumulant.A.B))
+      
+    } else {
+      
+      cat("Codes " %+% ident_prime %+% " : ", paste(unlist(K), collapse = " "))
+      
+    }
+  }, "Le tableau des cumuls ne peut pas être généré. ")
+}
 
 if(sauvegarder.bases.analyse) {
   sauvebase("personnels.A.B", "personnels." %+% tolower(ident_prime) %+% "." %+% tolower(prime_B$nom), prime$dossier, environment())

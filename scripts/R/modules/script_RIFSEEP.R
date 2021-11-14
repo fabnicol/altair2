@@ -21,14 +21,21 @@
 
 if (! exists("Paie_IFTS")) Paie_IFTS <- NULL
 
-résultat_IFSE   <- test_prime(prime_IFSE, prime_IFTS, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
+résultat_IFSE   <- test_prime(prime_IFSE, prime_IFTS, Paie_I, Paie_IFTS, Lignes_IFTS, verbeux = afficher.table.effectifs)
 
 #'   
-#'    
-#'&nbsp;*Tableau 5.8.1 : Cumul IFSE/IFTS*   
-#'      
+  
+if (! is.null(résultat_IFSE)) {
+  
+  e <- new.env()
+  e <- tableau_cumuls(résultat_IFSE, e)
+  
+  if (e$res) {
+      cat("&nbsp;*Tableau 5.8.1 : Cumul IFSE/IFTS*    ", "\n")
 
-tableau_cumuls(résultat_IFSE)
+      print(e$tableau)
+  }
+}
 
 #'      
 conditionnel("Lien vers la base de données cumuls ifse/ifts", "Bases/Reglementation/personnels.ifse.ifts.csv")    
@@ -37,14 +44,21 @@ conditionnel("Lien vers la base de données IFSE non cat. A-B-C", "Bases/Regleme
 #'   
 
 #'    
-#'&nbsp;*Tableau 5.8.2 : Cumul IFSE/IAT*   
-#'      
 
 if (! exists("Paie_IAT")) Paie_IAT <- NULL
 
-résultat_IFSE   <- test_prime(prime_IFSE, prime_IAT, Paie_I, Paie_IAT, Lignes_IAT, afficher.table.effectifs)
+résultat_IFSE   <- test_prime(prime_IFSE, prime_IAT, Paie_I, Paie_IAT, Lignes_IAT, verbeux = afficher.table.effectifs, echo = FALSE)
 
-tableau_cumuls(résultat_IFSE)
+if (! is.null(résultat_IFSE)) {
+  
+  e <- new.env()
+  e <- tableau_cumuls(résultat_IFSE, e)
+  
+  if (e$res) {
+    cat("&nbsp;*Tableau 5.8.2 : Cumul IFSE/IAT*   ", "\n")
+    print(e$tableau)
+  }
+}
 
 #'      
 #'      
@@ -53,14 +67,20 @@ conditionnel("Lien vers la base de données cumuls ifse/ifts", "Bases/Reglementa
 
 if (! exists("Paie_ISS")) Paie_ISS <- NULL
 
-résultat_IFSE   <- test_prime(prime_IFSE, prime_ISS, Paie_I, verbeux = afficher.table.effectifs)
+résultat_IFSE   <- test_prime(prime_IFSE, prime_ISS, Paie_I, verbeux = afficher.table.effectifs, echo = FALSE)
 
 #'   
-#'    
-#'&nbsp;*Tableau 5.8.3 : Cumul IFSE/ISS*   
-#'      
 
-tableau_cumuls(résultat_IFSE)
+if (! is.null(résultat_IFSE)) {
+  
+  e <- new.env()
+  e <- tableau_cumuls(résultat_IFSE, e)
+  
+  if (e$res) {
+    cat("&nbsp;*Tableau 5.8.3 : Cumul IFSE/ISS*   ", "\n")
+    print(e$tableau)
+  }
+}
 
 #'      
 #'      
@@ -69,14 +89,20 @@ conditionnel("Lien vers la base de données cumuls ifse/iss", "Bases/Reglementat
 
 if (! exists("Paie_IEMP")) Paie_IEMP <- NULL
 
-résultat_IFSE   <- test_prime(prime_IFSE, prime_IEMP, Paie_I, verbeux = afficher.table.effectifs)
+résultat_IFSE   <- test_prime(prime_IFSE, prime_IEMP, Paie_I, verbeux = afficher.table.effectifs, echo = FALSE)
 
 #'   
-#'    
-#'&nbsp;*Tableau 5.8.4 : Cumul IFSE/IEMP*   
-#'      
 
-tableau_cumuls(résultat_IFSE)
+if (! is.null(résultat_IFSE)) {
+  
+  e <- new.env()
+  e <- tableau_cumuls(résultat_IFSE, e)
+  
+  if (e$res) {
+    cat("&nbsp;*Tableau 5.8.4 : Cumul IFSE/IEMP*   ", "\n")
+    print(e$tableau)
+  }
+}
 
 #'      
 #'      
@@ -85,30 +111,39 @@ conditionnel("Lien vers la base de données cumuls ifse/iemp", "Bases/Reglementa
 
 if (! exists("Paie_PFI")) Paie_PFI <- NULL
 
-résultat_IFSE   <- test_prime(prime_IFSE, prime_PFI, Paie_I, verbeux = afficher.table.effectifs)
+résultat_IFSE   <- test_prime(prime_IFSE, prime_PFI, Paie_I, verbeux = afficher.table.effectifs, echo = FALSE)
 
-#'   
 #'    
-#'&nbsp;*Tableau 5.8.5 : Cumul IFSE/PFI*   
-#'      
 
-tableau_cumuls(résultat_IFSE)
+if (! is.null(résultat_IFSE)) {
+  
+  e <- new.env()
+  e <- tableau_cumuls(résultat_IFSE, e)
+  
+  if (e$res) {
+    cat("&nbsp;*Tableau 5.8.5 : Cumul IFSE/PFI*   ", "\n")
+    print(e$tableau)
+  }
+}
 
-#'      
 #'      
 conditionnel("Lien vers la base de données cumuls ifse/pfi", "Bases/Reglementation/personnels.ifse.pfi.csv")    
 #'   
 
 if (! exists("Paie_PSR")) Paie_PSR <- NULL
 
-résultat_IFSE   <- test_prime(prime_IFSE, prime_PSR, Paie_I, Paie_PSR, Lignes_PSR, afficher.table.effectifs)
+résultat_IFSE   <- test_prime(prime_IFSE, prime_PSR, Paie_I, Paie_PSR, Lignes_PSR, verbeux = afficher.table.effectifs, echo = FALSE)
 
-#'   
-#'    
-#'&nbsp;*Tableau 5.8.6 : Cumul IFSE/PSR*   
-#'      
-
-tableau_cumuls(résultat_IFSE)
+if (! is.null(résultat_IFSE)) {
+  
+  e <- new.env()
+  e <- tableau_cumuls(résultat_IFSE, e)
+  
+  if (e$res) {
+    cat("&nbsp;*Tableau 5.8.6 : Cumul IFSE/PSR*   ", "\n")
+    print(e$tableau)
+  }
+}
 
 #'      
 #'      
@@ -117,49 +152,39 @@ conditionnel("Lien vers la base de données cumuls ifse/psr", "Bases/Reglementat
 
 if (! exists("Paie_PFR")) Paie_PFR <- NULL
 
-résultat_IFSE   <- test_prime(prime_IFSE, prime_PFR, Paie_I, Paie_PFR, Lignes_PFR, afficher.table.effectifs)
+résultat_IFSE   <- test_prime(prime_IFSE, prime_PFR, Paie_I, Paie_PFR, Lignes_PFR, verbeux = afficher.table.effectifs, echo = FALSE)
 Lignes_IFSE     <<- résultat_IFSE$Lignes
 
 #'   
-#'    
-#'&nbsp;*Tableau 5.8.7 : Cumul IFSE/PFR*   
-#'      
 
-tableau_cumuls(résultat_IFSE)
-
-#'      
-#'      
-conditionnel("Lien vers la base de données cumuls ifse/ifts", "Bases/Reglementation/personnels.ifse.pfr.csv")    
-#'   
-
-depassements_IFSE <<- test_plafonds(base.ifse, Lignes_IFSE, if (logements.existe) logements else NULL)
-
-#'   
-#'    
-#'&nbsp;*Tableau 5.8.8 : Coûts des dépassements de plafond IFSE*   
-#' 
-if (plafonds.ifse.existe) {
-  Tableau(as.character(periode), depassements_IFSE)
-} else {
-  cat("Pas d'analyse des plafonds IFSE.")
+if (! is.null(résultat_IFSE)) {
+  
+  e <- new.env()
+  e <- tableau_cumuls(résultat_IFSE, e)
+  
+  if (e$res) {
+    cat("&nbsp;*Tableau 5.8.7 : Cumul IFSE/PFR*   ", "\n")
+    print(e$tableau)
+  }
 }
 
 #'      
-conditionnel("Lien vers les dépassements de plafond IFSE", "Bases/Reglementation/bulletins.depassements.ifse.csv")    
+conditionnel("Lien vers la base de données cumuls ifse/ifts", "Bases/Reglementation/personnels.ifse.pfr.csv")    
 #'   
-
-
 #'  
-#'&nbsp;*Tableau 5.8.9 : Valeurs de l'agrégat annuel (IFSE ou PFR) pour les bénéficiaires de l'IFSE*        
-#'          
 
-agrégat_annuel(résultat_IFSE, afficher.table.effectifs)
+if (afficher.table.effectifs) {
 
-#'  
-#'&nbsp;*Tableau 5.8.10 : Variations de l'agrégat mensuel moyen (IFSE ou PFR) pour les bénéficiaires de l'IFSE*   
-#'          
+   cat("&nbsp;*Tableau 5.8.8 : Valeurs de l'agrégat annuel (IFSE ou PFR) pour les bénéficiaires de l'IFSE*  ")        
 
-évolution_agrégat(résultat_IFSE, afficher.table.effectifs)
+   agrégat_annuel(résultat_IFSE, verbeux = afficher.table.effectifs)
+
+   cat("\n", 
+   " &nbsp;*Tableau 5.8.9 : Variations de l'agrégat mensuel moyen (IFSE ou PFR) pour les bénéficiaires de l'IFSE*   ",
+   "\n")
+
+   évolution_agrégat(résultat_IFSE, verbeux = afficher.table.effectifs)
+}
 
 #'   
 conditionnel("Lien vers la base de données agrégat IFSE-PFR", "Bases/Remunerations/beneficiaires.IFSE.PFR.csv")    
