@@ -100,7 +100,6 @@ public:
 
     QString execPath = PREFIX + QString ("/bin"); ///< Chemin du répertoire contenant lhx
     QString sharedir = PREFIX + QString ("/share/applications/altair");
-    /// Ligne de commande permettant de lancer RStudio
 
     QString altairCommandStr = PREFIX ; ///< Ligne de commande permettant de lancer lhx
 

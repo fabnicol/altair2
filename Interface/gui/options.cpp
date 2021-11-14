@@ -750,7 +750,7 @@ rapportPage::rapportPage()
     setLayout (mainLayout);
 }
 
-void rapportPage::message(int r, QIcon& icon, bool paire)
+void rapportPage::message(int r, QIcon& icon)
 {
     const QIcon& icon2 = QIcon (":/images/error.png");
     
@@ -1250,10 +1250,8 @@ processPage::processPage()
                                         {
                                             "Enchaînements",
                                             "Enchaîner l'extraction des données et la production des rapports"
-                                        },
-                                        {rapportTypeWidget, rapportTypeLabel});
+                                        });
 
-        
     openCheckBox = new FCheckBox("Ouvrir le document à la fin de l'exécution",
                                             flags::status::enabledChecked|flags::commandLineType::noCommandLine,
                                             "ouvrirDocFinExec",

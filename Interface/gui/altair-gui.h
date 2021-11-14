@@ -196,7 +196,7 @@ private :
     // Actions correspondant aux barres d'outils
 
     QAction *fileToolBarAction;      ///< Afficher/cacher la barre Fichier (fichiers de rojet)
-    QAction *processToolBarAction;   ///< Afficher/cacher la barre Lancer (lancement de \e lhx, de \e RStudio, de l'anonymisation, du nettoyage et de l'ouverture du dossier des bases CSV en sortie
+    QAction *processToolBarAction;   ///< Afficher/cacher la barre Lancer (lancement de \e lhx, de l'anonymisation, du nettoyage et de l'ouverture du dossier des bases CSV en sortie
     QAction *editToolBarAction;      ///< Afficher/cacher la barre Editer (Edition du projet et widgets mobiles de l'interface graphique)
     QAction *optionsToolBarAction;   ///< Afficher/cacher la barre Configurer (dialogue des options et de configuration)
     QAction *aboutToolBarAction;     ///< Afficher/cacher la barre Aide (dialogue de l'aide / Au sujet de /Licence)
@@ -257,7 +257,7 @@ private :
     QList<FCheckBox*> displayWidgetListBox, behaviorWidgetListBox, displayToolBarCBoxListBox, outputListBox;
 
     QFile projectFile;            ///< Fichier du projet
-    QProcess process;             ///< Processus associé au lancement de l'application-noyau \e lhx ou de \e RStudio
+    QProcess process;             ///< Processus associé au lancement de l'application-noyau \e lhx
     MatriculeInput *m = nullptr;  ///< Agent sélecteur de latricule pour l'extraction de bulletin particulier
 
     // Méthodes privées

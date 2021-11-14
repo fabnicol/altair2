@@ -136,7 +136,7 @@ class processPage :  public FDialogConnections, public common
 public :
     processPage();                 ///< Constructeur de l'onglet Traitement.
     FLineFrame *logFrame;          ///< composant fonctionnelde type QLineEdit augmenté de fonctionnalités spéciales. Enregistre le chemin du log d'exécution.
-    FCheckBox  *enchainerRapports; ///< Cas à cocher indiquant si la génération des rapports est automatiquement lancée par l'interface sans passer par RStudio.
+    FCheckBox  *enchainerRapports; ///< Cas à cocher indiquant si la génération des rapports est automatiquement lancée par l'interface.
     FCheckBox *openCheckBox,         ///< Case à cocher permettant d'ouvrir les rapports à la fin de l'exécution (cochée par défaut).
               *consoleCheckBox;      ///< Case à cocher permettant d'activer la console (cochée par défaut).
 
@@ -253,7 +253,7 @@ private:
 
     int ajouterVariable (const QString& nom);
     
-    void message(int r, QIcon& icon, bool paire = true); ///< Affichage de la liste des parties du rapport qui seront générées.
+    void message(int r, QIcon& icon); ///< Affichage de la liste des parties du rapport qui seront générées.
     
 
 public slots:
@@ -357,7 +357,7 @@ private slots:
     
     void changePage(QListWidgetItem *current, QListWidgetItem *previous); 
     
-    /// Coche la case "Enchainer les rapports" qui permet de lancer R pour produire des rapports d'analyse à partir de l'interface sans lancer RStudio
+    /// Coche la case "Enchainer les rapports" qui permet de lancer R pour produire des rapports d'analyse à partir de l'interface
     
     void enchainerRapports (int index);
     void ne_pas_ouvrir_documents();

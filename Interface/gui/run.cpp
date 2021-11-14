@@ -552,25 +552,8 @@ void Altair::run()
 
 void Altair::initRAltairCommandStr()
 {
-
-
-#ifdef Q_OS_WIN
-
-        /// Ligne de commande permettant de lancer RStudio
-        RAltairDirStr = path_access ("R-devel");
-        RAltairCommandStr = RAltairDirStr + QDir::separator() + "bin" + QDir::separator() + "RScript" + QString (systemSuffix) ;
-
-#else
-#  ifdef LOCAL_BINPATH
-        /// Ligne de commande permettant de lancer RStudio
-        RAltairCommandStr = QString ("/usr/bin/rstudio");
-#  else
-        RAltairDirStr = QString ("/lib/rstudio/bin");
-        RAltairCommandStr = PREFIX + RAltairDirStr + QString ("rstudio"); ///< Ligne de commande permettant de lancer RStudio
-
-#  endif
-#endif
-
+    RAltairDirStr = path_access ("R-devel");
+    RAltairCommandStr = RAltairDirStr + QDir::separator() + "bin" + QDir::separator() + "RScript" + QString (systemSuffix) ;
 }
 
 void Altair::runRAltair()
@@ -604,14 +587,6 @@ void Altair::runRAltair()
     //    != flags::status::excluded)  Abstract::abstractWidgetList.append(this);
     // Il faut donc invoquer les widgets directement en cas de changement
 
-
-#ifndef Q_OS_WIN
-    if (! parent->dialog->processTab->enchainerRapports->isChecked())
-        {
-            process.start (RAltairCommandStr, QStringList() << path_access ("altaïr.Rproj"));
-            return;
-        }
-#endif
     outputType = "R";
     emit (setProgressBar (0, 100));
     QString  path_access_rapport;
@@ -656,7 +631,7 @@ void Altair::runRAltair()
         RAltairCommandStr = "/usr/bin/Rscript";
     else
         {
-            Q ("Rscript n'est pas installé. La génération automatique du rapport sans interface RStudio n'est pas possible");
+            Q ("Rscript n'est pas installé. La génération automatique du rapport n'est pas possible");
             return;
         }
 
@@ -673,6 +648,41 @@ void Altair::runRAltair()
                             "Lancement du traitement des données ...Veuillez patienter.<br>"
                             "Vous pouvez suivre l'exécution du traitement dans la console<br>"
                             "(Configurer > Configurer l'interface > Afficher les messages)."));
+
+                    if (v(activerConsole).isTrue())
+                        {
+                            parent->consoleDialog->insertHtml (QString ("<br>" PROCESSING_HTML_TAG " ")
+                                                               + " Analyse des données "
+                                                                 "...<br>");
+
+                            parent->consoleDialog->moveCursor (QTextCursor::End);
+
+                            connect (&process, &QProcess::readyReadStandardOutput,
+                                     [&]
+                            {
+
+                                if (v(limitConsoleOutput).isTrue())
+                                    {
+                                        if (parent->getConsoleCounter() > MAXIMUM_CONSOLE_OUTPUT)
+                                            return;
+                                    }
+
+                                if (v(activerConsole).isFalse())
+                                    return;
+
+                                parent->feedRConsoleWithHtml();  // add counter
+                            });
+
+                        }
+                    else
+                        {
+                            QTimer *timer = new QTimer (this);
+                            connect (timer, &QTimer::timeout, [&] { readRankSignal();});
+                            connect (&process, SIGNAL (finished (int)), timer, SLOT (stop()));
+                            timer->start (500);
+                        }
+
+                    emit (setProgressBar (0, fileCount == 1 ? 2 : fileCount));
         }
     else
         {
@@ -682,7 +692,6 @@ void Altair::runRAltair()
                                    "Recommencer en mode avancé ou en mode expert.",
                                    QMessageBox::Ok);
         }
-
 
 #ifdef DEBUG
     textAppend (tr (STATE_HTML_TAG "Ligne de commande : %1").arg (RAltairCommandStr));

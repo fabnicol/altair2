@@ -295,7 +295,6 @@
 /// <li>un analyseur de données, constitué d'un <b>ensemble de scripts</b> en <a href="http://www.r-project.org">langage R</a>, qui sont exécutés :
 ///   <ul>
 ///   <li>soit directement depuis l'interface graphique ;</li>
-///   <li>soit en utilisant l'interface de développement <a href="http://www.rstudio.com">RStudio</a>.</li>
 ///   </ul>
 ///   En entrée, ces scripts réimportent en mémoire les bases de paye précédemment exportées au format CSV. <br>
 ///   En sortie, ils produisent des rapports d'analyse de la paye, aux formats Microsoft Word, Libreoffice Writer ou Adobe PDF.<br>
@@ -464,7 +463,7 @@
 /// <tr><td style="font-weight:bold;">activerConsole</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Activer les sorties Console.</td><td>processPage::consoleCheckBox</td></tr>
 /// <tr><td style="font-weight:bold;">memoryUse</td><td>profondeur="0"</td><td>Nombre entre 1 et 100</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Part maximum de la RAM utilisée.</td><td>processPage::memoryUseWidget</td></tr>
 /// <tr><td style="font-weight:bold;">rapportType</td><td>profondeur="0"</td><td>{'PDF', 'WORD et ODT', 'WORD, ODT et PDF'</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Activé uniquement si enchainerRapports vaut 'oui'. Rapports d'analyse de type PDF, MS Word (.docx) et Libreoffice Writer (.odt)</td><td>processPage::rapportTypeWidget</td></tr>
-/// <tr><td style="font-weight:bold;">enchainerRapports</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Lancer automatiquement les scripts R depuis l'interface graphique sans utiliser RStudio.</td><td>processPage::enchainerRapports</td></tr>
+/// <tr><td style="font-weight:bold;">enchainerRapports</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Lancer automatiquement les scripts R depuis l'interface graphique.</td><td>processPage::enchainerRapports</td></tr>
 /// <tr><td style="font-weight:bold;">rapportEntier</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td><i>Interne à l'interface graphique. Non exporté vers le fichier de projet Altaïr .alt.</i><br>Version expérimentale (code de développement).</td><td>processPage::rapportEntier</td></tr></table>
 /// </div> 
 ///\n\n
