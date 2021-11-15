@@ -112,8 +112,6 @@ smpt                    SMPT
 system.quote            Insérer des guillemets à chaque composante d'un
                         vecteur de chaînes de caractères
 tableau_cumuls          Affichage du tableau des cumuls de primes
-test_avn                Teste les logements par NAS
-test_plafonds           Teste les plafonds d'une prime
 test_prime              Teste les primes et indemnités
 tester.homogeneite.matricules
                         Teste si, dans une base, la proportion

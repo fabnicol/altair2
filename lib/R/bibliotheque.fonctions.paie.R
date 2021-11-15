@@ -824,9 +824,11 @@ filtrer_Paie <- function(x,
 
     if (is.na(codes[x, valeur])) {
 
-      P_  <- Base[grepl(filtre_, Libelle, ignore.case=TRUE, perl=TRUE)]
+      P_  <- Base[grepl(filtre_, Libelle, ignore.case = TRUE, perl = TRUE)]
 
     } else {
+
+
 
       P_  <- Base[get(Var) %chin% filtre_]
     }
@@ -837,14 +839,14 @@ filtrer_Paie <- function(x,
 
       if (indic) {
 
-        P_  <- Base[ , indic := grepl(filtre_, Libelle, ignore.case=TRUE, perl=TRUE)
+        P_  <- Base[ , indic := grepl(filtre_, Libelle, ignore.case = TRUE, perl = TRUE)
                    ][ , indic0 := any(indic),
                            by = c("Matricule", "Annee", portee)][indic0 == TRUE][, indic0 := NULL]
       } else {
 
-        P_  <- Base[ , indic0 := any(grepl(filtre_, Libelle, ignore.case=TRUE, perl=TRUE)),
+        P_  <- Base[ , indic0 := any(grepl(filtre_, Libelle, ignore.case = TRUE, perl = TRUE)),
                      by = c("Matricule", "Annee", portee)
-                   ][indic0 == TRUE][, indic0 := NULL]
+                   ][indic0 == TRUE][ , indic0 := NULL]
       }
 
     } else {
@@ -858,12 +860,14 @@ filtrer_Paie <- function(x,
                    ][indic0 == TRUE][, indic0 := NULL]
       } else {
 
+
         P_  <- Base[ , indic0 := any(get(Var) %chin% filtre_),
                      by = c("Matricule", "Annee", portee)
                  ][indic0 == TRUE][, indic0 := NULL]
       }
     }
   }
+
   # Redéfinition de la quotite nécessaire en raison du fait
   # que la quotite précédemment définie est une quotite statistique
   # Pour les vérifications de liquidation il faut une quotite réelle

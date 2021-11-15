@@ -82,11 +82,19 @@ tableau_cumuls <- function(résultat, e = NULL) {
   
   if (is.null(e)) return(NULL)
   
-  if (! is.null(résultat) && ! is.null(résultat$cumuls) && nrow(résultat$cumuls[c != 0]) > 0) {
+  if (! is.null(résultat)
+     && ! is.null(résultat$cumuls)
+     && nrow(résultat$cumuls[c != 0]) > 0) {
     
-    e$tableau <- kable(résultat$cumuls[c != 0, .(Matricule, Annee, Grade, Régime)], format = "simple")
-    
-    e$res <- TRUE
+    res <- résultat$cumuls[Régime != "", .(Matricule, Annee, Grade, Régime)]
+
+    if (nrow(res) > 0) {
+        e$tableau <- kable(res, format = "simple")
+        e$res <- TRUE
+    } else {
+        e$tableau <- ""
+        e$res <- FALSE
+    }
     
   } else {
     
@@ -500,40 +508,60 @@ if (exists("nombre.agents.cumulant.A.B") && nombre.agents.cumulant.A.B > 0) {
 }
 
 if(sauvegarder.bases.analyse) {
-  sauvebase("personnels.A.B", "personnels." %+% tolower(ident_prime) %+% "." %+% tolower(prime_B$nom), prime$dossier, environment())
+  sauvebase("personnels.A.B",
+  "personnels." %+% tolower(ident_prime) %+% "." %+% tolower(prime_B$nom),
+                             prime$dossier, environment())
 }
 
 indic <<- "indic_"  %+% prime$nom
 indic_B <<- "indic_"  %+% prime_B$nom
 assign(indic_B, NULL, envir = .GlobalEnv)
+
 Lignes_A[ , (indic) := TRUE]
 Lignes_B[ , (indic_B) := TRUE]
 
-beneficiaires.A <- merge(unique(Lignes_A), unique(Lignes_B), all = TRUE, by = c("Nom", "Prenom", "Matricule", "Annee", "Mois", "Debut", "Fin", "Grade", "Emploi", "Temps.de.travail", "Indice", "Categorie", "Statut", "Type", "Montant"))
+beneficiaires.A <- merge(unique(Lignes_A),
+                         unique(Lignes_B),
+                         all = TRUE,
+                         by = c("Nom", "Prenom", "Matricule", "Annee", "Mois", "Debut",
+                                "Fin", "Grade", "Emploi", "Temps.de.travail", "Indice",
+                                "Categorie", "Statut", "Type", "Montant"))
 
-beneficiaires.A[ , Régime := if (all(is.na(get(indic)))) { if (any(get(indic_B))) "I" else NA } else { if (all(is.na(get(indic_B)))) "P" else "C" },
-                   by = .(Matricule, Annee, Mois)][ , (indic) := NULL][ , (indic_B) := NULL]
+beneficiaires.A[ , Régime := if (all(is.na(get(indic)))) {
+                                if (any(get(indic_B))) "I" else NA
+                             } else {
+                                if (all(is.na(get(indic_B)))) "P" else "C"
+                             },
+                   by = .(Matricule, Annee, Mois)
+               ][ , (indic) := NULL
+               ][ , (indic_B) := NULL]
 
 matricules.A <- unique(Lignes_A$Matricule)
 
 beneficiaires.A <- beneficiaires.A[Matricule %chin% matricules.A,
                                        .(Agrégat = sum(Montant, na.rm = TRUE),
                                          c = uniqueN(Mois[Régime == "C"]),
+                                         i = uniqueN(Mois[Régime == "I"]),
+                                         p = uniqueN(Mois[Régime == "P"]),
                                          nb.mois = uniqueN(Mois),
                                          Grade = Grade[1],
                                          Mois,
                                          Régime),
                                        keyby= .(Matricule, Annee),
-                                  ][ , 
+                                  ][ ,
                                       .(Agrégat,
                                         c,
+                                        i,
+                                        p,
                                         Grade,
                                         nb.mois,
+
                                         Régime = {
-                                       
-                                       prime_B$nom %+% " " %+% uniqueN(Mois[Régime == "I"]) %+% " mois-" %+% ident_prime %+% " " %+% uniqueN(Mois[Régime == "P"]) %+% " mois" %+% "-Cumul " %+% c %+% " mois"
-                                     }),
-                                      keyby= .(Matricule, Annee)]
+                                          if(c != 0 & p != 0 & i != 0) {
+                                             prime_B$nom %+% " " %+% i %+% " mois-" %+% ident_prime %+% " " %+% p %+% " mois" %+% "-Cumul " %+% c %+% " mois"
+                                        } else ""
+                                       }),
+       keyby = .(Matricule, Annee)]
 
 beneficiaires.A <- unique(beneficiaires.A)
 
@@ -544,51 +572,22 @@ beneficiaires.A.Variation <- beneficiaires.A[ ,
                                                   .(Annees = paste(Annee, collapse = ", "), 
                                                     `Variation (%)` = round((q - 1) * 100, 1),
                                                     `Moyenne géométrique annuelle(%)` = round((q^(1/(L - 1)) - 1) * 100, 1)) 
-                                                }, by = "Matricule"]
+                                                },
+                                            by = "Matricule"]
 
 beneficiaires.A.Variation <- beneficiaires.A.Variation[`Variation (%)` != 0.00]
 
 cumul.prime.NAS <- NULL
 
-if ((! is.null(prime$NAS) && prime$NAS == "non") || (! is.null(prime_B$NAS) && prime_B$NAS == "non")) {
-  
-  if (! is.null(base.logements)) {
-    essayer({ if (! is.null(prime$NAS) && prime$NAS == "non" && is.null(prime_B$NAS)) {
-      
-      Lignes_C <-  Lignes_A 
-      prime_NAS <- prime$nom
-      
-    } else {
-        if (is.null(prime$NAS)) {
-          
-          Lignes_C <- Lignes_B 
-          prime_NAS <- prime_B$nom
-          
-        } else { 
-            
-          if (prime$NAS == "non" && prime_B$NAS == "non") {
-            
-            Lignes_C <- merge(unique(Lignes_A), unique(Lignes_B), all = TRUE)
-            prime_NAS <- prime$nom %+% "-" %+% prime_B$nom
-            
-          }
-        }
-    }
-      
-    cumul.prime.NAS <- merge(unique(base.logements[Logement == "NAS", .(Matricule, Annee, Mois)]),
-                             Lignes_C[ ,  .(Matricule, Nom, Prenom, Statut, Grade, Emploi, Annee, Mois, Code, Libelle, Montant)])
-    
-    }, "Le test des cumuls de " %+% prime$nom %+% " ou " %+% prime_B$nom %+% " et du logement par NAS n'a pas pu être réalisé.")
-  }
-}
-
 env <- environment()
 
 if (sauvegarder.bases.analyse) {
+    sauvebase("Lignes_A", "Lignes_A." %+% ident_prime %+% "." %+% prime_B$nom, "Remunerations", env)
+    sauvebase("Lignes_B", "Lignes_B." %+% ident_prime %+% "." %+% prime_B$nom, "Remunerations", env)
     sauvebase("beneficiaires.A", "beneficiaires." %+% ident_prime %+% "." %+% prime_B$nom, "Remunerations", env)
     sauvebase("beneficiaires.A.Variation", "beneficiaires." %+% ident_prime %+% "." %+% prime_B$nom %+% ".Variation", "Remunerations", env)
-    if (! is.null(cumul.prime.NAS)) sauvebase("cumul.prime.NAS", "cumul." %+% prime_NAS %+% ".NAS", "Reglementation", env)
 }
+
 
 list(Paie = Paie_A, 
      Lignes = Lignes_A, 
@@ -602,178 +601,5 @@ list(Paie = Paie_A,
      variations = beneficiaires.A.Variation,
      matricules = matricules.A,
      indices = lignes.indice.anormal,
-     manquant = résultat.manquant,
-     NAS = cumul.prime.NAS)
-}
-
-#' Teste les logements par NAS
-#' 
-#' @param avantage Vecteur de caractères indiquant le type de logement (actuellement seul "NAS" est actif)
-#' @param Paie Base de Paye principale comportant les variables \code{Matricule, Annee, Mois, Statut, Grade, Emploi, Type, Code, Libelle, Montant}
-#' @param base.logements La base de logements facultative importee par l'onglet Extra de l'interface graphique 
-#' @return base de type \code{data.table} comportant les enregistrements identifiés comme problématiques.  
-#' @export
-
-test_avn <- function(avantage, Paie, base.logements = NULL) {
-  
-  val <- codes[type == avantage, valeur]
-  
-  essayer({  if (! is.na(val)) {
-      Paie_AV <<- Paie[Code %chin% val, .(Matricule, Annee, Mois, Statut, Grade, Emploi, Type, Code, Libelle, Montant)]
-  } else {
-      Paie_AV <<- Paie[grepl(codes[type == avantage, expression], Libelle, ignore.case = TRUE, perl = TRUE), .(Matricule, Annee, Mois, Statut, Grade, Emploi, Code, Type, Libelle, Montant)]
-  }
-  
-  n1 <- nrow(Paie_AV[Type == "AV"])
-  n2 <- nrow(Paie_AV)
-  
-  cat("Nombre de lignes d'avantages en nature ", n1, "  \n")
-    
-  if (n1 < n2) {
-    cat("Tous les avantages en nature pour logement par NAS (", n2, " lignes) ne sont pas déclarés comme type \"Avantage en nature\", soit ", n2 - n1, " lignes non déclarées comme de type AV.  \n"  )
-  }
-  
-  "NAS.non.importes"      %a% NULL
-  "NAS.non.declares.paye" %a% NULL
-  "logements" %a% NULL
-  
-  if (is.null(base.logements) || is.null(base.logements[Logement == "NAS"]) || nrow(base.logements[Logement == "NAS"]) == 0) {
-    
-    base.logements %a% Paie_AV[ , .(Matricule, Annee, Mois)]   # on prend ceux de la base de paye à défaut de déclarations explicites dans fichier auxiliaire importé
-    base.logements[ , Logement := "NAS"]
-    cat("En l'absence de fichier auxiliaire importé des logements par NAS, il a été trouvé ", nrow(base.logements), " lignes d'avantage en nature de logement, supposé par NAS.   \n")
-
-  } else {
-    
-    if (is.null(Paie_AV) || nrow(Paie_AV) == 0)  {  # il y a donc des logements par NAS non déclarés en base de paye...
-      
-      cat("Aucun des logements par NAS déclarés dans le fichier auxiliaire importé n'est mentionné comme avantage en nature (Type == \"AV\") en base de paye.  \n")
-      cat("Il peut en résulter des anomalies dans les déclarations fiscales ou de cotisations sociales.  \n")
-
-    } else {
-      
-      cat("Il existe à la fois des avantages en nature déclarés en base de paye (", nrow(Paie_AV), " lignes) et un fichier de déclaration de logements par NAS importé (", n1, " lignes.  \n")
-    
-    }
-    
-    "logements" %a% merge(Paie[ , .(Matricule, Nir, Annee, Mois, Statut, Emploi, Service, NBI, Grade, Echelon, Temps.de.travail, Heures, Libelle, Type, Montant)],
-                       base.logements, 
-                         by = c("Matricule", "Annee", "Mois"), 
-                         all = TRUE)
-    
-    "NAS.non.importes" %a% logements[is.na(Logement) & grepl(codes[type == avantage, expression], Libelle, ignore.case = TRUE, perl = TRUE)]
-    
-    if (nrow(NAS.non.importes) == 0)  "NAS.non.importes" %a% NULL
-    
-    "logements" %a% logements[! is.na(Logement)]
-    
-    "NAS.non.declares.paye" %a% logements[Logement == "NAS" & ! grepl(codes[type == avantage, expression], Libelle, ignore.case = TRUE, perl = TRUE)]
-          
-    if (nrow(NAS.non.declares.paye) == 0)  "NAS.non.declares.paye" %a% NULL
-  }
-  }, "Il n'a pas été possible d'extraire les logements par NAS déclarés en base de paye.  \n")
-
-  env <- environment()
-  
-  if (sauvegarder.bases.analyse) {
-    sauvebase("NAS.non.importes", "NAS.non.importes", "Reglementation", env)
-    sauvebase("NAS.non.declares.paye", "NAS.non.declares.paye", "Reglementation", env)
-    sauvebase("logements", "logements", "Reglementation", env)
-  }
-
-  if (! is.null(logements) && nrow(logements) > 0) {
-    
-    message("Détection d'avantages en nature liés à un logement par NAS.")
-
-  } else {
-    
-    message("Pas de détection d'avantage en nature lié à un logement par NAS.")
-  }
-}
-
-#' Teste les plafonds d'une prime
-#' 
-#' @param plafonds Base \code{data.table} comportant les colonnes caractères \code{Grade, Groupe} et \code{Logement} suivies de la colonne numérique \code{Plafond}. Logement doit contenir le codage \code{NAS} pour les personnels logés par nécessité absolue de service.    
-#' @param Lignes Lignes de paye limitées à des montants indemnitaires fléchés (ex: IFSE) et comportant les variables \code{Matricule, Annee, Mois, Statut, Grade, Emploi, Type, Code, Libelle, Montant}
-#' @param logements La base de logements importee par l'onglet Extra de l'interface graphique, comportant la variable Logement et le codage \code{NAS} pour les personnels logés par nécessité absolue de service. A défaut tous les agents sont considérés non logés.       
-#' @return Liste constituée du coût des dépassements par année et d'une base de type \code{data.table} comportant les bulletins de paye comportant une ligne IFSE identifiée comme problématique.  
-#' @export
-
-test_plafonds <- function(plafonds, Lignes, logements = NULL) {
-  
-  essayer({ 
-
-  if (is.null(plafonds)) {
-    cat("Le fichier des plafonds de l'IFSE n'est pas importé. Le test du respect des plafonds ne peut donc pas être effectué. Le lien ci-après est inactif.")
-    newline()
-    return(rep.int(0, uniqueN(Lignes$Annee)))
-  }
-  
-  if (is.null(logements)) logements <- data.table(Logement = rep_len("", nrow(Lignes)))
-  
-  essayer({ if (ncol(logements) == 1) Paie_NAS <- NULL else {
-      
-       Paie_NAS <- merge(Lignes, logements, by = c("Matricule", "Annee", "Mois"), all.x = TRUE)
-    
-       Paie_NAS <<- merge(Paie_NAS[Logement == "NAS", 
-                                     .(Matricule, 
-                                       Annee, 
-                                       Mois, 
-                                       Statut, 
-                                       Grade, 
-                                       Emploi, 
-                                       Logement, 
-                                       Type, 
-                                       Code, 
-                                       Libelle, 
-                                       Montant)
-                                  ][ , Logement := NULL], 
-                           plafonds[Logement == "NAS"
-                                  ][ , Logement := NULL],
-                         by = "Grade")
-    }
-    
-    if (ncol(logements) == 1) Paie_NO_NAS <- Lignes else {
-      
-       Paie_NO_NAS <- merge(Lignes, logements, by = c("Matricule", "Annee", "Mois"), all.x = TRUE)
-    
-       Paie_NO_NAS <<- merge(Paie_NO_NAS[Logement != "NAS", 
-                                        .(Matricule,
-                                          Annee,
-                                          Mois,
-                                          Statut,
-                                          Grade,
-                                          Emploi,
-                                          Logement,
-                                          Type,
-                                          Code,
-                                          Libelle,
-                                          Montant)
-                                        ][ , Logement := NULL],
-                            plafonds[Logement != "NAS"
-                                        ][ , Logement := NULL],
-                            by = "Grade")
-    }
-    
-    newline()  
-    
-  }, "Il n'a pas été possible de contrôler les plafonds en base de paye. ")
-  
-  newline()
-  
-  P <- rbind(Paie_NAS, Paie_NO_NAS)
-  
-  dépassements <- P[Montant / adm(Temps.de.travail/100) > Plafond]
-  couts.dépassements <- dépassements[ , sum(Montant, na.rm = TRUE), by = Annee]
-  bulletins.dépassements <- merge(P, dépassements[, .(Matricule, Annee, Mois)])
-  
-  env <- environment()
-  
-  if (sauvegarder.bases.analyse)  
-      sauvebase("bulletins.dépassements", "bulletins.depassements.ifse", "Reglementation", env)
-
-  couts.dépassements
-  
- }, "Les plafonds n'ont pas pu être testés.")  
-  
+     manquant = résultat.manquant)
 }

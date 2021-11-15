@@ -10,7 +10,8 @@ test_prime(
   Paie_I = NULL,
   Paie_B = NULL,
   Lignes_B = NULL,
-  verbeux = FALSE
+  verbeux = FALSE,
+  echo = TRUE
 )
 }
 \arguments{

@@ -4,7 +4,7 @@
 \alias{analyser}
 \title{Analyse des contraintes principales associées à une indemnité}
 \usage{
-analyser(prime, Paie_I, verbeux)
+analyser(prime, Paie_I, verbeux, echo = TRUE)
 }
 \arguments{
 \item{prime}{Prime au format liste comportant les arguments :

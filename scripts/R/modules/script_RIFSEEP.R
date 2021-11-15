@@ -38,11 +38,10 @@ if (! is.null(résultat_IFSE)) {
 }
 
 #'      
-conditionnel("Lien vers la base de données cumuls ifse/ifts", "Bases/Reglementation/personnels.ifse.ifts.csv")    
+conditionnel("Lien vers la base de données cumuls ifse/ifts", "Bases/Reglementation/personnels.ifse.ifts.csv")
 conditionnel("Lien vers la base de données IFSE non tit", "Bases/Reglementation/IFSE.non.tit.csv")      
 conditionnel("Lien vers la base de données IFSE non cat. A-B-C", "Bases/Reglementation/IFSE.non.catABC.csv")              
 #'   
-
 #'    
 
 if (! exists("Paie_IAT")) Paie_IAT <- NULL

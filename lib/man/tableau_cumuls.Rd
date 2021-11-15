@@ -4,7 +4,7 @@
 \alias{tableau_cumuls}
 \title{Affichage du tableau des cumuls de primes}
 \usage{
-tableau_cumuls(résultat)
+tableau_cumuls(résultat, e = NULL)
 }
 \arguments{
 \item{résultat}{Résultat retourné par la fonction \link{test_prime}}
