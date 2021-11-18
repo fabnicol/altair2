@@ -128,9 +128,9 @@ Analyse.remunerations[ ,
                                                                              q * rémunération.indemnitaire.imposable,
                                                                              NA),
                            
-                           total.lignes.paie =  traitement.indiciaire + sft + indemnité.résidence + indemnités + acomptes + rappels,
+                           total.lignes.paie =  traitement.indiciaire + sft + indemnité.résidence + indemnités + acomptes + rappels + rémunérations.diverses,
                            
-                           part.rémunération.indemnitaire =  ifelse(is.finite(q <- rémunération.indemnitaire.imposable/Montant.brut.annuel),
+                           part.rémunération.indemnitaire =  ifelse(is.finite(q <- rémunération.indemnitaire.imposable / Montant.brut.annuel),
                                                                     pmin(q, 1) * 100,
                                                                     NA))]
 
