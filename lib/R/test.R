@@ -548,34 +548,41 @@ beneficiaires.A <- beneficiaires.A[Matricule %chin% matricules.A,
                                          Mois,
                                          Régime),
                                        keyby= .(Matricule, Annee),
-                                  ][ ,
-                                      .(Agrégat,
-                                        c,
-                                        i,
-                                        p,
-                                        Grade,
-                                        nb.mois,
+                                  ]
+if (nrow(beneficiaires.A) > 0) {
+    beneficiaires.A <- beneficiaires.A[ ,
+                                        .(Agrégat,
+                                            c,
+                                            i,
+                                            p,
+                                            Grade,
+                                            nb.mois,
 
-                                        Régime = {
-                                          if(c != 0 & p != 0 & i != 0) {
-                                             prime_B$nom %+% " " %+% i %+% " mois-" %+% ident_prime %+% " " %+% p %+% " mois" %+% "-Cumul " %+% c %+% " mois"
-                                        } else ""
-                                       }),
-       keyby = .(Matricule, Annee)]
+                                            Régime = {
 
-beneficiaires.A <- unique(beneficiaires.A)
+                                            if (c != 0 & p != 0 & i != 0) {
+                                                prime_B$nom %+% " " %+% i %+% " mois-" %+% ident_prime %+% " " %+% p %+% " mois" %+% "-Cumul " %+% c %+% " mois"
+                                            } else ""
+                                        }),
+                                keyby = .(Matricule, Annee)]
 
-beneficiaires.A.Variation <- beneficiaires.A[ , 
-                                                { 
-                                                  L <- length(Annee)
-                                                  q <- Agrégat[L]/Agrégat[1] * nb.mois[1]/nb.mois[L]                   
-                                                  .(Annees = paste(Annee, collapse = ", "), 
-                                                    `Variation (%)` = round((q - 1) * 100, 1),
-                                                    `Moyenne géométrique annuelle(%)` = round((q^(1/(L - 1)) - 1) * 100, 1)) 
-                                                },
-                                            by = "Matricule"]
+    beneficiaires.A <- unique(beneficiaires.A)
 
-beneficiaires.A.Variation <- beneficiaires.A.Variation[`Variation (%)` != 0.00]
+    beneficiaires.A.Variation <- beneficiaires.A[ ,
+                                                    {
+                                                    L <- length(Annee)
+                                                    q <- Agrégat[L]/Agrégat[1] * nb.mois[1]/nb.mois[L]
+                                                    .(Annees = paste(Annee, collapse = ", "),
+                                                        `Variation (%)` = round((q - 1) * 100, 1),
+                                                        `Moyenne géométrique annuelle(%)` = round((q^(1/(L - 1)) - 1) * 100, 1))
+                                                    },
+                                                by = "Matricule"]
+
+    beneficiaires.A.Variation <- beneficiaires.A.Variation[`Variation (%)` != 0.00]
+} else {
+   beneficiaires.A <- NULL
+   beneficiaires.A.Variation <- NULL
+}
 
 cumul.prime.NAS <- NULL
 
