@@ -47,13 +47,14 @@
 #'@export
 
 smic.net <- function() { 
-smic.net.dernière.annee.renseignée <<- 2020
+smic.net.dernière.annee.renseignée <<- 2021
 smic.net.première.annee.renseignée <<- 2008
 data.table::fread(
   
   # Rajouter ici les valeurs futures sous la forme annee,  valeur au début de la chaine de caractères :
   
-                   "2020,  3657.0
+                   "2021,  3706.9
+                    2020,  3657.0
                     2019,  3608.8
                     2018,  3554.8
                     2017,  3447.2 
