@@ -49,9 +49,11 @@ conditionnel("Lien vers la base des cotisations irrégulières", "Bases/Reglemen
 
 cat("Les titulaires ne doivent pas cotiser à l'IRCANTEC, sauf exceptions (voir fiche en lien supra).  ")
 
-Cotisations.irreg.ircantec <- Paie[Statut == "TITULAIRE" || Statut == "EMPLOI_FONC"
-                                   & Type %chin% c("C", "D")
-                                   & Heures > 122    # 28 heures x 4 + 2/7 * 28
+# 122 = 28 heures x 4 + 2/7 * 28
+
+Cotisations.irreg.ircantec <- Paie[(Statut == "TITULAIRE" | Statut == "EMPLOI_FONC")
+                                   & (Type == "C" | Type == "D")
+                                   & Heures > 122
                                    & grepl("I\\.?\\s*R\\.?\\s*C\\.?\\s*A\\.?\\s*N\\.?\\s*",
                                             Libelle,
                                             ignore.case = TRUE,
