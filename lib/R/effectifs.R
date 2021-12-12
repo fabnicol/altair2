@@ -225,22 +225,25 @@ formater <- function(A, variation,  agr, somme = FALSE, round = TRUE, type = "G"
 
 formater2 <- function(A, variation, fichier, groupe, agr, somme = FALSE, round = TRUE) {
   
-   if (nrow(A) == 0 || is.null(A)) {
+  if (nrow(A) == 0 || is.null(A)) {
     message("Base vide")
     return(A)
-   }
+  }
+   
+  gp <- gsub("/", "-", mget(groupe, inherits = TRUE, ifnotfound = list(paste0(groupe,"_indetermine")))[[1]])
+  gp <- gsub("*", "-", gp)
   
   essayer({
     A[ , {
        
         fwrite(formater(.SD, variation,  agr, somme, round, type = "G"),
-               paste0(fichier, gsub("/", "-", get(groupe)), ".csv"),
+               paste0(fichier, gp, ".csv"),
                bom = TRUE,
                sep = ";",
                dec = ",")
       
     }, by = groupe]
-  }, "Could not save " %+% paste0(fichier, gsub("/", "-", get(groupe)), ".csv") )
+  }, "Could not save " %+% paste0(fichier, gp, ".csv") )
   
   return(NULL)
 }
