@@ -10,7 +10,7 @@ cumul.total.lignes.paie <<- NULL
 
 if (! paye.budget.existe){
   
-  cat("La correspondance avec le compte de gestion ne peut pas être établie réigoureusement sans le fichier de correspondance paye-budget (voir onglet Extra).")
+  cat("La correspondance avec le compte de gestion ne peut pas être établie rigoureusement sans le fichier de correspondance paye-budget (voir onglet Extra).")
   
 } else  correspondance_paye_budget()
 

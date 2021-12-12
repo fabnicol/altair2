@@ -225,7 +225,7 @@ to_html <- function(infile = "altair.md" , outfile = "altair.html",
   if (ouvrir.document && file.exists(cle_outfile)) {
     if (setOSWindows) {
 
-      shell(paste("start iexplorer.exe",  cle_outfile))
+      shell(paste("start msedge.exe",  cle_outfile))
 
     } else {
       system(paste("firefox", file.path(chemin.cle, outfile)))
