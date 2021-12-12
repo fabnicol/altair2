@@ -303,7 +303,7 @@ void Altair::runWorker (const QString& subdir)
     QString commandStr = (args0 << args1).join ("\n");
     f.write (commandStr.replace ('"', "")
 #ifndef Q_OS_LINUX
-             .toLatin1());N
+             .toLatin1());
 #else
              .toLocal8Bit());
 #endif
