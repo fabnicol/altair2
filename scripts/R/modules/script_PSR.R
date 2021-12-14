@@ -17,19 +17,15 @@
 # -chargés de recherche relevant du ministère chargé du développement durable ;
 # -directeurs de recherche relevant du ministère chargé du développement durable.
 
-résultat_PSR   <- test_prime(prime_PSR, prime_IFTS, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
+résultat_PSR   <- test_prime(prime_PSR, prime_IFTS, Paie_I, Paie_IFTS, Lignes_IFTS, verbeux = afficher.table.effectifs, echo = TRUE)
 
 Lignes_PSR <<- résultat_PSR$Lignes
 Paie_PSR <<- résultat_PSR$Paie
 
-
-#'    
-#'&nbsp;*Tableau 5.6.1 : Cumul PSR/IFTS*   
-#'      
-
-cat(tableau_cumuls(résultat_PSR)$tableau)
-
-#'      
+#'   
+afficher_tableau_cumuls("5.6.1", "PSR/IFTS", tableau_cumuls(résultat_PSR))
+#'   
+#'   
 conditionnel("Lien vers la base de données cumuls psr/ifts", "Bases/Reglementation/personnels.psr.ifts.csv")       
 conditionnel("Lien vers la base de données PSR grade non conforme", "Bases/Reglementation/PSR.non.catAB.csv")      
 conditionnel("Lien vers la base de données PSR non tit", "Bases/Reglementation/PSR.non.tit.csv")       
@@ -55,14 +51,11 @@ conditionnel("Lien vers la base de données agrégat PSR-IFTS", "Bases/Remunerat
 conditionnel("Lien vers la base de données variations agrégat PSR-IFTS", "Bases/Remunerations/beneficiaires.PSR.IFTS.Variation.csv")    
 #'   
 
-résultat_PSR   <- test_prime(prime_PSR, prime_IAT, Paie_I, Paie_IAT, Lignes_IAT, afficher.table.effectifs)
+résultat_PSR   <- test_prime(prime_PSR, prime_IAT, Paie_I, Paie_IAT, Lignes_IAT, verbeux = afficher.table.effectifs, echo = FALSE)
 
 #'   
-#'    
-#'&nbsp;*Tableau 5.6.4 : Cumul PSR/IAT*   
-#'      
-
-cat(tableau_cumuls(résultat_PSR)$tableau)
+afficher_tableau_cumuls("5.6.4", "PSR/IAT", tableau_cumuls(résultat_PSR))
+#'   
 
 #'      
 conditionnel("Lien vers la base de données cumuls psr/iat", "Bases/Reglementation/personnels.psr.iat.csv")       

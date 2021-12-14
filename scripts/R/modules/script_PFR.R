@@ -6,9 +6,6 @@
 #'  
 #+ pfr
 
-#'    
-#'&nbsp;*Tableau 5.5.1 : Cumul PFR/IFTS*   
-#'      
 
 PFR.plafonds <<- list( admin.g   = 58800, 
                        admin.hc  = 55200,
@@ -16,51 +13,40 @@ PFR.plafonds <<- list( admin.g   = 58800,
                        attaché.p = 25800,
                        attaché   = 20100)
 
-résultat_PFR  <- test_prime(prime_PFR, prime_IFTS, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
+résultat_PFR  <- test_prime(prime_PFR, prime_IFTS, Paie_I, Paie_IFTS, Lignes_IFTS, verbeux = afficher.table.effectifs, echo = TRUE)
 
 Paie_PFR   <<- résultat_PFR$Paie
 Lignes_PFR <<- résultat_PFR$Lignes
 
+#'   
+afficher_tableau_cumuls("5.5.1", "PFR/IFTS", tableau_cumuls(résultat_PFR))
 #'  
-#'&nbsp;*Tableau 5.5.2 : Cumuls PFR/IFTS*   
-#'      
-
-cat(tableau_cumuls(résultat_PFR)$tableau)
-
 #'      
 conditionnel("Lien vers la base de données cumuls pfr/ifts", "Bases/Reglementation/personnels.pfr.ifts.csv")    
 conditionnel("Lien vers la base de données PFR non cat.A", "Bases/Reglementation/PFR.non.catA.csv")      
 conditionnel("Lien vers la base de données PFR non tit", "Bases/Reglementation/PFR.non.tit.csv")       
 #'   
 
-résultat_PFR   <<- test_prime(prime_PFR, prime_ISS, Paie_I, verbeux = afficher.table.effectifs)
+résultat_PFR <<- test_prime(prime_PFR, prime_ISS, Paie_I, verbeux = afficher.table.effectifs, echo = FALSE)
 
 Paie_ISS   <<- résultat_PFR$Paie
 Lignes_ISS <<- résultat_PFR$Lignes
 
-#'    
-#'&nbsp;*Tableau 5.5.3 : Cumul PFR/ISS*   
-#'      
-
-cat(tableau_cumuls(résultat_PFR)$tableau)
-
-#'      
+#'   
+afficher_tableau_cumuls("5.5.2", "PFR/ISS", tableau_cumuls(résultat_PFR))
+#'  
 #'      
 conditionnel("Lien vers la base de données cumuls pfr/iss", "Bases/Reglementation/personnels.pfr.iss.csv")    
 #'   
 
-résultat_PFR   <- test_prime(prime_PFR, prime_IEMP, Paie_I, verbeux = afficher.table.effectifs)
+résultat_PFR   <- test_prime(prime_PFR, prime_IEMP, Paie_I, verbeux = afficher.table.effectifs, echo = FALSE)
 
 Paie_IEMP   <<- résultat_PFR$Paie
 Lignes_IEMP <<- résultat_PFR$Lignes
 
-#'    
-#'&nbsp;*Tableau 5.5.4 : Cumul PFR/IEMP*   
-#'      
-
-cat(tableau_cumuls(résultat_PFR)$tableau)
-
-#'      
+#'   
+afficher_tableau_cumuls("5.5.3", "PFR/IEMP", tableau_cumuls(résultat_PFR))
+#'  
 #'      
 conditionnel("Lien vers la base de données cumuls pfr/iemp", "Bases/Reglementation/personnels.pfr.iemp.csv")    
 #'   
@@ -74,7 +60,7 @@ conditionnel("Lien vers la base de données cumuls pfr/iemp", "Bases/Reglementat
 # SM/AT 20 100
 
 #'  
-#'&nbsp;*Tableau 5.5.5 : Rappel des plafonds annuels de la PFR*   
+#'&nbsp;*Tableau 5.5.4 : Rappel des plafonds annuels de la PFR*
 #'      
 
 Tableau(c("Adm. général", "Adm. HC", "Adm.", "Direct./Attaché princ.", "Secr. mairie/Attaché"),
@@ -93,8 +79,8 @@ test.PFR.all <- function(grade, cumul) any(sapply(1:length(e), function(i) test.
 cumuls.PFR <- résultat_PFR$Lignes[, .(PFR_annuel = sum(Montant, na.rm = TRUE),
                                       nb.mois = uniqueN(Mois),
                                       Grade = Grade[1]),
-                                  by = .(Matricule,Annee)
-                                  ][ , PFR_annuel := PFR_annuel * 12 / nb.mois]   # proratisation mensuelle
+                                    by = .(Matricule,Annee)
+                                 ][ , PFR_annuel := PFR_annuel * 12 / nb.mois]   # proratisation mensuelle
 
 dépassements.PFR.boolean <- mapply(test.PFR.all, cumuls.PFR$Grade, cumuls.PFR$PFR_annuel, USE.NAMES=FALSE)
 
@@ -114,7 +100,7 @@ if (nrow(dépassements.PFR.plafonds) > 0) {
 }
 
 #'  
-#'&nbsp;*Tableau 5.5.6 : Valeurs de l'agrégat annuel (PFR ou IFTS) pour les bénéficiaires de la PFR*        
+#'&nbsp;*Tableau 5.5.5 : Valeurs de l'agrégat annuel (PFR ou IFTS) pour les bénéficiaires de la PFR*
 #'          
 
 agrégat_annuel(résultat_PFR, afficher.table.effectifs)  
@@ -124,7 +110,7 @@ conditionnel("Lien vers la base de données agrégat PFR-IFTS", "Bases/Remunerat
 #'    
 
 #'  
-#'&nbsp;*Tableau 5.5.7 : Variations de l'agrégat mensuel moyen (PFR ou IFTS) pour les bénéficiaires de la PFR*   
+#'&nbsp;*Tableau 5.5.6 : Variations de l'agrégat mensuel moyen (PFR ou IFTS) pour les bénéficiaires de la PFR*
 #'          
 
 évolution_agrégat(résultat_PFR, afficher.table.effectifs)

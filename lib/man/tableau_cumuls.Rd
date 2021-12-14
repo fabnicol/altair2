@@ -2,23 +2,23 @@
 % Please edit documentation in R/test.R
 \name{tableau_cumuls}
 \alias{tableau_cumuls}
-\title{Affichage du tableau des cumuls de primes}
+\title{Tableau des cumuls de primes}
 \usage{
 tableau_cumuls(résultat, e = NULL)
 }
 \arguments{
 \item{résultat}{Résultat retourné par la fonction \link{test_prime}}
+
+\item{e}{Environnement, NULL par défaut}
+}
+\value{
+Environnement avec champs \code{tableau} et \code{res}
 }
 \description{
-Affichage du tableau des cumuls de primes
+Tableau des cumuls de primes
 }
 \examples{
 tableau_cumuls(test_prime(prime_IAT, prime_B = prime_IFTS, Paie_I, verbeux = FALSE))
 
-|Matricule |Annee |       Grade          |                  Régime                     |
-|----------|------|----------------------|---------------------------------------------|
-|010843    |2009  |ANIMATEUR TERRITORIAL |   IFTS 1 mois-IAT 10 mois-Cumul 1 mois      |
-|010843    |2010  |ANIMATEUR TERRITORIAL |   IFTS 11 mois-IAT 0 mois-Cumul 1 mois      |
-|010854    |2009  |REDACTEUR TERRITORIAL |   IFTS 9 mois-IAT 2 mois-Cumul 1 mois       | 
 
 }
