@@ -27,8 +27,6 @@ afficher_tableau_cumuls("5.6.1", "PSR/IFTS", tableau_cumuls(résultat_PSR))
 #'   
 #'   
 conditionnel("Lien vers la base de données cumuls psr/ifts", "Bases/Reglementation/personnels.psr.ifts.csv")       
-conditionnel("Lien vers la base de données PSR grade non conforme", "Bases/Reglementation/PSR.non.catAB.csv")      
-conditionnel("Lien vers la base de données PSR non tit", "Bases/Reglementation/PSR.non.tit.csv")       
 #'   
 
 #'  
@@ -59,6 +57,8 @@ afficher_tableau_cumuls("5.6.4", "PSR/IAT", tableau_cumuls(résultat_PSR))
 
 #'      
 conditionnel("Lien vers la base de données cumuls psr/iat", "Bases/Reglementation/personnels.psr.iat.csv")       
+conditionnel("Lien vers la base de données PSR grade non conforme", "Bases/Reglementation/PSR.non.catAB.csv")      
+conditionnel("Lien vers la base de données PSR non tit", "Bases/Reglementation/PSR.non.tit.csv")       
 #'   
 
 

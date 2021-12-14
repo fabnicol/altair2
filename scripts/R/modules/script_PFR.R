@@ -23,8 +23,6 @@ afficher_tableau_cumuls("5.5.1", "PFR/IFTS", tableau_cumuls(résultat_PFR))
 #'  
 #'      
 conditionnel("Lien vers la base de données cumuls pfr/ifts", "Bases/Reglementation/personnels.pfr.ifts.csv")    
-conditionnel("Lien vers la base de données PFR non cat.A", "Bases/Reglementation/PFR.non.catA.csv")      
-conditionnel("Lien vers la base de données PFR non tit", "Bases/Reglementation/PFR.non.tit.csv")       
 #'   
 
 résultat_PFR <<- test_prime(prime_PFR, prime_ISS, Paie_I, verbeux = afficher.table.effectifs, echo = FALSE)
@@ -49,6 +47,8 @@ afficher_tableau_cumuls("5.5.3", "PFR/IEMP", tableau_cumuls(résultat_PFR))
 #'  
 #'      
 conditionnel("Lien vers la base de données cumuls pfr/iemp", "Bases/Reglementation/personnels.pfr.iemp.csv")    
+conditionnel("Lien vers la base de données PFR non cat.A", "Bases/Reglementation/PFR.non.catA.csv")      
+conditionnel("Lien vers la base de données PFR non tit", "Bases/Reglementation/PFR.non.tit.csv")       
 #'   
 
 
