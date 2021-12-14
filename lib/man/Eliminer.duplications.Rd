@@ -2,10 +2,14 @@
 % Please edit documentation in R/import.R
 \name{Eliminer.duplications}
 \alias{Eliminer.duplications}
-\title{Eliminer les doublons}
+\title{Eliminer les doublons en mémoire pour les calculs}
 \usage{
 Eliminer.duplications()
 }
+\value{
+e   Environnement contenant les champs \code{Ndup}, nombre de bulletins doublonnés 
+            et \code{Ndup2} (nombre de lignes doublonnées)
+}
 \description{
-Eliminer les doublons
+Eliminer les doublons en mémoire pour les calculs
 }

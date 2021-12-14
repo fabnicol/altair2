@@ -4,8 +4,14 @@
 \alias{importer}
 \title{Importer les données}
 \usage{
-importer()
+importer(normaliser.colonnes = TRUE)
+}
+\arguments{
+\item{normaliser.colonnes}{Enlever les accents des noms de colonnes}
 }
 \description{
 Importer les données
+}
+\note{
+Cette option vise à circonvenir un ancien bug de la bibliothèque \code{data.table}, désormais apparemment corrigé (2021)
 }

@@ -389,44 +389,111 @@ Extraire.annees <- function() {
   }
 }
 
-#' Eliminer les doublons
+#' Eliminer les doublons en mémoire pour les calculs
+#' @return e   Environnement contenant les champs \code{Ndup}, nombre de bulletins doublonnés 
+#'             et \code{Ndup2} (nombre de lignes doublonnées)
 #' @export
 #'
 Eliminer.duplications <- function() {
+ 
+    vect.duplicated <- duplicated(Bulletins.paie, by = c("Nom", "Prenom", "Matricule", "Annee", 
+                                                        "Mois", "Brut", "Net.a.Payer"))
+                                                        
+    e = new.env()
+    e$Ndup  <- 0
+    e$Ndup2 <- 0
+    Paie.dup <- NULL
+    Paie.uniq <- NULL
+    Bulletins.paie.dup <- NULL
+    Bulletins.paie.uniq <- NULL
+    
+    e$Ndup <- length(vect.duplicated)
+    
+    if (e$Ndup == 0) return(e)
+    
+    cols <- c("Nom", "Prenom", "Matricule", "Annee", 
+                "Mois", "Brut", "Net.a.Payer", "Code", 
+                "Type", "Libelle", "Montant")
 
-  "avant.redressement" %a% nrow(Paie)
+    if ("Ordre" %in% names(Paie))      cols <- c(cols, "Ordre")
+    if ("CodeCaisse" %in% names(Paie)) cols <- c(cols, "CodeCaisse")
 
-  duplications.vecteur <- duplicated(Paie, by=NULL)
-  duplications.paie <- Paie[duplications.vecteur & Montant != 0]
+    vect.duplicated.cols <- duplicated(Paie, by = cols)
+    e$Ndup2 <- length(vect.duplicated.cols)
 
-  Paie <- Paie[! duplications.vecteur]
-
-  if (sauvegarder.bases.origine)
-    sauv.bases(".",
-               env = environment(),
-               "duplications.paie")
-
-  "après.redressement" %a% nrow(Paie)
-
-  avant.redressement.bull <- nrow(Bulletins.paie)
-  duplications.vecteur    <- duplicated(Bulletins.paie, by=NULL)
-  duplications.paie.bull  <- Bulletins.paie[duplications.vecteur & Montant != 0]
-
-  Bulletins.paie <- Bulletins.paie[! duplications.vecteur]
-
-  if (sauvegarder.bases.origine) {
-    sauv.bases(".",
-               env = environment(),
-               "duplications.paie")
-
-    sauv.bases(".",
-               env = environment(),
-               "duplications.paie.bull")
-  }
-
-  après.redressement.bull <- nrow(Bulletins.paie)
+    "Bulletins.paie" %a%  Bulletins.paie[! vect.duplicated]
+    
+    if (e$Ndup2) {
+    
+        "Paie" %a% Paie[! vect.duplicated.cols] 
+    } 
+    
+    e
 }
 
+#' Eliminer les doublons dans les tables exportées sous Bases/Remunerations
+#' @return e   Environnement contenant les champs \code{Ndup}, nombre de bulletins doublonnés 
+#'             et \code{Ndup2} (nombre de lignes doublonnées)
+#' @note Les bases de doublons sont Paie.dup et Bulletins.paie.dup, les bases filtrées sont
+#'       Bulletins.paie.uniq et Paie.uniq 
+#' @export
+#'
+
+Exporter.tables.sans.doublons <- function() {
+        
+    # Il faut réimporter à nouveau
+    
+    message("Réimportation des bases")
+    importer(normaliser.colonnes = FALSE)
+    
+    # dans quelques rares cas les bases peuvent diverger à cause des fusions
+    # intervenues dans importer(), il faut donc recalculser les vecteurs de duplication
+    
+    vect.duplicated <- duplicated(Bulletins.paie, by = c("Nom", "Prénom", "Matricule", "Année", 
+                                                         "Mois", "Brut", "Net.à.Payer"))
+
+    e = new.env()
+    e$Ndup  <- 0
+    e$Ndup2 <- 0
+    Paie.dup <- NULL
+    Paie.uniq <- NULL
+    Bulletins.paie.dup <- NULL
+    Bulletins.paie.uniq <- NULL
+    
+    e$Ndup <- length(vect.duplicated)
+    
+    if (e$Ndup == 0) return(e)
+    
+    cols <- c("Nom", "Prénom", "Matricule", "Année", 
+              "Mois", "Brut", "Net.à.Payer", "Code", 
+              "Type", "Libellé", "Montant")
+                
+    if ("Ordre" %in% names(Paie))      cols <- c(cols, "Ordre")
+    if ("CodeCaisse" %in% names(Paie)) cols <- c(cols, "CodeCaisse")
+       
+    vect.duplicated.cols <- duplicated(Paie, by = cols)
+    
+    e$Ndup2 <- length(vect.duplicated.cols)
+    
+    Bulletins.paie.dup <-  Bulletins.paie[vect.duplicated]
+    Bulletins.paie.uniq <- Bulletins.paie[! vect.duplicated]
+
+    if (e$Ndup2) {
+        Paie.dup  <- Paie[vect.duplicated.cols]
+        Paie.uniq <- Paie[! vect.duplicated.cols] 
+        sauv.bases("Remunerations",
+                environment(),
+                "Paie.dup",
+                "Paie.uniq")
+    }
+
+    sauv.bases("Remunerations",
+                environment(),
+                "Bulletins.paie.dup",
+                "Bulletins.paie.uniq")
+        
+    e
+}
 
 #' Redresser les heures de travail (variable \code{Heures}) en tenant compte des traitements.
 #' @export
@@ -525,15 +592,17 @@ Redresser.heures <- function() {
 }
 
 #' Importer les données
+#' @param normaliser.colonnes  Enlever les accents des noms de colonnes
+#' @note Cette option vise à circonvenir un ancien bug de la bibliothèque \code{data.table}, désormais apparemment corrigé (2021)
 #' @export
 
-importer <- function() {
+importer <- function(normaliser.colonnes = TRUE) {
 
-  essayer(label = "+importer", importer_(), "L'importation des données n'a pas pu être réalisée", abort = TRUE)
+  essayer(label = "+importer", importer_(normaliser.colonnes), "L'importation des données n'a pas pu être réalisée", abort = TRUE)
 
 }
 
-importer_ <- function() {
+importer_ <- function(normaliser.colonnes = TRUE) {
 
   # Il importe que de ne pas confondre le separateur decimal et le separateur de champ CSV
   "duree.sous.revue" %a% 1
@@ -592,9 +661,7 @@ importer_ <- function() {
 
   importer.bases.via.xhl2csv("Paie", fichiers.table, colClasses =  colonnes.classes.input, select = lignes.noms)
   importer.bases.via.xhl2csv("Bulletins.paie", fichiers.bulletins, colClasses =  colonnes.bulletins.classes.input, select = bulletins.noms)
-
-  convertir.accents(list(Paie, Bulletins.paie))
-
+  
   Bulletins.paie[ , Grade := toupper(Grade)]
   Paie[ , Grade := toupper(Grade)]
 
@@ -607,10 +674,23 @@ importer_ <- function() {
     stop("Impossible de charger les lignes/bulletins de paie.")
   }
 
-    if (! is.null(base.personnels.categorie)) {
+  if (normaliser.colonnes) {
+  
+    convertir.accents(list(Paie, Bulletins.paie)) 
+    setkey(Paie, Matricule, Annee, Mois)
+    setkey(Bulletins.paie, Matricule, Annee, Mois)
+  }  else  {
+  
+    setkey(Paie, Matricule, Année, Mois)
+    setkey(Bulletins.paie, Matricule, Année, Mois)
+    return("")
+  }
+  
+  if (! is.null(base.personnels.categorie)) {
 
-    message("Remplacement de la categorie par la categorie importee du fichier matricules.csv sous ", chemin.dossier.donnees)
+    message("Remplacement de la catégorie par la categorie importee du fichier matricules.csv sous ", chemin.dossier.donnees)
     vect <- c("Annee", "Nom", "Prenom", "Matricule", "Grade", "Emploi")
+    
     BP <- unique(base.personnels.categorie[ , , keyby = vect])
 
     Paie[ , Categorie := NULL]
@@ -620,10 +700,9 @@ importer_ <- function() {
 
     Bulletins.paie  <- merge(Bulletins.paie[ , , keyby = vect], BP, all = TRUE, by = vect)
   }
-
-  setkey(Paie, Matricule, Annee, Mois)
-  setkey(Bulletins.paie, Matricule, Annee, Mois)
-
+  
+  
+  
   # dans le cas où l'on ne lance le programme que pour certaines annees, il préciser debut.periode.sous.revue et fin.periode .sous.revue
   # dans le fichier prologue.R. Sinon le programme travaille sur l'ensemble des annees disponibles.
 
@@ -662,10 +741,8 @@ importer_ <- function() {
   # Par défaut on n'élimine pas les doublons car il peut y avoir bcp de "faux doublons"
   # voir paramètre dans prologue.R
 
-  if (éliminer.duplications) {
-       Eliminer.duplications()
-  }
-
+  if (éliminer.duplications) Eliminer.duplications()
+  
   message("Vérification de la durée légale théorique du travail (1820 h = 35h x 52 semaines soit 151,67 h/mois)")
 
   res <- verif.temps.complet()

@@ -1,4 +1,3 @@
-
 newpage()
 
 #'# Annexe       
@@ -210,3 +209,25 @@ sauv.bases("Effectifs",
 #'
 #'[Lien vers la base des personnels](Bases/Effectifs/matricules.csv)        
 #'   
+#'      
+#'## Bulletins de paye et lignes de paye doublonnés   
+#'   
+
+e <- Exporter.tables.sans.doublons()
+
+if (e$Ndup) {
+    cat("Il a été trouvé", prettyNum(e$Ndup, big.mark = " "), "bulletins de paye doublonnés.   \n")
+    cat("Soit un taux de doublons de", round(e$Ndup / nrow(Bulletins.paie) * 100, 1), "%   \n")
+} else {
+    cat("Il n'a pas été trouvé de bulletins de paye doublonnés.   \n")
+}
+  
+if (e$Ndup2) {
+        cat("Il a été trouvé", prettyNum(e$Ndup2, big.mark = " "), "lignes de paye doublonnées.   \n")
+        cat("Soit un taux de doublons de", round(e$Ndup2 / nrow(Paie) * 100, 1), "%   \n")                                                     
+}
+                                 
+conditionnel("Bulletins de paye doublonnés", "Bases/Remunerations/Bulletins.paie.dup.csv")   
+conditionnel("Bulletins de paye sans doublon", "Bases/Remunerations/Bulletins.paie.uniq.csv")   
+conditionnel("Lignes de paye doublonnées", "Bases/Remunerations/Paie.dup.csv")   
+conditionnel("Lignes de paye sans doublon", "Bases/Remunerations/Paie.uniq.csv")   

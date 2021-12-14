@@ -209,6 +209,7 @@ private:
 
 private slots:
     void substituer_versant();    ///< Exporter le versant FPH ou FPT dans le script R pour générer les tests adéquats
+    void substituer_enlever_doublons(bool);   ///< Exporter le paramètre d'élimination des doublons (éliminer.duplications) dans prologue.R
 
 };
 

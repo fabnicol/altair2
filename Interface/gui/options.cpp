@@ -1005,49 +1005,57 @@ Utile seulement en cas de visualisation sous certains éditeurs.\nExcel et Calc 
                                                 "archiveTable",
                                                 {"Données csv", "Archiver/Restaurer les données CSV"});
 
-    archiveTableBox->setToolTip("Rapport, bases annexées<br>Bases CSV<br>Log, projet");
+    archiveTableBox->setToolTip("Archiver les données tableur");
 
     FCheckBox* exportTableBox  = new FCheckBox ("Données tableur",
                                                 flags::status::enabledChecked | flags::commandLineType::noCommandLine,
                                                  "exportTable",
                                                 {"Données csv", "Exporter les données CSV"});
 
-    exportTableBox->setToolTip("Rapport, bases annexées<br>Bases CSV<br>Log, projet");
+    exportTableBox->setToolTip("Exporter les données tableur");
 
     FCheckBox* archiveAllBox = new FCheckBox ("Tout",
                                               "archiveAll",
                                              {"Données XML", "Archiver/Restaurer les données tableur et XML"});
 
-    archiveAllBox->setToolTip("Rapport, bases annexées<br>Bases CSV<br>Bases XHL/XML<br>Log, projet");
+    archiveAllBox->setToolTip("Archiver tout");
 
     FCheckBox* exportAllBox  = new FCheckBox ("Tout",
                                               "exportAll",
                                               {"Données XML", "Exporter les données tableur et XML"});
 
-    exportAllBox->setToolTip("Rapport, bases annexées<br>Bases CSV<br>Bases XHL/XML<br>Log, projet");
+    exportAllBox->setToolTip("Exporter tout");
 
     FCheckBox* archiveXhlBox = new FCheckBox ("Bases XML",
                                               "archiveXML",
                                               {"Données XML", "Archiver/Restaurer les bases XML"});
 
-    archiveXhlBox->setToolTip("Rapport, bases annexées<br>Bases XHL/XML<br>Log, projet");
+    archiveXhlBox->setToolTip("Archiver les données XHL");
 
     FCheckBox* exportXhlBox  = new FCheckBox ("Bases XML",
                                               "exportXML",
                                               {"Données XML", "Exporter les bases XML"});
 
-    archiveXhlBox->setToolTip("Rapport, bases annexées<br>Bases XHL/XML<br>Log, projet");
+    exportXhlBox->setToolTip("Exporter les données XHL");
+
+    FCheckBox* duplicateBox = new FCheckBox ("Eliminer les doublons",
+                                             "duplicateRemove",
+                                             {"Données csv", "Eliminer les doublons des payes dans les calculs"});
+
+    duplicateBox->setToolTip("Enlever les doublons dans les payes pour les calculs");
 
     v1Layout->addWidget (tableCheckBox,     1, 0, Qt::AlignLeft);
     v1Layout->addWidget (FPHCheckBox,       2, 0, Qt::AlignLeft);
-    v1Layout->addWidget (baseWidthLabel,    4, 0, Qt::AlignRight);
-    v1Layout->addWidget (baseWidthWidget,   4, 1, Qt::AlignLeft);
-    v1Layout->addWidget (baseTypeLabel,     5, 0, Qt::AlignRight);
-    v1Layout->addWidget (baseTypeWidget,    5, 1, Qt::AlignLeft);
-    v1Layout->addWidget (exportLabel,       6, 0, Qt::AlignRight);
-    v1Layout->addWidget (exportWidget,      6, 1, Qt::AlignLeft);
-    v1Layout->addWidget (maxNLigneLabel,    7, 0, Qt::AlignRight);
-    v1Layout->addWidget (maxNLigneLineEdit, 7, 1, Qt::AlignLeft);
+    v1Layout->addWidget (duplicateBox,      3, 0, Qt::AlignLeft);
+
+    v1Layout->addWidget (baseWidthLabel,    5, 0, Qt::AlignRight);
+    v1Layout->addWidget (baseWidthWidget,   5, 1, Qt::AlignLeft);
+    v1Layout->addWidget (baseTypeLabel,     6, 0, Qt::AlignRight);
+    v1Layout->addWidget (baseTypeWidget,    6, 1, Qt::AlignLeft);
+    v1Layout->addWidget (exportLabel,       7, 0, Qt::AlignRight);
+    v1Layout->addWidget (exportWidget,      7, 1, Qt::AlignLeft);
+    v1Layout->addWidget (maxNLigneLabel,    8, 0, Qt::AlignRight);
+    v1Layout->addWidget (maxNLigneLineEdit, 8, 1, Qt::AlignLeft);
 
     baseTypeBox->setLayout (v1Layout);
 
@@ -1099,6 +1107,10 @@ Utile seulement en cas de visualisation sous certains éditeurs.\nExcel et Calc 
         if (! exportXhlBox->isChecked()) exportAllBox-> setChecked(false) ;
     });
 
+    connect(duplicateBox, &FCheckBox::toggled, [this, duplicateBox] {
+        substituer_enlever_doublons (duplicateBox->isChecked());
+    });
+
     setLayout (mainLayout);
     substituer_versant();
 }
@@ -1110,17 +1122,26 @@ void standardPage::substituer_versant()
 
     QString file_str = readFile (versant_path);
 
-
     if (FPHCheckBox->isChecked())
         substituer ("\"VERSANT_FP\" *%a% *\"\\w{3}\"", "\"VERSANT_FP\" %a% \"FPH\"", file_str);
     else
         substituer ("\"VERSANT_FP\" *%a% *\"\\w{3}\"", "\"VERSANT_FP\" %a% \"FPT\"", file_str);
 
-    bool res = renommer (dump (file_str), versant_path);
-
-    if (! res) Q ("Le versant de la fonction publique n'a pas pu être exporté.")
-
+    renommer (dump (file_str), versant_path);
 }
+
+void standardPage::substituer_enlever_doublons(bool isOk)
+{
+    const QString &prologue_path = path_access (SCRIPT_DIR "prologue.R");
+
+    QString file_str = readFile (prologue_path);
+
+    if (isOk) substituer ("éliminer.duplications *<- *\\w{4,5}", "éliminer.duplications <- TRUE", file_str);
+    else      substituer ("éliminer.duplications *<- *\\w{4,5}", "éliminer.duplications <- FALSE", file_str);
+
+    bool res = renommer (dump (file_str), prologue_path);
+}
+
 
 processPage::processPage()
 {

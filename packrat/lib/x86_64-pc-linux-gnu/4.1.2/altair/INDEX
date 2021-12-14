@@ -1,7 +1,11 @@
 %+%                     Concaténation de chaîne de caractères
 %a%                     Assignation dans l'environnement d'appel
 %s%                     Prise en compte du pluriel
-Eliminer.duplications   Eliminer les doublons
+Eliminer.duplications   Eliminer les doublons en mémoire pour les
+                        calculs
+Exporter.tables.sans.doublons
+                        Eliminer les doublons dans les tables exportées
+                        sous Bases/Remunerations
 FR                      Ajoute le separateur des milliers et sans
                         decimale en français
 Read.csv                Lecture d'une série de bases CSV
