@@ -38,7 +38,8 @@ conditionnel("Lien vers la base de données IFTS non cat A-B", "Bases/Reglementa
 #'&nbsp;*Tableau 5.4.1 : Cumul IAT/IFTS*   
 #'      
 
-tableau_cumuls(résultat_IAT_IFTS)
+e <- tableau_cumuls(résultat_IAT_IFTS)
+if (e$res) print(e$tableau)
 
 conditionnel("Lien vers la base de données cumuls IAT/IFTS", "Bases/Reglementation/personnels.iat.ifts.csv")          
 

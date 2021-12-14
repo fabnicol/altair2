@@ -52,9 +52,24 @@ CONFIG(debug, debug|release) {
 } else {
   CONFIG += static
   QMAKE_CXXFLAGS += -O3 -fomit-frame-pointer -fexpensive-optimizations -Wall -Wextra -static
-  QMAKE_LFLAGS +=  -s   -static-libgcc -static-libstdc++
+
+
 }
 
+QMAKE_LFLAGS += -LC:\Users\Public\Dev\altair_SDK\mingw64\bin
+QMAKE_LFLAGS +=  -s   -static-libgcc -static-libstdc++ \
+C:\Users\Public\Dev\altair_SDK\mingw64\bin\libbz2-1.dll \
+C:\Users\Public\Dev\altair_SDK\mingw64\bin\liblzma-5.dll \
+C:\Users\Public\Dev\altair_SDK\mingw64\bin\libzstd.dll \
+C:\Users\Public\Dev\altair_SDK\mingw64\bin\zlib1.dll \
+C:\Users\Public\Dev\altair_SDK\mingw64\bin\libdeflate.dll \
+C:\Users\Public\Dev\altair_SDK\mingw64\bin\libtiff-5.dll \
+C:\Users\Public\Dev\altair_SDK\mingw64\bin\libjasper-4.dll \
+C:\Users\Public\Dev\altair_SDK\mingw64\bin\libjpeg-8.dll \
+C:\Users\Public\Dev\altair_SDK\mingw64\bin\liblcms2-2.dll \
+C:\Users\Public\Dev\altair_SDK\mingw64\bin\libLerc.dll  \
+C:\Users\Public\Dev\altair_SDK\mingw64\bin\libjbig-0.dll \
+C:\Users\Public\Dev\altair_SDK\mingw64\bin\libharfbuzz-0.dll
 
 TEMPLATE = app
 
@@ -67,8 +82,6 @@ TARGET = Altair
 
 VPATH = .
 INCLUDEPATH += ../../fwidgets_lib
-
-linux:LIBS += ~/Dev/altair/fwidgets_lib/libfwidgets_lib.a
 
 DEFINES += HAS_CPP17
 
@@ -105,7 +118,6 @@ SOURCES += \
     common.cpp \
     main.cpp \
     xmlparser.cpp \
-    highlighter.cpp \
     run.cpp \
     matricules.cpp \
     ../../fwidgets_lib/flineframe.cpp \
@@ -122,7 +134,6 @@ HEADERS  += \
     common.h \
     altair.h \
     altair.h \
-    highlighter.h \
     altair-gui.h \
     gui_enums.h \
     matricules.h \

@@ -80,7 +80,9 @@ sauvebase <- function(x, y, z, env) {
 
 tableau_cumuls <- function(résultat, e = NULL) {
   
-  if (is.null(e)) return(NULL)
+  if (is.null(e)) {
+    e <- new.env()
+  }
   
   if (! is.null(résultat)
      && ! is.null(résultat$cumuls)
@@ -99,8 +101,9 @@ tableau_cumuls <- function(résultat, e = NULL) {
   } else {
     
     e$res <- FALSE
+    e$tableau <- ""
   }
-  
+
   e
 }
 
@@ -114,8 +117,12 @@ tableau_cumuls <- function(résultat, e = NULL) {
 #' @export
 
 agrégat_annuel<- function(résultat, verbeux) {
-  
-  beneficiaires <- résultat$cumuls[, .(Matricule, Annee, nb.mois, Grade, Agrégat)]
+
+  if (exists("résultat$cumuls") && ! is.null(résultat$cumuls)) {
+      beneficiaires <- résultat$cumuls[, .(Matricule, Annee, nb.mois, Grade, Agrégat)]
+  } else {
+      cat ("\nPas de cumuls\n")
+  }
   
   if (verbeux) {
     

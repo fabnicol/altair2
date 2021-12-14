@@ -27,7 +27,7 @@ Paie_PSR <<- résultat_PSR$Paie
 #'&nbsp;*Tableau 5.6.1 : Cumul PSR/IFTS*   
 #'      
 
-tableau_cumuls(résultat_PSR)
+cat(tableau_cumuls(résultat_PSR)$tableau)
 
 #'      
 conditionnel("Lien vers la base de données cumuls psr/ifts", "Bases/Reglementation/personnels.psr.ifts.csv")       
@@ -62,7 +62,7 @@ résultat_PSR   <- test_prime(prime_PSR, prime_IAT, Paie_I, Paie_IAT, Lignes_IAT
 #'&nbsp;*Tableau 5.6.4 : Cumul PSR/IAT*   
 #'      
 
-tableau_cumuls(résultat_PSR)
+cat(tableau_cumuls(résultat_PSR)$tableau)
 
 #'      
 conditionnel("Lien vers la base de données cumuls psr/iat", "Bases/Reglementation/personnels.psr.iat.csv")       

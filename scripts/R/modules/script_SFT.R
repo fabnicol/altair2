@@ -1,6 +1,6 @@
 
 #'
-#'## 5.14 Contrôle du supplément familial de traitement 
+#'## 5.12 Contrôle du supplément familial de traitement
 #'  
 #'[![Notice](icones/Notice.png)](Docs/Notices/fiche_SFT.odt)   
 ## La biblitothèque SFT est à revoir  

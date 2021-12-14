@@ -25,7 +25,7 @@ Lignes_PFR <<- résultat_PFR$Lignes
 #'&nbsp;*Tableau 5.5.2 : Cumuls PFR/IFTS*   
 #'      
 
-tableau_cumuls(résultat_PFR)
+cat(tableau_cumuls(résultat_PFR)$tableau)
 
 #'      
 conditionnel("Lien vers la base de données cumuls pfr/ifts", "Bases/Reglementation/personnels.pfr.ifts.csv")    
@@ -42,7 +42,7 @@ Lignes_ISS <<- résultat_PFR$Lignes
 #'&nbsp;*Tableau 5.5.3 : Cumul PFR/ISS*   
 #'      
 
-tableau_cumuls(résultat_PFR)
+cat(tableau_cumuls(résultat_PFR)$tableau)
 
 #'      
 #'      
@@ -58,7 +58,7 @@ Lignes_IEMP <<- résultat_PFR$Lignes
 #'&nbsp;*Tableau 5.5.4 : Cumul PFR/IEMP*   
 #'      
 
-tableau_cumuls(résultat_PFR)
+cat(tableau_cumuls(résultat_PFR)$tableau)
 
 #'      
 #'      

@@ -9,14 +9,17 @@
 
 #+ ipf
 
-résultat_IPF   <<- test_prime(prime_IPF, prime_IFTS, Paie_I, Paie_IFTS, Lignes_IFTS, afficher.table.effectifs)
+résultat_IPF   <<- test_prime(prime_IPF, prime_IFTS, Paie_I, Paie_IFTS, Lignes_IFTS, verbeux = afficher.table.effectifs, echo =TRUE)
 
 #'   
-#'    
-#'&nbsp;*Tableau 5.7.1 : Cumul IPF/IFTS*   
-#'      
+e <- tableau_cumuls(résultat_IPF)
 
-tableau_cumuls(résultat_IPF)
+if (e$res) {
+  cat("    \n*Tableau 5.7.1 : Cumul IPF/IFTS*   \n")
+  print(e$tableau)
+} else {
+     cat("    \n*Pas de cumul IPF/IFTS*   \n")
+}
 
 #'      
 #'      
@@ -25,26 +28,32 @@ conditionnel("Lien vers la base de données IPF non cat.A", "Bases/Reglementatio
 conditionnel("Lien vers la base de données IPF non tit", "Bases/Reglementation/IPF.non.tit.csv")       
 #'   
 
-résultat_IPF   <<- test_prime(prime_IPF, prime_PFR, Paie_I, Paie_PFR, Lignes_PFR, verbeux = afficher.table.effectifs)
+résultat_IPF   <<- test_prime(prime_IPF, prime_PFR, Paie_I, Paie_PFR, Lignes_PFR, verbeux = afficher.table.effectifs, echo = FALSE)
 
-#'    
-#'&nbsp;*Tableau 5.7.2 : Cumul IPF/PFR*   
-#'      
+e <- tableau_cumuls(résultat_IPF)
 
-tableau_cumuls(résultat_IPF)
+if (e$res) {
+   cat("    \n*Tableau 5.7.2 : Cumul IPF/PFR*   \n")
+   print(e$tableau)
+} else {
+   cat("    \n*Pas de cumul IPF/PFR*   \n")
+}
 
 #'      
 #'      
 conditionnel("Lien vers la base de données cumuls ipf/pfr", "Bases/Reglementation/personnels.ipf.pfr.csv")    
 #'   
 
-résultat_IPF   <<- test_prime(prime_IPF, prime_ISS, Paie_I, Paie_ISS, Lignes_ISS, verbeux = afficher.table.effectifs)
+résultat_IPF   <<- test_prime(prime_IPF, prime_ISS, Paie_I, Paie_ISS, Lignes_ISS, verbeux = afficher.table.effectifs, echo = FALSE)
 
-#'    
-#'&nbsp;*Tableau 5.7.3 : Cumul IPF/ISS*   
-#'      
+e <- tableau_cumuls(résultat_IPF)
 
-tableau_cumuls(résultat_IPF)
+if (e$res) {
+    cat("    \n*Tableau 5.7.3 : Cumul IPF/ISS*   \n")
+    print(e$tableau)
+} else {
+    cat("    \n*Pas de cumul IPF/ISS*   \n")
+}
 
 #'      
 #'      
