@@ -408,7 +408,7 @@ Eliminer.duplications <- function() {
     Bulletins.paie.dup <- NULL
     Bulletins.paie.uniq <- NULL
     
-    e$Ndup <- length(vect.duplicated)
+    e$Ndup <- length(vect.duplicated[vect.duplicated == TRUE])
     
     if (e$Ndup == 0) return(e)
     
@@ -420,7 +420,7 @@ Eliminer.duplications <- function() {
     if ("CodeCaisse" %in% names(Paie)) cols <- c(cols, "CodeCaisse")
 
     vect.duplicated.cols <- duplicated(Paie, by = cols)
-    e$Ndup2 <- length(vect.duplicated.cols)
+    e$Ndup2 <- length(vect.duplicated.cols[vect.duplicated.cols == TRUE])
 
     "Bulletins.paie" %a%  Bulletins.paie[! vect.duplicated]
     
@@ -461,7 +461,7 @@ Exporter.tables.sans.doublons <- function() {
     Bulletins.paie.dup <- NULL
     Bulletins.paie.uniq <- NULL
     
-    e$Ndup <- length(vect.duplicated)
+    e$Ndup <- length(vect.duplicated[vect.duplicated == TRUE])
     
     if (e$Ndup == 0) return(e)
     
@@ -474,7 +474,7 @@ Exporter.tables.sans.doublons <- function() {
        
     vect.duplicated.cols <- duplicated(Paie, by = cols)
     
-    e$Ndup2 <- length(vect.duplicated.cols)
+    e$Ndup2 <- length(vect.duplicated.cols[vect.duplicated.cols == TRUE])
     
     Bulletins.paie.dup <-  Bulletins.paie[vect.duplicated]
     Bulletins.paie.uniq <- Bulletins.paie[! vect.duplicated]
