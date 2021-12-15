@@ -19,4 +19,4 @@ Bugs
             Pb au lancement de kate pour l'édition du projet.
            
 10/12/2021  TODO: Eliminer les scories de tests de cohérences ldp/bdp dans les parties du brut.
-                  rémunérations et coûts complets par service disfonctionnels.
+                  rémunérations et coûts complets par service dysfonctionnels.

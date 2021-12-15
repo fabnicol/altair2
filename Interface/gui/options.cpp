@@ -1142,7 +1142,7 @@ void standardPage::substituer_enlever_doublons(bool isOk)
     if (isOk) substituer ("éliminer.duplications *<- *\\w{4,5}", "éliminer.duplications <- TRUE", file_str);
     else      substituer ("éliminer.duplications *<- *\\w{4,5}", "éliminer.duplications <- FALSE", file_str);
 
-    bool res = renommer (dump (file_str), prologue_path);
+    renommer (dump (file_str), prologue_path);
 }
 
 
