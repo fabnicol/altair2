@@ -454,6 +454,14 @@
 			<xs:maxLength value="32"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:complexType name="Base_Texte34">
+		<xs:attribute name="V" type="V_Texte34" use="required"/>
+	</xs:complexType>
+	<xs:simpleType name="V_Texte34">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="34"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:complexType name="Base_Texte38">
 		<xs:attribute name="V" type="V_Texte38" use="required"/>
 	</xs:complexType>

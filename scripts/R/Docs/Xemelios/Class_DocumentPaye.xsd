@@ -15,6 +15,11 @@
 			</xs:element>
 			<xs:element name="Annee" type="cm:Base_Annee"/>
 			<xs:element name="Mois" type="Base_Mois"/>
+			<xs:element name="Train" type="Base_Texte24" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Train de paye. Si utilisé, la nomenclature des trains de paye doit être impérativement fournie.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="Budget" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Budget d'affectation de cette pièce justificative (exemple 00 : budget principal) - en cas d'état multibudget (99: multibudget)</xs:documentation>
@@ -120,6 +125,11 @@
 			<xs:element name="NomenclatureStatut" type="TNomenclature" minOccurs="0">
 				<xs:annotation><xs:documentation>Nomenclature des statuts des agents. Si cette nomenclature n'est pas fournie, la nomenclature par défaut est utilisée.
 					( [[TITULAIRE,TITULAIRE][NON_TITULAIRE,NON_TITULAIRE][STAGIAIRE,STAGIAIRE][EMPLOI_FONC,EMPLOI_FONC][EMPLOI_AIDE,EMPLOI_AIDE][AUTRE_STATUT]] )</xs:documentation></xs:annotation>
+			</xs:element>
+			<xs:element name="NomenclatureTrain" type="TNomenclature" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Nomenclature des trains de paye. Cette nomenclature doit être impérativement fournie si les trains de paye sont utilisés.</xs:documentation>
+				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>

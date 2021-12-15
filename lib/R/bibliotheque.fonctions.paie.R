@@ -343,7 +343,6 @@ Resume <- function(X,
 essayer(label = "+quartiles", {
       Y <- na.omit(y)
 
-
       if (! is.list(Y) || is.data.frame(Y)) {
 
         if (type == "pond") {
@@ -407,8 +406,6 @@ essayer(label = "+quartiles", {
                  cat("Impossible de generer le tableau : ligne manquante.")
                  return("")
                }
-
-
            }
            # S est de type matrix
 
@@ -888,19 +885,20 @@ filtrer_Paie <- function(x,
   P_
 }
 
-
 extraire_paye_ <- function(an, L, out) {
 
   if (! is.null(L)) {
     assign(out, unique(Bulletins.paie[Annee == an
                                                  & Mois == 12
                                                  & Statut != "ELU"
-                                                 & Statut %chin% L,
+                                                 & Statut %in% L
+                                                 & ! is.na(as.numeric(substr(Nir, 1, 3))),
                                                  .(Matricule, Nir)]), .GlobalEnv)
   } else {
   assign(out, unique(Bulletins.paie[Annee == an
                                & Mois == 12
-                               & Statut != "ELU",
+                               & Statut != "ELU"
+                               & ! is.na(as.numeric(substr(Nir, 1, 3))),
                                .(Matricule, Nir)]), .GlobalEnv)
   }
 }

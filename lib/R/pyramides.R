@@ -64,9 +64,11 @@ produire_pyramides_ <- function(Filtre_bulletins, titre, versant = "", envir) {
   
   # Répartition par âge et sexe des individus ayant un NIR en début et fin de periode sous revue
   
-       ages.début.psr <- extraire.nir(Bulletins.début.psr, debut.periode.sous.revue)
+       ages.début.psr <- extraire.nir(Bulletins.début.psr, debut.periode.sous.revue, 
+                                      ifelse(is.null(Filtre_bulletins), "", paste(Filtre_bulletins, collapse="_")))
   
-         ages.fin.psr <- extraire.nir(Bulletins.fin.psr, fin.periode.sous.revue)
+         ages.fin.psr <- extraire.nir(Bulletins.fin.psr, fin.periode.sous.revue, 
+                                      ifelse(is.null(Filtre_bulletins), "", paste(Filtre_bulletins, collapse="_")))
   
   # Extrait la répartition par âge et sexe des individus ayant un NIR.
   #    extraire.nir(Base, annee)
@@ -97,7 +99,8 @@ produire_pyramides_ <- function(Filtre_bulletins, titre, versant = "", envir) {
   envir$nom.fichier.apres <- stub %+% fin.periode.sous.revue
   
   # Sauvegarde des bases des âges début et fin de periode sous revue
-  
+  Sauv.base("Effectifs",  "Bulletins.début.psr", "Bulletins.début.psr", environment = environment())
+  Sauv.base("Effectifs",  "Bulletins.fin.psr", "Bulletins.fin.psr", environment = environment())
   Sauv.base("Effectifs",  "ages.début.psr", envir$nom.fichier.avant, environment = environment())
   Sauv.base("Effectifs",  "ages.fin.psr", envir$nom.fichier.apres, environment = environment())
   

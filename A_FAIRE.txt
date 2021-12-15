@@ -18,5 +18,8 @@ Bugs
             Pas d'effectivité de la confuration de l'interface dans le projet (restauration non effectuée)
             Pb au lancement de kate pour l'édition du projet.
            
-10/12/2021  TODO: Eliminer les scories de tests de cohérences ldp/bdp dans les parties du brut.
-                  rémunérations et coûts complets par service dysfonctionnels.
+10/12/2021  TODO: 1. Eliminer les scories de tests de cohérences ldp/bdp dans les parties du brut.
+                  2. Rémunérations, effectifs et coûts complets par service dysfonctionnels.
+                  3. En parallèle d'exécution du rapport, dans le passage du module d de Rmd à md (rémunérationsbrutes1)
+                     il y a génération anormale de graphiques de pyramides précédemment générées en modules b ou c.
+                     Défaut absent en génération série.

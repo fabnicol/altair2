@@ -1268,11 +1268,11 @@ annee_comparaison <- function(versant) {
 #' extraire.nir(Base, 2012)
 #' @export
 
-extraire.nir <- function(Base, annee)  {
+extraire.nir <- function(Base, annee, type)  {
 
   Base[ , `:=`(age = annee - (as.numeric(substr(Nir, 2, 3)) + 1900),
                sexe = substr(Nir, 1, 1))]
-
+               
   Base[ , age := ifelse(age > 99, age - 100, age)]
 
   temp <- Base[age < 69 & age > 14]
@@ -1285,7 +1285,11 @@ extraire.nir <- function(Base, annee)  {
     data.table(age = 15:68),
     by = "age",
     all = TRUE)
-
+  
+  HF[Hommes == "" | is.na(Hommes), Hommes := 0]
+  HF[Femmes == "" | is.na(Femmes), Femmes := 0]
+  
+  Sauv.base("Effectifs",  "HF", ifelse(type == "", "HF", "HF" %+% "_" %+% type), environment = environment())
   HF
 }
 
