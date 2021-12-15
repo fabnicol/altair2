@@ -244,11 +244,12 @@ importer_matricules <- function() {
                                                    showProgress = FALSE)
 
     message("Chargement du fichier des categories statutaires des personnels.")
-    if (!is.null(base.personnels.categorie))
-      message("Importé.")
-    else {
-      message("Impossible d'importer les categories.")
-      stop(" ")
+    
+    if (! is.null(base.personnels.categorie)) {
+       message("Importé.")
+    } else {
+       message("Impossible d'importer les categories.")
+       stop(" ")
     }
   } else {
     base.personnels.categorie <- NULL

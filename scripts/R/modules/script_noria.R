@@ -41,10 +41,10 @@ essayer(label = "+noria brute globale", invisible(noria(champ = "brut")),
 #'*Note :*
 #'*Effet de noria* : *variation des rémunérations liées au remplacement de salariés sortants par un même nombre d'entrants.*
 #'*Effet des variations d'effectifs (ou de périmètre)* : *variation des rémunérations liées à la différence entre nombre de sortants et d'entrants.*
-#'*Les effets de vacances d'emploi, s'ils existent, sont intégrés dans le calcul de l'effet de noria*
-#'*Voir les exemples traités en bas de page du lien technique suivant*
-#'[Spécifications techniques des tables RMPP et effet de noria](Docs/Notices/noria.html)
-#'[Voir complément méthodologique DGFIP](Docs/Notices/GVT et noria.pdf)
+#'*Les effets de vacances d'emploi, s'ils existent, sont intégrés dans le calcul de l'effet de noria*   
+#'*Voir les exemples traités en bas de page du lien technique suivant*     
+#'[Spécifications techniques des tables RMPP et effet de noria](Docs/Notices/noria.html)    
+#'[Voir complément méthodologique DGFIP](Docs/Notices/GVT et noria.pdf)    
 #'
 
 ##### 4.3.4 Effet de noria et de variation d'effectifs sur rémunérations moyennes des fonctionnaires  ######
@@ -61,7 +61,6 @@ essayer(label = "+noria brute globale", invisible(noria(champ = "brut")),
 
 essayer(invisible(noria(champ = "net", filtre = c("TITULAIRE", "STAGIAIRE"))),
         "Le calcul de l'effet de noria n'a pas pu être réalisé sur les rémunérations nettes moyennes des fonctionnaires.")
-
 
 #'
 #'**Effet de noria et de variations d'effectifs sur rémunérations brutes moyennes EQTP des fonctionnaires**

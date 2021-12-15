@@ -1,4 +1,4 @@
-"VERSANT_FP"       %a% "FPT"
+"VERSANT_FP" %a% "FPT"
 "codes.traitement" %a% NA
 "codes.nbi"        %a% NA
 "codes.pfi"        %a% NA
@@ -57,13 +57,13 @@ if (script_rémunérationsbrutes) {
 }
 
 
-"sequentiel"                     %a% TRUE
-"ouvrir.document"                %a% TRUE
+"sequentiel" %a% TRUE
+"ouvrir.document" %a% TRUE
 "paye.budget.existe" %a% FALSE
 
 "types.irs"  %a% c("IR", "S")
 
-"controle" %a% c("","","","")  
+"controle" %a% c("CONSEIL DEPARTEMENTAL DES HAUTES-PYRENEES, ASE65","22650001500350 - 22650001500012 - 22650001500111","TRANSPORT - ELU - ASSISTANTE FAMILIALE - CONSEIL DEPARTEMENTAL","BUDGET TRANSPORT, BUDGET PRINCIPAL")  
 
 "codes" %a% data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IFSE", "IEMP", "ISS", "IHTS", "VAC", "ASTREINTES", "NAS", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(

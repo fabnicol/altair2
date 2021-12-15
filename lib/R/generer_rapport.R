@@ -47,6 +47,7 @@ generer_rapport <- function(type = "latex") {
   # dossier d'exécution principal
 
   "chemin.dossier" %a% file.path(currentDir, "scripts", "R")
+  "chemin.data" %a% file.path(currentDir, "data")
 
   setwd(chemin.dossier)
 
@@ -103,6 +104,8 @@ generer_rapport <- function(type = "latex") {
     invisible(file.remove(list.files(chemin.dossier, "*.(Rmd|tex|docx|odt|pdf|html)$", full.name = TRUE)))
 
     # lancement de la fabrication du rapport
+    
+     assign("HTML", FALSE, envir = .GlobalEnv)
 
     if (type == "sans") {
       sequentiel <<- TRUE  # override
@@ -126,6 +129,7 @@ generer_rapport <- function(type = "latex") {
             if (grepl("html", type)) {
 
               t <- "html"
+               assign("HTML", TRUE, envir = .GlobalEnv)
 
             } else {
 
@@ -228,12 +232,12 @@ to_html <- function(infile = "altair.md" , outfile = "altair.html",
       shell(paste("start msedge.exe",  cle_outfile))
 
     } else {
-      system(paste("firefox", file.path(chemin.cle, outfile)))
+      res <- system(paste("firefox", file.path(chemin.cle, outfile)))
+      if (res != 0) system(paste("firefox-bin", file.path(chemin.cle, outfile)))
     }
   }
 
   if (! keep) file.remove(infile)
-
 }
 
 cleanup <- function() {

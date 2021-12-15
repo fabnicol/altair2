@@ -88,10 +88,8 @@ if (setOSWindows) {
   path.libreoffice <- "/usr/lib/libreoffice/program" 
   user <-  Sys.getenv("USER")
   sep_syspaths <- ":"
-  Sys.setenv(LD_LIBRARY_PATH=path.libreoffice %+% sep_syspaths %+% Sys.getenv("LD_LIBRARY_PATH"))
+  Sys.setenv(LD_LIBRARY_PATH = path.libreoffice %+% sep_syspaths %+% Sys.getenv("LD_LIBRARY_PATH"))
 }
-
-
 
 # PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
 

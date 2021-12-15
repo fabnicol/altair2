@@ -88,14 +88,14 @@ Tableau.vertical2(
 #'[Source INSEE](Docs/ip1486.xls)    
 #'[Source DGCL](Docs/Vue3_Remuneration_2017.xlsx)    
 #'[Source DGCL](Docs/Vue-Remunerations-2018.xlsx)   
-#'[Source DGCL](Docs/Vue-Remunerations-2019.xlsx)
-#'[Source RAEFP 2015](Docs/RA_2015.pdf)   
+#'[Source DGCL](Docs/Vue-Remunerations-2019.xlsx)    
+#'[Source RAEFP 2015](Docs/RA_2015.pdf)     
 #'[Source RAEFP 2016](Docs/RA_2016.pdf)   
 #'[Source RAEFP 2017](Docs/RA_2017.pdf)    
 #'[Source RAEFP 2018](Docs/RA_2018.pdf)    
-#'[Source RAEFP 2019](Docs/RA_2019.pdf)
-#'[Source RAEFP 2020](Docs/RA_2020.pdf)
-#'[Source RAEFP 2021](Docs/RA_2021.pdf)
+#'[Source RAEFP 2019](Docs/RA_2019.pdf)   
+#'[Source RAEFP 2020](Docs/RA_2020.pdf)  
+#'[Source RAEFP 2021](Docs/RA_2021.pdf)   
 #'   
 #'   
 #'## 3.6 Coût chargé  

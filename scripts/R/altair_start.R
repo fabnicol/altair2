@@ -247,6 +247,7 @@ scripts <-
         "script_comparaisonsdubrut.R",
         "script_évolutiondunet.R",
         "script_noria.R",
+        "script_comparaisonsdunet.R",
         "script_parité.R",
         "script_NBI.R",
         "script_HS.R", #+
@@ -283,27 +284,28 @@ scripts <-
                  list("script_rémunérationsbrutes2.R", "e"),
                  list("script_comparaisonsdubrut.R", "f"),
                  list("script_évolutiondunet.R", "g"),
-                 list("script_noria.R", "h"),
-                 list("script_parité.R", "i"))
+                 list("script_comparaisonsdunet.R", "h"),
+                 list("script_noria.R", "i"),
+                 list("script_parité.R", "j"))
 
-  group3 <- list(list("script_NBI.R", "ji"),
-                 list("script_HS.R", "k"),
-                 list("script_astreintes.R", "l"))
+  group3 <- list(list("script_NBI.R", "k"),
+                 list("script_HS.R", "l"),
+                 list("script_astreintes.R", "m"))
 
-  group4 <- list(list("script_IATIFTS.R", "m"),
-                 list("script_PFR.R", "n"),
-                 list("script_PSR.R", "o"),
-                 list("script_IPF.R", "p"),
-                 list("script_RIFSEEP.R", "q"))
+  group4 <- list(list("script_IATIFTS.R", "n"),
+                 list("script_PFR.R", "o"),
+                 list("script_PSR.R", "p"),
+                 list("script_IPF.R", "q"),
+                 list("script_RIFSEEP.R", "r"))
 
-  group5 <- list(list("script_PFI.R", "r"),
-                 list("script_élus.R", "s"))
+  group5 <- list(list("script_PFI.R", "s"),
+                 list("script_élus.R", "t"))
 
-  group6 <- list(list("script_comptabilité.R", "t"),
-                 list("script_SFT.R", "u"),
-                 list("script_retraites.R", "v"),
-                 list("script_FPH.R", "w"),
-                 list("script_annexe.R", "x"))
+  group6 <- list(list("script_comptabilité.R", "u"),
+                 list("script_SFT.R", "v"),
+                 list("script_retraites.R", "w"),
+                 list("script_FPH.R", "x"),
+                 list("script_annexe.R", "y"))
   
   library(parallel)
   

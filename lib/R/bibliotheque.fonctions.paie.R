@@ -126,8 +126,6 @@ read.csv.skip <- function(x,
     }
    }
 
-  
-
 return(T)
 }
 
@@ -591,7 +589,19 @@ Tableau.vertical2 <- function(colnames, rownames, ...)
   kable(T, row.names = FALSE, align = NULL,  format = "simple")
 }
 
+#' Tableau.data
+#' @param filename Nom du fichier sous le répertoire data de la racine
+#  @param colnames Vecteur de noms de colonnes
+#' @export
 
+Tableau.data <- function(filename, colnames) {
+
+    kable(fread(file.path(chemin.data, filename), sep = ";", dec = ",", header = FALSE),
+        col.names = colnames, 
+        format.args = list(big.mark = " "),
+        format = if (HTML) "html" else "latex",
+        align = c("l", rep("c", length(colnames) - 1)))
+}
 
 v.jmois  <-  c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 v.jmois.leap  <-  c(31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
@@ -607,14 +617,11 @@ calcul.nb.jours.mois <- function(Mois, annee)   {
   }  else {
 
     if ((annee - 2008) %% 4 == 0) {
-      
          return(v.jmois.leap[Mois])
       
     } else {
-      
-      
          return(v.jmois[Mois])
-      
+
     }  
  }
 }
@@ -797,7 +804,6 @@ filtre <- function(x) {
   } else {
     return(unlist(codes[x, valeur]))
   }
-
 }
 
 #' Filtrage d'une base de paye

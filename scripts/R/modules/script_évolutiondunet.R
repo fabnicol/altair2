@@ -25,7 +25,6 @@ attach(Analyse.variations, warn.conflicts = FALSE)
 inserer_script(fonction = "evolution_net_hist_1")
 
 #'   
-#'   
 
 #+fig.height=6, fig.width=7   
 inserer_script(fonction = "evolution_net_hist_2")
@@ -82,12 +81,13 @@ cat("*Nota :*  La population retenue est constituée des agents qui ne font pas 
 #'&nbsp;*Tableau 4.2.1.3*       
 
 #### INSEE/DGCL   ####
-#'  
-#'  |  net (euros)     | 2011    | 2012   |  2013  |  2014  | 2016   | 2017   | 2018  |  2019 |
-#'  |------------------|--------:|-------:|-------:|-------:|-------:|-------:|------:| -----:|
-#'  |    Ensemble      |  21 876 | 22 176 | 22 224 | 22 524 | 22 824 | 23 328 | 23 556| 23 917|
-#'  |   Titulaires     |  22 632 | 22 920 | 22 920 | 23 424 | 23 820 | 24 312 | 24 480| 24 852|
-#'  | Autres salariés* |  18 864 |  NA    |  NA    | 18 732 | 20 207 | 20 532 | 20 400|       |
+
+message("smpt_net_fpt.csv")
+
+Tableau.data("smpt_net_fpt.csv", 
+             c("net (euros)", 2011, 2012,  2013,  2014, 2016, 2017, 2018, 2019))
+             
+#'   
 #'   *Contractuels à partir de 2017
 #'   
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
@@ -101,61 +101,34 @@ cat("*Nota :*  La population retenue est constituée des agents qui ne font pas 
 # Remarque sur le formatage markdown: en raison d'un bug de knitr, utiliser un dièse + apostrophe
 # suivi d'un seul blanc juste après la table.
    
+message("distribution_smpt_net_fpt.csv")   
 #'     
-#' | Décile \ euros   | 2011 FPT | 2013 FPT| 2014 FPT | 2016 FPT|2017 FPT |2018 FPT|2019 FPT|
-#' |------------------|----------|---------|----------|---------|---------|--------|--------|
-#' |    D1            | 15 288   | 15 600  | 15 768   |  15 912 | 16 272  | 16 435 | 16 648 |
-#' |    D2            | 16 512   | 16 860  | 17 124   |  17 340 | 17 688  | 17 836 | 18 067 |
-#' |    D3            | 17 508   | 17 844  | 18 156   |  18 432 | 18 828  | 18 985 | 19 256 |
-#' |    D4            | 18 480   | 18 816  | 19 164   |  19 476 | 19 908  | 20 104 | 20 424 |
-#' |    D5 (médiane)  | 19 632   | 19 908  | 20 256   |  20 616 | 21 096  | 21 320 | 21 689 |
-#' |    D6            | 21 012   | 21 300  | 21 648   |  22 020 | 22 548  | 22 781 | 23 167 |
-#' |    D7            | 22 860   | 23 160  | 23 496   |  23 868 | 24 444  | 24 666 | 25 096 |
-#' |    D8            | 25 596   | 25 956  | 26 292   |  26 700 | 27 336  | 27 571 | 28 068 |
-#' |    D9            | 30 876   | 31 272  | 31 596   |  31 968 | 32 652  | 32 939 | 33 418 |
-#' |    Moyenne       | 21 876   | 22 212  | 22 524   |  22 824 | 23 328  | 23 553 | 23 917 |
+ Tableau.data("distribution_smpt_net_fpt.csv", 
+              c("Décile \ euros   ", 2011, 2013, 2014, 2016, 2017, 2018, 2019))
 #'    
 
 #'**Distribution des salaires nets annuels en EQTP dans la fonction publique d'Etat (2011-2016)**   
 #' 
 #'  
 #'&nbsp;*Tableau 4.2.1.5*   
+
+message("distribution_smpt_net_fpe.csv")   
 #'    
 
-#'      
-#' | Décile \ euros   | 2011     | 2013   | 2016    |  2018  | 2019
-#' |------------------|----------|--------|---------|--------|------
-#' |    D1            | 17 496   | 18 012 | 17 928  | 18 460 |18 572
-#' |    D2            | 20 916   | 21 348 | 21 588  | 22 106 |22 247
-#' |    D3            | 23 052   | 23 376 | 23 844  | 24 425 |24 634
-#' |    D4            | 24 912   | 25 248 | 25 764  | 26 487 |26 806
-#' |    D5 (médiane)  | 26 832   | 27 120 | 27 720  | 28 537 |28 872
-#' |    D6            | 28 944   | 29 220 | 29 760  | 30 671 |31 140
-#' |    D7            | 31 632   | 31 968 | 32 604  | 33 602 |34 143
-#' |    D8            | 35 592   | 35 964 | 36 588  | 37 661 |38 099
-#' |    D9            | 42 456   | 42 780 | 43 332  | 44 453 |44 925
-#' | Moyenne          | 29 208   | 29 628 | 30 060  | 30 873 |31 189
-#'   
-
+Tableau.data("distribution_smpt_net_fpe.csv", 
+              c("Décile \ euros   ", 2011, 2013, 2016, 2018, 2019))
+#
 
 #'**Distribution des salaires nets annuels en EQTP dans la fonction publique hospitalière (hôpitaux) (2011-2016)**   
 
 #'  
 #'&nbsp;*Tableau 4.2.1.6*   
 #'    
-#'     
-#' | Décile \ euros   | 2011     | 2013   | 2016    | 2017  | 2018   | 2019
-#' |------------------|----------|--------|---------|-------|--------|-------
-#' |    D1            | 16 584   | 17 016 |  17 460 | 17 688| 17 683 | 17 967
-#' |    D2            | 18 168   | 18 492 |  18 852 | 19 104| 19 131 | 19 510
-#' |    D3            | 19 620   | 19 872 |  20 160 | 20 460| 20 516 | 21 035
-#' |    D4            | 21 048   | 21 192 |  21 456 | 21 816| 21 917 | 22 503
-#' |    D5 (médiane)  | 22 596   | 22 656 |  22 848 | 23 220| 23 358 | 23 992
-#' |    D6            | 24 504   | 24 516 |  24 540 | 24 888| 25 041 | 25 778
-#' |    D7            | 27 216   | 27 252 |  27 108 | 27 408| 27 594 | 28 554
-#' |    D8            | 30 996   | 31 176 |  31 092 | 31 404| 31 564 | 32 387
-#' |    D9            | 37 812   | 38 100 |  38 064 | 38 388| 38 907 | 40 431
-#' |  Moyenne         | 26 496   | 26 916 |  27 096 | 27 456| 27 694 | 28 569
+message("distribution_smpt_net_fph.csv")   
+#'
+Tableau.data("distribution_smpt_net_fph.csv", 
+              c("Décile \ euros   ", 2011, 2013, 2016, 2017, 2018, 2019))
+              
 #'    
 
 #'[Source INSEE, onglets Figure3, F1web et F3web - 2011](Docs/ip1486.xls)    
@@ -191,19 +164,11 @@ essayer(label = "+SMPT cat A", print(smpt(Filtre_cat_A)), "Le salaire moyen par 
 #'  
 #'*Comparaisons nationales*    
 #'*FPT categorie A*    
-#'            
-#' | Décile \ euros   | 2011     | 2013   |   2014   |  2016   |  2018  | 2019
-#' |------------------|----------|--------|----------|---------|------- |--------
-#' |    D1            | 26 040   | 26 340 |  26 460  |  26 724 | 28 080 | 29 973
-#' |    D2            | 28 992   |        |          |         |        |   
-#' |    D3            | 31 272   |        |          |         |        |   
-#' |    D4            | 33 468   |        |          |         |        |   
-#' |    D5 (médiane)  | 35 820   | 36 312 |  36 580  |  37 020 | 38 280 | 35 525
-#' |    D6            | 38 664   |        |          |         |        |   
-#' |    D7            | 42 276   |        |          |         |        |   
-#' |    D8            | 47 124   |        |          |         |        |   
-#' |    D9            | 54 840   | 55 032 |  55 440  |  55 284 | 56 628 | 54 445
-#' |  Moyenne         | 38 700   | 39 120 |  39 360  |  39 564 | 40 920 | 38 423
+#'    
+message("distribution_smpt_net_fpt_cat_A.csv")   
+Tableau.data("distribution_smpt_net_fpt_cat_A.csv", 
+              c("Décile \ euros   ", 2011, 2013, 2014, 2016, 2018, 2019))
+
 #'   
 
 #'   
@@ -219,18 +184,11 @@ essayer(label = "+SMPT cat B", print(smpt(Filtre_cat_B)),          "Le salaire m
 #'*Comparaisons nationales*    
 #'*FPT categorie B*    
 #'    
-#' | Décile \ euros   | 2011     | 2013   |  2014   |  2016  |  2018  | 2019
-#' |------------------|----------|--------|---------|--------|--------|-------
-#' |    D1            | 20 580   | 20 964 |  21 108 | 21 372 | 21 888 |22 336
-#' |    D2            | 22 272   |        |         |        |        |
-#' |    D3            | 23 652   |        |         |        |        |
-#' |    D4            | 24 960   |        |         |        |        | 
-#' |    D5 (médiane)  | 26 244   | 26 820 |  27 000 | 27 216 | 27 768 |28 045
-#' |    D6            | 27 636   |        |         |        |        |
-#' |    D7            | 29 160   |        |         |        |        |
-#' |    D8            | 30 984   |        |         |        |        |
-#' |    D9            | 33 804   | 34 224 | 34 344  | 34 560 | 35 304 |36 460
-#' |  Moyenne         | 26 940   | 27 408 | 27 588  | 27 828 | 28 428 |28 925
+message("distribution_smpt_net_fpt_cat_B.csv")   
+#'  
+Tableau.data("distribution_smpt_net_fpt_cat_B.csv", 
+              c("Décile \ euros   ", 2011, 2013, 2014, 2016, 2018, 2019))
+
 #'  
 
 #'   
@@ -245,22 +203,13 @@ essayer(label = "+SMPT cat C", print(smpt(Filtre_cat_C)),       "Le salaire moye
 #'     
 #'*Comparaisons nationales*    
 #'*FPT categorie C*    
+#'   
+message("distribution_smpt_net_fpt_cat_C.csv")   
 #'    
-#' | Décile \ euros   | 2011     | 2013   |  2014  |  2016  | 2018   | 2019
-#' |------------------|----------|--------|--------|--------|--------|-------
-#' |    D1            | 15 972   |  16 296| 16 632 | 16 920 | 17 256 | 17 458
-#' |    D2            | 16 896   |        |        |        |        |
-#' |    D3            | 17 652   |        |        |        |        | 
-#' |    D4            | 18 360   |        |        |        |        | 
-#' |    D5 (médiane)  | 19 164   |  19 464| 19 884 | 20 256 | 20 868 | 21 199
-#' |    D6            | 20 100   |        |        |        |        |
-#' |    D7            | 21 216   |        |        |        |        |
-#' |    D8            | 22 680   |        |        |        |        | 
-#' |    D9            | 24 996   |  25 176| 25 608 | 26 028 | 26 844 | 27 337
-#' |    Moyenne       | 20 016   |  20 268| 20 676 | 21 024 | 21 612 | 21 935
+Tableau.data("distribution_smpt_net_fpt_cat_C.csv", 
+              c("Décile \ euros   ", 2011, 2013, 2014, 2016, 2018, 2019))
+
 #'    
-
-
 #'       
 #'### 4.2.3 Distribution et variation sur la periode du SMPT net en EQTP         
 #'     
@@ -405,109 +354,3 @@ cat("Les différences éventuelles constatées entre l'évolution de la RMPP au 
 detach(Analyse.variations)
 
 conditionnel("Lien vers la base de données", "Bases/Remunerations/Anavar.synthese.csv")  
-
-#'   
-#'## 4.4 Rémunérations nettes par grade, emploi et service         
-#'   
-
-setwd(file.path(chemin.dossier.bases, "Remunerations"))
-      
-net.grades   <<- net.eqtp(variation = TRUE)
-net.emplois  <<- net.eqtp.emploi(variation = TRUE)
-net.services <<- net.eqtp.serv(variation = TRUE)
-
-Sauv.base("Remunerations", "net.emplois") 
-Sauv.base("Remunerations", "net.grades")
-Sauv.base("Remunerations", "net.services") 
-
-csvfiles  <- list.files(".", pattern = "^net.serv..*.csv")
-zip("net.services.zip", csvfiles)
-invisible(file.remove(csvfiles))
-
-setwd(currentDir)
-
-#'   
-conditionnel("Rémunérations nettes par grade", "Bases/Remunerations/net.grades.csv")      
-#'  
-conditionnel("Rémunérations nettes par emploi", "Bases/Remunerations/net.emplois.csv")  
-#'   
-conditionnel("Rémunérations nettes par service", "Bases/Remunerations/net.services.zip")  
-#'  
-#'*Note : les moyennes des tableaux sont pondérées en EQTP. Les rémunérations nettes sont calculees en retranchant le supplément familial de traitement.*      
-#'    
-#'  
-#'
-#'
-#'## 4.5 Comparaisons avec la situation nationale des rémunérations   
-#'  
-#'**Évolution en euros courants du SMPT et de la RMPP dans la FPT (en % et euros courants)**    
-
-#'  
-#'&nbsp;*Tableau 4.5.1*   
-#'    
-
-#' 
-#'| Annee      | 2009 | 2010 | 2011 | 2012 | 2013 | 2014 | 2015 | 2016  | 2017 |  2018 | 2019 |
-#'|:----------:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|------:|-----:|-------| -----
-#'| SMPT brut  | 2,5  |  1,3 |  1,5 |  1,7 |  1,1 |  1,7 |  1,2 | 0,9   | 2,4  |  2,3  | 1,6  |
-#'| SMPT net   | 3,0  |  1,4 |  1,3 |  1,4 |  0,8 |  1,3 |  0,8 | 0,6   | 2,1  |  1,0  | 1,5  |
-#'| RMPP brute | 3,3  |  2,5 |  2,5 |  2,7 |  1,9 |  3,0 |  2,1 | 1,7   | 3,2  |  2,7  | 2,7  |
-#'| RMPP nette | 3,3  |  2,5 |  2,3 |  2,4 |  1,6 |  2,7 |  1,7 | 1,3   | 2,8  |  1,5  | 2,3  |
-#'    
-
-#'*Source : fichier général de l'État (FGE), DADS, SIASP, Insee, Drees. Traitement Insee, Drees, DGCL*    
-#'Hors assistants maternels et familiaux, y compris bénéficiaires de contrats aidés.   
-#'Lecture : en 2014, le SMPT brut en EQTP a augmenté de 1,7 %
-#'SMPT : Salaire moyen par tête en EQTP.   
-#'RMPP : Agents présents 24 mois consécutifs chez le même employeur avec la même quotité de travail.   
-#'Lecture : en 2014, la rémunération nette en EQTP des agents présents deux annees consécutives en 2012 et 2013 avec la même quotité a augmenté de 2,7 %   
-#'  
-#'**Salaires nets annuels et évolution moyenne type de collectivité en euros courants  EQTP**    
-#'   
-#'  
-#'&nbsp;*Tableau 4.5.2*   
-#'    
-
-#'    
-#'|  Organisme   SMPT net     |  2013 | 2014  |  2015 | 2016 |  2017 | 2018 |  2019 |
-#'|:-------------------------:|------:|------:|------:|-----:|------:|-----:|------:|
-#'| Communes                  |  21 096  | 21 444 | 21 552 | 21 632| 22 116 |22 296 |  22 644 |
-#'| CCAS et caisses des écoles|  19 788  | 20 124 | 20 232 | 20 370| 20 796 |20 988 |  21 312 |
-#'| EPCI à fiscalité propre   |  23 184  | 23 412 | 23 424 | 23 754| 24 288 |24 528 |  24 864 |
-#'| Autres structures intercommunales |21 828 | 22 140| 22 332| 22 517| 22 908 |23 184 |23 784|
-#'|   Départements            | 24 852  | 25 068 | 25 344 | 25 391| 25 908 |26 124 | 26 472 |
-#'|   SDIS                    | 30 180  | 30 480 | 30 912 | 31 147| 31 740 |31 908 | 32 064 |
-#'|  Régions                  | 23 004  | 23 484 | 23 808 | 24 284| 24 936 |25 428 | 25 848 |
-#'| Autres collectivités locales| 24 828  | 25 032 | 25 368 | 25 456| 25 848 |25 932 | 25 968 |
-#'| Ensemble (moyenne)        | 22 212  | 22 524 | 22 692 | 22 819| 23 328 |23 556 | 23 916  |
-#'      
-    
-#'**RMPP nette (salariés présents deux années de suite avec la même quotité) en EQTP**        
-#'    
-#' 
-#'|  Organisme      RMPP net          |  2014  |2014-2015|2015-2016|2016-2017|2017-2018|
-#'|:---------------------------------:|-------:|-----:|---: |----:|----:| 
-#'| Communes                          | 22 524 |  1,5 | 1,1 | 2,1 | 1,1 |
-#'| CCAS et caisses des écoles        | 21 420 |  1,6 | 1,1 | 2   | 1,2 |
-#'| EPCI à fiscalité propre           | 24 864 |  1,9 | 1,6 | 2   | 1,9 |
-#'| Autres structures intercommunales | 23 988 |  2,1 | 1,7 | 1,6 | 2,2 |
-#'|   Départements                    | 25 932 |  1,9 | 1,3 | 1,8 | 1,7 |
-#'|   SDIS                            | 31 032 |  2,6 | 1,5 | 1,8 | 1,5 |
-#'|  Régions                          | 24 240 |  2,1 | 1,3 | 2,4 | 2,3 |
-#'| Autres collectivités locales      | 21 873 |  2,0 | 1,7 | 1,4 | 1,7 |
-#'|  Ensemble (moyenne)               | 23 760 |  1,7 | 1,3 | 2,1 | 1,5 |
-#'       
-#'   
-#'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
-#'Conversion en euros courants, calcul CRC.  La métropole de Lyon est classée avec les départements   
-
-#'[Source RAEFP 2016 données 2014](Docs/RA_2016.pdf)      
-#'[Source RAEFP 2017 données 2015](Docs/RA_2017.pdf)      
-#'[Source RAEFP 2018 données 2016](Docs/RA_2018.pdf)  
-#'[Source RAEFP 2019 données 2017](Docs/RA_2019.pdf)  
-#'[Source RAEFP 2020 données 2018](Docs/RA_2020.pdf)  
-#'[Source RAEFP 2020 données 2019](Docs/RA_2021.pdf)  
-   
-incrementer.chapitre()
-
-newpage()

@@ -140,7 +140,6 @@ rendre <- function(fw = fig.width,
                         
                     } else if (t == "html") {
                         outfile <-  filename %+% ".html"
-                        assign("HTML", TRUE, envir = .GlobalEnv)
                         to_html(texfile, outfile, args, keep = (length(to) > 1 || keep))
                     }
                 }
