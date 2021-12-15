@@ -14,7 +14,9 @@ Bugs
             Sévérité : moyenne.
             Idée : parser l'entête pour déterminer l'encodage.
 
-8/11/2021:
+8/11/2021   FIXED
             Pas d'effectivité de la confuration de l'interface dans le projet (restauration non effectuée)
             Pb au lancement de kate pour l'édition du projet.
            
+10/12/2021  TODO: Eliminer les scories de tests de cohérences ldp/bdp dans les parties du brut.
+                  rémunérations et coûts complets par service disfonctionnels.

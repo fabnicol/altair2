@@ -19,31 +19,32 @@
 "codes.primedeservice"  %a% NA  
 "codes.primedetechnicite" %a% NA
 
-"script_effectifs" %a% TRUE    
-"script_pyramides" %a% TRUE    
-"script_duréedeservice" %a% TRUE
-"script_rémunérationsbrutes" %a% TRUE
-"script_comparaisonsdubrut" %a% TRUE    
-"script_rémunérationsnettes" %a% TRUE    
-"script_rmpp" %a% TRUE
-"script_évolutiondunet" %a% TRUE
-"script_parité" %a% TRUE
-"script_noria" %a% TRUE
-"script_NBI" %a% TRUE    
-"script_PFI" %a% TRUE    
-"script_IATIFTS" %a% TRUE    
-"script_PFR" %a% TRUE    
-"script_PSR" %a% TRUE    
-"script_IPF" %a% TRUE    
-"script_RIFSEEP" %a% TRUE    
-"script_HS" %a% TRUE    
-"script_astreintes" %a% TRUE    
-"script_élus" %a% TRUE    
-"script_comptabilité" %a% TRUE    
-"script_SFT" %a% TRUE    
-"script_retraites" %a% TRUE    
-"script_FPH" %a% TRUE    
-"script_annexe" %a% TRUE
+"script_effectifs"               %a% TRUE    
+"script_pyramides"               %a% TRUE    
+"script_duréedeservice"          %a% TRUE
+"script_rémunérationsbrutes"     %a% TRUE
+"script_comparaisonsdubrut"      %a% TRUE    
+"script_rémunérationsnettes"     %a% TRUE    
+"script_rmpp"                    %a% TRUE
+"script_évolutiondunet"          %a% TRUE
+"script_comparaisonsdunet"       %a% TRUE
+"script_parité"                  %a% TRUE
+"script_noria"                   %a% TRUE
+"script_NBI"                     %a% TRUE    
+"script_PFI"                     %a% TRUE    
+"script_IATIFTS"                 %a% TRUE    
+"script_PFR"                     %a% TRUE    
+"script_PSR"                     %a% TRUE    
+"script_IPF"                     %a% TRUE    
+"script_RIFSEEP"                 %a% TRUE    
+"script_HS"                      %a% TRUE    
+"script_astreintes"              %a% TRUE    
+"script_élus"                    %a% TRUE    
+"script_comptabilité"            %a% TRUE    
+"script_SFT"                     %a% TRUE    
+"script_retraites"               %a% TRUE    
+"script_FPH"                     %a% TRUE    
+"script_annexe"                  %a% TRUE
 
 
 # White space indent
@@ -57,13 +58,13 @@ if (script_rémunérationsbrutes) {
 }
 
 
-"sequentiel" %a% TRUE
+"sequentiel" %a% FALSE
 "ouvrir.document" %a% TRUE
-"paye.budget.existe" %a% FALSE
+"paye.budget.existe"             %a% FALSE
 
 "types.irs"  %a% c("IR", "S")
 
-"controle" %a% c("CONSEIL DEPARTEMENTAL DES HAUTES-PYRENEES, ASE65","22650001500350 - 22650001500012 - 22650001500111","TRANSPORT - ELU - ASSISTANTE FAMILIALE - CONSEIL DEPARTEMENTAL","BUDGET TRANSPORT, BUDGET PRINCIPAL")  
+"controle" %a% c("","","","")  
 
 "codes" %a% data.table(type = c("TRAITEMENT", "NBI", "PFI", "PFR", "PSR", "IPF", "IFTS", "IAT", "IFSE", "IEMP", "ISS", "IHTS", "VAC", "ASTREINTES", "NAS", "PRIME SPECIFIQUE", "IFT", "PRIME DE SERVICE", "PRIME DE TECHNICITE", "IR_S"),
                     valeur = list(

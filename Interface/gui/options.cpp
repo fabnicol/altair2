@@ -610,8 +610,9 @@ rapportPage::rapportPage()
 
     variables << "effectifs" << "pyramides" << "durée de service"
               << "rémunérations brutes" << "comparaisons du brut"
-              << "rémunérations nettes" << "rmpp" << "évolution du net"
-              << "parité" << "noria"
+              << "rémunérations nettes" << "rmpp"
+              << "évolution du net" << "comparaisons du net"
+              << "noria" << "parité"
               << "NBI" << "PFI"
               << "IAT IFTS" << "PFR" << "PSR"
               << "IPF" << "RIFSEEP" << "HS"
@@ -698,7 +699,8 @@ rapportPage::rapportPage()
                         L = { "effectifs" , "pyramides" , "durée de service",
                                "rémunérations brutes",  "comparaisons du brut",
                                "rémunérations nettes", "rmpp",
-                               "évolution du net", "parité",
+                               "évolution du net", "comparaisons du net",
+                               "parité",
                                "NBI", "RIFSEEP", "HS",
                                "astreintes", "élus", "SFT",
                                "retraites", "FPH", "annexe" };
@@ -718,7 +720,8 @@ rapportPage::rapportPage()
                     {
                         L = {"effectifs" , "pyramides" , "durée de service",
                              "rémunérations brutes",  "comparaisons du brut",
-                             "rémunérations nettes", "rmpp", "évolution du net",
+                             "rémunérations nettes", "rmpp",
+                             "évolution du net","comparaisons du net",
                              "noria", "annexe"};
                     }
                     else 

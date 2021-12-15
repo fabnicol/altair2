@@ -27,6 +27,7 @@
 "script_rémunérationsnettes"     %a% TRUE    
 "script_rmpp"                    %a% TRUE
 "script_évolutiondunet"          %a% TRUE
+"script_comparaisonsdunet"       %a% TRUE
 "script_parité"                  %a% TRUE
 "script_noria"                   %a% TRUE
 "script_NBI"                     %a% TRUE    
