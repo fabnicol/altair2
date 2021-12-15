@@ -284,8 +284,8 @@ scripts <-
                  list("script_rémunérationsbrutes2.R", "e"),
                  list("script_comparaisonsdubrut.R", "f"),
                  list("script_évolutiondunet.R", "g"),
-                 list("script_comparaisonsdunet.R", "h"),
-                 list("script_noria.R", "i"),
+                 list("script_noria.R", "h"),
+                 list("script_comparaisonsdunet.R", "i"),
                  list("script_parité.R", "j"))
 
   group3 <- list(list("script_NBI.R", "k"),
