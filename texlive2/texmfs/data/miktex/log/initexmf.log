@@ -401,3 +401,9 @@
 2020-08-14 06:19:02,775+0200 INFO  initexmf - running: miktex-makefmt.exe --engine=pdftex --dest-name=pdflatex --no-dump pdflatex.ini --engine-option=-tcx=cp227.tcx --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
 2020-08-14 06:19:02,818+0200 INFO  initexmf.core - start process: miktex-makefmt.exe --engine=pdftex --dest-name=pdflatex --no-dump pdflatex.ini --engine-option=-tcx=cp227.tcx --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
 2020-08-14 06:19:06,560+0200 INFO  initexmf - this process (8292) finishes with exit code 0
+2021-12-12 20:43:10,489+0100 INFO  initexmf - this is MiKTeX Configuration Utility 4.0 (MiKTeX 20.7 Portable)
+2021-12-12 20:43:10,490+0100 INFO  initexmf - this process (13164) started by 'miktex-console' with command line: initexmf --mkmaps
+2021-12-12 20:43:10,490+0100 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2021-12-12 20:43:10,492+0100 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2021-12-12 20:43:10,532+0100 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
+2021-12-12 20:43:22,247+0100 INFO  initexmf - this process (13164) finishes with exit code 0

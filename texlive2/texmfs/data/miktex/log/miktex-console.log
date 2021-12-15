@@ -626,3 +626,6 @@
 2020-08-11 17:36:19,976+0200 INFO  mainwindow - MiKTeX Console needs to be closed
 2020-08-11 17:36:38,003+0200 INFO  miktex-console.core - starting finish script
 2020-08-11 17:36:38,022+0200 INFO  main - finishing with exit code 0
+2021-12-12 20:43:07,945+0100 INFO  main - starting: MiKTeX Console 4.0.1 (MiKTeX 20.7 Portable)
+2021-12-12 20:43:09,842+0100 WARN  miktex-console.packagemanager - dependancy problem: miktex-doc-2.9 is required by _miktex-packages-2.9
+2021-12-12 20:43:10,175+0100 INFO  miktex-console.core - start process: initexmf --mkmaps

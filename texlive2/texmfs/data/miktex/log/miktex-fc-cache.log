@@ -62,3 +62,5 @@
 2020-08-11 17:36:18,069+0200 INFO  miktex-fc-cache - this process (12076) finishes with exit code 0
 2020-08-11 19:08:47,648+0200 INFO  miktex-fc-cache - this process (4812) started by 'mkfntmap' with command line: miktex-fc-cache --miktex-disable-maintenance --miktex-disable-diagnose
 2020-08-11 19:08:50,144+0200 INFO  miktex-fc-cache - this process (4812) finishes with exit code 0
+2021-12-12 20:43:13,635+0100 INFO  miktex-fc-cache - this process (11656) started by 'mkfntmap' with command line: miktex-fc-cache --miktex-disable-maintenance --miktex-disable-diagnose
+2021-12-12 20:43:22,192+0100 INFO  miktex-fc-cache - this process (11656) finishes with exit code 0
