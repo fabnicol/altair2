@@ -113,13 +113,19 @@ pyramides <- function(Bulletins.début.psr,
                       titre,
                       versant,
                       envir) {
+                      
+m.début <- Bulletins.début.psr[ , age]
+m.fin <- Bulletins.fin.psr[ , age]
+
+if (length(m.début) == 0) m.début <- 0
+if (length(m.fin) == 0)   m.fin <- 0
 
 envir$res <- Resume(c("Âge des personnels <br>au 31/12/" %+% debut.periode.sous.revue,
-               "Effectif",
+               "Eff. physique",
                "Âge des personnels <br>au 31/12/" %+% fin.periode.sous.revue,
-               "Effectif"),
-               list(Bulletins.début.psr[ , age], 
-                    Bulletins.fin.psr[ , age]),
+               "Eff. physique"),
+               list(m.début, 
+                    m.fin),
                extra = "length",
                align = 'c',
                type = "standard")

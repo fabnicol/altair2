@@ -400,8 +400,14 @@ essayer(label = "+quartiles", {
 
                if (length(S[ , i + 1]) == nrow.S) {
                  temp <- cbind(temp, S[ , i + 1])
-
-                 temp <- cbind(temp, c("", "", "", ifelse(is.vector(Y[[i]]), length(Y[[i]]), nrow(Y[[i]])), "", ""))
+                 
+                 
+                 if (is.vector(Y[[i]])) {
+                    l <- length(Y[[i]])
+                    if (l == 1 && Y[[i]][1] == 0) tot <- 0 else tot <- l
+                 } else tot <- nrow(Y[[i]])
+                 
+                 temp <- cbind(temp, c("", "", "", tot, "", ""))
                } else {
                  cat("Impossible de generer le tableau : ligne manquante.")
                  return("")
@@ -417,9 +423,9 @@ essayer(label = "+quartiles", {
 
        dimnames(S)[[2]] <- c("Statistique", X)
 
-       kable(S, row.names = FALSE, align = align,  format = "simple")
+       knitr::kable(S, row.names = FALSE, align = align,  format = "simple")
      } else {
-       cat("Table non générée.")
+       knitr::kable(S, row.names = FALSE, align = align,  format = "simple") #cat("Table non générée.")
      }
 }, "Les quartiles n'ont pas pu être générés.")
 }

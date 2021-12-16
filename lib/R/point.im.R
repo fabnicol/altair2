@@ -62,10 +62,10 @@ rep.int(55.5635, 72),# 2010 7 -> 2016 6  (6 annees de blocage)
 rep.int(55.8969, 6), # 2016 7 -> 2016 12
 55.8969, # 2017 
 rep.int(56.2323,11), # 2017
-rep.int(56.2323,12), # 2018 idem 
+rep.int(56.2323,12), # 2018  
 rep.int(56.2323,12), # 2019 
 rep.int(56.2323,12), # 2020 
-rep.int(56.2323,12)  # 2021 prévision idem
+rep.int(56.2323,12)  # 2021 
 ),
 
 # inserer ici la valeur courante du mpoint d'indice annuel
@@ -110,16 +110,5 @@ byrow = TRUE)
   
   # pour avoir la valeur du point d'indice retrancher 2007 à l'annee :
   #   PointIM[annee - 2007, mois]
-  
-  # 1/01/2015	55.5635	
-  # 1/01/2014	55.5635	
-  # 1/01/2013	55.5635	
-  # 1/02/2012	55.5635	
-  # 1/07/2011	55.5635	
-  # 1/07/2010	55.5635	
-  # 1/10/2009	55.2871	
-  # 1/07/2009	55.1217	
-  # 1/10/2008	54.8475	
-  # 1/03/2008	54.6834	
-  # 1/02/2007	54.4113	
+ 
 }
