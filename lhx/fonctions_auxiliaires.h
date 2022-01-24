@@ -95,7 +95,7 @@ typedef struct
 
 /// Tableau des noms de colonnes associés à ces libellés de balises XML
 
-#if LARGEUR == 0
+#if LARGEUR == LARGEUR_STD
 constexpr const char* Tableau_entete[] =
 {
     "Année", "Mois", "Budget", "Employeur", "Siret", "Etablissement",
@@ -104,7 +104,7 @@ constexpr const char* Tableau_entete[] =
     "QuotiteTrav", "NbHeureTotal", "NbHeureSup",
     "MtBrut", "MtNet", "MtNetAPayer"
 };
-#elif LARGEUR == 1
+#elif LARGEUR == LARGEUR_EXT
 constexpr const char* Tableau_entete[] =
 {
     "Année", "Mois", "Budget", "Employeur", "Siret", "Etablissement",
@@ -116,7 +116,7 @@ constexpr const char* Tableau_entete[] =
     "NbHeureTotal", "NbHeureSup", "MtBrut", "MtNet", "MtNetAPayer"
 };
 
-#elif LARGEUR == 2
+#elif LARGEUR == LARGEUR_MAX
 constexpr const char* Tableau_entete[] =
 {
     "Année", "Mois", "Budget", "Employeur", "Siret", "Etablissement",

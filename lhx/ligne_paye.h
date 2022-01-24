@@ -145,10 +145,10 @@ inline void  verifier_taille (const int nbLignePaye, info_t& info)
 }
 
 
-#if LARGEUR >= 1
+#if LARGEUR >= LARGEUR_EXT
 
 /// Sous-routine d'analyse du champ CptBancaire (compte bancaire)
-/// \note Seulement si LARGEUR >= 1
+/// \note Seulement si LARGEUR >= LARGEUR_EXT
 /// \param cur Pointer XmlNodeePtr courant
 /// \param info structure de données principales
 
@@ -156,7 +156,7 @@ inline void  verifier_taille (const int nbLignePaye, info_t& info)
 inline void GCC_INLINE analyser_compte_bancaire(xmlNodePtr& cur, info_t& info);
 
 /// Sous-routine d'analyse du champ Adresse
-/// \note Seulement si LARGEUR >= 1
+/// \note Seulement si LARGEUR >= LARGEUR_EXT
 /// \param cur Pointer XmlNodeePtr courant
 /// \param info structure de données principales
 /// \return Booléen vrai si l'adresse est identifiée, faux sinon.

@@ -966,7 +966,7 @@ static inline LineCount lignePaye (xmlNodePtr cur, info_t& info)
             NA_ASSIGN (++l);
         }
 
-#if LARGEUR == 2
+#if LARGEUR == LARGEUR_MAX
             ++l;
             //    CodeCaisse, optionnel
 
@@ -1190,7 +1190,7 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
 
         for (int l :
         {
-     #if LARGEUR >= 1
+     #if LARGEUR >= LARGEUR_EXT
              Civilite, Adresse, RefNomenStatutaire, CptBancaire,
      #endif
              Nom, Prenom, Matricule,
@@ -1224,7 +1224,7 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
 
     // if (result) va garantir notamment que le pointeur cur filé implicitement est non nul
 
-#if LARGEUR >= 1
+#if LARGEUR >= LARGEUR_EXT
     BULLETIN_OPTIONNEL_CHAR(Civilite);
     // Balise optionnelle, il ne faut pas bloquer la suite
 #endif
@@ -1244,12 +1244,12 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
 #ifdef TOLERANT_TAG_HIERARCHY       // on refait le parcours depuis le haut en cas d'ordre inexact des balises
                     cur = cur_save;
 #endif
-#if LARGEUR >= 1
+#if LARGEUR >= LARGEUR_EXT
                     xmlNodePtr cur1 = cur;
 #endif
                     if (result)
                     {
-#if LARGEUR >= 1
+#if LARGEUR >= LARGEUR_EXT
                         result &= analyser_adresse(cur, info);
 
                         if (result)
@@ -1277,7 +1277,7 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
 
                                 if (result)
                                 {
-#if LARGEUR >= 1
+#if LARGEUR >= LARGEUR_EXT
                                     cur1 = cur;
                                     cur = atteindreNoeud("RefNomenStatutaire", cur);
 
@@ -1352,7 +1352,7 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
 #endif
                                                 if (result)
                                                 {
-#if LARGEUR >= 1
+#if LARGEUR >= LARGEUR_EXT
                                                     analyser_compte_bancaire(cur, info);
 
 #endif
@@ -1378,7 +1378,7 @@ uint64_t  parseLignesPaye (xmlNodePtr cur, info_t& info)
                             }
                             else
                             na_assign_level = 5;
-#if LARGEUR >= 1
+#if LARGEUR >= LARGEUR_EXT
                         }
                         else
                             na_assign_level = 4;
@@ -1817,7 +1817,7 @@ level0:
 
     result = BULLETIN_OPTIONNEL_NUMERIQUE (NbHeureTotal);
 
-#if LARGEUR == 2
+#if LARGEUR == LARGEUR_MAX
     result = result & BULLETIN_OPTIONNEL_NUMERIQUE (TauxHor);
 #endif
 
@@ -1830,7 +1830,7 @@ level0:
     result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE (MtNet);
     result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE (MtNetAPayer);
 
-#if LARGEUR == 2
+#if LARGEUR == LARGEUR_MAX
     result = result & BULLETIN_OBLIGATOIRE (DatePaiement);
     result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE (MtImposable);
     result = result & BULLETIN_OBLIGATOIRE_NUMERIQUE (CumulMtImposable);
@@ -1849,7 +1849,7 @@ level0:
 
     cur_save = cur;
 
-#if LARGEUR >= 1
+#if LARGEUR >= LARGEUR_EXT
     cur = atteindreNoeud ("RepartitionBudget", cur);
 
     if (cur == nullptr)
@@ -1878,7 +1878,7 @@ level0:
     }
 #endif
 
-#if LARGEUR == 2
+#if LARGEUR == LARGEUR_MAX
     cur_save = cur;
     cur = atteindreNoeud("PJRef", cur);
 
@@ -1932,7 +1932,7 @@ level0:
     return ligne;
 }
 
-#if LARGEUR >= 1
+#if LARGEUR >= LARGEUR_EXT
 
 inline bool analyser_adresse(xmlNodePtr& cur, info_t& info)
 {
@@ -1956,47 +1956,89 @@ inline bool analyser_adresse(xmlNodePtr& cur, info_t& info)
             ATTEINDRE_NOEUD_OPT(Adr3, adr3);
             ATTEINDRE_NOEUD(CP, cp);
             ATTEINDRE_NOEUD_OPT(Ville, ville);
+
+            #ifdef DEBUG_ATTEINDRE
+              if (cur) cerr << ville << ENDL;
+              else cerr << "none!" << ENDL;
+            #endif
+
             int l1 = 0, l2 = 0, l2b = 0, l3 = 0, l4 = 0;
 
-            if (adr1)   l1 = xmlStrlen(adr1);
-            if (adr2)   l2 = xmlStrlen(adr2);
-            if (adr3)   l2b = xmlStrlen(adr3);
-            if (cp)     l3 = xmlStrlen(cp);
-            if (ville)  l4 = xmlStrlen(ville);
+            if (adr1)   l1  = min(xmlStrlen(adr1),  MAX_STRLEN_ADR);
+            if (adr2)   l2  = min(xmlStrlen(adr2),  MAX_STRLEN_ADR);
+            if (adr3)   l2b = min(xmlStrlen(adr3),  MAX_STRLEN_ADR);
+            if (cp)     l3  = min(xmlStrlen(cp),    MAX_STRLEN_ADR);
+            if (ville)  l4  = min(xmlStrlen(ville), MAX_STRLEN_ADR);
 
-            xmlChar buffer[2056] = {0};
+            xmlChar buffer[(MAX_STRLEN_ADR + 1) * 5] = {0};
+
             if (l1)
             {
                 memcpy(buffer, adr1, l1);
                 buffer[l1] = ' ';
+                ++l1;
             }
+
             if (l2)
             {
-                memcpy(buffer + l1 + 1, adr2, l2);
-                buffer[l1 + 1 + l2] = ' ';
+                memcpy(buffer + l1, adr2, l2);
+                buffer[l1 + l2] = ' ';
+                ++l2;
             }
+
             if (l2b)
             {
-                memcpy(buffer + l1 + l2 + 2, adr3, l2b);
-                buffer[l1 + l2 + 2 + l2b] = ' ';
+                memcpy(buffer + l1 + l2, adr3, l2b);
+                buffer[l1 + l2 + l2b] = ' ';
+                ++l2b;
             }
+
             if (l3)
             {
-                memcpy(buffer + l1 + l2 + l2b + 3, cp, l3);
-                buffer[l1 + l2 + l2b + 3 + l3] = ' ';
+                memcpy(buffer + l1 + l2 + l2b, cp, l3);
+                buffer[l1 + l2 + l2b + l3] = ' ';
+                ++l3;
             }
+
+            xmlChar* adresse;
+#ifdef WITH_XMLSTRCAT
+            if (buffer[0]) adresse = xmlStrdup(buffer);
+            else
+            {
+                adresse = nullptr;
+                result = false;
+            }
+
             if (l4)
             {
-                memcpy(buffer + l1 + l2 + l2b + l3 + 4, ville, l4);
+               adresse = xmlStrcat(adresse, ville);
             }
-            xmlChar* adresse = xmlStrdup((const xmlChar*) buffer);
+#else
+            if (l4)
+            {
+               memcpy(buffer + l1 + l2 + l2b + l3, ville, l4);
+            }
+
+            if (buffer[0])
+                adresse = xmlStrdup(buffer);
+            else
+            {
+                adresse = nullptr;
+                result = false;
+            }
+#endif
+            #ifdef DEBUG_ATTEINDRE
+              cerr << adresse << ENDL;
+            #endif
+
             if (adr1)  xmlFree(adr1);
             if (adr2)  xmlFree(adr2);
             if (adr3)  xmlFree(adr3);
             if (cp)    xmlFree(cp);
             if (ville) xmlFree(ville);
-            if (! adresse) adresse =(xmlChar*) xmlStrdup(NA_STRING);
+
             info.Table[info.NCumAgentXml][Adresse] = adresse;
+
             cur = cur_save;
         }
         else

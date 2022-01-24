@@ -86,5 +86,16 @@
 
 #endif
 
+/// Nombre de colonnes standard, étendu et maximal (drapeaux) pour les bases en sortie
+
+#ifndef LARGEUR_STD
+    #define LARGEUR_STD 0
+#endif
+#ifndef LARGEUR_EXT
+    #define LARGEUR_EXT 1
+#endif
+#ifndef LARGEUR_MAX
+    #define LARGEUR_MAX 2
+#endif
 #endif // TAGS_H
 

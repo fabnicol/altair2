@@ -87,6 +87,7 @@ DEFINES +=  WARNING_LIMIT=5  \         # nombre maximum d'avertissement par fich
             MAX_LIGNES_PAYE=3000 \     # nombre maximum de lignes de paye par bulletin
             TYPE_LOOP_LIMIT=50 \       # nombre de "rembobinages des drapeaux de catégories (voir ligne_paye.cpp,
             MAX_STRING_LENGTH=200 \    # taille maximum des strings pour la conversion latin-1
+            MAX_STRLEN_ADR=2056 \      # taille maximum d'un champ d'adresse
 #           LARGEUR=...           \    # nombre de colonnes étendu. Définir LARGEUR comme symbole de compilation en ligne de commande.
 #           NO_SANITIZING_QUOTES \     # définir pour remplacer les guillemets des champs de texte par une procédure d'élimination des caractères problématiques (dont ';').
 #           SANITIZING_QUOTES    \     # insérer des '"' autour des chaînes de caractères en mémoire (par défaut: en export de table CSV).
@@ -105,6 +106,7 @@ DEFINES += __GNUC_EXTENSION \
            __STDC_LIMIT_MACROS \
            __STDC_FORMAT_MACROS \
            SYSTEM_PATH_SEPARATOR=\"\';\'\" \
+           WITH_XMLSTRCAT  # Utiliser XmlStrcat plutôt que la bufferisation de pile
 #          USE_STRING_EXEC  \
 #          DEBUG_ATTEINDRE
 
@@ -170,6 +172,7 @@ contains(DEFINES, TINYXML2) {
 }
 
 HEADERS += \
+    ../fwidgets_lib/tags.h \
     table.h \
     ../Interface/gui/tags.h \
     expression_reg_adjoints.h \

@@ -68,6 +68,7 @@
 #include "expression_reg_elus.h"
 #include "expression_reg_cata.h"
 
+
 /// Macro tendant à forcer l'inlining sous GCC
 #define GCC_INLINE __attribute__((always_inline))
 
@@ -127,7 +128,7 @@ enum class BaseType : int
 };
 
 
-#if LARGEUR == 2
+#if LARGEUR == LARGEUR_MAX
 /// Nombre de type de champ de ligne de paye (Libellé, Code, Taux, Base, NbUnite, Montant, DébutPeriode, FinPeriode, CodeCaisse, Ordre) moins 1
   #define INDEX_MAX_COLONNNES 9
 #else
@@ -136,16 +137,16 @@ enum class BaseType : int
 #endif
 
 /// Nombre d'éléments de l'énum ci-dessous, correspondant aux champs des bulletins (répétés à chaque ligne de paye)
-#if LARGEUR == 0
-#define BESOIN_MEMOIRE_ENTETE  27
-#elif LARGEUR == 1
-#define BESOIN_MEMOIRE_ENTETE  34
-#elif LARGEUR == 2
-#define BESOIN_MEMOIRE_ENTETE  43
+#if LARGEUR == LARGEUR_STD
+  #define BESOIN_MEMOIRE_ENTETE  27
+#elif LARGEUR == LARGEUR_EXT
+  #define BESOIN_MEMOIRE_ENTETE  34
+#elif LARGEUR == LARGEUR_MAX
+  #define BESOIN_MEMOIRE_ENTETE  43
 #endif
 
 /// Enum des libellés de balises XML donnant lieu à extraction
-#if LARGEUR == 0
+#if LARGEUR == LARGEUR_STD
 typedef enum
 {
     Annee, Mois, Budget, Employeur, Siret, Etablissement,
@@ -154,7 +155,7 @@ typedef enum
     QuotiteTrav, NbHeureTotal, NbHeureSup,
     MtBrut, MtNet, MtNetAPayer, Categorie
 } Entete;
-#elif LARGEUR == 1
+#elif LARGEUR == LARGEUR_EXT
 typedef enum
 {
     Annee, Mois, Budget, Employeur, Siret, Etablissement,
@@ -164,7 +165,7 @@ typedef enum
     CodeBudget, TauxBudget, MtBudget, QuotiteTrav,
     NbHeureTotal, NbHeureSup, MtBrut, MtNet, MtNetAPayer, Categorie
 } Entete;
-#elif LARGEUR == 2
+#elif LARGEUR == LARGEUR_MAX
 typedef enum
 {
     Annee, Mois, Budget, Employeur, Siret, Etablissement,
@@ -263,12 +264,6 @@ typedef struct
 /// Maximum de nombre d'agents par mois par défaut
 #define MAX_NB_AGENTS 8000
 #endif
-
-/// Nombre de colonnes standard, étendu et maximal (drapeaux) pour les bases en sortie
-
-#define LARGEUR_STD 0
-#define LARGEUR_EXT 1
-#define LARGEUR_MAX 2
 
 #ifndef NO_DEBUG
 /// Fonctions de débogage

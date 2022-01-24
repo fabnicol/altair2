@@ -92,7 +92,7 @@ static const char* type_remuneration_traduit[] =
 
 static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN (int i, uint32_t agent, int l, char* type, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
-#if LARGEUR >= 1
+#if LARGEUR >= LARGEUR_EXT
     QUOTE(Civilite)
 #endif
 
@@ -100,7 +100,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN (int i, uint32_t agent, int 
     QUOTE(Prenom)
     QUOTE(Matricule)
 
-#if LARGEUR >= 1
+#if LARGEUR >= LARGEUR_EXT
     QUOTE(Adresse)
     QUOTE(RefNomenStatutaire)
     QUOTE(CptBancaire)
@@ -113,7 +113,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN (int i, uint32_t agent, int 
     NO_QUOTE(QuotiteTrav)
     NO_QUOTE(NbHeureSup)
     NO_QUOTE(NbHeureTotal)
-#if LARGEUR == 2
+#if LARGEUR == LARGEUR_MAX
     NO_QUOTE(TauxHor)
 #endif
     NO_QUOTE(Indice)
@@ -121,7 +121,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN (int i, uint32_t agent, int 
     NO_QUOTE(MtBrut)
     NO_QUOTE(MtNet)
     NO_QUOTE(MtNetAPayer)
-#if LARGEUR == 2
+#if LARGEUR == LARGEUR_MAX
     QUOTE(DatePaiement)
     NO_QUOTE(MtImposable)
     NO_QUOTE(CumulMtImposable)
@@ -132,7 +132,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN (int i, uint32_t agent, int 
 #endif
     NO_QUOTE(NBI)
 
-#if LARGEUR >= 1
+#if LARGEUR >= LARGEUR_EXT
       QUOTE(CodeBudget)
       NO_QUOTE(TauxBudget)
       NO_QUOTE(MtBudget)
@@ -146,7 +146,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_l_COMMUN (int i, uint32_t agent, int 
     NO_QUOTE(l+5) // Montant
     QUOTE(l+6) // Début (date)
     QUOTE(l+7)  // Fin (date)
-#if LARGEUR == 2
+#if LARGEUR == LARGEUR_MAX
     QUOTE(l+8)  // CodeCaisse
     NO_QUOTE(l+9) //Ordre
 #endif
@@ -282,14 +282,14 @@ static inline int GCC_INLINE ECRIRE_LIGNE_l (int i, uint32_t agent, int l, char*
 
 static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN (int i, uint32_t agent, table_t& base, char sep, vector<info_t> &Info, int GCC_UNUSED rang)
 {
-#if LARGEUR >= 1
+#if LARGEUR >= LARGEUR_EXT
     QUOTE(Civilite)
 #endif
     QUOTE(Nom)
     QUOTE(Prenom)
     QUOTE(Matricule)
 
-#if LARGEUR >= 1
+#if LARGEUR >= LARGEUR_EXT
     QUOTE(Adresse)
     QUOTE(RefNomenStatutaire)
     QUOTE(CptBancaire)
@@ -302,7 +302,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN (int i, uint32_t agen
     NO_QUOTE(QuotiteTrav)
     NO_QUOTE(NbHeureSup)
     NO_QUOTE(NbHeureTotal)
-#if LARGEUR == 2
+#if LARGEUR == LARGEUR_MAX
     NO_QUOTE(TauxHor)
 #endif
     NO_QUOTE(Indice)
@@ -310,7 +310,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN (int i, uint32_t agen
     NO_QUOTE(MtBrut)
     NO_QUOTE(MtNet)
     NO_QUOTE(MtNetAPayer)
-    #if LARGEUR == 2
+    #if LARGEUR == LARGEUR_MAX
         QUOTE(DatePaiement)
         NO_QUOTE(MtImposable)
         NO_QUOTE(CumulMtImposable)
@@ -321,7 +321,7 @@ static inline void GCC_INLINE ECRIRE_LIGNE_BULLETIN_COMMUN (int i, uint32_t agen
     #endif
     NO_QUOTE(NBI)
 
-#if LARGEUR >= 1
+#if LARGEUR >= LARGEUR_EXT
         QUOTE(CodeBudget)
         NO_QUOTE(TauxBudget)
         NO_QUOTE(MtBudget)

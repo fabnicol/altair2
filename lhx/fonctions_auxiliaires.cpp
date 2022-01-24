@@ -72,13 +72,13 @@ static const char* entete_char[] = {"R",      // Rang
                                     "Employeur",
                                     "Siret",
                                     "Etablissement",
-                                    #if LARGEUR >= 1
+                                    #if LARGEUR >= LARGEUR_EXT
                                       "Civilité",
                                     #endif
                                     "Nom",
                                     "Prénom",
                                     "Matricule",
-                                    #if LARGEUR >= 1
+                                    #if LARGEUR >= LARGEUR_EXT
                                       "Adresse",
                                       "RefNomenclature",
                                       "CompteBancaire",
@@ -89,14 +89,14 @@ static const char* entete_char[] = {"R",      // Rang
                                     "Temps.de.travail",
                                     "Heures.Sup.",
                                     "Heures",
-                                    #if LARGEUR == 2
+                                    #if LARGEUR == LARGEUR_MAX
                                        "TauxHor",
                                     #endif
                                     "Indice",
                                     "Brut",
                                     "Net",
                                     "Net.à.Payer",
-                                    #if LARGEUR == 2
+                                    #if LARGEUR == LARGEUR_MAX
                                        "DatePaiement",
                                        "MtImposable",
                                        "CumulMtImposable",
@@ -106,7 +106,7 @@ static const char* entete_char[] = {"R",      // Rang
                                        "IdUnique-NomPJ",
                                     #endif
                                     "NBI",
-                                    #if LARGEUR >= 1
+                                    #if LARGEUR >= LARGEUR_EXT
                                       "Code.Budget",
                                       "Taux.Budget",
                                       "Montant.Budget",
@@ -119,7 +119,7 @@ static const char* entete_char[] = {"R",      // Rang
                                     "Montant",
                                     "Début",
                                     "Fin",
-                                    #if LARGEUR == 2
+                                    #if LARGEUR == LARGEUR_MAX
                                       "CodeCaisse",
                                       "Ordre",
                                     #endif
@@ -140,13 +140,13 @@ static const char* entete_char_bulletins[] = {"R",
                                               "Employeur",
                                               "Siret",
                                               "Etablissement",
-                                              #if LARGEUR >= 1
+                                              #if LARGEUR >= LARGEUR_EXT
                                                 "Civilité",
                                               #endif
                                               "Nom",
                                               "Prénom",
                                               "Matricule",
-                                              #if LARGEUR >= 1
+                                              #if LARGEUR >= LARGEUR_EXT
                                                 "Adresse",
                                                 "RefNomenclature",
                                                 "CompteBancaire",
@@ -157,14 +157,14 @@ static const char* entete_char_bulletins[] = {"R",
                                               "Temps.de.travail",
                                               "Heures.Sup.",
                                               "Heures",
-                                              #if LARGEUR == 2
+                                              #if LARGEUR == LARGEUR_MAX
                                                 "TauxHor",
                                               #endif
                                               "Indice",
                                               "Brut",
                                               "Net",
                                               "Net.à.Payer",
-                                              #if LARGEUR == 2
+                                              #if LARGEUR == LARGEUR_MAX
                                                 "DatePaiement",
                                                 "MtImposable",
                                                 "CumulMtImposable",
@@ -174,7 +174,7 @@ static const char* entete_char_bulletins[] = {"R",
                                                 "IdUnique-NomPJ",
                                               #endif
                                               "NBI",
-                                              #if LARGEUR >= 1
+                                              #if LARGEUR >= LARGEUR_EXT
                                                 "Code.Budget",
                                                 "Taux.Budget",
                                                 "Montant.Budget",

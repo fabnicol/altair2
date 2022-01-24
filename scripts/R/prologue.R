@@ -102,7 +102,7 @@ extraire.annees                <- FALSE
 
 exec.root                      <- if (setOSWindows) ".exe" else ""
 
-éliminer.duplications <- TRUE
+éliminer.duplications <- FALSE
 redresser.heures               <- TRUE
 enlever.quotites.nulles        <- FALSE
 enlever.quotites.na            <- FALSE
