@@ -19,6 +19,7 @@ do_once                 Perform a task once in an R session
 download_file           Try various methods to download a file
 embed_file              Embed a file, multiple files, or directory on
                         an HTML page
+existing_files          Find file paths that exist
 exit_call               Call 'on.exit()' in a parent function
 file_ext                Manipulate filename extensions
 file_string             Read a text file and concatenate the lines by
@@ -64,12 +65,15 @@ prose_index             Find the indices of lines in Markdown that are
 protect_math            Protect math expressions in pairs of backticks
                         in Markdown
 raw_string              Print a character vector in its raw form
+read_all                Read all text files and concatenate their
+                        content
 read_bin                Read all records of a binary file as a raw
                         vector by default
 read_utf8               Read / write files encoded in UTF-8
 relative_path           Get the relative path of a path relative to a
                         directory
 rename_seq              Rename files with a sequential numeric prefix
+rest_api                Get data from a REST API
 retry                   Retry calling a function for a number of times
 rev_check               Run 'R CMD check' on the reverse dependencies
                         of a package
@@ -87,6 +91,8 @@ stringsAsStrings        Set the global option 'options(stringsAsFactors
                         = FALSE)' inside a parent function and restore
                         the option after the parent function exits
 submit_cran             Submit a source package to CRAN
+system3                 Run 'system2()' and mark its character output
+                        as UTF-8 if appropriate
 tinify                  Use the Tinify API to compress PNG and JPEG
                         images
 tojson                  A simple JSON serializer

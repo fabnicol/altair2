@@ -1,4 +1,19 @@
 
+# 1.2.2
+
+* This version does not add an emoji hash to the output.
+
+* The `source` column of the output data frame of `package_info()` (also
+  part of `session_info()`), now contains the full SHA for packages installed
+  from GitHub, instead of only the first seven characters. This makes it
+  easier to use the SHA programmatically. Note that this does not affect
+  formatting and printing, which still use the abbreviated SHA.
+  (@muschellij2, #61).
+
+* RStudio Package Manager (RSPM) and other repository sources are
+  now shown in the `source` column, if they set the `Repository`
+  field in `DESCRIPTION`.
+
 # 1.2.1
 
 * `package_info()` and `session_info()` now do not fail if the version

@@ -18,6 +18,7 @@ tlmgr_remove	tlmgr
 tlmgr_repo	tlmgr
 tlmgr_search	tlmgr
 tlmgr_update	tlmgr
+tlmgr_version	tlmgr
 tl_pkgs	tl_pkgs
 tl_sizes	tl_sizes
 uninstall_tinytex	install_tinytex

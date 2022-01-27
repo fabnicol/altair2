@@ -24,12 +24,14 @@ do_once	do_once
 embed_dir	embed_file
 embed_file	embed_file
 embed_files	embed_file
+existing_files	existing_files
 exit_call	exit_call
 file_exists	dir_exists
 file_ext	file_ext
 file_string	file_string
 format_bytes	format_bytes
 from_root	from_root
+github_api	rest_api
 github_releases	github_releases
 grep_sub	grep_sub
 gsub_dir	gsub_file
@@ -77,10 +79,13 @@ prose_index	prose_index
 protect_math	protect_math
 raw_string	raw_string
 Rcmd	Rscript
+read_all	read_all
 read_bin	read_bin
 read_utf8	read_utf8
 relative_path	relative_path
 rename_seq	rename_seq
+rest_api	rest_api
+rest_api_raw	rest_api
 retry	retry
 rev_check	rev_check
 root_rules	proj_root
@@ -98,6 +103,7 @@ strict_list	strict_list
 stringsAsStrings	stringsAsStrings
 strings_please	stringsAsStrings
 submit_cran	submit_cran
+system3	system3
 tinify	tinify
 tojson	tojson
 tree	tree

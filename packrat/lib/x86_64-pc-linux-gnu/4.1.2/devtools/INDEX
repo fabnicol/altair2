@@ -6,6 +6,7 @@ build_site              Execute 'pkgdown' build_site in a package
 build_vignettes         Build package vignettes.
 check                   Build and check a package, cleaning up
                         automatically on success.
+check_mac_release       Check macOS package
 check_man               Check documentation, as R CMD check does.
 check_rhub              Run CRAN checks for package on R-hub
 check_win               Build windows binary package.

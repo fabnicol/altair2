@@ -1,3 +1,9 @@
+# pkgload 1.2.4
+
+* Lionel Henry is now the maintainer.
+
+* `load_all()` automatically registers package translations, if found.
+
 # pkgload 1.2.3
 
 * pkgload now forces all bindings on unload. This fixes errors and inconsistencies when dangling references force lazy bindings after unload or reload.

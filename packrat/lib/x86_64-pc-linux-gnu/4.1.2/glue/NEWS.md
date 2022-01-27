@@ -1,3 +1,25 @@
+# glue 1.6.1
+
+* glue now registers its custom knitr engines in a way that is more robust to namespace-loading edge cases that can arise during package installation (#254).
+
+# glue 1.6.0
+
+* `glue()`, `glue_data()`, `glue_col()`, and `glue_data_col()` gain a new `.literal` argument, which controls how quotes and the comment character are treated when parsing the expression string (#235). This is mostly useful when using a custom transformer.
+
+* Trailing whitespace-only lines don't interfere with indentation (#247).
+
+# glue 1.5.1
+
+* Jennifer Bryan is now the maintainer.
+
+* The existing custom language engines for knitr, `glue` and `glue_sql`, are documented in a new vignette (#71). *Detail added after release: glue now sets up registration of these engines in `.onLoad()`.*
+
+* `glue_col()` gives special treatment to styling functions from the crayon package, e.g. `glue_col("{blue foo}")` "just works" now, even if crayon is not attached (but is installed) (#241).
+
+* Unterminated backticks trigger the same error as unterminated single or double quotes (#237).
+
+* `glue_sql()` collapses zero-length `DBI::SQL` object into `DBI::SQL("NULL")` (#244 @shrektan).
+
 # glue 1.5.0
 
 ## Breaking changes
@@ -83,8 +105,8 @@
 ## Breaking changes
 
 * The `evaluate()` function has been removed. Changes elsewhere in glue made
-  the implementation trivial so it was removed for clarities sake. Previous
-  uses can be replaced by `eval(parse(text = text), envir)`.
+  the implementation trivial so it was removed for the sake of clarity.
+  Previous uses can be replaced by `eval(parse(text = text), envir)`.
 
 * `collapse()` has been renamed to `glue_collapse()` to avoid namespace
   collisions with `dplyr::collapse()`.

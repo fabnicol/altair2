@@ -1,3 +1,90 @@
+# testthat 3.1.2
+
+* testthat now uses brio for all reading and writing (#1120). This
+  ensures that snapshots always use "\n" to separate lines (#1516).
+
+* `expect_snapshot()` no longer inadvertently trims trailing new lines off
+  of errors and messages (#1509).
+
+* If `expect_snapshot()` generates a snapshot with different value but
+  still compares as equal (e.g. because you've set a numeric tolerance), the 
+  saved values no longer update if another snapshot in the same file changes.
+
+* `expect_snapshot()` now only adds a `.new` file for the variants that 
+  actually changed, not all variants, while `expect_snapshot_file()` with
+  variant with no longer immediately deletes `.new` files (#1468).
+
+* `expect_snapshot_file()` gains a `transform` argument to match 
+  `expect_snapshot()` (#1474). `compare` now defaults to `NULL`, automatically 
+  guessing the comparison type based on the extension.
+
+* `expect_snapshot_file()` now errors if the file being snapshot does not exist; 
+  `SnapshotReporter` also now treats the file directory as an absolute path 
+  (#1476, @malcolmbarrett)
+
+* New `expect_snapshot_warning()` to match `expect_snapshot_error()` (#1532).
+
+* `JUnitReporter` now includes skip messages/reasons (@rfineman, #1507)
+
+* `local_reproducible_output()` gains a `lang` argument so that you can 
+  optionally override the language used to translate error messages (#1483).
+  It also sets the global option `cli.num_colors` in addition to 
+  `crayon.enabled`.
+
+* `test_that()` no longer inappropriately skips when calling `expect_equal()`
+  when you've temporarily set the locale to non-UTF-8 (#1285).
+
+* `skip_if_offline()` now automatically calls `skip_on_cran()` (#1479).
+
+* `snapshot_accept()` and `snapshot_review()` now work with exactly the same
+  file specification which can be a snapshot name, a file name, or a directory
+  (#1546). They both work better with variants (#1508). Snapshot cleanup also 
+  removes all empty directories (#1457).
+
+* When a snapshot changes the hint also mentions that you can use 
+  `snapshot_review()` (#1500, @DanChaltiel) and the message tells you what 
+  variant is active (#1540).
+
+# testthat 3.1.1
+
+* Condition expectations like `expect_error()` now match across the
+  ancestry of chained errors (#1493). You can disable this by setting
+  the new `inherit` argument to `FALSE`.
+
+* Added preliminary support for rlang 1.0 errors. It is disabled by
+  default for the time being. To activate it, specify `rlang (>=
+  1.0.0)` in your `DESCRIPTION` file (or `>= 0.99.0.9001` if you're
+  using the dev version).
+
+  Once activated, snapshots will now use rlang to print error and
+  warning messages, including the `Error:` and `Warning:`
+  prefixes. This means the `call` field of conditions is now displayed
+  in snapshots if present. Parent error messages are also displayed.
+  Following this change, all snapshots including error and warning
+  messages need to be revalidated.
+
+  We will enable the new rlang 1.0 output unconditionally in a future
+  release.
+
+* `expect_snapshot()` gains a new argument `cnd_class` to control
+  whether to show the class of errors, warnings, and messages.
+
+  The default is currently unchanged so that condition classes keep
+  being included in snapshots. However, we plan to change the default
+  to `FALSE` in an upcoming release to prevent distracting snapshot
+  diffing as upstream packages add error classes. For instance, the
+  development version of R is currently adding classes to basic
+  errors, which causes spurious snapshot changes when testing against
+  R-devel on CI.
+
+  If you depend on rlang 1.0 (see above), the default is already set
+  to `FALSE`.
+
+* `expect_snapshot()` no longer processes rlang injection operators
+  like `!!`.
+
+* Fixed bug in expectations with long inputs that use `::` (#1472).
+
 # testthat 3.1.0
 
 ## Snapshot tests

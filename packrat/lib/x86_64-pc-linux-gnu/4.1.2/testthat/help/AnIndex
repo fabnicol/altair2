@@ -78,6 +78,7 @@ expect_snapshot_error	expect_snapshot
 expect_snapshot_file	expect_snapshot_file
 expect_snapshot_output	expect_snapshot
 expect_snapshot_value	expect_snapshot
+expect_snapshot_warning	expect_snapshot
 expect_success	expect_success
 expect_that	expect_that
 expect_true	logical-expectations

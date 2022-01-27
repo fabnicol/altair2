@@ -1,3 +1,11 @@
+# brio 1.1.3
+
+* Gábor Csárdi is now the maintainer.
+
+* New `write_file_raw()` function to write a raw vector to a file.
+
+* Fix memory leak in `read_lines()` (@ms609, #20)
+
 # brio 1.1.2
 
 * Input filenames are now automatically converted to UTF-8 from the native encoding (@gaborcsardi, #15)

@@ -10,6 +10,7 @@ build_vignettes	build_vignettes
 check	check
 check_built	check
 check_dep_version	reexports
+check_mac_release	check_mac_release
 check_man	check_man
 check_rhub	check_rhub
 check_win	check_win
@@ -27,7 +28,6 @@ dev_package_deps	remote-reexports
 dev_sitrep	dev_sitrep
 document	document
 find_rtools	reexports
-github_pat	github_pat
 github_pull	reexports
 github_release	reexports
 git_checks	git_checks

@@ -22,6 +22,7 @@ edit	edit
 edit_file	edit_file
 edit_git_config	edit
 edit_git_ignore	edit
+edit_pkgdown_config	edit
 edit_rstudio_prefs	edit
 edit_rstudio_snippets	edit
 edit_r_buildignore	edit
