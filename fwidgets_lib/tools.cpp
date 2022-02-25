@@ -357,7 +357,7 @@ bool tools::copyDir(const QString &in, const QString &out, const QString& commen
 
 QString tools::generateDatadirPath(const QString &path)
 {
-  QString pathstr= QDir::cleanPath(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
+  QString pathstr= QDir::cleanPath(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)
                                    + ((path.isEmpty()) ? "" : QString("/")) + path);
   return pathstr;
 }

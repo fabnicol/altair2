@@ -103,6 +103,7 @@ DEFINES +=  WARNING_LIMIT=5  \         # nombre maximum d'avertissement par fich
             MAX_LIGNES_PAYE=3000 \     # nombre maximum de lignes de paye par bulletin
             TYPE_LOOP_LIMIT=50 \       # nombre de "rembobinages des drapeaux de catégories (voir ligne_paye.cpp,
             MAX_STRING_LENGTH=200 \    # taille maximum des strings pour la conversion latin-1
+            MAX_STRLEN_ADR=2056 \
             MAX_MEMORY_SHARE=0.5  \    # part maximum de la mémoire vive disponible consommée par défaut (si --memshare n'est pas précisé)
             AVERAGE_RAM_DENSITY=12 \    # constante empirique déterminant la quantité de mémoire nécessitée par 1 unité de mémoire de fichier xhl en cours de traitement.
             #MEMORY_DEBUG \            # ajouter d ela verbosité
@@ -117,6 +118,7 @@ DEFINES += __GNUC_EXTENSION \
            __STDC_LIMIT_MACROS \
            __STDC_FORMAT_MACROS \
            SYSTEM_PATH_SEPARATOR=\"\';\'\" \
+           WITH_XMLSTRCAT
 #          USE_STRING_EXEC  \
 #          DEBUG_ATTEINDRE
 
