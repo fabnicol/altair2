@@ -46,7 +46,7 @@ setup
 #      n <- get_n_print(n, nrow(x))
 #      max_extra_cols <- get_max_extra_cols(max_extra_cols)
 #      max_footer_lines <- get_max_footer_lines(max_footer_lines)
-#      out <- tbl_format_setup_(x, width, ..., n = n, max_extra_cols = max_extra_cols, 
+#      out <- tbl_format_setup_dispatch(x, width, ..., n = n, max_extra_cols = max_extra_cols, 
 #          max_footer_lines = max_footer_lines, focus = focus)
 #      return(out)
 #      UseMethod("tbl_format_setup")
@@ -94,10 +94,11 @@ setup
 #      if (extra_cols_total > max_extra_cols) {
 #          length(extra_cols) <- max_extra_cols
 #      }
+#      abbrev_cols <- colonnade$abbrev_cols
 #      new_tbl_format_setup(x = x, df = df, width = width, tbl_sum = tbl_sum, 
 #          body = body, rows_missing = rows_missing, rows_total = rows, 
 #          extra_cols = extra_cols, extra_cols_total = extra_cols_total, 
-#          max_footer_lines = max_footer_lines)
+#          max_footer_lines = max_footer_lines, abbrev_cols = abbrev_cols)
 #  }
 
 ## -----------------------------------------------------------------------------
@@ -158,11 +159,12 @@ ctl_new_pillar_list(tbl, tbl$b, width = 20)
 #          new_array_pillar_list(x, controller, width, title = title, 
 #              first_pillar = first_pillar)
 #      }
-#      else if (is.null(first_pillar)) {
-#          list(ctl_new_pillar(controller, x, width, ..., title = prepare_title(title)))
-#      }
 #      else {
-#          list(first_pillar)
+#          if (is.null(first_pillar)) {
+#              first_pillar <- ctl_new_pillar(controller, x, width, 
+#                  ..., title = prepare_title(title))
+#          }
+#          new_single_pillar_list(first_pillar, width)
 #      }
 #  }
 
@@ -186,15 +188,17 @@ ctl_new_pillar(tbl, tbl$a, width = 20)
 #  }
 
 ## ----show_source = TRUE-------------------------------------------------------
-#  new_pillar <- function (components, ..., width = NULL, class = NULL, extra = NULL) 
+#  new_pillar <- function (components, ..., width = NULL, class = NULL, extra = deprecated()) 
 #  {
 #      "!!!!DEBUG new_pillar(`v(width)`, `v(class)`)"
+#      if (is_present(extra)) {
+#          deprecate_warn("1.7.0", "pillar::new_pillar(extra = )")
+#      }
 #      check_dots_empty()
 #      if (length(components) > 0 && !is_named(components)) {
 #          abort("All components must have names.")
 #      }
-#      structure(components, width = width, class = c(class, "pillar"), 
-#          extra = extra)
+#      structure(components, width = width, class = c(class, "pillar"))
 #  }
 
 ## ----show_source = TRUE-------------------------------------------------------

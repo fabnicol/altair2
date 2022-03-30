@@ -164,7 +164,17 @@ format_warning	format_error
 get_spinner	get_spinner
 hash_animal	hash_animal
 hash_emoji	hash_emoji
+hash_file_sha256	hash_sha256
 hash_md5	hash_md5
+hash_obj_animal	hash_animal
+hash_obj_emoji	hash_emoji
+hash_obj_md5	hash_md5
+hash_obj_sha256	hash_sha256
+hash_raw_animal	hash_animal
+hash_raw_emoji	hash_emoji
+hash_raw_md5	hash_md5
+hash_raw_sha256	hash_sha256
+hash_sha256	hash_sha256
 inline-markup	inline-markup
 is_ansi_tty	is_ansi_tty
 is_dynamic_tty	is_dynamic_tty
@@ -207,6 +217,7 @@ progress-c	progress-c
 progress-variables	progress-variables
 qty	pluralization-helpers
 rule	rule
+ruler	ruler
 simple_theme	simple_theme
 spark_bar	spark_bar
 spark_line	spark_line

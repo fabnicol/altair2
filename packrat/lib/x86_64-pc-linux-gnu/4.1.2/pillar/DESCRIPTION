@@ -1,6 +1,6 @@
 Package: pillar
 Title: Coloured Formatting for Columns
-Version: 1.6.5
+Version: 1.7.0
 Authors@R: 
     c(person(given = "Kirill",
              family = "M\u00fcller",
@@ -35,11 +35,11 @@ Config/autostyle/scope: line_breaks
 Config/autostyle/strict: true
 Config/gha/extra-packages: DiagrammeR=?ignore-before-r=3.5.0
 NeedsCompilation: no
-Packaged: 2022-01-25 13:10:20 UTC; kirill
+Packaged: 2022-02-01 07:58:34 UTC; kirill
 Author: Kirill Müller [aut, cre],
   Hadley Wickham [aut],
   RStudio [cph]
 Maintainer: Kirill Müller <krlmlr+r@mailbox.org>
 Repository: CRAN
-Date/Publication: 2022-01-25 14:42:42 UTC
-Built: R 4.1.2; ; 2022-01-27 02:49:03 UTC; unix
+Date/Publication: 2022-02-01 08:30:02 UTC
+Built: R 4.1.2; ; 2022-03-30 07:14:50 UTC; unix

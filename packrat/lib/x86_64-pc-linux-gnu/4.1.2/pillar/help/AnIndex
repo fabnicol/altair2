@@ -6,7 +6,7 @@ ctl_new_pillar	ctl_new_pillar
 ctl_new_pillar_list	ctl_new_pillar
 deprecated	deprecated
 dim_desc	dim_desc
-expect_known_display	expect_known_display
+expect_known_display	deprecated
 extra_cols	extra_cols
 extra_cols.pillar_squeezed_colonnade	extra_cols
 format.pillar_shaft	pillar_shaft

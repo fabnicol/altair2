@@ -81,6 +81,7 @@ get_spinner             Character vector to put a spinner on the screen
 hash_animal             Adjective-animal hash
 hash_emoji              Emoji hash
 hash_md5                MD5 hash
+hash_sha256             SHA-256 hash
 inline-markup           About inline markup in the semantic cli
 is_ansi_tty             Detect if a stream support ANSI escape
                         characters
@@ -98,6 +99,7 @@ pluralize               String templating with pluralization
 progress-c              The cli progress C API
 progress-variables      Progress bar variables
 rule                    Make a rule with one or two text labels
+ruler                   Print the helpful ruler to the screen
 simple_theme            A simple CLI theme
 spark_bar               Draw a sparkline bar graph with unicode block
                         characters
