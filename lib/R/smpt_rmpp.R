@@ -109,14 +109,18 @@ q3 <- quantile(Analyse.variations$variation.rémunération, c(quantile.cut/100, 
 "Filtre_fonctionnaire" %a% function() Statut == "TITULAIRE" | Statut == "STAGIAIRE"
 
 # Filtre categorie A
-"Filtre_cat_A" %a%  function()   (Statut == "TITULAIRE"  | Statut == "EMPLOI_FONCTIONNEL" | Statut == "STAGIAIRE") & (Categorie == "A")
+"Filtre_cat_A" %a%  function()   (Statut %in% c("TITULAIRE",
+                                                "EMPLOI_FONC",
+                                                "EMPLOI_FONCTIONNEL",
+                                                "STAGIAIRE") & (Categorie == "A"))
 
 # Filtre categorie B
-"Filtre_cat_B" %a% function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Categorie == "B")
+"Filtre_cat_B" %a%  function()   (Statut %in% c("TITULAIRE",
+                                                "STAGIAIRE") & (Categorie == "B"))
 
 # Filtre categorie C
-"Filtre_cat_C" %a% function()   (Statut == "TITULAIRE"  | Statut == "STAGIAIRE")  & (Categorie == "C")
-
+"Filtre_cat_B" %a%  function()   (Statut %in% c("TITULAIRE",
+                                                "STAGIAIRE") & (Categorie == "C"))
 
 "Filtre_rmpp"  %a% function() (est.rmpp == TRUE)
 "Filtre_rmpp_fonctionnaire" %a% function () Filtre_fonctionnaire() & (est.rmpp == TRUE)
