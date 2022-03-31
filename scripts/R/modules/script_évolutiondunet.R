@@ -156,8 +156,8 @@ essayer(label = "+SMPT fonct.", print(smpt(Filtre_fonctionnaire)), "Le salaire m
 #'
 #'&nbsp;*Tableau 4.2.2.2.1*   
 #'    
-#'  
-
+#' *Les statuts d'emplois fonctionnels sont pris en compte dans le calcul.*
+#'
 
 essayer(label = "+SMPT cat A", print(smpt(Filtre_cat_A)), "Le salaire moyen par tête des fonctionnaires de categorie A n'a pas pu être calculé.")  
 

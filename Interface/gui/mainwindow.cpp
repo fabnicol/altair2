@@ -327,7 +327,7 @@ void MainWindow::createMenus()
     fileMenu->addAction (exitAction);
 
     editMenu->addActions ({displayAction, displayOutputAction, displayFileTreeViewAction,
-                           displayManagerAction, clearOutputTextAction, editProjectAction, printBaseAction
+                           displayManagerAction, clearOutputTextAction, printBaseAction
                           });
 
     processMenu->addActions ({RAction, lhxAction, cleanAction, anonymAction, openBaseDirAction});
@@ -441,11 +441,6 @@ void MainWindow::createActions()
     displayManagerAction->setIcon (iconViewList);
     connect (displayManagerAction, SIGNAL (triggered()), this, SLOT (on_openManagerWidgetButton_clicked()));
 
-    editProjectAction = new QAction (tr ("Editer le projet courant"), this);
-    editProjectAction->setShortcut (QKeySequence ("Ctrl+E"));
-    editProjectAction->setIcon (QIcon (":/images/application-xml.png"));
-    connect (editProjectAction, SIGNAL (triggered()), this, SLOT (on_editProjectButton_clicked()));
-
     displayOutputAction  = new QAction (tr ("Ouvrir/Fermer les messages"), this);
     const QIcon displayOutput = QIcon (QString::fromUtf8 (":/images/display-output.png"));
     displayOutputAction->setIcon (displayOutput);
@@ -531,7 +526,7 @@ void MainWindow::createActions()
                << archiveAction << restoreAction << closeAction << exitAction << separator[0]
                << RAction << lhxAction << cleanAction << anonymAction << openBaseDirAction
                << displayOutputAction << displayFileTreeViewAction << displayManagerAction <<  separator[4]
-               << clearOutputTextAction <<  editProjectAction << printBaseAction << separator[3] << configureAction
+               << clearOutputTextAction << printBaseAction << separator[3] << configureAction
                << optionsAction << helpAction << aboutAction ;
 
 }
@@ -1185,30 +1180,6 @@ void MainWindow::createToolBars()
     aboutToolBar->addActions ({helpAction, aboutAction});
     aboutToolBar->hide();
 }
-
-void MainWindow::on_editProjectButton_clicked()
-{
-
-    if (altair->projectName.isEmpty()) return;
-
-    QProcess* p = new QProcess;
-
-    p->start("kate", {altair->projectName});
-    p->waitForStarted();
-    connect (p,
-             &QProcess::finished,
-             [this]
-    {
-
-        altair->closeProject();
-        altair->RefreshFlag = altair->RefreshFlag | interfaceStatus::parseXml;
-        altair->clearInterfaceAndParseProject();
-        // resetting interfaceStatus::parseXml bits to 0
-        altair->RefreshFlag = altair->RefreshFlag & (~interfaceStatus::parseXml);
-    });
-
-}
-
 
 void MainWindow::saveProjectAs (const QString &newstr)
 {

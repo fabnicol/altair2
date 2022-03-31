@@ -85,7 +85,7 @@ read.csv.skip <- function(x,
                           separateur.liste = separateur.liste.entree,
                           separateur.decimal = separateur.decimal.entree)
 {
- 
+
     T <- try(data.table::fread(x,
                       sep = separateur.liste,
                       dec = separateur.decimal,
@@ -153,7 +153,7 @@ Sauv.base <- function(dossier = "",
                       environment = .GlobalEnv)
 {
   if (dossier == "" || nom == "" || is.null(dossier) || is.null (nom)) return(FALSE)
-  
+
   if (! sauvegarder.bases.analyse) return(FALSE)
 
   message("Sauvegarde de ", nom.sauv)
@@ -170,36 +170,36 @@ Sauv.base <- function(dossier = "",
              sep = sep,
              dec = dec)
 
-  
+
 }
 
 #' Insertion conditionnelle de texte dans le rapport
 
 #' @param msg Partie du rapport (commençant par #')
-#' @param path Chemin local de la base CSV sur le dossier d'exportation 
+#' @param path Chemin local de la base CSV sur le dossier d'exportation
 #' @return Le message msg dans le rapport
 #' @export
 
 conditionnel <- function(msg = "", path = "") {
-  
+
     if (path == "") {
       cat("  \n")
     }
-    
+
     # Le fichier existe et il y a plus qu'un entête
-    
+
     chemin <- file.path(chemin.cle, path)
-   
+
     if (get("generer.rapport", envir = .GlobalEnv) && file.exists(chemin)) {
-      
+
       vect <- readLines(chemin, 2, warn = FALSE, encoding = "UTF-8")
-      
+
       if (length(vect) > 1) {
-      
+
       cat("[" %+% msg %+% "](" %+% path %+% ")  ", sep = "\n")
-        
+
       } else cat("   \n")
-      
+
     } else cat("   \n")
 
 }
@@ -243,7 +243,7 @@ sauv.bases <- function(chemin.dossier, env, ...)
                environment = env)
     } else {
       message(x, "n'existe pas dans l'environnement.")
-    }  
+    }
 
   }))
 }
@@ -328,7 +328,8 @@ Read.csv_ <- function(base.string, fichiers,
 #' @param y Les classes ("character", "numeric") des variables en colonnes
 #' @param align  Rang de la colonne à supprimer
 #' @param extra  Nombre de lignes à sauter en début de fichier (défaut aucune).
-#' @param type Booléen (= FALSE). 
+#' @param type Booléen (= FALSE).
+#' @param id Identifiant de la table (pour le débogage).
 #' @return Une base data.table
 #' @examples
 #' read.csv.skip(Base, separateur.decimal = ",")
@@ -338,9 +339,11 @@ Resume <- function(X,
                    y,
                    align = 'r',
                    extra = 0,
-                   type = "pond")
+                   type = "pond",
+                   id = "")
 {
-essayer(label = "+quartiles", {
+    essayer(label = "+quartiles", {
+
       Y <- na.omit(y)
 
       if (! is.list(Y) || is.data.frame(Y)) {
@@ -399,14 +402,19 @@ essayer(label = "+quartiles", {
            for (i in 1:n) {
 
                if (length(S[ , i + 1]) == nrow.S) {
-                 temp <- cbind(temp, S[ , i + 1])
-                 
-                 
+
+                temp <- cbind(temp, S[ , i + 1])
+
                  if (is.vector(Y[[i]])) {
                     l <- length(Y[[i]])
                     if (l == 1 && Y[[i]][1] == 0) tot <- 0 else tot <- l
-                 } else tot <- nrow(Y[[i]])
-                 
+
+                 } else {
+                     if (is.data.frame(Y[[i]]) || is.matrix(Y[[i]])) {
+                         tot <- nrow(Y[[i]])
+                     }
+                 }
+
                  temp <- cbind(temp, c("", "", "", tot, "", ""))
                } else {
                  cat("Impossible de generer le tableau : ligne manquante.")
@@ -425,7 +433,7 @@ essayer(label = "+quartiles", {
 
        knitr::kable(S, row.names = FALSE, align = align,  format = "simple")
      } else {
-       knitr::kable(S, row.names = FALSE, align = align,  format = "simple") #cat("Table non générée.")
+       knitr::kable("Table non générée", col.names = "", format="simple")
      }
 }, "Les quartiles n'ont pas pu être générés.")
 }
@@ -558,7 +566,7 @@ Tableau.vertical <- function(colnames, rownames, extra = "", ...)   # extra func
     }
 
     kable(T, row.names = FALSE, align = "c",  format = "simple")
-    
+
 }
 
 #' Tableau vertical 2
@@ -584,7 +592,7 @@ Tableau.vertical2 <- function(colnames, rownames, ...)
                                                     digits = digits,
                                                     decimal.mark =",",
                                                     preserve.width ="common")))))
-  
+
   if (inherits(res, 'try-error')) return("")
 
   names(T) <- colnames
@@ -600,7 +608,7 @@ Tableau.vertical2 <- function(colnames, rownames, ...)
 Tableau.data <- function(filename, colnames) {
 
     kable(fread(file.path(chemin.data, filename), sep = ";", dec = ",", header = FALSE),
-        col.names = colnames, 
+        col.names = colnames,
         format.args = list(big.mark = " "),
         format = if (HTML) "html" else "latex",
         align = c("l", rep("c", length(colnames) - 1)))
@@ -621,11 +629,11 @@ calcul.nb.jours.mois <- function(Mois, annee)   {
 
     if ((annee - 2008) %% 4 == 0) {
          return(v.jmois.leap[Mois])
-      
+
     } else {
          return(v.jmois[Mois])
 
-    }  
+    }
  }
 }
 
@@ -769,7 +777,7 @@ essayer <- function(X, Y, abort = FALSE, prof = profiler, times = 5, label = "")
   #     if (class(res) == "knitr_kable")
   #       print (res)
   }
-  
+
   if (prof) {
 
       assign("PROF", rbind(get("PROF", envir = .GlobalEnv), data.table(expr = label, median = median(DT["elapsed"]))), envir = .GlobalEnv)
@@ -884,6 +892,12 @@ filtrer_Paie <- function(x,
   if (all(c("Temps.de.travail", "quotite.moyenne.orig") %chin% names(Base))) {
        P_[ , `:=`(quotite = Temps.de.travail / 100,
                   quotite.moyenne = quotite.moyenne.orig)]
+
+       if (écreter.quotites) {
+           P_[quotite.moyenne > 1, quotite.moyenne := 1]
+           P_[quotite > 1, quotite := 1]
+       }
+
   }
 
   },  "Le filtre n'a pas pu être appliqué ( " %+% x %+%" ).")
@@ -924,7 +938,7 @@ extraire_paye <- function(an, L, out) {
 #' Insérer un script auxiliaire, indexé par une variable globale
 #' @param chemin  Chemin du script R
 #' @param index   Vecteur numérique contenant les valeurs de la variable globale.
-#' @param seq Exécuter le script en mode sequentiel (si \code{TRUE}, resp. si \code{FALSE}, en mode parallèle)   
+#' @param seq Exécuter le script en mode sequentiel (si \code{TRUE}, resp. si \code{FALSE}, en mode parallèle)
 #' @param variable Vecteur de caractères contenant le nom de la variable globale dans le script auxiliaire.
 #' @param gen  Si \code{FALSE} alors se contente de sourcer le script auxiliaire selon \code{encodage.code.source}. Sinon intègre le rapport auxiliaire au format du rapport principal.
 #' @param fonction Appeler une liste de fonctions à argument vide
@@ -933,32 +947,32 @@ extraire_paye <- function(an, L, out) {
 #' @return Valeur de la dernière variable globale \code{variable} instanciée. Effets de bord en sortie.
 #' @export
 
-inserer_script <- function(chemin = NULL, 
-                           index = 1, 
-                           variable = "annee", 
-                           gen = get("generer.rapport", envir = .GlobalEnv), 
+inserer_script <- function(chemin = NULL,
+                           index = 1,
+                           variable = "annee",
+                           gen = get("generer.rapport", envir = .GlobalEnv),
                            fonction = NULL,
                            clean = TRUE,
                            sync = get("sequentiel", envir = .GlobalEnv))  {
 
 if (! is.null(chemin) && get(gsub(".R", "", basename(chemin), fixed = TRUE)) == FALSE) invisible(return(NULL))
-  
+
 invisible(sapply(index, function(x) {
 
   assign(variable, x, .GlobalEnv)
 
   if (is.null(fonction)) {
-        
+
     if (gen) {
             vect <- knit_child(text = readLines(spin(chemin, knit = FALSE),
                                                 encoding = encodage.code.source),
                                options = list(encoding = "UTF-8"),
                                quiet = TRUE)
-                               
+
             if (sync == TRUE) {
-              
+
               cat(vect, sep = '\n')
-              
+
             } else {
                   rmdfile <- get("chemin.modules", envir = .GlobalEnv) %+% x %+% ".Rmd"
                   writeLines(vect, rmdfile)
@@ -974,14 +988,14 @@ invisible(sapply(index, function(x) {
            }
 
         } else {
-            
+
             message("Sourcing", chemin, "...")
-                        
-            source(chemin, encoding = encodage.code.source)    
+
+            source(chemin, encoding = encodage.code.source)
         }
-    
+
   } else {
-  
+
       for (f in fonction) {
         do.call(get(f), list())
       }
@@ -994,6 +1008,5 @@ invisible(sapply(index, function(x) {
 #' @param V Vecteur de chaînes de caractères.
 #' @return Le même vecteur avec des guillemets entourant chaque composante.
 #' @export
-#' 
+#'
 system.quote <- function(V) sapply(V, function(x) paste0("\"", x, "\"") , USE.NAMES = FALSE)
-

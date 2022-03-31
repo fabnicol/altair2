@@ -196,7 +196,9 @@ rémunérations_eqtp <- function(DT) {
                quotite.moyenne = sum(quotite, na.rm = TRUE) / 12,
                quotite.moyenne.orig = sum(Temps.de.travail, na.rm = TRUE) / 1200),
 
-                      keyby = .(Matricule, Annee)]
+     keyby = .(Matricule, Annee)]
+
+  if (écreter.quotites) DT[quotite.moyenne > 1, quotite.moyenne := 1]
 
   # Analyser les différences entre quotite.moyenne et quotite.moyenne.orig permettrait de localiser les cas
   # dans lesquels la quotité "théorique" (Temps.de.travail) mensuelle est fausse ou représentatif d'une réalité
