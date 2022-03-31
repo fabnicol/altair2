@@ -4,7 +4,7 @@
 \alias{Resume}
 \title{Statistiques descriptives de base (minimum, maximum et quartiles)}
 \usage{
-Resume(X, y, align = "r", extra = 0, type = "pond")
+Resume(X, y, align = "r", extra = 0, type = "pond", id = "")
 }
 \arguments{
 \item{X}{Vecteur de noms de variables en colonnes}
@@ -16,6 +16,8 @@ Resume(X, y, align = "r", extra = 0, type = "pond")
 \item{extra}{Nombre de lignes à sauter en début de fichier (défaut aucune).}
 
 \item{type}{Booléen (= FALSE).}
+
+\item{id}{Identifiant de la table (pour le débogage).}
 }
 \value{
 Une base data.table

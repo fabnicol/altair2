@@ -4,10 +4,12 @@
 \alias{distribution_smpt}
 \title{distribution_smpt}
 \usage{
-distribution_smpt(Filtre)
+distribution_smpt(Cat, Liste_statuts)
 }
 \arguments{
-\item{Filtre}{Filtre fonctionnel booléen décrivant une sélection sur les lignes (caractéristiques des personnels)}
+\item{Cat}{Catégorie des personnels (A, B, C)}
+
+\item{Liste_statuts}{Statuts des personnels (ex.: c("STAGIAIRE", "TITULAIRE"))}
 }
 \value{
 Quartiles du SMPT
