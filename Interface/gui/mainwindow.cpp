@@ -206,7 +206,10 @@ MainWindow::MainWindow (char* projectName)
     connect (& (altair->process), SIGNAL (finished (int)), this, SLOT (resetTableCheckBox()));
     connect (altair, SIGNAL(substituer_valeurs_dans_script_R()), this, SLOT (substituer_valeurs_dans_script_R()));
 
-    altair->checkEmptyProjectName();
+    if (! QFile(altair->projectName).exists())
+    {
+          altair->updateProject(update::saveProject | update::noWarnRExport);
+    }
 
     if (projectName[0] != '\0')
         {
