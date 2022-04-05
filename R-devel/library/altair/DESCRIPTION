@@ -8,11 +8,11 @@ Description: Analyse, traite et transforme les données des bases de
 Depends: R (>= 3.2.3), data.table (>= 1.9.5), zeallot
 License: CeCILL v.2.1
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 ByteCompile: true
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2020-09-08 01:00:01 UTC; fabrn
+Packaged: 2022-04-05 19:57:45 UTC; fabrn
 Author: Fabrice Nicol [aut, cre]
 Maintainer: Fabrice Nicol <fabrice.nicol@crtc.ccomptes.fr>
-Built: R 4.1.0; ; 2020-09-08 01:00:02 UTC; windows
+Built: R 4.1.0; ; 2022-04-05 19:57:47 UTC; windows

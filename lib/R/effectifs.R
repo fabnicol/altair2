@@ -265,8 +265,9 @@ formater2 <- function(A, variation, fichier, groupe, agr, somme = FALSE, round =
 #'               \describe{
 #'                 \item{\code{quotite}}{réel entre 0 et 1}}}}.
 #' @param grade Grade particulier. Tous les grades en l'absence de spécification.
-#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
+#' @param emploi Emploi particulier. Tous les emplois en l'absence de spécification.
 #' @param classe Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
+#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
 #' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
 #' @param libellés  Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
 #' @param periode Vecteur des années considérées.
@@ -319,9 +320,10 @@ eqtp.grade <- function(Base = Bulletins.paie,
 #'           \item{ les variables numériques :
 #'               \describe{
 #'                 \item{\code{quotite}}{réel entre 0 et 1}}}}.
+#' @param grade Grade particulier. Tous les grades en l'absence de spécification.
 #' @param emploi Emploi particulier. Tous les emplois en l'absence de spécification.
-#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
 #' @param classe Liste de vecteurs d'emplois, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les emplois. Tous les emplois en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
+#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
 #' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
 #' @param libellés  Vecteur de libellés des agrégations d'emplois par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
 #' @param periode Vecteur des années considérées.
@@ -335,6 +337,7 @@ eqtp.grade <- function(Base = Bulletins.paie,
 #' @export
 
 eqtp.emploi <- function(Base = Bulletins.paie, 
+					   grade = NULL,
                        emploi = NULL,
                        classe = NULL,
                        service = NULL,
@@ -375,7 +378,9 @@ eqtp.emploi <- function(Base = Bulletins.paie,
 #'               \describe{
 #'                 \item{\code{quotite}}{réel entre 0 et 1}}}}.
 #' @param grade Grade particulier. Tous les grades en l'absence de spécification.
+#' @param emploi Emploi particulier. Tous les emplois en l'absence de spécification.
 #' @param classe Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
+#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
 #' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
 #' @param libellés  Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
 #' @param periode Vecteur des années considérées.
@@ -389,7 +394,9 @@ eqtp.emploi <- function(Base = Bulletins.paie,
 
 eqtp.grade.serv <- function(Base = Bulletins.paie, 
                        grade = NULL,
+					   emploi = NULL,
                        classe = NULL,
+					   service = NULL,
                        libellés = NULL, 
                        agr = FALSE,
                        periode = NULL,
@@ -435,6 +442,7 @@ eqtp.grade.serv <- function(Base = Bulletins.paie,
 #'               \describe{
 #'                 \item{\code{quotite}}{réel entre 0 et 1}}}}.
 #' @param grade Grade particulier. Tous les grades en l'absence de spécification.
+#' @param emploi Emploi particulier. Tous les emplois en l'absence de spécification.
 #' @param classe Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
 #' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
 #' @param libellés  Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
@@ -448,7 +456,9 @@ eqtp.grade.serv <- function(Base = Bulletins.paie,
 
 eqtp.grade.cat <- function(Base = Bulletins.paie, 
                             grade = NULL,
-                            classe = NULL,
+							emploi = NULL,
+							classe = NULL,
+							service = NULL,
                             libellés = NULL, 
                             agr = FALSE,
                             periode = NULL,
@@ -494,8 +504,8 @@ eqtp.grade.cat <- function(Base = Bulletins.paie,
 #'                 \item{\code{quotite}}{réel entre 0 et 1}}}}.
 #' @param grade Grade particulier. Tous les grades en l'absence de spécification.
 #' @param emploi Emploi particulier. Tous les emplois en l'absence de spécification.
-#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
 #' @param classe Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
+#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
 #' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
 #' @param libellés  Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
 #' @param periode Vecteur des années considérées.
@@ -568,8 +578,8 @@ charges.eqtp <- function(Base = Paie,
 #'                 \item{\code{quotite}}{réel entre 0 et 1}}}}.
 #' @param grade Grade particulier. Tous les grades en l'absence de spécification.
 #' @param emploi Emploi particulier. Tous les emplois en l'absence de spécification.
+#' @param classe Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
 #' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
-#' @param classe Liste de vecteurs d'emplois, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les emplois. Tous les emplois en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
 #' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les emplois décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
 #' @param libellés  Vecteur de libellés des agrégations de emplois par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
 #' @param periode Vecteur des années considérées.
@@ -618,6 +628,7 @@ charges.eqtp.emploi <- function(Base = Paie,
 #'               \describe{
 #'                 \item{\code{quotite}}{réel entre 0 et 1}}}}.
 #' @param grade Grade particulier. Tous les grades en l'absence de spécification.
+#' @param emploi Emploi particulier. Tous les emplois en l'absence de spécification.
 #' @param classe Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
 #' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification. 
 #' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
@@ -636,6 +647,7 @@ charges.eqtp.emploi <- function(Base = Paie,
 
 charges.eqtp.serv <- function(Base = Paie, 
                           grade = NULL,
+						  emploi = NULL,
                           classe = NULL,
                           service = NULL,
                           libellés = NULL, 
@@ -885,8 +897,8 @@ calcul.charges <- function(T, var, quotite.nulle, Gr) {
 #'                 \item{\code{quotite}}{réel entre 0 et 1}}}}.
 #' @param grade Grade particulier. Tous les grades en l'absence de spécification.
 #' @param emploi Emploi particulier. Tous les emplois en l'absence de spécification.
-#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
 #' @param classe Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
+#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
 #' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
 #' @param libellés  Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
 #' @param periode Vecteur des années considérées.
@@ -1040,8 +1052,8 @@ net.eqtp.serv <- function(Base = Paie,
 #'               \describe{
 #'                 \item{\code{quotite}}{réel entre 0 et 1}}}}.
 #' @param emploi Emploi particulier. Tous les emplois en l'absence de spécification.
-#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
 #' @param classe Liste de vecteurs d'emplois, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les emplois. Tous les emplois en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
+#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
 #' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les emplois décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
 #' @param libellés  Vecteur de libellés des agrégations d'emplois par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
 #' @param periode Vecteur des années considérées.
@@ -1095,8 +1107,8 @@ net.eqtp.emploi <- function(Base = Paie,
 #'                 \item{\code{quotite}}{réel entre 0 et 1}}}}.
 #' @param grade Grade particulier. Tous les grades en l'absence de spécification.
 #' @param emploi Emploi particulier. Tous les emplois en l'absence de spécification.
-#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
 #' @param classe Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
+#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
 #' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les grades décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
 #' @param libellés  Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
 #' @param periode Vecteur des années considérées.
@@ -1171,8 +1183,8 @@ brut.eqtp <- function(Base = Paie,
 #'                 \item{\code{quotite}}{réel entre 0 et 1}}}}.
 #' @param grade Grade particulier. Tous les grades en l'absence de spécification.            
 #' @param emploi Emploi particulier. Tous les emplois en l'absence de spécification.
-#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
 #' @param classe Liste de vecteurs d'emplois, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les emplois. Tous les emplois en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.
+#' @param service Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.
 #' @param agr Booléen (défaut FALSE). Si TRUE, l'expression régulière précédente conduit à agréger les emplois décrits par le vecteur d'expressions régulières précédent : une ligne par composante du vecteur.
 #' @param libellés  Vecteur de libellés des agrégations d'emplois par expression régulière. Doit avoir la même dimension que le vecteur de regexp. 
 #' @param periode Vecteur des années considérées.

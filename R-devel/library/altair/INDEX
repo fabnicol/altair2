@@ -1,7 +1,11 @@
 %+%                     Concaténation de chaîne de caractères
 %a%                     Assignation dans l'environnement d'appel
 %s%                     Prise en compte du pluriel
-Eliminer.duplications   Eliminer les doublons
+Eliminer.duplications   Eliminer les doublons en mémoire pour les
+                        calculs
+Exporter.tables.sans.doublons
+                        Eliminer les doublons dans les tables exportées
+                        sous Bases/Remunerations
 FR                      Ajoute le separateur des milliers et sans
                         decimale en français
 Read.csv                Lecture d'une série de bases CSV
@@ -12,9 +16,12 @@ Resume                  Statistiques descriptives de base (minimum,
 SFT_sans_enfant         SFT sans enfant
 Sauv.base               Sauvegarde d'une base
 Tableau                 Tableau
+Tableau.data            Tableau.data
 Tableau.vertical        Tableau de plusieurs lignes
 Tableau.vertical2       Tableau vertical 2
 adm                     Quotité administrative
+afficher_tableau_cumuls
+                        Affichage du tableau des cumuls de primes
 agrégat_annuel          Affichage du tableau des agrégats des primes A
                         et B, pour chaque année de période
 altair                  Altaïr: un paquet pour analyser les bases de
@@ -68,8 +75,8 @@ filtrer_Paie            Filtrage d'une base de paye
 generer_docx_odt        Générer les fichiers docx et odt à partir des
                         fichier intermédiaires .tex générés pour le
                         rapport pdf
-generer_rapport         Génération d'un rapport d'analyse pdf, docx
-                        et/ou odt ou exécution sans rapport
+generer_rapport         Génération d'un rapport d'analyse pdf, HTML,
+                        docx et/ou odt ou exécution sans rapport
 importer                Importer les données
 importer_base_ifse      Importer le base externe IFSE (encodage UTF-8)
 importer_base_logements
@@ -111,11 +118,7 @@ smic.net                SMIC mensuel net x 3 utilisé pour la condition
 smpt                    SMPT
 system.quote            Insérer des guillemets à chaque composante d'un
                         vecteur de chaînes de caractères
-tableau_NAS             Affichage du tableau des cumuls de primes et du
-                        logement par NAS
-tableau_cumuls          Affichage du tableau des cumuls de primes
-test_avn                Teste les logements par NAS
-test_plafonds           Teste les plafonds d'une prime
+tableau_cumuls          Tableau des cumuls de primes
 test_prime              Teste les primes et indemnités
 tester.homogeneite.matricules
                         Teste si, dans une base, la proportion
@@ -124,7 +127,8 @@ tester.homogeneite.matricules
                         inférieure à une marge de tolerance fixée
                         (taux.tolerance.homonymie)
 tex2pdf                 Convertir le fichier tex du rapport en pdf
-type.données            Contrôle le type des données d'entree
+to_html                 Convertir le fichier tex du rapport en html
+type.données            Contrôle le type des données d'entrée
 évolution_agrégat       Affichage du tableau des variations des
                         agrégats des primes A et B sur l'ensemble de la
                         periode
