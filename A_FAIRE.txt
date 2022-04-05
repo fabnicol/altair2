@@ -4,8 +4,9 @@ Bugs
 24/07/2021  Bug identifié dans l'interface :
                - pour les XML encodés en Latin-1 seulement
                - ET lorsque des caractères accentués sont présents
-               - la fonctionnalité d'anonymisation produit des output inadéquats pour ces caractères en sortie.
-            Contounement provisioire :
+               - la fonctionnalité d'anonymisation produit des outputs
+                  inadéquats pour ces caractères en sortie.
+            Contournement provisioire :
                - convertir en UTF-8
                - anonymiser
                - convertir en Latin-1
@@ -14,12 +15,15 @@ Bugs
             Sévérité : moyenne.
             Idée : parser l'entête pour déterminer l'encodage.
 
-8/11/2021   FIXED
-            Pas d'effectivité de la confuration de l'interface dans le projet (restauration non effectuée)
-            Pb au lancement de kate pour l'édition du projet.
-           
-10/12/2021  TODO: 1. Eliminer les scories de tests de cohérences ldp/bdp dans les parties du brut.
-                  2. Rémunérations, effectifs et coûts complets par service dysfonctionnels.
-                  3. En parallèle d'exécution du rapport, dans le passage du module d de Rmd à md (rémunérationsbrutes1)
-                     il y a génération anormale de graphiques de pyramides précédemment générées en modules b ou c.
-                     Défaut absent en génération série.
+10/12/2021  TODO:
+              1. Eliminer les scories de tests de cohérences ldp/bdp
+                 dans les parties du brut.
+              2. En parallèle d'exécution du rapport,
+                  dans le passage du module d de Rmd à md (rémunérationsbrutes1)
+                  il y a génération anormale de graphiques de pyramides
+                  précédemment générées en modules b ou c.
+                  Défaut absent en génération série.
+
+05/04/2022  Problème pour les primes multicatégories (ex. PFI, ISS).
+            --> Bloquer les tests d'incompatibilité catégorielle
+                sans pertinence.
