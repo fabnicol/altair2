@@ -2,6 +2,7 @@
 %a%	grapes-a-grapes
 %s%	grapes-s-grapes
 adm	adm
+afficher_tableau_cumuls	afficher_tableau_cumuls
 agrégat_annuel	agr-gat_annuel
 altair	altair
 analyser	analyser
@@ -26,6 +27,7 @@ eqtp.grade	eqtp.grade
 eqtp.grade.cat	eqtp.grade.cat
 eqtp.grade.serv	eqtp.grade.serv
 essayer	essayer
+Exporter.tables.sans.doublons	Exporter.tables.sans.doublons
 exporter_tableau	exporter_tableau
 extraire.nir	extraire.nir
 extraire_paye	extraire_paye
@@ -67,14 +69,13 @@ smic.net	smic.net
 smpt	smpt
 system.quote	system.quote
 Tableau	Tableau
+Tableau.data	Tableau.data
 Tableau.vertical	Tableau.vertical
 Tableau.vertical2	Tableau.vertical2
 tableau_cumuls	tableau_cumuls
-tableau_NAS	tableau_NAS
 tester.homogeneite.matricules	tester.homogeneite.matricules
-test_avn	test_avn
-test_plafonds	test_plafonds
 test_prime	test_prime
 tex2pdf	tex2pdf
+to_html	to_html
 type.données	type.donn-es
 évolution_agrégat	volution_agr-gat
