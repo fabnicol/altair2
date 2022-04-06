@@ -391,6 +391,7 @@ eqtp.emploi <- function(Base = Bulletins.paie,
 #' @param variation Booléen Insérer une colonne des variations (défaut FALSE).
 #' @param statut Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.
 #' @param categorie Catégorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
+#' @param fichier Identificateur du fichier de sortie, qui sera nommé :  \code{tableau.fichier.zip}
 #' @return Un tableau des effectifs par grade et service mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.
 #' @examples
 #' eqtp.grade.serv()
@@ -407,20 +408,22 @@ eqtp.grade.serv <- function(Base = Bulletins.paie,
                        variation = FALSE,
                        statut = NULL,
                        categorie = NULL,
+                       fichier = "effectifs.serv.",
                        exclure.codes = NULL,
                        quotite.nulle = FALSE) {
   
   T <- filtrer.base(Base, grade, emploi, classe, service, libellés, agr, periode, statut, categorie, exclure.codes, quotite.nulle, type = "G")
-  
+
   if (is.null(T) || nrow(T) == 0) return(NULL)
 
   curD <- getwd()
   
   setwd(file.path(chemin.dossier.bases, "Effectifs"))
   
-  formater2(T [ , .(VAR = sum(quotite, na.rm = TRUE) / 12), by = c("Annee",  groupage(type = "G", agr), "Service")],
+  formater2(T [ , .(VAR = sum(quotite, na.rm = TRUE) / 12), 
+                    by = c("Annee",  groupage(type = "G", agr), "Service")],
             variation,
-            fichier = "effectifs.serv.", 
+            fichier, 
             groupe = "Service", 
             agr, 
             somme = TRUE,
@@ -453,6 +456,7 @@ eqtp.grade.serv <- function(Base = Bulletins.paie,
 #' @param periode Vecteur des années considérées.
 #' @param variation Booléen Insérer une colonne des variations (défaut FALSE).
 #' @param statut Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.
+#' @param categorie Catégorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.  
 #' @return Un tableau des effectifs par grade et catégorie mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de periode, plus une colonne de libellés.
 #' @examples
 #' eqtp.grade.cat()
@@ -468,10 +472,23 @@ eqtp.grade.cat <- function(Base = Bulletins.paie,
                             periode = NULL,
                             variation = FALSE,
                             statut = NULL,
+                            categorie = NULL,
                             exclure.codes = NULL,
                             quotite.nulle = FALSE) {
-  
-  T <- filtrer.base(Base, grade, emploi, classe, service, libellés, agr, periode, statut, categorie, exclure.codes, quotite.nulle, type = "C")
+
+  T <- filtrer.base(Base, 
+                    grade, 
+                    emploi, 
+                    classe, 
+                    service, 
+                    libellés, 
+                    agr, 
+                    periode, 
+                    statut, 
+                    categorie, 
+                    exclure.codes, 
+                    quotite.nulle, 
+                    type = "C")
   
   if (is.null(T) || nrow(T) == 0) return(NULL)
   
@@ -600,7 +617,7 @@ charges.eqtp <- function(Base = Paie,
 
 
 charges.eqtp.emploi <- function(Base = Paie, 
-                         garde = NULL,
+                         grade = NULL,
                          emploi = NULL,
                          classe = NULL,
                          service = NULL,
@@ -694,6 +711,9 @@ charges.eqtp.serv <- function(Base = Paie,
   setwd(curD)
 }
 
+#' filtrer.base
+#' @export
+
 
 filtrer.base <- function(Base, grade, emploi, classe, service, libellés, agr, periode, statut, categorie, exclure.codes, quotite.nulle, type) {
   
@@ -701,7 +721,7 @@ filtrer.base <- function(Base, grade, emploi, classe, service, libellés, agr, p
     
     if (agr) {
       stop("Une expression régulière doit être entree pour agr = TRUE") 
-    } else return(Base)
+    } 
   }
   
   if (!is.null(grade)) Base <- Base[Grade   %in% grade]
@@ -753,30 +773,28 @@ filtrer.base <- function(Base, grade, emploi, classe, service, libellés, agr, p
   if (! is.null(exclure.codes)) Base <- Base[! Code %chin% exclure.codes]
   
   if (! is.null(periode)) Base <- Base[Annee %in% periode]
-  
+ 
   if (is.null(categorie)) {
-    
+ 
     if (is.null(statut)) {
-      
+   
       if (! is.null(service)) {
-        
         Base <- Base[Service %chin% service]    
       }
-      
     } else {
-      
+
       if (is.null(service)) {
-        
+
         Base <- Base[Statut %chin% statut] 
-      } else {
         
+      } else {
+
         Base <- Base[Statut %chin% statut & Service %chin% service] 
       }
-      
     }
     
   } else {
-    
+ 
     if (is.null(statut)) {
       
       if (is.null(service)) {

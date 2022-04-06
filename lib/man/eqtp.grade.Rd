@@ -35,6 +35,8 @@ eqtp.grade(
 
 \item{grade}{Grade particulier. Tous les grades en l'absence de spécification.}
 
+\item{emploi}{Emploi particulier. Tous les emplois en l'absence de spécification.}
+
 \item{classe}{Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.}
 
 \item{service}{Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.}

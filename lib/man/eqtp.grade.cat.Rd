@@ -7,7 +7,9 @@
 eqtp.grade.cat(
   Base = Bulletins.paie,
   grade = NULL,
+  emploi = NULL,
   classe = NULL,
+  service = NULL,
   libellés = NULL,
   agr = FALSE,
   periode = NULL,
@@ -32,6 +34,8 @@ eqtp.grade.cat(
          \item{\code{quotite}}{réel entre 0 et 1}}}}.}
 
 \item{grade}{Grade particulier. Tous les grades en l'absence de spécification.}
+
+\item{emploi}{Emploi particulier. Tous les emplois en l'absence de spécification.}
 
 \item{classe}{Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.}
 

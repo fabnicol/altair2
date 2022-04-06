@@ -32,6 +32,7 @@ exporter_tableau	exporter_tableau
 extraire.nir	extraire.nir
 extraire_paye	extraire_paye
 filtre	filtre
+filtrer.base	filtrer.base
 filtrer_Paie	filtrer_Paie
 FR	FR
 generer_docx_odt	generer_docx_odt

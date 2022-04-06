@@ -4,7 +4,7 @@
 \alias{smpt}
 \title{SMPT}
 \usage{
-smpt(Cat, Liste_statuts, type = "smpt net")
+smpt(Cat = NULL, Liste_statuts = NULL, type = "smpt net")
 }
 \arguments{
 \item{Cat}{Catégorie des personnels (A, B, C)}
@@ -14,7 +14,7 @@ smpt(Cat, Liste_statuts, type = "smpt net")
 \item{type}{"smpt net", "smpt brut", "rmpp net", "rmpp brut"}
 }
 \value{
-Tableau d'évolution du SMPT
+Liste composée du tableau d'évolution du SMPT et table temporaire
 }
 \description{
 SMPT
