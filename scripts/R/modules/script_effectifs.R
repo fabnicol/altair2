@@ -105,9 +105,9 @@ zip("tableau.effectifs.categories.zip", list.files(".", pattern = "effectifs.cat
 conditionnel("Lien vers la base des effectifs", "Bases/Effectifs/tableau.effectifs.csv")  
 conditionnel("Lien vers la base des effectifs en ETPT par grade", "Bases/Effectifs/tableau.effectifs.grades.csv")  
 conditionnel("Lien vers la base des effectifs en ETPT par emploi", "Bases/Effectifs/tableau.effectifs.emplois.csv")  
-conditionnel("Lien vers la base des effectifs en ETPT par grade et service, tous personnels", "Bases/Effectifs/tableau.effectifs.services.zip")
-conditionnel("Lien vers la base des effectifs en ETPT par grade et service pour les fonctionnaires et emplois fonctionnels", "Bases/Effectifs/tableau.effectifs.fonct.services.zip")  
-conditionnel("Lien vers la base des effectifs en ETPT par grade et service pour les contractuels", "Bases/Effectifs/tableau.effectifs.contr.services.zip")  
+conditionnel("Lien vers la base des effectifs en ETPT par grade et service, tous personnels", "Bases/Effectifs/tableau.effectifs.services.zip")   
+conditionnel("Lien vers la base des effectifs en ETPT par grade et service pour les fonctionnaires et emplois fonctionnels", "Bases/Effectifs/tableau.effectifs.fonct.services.zip")     
+conditionnel("Lien vers la base des effectifs en ETPT par grade et service pour les contractuels", "Bases/Effectifs/tableau.effectifs.contr.services.zip")    
 conditionnel("Lien vers la base des effectifs en ETPT par grade et service pour les autres statuts", "Bases/Effectifs/tableau.effectifs.autres.services.zip")  
 conditionnel("Lien vers la base des effectifs en ETPT par grade et categorie", "Bases/Effectifs/tableau.effectifs.categories.zip")  
 

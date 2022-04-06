@@ -192,16 +192,20 @@ conditionnel <- function(msg = "", path = "") {
 
     if (get("generer.rapport", envir = .GlobalEnv) && file.exists(chemin)) {
 
-      vect <- readLines(chemin, 2, warn = FALSE, encoding = "UTF-8")
+      if (grepl("zip", path, fixed=TRUE)) {
+        cat("[" %+% msg %+% "](" %+% path %+% ")  ", sep = "\n")
+      } else {
+        
+        vect <- readLines(chemin, 2, warn = FALSE, encoding = "UTF-8")
 
-      if (length(vect) > 1) {
+        if (length(vect) > 1) {
 
-      cat("[" %+% msg %+% "](" %+% path %+% ")  ", sep = "\n")
+            cat("[" %+% msg %+% "](" %+% path %+% ")  ", sep = "\n")
 
-      } else cat("   \n")
-
-    } else cat("   \n")
-
+        } else cat("   \n")
+     }
+     
+  } else cat("   \n") 
 }
 
 #' Sauvegarde de plusieurs bases
