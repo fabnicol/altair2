@@ -136,8 +136,13 @@ Tableau.data("distribution_smpt_net_fph.csv",
 
 #'[Source INSEE, onglets Figure3, F1web et F3web - 2011](Docs/ip1486.xls)    
 #'[Source INSEE, onglets F V3.1-2, F V3.1-5 - 2013](Docs/vue3_remunerations.xls)  
-#'[Source INSEE, onglet v3-2, V3-5 2016](Docs/Vue-Remunerations-2018.xlsx)     
-#'[Source INSEE, onglet v3-1, 2020](Docs/Vue3.1_Salaires-FP-2020.xlsx )
+#'[Source INSEE, 2016](Docs/Vue-Remunerations-2018.xlsx)     
+#'[Source INSEE, 2017](Docs/Vue-Remunerations-2019.xlsx)     
+#'[Source INSEE, 2018](Docs/Vue-Remunerations-2020.xlsx)     
+#'[Source INSEE, 2019](Docs/Vue-Remunerations-2021.xlsx)     
+#'[Source INSEE 218](Docs/ip1812.xls)   
+#'[Source INSEE 2019](Docs/ip1869.xls)   
+
 
 #'   
 #'### 4.2.2 Evolution du SMPT des fonctionnaires         

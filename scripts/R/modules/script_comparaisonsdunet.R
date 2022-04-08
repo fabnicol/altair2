@@ -69,10 +69,10 @@ Tableau.data("organismes_smpt_net.csv",
 message("organismes_rmpp_net.csv")
 #'   
 Tableau.data("organismes_rmpp_net.csv",
-            c("Organisme RMPP nette",  2014, "2014-2015", "2015-2016", "2016-2017", "2017-2018"))
+            c("Organisme RMPP nette",  2014, "2014-2015", "2015-2016", "2016-2017", "2017-2018", "2018-2019"))
       
 #'       
-#'   
+#'NC: statistique non publiée.     
 #'*Champ : France. Salariés en équivalent-temps plein (EQTP) des collectivités territoriales (y compris bénéficiaires de contrats aidés, hors assistantes maternelles).*     			
 #'Conversion en euros courants, calcul CRC.  La métropole de Lyon est classée avec les départements   
 
