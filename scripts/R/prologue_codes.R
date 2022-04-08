@@ -1,4 +1,4 @@
-"VERSANT_FP"       %a% "FPT"
+"VERSANT_FP" %a% "FPT"
 "codes.traitement" %a% NA
 "codes.nbi"        %a% NA
 "codes.pfi"        %a% NA
@@ -58,9 +58,9 @@ if (script_rémunérationsbrutes) {
 }
 
 
-"sequentiel"                     %a% TRUE
-"ouvrir.document"                %a% TRUE
-"paye.budget.existe"             %a% FALSE
+"sequentiel" %a% FALSE
+"ouvrir.document" %a% TRUE
+"paye.budget.existe" %a% FALSE
 
 "types.irs"  %a% c("IR", "S")
 

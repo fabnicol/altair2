@@ -71,6 +71,7 @@ extraire_paye           Extraire les matricules et Nir des mois de
                         listés dans L si L non null
 filtre                  Sélection du filtre correspondant à une chaîne
                         de caractères associée
+filtrer.base            filtrer.base
 filtrer_Paie            Filtrage d'une base de paye
 generer_docx_odt        Générer les fichiers docx et odt à partir des
                         fichier intermédiaires .tex générés pour le

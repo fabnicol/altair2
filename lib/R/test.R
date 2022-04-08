@@ -231,6 +231,7 @@ analyser <- function(prime, Paie_I, verbeux, echo = TRUE) {
   Lignes_A <- NULL
   résultat.manquant <- FALSE
   lignes.indice.anormal <- NULL
+  len_pc <- length(prime$categorie)  
   
   essayer({  Paie_A   <- filtrer_Paie(prime$nom, 
                              portee = "Mois",
@@ -303,43 +304,16 @@ analyser <- function(prime, Paie_I, verbeux, echo = TRUE) {
       }
     }
     
-    if (!is.null(prime$categorie)){
-      
-      if (! is.null(prime$expr.reg)) {
-        
-        A.non.cat <- Lignes_A[! Categorie %chin% prime$categorie 
-                              | ! grepl(prime$expr.reg, Grade, ignore.case = TRUE, perl = TRUE)] 
+    if (is.null(prime$categorie)){
+    
+     if (is.null(prime$expr.reg)) {
+
+             cat("La détection des incompatibilités statutaires n'a pas pu être réalisée. ")
+        stop("La prime " %+% prime$nom %+% " doit être renseignée soit pour sa catagorie statutaire (prime$categorie) \
+soit par une expression régulière sur libellé (prime$expr.reg).")
         
       } else {
-        
-        A.non.cat <- Lignes_A[! Categorie %chin% prime$categorie]
-      }
       
-      if (echo) {
-        if ((N.A.non.cat <<- uniqueN(A.non.cat$Matricule)) > 0) {
-          
-          cat(N.A.non.cat, 
-              "attributaires de",
-              prime$nom,
-              "ne sont pas identifiés en categorie",
-              prime$categorie,
-              ". ")
-          
-          if (verbeux)  print(kable(A.non.cat, align = 'r', format = "simple", row.names = FALSE))
-          
-        } else {
-          
-          if (echo) cat("Tous les attributaires de",
-                        prime$nom,
-                        "sont identifiés en categorie",
-                        prime$categorie, ". ")
-        }
-      }
-      
-    } else {
-      
-      if (! is.null(prime$expr.reg)) {
-        
         A.non.cat <- Lignes_A[! grepl(prime$expr.reg, Grade, ignore.case = TRUE, perl = TRUE)] 
         
         if (echo) {
@@ -354,12 +328,48 @@ analyser <- function(prime, Paie_I, verbeux, echo = TRUE) {
           
           }
         }
+      }
+      
+    } else {
+      
+      if (is.null(prime$expr.reg)) {
+      
+        if (len_pc < 3) {
+        
+            A.non.cat <- Lignes_A[! Categorie %in% prime$categorie]        
+            
+        } else A.non.cat <- NULL
         
       } else {
-       
-        cat("La détection des incompatibilités statutaires n'a pas pu être réalisée. ")
-        stop("La prime " %+% prime$nom %+% " doit être renseignée soit pour sa catagorie statutaire (prime$categorie) soit par une expression régulière sur libellé (prime$expr.reg).")
+
+        if (len_pc < 3) {
         
+            A.non.cat <- Lignes_A[! Categorie %in% prime$categorie 
+                                  | ! grepl(prime$expr.reg, Grade, ignore.case = TRUE, perl = TRUE)] 
+                                  
+        } else  A.non.cat <- Lignes_A[! grepl(prime$expr.reg, Grade, ignore.case = TRUE, perl = TRUE)] 
+
+      }
+      
+      if (echo) {
+        if ((N.A.non.cat <<- uniqueN(A.non.cat$Matricule)) > 0) {
+          
+          cat(N.A.non.cat, 
+              "attributaires de",
+              prime$nom,
+              "ne sont pas identifiés en categorie" %s% len_pc,
+              paste(prime$categorie, collapse=", "),
+              ". ")
+          
+          if (verbeux)  print(kable(A.non.cat, align = 'r', format = "simple", row.names = FALSE))
+          
+        } else {
+          
+          if (echo) cat("Tous les attributaires de",
+                        prime$nom,
+                        "sont identifiés en categorie" %s% len_pc,
+                        paste(prime$categorie, collapse=", "), ". ")
+        }
       }
     }
   },
@@ -384,8 +394,13 @@ analyser <- function(prime, Paie_I, verbeux, echo = TRUE) {
   env <- environment()
  
   if (sauvegarder.bases.analyse) { 
-    sauvebase("A.non.cat", prime$nom %+% ".non.cat" %+% paste0("", prime$categorie, collapse = ""), prime$dossier, env)
-    sauvebase("A.non.tit", prime$nom %+% ".non.tit", prime$dossier, env)
+    if (! is.null(A.non.cat) && len_pc < 3) {
+        sauvebase("A.non.cat", 
+                  prime$nom %+% ".non.cat" %+% paste(prime$categorie, collapse = ""),
+                  prime$dossier, 
+                  env)
+    }
+    if (! is.null(A.non.tit)) sauvebase("A.non.tit", prime$nom %+% ".non.tit", prime$dossier, env)
     if (! is.null(prime$indice)) {
       sauvebase("lignes.indice.anormal", prime$nom %+% ".indice.anormal", prime$dossier, env)
     }

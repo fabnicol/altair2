@@ -4,12 +4,14 @@
 \alias{distribution_smpt}
 \title{distribution_smpt}
 \usage{
-distribution_smpt(Cat, Liste_statuts)
+distribution_smpt(Cat = NULL, Liste_statuts = NULL, S_ = NULL)
 }
 \arguments{
 \item{Cat}{Catégorie des personnels (A, B, C)}
 
 \item{Liste_statuts}{Statuts des personnels (ex.: c("STAGIAIRE", "TITULAIRE"))}
+
+\item{S_}{Table temporaire calculée par #smpt}
 }
 \value{
 Quartiles du SMPT
