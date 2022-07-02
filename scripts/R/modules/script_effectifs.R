@@ -28,14 +28,14 @@ tableau.effectifs.emplois <<- eqtp.emploi(variation = TRUE)
 # Mise en forme sous tableau aligné en central par la fonction knitr::kable
 # Note: il faut préciser l'argument format = latex avec les versions récentes de knitr et pandoc
 
-if (class(tableau.effectifs) != "try-error") {
+#if (class(tableau.effectifs) != "try-error") {
   
   kable(tableau.effectifs, row.names = TRUE, 
         format = "simple", align = c('l', rep('r', nb.annees)), digits = 1, 
         format.args = list(big.mark = ' ', decimal.mark = ','))
-} else {
-  cat("Problème sérieux de qualité des données sur les effectifs ou problème logiciel.")
-}
+#} else {
+#  cat("Problème sérieux de qualité des données sur les effectifs ou problème logiciel.")
+#}
 
 #'    
 #'**Nota:**   
