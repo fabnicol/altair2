@@ -1,8 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- This manual is for R, version 4.1.0 Under development (2020-06-23 ).
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- This manual is for R, version 4.2.1 (2022-06-23).
 
-Copyright (C) 2000-2018 R Core Team
+Copyright (C) 2000-2022 R Core Team
 
 Permission is granted to make and distribute verbatim copies of this
 manual provided the copyright notice and this permission notice are
@@ -17,9 +20,6 @@ Permission is granted to copy and distribute translations of this manual
 into another language, under the above conditions for modified versions,
 except that this permission notice may be stated in a translation
 approved by the R Core Team. -->
-<!-- Created by GNU Texinfo 6.6, http://www.gnu.org/software/texinfo/ -->
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>R Language Definition</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,16 +28,19 @@ approved by the R Core Team. -->
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="texi2any">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
 <link href="#Top" rel="start" title="Top">
 <link href="#Function-and-Variable-Index" rel="index" title="Function and Variable Index">
 <link href="#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="#Introduction" rel="next" title="Introduction">
 <style type="text/css">
 <!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
 a.summary-letter {text-decoration: none}
 blockquote.indentedblock {margin-right: 0em}
 div.display {margin-left: 3.2em}
 div.example {margin-left: 3.2em}
-div.lisp {margin-left: 3.2em}
 kbd {font-style: oblique}
 pre.display {font-family: inherit}
 pre.format {font-family: inherit}
@@ -46,6 +49,7 @@ pre.menu-preformatted {font-family: serif}
 span.nolinebreak {white-space: nowrap}
 span.roman {font-family: initial; font-weight: normal}
 span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
 ul.no-bullet {list-style: none}
 body {
     margin-left: 5%;
@@ -116,6 +120,10 @@ p {
     margin-bottom: 1.2ex;
 }
 
+#Top > .header, #Top > h1 {     /* for Texinfo 6.8 */
+    display: none
+}
+
 -->
 </style>
 
@@ -146,7 +154,41 @@ p {
 
 
 
-<span id="SEC_Contents"></span>
+
+<div class="top" id="Top">
+<div class="header">
+<p>
+Next: <a href="#Introduction" accesskey="n" rel="next">Introduction</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<span id="R-Language-Definition"></span><h1 class="top">R Language Definition</h1>
+
+<p>This is an introduction to the R language, explaining evaluation,
+parsing, object oriented programming, computing on the language, and so
+forth.
+</p>
+<p>This manual is for R, version 4.2.1 (2022-06-23).
+</p>
+<p>Copyright &copy; 2000&ndash;2022 R Core Team
+</p>
+<blockquote>
+<p>Permission is granted to make and distribute verbatim copies of this
+manual provided the copyright notice and this permission notice are
+preserved on all copies.
+</p>
+<p>Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the
+entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.
+</p>
+<p>Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions,
+except that this permission notice may be stated in a translation
+approved by the R Core Team.
+</p></blockquote>
+
+
+
+<div class="Contents_element" id="SEC_Contents">
 <h2 class="contents-heading">Table of Contents</h2>
 
 <div class="contents">
@@ -314,77 +356,17 @@ p {
     </ul></li>
     <li><a id="toc-Directives-1" href="#Directives">10.5 Directives</a></li>
   </ul></li>
-  <li><a id="toc-Function-and-Variable-Index-1" href="#Function-and-Variable-Index">Function and Variable Index</a></li>
-  <li><a id="toc-Concept-Index-1" href="#Concept-Index">Concept Index</a></li>
+  <li><a id="toc-Function-and-Variable-Index-1" href="#Function-and-Variable-Index" rel="index">Function and Variable Index</a></li>
+  <li><a id="toc-Concept-Index-1" href="#Concept-Index" rel="index">Concept Index</a></li>
   <li><a id="toc-References-1" href="#References">Appendix A References</a></li>
 </ul>
 </div>
-
-
-<span id="Top"></span><div class="header">
-<p>
-Next: <a href="#Introduction" accesskey="n" rel="next">Introduction</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
-<span id="R-Language-Definition"></span><h1 class="top">R Language Definition</h1>
-
-<p>This is an introduction to the R language, explaining evaluation,
-parsing, object oriented programming, computing on the language, and so
-forth.
-</p>
-<p>This manual is for R, version 4.1.0 Under development (2020-06-23 ).
-</p>
-<p>Copyright &copy; 2000&ndash;2018 R Core Team
-</p>
-<blockquote>
-<p>Permission is granted to make and distribute verbatim copies of this
-manual provided the copyright notice and this permission notice are
-preserved on all copies.
-</p>
-<p>Permission is granted to copy and distribute modified versions of this
-manual under the conditions for verbatim copying, provided that the
-entire resulting derived work is distributed under the terms of a
-permission notice identical to this one.
-</p>
-<p>Permission is granted to copy and distribute translations of this manual
-into another language, under the above conditions for modified versions,
-except that this permission notice may be stated in a translation
-approved by the R Core Team.
-</p></blockquote>
-
-
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Introduction" accesskey="1">Introduction</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Objects" accesskey="2">Objects</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Evaluation-of-expressions" accesskey="3">Evaluation of expressions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Functions" accesskey="4">Functions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Object_002doriented-programming" accesskey="5">Object-oriented programming</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Computing-on-the-language" accesskey="6">Computing on the language</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#System-and-foreign-language-interfaces" accesskey="7">System and foreign language interfaces</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Exception-handling" accesskey="8">Exception handling</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Debugging" accesskey="9">Debugging</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Parser">Parser</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Function-and-Variable-Index">Function and Variable Index</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Concept-Index">Concept Index</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#References">References</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
-
 <hr>
-<span id="Introduction"></span><div class="header">
+<div class="chapter" id="Introduction">
+<div class="header">
 <p>
-Next: <a href="#Objects" accesskey="n" rel="next">Objects</a>, Previous: <a href="#Top" accesskey="p" rel="prev">Top</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Objects" accesskey="n" rel="next">Objects</a>, Previous: <a href="#Top" accesskey="p" rel="prev">R Language Definition</a>, Up: <a href="#Top" accesskey="u" rel="up">R Language Definition</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Introduction-1"></span><h2 class="chapter">1 Introduction</h2>
 
@@ -435,17 +417,19 @@ preferred usage.
 </p>
 <p>Some familiarity with R is assumed.  This is not an introduction to
 R but rather a programmers&rsquo; reference manual.  Other manuals provide
-complementary information: in particular <a href="https://cran.r-project.org/doc/manuals/R-intro.html#Preface">Preface</a> in <cite>An
-Introduction to R</cite> provides an introduction to R and <a href="https://cran.r-project.org/doc/manuals/R-exts.html#System-and-foreign-language-interfaces">System and
+complementary information: in particular <a data-manual="R-intro" href="https://cran.r-project.org/doc/manuals/R-intro.html#Preface">Preface</a> in <cite>An
+Introduction to R</cite> provides an introduction to R and <a data-manual="R-exts" href="https://cran.r-project.org/doc/manuals/R-exts.html#System-and-foreign-language-interfaces">System and
 foreign language interfaces</a> in <cite>Writing R Extensions</cite> details
 how to extend R using compiled code.
 </p>
 
 
 <hr>
-<span id="Objects"></span><div class="header">
+</div>
+<div class="chapter" id="Objects">
+<div class="header">
 <p>
-Next: <a href="#Evaluation-of-expressions" accesskey="n" rel="next">Evaluation of expressions</a>, Previous: <a href="#Introduction" accesskey="p" rel="prev">Introduction</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Evaluation-of-expressions" accesskey="n" rel="next">Evaluation of expressions</a>, Previous: <a href="#Introduction" accesskey="p" rel="prev">Introduction</a>, Up: <a href="#Top" accesskey="u" rel="up">R Language Definition</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Objects-1"></span><h2 class="chapter">2 Objects</h2>
 
@@ -546,17 +530,15 @@ doesn&rsquo;t affect the computations, however, when dealing with foreign
 languages or the operating system it is often necessary to ensure that
 an object is of the correct type.
 </p>
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Basic-types" accesskey="1">Basic types</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Attributes" accesskey="2">Attributes</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Special-compound-objects" accesskey="3">Special compound objects</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Basic-types" accesskey="1">Basic types</a></li>
+<li><a href="#Attributes" accesskey="2">Attributes</a></li>
+<li><a href="#Special-compound-objects" accesskey="3">Special compound objects</a></li>
+</ul>
 <hr>
-<span id="Basic-types"></span><div class="header">
+<div class="section" id="Basic-types">
+<div class="header">
 <p>
 Next: <a href="#Attributes" accesskey="n" rel="next">Attributes</a>, Previous: <a href="#Objects" accesskey="p" rel="prev">Objects</a>, Up: <a href="#Objects" accesskey="u" rel="up">Objects</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -564,37 +546,26 @@ Next: <a href="#Attributes" accesskey="n" rel="next">Attributes</a>, Previous: <
 <span id="Basic-types-1"></span><h3 class="section">2.1 Basic types</h3>
 
 
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Vector-objects" accesskey="1">Vector objects</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#List-objects" accesskey="2">List objects</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Language-objects" accesskey="3">Language objects</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Expression-objects" accesskey="4">Expression objects</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Function-objects" accesskey="5">Function objects</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#NULL-object" accesskey="6">NULL object</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Builtin-objects-and-special-forms" accesskey="7">Builtin objects and special forms</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Promise-objects" accesskey="8">Promise objects</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Dot_002ddot_002ddot" accesskey="9">Dot-dot-dot</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Environment-objects">Environment objects</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Pairlist-objects">Pairlist objects</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Any_002dtype">Any-type</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Vector-objects" accesskey="1">Vectors</a></li>
+<li><a href="#List-objects" accesskey="2">Lists</a></li>
+<li><a href="#Language-objects" accesskey="3">Language objects</a></li>
+<li><a href="#Expression-objects" accesskey="4">Expression objects</a></li>
+<li><a href="#Function-objects" accesskey="5">Function objects</a></li>
+<li><a href="#NULL-object" accesskey="6">NULL</a></li>
+<li><a href="#Builtin-objects-and-special-forms" accesskey="7">Builtin objects and  special forms</a></li>
+<li><a href="#Promise-objects" accesskey="8">Promise objects</a></li>
+<li><a href="#Dot_002ddot_002ddot" accesskey="9">Dot-dot-dot</a></li>
+<li><a href="#Environment-objects">Environments</a></li>
+<li><a href="#Pairlist-objects">Pairlist objects</a></li>
+<li><a href="#Any_002dtype">The &ldquo;Any&rdquo; type</a></li>
+</ul>
 <hr>
-<span id="Vector-objects"></span><div class="header">
+<div class="subsection" id="Vector-objects">
+<div class="header">
 <p>
-Next: <a href="#List-objects" accesskey="n" rel="next">List objects</a>, Previous: <a href="#Basic-types" accesskey="p" rel="prev">Basic types</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#List-objects" accesskey="n" rel="next">Lists</a>, Previous: <a href="#Basic-types" accesskey="p" rel="prev">Basic types</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Vectors"></span><h4 class="subsection">2.1.1 Vectors</h4>
 
@@ -634,9 +605,11 @@ string</em>.
 </p>
 
 <hr>
-<span id="List-objects"></span><div class="header">
+</div>
+<div class="subsection" id="List-objects">
+<div class="header">
 <p>
-Next: <a href="#Language-objects" accesskey="n" rel="next">Language objects</a>, Previous: <a href="#Vector-objects" accesskey="p" rel="prev">Vector objects</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Language-objects" accesskey="n" rel="next">Language objects</a>, Previous: <a href="#Vector-objects" accesskey="p" rel="prev">Vectors</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Lists"></span><h4 class="subsection">2.1.2 Lists</h4>
 
@@ -652,9 +625,11 @@ These are explained in detail in <a href="#Indexing">Indexing</a>.
 <em>atomic vectors</em> where it is necessary to exclude lists.
 </p>
 <hr>
-<span id="Language-objects"></span><div class="header">
+</div>
+<div class="subsection" id="Language-objects">
+<div class="header">
 <p>
-Next: <a href="#Expression-objects" accesskey="n" rel="next">Expression objects</a>, Previous: <a href="#List-objects" accesskey="p" rel="prev">List objects</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Expression-objects" accesskey="n" rel="next">Expression objects</a>, Previous: <a href="#List-objects" accesskey="p" rel="prev">Lists</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Language-objects-1"></span><h4 class="subsection">2.1.3 Language objects</h4>
 
@@ -683,13 +658,13 @@ Components of the
 parse tree can be extracted using the standard
 indexing operations.
 </p>
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Symbol-objects" accesskey="1">Symbol objects</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Symbol-objects" accesskey="1">Symbol objects</a></li>
+</ul>
 <hr>
-<span id="Symbol-objects"></span><div class="header">
+<div class="subsubsection" id="Symbol-objects">
+<div class="header">
 <p>
 Previous: <a href="#Language-objects" accesskey="p" rel="prev">Language objects</a>, Up: <a href="#Language-objects" accesskey="u" rel="up">Language objects</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -719,7 +694,10 @@ They naturally appear as atoms of parsed expressions, try e.g.
 <code>as.list(quote(x + y))</code>.
 </p>
 <hr>
-<span id="Expression-objects"></span><div class="header">
+</div>
+</div>
+<div class="subsection" id="Expression-objects">
+<div class="header">
 <p>
 Next: <a href="#Function-objects" accesskey="n" rel="next">Function objects</a>, Previous: <a href="#Language-objects" accesskey="p" rel="prev">Language objects</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -746,9 +724,11 @@ expression object behaves much like a list and its components should
 be accessed in the same way as the components of a list.
 </p>
 <hr>
-<span id="Function-objects"></span><div class="header">
+</div>
+<div class="subsection" id="Function-objects">
+<div class="header">
 <p>
-Next: <a href="#NULL-object" accesskey="n" rel="next">NULL object</a>, Previous: <a href="#Expression-objects" accesskey="p" rel="prev">Expression objects</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#NULL-object" accesskey="n" rel="next">NULL</a>, Previous: <a href="#Expression-objects" accesskey="p" rel="prev">Expression objects</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Function-objects-1"></span><h4 class="subsection">2.1.5 Function objects</h4>
 
@@ -762,10 +742,10 @@ environment.  The argument list is a comma-separated list of
 arguments.  An
 <span id="index-argument"></span>
 argument can be a symbol, or a &lsquo;<samp><var>symbol</var> =
-<var>default</var></samp>&rsquo; construct, or the special argument &lsquo;<samp>...</samp>&rsquo;.  The
+<var>default</var></samp>&rsquo; construct, or the special argument <code>...</code>.  The
 second form of argument is used to specify a default value for an
 argument.  This value will be used if the function is called without any
-value specified for that argument.  The &lsquo;<samp>...</samp>&rsquo;  argument is special
+value specified for that argument.  The <code>...</code>  argument is special
 and can contain any number of arguments.  It is generally used if the
 number of arguments is unknown or in cases where the arguments will be
 passed on to another function.
@@ -797,7 +777,7 @@ The last of these can be used to remove unwanted environment capture.
 </p>
 <p>When a function is called, a new environment (called the
 <em>evaluation environment</em>) is created, whose enclosure (see
-<a href="#Environment-objects">Environment objects</a>) is the environment from the function closure.
+<a href="#Environment-objects">Environments</a>) is the environment from the function closure.
 This new environment is initially populated with the unevaluated
 arguments to the function; as evaluation proceeds, local variables are
 created within it.
@@ -810,9 +790,11 @@ These have been included to provide compatibility with S and their
 use is discouraged.
 </p>
 <hr>
-<span id="NULL-object"></span><div class="header">
+</div>
+<div class="subsection" id="NULL-object">
+<div class="header">
 <p>
-Next: <a href="#Builtin-objects-and-special-forms" accesskey="n" rel="next">Builtin objects and special forms</a>, Previous: <a href="#Function-objects" accesskey="p" rel="prev">Function objects</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Builtin-objects-and-special-forms" accesskey="n" rel="next">Builtin objects and  special forms</a>, Previous: <a href="#Function-objects" accesskey="p" rel="prev">Function objects</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="NULL"></span><h4 class="subsection">2.1.6 NULL</h4>
 
@@ -828,9 +810,11 @@ test for <code>NULL</code> use <code>is.null</code>.  You cannot set attributes 
 </p>
 
 <hr>
-<span id="Builtin-objects-and-special-forms"></span><div class="header">
+</div>
+<div class="subsection" id="Builtin-objects-and-special-forms">
+<div class="header">
 <p>
-Next: <a href="#Promise-objects" accesskey="n" rel="next">Promise objects</a>, Previous: <a href="#NULL-object" accesskey="p" rel="prev">NULL object</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Promise-objects" accesskey="n" rel="next">Promise objects</a>, Previous: <a href="#NULL-object" accesskey="p" rel="prev">NULL</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Builtin-objects-and-special-forms-1"></span><h4 class="subsection">2.1.7 Builtin objects and  special forms</h4>
 
@@ -852,9 +836,11 @@ The <code>is.primitive</code> function can distinguish them from interpreted
 functions.
 </p>
 <hr>
-<span id="Promise-objects"></span><div class="header">
+</div>
+<div class="subsection" id="Promise-objects">
+<div class="header">
 <p>
-Next: <a href="#Dot_002ddot_002ddot" accesskey="n" rel="next">Dot-dot-dot</a>, Previous: <a href="#Builtin-objects-and-special-forms" accesskey="p" rel="prev">Builtin objects and special forms</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Dot_002ddot_002ddot" accesskey="n" rel="next">Dot-dot-dot</a>, Previous: <a href="#Builtin-objects-and-special-forms" accesskey="p" rel="prev">Builtin objects and  special forms</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Promise-objects-1"></span><h4 class="subsection">2.1.8 Promise objects</h4>
 
@@ -887,16 +873,21 @@ object is a promise or not, nor is there a way to use R code to
 determine the environment of a promise.
 </p>
 <hr>
-<span id="Dot_002ddot_002ddot"></span><div class="header">
+</div>
+<div class="subsection" id="Dot_002ddot_002ddot">
+<div class="header">
 <p>
-Next: <a href="#Environment-objects" accesskey="n" rel="next">Environment objects</a>, Previous: <a href="#Promise-objects" accesskey="p" rel="prev">Promise objects</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Environment-objects" accesskey="n" rel="next">Environments</a>, Previous: <a href="#Promise-objects" accesskey="p" rel="prev">Promise objects</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Dot_002ddot_002ddot-1"></span><h4 class="subsection">2.1.9 Dot-dot-dot</h4>
 
-<p>The &lsquo;<samp>...</samp>&rsquo; object type is stored as a type of pairlist.  The
-components of &lsquo;<samp>...</samp>&rsquo; can be accessed in the usual pairlist manner
-from C code, but is not easily accessed as an object in interpreted
-code.  The object can be captured as a list, so for example in
+<p>The <code>...</code> object type is stored as a type of pairlist.  The
+components of <code>...</code> can be accessed in the usual pairlist manner
+from C code, but <code>...</code> is not easily accessed as an object in
+interpreted code, and even the existence of such an object should typically
+not be assumed, as that may change in the future.
+</p>
+<p>The object can be captured (with promises being forced!) as a list, so for example in
 <code>table</code> one sees
 </p>
 <div class="example">
@@ -906,14 +897,24 @@ code.  The object can be captured as a list, so for example in
 ## ....
 </pre></div>
 
+<p>Note that the implementation of <code>...</code> as a pairlist object is
+<em>not</em> to be considered part of the R API, and code outside base R
+should not rely on this current description of <code>...</code>.
+On the other hand, the above <code>list(...)</code> access, and the other
+&ldquo;dot-access&rdquo; functions <code>...length()</code>, <code>...elt()</code>, <code>...names()</code>,
+and &ldquo;reserved words&rdquo; <code>..1</code>, <code>..2</code>, etc, see also help page <code>?dots</code>,
+are part of the stable R API.
+</p>
 <span id="index-function-6"></span>
 <span id="index-function-argument-1"></span>
-<p>If a function has &lsquo;<samp>...</samp>&rsquo; as a formal argument then any actual
+<p>If a function has <code>...</code> as a formal argument then any actual
 arguments that do not match a formal argument are matched with
-&lsquo;<samp>...</samp>&rsquo;.
+<code>...</code>.
 </p>
 <hr>
-<span id="Environment-objects"></span><div class="header">
+</div>
+<div class="subsection" id="Environment-objects">
+<div class="header">
 <p>
 Next: <a href="#Pairlist-objects" accesskey="n" rel="next">Pairlist objects</a>, Previous: <a href="#Dot_002ddot_002ddot" accesskey="p" rel="prev">Dot-dot-dot</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -932,9 +933,7 @@ role of parents.  The tree of environments is rooted in an empty
 environment, available through <code>emptyenv()</code>, which has no parent.
 It is the direct parent of the environment of the base package
 <span id="index-baseenv"></span>
-(available through the <code>baseenv()</code> function). Formerly
-<code>baseenv()</code> had the special value <code>NULL</code>, but as from
-version 2.4.0, the use of <code>NULL</code> as an environment is defunct.
+(available through the <code>baseenv()</code> function).
 </p>
 <p>Environments are created implicitly by function calls, as described in
 <a href="#Function-objects">Function objects</a> and <a href="#Lexical-environment">Lexical environment</a>.  In this case the
@@ -942,10 +941,15 @@ environment contains the variables local to the function (including the
 arguments), and its enclosure is the environment of the currently called
 function.  Environments may also be created directly by <code>new.env</code>.
 <span id="index-new_002eenv"></span>
-The frame content of an environment can be accessed and manipulated by
-use of <code>ls</code>, <code>get</code> and <code>assign</code> as well as <code>eval</code> and
-<code>evalq</code>.
+The frame content of an environment can be accessed by use of <code>ls</code>,
+<code>names</code>, <code>$</code>, <code>[</code>, <code>[[</code>, <code>get</code>, and <code>get0</code>,
+<span id="index-get"></span>
+<span id="index-get0"></span>
+and manipulated by <code>$&lt;-</code>, <code>[[&lt;-</code>, and <code>assign</code>
+<span id="index-assign"></span>
+as well as <code>eval</code> and <code>evalq</code>.
 </p>
+
 <p>The <code>parent.env</code> function may be used to access the enclosure of
 an environment.
 </p>
@@ -956,19 +960,22 @@ too.  In particular, assigning attributes to an environment can lead to
 surprises.
 </p>
 <hr>
-<span id="Pairlist-objects"></span><div class="header">
+</div>
+<div class="subsection" id="Pairlist-objects">
+<div class="header">
 <p>
-Next: <a href="#Any_002dtype" accesskey="n" rel="next">Any-type</a>, Previous: <a href="#Environment-objects" accesskey="p" rel="prev">Environment objects</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Any_002dtype" accesskey="n" rel="next">The &ldquo;Any&rdquo; type</a>, Previous: <a href="#Environment-objects" accesskey="p" rel="prev">Environments</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Pairlist-objects-1"></span><h4 class="subsection">2.1.11 Pairlist objects</h4>
 
+<span id="index-pairlist"></span>
 <p>Pairlist objects are similar to Lisp&rsquo;s dotted-pair lists.  They are used
 extensively in the internals of R, but are rarely visible in
 interpreted code, although they are returned by <code>formals</code>, and can
 be created by (e.g.) the <code>pairlist</code> function. A zero-length
 pairlist is <code>NULL</code>, as would be expected in Lisp but in contrast to
 a zero-length list.
-<span id="index-pairlist"></span>
+<span id="index-pairlist-1"></span>
 Each such object has three slots, a CAR value, a CDR value and a TAG
 value.  The TAG value is a text string and CAR and CDR usually
 represent, respectively, a list item (head) and the remainder (tail) of
@@ -986,7 +993,9 @@ subsetted) converted to a generic vector.
 <p>In a very few cases pairlists are user-visible: one is <code>.Options</code>.
 </p>
 <hr>
-<span id="Any_002dtype"></span><div class="header">
+</div>
+<div class="subsection" id="Any_002dtype">
+<div class="header">
 <p>
 Previous: <a href="#Pairlist-objects" accesskey="p" rel="prev">Pairlist objects</a>, Up: <a href="#Basic-types" accesskey="u" rel="up">Basic types</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1000,7 +1009,10 @@ coercion should not be done.
 </p>
 
 <hr>
-<span id="Attributes"></span><div class="header">
+</div>
+</div>
+<div class="section" id="Attributes">
+<div class="header">
 <p>
 Next: <a href="#Special-compound-objects" accesskey="n" rel="next">Special compound objects</a>, Previous: <a href="#Basic-types" accesskey="p" rel="prev">Basic types</a>, Up: <a href="#Objects" accesskey="u" rel="up">Objects</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1038,23 +1050,18 @@ during
 evaluation.  The class structure in R is described in detail
 in <a href="#Object_002doriented-programming">Object-oriented programming</a>.
 </p>
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Names" accesskey="1">Names</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Dimensions" accesskey="2">Dimensions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Dimnames" accesskey="3">Dimnames</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Classes" accesskey="4">Classes</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Time-series-attributes" accesskey="5">Time series attributes</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Copying-of-attributes" accesskey="6">Copying of attributes</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Names" accesskey="1">Names</a></li>
+<li><a href="#Dimensions" accesskey="2">Dimensions</a></li>
+<li><a href="#Dimnames" accesskey="3">Dimnames</a></li>
+<li><a href="#Classes" accesskey="4">Classes</a></li>
+<li><a href="#Time-series-attributes" accesskey="5">Time series attributes</a></li>
+<li><a href="#Copying-of-attributes" accesskey="6">Copying of attributes</a></li>
+</ul>
 <hr>
-<span id="Names"></span><div class="header">
+<div class="subsection" id="Names">
+<div class="header">
 <p>
 Next: <a href="#Dimensions" accesskey="n" rel="next">Dimensions</a>, Previous: <a href="#Attributes" accesskey="p" rel="prev">Attributes</a>, Up: <a href="#Attributes" accesskey="u" rel="up">Attributes</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1081,7 +1088,9 @@ For one-dimensional arrays the <code>names</code> attribute really accesses
 <code>dimnames[[1]]</code>.
 </p>
 <hr>
-<span id="Dimensions"></span><div class="header">
+</div>
+<div class="subsection" id="Dimensions">
+<div class="header">
 <p>
 Next: <a href="#Dimnames" accesskey="n" rel="next">Dimnames</a>, Previous: <a href="#Names" accesskey="p" rel="prev">Names</a>, Up: <a href="#Attributes" accesskey="u" rel="up">Attributes</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1100,7 +1109,9 @@ a <code>dim</code> attribute of length one, whereas the former has no
 <code>dim</code> attribute.
 </p>
 <hr>
-<span id="Dimnames"></span><div class="header">
+</div>
+<div class="subsection" id="Dimnames">
+<div class="header">
 <p>
 Next: <a href="#Classes" accesskey="n" rel="next">Classes</a>, Previous: <a href="#Dimensions" accesskey="p" rel="prev">Dimensions</a>, Up: <a href="#Attributes" accesskey="u" rel="up">Attributes</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1112,7 +1123,9 @@ list may itself have names which are then used for extent headings when
 printing arrays.
 </p>
 <hr>
-<span id="Classes"></span><div class="header">
+</div>
+<div class="subsection" id="Classes">
+<div class="header">
 <p>
 Next: <a href="#Time-series-attributes" accesskey="n" rel="next">Time series attributes</a>, Previous: <a href="#Dimnames" accesskey="p" rel="prev">Dimnames</a>, Up: <a href="#Attributes" accesskey="u" rel="up">Attributes</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1132,7 +1145,9 @@ available specific creation and
 coercion functions should be preferred.
 </p>
 <hr>
-<span id="Time-series-attributes"></span><div class="header">
+</div>
+<div class="subsection" id="Time-series-attributes">
+<div class="header">
 <p>
 Next: <a href="#Copying-of-attributes" accesskey="n" rel="next">Copying of attributes</a>, Previous: <a href="#Classes" accesskey="p" rel="prev">Classes</a>, Up: <a href="#Attributes" accesskey="u" rel="up">Attributes</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1143,7 +1158,9 @@ start, end, and frequency.  This construction is mainly used to handle
 series with periodic substructure such as monthly or quarterly data.
 </p>
 <hr>
-<span id="Copying-of-attributes"></span><div class="header">
+</div>
+<div class="subsection" id="Copying-of-attributes">
+<div class="header">
 <p>
 Previous: <a href="#Time-series-attributes" accesskey="p" rel="prev">Time series attributes</a>, Up: <a href="#Attributes" accesskey="u" rel="up">Attributes</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1174,21 +1191,23 @@ are sorted along with the object.
 </p>
 
 <hr>
-<span id="Special-compound-objects"></span><div class="header">
+</div>
+</div>
+<div class="section" id="Special-compound-objects">
+<div class="header">
 <p>
 Previous: <a href="#Attributes" accesskey="p" rel="prev">Attributes</a>, Up: <a href="#Objects" accesskey="u" rel="up">Objects</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Special-compound-objects-1"></span><h3 class="section">2.3 Special compound objects</h3>
 
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Factors" accesskey="1">Factors</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Data-frame-objects" accesskey="2">Data frame objects</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Factors" accesskey="1">Factors</a></li>
+<li><a href="#Data-frame-objects" accesskey="2">Data frame objects</a></li>
+</ul>
 <hr>
-<span id="Factors"></span><div class="header">
+<div class="subsection" id="Factors">
+<div class="header">
 <p>
 Next: <a href="#Data-frame-objects" accesskey="n" rel="next">Data frame objects</a>, Previous: <a href="#Special-compound-objects" accesskey="p" rel="prev">Special compound objects</a>, Up: <a href="#Special-compound-objects" accesskey="u" rel="up">Special compound objects</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1215,7 +1234,9 @@ however, is an implementation issue and is not guaranteed to hold in all
 implementations of R.
 </p>
 <hr>
-<span id="Data-frame-objects"></span><div class="header">
+</div>
+<div class="subsection" id="Data-frame-objects">
+<div class="header">
 <p>
 Previous: <a href="#Factors" accesskey="p" rel="prev">Factors</a>, Up: <a href="#Special-compound-objects" accesskey="u" rel="up">Special compound objects</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1256,9 +1277,13 @@ writing such arrays are not generally handled correctly.
 
 
 <hr>
-<span id="Evaluation-of-expressions"></span><div class="header">
+</div>
+</div>
+</div>
+<div class="chapter" id="Evaluation-of-expressions">
+<div class="header">
 <p>
-Next: <a href="#Functions" accesskey="n" rel="next">Functions</a>, Previous: <a href="#Objects" accesskey="p" rel="prev">Objects</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Functions" accesskey="n" rel="next">Functions</a>, Previous: <a href="#Objects" accesskey="p" rel="prev">Objects</a>, Up: <a href="#Top" accesskey="u" rel="up">R Language Definition</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Evaluation-of-expressions-1"></span><h2 class="chapter">3 Evaluation of expressions</h2>
 
@@ -1278,39 +1303,32 @@ be sufficient documentation.
 </p>
 <p>Users can construct expressions and invoke the evaluator on them.
 </p>
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Simple-evaluation" accesskey="1">Simple evaluation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Control-structures" accesskey="2">Control structures</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Elementary-arithmetic-operations" accesskey="3">Elementary arithmetic operations</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Indexing" accesskey="4">Indexing</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Scope-of-variables" accesskey="5">Scope of variables</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Simple-evaluation" accesskey="1">Simple evaluation</a></li>
+<li><a href="#Control-structures" accesskey="2">Control structures</a></li>
+<li><a href="#Elementary-arithmetic-operations" accesskey="3">Elementary arithmetic operations</a></li>
+<li><a href="#Indexing" accesskey="4">Indexing</a></li>
+<li><a href="#Scope-of-variables" accesskey="5">Scope of variables</a></li>
+</ul>
 <hr>
-<span id="Simple-evaluation"></span><div class="header">
+<div class="section" id="Simple-evaluation">
+<div class="header">
 <p>
 Next: <a href="#Control-structures" accesskey="n" rel="next">Control structures</a>, Previous: <a href="#Evaluation-of-expressions" accesskey="p" rel="prev">Evaluation of expressions</a>, Up: <a href="#Evaluation-of-expressions" accesskey="u" rel="up">Evaluation of expressions</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Simple-evaluation-1"></span><h3 class="section">3.1 Simple evaluation</h3>
 
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Constants" accesskey="1">Constants</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Symbol-lookup" accesskey="2">Symbol lookup</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Function-calls" accesskey="3">Function calls</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Operators" accesskey="4">Operators</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Constants" accesskey="1">Constants</a></li>
+<li><a href="#Symbol-lookup" accesskey="2">Symbol lookup</a></li>
+<li><a href="#Function-calls" accesskey="3">Function calls</a></li>
+<li><a href="#Operators" accesskey="4">Operators</a></li>
+</ul>
 <hr>
-<span id="Constants"></span><div class="header">
+<div class="subsection" id="Constants">
+<div class="header">
 <p>
 Next: <a href="#Symbol-lookup" accesskey="n" rel="next">Symbol lookup</a>, Previous: <a href="#Simple-evaluation" accesskey="p" rel="prev">Simple evaluation</a>, Up: <a href="#Simple-evaluation" accesskey="u" rel="up">Simple evaluation</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1354,7 +1372,9 @@ e.g. <code>12iL</code> gives an error.
 <p>Constants are fairly boring and to do more we need symbols.
 </p>
 <hr>
-<span id="Symbol-lookup"></span><div class="header">
+</div>
+<div class="subsection" id="Symbol-lookup">
+<div class="header">
 <p>
 Next: <a href="#Function-calls" accesskey="n" rel="next">Function calls</a>, Previous: <a href="#Constants" accesskey="p" rel="prev">Constants</a>, Up: <a href="#Simple-evaluation" accesskey="u" rel="up">Simple evaluation</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1389,7 +1409,9 @@ directly, except when doing &ldquo;programming on the language&rdquo;
 
 
 <hr>
-<span id="Function-calls"></span><div class="header">
+</div>
+<div class="subsection" id="Function-calls">
+<div class="header">
 <p>
 Next: <a href="#Operators" accesskey="n" rel="next">Operators</a>, Previous: <a href="#Symbol-lookup" accesskey="p" rel="prev">Symbol lookup</a>, Up: <a href="#Simple-evaluation" accesskey="u" rel="up">Simple evaluation</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1443,7 +1465,9 @@ avoid unnecessary data duplication.)
 </p>
 
 <hr>
-<span id="Operators"></span><div class="header">
+</div>
+<div class="subsection" id="Operators">
+<div class="header">
 <p>
 Previous: <a href="#Function-calls" accesskey="p" rel="prev">Function calls</a>, Up: <a href="#Simple-evaluation" accesskey="u" rel="up">Simple evaluation</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1549,7 +1573,10 @@ could have used  <code>`[`(x, 2)</code> instead of <code>x[2]</code>.
 further described in <a href="#Indexing">Indexing</a>.
 </p>
 <hr>
-<span id="Control-structures"></span><div class="header">
+</div>
+</div>
+<div class="section" id="Control-structures">
+<div class="header">
 <p>
 Next: <a href="#Elementary-arithmetic-operations" accesskey="n" rel="next">Elementary arithmetic operations</a>, Previous: <a href="#Simple-evaluation" accesskey="p" rel="prev">Simple evaluation</a>, Up: <a href="#Evaluation-of-expressions" accesskey="u" rel="up">Evaluation of expressions</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1597,23 +1624,18 @@ block.
 [1] 5
 </pre></div>
 
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#if" accesskey="1">if</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Looping" accesskey="2">Looping</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#repeat" accesskey="3">repeat</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#while" accesskey="4">while</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#for" accesskey="5">for</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#switch" accesskey="6">switch</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#if" accesskey="1">if</a></li>
+<li><a href="#Looping" accesskey="2">Looping</a></li>
+<li><a href="#repeat" accesskey="3">repeat</a></li>
+<li><a href="#while" accesskey="4">while</a></li>
+<li><a href="#for" accesskey="5">for</a></li>
+<li><a href="#switch" accesskey="6">switch</a></li>
+</ul>
 <hr>
-<span id="if"></span><div class="header">
+<div class="subsection" id="if">
+<div class="header">
 <p>
 Next: <a href="#Looping" accesskey="n" rel="next">Looping</a>, Previous: <a href="#Control-structures" accesskey="p" rel="prev">Control structures</a>, Up: <a href="#Control-structures" accesskey="u" rel="up">Control structures</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1689,7 +1711,9 @@ There is no limit to the number of <code>else if</code> clauses that are
 permitted.
 </p>
 <hr>
-<span id="Looping"></span><div class="header">
+</div>
+<div class="subsection" id="Looping">
+<div class="header">
 <p>
 Next: <a href="#repeat" accesskey="n" rel="next">repeat</a>, Previous: <a href="#if" accesskey="p" rel="prev">if</a>, Up: <a href="#Control-structures" accesskey="u" rel="up">Control structures</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1718,7 +1742,9 @@ of the loop (if there is one) is then executed.  No statement below
 and is returned invisibly.
 </p>
 <hr>
-<span id="repeat"></span><div class="header">
+</div>
+<div class="subsection" id="repeat">
+<div class="header">
 <p>
 Next: <a href="#while" accesskey="n" rel="next">while</a>, Previous: <a href="#Looping" accesskey="p" rel="prev">Looping</a>, Up: <a href="#Control-structures" accesskey="u" rel="up">Control structures</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1739,7 +1765,9 @@ You need to both perform some computation and test whether or not to
 break from the loop and usually this requires two statements.
 </p>
 <hr>
-<span id="while"></span><div class="header">
+</div>
+<div class="subsection" id="while">
+<div class="header">
 <p>
 Next: <a href="#for" accesskey="n" rel="next">for</a>, Previous: <a href="#repeat" accesskey="p" rel="prev">repeat</a>, Up: <a href="#Control-structures" accesskey="u" rel="up">Control structures</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1758,7 +1786,9 @@ statement.  The syntax of the <code>while</code> loop is
 <var>statement1</var> evaluates to <code>FALSE</code>.
 </p>
 <hr>
-<span id="for"></span><div class="header">
+</div>
+<div class="subsection" id="for">
+<div class="header">
 <p>
 Next: <a href="#switch" accesskey="n" rel="next">switch</a>, Previous: <a href="#while" accesskey="p" rel="prev">while</a>, Up: <a href="#Control-structures" accesskey="u" rel="up">Control structures</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1780,7 +1810,9 @@ the value of the last element of <var>vector</var> that the loop was
 evaluated for.
 </p>
 <hr>
-<span id="switch"></span><div class="header">
+</div>
+<div class="subsection" id="switch">
+<div class="header">
 <p>
 Previous: <a href="#for" accesskey="p" rel="prev">for</a>, Up: <a href="#Control-structures" accesskey="u" rel="up">Control structures</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1813,7 +1845,7 @@ is too large or too small <code>NULL</code> is returned.
 NULL
 </pre></div>
 
-<p>If <var>value</var> is a character vector then the element of &lsquo;<samp>...</samp>&rsquo; with
+<p>If <var>value</var> is a character vector then the element of <code>...</code> with
 a name that exactly matches <var>value</var> is evaluated.  If there is no
 match a single unnamed argument will be used as a default.  If no
 default is specified, <code>NULL</code> is returned.
@@ -1855,29 +1887,29 @@ better to use <code>eval</code> and the subset operator, <code>[[</code>, direct
 via <code>eval(x[[condition]])</code>.
 </p>
 <hr>
-<span id="Elementary-arithmetic-operations"></span><div class="header">
+</div>
+</div>
+<div class="section" id="Elementary-arithmetic-operations">
+<div class="header">
 <p>
 Next: <a href="#Indexing" accesskey="n" rel="next">Indexing</a>, Previous: <a href="#Control-structures" accesskey="p" rel="prev">Control structures</a>, Up: <a href="#Evaluation-of-expressions" accesskey="u" rel="up">Evaluation of expressions</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Elementary-arithmetic-operations-1"></span><h3 class="section">3.3 Elementary arithmetic operations</h3>
 
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Recycling-rules" accesskey="1">Recycling rules</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Propagation-of-names" accesskey="2">Propagation of names</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Dimensional-attributes" accesskey="3">Dimensional attributes</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#NA-handling" accesskey="4">NA handling</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
 <p>In this section, we discuss the finer points of the rules that apply to
 basic operation like addition or multiplication of two vectors or
 matrices.
 </p>
+<ul class="section-toc">
+<li><a href="#Recycling-rules" accesskey="1">Recycling rules</a></li>
+<li><a href="#Propagation-of-names" accesskey="2">Propagation of names</a></li>
+<li><a href="#Dimensional-attributes" accesskey="3">Dimensional attributes</a></li>
+<li><a href="#NA-handling" accesskey="4">NA handling</a></li>
+</ul>
 <hr>
-<span id="Recycling-rules"></span><div class="header">
+<div class="subsection" id="Recycling-rules">
+<div class="header">
 <p>
 Next: <a href="#Propagation-of-names" accesskey="n" rel="next">Propagation of names</a>, Previous: <a href="#Elementary-arithmetic-operations" accesskey="p" rel="prev">Elementary arithmetic operations</a>, Up: <a href="#Elementary-arithmetic-operations" accesskey="u" rel="up">Elementary arithmetic operations</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1892,7 +1924,9 @@ vector is not a multiple of the shorter one, a warning is given.
 vector has a zero-length result.
 </p>
 <hr>
-<span id="Propagation-of-names"></span><div class="header">
+</div>
+<div class="subsection" id="Propagation-of-names">
+<div class="header">
 <p>
 Next: <a href="#Dimensional-attributes" accesskey="n" rel="next">Dimensional attributes</a>, Previous: <a href="#Recycling-rules" accesskey="p" rel="prev">Recycling rules</a>, Up: <a href="#Elementary-arithmetic-operations" accesskey="u" rel="up">Elementary arithmetic operations</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1904,7 +1938,9 @@ lose names)
 </p>
 
 <hr>
-<span id="Dimensional-attributes"></span><div class="header">
+</div>
+<div class="subsection" id="Dimensional-attributes">
+<div class="header">
 <p>
 Next: <a href="#NA-handling" accesskey="n" rel="next">NA handling</a>, Previous: <a href="#Propagation-of-names" accesskey="p" rel="prev">Propagation of names</a>, Up: <a href="#Elementary-arithmetic-operations" accesskey="u" rel="up">Elementary arithmetic operations</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1914,7 +1950,9 @@ Next: <a href="#NA-handling" accesskey="n" rel="next">NA handling</a>, Previous:
 then check if dims fit, error if not)
 </p>
 <hr>
-<span id="NA-handling"></span><div class="header">
+</div>
+<div class="subsection" id="NA-handling">
+<div class="header">
 <p>
 Previous: <a href="#Dimensional-attributes" accesskey="p" rel="prev">Dimensional attributes</a>, Up: <a href="#Elementary-arithmetic-operations" accesskey="u" rel="up">Elementary arithmetic operations</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1975,7 +2013,10 @@ deparsing when it is not otherwise possible to identify the type of an
 </p>
 
 <hr>
-<span id="Indexing"></span><div class="header">
+</div>
+</div>
+<div class="section" id="Indexing">
+<div class="header">
 <p>
 Next: <a href="#Scope-of-variables" accesskey="n" rel="next">Scope of variables</a>, Previous: <a href="#Elementary-arithmetic-operations" accesskey="p" rel="prev">Elementary arithmetic operations</a>, Up: <a href="#Evaluation-of-expressions" accesskey="u" rel="up">Evaluation of expressions</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2028,19 +2069,16 @@ index.  That is, the index is not computable: for cases where you need
 to evaluate an expression to find the index, use <code>x[[expr]]</code>.
 Applying <code>$</code> to a non-recursive object is an error.
 </p>
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Indexing-by-vectors" accesskey="1">Indexing by vectors</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Indexing-matrices-and-arrays" accesskey="2">Indexing matrices and arrays</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Indexing-other-structures" accesskey="3">Indexing other structures</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Subset-assignment" accesskey="4">Subset assignment</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Indexing-by-vectors" accesskey="1">Indexing by vectors</a></li>
+<li><a href="#Indexing-matrices-and-arrays" accesskey="2">Indexing matrices and arrays</a></li>
+<li><a href="#Indexing-other-structures" accesskey="3">Indexing other structures</a></li>
+<li><a href="#Subset-assignment" accesskey="4">Subset assignment</a></li>
+</ul>
 <hr>
-<span id="Indexing-by-vectors"></span><div class="header">
+<div class="subsection" id="Indexing-by-vectors">
+<div class="header">
 <p>
 Next: <a href="#Indexing-matrices-and-arrays" accesskey="n" rel="next">Indexing matrices and arrays</a>, Previous: <a href="#Indexing" accesskey="p" rel="prev">Indexing</a>, Up: <a href="#Indexing" accesskey="u" rel="up">Indexing</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2123,7 +2161,9 @@ former case, but those for integer indices in the latter.
 any names attributes.
 </p>
 <hr>
-<span id="Indexing-matrices-and-arrays"></span><div class="header">
+</div>
+<div class="subsection" id="Indexing-matrices-and-arrays">
+<div class="header">
 <p>
 Next: <a href="#Indexing-other-structures" accesskey="n" rel="next">Indexing other structures</a>, Previous: <a href="#Indexing-by-vectors" accesskey="p" rel="prev">Indexing by vectors</a>, Up: <a href="#Indexing" accesskey="u" rel="up">Indexing</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2182,7 +2222,7 @@ vector is obtained.  This is occasionally undesirable and can be turned
 off by adding the &lsquo;<samp>drop = FALSE</samp>&rsquo; to the indexing operation.  Notice
 that this is an additional argument to the <code>[</code> function and doesn&rsquo;t
 add to the index count.  Hence the correct way of selecting the first
-row of a matrix as a <em>1</em> by <em>n</em> matrix is <code>m[1, , drop =
+row of a matrix as a <em class='math'>1</em> by <em class='math'>n</em> matrix is <code>m[1, , drop =
 FALSE]</code>.  Forgetting to disable the dropping feature is a common cause
 of failure in general subroutines where an index occasionally, but not
 usually has length one.  This rule still applies to a one-dimensional
@@ -2202,7 +2242,9 @@ a dimension has zero extent.  R generally tries to handle these
 structures sensibly.
 </p>
 <hr>
-<span id="Indexing-other-structures"></span><div class="header">
+</div>
+<div class="subsection" id="Indexing-other-structures">
+<div class="header">
 <p>
 Next: <a href="#Subset-assignment" accesskey="n" rel="next">Subset assignment</a>, Previous: <a href="#Indexing-matrices-and-arrays" accesskey="p" rel="prev">Indexing matrices and arrays</a>, Up: <a href="#Indexing" accesskey="u" rel="up">Indexing</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2234,7 +2276,9 @@ matching is done.
 </p>
 
 <hr>
-<span id="Subset-assignment"></span><div class="header">
+</div>
+<div class="subsection" id="Subset-assignment">
+<div class="header">
 <p>
 Previous: <a href="#Indexing-other-structures" accesskey="p" rel="prev">Indexing other structures</a>, Up: <a href="#Indexing" accesskey="u" rel="up">Indexing</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2370,7 +2414,10 @@ superassignment.  As this case was handled incorrectly in versions
 
 
 <hr>
-<span id="Scope-of-variables"></span><div class="header">
+</div>
+</div>
+<div class="section" id="Scope-of-variables">
+<div class="header">
 <p>
 Previous: <a href="#Indexing" accesskey="p" rel="prev">Indexing</a>, Up: <a href="#Evaluation-of-expressions" accesskey="u" rel="up">Evaluation of expressions</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2387,19 +2434,16 @@ Pascal.  However, R is a <em>functional programming language</em> and
 allows dynamic creation and manipulation of functions and language
 objects, and has additional features reflecting this fact.
 </p>
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Global-environment" accesskey="1">Global environment</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Lexical-environment" accesskey="2">Lexical environment</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Stacks" accesskey="3">Stacks</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Search-path" accesskey="4">Search path</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Global-environment" accesskey="1">Global environment</a></li>
+<li><a href="#Lexical-environment" accesskey="2">Lexical environment</a></li>
+<li><a href="#Stacks" accesskey="3">The call stack</a></li>
+<li><a href="#Search-path" accesskey="4">Search path</a></li>
+</ul>
 <hr>
-<span id="Global-environment"></span><div class="header">
+<div class="subsection" id="Global-environment">
+<div class="header">
 <p>
 Next: <a href="#Lexical-environment" accesskey="n" rel="next">Lexical environment</a>, Previous: <a href="#Scope-of-variables" accesskey="p" rel="prev">Scope of variables</a>, Up: <a href="#Scope-of-variables" accesskey="u" rel="up">Scope of variables</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2415,9 +2459,11 @@ is the next environment on the search path, and so on back to the
 empty environment that is the enclosure of the base environment.
 </p>
 <hr>
-<span id="Lexical-environment"></span><div class="header">
+</div>
+<div class="subsection" id="Lexical-environment">
+<div class="header">
 <p>
-Next: <a href="#Stacks" accesskey="n" rel="next">Stacks</a>, Previous: <a href="#Global-environment" accesskey="p" rel="prev">Global environment</a>, Up: <a href="#Scope-of-variables" accesskey="u" rel="up">Scope of variables</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Stacks" accesskey="n" rel="next">The call stack</a>, Previous: <a href="#Global-environment" accesskey="p" rel="prev">Global environment</a>, Up: <a href="#Scope-of-variables" accesskey="u" rel="up">Scope of variables</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Lexical-environment-1"></span><h4 class="subsection">3.5.2 Lexical environment</h4>
 
@@ -2461,7 +2507,9 @@ found there, the search will proceed next to the empty environment, and
 will fail.
 </p>
 <hr>
-<span id="Stacks"></span><div class="header">
+</div>
+<div class="subsection" id="Stacks">
+<div class="header">
 <p>
 Next: <a href="#Search-path" accesskey="n" rel="next">Search path</a>, Previous: <a href="#Lexical-environment" accesskey="p" rel="prev">Lexical environment</a>, Up: <a href="#Scope-of-variables" accesskey="u" rel="up">Scope of variables</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2494,45 +2542,47 @@ have names that start with &lsquo;<samp>sys.</samp>&rsquo;.  They are listed bri
 </p>
 <span id="index-evaluation"></span>
 <dl compact="compact">
-<dt><code>sys.call</code></dt>
+<dt><span><code>sys.call</code></span></dt>
 <dd><p>Get the call for the specified context.
 </p></dd>
-<dt><code>sys.frame</code></dt>
+<dt><span><code>sys.frame</code></span></dt>
 <dd><p>Get the evaluation frame for the specified context.
 </p></dd>
-<dt><code>sys.nframe</code></dt>
+<dt><span><code>sys.nframe</code></span></dt>
 <dd><p>Get the environment frame for all active contexts.
 </p></dd>
-<dt><code>sys.function</code></dt>
+<dt><span><code>sys.function</code></span></dt>
 <dd><p>Get the function being invoked in the specified context.
 </p></dd>
-<dt><code>sys.parent</code></dt>
+<dt><span><code>sys.parent</code></span></dt>
 <dd><p>Get the parent of the current function invocation.
 </p></dd>
-<dt><code>sys.calls</code></dt>
+<dt><span><code>sys.calls</code></span></dt>
 <dd><p>Get the calls for all the active contexts.
 </p></dd>
-<dt><code>sys.frames</code></dt>
+<dt><span><code>sys.frames</code></span></dt>
 <dd><p>Get the evaluation frames for all the active contexts.
 </p></dd>
-<dt><code>sys.parents</code></dt>
+<dt><span><code>sys.parents</code></span></dt>
 <dd><p>Get the numeric labels for all active contexts.
 </p></dd>
-<dt><code>sys.on.exit</code></dt>
+<dt><span><code>sys.on.exit</code></span></dt>
 <dd><p>Set a function to be executed when the specified context is exited.
 </p></dd>
-<dt><code>sys.status</code></dt>
+<dt><span><code>sys.status</code></span></dt>
 <dd><p>Calls <code>sys.frames</code>, <code>sys.parents</code> and <code>sys.calls</code>.
 </p></dd>
-<dt><code>parent.frame</code></dt>
+<dt><span><code>parent.frame</code></span></dt>
 <dd><p>Get the evaluation frame for the specified parent context.
 </p></dd>
 </dl>
 
 <hr>
-<span id="Search-path"></span><div class="header">
+</div>
+<div class="subsection" id="Search-path">
+<div class="header">
 <p>
-Previous: <a href="#Stacks" accesskey="p" rel="prev">Stacks</a>, Up: <a href="#Scope-of-variables" accesskey="u" rel="up">Scope of variables</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Previous: <a href="#Stacks" accesskey="p" rel="prev">The call stack</a>, Up: <a href="#Scope-of-variables" accesskey="u" rel="up">Scope of variables</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Search-path-1"></span><h4 class="subsection">3.5.4 Search path</h4>
 
@@ -2561,23 +2611,25 @@ packages.
 </p>
 
 <hr>
-<span id="Functions"></span><div class="header">
+</div>
+</div>
+</div>
+<div class="chapter" id="Functions">
+<div class="header">
 <p>
-Next: <a href="#Object_002doriented-programming" accesskey="n" rel="next">Object-oriented programming</a>, Previous: <a href="#Evaluation-of-expressions" accesskey="p" rel="prev">Evaluation of expressions</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Object_002doriented-programming" accesskey="n" rel="next">Object-oriented programming</a>, Previous: <a href="#Evaluation-of-expressions" accesskey="p" rel="prev">Evaluation of expressions</a>, Up: <a href="#Top" accesskey="u" rel="up">R Language Definition</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Functions-1"></span><h2 class="chapter">4 Functions</h2>
 
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Writing-functions" accesskey="1">Writing functions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Functions-as-objects" accesskey="2">Functions as objects</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Evaluation" accesskey="3">Evaluation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Writing-functions" accesskey="1">Writing functions</a></li>
+<li><a href="#Functions-as-objects" accesskey="2">Functions as objects</a></li>
+<li><a href="#Evaluation" accesskey="3">Evaluation</a></li>
+</ul>
 <hr>
-<span id="Writing-functions"></span><div class="header">
+<div class="section" id="Writing-functions">
+<div class="header">
 <p>
 Next: <a href="#Functions-as-objects" accesskey="n" rel="next">Functions as objects</a>, Previous: <a href="#Functions" accesskey="p" rel="prev">Functions</a>, Up: <a href="#Functions" accesskey="u" rel="up">Functions</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2592,17 +2644,16 @@ if they want to, change the system level functions to functions that
 they find more appropriate.
 </p>
 <p>R also provides facilities that make it easy to document any
-functions that you have created.  See <a href="https://cran.r-project.org/doc/manuals/R-exts.html#Writing-R-documentation">Writing R documentation</a> in <cite>Writing R Extensions</cite>.
+functions that you have created.  See <a data-manual="R-exts" href="https://cran.r-project.org/doc/manuals/R-exts.html#Writing-R-documentation">Writing R documentation</a> in <cite>Writing R Extensions</cite>.
 </p>
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Syntax-and-examples" accesskey="1">Syntax and examples</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Arguments" accesskey="2">Arguments</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Syntax-and-examples" accesskey="1">Syntax and examples</a></li>
+<li><a href="#Arguments" accesskey="2">Arguments</a></li>
+</ul>
 <hr>
-<span id="Syntax-and-examples"></span><div class="header">
+<div class="subsection" id="Syntax-and-examples">
+<div class="header">
 <p>
 Next: <a href="#Arguments" accesskey="n" rel="next">Arguments</a>, Previous: <a href="#Writing-functions" accesskey="p" rel="prev">Writing functions</a>, Up: <a href="#Writing-functions" accesskey="u" rel="up">Writing functions</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2625,7 +2676,7 @@ function.
 argument list is a comma separated list of formal arguments.  A
 formal argument can be a symbol, a statement of the form
 &lsquo;<samp><var>symbol</var> = <var>expression</var></samp>&rsquo;, or the special formal argument
-&lsquo;<samp>...</samp>&rsquo;.
+<code>...</code>.
 </p>
 <p>The <em>body</em> can be any valid R expression.  Generally, the body
 is a group of expressions contained in curly braces (&lsquo;<samp>{</samp>&rsquo; and
@@ -2646,7 +2697,9 @@ other functions such as the <code>apply</code> family or <code>outer</code>.
 <code>echo</code> is invoked it prints its argument.
 </p>
 <hr>
-<span id="Arguments"></span><div class="header">
+</div>
+<div class="subsection" id="Arguments">
+<div class="header">
 <p>
 Previous: <a href="#Syntax-and-examples" accesskey="p" rel="prev">Syntax and examples</a>, Up: <a href="#Writing-functions" accesskey="u" rel="up">Writing functions</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2677,7 +2730,7 @@ body of the function.  An argument that is <code>missing</code> will thus
 have its default value, if any. The <code>missing</code> function does not
 force evaluation of the argument.
 </p>
-<p>The special type of argument &lsquo;<samp>...</samp>&rsquo; can contain any number of
+<p>The special type of argument <code>...</code> can contain any number of
 supplied arguments.  It is used for a variety of purposes.  It allows
 you to write a
 <span id="index-function-14"></span>
@@ -2686,7 +2739,10 @@ can be used to absorb some arguments into an intermediate function which
 can then be extracted by functions called subsequently.
 </p>
 <hr>
-<span id="Functions-as-objects"></span><div class="header">
+</div>
+</div>
+<div class="section" id="Functions-as-objects">
+<div class="header">
 <p>
 Next: <a href="#Evaluation" accesskey="n" rel="next">Evaluation</a>, Previous: <a href="#Writing-functions" accesskey="p" rel="prev">Writing functions</a>, Up: <a href="#Functions" accesskey="u" rel="up">Functions</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2698,25 +2754,24 @@ arguments to functions and returned as values from functions.  See
 <a href="#Function-objects">Function objects</a> for the details.
 </p>
 <hr>
-<span id="Evaluation"></span><div class="header">
+</div>
+<div class="section" id="Evaluation">
+<div class="header">
 <p>
 Previous: <a href="#Functions-as-objects" accesskey="p" rel="prev">Functions as objects</a>, Up: <a href="#Functions" accesskey="u" rel="up">Functions</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Evaluation-1"></span><h3 class="section">4.3 Evaluation</h3>
 
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Evaluation-environment" accesskey="1">Evaluation environment</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Argument-matching" accesskey="2">Argument matching</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Argument-evaluation" accesskey="3">Argument evaluation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Scope" accesskey="4">Scope</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Evaluation-environment" accesskey="1">Evaluation environment</a></li>
+<li><a href="#Argument-matching" accesskey="2">Argument matching</a></li>
+<li><a href="#Argument-evaluation" accesskey="3">Argument evaluation</a></li>
+<li><a href="#Scope" accesskey="4">Scope</a></li>
+</ul>
 <hr>
-<span id="Evaluation-environment"></span><div class="header">
+<div class="subsection" id="Evaluation-environment">
+<div class="header">
 <p>
 Next: <a href="#Argument-matching" accesskey="n" rel="next">Argument matching</a>, Previous: <a href="#Evaluation" accesskey="p" rel="prev">Evaluation</a>, Up: <a href="#Evaluation" accesskey="u" rel="up">Evaluation</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2741,7 +2796,9 @@ this does not have to be true and functions defined in packages with
 namespaces (normally) have the package namespace as their environment.
 </p>
 <hr>
-<span id="Argument-matching"></span><div class="header">
+</div>
+<div class="subsection" id="Argument-matching">
+<div class="header">
 <p>
 Next: <a href="#Argument-evaluation" accesskey="n" rel="next">Argument evaluation</a>, Previous: <a href="#Evaluation-environment" accesskey="p" rel="prev">Evaluation environment</a>, Up: <a href="#Evaluation" accesskey="u" rel="up">Evaluation</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2775,12 +2832,12 @@ fooey) fbody</code>, then <code>f(f = 1, fo = 2)</code> is illegal, even though 
 2nd actual argument only matches <code>fooey</code>.  <code>f(f = 1, fooey =
 2)</code> <em>is</em> legal though since the second argument matches exactly and
 is removed from consideration for partial matching.  If the formal
-arguments contain &lsquo;<samp>...</samp>&rsquo; then partial matching is only applied to
+arguments contain <code>...</code> then partial matching is only applied to
 arguments that precede it.
 
 </li><li> <strong>Positional matching</strong>.
 Any unmatched formal arguments are bound to <em>unnamed</em> supplied
-arguments, in order.  If there is a &lsquo;<samp>...</samp>&rsquo; argument, it will take up
+arguments, in order.  If there is a <code>...</code> argument, it will take up
 the remaining arguments, tagged or not.
 
 </li></ol>
@@ -2796,7 +2853,9 @@ Access to the partial matching algorithm used by R is via
 <code>pmatch</code>.
 </p>
 <hr>
-<span id="Argument-evaluation"></span><div class="header">
+</div>
+<div class="subsection" id="Argument-evaluation">
+<div class="header">
 <p>
 Next: <a href="#Scope" accesskey="n" rel="next">Scope</a>, Previous: <a href="#Argument-matching" accesskey="p" rel="prev">Argument matching</a>, Up: <a href="#Evaluation" accesskey="u" rel="up">Evaluation</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2899,7 +2958,9 @@ to another function.  When forcing a promise, other promises in its
 expression will also be forced recursively as they are evaluated.
 </p>
 <hr>
-<span id="Scope"></span><div class="header">
+</div>
+<div class="subsection" id="Scope">
+<div class="header">
 <p>
 Previous: <a href="#Argument-evaluation" accesskey="p" rel="prev">Argument evaluation</a>, Up: <a href="#Evaluation" accesskey="u" rel="up">Evaluation</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2993,9 +3054,13 @@ indicating that <code>y</code> is not found, unless there is a variable
 
 
 <hr>
-<span id="Object_002doriented-programming"></span><div class="header">
+</div>
+</div>
+</div>
+<div class="chapter" id="Object_002doriented-programming">
+<div class="header">
 <p>
-Next: <a href="#Computing-on-the-language" accesskey="n" rel="next">Computing on the language</a>, Previous: <a href="#Functions" accesskey="p" rel="prev">Functions</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Computing-on-the-language" accesskey="n" rel="next">Computing on the language</a>, Previous: <a href="#Functions" accesskey="p" rel="prev">Functions</a>, Up: <a href="#Top" accesskey="u" rel="up">R Language Definition</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Object_002doriented-programming-1"></span><h2 class="chapter">5 Object-oriented programming</h2>
 
@@ -3059,25 +3124,19 @@ example as a density, when it exists or as a moment generating function
 when it exists.
 </p>
 
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Definition" accesskey="1">Definition</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Inheritance" accesskey="2">Inheritance</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Method-dispatching" accesskey="3">Method dispatching</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#UseMethod" accesskey="4">UseMethod</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#NextMethod" accesskey="5">NextMethod</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Group-methods" accesskey="6">Group methods</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Writing-methods" accesskey="7">Writing methods</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Definition" accesskey="1">Definition</a></li>
+<li><a href="#Inheritance" accesskey="2">Inheritance</a></li>
+<li><a href="#Method-dispatching" accesskey="3">Method dispatching</a></li>
+<li><a href="#UseMethod" accesskey="4">UseMethod</a></li>
+<li><a href="#NextMethod" accesskey="5">NextMethod</a></li>
+<li><a href="#Group-methods" accesskey="6">Group methods</a></li>
+<li><a href="#Writing-methods" accesskey="7">Writing methods</a></li>
+</ul>
 <hr>
-<span id="Definition"></span><div class="header">
+<div class="section" id="Definition">
+<div class="header">
 <p>
 Next: <a href="#Inheritance" accesskey="n" rel="next">Inheritance</a>, Previous: <a href="#Object_002doriented-programming" accesskey="p" rel="prev">Object-oriented programming</a>, Up: <a href="#Object_002doriented-programming" accesskey="u" rel="up">Object-oriented programming</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -3200,7 +3259,9 @@ printing for objects of different types; there are about 40 methods for
 <code>print</code>.
 </p>
 <hr>
-<span id="Inheritance"></span><div class="header">
+</div>
+<div class="section" id="Inheritance">
+<div class="header">
 <p>
 Next: <a href="#Method-dispatching" accesskey="n" rel="next">Method dispatching</a>, Previous: <a href="#Definition" accesskey="p" rel="prev">Definition</a>, Up: <a href="#Object_002doriented-programming" accesskey="u" rel="up">Object-oriented programming</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -3216,7 +3277,9 @@ currently being evaluated, finds the next class from th
 <p>FIXME: something is missing here
 </p>
 <hr>
-<span id="Method-dispatching"></span><div class="header">
+</div>
+<div class="section" id="Method-dispatching">
+<div class="header">
 <p>
 Next: <a href="#UseMethod" accesskey="n" rel="next">UseMethod</a>, Previous: <a href="#Inheritance" accesskey="p" rel="prev">Inheritance</a>, Up: <a href="#Object_002doriented-programming" accesskey="u" rel="up">Object-oriented programming</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -3254,7 +3317,9 @@ When a generic function is invoked the class of its first argument is
 examined.
 </p>
 <hr>
-<span id="UseMethod"></span><div class="header">
+</div>
+<div class="section" id="UseMethod">
+<div class="header">
 <p>
 Next: <a href="#NextMethod" accesskey="n" rel="next">NextMethod</a>, Previous: <a href="#Method-dispatching" accesskey="p" rel="prev">Method dispatching</a>, Up: <a href="#Object_002doriented-programming" accesskey="u" rel="up">Object-oriented programming</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -3345,7 +3410,9 @@ is in contrast to <code>NextMethod</code> where the arguments in the call to
 the next method can be altered.
 </p>
 <hr>
-<span id="NextMethod"></span><div class="header">
+</div>
+<div class="section" id="NextMethod">
+<div class="header">
 <p>
 Next: <a href="#Group-methods" accesskey="n" rel="next">Group methods</a>, Previous: <a href="#UseMethod" accesskey="p" rel="prev">UseMethod</a>, Up: <a href="#Object_002doriented-programming" accesskey="u" rel="up">Object-oriented programming</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -3370,7 +3437,7 @@ missing.
 object, ...)</code>.  If the <code>generic</code> is not supplied the value of
 <code>.Generic</code> is used.  If the <code>object</code> is not supplied the first
 argument in the call to the current method is used.  Values in the
-&lsquo;<samp>...</samp>&rsquo; argument are used to modify the arguments of the next method.
+<code>...</code> argument are used to modify the arguments of the next method.
 </p>
 <p>It is important to realize that the choice of the next method depends on
 the current values of <code>.Generic</code> and <code>.Class</code> and not on the
@@ -3388,7 +3455,7 @@ default values ensure that the behaviour of a method doesn&rsquo;t change
 depending on whether it is called directly or via a call to a generic.
 </p>
 
-<p>An issue for discussion is the behaviour of the &lsquo;<samp>...</samp>&rsquo; argument to
+<p>An issue for discussion is the behaviour of the <code>...</code> argument to
 <code>NextMethod</code>.  The White Book describes the behaviour as follows:
 </p>
 <span id="index-name-9"></span>
@@ -3418,7 +3485,9 @@ depending on whether it is called directly or via a call to a generic.
 
 
 <hr>
-<span id="Group-methods"></span><div class="header">
+</div>
+<div class="section" id="Group-methods">
+<div class="header">
 <p>
 Next: <a href="#Writing-methods" accesskey="n" rel="next">Writing methods</a>, Previous: <a href="#NextMethod" accesskey="p" rel="prev">NextMethod</a>, Up: <a href="#Object_002doriented-programming" accesskey="u" rel="up">Object-oriented programming</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -3437,17 +3506,17 @@ possible to write methods specific to any function within a group.
 <p>The following table lists the functions for the different Groups.
 </p>
 <dl compact="compact">
-<dt>&lsquo;<samp>Math</samp>&rsquo;</dt>
+<dt><span>&lsquo;<samp>Math</samp>&rsquo;</span></dt>
 <dd><p>abs, acos, acosh, asin, asinh, atan, atanh, ceiling, cos, cosh, cospi, cumsum,
 exp, floor, gamma, lgamma, log, log10, round, signif, sin, sinh, sinpi, 
 tan, tanh, tanpi, trunc
 </p>
 </dd>
-<dt>&lsquo;<samp>Summary</samp>&rsquo;</dt>
+<dt><span>&lsquo;<samp>Summary</samp>&rsquo;</span></dt>
 <dd><p>all, any, max, min, prod, range, sum
 </p>
 </dd>
-<dt>&lsquo;<samp>Ops</samp>&rsquo;</dt>
+<dt><span>&lsquo;<samp>Ops</samp>&rsquo;</span></dt>
 <dd><p><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>^</code>, <code>&lt;</code> , <code>&gt;</code>,
 <code>&lt;=</code>, <code>&gt;=</code>, <code>!=</code>, <code>==</code>, <code>%%</code>, <code>%/%</code>,
 <code>&amp;</code>, <code>|</code>, <code>!</code>
@@ -3470,7 +3539,9 @@ corresponding element of <code>.Method</code> is set to the zero length
 string, <code>&quot;&quot;</code>.
 </p>
 <hr>
-<span id="Writing-methods"></span><div class="header">
+</div>
+<div class="section" id="Writing-methods">
+<div class="header">
 <p>
 Previous: <a href="#Group-methods" accesskey="p" rel="prev">Group methods</a>, Up: <a href="#Object_002doriented-programming" accesskey="u" rel="up">Object-oriented programming</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -3504,9 +3575,12 @@ nice output for the results of any analysis.
 
 
 <hr>
-<span id="Computing-on-the-language"></span><div class="header">
+</div>
+</div>
+<div class="chapter" id="Computing-on-the-language">
+<div class="header">
 <p>
-Next: <a href="#System-and-foreign-language-interfaces" accesskey="n" rel="next">System and foreign language interfaces</a>, Previous: <a href="#Object_002doriented-programming" accesskey="p" rel="prev">Object-oriented programming</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#System-and-foreign-language-interfaces" accesskey="n" rel="next">System and foreign language interfaces</a>, Previous: <a href="#Object_002doriented-programming" accesskey="p" rel="prev">Object-oriented programming</a>, Up: <a href="#Top" accesskey="u" rel="up">R Language Definition</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Computing-on-the-language-1"></span><h2 class="chapter">6 Computing on the language</h2>
 
@@ -3543,23 +3617,18 @@ mathematical expressions.
 <p>In this chapter, we give an introduction to the set of facilities that
 are available for computing on the language.
 </p>
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Direct-manipulation-of-language-objects" accesskey="1">Direct manipulation of language objects</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Substitutions" accesskey="2">Substitutions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#More-on-evaluation" accesskey="3">More on evaluation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Evaluation-of-expression-objects" accesskey="4">Evaluation of expression objects</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Manipulation-of-function-calls" accesskey="5">Manipulation of function calls</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Manipulation-of-functions" accesskey="6">Manipulation of functions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Direct-manipulation-of-language-objects" accesskey="1">Direct manipulation of language objects</a></li>
+<li><a href="#Substitutions" accesskey="2">Substitutions</a></li>
+<li><a href="#More-on-evaluation" accesskey="3">More on evaluation</a></li>
+<li><a href="#Evaluation-of-expression-objects" accesskey="4">Evaluation of expression objects</a></li>
+<li><a href="#Manipulation-of-function-calls" accesskey="5">Manipulation of function calls</a></li>
+<li><a href="#Manipulation-of-functions" accesskey="6">Manipulation of functions</a></li>
+</ul>
 <hr>
-<span id="Direct-manipulation-of-language-objects"></span><div class="header">
+<div class="section" id="Direct-manipulation-of-language-objects">
+<div class="header">
 <p>
 Next: <a href="#Substitutions" accesskey="n" rel="next">Substitutions</a>, Previous: <a href="#Computing-on-the-language" accesskey="p" rel="prev">Computing on the language</a>, Up: <a href="#Computing-on-the-language" accesskey="u" rel="up">Computing on the language</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -3680,7 +3749,9 @@ to the original expression (up to rounding error).
 incompatibility...
 </p>
 <hr>
-<span id="Substitutions"></span><div class="header">
+</div>
+<div class="section" id="Substitutions">
+<div class="header">
 <p>
 Next: <a href="#More-on-evaluation" accesskey="n" rel="next">More on evaluation</a>, Previous: <a href="#Direct-manipulation-of-language-objects" accesskey="p" rel="prev">Direct manipulation of language objects</a>, Up: <a href="#Computing-on-the-language" accesskey="u" rel="up">Computing on the language</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -3834,7 +3905,9 @@ environment. The syntax for <code>bquote</code> is borrowed from the LISP
 backquote macro.
 </p>
 <hr>
-<span id="More-on-evaluation"></span><div class="header">
+</div>
+<div class="section" id="More-on-evaluation">
+<div class="header">
 <p>
 Next: <a href="#Evaluation-of-expression-objects" accesskey="n" rel="next">Evaluation of expression objects</a>, Previous: <a href="#Substitutions" accesskey="p" rel="prev">Substitutions</a>, Up: <a href="#Computing-on-the-language" accesskey="u" rel="up">Computing on the language</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -3892,7 +3965,9 @@ not change because one is really working on a copy.
 </p>
 
 <hr>
-<span id="Evaluation-of-expression-objects"></span><div class="header">
+</div>
+<div class="section" id="Evaluation-of-expression-objects">
+<div class="header">
 <p>
 Next: <a href="#Manipulation-of-function-calls" accesskey="n" rel="next">Manipulation of function calls</a>, Previous: <a href="#More-on-evaluation" accesskey="p" rel="prev">More on evaluation</a>, Up: <a href="#Computing-on-the-language" accesskey="u" rel="up">Computing on the language</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -3953,7 +4028,9 @@ call that generates an expression object and the other is the object
 itself.
 </p>
 <hr>
-<span id="Manipulation-of-function-calls"></span><div class="header">
+</div>
+<div class="section" id="Manipulation-of-function-calls">
+<div class="header">
 <p>
 Next: <a href="#Manipulation-of-functions" accesskey="n" rel="next">Manipulation of functions</a>, Previous: <a href="#Evaluation-of-expression-objects" accesskey="p" rel="prev">Evaluation of expression objects</a>, Up: <a href="#Computing-on-the-language" accesskey="u" rel="up">Computing on the language</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -4021,9 +4098,9 @@ first element of the list and make sure that the value is a name, either
 using the <code>as.name(&quot;model.frame&quot;)</code> construction here or
 <code>quote(model.frame)</code>.
 </p>
-<p>The <code>match.call</code> function has an <code>expand.dots</code> argument which
-is a switch which if set to <code>FALSE</code> lets all &lsquo;<samp>...</samp>&rsquo; arguments
-be collected as a single argument with the tag &lsquo;<samp>...</samp>&rsquo;.
+<p>The <code>match.call</code> function has an <code>expand.dots</code> argument,
+a switch which if set to <code>FALSE</code> lets all <code>...</code> arguments
+be collected as a single argument with the tag <code>...</code>.
 <span id="index-match_002ecall-1"></span>
 </p>
 <div class="example">
@@ -4032,7 +4109,7 @@ be collected as a single argument with the tag &lsquo;<samp>...</samp>&rsquo;.
 f(x = 2, y = 1, ... = list(z = 3, 4))
 </pre></div>
 
-<p>The &lsquo;<samp>...</samp>&rsquo; argument is a list (a pairlist to be precise), not a call
+<p>The <code>...</code> argument is a list (a pairlist to be precise), not a call
 to <code>list</code> like it is in S:
 </p>
 <div class="example">
@@ -4046,7 +4123,7 @@ $z
 </pre></div>
 
 <p>One reason for using this form of <code>match.call</code> is simply to get rid
-of any &lsquo;<samp>...</samp>&rsquo; arguments in order not to be passing unspecified
+of any <code>...</code> arguments in order not to be passing unspecified
 arguments on to functions that may not know them.  Here&rsquo;s an example
 paraphrased from <code>plot.formula</code>:
 </p>
@@ -4103,7 +4180,7 @@ function like <code>cbind</code> to all elements of a list or data frame.
 </p>
 <div class="example">
 <pre class="example">is.na.data.frame &lt;- function (x) {
-    y &lt;- do.call(&quot;cbind&quot;, lapply(x, &quot;is.na&quot;))
+    y &lt;- do.call(cbind, lapply(x, is.na))
     rownames(y) &lt;- row.names(x)
     y
 }
@@ -4117,7 +4194,9 @@ itself.  A similar remark applies to the <code>call</code> function.
 </p>
 
 <hr>
-<span id="Manipulation-of-functions"></span><div class="header">
+</div>
+<div class="section" id="Manipulation-of-functions">
+<div class="header">
 <p>
 Previous: <a href="#Manipulation-of-function-calls" accesskey="p" rel="prev">Manipulation of function calls</a>, Up: <a href="#Computing-on-the-language" accesskey="u" rel="up">Computing on the language</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -4130,36 +4209,24 @@ or closure.  R provides a set of interface functions for this
 purpose.
 </p>
 <dl compact="compact">
-<dt><code>body</code>
-<span id="index-body-1"></span>
-</dt>
+<dt id='index-body-1'><span><code>body</code><a href='#index-body-1' class='copiable-anchor'> &para;</a></span></dt>
 <dd><p>Returns the expression that is the body of the function.
 </p></dd>
-<dt><code>formals</code>
-<span id="index-formals-1"></span>
-</dt>
+<dt id='index-formals-1'><span><code>formals</code><a href='#index-formals-1' class='copiable-anchor'> &para;</a></span></dt>
 <dd><p>Returns a list of the formal arguments to the function.  This is a
 <code>pairlist</code>.
 </p></dd>
-<dt><code>environment</code>
-<span id="index-environment-21"></span>
-</dt>
+<dt id='index-environment-21'><span><code>environment</code><a href='#index-environment-21' class='copiable-anchor'> &para;</a></span></dt>
 <dd><span id="index-environment-16"></span>
 <p>Returns the environment associated with the function.
 </p></dd>
-<dt><code>body&lt;-</code>
-<span id="index-body_003c_002d"></span>
-</dt>
+<dt id='index-body_003c_002d'><span><code>body&lt;-</code><a href='#index-body_003c_002d' class='copiable-anchor'> &para;</a></span></dt>
 <dd><p>This sets the body of the function to the supplied expression.
 </p></dd>
-<dt><code>formals&lt;-</code>
-<span id="index-formals_003c_002d"></span>
-</dt>
+<dt id='index-formals_003c_002d'><span><code>formals&lt;-</code><a href='#index-formals_003c_002d' class='copiable-anchor'> &para;</a></span></dt>
 <dd><p>Sets the formal arguments of the function to the supplied list.
 </p></dd>
-<dt><code>environment&lt;-</code>
-<span id="index-environment_003c_002d"></span>
-</dt>
+<dt id='index-environment_003c_002d'><span><code>environment&lt;-</code><a href='#index-environment_003c_002d' class='copiable-anchor'> &para;</a></span></dt>
 <dd><p>Sets the environment of the function to the specified environment.
 </p></dd>
 </dl>
@@ -4180,23 +4247,24 @@ information is lost when <code>as.list</code> is used, whereas
 set.
 </p>
 <hr>
-<span id="System-and-foreign-language-interfaces"></span><div class="header">
+</div>
+</div>
+<div class="chapter" id="System-and-foreign-language-interfaces">
+<div class="header">
 <p>
-Next: <a href="#Exception-handling" accesskey="n" rel="next">Exception handling</a>, Previous: <a href="#Computing-on-the-language" accesskey="p" rel="prev">Computing on the language</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Exception-handling" accesskey="n" rel="next">Exception handling</a>, Previous: <a href="#Computing-on-the-language" accesskey="p" rel="prev">Computing on the language</a>, Up: <a href="#Top" accesskey="u" rel="up">R Language Definition</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="System-and-foreign-language-interfaces-1"></span><h2 class="chapter">7 System and foreign language interfaces</h2>
 
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Operating-system-access" accesskey="1">Operating system access</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Foreign-language-interfaces" accesskey="2">Foreign language interfaces</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#g_t_002eInternal-and-_002ePrimitive" accesskey="3">.Internal and .Primitive</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Operating-system-access" accesskey="1">Operating system access</a></li>
+<li><a href="#Foreign-language-interfaces" accesskey="2">Foreign language interfaces</a></li>
+<li><a href="#g_t_002eInternal-and-_002ePrimitive" accesskey="3">.Internal and .Primitive</a></li>
+</ul>
 <hr>
-<span id="Operating-system-access"></span><div class="header">
+<div class="section" id="Operating-system-access">
+<div class="header">
 <p>
 Next: <a href="#Foreign-language-interfaces" accesskey="n" rel="next">Foreign language interfaces</a>, Previous: <a href="#System-and-foreign-language-interfaces" accesskey="p" rel="prev">System and foreign language interfaces</a>, Up: <a href="#System-and-foreign-language-interfaces" accesskey="u" rel="up">System and foreign language interfaces</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -4286,7 +4354,9 @@ platform-independent way.
 </blockquote>
 
 <hr>
-<span id="Foreign-language-interfaces"></span><div class="header">
+</div>
+<div class="section" id="Foreign-language-interfaces">
+<div class="header">
 <p>
 Next: <a href="#g_t_002eInternal-and-_002ePrimitive" accesskey="n" rel="next">.Internal and .Primitive</a>, Previous: <a href="#Operating-system-access" accesskey="p" rel="prev">Operating system access</a>, Up: <a href="#System-and-foreign-language-interfaces" accesskey="u" rel="up">System and foreign language interfaces</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -4296,7 +4366,7 @@ Next: <a href="#g_t_002eInternal-and-_002ePrimitive" accesskey="n" rel="next">.I
 <span id="index-_002eCall"></span>
 <span id="index-_002eExternal"></span>
 
-<p>See <a href="https://cran.r-project.org/doc/manuals/R-exts.html#System-and-foreign-language-interfaces">System and foreign language interfaces</a> in <cite>Writing R
+<p>See <a data-manual="R-exts" href="https://cran.r-project.org/doc/manuals/R-exts.html#System-and-foreign-language-interfaces">System and foreign language interfaces</a> in <cite>Writing R
 Extensions</cite> for the details of adding functionality to R via compiled
 code.
 </p>
@@ -4310,7 +4380,9 @@ other languages which can generate C interfaces, for example C++.
 compiled code (primarily compiled <strong>C</strong> code) to manipulate R objects.
 </p>
 <hr>
-<span id="g_t_002eInternal-and-_002ePrimitive"></span><div class="header">
+</div>
+<div class="section" id="g_t_002eInternal-and-_002ePrimitive">
+<div class="header">
 <p>
 Previous: <a href="#Foreign-language-interfaces" accesskey="p" rel="prev">Foreign language interfaces</a>, Up: <a href="#System-and-foreign-language-interfaces" accesskey="u" rel="up">System and foreign language interfaces</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -4320,13 +4392,16 @@ Previous: <a href="#Foreign-language-interfaces" accesskey="p" rel="prev">Foreig
 
 <p>The <code>.Internal</code> and <code>.Primitive</code> interfaces are used to call
 <strong>C</strong> code compiled into R at build time.
-See <a href="https://cran.r-project.org/doc/manuals/R-ints.html#g_t_002eInternal-vs-_002ePrimitive">.Internal vs .Primitive</a> in <cite>R Internals</cite>.
+See <a data-manual="R-ints" href="https://cran.r-project.org/doc/manuals/R-ints.html#g_t_002eInternal-vs-_002ePrimitive">.Internal vs .Primitive</a> in <cite>R Internals</cite>.
 </p>
 
 <hr>
-<span id="Exception-handling"></span><div class="header">
+</div>
+</div>
+<div class="chapter" id="Exception-handling">
+<div class="header">
 <p>
-Next: <a href="#Debugging" accesskey="n" rel="next">Debugging</a>, Previous: <a href="#System-and-foreign-language-interfaces" accesskey="p" rel="prev">System and foreign language interfaces</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Debugging" accesskey="n" rel="next">Debugging</a>, Previous: <a href="#System-and-foreign-language-interfaces" accesskey="p" rel="prev">System and foreign language interfaces</a>, Up: <a href="#Top" accesskey="u" rel="up">R Language Definition</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Exception-handling-1"></span><h2 class="chapter">8 Exception handling</h2>
 
@@ -4335,19 +4410,16 @@ mechanisms.  Functions such as <code>stop</code> or <code>warning</code> can be
 called directly or options such as <code>&quot;warn&quot;</code> can be used to control
 the handling of problems.
 </p>
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#stop" accesskey="1">stop</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#warning" accesskey="2">warning</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#on_002eexit" accesskey="3">on.exit</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Error-options" accesskey="4">Error options</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#stop" accesskey="1">stop</a></li>
+<li><a href="#warning" accesskey="2">warning</a></li>
+<li><a href="#on_002eexit" accesskey="3">on.exit</a></li>
+<li><a href="#Error-options" accesskey="4">Error options</a></li>
+</ul>
 <hr>
-<span id="stop"></span><div class="header">
+<div class="section" id="stop">
+<div class="header">
 <p>
 Next: <a href="#warning" accesskey="n" rel="next">warning</a>, Previous: <a href="#Exception-handling" accesskey="p" rel="prev">Exception handling</a>, Up: <a href="#Exception-handling" accesskey="u" rel="up">Exception handling</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -4358,7 +4430,9 @@ Next: <a href="#warning" accesskey="n" rel="next">warning</a>, Previous: <a href
 prints the message argument and returns execution to top-level.
 </p>
 <hr>
-<span id="warning"></span><div class="header">
+</div>
+<div class="section" id="warning">
+<div class="header">
 <p>
 Next: <a href="#on_002eexit" accesskey="n" rel="next">on.exit</a>, Previous: <a href="#stop" accesskey="p" rel="prev">stop</a>, Up: <a href="#Exception-handling" accesskey="u" rel="up">Exception handling</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -4383,7 +4457,9 @@ vector of messages, and <code>warnings</code> provides a way to access and
 print it.
 </p>
 <hr>
-<span id="on_002eexit"></span><div class="header">
+</div>
+<div class="section" id="on_002eexit">
+<div class="header">
 <p>
 Next: <a href="#Error-options" accesskey="n" rel="next">Error options</a>, Previous: <a href="#warning" accesskey="p" rel="prev">warning</a>, Up: <a href="#Exception-handling" accesskey="u" rel="up">Exception handling</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -4411,7 +4487,9 @@ evaluated when the function is exited.
 
 
 <hr>
-<span id="Error-options"></span><div class="header">
+</div>
+<div class="section" id="Error-options">
+<div class="header">
 <p>
 Previous: <a href="#on_002eexit" accesskey="p" rel="prev">on.exit</a>, Up: <a href="#Exception-handling" accesskey="u" rel="up">Exception handling</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -4422,14 +4500,14 @@ control how R handles errors and warnings.  They are listed in the
 table below.
 </p>
 <dl compact="compact">
-<dt>&lsquo;<samp>warn</samp>&rsquo;</dt>
+<dt><span>&lsquo;<samp>warn</samp>&rsquo;</span></dt>
 <dd><p>Controls the printing of warnings.
 </p></dd>
-<dt>&lsquo;<samp>warning.expression</samp>&rsquo;</dt>
+<dt><span>&lsquo;<samp>warning.expression</samp>&rsquo;</span></dt>
 <dd><p>Sets an expression that is to be evaluated when a warning occurs.  The
 normal printing of warnings is suppressed if this option is set.
 </p></dd>
-<dt>&lsquo;<samp>error</samp>&rsquo;</dt>
+<dt><span>&lsquo;<samp>error</samp>&rsquo;</span></dt>
 <dd><p>Installs an expression that will be evaluated when an error occurs.
 The normal printing of error messages and warning messages precedes the
 evaluation of the expression.
@@ -4444,9 +4522,12 @@ quit when an error has been signalled.  In this case an error will cause
 R to shut down and the global environment will be saved.
 </p>
 <hr>
-<span id="Debugging"></span><div class="header">
+</div>
+</div>
+<div class="chapter" id="Debugging">
+<div class="header">
 <p>
-Next: <a href="#Parser" accesskey="n" rel="next">Parser</a>, Previous: <a href="#Exception-handling" accesskey="p" rel="prev">Exception handling</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Parser" accesskey="n" rel="next">Parser</a>, Previous: <a href="#Exception-handling" accesskey="p" rel="prev">Exception handling</a>, Up: <a href="#Top" accesskey="u" rel="up">R Language Definition</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Debugging-1"></span><h2 class="chapter">9 Debugging</h2>
 
@@ -4468,22 +4549,22 @@ current state of any variables etc.
 are,
 </p>
 <dl compact="compact">
-<dt>&lsquo;<samp><span class="key">RET</span></samp>&rsquo;</dt>
+<dt><span>&lsquo;<samp><span class="key">RET</span></samp>&rsquo;</span></dt>
 <dd><p>Go to the next statement if the function is being debugged.  Continue
 execution if the browser was invoked.
 </p></dd>
-<dt>&lsquo;<samp>c</samp>&rsquo;</dt>
-<dt>&lsquo;<samp>cont</samp>&rsquo;</dt>
+<dt><span>&lsquo;<samp>c</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>cont</samp>&rsquo;</span></dt>
 <dd><p>Continue the execution.
 </p></dd>
-<dt>&lsquo;<samp>n</samp>&rsquo;</dt>
+<dt><span>&lsquo;<samp>n</samp>&rsquo;</span></dt>
 <dd><p>Execute the next statement in the function.  This works from the browser
 as well.
 </p></dd>
-<dt>&lsquo;<samp>where</samp>&rsquo;</dt>
+<dt><span>&lsquo;<samp>where</samp>&rsquo;</span></dt>
 <dd><p>Show the call stack
 </p></dd>
-<dt>&lsquo;<samp>Q</samp>&rsquo;</dt>
+<dt><span>&lsquo;<samp>Q</samp>&rsquo;</span></dt>
 <dd><p>Halt execution and jump to the top-level immediately.
 </p></dd>
 </dl>
@@ -4502,19 +4583,16 @@ statements in that language is provided.  Execution will halt on the
 next statement that is evaluated in R. A symbolic debugger such as
 <code>gdb</code> can be used to debug compiled code.
 </p>
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#browser" accesskey="1">browser</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#debug_002fundebug" accesskey="2">debug/undebug</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#trace_002funtrace" accesskey="3">trace/untrace</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#traceback" accesskey="4">traceback</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#browser" accesskey="1">browser</a></li>
+<li><a href="#debug_002fundebug" accesskey="2">debug/undebug</a></li>
+<li><a href="#trace_002funtrace" accesskey="3">trace/untrace</a></li>
+<li><a href="#traceback" accesskey="4">traceback</a></li>
+</ul>
 <hr>
-<span id="browser"></span><div class="header">
+<div class="section" id="browser">
+<div class="header">
 <p>
 Next: <a href="#debug_002fundebug" accesskey="n" rel="next">debug/undebug</a>, Previous: <a href="#Debugging" accesskey="p" rel="prev">Debugging</a>, Up: <a href="#Debugging" accesskey="u" rel="up">Debugging</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -4540,7 +4618,9 @@ Browse[1]&gt;
 </pre></div>
 
 <hr>
-<span id="debug_002fundebug"></span><div class="header">
+</div>
+<div class="section" id="debug_002fundebug">
+<div class="header">
 <p>
 Next: <a href="#trace_002funtrace" accesskey="n" rel="next">trace/untrace</a>, Previous: <a href="#browser" accesskey="p" rel="prev">browser</a>, Up: <a href="#Debugging" accesskey="u" rel="up">Debugging</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -4590,7 +4670,9 @@ exiting from: mean.default(1:10)
 </pre></div>
 
 <hr>
-<span id="trace_002funtrace"></span><div class="header">
+</div>
+<div class="section" id="trace_002funtrace">
+<div class="header">
 <p>
 Next: <a href="#traceback" accesskey="n" rel="next">traceback</a>, Previous: <a href="#debug_002fundebug" accesskey="p" rel="prev">debug/undebug</a>, Up: <a href="#Debugging" accesskey="u" rel="up">Debugging</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -4616,7 +4698,9 @@ trace: &quot;[&lt;-&quot;(*tmp*, 3, value = 4)
 </pre></div>
 
 <hr>
-<span id="traceback"></span><div class="header">
+</div>
+<div class="section" id="traceback">
+<div class="header">
 <p>
 Previous: <a href="#trace_002funtrace" accesskey="p" rel="prev">trace/untrace</a>, Up: <a href="#Debugging" accesskey="u" rel="up">Debugging</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -4630,9 +4714,12 @@ call that was active at the time the error occurred.  An examination of
 <code>.Traceback</code> can be carried out by a call to <code>traceback</code>.
 </p>
 <hr>
-<span id="Parser"></span><div class="header">
+</div>
+</div>
+<div class="chapter" id="Parser">
+<div class="header">
 <p>
-Next: <a href="#Function-and-Variable-Index" accesskey="n" rel="next">Function and Variable Index</a>, Previous: <a href="#Debugging" accesskey="p" rel="prev">Debugging</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Function-and-Variable-Index" accesskey="n" rel="next">Function and Variable Index</a>, Previous: <a href="#Debugging" accesskey="p" rel="prev">Debugging</a>, Up: <a href="#Top" accesskey="u" rel="up">R Language Definition</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Parser-1"></span><h2 class="chapter">10 Parser</h2>
 <span id="index-parsing-6"></span>
@@ -4643,37 +4730,31 @@ causes the specified instructions to be carried out.  The internal form
 is itself an R object and can be saved and otherwise manipulated
 within the R system.
 </p>
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#The-parsing-process" accesskey="1">The parsing process</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Comments" accesskey="2">Comments</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Tokens" accesskey="3">Tokens</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Expressions" accesskey="4">Expressions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Directives" accesskey="5">Directives</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#The-parsing-process" accesskey="1">The parsing process</a></li>
+<li><a href="#Comments" accesskey="2">Comments</a></li>
+<li><a href="#Tokens" accesskey="3">Tokens</a></li>
+<li><a href="#Expressions" accesskey="4">Expressions</a></li>
+<li><a href="#Directives" accesskey="5">Directives</a></li>
+</ul>
 <hr>
-<span id="The-parsing-process"></span><div class="header">
+<div class="section" id="The-parsing-process">
+<div class="header">
 <p>
 Next: <a href="#Comments" accesskey="n" rel="next">Comments</a>, Previous: <a href="#Parser" accesskey="p" rel="prev">Parser</a>, Up: <a href="#Parser" accesskey="u" rel="up">Parser</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="The-parsing-process-1"></span><h3 class="section">10.1 The parsing process</h3>
 
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Modes-of-parsing" accesskey="1">Modes of parsing</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Internal-representation" accesskey="2">Internal representation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Deparsing" accesskey="3">Deparsing</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Modes-of-parsing" accesskey="1">Modes of parsing</a></li>
+<li><a href="#Internal-representation" accesskey="2">Internal representation</a></li>
+<li><a href="#Deparsing" accesskey="3">Deparsing</a></li>
+</ul>
 <hr>
-<span id="Modes-of-parsing"></span><div class="header">
+<div class="subsection" id="Modes-of-parsing">
+<div class="header">
 <p>
 Next: <a href="#Internal-representation" accesskey="n" rel="next">Internal representation</a>, Previous: <a href="#The-parsing-process" accesskey="p" rel="prev">The parsing process</a>, Up: <a href="#The-parsing-process" accesskey="u" rel="up">The parsing process</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -4712,7 +4793,9 @@ place.
 as if they were the lines of an input file.
 </p>
 <hr>
-<span id="Internal-representation"></span><div class="header">
+</div>
+<div class="subsection" id="Internal-representation">
+<div class="header">
 <p>
 Next: <a href="#Deparsing" accesskey="n" rel="next">Deparsing</a>, Previous: <a href="#Modes-of-parsing" accesskey="p" rel="prev">Modes of parsing</a>, Up: <a href="#The-parsing-process" accesskey="u" rel="up">The parsing process</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -4733,7 +4816,9 @@ are treated in this way, e.g. the assignment <code>x &lt;- 1</code> is encoded
 as <code>&quot;&lt;-&quot;(x, 1)</code>.
 </p>
 <hr>
-<span id="Deparsing"></span><div class="header">
+</div>
+<div class="subsection" id="Deparsing">
+<div class="header">
 <p>
 Previous: <a href="#Internal-representation" accesskey="p" rel="prev">Internal representation</a>, Up: <a href="#The-parsing-process" accesskey="u" rel="up">The parsing process</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -4752,7 +4837,10 @@ expressions that weren&rsquo;t generated from a textual representation in the
 first place.
 </p>
 <hr>
-<span id="Comments"></span><div class="header">
+</div>
+</div>
+<div class="section" id="Comments">
+<div class="header">
 <p>
 Next: <a href="#Tokens" accesskey="n" rel="next">Tokens</a>, Previous: <a href="#The-parsing-process" accesskey="p" rel="prev">The parsing process</a>, Up: <a href="#Parser" accesskey="u" rel="up">Parser</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -4771,7 +4859,9 @@ the <code>#</code> character is inside a quoted string. For example,
 </pre></div>
 
 <hr>
-<span id="Tokens"></span><div class="header">
+</div>
+<div class="section" id="Tokens">
+<div class="header">
 <p>
 Next: <a href="#Expressions" accesskey="n" rel="next">Expressions</a>, Previous: <a href="#Comments" accesskey="p" rel="prev">Comments</a>, Up: <a href="#Parser" accesskey="u" rel="up">Parser</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -4782,27 +4872,20 @@ They are recognised during <em>lexical analysis</em> which (conceptually,
 at least) takes place prior to the syntactic analysis performed by the
 parser itself.
 </p>
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Literal-constants" accesskey="1">Literal constants</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Identifiers" accesskey="2">Identifiers</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Reserved-words" accesskey="3">Reserved words</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Special-operators" accesskey="4">Special operators</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Separators" accesskey="5">Separators</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Operator-tokens" accesskey="6">Operator tokens</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Grouping" accesskey="7">Grouping</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Indexing-tokens" accesskey="8">Indexing tokens</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Literal-constants" accesskey="1">Constants</a></li>
+<li><a href="#Identifiers" accesskey="2">Identifiers</a></li>
+<li><a href="#Reserved-words" accesskey="3">Reserved words</a></li>
+<li><a href="#Special-operators" accesskey="4">Special operators</a></li>
+<li><a href="#Separators" accesskey="5">Separators</a></li>
+<li><a href="#Operator-tokens" accesskey="6">Operator tokens</a></li>
+<li><a href="#Grouping" accesskey="7">Grouping</a></li>
+<li><a href="#Indexing-tokens" accesskey="8">Indexing tokens</a></li>
+</ul>
 <hr>
-<span id="Literal-constants"></span><div class="header">
+<div class="subsection" id="Literal-constants">
+<div class="header">
 <p>
 Next: <a href="#Identifiers" accesskey="n" rel="next">Identifiers</a>, Previous: <a href="#Tokens" accesskey="p" rel="prev">Tokens</a>, Up: <a href="#Tokens" accesskey="u" rel="up">Tokens</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -4816,7 +4899,7 @@ Next: <a href="#Identifiers" accesskey="n" rel="next">Identifiers</a>, Previous:
 <p><code>NULL</code> is used to indicate the empty object.  <code>NA</code> is used for
 absent (&ldquo;Not Available&rdquo;) data values.  <code>Inf</code> denotes infinity and
 <code>NaN</code> is not-a-number in the <acronym>IEEE</acronym> floating point calculus
-(results of the operations respectively <em>1/0</em> and <em>0/0</em>, for
+(results of the operations respectively <em class='math'>1/0</em> and <em class='math'>0/0</em>, for
 instance).
 </p>
 <p>Logical constants are either <code>TRUE</code> or <code>FALSE</code>.
@@ -4880,50 +4963,50 @@ Quotes and other special characters within strings are specified using
 <em>escape sequences</em>:
 </p>
 <dl compact="compact">
-<dt><code>\'</code></dt>
+<dt><span><code>\'</code></span></dt>
 <dd><p>single quote
 </p></dd>
-<dt><code>\&quot;</code></dt>
+<dt><span><code>\&quot;</code></span></dt>
 <dd><p>double quote
 </p></dd>
-<dt><code>\n</code></dt>
+<dt><span><code>\n</code></span></dt>
 <dd><p>newline (aka &lsquo;line feed&rsquo;, <tt class="key">LF</tt>)
 </p></dd>
-<dt><code>\r</code></dt>
+<dt><span><code>\r</code></span></dt>
 <dd><p>carriage return (<tt class="key">CR</tt>)
 </p></dd>
-<dt><code>\t</code></dt>
+<dt><span><code>\t</code></span></dt>
 <dd><p>tab character
 </p></dd>
-<dt><code>\b</code></dt>
+<dt><span><code>\b</code></span></dt>
 <dd><p>backspace
 </p></dd>
-<dt><code>\a</code></dt>
+<dt><span><code>\a</code></span></dt>
 <dd><p>bell
 </p></dd>
-<dt><code>\f</code></dt>
+<dt><span><code>\f</code></span></dt>
 <dd><p>form feed
 </p></dd>
-<dt><code>\v</code></dt>
+<dt><span><code>\v</code></span></dt>
 <dd><p>vertical tab
 </p></dd>
-<dt><code>\\</code></dt>
+<dt><span><code>\\</code></span></dt>
 <dd><p>backslash itself
 </p></dd>
-<dt><code>\<var>nnn</var></code></dt>
+<dt><span><code>\<var>nnn</var></code></span></dt>
 <dd><p>character with given octal code &ndash; sequences of one, two or three digits
 in the range <code>0 ... 7</code> are accepted.
 </p></dd>
-<dt><code>\x<var>nn</var></code></dt>
+<dt><span><code>\x<var>nn</var></code></span></dt>
 <dd><p>character with given hex code &ndash; sequences of one or two hex digits
 (with entries <code>0 ... 9 A ... F a ... f</code>).
 </p></dd>
-<dt><code>\u<var>nnnn</var> \u{<var>nnnn</var>}</code></dt>
+<dt><span><code>\u<var>nnnn</var> \u{<var>nnnn</var>}</code></span></dt>
 <dd><p>(where multibyte locales are supported, otherwise an error).
 Unicode character with given hex code &ndash; sequences of up to four hex
 digits. The character needs to be valid in the current locale.
 </p></dd>
-<dt><code>\U<var>nnnnnnnn</var> \U{<var>nnnnnnnn</var>}</code></dt>
+<dt><span><code>\U<var>nnnnnnnn</var> \U{<var>nnnnnnnn</var>}</code></span></dt>
 <dd><p>(where multibyte locales are supported, otherwise an
 error).  Unicode character with given hex code &ndash; sequences of up to
 eight hex digits.
@@ -4939,9 +5022,11 @@ warning): further characters up to the closing quote are scanned but
 ignored.
 </p>
 <hr>
-<span id="Identifiers"></span><div class="header">
+</div>
+<div class="subsection" id="Identifiers">
+<div class="header">
 <p>
-Next: <a href="#Reserved-words" accesskey="n" rel="next">Reserved words</a>, Previous: <a href="#Literal-constants" accesskey="p" rel="prev">Literal constants</a>, Up: <a href="#Tokens" accesskey="u" rel="up">Tokens</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Reserved-words" accesskey="n" rel="next">Reserved words</a>, Previous: <a href="#Literal-constants" accesskey="p" rel="prev">Constants</a>, Up: <a href="#Tokens" accesskey="u" rel="up">Tokens</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Identifiers-1"></span><h4 class="subsection">10.3.2 Identifiers</h4>
 
@@ -4956,8 +5041,8 @@ set of characters allowed is given by the C expression <code>(isalnum(c)
 Western European locales.
 </p>
 <p>Notice that identifiers starting with a period are not by default listed
-by the <code>ls</code> function and that &lsquo;<samp>...</samp>&rsquo; and &lsquo;<samp>..1</samp>&rsquo;,
-&lsquo;<samp>..2</samp>&rsquo;, etc. are special.
+by the <code>ls</code> function and that <code>...</code> and <code>..1</code>,
+<code>..2</code>, etc. are special.
 </p>
 <p>Notice also that objects can have names that are not identifiers.  These
 are generally accessed via <code>get</code> and <code>assign</code>, although they
@@ -4966,8 +5051,8 @@ when there is no ambiguity (e.g. <code>&quot;x&quot; &lt;- 1</code>). As <code>g
 <code>assign</code> are not restricted to names that are identifiers they do
 not recognise subscripting operators or replacement functions. The
 following pairs are <em>not</em> equivalent
-<span id="index-get"></span>
-<span id="index-assign"></span>
+<span id="index-get-1"></span>
+<span id="index-assign-1"></span>
 </p>
 <blockquote>
 <table summary="">
@@ -4978,7 +5063,9 @@ following pairs are <em>not</em> equivalent
 </blockquote>
 
 <hr>
-<span id="Reserved-words"></span><div class="header">
+</div>
+<div class="subsection" id="Reserved-words">
+<div class="header">
 <p>
 Next: <a href="#Special-operators" accesskey="n" rel="next">Special operators</a>, Previous: <a href="#Identifiers" accesskey="p" rel="prev">Identifiers</a>, Up: <a href="#Tokens" accesskey="u" rel="up">Tokens</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -4995,7 +5082,9 @@ NA NA_integer_ NA_real_ NA_complex_ NA_character_
 </pre></div>
 
 <hr>
-<span id="Special-operators"></span><div class="header">
+</div>
+<div class="subsection" id="Special-operators">
+<div class="header">
 <p>
 Next: <a href="#Separators" accesskey="n" rel="next">Separators</a>, Previous: <a href="#Reserved-words" accesskey="p" rel="prev">Reserved words</a>, Up: <a href="#Tokens" accesskey="u" rel="up">Tokens</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -5015,7 +5104,9 @@ for strings do not apply here.
 
 
 <hr>
-<span id="Separators"></span><div class="header">
+</div>
+<div class="subsection" id="Separators">
+<div class="header">
 <p>
 Next: <a href="#Operator-tokens" accesskey="n" rel="next">Operator tokens</a>, Previous: <a href="#Special-operators" accesskey="p" rel="prev">Special operators</a>, Up: <a href="#Tokens" accesskey="u" rel="up">Tokens</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -5048,7 +5139,9 @@ incomplete, or invalid as soon as the user presses <tt class="key">RET</tt>.
 indices.
 </p>
 <hr>
-<span id="Operator-tokens"></span><div class="header">
+</div>
+<div class="subsection" id="Operator-tokens">
+<div class="header">
 <p>
 Next: <a href="#Grouping" accesskey="n" rel="next">Grouping</a>, Previous: <a href="#Separators" accesskey="p" rel="prev">Separators</a>, Up: <a href="#Tokens" accesskey="u" rel="up">Tokens</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -5071,7 +5164,9 @@ Next: <a href="#Grouping" accesskey="n" rel="next">Grouping</a>, Previous: <a hr
 <p>(Several of the operators have different meaning inside model formulas)
 </p>
 <hr>
-<span id="Grouping"></span><div class="header">
+</div>
+<div class="subsection" id="Grouping">
+<div class="header">
 <p>
 Next: <a href="#Indexing-tokens" accesskey="n" rel="next">Indexing tokens</a>, Previous: <a href="#Operator-tokens" accesskey="p" rel="prev">Operator tokens</a>, Up: <a href="#Tokens" accesskey="u" rel="up">Tokens</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -5085,7 +5180,9 @@ function definitions and function calls.
 function definitions, conditional expressions, and iterative constructs.
 </p>
 <hr>
-<span id="Indexing-tokens"></span><div class="header">
+</div>
+<div class="subsection" id="Indexing-tokens">
+<div class="header">
 <p>
 Previous: <a href="#Grouping" accesskey="p" rel="prev">Grouping</a>, Up: <a href="#Tokens" accesskey="u" rel="up">Tokens</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -5097,7 +5194,10 @@ may be done using the &lsquo;<samp>$</samp>&rsquo; operator.
 </p>
 
 <hr>
-<span id="Expressions"></span><div class="header">
+</div>
+</div>
+<div class="section" id="Expressions">
+<div class="header">
 <p>
 Next: <a href="#Directives" accesskey="n" rel="next">Directives</a>, Previous: <a href="#Tokens" accesskey="p" rel="prev">Tokens</a>, Up: <a href="#Parser" accesskey="u" rel="up">Parser</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -5111,24 +5211,19 @@ parts (which may themselves be expressions).
 <p>The following sections detail the various syntactical constructs that
 are available.
 </p>
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Function-calls-_0028expressions_0029" accesskey="1">Function calls (expressions)</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Infix-and-prefix-operators" accesskey="2">Infix and prefix operators</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Index-constructions" accesskey="3">Index constructions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Compound-expressions" accesskey="4">Compound expressions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Flow-control-elements" accesskey="5">Flow control elements</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Function-definitions" accesskey="6">Function definitions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
 
+<ul class="section-toc">
+<li><a href="#Function-calls-_0028expressions_0029" accesskey="1">Function calls</a></li>
+<li><a href="#Infix-and-prefix-operators" accesskey="2">Infix and prefix operators</a></li>
+<li><a href="#Index-constructions" accesskey="3">Index constructions</a></li>
+<li><a href="#Compound-expressions" accesskey="4">Compound expressions</a></li>
+<li><a href="#Flow-control-elements" accesskey="5">Flow control elements</a></li>
+<li><a href="#Function-definitions" accesskey="6">Function definitions</a></li>
+</ul>
 <hr>
-<span id="Function-calls-_0028expressions_0029"></span><div class="header">
+<div class="subsection" id="Function-calls-_0028expressions_0029">
+<div class="header">
 <p>
 Next: <a href="#Infix-and-prefix-operators" accesskey="n" rel="next">Infix and prefix operators</a>, Previous: <a href="#Expressions" accesskey="p" rel="prev">Expressions</a>, Up: <a href="#Expressions" accesskey="u" rel="up">Expressions</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -5152,7 +5247,7 @@ a valid identifier)
 
 <p>Each argument can be tagged (<code><var>tag</var>=<var>expr</var></code>), or just be a
 simple expression.  It can also be empty or it can be one of the special
-tokens &lsquo;<samp>...</samp>&rsquo;, &lsquo;<samp>..2</samp>&rsquo;, etc.
+tokens <code>...</code>, <code>..2</code>, etc.
 </p>
 <p>A tag can be an identifier or a text string.
 </p>
@@ -5166,9 +5261,11 @@ g(tag = value, , 5)
 </pre></div>
 
 <hr>
-<span id="Infix-and-prefix-operators"></span><div class="header">
+</div>
+<div class="subsection" id="Infix-and-prefix-operators">
+<div class="header">
 <p>
-Next: <a href="#Index-constructions" accesskey="n" rel="next">Index constructions</a>, Previous: <a href="#Function-calls-_0028expressions_0029" accesskey="p" rel="prev">Function calls (expressions)</a>, Up: <a href="#Expressions" accesskey="u" rel="up">Expressions</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Index-constructions" accesskey="n" rel="next">Index constructions</a>, Previous: <a href="#Function-calls-_0028expressions_0029" accesskey="p" rel="prev">Function calls</a>, Up: <a href="#Expressions" accesskey="u" rel="up">Expressions</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Infix-and-prefix-operators-1"></span><h4 class="subsection">10.4.2 Infix and prefix operators</h4>
 
@@ -5180,7 +5277,7 @@ $ @
 ^
 - +                <span class="roman">(unary)</span>
 :
-%<var>xyz</var>%
+%<var>xyz</var>% |&gt;
 * /
 + -                <span class="roman">(binary)</span>
 &gt; &gt;= &lt; &lt;= == !=
@@ -5193,14 +5290,14 @@ $ @
 =                  <span class="roman">(as assignment)</span>
 </pre></div>
 <p>Note that <code>:</code> precedes binary +/-, but not <code>^</code>. Hence,
-<code>1:3-1</code> is <em>0 1 2</em>, but <code>1:2^3</code> is <code>1:8</code>. 
+<code>1:3-1</code> is <em class='math'>0 1 2</em>, but <code>1:2^3</code> is <code>1:8</code>. 
 </p>
 <p>The exponentiation operator &lsquo;<samp>^</samp>&rsquo; and the
 <span id="index-assignment-11"></span>
 left assignment plus minus operators
 &lsquo;<samp>&lt;- - = &lt;&lt;-</samp>&rsquo; group right to left, all other operators group left to
-right.  That is, <code>2 ^ 2 ^ 3</code> is <em>2 ^ 8</em>, not <em>4 ^ 3</em>,
-whereas <code>1 - 1 - 1</code> is <em>-1</em>, not 1.
+right.  That is, <code>2 ^ 2 ^ 3</code> is <em class='math'>2 ^ 8</em>, not <em class='math'>4 ^ 3</em>,
+whereas <code>1 - 1 - 1</code> is <em class='math'>-1</em>, not 1.
 </p>
 <p>Notice that the operators <code>%%</code> and <code>%/%</code> for integer
 remainder and divide have higher precedence than multiply and divide.
@@ -5231,7 +5328,9 @@ valid expression as far as the parser is concerned.  The evaluator will
 object, though).  Similar comments apply to the model formula operator.
 </p>
 <hr>
-<span id="Index-constructions"></span><div class="header">
+</div>
+<div class="subsection" id="Index-constructions">
+<div class="header">
 <p>
 Next: <a href="#Compound-expressions" accesskey="n" rel="next">Compound expressions</a>, Previous: <a href="#Infix-and-prefix-operators" accesskey="p" rel="prev">Infix and prefix operators</a>, Up: <a href="#Expressions" accesskey="u" rel="up">Expressions</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -5269,7 +5368,9 @@ text string.  Internally, it is stored as a function call with name
 
 
 <hr>
-<span id="Compound-expressions"></span><div class="header">
+</div>
+<div class="subsection" id="Compound-expressions">
+<div class="header">
 <p>
 Next: <a href="#Flow-control-elements" accesskey="n" rel="next">Flow control elements</a>, Previous: <a href="#Index-constructions" accesskey="p" rel="prev">Index constructions</a>, Up: <a href="#Expressions" accesskey="u" rel="up">Expressions</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -5286,7 +5387,9 @@ as a function call with <code>&quot;{&quot;</code> as the function name and the
 expressions as arguments.
 </p>
 <hr>
-<span id="Flow-control-elements"></span><div class="header">
+</div>
+<div class="subsection" id="Flow-control-elements">
+<div class="header">
 <p>
 Next: <a href="#Function-definitions" accesskey="n" rel="next">Function definitions</a>, Previous: <a href="#Compound-expressions" accesskey="p" rel="prev">Compound expressions</a>, Up: <a href="#Expressions" accesskey="u" rel="up">Expressions</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -5323,7 +5426,9 @@ skip to the next iteration).
 </pre></div>
 
 <hr>
-<span id="Function-definitions"></span><div class="header">
+</div>
+<div class="subsection" id="Function-definitions">
+<div class="header">
 <p>
 Previous: <a href="#Flow-control-elements" accesskey="p" rel="prev">Flow control elements</a>, Up: <a href="#Expressions" accesskey="u" rel="up">Expressions</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -5340,7 +5445,7 @@ function definition is of the form
 <p>The function body is an expression, often a compound expression.  The
 <var>arglist</var> is a comma-separated list of items each of which can be an
 identifier, or of the form &lsquo;<samp><var>identifier</var> = <var>default</var></samp>&rsquo;, or
-the special token &lsquo;<samp>...</samp>&rsquo;.  The <var>default</var> can be any valid
+the special token <code>...</code>.  The <var>default</var> can be any valid
 expression.
 </p>
 <p>Notice that function arguments unlike list tags, etc., cannot have
@@ -5353,7 +5458,10 @@ the tags are the argument names and the values are the default
 expressions.
 </p>
 <hr>
-<span id="Directives"></span><div class="header">
+</div>
+</div>
+<div class="section" id="Directives">
+<div class="header">
 <p>
 Previous: <a href="#Expressions" accesskey="p" rel="prev">Expressions</a>, Up: <a href="#Parser" accesskey="u" rel="up">Parser</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -5386,9 +5494,12 @@ diagnostic messages refer to the original file.
 
 
 <hr>
-<span id="Function-and-Variable-Index"></span><div class="header">
+</div>
+</div>
+<div class="unnumbered" id="Function-and-Variable-Index">
+<div class="header">
 <p>
-Next: <a href="#Concept-Index" accesskey="n" rel="next">Concept Index</a>, Previous: <a href="#Parser" accesskey="p" rel="prev">Parser</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Concept-Index" accesskey="n" rel="next">Concept Index</a>, Previous: <a href="#Parser" accesskey="p" rel="prev">Parser</a>, Up: <a href="#Top" accesskey="u" rel="up">R Language Definition</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Function-and-Variable-Index-1"></span><h2 class="unnumbered">Function and Variable Index</h2>
 
@@ -5466,7 +5577,8 @@ Next: <a href="#Concept-Index" accesskey="n" rel="next">Concept Index</a>, Previ
 <tr><td></td><td valign="top"><a href="#index-as_002efunction"><code>as.function</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#Function-objects">Function objects</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-as_002elist"><code>as.list</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#Language-objects">Language objects</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-as_002ename"><code>as.name</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#Symbol-objects">Symbol objects</a></td></tr>
-<tr><td></td><td valign="top"><a href="#index-assign"><code>assign</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#Identifiers">Identifiers</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-assign"><code>assign</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#Environment-objects">Environment objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-assign-1"><code>assign</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#Identifiers">Identifiers</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-attr"><code>attr</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#Attributes">Attributes</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-attr_003c_002d"><code>attr&lt;-</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#Attributes">Attributes</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-attributes-1"><code>attributes</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#Attributes">Attributes</a></td></tr>
@@ -5511,7 +5623,9 @@ Next: <a href="#Concept-Index" accesskey="n" rel="next">Concept Index</a>, Previ
 <tr><td></td><td valign="top"><a href="#index-formals_003c_002d"><code>formals&lt;-</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#Manipulation-of-functions">Manipulation of functions</a></td></tr>
 <tr><td colspan="4"> <hr></td></tr>
 <tr><th id="Function-and-Variable-Index_vr_letter-G">G</th><td></td><td></td></tr>
-<tr><td></td><td valign="top"><a href="#index-get"><code>get</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#Identifiers">Identifiers</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-get"><code>get</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#Environment-objects">Environment objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-get-1"><code>get</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#Identifiers">Identifiers</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-get0"><code>get0</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#Environment-objects">Environment objects</a></td></tr>
 <tr><td colspan="4"> <hr></td></tr>
 <tr><th id="Function-and-Variable-Index_vr_letter-I">I</th><td></td><td></td></tr>
 <tr><td></td><td valign="top"><a href="#index-is_002ena"><code>is.na</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#NA-handling">NA handling</a></td></tr>
@@ -5540,7 +5654,7 @@ Next: <a href="#Concept-Index" accesskey="n" rel="next">Concept Index</a>, Previ
 <tr><td></td><td valign="top"><a href="#index-on_002eexit"><code>on.exit</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#on_002eexit">on.exit</a></td></tr>
 <tr><td colspan="4"> <hr></td></tr>
 <tr><th id="Function-and-Variable-Index_vr_letter-P">P</th><td></td><td></td></tr>
-<tr><td></td><td valign="top"><a href="#index-pairlist"><code>pairlist</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#Pairlist-objects">Pairlist objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-pairlist-1"><code>pairlist</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#Pairlist-objects">Pairlist objects</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-path_002eexpand"><code>path.expand</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#Operating-system-access">Operating system access</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-proc_002etime"><code>proc.time</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#Operating-system-access">Operating system access</a></td></tr>
 <tr><td colspan="4"> <hr></td></tr>
@@ -5628,9 +5742,11 @@ Next: <a href="#Concept-Index" accesskey="n" rel="next">Concept Index</a>, Previ
 </td></tr></table>
 
 <hr>
-<span id="Concept-Index"></span><div class="header">
+</div>
+<div class="unnumbered" id="Concept-Index">
+<div class="header">
 <p>
-Next: <a href="#References" accesskey="n" rel="next">References</a>, Previous: <a href="#Function-and-Variable-Index" accesskey="p" rel="prev">Function and Variable Index</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#References" accesskey="n" rel="next">References</a>, Previous: <a href="#Function-and-Variable-Index" accesskey="p" rel="prev">Function and Variable Index</a>, Up: <a href="#Top" accesskey="u" rel="up">R Language Definition</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Concept-Index-1"></span><h2 class="unnumbered">Concept Index</h2>
 
@@ -5852,6 +5968,7 @@ Next: <a href="#References" accesskey="n" rel="next">References</a>, Previous: <
 <tr><td></td><td valign="top"><a href="#index-object_002doriented-1">object-oriented</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Definition">Definition</a></td></tr>
 <tr><td colspan="4"> <hr></td></tr>
 <tr><th id="Concept-Index_cp_letter-P">P</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-pairlist">pairlist</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Pairlist-objects">Pairlist objects</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-parsing">parsing</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Language-objects">Language objects</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-parsing-1">parsing</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Symbol-objects">Symbol objects</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-parsing-2">parsing</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Evaluation-of-expressions">Evaluation of expressions</a></td></tr>
@@ -5930,9 +6047,11 @@ Next: <a href="#References" accesskey="n" rel="next">References</a>, Previous: <
 </td></tr></table>
 
 <hr>
-<span id="References"></span><div class="header">
+</div>
+<div class="appendix" id="References">
+<div class="header">
 <p>
-Previous: <a href="#Concept-Index" accesskey="p" rel="prev">Concept Index</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
+Previous: <a href="#Concept-Index" accesskey="p" rel="prev">Concept Index</a>, Up: <a href="#Top" accesskey="u" rel="up">R Language Definition</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-Variable-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="References-1"></span><h2 class="appendix">Appendix A References</h2>
 
@@ -5940,26 +6059,27 @@ Previous: <a href="#Concept-Index" accesskey="p" rel="prev">Concept Index</a>, U
 <em>The New S Language.</em> Chapman &amp; Hall, New York.
 This book is often called the &ldquo;<em>Blue Book</em>&rdquo;.
 </p>
+</div>
+</div>
 <div class="footnote">
 <hr>
 <h4 class="footnotes-heading">Footnotes</h4>
 
-<h3><a id="FOOT1" href="#DOCF1">(1)</a></h3>
+<h5><a id="FOOT1" href="#DOCF1">(1)</a></h5>
 <p>actually two, but this draft
 manual predates the <strong>methods</strong> package.</p>
-<h3><a id="FOOT2" href="#DOCF2">(2)</a></h3>
+<h5><a id="FOOT2" href="#DOCF2">(2)</a></h5>
 <p>Evaluation always takes place in an
 <span id="index-environment-4"></span>
 environment.
 See <a href="#Scope-of-variables">Scope of variables</a> for more details.</p>
-<h3><a id="FOOT3" href="#DOCF3">(3)</a></h3>
+<h5><a id="FOOT3" href="#DOCF3">(3)</a></h5>
 <p>Looping is the repeated evaluation of a statement or
 block of statements.</p>
-<h3><a id="FOOT4" href="#DOCF4">(4)</a></h3>
+<h5><a id="FOOT4" href="#DOCF4">(4)</a></h5>
 <p>such as <code>U+A0</code>, non-breaking space,
 and <code>U+3000</code>, ideographic space.</p>
 </div>
-<hr>
 
 
 

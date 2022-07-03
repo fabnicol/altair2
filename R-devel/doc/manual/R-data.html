@@ -1,8 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- This manual is for R, version 4.1.0 Under development (2020-06-23 ).
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- This manual is for R, version 4.2.1 (2022-06-23).
 
-Copyright (C) 2000-2018 R Core Team
+Copyright (C) 2000-2022 R Core Team
 
 Permission is granted to make and distribute verbatim copies of this
 manual provided the copyright notice and this permission notice are
@@ -17,9 +20,6 @@ Permission is granted to copy and distribute translations of this manual
 into another language, under the above conditions for modified versions,
 except that this permission notice may be stated in a translation
 approved by the R Core Team. -->
-<!-- Created by GNU Texinfo 6.6, http://www.gnu.org/software/texinfo/ -->
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>R Data Import/Export</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,16 +28,19 @@ approved by the R Core Team. -->
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="texi2any">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
 <link href="#Top" rel="start" title="Top">
 <link href="#Function-and-variable-index" rel="index" title="Function and variable index">
 <link href="#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="#Acknowledgements" rel="next" title="Acknowledgements">
 <style type="text/css">
 <!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
 a.summary-letter {text-decoration: none}
 blockquote.indentedblock {margin-right: 0em}
 div.display {margin-left: 3.2em}
 div.example {margin-left: 3.2em}
-div.lisp {margin-left: 3.2em}
 kbd {font-style: oblique}
 pre.display {font-family: inherit}
 pre.format {font-family: inherit}
@@ -46,6 +49,7 @@ pre.menu-preformatted {font-family: serif}
 span.nolinebreak {white-space: nowrap}
 span.roman {font-family: initial; font-weight: normal}
 span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
 ul.no-bullet {list-style: none}
 body {
     margin-left: 5%;
@@ -116,6 +120,10 @@ p {
     margin-bottom: 1.2ex;
 }
 
+#Top > .header, #Top > h1 {     /* for Texinfo 6.8 */
+    display: none
+}
+
 -->
 </style>
 
@@ -145,7 +153,39 @@ p {
 
 
 
-<span id="SEC_Contents"></span>
+
+<div class="top" id="Top">
+<div class="header">
+<p>
+Next: <a href="#Acknowledgements" accesskey="n" rel="next">Acknowledgements</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+</div>
+<span id="R-Data-Import_002fExport"></span><h1 class="top">R Data Import/Export</h1>
+
+<p>This is a guide to importing and exporting data to and from R.
+</p>
+<p>This manual is for R, version 4.2.1 (2022-06-23).
+</p>
+<p>Copyright &copy; 2000&ndash;2022 R Core Team
+</p>
+<blockquote>
+<p>Permission is granted to make and distribute verbatim copies of this
+manual provided the copyright notice and this permission notice are
+preserved on all copies.
+</p>
+<p>Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the
+entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.
+</p>
+<p>Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions,
+except that this permission notice may be stated in a translation
+approved by the R Core Team.
+</p></blockquote>
+
+
+
+<div class="Contents_element" id="SEC_Contents">
 <h2 class="contents-heading">Table of Contents</h2>
 
 <div class="contents">
@@ -216,74 +256,16 @@ p {
   </ul></li>
   <li><a id="toc-Reading-Excel-spreadsheets-1" href="#Reading-Excel-spreadsheets">9 Reading Excel spreadsheets</a></li>
   <li><a id="toc-References-1" href="#References">Appendix A References</a></li>
-  <li><a id="toc-Function-and-variable-index-1" href="#Function-and-variable-index">Function and variable index</a></li>
-  <li><a id="toc-Concept-index-1" href="#Concept-index">Concept index</a></li>
+  <li><a id="toc-Function-and-variable-index-1" href="#Function-and-variable-index" rel="index">Function and variable index</a></li>
+  <li><a id="toc-Concept-index-1" href="#Concept-index" rel="index">Concept index</a></li>
 </ul>
 </div>
-
-
-<span id="Top"></span><div class="header">
-<p>
-Next: <a href="#Acknowledgements" accesskey="n" rel="next">Acknowledgements</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
-<span id="R-Data-Import_002fExport"></span><h1 class="top">R Data Import/Export</h1>
-
-<p>This is a guide to importing and exporting data to and from R.
-</p>
-<p>This manual is for R, version 4.1.0 Under development (2020-06-23 ).
-</p>
-<p>Copyright &copy; 2000&ndash;2018 R Core Team
-</p>
-<blockquote>
-<p>Permission is granted to make and distribute verbatim copies of this
-manual provided the copyright notice and this permission notice are
-preserved on all copies.
-</p>
-<p>Permission is granted to copy and distribute modified versions of this
-manual under the conditions for verbatim copying, provided that the
-entire resulting derived work is distributed under the terms of a
-permission notice identical to this one.
-</p>
-<p>Permission is granted to copy and distribute translations of this manual
-into another language, under the above conditions for modified versions,
-except that this permission notice may be stated in a translation
-approved by the R Core Team.
-</p></blockquote>
-
-
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Acknowledgements" accesskey="1">Acknowledgements</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Introduction" accesskey="2">Introduction</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Spreadsheet_002dlike-data" accesskey="3">Spreadsheet-like data</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Importing-from-other-statistical-systems" accesskey="4">Importing from other statistical systems</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Relational-databases" accesskey="5">Relational databases</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Binary-files" accesskey="6">Binary files</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Image-files" accesskey="7">Image files</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Connections" accesskey="8">Connections</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Network-interfaces" accesskey="9">Network interfaces</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Reading-Excel-spreadsheets">Reading Excel spreadsheets</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#References">References</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Function-and-variable-index">Function and variable index</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Concept-index">Concept index</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
-
 <hr>
-<span id="Acknowledgements"></span><div class="header">
+<div class="unnumbered" id="Acknowledgements">
+<div class="header">
 <p>
-Next: <a href="#Introduction" accesskey="n" rel="next">Introduction</a>, Previous: <a href="#Top" accesskey="p" rel="prev">Top</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Introduction" accesskey="n" rel="next">Introduction</a>, Previous: <a href="#Top" accesskey="p" rel="prev">R Data Import/Export</a>, Up: <a href="#Top" accesskey="u" rel="up">R Data Import/Export</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Acknowledgements-1"></span><h2 class="unnumbered">Acknowledgements</h2>
 
@@ -296,79 +278,79 @@ principal authors of the packages mentioned are
 </p>
 <blockquote>
 <dl compact="compact">
-<dt><a href="https://CRAN.R-project.org/package=DBI"><strong>DBI</strong></a>:</dt>
+<dt><span><a href="https://CRAN.R-project.org/package=DBI"><strong>DBI</strong></a>:</span></dt>
 <dd><p>David A. James
 </p>
 </dd>
-<dt><a href="https://CRAN.R-project.org/package=dataframes2xls"><strong>dataframes2xls</strong></a>:</dt>
+<dt><span><a href="https://CRAN.R-project.org/package=dataframes2xls"><strong>dataframes2xls</strong></a>:</span></dt>
 <dd><p>Guido van Steen
 </p>
 </dd>
-<dt><a href="https://CRAN.R-project.org/package=foreign"><strong>foreign</strong></a>:</dt>
+<dt><span><a href="https://CRAN.R-project.org/package=foreign"><strong>foreign</strong></a>:</span></dt>
 <dd><p>Thomas Lumley, Saikat DebRoy, Douglas Bates, Duncan Murdoch and Roger Bivand
 </p>
 </dd>
-<dt><a href="https://CRAN.R-project.org/package=gdata"><strong>gdata</strong></a>:</dt>
+<dt><span><a href="https://CRAN.R-project.org/package=gdata"><strong>gdata</strong></a>:</span></dt>
 <dd><p>Gregory R. Warnes
 </p>
 </dd>
-<dt><a href="https://CRAN.R-project.org/package=ncdf4"><strong>ncdf4</strong></a>:</dt>
+<dt><span><a href="https://CRAN.R-project.org/package=ncdf4"><strong>ncdf4</strong></a>:</span></dt>
 <dd><p>David Pierce
 </p>
 </dd>
-<dt><a href="https://CRAN.R-project.org/package=rJava"><strong>rJava</strong></a>:</dt>
+<dt><span><a href="https://CRAN.R-project.org/package=rJava"><strong>rJava</strong></a>:</span></dt>
 <dd><p>Simon Urbanek
 </p>
 </dd>
-<dt><a href="https://CRAN.R-project.org/package=RJDBC"><strong>RJDBC</strong></a>:</dt>
+<dt><span><a href="https://CRAN.R-project.org/package=RJDBC"><strong>RJDBC</strong></a>:</span></dt>
 <dd><p>Simon Urbanek
 </p>
 </dd>
-<dt><a href="https://CRAN.R-project.org/package=RMySQL"><strong>RMySQL</strong></a>:</dt>
+<dt><span><a href="https://CRAN.R-project.org/package=RMySQL"><strong>RMySQL</strong></a>:</span></dt>
 <dd><p>David James and Saikat DebRoy
 </p>
 </dd>
-<dt><a href="https://CRAN.R-project.org/package=RNetCDF"><strong>RNetCDF</strong></a>:</dt>
+<dt><span><a href="https://CRAN.R-project.org/package=RNetCDF"><strong>RNetCDF</strong></a>:</span></dt>
 <dd><p>Pavel Michna
 </p>
 </dd>
-<dt><a href="https://CRAN.R-project.org/package=RODBC"><strong>RODBC</strong></a>:</dt>
+<dt><span><a href="https://CRAN.R-project.org/package=RODBC"><strong>RODBC</strong></a>:</span></dt>
 <dd><p>Michael Lapsley and Brian Ripley
 </p>
 </dd>
-<dt><a href="https://CRAN.R-project.org/package=ROracle"><strong>ROracle</strong></a>:</dt>
+<dt><span><a href="https://CRAN.R-project.org/package=ROracle"><strong>ROracle</strong></a>:</span></dt>
 <dd><p>David A. James
 </p>
 </dd>
-<dt><a href="https://CRAN.R-project.org/package=RPostgreSQL"><strong>RPostgreSQL</strong></a>:</dt>
+<dt><span><a href="https://CRAN.R-project.org/package=RPostgreSQL"><strong>RPostgreSQL</strong></a>:</span></dt>
 <dd><p>Sameer Kumar Prayaga and Tomoaki Nishiyama
 </p>
 </dd>
-<dt><strong>RSPerl</strong>:</dt>
+<dt><span><strong>RSPerl</strong>:</span></dt>
 <dd><p>Duncan Temple Lang
 </p>
 </dd>
-<dt><strong>RSPython</strong>:</dt>
+<dt><span><strong>RSPython</strong>:</span></dt>
 <dd><p>Duncan Temple Lang
 </p>
 </dd>
-<dt><a href="https://CRAN.R-project.org/package=RSQLite"><strong>RSQLite</strong></a>:</dt>
+<dt><span><a href="https://CRAN.R-project.org/package=RSQLite"><strong>RSQLite</strong></a>:</span></dt>
 <dd><p>David A. James
 </p>
 </dd>
-<dt><strong>SJava</strong>:</dt>
+<dt><span><strong>SJava</strong>:</span></dt>
 <dd><p>John Chambers and Duncan Temple Lang
 </p>
 </dd>
-<dt><a href="https://CRAN.R-project.org/package=WriteXLS"><strong>WriteXLS</strong></a>:</dt>
+<dt><span><a href="https://CRAN.R-project.org/package=WriteXLS"><strong>WriteXLS</strong></a>:</span></dt>
 <dd><p>Marc Schwartz
 </p>
 </dd>
-<dt><a href="https://CRAN.R-project.org/package=XLConnect"><strong>XLConnect</strong></a>:</dt>
+<dt><span><a href="https://CRAN.R-project.org/package=XLConnect"><strong>XLConnect</strong></a>:</span></dt>
 <dd><p>Mirai Solutions GmbH
 </p>
 </dd>
-<dt><a href="https://CRAN.R-project.org/package=XML"><strong>XML</strong></a>:</dt>
+<dt><span><a href="https://CRAN.R-project.org/package=XML"><strong>XML</strong></a>:</span></dt>
 <dd><p>Duncan Temple Lang
 </p></dd>
 </dl>
@@ -378,9 +360,11 @@ principal authors of the packages mentioned are
 </p>
 
 <hr>
-<span id="Introduction"></span><div class="header">
+</div>
+<div class="chapter" id="Introduction">
+<div class="header">
 <p>
-Next: <a href="#Spreadsheet_002dlike-data" accesskey="n" rel="next">Spreadsheet-like data</a>, Previous: <a href="#Acknowledgements" accesskey="p" rel="prev">Acknowledgements</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Spreadsheet_002dlike-data" accesskey="n" rel="next">Spreadsheet-like data</a>, Previous: <a href="#Acknowledgements" accesskey="p" rel="prev">Acknowledgements</a>, Up: <a href="#Top" accesskey="u" rel="up">R Data Import/Export</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Introduction-1"></span><h2 class="chapter">1 Introduction</h2>
 
@@ -428,17 +412,15 @@ are now much more widely available, including for Windows.
 packages has increased a hundredfold since.  For specialist data formats
 it is worth searching to see if a suitable package already exists.
 </p>
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Imports" accesskey="1">Imports</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Export-to-text-files" accesskey="2">Export to text files</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#XML" accesskey="3">XML</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Imports" accesskey="1">Imports</a></li>
+<li><a href="#Export-to-text-files" accesskey="2">Export to text files</a></li>
+<li><a href="#XML" accesskey="3">XML</a></li>
+</ul>
 <hr>
-<span id="Imports"></span><div class="header">
+<div class="section" id="Imports">
+<div class="header">
 <p>
 Next: <a href="#Export-to-text-files" accesskey="n" rel="next">Export to text files</a>, Previous: <a href="#Introduction" accesskey="p" rel="prev">Introduction</a>, Up: <a href="#Introduction" accesskey="u" rel="up">Introduction</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -476,13 +458,13 @@ extraction operation can be done directly from an R package:
 See <a href="#Relational-databases">Relational databases</a>.  Importing data via network connections is
 discussed in <a href="#Network-interfaces">Network interfaces</a>.
 </p>
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Encodings" accesskey="1">Encodings</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Encodings" accesskey="1">Encodings</a></li>
+</ul>
 <hr>
-<span id="Encodings"></span><div class="header">
+<div class="subsection" id="Encodings">
+<div class="header">
 <p>
 Previous: <a href="#Imports" accesskey="p" rel="prev">Imports</a>, Up: <a href="#Imports" accesskey="u" rel="up">Imports</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -530,7 +512,10 @@ and <code>macintosh</code> is the most portable name for what is sometimes
 called &lsquo;Mac Roman&rsquo; encoding. 
 </p>
 <hr>
-<span id="Export-to-text-files"></span><div class="header">
+</div>
+</div>
+<div class="section" id="Export-to-text-files">
+<div class="header">
 <p>
 Next: <a href="#XML" accesskey="n" rel="next">XML</a>, Previous: <a href="#Imports" accesskey="p" rel="prev">Imports</a>, Up: <a href="#Introduction" accesskey="u" rel="up">Introduction</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -683,7 +668,9 @@ that will read this text file into another statistical package. There is
 currently support for export to <code>SAS</code>, <code>SPSS</code> and <code>Stata</code>.
 </p>
 <hr>
-<span id="XML"></span><div class="header">
+</div>
+<div class="section" id="XML">
+<div class="header">
 <p>
 Previous: <a href="#Export-to-text-files" accesskey="p" rel="prev">Export to text files</a>, Up: <a href="#Introduction" accesskey="u" rel="up">Introduction</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -727,35 +714,33 @@ emphasis on human-readability: it is supported by package
 <a href="https://CRAN.R-project.org/package=yaml"><strong>yaml</strong></a>.
 </p>
 <hr>
-<span id="Spreadsheet_002dlike-data"></span><div class="header">
+</div>
+</div>
+<div class="chapter" id="Spreadsheet_002dlike-data">
+<div class="header">
 <p>
-Next: <a href="#Importing-from-other-statistical-systems" accesskey="n" rel="next">Importing from other statistical systems</a>, Previous: <a href="#Introduction" accesskey="p" rel="prev">Introduction</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Importing-from-other-statistical-systems" accesskey="n" rel="next">Importing from other statistical systems</a>, Previous: <a href="#Introduction" accesskey="p" rel="prev">Introduction</a>, Up: <a href="#Top" accesskey="u" rel="up">R Data Import/Export</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Spreadsheet_002dlike-data-1"></span><h2 class="chapter">2 Spreadsheet-like data</h2>
 <span id="index-Spreadsheet_002dlike-data"></span>
 
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Variations-on-read_002etable" accesskey="1">Variations on read.table</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Fixed_002dwidth_002dformat-files" accesskey="2">Fixed-width-format files</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Data-Interchange-Format-_0028DIF_0029" accesskey="3">Data Interchange Format (DIF)</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Using-scan-directly" accesskey="4">Using scan directly</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Re_002dshaping-data" accesskey="5">Re-shaping data</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Flat-contingency-tables" accesskey="6">Flat contingency tables</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
 <p>In <a href="#Export-to-text-files">Export to text files</a> we saw a number of variations on the
 format of a spreadsheet-like text file, in which the data are presented
 in a rectangular grid, possibly with row and column labels.  In this
 section we consider importing such files into R.
 </p>
+<ul class="section-toc">
+<li><a href="#Variations-on-read_002etable" accesskey="1">Variations on <code>read.table</code></a></li>
+<li><a href="#Fixed_002dwidth_002dformat-files" accesskey="2">Fixed-width-format files</a></li>
+<li><a href="#Data-Interchange-Format-_0028DIF_0029" accesskey="3">Data Interchange Format (DIF)</a></li>
+<li><a href="#Using-scan-directly" accesskey="4">Using <code>scan</code> directly</a></li>
+<li><a href="#Re_002dshaping-data" accesskey="5">Re-shaping data</a></li>
+<li><a href="#Flat-contingency-tables" accesskey="6">Flat contingency tables</a></li>
+</ul>
 <hr>
-<span id="Variations-on-read_002etable"></span><div class="header">
+<div class="section" id="Variations-on-read_002etable">
+<div class="header">
 <p>
 Next: <a href="#Fixed_002dwidth_002dformat-files" accesskey="n" rel="next">Fixed-width-format files</a>, Previous: <a href="#Spreadsheet_002dlike-data" accesskey="p" rel="prev">Spreadsheet-like data</a>, Up: <a href="#Spreadsheet_002dlike-data" accesskey="u" rel="up">Spreadsheet-like data</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -999,9 +984,11 @@ this at all).  See the examples in later sections.
 </p>
 
 <hr>
-<span id="Fixed_002dwidth_002dformat-files"></span><div class="header">
+</div>
+<div class="section" id="Fixed_002dwidth_002dformat-files">
+<div class="header">
 <p>
-Next: <a href="#Data-Interchange-Format-_0028DIF_0029" accesskey="n" rel="next">Data Interchange Format (DIF)</a>, Previous: <a href="#Variations-on-read_002etable" accesskey="p" rel="prev">Variations on read.table</a>, Up: <a href="#Spreadsheet_002dlike-data" accesskey="u" rel="up">Spreadsheet-like data</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Data-Interchange-Format-_0028DIF_0029" accesskey="n" rel="next">Data Interchange Format (DIF)</a>, Previous: <a href="#Variations-on-read_002etable" accesskey="p" rel="prev">Variations on <code>read.table</code></a>, Up: <a href="#Spreadsheet_002dlike-data" accesskey="u" rel="up">Spreadsheet-like data</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Fixed_002dwidth_002dformat-files-1"></span><h3 class="section">2.2 Fixed-width-format files</h3>
 <span id="index-Fixed_002dwidth_002dformat-files"></span>
@@ -1026,9 +1013,11 @@ pre-process the file.
 using Fortran-style column specifications.
 </p>
 <hr>
-<span id="Data-Interchange-Format-_0028DIF_0029"></span><div class="header">
+</div>
+<div class="section" id="Data-Interchange-Format-_0028DIF_0029">
+<div class="header">
 <p>
-Next: <a href="#Using-scan-directly" accesskey="n" rel="next">Using scan directly</a>, Previous: <a href="#Fixed_002dwidth_002dformat-files" accesskey="p" rel="prev">Fixed-width-format files</a>, Up: <a href="#Spreadsheet_002dlike-data" accesskey="u" rel="up">Spreadsheet-like data</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Using-scan-directly" accesskey="n" rel="next">Using <code>scan</code> directly</a>, Previous: <a href="#Fixed_002dwidth_002dformat-files" accesskey="p" rel="prev">Fixed-width-format files</a>, Up: <a href="#Spreadsheet_002dlike-data" accesskey="u" rel="up">Spreadsheet-like data</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Data-Interchange-Format-_0028DIF_0029-1"></span><h3 class="section">2.3 Data Interchange Format (DIF)</h3>
 <span id="index-Data-Interchange-Format-_0028DIF_0029"></span>
@@ -1047,7 +1036,9 @@ from there directly.  It is slightly more robust than
 cells.
 </p>
 <hr>
-<span id="Using-scan-directly"></span><div class="header">
+</div>
+<div class="section" id="Using-scan-directly">
+<div class="header">
 <p>
 Next: <a href="#Re_002dshaping-data" accesskey="n" rel="next">Re-shaping data</a>, Previous: <a href="#Data-Interchange-Format-_0028DIF_0029" accesskey="p" rel="prev">Data Interchange Format (DIF)</a>, Up: <a href="#Spreadsheet_002dlike-data" accesskey="u" rel="up">Spreadsheet-like data</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1133,9 +1124,11 @@ times) and on the precise state of the garbage collector.
 </p>
 
 <hr>
-<span id="Re_002dshaping-data"></span><div class="header">
+</div>
+<div class="section" id="Re_002dshaping-data">
+<div class="header">
 <p>
-Next: <a href="#Flat-contingency-tables" accesskey="n" rel="next">Flat contingency tables</a>, Previous: <a href="#Using-scan-directly" accesskey="p" rel="prev">Using scan directly</a>, Up: <a href="#Spreadsheet_002dlike-data" accesskey="u" rel="up">Spreadsheet-like data</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Flat-contingency-tables" accesskey="n" rel="next">Flat contingency tables</a>, Previous: <a href="#Using-scan-directly" accesskey="p" rel="prev">Using <code>scan</code> directly</a>, Up: <a href="#Spreadsheet_002dlike-data" accesskey="u" rel="up">Spreadsheet-like data</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Re_002dshaping-data-1"></span><h3 class="section">2.5 Re-shaping data</h3>
 <span id="index-Re_002dshaping-data"></span>
@@ -1217,7 +1210,9 @@ than the one column in this example. With <code>direction=&quot;wide&quot;</code
 <a href="https://CRAN.R-project.org/package=reshape2"><strong>reshape2</strong></a> and <a href="https://CRAN.R-project.org/package=plyr"><strong>plyr</strong></a>.
 </p>
 <hr>
-<span id="Flat-contingency-tables"></span><div class="header">
+</div>
+<div class="section" id="Flat-contingency-tables">
+<div class="header">
 <p>
 Previous: <a href="#Re_002dshaping-data" accesskey="p" rel="prev">Re-shaping data</a>, Up: <a href="#Spreadsheet_002dlike-data" accesskey="u" rel="up">Spreadsheet-like data</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1273,9 +1268,12 @@ in the data, and create the contingency table from this using
 </p>
 
 <hr>
-<span id="Importing-from-other-statistical-systems"></span><div class="header">
+</div>
+</div>
+<div class="chapter" id="Importing-from-other-statistical-systems">
+<div class="header">
 <p>
-Next: <a href="#Relational-databases" accesskey="n" rel="next">Relational databases</a>, Previous: <a href="#Spreadsheet_002dlike-data" accesskey="p" rel="prev">Spreadsheet-like data</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Relational-databases" accesskey="n" rel="next">Relational databases</a>, Previous: <a href="#Spreadsheet_002dlike-data" accesskey="p" rel="prev">Spreadsheet-like data</a>, Up: <a href="#Top" accesskey="u" rel="up">R Data Import/Export</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Importing-from-other-statistical-systems-1"></span><h2 class="chapter">3 Importing from other statistical systems</h2>
 <span id="index-Importing-from-other-statistical-systems"></span>
@@ -1289,15 +1287,14 @@ specific versions of the other system (often in the early 2000s), and
 have not necessarily been updated for the most recent versions of the
 other system.
 </p>
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#EpiInfo-Minitab-SAS-S_002dPLUS-SPSS-Stata-Systat" accesskey="1">EpiInfo Minitab SAS S-PLUS SPSS Stata Systat</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Octave" accesskey="2">Octave</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#EpiInfo-Minitab-SAS-S_002dPLUS-SPSS-Stata-Systat" accesskey="1">EpiInfo, Minitab, S-PLUS, SAS, SPSS, Stata, Systat</a></li>
+<li><a href="#Octave" accesskey="2">Octave</a></li>
+</ul>
 <hr>
-<span id="EpiInfo-Minitab-SAS-S_002dPLUS-SPSS-Stata-Systat"></span><div class="header">
+<div class="section" id="EpiInfo-Minitab-SAS-S_002dPLUS-SPSS-Stata-Systat">
+<div class="header">
 <p>
 Next: <a href="#Octave" accesskey="n" rel="next">Octave</a>, Previous: <a href="#Importing-from-other-statistical-systems" accesskey="p" rel="prev">Importing from other statistical systems</a>, Up: <a href="#Importing-from-other-statistical-systems" accesskey="u" rel="up">Importing from other statistical systems</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1390,44 +1387,47 @@ or (more recently) <samp>.syd</samp>.
 </p>
 
 <hr>
-<span id="Octave"></span><div class="header">
+</div>
+<div class="section" id="Octave">
+<div class="header">
 <p>
-Previous: <a href="#EpiInfo-Minitab-SAS-S_002dPLUS-SPSS-Stata-Systat" accesskey="p" rel="prev">EpiInfo Minitab SAS S-PLUS SPSS Stata Systat</a>, Up: <a href="#Importing-from-other-statistical-systems" accesskey="u" rel="up">Importing from other statistical systems</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Previous: <a href="#EpiInfo-Minitab-SAS-S_002dPLUS-SPSS-Stata-Systat" accesskey="p" rel="prev">EpiInfo, Minitab, S-PLUS, SAS, SPSS, Stata, Systat</a>, Up: <a href="#Importing-from-other-statistical-systems" accesskey="u" rel="up">Importing from other statistical systems</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Octave-1"></span><h3 class="section">3.2 Octave</h3>
 <span id="index-Octave"></span>
 <span id="index-read_002eoctave"></span>
 
 <p>Octave is a numerical linear algebra system
-(<a href="http://www.octave.org">http://www.octave.org</a>), and function <code>read.octave</code> in
+(<a href="https://www.gnu.org/software/octave/">https://www.gnu.org/software/octave/</a>), and function <code>read.octave</code> in
 package <a href="https://CRAN.R-project.org/package=foreign"><strong>foreign</strong></a> can read in files in Octave text data format
 created using the Octave command <code>save -ascii</code>, with support for
 most of the common types of variables, including the standard atomic
-(real and complex scalars, matrices, and <em>N</em>-d arrays, strings,
+(real and complex scalars, matrices, and <em class='math'>N</em>-d arrays, strings,
 ranges, and boolean scalars and matrices) and recursive (structs, cells,
 and lists) ones.
 </p>
 <hr>
-<span id="Relational-databases"></span><div class="header">
+</div>
+</div>
+<div class="chapter" id="Relational-databases">
+<div class="header">
 <p>
-Next: <a href="#Binary-files" accesskey="n" rel="next">Binary files</a>, Previous: <a href="#Importing-from-other-statistical-systems" accesskey="p" rel="prev">Importing from other statistical systems</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Binary-files" accesskey="n" rel="next">Binary files</a>, Previous: <a href="#Importing-from-other-statistical-systems" accesskey="p" rel="prev">Importing from other statistical systems</a>, Up: <a href="#Top" accesskey="u" rel="up">R Data Import/Export</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Relational-databases-1"></span><h2 class="chapter">4 Relational databases</h2>
 
 <span id="index-Relational-databases"></span>
 <span id="index-DBMS"></span>
 
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Why-use-a-database_003f" accesskey="1">Why use a database?</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Overview-of-RDBMSs" accesskey="2">Overview of RDBMSs</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#R-interface-packages" accesskey="3">R interface packages</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Why-use-a-database_003f" accesskey="1">Why use a database?</a></li>
+<li><a href="#Overview-of-RDBMSs" accesskey="2">Overview of RDBMSs</a></li>
+<li><a href="#R-interface-packages" accesskey="3">R interface packages</a></li>
+</ul>
 <hr>
-<span id="Why-use-a-database_003f"></span><div class="header">
+<div class="section" id="Why-use-a-database_003f">
+<div class="header">
 <p>
 Next: <a href="#Overview-of-RDBMSs" accesskey="n" rel="next">Overview of RDBMSs</a>, Previous: <a href="#Relational-databases" accesskey="p" rel="prev">Relational databases</a>, Up: <a href="#Relational-databases" accesskey="u" rel="up">Relational databases</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1479,15 +1479,19 @@ is used by KDE4 to store personal information.  Several macOS
 applications, including Mail and Address Book, use SQLite.
 </p>
 <hr>
-<span id="Overview-of-RDBMSs"></span><div class="header">
+</div>
+<div class="section" id="Overview-of-RDBMSs">
+<div class="header">
 <p>
 Next: <a href="#R-interface-packages" accesskey="n" rel="next">R interface packages</a>, Previous: <a href="#Why-use-a-database_003f" accesskey="p" rel="prev">Why use a database?</a>, Up: <a href="#Relational-databases" accesskey="u" rel="up">Relational databases</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Overview-of-RDBMSs-1"></span><h3 class="section">4.2 Overview of RDBMSs</h3>
 
 <p>Traditionally there had been large (and expensive) commercial RDBMSs
-(<a href="http://www.informix.com">Informix</a>; <a href="https://www.oracle.com">Oracle</a>; <a href="http://www.sybase.com">Sybase</a>;
-<a href="http://www.ibm.com/db2">IBM&rsquo;s DB2</a>;
+(<a href="https://www.ibm.com/software/data/informix/">Informix</a>;
+<a href="https://www.oracle.com">Oracle</a>; 
+Sybase;
+<a href="https://www.ibm.com/db2">IBM&rsquo;s DB2</a>;
 <a href="https://www.microsoft.com/sql-server/">Microsoft <acronym>SQL</acronym>
 Server</a> on Windows) and academic and small-system databases (such as
 MySQL<a id="DOCF4" href="#FOOT4"><sup>4</sup></a>, PostgreSQL, Microsoft
@@ -1502,7 +1506,7 @@ being made available for the commercial DBMSs.
 non-relational databases and even text files (possibly compressed).
 Open Database Connectivity (<acronym>ODBC</acronym>) is a standard to use all of
 these data sources.  It originated on Windows (see
-<a href="https://msdn.microsoft.com/en-us/library/ms710252%28v=vs.85%29.aspx">https://msdn.microsoft.com/en-us/library/ms710252%28v=vs.85%29.aspx</a>)
+<a href="https://docs.microsoft.com/en-us/sql/odbc/microsoft-open-database-connectivity-odbc">https://docs.microsoft.com/en-us/sql/odbc/microsoft-open-database-connectivity-odbc</a>)
 but is also implemented on Linux/Unix/macOS.
 </p>
 <p>All of the packages described later in this chapter provide clients to
@@ -1515,15 +1519,14 @@ sometimes pronounced &lsquo;sequel&rsquo;: see Bowman <em>et al.</em> 1996 and K
 and Kline 2001) which these DBMSs support to varying degrees.
 </p>
 
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#SQL-queries" accesskey="1">SQL queries</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Data-types" accesskey="2">Data types</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#SQL-queries" accesskey="1"><acronym>SQL</acronym> queries</a></li>
+<li><a href="#Data-types" accesskey="2">Data types</a></li>
+</ul>
 <hr>
-<span id="SQL-queries"></span><div class="header">
+<div class="subsection" id="SQL-queries">
+<div class="header">
 <p>
 Next: <a href="#Data-types" accesskey="n" rel="next">Data types</a>, Previous: <a href="#Overview-of-RDBMSs" accesskey="p" rel="prev">Overview of RDBMSs</a>, Up: <a href="#Overview-of-RDBMSs" accesskey="u" rel="up">Overview of RDBMSs</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1597,9 +1600,11 @@ DELETE or UPDATE data.  A table is destroyed by a DROP TABLE &lsquo;query&rsquo;
 in Microsoft SQL Server 2000, Oracle, MySQL and PostgreSQL.
 </p>
 <hr>
-<span id="Data-types"></span><div class="header">
+</div>
+<div class="subsection" id="Data-types">
+<div class="header">
 <p>
-Previous: <a href="#SQL-queries" accesskey="p" rel="prev">SQL queries</a>, Up: <a href="#Overview-of-RDBMSs" accesskey="u" rel="up">Overview of RDBMSs</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Previous: <a href="#SQL-queries" accesskey="p" rel="prev"><acronym>SQL</acronym> queries</a>, Up: <a href="#Overview-of-RDBMSs" accesskey="u" rel="up">Overview of RDBMSs</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Data-types-1"></span><h4 class="subsection">4.2.2 Data types</h4>
 
@@ -1609,33 +1614,33 @@ types, including the following that are widely implemented (often not by
 the <acronym>SQL</acronym> name).
 </p>
 <dl compact="compact">
-<dt><code>float(<var>p</var>)</code></dt>
+<dt><span><code>float(<var>p</var>)</code></span></dt>
 <dd><p>Real number, with optional precision.  Often called <code>real</code> or
 <code>double</code> or <code>double precision</code>.
 </p></dd>
-<dt><code>integer</code></dt>
+<dt><span><code>integer</code></span></dt>
 <dd><p>32-bit integer.  Often called <code>int</code>.
 </p></dd>
-<dt><code>smallint</code></dt>
+<dt><span><code>smallint</code></span></dt>
 <dd><p>16-bit integer
 </p></dd>
-<dt><code>character(<var>n</var>)</code></dt>
+<dt><span><code>character(<var>n</var>)</code></span></dt>
 <dd><p>fixed-length character string.  Often called <code>char</code>.
 </p></dd>
-<dt><code>character varying(<var>n</var>)</code></dt>
+<dt><span><code>character varying(<var>n</var>)</code></span></dt>
 <dd><p>variable-length character string.  Often called <code>varchar</code>.  Almost
 always has a limit of 255 chars.
 </p></dd>
-<dt><code>boolean</code></dt>
+<dt><span><code>boolean</code></span></dt>
 <dd><p>true or false.  Sometimes called <code>bool</code> or <code>bit</code>.
 </p></dd>
-<dt><code>date</code></dt>
+<dt><span><code>date</code></span></dt>
 <dd><p>calendar date
 </p></dd>
-<dt><code>time</code></dt>
+<dt><span><code>time</code></span></dt>
 <dd><p>time of day
 </p></dd>
-<dt><code>timestamp</code></dt>
+<dt><span><code>timestamp</code></span></dt>
 <dd><p>date and time
 </p></dd>
 </dl>
@@ -1648,7 +1653,10 @@ timezone</code>.  Other types widely implemented are <code>text</code> and
 conversion issues from the user.
 </p>
 <hr>
-<span id="R-interface-packages"></span><div class="header">
+</div>
+</div>
+<div class="section" id="R-interface-packages">
+<div class="header">
 <p>
 Previous: <a href="#Overview-of-RDBMSs" accesskey="p" rel="prev">Overview of RDBMSs</a>, Up: <a href="#Relational-databases" accesskey="u" rel="up">Relational databases</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1663,16 +1671,16 @@ data frame or in pieces (usually as groups of rows).
 </p>
 <p>All except <a href="https://CRAN.R-project.org/package=RODBC"><strong>RODBC</strong></a> are tied to one DBMS, but there has been a
 proposal for a unified &lsquo;front-end&rsquo; package <a href="https://CRAN.R-project.org/package=DBI"><strong>DBI</strong></a>
-(<a href="https://developer.r-project.org/db">https://developer.r-project.org/db</a>) in conjunction with a
+(<a href="https://developer.r-project.org/db/">https://developer.r-project.org/db/</a>) in conjunction with a
 &lsquo;back-end&rsquo;, the most developed of which is <a href="https://CRAN.R-project.org/package=RMySQL"><strong>RMySQL</strong></a>.  Also on
 <acronym>CRAN</acronym> are the back-ends <a href="https://CRAN.R-project.org/package=ROracle"><strong>ROracle</strong></a>,
 <a href="https://CRAN.R-project.org/package=RPostgreSQL"><strong>RPostgreSQL</strong></a> and <a href="https://CRAN.R-project.org/package=RSQLite"><strong>RSQLite</strong></a> (which works with the
-bundled DBMS <code>SQLite</code>, <a href="https://www.sqlite.org">https://www.sqlite.org</a>) and
+bundled DBMS <code>SQLite</code>, <a href="https://www.sqlite.org/index.html">https://www.sqlite.org/index.html</a>) and
 <a href="https://CRAN.R-project.org/package=RJDBC"><strong>RJDBC</strong></a> (which uses Java and can connect to any DBMS that has a
 JDBC driver).
 </p>
 
-<p><strong>PL/R</strong> (<a href="http://joeconway.com/plr"><code>http://joeconway.com/plr</code></a>) is a project to embed R into
+<p><strong>PL/R</strong> (<a href="https://joeconway.com/plr/"><code>https://joeconway.com/plr</code></a>) is a project to embed R into
 PostgreSQL.
 </p>
 <p>Package <a href="https://CRAN.R-project.org/package=RMongo"><strong>RMongo</strong></a> provides an R interface to a Java client for
@@ -1681,18 +1689,17 @@ which are queried using JavaScript rather than SQL.  Package
 <a href="https://CRAN.R-project.org/package=mongolite"><strong>mongolite</strong></a> is another client using <strong>mongodb</strong>&rsquo;s C driver.
 </p>
 
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#DBI" accesskey="1">DBI</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#RODBC" accesskey="2">RODBC</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
 
+<ul class="section-toc">
+<li><a href="#DBI" accesskey="1">Packages using DBI</a></li>
+<li><a href="#RODBC" accesskey="2">Package RODBC</a></li>
+</ul>
 <hr>
-<span id="DBI"></span><div class="header">
+<div class="subsection" id="DBI">
+<div class="header">
 <p>
-Next: <a href="#RODBC" accesskey="n" rel="next">RODBC</a>, Previous: <a href="#R-interface-packages" accesskey="p" rel="prev">R interface packages</a>, Up: <a href="#R-interface-packages" accesskey="u" rel="up">R interface packages</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#RODBC" accesskey="n" rel="next">Package RODBC</a>, Previous: <a href="#R-interface-packages" accesskey="p" rel="prev">R interface packages</a>, Up: <a href="#R-interface-packages" accesskey="u" rel="up">R interface packages</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Packages-using-DBI"></span><h4 class="subsection">4.3.1 Packages using DBI</h4>
 <span id="index-MySQL-database-system"></span>
@@ -1785,9 +1792,11 @@ Arkansas          8.8     190       50 19.5
 </pre></div>
 
 <hr>
-<span id="RODBC"></span><div class="header">
+</div>
+<div class="subsection" id="RODBC">
+<div class="header">
 <p>
-Previous: <a href="#DBI" accesskey="p" rel="prev">DBI</a>, Up: <a href="#R-interface-packages" accesskey="u" rel="up">R interface packages</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Previous: <a href="#DBI" accesskey="p" rel="prev">Packages using DBI</a>, Up: <a href="#R-interface-packages" accesskey="u" rel="up">R interface packages</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Package-RODBC"></span><h4 class="subsection">4.3.2 Package RODBC</h4>
 <span id="index-ODBC-1"></span>
@@ -1957,27 +1966,30 @@ differences.
 
 
 <hr>
-<span id="Binary-files"></span><div class="header">
+</div>
+</div>
+</div>
+<div class="chapter" id="Binary-files">
+<div class="header">
 <p>
-Next: <a href="#Image-files" accesskey="n" rel="next">Image files</a>, Previous: <a href="#Relational-databases" accesskey="p" rel="prev">Relational databases</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Image-files" accesskey="n" rel="next">Image files</a>, Previous: <a href="#Relational-databases" accesskey="p" rel="prev">Relational databases</a>, Up: <a href="#Top" accesskey="u" rel="up">R Data Import/Export</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Binary-files-1"></span><h2 class="chapter">5 Binary files</h2>
 <span id="index-Binary-files"></span>
 
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Binary-data-formats" accesskey="1">Binary data formats</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#dBase-files-_0028DBF_0029" accesskey="2">dBase files (DBF)</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
 <p>Binary connections (<a href="#Connections">Connections</a>) are now the preferred way to
 handle binary files.
 </p>
 
 
+<ul class="section-toc">
+<li><a href="#Binary-data-formats" accesskey="1">Binary data formats</a></li>
+<li><a href="#dBase-files-_0028DBF_0029" accesskey="2">dBase files (DBF)</a></li>
+</ul>
 <hr>
-<span id="Binary-data-formats"></span><div class="header">
+<div class="section" id="Binary-data-formats">
+<div class="header">
 <p>
 Next: <a href="#dBase-files-_0028DBF_0029" accesskey="n" rel="next">dBase files (DBF)</a>, Previous: <a href="#Binary-files" accesskey="p" rel="prev">Binary files</a>, Up: <a href="#Binary-files" accesskey="u" rel="up">Binary files</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -1993,7 +2005,7 @@ Next: <a href="#dBase-files-_0028DBF_0029" accesskey="n" rel="next">dBase files 
 HDF5 (Hierarchical Data Format, see
 <a href="https://www.hdfgroup.org/HDF5/">https://www.hdfgroup.org/HDF5/</a>) and to UCAR&rsquo;s netCDF data files
 (network Common Data Form, see
-<a href="http://www.unidata.ucar.edu/software/netcdf/">http://www.unidata.ucar.edu/software/netcdf/</a>).
+<a href="https://www.unidata.ucar.edu/software/netcdf/">https://www.unidata.ucar.edu/software/netcdf/</a>).
 </p>
 <p>Both of these are systems to store scientific data in array-oriented
 ways, including descriptions, labels, formats, units, &hellip;.  HDF5 also
@@ -2010,7 +2022,9 @@ version 3 files.
 limited by platform, especially on Windows.
 </p>
 <hr>
-<span id="dBase-files-_0028DBF_0029"></span><div class="header">
+</div>
+<div class="section" id="dBase-files-_0028DBF_0029">
+<div class="header">
 <p>
 Previous: <a href="#Binary-data-formats" accesskey="p" rel="prev">Binary data formats</a>, Up: <a href="#Binary-files" accesskey="u" rel="up">Binary files</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2023,15 +2037,15 @@ Borland which has a binary flat-file format that became popular, with
 file extension <samp>.dbf</samp>.  It has been adopted for the &rsquo;Xbase&rsquo; family
 of databases, covering dBase, Clipper, FoxPro and their Windows
 equivalents Visual dBase, Visual Objects and Visual FoxPro (see
-<a href="https://www.clicketyclick.dk/databases/xbase/format">https://www.clicketyclick.dk/databases/xbase/format</a>).
+<a href="https://www.clicketyclick.dk/databases/xbase/format/">https://www.clicketyclick.dk/databases/xbase/format/</a>).
 A dBase file contains
 a header and then a series of fields and so is most similar to an R
 data frame.  The data itself is stored in text format, and can include
 character, logical and numeric fields, and other types in later versions
 (see for example
-<a href="http://www.digitalpreservation.gov/formats/fdd/fdd000325.shtml">http://www.digitalpreservation.gov/formats/fdd/fdd000325.shtml</a>
+<a href="https://www.loc.gov/preservation/digital/formats/fdd/fdd000325.shtml">https://www.loc.gov/preservation/digital/formats/fdd/fdd000325.shtml</a>
 and
-<a href="http://www.clicketyclick.dk/databases/xbase/format/index.html">http://www.clicketyclick.dk/databases/xbase/format/index.html</a>).
+<a href="https://www.clicketyclick.dk/databases/xbase/format/index.html">https://www.clicketyclick.dk/databases/xbase/format/index.html</a>).
 </p>
 <span id="index-read_002edbf"></span>
 <span id="index-write_002edbf"></span>
@@ -2044,9 +2058,12 @@ ODBC driver (and the Visual FoxPro driver can also be used via
 <span id="index-odbcConnectDbase"></span>
 </p>
 <hr>
-<span id="Image-files"></span><div class="header">
+</div>
+</div>
+<div class="chapter" id="Image-files">
+<div class="header">
 <p>
-Next: <a href="#Connections" accesskey="n" rel="next">Connections</a>, Previous: <a href="#Binary-files" accesskey="p" rel="prev">Binary files</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Connections" accesskey="n" rel="next">Connections</a>, Previous: <a href="#Binary-files" accesskey="p" rel="prev">Binary files</a>, Up: <a href="#Top" accesskey="u" rel="up">R Data Import/Export</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Image-files-1"></span><h2 class="chapter">6 Image files</h2>
 
@@ -2089,9 +2106,11 @@ nor Windows binary versions of <a href="https://CRAN.R-project.org/package=rgdal
 </p>
 
 <hr>
-<span id="Connections"></span><div class="header">
+</div>
+<div class="chapter" id="Connections">
+<div class="header">
 <p>
-Next: <a href="#Network-interfaces" accesskey="n" rel="next">Network interfaces</a>, Previous: <a href="#Image-files" accesskey="p" rel="prev">Image files</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Network-interfaces" accesskey="n" rel="next">Network interfaces</a>, Previous: <a href="#Image-files" accesskey="p" rel="prev">Image files</a>, Up: <a href="#Top" accesskey="u" rel="up">R Data Import/Export</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Connections-1"></span><h2 class="chapter">7 Connections</h2>
 
@@ -2101,22 +2120,18 @@ Ripley (2001), a set of functions to replace the use of file names by a
 flexible interface to file-like objects.
 </p>
 
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Types-of-connections" accesskey="1">Types of connections</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Output-to-connections" accesskey="2">Output to connections</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Input-from-connections" accesskey="3">Input from connections</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Listing-and-manipulating-connections" accesskey="4">Listing and manipulating connections</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Binary-connections" accesskey="5">Binary connections</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
 
+<ul class="section-toc">
+<li><a href="#Types-of-connections" accesskey="1">Types of connections</a></li>
+<li><a href="#Output-to-connections" accesskey="2">Output to connections</a></li>
+<li><a href="#Input-from-connections" accesskey="3">Input from connections</a></li>
+<li><a href="#Listing-and-manipulating-connections" accesskey="4">Listing and manipulating connections</a></li>
+<li><a href="#Binary-connections" accesskey="5">Binary connections</a></li>
+</ul>
 <hr>
-<span id="Types-of-connections"></span><div class="header">
+<div class="section" id="Types-of-connections">
+<div class="header">
 <p>
 Next: <a href="#Output-to-connections" accesskey="n" rel="next">Output to connections</a>, Previous: <a href="#Connections" accesskey="p" rel="prev">Connections</a>, Up: <a href="#Connections" accesskey="u" rel="up">Connections</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2210,7 +2225,9 @@ read from, and both client and server sockets can be used.
 </p>
 
 <hr>
-<span id="Output-to-connections"></span><div class="header">
+</div>
+<div class="section" id="Output-to-connections">
+<div class="header">
 <p>
 Next: <a href="#Input-from-connections" accesskey="n" rel="next">Input from connections</a>, Previous: <a href="#Types-of-connections" accesskey="p" rel="prev">Types of connections</a>, Up: <a href="#Connections" accesskey="u" rel="up">Connections</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2269,7 +2286,9 @@ cat(ex.lm.out, sep = &quot;\n&quot;)
 </pre></div>
 
 <hr>
-<span id="Input-from-connections"></span><div class="header">
+</div>
+<div class="section" id="Input-from-connections">
+<div class="header">
 <p>
 Next: <a href="#Listing-and-manipulating-connections" accesskey="n" rel="next">Listing and manipulating connections</a>, Previous: <a href="#Output-to-connections" accesskey="p" rel="prev">Output to connections</a>, Up: <a href="#Connections" accesskey="u" rel="up">Connections</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2311,13 +2330,13 @@ scan(pipe(&quot;sed -e s/,$// data&quot;), sep=&quot;,&quot;)
 HTTPS <acronym>URL</acronym>, the <acronym>URL</acronym> is opened for reading via
 <code>url</code>.  Specifying files via &lsquo;<samp>file://foo.bar</samp>&rsquo; is also allowed.
 </p>
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Pushback" accesskey="1">Pushback</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Pushback" accesskey="1">Pushback</a></li>
+</ul>
 <hr>
-<span id="Pushback"></span><div class="header">
+<div class="subsection" id="Pushback">
+<div class="header">
 <p>
 Previous: <a href="#Input-from-connections" accesskey="p" rel="prev">Input from connections</a>, Up: <a href="#Input-from-connections" accesskey="u" rel="up">Input from connections</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2358,7 +2377,10 @@ Read 4 items
 <p>Pushback is only available for connections opened for input in text mode.
 </p>
 <hr>
-<span id="Listing-and-manipulating-connections"></span><div class="header">
+</div>
+</div>
+<div class="section" id="Listing-and-manipulating-connections">
+<div class="header">
 <p>
 Next: <a href="#Binary-connections" accesskey="n" rel="next">Binary connections</a>, Previous: <a href="#Input-from-connections" accesskey="p" rel="prev">Input from connections</a>, Up: <a href="#Connections" accesskey="u" rel="up">Connections</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2387,7 +2409,9 @@ connections, and is not implemented on all platforms.
 </p>
 
 <hr>
-<span id="Binary-connections"></span><div class="header">
+</div>
+<div class="section" id="Binary-connections">
+<div class="header">
 <p>
 Previous: <a href="#Listing-and-manipulating-connections" accesskey="p" rel="prev">Listing and manipulating connections</a>, Up: <a href="#Connections" accesskey="u" rel="up">Connections</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2453,13 +2477,13 @@ of bytes terminated by a zero byte.  Functions <code>readChar</code> and
 <code>writeChar</code> provide greater flexibility.
 </p>
 
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Special-values" accesskey="1">Special values</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
+<ul class="section-toc">
+<li><a href="#Special-values" accesskey="1">Special values</a></li>
+</ul>
 <hr>
-<span id="Special-values"></span><div class="header">
+<div class="subsection" id="Special-values">
+<div class="header">
 <p>
 Previous: <a href="#Binary-connections" accesskey="p" rel="prev">Binary connections</a>, Up: <a href="#Binary-connections" accesskey="u" rel="up">Binary connections</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2494,26 +2518,29 @@ by re-assigning them once read).
 </p>
 
 <hr>
-<span id="Network-interfaces"></span><div class="header">
+</div>
+</div>
+</div>
+<div class="chapter" id="Network-interfaces">
+<div class="header">
 <p>
-Next: <a href="#Reading-Excel-spreadsheets" accesskey="n" rel="next">Reading Excel spreadsheets</a>, Previous: <a href="#Connections" accesskey="p" rel="prev">Connections</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Reading-Excel-spreadsheets" accesskey="n" rel="next">Reading Excel spreadsheets</a>, Previous: <a href="#Connections" accesskey="p" rel="prev">Connections</a>, Up: <a href="#Top" accesskey="u" rel="up">R Data Import/Export</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Network-interfaces-1"></span><h2 class="chapter">8 Network interfaces</h2>
 
-<table summary="" class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#Reading-from-sockets" accesskey="1">Reading from sockets</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#Using-download_002efile" accesskey="2">Using download.file</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
 
 <p>Some limited facilities are available to exchange data at a lower level
 across network connections.
 </p>
+<ul class="section-toc">
+<li><a href="#Reading-from-sockets" accesskey="1">Reading from sockets</a></li>
+<li><a href="#Using-download_002efile" accesskey="2">Using <code>download.file</code></a></li>
+</ul>
 <hr>
-<span id="Reading-from-sockets"></span><div class="header">
+<div class="section" id="Reading-from-sockets">
+<div class="header">
 <p>
-Next: <a href="#Using-download_002efile" accesskey="n" rel="next">Using download.file</a>, Previous: <a href="#Network-interfaces" accesskey="p" rel="prev">Network interfaces</a>, Up: <a href="#Network-interfaces" accesskey="u" rel="up">Network interfaces</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Using-download_002efile" accesskey="n" rel="next">Using <code>download.file</code></a>, Previous: <a href="#Network-interfaces" accesskey="p" rel="prev">Network interfaces</a>, Up: <a href="#Network-interfaces" accesskey="u" rel="up">Network interfaces</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Reading-from-sockets-1"></span><h3 class="section">8.1 Reading from sockets</h3>
 
@@ -2535,7 +2562,9 @@ is suggested that socket connections are used instead.
 </p>
 
 <hr>
-<span id="Using-download_002efile"></span><div class="header">
+</div>
+<div class="section" id="Using-download_002efile">
+<div class="header">
 <p>
 Previous: <a href="#Reading-from-sockets" accesskey="p" rel="prev">Reading from sockets</a>, Up: <a href="#Network-interfaces" accesskey="u" rel="up">Network interfaces</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
@@ -2550,9 +2579,12 @@ as the <code>file</code> argument.
 </p>
 
 <hr>
-<span id="Reading-Excel-spreadsheets"></span><div class="header">
+</div>
+</div>
+<div class="chapter" id="Reading-Excel-spreadsheets">
+<div class="header">
 <p>
-Next: <a href="#References" accesskey="n" rel="next">References</a>, Previous: <a href="#Network-interfaces" accesskey="p" rel="prev">Network interfaces</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#References" accesskey="n" rel="next">References</a>, Previous: <a href="#Network-interfaces" accesskey="p" rel="prev">Network interfaces</a>, Up: <a href="#Top" accesskey="u" rel="up">R Data Import/Export</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Reading-Excel-spreadsheets-1"></span><h2 class="chapter">9 Reading Excel spreadsheets</h2>
 
@@ -2579,7 +2611,7 @@ possibility.
 </p>
 <p>If you do not have Excel, many other programs are able to read such
 spreadsheets and export in a text format on both Windows and Unix, for
-example Gnumeric (<a href="http://www.gnome.org/projects/gnumeric/">http://www.gnome.org/projects/gnumeric/</a>) and
+example Gnumeric (<a href="http://www.gnumeric.org">http://www.gnumeric.org</a>) and
 OpenOffice (<a href="https://www.openoffice.org">https://www.openoffice.org</a>).  You can also
 cut-and-paste between the display of a spreadsheet in such a program and
 R: <code>read.table</code> will read from the R console or, under Windows,
@@ -2601,7 +2633,7 @@ depending on your ODBC drivers: by calling <code>odbcConnect</code> directly
 versions back to Excel 3.0 can be read).  The version
 <code>odbcConnectExcel2007</code> will read the Excel 2007 formats as well as
 earlier ones (provided the drivers are installed, including with 64-bit
-Windows R: see <a href="#RODBC">RODBC</a>).  macOS users can also use <a href="https://CRAN.R-project.org/package=RODBC"><strong>RODBC</strong></a> if
+Windows R: see <a href="#RODBC">Package RODBC</a>).  macOS users can also use <a href="https://CRAN.R-project.org/package=RODBC"><strong>RODBC</strong></a> if
 they have a suitable driver (e.g. that from Actual Technologies).
 </p>
 <span id="index-read_002exls"></span>
@@ -2631,9 +2663,11 @@ spreadsheets: it requires Java.
 spreadsheets, using an included C library.
 </p>
 <hr>
-<span id="References"></span><div class="header">
+</div>
+<div class="appendix" id="References">
+<div class="header">
 <p>
-Next: <a href="#Function-and-variable-index" accesskey="n" rel="next">Function and variable index</a>, Previous: <a href="#Reading-Excel-spreadsheets" accesskey="p" rel="prev">Reading Excel spreadsheets</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Function-and-variable-index" accesskey="n" rel="next">Function and variable index</a>, Previous: <a href="#Reading-Excel-spreadsheets" accesskey="p" rel="prev">Reading Excel spreadsheets</a>, Up: <a href="#Top" accesskey="u" rel="up">R Data Import/Export</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="References-1"></span><h2 class="appendix">Appendix A References</h2>
 
@@ -2657,7 +2691,7 @@ with C++.</em> Addison-Wesley.
 </p>
 <p>B. Momjian (2000) <em>PostgreSQL: Introduction and Concepts.</em>
 Addison-Wesley.
-Also available at <a href="http://momjian.us/main/writings/pgsql/aw_pgsql_book/">http://momjian.us/main/writings/pgsql/aw_pgsql_book/</a>.
+Also available at <a href="https://momjian.us/main/writings/pgsql/aw_pgsql_book/">https://momjian.us/main/writings/pgsql/aw_pgsql_book/</a>.
 </p>
 <p>B. D. Ripley (2001) Connections. <em>R News</em>, <strong>1/1</strong>, 16&ndash;7.
   <a href="https://www.r-project.org/doc/Rnews/Rnews_2001-1.pdf">https://www.r-project.org/doc/Rnews/Rnews_2001-1.pdf</a>
@@ -2670,9 +2704,11 @@ Data.  Extending the Cox Model.</em> Springer-Verlag.
 O&rsquo;Reilly.
 </p>
 <hr>
-<span id="Function-and-variable-index"></span><div class="header">
+</div>
+<div class="unnumbered" id="Function-and-variable-index">
+<div class="header">
 <p>
-Next: <a href="#Concept-index" accesskey="n" rel="next">Concept index</a>, Previous: <a href="#References" accesskey="p" rel="prev">References</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="#Concept-index" accesskey="n" rel="next">Concept index</a>, Previous: <a href="#References" accesskey="p" rel="prev">References</a>, Up: <a href="#Top" accesskey="u" rel="up">R Data Import/Export</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Function-and-variable-index-1"></span><h2 class="unnumbered">Function and variable index</h2>
 
@@ -2912,9 +2948,11 @@ Next: <a href="#Concept-index" accesskey="n" rel="next">Concept index</a>, Previ
 </td></tr></table>
 
 <hr>
-<span id="Concept-index"></span><div class="header">
+</div>
+<div class="unnumbered" id="Concept-index">
+<div class="header">
 <p>
-Previous: <a href="#Function-and-variable-index" accesskey="p" rel="prev">Function and variable index</a>, Up: <a href="#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
+Previous: <a href="#Function-and-variable-index" accesskey="p" rel="prev">Function and variable index</a>, Up: <a href="#Top" accesskey="u" rel="up">R Data Import/Export</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Function-and-variable-index" title="Index" rel="index">Index</a>]</p>
 </div>
 <span id="Concept-index-1"></span><h2 class="unnumbered">Concept index</h2>
 
@@ -3112,27 +3150,28 @@ Previous: <a href="#Function-and-variable-index" accesskey="p" rel="prev">Functi
 </td></tr></table>
 
 
+</div>
+</div>
 <div class="footnote">
 <hr>
 <h4 class="footnotes-heading">Footnotes</h4>
 
-<h3><a id="FOOT1" href="#DOCF1">(1)</a></h3>
+<h5><a id="FOOT1" href="#DOCF1">(1)</a></h5>
 <p>the
 distinction is subtle,
 <a href="https://en.wikipedia.org/wiki/UTF-16/UCS-2">https://en.wikipedia.org/wiki/UTF-16/UCS-2</a>, and the use of
 surrogate pairs is very rare.</p>
-<h3><a id="FOOT2" href="#DOCF2">(2)</a></h3>
+<h5><a id="FOOT2" href="#DOCF2">(2)</a></h5>
 <p>Even then,
 Windows applications may expect a Byte Order Mark which the
 implementation of <code>iconv</code> used by R may or may not add depending
 on the platform.</p>
-<h3><a id="FOOT3" href="#DOCF3">(3)</a></h3>
+<h5><a id="FOOT3" href="#DOCF3">(3)</a></h5>
 <p>This is normally
 fast as looking at the first entry rules out most of the possibilities.</p>
-<h3><a id="FOOT4" href="#DOCF4">(4)</a></h3>
+<h5><a id="FOOT4" href="#DOCF4">(4)</a></h5>
 <p>and forks, notably MariaDB.</p>
 </div>
-<hr>
 
 
 

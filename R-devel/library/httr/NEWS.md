@@ -1,3 +1,14 @@
+# httr 1.4.3
+
+* Fix failing test.
+
+# httr 1.4.2
+
+* Fix failing test.
+
+* `parse_url()` now refers to RFC3986 for the parsing of the URL's 
+  scheme, with a bit more permissive syntax (@ymarcon, #615).
+
 # httr 1.4.1
 
 * Remove the default `cainfo` option on Windows. Providing a CA bundle is not 
@@ -13,6 +24,8 @@
 
 * `RETRY()` now throws the correct error message if an error occurs during the 
   request (@austin3dickey, #581).
+
+* `VERB()` and `RETRY()` now automatically uppercase methods (@patr1ckm, #571).
 
 # httr 1.4.0
 
@@ -362,7 +375,7 @@ Updates to demos:
   a stream of raw vectors (#143).
 
 * Suport for Google OAuth2 
-  [service accounts](https://developers.google.com/accounts/docs/OAuth2ServiceAccount).
+  [service accounts](https://developers.google.com/identity/protocols/oauth2/service-account).
   (#119, thanks to help from @siddharthab).
 
 * `VERB()` allows to you use custom http verbs (#169).

@@ -19,6 +19,8 @@ This vignette shows you how to create your own S3 vector classes. It focuses on 
 
 I assume that you're already familiar with the basic machinery of S3, and the vocabulary I use in Advanced R: constructor, helper, and validator. If not, I recommend reading at least the first two sections of [the S3 chapter](https://adv-r.hadley.nz/s3.html) of _Advanced R_.
 
+This article refers to "vectors of numbers" as *double vectors*. Here, "double" stands for ["double precision floating point number"](https://en.wikipedia.org/wiki/Double-precision_floating-point_format), see also `double()`.
+
 ```{r setup}
 library(vctrs)
 library(zeallot)
@@ -203,6 +205,9 @@ Next we define methods that say that combining a `percent` and double should yie
 
 Because double dispatch is a bit of a hack, we need to provide two methods. It's your responsibility to ensure that each member of the pair returns the same result: if they don't you will get weird and unpredictable behaviour.
 
+The double dispatch mechanism requires us to refer to the underlying type, `double`, in the method name.
+If we implemented `vec_ptype2.vctrs_percent.numeric()`, it would never be called.
+
 ```{r}
 vec_ptype2.vctrs_percent.double <- function(x, y, ...) double()
 vec_ptype2.double.vctrs_percent <- function(x, y, ...) double()
@@ -223,6 +228,9 @@ vec_cast.vctrs_percent.vctrs_percent <- function(x, to, ...) x
 And then for converting back and forth between doubles. To convert a double to a percent we use the `percent()` helper (not the constructor; this is unvalidated user input). To convert a `percent` to a double, we strip the attributes.
 
 Note that for historical reasons the order of argument in the signature is the opposite as for `vec_ptype2()`. The class for `to` comes first, and the class for `x` comes second.
+
+Again, the double dispatch mechanism requires us to refer to the underlying type, `double`, in the method name.
+Implementing `vec_cast.vctrs_percent.numeric()` has no effect.
 
 ```{r}
 vec_cast.vctrs_percent.double <- function(x, to, ...) percent(x)
@@ -270,6 +278,24 @@ as_percent <- function(x) {
   vec_cast(x, new_percent())
 }
 ```
+
+Occasionally, it is useful to provide conversions that go beyond what's allowed in casting. For example, we could offer a parsing method for character vectors. In this case, `as_percent()` should be generic, the default method should cast, and then additional methods should implement more flexible conversion:
+
+```{r}
+as_percent <- function(x, ...) {
+  UseMethod("as_percent")
+}
+
+as_percent.default <- function(x, ...) {
+  vec_cast(x, new_percent())
+}
+
+as_percent.character <- function(x) {
+  value <- as.numeric(gsub(" *% *$", "", x)) / 100
+  new_percent(value)
+}
+```
+
 
 
 ### Decimal class
@@ -462,7 +488,7 @@ new_rational <- function(n = integer(), d = integer()) {
 Our user friendly constructor casts `n` and `d` to integers and recycles them to the same length.
 
 ```{r}
-rational <- function(n, d) {
+rational <- function(n = integer(), d = integer()) {
   c(n, d) %<-% vec_cast_common(n, d, .to = integer())
   c(n, d) %<-% vec_recycle_common(n, d)
 
@@ -486,7 +512,23 @@ fields(x)
 field(x, "n")
 ```
 
-This allows us to create a format method:
+Notice that we can't `print()` or `str()` the new rational vector `x` yet. Printing causes an error:
+
+```{r, error = TRUE}
+x
+
+str(x)
+```
+
+This is because we haven't defined how our class can be printed from the underlying data. Note that if you want to look under the hood during development, you can always call `vec_data(x)`.
+
+```{r}
+vec_data(x)
+
+str(vec_data(x))
+```
+
+It is generally best to define a formatting method early in the development of a class. The format method defines how to display the class so that it can be printed in the normal way:
 
 ```{r}
 format.vctrs_rational <- function(x, ...) {
@@ -562,15 +604,25 @@ decimal2(10, c(0, 5, 99))
 
 ## Equality and comparison
 
-vctrs provides three "proxy" generics. Two of these let you control how your class determines equality and ordering:
+vctrs provides four "proxy" generics. Two of these let you control how your class determines equality and comparison:
 
 * `vec_proxy_equal()` returns a data vector suitable for comparison. It underpins `==`, `!=`, `unique()`, `anyDuplicated()`, and `is.na()`.
 
-* `vec_proxy_compare()` specifies how to compare the elements of your vector.  This proxy is used in `<`, `<=`, `>=`, `>`, `min()`, `max()`, `median()`, `quantile()`, and `xtfrm()` (used in `order()` and `sort()`) methods.
+* `vec_proxy_compare()` specifies how to compare the elements of your vector.  This proxy is used in `<`, `<=`, `>=`, `>`, `min()`, `max()`, `median()`, and `quantile()`.
 
-By default, `vec_proxy_equal()` and `vec_proxy_compare()` just call `vec_proxy()`.
+Two other proxy generic are used for sorting for unordered data types and for accessing the raw data for exotic storage formats:
+
+* `vec_proxy_order()` specifies how to sort the elements of your vector. It is used in `xtfrm()`, which in turn is called by the `order()` and `sort()` functions.
+
+    This proxy was added to implement the behaviour of lists, which are sortable (their order proxy sorts by first occurrence) but not comparable (comparison operators cause an error). Its default implementation for other classes calls `vec_proxy_compare()` and you normally don't need to implement this proxy.
 
 * `vec_proxy()` returns the actual data of a vector. This is useful when you store the data in a field of your class. Most of the time, you shouldn't need to implement `vec_proxy()`.
+
+The default behavior is as follows:
+
+- `vec_proxy_equal()` calls `vec_proxy()`
+- `vec_proxy_compare()` calls `vec_proxy_equal()`
+- `vec_proxy_order()` calls `vec_proxy_compare()`
 
 You should only implement these proxies when some preprocessing on the data is needed to make elements comparable. In that case, defining these methods will get you a lot of behaviour for relatively little work.
 
@@ -617,19 +669,26 @@ x == rational(1, 1)
 unique(x)
 ```
 
-We now need to fix `sort()` similarly, since it currently sorts by `n`, then by `d`:
+We now need to fix the comparison operations similarly, since comparison currently happens lexicographically by `n`, then by `d`:
 
 ```{r}
-sort(x)
+rational(1, 2) < rational(2, 3)
+rational(2, 4) < rational(2, 3)
 ```
 
-The easiest fix is to convert the fraction to a decimal and then sort that:
+The easiest fix is to convert the fraction to a floating point number and use this as a proxy:
 
 ```{r}
 vec_proxy_compare.vctrs_rational <- function(x, ...) {
   field(x, "n") / field(x, "d")
 }
 
+rational(2, 4) < rational(2, 3)
+```
+
+This also fixes `sort()`, because the default implementation of `vec_proxy_order()` calls `vec_proxy_compare()`.
+
+```{r}
 sort(x)
 ```
 
@@ -676,7 +735,7 @@ obj_print_data.vctrs_poly <- function(x, ...) {
   print(format(x), quote = FALSE)
 }
 
-p <- poly(1, c(1, 0, 1), c(1, 0, 0, 0, 2))
+p <- poly(1, c(1, 0, 0, 0, 2), c(1, 0, 1))
 p
 ```
 
@@ -694,13 +753,13 @@ Equality works out of the box because we can tell if two integer vectors are equ
 p == poly(c(1, 0, 1))
 ```
 
-But we can't order them because lists are not comparable:
+We can't compare individual elements, because by default lists are not comparable:
 
 ```{r, error = TRUE}
-sort(p)
+p < p[2]
 ```
 
-So we need to define a `vec_proxy_compare()` method:
+To enable comparison, we implement a `vec_proxy_compare()` method:
 
 ```{r}
 vec_proxy_compare.vctrs_poly <- function(x, ...) {
@@ -715,8 +774,24 @@ vec_proxy_compare.vctrs_poly <- function(x, ...) {
   as.data.frame(do.call(rbind, full))
 }
 
-sort(poly(3, 2, 1))
-sort(poly(1, c(1, 0, 0), c(1, 0)))
+p < p[2]
+```
+
+Often, this is sufficient to also implement `sort()`. However, for lists, there is already a default `vec_proxy_order()` method that sorts by first occurrence:
+
+```{r}
+sort(p)
+sort(p[c(1:3, 1:2)])
+```
+
+To ensure consistency between ordering and comparison, we forward `vec_proxy_order()` to `vec_proxy_compare()`:
+
+```{r}
+vec_proxy_order.vctrs_poly <- function(x, ...) {
+  vec_proxy_compare(x, ...)
+}
+
+sort(p)
 ```
 
 
@@ -724,7 +799,7 @@ sort(poly(1, c(1, 0, 0), c(1, 0)))
 
 vctrs also provides two mathematical generics that allow you to define a broad swath of mathematical behaviour at once:
 
-*  `vec_math(fn, x, ...)` specifies the behaviour of mathematical functions like `abs()`, `sum()`, and `mean()`. (See `?vec_math()` for the complete list.)
+*  `vec_math(fn, x, ...)` specifies the behaviour of mathematical functions like `abs()`, `sum()`, and `mean()`. (Note that `var()` and `sd()` can't be overridden, see `?vec_math()` for the complete list supported by `vec_math()`.)
 
 *  `vec_arith(op, x, y)` specifies the behaviour of the arithmetic operations like `+`, `-`, and `%%`. (See `?vec_arith()` for the complete list.)
 
@@ -831,7 +906,7 @@ meter(10) / meter(1)
 meter(10) * meter(1)
 ```
 
-Next we write the pair of methods for arithmetic with a meter and a number. These are almost identical, but while `meter(10) / 2` makes sense, `2 / meter(10)` does not (and neither do addition and subtraction).
+Next we write the pair of methods for arithmetic with a meter and a number. These are almost identical, but while `meter(10) / 2` makes sense, `2 / meter(10)` does not (and neither do addition and subtraction). To support both doubles and integers as operands, we dispatch over `numeric` here instead of `double`.
 
 ```{r, error = TRUE}
 vec_arith.vctrs_meter.numeric <- function(op, x, y, ...) {
@@ -851,6 +926,7 @@ vec_arith.numeric.vctrs_meter <- function(op, x, y, ...) {
 }
 
 meter(2) * 10
+meter(2) * as.integer(10)
 10 * meter(2)
 meter(20) / 10
 10 / meter(20)
@@ -1006,21 +1082,16 @@ vec_ptype_abbr.pizza_percent <- function(x, ...) {
 
 Finally, we implement methods for `vec_ptype2()` and `vec_cast()`.
 
-```{r}
+```{r, eval = FALSE}
 #' @export
 vec_ptype2.vctrs_percent.vctrs_percent <- function(x, y, ...) new_percent()
 #' @export
 vec_ptype2.double.vctrs_percent <- function(x, y, ...) double()
-```
 
-The exact same roxygen2 treatment is needed for `vec_cast()`, which yields:
-
-```{r eval = FALSE}
 #' @export
 vec_cast.pizza_percent.pizza_percent <- function(x, to, ...) x
 #' @export
 vec_cast.pizza_percent.double <- function(x, to, ...) percent(x)
-#' @method vec_cast.double pizza_percent
 #' @export
 vec_cast.double.pizza_percent <- function(x, to, ...) vec_data(x)
 ```
@@ -1045,3 +1116,10 @@ It's good practice to test your new class. Specific recommendations:
     ```
 
 If your tests pass when run by `devtools::test()`, but fail when run in `R CMD check`, it is very likely to reflect a problem with S3 method registration. Carefully check your roxygen2 comments and the generated `NAMESPACE`.
+
+
+### Existing classes
+
+Before you build your own class, you might want to consider using, or subclassing existing classes. You can check [awesome-vctrs](https://github.com/krlmlr/awesome-vctrs) for a curated list of R vector classes, some of which are built with vctrs.
+
+If you've built or extended a class, consider adding it to that list so other people can use it.

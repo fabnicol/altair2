@@ -2,7 +2,7 @@ Package: openssl
 Type: Package
 Title: Toolkit for Encryption, Signatures and Certificates Based on
         OpenSSL
-Version: 1.4.1
+Version: 2.0.2
 Authors@R: c(person("Jeroen", "Ooms", role = c("aut", "cre"), email = "jeroen@berkeley.edu",
     comment = c(ORCID = "0000-0002-4035-0289")),
     person("Oliver", "Keyes", role = "ctb"))
@@ -16,20 +16,22 @@ Description: Bindings to OpenSSL libssl and libcrypto, plus custom SSH key parse
     number generator, and 'bignum' math methods for manually performing crypto 
     calculations on large multibyte integers.
 License: MIT + file LICENSE
-URL: https://github.com/jeroen/openssl#readme
+URL: https://github.com/jeroen/openssl
 BugReports: https://github.com/jeroen/openssl/issues
-SystemRequirements: OpenSSL >= 1.0.1
+SystemRequirements: OpenSSL >= 1.0.2
 VignetteBuilder: knitr
 Imports: askpass
-Suggests: testthat, digest, knitr, rmarkdown, jsonlite, jose, sodium
-RoxygenNote: 6.1.1
+Suggests: curl, testthat (>= 2.1.0), digest, knitr, rmarkdown,
+        jsonlite, jose, sodium
+RoxygenNote: 7.1.2
 Encoding: UTF-8
 NeedsCompilation: yes
-Packaged: 2020-06-26 11:12:09 UTC; tomas
+Packaged: 2022-05-24 09:57:52 UTC; jeroen
 Author: Jeroen Ooms [aut, cre] (<https://orcid.org/0000-0002-4035-0289>),
   Oliver Keyes [ctb]
 Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
 Repository: CRAN
-Date/Publication: 2019-07-18 06:35:27 UTC
-Built: R 4.1.0; x86_64-w64-mingw32; 2020-06-26 11:13:16 UTC; windows
+Date/Publication: 2022-05-24 19:10:12 UTC
+Built: R 4.2.1; x86_64-w64-mingw32; 2022-06-30 02:24:21 UTC; windows
+ExperimentalWindowsRuntime: ucrt
 Archs: x64

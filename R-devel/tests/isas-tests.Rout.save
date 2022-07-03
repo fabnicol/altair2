@@ -1,6 +1,6 @@
 
-R Under development (unstable) (2020-06-10 r78667) -- "Unsuffered Consequences"
-Copyright (C) 2020 The R Foundation for Statistical Computing
+R Under development (unstable) (2022-03-19 r81942) -- "Unsuffered Consequences"
+Copyright (C) 2022 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -2295,6 +2295,8 @@ IS: [1] TRUE
 > if(!inherits(res, 'try-error')) report(is.expression(res))
 [1] TRUE
 > res <- try(as.factor( x ), silent = TRUE)
+Warning message:
+In xtfrm.data.frame(x) : cannot xtfrm data frames
 > if(!inherits(res, 'try-error')) report(is.factor(res))
 [1] TRUE
 > res <- try(as.function( x ), silent = TRUE)
@@ -2323,6 +2325,8 @@ IS: [1] TRUE
 > res <- try(as.numeric_version( x ), silent = TRUE)
 > if(!inherits(res, 'try-error')) report(is.numeric_version(res))
 > res <- try(as.ordered( x ), silent = TRUE)
+Warning message:
+In xtfrm.data.frame(x) : cannot xtfrm data frames
 > if(!inherits(res, 'try-error')) report(is.ordered(res))
 [1] TRUE
 > res <- try(as.package_version( x ), silent = TRUE)
@@ -2344,9 +2348,7 @@ In doTryCatch(return(expr), name, parentenv, handler) :
 > if(!inherits(res, 'try-error')) report(is.table(res))
 > res <- try(as.vector( x ), silent = TRUE)
 > if(!inherits(res, 'try-error')) report(is.vector(res))
-[1] FALSE
-Error in report(is.vector(res)) : x is not TRUE
-Calls: report -> stopifnot
+[1] TRUE
 > res <- try(as.stepfun( x ), silent = TRUE)
 > if(!inherits(res, 'try-error')) report(is.stepfun(res))
 > res <- try(as.ts( x ), silent = TRUE)
@@ -2392,6 +2394,8 @@ IS: [1] TRUE
 +    } else   !isall.equal(x, res)})
 [1] TRUE
 > res <- try(as.factor( x ), silent = TRUE)
+Warning message:
+In xtfrm.data.frame(x) : cannot xtfrm data frames
 > if(!inherits(res, 'try-error'))
 +    report({if(is.factor(x)) { cat('IS: ');all.equal(x, res, tolerance=0)
 +    } else   !isall.equal(x, res)})
@@ -2443,6 +2447,8 @@ Calls: report -> stopifnot
 +    report({if(is.numeric_version(x)) { cat('IS: ');all.equal(x, res, tolerance=0)
 +    } else   !isall.equal(x, res)})
 > res <- try(as.ordered( x ), silent = TRUE)
+Warning message:
+In xtfrm.data.frame(x) : cannot xtfrm data frames
 > if(!inherits(res, 'try-error'))
 +    report({if(is.ordered(x)) { cat('IS: ');all.equal(x, res, tolerance=0)
 +    } else   !isall.equal(x, res)})
@@ -2480,9 +2486,7 @@ In doTryCatch(return(expr), name, parentenv, handler) :
 > if(!inherits(res, 'try-error'))
 +    report({if(is.vector(x)) { cat('IS: ');all.equal(x, res, tolerance=0)
 +    } else   !isall.equal(x, res)})
-[1] FALSE
-Error in report({ : x is not TRUE
-Calls: report -> stopifnot
+[1] TRUE
 > res <- try(as.stepfun( x ), silent = TRUE)
 > if(!inherits(res, 'try-error'))
 +    report({if(is.stepfun(x)) { cat('IS: ');all.equal(x, res, tolerance=0)
@@ -2523,6 +2527,8 @@ Calls: report -> stopifnot
 >   if(!inherits(f, 'try-error')) report(identical(f, as.expression( f )))
 [1] TRUE
 > f <- try(as.factor( x ), silent = TRUE)
+Warning message:
+In xtfrm.data.frame(x) : cannot xtfrm data frames
 >   if(!inherits(f, 'try-error')) report(identical(f, as.factor( f )))
 [1] TRUE
 > f <- try(as.function( x ), silent = TRUE)
@@ -2555,6 +2561,8 @@ Calls: report -> stopifnot
 > f <- try(as.octmode( x ), silent = TRUE)
 >   if(!inherits(f, 'try-error')) report(identical(f, as.octmode( f )))
 > f <- try(as.ordered( x ), silent = TRUE)
+Warning message:
+In xtfrm.data.frame(x) : cannot xtfrm data frames
 >   if(!inherits(f, 'try-error')) report(identical(f, as.ordered( f )))
 [1] TRUE
 > f <- try(as.package_version( x ), silent = TRUE)
@@ -2597,6 +2605,6 @@ In as.dist.default(x) : non-square matrix
 > f <- try(as.ts( x ), silent = TRUE)
 >   if(!inherits(f, 'try-error')) report(identical(f, as.ts( f )))
 > cat('Time elapsed: ', proc.time() - .proctime00,'\n')
-Time elapsed:  0.173 0.017 0.191 0 0 
+Time elapsed:  0.346 0.054 0.402 0 0 
 > 
 > 

@@ -1,3 +1,315 @@
+# vctrs 0.4.1
+
+* OOB errors with `character()` indexes use "that don't exist" instead
+  of "past the end" (#1543).
+
+* Fixed memory protection issues related to common type
+  determination (#1551, tidyverse/tidyr#1348).
+
+
+# vctrs 0.4.0
+
+* New experimental `vec_locate_sorted_groups()` for returning the locations of
+  groups in sorted order. This is equivalent to, but faster than, calling
+  `vec_group_loc()` and then sorting by the `key` column of the result.
+
+* New experimental `vec_locate_matches()` for locating where each observation
+  in one vector matches one or more observations in another vector. It is
+  similar to `vec_match()`, but returns all matches by default (rather than just
+  the first), and can match on binary conditions other than equality. The
+  algorithm is inspired by data.table's very fast binary merge procedure.
+
+* The `vec_proxy_equal()`, `vec_proxy_compare()`, and `vec_proxy_order()`
+  methods for `vctrs_rcrd` are now applied recursively over the fields (#1503).
+
+* Lossy cast errors now inherit from incompatible type errors.
+
+* `vec_is_list()` now returns `TRUE` for `AsIs` lists (#1463).
+
+* `vec_assert()`, `vec_ptype2()`, `vec_cast()`, and `vec_as_location()`
+  now use `caller_arg()` to infer a default `arg` value from the
+  caller.
+
+  This may result in unhelpful arguments being mentioned in error
+  messages. In general, you should consider snapshotting vctrs error
+  messages thrown in your package and supply `arg` and `call`
+  arguments if the error context is not adequately reported to your
+  users.
+
+* `vec_ptype_common()`, `vec_cast_common()`, `vec_size_common()`, and
+  `vec_recycle_common()` gain `call` and `arg` arguments for
+  specifying an error context.
+
+* `vec_compare()` can now compare zero column data frames (#1500).
+
+* `new_data_frame()` now errors on negative and missing `n` values (#1477).
+
+* `vec_order()` now correctly orders zero column data frames (#1499).
+
+* vctrs now depends on cli to help with error message generation.
+
+* New `vec_check_list()` and `list_check_all_vectors()` input
+  checkers, and an accompanying `list_all_vectors()` predicate.
+
+* New `vec_interleave()` for combining multiple vectors together, interleaving
+  their elements in the process (#1396).
+
+* `vec_equal_na(NULL)` now returns `logical(0)` rather than erroring (#1494).
+
+* `vec_as_location(missing = "error")` now fails with `NA` and `NA_character_`
+  in addition to `NA_integer_` (#1420, @krlmlr).
+
+* Starting with rlang 1.0.0, errors are displayed with the contextual
+  function call. Several vctrs operations gain a `call` argument that
+  makes it possible to report the correct context in error messages.
+  This concerns:
+
+  - `vec_cast()` and `vec_ptype2()`
+  - `vec_default_cast()` and `vec_default_ptype2()`
+  - `vec_assert()`
+  - `vec_as_names()`
+  - `stop_` constructors like `stop_incompatible_type()`
+
+  Note that default `vec_cast()` and `vec_ptype2()` methods
+  automatically support this if they pass `...` to the corresponding
+  `vec_default_` functions. If you throw a non-internal error from a
+  non-default method, add a `call = caller_env()` argument in the
+  method and pass it to `rlang::abort()`.
+
+* If `NA_character_` is specified as a name for `vctrs_vctr` objects, it is
+  now automatically repaired to `""` (#780).
+
+* `""` is now an allowed name for `vctrs_vctr` objects and all its
+  subclasses (`vctrs_list_of` in particular) (#780).
+
+* `list_of()` is now much faster when many values are provided.
+
+* `vec_as_location()` evaluates `arg` only in case of error, for performance
+  (#1150, @krlmlr).
+
+* `levels.vctrs_vctr()` now returns `NULL` instead of failing (#1186, @krlmlr).
+
+* `vec_assert()` produces a more informative error when `size` is invalid
+  (#1470).
+
+* `vec_duplicate_detect()` is a bit faster when there are many unique values.
+
+* `vec_proxy_order()` is described in `vignette("s3-vectors")` (#1373, @krlmlr).
+
+* `vec_chop()` now materializes ALTREP vectors before chopping, which is more
+  efficient than creating many small ALTREP pieces (#1450).
+
+* New `list_drop_empty()` for removing empty elements from a list (#1395).
+
+* `list_sizes()` now propagates the names of the list onto the result.
+
+* Name repair messages are now signaled by `rlang::names_inform_repair()`. This
+  means that the messages are now sent to stdout by default rather than to
+  stderr, resulting in prettier messages. Additionally, name repair messages can
+  now be silenced through the global option `rlib_name_repair_verbosity`, which
+  is useful for testing purposes. See `?names_inform_repair` for more
+  information (#1429).
+
+* `vctrs_vctr` methods for `na.omit()`, `na.exclude()`, and `na.fail()` have
+  been added (#1413).
+
+* `vec_init()` is now slightly faster (#1423).
+
+* `vec_set_names()` no longer corrupts `vctrs_rcrd` types (#1419).
+
+* `vec_detect_complete()` now computes completeness for `vctrs_rcrd` types in
+  the same way as data frames, which means that if any field is missing, the
+  entire record is considered incomplete (#1386).
+
+* The `na_value` argument of `vec_order()` and `vec_sort()` now correctly
+  respect missing values in lists (#1401).
+
+* `vec_rep()` and `vec_rep_each()` are much faster for `times = 0` and
+  `times = 1` (@mgirlich, #1392).
+
+* `vec_equal_na()` and `vec_fill_missing()` now work with integer64 vectors
+  (#1304).
+
+* The `xtfrm()` method for vctrs_vctr objects no longer accidentally breaks
+  ties (#1354).
+
+* `min()`, `max()` and `range()` no longer throw an error if `na.rm = TRUE` is
+  set and all values are `NA` (@gorcha, #1357). In this case, and where an empty
+  input is given, it will return `Inf`/`-Inf`, or `NA` if `Inf` can't be cast
+  to the input type.
+
+* `vec_group_loc()`, used for grouping in dplyr, now correctly handles
+  vectors with billions of elements (up to `.Machine$integer.max`) (#1133).
+
+
+# vctrs 0.3.8
+
+* Compatibility with next version of rlang.
+
+
+# vctrs 0.3.7
+
+* `vec_ptype_abbr()` gains arguments to control whether to indicate
+  named vectors with a prefix (`prefix_named`) and indicate shaped
+  vectors with a suffix (`suffix_shape`) (#781, @krlmlr).
+
+* `vec_ptype()` is now an optional _performance_ generic. It is not necessary
+  to implement, but if your class has a static prototype, you might consider
+  implementing a custom `vec_ptype()` method that returns a constant to
+  improve performance in some cases (such as common type imputation).
+  
+* New `vec_detect_complete()`, inspired by `stats::complete.cases()`. For most
+  vectors, this is identical to `!vec_equal_na()`. For data frames and
+  matrices, this detects rows that only contain non-missing values.
+  
+* `vec_order()` can now order complex vectors (#1330).
+
+* Removed dependency on digest in favor of `rlang::hash()`.
+
+* Fixed an issue where `vctrs_rcrd` objects were not being proxied correctly
+  when used as a data frame column (#1318).
+
+* `register_s3()` is now licensed with the "unlicense" which makes it very
+  clear that it's fine to copy and paste into your own package 
+  (@maxheld83, #1254).
+
+# vctrs 0.3.6
+
+* Fixed an issue with tibble 3.0.0 where removing column names with
+  `names(x) <- NULL` is now deprecated (#1298).
+
+* Fixed a GCC 11 issue revealed by CRAN checks.
+
+
+# vctrs 0.3.5
+
+* New experimental `vec_fill_missing()` for filling in missing values with
+  the previous or following value. It is similar to `tidyr::fill()`, but
+  also works with data frames and has an additional `max_fill` argument to
+  limit the number of sequential missing values to fill.
+
+* New `vec_unrep()` to compress a vector with repeated values. It is very
+  similar to run length encoding, and works nicely alongside `vec_rep_each()`
+  as a way to invert the compression.
+
+* `vec_cbind()` with only empty data frames now preserves the common size of
+  the inputs in the result (#1281).
+
+* `vec_c()` now correctly returns a named result with named empty inputs
+  (#1263).
+
+* vctrs has been relicensed as MIT (#1259).
+
+* Functions that make comparisons within a single vector, such as
+  `vec_unique()`, or between two vectors, such as `vec_match()`, now
+  convert all character input to UTF-8 before making comparisons (#1246).
+
+* New `vec_identify_runs()` which returns a vector of identifiers for the
+  elements of `x` that indicate which run of repeated values they fall in
+  (#1081).
+
+* Fixed an encoding translation bug with lists containing data frames which
+  have columns where `vec_size()` is different from the low level
+  `Rf_length()` (#1233).
+
+
+# vctrs 0.3.4
+
+* Fixed a GCC sanitiser error revealed by CRAN checks.
+
+
+# vctrs 0.3.3
+
+* The `table` class is now implemented as a wrapper type that
+  delegates its coercion methods. It used to be restricted to integer
+  tables (#1190).
+
+* Named one-dimensional arrays now behave consistently with simple
+  vectors in `vec_names()` and `vec_rbind()`.
+
+* `new_rcrd()` now uses `df_list()` to validate the fields. This makes
+  it more flexible as the fields can now be of any type supported by
+  vctrs, including data frames.
+
+* Thanks to the previous change the `[[` method of records now
+  preserves list fields (#1205).
+
+* `vec_data()` now preserves data frames. This is consistent with the
+  notion that data frames are a primitive vector type in vctrs. This
+  shouldn't affect code that uses `[[` and `length()` to manipulate
+  the data. On the other hand, the vctrs primitives like `vec_slice()`
+  will now operate rowwise when `vec_data()` returns a data frame.
+
+* `outer` is now passed unrecycled to name specifications. Instead,
+  the return value is recycled (#1099).
+
+* Name specifications can now return `NULL`. The names vector will
+  only be allocated if the spec function returns non-`NULL` during the
+  concatenation. This makes it possible to ignore outer names without
+  having to create an empty names vector when there are no inner
+  names:
+
+  ```
+  zap_outer_spec <- function(outer, inner) if (is_character(inner)) inner
+
+  # `NULL` names rather than a vector of ""
+  names(vec_c(a = 1:2, .name_spec = zap_outer_spec))
+  #> NULL
+
+  # Names are allocated when inner names exist
+  names(vec_c(a = 1:2, c(b = 3L), .name_spec = zap_outer_spec))
+  #> [1] ""  ""  "b"
+  ```
+
+* Fixed several performance issues in `vec_c()` and `vec_unchop()`
+  with named vectors.
+
+* The restriction that S3 lists must have a list-based proxy to be considered
+  lists by `vec_is_list()` has been removed (#1208).
+
+* New performant `data_frame()` constructor for creating data frames in a way
+  that follows tidyverse semantics. Among other things, inputs are recycled
+  using tidyverse recycling rules, strings are never converted to factors,
+  list-columns are easier to create, and unnamed data frame input is
+  automatically spliced.
+
+* New `df_list()` for safely and consistently constructing the data structure
+  underlying a data frame, a named list of equal-length vectors. It is useful
+  in combination with `new_data_frame()` for creating user-friendly
+  constructors for data frame subclasses that use the tidyverse rules for
+  recycling and determining types.
+
+* Fixed performance issue with `vec_order()` on classed vectors which
+  affected `dplyr::group_by()` (tidyverse/dplyr#5423).
+
+* `vec_set_names()` no longer alters the input in-place (#1194).
+
+* New `vec_proxy_order()` that provides an ordering proxy for use in
+  `vec_order()` and `vec_sort()`. The default method falls through to
+  `vec_proxy_compare()`. Lists are special cased, and return an integer
+  vector proxy that orders by first appearance.
+
+* List columns in data frames are no longer comparable through `vec_compare()`.
+
+* The experimental `relax` argument has been removed from
+  `vec_proxy_compare()`.
+
+
+# vctrs 0.3.2
+
+* Fixed a performance issue in `bind_rows()` with S3 columns (#1122,
+  #1124, #1151, tidyverse/dplyr#5327).
+
+* `vec_slice()` now checks sizes of data frame columns in case the
+  data structure is corrupt (#552).
+
+* The native routines in vctrs now dispatch and evaluate in the vctrs
+  namespace. This improves the continuity of evaluation in backtraces.
+
+* `new_data_frame()` is now twice as fast when `class` is supplied.
+
+* New `vec_names2()`, `vec_names()` and `vec_set_names()` (#1173).
+
 
 # vctrs 0.3.1
 
@@ -540,7 +852,7 @@ primitives.
 
 The API in 0.2.0 has been updated, please see a list of breaking
 changes below. vctrs has now graduated from experimental to a maturing
-package (see the [lifecycle of tidyverse packages](https://www.tidyverse.org/lifecycle/)).
+package.
 Please note that API changes are still planned for future releases,
 for instance `vec_ptype2()` and `vec_cast()` might need to return a
 sentinel instead of failing with an error when there is no common type

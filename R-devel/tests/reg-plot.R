@@ -1,4 +1,4 @@
-#### Regression tests for GRAPHICS & PLOTS
+#### Regression tests for GRAPHICS & PLOTS -- requiring strict PDF equality
 
 pdf("reg-plot.pdf", paper="a4r", encoding ="ISOLatin1.enc", compress = FALSE,
     useDingbats = TRUE)
@@ -236,7 +236,28 @@ plotNchk(y74[1:2]) #    (ditto)
 
 
 ## dotchart(*, pch=., groups=*) -- PR#16953
-x <- setNames(0:5, c('a','aa', 'aaa', 'b', 'bb', 'bbb'))
-y <- nchar(names(x)) # (minimal plot:)
-dotchart(x, color=y, pch=y, groups=y, xaxt="n", frame.plot=FALSE)
-## now pch and colors match groups
+## dotchart(*, ylab=.) for groups;
+g <- rep(1:3, each=2)
+dotchart(VADeaths[1:2, 1:3], color=g, pch=g,
+         ylab = "Grouping:  {Urbanity . Gender} x Age",
+         xaxt="n", frame.plot=FALSE)
+## now pch and colors match groups;
+## ylab placement; group (row) labels show again
+
+
+## non-integer mgp[3] -- PR#18194
+par(mar = c(5, 5, 5, 5))
+plot.new()
+plot.window(xlim = c(0, 5), ylim = 0:1)
+if(dev.interactive()) {
+    box(lty = 3)
+    ## 'axis' puts line and labels in right place when 'mgp[3]' is integer
+    mgp_bottom <- c(4, 2.5, 1) # 'mgp[1]' is arbitrary
+    axis(1, at=c(1,4), mgp = mgp_bottom)
+    mtext(c("labels", "line"), side = 1, line = mgp_bottom[2:3])
+}
+## Now, 'axis' puts line & labels in right place also when 'mgp[3]' is noninteger:
+mgp_top <- c(4, 2.5, 0.9)
+axis(3, at=c(1,4), mgp = mgp_top)
+mtext(c("labels are here", "line"), line = mgp_top[2:3])
+## They were one line too high in R <= 4.1.1

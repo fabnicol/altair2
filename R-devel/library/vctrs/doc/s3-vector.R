@@ -117,6 +117,20 @@ as_percent <- function(x) {
 }
 
 ## -----------------------------------------------------------------------------
+as_percent <- function(x, ...) {
+  UseMethod("as_percent")
+}
+
+as_percent.default <- function(x, ...) {
+  vec_cast(x, new_percent())
+}
+
+as_percent.character <- function(x) {
+  value <- as.numeric(gsub(" *% *$", "", x)) / 100
+  new_percent(value)
+}
+
+## -----------------------------------------------------------------------------
 new_decimal <- function(x = double(), digits = 2L) {
   vec_assert(x, ptype = double())
   vec_assert(digits, ptype = integer(), size = 1)
@@ -242,7 +256,7 @@ new_rational <- function(n = integer(), d = integer()) {
 }
 
 ## -----------------------------------------------------------------------------
-rational <- function(n, d) {
+rational <- function(n = integer(), d = integer()) {
   c(n, d) %<-% vec_cast_common(n, d, .to = integer())
   c(n, d) %<-% vec_recycle_common(n, d)
 
@@ -258,6 +272,16 @@ length(x)
 ## -----------------------------------------------------------------------------
 fields(x)
 field(x, "n")
+
+## ---- error = TRUE------------------------------------------------------------
+x
+
+str(x)
+
+## -----------------------------------------------------------------------------
+vec_data(x)
+
+str(vec_data(x))
 
 ## -----------------------------------------------------------------------------
 format.vctrs_rational <- function(x, ...) {
@@ -345,13 +369,17 @@ x == rational(1, 1)
 unique(x)
 
 ## -----------------------------------------------------------------------------
-sort(x)
+rational(1, 2) < rational(2, 3)
+rational(2, 4) < rational(2, 3)
 
 ## -----------------------------------------------------------------------------
 vec_proxy_compare.vctrs_rational <- function(x, ...) {
   field(x, "n") / field(x, "d")
 }
 
+rational(2, 4) < rational(2, 3)
+
+## -----------------------------------------------------------------------------
 sort(x)
 
 ## -----------------------------------------------------------------------------
@@ -390,7 +418,7 @@ obj_print_data.vctrs_poly <- function(x, ...) {
   print(format(x), quote = FALSE)
 }
 
-p <- poly(1, c(1, 0, 1), c(1, 0, 0, 0, 2))
+p <- poly(1, c(1, 0, 0, 0, 2), c(1, 0, 1))
 p
 
 ## -----------------------------------------------------------------------------
@@ -402,7 +430,7 @@ p[[2]]
 p == poly(c(1, 0, 1))
 
 ## ---- error = TRUE------------------------------------------------------------
-sort(p)
+p < p[2]
 
 ## -----------------------------------------------------------------------------
 vec_proxy_compare.vctrs_poly <- function(x, ...) {
@@ -417,8 +445,18 @@ vec_proxy_compare.vctrs_poly <- function(x, ...) {
   as.data.frame(do.call(rbind, full))
 }
 
-sort(poly(3, 2, 1))
-sort(poly(1, c(1, 0, 0), c(1, 0)))
+p < p[2]
+
+## -----------------------------------------------------------------------------
+sort(p)
+sort(p[c(1:3, 1:2)])
+
+## -----------------------------------------------------------------------------
+vec_proxy_order.vctrs_poly <- function(x, ...) {
+  vec_proxy_compare(x, ...)
+}
+
+sort(p)
 
 ## -----------------------------------------------------------------------------
 vec_arith.MYCLASS <- function(op, x, y, ...) {
@@ -506,6 +544,7 @@ vec_arith.numeric.vctrs_meter <- function(op, x, y, ...) {
 }
 
 meter(2) * 10
+meter(2) * as.integer(10)
 10 * meter(2)
 meter(20) / 10
 10 / meter(20)
@@ -582,18 +621,16 @@ is_percent <- function(x) {
 #    "prcnt"
 #  }
 
-## -----------------------------------------------------------------------------
-#' @export
-vec_ptype2.vctrs_percent.vctrs_percent <- function(x, y, ...) new_percent()
-#' @export
-vec_ptype2.double.vctrs_percent <- function(x, y, ...) double()
-
-## ----eval = FALSE-------------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
+#  #' @export
+#  vec_ptype2.vctrs_percent.vctrs_percent <- function(x, y, ...) new_percent()
+#  #' @export
+#  vec_ptype2.double.vctrs_percent <- function(x, y, ...) double()
+#  
 #  #' @export
 #  vec_cast.pizza_percent.pizza_percent <- function(x, to, ...) x
 #  #' @export
 #  vec_cast.pizza_percent.double <- function(x, to, ...) percent(x)
-#  #' @method vec_cast.double pizza_percent
 #  #' @export
 #  vec_cast.double.pizza_percent <- function(x, to, ...) vec_data(x)
 

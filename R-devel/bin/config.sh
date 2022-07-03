@@ -5,7 +5,7 @@
 ## Usage:
 ##   R CMD config [options] [VAR]
 
-## Copyright (C) 2002-2020 The R Core Team
+## Copyright (C) 2002-2021 The R Core Team
 ##
 ## This document is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 ## A copy of the GNU General Public License is available at
 ## https://www.R-project.org/Licenses/
 
-revision='$Revision: 78359 $'
+revision='$Revision: 81375 $'
 version=`set - ${revision}; echo ${2}`
 version="R configuration information retrieval script: ${R_VERSION} (r${version})
 
@@ -32,13 +32,13 @@ usage="Usage: R CMD config [options] [VAR]
 
 Get the value of a basic R configure variable VAR which must be among
 those listed in the 'Variables' section below, or the header and
-library flags necessary for linking against R.
+library flags necessary for linking a front-end against R.
 
 Options:
   -h, --help            print short help message and exit
   -v, --version         print version info and exit
-      --cppflags        print pre-processor flags required to compile
-			a C/C++ file using R as a library
+      --cppflags        print pre-processor flags required to compile a
+			C/C++ file as part of a front-end using R as a library
       --ldflags         print linker flags needed for linking a front-end
                         against the R library
       --no-user-files   ignore customization files under ~/.R
@@ -104,7 +104,9 @@ Variables:
   LIBnn         location for libraries, e.g. 'lib' or 'lib64' on this platform
   LDFLAGS       linker flags, e.g. -L<dir> if you have libraries in a
 		nonstandard directory <dir>
+  LTO LTO_FC LTO_LD  flags for Link-Time Optimization
   MAKE          Make command
+  NM            comand to display symbol tables
   OBJC          Objective C compiler command
   OBJCFLAGS     Objective C compiler flags
   RANLIB        command to index static libraries
@@ -132,6 +134,7 @@ if test "${R_OSTYPE}" = "windows"; then
 Windows only:
   COMPILED_BY   name and version of compiler used to build R
   LOCAL_SOFT    absolute path to '/usr/local' software collection
+  R_TOOLS_SOFT  absolute path to 'R tools' software collection
   OBJDUMP       command to dump objects"
 fi
 
@@ -254,6 +257,8 @@ if test "${personal}" = "yes"; then
   if test "${R_OSTYPE}" = "windows"; then
     if test -f "${R_MAKEVARS_USER}"; then
       makefiles="${makefiles} -f \"${R_MAKEVARS_USER}\""
+    elif test ${R_ARCH} = "/x64" && test -f "${HOME}/.R/Makevars.ucrt"; then
+      makefiles="${makefiles} -f \"${HOME}\"/.R/Makevars.ucrt"
     elif test ${R_ARCH} = "/x64" && test -f "${HOME}/.R/Makevars.win64"; then
       makefiles="${makefiles} -f \"${HOME}\"/.R/Makevars.win64"
     elif test -f "${HOME}/.R/Makevars.win"; then
@@ -283,10 +288,10 @@ ok_ftn_vars="FC FFLAGS FPICFLAGS FLIBS FCFLAGS SAFE_FFLAGS"
 ok_ld_vars="LDFLAGS"
 ok_shlib_vars="SHLIB_CFLAGS SHLIB_CXXFLAGS SHLIB_CXXLD SHLIB_CXXLDFLAGS SHLIB_CXX11LD SHLIB_CXX11LDFLAGS SHLIB_CXX14LD SHLIB_CXX14LDFLAGS SHLIB_CXX17LD SHLIB_CXX17LDFLAGS SHLIB_CXX20LD SHLIB_CXX20LDFLAGS SHLIB_EXT SHLIB_FFLAGS SHLIB_LD SHLIB_LDFLAGS"
 ok_tcltk_vars="TCLTK_CPPFLAGS TCLTK_LIBS"
-ok_other_vars="BLAS_LIBS LAPACK_LIBS MAKE LIBnn AR RANLIB"
+ok_other_vars="BLAS_LIBS LAPACK_LIBS MAKE LIBnn AR NM RANLIB LTO LTO_FC LTO_LD"
 defunct_vars="CPP CXXCPP"
 if test "${R_OSTYPE}" = "windows"; then
-  ok_win_vars="LOCAL_SOFT COMPILED_BY OBJDUMP"
+  ok_win_vars="LOCAL_SOFT R_TOOLS_SOFT COMPILED_BY OBJDUMP"
 fi
 
 if test "${all}" = "yes"; then

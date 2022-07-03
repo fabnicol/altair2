@@ -1,8 +1,11 @@
 all_output_formats      Determine all output formats for an R Markdown
                         document
+available_templates     List available R Markdown template in a package
 beamer_presentation     Convert to a Beamer presentation
 compile_notebook        Compiling R scripts to a notebook
 context_document        Convert to a ConTeXt document
+convert_ipynb           Convert a Jupyter/IPython notebook to an R
+                        Markdown document
 default_output_format   Determine the default output format for an R
                         Markdown document
 draft                   Create a new document based on a template
@@ -53,6 +56,8 @@ pandoc_self_contained_html
 pandoc_template         Render a pandoc template.
 parse_html_notebook     Parse an HTML Notebook
 pdf_document            Convert to a PDF/LaTeX document
+pkg_file_lua            Get the full paths of Lua filters in an R
+                        package
 powerpoint_presentation
                         Convert to a PowerPoint presentation
 publish_site            Publish an R Markdown Website

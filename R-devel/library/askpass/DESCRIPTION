@@ -27,5 +27,6 @@ Author: Jeroen Ooms [aut, cre] (<https://orcid.org/0000-0002-4035-0289>)
 Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
 Repository: CRAN
 Date/Publication: 2019-01-13 12:50:03 UTC
-Built: R 4.1.0; x86_64-w64-mingw32; 2020-06-23 14:29:41 UTC; windows
+Built: R 4.2.1; x86_64-w64-mingw32; 2022-06-30 01:48:16 UTC; windows
+ExperimentalWindowsRuntime: ucrt
 Archs: x64

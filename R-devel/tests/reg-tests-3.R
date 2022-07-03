@@ -200,26 +200,17 @@ nchar(x, "w", allowNA = TRUE)
 ## Results differed by platform, but some gave incorrect results on string 10.
 
 
-## str() on large strings (in multibyte locales; changing locale may not work everywhere
-oloc <- Sys.getlocale("LC_CTYPE")
-mbyte.lc <- {
-    if(.Platform$OS.type == "windows")
-	"English_United States.28605"
-    else if(grepl("[.]UTF-8$", oloc, ignore.case=TRUE)) # typically nowadays
-	oloc
-    else
-	"en_US.UTF-8" # or rather "C.UTF-8" or from  system("locale -a | fgrep .utf8")
+## str() on large strings
+if (l10n_info()$"UTF-8" || l10n_info()$"Latin-1") {
+  cc <- "J\xf6reskog" # valid in "latin-1"; invalid multibyte string in UTF-8
+  .tmp <- capture.output(
+  str(cc) # failed in some R-devel versions
+  )
+  stopifnot(grepl("chr \"J.*reskog\"", .tmp))
+
+  print(nchar(L <- strrep(paste(LETTERS, collapse="."), 100000), type="b")) # 5.1 M
+  print(str(L))
 }
-identical(Sys.setlocale("LC_CTYPE", mbyte.lc), mbyte.lc) # "ok" if not
-cc <- "J\xf6reskog" # valid in "latin-1"; invalid multibyte string in UTF-8
-.tmp <- capture.output(
-str(cc) # failed in some R-devel versions
-)
-stopifnot(grepl("chr \"J.*reskog\"", .tmp))
-nchar(L <- strrep(paste(LETTERS, collapse="."), 100000), type="b")# 5.1 M
-stopifnot(system.time( str(L) )[[1L]] < 0.10) # Sparc Solaris needed 0.052
-if(mbyte.lc != oloc) Sys.setlocale("LC_CTYPE", oloc)
-## needed 1.6 sec in (some) R <= 3.3.0 in a multibyte locale
 
 if(require("Matrix", .Library)) {
     M <- Matrix(diag(1:10), sparse=TRUE) # a "dsCMatrix"
@@ -237,5 +228,9 @@ if(require("Matrix", .Library)) {
                   pmax(as.Matrix(M), 7))
     })
     rm(M)
+
+    ## show(<S4 generic>) from base
+    show(chol2inv) # last line now has .. showMethods(chol2inv) ..
+
     detach("package:Matrix", unload=TRUE)
 }##{Matrix}

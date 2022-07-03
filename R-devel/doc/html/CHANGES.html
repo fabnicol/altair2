@@ -1,9 +1,20 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Windows-specific changes to R</title>
+<!DOCTYPE html><html><head><title>R: Windows-specific changes to R</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
 <link rel="stylesheet" type="text/css" href="R.css" />
-</head><body>
+</head><body><div class="container">
 
-<table width="100%" summary="page for CHANGES"><tr><td>CHANGES</td><td style="text-align: right;">R Documentation</td></tr></table>
+<table style="width: 100%;"><tr><td>CHANGES</td><td style="text-align: right;">R Documentation</td></tr></table>
 
 <h2>Windows-specific changes to R</h2>
 
@@ -54,8 +65,8 @@ junction points on NTFS file systems.
 </p>
 </li>
 <li><p> C-level error formats now use the trio library, and so for
-example output <span class="samp">1.53e-11</span> (as required by C99) rather than
-<span class="samp">1.53e-011</span>.
+example output &lsquo;<span class="samp">&#8288;1.53e-11&#8288;</span>&rsquo; (as required by C99) rather than
+&lsquo;<span class="samp">&#8288;1.53e-011&#8288;</span>&rsquo;.
 </p>
 </li></ul>
 
@@ -133,7 +144,7 @@ preference to <code>gswin32c.exe</code>.
 <ul>
 <li><p> The sources (and packages) can now be compiled using the
 multilib toolchain developed for <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> 2.15.x: see the
-<span class="samp">MULTI</span> macro in &lsquo;<span class="file">MkRules.dist</span>&rsquo;.  This toolchain is used
+&lsquo;<span class="samp">&#8288;MULTI&#8288;</span>&rsquo; macro in &lsquo;<span class="file">MkRules.dist</span>&rsquo;.  This toolchain is used
 for the CRAN binary distribution.
 </p>
 </li></ul>
@@ -156,10 +167,10 @@ to the toolchain you use.
 </p>
 </li>
 <li><p> There is a new macro (aka make variable)
-<span class="samp">SHLIB_PTHREAD_FLAGS</span>.  This is set to <span class="option">-pthread</span> on
+&lsquo;<span class="samp">&#8288;SHLIB_PTHREAD_FLAGS&#8288;</span>&rsquo;.  This is set to <span class="option">-pthread</span> on
 builds using toolchains which support it, and should be included
-in both <span class="samp">PKG_CPPFLAGS</span> (or the Fortran or F9x equivalents)
-and <span class="samp">PKG_LIBS</span>.
+in both &lsquo;<span class="samp">&#8288;PKG_CPPFLAGS&#8288;</span>&rsquo; (or the Fortran or F9x equivalents)
+and &lsquo;<span class="samp">&#8288;PKG_LIBS&#8288;</span>&rsquo;.
 </p>
 </li></ul>
 
@@ -177,7 +188,7 @@ and <span class="samp">PKG_LIBS</span>.
 </li>
 <li><p> Some of the custom messages in the installer were corrupted:
 add a BOM mark to the file as now required by Unicode Inno Setup.
-(<a href="https://bugs.R-project.org/bugzilla3/show_bug.cgi?id=14816">PR#14816</a>)
+(<a href="https://bugs.R-project.org/show_bug.cgi?id=14816">PR#14816</a>)
 </p>
 </li></ul>
 
@@ -222,13 +233,13 @@ architecture-specific sub-directories &lsquo;<span class="file">lib/i386</span>&
 
 
 <ul>
-<li><p> The fix for <a href="https://bugs.R-project.org/bugzilla3/show_bug.cgi?id=14543">PR#14543</a> caused stack problems with outputting
-large <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> objects (e.g., data frames of 25,000 items).  (<a href="https://bugs.R-project.org/bugzilla3/show_bug.cgi?id=14698">PR#14698</a>)
+<li><p> The fix for <a href="https://bugs.R-project.org/show_bug.cgi?id=14543">PR#14543</a> caused stack problems with outputting
+large <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> objects (e.g., data frames of 25,000 items).  (<a href="https://bugs.R-project.org/show_bug.cgi?id=14698">PR#14698</a>)
 </p>
 </li>
 <li><p> In a double-byte locale (Chinese, Japanese, Korean),
 <code>grep()</code> and friends might have used byte-wise matching of
-strings in the native encoding.  (<a href="https://bugs.R-project.org/bugzilla3/show_bug.cgi?id=14622">PR#14622</a>)
+strings in the native encoding.  (<a href="https://bugs.R-project.org/show_bug.cgi?id=14622">PR#14622</a>)
 </p>
 </li></ul>
 
@@ -335,7 +346,7 @@ percent on recent CPUs at the expense of those which are several
 years old.  Its effect is particularly evident on 64-bit builds.
 </p>
 <p>This can be overridden when building from the sources: see the
-<span class="samp">EOPTS</span> macro defined in file &lsquo;<span class="file">MkRules.dist</span>&rsquo;.
+&lsquo;<span class="samp">&#8288;EOPTS&#8288;</span>&rsquo; macro defined in file &lsquo;<span class="file">MkRules.dist</span>&rsquo;.
 </p>
 </li>
 <li><p> Where both 32- and 64-bit versions of R are installed, the
@@ -361,7 +372,7 @@ mature enough.
 
 <ul>
 <li> <p>&lsquo;<span class="file">Rzlib.dll</span>&rsquo; (sometimes used in packages <em>via</em>
-<span class="samp">$(ZLIB_LIBS)</span>) does not include the buggy gzio   
+&lsquo;<span class="samp">&#8288;$(ZLIB_LIBS)&#8288;</span>&rsquo;) does not include the buggy gzio   
 interface from zlib 1.2.5.
 </p>
 </li></ul>
@@ -402,13 +413,13 @@ now does not crash.  (Reported by Stefan Gelissen.)
 
 
 <ul>
-<li><p> The fix for <a href="https://bugs.R-project.org/bugzilla3/show_bug.cgi?id=14583">PR#14583</a> caused inconsistent behaviour in other
-areas, e.g. <a href="https://bugs.R-project.org/bugzilla3/show_bug.cgi?id=14628">PR#14628</a>, extra lines appearing in image displays,
-and uneven bases on histograms.  (<a href="https://bugs.R-project.org/bugzilla3/show_bug.cgi?id=14632">PR#14632</a>).
+<li><p> The fix for <a href="https://bugs.R-project.org/show_bug.cgi?id=14583">PR#14583</a> caused inconsistent behaviour in other
+areas, e.g. <a href="https://bugs.R-project.org/show_bug.cgi?id=14628">PR#14628</a>, extra lines appearing in image displays,
+and uneven bases on histograms.  (<a href="https://bugs.R-project.org/show_bug.cgi?id=14632">PR#14632</a>).
 </p>
 </li>
 <li><p> Opening large numbers of <code>windows()</code> graphics devices
-could cause some of them to fail to redraw (<a href="https://bugs.R-project.org/bugzilla3/show_bug.cgi?id=14668">PR#14668</a>).
+could cause some of them to fail to redraw (<a href="https://bugs.R-project.org/show_bug.cgi?id=14668">PR#14668</a>).
 </p>
 </li></ul>
 
@@ -430,7 +441,7 @@ directories.
 </p>
 </li>
 <li> <p><code>shell.exec()</code> now interprets files relative to the current
-working directory (rather than <span class="samp">R_HOME</span>).
+working directory (rather than &lsquo;<span class="samp">&#8288;R_HOME&#8288;</span>&rsquo;).
 </p>
 </li>
 <li> <p><code>file.info()</code> now accepts &lsquo;file&rsquo; names with
@@ -455,7 +466,7 @@ on some versions of Windows.
 </p>
 </li>
 <li><p> The windows() screen device would sometimes fail to plot
-(visibly) points with <code>pch="."</code>. <a href="https://bugs.R-project.org/bugzilla3/show_bug.cgi?id=14583">PR#14583</a>
+(visibly) points with <code>pch="."</code>. <a href="https://bugs.R-project.org/show_bug.cgi?id=14583">PR#14583</a>
 </p>
 </li>
 <li> <p><code>system()</code> and related functions sometimes failed
@@ -506,7 +517,7 @@ consistent with Microsoft applications, but Unix versions of
 <code>iconv</code> usually ignore them.)
 </p>
 </li>
-<li><p> Support for repository type <span class="samp">win64.binary</span> (used for
+<li><p> Support for repository type &lsquo;<span class="samp">&#8288;win64.binary&#8288;</span>&rsquo; (used for
 64-bit Windows binaries for <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> 2.11.x only) has been removed.
 </p>
 </li>
@@ -571,17 +582,17 @@ uses slash as the path separator (as it always has when set by
 
 
 <ul>
-<li><p> There is support for <span class="samp">libjpeg-turbo</span> <em>via</em>
+<li><p> There is support for &lsquo;<span class="samp">&#8288;libjpeg-turbo&#8288;</span>&rsquo; <em>via</em>
 setting <code>JPEGDIR</code> to that value in &lsquo;<span class="file">MkRules.local</span>&rsquo;.
 </p>
-<p>Support for <span class="samp">jpeg-6b</span> has been removed.
+<p>Support for &lsquo;<span class="samp">&#8288;jpeg-6b&#8288;</span>&rsquo; has been removed.
 </p>
 </li>
-<li><p> The sources now work with <span class="samp">libpng-1.5.1</span>, 
-<span class="samp">jpegsrc.v8c</span> (which are used in the CRAN builds) and
-<span class="samp">tiff-4.0.0beta6</span> (CRAN builds use 3.9.1).  It is possible
+<li><p> The sources now work with &lsquo;<span class="samp">&#8288;libpng-1.5.1&#8288;</span>&rsquo;, 
+&lsquo;<span class="samp">&#8288;jpegsrc.v8c&#8288;</span>&rsquo; (which are used in the CRAN builds) and
+&lsquo;<span class="samp">&#8288;tiff-4.0.0beta6&#8288;</span>&rsquo; (CRAN builds use 3.9.1).  It is possible
 that they no longer work with older versions than 
-<span class="samp">libpng-1.4.5</span>. 
+&lsquo;<span class="samp">&#8288;libpng-1.4.5&#8288;</span>&rsquo;. 
 </p>
 </li></ul>
  
@@ -603,7 +614,7 @@ Thanks to Michael Sumner for report and testing.
 </p>
 </li>
 <li><p> Printing extremely long string values could overflow the
-stack and cause the GUI to crash.  (<a href="https://bugs.R-project.org/bugzilla3/show_bug.cgi?id=14543">PR#14543</a>)
+stack and cause the GUI to crash.  (<a href="https://bugs.R-project.org/show_bug.cgi?id=14543">PR#14543</a>)
 </p>
 </li></ul>
 
@@ -633,7 +644,7 @@ Windows: all devices are now closed.
 
 <ul>
 <li><p> In some circumstances the caret (cursor) could be positioned 
-incorrectly. (<a href="https://bugs.R-project.org/bugzilla3/show_bug.cgi?id=14460">PR#14460</a>)
+incorrectly. (<a href="https://bugs.R-project.org/show_bug.cgi?id=14460">PR#14460</a>)
 </p>
 </li>
 <li><p> When loading &lsquo;<span class="file">Rconsole</span>&rsquo; from disk, a spurious warning
@@ -724,7 +735,7 @@ so on <code>Rgui</code>.
 </p>
 </li>
 <li> <p><code>Rgui</code> in <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> 2.12.0 (only) did not always handle lines
-containing carriage returns (<span class="samp">\r</span>) correctly: sometimes
+containing carriage returns (&lsquo;<span class="samp">&#8288;\r&#8288;</span>&rsquo;) correctly: sometimes
 random characters where shown.
 </p>
 <p>Since carriage returns have been supported in <code>Rgui</code>,
@@ -925,7 +936,7 @@ run from <code>Rterm</code> or from <code>Rgui</code> with
 </p>
 </li>
 <li> <p><code>memory.limit()</code> did not allow sizes greater than
-4095 on 64 bit builds. (<a href="https://bugs.R-project.org/bugzilla3/show_bug.cgi?id=14372">PR#14372</a>)
+4095 on 64 bit builds. (<a href="https://bugs.R-project.org/show_bug.cgi?id=14372">PR#14372</a>)
 </p>
 </li></ul>
 
@@ -1241,4 +1252,5 @@ to the native encoding.
 
 
 
+</div>
 </body></html>
