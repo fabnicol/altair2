@@ -605,7 +605,7 @@ if (nrow(beneficiaires.A) > 0) {
 
                                             Régime = {
 
-                                            if (c != 0 & p != 0 & i != 0) {
+                                            if (c != 0 && p != 0 && i != 0) {
                                                 prime_B$nom %+% " " %+% i %+% " mois-" %+% ident_prime %+% " " %+% p %+% " mois" %+% "-Cumul " %+% c %+% " mois"
                                             } else ""
                                         }),

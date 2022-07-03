@@ -39,7 +39,7 @@ smpt <- function(Cat = NULL, Liste_statuts = NULL, type =  "smpt net") {
                           f,
                           g)
 
-  if (! is.null(T) & T != "") list(T, S_) else NULL
+  if (! is.null(T) && T != "") list(T, S_) else NULL
 }
 
 #' distribution_smpt
