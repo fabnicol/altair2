@@ -21,3 +21,4 @@ build-lhx.linux-Desktop-Release
 altair.Rproj
 scripts/R/Donnees/R-Altair/*/*/*
 Interface/gui/Altair
+packrat/lib*/
