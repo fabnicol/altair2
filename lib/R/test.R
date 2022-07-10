@@ -59,6 +59,7 @@ adm <- function(quotite) ifelse(quotite == 0.8,
 #' @param env  Environnement
 
 sauvebase <- function(x, y, z, env = environment()) {
+  if (! exists(x)) x <- NULL
   Sauv.base(z,
             x,
             y,
