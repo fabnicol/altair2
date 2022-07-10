@@ -11,7 +11,7 @@ RoxygenNote: 7.1.2
 ByteCompile: true
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2022-07-10 22:16:18 UTC; fab
+Packaged: 2022-07-10 22:37:14 UTC; fab
 Author: Fabrice Nicol [aut, cre]
 Maintainer: Fabrice Nicol <fabrice.nicol@crtc.ccomptes.fr>
-Built: R 4.2.1; ; 2022-07-10 22:16:18 UTC; unix
+Built: R 4.2.1; ; 2022-07-10 22:37:14 UTC; unix
