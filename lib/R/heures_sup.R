@@ -64,15 +64,21 @@ calcul_HS <- function() {
   #    au titre du mois donné en référence (Mois.rappel) -> nihts.cum.rappels
   # 5. Idem pour les paiements postérieurs à l'année en cours, par matricule
   #    -> nihts.cum.rappels.ant
+  # Ce procédé permet de ramener au mois N les nombres d'heures sup. payées
+  # ultérieurement au titre du mois N, dans la variable nihts.cum.rappels,
+  # et dans nihts.cum.rappels.ant lorsqu'il y a un saut d'année
+  # En revanche, s'agissant des paiements au mois N, la variable Heures.Sup.
+  # est censée regrouper l'ensemble des heures payées au cours du mois N, qu'il
+  # s'agisse de paiement pour service fait en cours de mois ou en rappels.
+  # Il n'y a donc pas lieu de ramener en N les montants payés en rappels
+  # au cours des mois et années ultérieurs.
 
-  lignes.IHTS.rappels <- lignes.IHTS[Type == "R" &
+  lignes.NIHTS.rappels <- lignes.IHTS[Type == "R" &
     Montant != 0 &
     Annee.rappel >= debut.periode.sous.revue &
     Mois.rappel >=1 &
     Mois.rappel <= 12
-  ][, `:=`(ihts.cum.rappels =
-             sum(Montant[Annee.rappel == Annee &
-                           Mois.rappel <= Mois], na.rm = TRUE),
+  ][, `:=`(
            nihts.cum.rappels =
              ifelse((a <- sum(abs(Base[Annee.rappel == Annee &
                                          Mois.rappel <= Mois]) *
@@ -81,8 +87,7 @@ calcul_HS <- function() {
                                        Mois.rappel <= Mois]) *
                           sign(Montant), na.rm = TRUE),
                     a),
-           ihts.cum.rappels.ant =
-             sum(Montant[Annee.rappel < Annee], na.rm = TRUE),
+
            nihts.cum.rappels.ant =
              ifelse((a <- sum(abs(Base[Annee.rappel < Annee]) *
                                 sign(Montant),
@@ -92,46 +97,41 @@ calcul_HS <- function() {
                     a)),
     by = .(Matricule, Annee.rappel, Mois.rappel)
   ][ , .(Matricule, Annee, Mois, quotite, quotite.moyenne, Annee.rappel,
-         Mois.rappel, ihts.cum.rappels, nihts.cum.rappels,
-         ihts.cum.rappels.ant, nihts.cum.rappels.ant)]
+         Mois.rappel, nihts.cum.rappels, nihts.cum.rappels.ant)]
 
-  setnames(lignes.IHTS.rappels, "Annee", "Annee.R")
-  setnames(lignes.IHTS.rappels, "Mois", "Mois.R")
-  setnames(lignes.IHTS.rappels, "Annee.rappel", "Annee")
-  setnames(lignes.IHTS.rappels, "Mois.rappel", "Mois")
+  setnames(lignes.NIHTS.rappels, "Annee", "Annee.R")
+  setnames(lignes.NIHTS.rappels, "Mois", "Mois.R")
+  setnames(lignes.NIHTS.rappels, "Annee.rappel", "Annee")
+  setnames(lignes.NIHTS.rappels, "Mois.rappel", "Mois")
 
-  lignes.IHTS.hors.rappels <- lignes.IHTS[Type != "R" & Montant != 0,
-                                          .(ihts.cum.hors.rappels =
-                                              sum(Montant, na.rm = TRUE),
-                                            nihts.cum.hors.rappels =
-                                              ifelse((a <- sum(abs(Base) *
-                                                                 sign(Montant),
-                                                               na.rm = TRUE)) == 0,
-                                                     sum(abs(Nb.Unite) * sign(Montant),
-                                                         na.rm = TRUE),
-                                                     a),
-                                            quotite,
-                                            quotite.moyenne),
-                                          by = .(Matricule, Annee, Mois)]
+  lignes.IHTS.tot <- lignes.IHTS[Montant != 0,
+                              .(
+                                nihts.cum.hors.rappels =
+                                  ifelse((a <- sum(abs(Base[Type != "R"]) *
+                                                     sign(Montant[Type != "R"]),
+                                                   na.rm = TRUE)) == 0,
+                                         sum(abs(Nb.Unite[Type != "R"]) *
+                                                 sign(Montant[Type != "R"]),
+                                             na.rm = TRUE),
+                                         a),
+                                ihts.tot =
+                                  sum(Montant, na.rm = TRUE),
+                                quotite,
+                                quotite.moyenne),
+                              by = .(Matricule, Annee, Mois)]
 
   "lignes.IHTS.tot" %a%
-    merge(lignes.IHTS.rappels,
-          lignes.IHTS.hors.rappels,
+    merge(lignes.NIHTS.rappels,
+          lignes.IHTS.tot,
           all = TRUE,
           by = c("Matricule", "Annee", "Mois",
                  "quotite", "quotite.moyenne"))[
-                   is.na(ihts.cum.rappels), ihts.cum.rappels := 0
-                 ][is.na(ihts.cum.hors.rappels), ihts.cum.hors.rappels := 0
+                   is.na(ihts.tot), ihts.tot := 0
                  ][is.na(nihts.cum.rappels), nihts.cum.rappels := 0
                  ][is.na(nihts.cum.hors.rappels), nihts.cum.hors.rappels := 0
-                 ][is.na(ihts.cum.rappels), ihts.cum.rappels := 0
-                 ][is.na(ihts.cum.rappels.ant), ihts.cum.rappels.ant := 0
                  ][is.na(nihts.cum.rappels.ant), nihts.cum.rappels.ant := 0]
 
-  lignes.IHTS.tot[ ,  `:=`(ihts.tot  = ihts.cum.rappels +
-                             ihts.cum.hors.rappels +
-                             ihts.cum.rappels.ant,
-                           nihts.tot = nihts.cum.rappels +
+  lignes.IHTS.tot[ ,  `:=`(nihts.tot = nihts.cum.rappels +
                              nihts.cum.hors.rappels +
                              nihts.cum.rappels.ant)]
 
@@ -190,6 +190,9 @@ calcul_HS <- function() {
                             `Taux horaire nuit`     = `Taux horaire`,
                             `Taux horaire dim. j.f.`= `Taux horaire`)]
 
+    # Formule donnée à l'art. 7 du Décret n°2002-60 du 14 janvier 2002
+	# relatif aux indemnités horaires pour travaux supplémentaires
+
     Taux.horaires[quotite >= 0.98,  `:=`(`Taux horaire inf.14 H` = `Taux horaire` * 1.25,
                                          `Taux horaire sup.14 H` = `Taux horaire` * 1.27,
                                          `Taux horaire nuit`     = `Taux horaire` * 2,
@@ -222,11 +225,14 @@ dépassements_HS <- function() {
   essayer({  depassement <- Taux.horaires[ihts.tot > Max, uniqueN(Matricule)]
 
   depassement.agent <- Taux.horaires[ihts.tot > Max,
-                                     .(`Coût en euros` = -Max + ihts.tot,
+                                     .(
                                        Matricule,
+                                       Heures.Sup.,
+                                       `Taux horaire nuit`,
                                        Max,
-                                       ihts.tot),
-                                       keyby = Annee]
+                                       ihts.tot,
+                                       `Coût en euros` = -Max + ihts.tot),
+                                       keyby = .(Annee, Mois)]
 
   depassement.agent.annee <-
     depassement.agent[ ,
