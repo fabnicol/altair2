@@ -44,7 +44,7 @@ calcul_HS <- function() {
 
   # Ne retenir que les IHTS grâce à l'indicatrice indic
 
-  lignes.IHTS <- Base.IHTS[indic == TRUE][ , indic := NULL]
+  "lignes.IHTS" %a% Base.IHTS[indic == TRUE][ , indic := NULL]
 
   Base.IHTS.non.tit <- lignes.IHTS[Statut != "TITULAIRE" & Statut != "STAGIAIRE"]
 
@@ -73,7 +73,7 @@ calcul_HS <- function() {
   # Il n'y a donc pas lieu de ramener en N les montants payés en rappels
   # au cours des mois et années ultérieurs.
 
-  lignes.NIHTS.rappels <- lignes.IHTS[Type == "R" &
+  "lignes.NIHTS.rappels" %a% lignes.IHTS[Type == "R" &
     Montant != 0 &
     Annee.rappel >= debut.periode.sous.revue &
     Mois.rappel >=1 &
@@ -104,7 +104,7 @@ calcul_HS <- function() {
   setnames(lignes.NIHTS.rappels, "Annee.rappel", "Annee")
   setnames(lignes.NIHTS.rappels, "Mois.rappel", "Mois")
 
-  lignes.IHTS.tot <- lignes.IHTS[Montant != 0,
+  "lignes.IHTS.tot" %a% lignes.IHTS[Montant != 0,
                               .(
                                 nihts.cum.hors.rappels =
                                   ifelse((a <- sum(abs(Base[Type != "R"]) *
@@ -112,6 +112,14 @@ calcul_HS <- function() {
                                                    na.rm = TRUE)) == 0,
                                          sum(abs(Nb.Unite[Type != "R"]) *
                                                  sign(Montant[Type != "R"]),
+                                             na.rm = TRUE),
+                                         a),
+                                nihts.cum =
+                                  ifelse((a <- sum(abs(Base) *
+                                                     sign(Montant),
+                                                   na.rm = TRUE)) == 0,
+                                         sum(abs(Nb.Unite) *
+                                               sign(Montant),
                                              na.rm = TRUE),
                                          a),
                                 ihts.tot =
@@ -125,11 +133,13 @@ calcul_HS <- function() {
           lignes.IHTS.tot,
           all = TRUE,
           by = c("Matricule", "Annee", "Mois",
-                 "quotite", "quotite.moyenne"))[
-                   is.na(ihts.tot), ihts.tot := 0
-                 ][is.na(nihts.cum.rappels), nihts.cum.rappels := 0
-                 ][is.na(nihts.cum.hors.rappels), nihts.cum.hors.rappels := 0
-                 ][is.na(nihts.cum.rappels.ant), nihts.cum.rappels.ant := 0]
+                 "quotite", "quotite.moyenne"))
+
+  lignes.IHTS.tot[is.na(ihts.tot), ihts.tot := 0]
+  lignes.IHTS.tot[is.na(nihts.cum), nihts.cum := 0]
+  lignes.IHTS.tot[is.na(nihts.cum.rappels), nihts.cum.rappels := 0]
+  lignes.IHTS.tot[is.na(nihts.cum.hors.rappels), nihts.cum.hors.rappels := 0]
+  lignes.IHTS.tot[is.na(nihts.cum.rappels.ant), nihts.cum.rappels.ant := 0]
 
   lignes.IHTS.tot[ ,  `:=`(nihts.tot = nihts.cum.rappels +
                              nihts.cum.hors.rappels +
@@ -156,7 +166,7 @@ calcul_HS <- function() {
 
     vect <- c("Matricule", "Annee", "Mois", "quotite")
 
-    "Taux.horaires" %a% Base.IHTS[ ,.(IR = sum(Montant[Type == "IR"],
+    Taux.horaires <- Base.IHTS[ ,.(IR = sum(Montant[Type == "IR"],
                                                na.rm = TRUE),
                                       Indice = Indice[1],
                                       NBI = NBI[1],
@@ -164,7 +174,7 @@ calcul_HS <- function() {
                                       Heures.Sup. = Heures.Sup.[1]),
                                    by = vect]
 
-    "Taux.horaires" %a% Taux.horaires[lignes.IHTS.tot, nomatch = 0, on = vect]
+    Taux.horaires <- Taux.horaires[lignes.IHTS.tot, nomatch = 0, on = vect]
 
     setkey(Taux.horaires, Annee, Mois)
 
@@ -172,7 +182,7 @@ calcul_HS <- function() {
       IR * 12 + (Indice + NBI) * PointIM[Annee - 2007, Mois]
     }
 
-    Taux.horaires$`Traitement indiciaire annuel et IR` <<-
+    Taux.horaires$`Traitement indiciaire annuel et IR` <-
       mapply(f,
              Taux.horaires$IR,
              Taux.horaires$Indice,
@@ -202,8 +212,8 @@ calcul_HS <- function() {
     # dans le mois et non pas le nombre d'heures effectuées et éventuellement payées
     # au cours des mois qui suivent [BUGFIX]
 
-    Taux.horaires[ ,   `:=` (Max = Heures.Sup. * `Taux horaire nuit`,
-                             Min = Heures.Sup. * `Taux horaire inf.14 H`)
+    Taux.horaires[ ,   `:=`(Plafond = nihts.cum * `Taux horaire nuit`,
+                            Plancher = nihts.cum * `Taux horaire inf.14 H`)
 
     ][ ,  `:=`(Indice = NULL,
                IR = NULL)]
@@ -214,6 +224,8 @@ calcul_HS <- function() {
                "lignes.IHTS.tot",
                "Base.IHTS.non.tit",
                "Taux.horaires")
+    
+    "Taux.horaires" %a% Taux.horaires
   },
   "La base des taux horaires d'heures supplémentaires n'a pas pu être générée.  \n")
 }
@@ -222,19 +234,19 @@ calcul_HS <- function() {
 
 dépassements_HS <- function() {
 
-  essayer({  depassement <- Taux.horaires[ihts.tot > Max, uniqueN(Matricule)]
+  essayer({  depassement <- Taux.horaires[ihts.tot > Plafond, uniqueN(Matricule)]
 
-  depassement.agent <- Taux.horaires[ihts.tot > Max,
-                                     .(
-                                       Matricule,
+  "depassement.agent" %a% Taux.horaires[ihts.tot > Plafond,
+                                     .(Matricule,
                                        Heures.Sup.,
+                                       nihts.cum,
                                        `Taux horaire nuit`,
-                                       Max,
+                                       Plafond,
                                        ihts.tot,
-                                       `Coût en euros` = -Max + ihts.tot),
+                                       `Coût en euros` = -Plafond + ihts.tot),
                                        keyby = .(Annee, Mois)]
 
-  depassement.agent.annee <-
+  "depassement.agent.annee" %a%
     depassement.agent[ ,
                         .(`Coût en euros` = sum(`Coût en euros`, na.rm = TRUE),
                           `Nombre d'agents` = uniqueN(Matricule)),
@@ -247,7 +259,7 @@ dépassements_HS <- function() {
         "être liquidé au titre du mois.  \n")
 
     with(depassement.agent.annee,
-
+         
          print(Tableau.vertical2(c("Annee", "Coût en euros", "Nombre d'agents"),
                                  Annee, digits = 0, `Coût en euros`, `Nombre d'agents`)))
   } else {
@@ -256,7 +268,7 @@ dépassements_HS <- function() {
   }
 
   sauv.bases("Reglementation",
-             env = new.env(),
+             env = .GlobalEnv,
              "depassement.agent",
              "depassement.agent.annee")
 
