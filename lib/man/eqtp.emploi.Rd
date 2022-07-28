@@ -6,6 +6,7 @@
 \usage{
 eqtp.emploi(
   Base = Bulletins.paie,
+  grade = NULL,
   emploi = NULL,
   classe = NULL,
   service = NULL,
@@ -31,6 +32,8 @@ eqtp.emploi(
    \item{ les variables numériques :
        \describe{
          \item{\code{quotite}}{réel entre 0 et 1}}}}.}
+
+\item{grade}{Grade particulier. Tous les grades en l'absence de spécification.}
 
 \item{emploi}{Emploi particulier. Tous les emplois en l'absence de spécification.}
 

@@ -1,6 +1,6 @@
 
-R Under development (unstable) (2020-06-10 r78667) -- "Unsuffered Consequences"
-Copyright (C) 2020 The R Foundation for Statistical Computing
+R Under development (unstable) (2022-03-19 r81942) -- "Unsuffered Consequences"
+Copyright (C) 2022 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -251,6 +251,7 @@ $vectors
 [4,] 0.5029+0i -0.74239+0i -0.32651+0i -0.2262+0.1063i -0.2262-0.1063i
 [5,] 0.4839+0i  0.48539+0i -0.53901+0i -0.3375-0.1752i -0.3375+0.1752i
 
+> ## The signs of the 'u' and 'v' components can vary in the next two
 > svd(A)
 $d
 [1] 29.929  6.943  6.668  3.960  1.707
@@ -393,13 +394,16 @@ attr(,"class")
 > E <- eigen(As)
 > E$values
 [1]  3.465  1.510  0.300 -1.000 -1.275
-> zapsmall(E$vectors)
-        [,1]    [,2]    [,3] [,4]    [,5]
-[1,] -0.4023  0.2877  0.3638  0.5  0.6108
-[2,] -0.5338 -0.3474  0.5742 -0.5 -0.1207
-[3,] -0.4177 -0.5380 -0.6384  0.0  0.3585
-[4,] -0.4959  0.0733 -0.1273  0.5 -0.6946
-[5,] -0.3644  0.7084 -0.3378 -0.5  0.0369
+> ## The eigenvectors are of arbitrary sign, so we fix the first element to
+> ## be positive for cross-platform comparisons.
+> Ev <- E$vectors
+> zapsmall(Ev * rep(sign(Ev[1, ]), each = 5))
+       [,1]    [,2]    [,3] [,4]    [,5]
+[1,] 0.4023  0.2877  0.3638  0.5  0.6108
+[2,] 0.5338 -0.3474  0.5742 -0.5 -0.1207
+[3,] 0.4177 -0.5380 -0.6384  0.0  0.3585
+[4,] 0.4959  0.0733 -0.1273  0.5 -0.6946
+[5,] 0.3644  0.7084 -0.3378 -0.5  0.0369
 > solve(As)
      [,1] [,2] [,3] [,4] [,5]
 [1,]    0    1 -1.0  0.0  0.0

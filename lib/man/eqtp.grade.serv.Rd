@@ -7,13 +7,16 @@
 eqtp.grade.serv(
   Base = Bulletins.paie,
   grade = NULL,
+  emploi = NULL,
   classe = NULL,
+  service = NULL,
   libellés = NULL,
   agr = FALSE,
   periode = NULL,
   variation = FALSE,
   statut = NULL,
   categorie = NULL,
+  fichier = "effectifs.serv.",
   exclure.codes = NULL,
   quotite.nulle = FALSE
 )
@@ -34,7 +37,11 @@ eqtp.grade.serv(
 
 \item{grade}{Grade particulier. Tous les grades en l'absence de spécification.}
 
+\item{emploi}{Emploi particulier. Tous les emplois en l'absence de spécification.}
+
 \item{classe}{Liste de vecteurs de grades, chaque vecteur représentant une classe aggrégée, ou bien vecteur de chaîne de caractères représentant des expressions rationnelles sur les grades. Tous les grades en l'absence de spécification. La casse est ignorée pour les expressions rationnelles.}
+
+\item{service}{Services. Vecteur de chaînes de caractères exactes. Tous les services en l'absence de spécification.}
 
 \item{libellés}{Vecteur de libellés des agrégations de grades par expression régulière. Doit avoir la même dimension que le vecteur de regexp.}
 
@@ -47,6 +54,8 @@ eqtp.grade.serv(
 \item{statut}{Restreindre le tableau au vecteur des statuts en paramètres. Expressions exactes. Tous statuts par défaut.}
 
 \item{categorie}{Catégorie statutaire (vecteur de lettres parmi 'A', 'B', 'C'). Par défaut A, B, C ou indéterminée.}
+
+\item{fichier}{Identificateur du fichier de sortie, qui sera nommé :  \code{tableau.fichier.zip}}
 }
 \value{
 Un tableau des effectifs par grade et service mis en forme avec les grades en ligne et autant de colonnes numériques que d'années de période, plus une colonne de libellés.

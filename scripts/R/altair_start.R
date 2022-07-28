@@ -164,6 +164,7 @@ Paie_I <<- Paie[Type == "I" | Type == "A" | Type == "R",
 prime_IAT <<- list(nom = "IAT",                     # Nom en majuscules
                   categorie = c("B", "C"),         # restreint aux categories B et C
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
+                  expr.reg = NULL,
                   dossier = "Reglementation")      # dossier de bases
 
 prime_IFTS <<- list(nom = "IFTS",                   # Nom en majuscules
@@ -171,6 +172,7 @@ prime_IFTS <<- list(nom = "IFTS",                   # Nom en majuscules
                    restreint_fonctionnaire = TRUE, # fonctionnaires
                    dossier = "Reglementation",     # dossier de bases  
                    NAS = "non",                    # logement par NAS
+                   expr.reg = NULL,
                    indice  = c("+", 350, "B"))     # supérieur à INM 350 pour categorie B.
 
 prime_PFR <<- list(nom = "PFR",                     # Nom en majuscules
@@ -194,21 +196,25 @@ prime_IPF <<- list(nom = "IPF",                     # Nom en majuscules
 prime_IFSE <<- list(nom = "IFSE",                   # Nom en majuscules
                    restreint_fonctionnaire = TRUE, # fonctionnaires
                    categorie = c("A", "B", "C"),   # toutes les categories
+                   expr.reg = NULL,                   
                    dossier = "Reglementation")     # dossier de bases
 
 prime_ISS <<- list(nom = "ISS",                     # Nom en majuscules
                   categorie = c("A", "B"),         # Techniciens A, B
                   restreint_fonctionnaire = TRUE,  # fonctionnaires
+                  expr.reg = NULL,                  
                   dossier = "Reglementation")      # dossier de bases
 
 prime_IEMP <<- list(nom = "IEMP",                   # Nom en majuscules
                    restreint_fonctionnaire = TRUE, # fonctionnaires
                    categorie = c("A", "B", "C"),   # toutes les categories
+                   expr.reg = NULL,                   
                    dossier = "Reglementation")     # dossier de bases
 
 prime_PFI <<- list(nom = "PFI",                      # Nom en majuscules
                   restreint_fonctionnaire = TRUE,   # fonctionnaires
                   categorie = c("A", "B", "C"),     # toutes les categories
+                  expr.reg = NULL,                  
                   dossier = "Reglementation")       # dossier de bases
 #immature
 

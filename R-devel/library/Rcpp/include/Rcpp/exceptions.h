@@ -2,6 +2,7 @@
 // exceptions.h: Rcpp R/C++ interface class library -- exceptions
 //
 // Copyright (C) 2010 - 2020  Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2021 - 2020  Dirk Eddelbuettel, Romain Francois and Iñaki Ucar
 //
 // This file is part of Rcpp.
 //
@@ -108,9 +109,9 @@ namespace Rcpp {
 
     // Variadic / code generated version of the warning and stop functions
     // can be found within the respective C++11 or C++98 exceptions.h
-    // included below
+    // included below.
     inline void warning(const std::string& message) {        // #nocov start
-        Rf_warning(message.c_str());
+        ::Rf_warning("%s", message.c_str());
     }                                                        // #nocov end
 
     inline void NORET stop(const std::string& message) {     // #nocov start

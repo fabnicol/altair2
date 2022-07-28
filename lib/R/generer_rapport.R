@@ -192,7 +192,9 @@ tex2pdf <- function(infile = "altair.tex",
   if (ouvrir.document && file.exists(cle_outfile)) {
     if (setOSWindows) {
 
-      shell(paste("start acrord32.exe",  cle_outfile))
+      if (shell(paste("start Acrobat.exe",  cle_outfile)) != 0) {
+	      shell(paste("start acrord32.exe",  cle_outfile))
+	  }
 
     } else {
       system(paste("okular", file.path(chemin.cle, outfile)))

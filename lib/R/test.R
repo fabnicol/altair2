@@ -44,7 +44,9 @@
 #' Quotité administrative
 #' @param quotite  quotite formelle (Temps.de.travail / 100)
 #' @export
-adm <- function(quotite) ifelse(quotite == 0.8,  6/7, ifelse (quotite == 0.9,  32/35, quotite))
+adm <- function(quotite) ifelse(quotite == 0.8,  
+                                6/7, 
+                                ifelse (quotite == 0.9,  32/35, quotite))
 
 
 #' Sauvegarde une base dans le dossier des bases
@@ -56,7 +58,8 @@ adm <- function(quotite) ifelse(quotite == 0.8,  6/7, ifelse (quotite == 0.9,  3
 #' @param z  Nom du sous-dossier du dossier des bases.   
 #' @param env  Environnement
 
-sauvebase <- function(x, y, z, env) {
+sauvebase <- function(x, y, z, env = environment()) {
+  if (! exists(x)) x <- NULL
   Sauv.base(z,
             x,
             y,
@@ -231,6 +234,7 @@ analyser <- function(prime, Paie_I, verbeux, echo = TRUE) {
   Lignes_A <- NULL
   résultat.manquant <- FALSE
   lignes.indice.anormal <- NULL
+  len_pc <- length(prime$categorie)  
   
   essayer({  Paie_A   <- filtrer_Paie(prime$nom, 
                              portee = "Mois",
@@ -262,11 +266,13 @@ analyser <- function(prime, Paie_I, verbeux, echo = TRUE) {
           cat(nr,
               "attributaires de",
               prime$nom,
-              "ne satisfont pas au critère de la borne indiciaire (INM", prime$indice[2] %+% "). " )
+              "ne satisfont pas au critère de la borne indiciaire (INM", 
+              prime$indice[2] %+% "). " )
         } else {
           cat("Les attributaires de",
               prime$nom,
-              "satisfont tous au critère de la borne indiciaire (INM", prime$indice[2] %+% "). ") 
+              "satisfont tous au critère de la borne indiciaire (INM", 
+              prime$indice[2] %+% "). ") 
         }
       }
       
@@ -303,44 +309,21 @@ analyser <- function(prime, Paie_I, verbeux, echo = TRUE) {
       }
     }
     
-    if (!is.null(prime$categorie)){
-      
-      if (! is.null(prime$expr.reg)) {
-        
-        A.non.cat <- Lignes_A[! Categorie %chin% prime$categorie 
-                              | ! grepl(prime$expr.reg, Grade, ignore.case = TRUE, perl = TRUE)] 
+    if (is.null(prime$categorie)){
+    
+     if (is.null(prime$expr.reg)) {
+             cat("La détection des incompatibilités statutaires", 
+                 "n'a pas pu être réalisée. ")
+        stop("La prime " %+% prime$nom %+% " doit être renseignée soit pour" %+% 
+               " sa catagorie statutaire (prime$categorie) " %+%
+               "soit par une expression régulière sur libellé (prime$expr.reg).")
         
       } else {
-        
-        A.non.cat <- Lignes_A[! Categorie %chin% prime$categorie]
-      }
       
-      if (echo) {
-        if ((N.A.non.cat <<- uniqueN(A.non.cat$Matricule)) > 0) {
-          
-          cat(N.A.non.cat, 
-              "attributaires de",
-              prime$nom,
-              "ne sont pas identifiés en categorie",
-              prime$categorie,
-              ". ")
-          
-          if (verbeux)  print(kable(A.non.cat, align = 'r', format = "simple", row.names = FALSE))
-          
-        } else {
-          
-          if (echo) cat("Tous les attributaires de",
-                        prime$nom,
-                        "sont identifiés en categorie",
-                        prime$categorie, ". ")
-        }
-      }
-      
-    } else {
-      
-      if (! is.null(prime$expr.reg)) {
-        
-        A.non.cat <- Lignes_A[! grepl(prime$expr.reg, Grade, ignore.case = TRUE, perl = TRUE)] 
+        A.non.cat <- Lignes_A[! grepl(prime$expr.reg, 
+                                      Grade,
+                                      ignore.case = TRUE, 
+                                      perl = TRUE)] 
         
         if (echo) {
           if ((N.A.non.cat <<- uniqueN(A.non.cat$Matricule)) > 0) {
@@ -350,16 +333,60 @@ analyser <- function(prime, Paie_I, verbeux, echo = TRUE) {
               prime$nom,
               "ne sont pas identifiés comme relevant de grades conformes. ")
           
-          if (verbeux)  print(kable(A.non.cat, align = 'r', format = "simple", row.names = FALSE))
+          if (verbeux)  print(kable(A.non.cat,
+                                    align = 'r',
+                                    format = "simple",
+                                    row.names = FALSE))
           
           }
         }
+      }
+      
+    } else {
+      
+      if (is.null(prime$expr.reg)) {
+      
+        if (len_pc < 3) {
+        
+            A.non.cat <- Lignes_A[! Categorie %in% prime$categorie]        
+            
+        } else A.non.cat <- NULL
         
       } else {
-       
-        cat("La détection des incompatibilités statutaires n'a pas pu être réalisée. ")
-        stop("La prime " %+% prime$nom %+% " doit être renseignée soit pour sa catagorie statutaire (prime$categorie) soit par une expression régulière sur libellé (prime$expr.reg).")
+
+        if (len_pc < 3) {
         
+            A.non.cat <- Lignes_A[! Categorie %in% prime$categorie 
+                                  | ! grepl(prime$expr.reg, Grade, 
+                                            ignore.case = TRUE, perl = TRUE)] 
+                                  
+        } else  A.non.cat <- Lignes_A[! grepl(prime$expr.reg, Grade, 
+                                              ignore.case = TRUE, perl = TRUE)] 
+
+      }
+      
+      if (echo) {
+        if ((N.A.non.cat <<- uniqueN(A.non.cat$Matricule)) > 0) {
+          
+          cat(N.A.non.cat, 
+              "attributaires de",
+              prime$nom,
+              "ne sont pas identifiés en categorie" %s% len_pc,
+              paste(prime$categorie, collapse=", "),
+              ". ")
+          
+          if (verbeux)  print(kable(A.non.cat,
+                                    align = 'r', 
+                                    format = "simple",
+                                    row.names = FALSE))
+          
+        } else {
+          
+          if (echo) cat("Tous les attributaires de",
+                        prime$nom,
+                        "sont identifiés en categorie" %s% len_pc,
+                        paste(prime$categorie, collapse=", "), ". ")
+        }
       }
     }
   },
@@ -374,7 +401,8 @@ analyser <- function(prime, Paie_I, verbeux, echo = TRUE) {
     if (L == 0) {
       cat("Il n'a pas été possible d'identifier", 
           prime$nom,
-          "par méthode heuristique. Renseigner les codes de paye correspondants dans l'interface graphique. ")
+          "par méthode heuristique.",
+          "Renseigner les codes de paye correspondants dans l'interface graphique. ")
  
       résultat.manquant <- TRUE
 
@@ -384,10 +412,21 @@ analyser <- function(prime, Paie_I, verbeux, echo = TRUE) {
   env <- environment()
  
   if (sauvegarder.bases.analyse) { 
-    sauvebase("A.non.cat", prime$nom %+% ".non.cat" %+% paste0("", prime$categorie, collapse = ""), prime$dossier, env)
-    sauvebase("A.non.tit", prime$nom %+% ".non.tit", prime$dossier, env)
+    if (! is.null(A.non.cat) && len_pc < 3) {
+        sauvebase("A.non.cat", 
+                  prime$nom %+% ".non.cat" %+% paste(prime$categorie, collapse = ""),
+                  prime$dossier, 
+                  env)
+    }
+    if (! is.null(A.non.tit)) sauvebase("A.non.tit", 
+                                        prime$nom %+% ".non.tit", 
+                                        prime$dossier, 
+                                        env)
     if (! is.null(prime$indice)) {
-      sauvebase("lignes.indice.anormal", prime$nom %+% ".indice.anormal", prime$dossier, env)
+      sauvebase("lignes.indice.anormal",
+                prime$nom %+% ".indice.anormal",
+                prime$dossier, 
+                env)
     }
  }
   
@@ -442,7 +481,13 @@ analyser <- function(prime, Paie_I, verbeux, echo = TRUE) {
 #' }   
 #' @export
 
-test_prime <- function(prime, prime_B, Paie_I = NULL, Paie_B = NULL, Lignes_B = NULL, verbeux = FALSE, echo = TRUE) {
+test_prime <- function(prime, 
+                       prime_B, 
+                       Paie_I = NULL,
+                       Paie_B = NULL,
+                       Lignes_B = NULL, 
+                       verbeux = FALSE, 
+                       echo = TRUE) {
 
 if (is.null(prime_B)) return(NULL);  
   
@@ -485,7 +530,9 @@ essayer({ if (! is.null(Paie_B) && ! résultat.manquant) {
       
       NAMES <- names(Paie_B)
       
-      if (! indic_B %chin% NAMES && "indic" %chin% NAMES) setnames(Paie_B, "indic", indic_B)
+      if (! indic_B %chin% NAMES && "indic" %chin% NAMES) {
+        setnames(Paie_B, "indic", indic_B)
+      }
       
         periode.fusion <- merge(unique(Paie_A[indic == TRUE]),
                                 unique(Paie_B[INDIC_B == TRUE]),
@@ -504,7 +551,8 @@ essayer({ if (! is.null(Paie_B) && ! résultat.manquant) {
                             ][ , indic := NULL
                             ][ , (indic_B) := NULL]
         
-        nombre.mois.cumuls <- uniqueN(personnels.A.B[ , .(Matricule, Annee, Mois)], by = NULL)
+        nombre.mois.cumuls <- 
+          uniqueN(personnels.A.B[ , .(Matricule, Annee, Mois)], by = NULL)
         
         nombre.agents.cumulant.A.B <- uniqueN(personnels.A.B$Matricule)
         
@@ -514,7 +562,8 @@ essayer({ if (! is.null(Paie_B) && ! résultat.manquant) {
   
 }
  },
-   "La détection des cumuls d'indemnités " %+% ident_prime %+% " et " %+% prime_B$nom %+% " n'a pas pu être réalisée. ")
+   "La détection des cumuls d'indemnités " %+% ident_prime %+% " et " %+% prime_B$nom %+% 
+   " n'a pas pu être réalisée. ")
 
 if (exists("nombre.agents.cumulant.A.B") && nombre.agents.cumulant.A.B > 0) {
   essayer(label = "Tableau cumuls", {
@@ -539,8 +588,8 @@ if (exists("nombre.agents.cumulant.A.B") && nombre.agents.cumulant.A.B > 0) {
 
 if(sauvegarder.bases.analyse) {
   sauvebase("personnels.A.B",
-  "personnels." %+% tolower(ident_prime) %+% "." %+% tolower(prime_B$nom),
-                             prime$dossier, environment())
+            "personnels." %+% tolower(ident_prime) %+% "." %+% tolower(prime_B$nom),
+            prime$dossier)
 }
 
 indic <<- "indic_"  %+% prime$nom
@@ -590,23 +639,27 @@ if (nrow(beneficiaires.A) > 0) {
 
                                             Régime = {
 
-                                            if (c != 0 & p != 0 & i != 0) {
-                                                prime_B$nom %+% " " %+% i %+% " mois-" %+% ident_prime %+% " " %+% p %+% " mois" %+% "-Cumul " %+% c %+% " mois"
+                                            if (c != 0 && p != 0 && i != 0) {
+                                                prime_B$nom %+% " " %+% i %+% " mois-" %+%
+                                                ident_prime %+% " " %+% p %+% " mois" %+% 
+                                                "-Cumul " %+% c %+% " mois"
                                             } else ""
                                         }),
                                 keyby = .(Matricule, Annee)]
 
     beneficiaires.A <- unique(beneficiaires.A)
 
-    beneficiaires.A.Variation <- beneficiaires.A[ ,
-                                                    {
-                                                    L <- length(Annee)
-                                                    q <- Agrégat[L]/Agrégat[1] * nb.mois[1]/nb.mois[L]
-                                                    .(Annees = paste(Annee, collapse = ", "),
-                                                        `Variation (%)` = round((q - 1) * 100, 1),
-                                                        `Moyenne géométrique annuelle(%)` = round((q^(1/(L - 1)) - 1) * 100, 1))
-                                                    },
-                                                by = "Matricule"]
+    beneficiaires.A.Variation <- 
+      beneficiaires.A[ ,
+                       {
+                         L <- length(Annee)
+                         q <- Agrégat[L]/Agrégat[1] * nb.mois[1]/nb.mois[L]
+                         .(Annees = paste(Annee, collapse = ", "),
+                           `Variation (%)` = round((q - 1) * 100, 1),
+                           `Moyenne géométrique annuelle(%)` = 
+                             round((q^(1/(L - 1)) - 1) * 100, 1))
+                       },
+                       by = "Matricule"]
 
     beneficiaires.A.Variation <- beneficiaires.A.Variation[`Variation (%)` != 0.00]
 } else {
@@ -619,10 +672,22 @@ cumul.prime.NAS <- NULL
 env <- environment()
 
 if (sauvegarder.bases.analyse) {
-    sauvebase("Lignes_A", "Lignes_A." %+% ident_prime %+% "." %+% prime_B$nom, "Remunerations", env)
-    sauvebase("Lignes_B", "Lignes_B." %+% ident_prime %+% "." %+% prime_B$nom, "Remunerations", env)
-    sauvebase("beneficiaires.A", "beneficiaires." %+% ident_prime %+% "." %+% prime_B$nom, "Remunerations", env)
-    sauvebase("beneficiaires.A.Variation", "beneficiaires." %+% ident_prime %+% "." %+% prime_B$nom %+% ".Variation", "Remunerations", env)
+    sauvebase("Lignes_A", 
+              "Lignes_A." %+% ident_prime %+% "." %+% prime_B$nom, 
+              "Remunerations",
+              env)
+    sauvebase("Lignes_B", 
+              "Lignes_B." %+% ident_prime %+% "." %+% prime_B$nom, 
+              "Remunerations", 
+              env)
+    sauvebase("beneficiaires.A",
+              "beneficiaires." %+% ident_prime %+% "." %+% prime_B$nom,
+              "Remunerations", 
+              env)
+    sauvebase("beneficiaires.A.Variation",
+              "beneficiaires." %+% ident_prime %+% "." %+% prime_B$nom %+% ".Variation",
+              "Remunerations", 
+              env)
 }
 
 

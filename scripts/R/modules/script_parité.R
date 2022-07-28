@@ -3,57 +3,57 @@
 #'  
 
 
-Analyse.remunerations[Categorie %in% c("A", "B", "C") 
-               & ! is.na(Montant.net.annuel.eqtp) 
+Analyse.remunerations[Categorie %in% c("A", "B", "C")
+               & ! is.na(Montant.net.annuel.eqtp)
                & Montant.net.annuel.eqtp > minimum.positif
-               & Statut %in% c("TITULAIRE", "STAGIAIRE", "EMPLOI_FONC"), 
-                 .(Moyenne = round(mean(Montant.net.annuel.eqtp)), Effectif = .N), 
+               & Statut %in% c("TITULAIRE", "STAGIAIRE", "EMPLOI_FONC", "EMPLOI_FONCTIONNEL"),
+                 .(Moyenne = round(mean(Montant.net.annuel.eqtp, na.rm = TRUE)), Effectif = .N),
                      keyby = "Categorie,Sexe"
                ][ , Sexe := ifelse(Sexe == 1, "Homme", "Femme")] -> T1
 
-Analyse.remunerations[! is.na(Montant.net.annuel.eqtp) 
+Analyse.remunerations[Categorie %in% c("A", "B", "C")
+               & ! is.na(Montant.net.annuel.eqtp)
                & Montant.net.annuel.eqtp > minimum.positif
-               & Statut %in% c("TITULAIRE", "STAGIAIRE", "EMPLOI_FONC"), 
-               .(Moyenne = round(mean(Montant.net.annuel.eqtp)), Effectif = .N), 
+               & Statut %in% c("TITULAIRE", "STAGIAIRE", "EMPLOI_FONC", "EMPLOI_FONCTIONNEL"),
+               .(Moyenne = round(mean(Montant.net.annuel.eqtp, na.rm = TRUE)), Effectif = .N),
                keyby = "Sexe"
 ][ , Sexe := ifelse(Sexe == 1, "Homme", "Femme")] -> T1a
 
-
-Analyse.remunerations[Categorie %in% c("A", "B", "C") 
+Analyse.remunerations[Categorie %in% c("A", "B", "C")
                & !is.na(Montant.net.annuel.eqtp)
                & round(Montant.net.annuel.eqtp) > minimum.positif
-               & Statut == "NON_TITULAIRE", 
-                 .(Moyenne = mean(Montant.net.annuel.eqtp), Effectif = .N), 
+               & Statut == "NON_TITULAIRE",
+               .(Moyenne = round(mean(Montant.net.annuel.eqtp, na.rm = TRUE)), Effectif = .N),
                      keyby = "Categorie,Sexe"
                ][ , Sexe := ifelse(Sexe == 1, "Homme", "Femme")] -> T2
 
 Analyse.remunerations[
                ! is.na(Montant.net.annuel.eqtp)
                & round(Montant.net.annuel.eqtp) > minimum.positif
-               & Statut == "NON_TITULAIRE", 
-               .(Moyenne = mean(Montant.net.annuel.eqtp), Effectif = .N), 
+               & Statut == "NON_TITULAIRE",
+               .(Moyenne = round(mean(Montant.net.annuel.eqtp, na.rm = TRUE)), Effectif = .N),
                keyby = "Sexe"
 ][ , Sexe := ifelse(Sexe == 1, "Homme", "Femme")] -> T2a
 
 Analyse.remunerations[Categorie %in% c("A", "B", "C")
-               & !is.na(Montant.net.annuel.eqtp) 
+               & !is.na(Montant.net.annuel.eqtp)
                & Montant.net.annuel.eqtp > minimum.positif
-               & Statut %in% c("TITULAIRE", "STAGIAIRE", "EMPLOI_FONC"),
-                 .(Moyenne = round(mean(Montant.net.annuel.eqtp)), Effectif = .N), 
+               & Statut %in% c("TITULAIRE", "STAGIAIRE", "EMPLOI_FONC", "EMPLOI_FONCTIONNEL"),
+               .(Moyenne = round(mean(Montant.net.annuel.eqtp, na.rm = TRUE)), Effectif = .N),
                    keyby = "Categorie,Sexe"
-              ][ , .(`Ecart de rémunération` = signif((Moyenne[2] / Moyenne[1] - 1) * 100, 2), 
+              ][ , .(`Ecart de rémunération` = signif((Moyenne[2] / Moyenne[1] - 1) * 100, 2),
                      `Ecart d'effectifs` = signif((Effectif[2] / Effectif[1] - 1) * 100, 2)),
                        keyby = "Categorie"
               ] -> T3
 
-Analyse.remunerations[Categorie %in% c("A", "B", "C") 
-               & ! is.na(Montant.net.annuel.eqtp) 
+Analyse.remunerations[Categorie %in% c("A", "B", "C")
+               & ! is.na(Montant.net.annuel.eqtp)
                & Montant.net.annuel.eqtp > minimum.positif
-               & Statut %in% c("NON_TITULAIRE"), 
-                 .(Moyenne = round(mean(Montant.net.annuel.eqtp)), Effectif = .N),
+               & Statut %in% c("NON_TITULAIRE"),
+               .(Moyenne = round(mean(Montant.net.annuel.eqtp, na.rm = TRUE)), Effectif = .N),
                    keyby = "Categorie,Sexe"
-              ][ , .(Ecart.salarial = signif((Moyenne[2] / Moyenne[1] - 1) * 100, 2), 
-                     Ecart.effectifs=signif((Effectif[2] / Effectif[1] - 1) * 100, 2)),
+              ][ , .(Ecart.salarial = signif((Moyenne[2] / Moyenne[1] - 1) * 100, 2),
+                     Ecart.effectifs = signif((Effectif[2] / Effectif[1] - 1) * 100, 2)),
                        keyby="Categorie"
               ] -> T4
 

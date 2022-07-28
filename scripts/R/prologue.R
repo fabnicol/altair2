@@ -106,7 +106,10 @@ exec.root                      <- if (setOSWindows) ".exe" else ""
 redresser.heures               <- TRUE
 enlever.quotites.nulles        <- FALSE
 enlever.quotites.na            <- FALSE
+
+# Si TRUE, des quotités > 1 seront ramenées à 1.
 écreter.quotites               <- TRUE
+
 generer.codes                  <- FALSE
 charger.categories.personnel   <- TRUE
 extraire.population            <- FALSE

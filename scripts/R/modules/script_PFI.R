@@ -26,5 +26,8 @@ if (nombre.personnels.pfi == 0) {
 
 sauv.bases("Reglementation", environment(), "personnels.prime.informatique")
 
-cat(primes.informatiques.potentielles)
-
+cat(primes.informatiques.potentielles) 
+#'  
+#'  
+conditionnel("Lien vers la base de données PFI", "Bases/Reglementation/personnels.prime.informatique.csv")   
+#'  

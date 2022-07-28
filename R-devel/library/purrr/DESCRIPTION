@@ -33,5 +33,6 @@ Author: Lionel Henry [aut, cre],
 Maintainer: Lionel Henry <lionel@rstudio.com>
 Repository: CRAN
 Date/Publication: 2020-04-17 12:10:07 UTC
-Built: R 4.1.0; x86_64-w64-mingw32; 2020-06-23 14:42:16 UTC; windows
+Built: R 4.2.1; x86_64-w64-mingw32; 2022-06-30 01:48:04 UTC; windows
+ExperimentalWindowsRuntime: ucrt
 Archs: x64

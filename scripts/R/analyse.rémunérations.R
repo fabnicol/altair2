@@ -2,23 +2,23 @@
 # Contributeur :
 # Fabrice Nicol, annees 2012 à 2017
 # fabrice.nicol@crtc.ccomptes.fr
-# 
+#
 # Ce logiciel est un programme informatique servant à extraire et analyser
-# les fichiers de paye produits au format spécifié par l'annexe de la  
+# les fichiers de paye produits au format spécifié par l'annexe de la
 # convention-cadre de dématérialisation en vigueur à partir de 2008.
-# 
+#
 # Ce logiciel est régi par la licence CeCILL soumise au droit français et
 # respectant les principes de diffusion des logiciels libres. Vous pouvez
 # utiliser, modifier et/ou redistribuer ce programme sous les conditions
 # de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
 # sur le site "http://www.cecill.info".
-# 
+#
 # En contrepartie de l'accessibilité au code source et des droits de copie,
 # de modification et de redistribution accordés par cette licence, il n'est
 # offert aux utilisateurs qu'une garantie limitée. Pour les mêmes raisons,
 # seule une responsabilité restreinte pèse sur l'auteur du programme, le
 # titulaire des droits patrimoniaux et les concédants successifs.
-# 
+#
 # A cet égard l'attention de l'utilisateur est attirée sur les risques
 # associés au chargement, à l'utilisation, à la modification et/ou au
 # développement et à la reproduction du logiciel par l'utilisateur étant
@@ -29,12 +29,12 @@
 # logiciel à leurs besoins dans des conditions permettant d'assurer la
 # sécurité de leurs systèmes et ou de leurs données et, plus généralement,
 # à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
-# 
+#
 # Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
 # pris connaissance de la licence CeCILL, et que vous en avez accepté les
 # termes.
-# 
-# 
+#
+#
 
 message("Calcul des rémunérations...")
 
@@ -42,13 +42,13 @@ smic_net    <<- smic.net()
 
 periode.hors.données.smic <- FALSE
 
-if (debut.periode.sous.revue < smic.net.première.annee.renseignée 
+if (debut.periode.sous.revue < smic.net.première.annee.renseignée
     || fin.periode.sous.revue > smic.net.dernière.annee.renseignée) {
-  
+
 message("Attention la periode sous revue n'est pas incluse dans la base de données du smic net mensuel.
 Actualiser le fichier smic.R dans le dossier scripts/R")
 
-  periode.hors.données.smic <- TRUE  
+  periode.hors.données.smic <- TRUE
 }
 
 # Si la periode déborde de la periode des données du smic, on prend la moins mauvaise solution qui consiste à retenir la borne la plus proche.
@@ -91,35 +91,35 @@ Analyse.remunerations <- Paie[ , .(Nir          = Nir[1],
                                    retenues  = sum(Montant[Type == "RE"], na.rm = TRUE),
                                    rémunérations.diverses = sum(Montant[Type == "A"], na.rm = TRUE),
                                    acomptes   = sum(Montant[Type == "AC"], na.rm = TRUE),
-                                   rémunération.vacataire = sum(Montant[Type == "VAC"], na.rm = TRUE)), 
+                                   rémunération.vacataire = sum(Montant[Type == "VAC"], na.rm = TRUE)),
                               by = .(Matricule, Annee)]
 
 
-                                                    
+
 # soit le nombre de jours, avec un nombre d'heure supérieur à 120 à raison d'une heure trente par jour en moyenne
 # soit la rémunération totale annuelle gagnée est supérieure à 3 fois le smic (Vérifier_non_annexe)
 
 Analyse.remunerations[ , Filtre_annexe :=  (nb.jours < minimum.Njours.non.annexe
-                                                | cumHeures < minimum.Nheures.non.annexe 
+                                                | cumHeures < minimum.Nheures.non.annexe
                                                 | cumHeures / nb.jours < minimum.Nheures.jour.non.annexe)]
 
 #+ Table-Analyse.remunerations-Filtre-annexe
 
 if (periode.hors.données.smic) {
-  
-  Analyse.remunerations[ 
+
+  Analyse.remunerations[
     ((Annee < smic.net.première.annee.renseignée & Montant.net.annuel < smic.net.inf)
      | (Annee > smic.net.dernière.annee.renseignée & Montant.net.annuel < smic.net.sup)
-     | (Annee >= smic.net.première.annee.renseignée 
-        & Annee <= smic.net.première.annee.renseignée 
+     | (Annee >= smic.net.première.annee.renseignée
+        & Annee <= smic.net.première.annee.renseignée
         & Montant.net.annuel < smic_net[Annee - smic.net.première.annee.renseignée + 1, SMIC_NET])),
              Filtre_annexe := TRUE]
-                         
+
 } else {
-  
+
   Analyse.remunerations[Montant.net.annuel < smic_net[smic.net.dernière.annee.renseignée - Annee + 1, SMIC_NET],  Filtre_annexe := TRUE]
 }
-  
+
 
 Analyse.remunerations[ , rémunération.indemnitaire.imposable := indemnités + sft + indemnité.résidence + rémunérations.diverses]
 
@@ -127,9 +127,9 @@ Analyse.remunerations[ ,
                       `:=`(rémunération.indemnitaire.imposable.eqtp = ifelse(is.finite(q <- Montant.brut.annuel.eqtp / Montant.brut.annuel),
                                                                              q * rémunération.indemnitaire.imposable,
                                                                              NA),
-                           
+
                            total.lignes.paie =  traitement.indiciaire + sft + indemnité.résidence + indemnités + acomptes + rappels + rémunérations.diverses,
-                           
+
                            part.rémunération.indemnitaire =  ifelse(is.finite(q <- rémunération.indemnitaire.imposable / Montant.brut.annuel),
                                                                     pmin(q, 1) * 100,
                                                                     NA))]
@@ -147,12 +147,12 @@ message("Analyse des rémunérations réalisée.")
 
 #+ Table-Analyse.variations.par.exercice
 
-Analyse.variations.par.exercice <- Analyse.remunerations[Grade != "A"  
-                                                         & Grade != "V" 
+Analyse.variations.par.exercice <- Analyse.remunerations[Grade != "A"
+                                                         & Grade != "V"
                                                          & Statut != "ELU"
                                                          & Filtre_actif == TRUE
                                                          & Filtre_annexe == FALSE,
-                                                           .(Matricule, 
+                                                           .(Matricule,
                                                              Annee,
                                                              Nir,
                                                              Montant.net.annuel.eqtp,
@@ -169,13 +169,13 @@ Analyse.variations.par.exercice <- Analyse.remunerations[Grade != "A"
 
 # indicatrice binaire annee
 # Ex: si Annee = debut.periode.sous.revue + 3, indicatrice.annee = 1 << 3 soit le binaire 1000 = 8 ou encore 2^3
-# l'indicatrice d'annee sera utilisée pour l'analyse du GVT 
+# l'indicatrice d'annee sera utilisée pour l'analyse du GVT
 
 Analyse.variations.par.exercice[ , indicatrice.annee := bitwShiftL(1, Annee - debut.periode.sous.revue) ]
 
 # <!-- Prologue : enlever.quotites.na, enlever.quotites.nulles (défaut : FALSE)
 
-# On ne retire les quotités nulles et NA que pour l'analyse dynamique de la partie 4 
+# On ne retire les quotités nulles et NA que pour l'analyse dynamique de la partie 4
 # On retire également les Heures nulles na et les Heures < seuil.heures
 
 if (enlever.quotites.na) {
@@ -192,10 +192,10 @@ if (enlever.quotites.nulles) {
 # elle s'obtient en sommant les indicatrices annee
 
 # 000001 + 000010 + 010000  = 010011  soit une présence les deux premières années et l'avant-dernière.
-# indicatrices d'annee = 1, 2 et 16 soit somme de 19 
+# indicatrices d'annee = 1, 2 et 16 soit somme de 19
 
 # Pour cette matrice on retient le statut en fin de periode
-# sont considérés comme temps complets ou permanents seulement ceux qui le sont sur l'ensemble de la periode 
+# sont considérés comme temps complets ou permanents seulement ceux qui le sont sur l'ensemble de la periode
 
 #+ Table-Analyse.variations
 
@@ -216,7 +216,7 @@ Analyse.variations <- Analyse.variations.par.exercice[ ,
                                                          periode_entiere = all(annee_entiere),
                                                          temps.complet.sur.periode = all(temps.complet.sur.annee), # sur toute la période
                                                          moyenne.rémunération.annuelle.sur.periode =
-                                                           sum(Montant.net.annuel.eqtp, na.rm = TRUE) / length(Annee[!is.na(Montant.net.annuel.eqtp) 
+                                                           sum(Montant.net.annuel.eqtp, na.rm = TRUE) / length(Annee[!is.na(Montant.net.annuel.eqtp)
                                                                                                                      & Montant.net.annuel.eqtp > minimum.positif])),
                                                        by = Matricule]
 
@@ -226,7 +226,7 @@ setkey(Analyse.variations, Annee)
 
 Analyse.variations[ ,  pris.en.compte := ! is.na(Montant.net.annuel.eqtp.début)
                                     & ! is.na(Montant.net.annuel.eqtp.sortie)
-                                    & Montant.net.annuel.eqtp.début  > minimum.positif 
+                                    & Montant.net.annuel.eqtp.début  > minimum.positif
                                     & Montant.net.annuel.eqtp.sortie > minimum.positif ]
 
 Analyse.variations[ ,  variation.rémunération := ifelse(pris.en.compte,
@@ -238,15 +238,15 @@ Analyse.variations[ ,  variation.rémunération := ifelse(pris.en.compte,
 Analyse.variations[ , `:=`(variation.moyenne.rémunération = ifelse(pris.en.compte,
                                                                    ((variation.rémunération /100 + 1)^(1 / (Nexercices - 1)) - 1) * 100,
                                                                    NA),
-                               
+
                            variation.rémunération.normalisée = ifelse(duree.sous.revue == Nexercices,   variation.rémunération,  NA))]
 
 
-Analyse.variations[ ,                                                                 
-                            `:=`(variation.moyenne.rémunération.normalisée = ifelse(! is.na(variation.rémunération.normalisée),  
+Analyse.variations[ ,
+                            `:=`(variation.moyenne.rémunération.normalisée = ifelse(! is.na(variation.rémunération.normalisée),
                                                                                   variation.moyenne.rémunération,
                                                                                   NA),
-                                 plus.2.ans  = (total.jours  >= 730),  
+                                 plus.2.ans  = (total.jours  >= 730),
                                  moins.2.ans = (total.jours < 730),
                                  moins.1.an  = (total.jours < 365),
                                  moins.six.mois = (total.jours < 183))]
@@ -259,7 +259,7 @@ Analyse.variations[ ,
 # L'opération donne donc 0 si la personne n'a pas été présente l'annee précédente, sinon donne un entier positif
 # en combinant avec & : 0 & TRUE = FALSE, 0 & FALSE = FALSE, 4 & TRUE = TRUE, 4 & FALSE = FALSE
 
-Analyse.variations[ , est.rmpp :=  (Annee != debut.periode.sous.revue  
+Analyse.variations[ , est.rmpp :=  (Annee != debut.periode.sous.revue
                                         & ! is.na(ind.quotite)
                                         & ind.quotite == TRUE
                                         & bitwAnd(bitwShiftL(1, Annee - 1 - debut.periode.sous.revue),
@@ -272,7 +272,7 @@ message("Analyse démographique réalisée.")
 if (!is.null(Paie) & !is.null(Analyse.remunerations) & !is.null(Analyse.variations.par.exercice))
   message("Statistiques de synthèse réalisées")
 
-sauv.bases("Remunerations", 
+sauv.bases("Remunerations",
            environment(),
            "Analyse.remunerations",
            "Analyse.variations.par.exercice",

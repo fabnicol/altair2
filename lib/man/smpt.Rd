@@ -4,15 +4,17 @@
 \alias{smpt}
 \title{SMPT}
 \usage{
-smpt(Filtre, type = "smpt net")
+smpt(Cat = NULL, Liste_statuts = NULL, type = "smpt net")
 }
 \arguments{
-\item{Filtre}{Filtre fonctionnel booléen décrivant une sélection sur les lignes (caractéristiques des personnels)}
+\item{Cat}{Catégorie des personnels (A, B, C)}
+
+\item{Liste_statuts}{Statuts des personnels (ex.: c("STAGIAIRE", "TITULAIRE"))}
 
 \item{type}{"smpt net", "smpt brut", "rmpp net", "rmpp brut"}
 }
 \value{
-Tableau d'évolution du SMPT
+Liste composée du tableau d'évolution du SMPT et table temporaire
 }
 \description{
 SMPT

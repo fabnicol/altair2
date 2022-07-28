@@ -227,7 +227,6 @@ private :
     QAction *helpAction;               ///< Ouvrir l'aide en ligne
     QAction *displayAction;            ///< Afficher en plein écran/en affichage normal
     QAction *displayManagerAction;     ///< Afficher le gestionnaire de projets
-    QAction *editProjectAction;        ///< Editer le projet
     QAction *displayOutputAction;      ///< Afficher l'onglet des messages et de console
     QAction *displayFileTreeViewAction;///< Afficher les répertoires et fichiers xhl/xml
     QAction *clearOutputTextAction;    ///< Nettoyer l'onglet courant des messages ou de console
@@ -304,9 +303,6 @@ private slots:
 
     void on_openManagerWidgetButton_clicked (bool val);
 
-    /// Afficher / Masque l'éditeur de projets.
-
-    void on_editProjectButton_clicked();
 
     /// Afficher le dialogue d'options / des paramètres
 

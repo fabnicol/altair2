@@ -28,7 +28,7 @@ tableau.effectifs.emplois <<- eqtp.emploi(variation = TRUE)
 # Mise en forme sous tableau aligné en central par la fonction knitr::kable
 # Note: il faut préciser l'argument format = latex avec les versions récentes de knitr et pandoc
 
-if (class(tableau.effectifs) != "try-error") {
+if (class(tableau.effectifs)[1] != "try-error") {
   
   kable(tableau.effectifs, row.names = TRUE, 
         format = "simple", align = c('l', rep('r', nb.annees)), digits = 1, 
@@ -69,21 +69,46 @@ Sauv.base("Effectifs", "tableau.effectifs.emplois")
 
 eqtp.grade.serv(variation = TRUE)
 
+zip("tableau.effectifs.services.zip",   list.files(".", pattern = "effectifs.serv..*.csv"), extras = "-q")
+csvfiles <- list.files(".", pattern = "^effectifs.serv.*csv")
+invisible(file.remove(csvfiles))
+
+eqtp.grade.serv(statut = c("TITULAIRE", "STAGIAIRE", "EMPLOI_FONC", "EMPLOI_FONCTIONNEL"), 
+                fichier = "effectifs.fonct.serv.", 
+                variation = TRUE)
+
+zip("tableau.effectifs.fonct.services.zip",   list.files(".", pattern = "effectifs.fonct.serv..*.csv"), extras = "-q")
+csvfiles <- list.files(".", pattern = "^effectifs.fonct.serv.*csv")
+invisible(file.remove(csvfiles))
+
+eqtp.grade.serv(statut = c("EMPLOI_AIDE", "EMPLOI AIDE" , "AUTRE_STATUT", "APPRENTI"), 
+                fichier = "effectifs.autres.serv.", variation = TRUE)
+
+zip("tableau.effectifs.autres.services.zip",   list.files(".", pattern = "effectifs.autres.serv..*.csv"), extras = "-q")
+csvfiles <- list.files(".", pattern = "^effectifs.autres.serv.*csv")
+invisible(file.remove(csvfiles))
+                
+eqtp.grade.serv(statut = c("NON_TITULAIRE", "CONTRACTUEL", "VACATAIRE", "CONTRAT A DUREE INDETERMINEE", "HORAIRE", "CONTRACTUEL NON PERMANENT"), 
+                fichier = "effectifs.contr.serv.",
+                variation = TRUE)  
+
+zip("tableau.effectifs.contr.services.zip",   list.files(".", pattern = "effectifs.contr.serv..*.csv"), extras = "-q")
+csvfiles <- list.files(".", pattern = "^effectifs.contr.serv.*csv")
+invisible(file.remove(csvfiles))
+
 eqtp.grade.cat(variation = TRUE)
 
-csvfiles <- list.files(".", pattern = "^effectifs.*csv")
-
-zip("tableau.effectifs.services.zip",   list.files(".", pattern = "effectifs.serv..*.csv"))
-zip("tableau.effectifs.categories.zip", list.files(".", pattern = "effectifs.cat..*.csv"))
-
-invisible(file.remove(csvfiles))
+zip("tableau.effectifs.categories.zip", list.files(".", pattern = "effectifs.cat..*.csv"), extras = "-q")
 
 #'      
  
 conditionnel("Lien vers la base des effectifs", "Bases/Effectifs/tableau.effectifs.csv")  
 conditionnel("Lien vers la base des effectifs en ETPT par grade", "Bases/Effectifs/tableau.effectifs.grades.csv")  
 conditionnel("Lien vers la base des effectifs en ETPT par emploi", "Bases/Effectifs/tableau.effectifs.emplois.csv")  
-conditionnel("Lien vers la base des effectifs en ETPT par grade et service", "Bases/Effectifs/tableau.effectifs.services.zip")  
+conditionnel("Lien vers la base des effectifs en ETPT par grade et service, tous personnels", "Bases/Effectifs/tableau.effectifs.services.zip")   
+conditionnel("Lien vers la base des effectifs en ETPT par grade et service pour les fonctionnaires et emplois fonctionnels", "Bases/Effectifs/tableau.effectifs.fonct.services.zip")     
+conditionnel("Lien vers la base des effectifs en ETPT par grade et service pour les contractuels", "Bases/Effectifs/tableau.effectifs.contr.services.zip")    
+conditionnel("Lien vers la base des effectifs en ETPT par grade et service pour les autres statuts", "Bases/Effectifs/tableau.effectifs.autres.services.zip")  
 conditionnel("Lien vers la base des effectifs en ETPT par grade et categorie", "Bases/Effectifs/tableau.effectifs.categories.zip")  
 
 #'   

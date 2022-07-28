@@ -231,9 +231,13 @@ assertError(5 %*% as.matrix(d))	 # -> error
 (pd. <- m5 %*% Diagonal(x = 1:6))
 (pd2 <- diag (10:6)	   %*% m5)
 (pd..<- Diagonal(x = 10:6) %*% m5)
-stopifnot(dim(crossprod(t(m5))) == c(5,5),
-	  c(class(p1),class(p2),class(pd1),class(pd2),
-	    class(pd.),class(pd..)) == "dgeMatrix")
+stopifnot(exprs = {
+    dim(crossprod(t(m5))) == c(5,5)
+    c(class(p1),class(p2),class(pd1),class(pd2), class(pd.),class(pd..)) == "dgeMatrix"
+    identical(dimnames(pd.),  dimnames(m5))
+    identical(dimnames(pd..), dimnames(m5))
+})
+
 assert.EQ.mat(p1, cbind(c(20,30,33,38,54)))
 assert.EQ.mat(pd1, m. %*% diag(1:6))
 assert.EQ.mat(pd2, diag(10:6) %*% m.)
@@ -278,7 +282,7 @@ chkP <- function(mLeft, mRight, MLeft, MRight, cl = class(MLeft)) {
                      MLeft %*% mRight,
                      MLeft %*% MRight),# now ok
 	      m.m == 0, identical(m.m, crossprod(mRight, mRight)),
-	      mm. == 0, identical(mm., tcrossprod(mLeft, mLeft)))
+	      mm. == 0, identical(mm., tcrossprod(mLeft, mLeft)),  allow.logical0 = TRUE)
     stopifnot(ident4(m.m,
 		     crossprod(MRight, MRight),
 		     crossprod(MRight, mRight),
@@ -308,11 +312,9 @@ for(spV in c(FALSE,TRUE)) {
     assertError(crossprod(v, 1:2)); assertError(v %*% 1:2)
     assertError(crossprod(v, 2))  ; assertError(v %*% 2)
     assertError(crossprod(1:2, v)); assertError(1:2 %*% v)
-    if(spV || getRversion() >= "3.2.0") {
 	cat("doing  vec x vec  ..\n")
 	stopifnot(identical(crossprod(2, v), t(2) %*% v),
 		  identical(5 %*% v, 5 %*% t(v)))
-    }
     for(sp in c(FALSE, TRUE)) {
         m <- Matrix(1:2, 1,2, sparse=sp)
         cat(sprintf("class(m): '%s'\n", class(m)))
@@ -525,8 +527,9 @@ I <- .sparseDiagonal(n, shape="g")
 S <- as(symW, "matrix")
 sis <- solve(S,    S)
 ## solve(<dsCMatrix>, <sparseMatrix>) when Cholmod fails was buggy for *long*:
+o. <- options(Matrix.verbose = 2) # <-- showing Cholmod error & warning now
 SIS <- solve(symW, symW)
-iw <- solve(symW)
+iw <- solve(symW)  ## << TODO:  LU *not* saved in @factors
 iss <- iw %*% symW
 ##                                     nb-mm3   openBLAS (Avi A.)
 assert.EQ.(I, drop0(sis), tol = 1e-8)# 2.6e-10;  7.96e-9
@@ -558,13 +561,14 @@ stopifnot(all.equal(as(SW.,"matrix"),
                     as(SW2,"matrix"), tol = 1e-7))
 (ch <- all.equal(WW, as(SW.,"dgCMatrix"), tolerance =0))
 stopifnot(is.character(ch), length(ch) == 1)## had length(.)  2  previously
-IW <- solve(WW)
+IW <- solve(WW) # ( => stores in WW@factors !)
 class(I1 <- IW %*% WW)# "dge" or "dgC" (!)
 class(I2 <- WW %*% IW)
 I <- diag(nr=nrow(WW))
 stopifnot(all.equal(as(I1,"matrix"), I, check.attributes=FALSE, tolerance = 1e-4),
           ## "Mean relative difference: 3.296549e-05"  (or "1.999949" for Matrix_1.0-13 !!!)
           all.equal(as(I2,"matrix"), I, check.attributes=FALSE)) #default tol gives "1" for M.._1.0-13
+options(o.) # revert to less Matrix.verbose
 
 if(doExtras) {
     print(kappa(WW)) ## [1] 5.129463e+12
@@ -914,5 +918,16 @@ stopifnot(identical(dim(Diagonal(x=c(1,2)) %*% m20), c(2L, 0L)),
 stopifnot(identical(dim(m02 %*% Diagonal(x=c(1,2))), c(0L, 2L)),
           identical(dim(M02 %*% Diagonal(2)       ), c(0L, 2L)),
           identical(dim(M02 %*% Diagonal(x=2:1)   ), c(0L, 2L)))
+
+## RsparseMatrix --- Arko Bose (Jan.2022): "Method for <dgRMatrix> %*% <dgCMatrix>"
+m <- Matrix(c(0,0,2:0), 3,5)
+(R <- as(m, "RsparseMatrix"))
+stopifnot(exprs = {
+    all.equal(t(R) %*% R,  crossprod(R))
+    all.equal(R %*% t(R), tcrossprod(R)) # both dgC {latter could improve to dsC*}
+    all.equal(as(R %*% t(m),"symmetricMatrix"), tcrossprod(m))
+    all.equal(as(m %*% t(R),"symmetricMatrix"), tcrossprod(m))
+})
+
 
 cat('Time elapsed: ', proc.time(),'\n') # for ``statistical reasons''

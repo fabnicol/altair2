@@ -8,7 +8,7 @@
 /* !BEGIN!: Do not edit below this line. */
 
 #define ITCLINT_STUBS_EPOCH 0
-#define ITCLINT_STUBS_REVISION 149
+#define ITCLINT_STUBS_REVISION 152
 
 #ifdef __cplusplus
 extern "C" {
@@ -180,13 +180,13 @@ ITCLAPI int		Itcl_ChangeMemberFunc(Tcl_Interp *interp,
 				ItclMemberFunc *mfunc, const char *arglist,
 				const char *body);
 /* 56 */
-ITCLAPI void		Itcl_DeleteMemberFunc(char *cdata);
+ITCLAPI void		Itcl_DeleteMemberFunc(void *cdata);
 /* 57 */
 ITCLAPI int		Itcl_CreateMemberCode(Tcl_Interp *interp,
 				ItclClass *iclsPtr, const char *arglist,
 				const char *body, ItclMemberCode **mcodePtr);
 /* 58 */
-ITCLAPI void		Itcl_DeleteMemberCode(char *cdata);
+ITCLAPI void		Itcl_DeleteMemberCode(void *cdata);
 /* 59 */
 ITCLAPI int		Itcl_GetMemberCode(Tcl_Interp *interp,
 				ItclMemberFunc *mfunc);
@@ -216,8 +216,7 @@ ITCLAPI int		Itcl_ExecProc(ClientData clientData,
 /* 71 */
 ITCLAPI int		Itcl_ConstructBase(Tcl_Interp *interp,
 				ItclObject *contextObj,
-				ItclClass *contextClass, int objc,
-				Tcl_Obj *const *objv);
+				ItclClass *contextClass);
 /* 72 */
 ITCLAPI int		Itcl_InvokeMethodIfExists(Tcl_Interp *interp,
 				const char *name, ItclClass *contextClass,
@@ -320,10 +319,7 @@ ITCLAPI int		Itcl_BiInfoBodyCmd(ClientData dummy,
 ITCLAPI int		Itcl_BiInfoArgsCmd(ClientData dummy,
 				Tcl_Interp *interp, int objc,
 				Tcl_Obj *const objv[]);
-/* 99 */
-ITCLAPI int		Itcl_DefaultInfoCmd(ClientData dummy,
-				Tcl_Interp *interp, int objc,
-				Tcl_Obj *const objv[]);
+/* Slot 99 is reserved */
 /* 100 */
 ITCLAPI int		Itcl_EnsembleInit(Tcl_Interp *interp);
 /* 101 */
@@ -426,10 +422,7 @@ ITCLAPI int		Itcl_MixinDeleteCmd(ClientData clientData,
 /* Slot 147 is reserved */
 /* Slot 148 is reserved */
 /* Slot 149 is reserved */
-/* 150 */
-ITCLAPI int		Itcl_BiInfoCmd(ClientData clientData,
-				Tcl_Interp *interp, int objc,
-				Tcl_Obj *const objv[]);
+/* Slot 150 is reserved */
 /* 151 */
 ITCLAPI int		Itcl_BiInfoUnknownCmd(ClientData dummy,
 				Tcl_Interp *interp, int objc,
@@ -519,6 +512,15 @@ ITCLAPI int		ItclClassBaseCmd(ClientData clientData,
 ITCLAPI int		ItclCreateComponent(Tcl_Interp *interp,
 				ItclClass *iclsPtr, Tcl_Obj *componentPtr,
 				int type, ItclComponent **icPtrPtr);
+/* 182 */
+ITCLAPI void		Itcl_SetContext(Tcl_Interp *interp,
+				ItclObject *ioPtr);
+/* 183 */
+ITCLAPI void		Itcl_UnsetContext(Tcl_Interp *interp);
+/* 184 */
+ITCLAPI const char *	ItclGetInstanceVar(Tcl_Interp *interp,
+				const char *name, const char *name2,
+				ItclObject *ioPtr, ItclClass *iclsPtr);
 
 typedef struct ItclIntStubs {
     int magic;
@@ -582,9 +584,9 @@ typedef struct ItclIntStubs {
     int (*itcl_CreateProc) (Tcl_Interp *interp, ItclClass *iclsPtr, Tcl_Obj *namePtr, const char *arglist, const char *body); /* 53 */
     int (*itcl_CreateMemberFunc) (Tcl_Interp *interp, ItclClass *iclsPtr, Tcl_Obj *name, const char *arglist, const char *body, ItclMemberFunc **mfuncPtr); /* 54 */
     int (*itcl_ChangeMemberFunc) (Tcl_Interp *interp, ItclMemberFunc *mfunc, const char *arglist, const char *body); /* 55 */
-    void (*itcl_DeleteMemberFunc) (char *cdata); /* 56 */
+    void (*itcl_DeleteMemberFunc) (void *cdata); /* 56 */
     int (*itcl_CreateMemberCode) (Tcl_Interp *interp, ItclClass *iclsPtr, const char *arglist, const char *body, ItclMemberCode **mcodePtr); /* 57 */
-    void (*itcl_DeleteMemberCode) (char *cdata); /* 58 */
+    void (*itcl_DeleteMemberCode) (void *cdata); /* 58 */
     int (*itcl_GetMemberCode) (Tcl_Interp *interp, ItclMemberFunc *mfunc); /* 59 */
     void (*reserved60)(void);
     int (*itcl_EvalMemberCode) (Tcl_Interp *interp, ItclMemberFunc *mfunc, ItclObject *contextObj, int objc, Tcl_Obj *const objv[]); /* 61 */
@@ -597,7 +599,7 @@ typedef struct ItclIntStubs {
     int (*itcl_ExecMethod) (ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *const objv[]); /* 68 */
     int (*itcl_ExecProc) (ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *const objv[]); /* 69 */
     void (*reserved70)(void);
-    int (*itcl_ConstructBase) (Tcl_Interp *interp, ItclObject *contextObj, ItclClass *contextClass, int objc, Tcl_Obj *const *objv); /* 71 */
+    int (*itcl_ConstructBase) (Tcl_Interp *interp, ItclObject *contextObj, ItclClass *contextClass); /* 71 */
     int (*itcl_InvokeMethodIfExists) (Tcl_Interp *interp, const char *name, ItclClass *contextClass, ItclObject *contextObj, int objc, Tcl_Obj *const objv[]); /* 72 */
     void (*reserved73)(void);
     int (*itcl_ReportFuncErrors) (Tcl_Interp *interp, ItclMemberFunc *mfunc, ItclObject *contextObj, int result); /* 74 */
@@ -625,7 +627,7 @@ typedef struct ItclIntStubs {
     int (*itcl_BiInfoVariableCmd) (ClientData dummy, Tcl_Interp *interp, int objc, Tcl_Obj *const objv[]); /* 96 */
     int (*itcl_BiInfoBodyCmd) (ClientData dummy, Tcl_Interp *interp, int objc, Tcl_Obj *const objv[]); /* 97 */
     int (*itcl_BiInfoArgsCmd) (ClientData dummy, Tcl_Interp *interp, int objc, Tcl_Obj *const objv[]); /* 98 */
-    int (*itcl_DefaultInfoCmd) (ClientData dummy, Tcl_Interp *interp, int objc, Tcl_Obj *const objv[]); /* 99 */
+    void (*reserved99)(void);
     int (*itcl_EnsembleInit) (Tcl_Interp *interp); /* 100 */
     int (*itcl_CreateEnsemble) (Tcl_Interp *interp, const char *ensName); /* 101 */
     int (*itcl_AddEnsemblePart) (Tcl_Interp *interp, const char *ensName, const char *partName, const char *usageInfo, Tcl_ObjCmdProc *objProc, ClientData clientData, Tcl_CmdDeleteProc *deleteProc); /* 102 */
@@ -676,7 +678,7 @@ typedef struct ItclIntStubs {
     void (*reserved147)(void);
     void (*reserved148)(void);
     void (*reserved149)(void);
-    int (*itcl_BiInfoCmd) (ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *const objv[]); /* 150 */
+    void (*reserved150)(void);
     int (*itcl_BiInfoUnknownCmd) (ClientData dummy, Tcl_Interp *interp, int objc, Tcl_Obj *const objv[]); /* 151 */
     int (*itcl_BiInfoVarsCmd) (ClientData dummy, Tcl_Interp *interp, int objc, Tcl_Obj *const objv[]); /* 152 */
     int (*itcl_CanAccess2) (ItclClass *iclsPtr, int protection, Tcl_Namespace *fromNsPtr); /* 153 */
@@ -708,6 +710,9 @@ typedef struct ItclIntStubs {
     Tcl_Obj * (*itclCapitalize) (const char *str); /* 179 */
     int (*itclClassBaseCmd) (ClientData clientData, Tcl_Interp *interp, int flags, int objc, Tcl_Obj *const objv[], ItclClass **iclsPtrPtr); /* 180 */
     int (*itclCreateComponent) (Tcl_Interp *interp, ItclClass *iclsPtr, Tcl_Obj *componentPtr, int type, ItclComponent **icPtrPtr); /* 181 */
+    void (*itcl_SetContext) (Tcl_Interp *interp, ItclObject *ioPtr); /* 182 */
+    void (*itcl_UnsetContext) (Tcl_Interp *interp); /* 183 */
+    const char * (*itclGetInstanceVar) (Tcl_Interp *interp, const char *name, const char *name2, ItclObject *ioPtr, ItclClass *iclsPtr); /* 184 */
 } ItclIntStubs;
 
 extern const ItclIntStubs *itclIntStubsPtr;
@@ -901,8 +906,7 @@ extern const ItclIntStubs *itclIntStubsPtr;
 	(itclIntStubsPtr->itcl_BiInfoBodyCmd) /* 97 */
 #define Itcl_BiInfoArgsCmd \
 	(itclIntStubsPtr->itcl_BiInfoArgsCmd) /* 98 */
-#define Itcl_DefaultInfoCmd \
-	(itclIntStubsPtr->itcl_DefaultInfoCmd) /* 99 */
+/* Slot 99 is reserved */
 #define Itcl_EnsembleInit \
 	(itclIntStubsPtr->itcl_EnsembleInit) /* 100 */
 #define Itcl_CreateEnsemble \
@@ -972,8 +976,7 @@ extern const ItclIntStubs *itclIntStubsPtr;
 /* Slot 147 is reserved */
 /* Slot 148 is reserved */
 /* Slot 149 is reserved */
-#define Itcl_BiInfoCmd \
-	(itclIntStubsPtr->itcl_BiInfoCmd) /* 150 */
+/* Slot 150 is reserved */
 #define Itcl_BiInfoUnknownCmd \
 	(itclIntStubsPtr->itcl_BiInfoUnknownCmd) /* 151 */
 #define Itcl_BiInfoVarsCmd \
@@ -1029,6 +1032,12 @@ extern const ItclIntStubs *itclIntStubsPtr;
 	(itclIntStubsPtr->itclClassBaseCmd) /* 180 */
 #define ItclCreateComponent \
 	(itclIntStubsPtr->itclCreateComponent) /* 181 */
+#define Itcl_SetContext \
+	(itclIntStubsPtr->itcl_SetContext) /* 182 */
+#define Itcl_UnsetContext \
+	(itclIntStubsPtr->itcl_UnsetContext) /* 183 */
+#define ItclGetInstanceVar \
+	(itclIntStubsPtr->itclGetInstanceVar) /* 184 */
 
 #endif /* defined(USE_ITCL_STUBS) */
 

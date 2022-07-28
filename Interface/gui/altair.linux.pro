@@ -36,7 +36,7 @@
 # 
 # 
 
-VERSION_TAG = $$system(cat $HOME/Dev/altair/VERSION)
+VERSION_TAG = $$system(cat $HOME/Dev/altair2/VERSION)
 DEFINES +=  VERSION=\\\"$$VERSION_TAG\\\"
 message("Version :  $$VERSION_TAG")
 #QMAKE_CXX = /usr/local/bin/g++

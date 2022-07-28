@@ -292,12 +292,13 @@ bool codePage::importCodesCSV(const QString& path)
 
             return false;
         }
-        if (headerList.at(i).toUpper() == s.toUpper())
+        if (headerList[i].remove('"').toUpper() == s.toUpper())
         {
             ++i;
         }
         else
         {
+
             Warning("Attention",
                     "Le fichier CSV doit contenir, dans l'ordre, les variables suivantes en colonnes : "
                     + variables.join("<br>"));
@@ -312,7 +313,7 @@ bool codePage::importCodesCSV(const QString& path)
     {
             QString line = in.readLine();
             QStringList varList = line.split(sep);
-            if (skipCol) varList.erase(varList.begin(), varList.begin() + skipCol);
+            if (skipCol) varList .remove(0, skipCol);
             for (int i = 0; i < variables.size() && i < varList.size(); ++i)
             {
                 QString text = listeCodes[i]->text();
@@ -482,13 +483,17 @@ void codePage::substituer_valeurs_dans_script_R()
     for (int rang = 0; rang < listeCodes.size(); ++rang)
         {
             const QString &s     = listeLabels.at (rang);
-            const QString &codes = listeCodes.at (rang)->text();
+            const QString &codes0 = listeCodes.at (rang)->text();
+            QString codes = codes0;
+            codes.remove('"');
+            QString codes_display = codes0;
+            codes_display.replace(';', ' ');
             res = true;
 
             if (! codes.isEmpty())
                 {
                     res = substituer (regexp (s), rempl_str (s, codes), file_str);
-                    liste_codes += "<li>" + listeLabels.at (rang).toUpper() + " : "  + codes + "</li>";
+                    liste_codes += "<li>" + listeLabels.at (rang).toUpper() + " : "  + codes_display + "</li>";
                 }
 
             if (res == false)
@@ -506,7 +511,8 @@ void codePage::substituer_valeurs_dans_script_R()
     res = renommer (dump (file_str), prologue_options_path);
 
     appliquerCodes->setIcon (icon);
-
+    label->setMaximumWidth(this->width() / 2);
+    label->setWordWrap(true);
     if (res == true)
         label->setText ("Les codes de paye suivants :"
                         "<ul>" + liste_codes + "</ul>"

@@ -65,7 +65,9 @@ rep.int(56.2323,11), # 2017
 rep.int(56.2323,12), # 2018  
 rep.int(56.2323,12), # 2019 
 rep.int(56.2323,12), # 2020 
-rep.int(56.2323,12)  # 2021 
+rep.int(56.2323,12), # 2021 
+rep.int(56.2323, 6), # 2022 1-6 
+rep.int(58.20036,6)  # 2022 7-12 
 ),
 
 # inserer ici la valeur courante du mpoint d'indice annuel
