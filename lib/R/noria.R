@@ -265,7 +265,7 @@ noria <- function(Bulletins = Bulletins.paie,
                   Base = Analyse.variations.par.exercice,
                   classe = "", 
                   champ = "brut",
-                  filtre = "",
+                  filtre = NULL,
                   fichier = "", 
                   dec = ",", 
                   sep = ";",
@@ -308,7 +308,7 @@ if (! noria.sur.base.de.paie){
                                                     Jour.sortie  = as.numeric(format(Sortie, "%d")))]
 }
 
-if (filtre != "") {
+if (! is.null(filtre)) {
   if (! filtre %chin% c("A", "B", "C")) {
     Base <- Base[Statut %chin% filtre]
   } else {
@@ -327,7 +327,7 @@ transl <- function(annee) annee - debut.periode.sous.revue + 1
 
 filtrage <- function(annee) {
   
-    if (filtre != "") {
+    if (! is.null(filtre)) {
       
       if (! filtre %chin% c("A", "B", "C")) {
         présents.bulletins[[transl(annee)]] <<- Bulletins[Statut %chin% filtre
