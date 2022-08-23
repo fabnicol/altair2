@@ -17,4 +17,4 @@ NeedsCompilation: yes
 Packaged: 2021-05-30 21:43:42 UTC; gaborcsardi
 Repository: CRAN
 Date/Publication: 2021-05-31 04:30:02 UTC
-Built: R 4.2.1; x86_64-pc-linux-gnu; 2022-07-10 22:08:32 UTC; unix
+Built: R 4.2.1; x86_64-pc-linux-gnu; 2022-08-23 13:58:45 UTC; unix

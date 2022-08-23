@@ -1,7 +1,7 @@
 Type: Package
 Package: gert
 Title: Simple Git Client for R
-Version: 1.6.0
+Version: 1.7.1
 Authors@R: c(
     person("Jeroen", "Ooms", role = c("aut", "cre"), email = "jeroen@berkeley.edu",
       comment = c(ORCID = "0000-0002-4035-0289")),
@@ -20,15 +20,15 @@ Imports: askpass, credentials (>= 1.2.1), openssl (>= 1.4.1),
 Suggests: spelling, knitr, rmarkdown, testthat
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 SystemRequirements: libgit2 (>= 1.0): libgit2-devel (rpm) or
         libgit2-dev (deb)
 Language: en-US
 NeedsCompilation: yes
-Packaged: 2022-03-29 20:42:24 UTC; jeroen
+Packaged: 2022-08-18 08:19:40 UTC; jeroen
 Author: Jeroen Ooms [aut, cre] (<https://orcid.org/0000-0002-4035-0289>),
   Jennifer Bryan [ctb] (<https://orcid.org/0000-0002-6983-2759>)
 Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
 Repository: CRAN
-Date/Publication: 2022-03-29 21:10:02 UTC
-Built: R 4.2.1; x86_64-pc-linux-gnu; 2022-07-10 22:12:32 UTC; unix
+Date/Publication: 2022-08-18 08:50:09 UTC
+Built: R 4.2.1; x86_64-pc-linux-gnu; 2022-08-23 13:53:04 UTC; unix
