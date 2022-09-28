@@ -1,3 +1,11 @@
+# gh 1.3.1
+
+* gh now accepts lower-case methods i.e. both `gh::gh("get /users/hadley/repos")` and `gh::gh("GET /users/hadley/repos")` work (@maelle, #167).
+
+* Response headers (`"response_headers"`) and response content
+  (`"response_content")` are now returned in error conditions so that error
+  handlers can use information, such as the rate limit reset header, when
+  handling `github_error`s (@gadenbuie, #117).
 
 # gh 1.3.0
 

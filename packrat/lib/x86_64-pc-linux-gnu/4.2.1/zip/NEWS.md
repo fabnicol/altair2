@@ -1,3 +1,7 @@
+# zip 2.2.1
+
+* No user visible changes.
+
 # 2.2.0
 
 * Header values (of version made by and external attributes) are now

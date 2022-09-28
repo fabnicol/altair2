@@ -82,6 +82,7 @@ ssl_ctx_add_cert_to_store	ssl_ctx
 ssl_ctx_curl_version_match	ssl_ctx
 ssl_ctx_set_verify_callback	ssl_ctx
 write_der	write_pem
+write_openssh_pem	write_pem
 write_p12	pkcs12
 write_p7b	pkcs12
 write_pem	write_pem
