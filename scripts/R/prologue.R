@@ -91,60 +91,40 @@ if (setOSWindows) {
   Sys.setenv(LD_LIBRARY_PATH = path.libreoffice %+% sep_syspaths %+% Sys.getenv("LD_LIBRARY_PATH"))
 }
 
-# PARAMETRES GLOBAUX BOOLEENS ET ENTIERS
-
+# PARAMETRES GLOBAUX NUMERIQUES OU BOOLEENS
 # Toujours utiliser FALSE ou TRUE en plein lettres en raison de l'éloignement avec <- (bug de l'interpréteur pour T et F)
-
 
 extraire.annees                <- FALSE
   debut.periode.sous.revue     <- 2015
-  fin.periode.sous.revue       <- 2020
+  fin.periode.sous.revue       <- 2021
 
 exec.root                      <- if (setOSWindows) ".exe" else ""
 
-éliminer.duplications <- FALSE
-redresser.heures               <- TRUE
-enlever.quotites.nulles        <- FALSE
-enlever.quotites.na            <- FALSE
-
-# Si TRUE, des quotités > 1 seront ramenées à 1.
-écreter.quotites               <- TRUE
-
-generer.codes                  <- FALSE
-charger.categories.personnel   <- TRUE
-extraire.population            <- FALSE
-charger.bases                  <- TRUE
-sauvegarder.bases.analyse      <- TRUE
-sauvegarder.bases.origine      <- FALSE
-afficher.table.effectifs       <- FALSE
-generer.table.élus             <- TRUE
-tester.matricules              <- TRUE
-analyse.statique.totale        <- FALSE
-intégrer.localisation          <- FALSE   # Veut on gardet Budget Employeur Siret Etablissement ?
+# Affichage dans le rapport
 afficher.cumuls.détaillés.lignes.paie <- FALSE
 afficher.table.écarts.sft      <- FALSE
 afficher.table.codes           <- FALSE
 afficher.table.événements      <- FALSE
-analyse.par.categorie          <- TRUE
-test.delta                     <- FALSE
-if (! exists("PDF"))       PDF <<- FALSE
-keep_md                        <- TRUE
-utiliser.cplusplus.sft         <- FALSE
-utiliser.variable.Heures.Sup.  <- FALSE    # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unite
-noria.sur.base.de.paie         <- FALSE    # calculer effet de noria sur base de paie uniquement (pas de fichier E/S)
-sauter.tests.statutaires       <- FALSE
-profiler                       <- FALSE
-fichier.personnels.existe      <- TRUE
-grades.categories.existe       <- TRUE
-logements.existe               <- TRUE
-plafonds.ifse.existe           <- TRUE
-apparier.sur.trois.cles        <- FALSE
-fichiers.temp                  <- FALSE
-
-encodage.code.source           <- "UTF-8"
-
+afficher.table.effectifs       <- FALSE
+generer.table.élus             <- TRUE
 numero.tableau                 <- 0        # Numérotation de départ des tableaux
 chapitre                       <- 1        # Numérotation de départ des chapitres
+dpi                            <- 300 # points par pouce, précision des graphiques de rapport
+fig.width                      <- 7.5
+fig.height                     <- 5
+
+# Paramétrage des algorithmes sur les bases
+éliminer.duplications <- FALSE
+utiliser.variable.Heures.Sup.  <- FALSE    # faire les tests de seuil IHTS sur la variable Heures.Sup. plutôt que sur la Base ou le  Nb.Unite
+noria.sur.base.de.paie         <- FALSE    # calculer effet de noria sur base de paie uniquement (pas de fichier E/S)
+
+# Paramétrage des algorithmes sur les heures et rémunérations
+redresser.heures               <- TRUE
+enlever.quotites.nulles        <- FALSE
+enlever.quotites.na            <- FALSE
+    # Si TRUE, des quotités > 1 seront ramenées à 1.
+écreter.quotites               <- TRUE
+analyse.statique.totale        <- FALSE
 seuil.troncature               <- 2        # jours
 taux.tolerance.homonymie       <- 2        # en %
 quantile.cut                   <- 1        # en %
@@ -153,28 +133,52 @@ minimum.quotite                <- 0.05
 tolerance.variation.quotite    <- 0.05
 minimum.actif                  <- 100
 minimum.delta                  <- 5
-dpi                            <- 300 # points par pouce, précision des graphiques de rapport
-fig.width                      <- 7.5
-fig.height                     <- 5
-
-
-# définitions INSEE pour le poste non annexe
-# poste non annexe = minimum de 30 jours et de 120h à raison d'au moins 1,5 h/jour.
-
+    # définitions INSEE pour le poste non annexe
+    # poste non annexe = minimum de 30 jours et de 120h à raison d'au moins 1,5 h/jour.
 reference.nb.heures.par.mois    <<- 151.61 # = 1820 /12
 minimum.Nheures.jour.non.annexe <- 1.5
 minimum.Nheures.non.annexe      <- 120
 minimum.Njours.non.annexe        <- 30
-
 population_minimale_calcul_médiane  <- 3
 tolerance.sft                       <- 1
 tolerance.nbi                       <- 2
-ratio.memoire.ligne.parallele       <- 2.3
 
+# Paramétrage de l'input
+charger.bases                  <- TRUE
+charger.categories.personnel   <- TRUE
+logements.existe               <- TRUE
+plafonds.ifse.existe           <- TRUE
+tester.matricules              <- TRUE
+fichier.personnels.existe      <- TRUE
+grades.categories.existe       <- TRUE
+apparier.sur.trois.cles        <- FALSE
+encodage.code.source           <- "UTF-8"
 separateur.liste.entree     <- ";"
 separateur.decimal.entree   <- ","
+
+# Paramétrage de l'output
+extraire.population            <- FALSE
+keep_md                        <- TRUE
+intégrer.localisation          <- FALSE   # Veut on gardet Budget Employeur Siret Etablissement ?
+test.delta                     <- FALSE
+analyse.par.categorie          <- TRUE
+generer.codes                  <- FALSE
+sauvegarder.bases.analyse      <- TRUE
+sauvegarder.bases.origine      <- FALSE
+fichiers.temp                  <- FALSE
+if (! exists("PDF"))       PDF <<- FALSE
+sauter.tests.statutaires       <- FALSE
 separateur.liste.sortie     <- ";"
 separateur.decimal.sortie   <- ","
+
+# Paramétrage d'exécution des scripts
+profiler                       <- FALSE
+    # Trace de profilage.
+if (profiler) {
+    library(data.table, warn.conflicts = FALSE)
+    PROF <<- data.table()
+}
+ratio.memoire.ligne.parallele  <- 2.3
 
 # FICHIERS EN INPUT
 # conventions de nommage : les noms et chemins sont en minuscules ;
@@ -196,7 +200,6 @@ nom.bulletin.paie           <- paste0(racine, "Bulletins")
 nom.table                   <- "Table"
 nom.bulletins               <- "Bulletins"
 
-
 # FORMATS
 
 colonnes.requises           <- c("Matricule",
@@ -211,69 +214,12 @@ colonnes.requises           <- c("Matricule",
                                  "Nir",
                                  "Temps.de.travail")
 
-
-
 date.format                    <- "%d/%m/%Y"
 
-# ESPACES DE VALEURS LICITES POUR CERTAINS CHAMPS (modalités)
+# Expressions régulières
 
+source("expressions.regulieres.R")
 
-########## Problématique ##############
-
-# expressions régulières
-
-#\\bxyz veut aussi dire cde.xyz(...), à éviter
-
-# --- NBI
-# Schémas recherchés :
-#    nbi, n.b.., n(o*).? *b(o*).? *i(nd*).?
-# ex: NBI, N.B.I, NOUV. BON. IND., N BON IND
-# ex: PFI, P.F.I, PR. FONCT. INFO., IND F INF
-
-expression.rég.traitement     <- "(?:\\s|^)trait.*\\b"
-expression.rég.nbi        <- "(?:\\s|^)nbi|(?:n(?:(?=o)o\\w*|)\\.?\\s*\\b)?b(?:(?=o)o\\w*|)\\.?\\s*\\bi(?:(?=n)nd\\w*|)\\.?\\b"
-expression.rég.astreintes <- "astr.*"
-expression.rég.nas        <- "log.*(:?n\\.?\\s*\\ba\\.?\\s*\\bs|n..?c.*ser)"
-
-# --- FPH
-
-expression.rég.primespecifique <- "pr\\.?\\w*\\b\\s*\\bsp..?ci.*"
-expression.rég.ift <- "(?:\\bind\\.?\\w*\\s*forf\\.?\\w*\\s*(?:et\\s*|)te.*)"
-expression.rég.primedeservice <- "\\bpr\\.?\\w*\\b\\s*(?:de\\s*)\\bs\\w+v"
-expression.rég.primedetechnicite <- "\\bpr\\.?\\w*\\b\\s*\\b(?:de\\s*|)tech.*"
-expression.rég.médecin <- "(?:\\bm..?d(?:\\.|ecin)\\b\\s+|prat\\.?\\w*\\b\\s*\\bhos).*"
-
-# --- Prime de fonctions informatiques
-# Schémas recherchés :
-#    pfi, p.f.i., p(r*).? *f(o*).? *inf(o*).?, i(nd*).? *f(o*).? *inf(o*).?
-# ex: PFI, P.F.I, PR. FONCT. INFO., IND F INF
-
-expression.rég.pfi        <- "(?:^|\\s)pfi|(?:p(?:(?=r)r\\w*|)|i(?:(?=n)nd\\w*|))\\.?\\s*(?:\\bf(?:(?=o)o\\w*|)\\.?\\s*)?\\binf(?:(?=o)o\\w*|)\\.?\\b"
-expression.rég.vacataires <- "HOR"
-
-expression.rég.heures.sup <- "(?:^|\\s)iht?[s]|i(?:(?=n)n\\w*|)\\.?\\s*\\bh(?:(?=o)o\\w*|)\\.?.*\\bs(?:(?=u)u\\w*|)\\.?\\b|h(?:(?=e)e\\w*|)\\.?\\s*\\b(?:(?=s)s\\w*)\\.?\\b"
-expression.rég.iat        <- "(?:^|\\s)i\\.?a\\.?t|i(?:(?=n)n\\w*|)\\.?\\s*\\ba(?:(?=d)d\\w*|)\\.?\\s*\\b(?:et\\s*\\b)?t(?:(?=e)e\\w*|)\\.?\\b"
-expression.rég.ifts       <- "(?:^|\\s)i\\.?f\\.?t\\.?s|i(?:(?=n)n\\w*|)\\.?\\s*\\bf\\w*\\.?\\s*\\bt(?:(?=r)r\\w*|)\\.?\\s*\\bs(?:(?=u)u\\w*|)\\.?\\b"
-expression.rég.pfr        <- "(?:^|\\s)p\\.?f\\.?r|(?:p(?:(?=r)r\\w*|))\\.?\\s*\\bfo?\\w*\\.?.*\\s+.*\\br\\w*s\\w*\\.?\\s*\\b"
-expression.rég.iss        <- "(?:^|\\s)i\\.?s\\.?s|(?:i(?:(?=n)n\\w*|))\\.?\\s*\\bsu?\\w*\\.?.*\\s+.*\\bsp?\\w*\\.?\\s*\\b"
-expression.rég.ifse       <- "(?:^|\\s)i\\.?f\\.?s\\.?e|(?:i(?:(?=n)n\\w*|))\\.?\\s*\\bfo?\\w*\\.?.*\\s+.*\\bs\\w*\\.?\\s*\\be.*"
-expression.rég.iemp       <- "(?:^|\\s)i\\.?e\\.?m\\.?p|(?:i(?:(?=n)n\\w*|))\\.?\\s*\\bex?\\w*\\.?.*\\s+.*\\bm\\w*\\.?\\s*\\bpr.*"
-expression.rég.psr        <- "(?:^|\\s)p\\.?s\\.?r|(?:p(?:(?=r)r\\w*|))\\.?\\s*\\bse?\\w*\\.?.*\\s+.*\\br\\w*n\\w*\\.?\\s*\\b"
-expression.rég.ipf        <- "(?:^|\\s)i\\.?p\\.?f|(?:i(?:(?=n)n\\w*|))\\.?\\s*\\bpe?\\w*\\.?.*\\s+.*\\bf\\w*n\\w*\\.?\\s*\\b"
-
-expression.rég.population <- "\\bASS(\\b|A).*"
-expression.rég.élus       <- "ind.*[é,e]lu"
-
-expression.rég.attaché    <- "(?:^|\\s)att\\w*\\.?\\b|se\\w*\\.?\\bma\\w*\\.?\\b"
-expression.rég.attaché.p  <- "(?:^|\\s)att\\w*\\.?\\bpr\\w*\\.?\\b|dir\\w*\\.?\\b"
-expression.rég.admin      <- "(?:^|\\s)adm\\w*\\.?\\b"
-expression.rég.admin.hc   <- "(?:^|\\s)adm\\w*\\.?\\bh\\w*\\.?\\s?c\\w*\\.?\\b"
-expression.rég.admin.g    <- "(?:^|\\s)adm\\w*\\.?\\b\\s?g\\w*\\.?\\b"
-
-# Trace de profilage.
-library(data.table, warn.conflicts = FALSE)
-PROF <<- data.table()
-
-# point d'indice majoré
+# Point d'indice majoré
 
 point_inm()
