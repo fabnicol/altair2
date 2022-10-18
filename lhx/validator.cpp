@@ -1043,8 +1043,6 @@ inline void GCC_INLINE normaliser_accents (xmlChar* c)
 
             if (*c == 0xc3)
                 {
-                    if (c + 1 == nullptr) break;
-
                     switch (* (c + 1))
                         {
                         case 0xa8 : // è
