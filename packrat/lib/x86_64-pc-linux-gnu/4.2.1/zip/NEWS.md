@@ -1,3 +1,7 @@
+# zip 2.2.2
+
+* No user visible changes.
+
 # zip 2.2.1
 
 * No user visible changes.

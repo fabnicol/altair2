@@ -1,6 +1,6 @@
 Package: lifecycle
 Title: Manage the Life Cycle of your Package Functions
-Version: 1.0.2
+Version: 1.0.3
 Authors@R: c(
     person("Lionel", "Henry", , "lionel@rstudio.com", role = c("aut", "cre")),
     person("Hadley", "Wickham", , "hadley@rstudio.com", role = "aut",
@@ -14,20 +14,20 @@ License: MIT + file LICENSE
 URL: https://lifecycle.r-lib.org/, https://github.com/r-lib/lifecycle
 BugReports: https://github.com/r-lib/lifecycle/issues
 Depends: R (>= 3.4)
-Imports: glue, rlang (>= 1.0.5)
+Imports: cli (>= 3.4.0), glue, rlang (>= 1.0.6)
 Suggests: covr, crayon, knitr, lintr, rmarkdown, testthat (>= 3.0.1),
-        tibble, tidyverse, tools, vctrs
+        tibble, tidyverse, tools, vctrs, withr
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Config/Needs/website: tidyverse/tidytemplate
 Encoding: UTF-8
 RoxygenNote: 7.2.1
 NeedsCompilation: no
-Packaged: 2022-09-01 15:20:36 UTC; lionel
+Packaged: 2022-10-07 08:50:55 UTC; lionel
 Author: Lionel Henry [aut, cre],
   Hadley Wickham [aut] (<https://orcid.org/0000-0003-4757-117X>),
   RStudio [cph, fnd]
 Maintainer: Lionel Henry <lionel@rstudio.com>
 Repository: CRAN
-Date/Publication: 2022-09-09 11:42:54 UTC
-Built: R 4.2.1; ; 2022-09-28 14:37:48 UTC; unix
+Date/Publication: 2022-10-07 09:50:02 UTC
+Built: R 4.2.1; ; 2022-10-28 06:09:41 UTC; unix
