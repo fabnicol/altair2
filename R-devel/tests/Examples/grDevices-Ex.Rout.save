@@ -1,6 +1,6 @@
 
-R Under development (unstable) (2022-03-19 r81942) -- "Unsuffered Consequences"
-Copyright (C) 2022 The R Foundation for Statistical Computing
+R Under development (unstable) (2023-01-20 r83643) -- "Unsuffered Consequences"
+Copyright (C) 2023 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -2039,6 +2039,9 @@ $transformations
 $paths
 [1] TRUE
 
+$glyphs
+[1] TRUE
+
 > 
 > 
 > 
@@ -2972,7 +2975,8 @@ pdf
 +  "     second: {f * second}(x) "        == {f * second}(x)), adj = 0)
 > 
 > 
-> plot(1:10, 1:10)
+> ## note the "{ .. }" trick to get "chained" equations:
+> plot(1:10, 1:10, main = quote(1 <= {1 < 2}))
 > text(4, 9, expression(hat(beta) == (X^t * X)^{-1} * X^t * y))
 > text(4, 8.4, "expression(hat(beta) == (X^t * X)^{-1} * X^t * y)",
 +      cex = .8)
@@ -3549,15 +3553,15 @@ attr(,"class")
 > ## time-dependent ==> ignore diffs:
 > ## IGNORE_RDIFF_BEGIN
 > pretty(Sys.Date())
-[1] "2022-03-17" "2022-03-18" "2022-03-19" "2022-03-20" "2022-03-21"
-[6] "2022-03-22"
+[1] "2023-01-21" "2023-01-22" "2023-01-23" "2023-01-24" "2023-01-25"
+[6] "2023-01-26"
 > pretty(Sys.time(), n = 10)
- [1] "2022-03-19 21:26:43 GMT" "2022-03-19 21:26:44 GMT"
- [3] "2022-03-19 21:26:45 GMT" "2022-03-19 21:26:46 GMT"
- [5] "2022-03-19 21:26:47 GMT" "2022-03-19 21:26:48 GMT"
- [7] "2022-03-19 21:26:49 GMT" "2022-03-19 21:26:50 GMT"
- [9] "2022-03-19 21:26:51 GMT" "2022-03-19 21:26:52 GMT"
-[11] "2022-03-19 21:26:53 GMT"
+ [1] "2023-01-23 09:00:53 NZDT" "2023-01-23 09:00:54 NZDT"
+ [3] "2023-01-23 09:00:55 NZDT" "2023-01-23 09:00:56 NZDT"
+ [5] "2023-01-23 09:00:57 NZDT" "2023-01-23 09:00:58 NZDT"
+ [7] "2023-01-23 09:00:59 NZDT" "2023-01-23 09:01:00 NZDT"
+ [9] "2023-01-23 09:01:01 NZDT" "2023-01-23 09:01:02 NZDT"
+[11] "2023-01-23 09:01:03 NZDT"
 > ## IGNORE_RDIFF_END
 > 
 > pretty(as.Date("2000-03-01")) # R 1.0.0 came in a leap year
@@ -4044,6 +4048,40 @@ v 0.98039216 0.7647059 0.4588235 0.8549020 0.9960784
 + utopia <- X11Font("-*-utopia-*-*-*-*-*-*-*-*-*-*-*-*")
 + X11Fonts(utopia = utopia)
 + })
+> X11Fonts()
+$serif
+[1] "-*-times-%s-%s-*-*-%d-*-*-*-*-*-*-*"
+
+$sans
+[1] "-*-helvetica-%s-%s-*-*-%d-*-*-*-*-*-*-*"
+
+$mono
+[1] "-*-courier-%s-%s-*-*-%d-*-*-*-*-*-*-*"
+
+$Times
+[1] "-adobe-times-%s-%s-*-*-%d-*-*-*-*-*-*-*"
+
+$Helvetica
+[1] "-adobe-helvetica-%s-%s-*-*-%d-*-*-*-*-*-*-*"
+
+$CyrTimes
+[1] "-cronyx-times-%s-%s-*-*-%d-*-*-*-*-*-*-*"
+
+$CyrHelvetica
+[1] "-cronyx-helvetica-%s-%s-*-*-%d-*-*-*-*-*-*-*"
+
+$Arial
+[1] "-monotype-arial-%s-%s-*-*-%d-*-*-*-*-*-*-*"
+
+$Mincho
+[1] "-*-mincho-%s-%s-*-*-%d-*-*-*-*-*-*-*"
+
+> X11Fonts("mono")
+$mono
+[1] "-*-courier-%s-%s-*-*-%d-*-*-*-*-*-*-*"
+
+> utopia <- X11Font("-*-utopia-*-*-*-*-*-*-*-*-*-*-*-*")
+> X11Fonts(utopia = utopia)
 > ## IGNORE_RDIFF_END
 > 
 > 
@@ -4133,6 +4171,11 @@ $ylab
 NULL
 
 > ##> xlab: "Index"  \\  warning: 3 y values <= 0 omitted ..
+> op <- options(warn = 2)# ==> warnings would be errors, we suppress the one "we know":
+> suppressWarnings(xy.coords(-2:10, log = "y"), classes="log_le_0") -> xy
+> options(op) # revert
+> stopifnot(is.list(xy), identical (1:13 +0,  xy$x),
++           identical(c(rep(NA, 3), 1:10 +0), xy$y))
 > 
 > 
 > 
@@ -4295,6 +4338,27 @@ $zlab
 [1] "z"
 
 > ##> Warning message: 2 x values <= 0 omitted ...
+> ## Suppress this specific warning:
+> suppressWarnings(xyz.coords(x = -1:9, y = 2:12, z = 3:13, log = "xy"),
++                  classes = "log_le_0")
+$x
+ [1] NA NA  1  2  3  4  5  6  7  8  9
+
+$y
+ [1]  2  3  4  5  6  7  8  9 10 11 12
+
+$z
+ [1]  3  4  5  6  7  8  9 10 11 12 13
+
+$xlab
+NULL
+
+$ylab
+NULL
+
+$zlab
+NULL
+
 > 
 > 
 > 
@@ -4303,7 +4367,7 @@ $zlab
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  83.971 1.605 86.106 0 0 
+Time elapsed:  29.035 0.328 29.373 0 0 
 > grDevices::dev.off()
 null device 
           1 

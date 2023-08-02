@@ -12,9 +12,10 @@
 <div style="text-align: center;">
 <a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
 <a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
-</div><h2>Documentation for package &lsquo;cli&rsquo; version 3.3.0</h2>
+</div><h2>Documentation for package &lsquo;cli&rsquo; version 3.6.1</h2>
 
 <ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+<li><a href="../NEWS">Package NEWS</a>.</li>
 </ul>
 
 <h2>Help Pages</h2>
@@ -29,6 +30,7 @@
 <a href="#G">G</a>
 <a href="#H">H</a>
 <a href="#I">I</a>
+<a href="#K">K</a>
 <a href="#L">L</a>
 <a href="#M">M</a>
 <a href="#N">N</a>
@@ -38,6 +40,7 @@
 <a href="#S">S</a>
 <a href="#T">T</a>
 <a href="#U">U</a>
+<a href="#V">V</a>
 <a href="#misc">misc</a>
 </p>
 
@@ -51,8 +54,14 @@
 <td>Align an ANSI colored string</td></tr>
 <tr><td style="width: 25%;"><a href="ansi_toupper.html">ansi_chartr</a></td>
 <td>ANSI character translation and case folding</td></tr>
+<tr><td style="width: 25%;"><a href="ansi_collapse.html">ansi_collapse</a></td>
+<td>Collapse a vector into a string scalar</td></tr>
 <tr><td style="width: 25%;"><a href="ansi_columns.html">ansi_columns</a></td>
 <td>Format a character vector in multiple columns</td></tr>
+<tr><td style="width: 25%;"><a href="ansi_grep.html">ansi_grep</a></td>
+<td>Like 'base::grep()' and 'base::grepl()', but for ANSI strings</td></tr>
+<tr><td style="width: 25%;"><a href="ansi_grep.html">ansi_grepl</a></td>
+<td>Like 'base::grep()' and 'base::grepl()', but for ANSI strings</td></tr>
 <tr><td style="width: 25%;"><a href="ansi_has_any.html">ansi_has_any</a></td>
 <td>Check if a string has some ANSI styling</td></tr>
 <tr><td style="width: 25%;"><a href="style_hyperlink.html">ansi_has_hyperlink_support</a></td>
@@ -63,8 +72,12 @@
 <td>Convert ANSI styled text to HTML</td></tr>
 <tr><td style="width: 25%;"><a href="ansi_html_style.html">ansi_html_style</a></td>
 <td>CSS styles for the output of 'ansi_html()'</td></tr>
+<tr><td style="width: 25%;"><a href="style_hyperlink.html">ansi_hyperlink_types</a></td>
+<td>Terminal Hyperlinks</td></tr>
 <tr><td style="width: 25%;"><a href="ansi_nchar.html">ansi_nchar</a></td>
 <td>Count number of characters in an ANSI colored string</td></tr>
+<tr><td style="width: 25%;"><a href="ansi_nzchar.html">ansi_nzchar</a></td>
+<td>Like 'base::nzchar()', but for ANSI strings</td></tr>
 <tr><td style="width: 25%;"><a href="ansi_palettes.html">ansi_palettes</a></td>
 <td>ANSI colors palettes</td></tr>
 <tr><td style="width: 25%;"><a href="ansi_palettes.html">ansi_palette_show</a></td>
@@ -187,6 +200,8 @@
 <td>Definition list</td></tr>
 <tr><td style="width: 25%;"><a href="cli_end.html">cli_end</a></td>
 <td>Close a CLI container</td></tr>
+<tr><td style="width: 25%;"><a href="cli_fmt.html">cli_fmt</a></td>
+<td>Capture the output of cli functions instead of printing it</td></tr>
 <tr><td style="width: 25%;"><a href="cli_format.html">cli_format</a></td>
 <td>Format a value for printing</td></tr>
 <tr><td style="width: 25%;"><a href="cli_format.html">cli_format.character</a></td>
@@ -407,6 +422,10 @@
 <td>Adjective-animal hash</td></tr>
 <tr><td style="width: 25%;"><a href="hash_emoji.html">hash_emoji</a></td>
 <td>Emoji hash</td></tr>
+<tr><td style="width: 25%;"><a href="hash_md5.html">hash_file_md5</a></td>
+<td>MD5 hash</td></tr>
+<tr><td style="width: 25%;"><a href="hash_sha1.html">hash_file_sha1</a></td>
+<td>SHA-1 hash</td></tr>
 <tr><td style="width: 25%;"><a href="hash_sha256.html">hash_file_sha256</a></td>
 <td>SHA-256 hash</td></tr>
 <tr><td style="width: 25%;"><a href="hash_md5.html">hash_md5</a></td>
@@ -417,6 +436,8 @@
 <td>Emoji hash</td></tr>
 <tr><td style="width: 25%;"><a href="hash_md5.html">hash_obj_md5</a></td>
 <td>MD5 hash</td></tr>
+<tr><td style="width: 25%;"><a href="hash_sha1.html">hash_obj_sha1</a></td>
+<td>SHA-1 hash</td></tr>
 <tr><td style="width: 25%;"><a href="hash_sha256.html">hash_obj_sha256</a></td>
 <td>SHA-256 hash</td></tr>
 <tr><td style="width: 25%;"><a href="hash_animal.html">hash_raw_animal</a></td>
@@ -425,10 +446,16 @@
 <td>Emoji hash</td></tr>
 <tr><td style="width: 25%;"><a href="hash_md5.html">hash_raw_md5</a></td>
 <td>MD5 hash</td></tr>
+<tr><td style="width: 25%;"><a href="hash_sha1.html">hash_raw_sha1</a></td>
+<td>SHA-1 hash</td></tr>
 <tr><td style="width: 25%;"><a href="hash_sha256.html">hash_raw_sha256</a></td>
 <td>SHA-256 hash</td></tr>
+<tr><td style="width: 25%;"><a href="hash_sha1.html">hash_sha1</a></td>
+<td>SHA-1 hash</td></tr>
 <tr><td style="width: 25%;"><a href="hash_sha256.html">hash_sha256</a></td>
 <td>SHA-256 hash</td></tr>
+<tr><td style="width: 25%;"><a href="has_keypress_support.html">has_keypress_support</a></td>
+<td>Check if the current platform/terminal supports reading single keys.</td></tr>
 </table>
 
 <h2><a id="I">-- I --</a></h2>
@@ -444,9 +471,18 @@
 <td>Whether cli is emitting UTF-8 characters</td></tr>
 </table>
 
+<h2><a id="K">-- K --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="keypress.html">keypress</a></td>
+<td>Read a single keypress at the terminal</td></tr>
+</table>
+
 <h2><a id="L">-- L --</a></h2>
 
 <table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="links.html">links</a></td>
+<td>cli hyperlinks</td></tr>
 <tr><td style="width: 25%;"><a href="boxx.html">list_border_styles</a></td>
 <td>Draw a banner-like box in the console</td></tr>
 <tr><td style="width: 25%;"><a href="list_spinners.html">list_spinners</a></td>
@@ -524,6 +560,8 @@
 <td>About cli pluralization</td></tr>
 <tr><td style="width: 25%;"><a href="pluralize.html">pluralize</a></td>
 <td>String templating with pluralization</td></tr>
+<tr><td style="width: 25%;"><a href="pretty_print_code.html">pretty_print_code</a></td>
+<td>Turn on pretty-printing functions at the R console</td></tr>
 <tr><td style="width: 25%;"><a href="progress-c.html">progress-c</a></td>
 <td>The cli progress C API</td></tr>
 <tr><td style="width: 25%;"><a href="progress-variables.html">progress-variables</a></td>
@@ -627,6 +665,13 @@
 <td>Count the number of characters in a character vector</td></tr>
 <tr><td style="width: 25%;"><a href="utf8_substr.html">utf8_substr</a></td>
 <td>Substring of an UTF-8 string</td></tr>
+</table>
+
+<h2><a id="V">-- V --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="vt_output.html">vt_output</a></td>
+<td>Simulate (a subset of) a VT-5xx ANSI terminal</td></tr>
 </table>
 
 <h2><a id="misc">-- misc --</a></h2>

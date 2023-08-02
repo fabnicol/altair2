@@ -12,9 +12,10 @@
 <div style="text-align: center;">
 <a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
 <a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
-</div><h2>Documentation for package &lsquo;rlang&rsquo; version 1.0.3</h2>
+</div><h2>Documentation for package &lsquo;rlang&rsquo; version 1.1.1</h2>
 
 <ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+<li><a href="../NEWS">Package NEWS</a>.</li>
 </ul>
 
 <h2>Help Pages</h2>
@@ -142,8 +143,6 @@
 <td>Are packages installed in any of the libraries?</td></tr>
 <tr><td style="width: 25%;"><a href="check_required.html">check_required</a></td>
 <td>Check that argument is supplied</td></tr>
-<tr><td style="width: 25%;"><a href="env.html">child_env</a></td>
-<td>Create a new environment</td></tr>
 <tr><td style="width: 25%;"><a href="vector-construction.html">chr</a></td>
 <td>Create vectors</td></tr>
 <tr><td style="width: 25%;"><a href="cnd_message.html">cnd_body</a></td>
@@ -232,6 +231,8 @@
 <td>Does environment inherit from another environment?</td></tr>
 <tr><td style="width: 25%;"><a href="env_browse.html">env_is_browsed</a></td>
 <td>Browse environments</td></tr>
+<tr><td style="width: 25%;"><a href="env_is_user_facing.html">env_is_user_facing</a></td>
+<td>Is frame environment user facing?</td></tr>
 <tr><td style="width: 25%;"><a href="env_name.html">env_label</a></td>
 <td>Label of an environment</td></tr>
 <tr><td style="width: 25%;"><a href="env_names.html">env_length</a></td>
@@ -486,6 +487,10 @@
 <td>Scalar type predicates</td></tr>
 <tr><td style="width: 25%;"><a href="scalar-type-predicates.html">is_scalar_vector</a></td>
 <td>Scalar type predicates</td></tr>
+<tr><td style="width: 25%;"><a href="splice.html">is_spliced</a></td>
+<td>Splice values at dots collection time</td></tr>
+<tr><td style="width: 25%;"><a href="splice.html">is_spliced_bare</a></td>
+<td>Splice values at dots collection time</td></tr>
 <tr><td style="width: 25%;"><a href="scalar-type-predicates.html">is_string</a></td>
 <td>Scalar type predicates</td></tr>
 <tr><td style="width: 25%;"><a href="is_symbol.html">is_symbol</a></td>
@@ -510,11 +515,11 @@
 <tr><td style="width: 25%;"><a href="last_error.html">last_error</a></td>
 <td>Last 'abort()' error</td></tr>
 <tr><td style="width: 25%;"><a href="last_warnings.html">last_messages</a></td>
-<td>Display last warnings</td></tr>
+<td>Display last messages and warnings</td></tr>
 <tr><td style="width: 25%;"><a href="last_error.html">last_trace</a></td>
 <td>Last 'abort()' error</td></tr>
 <tr><td style="width: 25%;"><a href="last_warnings.html">last_warnings</a></td>
-<td>Display last warnings</td></tr>
+<td>Display last messages and warnings</td></tr>
 <tr><td style="width: 25%;"><a href="vector-construction.html">lgl</a></td>
 <td>Create vectors</td></tr>
 <tr><td style="width: 25%;"><a href="list2.html">list2</a></td>
@@ -647,6 +652,10 @@
 <td>Signal an error, warning, or message</td></tr>
 <tr><td style="width: 25%;"><a href="rlang_backtrace_on_error.html">rlang_backtrace_on_error</a></td>
 <td>Display backtrace on error</td></tr>
+<tr><td style="width: 25%;"><a href="rlang_backtrace_on_error.html">rlang_backtrace_on_error_report</a></td>
+<td>Display backtrace on error</td></tr>
+<tr><td style="width: 25%;"><a href="rlang_backtrace_on_error.html">rlang_backtrace_on_warning_report</a></td>
+<td>Display backtrace on error</td></tr>
 <tr><td style="width: 25%;"><a href="rlang_error.html">rlang_error</a></td>
 <td>Errors of class 'rlang_error'</td></tr>
 <tr><td style="width: 25%;"><a href="on_load.html">run_on_load</a></td>
@@ -668,6 +677,8 @@
 <td>Set names of a vector</td></tr>
 <tr><td style="width: 25%;"><a href="abort.html">signal</a></td>
 <td>Signal an error, warning, or message</td></tr>
+<tr><td style="width: 25%;"><a href="splice.html">splice</a></td>
+<td>Splice values at dots collection time</td></tr>
 <tr><td style="width: 25%;"><a href="splice-operator.html">splice-operator</a></td>
 <td>Splice operator !!!</td></tr>
 <tr><td style="width: 25%;"><a href="stack.html">stack</a></td>

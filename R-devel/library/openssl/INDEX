@@ -13,6 +13,7 @@ my_key                  Default key
 openssl                 Toolkit for Encryption, Signatures and
                         Certificates based on OpenSSL
 openssl_config          OpenSSL Configuration Info
+pkcs7_encrypt           Encrypt/decrypt pkcs7 messages
 rand_bytes              Generate random bytes and numbers with OpenSSL
 read_key                Parsing keys and certificates
 rsa_encrypt             Low-level RSA encryption

@@ -629,6 +629,13 @@ beneficiaires.A <- beneficiaires.A[Matricule %chin% matricules.A,
                                        keyby= .(Matricule, Annee),
                                   ]
 if (nrow(beneficiaires.A) > 0) {
+
+    beneficiaires.A[ ,  Régime :=  ""]
+	
+    beneficiaires.A[c != 0 & p != 0 & i != 0,  Régime :=  prime_B$nom %+% " " %+% i %+% " mois-" %+%
+												ident_prime %+% " " %+% p %+% " mois" %+% 
+                                                "-Cumul " %+% c %+% " mois"]
+
     beneficiaires.A <- beneficiaires.A[ ,
                                         .(Agrégat,
                                             c,
@@ -636,15 +643,7 @@ if (nrow(beneficiaires.A) > 0) {
                                             p,
                                             Grade,
                                             nb.mois,
-
-                                            Régime = {
-
-                                            if (c != 0 && p != 0 && i != 0) {
-                                                prime_B$nom %+% " " %+% i %+% " mois-" %+%
-                                                ident_prime %+% " " %+% p %+% " mois" %+% 
-                                                "-Cumul " %+% c %+% " mois"
-                                            } else ""
-                                        }),
+                                            Régime),
                                 keyby = .(Matricule, Annee)]
 
     beneficiaires.A <- unique(beneficiaires.A)

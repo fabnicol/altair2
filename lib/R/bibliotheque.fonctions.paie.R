@@ -625,12 +625,7 @@ v.jmois.leap  <-  c(31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 #' @export
 
 calcul.nb.jours.mois <- function(Mois, annee)   {
-  if (is.na(annee) || is.na(Mois)) {
-
-    return(30)
-
-  }  else {
-
+  
     if ((annee - 2008) %% 4 == 0) {
          return(v.jmois.leap[Mois])
 
@@ -638,7 +633,7 @@ calcul.nb.jours.mois <- function(Mois, annee)   {
          return(v.jmois[Mois])
 
     }
- }
+ 
 }
 
 #' Sélectionne les éléments positifs d'un vecteur

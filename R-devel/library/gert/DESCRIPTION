@@ -1,7 +1,7 @@
 Type: Package
 Package: gert
 Title: Simple Git Client for R
-Version: 1.6.0
+Version: 1.9.2
 Authors@R: c(
     person("Jeroen", "Ooms", role = c("aut", "cre"), email = "jeroen@berkeley.edu",
       comment = c(ORCID = "0000-0002-4035-0289")),
@@ -15,22 +15,21 @@ Description: Simple git client for R based on 'libgit2' <https://libgit2.org> wi
 License: MIT + file LICENSE
 URL: https://docs.ropensci.org/gert/, https://github.com/r-lib/gert
 BugReports: https://github.com/r-lib/gert/issues
-Imports: askpass, credentials (>= 1.2.1), openssl (>= 1.4.1),
+Imports: askpass, credentials (>= 1.2.1), openssl (>= 2.0.3),
         rstudioapi (>= 0.11), sys, zip (>= 2.1.0)
 Suggests: spelling, knitr, rmarkdown, testthat
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 SystemRequirements: libgit2 (>= 1.0): libgit2-devel (rpm) or
         libgit2-dev (deb)
 Language: en-US
 NeedsCompilation: yes
-Packaged: 2022-03-29 20:42:24 UTC; jeroen
+Packaged: 2022-12-05 23:16:35 UTC; jeroen
 Author: Jeroen Ooms [aut, cre] (<https://orcid.org/0000-0002-4035-0289>),
   Jennifer Bryan [ctb] (<https://orcid.org/0000-0002-6983-2759>)
 Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
 Repository: CRAN
-Date/Publication: 2022-03-29 21:10:02 UTC
-Built: R 4.2.1; x86_64-w64-mingw32; 2022-06-30 03:25:34 UTC; windows
-ExperimentalWindowsRuntime: ucrt
+Date/Publication: 2022-12-05 23:50:02 UTC
+Built: R 4.3.1; x86_64-w64-mingw32; 2023-07-25 02:03:08 UTC; windows
 Archs: x64

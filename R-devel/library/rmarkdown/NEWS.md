@@ -1,3 +1,87 @@
+rmarkdown 2.23
+================================================================================
+
+- `find_external_resources()` works with formats defining there own `theme` argument, like `cleanrmd::html_document_clean()`, not related to **bslib** supports (thanks, @gadenbuie, #2493, r-lib/pkgdown#2319).
+
+- Fixed version number comparison problems as requested by CRAN.
+
+
+rmarkdown 2.22
+================================================================================
+
+- Using `css` with `.scss` and `.sass` file, or with a bslib theme, now works as expected with a shiny runtime (thanks, @cpsievert, #2443, #2447).
+
+- Add a `pandoc_metadata_file_arg()` function to match Pandoc's CLI flag `--metadata-file`.
+
+- Mentions that **webshot** or **webshot2** is required to take screenshot of HTML widget. When not installed, an error message mentionning `always_allow_html: true` solution will be shown, but setting this is not the solution (quarto-dev/quarto-cli#4225).
+
+- `html_dependency_jqueryui()` updated to 1.13.2 from version bundled in shiny (thanks, @daschnerm, #2477).
+
+- Fix an issue with YAML header ending with a commented line containing incomplete yaml (thanks, @keithnewman, #2483).
+
+- When code folding is enabled in `html_document()`, the text on the button to show the content has been changed from "Code" to "Show", because the content to show is not necessarily code, e.g., yihui/knitr#2227.
+
+
+rmarkdown 2.21
+================================================================================
+
+- Now HTML output formats use the Font Awesome HTML dependency from the **fontawesome** package instead of shipping an outdated version of Font Awesome in **rmarkdown** (thanks, @rich-iannone, #2451).
+
+- Fixed a bug caused by a change in the `is_blank()` function in **xfun** 0.38 (thanks, @andreahgsin, #2469).
+
+
+rmarkdown 2.20
+================================================================================
+
+- The defunct `tufte_handout()` has been removed from **rmarkdown**. Please use `tufte::tufte_handout()` instead.
+
+- If an input path to `rmarkdown::render()` is a symbolic link, it is no longer resolved to its real path (thanks, @SamDM @jmw86069, #1508).
+
+- Make sure to avoid creating invalid paths when copying resources (thanks, @mnazarov, #2429).
+
+- Make sure `logo` is properly embedded in `ioslides_presentation()` when `self_contained = TRUE` (thanks, @mnazarov, #2428).
+
+
+rmarkdown 2.19
+================================================================================
+
+- No longer use `xfun::isFALSE()` internally.
+
+
+rmarkdown 2.18
+================================================================================
+
+- `rmarkdown::render()` argument `output_file` is now used for all output formats, if there is only one name for multiple output formats (thanks, @MaelAstruc, #2421).
+
+- Custom output formats can provide a custom function to convert Markdown input to the desired output format now. To do so, define the output format via `output_format(pandoc = pandoc_options(convert_fun = function(...) {}))`. The default converting function is `pandoc_convert()` in this package. See the help page `?pandoc_options` for more details.
+
+
+rmarkdown 2.17
+================================================================================
+
+- `rmarkdown::render_site()` will now also look for `index.rmd` in addition to `index.Rmd` for custom site generator in YAML with `site:` (thanks, @kamalsacranie, #2409).
+
+- Icons in tabset dropdown are now correctly shown, including when `self_contained: false` (thanks, @cpsievert, #1697).
+
+
+rmarkdown 2.16
+================================================================================
+
+- Pandoc 2.19 has deprecated the argument `--self-contained`. If you have installed Pandoc 2.19+,  **rmarkdown** will use `--embed-resources --standalone` as recommended by Pandoc for output formats that use the option `self_contained = TRUE` (#2382).
+
+- `pandoc_version()` returns a version number of the form `X.Y.Z.YYYY.MM.DD` for the nightly build of Pandoc now, where `YYYY.MM.DD` is its build date. Previously it would return `X.Y.Z.9999` to indicate the nightly version.
+
+
+rmarkdown 2.15
+================================================================================
+
+- Fix navbar issue with website when using Boostrap 5 with **bslib** (thanks, @guasi, #2379, @cpsievert, #2384).
+
+- The `tufte_handout()` function inside **rmarkdown** is defunct now. Its codebase was moved to the **tufte** package in 2016, and this function was marked as deprecated in 2021. Please use `tufte::tufte_handout()` instead of `rmarkdown::tufte_handout()`. The latter will be removed eventually from this package.
+
+- `github_document()` gains `math_method = "default"` and defaults to it. No special processing will be done to inline maths in `$` and block maths in `$$` as now [Github supports it](https://github.blog/changelog/2022-05-19-render-mathematical-expressions-in-markdown/) and will render using Mathjax (thanks, @kylebutts, #2361).
+
+
 rmarkdown 2.14
 ================================================================================
 
@@ -75,7 +159,7 @@ rmarkdown 2.12
 - Improved the highlighting mechanism in formats that supports `highlight` argument: 
 
   * It is now possible to pass a custom theme file `.theme` in `highlight` argument for customizing the [syntax highlighting style used by Pandoc](https://pandoc.org/MANUAL.html#syntax-highlighting). 
-  * In addition to Pandoc's own supported themes, two more themes are bundled in the package:  `highlight: arrow` a theme [optimized for accessibility and color constrast](https://www.a11yproject.com/) (thanks to @apreshill), and `highlight: rstudio` to mimic the RStudio editor theme.
+  * In addition to Pandoc's own supported themes, two more themes are bundled in the package:  `highlight: arrow` a theme [optimized for accessibility and color contrast](https://www.a11yproject.com/) (thanks to @apreshill), and `highlight: rstudio` to mimic the RStudio editor theme.
   * For HTML output only, added optional [downlit](https://downlit.r-lib.org/) support in `html_document()` for R syntax highlighting and autolinking. Use `highlight_downlit = TRUE` to activate it (same argument as in **distill**). This features require the **downlit** package. 
 
 - Templates for `html_document()` and `ioslides_presentation()` gained a new CSS rule to display single line `<summary>` content inline (rstudio/rstudio#10589).

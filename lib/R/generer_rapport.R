@@ -193,21 +193,33 @@ tex2pdf <- function(infile = "altair.tex",
   if (ouvrir.document && file.exists(cle_outfile)) {
   
     if (setOSWindows) {
-	  cat("Open acrord")
-	      if (shell(paste("start acrord32.exe",  cle_outfile) != 0)) {
-            cat("processx") 		    
-		    processx::run(file.path("C:\\Program Files (x86)","Adobe","Acrobat Reader DC","Reader","AcroRd32.exe"), 
-			                    error_on_status=FALSE,
-			                    echo_cmd=TRUE,
-			                    cle_outfile)
-	      }
+	  cat("Opening acrord32...")
+	        tryCatch({
+			           processx::run("acrord32.exe",  args=cle_outfile, error_on_status=FALSE)
+			         },
+					 error = function(cond){
+						message("acrord32 not in path, using fallback...")
+						message("Here's the original error message:")
+                        message(cond)
+                        return(NA)
+					},
+					finally = {
+						cat("Running processx...") 		    
+						tryCatch({processx::run(file.path("C:\\Program Files (x86)","Adobe","Acrobat Reader DC","Reader","AcroRd32.exe"), 
+												args=cle_outfile,
+												error_on_status=FALSE,
+												echo_cmd=TRUE)
+								 },
+							     finally = {  if (! keep) file.remove(infile) 
+								              return(0)
+										   })
+					})
 
     } else {
       system(paste("okular", file.path(chemin.cle, outfile)))
+      if (! keep) file.remove(infile)
     }
   }
-
-  if (! keep) file.remove(infile)
 
 }
 

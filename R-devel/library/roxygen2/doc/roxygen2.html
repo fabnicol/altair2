@@ -12,7 +12,7 @@
 
 
 
-<title>Getting started with roxygen2</title>
+<title>Get started with roxygen2</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -29,23 +29,23 @@ document.addEventListener('DOMContentLoaded', function(e) {
 </script>
 
 <style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
 
 
 
 <style type="text/css">
-  code {
-    white-space: pre;
-  }
-  .sourceCode {
-    overflow: visible;
-  }
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
@@ -63,55 +63,54 @@ pre > code.sourceCode { white-space: pre-wrap; }
 pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
-  { counter-reset: source-line 0; }
+{ counter-reset: source-line 0; }
 pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
+{ position: relative; left: -4em; counter-increment: source-line; }
 pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
 div.sourceCode
-  {   }
+{ }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -120,13 +119,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -330,7 +336,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<h1 class="title toc-ignore">Getting started with roxygen2</h1>
+<h1 class="title toc-ignore">Get started with roxygen2</h1>
 
 
 
@@ -339,16 +345,16 @@ Without it, users won’t know how to use your package, and are unlikely
 to do so. Documentation is also useful for you in the future (so you
 remember what the heck you were thinking!), and for other developers
 working on your package. The goal of roxygen2 is to make documenting
-your code as easy as possible. R provides a standard way of documenting
-packages: you write <code>.Rd</code> files in the <code>man/</code>
-directory. These files use a custom syntax, loosely based on LaTeX
-Roxygen2 provides a number of advantages over writing <code>.Rd</code>
-files by hand:</p>
+your code as easy as possible.</p>
+<p>R provides a standard way of documenting packages: you write
+<code>.Rd</code> files in the <code>man/</code> directory. These files
+use a custom syntax, loosely based on LaTeX. roxygen2 provides a number
+of advantages over writing <code>.Rd</code> files by hand:</p>
 <ul>
 <li><p>Code and documentation are adjacent so when you modify your code,
 it’s easy to remember that you need to update the
 documentation.</p></li>
-<li><p>Roxygen2 dynamically inspects the objects that it’s documenting,
+<li><p>roxygen2 dynamically inspects the objects that it’s documenting,
 so it can automatically add data that you’d otherwise have to write by
 hand.</p></li>
 <li><p>It abstracts over the differences in documenting S3 and S4
@@ -358,19 +364,27 @@ details.</p></li>
 <p>As well as generating <code>.Rd</code> files, roxygen will also
 create a <code>NAMESPACE</code> for you, and will manage the
 <code>Collate</code> field in <code>DESCRIPTION</code>.</p>
-<p>This vignette provides a high-level description of roxygen2 and how
-the three main components work. The other vignettes provide more detail
-on the most important individual components:</p>
+<div id="learn-more" class="section level2">
+<h2>Learn more</h2>
+<p>This vignette provides a high-level description of roxygen2 and the
+overall workflow you’ll use with it. The other vignettes provide more
+detail on the most important individual components:</p>
 <ul>
-<li><p><a href="rd.html">Generating .Rd files</a> and <a href="rd-formatting.html">text formatting</a> describe how to generate
-function documentation via <code>.Rd</code> files.</p></li>
-<li><p><a href="namespace.html">Managing your <code>NAMESPACE</code></a>
-describes how to generate a <code>NAMESPACE</code> file, how namespacing
-works in R, and how you can use Roxygen2 to be specific about what your
-package needs and supplies.</p></li>
-<li><p>See [update_collate()] for the details of <code>@include</code>,
-which for complicated reasons is not implemented as a roclet.</p></li>
+<li><p>Start with <code>vignette(&quot;rd&quot;)</code> to learn how document your
+functions with roxygen2.</p></li>
+<li><p><code>vignette(&quot;rd-other&quot;)</code> discusses how to document other
+things like datasets, the package itself, and the various pieces used by
+R’s OOP systems.</p></li>
+<li><p><code>vignette(&quot;rd-formatting&quot;)</code> gives the details of
+roxygen2’s rmarkdown support.</p></li>
+<li><p><code>vignette(&quot;reuse&quot;)</code> demonstrates the tools available
+to reuse documentation in multiple places.</p></li>
+<li><p><code>vignette(&quot;namespace&quot;)</code> describes how to generate a
+<code>NAMESPACE</code> file, how namespacing works in R, and how you can
+use roxygen2 to be specific about what your package needs and
+supplies.</p></li>
 </ul>
+</div>
 <div id="running-roxygen" class="section level2">
 <h2>Running roxygen</h2>
 <p>There are three main ways to run roxygen:</p>
@@ -398,9 +412,9 @@ to your source file. Roxygen comments start with <code>#&#39;</code> so you
 can continue to use regular comments for other purposes.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; Add together two numbers</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; @param x A number</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; @param y A number</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; @return The sum of \code{x} and \code{y}</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; @param x A number.</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; @param y A number.</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; @return A number.</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; @examples</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; add(1, 1)</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; add(10, 1)</span></span>
@@ -409,7 +423,8 @@ can continue to use regular comments for other purposes.</p>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>For the example above, this will generate <code>man/add.Rd</code>
 that looks like:</p>
-<pre><code>% Generated by roxygen2 (3.2.0): do not edit by hand
+<pre class="rd"><code>% Generated by roxygen2: do not edit by hand
+% Please edit documentation in ./&lt;text&gt;
 \name{add}
 \alias{add}
 \title{Add together two numbers}
@@ -417,12 +432,12 @@ that looks like:</p>
 add(x, y)
 }
 \arguments{
-  \item{x}{A number}
+\item{x}{A number.}
 
-  \item{y}{A number}
+\item{y}{A number.}
 }
 \value{
-The sum of \code{x} and \code{y}
+A number.
 }
 \description{
 Add together two numbers
@@ -435,7 +450,7 @@ add(10, 1)
 read more about the Rd format in the <a href="https://cran.r-project.org/doc/manuals/R-exts.html#Rd-format">R
 extensions</a> manual. With roxygen2, there are few reasons to know
 about Rd files, so here I’ll avoid discussing them as much as possible,
-focussing instead on what you need to know about roxygen2.</p>
+focusing instead on what you need to know about roxygen2.</p>
 <p>When you use <code>?x</code>, <code>help(&quot;x&quot;)</code> or
 <code>example(&quot;x&quot;)</code> R looks for an Rd file containing
 <code>\alias{x}</code>. It then parses the file, converts it into HTML
@@ -462,8 +477,8 @@ Rcpp will automatically carry the comments along into
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">//&#39; efficiently in C++ for local values, and translated to the</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">//&#39; appropriate SQL for remote tables.</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">//&#39;</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">//&#39; @param x A numeric vector of values</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">//&#39; @param left,right Boundary values</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">//&#39; @param x A numeric vector of values.</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">//&#39; @param left,right Boundary values.</span></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">//&#39; @export</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">//&#39; @examples</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">//&#39; between(1:12, 7, 9)</span></span>
@@ -481,8 +496,8 @@ Rcpp will automatically carry the comments along into
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; efficiently in C++ for local values, and translated to the</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; appropriate SQL for remote tables.</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39;</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; @param x A numeric vector of values</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; @param left,right Boundary values</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; @param x A numeric vector of values.</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; @param left,right Boundary values.</span></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; @export</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; @examples</span></span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; between(1:12, 7, 9)</span></span>
