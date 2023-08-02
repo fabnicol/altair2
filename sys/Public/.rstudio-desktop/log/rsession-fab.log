@@ -1,3 +1,0 @@
-25 Aug 2017 13:16:39 [rsession-fab] WARNING Process supervisor did not terminate within 1 second; LOGGED FROM: void {anonymous}::rCleanup(bool) /var/tmp/portage/sci-mathematics/rstudio-1.0.136/work/rstudio-1.0.136/src/cpp/session/SessionMain.cpp:2561
-25 Aug 2017 13:19:26 [rsession-fab] WARNING Process supervisor did not terminate within 1 second; LOGGED FROM: void {anonymous}::rCleanup(bool) /var/tmp/portage/sci-mathematics/rstudio-1.0.136/work/rstudio-1.0.136/src/cpp/session/SessionMain.cpp:2561
-25 Aug 2017 13:40:00 [rsession-fab] WARNING Process supervisor did not terminate within 1 second; LOGGED FROM: void {anonymous}::rCleanup(bool) /var/tmp/portage/sci-mathematics/rstudio-1.0.136/work/rstudio-1.0.136/src/cpp/session/SessionMain.cpp:2561
