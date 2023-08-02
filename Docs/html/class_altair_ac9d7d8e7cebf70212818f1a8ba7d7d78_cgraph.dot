@@ -1,0 +1,58 @@
+digraph "Altair::refreshProjectManager"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node717 [label="Altair::refreshProjectManager",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node717 -> Node718 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node718 [label="Altair::checkEmptyProjectName",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a9df2266cd3e2a9905e74bb41c1f9415d",tooltip="Remplace un nom de projet vide par un nom par défaut. "];
+  Node717 -> Node719 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node719 [label="Altair::parseProjectFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a41b6c8a35ed8ba14c7c0ce2e6994655f",tooltip="Décode le projet représenté par un pointeur vers QFile ou similaire. "];
+  Node719 -> Node720 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node720 [label="Altair::assignWidgetValues",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a8b7b1fa3e0b567dc1d4721bf88087a68",tooltip="Parcourt l&#39;ensemble des widgets fonctionnels Abstract::abstractWidgetList et actualise leur statut in..."];
+  Node720 -> Node721 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node721 [label="FAbstractWidget::getHashKey",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_abstract_widget.html#ae6ba84e8ed8a54dc8121245f35f568fe",tooltip="Retourne la clé de hashage de Hash::wrapper correspondant au composant. "];
+  Node720 -> Node722 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node722 [label="Abstract::hashKeys",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$struct_abstract.html#a634c4a8152edbeb8d96d2ca8f30e1025",tooltip="Récupère toutes les clés de hachage (de Hash::wrapper) des FWidgets qui sont dans le vecteur FAbstrac..."];
+  Node720 -> Node723 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node723 [label="FAbstractWidget::setWidget\lFromXml",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_abstract_widget.html#a88c229861e7973810c6ac979d5526c2d"];
+  Node720 -> Node724 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node724 [label="Altair::size",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a78a2870bb9b316c5ad6bcbd64471eeb8",tooltip="Renvoie la taille des données exportées. "];
+  Node720 -> Node725 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node725 [label="Altair::textAppend",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a4995cdc9462838289b5b1df75edba552",tooltip="Ajouter du texte à l&#39;onglet des messages. "];
+  Node719 -> Node726 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node726 [label="Hash::createReference",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_hash.html#a2ac10203aa8b32a04d9088e08ddbaab4"];
+  Node719 -> Node727 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node727 [label="Altair::parseEntry",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a3f6193de22ed2034c9b6dbe7a8ac4d97",tooltip="Lors du décodage du projet XML .alt, décoder le noed courant et renvoyer l&#39;empilement des valeurs en ..."];
+  Node727 -> Node728 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node728 [label="FListFrame::setTabLabels",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_list_frame.html#a7ecbe60018d55d1a1352c5fd24c5e72e",tooltip="Assigne les titres des onglets de l&#39;onglet central. "];
+  Node728 -> Node729 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node729 [label="FListWidget::setTabLabels",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_list_widget.html#aac6eaaeb9946354f743394b54c84a6a7"];
+  Node727 -> Node730 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node730 [label="XmlMethod::stackData",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_xml_method.html#abe26f53c2028527b0ebea361faa85221",tooltip="Empile les données pour un noeud donné, pour une profondeur d&#39;enchâssement donnée. "];
+  Node727 -> Node731 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node731 [label="FStringList::toInt",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_string_list.html#a71ec48a52b6ca4ffe89400d66f3ff634"];
+  Node731 -> Node731 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node719 -> Node732 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node732 [label="Altair::refreshProjectManager\lValues",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#abf7d1895e52f7b8d7d26e4b5a0e6146a",tooltip="Rafraîchit le gestionnaire de projet à la droite de l&#39;interface. "];
+  Node732 -> Node733 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node733 [label="FListFrame::getTabLabels",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_list_frame.html#a58337134c45f052ad6bb45c014fd5c3f",tooltip="Lancer un fil d&#39;exécution pour lire l&#39;entête d&#39;un fichier XHL (Année, Mois,...) et classer les fichie..."];
+  Node733 -> Node734 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node734 [label="FListFrame::getRank",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f",tooltip="Récupère la taille courante (0-based) du conteneur FListFrame::widgetContainer. "];
+  Node732 -> Node735 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node735 [label="Altair::processSecondLevelData",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#adc79f280e4f580298a8dd80e2f7cf712",tooltip="Parcourt la table de chachage Hash::wrapper dans laquelle sont stockés à la clé \"XHL\" les chemins des..."];
+  Node735 -> Node724 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node732 -> Node736 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node736 [label="XmlMethod::displaySecond\lLevelData",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_xml_method.html#ac0a708c4bc4c55df24e60816d69a90cf"];
+  Node736 -> Node737 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node737 [label="XmlMethod::displayTextData",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_xml_method.html#aad1e553eb1ec6f1bb128cc6744cba9e3"];
+  Node732 -> Node737 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node732 -> Node738 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node738 [label="XmlMethod::displayFirstLevelData",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_xml_method.html#a796c4f03d9e7a8057f0102b87eecbd3e"];
+  Node738 -> Node737 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node719 -> Node739 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node739 [label="Altair::refreshRowPresentation",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a20528df591deee5ad32f28996ba8dc35",tooltip="Raccourcit les chemins dans les onglets en se limitant au non de fichier et les présente  en surligna..."];
+  Node717 -> Node732 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node717 -> Node725 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

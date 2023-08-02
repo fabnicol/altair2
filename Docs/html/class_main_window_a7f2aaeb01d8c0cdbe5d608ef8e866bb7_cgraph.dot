@@ -1,0 +1,12 @@
+digraph "MainWindow::resetExtractionBulletins"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node108 [label="MainWindow::resetExtraction\lBulletins",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node108 -> Node109 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node109 [label="MatriculeInput::clear",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_matricule_input.html#a1b9d9f0c939a200f2643958749f7ec42",tooltip="Réinitialisation de tous les champs. "];
+  Node109 -> Node110 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node110 [label="FLineFrame::setText",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_line_frame.html#a532228c9d7ad141dda66d081df38b48a",tooltip="Accesseur en écriture : édite le texte de la ligne. "];
+}

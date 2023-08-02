@@ -1,0 +1,17 @@
+digraph "Altair::writeProjectFile"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1125 [label="Altair::writeProjectFile",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1125 -> Node1126 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1126 [label="Altair::checkEmptyProjectName",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a9df2266cd3e2a9905e74bb41c1f9415d",tooltip="Remplace un nom de projet vide par un nom par défaut. "];
+  Node1125 -> Node1127 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1127 [label="Altair::makeDataString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a2f8d129da914d8b9ab3cdaf195f92bd1",tooltip="Lance Altair::makeParserString sur le premier item courant de abstractWidgetList (celui des données d..."];
+  Node1127 -> Node1128 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1128 [label="Altair::makeParserString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#af73cbf33a9e3ff76896a8099b4b154fe",tooltip="Crée la chaîne QString permettant d&#39;écrire un projet XML d&#39;extension .alt Parcourt l&#39;ensemble de la l..."];
+  Node1125 -> Node1129 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1129 [label="Altair::makeSystemString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#adb7f94af778c4b6874abab74c8ef4016",tooltip="Lance Altair::makeParserString sur l&#39;ensemble de la liste des FWidgets sauf le premier (tous les widg..."];
+  Node1129 -> Node1128 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

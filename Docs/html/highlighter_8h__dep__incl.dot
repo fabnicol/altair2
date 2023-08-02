@@ -1,0 +1,26 @@
+digraph "Interface/gui/highlighter.h"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node3 [label="Interface/gui/highlighter.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Interface/gui/altair\l-gui.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$altair-gui_8h.html",tooltip="Code de la classe MainWindow qui construit l&#39;interface graphique. "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Interface/gui/altair.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$altair_8h.html",tooltip="Code de la classe principale Altair, qui joue le rôle d&#39;agent de l&#39;interface graphique. "];
+  Node5 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Interface/gui/altair.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$altair_8cpp.html",tooltip="Code implémentant la classe principale Altair, qui joue le rôle d&#39;agent de l&#39;interface graphique..."];
+  Node5 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="Interface/gui/mainwindow.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$mainwindow_8cpp.html",tooltip="Code de l&#39;implémentation de la classe MainWindow de l&#39;interface graphique. "];
+  Node5 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="Interface/gui/options.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$options_8cpp.html",tooltip="Implémentation des classes du dialogue d&#39;options. "];
+  Node5 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="Interface/gui/run.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$run_8cpp.html",tooltip="Implémentation de la classe Altair agent de la classe MainWindow qui construit l&#39;interface graphique..."];
+  Node5 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="Interface/gui/xmlparser.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$xmlparser_8cpp.html",tooltip="Implémentation de la classe Altair agent de la classe MainWindow qui construit l&#39;interface graphique..."];
+  Node4 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="Interface/gui/main.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_interface_2gui_2main_8cpp.html",tooltip="Lance l&#39;interface graphique en chargeant le bon contexte linguistique et la feuille de style..."];
+  Node3 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="Interface/gui/highlighter.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$highlighter_8cpp.html",tooltip="Implémentation de la classe Highlighter qui sert à coloriser le code XML des projets ..."];
+}

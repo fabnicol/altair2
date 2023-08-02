@@ -1,0 +1,14 @@
+2020-08-10 22:51:51,659+0200 INFO  mpmcli - this is mpmcli 4.0 (MiKTeX 20.6.29 Portable)
+2020-08-10 22:51:51,659+0200 INFO  mpmcli - this process (6768) started by 'miktex-portable' with command line: mpm --register-components --verbose
+2020-08-10 22:51:51,659+0200 INFO  mpmcli - Operating on the private (per-user) MiKTeX setup
+2020-08-10 22:51:51,659+0200 INFO  mpmcli - configuring fontconfig\config\fonts.conf
+2020-08-10 22:51:51,800+0200 WARN  mpmcli.core - still open: C:\Users\Public\Dev\altair\texlive2\texmfs\install\fontconfig\config\fonts.conf.in
+2020-08-10 22:51:51,800+0200 WARN  mpmcli.core - still open: C:\Users\Public\Dev\altair\texlive2\texmfs/config\fontconfig\config\fonts.conf
+2020-08-10 22:51:51,800+0200 INFO  mpmcli - this process (6768) finishes with exit code 0
+2020-08-11 17:34:35,797+0200 INFO  mpmcli - this is mpmcli 4.0 (MiKTeX 20.7 Portable)
+2020-08-11 17:34:35,797+0200 INFO  mpmcli - this process (2152) started by 'miktex-update' with command line: mpm --register-components --verbose
+2020-08-11 17:34:35,797+0200 INFO  mpmcli - Operating on the private (per-user) MiKTeX setup
+2020-08-11 17:34:35,812+0200 INFO  mpmcli - configuring fontconfig\config\fonts.conf
+2020-08-11 17:34:35,875+0200 WARN  mpmcli.core - still open: C:\Users\Public\Dev\altair\texlive2\texmfs\install\fontconfig/config\fonts.conf.in
+2020-08-11 17:34:35,875+0200 WARN  mpmcli.core - still open: C:\Users\Public\Dev\altair\texlive2\texmfs/config\fontconfig\config\fonts.conf
+2020-08-11 17:34:35,922+0200 INFO  mpmcli - this process (2152) finishes with exit code 0

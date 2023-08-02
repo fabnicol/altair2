@@ -1,0 +1,19 @@
+digraph "ouvrir_fichier_base"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node71 [label="ouvrir_fichier_base",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node71 -> Node72 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node72 [label="ouvrir_fichier_base0",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fonctions__auxiliaires_8cpp.html#aeafedd27b99b9ca6eecd49ff027b3671",tooltip="Ouvre une base de données de type table (bulletins + lignes) en écriture pour un segment d&#39;exécution ..."];
+  Node72 -> Node73 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node73 [label="taille_fichier",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fonctions__auxiliaires_8cpp.html#aa4c818d49539c9dec49c5cf3144b8f53",tooltip="Taille du fichier en octets. "];
+  Node72 -> Node74 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node74 [label="ecrire_entete_table",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fonctions__auxiliaires_8cpp.html#aff3c87803f64d34f00a30ef30bb74a9b"];
+  Node74 -> Node75 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node75 [label="ecrire_entete0",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fonctions__auxiliaires_8cpp.html#aca69dd2811b53b087f39810c114e7dde",tooltip="Ecrit les libellés des colonnes d&#39;une base quelconque avec un tableau de libellés de taille donnée..."];
+  Node72 -> Node76 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node76 [label="ecrire_entete_bulletins",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fonctions__auxiliaires_8cpp.html#a5e2253f583a3358618441c2cba35742b",tooltip="Ecrit les libellés des colonnes des bulletins. "];
+  Node76 -> Node75 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

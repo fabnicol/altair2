@@ -1,0 +1,14 @@
+digraph "FListFrame::deleteGroup"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node98 [label="FListFrame::deleteGroup",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node98 -> Node99 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node99 [label="FListWidget::getTabLabels",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_list_widget.html#a81dae63e19cad64c637cfee609defa3f"];
+  Node98 -> Node100 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node100 [label="FListWidget::setTabLabels",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_list_widget.html#aac6eaaeb9946354f743394b54c84a6a7"];
+  Node98 -> Node101 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node101 [label="FListFrame::updateIndexInfo",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_list_frame.html#a356ad4309df1e931fb3ee12ad88054fb",tooltip="Actualise currentWidget, row et currentIndex. "];
+}

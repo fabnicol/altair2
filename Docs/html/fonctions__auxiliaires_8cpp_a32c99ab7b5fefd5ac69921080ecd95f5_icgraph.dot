@@ -1,0 +1,16 @@
+digraph "read_stream_into_string"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node103 [label="read_stream_into_string",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node103 -> Node104 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node104 [label="calculer_memoire_requise",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fonctions__auxiliaires_8h.html#a6a6eceeeb38bc24fd24e0acb226c1304",tooltip="Calcule la mémoire requise pour l&#39;exécution du programme. "];
+  Node104 -> Node105 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node105 [label="decoder_fichier",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$validator_8h.html#a84e82eb7bd4a0e47537f98223511a22b",tooltip="Lance calculer_memoire_requise ou le calcul direct de la mémoire par par les saisies de -n et -N  ou ..."];
+  Node105 -> Node106 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node106 [label="produire_segment",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lhx_2main_8cpp.html#abb1f1ad236423a832fd1efa1e9deeafa",tooltip="Pour un segment donné (sous-ensemble de bases de paye XML), redécoupe le segment en partie égales ou ..."];
+  Node106 -> Node107 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node107 [label="main",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$lhx_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627"];
+}

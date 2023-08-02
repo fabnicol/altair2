@@ -1,0 +1,341 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.14"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Documentation des paramètres de l&#39;interface graphique et des projets Altaïr d&#39;extension .alt</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="altaïr.bmp"/></td>
+   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.8.14 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('page_alt.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">Documentation des paramètres de l'interface graphique et des projets Altaïr d'extension .alt </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="toc"><h3>Table des matières</h3>
+<ul><li class="level1"><a href="#edition_alt">Edition d&#39;un projet .alt</a></li>
+<li class="level1"><a href="#edition_defaut_alt">Génération automatique du projet par défaut</a></li>
+<li class="level1"><a href="#lancement_alt">Chargement automatique d&#39;un projet Altaïr dans l&#39;interface graphique</a></li>
+<li class="level1"><a href="#lancement_alt_manu">Chargement manuel d&#39;un projet Altaïr dans l&#39;interface graphique</a></li>
+<li class="level1"><a href="#cli_lhx">Génération de la ligne de commande de l&#39;application-noyau lhx</a></li>
+<li class="level1"><a href="#sec_alt1">Balises XML des projets Altaïr et composants (widgets) associés de la bibliothèque fwidgets_lib</a></li>
+<li class="level1"><a href="#sec_alt2">Exemple commenté de projet .alt</a></li>
+</ul>
+</div>
+<div class="textblock"><h1><a class="anchor" id="edition_alt"></a>
+Edition d'un projet .alt</h1>
+<p>Pour éditer un projet :</p><ul>
+<li>soit utiliser un éditeur de texte et de suivre les indications <em>supra</em> ;</li>
+<li>soit utiliser l'éditeur intégré de projet .alt : <b>Ctrl + E</b> ou menu Editer &rarr; Editer le projet courant &rarr; faire les modifications &rarr; menu Fichier interne à l'éditeur &rarr; Enregistrer et Quitter ou autres actions de ce menu.</li>
+<li>soit modifier les paramètres dans l'interface elle-même puis enregistrer le projet (<b>Ctrl + S</b> ou menu Fichier &rarr; Enregistrer) ou utiliser la fonctionnalité d'enregistrement automatique de l'interface (menu Configurer &rarr; Configurer l'interface &rarr; Sauvegarder le projet .alt automatiquement) ;</li>
+</ul>
+<h1><a class="anchor" id="edition_defaut_alt"></a>
+Génération automatique du projet par défaut</h1>
+<p>Un projet par défaut (<em>défaut.alt</em>) est automatiquement généré, en l'absence d'autre projet créé par l'utilisateur, dans l'emplacement défini par <a class="el" href="classtools.html#a67f07e69b4ff3e9b599714d99b3f6d79" title="Répertoire d&#39;importation des données de paye (xhl). ">tools::userdatadir</a>, autrement dit :</p><ul>
+<li>dans ~/Dev/altair/<a class="el" href="gui__enums_8h.html#a917e765cc41bbe05562e484e7e7db6b3">DONNEES_XHL</a> pour l'administrateur</li>
+<li>dans ~/Dev/altair/<a class="el" href="gui__enums_8h.html#a917e765cc41bbe05562e484e7e7db6b3">DONNEES_XHL</a>/<em>login</em> pour les autres utilisateurs.</li>
+</ul>
+<p>Le répertoire de génération de <em>défaut.alt</em> est celui dans lequel sont placées les données de paye du gestionnaire de fichiers (partie gauche de l'interface).<br />
+ Sauf spécification contraire de la constante de compilation <a class="el" href="gui__enums_8h.html#a917e765cc41bbe05562e484e7e7db6b3">DONNEES_XHL</a>, ce répertoire est en général :</p><ul>
+<li><b>~/Dev/altair/Tests/Exemple/Donnees/xhl</b> pour l'administrateur</li>
+<li><b>~/Dev/altair/Tests/Exemple/Donnees/xhl/<em>login</em></b> pour les autres utilisateurs.</li>
+</ul>
+<h1><a class="anchor" id="lancement_alt"></a>
+Chargement automatique d'un projet Altaïr dans l'interface graphique</h1>
+<ul>
+<li>Il est possible d'utiliser les fichiers de projet .alt pour lancer directement l'interface graphique, chargée des paramètres et données contenus dans le projet.<br />
+ L'utilisateur retrouve ainsi exactement l'état de l'interface et du traitement des données qui était en cours lors d'une utilisation précédente. A cette fin :<ul>
+<li>vérifier que l'ensemble des dépendances de bibliothèques est dans le chemin d'exécution par défaut (sous Linux, LD_LIBRARY_PATH des fichiers .desktop est exporté en variable globale)</li>
+<li>sous Linux (KDE) : Clic droit sur un fichier .alt &rarr; Ouvrir avec &rarr; Autres &rarr; renseigner le chemin de l'interface Altaïr et cocher Mémoriser l'association...<br />
+ Un clic (ou deux, selon les bureaux) sur un fichier .alt permet de charger automatiquement le projet en lançant l'interface graphique.</li>
+</ul>
+</li>
+<li>Une autre façon de charger automatiquement le projet en ligne de commande est d'indiquer le chemin du projet en premier argument du chemin de l'interface : <div class="fragment"><div class="line">~/Dev/altair/Interface_linux/gui/x64$ ./<a class="code" href="class_altair.html">Altair</a> ~/projet.alt</div></div><!-- fragment --></li>
+<li>Une dernière façon de charger automatiquement un projet est d'utiliser le projet par défaut.<br />
+ Il est possible de charger automatiquement le projet par défaut en cochant la case <b>Charger le projet par défaut au lancement</b> du dialogue de configuration.<br />
+ Si la case <b>Sauvegarder le projet .alt automatiquement</b> est aussi cochée, le projet par défaut <em>défaut.alt</em> a sauvegardé l'ensemble des paramètres de l'interface décrits dans le <a class="el" href="page_alt.html#sec_alt1">tableau des paramètres</a> avant sa dernière fermeture.<br />
+ Au lancement suivant, l'état antérieur de l'interface est alors automatiquement restauré. <dl class="section warning"><dt>Avertissement</dt><dd>Ce paramétrage peut occasionner des plantages de l'interface si les fichiers de paye présents dans le projet automatiquement sauvegardé à la dernière exécution de l'interface ne sont plus présents sur le disque à l'emplacement indiqué par le projet .alt.<br />
+ Dans ce cas, écraser le projet <em>défaut.alt</em> et relancer.</dd></dl>
+</li>
+</ul>
+<h1><a class="anchor" id="lancement_alt_manu"></a>
+Chargement manuel d'un projet Altaïr dans l'interface graphique</h1>
+<p>Alternativement, après lancement de l'interface :</p><ul>
+<li>menu Fichier &rarr; Ouvrir le projet .alt ou <b>Ctrl + O</b></li>
+<li>si le projet est en fichiers récents (menu Fichier &rarr; fichiers numérotés par ordre d'apparition), sélectionner le fichier bascule l'interface sur ce projet récent</li>
+<li>il est aussi possible de désarchiver un projet archivé (menu Fichier &rarr; Désarchiver le projet)</li>
+<li>pour un nouveau projet : <b>Ctrl + N</b> ou menu Fichier &rarr; Nouveau projet.</li>
+</ul>
+<h1><a class="anchor" id="cli_lhx"></a>
+Génération de la ligne de commande de l'application-noyau lhx</h1>
+<p>Par défaut la ligne de commande de <b>lhx</b> contient les options suivantes, qui sont automatiquement générées : </p><ul>
+<li>
+-m : calcul des maxima du nombre de bulletins de paye par mois et du nombre de lignes de paye par agent par bulletin </li>
+<li>
+-d ',' : séparateur décimal virgule </li>
+<li>
+-s ';' : séparateur de champs point-virgule </li>
+<li>
+-E : Générer l'échelon </li>
+<li>
+-rank tools::sharedir + "/rank" : fichier exporté dans ~/.local/share/applications/Altair (tools::sharedir par défaut) <br />
+ indiquant l'index de la barre de progression </li>
+<li>
+&ndash;&ndash;cdrom : si depuis un disque optique </li>
+<li>
+-D ~/Dev/altair/<a class="el" href="gui__enums_8h.html#a5d544d497fa8251d92fdba3f7a15d74c">DONNEES_SORTIE</a> /subdir : répertoire d'exportation des bases si subdir est non vide  </li>
+<li>
+&ndash;&ndash;esiret Sirets séparés par blancs : si des Sirets sont excus (barrés) dans l'onglet Siret </li>
+<li>
+&ndash;&ndash;ebudget budgets séparés par blancs : si des budgets sont excus (barrés) dans l'onglet Budget </li>
+<li>
+&ndash;&ndash;eemployeur employeurs séparés par blancs : si des employeurs sont excus (barrés) dans l'onglet Employeur </li>
+</ul>
+<p>Elle contient en outre des valeurs qui dépendent de l'état des composants (<em>widgets</em>) de l'interface graphique.<br />
+ En fonction des valeurs d'un des composants identifiés dans le tableau suivant, un ou plusieurs éléments sont ajoutés à la ligne de commande de <b>lhx</b>.<br />
+ En miroir, une valeur (ou une série de valeurs) est générée entre la paire de balises XML correspondantes dans le projet .alt.<br />
+ Par exemple, si la case du dialogue de configuration <b> Limiter la verbosité </b> est cochée, le composant <a class="el" href="class_main_window.html#a9a8262985c1b47bf1c6b49a7d77cb875" title="Case à cocher du dialogue de configuration : réduire la verbosité par défaut. ">MainWindow::defaultQuietBox</a> génère l'option de ligne de commande <b>-q</b>.<br />
+ En parallèle, une paire de balises <em>quiet</em> est munie de la valeur positive <em>oui</em> dans le projet XML d'extension .alt : </p><div class="fragment"><div class="line">&lt;quiet&gt;</div><div class="line"> oui</div><div class="line">&lt;/quiet&gt;</div></div><!-- fragment --><p> Si la même case est décochée, l'option <b>-q</b> n'est pas insérée en ligne de commande. La paire de balises du projet .alt est alors renseignée par <em>non</em> : </p><div class="fragment"><div class="line">&lt;quiet&gt;</div><div class="line"> non</div><div class="line">&lt;/quiet&gt;</div></div><!-- fragment --><p> <br />
+</p>
+<h1><a class="anchor" id="sec_alt1"></a>
+Balises XML des projets Altaïr et composants (widgets) associés de la bibliothèque fwidgets_lib</h1>
+<dl class="section note"><dt>Note</dt><dd>Lorsque qu'une notation {valeur1, valeur2,...} est rencontrée, comprendre qu'est choisie une valeur parmi valeur1, valeur2, etc.<br />
+ La valeur est donnée soit littéralement (en extension) soit en intension (année -&gt; 2011, 2012, etc.).</dd></dl>
+<div></div><div> <table class="doxtable">
+<tr>
+<th>Balise XML</th><th>Attributs</th><th>Valeur</th><th>Dialogue/Onglet</th><th>Génération de ligne de commande pour <em>lhx</em></th><th>Commentaires</th><th>Composant </th></tr>
+<tr>
+<td style="font-weight:bold;">projet</td><td>version="..."</td><td></td><td></td><td></td><td>Début du projet et version de l'application.</td><td></td></tr>
+<tr>
+<td style="font-weight:bold;">data</td><td></td><td></td><td></td><td></td><td>Début des données de paye</td><td></td></tr>
+<tr>
+<td style="font-weight:bold;">XHL</td><td>profondeur="2"</td><td>Enchâsse les balise <em>onglet</em></td><td>Onglet central</td><td></td><td>Données de paye : 2 niveaux d'enchâssement ("onglet" et "item").</td><td><a class="el" href="class_altair.html#aa2a75bb1459908902ea2ebb8854ea925" title="Occurrence de la classe englobant les contenus de l&#39;onglet central. ">Altair::project</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">onglet</td><td>V="{année}"</td><td>Enchâsse les balises <em>item</em></td><td>Onglets annuels centraux</td><td></td><td>Onglet pour chaque année de paye (sauf trois derniers).</td><td></td></tr>
+<tr>
+<td style="font-weight:bold;">item</td><td>V="..." S="..." B="..." E="..." EM="..."</td><td>Chaîne de caractères</td><td>Elément des onglets annuels centraux</td><td>Chemin du fichier.</td><td>Chemin du fichier mensuel de paye pour le mois V, le Siret S, l'établissement E et l'employeur EM</td><td></td></tr>
+<tr>
+<td style="font-weight:bold;">onglet</td><td>V="Siret"</td><td></td><td>3ème onglet en partant de droite.</td><td>Si barré(s) : &ndash;&ndash;esiret <em>Siret(s) exclus(s)</em></td><td>Onglet des Siret.</td><td></td></tr>
+<tr>
+<td style="font-weight:bold;">item</td><td>V="" S="" B="" E="" EM=""</td><td>Chaîne de caractères du Siret.</td><td></td><td></td><td>Siret détecté (éventuellement : exclu).</td><td></td></tr>
+<tr>
+<td style="font-weight:bold;">onglet</td><td>V="Budget"</td><td></td><td>2ème onglet en partant de droite.</td><td>Si barré(s) : &ndash;&ndash;ebudget <em>Budget(s) exclus(s)</em></td><td>Onglet des Budgets.</td><td></td></tr>
+<tr>
+<td style="font-weight:bold;">item</td><td>V="" S="" B="" E="" EM=""</td><td>Chaîne de caractères du Budget.</td><td></td><td></td><td>Budget détecté (éventuellement : exclu).</td><td></td></tr>
+<tr>
+<td style="font-weight:bold;">onglet</td><td>V="Employeur"</td><td></td><td>1er onglet en partant de droite</td><td>Si barré(s) : &ndash;&ndash;employeur <em>Employeur(s) exclus(s)</em></td><td>Onglet des Employeurs.</td><td></td></tr>
+<tr>
+<td style="font-weight:bold;">item</td><td>V="" S="" B="" E="" EM=""</td><td>Chaîne de caractères de l'employeur.</td><td></td><td></td><td>Employeur détecté (éventuellement : exclu).</td><td></td></tr>
+<tr>
+<td style="font-weight:bold;">systeme</td><td></td><td></td><td></td><td></td><td>Paramètres système (paramétrage de l'interface, dialogues d'options et de configuration de l'interface)</td><td></td></tr>
+<tr>
+<td style="font-weight:bold;">projectManagerDisplay</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher le gestionnaire de projets à droite de l'interface.<br />
+La profondeur 0 indique une balise sans enchâssement : la valeur est lue dans le texte de la balise</td><td><a class="el" href="class_main_window.html#ac8643ef26998c930f500b2e5483a8ffd" title="Case à cocher du dialogue de configuration : gestionnaire de projets par défaut. ">MainWindow::defaultProjectManagerWidgetLayoutBox</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">fileManagerDisplay</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher le gestionnaire (ou explorateur ou arbre) de fichiers à gauche de l'interface.</td><td><a class="el" href="class_main_window.html#ad953e5681360ebc9489b8aedcad5ec3f" title="Case à cocher du dialogue de configuration : gestionnaire de fichiers par défaut. ...">MainWindow::defaultFileManagerWidgetLayoutBox</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">fullScreenDisplay</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Plein écran ("oui" ou "non")</td><td><a class="el" href="class_main_window.html#a9af874b5697652894d1402506fde7988" title="Case à cocher du dialogue de configuration : plein écran par défaut. ">MainWindow::defaultFullScreenLayoutBox</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">outputTextEdit</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher l'onglet des messages en bas de l'interface.</td><td><a class="el" href="class_main_window.html#a7b422b6ba9d234be00e9d4437e7f3e8b" title="Case à cocher du dialogue de configuration : onglets des messages et de console par défaut...">MainWindow::defaultOutputTextEditBox</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">fileToolBar</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher la barre d'outils du menu Fichier.</td><td><a class="el" href="class_main_window.html#a4b1ba59bdea77e1647e1430a59e63cdf" title="Case à cocher du dialogue de configuration : barre d&#39;outils des Fichier par défaut. ">MainWindow::defaultFileToolBarBox</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">editToolBar</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher la barre d'outils du menu Editer.</td><td><a class="el" href="class_main_window.html#a3300a3aeee456a9141de32a625a4af87" title="Case à cocher du dialogue de configuration : barre d&#39;outils Edition par défaut. ">MainWindow::defaultEditToolBarBox</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">processToolBar</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher la barre d'outils du menu Lancer.</td><td><a class="el" href="class_main_window.html#abe7466935afa8d6475e6f58742518a89" title="Case à cocher du dialogue de configuration : barre d&#39;outils Lancer par défaut. ">MainWindow::defaultProcessToolBarBox</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">optionsToolBar</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher la barre d'outils du menu Configurer.</td><td><a class="el" href="class_main_window.html#ae992f3aff208dd4df67d18108daf8150" title="Case à cocher du dialogue de configuration : barre d&#39;outils Options défaut. ">MainWindow::defaultOptionsToolBarBox</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">aboutToolBar</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Afficher la barre d'outils du menu Aide.</td><td><a class="el" href="class_main_window.html#ad6510468be29836ba2943eb52ac2372c" title="Case à cocher du dialogue de configuration : barre d&#39;outils Aide défaut. ">MainWindow::defaultAboutToolBarBox</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">saveProjectBehavior</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Enregistrer les projet .alt automatiquement à chaque modification d'un paramètre.</td><td><a class="el" href="class_main_window.html#abdf377bc9e873405230c2f3b23fe7d6b" title="Case à cocher du dialogue de configuration : sauvegarder automatiquement le projet par défaut...">MainWindow::defaultSaveProjectBehaviorBox</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">importerAuLancement</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Importer les données de paye du répertoire Données (.xhl/.xml) au lancement de l'interface.</td><td><a class="el" href="class_main_window.html#ac35ae8f26c913ffbfafb55a785f80e95" title="Case à cocher du dialogue de configuration : importer les données au lancement par défaut...">MainWindow::importerAuLancementBox</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">loadProjectBehavior</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Charger le projet .alt par défaut au lancement de l'interface.</td><td><a class="el" href="class_main_window.html#a66e36bc80fe26f927450075e7c534027" title="Case à cocher du dialogue de configuration : charger le projet au lancement par défaut. ">MainWindow::defaultLoadProjectBehaviorBox</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">limitConsoleOutput</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td></td><td>Limiter le nombre de lignes du log de l'onglet Console.</td><td><a class="el" href="class_main_window.html#a467fd78208e228cb7567b762916500eb" title="Case à cocher du dialogue de configuration : limiter la longueur du log en console par défaut...">MainWindow::defaultMaximumConsoleOutputBox</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">TRAITEMENT</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye Traitement</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <em>line</em> vers <a class="el" href="class_f_line_edit.html">FLineEdit</a> dans <a class="el" href="classcode_page.html#a6896b21cac9b9ab917b333a01530fce9">codePage::ajouterVariable</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">NBI</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye NBI</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <em>line</em> vers <a class="el" href="class_f_line_edit.html">FLineEdit</a> dans <a class="el" href="classcode_page.html#a6896b21cac9b9ab917b333a01530fce9">codePage::ajouterVariable</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">PFI</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye PFI</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <em>line</em> vers <a class="el" href="class_f_line_edit.html">FLineEdit</a> dans <a class="el" href="classcode_page.html#a6896b21cac9b9ab917b333a01530fce9">codePage::ajouterVariable</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">PFR</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye PFR</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <em>line</em> vers <a class="el" href="class_f_line_edit.html">FLineEdit</a> dans <a class="el" href="classcode_page.html#a6896b21cac9b9ab917b333a01530fce9">codePage::ajouterVariable</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">IPF</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye IPF</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <em>line</em> vers <a class="el" href="class_f_line_edit.html">FLineEdit</a> dans <a class="el" href="classcode_page.html#a6896b21cac9b9ab917b333a01530fce9">codePage::ajouterVariable</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">PSR</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye PSR</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <em>line</em> vers <a class="el" href="class_f_line_edit.html">FLineEdit</a> dans <a class="el" href="classcode_page.html#a6896b21cac9b9ab917b333a01530fce9">codePage::ajouterVariable</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">IFTS</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye IFTS</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <em>line</em> vers <a class="el" href="class_f_line_edit.html">FLineEdit</a> dans <a class="el" href="classcode_page.html#a6896b21cac9b9ab917b333a01530fce9">codePage::ajouterVariable</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">IAT</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye IAT</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <em>line</em> vers <a class="el" href="class_f_line_edit.html">FLineEdit</a> dans <a class="el" href="classcode_page.html#a6896b21cac9b9ab917b333a01530fce9">codePage::ajouterVariable</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">IHTS</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye IHTS</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <em>line</em> vers <a class="el" href="class_f_line_edit.html">FLineEdit</a> dans <a class="el" href="classcode_page.html#a6896b21cac9b9ab917b333a01530fce9">codePage::ajouterVariable</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">VACATAIRES</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye VACATAIRES</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <em>line</em> vers <a class="el" href="class_f_line_edit.html">FLineEdit</a> dans <a class="el" href="classcode_page.html#a6896b21cac9b9ab917b333a01530fce9">codePage::ajouterVariable</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">ASTREINTES</td><td>profondeur="0"</td><td>Soit blanc soit Code(s) de paye ASTREINTES</td><td>Dialogue d'options &rarr; onglet Codes</td><td></td><td>Séparés par point-virgule. Saisi manuellement dans le dialogue d'options à l'onglet Codes.</td><td>Pointeur local <em>line</em> vers <a class="el" href="class_f_line_edit.html">FLineEdit</a> dans <a class="el" href="classcode_page.html#a6896b21cac9b9ab917b333a01530fce9">codePage::ajouterVariable</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">Matricules</td><td>profondeur="0"</td><td>Matricule(s), mois, année(s) saisi(s) pour extraction d'un bulletin de paye donné.<br />
+Argument de format : matricule-mois_début...mois_fin-année_début...année_fin;matricule2-mois_début2...mois_fin2-année_début2...année_fin2;[etc.]</td><td>Dialogue Extraire les bulletins</td><td>&ndash;&ndash;bulletins <em>argument</em></td><td>1ère ligne.</td><td><a class="el" href="class_matricule_input.html#a619c53f15f3748741d8689b17aa0d8b9" title="Première ligne de matricules. ">MatriculeInput::matrLineEdit</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">MatriculesB</td><td>profondeur="0"</td><td>Matricule(s), mois, année(s) saisi(s) pour extraction d'un bulletin de paye donné.<br />
+ Argument de même format.</td><td>Dialogue Extraire les bulletins</td><td>&ndash;&ndash;bulletins <em>argument</em></td><td>2e ligne.</td><td><a class="el" href="class_matricule_input.html#af9c949b2e30dcea8efb4be96e742f51c" title="Deuxième ligne de matricules. ">MatriculeInput::matrLineEdit2</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">MatriculesC</td><td>profondeur="0"</td><td>Matricule(s), mois, année(s) saisi(s) pour extraction d'un bulletin de paye donné.<br />
+ Argument de même format.</td><td>Dialogue Extraire les bulletins</td><td>&ndash;&ndash;bulletins <em>argument</em></td><td>3e ligne.</td><td><a class="el" href="class_matricule_input.html#ac04a49b9bb15ff7172896e2f180795bd" title="Troisième ligne de matricules. ">MatriculeInput::matrLineEdit3</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">dossierBulletins</td><td>profondeur="0"</td><td>Chemin du dossier d'extraction des bulletins de paye individuels.</td><td>Dialogue Extraire les bulletins</td><td>&ndash;&ndash;dossier-bulletins <em>argument</em></td><td></td><td><a class="el" href="class_matricule_input.html#aeb71f9a175b65721c3942dd213f37c06" title="Dossier d&#39;export des bulletins extraits. ">MatriculeInput::dossier</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">quiet</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue de configuration</td><td>-q</td><td>Limiter la verbosité de l'onglet Console.</td><td><a class="el" href="class_main_window.html#a9a8262985c1b47bf1c6b49a7d77cb875" title="Case à cocher du dialogue de configuration : réduire la verbosité par défaut. ">MainWindow::defaultQuietBox</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">baseType</td><td>profondeur="0"</td><td>{"", "AN", "X", "T", "I", "S", "A", "R", "AC", "AV", "IR", "C", "D", "RE"}</td><td>Dialogue d'options &rarr; onglet Format</td><td>-T <em>argument</em></td><td>Type de base monolithique, par année, tous types, ou par type de ligne de paye (Traitement, Indemnité, SFT, etc.)</td><td><a class="el" href="classstandard_page.html#abc82c57269dc7a00339cf908778c4cc5" title="Type de base en sortie : &quot;Standard&quot;, &quot;Par année&quot;, &quot;Par agent&quot;, &quot;Toutes catégories&quot;, &quot;Traitement&quot; etc. ">standardPage::baseTypeWidget</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">maxLigne</td><td>profondeur="0"</td><td>Nombre</td><td>Dialogue d'options &rarr; onglet Format</td><td>-T <em>argument</em></td><td>Maximum du nombre de lignes de la base Table.csv (lignes de paye)</td><td><a class="el" href="classstandard_page.html#ac1eff414e718e82c366c82b21847312b" title="Nombre maximal de lignes de la base. ">standardPage::maxNLigneLineEdit</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">genererNumLigne</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td>-l</td><td>Numéroter les lignes.</td><td><a class="el" href="classstandard_page.html#ae8207c2a5e1140b866b2e1a5aa64838a" title="Numéroter les lignes ou pas. ">standardPage::rangCheckBox</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">exporterEtab</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td>-S</td><td>Exporter les colonnes Siret, Budget, Etablissement, Employeur.</td><td><a class="el" href="classstandard_page.html#a482745af72738ca8b3e5ec5de6e24a8e" title="Exporter l&#39;établissement ou pas. ">standardPage::etabCheckBox</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">exportMode</td><td>profondeur="0"</td><td>{'Standard', 'Cumulative', 'Distributive', 'Distributive+'}</td><td>Dialogue d'options &rarr; onglet Format</td><td>&ndash;&ndash;export <em>argument</em></td><td>Mode d'exportation des bases CSV (voir guide utilisateur).</td><td><a class="el" href="classstandard_page.html#a8a292ee595ec6fe064ac648aba295636" title="Modalités d&#39;exportation (standard, cumulative, distributive etc.) ">standardPage::exportWidget</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">FPH</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td></td><td>Activer les contrôles réglementaires FPH.</td><td><a class="el" href="classstandard_page.html#aa6407333849954af395e70aed8eee7d0" title="Données Fonction publique hospitalière ou pas. ">standardPage::FPHCheckBox</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">genererTable</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td>-t</td><td>Générer les bulletins et lignes de paye au format CSV.</td><td><a class="el" href="classstandard_page.html#a8ea62be6ccc4880fd4619a7c28a312fb" title="Exporter la table ou pas. ">standardPage::tableCheckBox</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">archiveTable</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td></td><td>Archiver les sorties CSV du logiciel dans un format de compression (.arch).</td><td>Pointeur local <em>archiveTableBox</em> vers <a class="el" href="class_f_check_box.html">FCheckBox</a> dans le constructeur <a class="el" href="classstandard_page.html#a95b9887a321f29e844fd314048585cee">standardPage::standardPage()</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">exportTable</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td></td><td>Exporter les sorties CSV du logiciel vers un répertoire donné.</td><td>Pointeur local <em>exportTableBox</em> vers <a class="el" href="class_f_check_box.html">FCheckBox</a> dans le constructeur <a class="el" href="classstandard_page.html#a95b9887a321f29e844fd314048585cee">standardPage::standardPage()</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">archiveAll</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td></td><td>Archiver l'ensemble des sorties du logiciel dans un format de compression (.arch).</td><td>Pointeur local <em>archiveAllBox</em> vers <a class="el" href="class_f_check_box.html">FCheckBox</a> dans le constructeur <a class="el" href="classstandard_page.html#a95b9887a321f29e844fd314048585cee">standardPage::standardPage()</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">exportAll</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td></td><td>Exporter l'ensemble des sorties du logiciel vers un répertoire donné.</td><td>Pointeur local <em>exportAllBox</em> vers <a class="el" href="class_f_check_box.html">FCheckBox</a> dans le constructeur <a class="el" href="classstandard_page.html#a95b9887a321f29e844fd314048585cee">standardPage::standardPage()</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">archiveXML</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td></td><td>Archiver les données de paye.</td><td>Pointeur local <em>archiveXhlBox</em> vers <a class="el" href="class_f_check_box.html">FCheckBox</a> dans le constructeur <a class="el" href="classstandard_page.html#a95b9887a321f29e844fd314048585cee">standardPage::standardPage()</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">exportXML</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Format</td><td></td><td>Exporter les données de paye vers un répertoire donné.</td><td>Pointeur local <em>exportXhlBox</em> vers <a class="el" href="class_f_check_box.html">FCheckBox</a> dans le constructeur <a class="el" href="classstandard_page.html#a95b9887a321f29e844fd314048585cee">standardPage::standardPage()</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">processType</td><td>profondeur="0"</td><td>{'1',...,'11'}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td>-j <em>argument</em></td><td>Utiliser autant de fils d'exécution qu'indiqué dans le menu déroulant.</td><td><a class="el" href="classprocess_page.html#a09a794350e10b6053ed4f2abe7515f64" title="Sélectionne le nombre de fils d&#39;exécution. ">processPage::processTypeWidget</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">log</td><td>profondeur="0"</td><td>Chemin du fichier altair.log</td><td>Dialogue d'options &rarr; onglet Traitement</td><td>-L <em>argument</em></td><td>Chemin du log d’exécution du test de cohérence entre analyseurs C et XML.</td><td><a class="el" href="classprocess_page.html#abcd65c24aa393862df1157744c5d5893" title="composant fonctionnelde type QLineEdit augmenté de fonctionnalités spéciales. Enregistre le chemin du...">processPage::logFrame</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">genererLog</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Autoriser la génération du log.</td><td><a class="el" href="classprocess_page.html#afff5e1e538d2323b3f51be1b3aa8ee6a" title="Case à cocher permettant d&#39;activer/de désactiver logFrame. ">processPage::logCheckBox</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">activerConsole</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Activer les sorties Console.</td><td><a class="el" href="classprocess_page.html#adbe4e0721a1d732f2f9cbe02ef452041" title="Case à cocher permettant d&#39;activer la console (cochée par défaut). ">processPage::consoleCheckBox</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">memoryUse</td><td>profondeur="0"</td><td>Nombre entre 1 et 100</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Part maximum de la RAM utilisée.</td><td><a class="el" href="classprocess_page.html#ab7f8bfa8a20f66a31b45453567661e82" title="Sélectionne le pourcentage d&#39;utilisation de la RAM disponible. ">processPage::memoryUseWidget</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">rapportType</td><td>profondeur="0"</td><td>{'PDF', 'WORD et ODT', 'WORD, ODT et PDF'</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Activé uniquement si enchainerRapports vaut 'oui'. Rapports d'analyse de type PDF, MS Word (.docx) et Libreoffice Writer (.odt)</td><td><a class="el" href="classprocess_page.html#a8edf366c2a424797a9f830683e4c05ce" title="Sélectionne le type de rapport en sortie (PDF, DOCX et ODT ou les trois formats). ...">processPage::rapportTypeWidget</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">enchainerRapports</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td>Lancer automatiquement les scripts R depuis l'interface graphique sans utiliser RStudio.</td><td><a class="el" href="classprocess_page.html#ae225f88964b7c5dba2fb1c2055027dc3" title="Cas à cocher indiquant si la génération des rapports est automatiquement lancée par l&#39;interface sans ...">processPage::enchainerRapports</a> </td></tr>
+<tr>
+<td style="font-weight:bold;">rapportEntier</td><td>profondeur="0"</td><td>{oui, non}</td><td>Dialogue d'options &rarr; onglet Traitement</td><td></td><td><em>Interne à l'interface graphique. Non exporté vers le fichier de projet Altaïr .alt.</em><br />
+Version expérimentale (code de développement).</td><td><a class="el" href="classprocess_page.html#a339062229a8e757ec7b28b334194039f" title="Case à cocher indiquant si le rapport doit être dans sa version longue (ou courte si non cochée)...">processPage::rapportEntier</a></td></tr>
+</table>
+</div><p> <br />
+<br />
+</p>
+<h1><a class="anchor" id="sec_alt2"></a>
+Exemple commenté de projet .alt</h1>
+<table style="width:35%;">
+<tr>
+<th>Code XML</th><th>Commentaires</th></tr>
+</table>
+<div class="fragment"><div class="line">&lt;?xml version=<span class="stringliteral">&quot;1.0&quot;</span>?&gt;                Fichier de type XML.</div><div class="line">&lt;projet version=<span class="stringliteral">&quot;17.12-1&quot;</span>&gt;           Début du projet et version de l<span class="stringliteral">&#39;application.</span></div><div class="line"><span class="stringliteral">&lt;data&gt;                               Partie &quot;données de paye&quot;.</span></div><div class="line"><span class="stringliteral"> &lt;XHL profondeur=&quot;2&quot;&gt;                Balise XHL : 2 niveaux d&#39;</span>enchâssement (<span class="stringliteral">&quot;onglet&quot;</span> et <span class="stringliteral">&quot;item&quot;</span>). Données de paye.</div><div class="line">  &lt;onglet V=<span class="stringliteral">&quot;2011&quot;</span>&gt;                  Onglet de valeur (<span class="stringliteral">&quot;V&quot;</span>) 2011 (année).</div><div class="line">    &lt;item V=<span class="stringliteral">&quot;1&quot;</span></div><div class="line">        S=<span class="stringliteral">&quot;28XXXXXXXXXXXX&quot;</span></div><div class="line">        B=<span class="stringliteral">&quot;BUDGET PRINCIPAL&quot;</span></div><div class="line">        E=<span class="stringliteral">&quot;ETABLISSEMENT</span></div><div class="line"><span class="stringliteral">        X&quot;</span> EM=<span class="stringliteral">&quot;EMPLOYEUR Y&quot;</span>&gt;</div><div class="line">    /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/2011/01.xhl</div><div class="line">    &lt;/item&gt;</div><div class="line">                                     Fichier de paye 01.xhl dans le répertoire xhl/2011 de rang 1, correspondant au <a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055da740e806a6abdd57dc73731169c73010f">Siret</a> 28..., à un budget principal de l<span class="stringliteral">&#39;établissement X de l&#39;</span>employeur Y.</div><div class="line">  &lt;/onglet&gt;</div><div class="line">  &lt;onglet V=<span class="stringliteral">&quot;2012&quot;</span>&gt;                  Onglet de valeur (<span class="stringliteral">&quot;V&quot;</span>) 2012 (année).</div><div class="line">    &lt;item V=<span class="stringliteral">&quot;1&quot;</span></div><div class="line">         S=<span class="stringliteral">&quot;28XXXXXXXXXXXX&quot;</span></div><div class="line">         B=<span class="stringliteral">&quot;BUDGET PRINCIPAL&quot;</span></div><div class="line">         E=<span class="stringliteral">&quot;ETABLISSEMENT X&quot;</span></div><div class="line">         EM=<span class="stringliteral">&quot;EMPLOYEUR Y&quot;</span>&gt;</div><div class="line">    /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/2012/02.xhl</div><div class="line">    &lt;/item&gt;</div><div class="line">                                     Fichier de paye 02.xhl dans le répertoire xhl/2012 du mois 1 (janvier), correspondant au <a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055da740e806a6abdd57dc73731169c73010f">Siret</a> 28..., à un budget principal de l<span class="stringliteral">&#39;établissement X de l&#39;</span>employeur Y.</div><div class="line">    &lt;item V=<span class="stringliteral">&quot;1&quot;</span></div><div class="line">         S=<span class="stringliteral">&quot;28XXXXXXXXXXXX&quot;</span></div><div class="line">         B=<span class="stringliteral">&quot;BUDGET ANNEXE FORMATION&quot;</span></div><div class="line">         E=<span class="stringliteral">&quot;ETABLISSEMENT X&quot;</span></div><div class="line">         EM=<span class="stringliteral">&quot;EMPLOYEUR Y&quot;</span>&gt;</div><div class="line">     /home/fab/Dev/altair/Tests/Exemple/Donnees/xhl/2012/03.xhl</div><div class="line">     &lt;/item&gt;</div><div class="line">                                     Fichier de paye 03.xhl dans le répertoire xhl/2012 du mois 1 (janvier), correspondant au <a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055da740e806a6abdd57dc73731169c73010f">Siret</a> 28..., à un budget principal de l<span class="stringliteral">&#39;établissement X de l&#39;</span>employeur Y.</div><div class="line">  &lt;onglet V=<span class="stringliteral">&quot;Siret&quot;</span>&gt;                 Onglet des <a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055da740e806a6abdd57dc73731169c73010f">Siret</a></div><div class="line">    &lt;item V=<span class="stringliteral">&quot;&quot;</span> S=<span class="stringliteral">&quot;&quot;</span> B=<span class="stringliteral">&quot;&quot;</span></div><div class="line">          E=<span class="stringliteral">&quot;&quot;</span> EM=<span class="stringliteral">&quot;&quot;</span>&gt;</div><div class="line">      28XXXXXXXXXXXX</div><div class="line">    &lt;/item&gt;</div><div class="line">                                     Seul le <a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055da740e806a6abdd57dc73731169c73010f">Siret</a> 28... est référencé.</div><div class="line">  &lt;/onglet&gt;</div><div class="line">  &lt;onglet V=<span class="stringliteral">&quot;Budget&quot;</span>&gt;                Onglet des Budgets</div><div class="line">    &lt;item V=<span class="stringliteral">&quot;&quot;</span> S=<span class="stringliteral">&quot;&quot;</span> B=<span class="stringliteral">&quot;&quot;</span></div><div class="line">          E=<span class="stringliteral">&quot;&quot;</span> EM=<span class="stringliteral">&quot;&quot;</span>&gt;</div><div class="line">      BUDGET ANNEXE FORMATION</div><div class="line">    &lt;/item&gt;</div><div class="line">                                     Détection d<span class="stringliteral">&#39;un budget annexe formation.</span></div><div class="line"><span class="stringliteral">    &lt;item V=&quot;&quot; S=&quot;&quot; B=&quot;&quot;</span></div><div class="line"><span class="stringliteral">          E=&quot;&quot; EM=&quot;&quot;&gt;</span></div><div class="line"><span class="stringliteral">      BUDGET PRINCIPAL</span></div><div class="line"><span class="stringliteral">    &lt;/item&gt;</span></div><div class="line"><span class="stringliteral">                                     Détection d&#39;</span>un budget principal.</div><div class="line">  &lt;/onglet&gt;</div><div class="line">  &lt;onglet V=<span class="stringliteral">&quot;Employeur&quot;</span>&gt;             Onglet des employeurs</div><div class="line">    &lt;item V=<span class="stringliteral">&quot;&quot;</span> S=<span class="stringliteral">&quot;&quot;</span> B=<span class="stringliteral">&quot;&quot;</span></div><div class="line">          E=<span class="stringliteral">&quot;&quot;</span> EM=<span class="stringliteral">&quot;&quot;</span>&gt;</div><div class="line">      EMPLOYEUR Y</div><div class="line">    &lt;/item&gt;</div><div class="line">                                     Détection du seul employeur Y.</div><div class="line">  &lt;/onglet&gt;</div><div class="line"> &lt;/XHL&gt;                              Fin des données de paye de l<span class="stringliteral">&#39;onglet central</span></div><div class="line"><span class="stringliteral">&lt;/data&gt;</span></div><div class="line"><span class="stringliteral">&lt;systeme&gt;                            Paramètres système (paramétrage de l&#39;</span>interface, dialogues d<span class="stringliteral">&#39;options et de configuration de l&#39;</span>interface)</div><div class="line"> &lt;projectManagerDisplay profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;  La profondeur 0 indique une balise sans enchâssement : la valeur est lue dans le texte entre &lt;balise&gt; et &lt;/balise&gt;</div><div class="line">  oui                                Afficher le gestionnaire de projets à droite de l<span class="stringliteral">&#39;interface.</span></div><div class="line"><span class="stringliteral"> &lt;/projectManagerDisplay&gt;</span></div><div class="line"><span class="stringliteral"> &lt;fileManagerDisplay profondeur=&quot;0&quot;&gt;</span></div><div class="line"><span class="stringliteral">  oui                                Afficher le gestionnaire (ou explorateur ou arbre) de fichiers à gauche de l&#39;</span>interface.</div><div class="line"> &lt;/fileManagerDisplay&gt;</div><div class="line"> &lt;fullScreenDisplay profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line">  non                                Pas de plein écran</div><div class="line"> &lt;/fullScreenDisplay&gt;</div><div class="line"> &lt;outputTextEdit profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line">  oui                                Afficher l<span class="stringliteral">&#39;onglet des messages en bas de l&#39;</span>interface.</div><div class="line"> &lt;/outputTextEdit&gt;</div><div class="line"> &lt;fileToolBar profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line">  oui                                Afficher la barre d<span class="stringliteral">&#39;outils du menu Fichier.</span></div><div class="line"><span class="stringliteral"> &lt;/fileToolBar&gt;</span></div><div class="line"><span class="stringliteral"> &lt;editToolBar profondeur=&quot;0&quot;&gt;</span></div><div class="line"><span class="stringliteral">  oui                                Afficher la barre d&#39;</span>outils du menu Editer.</div><div class="line"> &lt;/editToolBar&gt;</div><div class="line"> &lt;processToolBar profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line">  oui                                Afficher la barre d<span class="stringliteral">&#39;outils du menu Lancer.</span></div><div class="line"><span class="stringliteral"> &lt;/processToolBar&gt;</span></div><div class="line"><span class="stringliteral"> &lt;optionsToolBar profondeur=&quot;0&quot;&gt;</span></div><div class="line"><span class="stringliteral">  oui                                Afficher la barre d&#39;</span>outils du menu Configurer.</div><div class="line"> &lt;/optionsToolBar&gt;</div><div class="line"> &lt;aboutToolBar profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line">  non                                Afficher la barre d<span class="stringliteral">&#39;outils du menu Aide.</span></div><div class="line"><span class="stringliteral"> &lt;/aboutToolBar&gt;</span></div><div class="line"><span class="stringliteral"> &lt;saveProjectBehavior profondeur=&quot;0&quot;&gt;</span></div><div class="line"><span class="stringliteral">  non                                Ne pas enregistrer les projet .alt automatiquement à chaque modification d&#39;</span>un paramètre.</div><div class="line"> &lt;/saveProjectBehavior&gt;</div><div class="line"> &lt;importerAuLancement profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line">  non                                Ne pas importer les données de paye du répertoire Données (.xhl/.xml) au lancement de l<span class="stringliteral">&#39;interface.</span></div><div class="line"><span class="stringliteral"> &lt;/importerAuLancement&gt;</span></div><div class="line"><span class="stringliteral"> &lt;loadProjectBehavior profondeur=&quot;0&quot;&gt;</span></div><div class="line"><span class="stringliteral">  non                                Ne pas charger le projet .alt par défaut au lancement de l&#39;</span>interface.</div><div class="line"> &lt;/loadProjectBehavior&gt;</div><div class="line"> &lt;limitConsoleOutput profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line">  non                                Ne pas limiter le nombre de lignes du log de l<span class="stringliteral">&#39;onglet Console.</span></div><div class="line"><span class="stringliteral"> &lt;/limitConsoleOutput&gt;</span></div><div class="line"><span class="stringliteral"> &lt;quiet profondeur=&quot;0&quot;&gt;</span></div><div class="line"><span class="stringliteral">  oui                                Limiter la verbosité de l&#39;</span>onglet Console.</div><div class="line"> &lt;/quiet&gt;</div><div class="line"> &lt;baseType profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line"> &amp;nbsp;                              Type de base monolithique.</div><div class="line"> &lt;/baseType&gt;</div><div class="line"> &lt;maxLigne profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line">  1000000                            Nombre maximum de lignes de la base de paye : 1 million.</div><div class="line"> &lt;/maxLigne&gt;</div><div class="line"> &lt;genererNumLigne profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line">  non                                Ne pas numéroter les lignes.</div><div class="line"> &lt;/genererNumLigne&gt;</div><div class="line"> &lt;exporterEtab profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line">  non                                Ne pas exporter les colonnes <a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055da740e806a6abdd57dc73731169c73010f">Siret</a>, <a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055daac4a2c4044529e189de73eb935ced3ed">Budget</a>, <a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055da7166ee2adb1b18fe00e89c95f2795508">Etablissement</a>, <a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055dad2049a826ab32758c142523c920c57a8">Employeur</a>.</div><div class="line"> &lt;/exporterEtab&gt;</div><div class="line"> &lt;exportMode profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line">  <span class="stringliteral">&#39;Standard&#39;</span>                         Exportation standard (avec nettoyage de la clé et sans distribution).</div><div class="line"> &lt;/exportMode&gt;</div><div class="line"> &lt;FPH profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line">  non                                Ne pas activer les contrôles réglementaires FPH.</div><div class="line"> &lt;/FPH&gt;</div><div class="line"> &lt;genererTable profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line">  oui                                Générer les bulletins et lignes de paye au format <a class="code" href="validator_8h.html#af15b14746467a36d75fcb76c867eb984">CSV</a>.</div><div class="line"> &lt;/genererTable&gt;</div><div class="line"> &lt;archiveTable profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line">  non                                Ne pas archiver les sorties <a class="code" href="validator_8h.html#af15b14746467a36d75fcb76c867eb984">CSV</a> du logiciel dans un format de compression (.arch)</div><div class="line"> &lt;/archiveTable&gt;</div><div class="line"> &lt;exportTable profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line">  non                                Ne pas exporter les sorties <a class="code" href="validator_8h.html#af15b14746467a36d75fcb76c867eb984">CSV</a> du logiciel vers un répertoire donné.</div><div class="line"> &lt;/exportTable&gt;</div><div class="line"> &lt;archiveAll profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line">  non                                Ne pas archiver l<span class="stringliteral">&#39;ensemble des sorties du logiciel dans un format de compression (.arch)</span></div><div class="line"><span class="stringliteral"> &lt;/archiveAll&gt;</span></div><div class="line"><span class="stringliteral"> &lt;exportAll profondeur=&quot;0&quot;&gt;</span></div><div class="line"><span class="stringliteral">  non                                Ne pas exporter l&#39;</span>ensemble des sorties du logiciel vers un répertoire donné.</div><div class="line"> &lt;/exportAll&gt;</div><div class="line"> &lt;archiveXML profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line">  non                                Archiver les données de paye.</div><div class="line"> &lt;/archiveXML&gt;</div><div class="line"> &lt;exportXML profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line">  non                                Exporter les données de paye vers un répertoire donné.</div><div class="line"> &lt;/exportXML&gt;</div><div class="line"> &lt;processType profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line">  <span class="charliteral">&#39;4&#39;</span>                                Utiliser 4 fils d<span class="stringliteral">&#39;exécution.</span></div><div class="line"><span class="stringliteral"> &lt;/processType&gt;</span></div><div class="line"><span class="stringliteral"> &lt;log profondeur=&quot;0&quot;&gt;</span></div><div class="line"><span class="stringliteral">  /home/fab/.local/share/Altair/altair.log   Chemin du log d’exécution du test de cohérence entre analyseurs C et XML.</span></div><div class="line"><span class="stringliteral"> &lt;/log&gt;</span></div><div class="line"><span class="stringliteral"> &lt;genererLog profondeur=&quot;0&quot;&gt;</span></div><div class="line"><span class="stringliteral">  non                                Ne pas générer le log.</span></div><div class="line"><span class="stringliteral"> &lt;/genererLog&gt;</span></div><div class="line"><span class="stringliteral"> &lt;activerConsole profondeur=&quot;0&quot;&gt;</span></div><div class="line"><span class="stringliteral">  oui                                Activer les sorties Console.</span></div><div class="line"><span class="stringliteral"> &lt;/activerConsole&gt;</span></div><div class="line"><span class="stringliteral"> &lt;memoryUse profondeur=&quot;0&quot;&gt;</span></div><div class="line"><span class="stringliteral">  80                                 Utiliser 80 % de la RAM au maximum.</span></div><div class="line"><span class="stringliteral"> &lt;/memoryUse&gt;</span></div><div class="line"><span class="stringliteral"> &lt;rapportType profondeur=&quot;0&quot;&gt;</span></div><div class="line"><span class="stringliteral">  &#39;</span>WORD et ODT<span class="stringliteral">&#39;                      Rapports d&#39;</span>analyse de type MS Word (.docx) et Libreoffice Writer (.odt)</div><div class="line"> &lt;/rapportType&gt;</div><div class="line"> &lt;enchainerRapports profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line">  non                                Ne pas enchaîner les rapports d<span class="stringliteral">&#39;analyse à la suite de l&#39;</span>extraction des données.</div><div class="line"> &lt;/enchainerRapports&gt;</div><div class="line"> &lt;TRAITEMENT profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line"> &amp;nbsp;                              Pas de code de paye Traitement saisi manuellement dans le dialogue d<span class="stringliteral">&#39;options à l&#39;</span>onglet Codes.</div><div class="line"> &lt;/TRAITEMENT&gt;</div><div class="line"> &lt;<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055dafdc5130c2170b6cacf79a4bed2298502">NBI</a> profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line"> &amp;nbsp;                              Pas de code de paye <a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055dafdc5130c2170b6cacf79a4bed2298502">NBI</a> saisi manuellement dans le dialogue d<span class="stringliteral">&#39;options à l&#39;</span>onglet Codes.</div><div class="line"> &lt;/<a class="code" href="validator_8h.html#a7298899e034c29b49f749493c80a055dafdc5130c2170b6cacf79a4bed2298502">NBI</a>&gt;</div><div class="line"> &lt;PFI profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line"> &amp;nbsp;                              Pas de code de paye PFI saisi manuellement dans le dialogue d<span class="stringliteral">&#39;options à l&#39;</span>onglet Codes.</div><div class="line"> &lt;/PFI&gt;</div><div class="line"> &lt;PFR profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line"> &amp;nbsp;                              Pas de code de paye PFR saisi manuellement dans le dialogue d<span class="stringliteral">&#39;options à l&#39;</span>onglet Codes.</div><div class="line"> &lt;/PFR&gt;</div><div class="line"> &lt;IPF profondeur=<span class="stringliteral">&quot;0&quot;</span></div><div class="line"> &amp;nbsp;                              Pas de code de paye IPF saisi manuellement dans le dialogue d<span class="stringliteral">&#39;options à l&#39;</span>onglet Codes.</div><div class="line"> &lt;/IPF&gt;</div><div class="line"> &lt;PSR profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line"> &amp;nbsp;                              Pas de code de paye PSR saisi manuellement dans le dialogue d<span class="stringliteral">&#39;options à l&#39;</span>onglet Codes.</div><div class="line"> &lt;/PSR&gt;</div><div class="line"> &lt;IFTS profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line"> &amp;nbsp;                              Pas de code de paye IFTS saisi manuellement dans le dialogue d<span class="stringliteral">&#39;options à l&#39;</span>onglet Codes.</div><div class="line"> &lt;/IFTS&gt;</div><div class="line"> &lt;IAT profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line"> &amp;nbsp;                              Pas de code de paye IAT saisi manuellement dans le dialogue d<span class="stringliteral">&#39;options à l&#39;</span>onglet Codes.</div><div class="line"> &lt;/IAT&gt;</div><div class="line"> &lt;IHTS profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line"> &amp;nbsp;                              Pas de code de paye IHTS saisi manuellement dans le dialogue d<span class="stringliteral">&#39;options à l&#39;</span>onglet Codes.</div><div class="line"> &lt;/IHTS&gt;</div><div class="line"> &lt;VACATAIRES profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line"> &amp;nbsp;                              Pas de code de paye VACATAIRES saisi manuellement dans le dialogue d<span class="stringliteral">&#39;options à l&#39;</span>onglet Codes.</div><div class="line"> &lt;/VACATAIRES&gt;</div><div class="line"> &lt;ASTREINTES profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line"> &amp;nbsp;                              Pas de code de paye ASTREINTES saisi manuellement dans le dialogue d<span class="stringliteral">&#39;options à l&#39;</span>onglet Codes.</div><div class="line"> &lt;/ASTREINTES&gt;</div><div class="line"> &lt;Matricules profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line"> &amp;nbsp;                              Pas de matricule saisi pour extraction d<span class="stringliteral">&#39;un bulletin de paye donné.</span></div><div class="line"><span class="stringliteral"> &lt;/Matricules&gt;</span></div><div class="line"><span class="stringliteral"> &lt;MatriculesB profondeur=&quot;0&quot;&gt;</span></div><div class="line"><span class="stringliteral"> &amp;nbsp;                              Pas de matricule saisi pour extraction d&#39;</span>un bulletin de paye donné. (2e ligne)</div><div class="line"> &lt;/MatriculesB&gt;</div><div class="line"> &lt;MatriculesC profondeur=<span class="stringliteral">&quot;0&quot;</span>&gt;</div><div class="line"> &amp;nbsp;                              Pas de matricule saisi pour extraction d<span class="stringliteral">&#39;un bulletin de paye donné. (3e ligne)</span></div><div class="line"><span class="stringliteral"> &lt;/MatriculesC&gt;</span></div><div class="line"><span class="stringliteral"> &lt;dossierBulletins profondeur=&quot;0&quot;&gt;</span></div><div class="line"><span class="stringliteral">  /home/fab/Dev/altair/Tests/Exemple/Donnees/Bulletins   Dossier d&#39;</span>extraction des bulletins de paye individuels.</div><div class="line"> &lt;/dossierBulletins&gt;</div><div class="line">&lt;/systeme&gt;                           Fin des paramètres système.</div><div class="line">&lt;/projet&gt;                            Fin du projet.</div></div><!-- fragment --> </div></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Généré le Jeudi 16 Août 2018 02:04:58 par
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
+</body>
+</html>

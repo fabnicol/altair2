@@ -1,0 +1,14 @@
+digraph "Altair::importData"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node319 [label="Altair::importData",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node319 -> Node320 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node320 [label="tools::cdRomMounted",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtools.html#a0aa994303a938a76300767d2251b9f85",tooltip="Détecte si un disque optique est monté. "];
+  Node319 -> Node321 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node321 [label="Altair::refreshTreeView",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a8a329bbe1b7429dae0386afc0b423712",tooltip="Rafraichit la vue d&#39;arbre fileTreeView de l&#39;exporateur de fichiers à gauche de   l&#39;interface. "];
+  Node319 -> Node322 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node322 [label="Altair::textAppend",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a4995cdc9462838289b5b1df75edba552",tooltip="Ajouter du texte à l&#39;onglet des messages. "];
+}

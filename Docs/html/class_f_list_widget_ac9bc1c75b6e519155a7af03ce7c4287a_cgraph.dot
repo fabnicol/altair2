@@ -1,0 +1,24 @@
+digraph "FListWidget::setWidgetFromXml"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node55 [label="FListWidget::setWidgetFromXml",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node55 -> Node56 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node56 [label="FListWidget::addGroup",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_list_widget.html#af24de94813d9e1939dd98a7a2f5539fb"];
+  Node56 -> Node57 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node57 [label="FListFrame::addNewTab",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_list_frame.html#a5c6ce884a0169251e359364921d1f89c"];
+  Node57 -> Node58 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node58 [label="FListFrame::getRank",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_list_frame.html#a4bf0d0d8e56418df395b020d2e66db5f",tooltip="Récupère la taille courante (0-based) du conteneur FListFrame::widgetContainer. "];
+  Node56 -> Node58 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node55 -> Node57 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node55 -> Node59 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node59 [label="FStringList::isFilled",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_string_list.html#a873bf272c3bdc81b8f84cb231785f8bb"];
+  Node55 -> Node60 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node60 [label="FListWidget::translate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_list_widget.html#a3d9112c6c7226706cbbeb8dc8eb36ea8"];
+  Node60 -> Node61 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node61 [label="FStringList::join",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_string_list.html#a1d9b84941af3c6931ea6d5614efdf109"];
+  Node61 -> Node62 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node62 [label="FStringList::join",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_string_list.html#aea8566ab3af01a2cbac69564aa724002"];
+}

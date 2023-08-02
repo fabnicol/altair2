@@ -1,0 +1,57 @@
+digraph "FAbstractWidget::getHashKey"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node31 [label="FAbstractWidget::getHashKey",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node31 -> Node32 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node32 [label="Altair::assignWidgetValues",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a8b7b1fa3e0b567dc1d4721bf88087a68",tooltip="Parcourt l&#39;ensemble des widgets fonctionnels Abstract::abstractWidgetList et actualise leur statut in..."];
+  Node32 -> Node33 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node33 [label="Altair::parseProjectFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a41b6c8a35ed8ba14c7c0ce2e6994655f",tooltip="Décode le projet représenté par un pointeur vers QFile ou similaire. "];
+  Node33 -> Node34 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node34 [label="Altair::refreshProjectManager",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ac9d7d8e7cebf70212818f1a8ba7d7d78",tooltip="Rafraîchit le gestionnaire de projet à la droite de l&#39;interface. Fonction globale par défaut..."];
+  Node34 -> Node35 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node35 [label="Altair::clearInterfaceAnd\lParseProject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#acaa583766e1c062ea311847fcdd35374",tooltip="Efface les onglets, le gestionnaire de projet et lit le projet .alt en cours. "];
+  Node35 -> Node36 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node36 [label="Altair::openProjectFileCommonCode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#aa341707131924eff160bcab41422d1ec",tooltip="Code commun à différentes fonctions lancées pour l&#39;analyse des projets. "];
+  Node36 -> Node37 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node37 [label="Altair::on_openProjectButton\l_clicked",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ab98d384297c6b94ff65a683eb5f99633",tooltip="Ouvre le projet, le décode en appelant parseProjectFile et actualise l&#39;interface  en conséquence..."];
+  Node36 -> Node38 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node38 [label="Altair::openProjectFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a84cf34107cd413ab33800b583bdef59e",tooltip="Ouvre le projet .alt et décode le projet pour actualiser l&#39;interface. "];
+  Node34 -> Node39 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node39 [label="Altair::updateProject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a2eb0a89c3223b2df1c01d2b3b7d1c0eb",tooltip="Rafraichir le projet .alt après avoir actualisé l&#39;interface. "];
+  Node39 -> Node40 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node40 [label="Altair::Altair",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ae0975ced0a36e0ed889ae06043a4df66",tooltip="Constructeur. "];
+  Node39 -> Node41 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node41 [label="Altair::deleteGroup",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ab913abfdd0c6fbbceb9a051a4443d5fa",tooltip="Supprimer un onglet central. "];
+  Node41 -> Node40 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node39 -> Node42 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node42 [label="Altair::dropEvent",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a1afa285a65e0bdff4c761ad05ec9f8df",tooltip="Fonction réimplémentée : fin du déplacement de la souris. "];
+  Node39 -> Node43 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node43 [label="Altair::on_deleteItem\l_clicked",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a299584936cc20c9a1451977264eba1f5",tooltip="Ecrase un item d&#39;un onglet donné "];
+  Node43 -> Node40 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node39 -> Node44 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node44 [label="options::options",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208",tooltip="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair..."];
+  Node39 -> Node45 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node45 [label="Altair::requestSaveProject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#aab5da600c227ac7eb604fa24a9308d26",tooltip="Enregistre le projet .alt en actualisant projectName et l&#39;état de l&#39;interface  . "];
+  Node39 -> Node46 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node46 [label="Altair::run",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a7d10f8ecf4097577885172afb6c2e9c6",tooltip="Lance l&#39;exécution de l&#39;application en ligne de commande lhx. "];
+  Node39 -> Node47 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node47 [label="Altair::runWorker",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a08b5e402c9a694af09110afe33219080",tooltip="Construction de la ligne de commande pour des bases de paye dans un répertoire donné ..."];
+  Node47 -> Node46 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node47 -> Node48 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node48 [label="Altair::runWorkerDistributed",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ae04f2a5771d47bbe2e0cc3a11b72d6bf",tooltip="Parcourt le répertoire en cours du mode distributif, un à chaque appel Exporte l&#39;identification dans ..."];
+  Node48 -> Node49 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node49 [label="Altair::processFinished",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a16b8035c4383a789cd00b687fb105fe9",tooltip="Traitement de la fin de l&#39;exécution de lhx. "];
+  Node48 -> Node46 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 -> Node50 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node50 [label="Altair::createCommandLine\lString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a40c0d298ef581a802c2b063df08a17a0",tooltip="Génère la ligne de commande à partir des chemins des fichiers de paye. "];
+  Node50 -> Node47 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 -> Node51 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node51 [label="FCheckBox::setXmlFromWidget",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_check_box.html#aa7f647115d2f8da53afadc5a209014ef"];
+  Node31 -> Node52 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node52 [label="FComboBox::setXmlFromWidget",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_combo_box.html#a827eeaa2f5771e16a3f4cbc3aa18c454"];
+  Node31 -> Node53 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node53 [label="FLineEdit::setXmlFromWidget",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_line_edit.html#ab2a2d0725de8d6ef371fbbe1d47eca64"];
+}

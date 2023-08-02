@@ -1,0 +1,533 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.14"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Référence du fichier lhx/recherche.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="altaïr.bmp"/></td>
+   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.8.14 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('recherche_8cpp.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Fonctions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle">
+<div class="title">Référence du fichier recherche.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Ce fichier contient le code permettant de rechercher en mémoire, après décodage des bases XML, un bulletin de paye particulier correspondant à un matricule, un mois et une année. Il contient aussi le code permettant l'itération de cette fonctionnalité sur des intervalles temporels.  
+<a href="#details">Plus de détails...</a></p>
+<div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Graphe des dépendances par inclusion de recherche.cpp:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 0 -->
+</div>
+</div>
+</div>
+<p><a href="recherche_8cpp_source.html">Aller au code source de ce fichier.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:a142c86cfc71536c9cfaf6fa9e47a1611"><td class="memItemLeft" align="right" valign="top">vector&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="recherche_8cpp.html#a142c86cfc71536c9cfaf6fa9e47a1611">__scan_mois</a> (const string &amp;<a class="el" href="lhx_2main_8cpp.html#a0c6fc9e97d59a78019dfcd477d6f08e6">repertoire_bulletins</a>, const vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, const string &amp;matricule, const string &amp;mois, const string &amp;annee)</td></tr>
+<tr class="separator:a142c86cfc71536c9cfaf6fa9e47a1611"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36576fe3eaca7bc6525c43d9bed05738"><td class="memItemLeft" align="right" valign="top">vector&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="recherche_8cpp.html#a36576fe3eaca7bc6525c43d9bed05738">bulletin_paye</a> (const string &amp;chemin_repertoire, const vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, const string &amp;matricule, const string &amp;mois, const string &amp;annee)</td></tr>
+<tr class="memdesc:a36576fe3eaca7bc6525c43d9bed05738"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crée le répertoire d'exportation d'un bulletin de paye donné pour un matricule, un mois et une année donnés et le fichier XHL minimal encapsulant ce bulletin individuel.  <a href="#a36576fe3eaca7bc6525c43d9bed05738">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a36576fe3eaca7bc6525c43d9bed05738"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb222aafededdf9d279d03b5fb62bc11"><td class="memItemLeft" align="right" valign="top">const string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="recherche_8cpp.html#abb222aafededdf9d279d03b5fb62bc11">extraire_lignes</a> (const <a class="el" href="structinfo__t.html">info_t</a> &amp;info, const array&lt; uint64_t, 3 &gt; &amp;debut, const array&lt; uint64_t, 2 &gt; &amp;fin)</td></tr>
+<tr class="memdesc:abb222aafededdf9d279d03b5fb62bc11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extrait le bulletin de paye correspondant à la ligne de début et de fin dans le fichier XML base de paye.  <a href="#abb222aafededdf9d279d03b5fb62bc11">Plus de détails...</a><br /></td></tr>
+<tr class="separator:abb222aafededdf9d279d03b5fb62bc11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c170acf1897b8bcf6e41e3853db1ae0"><td class="memItemLeft" align="right" valign="top">vector&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="recherche_8cpp.html#a7c170acf1897b8bcf6e41e3853db1ae0">recherche</a> (const vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, const string &amp;annee, const string &amp;mois, const string &amp;matricule)</td></tr>
+<tr class="separator:a7c170acf1897b8bcf6e41e3853db1ae0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a713c0327e5f4e9113b4325d7375d5adf"><td class="memItemLeft" align="right" valign="top">vector&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="recherche_8cpp.html#a713c0327e5f4e9113b4325d7375d5adf">scan_mois</a> (const string &amp;<a class="el" href="lhx_2main_8cpp.html#a0c6fc9e97d59a78019dfcd477d6f08e6">repertoire_bulletins</a>, const vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, const string &amp;matricule, const string &amp;mois, const string &amp;annee)</td></tr>
+<tr class="memdesc:a713c0327e5f4e9113b4325d7375d5adf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lance l'extraction d'un bulletin de paye pour un matricule, un mois et une année donnés.  <a href="#a713c0327e5f4e9113b4325d7375d5adf">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a713c0327e5f4e9113b4325d7375d5adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ad0cc56f38d8a53ce4438bdc86a30bfa0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="recherche_8cpp.html#ad0cc56f38d8a53ce4438bdc86a30bfa0">verbeux</a></td></tr>
+<tr class="separator:ad0cc56f38d8a53ce4438bdc86a30bfa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Description détaillée</h2>
+<div class="textblock"><p>Ce fichier contient le code permettant de rechercher en mémoire, après décodage des bases XML, un bulletin de paye particulier correspondant à un matricule, un mois et une année. Il contient aussi le code permettant l'itération de cette fonctionnalité sur des intervalles temporels. </p>
+<dl class="section author"><dt>Auteur</dt><dd>Fabrice Nicol </dd></dl>
+
+<p class="definition">Définition dans le fichier <a class="el" href="recherche_8cpp_source.html">recherche.cpp</a>.</p>
+</div><h2 class="groupheader">Documentation des fonctions</h2>
+<a id="a142c86cfc71536c9cfaf6fa9e47a1611"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a142c86cfc71536c9cfaf6fa9e47a1611">&#9670;&nbsp;</a></span>__scan_mois()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt;string&gt; __scan_mois </td>
+          <td>(</td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>repertoire_bulletins</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>matricule</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>mois</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>annee</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="recherche_8cpp_source.html#l00197">197</a> du fichier <a class="el" href="recherche_8cpp_source.html">recherche.cpp</a>.</p>
+
+<p class="reference">Références <a class="el" href="recherche_8cpp_source.html#l00144">bulletin_paye()</a>, <a class="el" href="tags_8h_source.html#l00084">ENDL</a>, <a class="el" href="tags_8h_source.html#l00081">PROCESSING_HTML_TAG</a>, <a class="el" href="lhx_2main_8cpp_source.html#l00102">repertoire_bulletins</a>, et <a class="el" href="lhx_2main_8cpp_source.html#l00094">verbeux</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="recherche_8cpp_source.html#l00248">scan_mois()</a>.</p>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 1 -->
+</div>
+</div>
+<div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-2-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 2 -->
+</div>
+</div>
+
+</div>
+</div>
+<a id="a36576fe3eaca7bc6525c43d9bed05738"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36576fe3eaca7bc6525c43d9bed05738">&#9670;&nbsp;</a></span>bulletin_paye()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt;string&gt; bulletin_paye </td>
+          <td>(</td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>chemin_repertoire</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>matricule</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>mois</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>annee</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Crée le répertoire d'exportation d'un bulletin de paye donné pour un matricule, un mois et une année donnés et le fichier XHL minimal encapsulant ce bulletin individuel. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">chemin_repertoire</td><td>Chemin compet du répertoire d'exportation contenant les bulletins extraits </td></tr>
+    <tr><td class="paramname">Info</td><td>vecteur de structures <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les données de paye décodées </td></tr>
+    <tr><td class="paramname">matricule</td><td>Matricule de l'agent </td></tr>
+    <tr><td class="paramname">mois</td><td>Mois de la paye </td></tr>
+    <tr><td class="paramname">annee</td><td>Année de la paye </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>Liste des chemins des fichiers <em></em>.xml exportés dans le répertoire chemin_repertoire. </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="recherche_8cpp_source.html#l00144">144</a> du fichier <a class="el" href="recherche_8cpp_source.html">recherche.cpp</a>.</p>
+
+<p class="reference">Références <a class="el" href="tags_8h_source.html#l00084">ENDL</a>, <a class="el" href="tags_8h_source.html#l00082">ERROR_HTML_TAG</a>, <a class="el" href="tags_8h_source.html#l00081">PROCESSING_HTML_TAG</a>, <a class="el" href="recherche_8cpp_source.html#l00050">recherche()</a>, et <a class="el" href="tags_8h_source.html#l00079">STATE_HTML_TAG</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="recherche_8cpp_source.html#l00197">__scan_mois()</a>.</p>
+<div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-3-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 3 -->
+</div>
+</div>
+<div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-4-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-4-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 4 -->
+</div>
+</div>
+
+</div>
+</div>
+<a id="abb222aafededdf9d279d03b5fb62bc11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb222aafededdf9d279d03b5fb62bc11">&#9670;&nbsp;</a></span>extraire_lignes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const string extraire_lignes </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structinfo__t.html">info_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const array&lt; uint64_t, 3 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>debut</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const array&lt; uint64_t, 2 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fin</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Extrait le bulletin de paye correspondant à la ligne de début et de fin dans le fichier XML base de paye. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">info</td><td>Structure <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant la partie pertinente des données de paye décodées </td></tr>
+    <tr><td class="paramname">debut</td><td>Tableau de 3 entiers de 64 bits contenant l'indicatrice du début du bulletin particulier à extraire </td></tr>
+    <tr><td class="paramname">fin</td><td>Tableau de 2 entiers de 64 bits contenant l'indicatrice du fin du bulletin particulier à extraire </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>Chaîne de caractères de type string contenant l'extraction du bulletin </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="recherche_8cpp_source.html#l00130">130</a> du fichier <a class="el" href="recherche_8cpp_source.html">recherche.cpp</a>.</p>
+
+<p class="reference">Références <a class="el" href="validator_8h_source.html#l00084">thread_t::in_memory_file</a>, et <a class="el" href="validator_8h_source.html#l00167">info_t::threads</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="recherche_8cpp_source.html#l00050">recherche()</a>.</p>
+<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-5-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 5 -->
+</div>
+</div>
+
+</div>
+</div>
+<a id="a7c170acf1897b8bcf6e41e3853db1ae0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c170acf1897b8bcf6e41e3853db1ae0">&#9670;&nbsp;</a></span>recherche()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt;string&gt; recherche </td>
+          <td>(</td>
+          <td class="paramtype">const vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>annee</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>mois</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>matricule</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="recherche_8cpp_source.html#l00050">50</a> du fichier <a class="el" href="recherche_8cpp_source.html">recherche.cpp</a>.</p>
+
+<p class="reference">Références <a class="el" href="validator_8h_source.html#l00137">Annee</a>, <a class="el" href="validator_8h_source.html#l00137">Budget</a>, <a class="el" href="validator_8h_source.html#l00137">Employeur</a>, <a class="el" href="recherche_8cpp_source.html#l00130">extraire_lignes()</a>, <a class="el" href="validator_8h_source.html#l00138">Matricule</a>, <a class="el" href="validator_8h_source.html#l00137">Mois</a>, et <a class="el" href="validator_8h_source.html#l00137">Siret</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="recherche_8cpp_source.html#l00144">bulletin_paye()</a>.</p>
+<div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-6-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-6-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 6 -->
+</div>
+</div>
+<div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-7-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 7 -->
+</div>
+</div>
+
+</div>
+</div>
+<a id="a713c0327e5f4e9113b4325d7375d5adf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a713c0327e5f4e9113b4325d7375d5adf">&#9670;&nbsp;</a></span>scan_mois()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt;string&gt; scan_mois </td>
+          <td>(</td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>repertoire_bulletins</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>matricule</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>mois</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>annee</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Lance l'extraction d'un bulletin de paye pour un matricule, un mois et une année donnés. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">repertoire_bulletins</td><td>Référence vers un dossier de bulletins extraits de type <em>std::string</em> </td></tr>
+    <tr><td class="paramname">Info</td><td>vers un vecteur de structures <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant l'ensemble, pour tous les segments et fils, des données de paye décodées </td></tr>
+    <tr><td class="paramname">matricule</td><td>Référence vers une chaîne de caractère de type string contenant le matricule </td></tr>
+    <tr><td class="paramname">mois</td><td>Référence vers une chaîne de caractère de type string contenant le mois </td></tr>
+    <tr><td class="paramname">annee</td><td>Référence vers une chaîne de caractère de type string contenant l'année </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>Vecteur de chemins de bulletins <em>xml</em> extraits. </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="recherche_8cpp_source.html#l00248">248</a> du fichier <a class="el" href="recherche_8cpp_source.html">recherche.cpp</a>.</p>
+
+<p class="reference">Références <a class="el" href="recherche_8cpp_source.html#l00197">__scan_mois()</a>, <a class="el" href="lhx_2main_8cpp_source.html#l00102">repertoire_bulletins</a>, et <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00200">split()</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="lhx_2main_8cpp_source.html#l01207">produire_segment()</a>.</p>
+<div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-8-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-8-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 8 -->
+</div>
+</div>
+<div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-9-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-9-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-9-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 9 -->
+</div>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Documentation des variables</h2>
+<a id="ad0cc56f38d8a53ce4438bdc86a30bfa0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0cc56f38d8a53ce4438bdc86a30bfa0">&#9670;&nbsp;</a></span>verbeux</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool verbeux</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="lhx_2main_8cpp_source.html#l00094">94</a> du fichier <a class="el" href="lhx_2main_8cpp_source.html">main.cpp</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="recherche_8cpp_source.html#l00197">__scan_mois()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_f92775b0174f2bb7a0fa78a915496faf.html">lhx</a></li><li class="navelem"><a class="el" href="recherche_8cpp.html">recherche.cpp</a></li>
+    <li class="footer">Généré le Jeudi 16 Août 2018 02:04:58 par
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+digraph "Interface" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_b7263c2df3abed61e1897d5e9e534860 {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_b7263c2df3abed61e1897d5e9e534860.html"];
+    dir_b7263c2df3abed61e1897d5e9e534860 [shape=plaintext label="Interface"];
+    dir_d07011c78e6521b599cb794ecf1ad27a [shape=box label="gui" color="black" fillcolor="white" style="filled" URL="dir_d07011c78e6521b599cb794ecf1ad27a.html"];
+  }
+  dir_344cda62953d8cdfc45a4886273aae9e [shape=box label="fwidgets_lib" URL="dir_344cda62953d8cdfc45a4886273aae9e.html"];
+  dir_d07011c78e6521b599cb794ecf1ad27a->dir_344cda62953d8cdfc45a4886273aae9e [headlabel="16", labeldistance=1.5 headhref="dir_000002_000000.html"];
+}

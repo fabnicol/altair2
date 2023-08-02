@@ -1,0 +1,13 @@
+digraph "FDialog"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node0 [label="{FDialog\n|+ fileRank\l+ outputType\l+ process\l|+ killProcess()\l+ textAppend()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node1 [label="{FDialogConnections\n||}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_dialog_connections.html"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{QDialog\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node0 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node3 [label="{Altair\n|+ fileTreeView\l+ managerWidget\l+ model\l+ outputTextEdit\l+ parent\l+ project\l+ projectName\l+ rankFile\l+ rootDir\l+ username\l+ XML_FILTERS\l+ RefreshFlag\l- allLayout\l- currentIndex\l- fileCount\l- fileSizeDataBase\l- hasIndexChanged\l- iconShowMaximized\l- iconShowNormal\l- mainLayout\l- managerLayout\l- progress\l- progressLayout\l- row\l- totalSize\l|+ Altair()\l+ checkEmptyProjectName()\l+ clearInterfaceAndParseProject()\l+ createCommandLineString()\l+ dragEnterEvent()\l+ dragMoveEvent()\l+ dropEvent()\l+ getFileCount()\l+ getProgressBar()\l+ readRankSignal()\let 7 de plus...\l+ closeProject()\l+ importData()\l+ killProcess()\l+ on_deleteItem_clicked()\l+ on_newProjectButton\l_clicked()\l+ on_openProjectButton\l_clicked()\l+ openProjectFileCommonCode()\l+ textAppend()\l+ updateProject()\l- assignWidgetValues()\l- checkAnnumSpan()\l- clearProjectData()\l- displayTotalSize()\l- initialize()\l- makeDataString()\l- makeParserString()\l- makeSystemString()\l- parseEntry()\l- parseProjectFile()\let 8 de plus...\l- deleteGroup()\l- on_helpButton_clicked()\l- openProjectFile()\l- processFinished()\l- processFinished()\l- refreshRowPresentation()\l- requestSaveProject()\l- run()\l- runRAltair()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html",tooltip="Classe Altair, agent de la classe MainWindow qui implémente les fonctions globales de l&#39;interface gra..."];
+}

@@ -1,0 +1,7 @@
+digraph "interfaceStatus"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{interfaceStatus\n|+ hasSavedOptions\l+ hasSavedOptionsMask\l+ hasUnsavedOptions\l+ keepOptionTabs\l+ mainTabs\l+ optionTabs\l+ parseXml\l+ parseXmlMask\l+ saveTree\l+ saveTreeMask\l+ tabMask\l+ tree\l+ treeMask\l|}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+}

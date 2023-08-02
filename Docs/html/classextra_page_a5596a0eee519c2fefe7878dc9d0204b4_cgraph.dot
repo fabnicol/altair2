@@ -1,0 +1,17 @@
+digraph "extraPage::do_copies"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node4 [label="extraPage::do_copies",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="tools::copyFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtools.html#a0765c68c41d7c957f1fb0f0da8b4a9c9",tooltip="Copie un fichier de manière sécurisée. "];
+  Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="tools::IOControl",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtools.html#ae1018e45c513785270b999cbcfa8beb6",tooltip="Procédure de contrôle des entrées-sorties. "];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="tools::copyDir",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtools.html#a37c9c486d90129b0d6a4ac93f29fd5bb",tooltip="Copie un répertoire de manière sécurisée. "];
+  Node7 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="FLineFrame::getText",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_line_frame.html#a63a8e07ab4bbff07da779f45e86e1721",tooltip="Accesseur en lecture : retourne le texte de la ligne. "];
+}

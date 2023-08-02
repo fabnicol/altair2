@@ -1,0 +1,11 @@
+digraph "FListFrame"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node0 [label="{FListFrame\n|+ controlButtonBox\l+ deleteGroupButton\l+ fileListWidget\l+ fileTreeView\l+ frameHashKey\l+ importFromMainTree\l+ mainTabWidget\l+ model\l+ nppDisplayButton\l+ retrieveItemButton\l+ size\l+ tabLabels\l+ thread\l+ use_threads\l+ widgetContainer\l# importType\l# tags\l- activateOnStart\l- currentIndex\l- currentListWidget\l- elemPar\l- isTerminated\l- launch\l- row\l- stringList\l|+ FListFrame()\l+ addParsedTreeToListWidget()\l+ clearWidgetContainer()\l+ getControlButtonBox()\l+ getCurrentIndex()\l+ getCurrentLabel()\l+ getCurrentRow()\l+ getCurrentWidget()\l+ getHashKey()\l+ getLabel()\let 10 de plus...\l+ addNewTab()\l+ addNewTab()\l+ deleteGroup()\l+ deleteGroup()\l+ on_deleteItem_clicked()\l+ showContextMenu()\l# finalise()\l# on_file_display()\l# on_importFromMainTree\l_clicked()\l- addStringListToListWidget()\l- clearTabLabels()\l- deleteAllGroups()\l- launch_thread()\l- parseTreeForFilePaths()\l- parseXhlFile()\l- parseXhlFile()\l- setStrikeOutFileNames()\l- updateIndexInfo()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node1 [label="{FDialogConnections\n||}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_dialog_connections.html"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{QDialog\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+}

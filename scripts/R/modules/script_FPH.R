@@ -1,0 +1,101 @@
+
+#'   
+#'## 5.14 Primes de la fonction publique hospitalière
+#'    
+#'[![Notice](icones/Notice.png)](Docs/Notices/fiche_FPH.odt)    
+#'     
+#'*Les primes qui suivent ne peuvent être octroyées qu'à des fontionnaires.*    
+#'*Les tests portent sur les cas d'attribution à des non-titulaires (et autres statuts)*     
+#'      
+
+prime_FPH_test <- function(prime, prime_lit, base, expr = NULL) {
+  
+  if (VERSANT_FP != "FPH"){
+    
+    cat("Ce contrôle ne porte pas sur la FPH. Les liens hypertextes ci-dessous seront désactivés.   \n")
+    cat("Pour activer le contrôle FPH, cocher la case correspondante de l'onglet **Options > Format** de l'interface graphique  \n")
+    return("Non traité.")
+  } 
+  
+  DT <- filtrer_Paie(prime)[ , ..colonnes]
+  
+  DT <- if (! is.null(expr)) {
+    DT[Statut == "NON_TITULAIRE" | Statut == "AUTRE_STATUT" | grepl(expr, Grade, perl = TRUE, ignore.case = TRUE)]
+  } else {
+    DT[Statut == "NON_TITULAIRE" | Statut == "AUTRE_STATUT"]
+  }
+  
+  if (nombre.personnels.nt <- uniqueN(DT$Matricule)) {
+    
+    cat("\nIl existe ", 
+        FR(nombre.personnels.nt),
+        "agent" %s% nombre.personnels.nt,
+        "non titulaire" %s% nombre.personnels.nt, "percevant une", prime_lit, "\n")
+  }
+  
+  if (nombre.personnels.nt) {
+    
+    cat("\nCoût des anomalies ", 
+        DT[ , sum(Montant, na.rm = TRUE)], "euros.\n")
+  }
+  
+  assign(base,  DT, .GlobalEnv)
+
+  Sauv.base("Reglementation", base) 
+  primes <- unique(DT$Libelle)
+  
+  primes.potentielles <- if (length(primes) == 0) "aucune" else paste(primes, collapse = " ;")
+}
+
+#'**Prime spécifique**   
+
+# décret n°88-1083 du 30 novembre 1988
+
+primes.potentielles <- prime_FPH_test("PRIME SPECIFIQUE", "prime spécifique", "personnels.prime.specifique.nt")
+
+cat("Prime spécifique : ", primes.potentielles, "\n")  
+   
+
+#'   
+conditionnel("Lien vers la base de données Prime spécifique NT", "Bases/Reglementation/personnels.prime.specifique.nt.csv")   
+#'   
+
+#'**Prime de technicité**   
+
+# décret n°91-870 du 5 septembre 1991 
+
+primes.potentielles <- prime_FPH_test("PRIME DE TECHNICITE", "prime de technicité", "personnels.prime.tech.nt")
+
+
+cat("Primes de technicité : ", primes.potentielles, "\n")  
+   
+
+#'   
+conditionnel("Lien vers la base de données Prime de technicité NT", "Bases/Reglementation/personnels.prime.tech.nt.csv")   
+#'   
+
+#'**Indemnité forfaitaire et technique**   
+
+# décret n°2013-102 du 29 janvier 2013  
+
+primes.potentielles <- prime_FPH_test("IFT", "indemnité forfaitaire et technique", "personnels.ift.nt")
+
+#'   
+cat("Indemnité forfaitaire et technique : ", primes.potentielles, "\n")
+#'   
+
+#'   
+conditionnel("Lien vers la base de données IFT NT", "Bases/Reglementation/personnels.ift.nt.csv")   
+#'   
+
+#'**Prime de service**   
+
+primes.potentielles <- prime_FPH_test("PRIME DE SERVICE", "prime de service", "personnels.ps.nt", expression.rég.médecin)
+
+#'   
+cat("Primes de service : ", primes.potentielles, "\n")    
+#'   
+
+#'   
+conditionnel("Lien vers la base de données primes de service NT", "Bases/Reglementation/personnels.ps.nt.csv")   
+#'   

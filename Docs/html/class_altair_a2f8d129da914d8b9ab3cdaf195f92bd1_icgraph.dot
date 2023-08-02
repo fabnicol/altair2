@@ -1,0 +1,36 @@
+digraph "Altair::makeDataString"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node348 [label="Altair::makeDataString",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node348 -> Node349 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node349 [label="Altair::writeProjectFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a43120f9909d0284074119529a03df85b",tooltip="Ecrit le projet XML d&#39;extension .alt contenant les références des donnéees de paye. "];
+  Node349 -> Node350 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node350 [label="Altair::updateProject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a2eb0a89c3223b2df1c01d2b3b7d1c0eb",tooltip="Rafraichir le projet .alt après avoir actualisé l&#39;interface. "];
+  Node350 -> Node351 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node351 [label="Altair::Altair",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ae0975ced0a36e0ed889ae06043a4df66",tooltip="Constructeur. "];
+  Node350 -> Node352 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node352 [label="Altair::deleteGroup",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ab913abfdd0c6fbbceb9a051a4443d5fa",tooltip="Supprimer un onglet central. "];
+  Node352 -> Node351 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node350 -> Node353 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node353 [label="Altair::on_deleteItem\l_clicked",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a299584936cc20c9a1451977264eba1f5",tooltip="Ecrase un item d&#39;un onglet donné "];
+  Node353 -> Node351 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node350 -> Node354 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node354 [label="Altair::requestSaveProject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#aab5da600c227ac7eb604fa24a9308d26",tooltip="Enregistre le projet .alt en actualisant projectName et l&#39;état de l&#39;interface  . "];
+  Node350 -> Node355 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node355 [label="Altair::dropEvent",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a1afa285a65e0bdff4c761ad05ec9f8df",tooltip="Fonction réimplémentée : fin du déplacement de la souris. "];
+  Node350 -> Node356 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node356 [label="options::options",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208",tooltip="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair..."];
+  Node350 -> Node357 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node357 [label="Altair::runWorker",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a08b5e402c9a694af09110afe33219080",tooltip="Construction de la ligne de commande pour des bases de paye dans un répertoire donné ..."];
+  Node357 -> Node358 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node358 [label="Altair::runWorkerDistributed",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ae04f2a5771d47bbe2e0cc3a11b72d6bf",tooltip="Parcourt le répertoire en cours du mode distributif, un à chaque appel Exporte l&#39;identification dans ..."];
+  Node358 -> Node359 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node359 [label="Altair::run",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a7d10f8ecf4097577885172afb6c2e9c6",tooltip="Lance l&#39;exécution de l&#39;application en ligne de commande lhx. "];
+  Node358 -> Node360 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node360 [label="Altair::processFinished",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a16b8035c4383a789cd00b687fb105fe9",tooltip="Traitement de la fin de l&#39;exécution de lhx. "];
+  Node357 -> Node359 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node350 -> Node359 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

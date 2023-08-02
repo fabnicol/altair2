@@ -1,0 +1,15 @@
+digraph "options"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node0 [label="{options\n|+ closeButton\l+ codeTab\l+ extraTab\l+ optionWidget\l+ processTab\l+ rapportTab\l+ standardTab\l+ RefreshFlag\l- pagesWidget\l|+ options()\l+ clearOptionData()\l- createIcon()\l- createIcons()\l- changePage()\l- enchainerRapports()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node1 [label="{QDialog\n||}",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node2 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node2 [label="{common\n|+ altairCommandStr\l+ execPath\l+ RAltairCommandStr\l+ RAltairDirStr\l+ sharedir\l|+ common()\l+ exporter_identification\l_controle()\l+ exporter_identification\l_controle()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classcommon.html",tooltip="Classe dérivée de la classe tools ajoutant des fonctionnalités de communication de l&#39;interface vers l..."];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node3 [label="{tools\n|+ systemPathPrefix\l+ userdatadir\l|+ tools()\l+ dump()\l+ getEmbeddedPath()\l+ readFile()\l+ readFile()\l+ readFile()\l+ readFile()\l+ renommer()\l+ substituer()\l+ cdRomMounted()\l+ copyDir()\l+ copyFile()\l+ generateDatadirPath()\l+ generateDatadirPath()\l+ getDirectorySize()\l+ getFileSize()\l+ IOControl()\l+ openDir()\l+ openDirDialog()\let 6 de plus...\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtools.html"];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
+  Node4 [label="{flags\n||}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classflags.html"];
+}
