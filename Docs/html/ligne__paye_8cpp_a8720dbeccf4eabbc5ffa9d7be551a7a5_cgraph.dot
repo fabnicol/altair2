@@ -1,0 +1,12 @@
+digraph "Bulletin"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node7 [label="Bulletin",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="atteindreNoeud",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$validator_8h.html#a5e23405e20d220ba90a7b2213f7a70fb",tooltip="Permet d&#39;atteindre un noeud donné par son libellé de balise XML à partir d&#39;un pointeur XmlNodePtr de ..."];
+  Node7 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="sanitize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ligne__paye_8cpp.html#a6044ec3fae81f42425539be4d999edd4",tooltip="Remplace les occurrences d&#39;un caractère à l&#39;intérieur d&#39;une chaîne xmlChar* par le  caractère &#39;_&#39;..."];
+}

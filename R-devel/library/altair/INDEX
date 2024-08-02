@@ -1,0 +1,138 @@
+%+%                     Concaténation de chaîne de caractères
+%a%                     Assignation dans l'environnement d'appel
+%s%                     Prise en compte du pluriel
+Eliminer.duplications   Eliminer les doublons en mémoire pour les
+                        calculs
+Exporter.tables.sans.doublons
+                        Eliminer les doublons dans les tables exportées
+                        sous Bases/Remunerations
+FR                      Ajoute le separateur des milliers et sans
+                        decimale en français
+Read.csv                Lecture d'une série de bases CSV
+Redresser.heures        Redresser les heures de travail (variable
+                        'Heures') en tenant compte des traitements.
+Resume                  Statistiques descriptives de base (minimum,
+                        maximum et quartiles)
+SFT_sans_enfant         SFT sans enfant
+Sauv.base               Sauvegarde d'une base
+Tableau                 Tableau
+Tableau.data            Tableau.data
+Tableau.vertical        Tableau de plusieurs lignes
+Tableau.vertical2       Tableau vertical 2
+adm                     Quotité administrative
+afficher_tableau_cumuls
+                        Affichage du tableau des cumuls de primes
+agrégat_annuel          Affichage du tableau des agrégats des primes A
+                        et B, pour chaque année de période
+altair                  Altaïr: un paquet pour analyser les bases de
+                        paye XML.
+analyser                Analyse des contraintes principales associées à
+                        une indemnité
+annee_comparaison       Année de comparaison avec les données
+                        nationales.
+brut.eqtp               Tableau des rémunérations brutes moyennes par
+                        grade.
+brut.eqtp.emploi        Tableau des rémunérations brutes moyennes par
+                        emploi.
+calcul.nb.jours.mois    Calcul du nombre de jours dans le mois
+calcul_rmpp             RMPP Calcul de la rémunération moyenne des
+                        personnes en place
+calculer_indice_complexité
+                        Diagnostic des tables de jointure
+charges.eqtp            Tableau des coûts moyens par agent et par
+                        grade.
+charges.eqtp.emploi     Tableau des coûts moyens de personnel par type
+                        emploi.
+charges.eqtp.serv       Tableau des coûts moyens de personnel par grade
+                        et service.
+chemin                  Chemin complet d'un fichier dans le dossier
+                        'chemin.dossier.donnees'
+conditionnel            Insertion conditionnelle de texte dans le
+                        rapport
+correspondance_grade_categorie
+                        Correspondance grade-categorie
+correspondance_paye_budget
+                        Correspondance paye-budget
+distribution_smpt       distribution_smpt
+effectifs               Tableau des effectifs.
+eqtp.emploi             Tableau des EQTP par emploi.
+eqtp.grade              Tableau des EQTP par grade.
+eqtp.grade.cat          Tableau des EQTP par grade et catégorie.
+eqtp.grade.serv         Tableau des EQTP par grade et service.
+essayer                 Essaye d'exécuter une portion de code et en cas
+                        d'erreur continue l'exécution du script en
+                        renvoyant un message d'erreur non bloquant.
+exporter_tableau        Apparier la base des lignes de paye et une
+                        table de jointure
+extraire.nir            Traitement du NIR (numero d'inscription au
+                        répertoire des personnes physiques).
+extraire_paye           Extraire les matricules et Nir des mois de
+                        décembre, sauf pour les élus Pour les statuts
+                        listés dans L si L non null
+filtre                  Sélection du filtre correspondant à une chaîne
+                        de caractères associée
+filtrer.base            filtrer.base
+filtrer_Paie            Filtrage d'une base de paye
+generer_docx_odt        Générer les fichiers docx et odt à partir des
+                        fichier intermédiaires .tex générés pour le
+                        rapport pdf
+generer_rapport         Génération d'un rapport d'analyse pdf, HTML,
+                        docx et/ou odt ou exécution sans rapport
+importer                Importer les données
+importer_base_ifse      Importer le base externe IFSE (encodage UTF-8)
+importer_base_logements
+                        Importer la base des logements de fonction
+                        (encodage UTF-8)
+importer_matricules     Importer la base externe des correspondance
+                        ente matricules, categories et grades
+increment               Incrémente le numéro de tableau courant
+incrementer.chapitre    Incrémente le numéro de chapitre courant
+inserer_script          Insérer un script auxiliaire, indexé par une
+                        variable globale
+longueur.non.na         Longueur d'un vecteur, ou nombre de lignes
+                        d'une table, lorsque l'on a retiré les éléments
+                        ou les lignes NA
+merge_environment       Fusionner un environnement à l'environnement
+                        global.
+merge_environments      Fusionner deux environnements.
+net.eqtp                Tableau des rémunérations nettes moyennes par
+                        grade.
+net.eqtp.emploi         Tableau des rémunérations nettes moyennes par
+                        emploi.
+net.eqtp.serv           Tableau des rémunérations nettes moyennes par
+                        grade et service.
+newline                 Saut de ligne dans les rapports d'analyse
+newpage                 Saut de page dans les rapports d'analyse
+non.null                Sélectionne les éléments non nuls d'un vecteur
+noria                   Décomposition de l'évolution des salaires,
+                        RMPP, SMPT et GVT
+positive                Sélectionne les éléments positifs d'un vecteur
+produire_pyramides      Produire les pyramides des âges par versant de
+                        la fonction publique
+pyramide_ages           Pyramide des âges.
+quotites                Calcul des quotites
+read.csv.skip           Lecture d'une base CSV
+rendre                  Générer le fichier latex du rapport, puis le
+                        pdf ou le docx et l'odt
+rémunérations_eqtp      Calculer la rémunération nette et brute en EQTP
+sauv.bases              Sauvegarde de plusieurs bases
+sauvebase               Sauvegarde une base dans le dossier des bases
+smic.net                SMIC mensuel net x 3 utilisé pour la condition
+                        alternative sur les périodes non annexes
+smpt                    SMPT
+system.quote            Insérer des guillemets à chaque composante d'un
+                        vecteur de chaînes de caractères
+tableau_cumuls          Tableau des cumuls de primes
+test_prime              Teste les primes et indemnités
+tester.homogeneite.matricules
+                        Teste si, dans une base, la proportion
+                        d'enregistrements Noms-Prenoms dont les
+                        matricules ne sont pas identiques reste
+                        inférieure à une marge de tolerance fixée
+                        (taux.tolerance.homonymie)
+tex2pdf                 Convertir le fichier tex du rapport en pdf
+to_html                 Convertir le fichier tex du rapport en html
+type.données            Contrôle le type des données d'entrée
+évolution_agrégat       Affichage du tableau des variations des
+                        agrégats des primes A et B sur l'ensemble de la
+                        periode

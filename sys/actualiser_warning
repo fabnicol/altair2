@@ -1,0 +1,19 @@
+#!/bin/bash
+
+while true
+do
+  sleep 120
+  a=$(rc-status | grep ajuster_version | grep starting)
+
+    if test "y$a" != "y"; then
+    chmod +x  /home/fab/Dev/lib/warning
+    exec /home/fab/Dev/lib/warning
+    fi
+    sleep 60
+    a=$(rc-status | grep ajuster_version | grep starting)
+
+    if test "y$a" = "y"; then
+    kill -9 $(pidof warning)
+    fi
+
+done

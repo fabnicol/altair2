@@ -1,0 +1,51 @@
+digraph "Hash::createReference"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node18 [label="Hash::createReference",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node18 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="FListFrame::finalise",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_list_frame.html#aa993bd2e0b975a839c6f8b46dea4690c"];
+  Node19 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="FListFrame::FListFrame",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_f_list_frame.html#a865246df8a4d4000ac3c818abc6d7f71",tooltip="Constructeur de la classe. "];
+  Node18 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="Altair::openProjectFileCommonCode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#aa341707131924eff160bcab41422d1ec",tooltip="Code commun à différentes fonctions lancées pour l&#39;analyse des projets. "];
+  Node21 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="Altair::on_openProjectButton\l_clicked",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ab98d384297c6b94ff65a683eb5f99633",tooltip="Ouvre le projet, le décode en appelant parseProjectFile et actualise l&#39;interface  en conséquence..."];
+  Node21 -> Node23 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node23 [label="Altair::openProjectFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a84cf34107cd413ab33800b583bdef59e",tooltip="Ouvre le projet .alt et décode le projet pour actualiser l&#39;interface. "];
+  Node18 -> Node24 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node24 [label="Altair::parseProjectFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a41b6c8a35ed8ba14c7c0ce2e6994655f",tooltip="Décode le projet représenté par un pointeur vers QFile ou similaire. "];
+  Node24 -> Node25 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node25 [label="Altair::refreshProjectManager",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ac9d7d8e7cebf70212818f1a8ba7d7d78",tooltip="Rafraîchit le gestionnaire de projet à la droite de l&#39;interface. Fonction globale par défaut..."];
+  Node25 -> Node26 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="Altair::clearInterfaceAnd\lParseProject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#acaa583766e1c062ea311847fcdd35374",tooltip="Efface les onglets, le gestionnaire de projet et lit le projet .alt en cours. "];
+  Node26 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node25 -> Node27 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 [label="Altair::updateProject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a2eb0a89c3223b2df1c01d2b3b7d1c0eb",tooltip="Rafraichir le projet .alt après avoir actualisé l&#39;interface. "];
+  Node27 -> Node28 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node28 [label="Altair::Altair",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ae0975ced0a36e0ed889ae06043a4df66",tooltip="Constructeur. "];
+  Node27 -> Node29 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node29 [label="Altair::deleteGroup",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ab913abfdd0c6fbbceb9a051a4443d5fa",tooltip="Supprimer un onglet central. "];
+  Node29 -> Node28 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 -> Node30 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node30 [label="Altair::dropEvent",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a1afa285a65e0bdff4c761ad05ec9f8df",tooltip="Fonction réimplémentée : fin du déplacement de la souris. "];
+  Node27 -> Node31 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 [label="Altair::on_deleteItem\l_clicked",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a299584936cc20c9a1451977264eba1f5",tooltip="Ecrase un item d&#39;un onglet donné "];
+  Node31 -> Node28 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 -> Node32 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node32 [label="options::options",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208",tooltip="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair..."];
+  Node27 -> Node33 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node33 [label="Altair::requestSaveProject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#aab5da600c227ac7eb604fa24a9308d26",tooltip="Enregistre le projet .alt en actualisant projectName et l&#39;état de l&#39;interface  . "];
+  Node27 -> Node34 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node34 [label="Altair::run",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a7d10f8ecf4097577885172afb6c2e9c6",tooltip="Lance l&#39;exécution de l&#39;application en ligne de commande lhx. "];
+  Node27 -> Node35 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node35 [label="Altair::runWorker",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a08b5e402c9a694af09110afe33219080",tooltip="Construction de la ligne de commande pour des bases de paye dans un répertoire donné ..."];
+  Node35 -> Node34 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node35 -> Node36 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node36 [label="Altair::runWorkerDistributed",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#ae04f2a5771d47bbe2e0cc3a11b72d6bf",tooltip="Parcourt le répertoire en cours du mode distributif, un à chaque appel Exporte l&#39;identification dans ..."];
+  Node36 -> Node37 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node37 [label="Altair::processFinished",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_altair.html#a16b8035c4383a789cd00b687fb105fe9",tooltip="Traitement de la fin de l&#39;exécution de lhx. "];
+  Node36 -> Node34 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

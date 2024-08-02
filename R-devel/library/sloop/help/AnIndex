@@ -1,0 +1,11 @@
+ftype	ftype
+is_s3_generic	is_s3_generic
+is_s3_method	is_s3_generic
+otype	otype
+s3_class	s3_class
+s3_dispatch	s3_dispatch
+s3_get_method	s3_get_method
+s3_methods_class	s3_methods_class
+s3_methods_generic	s3_methods_class
+s4_methods_class	s3_methods_class
+s4_methods_generic	s3_methods_class

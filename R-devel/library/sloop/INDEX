@@ -1,0 +1,8 @@
+ftype                   Determine function type.
+is_s3_generic           Determine if a function is an S3 generic or S3
+                        method.
+otype                   Determine the type of an object
+s3_class                Compute the S3 class of an object
+s3_dispatch             Illustrate S3 dispatch
+s3_get_method           Find S3 method from its name
+s3_methods_class        List methods for a S3 or S4 generic (or class)

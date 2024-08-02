@@ -1,0 +1,48 @@
+                        STATISTIQUES D'EXECUTION
+
+Statistiques réalisées sur 15,445 millions de lignes de paye.
+Sous Haswell (8Go de RAM + HDD standard).
+
+MONO-PROCESSUS
+--------------
+Mode IO classique (FGETC_PARSING)
+Consommation moyenne de mémoire disque par ligne de paye : 203 octets
+Consommation moyenne de mémoire disque par bulletins de paye : 164 octets
+
+Nombre moyen de lignes de paye par bulletin de paye : 26 lignes
+Durée de traitement (mono-processus) : 11 minutes 33 secondes
+
+consommation moyenne de mémoire d'un agent sur 12 mois : 65 300 octets.
+
+Ratio mémoire des bulletins / mémoire des lignes : 2,9 %
+
+Consommation de mémoire swap observée : 4 Go maximum.
+Consommation mémoire maximum observée (RAM + swap) : 11,5 Go.
+
+Taux de compression LZMA : 3,3 %a
+
+Multithreading
+--------------
+Mode IO classique (FGETC_PARSING)
+La consommation mémoire augmente d'environ 10 % à 4 fils.
+Les fichiers de sortie sont identiques.
+Temps global d'exécution comparable sous 4 fils.
+
+Sous SSD, dernière version (16.02)
+----------------------------------
+
+Forte diminution du temps de traitement : moins de 2 minutes sous 7 fils, grâce à l'itération de segments.
+
+Plafonnement approximatif de la mémoire consommée par --memshare : faible sensibilité.
+
+Forte sensibilité à l'utilisation de la directive OFSTREAM_TABLE_OUTPUT : augmente la durée de traitement
+de 1/3.
+Mais interrogations sur la robustesse de la bufferisation des tables sous ostringstream, trois plantages.
+A fiabiliser avec valgrind et gdb.
+
+Faible sensibilité aux directives STRINGSTREAM_PARSING / FGETC_PARSING (+3 %)
+
+Un paramétrage constant "optimal" pourrait être : --memshare 50 sous FGETC_PARSING et sans OFSTREAM_TABLE_OUTPUT,
+pour -j nombre de coeurs +1.
+
+

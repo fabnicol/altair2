@@ -1,0 +1,35 @@
+digraph "tools::IOControl"
+{
+ // INTERACTIVE_SVG=YES
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node73 [label="tools::IOControl",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node73 -> Node74 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node74 [label="tools::copyFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtools.html#a0765c68c41d7c957f1fb0f0da8b4a9c9",tooltip="Copie un fichier de manière sécurisée. "];
+  Node74 -> Node75 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node75 [label="tools::copyDir",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtools.html#a37c9c486d90129b0d6a4ac93f29fd5bb",tooltip="Copie un répertoire de manière sécurisée. "];
+  Node75 -> Node76 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node76 [label="MainWindow::exportProject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_main_window.html#a0931b2b0fde3d9c2b983d7eded8724a0",tooltip="Enregistrer l&#39;ensemble des données d&#39;output (bases CSV, rapports...) dans un répertoire. "];
+  Node75 -> Node73 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node74 -> Node77 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node77 [label="extraPage::do_copies",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classextra_page.html#a5596a0eee519c2fefe7878dc9d0204b4",tooltip="Réalise les copies des fichiers auxiliaires paye_budget.csv, grades.catégories.csv et logements..."];
+  Node77 -> Node78 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node78 [label="options::options",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classoptions.html#a52a9fb1d5bdb6ed104e700390b8c0208",tooltip="Constructeur de l&#39;onglet correspondant à un pointeur parent vers une instance de la classe Altair..."];
+  Node74 -> Node76 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node74 -> Node79 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node79 [label="MainWindow::restoreProject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_main_window.html#ae11018a1c92bd7f20ff54a3f78eacb51",tooltip="Désarchiver le projet. "];
+  Node73 -> Node80 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node80 [label="tools::unzip",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtools.html#a22819e1b381949304b8fde11a91a7de3",tooltip="Décompresser un fichier au format zip. "];
+  Node80 -> Node81 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node81 [label="tools::unzipDir",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtools.html#ae821185bfd6650842559ef2f9d92f1ac",tooltip="Décompresse l&#39;intégralité d&#39;un répertoire au format zip, et copie le dossier décompressé dans un chem..."];
+  Node81 -> Node79 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node80 -> Node79 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node73 -> Node82 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node82 [label="tools::zip",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtools.html#aae1cdbea84aed049937a52ceb9421794",tooltip="Compresser un fichier au format zip. "];
+  Node82 -> Node83 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node83 [label="tools::zipDir",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtools.html#aefd7e17f4eeb34a4ab3d254eb3bb0a03",tooltip="Compresse l&#39;intégralité d&#39;un répertoire au format zip, et copie le dossier compressé dans un chemin d..."];
+  Node83 -> Node84 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node84 [label="MainWindow::archiveProject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_main_window.html#a34512b73d3342c5a5b59a8f420d4d4c4",tooltip="Archiver le projet courant. "];
+  Node82 -> Node84 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

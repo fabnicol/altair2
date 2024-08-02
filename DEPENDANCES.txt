@@ -1,0 +1,38 @@
+
+Dépendances
+-----------
+
+
+Les bibliothèques auxiliaires installées par l'installateur sont conservées dans le 
+répertoire altair\lib
+
+Dépendances R : automatiquement installées par
+
+  install.packages(c("rmarkdown", "knitr", "devtools", "bits64", "ggplot2"))
+
+  devtools::install_github("hadley/bigvis")
+
+dans altair/ :
+
+  R CMD INSTALL lib
+(sous Windows :  R CMD INSTALL altair)  
+
+  R CMD INSTALL sft
+
+git clone -b master --single-branch (adresse github du paquet data.table) data.table
+
+dans data.table/ :
+
+  git reset --hard 47e2a7
+
+dans altair/ :
+
+  R CMD INSTALL data.table
+  
+== Le paquet texlive doit être compilé avec support de graphicx == 
+  
+  
+  
+
+
+

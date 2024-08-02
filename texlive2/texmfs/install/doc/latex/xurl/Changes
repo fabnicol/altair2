@@ -1,0 +1,8 @@
+0.09  2020-01-24  - add missing \do\\
+0.08  2020-01-14  - define macro \useOriginalUrlSetting
+0.07  2018-12-23  - move numbers into \UrlBreaks
+0.06  2018-12-16  - define \UrlSpecials
+0.05  2018-12-08  - added support for biblatex
+0.04  2018-06-02  - change \Urlmuskip to allow stretchability
+0.03  2018-01-09  - added UrlOrd characters
+0.02  2017-12-20  - first CTAN version

@@ -1,0 +1,1941 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.14"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Référence du fichier lhx/table.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="altaïr.bmp"/></td>
+   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Recherche" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.8.14 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('table_8cpp.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Fonctions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle">
+<div class="title">Référence du fichier table.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Ce fichier contient l'ensemble du code permettant de générer les fichiers des bulletins de paye et lignes de paye au format CSV.  
+<a href="#details">Plus de détails...</a></p>
+<div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Graphe des dépendances par inclusion de table.cpp:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 0 -->
+</div>
+</div>
+</div>
+<p><a href="table_8cpp_source.html">Aller au code source de ce fichier.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:af69fb23ca3bfda461aabe069444e07be"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a>&#160;&#160;&#160;ostringstream</td></tr>
+<tr class="separator:af69fb23ca3bfda461aabe069444e07be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57a4f130db7a35f46be02c36d8235550"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a57a4f130db7a35f46be02c36d8235550">VAR</a>(X)&#160;&#160;&#160;Info[i].Table[agent][X]</td></tr>
+<tr class="separator:a57a4f130db7a35f46be02c36d8235550"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:a666a48e623a324e4c739c91c1ea9adf7"><td class="memItemLeft" align="right" valign="top">pair&lt; uint64_t, uint32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a666a48e623a324e4c739c91c1ea9adf7">boucle_ecriture</a> (vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int nsegment)</td></tr>
+<tr class="memdesc:a666a48e623a324e4c739c91c1ea9adf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lance l'écriture des fichiers Bulletins.paie.csv et Table....csv<br />
+pour un segment des données de paye, et à partir de l'ensemble des données de paye décodées.  <a href="#a666a48e623a324e4c739c91c1ea9adf7">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a666a48e623a324e4c739c91c1ea9adf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c2fb8f5119259a3b8fd7e2867a554d2"><td class="memItemLeft" align="right" valign="top">static void <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a4c2fb8f5119259a3b8fd7e2867a554d2">ECRIRE_LIGNE_BULLETIN_COMMUN</a> (int i, uint32_t agent, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;bulletins, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="memdesc:a4c2fb8f5119259a3b8fd7e2867a554d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit une ligne de bulletin de paye pour un agent donné dans le fichier CSV Bulletins.paie <br />
+.  <a href="#a4c2fb8f5119259a3b8fd7e2867a554d2">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a4c2fb8f5119259a3b8fd7e2867a554d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac961030aff2e8f0da8ff2788c16e2272"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#ac961030aff2e8f0da8ff2788c16e2272">ECRIRE_LIGNE_BULLETIN_GENERER_RANG</a> (int i, uint32_t agent, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;bulletins, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int rang)</td></tr>
+<tr class="memdesc:ac961030aff2e8f0da8ff2788c16e2272"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit une ligne de bulletin de paye pour un agent donné dans le fichier CSV Bulletins.paie et, en outre, génère le rang de la ligne dans le fichier<br />
+Ajoute les colonnes Annee et Mois en début de fichier <br />
+Ajoute optionnellement les colonnes Budget, Employeur, Siret et Etablissement Ajoute les colonnes Categorie et NIR en fin de fichier <br />
+.  <a href="#ac961030aff2e8f0da8ff2788c16e2272">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ac961030aff2e8f0da8ff2788c16e2272"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac99b105f075700364aa7b14d11ceab7b"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#ac99b105f075700364aa7b14d11ceab7b">ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON</a> (int i, uint32_t agent, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;bulletins, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int rang)</td></tr>
+<tr class="memdesc:ac99b105f075700364aa7b14d11ceab7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit une ligne de bulletin de paye pour un agent donné dans le fichier CSV Bulletins.paie et, en outre, génère le rang de la ligne dans le fichier<br />
+Ajoute les colonnes Annee et Mois en début de fichier <br />
+Ajoute optionnellement les colonnes Budget, Employeur, Siret et Etablissement Ajoute les colonnes Echelon, Categorie et NIR en fin de fichier <br />
+.  <a href="#ac99b105f075700364aa7b14d11ceab7b">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ac99b105f075700364aa7b14d11ceab7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96061df9a94d349009a11fa399bbec5c"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a96061df9a94d349009a11fa399bbec5c">ECRIRE_LIGNE_BULLETIN_SIRET</a> (int i, uint32_t agent, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;bulletins, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="memdesc:a96061df9a94d349009a11fa399bbec5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit une ligne de bulletin de paye pour un agent donné dans le fichier CSV Bulletins.paie <br />
+Ajoute les colonnes Annee et Mois en début de fichier <br />
+Ajoute les colonnes Budget, Employeur, Siret et Etablissement Ajoute les colonnes Categorie et NIR en fin de fichier <br />
+.  <a href="#a96061df9a94d349009a11fa399bbec5c">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a96061df9a94d349009a11fa399bbec5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5fac93ecc2de57ead73a4529b95d917"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#ae5fac93ecc2de57ead73a4529b95d917">ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON</a> (int i, uint32_t agent, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;bulletins, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="memdesc:ae5fac93ecc2de57ead73a4529b95d917"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit une ligne de bulletin de paye pour un agent donné dans le fichier CSV Bulletins.paie <br />
+Ajoute les colonnes Annee et Mois en début de fichier <br />
+Ajoute les colonnes Budget, Employeur, Siret et Etablissement Ajoute les colonnes Echelon, Categorie et NIR en fin de fichier <br />
+.  <a href="#ae5fac93ecc2de57ead73a4529b95d917">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ae5fac93ecc2de57ead73a4529b95d917"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a916e1e5b2942bd8d0c96914172abefc2"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a916e1e5b2942bd8d0c96914172abefc2">ECRIRE_LIGNE_BULLETINS</a> (int i, uint32_t agent, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;bulletins, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="memdesc:a916e1e5b2942bd8d0c96914172abefc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit une ligne de bulletin de paye pour un agent donné dans le fichier CSV Bulletins.paie <br />
+Ajoute les colonnes Annee et Mois en début de fichier <br />
+Ajoute les colonnes Categorie et NIR en fin de fichier <br />
+.  <a href="#a916e1e5b2942bd8d0c96914172abefc2">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a916e1e5b2942bd8d0c96914172abefc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81cadaba9e542262f469cce0176edab7"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a81cadaba9e542262f469cce0176edab7">ECRIRE_LIGNE_BULLETINS_ECHELON</a> (int i, uint32_t agent, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;bulletins, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="memdesc:a81cadaba9e542262f469cce0176edab7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit une ligne de bulletin de paye pour un agent donné dans le fichier CSV Bulletins.paie <br />
+Ajoute les colonnes Annee et Mois en début de fichier <br />
+Ajoute les colonnes Echelon, Categorie et NIR en fin de fichier <br />
+.  <a href="#a81cadaba9e542262f469cce0176edab7">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a81cadaba9e542262f469cce0176edab7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76d65e4a709ff415979be1460608f6ab"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a76d65e4a709ff415979be1460608f6ab">ECRIRE_LIGNE_l</a> (int i, uint32_t agent, int l, char *type, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;base, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="memdesc:a76d65e4a709ff415979be1460608f6ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table <br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes.  <a href="#a76d65e4a709ff415979be1460608f6ab">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a76d65e4a709ff415979be1460608f6ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1e1ec482bbaf2ed7cfffe4dc2f4f42d"><td class="memItemLeft" align="right" valign="top">static void <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d">ECRIRE_LIGNE_l_COMMUN</a> (int i, uint32_t agent, int l, char *type, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;base, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="memdesc:aa1e1ec482bbaf2ed7cfffe4dc2f4f42d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table.  <a href="#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d">Plus de détails...</a><br /></td></tr>
+<tr class="separator:aa1e1ec482bbaf2ed7cfffe4dc2f4f42d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fee89611cf768d7f527283808fd5a83"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a2fee89611cf768d7f527283808fd5a83">ECRIRE_LIGNE_l_ECHELON</a> (int i, uint32_t agent, int l, char *type, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;base, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="memdesc:a2fee89611cf768d7f527283808fd5a83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table<br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes.  <a href="#a2fee89611cf768d7f527283808fd5a83">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a2fee89611cf768d7f527283808fd5a83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72acdb89510299d6bd8136ab10ccce65"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a72acdb89510299d6bd8136ab10ccce65">ECRIRE_LIGNE_l_GENERER_RANG</a> (int i, uint32_t agent, int l, char *type, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;base, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int rang)</td></tr>
+<tr class="memdesc:a72acdb89510299d6bd8136ab10ccce65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier <br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Optionnellement ajoute le Budget, l'Employeur, le Siret et l'Etablissement comme colonnes suivantes<br />
+Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes.  <a href="#a72acdb89510299d6bd8136ab10ccce65">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a72acdb89510299d6bd8136ab10ccce65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4690b0ec4007e562e68502017efc011"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#ac4690b0ec4007e562e68502017efc011">ECRIRE_LIGNE_l_GENERER_RANG_ECHELON</a> (int i, uint32_t agent, int l, char *type, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;base, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int rang)</td></tr>
+<tr class="memdesc:ac4690b0ec4007e562e68502017efc011"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier<br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Optionnellement ajoute le Budget, l'Employeur, le Siret et l'Etablissement comme colonnes suivantes<br />
+Ajoute dans tous les cas l'Echelon, la Categorie ainsi que le NIR en dernières colonnes.  <a href="#ac4690b0ec4007e562e68502017efc011">Plus de détails...</a><br /></td></tr>
+<tr class="separator:ac4690b0ec4007e562e68502017efc011"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82d211f064919b7c49ce3afea746bd6c"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a82d211f064919b7c49ce3afea746bd6c">ECRIRE_LIGNE_l_SIRET</a> (int i, uint32_t agent, int l, char *type, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;base, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="memdesc:a82d211f064919b7c49ce3afea746bd6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table <br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Ajoute ensuite le Budget, l'Employeur, le Siret et l'Etablissement<br />
+Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes.  <a href="#a82d211f064919b7c49ce3afea746bd6c">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a82d211f064919b7c49ce3afea746bd6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9227a92c4b8fb92bd91242d938be476d"><td class="memItemLeft" align="right" valign="top">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a9227a92c4b8fb92bd91242d938be476d">ECRIRE_LIGNE_l_SIRET_ECHELON</a> (int i, uint32_t agent, int l, char *type, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;base, char sep, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;Info, int <a class="el" href="validator_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a> rang)</td></tr>
+<tr class="memdesc:a9227a92c4b8fb92bd91242d938be476d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table <br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Ajoute ensuite le Budget, l'Employeur, le Siret et l'Etablissement<br />
+Ajoute dans tous les cas l'Echelon, la Categorie ainsi que le NIR en dernières colonnes.  <a href="#a9227a92c4b8fb92bd91242d938be476d">Plus de détails...</a><br /></td></tr>
+<tr class="separator:a9227a92c4b8fb92bd91242d938be476d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a7d8eadca5dcf57c41dbd6e41cefc66b5"><td class="memItemLeft" align="right" valign="top">static int(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a7d8eadca5dcf57c41dbd6e41cefc66b5">ecrire_ligne_bulletin</a> )(int i, uint32_t, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;, char, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;, int)</td></tr>
+<tr class="separator:a7d8eadca5dcf57c41dbd6e41cefc66b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87ddbe1f2671b5b150164ea868eba973"><td class="memItemLeft" align="right" valign="top">static int(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#a87ddbe1f2671b5b150164ea868eba973">ecrire_ligne_table</a> )(int, uint32_t, int, char *, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;, char, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;, int)</td></tr>
+<tr class="separator:a87ddbe1f2671b5b150164ea868eba973"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc7ca1c88e2775f4daf5f4552de5a676"><td class="memItemLeft" align="right" valign="top">static const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table_8cpp.html#acc7ca1c88e2775f4daf5f4552de5a676">type_remuneration_traduit</a> []</td></tr>
+<tr class="separator:acc7ca1c88e2775f4daf5f4552de5a676"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Description détaillée</h2>
+<div class="textblock"><p>Ce fichier contient l'ensemble du code permettant de générer les fichiers des bulletins de paye et lignes de paye au format CSV. </p>
+<dl class="section author"><dt>Auteur</dt><dd>Fabrice Nicol </dd></dl>
+
+<p class="definition">Définition dans le fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+</div><h2 class="groupheader">Documentation des macros</h2>
+<a id="af69fb23ca3bfda461aabe069444e07be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af69fb23ca3bfda461aabe069444e07be">&#9670;&nbsp;</a></span>table_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define table_t&#160;&#160;&#160;ostringstream</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00080">80</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a57a4f130db7a35f46be02c36d8235550"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57a4f130db7a35f46be02c36d8235550">&#9670;&nbsp;</a></span>VAR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define VAR</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">X</td><td>)</td>
+          <td>&#160;&#160;&#160;Info[i].Table[agent][X]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00073">73</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="table_8cpp_source.html#l00596">boucle_ecriture()</a>, <a class="el" href="table_8cpp_source.html#l00358">ECRIRE_LIGNE_BULLETIN_COMMUN()</a>, <a class="el" href="table_8cpp_source.html#l00392">ECRIRE_LIGNE_BULLETIN_GENERER_RANG()</a>, <a class="el" href="table_8cpp_source.html#l00429">ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON()</a>, <a class="el" href="table_8cpp_source.html#l00468">ECRIRE_LIGNE_BULLETIN_SIRET()</a>, <a class="el" href="table_8cpp_source.html#l00500">ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON()</a>, <a class="el" href="table_8cpp_source.html#l00532">ECRIRE_LIGNE_BULLETINS()</a>, <a class="el" href="table_8cpp_source.html#l00557">ECRIRE_LIGNE_BULLETINS_ECHELON()</a>, <a class="el" href="table_8cpp_source.html#l00285">ECRIRE_LIGNE_l()</a>, <a class="el" href="table_8cpp_source.html#l00093">ECRIRE_LIGNE_l_COMMUN()</a>, <a class="el" href="table_8cpp_source.html#l00313">ECRIRE_LIGNE_l_ECHELON()</a>, <a class="el" href="table_8cpp_source.html#l00138">ECRIRE_LIGNE_l_GENERER_RANG()</a>, <a class="el" href="table_8cpp_source.html#l00176">ECRIRE_LIGNE_l_GENERER_RANG_ECHELON()</a>, <a class="el" href="table_8cpp_source.html#l00215">ECRIRE_LIGNE_l_SIRET()</a>, et <a class="el" href="table_8cpp_source.html#l00250">ECRIRE_LIGNE_l_SIRET_ECHELON()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Documentation des fonctions</h2>
+<a id="a666a48e623a324e4c739c91c1ea9adf7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a666a48e623a324e4c739c91c1ea9adf7">&#9670;&nbsp;</a></span>boucle_ecriture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">pair&lt;uint64_t, uint32_t&gt; boucle_ecriture </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nsegment</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Lance l'écriture des fichiers Bulletins.paie.csv et Table....csv<br />
+pour un segment des données de paye, et à partir de l'ensemble des données de paye décodées. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Info</td><td>Vecteur de l'ensemble des données <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> de paye décodées (un membre du vecteur par fil d'exécution). </td></tr>
+    <tr><td class="paramname">nsegment</td><td>Rang du segment dans l'ensemble des segments de données de paye. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Le comportament de cette fonction est fortement dépendant des valeurs de :<br />
+<ul>
+<li>
+Info[0].generer_rang (-rank)<br />
+</li>
+<li>
+Info[0].separateur (x dans -s x) <br />
+</li>
+<li>
+Info[0].taille_base (x numérique dans -T x)<br />
+</li>
+<li>
+Info[0].type_base (x dans -T x si x est dans {"X", "AN", "A", "AC", "AV", "C", "D", "I", "IR", "RE", "S", "T"} <br />
+</li>
+<li>
+Info[0].select_echelon (-E) <br />
+</li>
+<li>
+Info[0].select_siret (-S) <br />
+</li>
+</ul>
+<br />
+Le rang de la ligne sera généré en première colonne si -rank est dans la ligne de commande<br />
+Le séparateur CSV est donné par -s <br />
+La taille de la base induit les découpages de base en morceaux de taille fixe <br />
+Le type de la base induit une limitation sur la catégorie de lignes de paye exportées <br />
+L'échelon et l'ensemble Budget-Employeur-Siret-Etablissement sont des colonnes optionnelles <br />
+</dd></dl>
+<dl class="section return"><dt>Renvoie</dt><dd>Paire du nombre de lignes de paye et du nombre de ligne de bulletins exportés. </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00596">596</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+<p class="reference">Références <a class="el" href="validator_8h_source.html#l00137">Annee</a>, <a class="el" href="validator_8h_source.html#l00132">BESOIN_MEMOIRE_ENTETE</a>, <a class="el" href="table_8cpp_source.html#l00574">ecrire_ligne_bulletin</a>, <a class="el" href="table_8cpp_source.html#l00392">ECRIRE_LIGNE_BULLETIN_GENERER_RANG()</a>, <a class="el" href="table_8cpp_source.html#l00429">ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON()</a>, <a class="el" href="table_8cpp_source.html#l00468">ECRIRE_LIGNE_BULLETIN_SIRET()</a>, <a class="el" href="table_8cpp_source.html#l00500">ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON()</a>, <a class="el" href="table_8cpp_source.html#l00532">ECRIRE_LIGNE_BULLETINS()</a>, <a class="el" href="table_8cpp_source.html#l00557">ECRIRE_LIGNE_BULLETINS_ECHELON()</a>, <a class="el" href="table_8cpp_source.html#l00285">ECRIRE_LIGNE_l()</a>, <a class="el" href="table_8cpp_source.html#l00313">ECRIRE_LIGNE_l_ECHELON()</a>, <a class="el" href="table_8cpp_source.html#l00138">ECRIRE_LIGNE_l_GENERER_RANG()</a>, <a class="el" href="table_8cpp_source.html#l00176">ECRIRE_LIGNE_l_GENERER_RANG_ECHELON()</a>, <a class="el" href="table_8cpp_source.html#l00215">ECRIRE_LIGNE_l_SIRET()</a>, <a class="el" href="table_8cpp_source.html#l00250">ECRIRE_LIGNE_l_SIRET_ECHELON()</a>, <a class="el" href="table_8cpp_source.html#l00573">ecrire_ligne_table</a>, <a class="el" href="tags_8h_source.html#l00084">ENDL</a>, <a class="el" href="tags_8h_source.html#l00082">ERROR_HTML_TAG</a>, <a class="el" href="validator_8h_source.html#l00129">INDEX_MAX_COLONNNES</a>, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742a04587a57da129affd899aba9fb79cb79">MAXIMUM_LIGNES</a>, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742ad66f3084ab689a74cd89aa2c955a7a92">MAXIMUM_LIGNES_PAR_ANNEE</a>, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742a1dac6caf72a9bbfcc5905afcbead6694">MONOLITHIQUE</a>, <a class="el" href="validator_8h_source.html#l00215">NA_STRING</a>, <a class="el" href="validator_8h_source.html#l00282">nbType</a>, <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00468">ouvrir_fichier_base()</a>, <a class="el" href="fonctions__auxiliaires_8cpp_source.html#l00461">ouvrir_fichier_bulletins()</a>, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742a189bc925fa08c45abfd7e95efe38a524">PAR_ACOMPTE</a>, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742aa80c0e7bd2a55be38daba35e4d064ccb">PAR_AGENT</a>, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742a220047eb474ee8d57c3387f17d055070">PAR_ANNEE</a>, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742a3af000c2a1d2018c06fac033e97d782b">PAR_AVANTAGE_NATURE</a>, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742ac58f466ed79b0a258f5ead230a569cb5">PAR_COTISATION</a>, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742a3159795d9e13ed40c6e8983dba902f46">PAR_DEDUCTION</a>, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742ae96dd95d50da3003a16ac645e908f21b">PAR_INDEMNITE</a>, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742ac8aea3b9a9f37ca830f3462a6d34db62">PAR_INDEMNITE_RESIDENCE</a>, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742ad4cf38a43caae2f8561007f1256b43a2">PAR_RAPPEL</a>, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742ab4091752a6d7af0532c0f1d974d88797">PAR_REM_DIVERSES</a>, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742a5af5d71438a250c418747a7e74d7a665">PAR_RETENUE</a>, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742a9d479bd6925587fb628a2dd537af9af7">PAR_SFT</a>, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742ac3e5e87310b05fc1b65829e85509e10e">PAR_TRAITEMENT</a>, <a class="el" href="tags_8h_source.html#l00085">SPACER</a>, <a class="el" href="tags_8h_source.html#l00079">STATE_HTML_TAG</a>, <a class="el" href="validator_8h.html#a355dd1f0ced52d638bf4cfa663ff7742a1ca63713b4bf5ee875b2070f1331432d">TOUTES_CATEGORIES</a>, <a class="el" href="table_8cpp_source.html#l00057">type_remuneration_traduit</a>, et <a class="el" href="table_8cpp_source.html#l00073">VAR</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="lhx_2main_8cpp_source.html#l01207">produire_segment()</a>.</p>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 1 -->
+</div>
+</div>
+<div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-2-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 2 -->
+</div>
+</div>
+
+</div>
+</div>
+<a id="a4c2fb8f5119259a3b8fd7e2867a554d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c2fb8f5119259a3b8fd7e2867a554d2">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_BULLETIN_COMMUN()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_BULLETIN_COMMUN </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>bulletins</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int <a class="el" href="validator_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ecrit une ligne de bulletin de paye pour un agent donné dans le fichier CSV Bulletins.paie <br />
+. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Rang du fil d'exécution </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent </td></tr>
+    <tr><td class="paramname">bulletins</td><td>Base de type ofstream permettant d'écrire le fichier CSV </td></tr>
+    <tr><td class="paramname">sep</td><td>Séparateur de champs CSV (usuellement ';') </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les bases de paye décodées </td></tr>
+    <tr><td class="paramname">rang</td><td>Inutilisé </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>les variables communes à tous les bulletins de paye sont : <br />
+<ul>
+<li>
+Nom : Nom de l'agent </li>
+<li>
+Prenom : Prénom de l'agent </li>
+<li>
+Matricule : Matricule de l'agent </li>
+<li>
+Service : Service de l'agent </li>
+<li>
+NbEnfants : Nombre d'enfants de l'agent </li>
+<li>
+Statut : Statut de l'agent (TITULAIRE, NON_TITULAIRE, STAGIAIRE, EMPLOI_AIDE, EMPLOI_FONCTIONNEL....) </li>
+<li>
+QuotiteTrav : Quotité admnistrative (sur 100) </li>
+<li>
+NbHeureSup : Nombre d'heures supplémentaires </li>
+<li>
+NbHeureTotal : Nombre d'heures total </li>
+<li>
+Indice : Indice </li>
+<li>
+MtBrut : Montant brut </li>
+<li>
+MtNet : Montant net </li>
+<li>
+MtNetAPayer : Montant net à payer </li>
+<li>
+NBI : Nouvelle bonification indiciaire </li>
+<li>
+EmploiMetier : Libellé de l'emploi </li>
+<li>
+Grade : Libellé du grade </li>
+<li>
+Code : Code de l'événement de paye </li>
+<li>
+Description : Description de l'événement de paye </li>
+</ul>
+</dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00358">358</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+<p class="reference">Références <a class="el" href="validator_8h_source.html#l00139">Code</a>, <a class="el" href="validator_8h_source.html#l00139">Description</a>, <a class="el" href="validator_8h_source.html#l00139">EmploiMetier</a>, <a class="el" href="validator_8h_source.html#l00139">Grade</a>, <a class="el" href="validator_8h_source.html#l00139">Indice</a>, <a class="el" href="validator_8h_source.html#l00138">Matricule</a>, <a class="el" href="validator_8h_source.html#l00140">MtBrut</a>, <a class="el" href="validator_8h_source.html#l00140">MtNet</a>, <a class="el" href="validator_8h_source.html#l00140">MtNetAPayer</a>, <a class="el" href="validator_8h_source.html#l00138">NbEnfants</a>, <a class="el" href="validator_8h_source.html#l00140">NbHeureSup</a>, <a class="el" href="validator_8h_source.html#l00140">NbHeureTotal</a>, <a class="el" href="validator_8h_source.html#l00139">NBI</a>, <a class="el" href="validator_8h_source.html#l00138">Nom</a>, <a class="el" href="validator_8h_source.html#l00138">Prenom</a>, <a class="el" href="validator_8h_source.html#l00139">QuotiteTrav</a>, <a class="el" href="validator_8h_source.html#l00139">Service</a>, <a class="el" href="validator_8h_source.html#l00138">Statut</a>, et <a class="el" href="table_8cpp_source.html#l00073">VAR</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="table_8cpp_source.html#l00392">ECRIRE_LIGNE_BULLETIN_GENERER_RANG()</a>, <a class="el" href="table_8cpp_source.html#l00429">ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON()</a>, <a class="el" href="table_8cpp_source.html#l00468">ECRIRE_LIGNE_BULLETIN_SIRET()</a>, <a class="el" href="table_8cpp_source.html#l00500">ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON()</a>, <a class="el" href="table_8cpp_source.html#l00532">ECRIRE_LIGNE_BULLETINS()</a>, et <a class="el" href="table_8cpp_source.html#l00557">ECRIRE_LIGNE_BULLETINS_ECHELON()</a>.</p>
+<div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-3-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 3 -->
+</div>
+</div>
+
+</div>
+</div>
+<a id="ac961030aff2e8f0da8ff2788c16e2272"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac961030aff2e8f0da8ff2788c16e2272">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_BULLETIN_GENERER_RANG()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_BULLETIN_GENERER_RANG </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>bulletins</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ecrit une ligne de bulletin de paye pour un agent donné dans le fichier CSV Bulletins.paie et, en outre, génère le rang de la ligne dans le fichier<br />
+Ajoute les colonnes Annee et Mois en début de fichier <br />
+Ajoute optionnellement les colonnes Budget, Employeur, Siret et Etablissement Ajoute les colonnes Categorie et NIR en fin de fichier <br />
+. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Rang du fil d'exécution </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent </td></tr>
+    <tr><td class="paramname">bulletins</td><td>Base de type ofstream permettant d'écrire le fichier CSV </td></tr>
+    <tr><td class="paramname">sep</td><td>Séparateur de champs CSV (usuellement ';') </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les bases de paye décodées </td></tr>
+    <tr><td class="paramname">rang</td><td>Rang de la ligne </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Si la variable Annee contient le caractère <code>*</code> en tête de chaîne, la ligne est sautée </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00392">392</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+<p class="reference">Références <a class="el" href="validator_8h_source.html#l00137">Annee</a>, <a class="el" href="validator_8h_source.html#l00137">Budget</a>, <a class="el" href="validator_8h_source.html#l00140">Categorie</a>, <a class="el" href="table_8cpp_source.html#l00358">ECRIRE_LIGNE_BULLETIN_COMMUN()</a>, <a class="el" href="validator_8h_source.html#l00137">Employeur</a>, <a class="el" href="validator_8h_source.html#l00137">Etablissement</a>, <a class="el" href="validator_8h_source.html#l00137">Mois</a>, <a class="el" href="validator_8h_source.html#l00138">NIR</a>, <a class="el" href="validator_8h_source.html#l00137">Siret</a>, et <a class="el" href="table_8cpp_source.html#l00073">VAR</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="table_8cpp_source.html#l00596">boucle_ecriture()</a>.</p>
+<div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-4-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-4-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 4 -->
+</div>
+</div>
+<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-5-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 5 -->
+</div>
+</div>
+
+</div>
+</div>
+<a id="ac99b105f075700364aa7b14d11ceab7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac99b105f075700364aa7b14d11ceab7b">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_BULLETIN_GENERER_RANG_ECHELON </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>bulletins</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ecrit une ligne de bulletin de paye pour un agent donné dans le fichier CSV Bulletins.paie et, en outre, génère le rang de la ligne dans le fichier<br />
+Ajoute les colonnes Annee et Mois en début de fichier <br />
+Ajoute optionnellement les colonnes Budget, Employeur, Siret et Etablissement Ajoute les colonnes Echelon, Categorie et NIR en fin de fichier <br />
+. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Rang du fil d'exécution </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent </td></tr>
+    <tr><td class="paramname">bulletins</td><td>Base de type ofstream permettant d'écrire le fichier CSV </td></tr>
+    <tr><td class="paramname">sep</td><td>Séparateur de champs CSV (usuellement ';') </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les bases de paye décodées </td></tr>
+    <tr><td class="paramname">rang</td><td>Rang de la ligne </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Si la variable Annee contient le caractère <code>*</code> en tête de chaîne, la ligne est sautée </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00429">429</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+<p class="reference">Références <a class="el" href="validator_8h_source.html#l00137">Annee</a>, <a class="el" href="validator_8h_source.html#l00137">Budget</a>, <a class="el" href="validator_8h_source.html#l00140">Categorie</a>, <a class="el" href="validator_8h_source.html#l00139">Echelon</a>, <a class="el" href="table_8cpp_source.html#l00358">ECRIRE_LIGNE_BULLETIN_COMMUN()</a>, <a class="el" href="validator_8h_source.html#l00137">Employeur</a>, <a class="el" href="validator_8h_source.html#l00137">Etablissement</a>, <a class="el" href="validator_8h_source.html#l00137">Mois</a>, <a class="el" href="validator_8h_source.html#l00138">NIR</a>, <a class="el" href="validator_8h_source.html#l00137">Siret</a>, et <a class="el" href="table_8cpp_source.html#l00073">VAR</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="table_8cpp_source.html#l00596">boucle_ecriture()</a>.</p>
+<div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-6-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-6-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 6 -->
+</div>
+</div>
+<div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-7-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 7 -->
+</div>
+</div>
+
+</div>
+</div>
+<a id="a96061df9a94d349009a11fa399bbec5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96061df9a94d349009a11fa399bbec5c">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_BULLETIN_SIRET()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_BULLETIN_SIRET </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>bulletins</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int <a class="el" href="validator_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ecrit une ligne de bulletin de paye pour un agent donné dans le fichier CSV Bulletins.paie <br />
+Ajoute les colonnes Annee et Mois en début de fichier <br />
+Ajoute les colonnes Budget, Employeur, Siret et Etablissement Ajoute les colonnes Categorie et NIR en fin de fichier <br />
+. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Rang du fil d'exécution </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent </td></tr>
+    <tr><td class="paramname">bulletins</td><td>Base de type ofstream permettant d'écrire le fichier CSV </td></tr>
+    <tr><td class="paramname">sep</td><td>Séparateur de champs CSV (usuellement ';') </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les bases de paye décodées </td></tr>
+    <tr><td class="paramname">rang</td><td>Rang de la ligne </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Si la variable Annee contient le caractère <code>*</code> en tête de chaîne, la ligne est sautée </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00468">468</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+<p class="reference">Références <a class="el" href="validator_8h_source.html#l00137">Annee</a>, <a class="el" href="validator_8h_source.html#l00137">Budget</a>, <a class="el" href="validator_8h_source.html#l00140">Categorie</a>, <a class="el" href="table_8cpp_source.html#l00358">ECRIRE_LIGNE_BULLETIN_COMMUN()</a>, <a class="el" href="validator_8h_source.html#l00137">Employeur</a>, <a class="el" href="validator_8h_source.html#l00137">Etablissement</a>, <a class="el" href="validator_8h_source.html#l00137">Mois</a>, <a class="el" href="validator_8h_source.html#l00138">NIR</a>, <a class="el" href="validator_8h_source.html#l00137">Siret</a>, et <a class="el" href="table_8cpp_source.html#l00073">VAR</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="table_8cpp_source.html#l00596">boucle_ecriture()</a>.</p>
+<div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-8-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-8-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 8 -->
+</div>
+</div>
+<div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-9-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-9-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-9-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 9 -->
+</div>
+</div>
+
+</div>
+</div>
+<a id="ae5fac93ecc2de57ead73a4529b95d917"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5fac93ecc2de57ead73a4529b95d917">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_BULLETIN_SIRET_ECHELON </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>bulletins</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int <a class="el" href="validator_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ecrit une ligne de bulletin de paye pour un agent donné dans le fichier CSV Bulletins.paie <br />
+Ajoute les colonnes Annee et Mois en début de fichier <br />
+Ajoute les colonnes Budget, Employeur, Siret et Etablissement Ajoute les colonnes Echelon, Categorie et NIR en fin de fichier <br />
+. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Rang du fil d'exécution </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent </td></tr>
+    <tr><td class="paramname">bulletins</td><td>Base de type ofstream permettant d'écrire le fichier CSV </td></tr>
+    <tr><td class="paramname">sep</td><td>Séparateur de champs CSV (usuellement ';') </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les bases de paye décodées </td></tr>
+    <tr><td class="paramname">rang</td><td>Rang de la ligne </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Si la variable Annee contient le caractère <code>*</code> en tête de chaîne, la ligne est sautée </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00500">500</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+<p class="reference">Références <a class="el" href="validator_8h_source.html#l00137">Annee</a>, <a class="el" href="validator_8h_source.html#l00137">Budget</a>, <a class="el" href="validator_8h_source.html#l00140">Categorie</a>, <a class="el" href="validator_8h_source.html#l00139">Echelon</a>, <a class="el" href="table_8cpp_source.html#l00358">ECRIRE_LIGNE_BULLETIN_COMMUN()</a>, <a class="el" href="validator_8h_source.html#l00137">Employeur</a>, <a class="el" href="validator_8h_source.html#l00137">Etablissement</a>, <a class="el" href="validator_8h_source.html#l00137">Mois</a>, <a class="el" href="validator_8h_source.html#l00138">NIR</a>, <a class="el" href="validator_8h_source.html#l00137">Siret</a>, et <a class="el" href="table_8cpp_source.html#l00073">VAR</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="table_8cpp_source.html#l00596">boucle_ecriture()</a>.</p>
+<div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-10-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-10-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-10-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 10 -->
+</div>
+</div>
+<div id="dynsection-11" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-11-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-11-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-11-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 11 -->
+</div>
+</div>
+
+</div>
+</div>
+<a id="a916e1e5b2942bd8d0c96914172abefc2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a916e1e5b2942bd8d0c96914172abefc2">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_BULLETINS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_BULLETINS </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>bulletins</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int <a class="el" href="validator_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ecrit une ligne de bulletin de paye pour un agent donné dans le fichier CSV Bulletins.paie <br />
+Ajoute les colonnes Annee et Mois en début de fichier <br />
+Ajoute les colonnes Categorie et NIR en fin de fichier <br />
+. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Rang du fil d'exécution </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent </td></tr>
+    <tr><td class="paramname">bulletins</td><td>Base de type ofstream permettant d'écrire le fichier CSV </td></tr>
+    <tr><td class="paramname">sep</td><td>Séparateur de champs CSV (usuellement ';') </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les bases de paye décodées </td></tr>
+    <tr><td class="paramname">rang</td><td>Rang de la ligne </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Si la variable Annee contient le caractère <code>*</code> en tête de chaîne, la ligne est sautée </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00532">532</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+<p class="reference">Références <a class="el" href="validator_8h_source.html#l00137">Annee</a>, <a class="el" href="validator_8h_source.html#l00140">Categorie</a>, <a class="el" href="table_8cpp_source.html#l00358">ECRIRE_LIGNE_BULLETIN_COMMUN()</a>, <a class="el" href="validator_8h_source.html#l00137">Mois</a>, <a class="el" href="validator_8h_source.html#l00138">NIR</a>, et <a class="el" href="table_8cpp_source.html#l00073">VAR</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="table_8cpp_source.html#l00596">boucle_ecriture()</a>.</p>
+<div id="dynsection-12" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-12-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-12-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-12-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 12 -->
+</div>
+</div>
+<div id="dynsection-13" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-13-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-13-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-13-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 13 -->
+</div>
+</div>
+
+</div>
+</div>
+<a id="a81cadaba9e542262f469cce0176edab7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81cadaba9e542262f469cce0176edab7">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_BULLETINS_ECHELON()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_BULLETINS_ECHELON </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>bulletins</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int <a class="el" href="validator_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ecrit une ligne de bulletin de paye pour un agent donné dans le fichier CSV Bulletins.paie <br />
+Ajoute les colonnes Annee et Mois en début de fichier <br />
+Ajoute les colonnes Echelon, Categorie et NIR en fin de fichier <br />
+. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Rang du fil d'exécution </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent </td></tr>
+    <tr><td class="paramname">bulletins</td><td>Base de type ofstream permettant d'écrire le fichier CSV </td></tr>
+    <tr><td class="paramname">sep</td><td>Séparateur de champs CSV (usuellement ';') </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les bases de paye décodées </td></tr>
+    <tr><td class="paramname">rang</td><td>Rang de la ligne </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Si la variable Annee contient le caractère <code>*</code> en tête de chaîne, la ligne est sautée </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00557">557</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+<p class="reference">Références <a class="el" href="validator_8h_source.html#l00137">Annee</a>, <a class="el" href="validator_8h_source.html#l00140">Categorie</a>, <a class="el" href="validator_8h_source.html#l00139">Echelon</a>, <a class="el" href="table_8cpp_source.html#l00358">ECRIRE_LIGNE_BULLETIN_COMMUN()</a>, <a class="el" href="validator_8h_source.html#l00137">Mois</a>, <a class="el" href="validator_8h_source.html#l00138">NIR</a>, et <a class="el" href="table_8cpp_source.html#l00073">VAR</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="table_8cpp_source.html#l00596">boucle_ecriture()</a>.</p>
+<div id="dynsection-14" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-14-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-14-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-14-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 14 -->
+</div>
+</div>
+<div id="dynsection-15" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-15-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-15-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-15-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 15 -->
+</div>
+</div>
+
+</div>
+</div>
+<a id="a76d65e4a709ff415979be1460608f6ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76d65e4a709ff415979be1460608f6ab">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_l()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_l </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int <a class="el" href="validator_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table <br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Rang du fil d'exécution </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent </td></tr>
+    <tr><td class="paramname">l</td><td>Index permettant de localiser le premier champ de la ligne de paye </td></tr>
+    <tr><td class="paramname">type</td><td>Type de ligne de paye </td></tr>
+    <tr><td class="paramname">base</td><td>Base de type ofstream permettant d'écrire le fichier CSV </td></tr>
+    <tr><td class="paramname">sep</td><td>Séparateur de champs CSV (usuellement ';') </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les bases de paye décodées </td></tr>
+    <tr><td class="paramname">rang</td><td>Inutilisé </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Si la variable Annee contient le caractère <code>*</code> en tête de chaîne, la ligne est sautée </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00285">285</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+<p class="reference">Références <a class="el" href="validator_8h_source.html#l00137">Annee</a>, <a class="el" href="validator_8h_source.html#l00140">Categorie</a>, <a class="el" href="table_8cpp_source.html#l00093">ECRIRE_LIGNE_l_COMMUN()</a>, <a class="el" href="validator_8h_source.html#l00137">Mois</a>, <a class="el" href="validator_8h_source.html#l00138">NIR</a>, et <a class="el" href="table_8cpp_source.html#l00073">VAR</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="table_8cpp_source.html#l00596">boucle_ecriture()</a>.</p>
+<div id="dynsection-16" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-16-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-16-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-16-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 16 -->
+</div>
+</div>
+<div id="dynsection-17" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-17-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-17-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-17-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 17 -->
+</div>
+</div>
+
+</div>
+</div>
+<a id="aa1e1ec482bbaf2ed7cfffe4dc2f4f42d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1e1ec482bbaf2ed7cfffe4dc2f4f42d">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_l_COMMUN()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_l_COMMUN </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int <a class="el" href="validator_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Rang du fil d'exécution </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent </td></tr>
+    <tr><td class="paramname">l</td><td>Index permettant de localiser le premier champ de la ligne de paye </td></tr>
+    <tr><td class="paramname">type</td><td>Type de ligne de paye </td></tr>
+    <tr><td class="paramname">base</td><td>Base de type ofstream permettant d'écrire le fichier CSV </td></tr>
+    <tr><td class="paramname">sep</td><td>Séparateur de champs CSV (usuellement ';') </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les bases de paye décodées </td></tr>
+    <tr><td class="paramname">rang</td><td>Inutilisé </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00093">93</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+<p class="reference">Références <a class="el" href="validator_8h_source.html#l00139">EmploiMetier</a>, <a class="el" href="validator_8h_source.html#l00139">Grade</a>, <a class="el" href="validator_8h_source.html#l00129">INDEX_MAX_COLONNNES</a>, <a class="el" href="validator_8h_source.html#l00139">Indice</a>, <a class="el" href="validator_8h_source.html#l00138">Matricule</a>, <a class="el" href="validator_8h_source.html#l00140">MtBrut</a>, <a class="el" href="validator_8h_source.html#l00140">MtNet</a>, <a class="el" href="validator_8h_source.html#l00140">MtNetAPayer</a>, <a class="el" href="validator_8h_source.html#l00138">NbEnfants</a>, <a class="el" href="validator_8h_source.html#l00140">NbHeureSup</a>, <a class="el" href="validator_8h_source.html#l00140">NbHeureTotal</a>, <a class="el" href="validator_8h_source.html#l00139">NBI</a>, <a class="el" href="validator_8h_source.html#l00138">Nom</a>, <a class="el" href="validator_8h_source.html#l00138">Prenom</a>, <a class="el" href="validator_8h_source.html#l00139">QuotiteTrav</a>, <a class="el" href="validator_8h_source.html#l00139">Service</a>, <a class="el" href="validator_8h_source.html#l00138">Statut</a>, et <a class="el" href="table_8cpp_source.html#l00073">VAR</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="table_8cpp_source.html#l00285">ECRIRE_LIGNE_l()</a>, <a class="el" href="table_8cpp_source.html#l00313">ECRIRE_LIGNE_l_ECHELON()</a>, <a class="el" href="table_8cpp_source.html#l00138">ECRIRE_LIGNE_l_GENERER_RANG()</a>, <a class="el" href="table_8cpp_source.html#l00176">ECRIRE_LIGNE_l_GENERER_RANG_ECHELON()</a>, <a class="el" href="table_8cpp_source.html#l00215">ECRIRE_LIGNE_l_SIRET()</a>, et <a class="el" href="table_8cpp_source.html#l00250">ECRIRE_LIGNE_l_SIRET_ECHELON()</a>.</p>
+<div id="dynsection-18" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-18-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-18-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-18-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 18 -->
+</div>
+</div>
+
+</div>
+</div>
+<a id="a2fee89611cf768d7f527283808fd5a83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fee89611cf768d7f527283808fd5a83">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_l_ECHELON()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_l_ECHELON </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int <a class="el" href="validator_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table<br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Rang du fil d'exécution </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent </td></tr>
+    <tr><td class="paramname">l</td><td>Index permettant de localiser le premier champ de la ligne de paye </td></tr>
+    <tr><td class="paramname">type</td><td>Type de ligne de paye </td></tr>
+    <tr><td class="paramname">base</td><td>Base de type ofstream permettant d'écrire le fichier CSV </td></tr>
+    <tr><td class="paramname">sep</td><td>Séparateur de champs CSV (usuellement ';') </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les bases de paye décodées </td></tr>
+    <tr><td class="paramname">rang</td><td>Inutilisé </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Si la variable Annee contient le caractère <code>*</code> en tête de chaîne, la ligne est sautée </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00313">313</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+<p class="reference">Références <a class="el" href="validator_8h_source.html#l00137">Annee</a>, <a class="el" href="validator_8h_source.html#l00140">Categorie</a>, <a class="el" href="validator_8h_source.html#l00139">Echelon</a>, <a class="el" href="table_8cpp_source.html#l00093">ECRIRE_LIGNE_l_COMMUN()</a>, <a class="el" href="validator_8h_source.html#l00137">Mois</a>, <a class="el" href="validator_8h_source.html#l00138">NIR</a>, et <a class="el" href="table_8cpp_source.html#l00073">VAR</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="table_8cpp_source.html#l00596">boucle_ecriture()</a>.</p>
+<div id="dynsection-19" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-19-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-19-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-19-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 19 -->
+</div>
+</div>
+<div id="dynsection-20" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-20-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-20-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-20-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 20 -->
+</div>
+</div>
+
+</div>
+</div>
+<a id="a72acdb89510299d6bd8136ab10ccce65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72acdb89510299d6bd8136ab10ccce65">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_l_GENERER_RANG()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_l_GENERER_RANG </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier <br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Optionnellement ajoute le Budget, l'Employeur, le Siret et l'Etablissement comme colonnes suivantes<br />
+Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Rang du fil d'exécution </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent </td></tr>
+    <tr><td class="paramname">l</td><td>Index permettant de localiser le premier champ de la ligne de paye </td></tr>
+    <tr><td class="paramname">type</td><td>Type de ligne de paye </td></tr>
+    <tr><td class="paramname">base</td><td>Base de type ofstream permettant d'écrire le fichier CSV </td></tr>
+    <tr><td class="paramname">sep</td><td>Séparateur de champs CSV (usuellement ';') </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les bases de paye décodées </td></tr>
+    <tr><td class="paramname">rang</td><td>Rang de la ligne </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Si la variable Annee contient le caractère <code>*</code> en tête de chaîne, la ligne est sautée </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00138">138</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+<p class="reference">Références <a class="el" href="validator_8h_source.html#l00137">Annee</a>, <a class="el" href="validator_8h_source.html#l00137">Budget</a>, <a class="el" href="validator_8h_source.html#l00140">Categorie</a>, <a class="el" href="table_8cpp_source.html#l00093">ECRIRE_LIGNE_l_COMMUN()</a>, <a class="el" href="validator_8h_source.html#l00137">Employeur</a>, <a class="el" href="validator_8h_source.html#l00137">Etablissement</a>, <a class="el" href="validator_8h_source.html#l00137">Mois</a>, <a class="el" href="validator_8h_source.html#l00138">NIR</a>, <a class="el" href="validator_8h_source.html#l00137">Siret</a>, et <a class="el" href="table_8cpp_source.html#l00073">VAR</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="table_8cpp_source.html#l00596">boucle_ecriture()</a>.</p>
+<div id="dynsection-21" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-21-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-21-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-21-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 21 -->
+</div>
+</div>
+<div id="dynsection-22" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-22-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-22-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-22-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 22 -->
+</div>
+</div>
+
+</div>
+</div>
+<a id="ac4690b0ec4007e562e68502017efc011"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4690b0ec4007e562e68502017efc011">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_l_GENERER_RANG_ECHELON()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_l_GENERER_RANG_ECHELON </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table et, en outre, génère le rang de la ligne dans le fichier<br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Optionnellement ajoute le Budget, l'Employeur, le Siret et l'Etablissement comme colonnes suivantes<br />
+Ajoute dans tous les cas l'Echelon, la Categorie ainsi que le NIR en dernières colonnes. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Rang du fil d'exécution </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent </td></tr>
+    <tr><td class="paramname">l</td><td>Index permettant de localiser le premier champ de la ligne de paye </td></tr>
+    <tr><td class="paramname">type</td><td>Type de ligne de paye </td></tr>
+    <tr><td class="paramname">base</td><td>Base de type ofstream permettant d'écrire le fichier CSV </td></tr>
+    <tr><td class="paramname">sep</td><td>Séparateur de champs CSV (usuellement ';') </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les bases de paye décodées </td></tr>
+    <tr><td class="paramname">rang</td><td>Rang de la ligne </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Si la variable Annee contient le caractère <code>*</code> en tête de chaîne, la ligne est sautée </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00176">176</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+<p class="reference">Références <a class="el" href="validator_8h_source.html#l00137">Annee</a>, <a class="el" href="validator_8h_source.html#l00137">Budget</a>, <a class="el" href="validator_8h_source.html#l00140">Categorie</a>, <a class="el" href="validator_8h_source.html#l00139">Echelon</a>, <a class="el" href="table_8cpp_source.html#l00093">ECRIRE_LIGNE_l_COMMUN()</a>, <a class="el" href="validator_8h_source.html#l00137">Employeur</a>, <a class="el" href="validator_8h_source.html#l00137">Etablissement</a>, <a class="el" href="validator_8h_source.html#l00137">Mois</a>, <a class="el" href="validator_8h_source.html#l00138">NIR</a>, <a class="el" href="validator_8h_source.html#l00137">Siret</a>, et <a class="el" href="table_8cpp_source.html#l00073">VAR</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="table_8cpp_source.html#l00596">boucle_ecriture()</a>.</p>
+<div id="dynsection-23" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-23-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-23-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-23-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 23 -->
+</div>
+</div>
+<div id="dynsection-24" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-24-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-24-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-24-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 24 -->
+</div>
+</div>
+
+</div>
+</div>
+<a id="a82d211f064919b7c49ce3afea746bd6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82d211f064919b7c49ce3afea746bd6c">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_l_SIRET()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_l_SIRET </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int <a class="el" href="validator_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table <br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Ajoute ensuite le Budget, l'Employeur, le Siret et l'Etablissement<br />
+Ajoute dans tous les cas la Categorie ainsi que le NIR en dernières colonnes. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Rang du fil d'exécution </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent </td></tr>
+    <tr><td class="paramname">l</td><td>Index permettant de localiser le premier champ de la ligne de paye </td></tr>
+    <tr><td class="paramname">type</td><td>Type de ligne de paye </td></tr>
+    <tr><td class="paramname">base</td><td>Base de type ofstream permettant d'écrire le fichier CSV </td></tr>
+    <tr><td class="paramname">sep</td><td>Séparateur de champs CSV (usuellement ';') </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les bases de paye décodées </td></tr>
+    <tr><td class="paramname">rang</td><td>Inutilisé </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Si la variable Annee contient le caractère <code>*</code> en tête de chaîne, la ligne est sautée </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00215">215</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+<p class="reference">Références <a class="el" href="validator_8h_source.html#l00137">Annee</a>, <a class="el" href="validator_8h_source.html#l00137">Budget</a>, <a class="el" href="validator_8h_source.html#l00140">Categorie</a>, <a class="el" href="table_8cpp_source.html#l00093">ECRIRE_LIGNE_l_COMMUN()</a>, <a class="el" href="validator_8h_source.html#l00137">Employeur</a>, <a class="el" href="validator_8h_source.html#l00137">Etablissement</a>, <a class="el" href="validator_8h_source.html#l00137">Mois</a>, <a class="el" href="validator_8h_source.html#l00138">NIR</a>, <a class="el" href="validator_8h_source.html#l00137">Siret</a>, et <a class="el" href="table_8cpp_source.html#l00073">VAR</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="table_8cpp_source.html#l00596">boucle_ecriture()</a>.</p>
+<div id="dynsection-25" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-25-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-25-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-25-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 25 -->
+</div>
+</div>
+<div id="dynsection-26" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-26-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-26-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-26-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 26 -->
+</div>
+</div>
+
+</div>
+</div>
+<a id="a9227a92c4b8fb92bd91242d938be476d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9227a92c4b8fb92bd91242d938be476d">&#9670;&nbsp;</a></span>ECRIRE_LIGNE_l_SIRET_ECHELON()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int <a class="el" href="altair_8h.html#a451bf468f4bb265aba601ce6e6a29969">GCC_INLINE</a> ECRIRE_LIGNE_l_SIRET_ECHELON </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>agent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>Info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int <a class="el" href="validator_8h.html#acdb9e31626067b6b21d531acd965185f">GCC_UNUSED</a>&#160;</td>
+          <td class="paramname"><em>rang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ecrit une ligne de paye pour un agent donné dans le fichier CSV Table <br />
+Ajoute l'Annee et le Mois comme deux premières colonnes<br />
+Ajoute ensuite le Budget, l'Employeur, le Siret et l'Etablissement<br />
+Ajoute dans tous les cas l'Echelon, la Categorie ainsi que le NIR en dernières colonnes. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Rang du fil d'exécution </td></tr>
+    <tr><td class="paramname">agent</td><td>Rang de l'agent </td></tr>
+    <tr><td class="paramname">l</td><td>Index permettant de localiser le premier champ de la ligne de paye </td></tr>
+    <tr><td class="paramname">type</td><td>Type de ligne de paye </td></tr>
+    <tr><td class="paramname">base</td><td>Base de type ofstream permettant d'écrire le fichier CSV </td></tr>
+    <tr><td class="paramname">sep</td><td>Séparateur de champs CSV (usuellement ';') </td></tr>
+    <tr><td class="paramname">Info</td><td>Vecteur de structures <a class="el" href="structinfo__t.html" title="Structure de stockage de l&#39;information sur les lignes de paye. ">info_t</a> contenant les bases de paye décodées </td></tr>
+    <tr><td class="paramname">rang</td><td>Inutilisé </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Si la variable Annee contient le caractère <code>*</code> en tête de chaîne, la ligne est sautée </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00250">250</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+<p class="reference">Références <a class="el" href="validator_8h_source.html#l00137">Annee</a>, <a class="el" href="validator_8h_source.html#l00137">Budget</a>, <a class="el" href="validator_8h_source.html#l00140">Categorie</a>, <a class="el" href="validator_8h_source.html#l00139">Echelon</a>, <a class="el" href="table_8cpp_source.html#l00093">ECRIRE_LIGNE_l_COMMUN()</a>, <a class="el" href="validator_8h_source.html#l00137">Employeur</a>, <a class="el" href="validator_8h_source.html#l00137">Etablissement</a>, <a class="el" href="validator_8h_source.html#l00137">Mois</a>, <a class="el" href="validator_8h_source.html#l00138">NIR</a>, <a class="el" href="validator_8h_source.html#l00137">Siret</a>, et <a class="el" href="table_8cpp_source.html#l00073">VAR</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="table_8cpp_source.html#l00596">boucle_ecriture()</a>.</p>
+<div id="dynsection-27" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-27-trigger" src="closed.png" alt="+"/> Voici le graphe d'appel pour cette fonction :</div>
+<div id="dynsection-27-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-27-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 27 -->
+</div>
+</div>
+<div id="dynsection-28" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-28-trigger" src="closed.png" alt="+"/> Voici le graphe des appelants de cette fonction :</div>
+<div id="dynsection-28-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-28-content" class="dyncontent" style="display:none;">
+<div class="center"><!-- SVG 28 -->
+</div>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Documentation des variables</h2>
+<a id="a7d8eadca5dcf57c41dbd6e41cefc66b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d8eadca5dcf57c41dbd6e41cefc66b5">&#9670;&nbsp;</a></span>ecrire_ligne_bulletin</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int(* ecrire_ligne_bulletin) (int i, uint32_t, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;, char, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;, int)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00574">574</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="table_8cpp_source.html#l00596">boucle_ecriture()</a>.</p>
+
+</div>
+</div>
+<a id="a87ddbe1f2671b5b150164ea868eba973"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87ddbe1f2671b5b150164ea868eba973">&#9670;&nbsp;</a></span>ecrire_ligne_table</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int(* ecrire_ligne_table) (int, uint32_t, int, char *, <a class="el" href="table_8cpp.html#af69fb23ca3bfda461aabe069444e07be">table_t</a> &amp;, char, vector&lt; <a class="el" href="structinfo__t.html">info_t</a> &gt; &amp;, int)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00573">573</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="table_8cpp_source.html#l00596">boucle_ecriture()</a>.</p>
+
+</div>
+</div>
+<a id="acc7ca1c88e2775f4daf5f4552de5a676"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc7ca1c88e2775f4daf5f4552de5a676">&#9670;&nbsp;</a></span>type_remuneration_traduit</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* type_remuneration_traduit[]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Valeur initiale :</b><div class="fragment"><div class="line">=</div><div class="line">{</div><div class="line">    <span class="stringliteral">&quot;T&quot;</span>,  </div><div class="line">    <span class="stringliteral">&quot;IR&quot;</span>, </div><div class="line">    <span class="stringliteral">&quot;S&quot;</span>,  </div><div class="line">    <span class="stringliteral">&quot;AV&quot;</span>, </div><div class="line">    <span class="stringliteral">&quot;I&quot;</span>,  </div><div class="line">    <span class="stringliteral">&quot;A&quot;</span>,  </div><div class="line">    <span class="stringliteral">&quot;D&quot;</span>,  </div><div class="line">    <span class="stringliteral">&quot;AC&quot;</span>, </div><div class="line">    <span class="stringliteral">&quot;R&quot;</span>,  </div><div class="line">    <span class="stringliteral">&quot;RE&quot;</span>, </div><div class="line">    <span class="stringliteral">&quot;C&quot;</span>,  </div><div class="line">    <span class="stringliteral">&quot;CO&quot;</span>  </div><div class="line">}</div></div><!-- fragment -->
+<p class="definition">Définition à la ligne <a class="el" href="table_8cpp_source.html#l00057">57</a> du fichier <a class="el" href="table_8cpp_source.html">table.cpp</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="table_8cpp_source.html#l00596">boucle_ecriture()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_f92775b0174f2bb7a0fa78a915496faf.html">lhx</a></li><li class="navelem"><a class="el" href="table_8cpp.html">table.cpp</a></li>
+    <li class="footer">Généré le Jeudi 16 Août 2018 02:04:58 par
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
+</body>
+</html>
