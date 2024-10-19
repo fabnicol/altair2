@@ -4,18 +4,13 @@
 --       AUTHOR:  Khaled Hosny, Élie Roux, Philipp Gesang
 -----------------------------------------------------------------------
 
-local ProvidesLuaModule = { 
+assert(luaotfload_module, "This is a part of luaotfload and should not be loaded independently") {
     name          = "luaotfload-auxiliary",
-    version       = "3.14",       --TAGVERSION
-    date          = "2020-05-06", --TAGDATE
+    version       = "3.28",       --TAGVERSION
+    date          = "2024-02-14", --TAGDATE
     description   = "luaotfload submodule / auxiliary functions",
     license       = "GPL v2.0"
 }
-
-if luatexbase and luatexbase.provides_module then
-  luatexbase.provides_module (ProvidesLuaModule)
-end  
-
 
 luaotfload                  = luaotfload or { }
 local log                   = luaotfload.log
@@ -589,6 +584,61 @@ function aux.provides_language(font_id, asked_script, asked_language)
 end
 
 --[[doc--
+A function to check if a font is a variabe font with a given axis.
+--doc]]--
+
+function aux.provides_axis(font_id, asked_axis)
+  if not font_id      or type (font_id)      ~= "number"
+  or not asked_axis or type (asked_axis) ~= "string"
+  then
+    logreport ("both", 0, "aux",
+               "invalid parameters to provides_axis(%s, %s)",
+               tostring (font_id), tostring (asked_axis))
+    return false
+  end
+  local tfmdata = identifiers[font_id]
+  if not tfmdata then
+    logreport ("log", 0, "aux", "no font with id %d", font_id)
+    return false
+  end
+  local hbface = get_hbface(tfmdata)
+  if hbface then
+    if not hbface:ot_var_has_data() then return false end
+
+    if #asked_axis <= 4 then
+      local tag = harf.Tag.new(asked_axis)
+      local info = hbface:ot_var_find_axis_info(tag)
+      if info then
+        return true -- TODO: More info?
+      end
+    end
+
+    asked_axis = stringlower(asked_axis)
+    local infos = hbface:ot_var_get_axis_infos()
+    for i=1, #infos do
+      local info = infos[i]
+      if hbface:get_name(info.name_id):lower() == asked_axis then
+        return true -- TODO: More info?
+      end
+    end
+  else
+    asked_axis = stringlower(asked_axis)
+    local resources = tfmdata.resources
+    local variabledata = resources and resources.variabledata
+    if not variabledata then return false end
+    local axes = variabledata.axis
+    if not axes then return false end -- Shouldn't happen
+    for i=1, #axes do
+      local axis = axes[i]
+      if axis.tag == asked_axis or axis.name == asked_axis then
+        return true -- TODO: More info?
+      end
+    end
+  end
+  return false
+end
+
+--[[doc--
 We strip the syntax elements from feature definitions (shouldn’t
 actually be there in the first place, but who cares ...)
 --doc]]--
@@ -910,6 +960,53 @@ function aux.get_quad(font_id)
   end
   return false
 end
+
+-----------------------------------------------------------------------
+---                         Script/language fixup
+-----------------------------------------------------------------------
+local otftables = fonts.constructors.handlers.otf.tables
+local function setscript(tfmdata, value)
+  if value then
+    local cleanvalue = string.lower(value)
+    local scripts  = otftables and otftables.scripts
+    local properties = tfmdata.properties
+    if not scripts then
+      properties.script = cleanvalue
+    elseif scripts[value] then
+      properties.script = cleanvalue
+    else
+      properties.script = "dflt"
+    end
+  end
+  local resources = tfmdata.resources
+  local features = resources and resources.features
+  if features then
+    local properties = tfmdata.properties
+    local script, language = properties.script, properties.language
+    local script_found, language_found = false, false
+    for _, data in next, features do for _, feature_data in next, data do
+      local scr = feature_data[script]
+      if scr then
+        script_found = true
+        if scr[language] then
+          language_found = true
+          goto double_break
+        end
+      end
+    end end
+    ::double_break::
+    if not script_found then properties.script = "dflt" end
+    if not language_found then properties.language = "dflt" end
+  end
+end
+fonts.constructors.features.otf.register {
+  name         = "script",
+  initializers = {
+    base = setscript,
+    node = setscript,
+    plug = setscript,
+  },
+}
 
 -----------------------------------------------------------------------
 ---                         initialization

@@ -407,3 +407,29 @@
 2021-12-12 20:43:10,492+0100 INFO  initexmf - running: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
 2021-12-12 20:43:10,532+0100 INFO  initexmf.core - start process: mkfntmap --enable-installer --miktex-disable-maintenance --miktex-disable-diagnose
 2021-12-12 20:43:22,247+0100 INFO  initexmf - this process (13164) finishes with exit code 0
+2024-10-20 00:25:44,934+0200 INFO  initexmf - this is MiKTeX Configuration Utility 5.5 (MiKTeX 24.4 Portable)
+2024-10-20 00:25:44,934+0200 INFO  initexmf - this process (7932) started by miktex-console in directory C:\Users\Public\Dev\altair2\texlive2\texmfs\install\miktex\bin\x64 with command line: initexmf --mkmaps
+2024-10-20 00:25:44,934+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2024-10-20 00:25:44,935+0200 INFO  initexmf - running: miktex --enable-installer fontmaps configure
+2024-10-20 00:25:44,935+0200 INFO  initexmf.core - start process: miktex --enable-installer fontmaps configure
+2024-10-20 00:25:47,672+0200 INFO  initexmf - this process (7932) finishes with exit code 0
+2024-10-20 00:25:48,362+0200 INFO  initexmf - this is MiKTeX Configuration Utility 5.5 (MiKTeX 24.4 Portable)
+2024-10-20 00:25:48,363+0200 INFO  initexmf - this process (5976) started by miktex-console in directory C:\Users\Public\Dev\altair2\texlive2\texmfs\install\miktex\bin\x64 with command line: initexmf --update-fndb --disable-installer --verbose
+2024-10-20 00:25:48,363+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2024-10-20 00:25:48,363+0200 INFO  initexmf - running: miktex --verbose --disable-installer fndb refresh
+2024-10-20 00:25:48,363+0200 INFO  initexmf.core - start process: miktex --verbose --disable-installer fndb refresh
+2024-10-20 00:25:52,206+0200 INFO  initexmf - this process (5976) finishes with exit code 0
+2024-10-20 00:25:52,377+0200 INFO  initexmf - this is MiKTeX Configuration Utility 5.5 (MiKTeX 24.4 Portable)
+2024-10-20 00:25:52,377+0200 INFO  initexmf - this process (12936) started by miktex-console in directory C:\Users\Public\Dev\altair2\texlive2\texmfs\install\miktex\bin\x64 with command line: initexmf --force --mklinks --disable-installer --verbose
+2024-10-20 00:25:52,377+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2024-10-20 00:25:52,377+0200 INFO  initexmf - running: miktex --verbose --disable-installer links install --force
+2024-10-20 00:25:52,378+0200 INFO  initexmf.core - start process: miktex --verbose --disable-installer links install --force
+2024-10-20 00:25:56,464+0200 INFO  initexmf - this process (12936) finishes with exit code 0
+2024-10-20 00:25:56,644+0200 INFO  initexmf - this is MiKTeX Configuration Utility 5.5 (MiKTeX 24.4 Portable)
+2024-10-20 00:25:56,644+0200 INFO  initexmf - this process (20212) started by miktex-console in directory C:\Users\Public\Dev\altair2\texlive2\texmfs\install\miktex\bin\x64 with command line: initexmf --mkmaps --mklangs --disable-installer --verbose
+2024-10-20 00:25:56,644+0200 INFO  initexmf - Operating on the private (per-user) MiKTeX setup
+2024-10-20 00:25:56,645+0200 INFO  initexmf - running: miktex --verbose --disable-installer languages configure
+2024-10-20 00:25:56,645+0200 INFO  initexmf.core - start process: miktex --verbose --disable-installer languages configure
+2024-10-20 00:25:56,961+0200 INFO  initexmf - running: miktex --verbose --disable-installer fontmaps configure
+2024-10-20 00:25:56,961+0200 INFO  initexmf.core - start process: miktex --verbose --disable-installer fontmaps configure
+2024-10-20 00:25:57,614+0200 INFO  initexmf - this process (20212) finishes with exit code 0

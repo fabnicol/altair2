@@ -21,6 +21,7 @@ Available options:
                 possible values: tex4ht or lua4ht
   -c,--config (default xhtml) Custom config file
   -d,--output-dir (default nil)  Output directory
+  -B,--build-dir (default nil)  Build directory
   -e,--build-file (default nil)  If build file is different than `filename`.mk4
   -f,--format  (default html5)  Output file format
   -h,--help  Display this message
@@ -93,6 +94,18 @@ local function get_format_extensions(format_string)
   return format, extensions
 end
 
+
+-- try to make safe filename 
+local function escape_filename(input)
+  -- quoting don't work on Windows, so we will just
+  if os.type == "windows" then
+    return '"' .. input .. '"'
+  else
+    -- single quotes are safe in Unix
+    return "'" .. input .. "'"
+  end
+end
+
 -- detect if user specified -jobname in arguments to the TeX engine
 -- or used the --jobname option for make4ht
 local function handle_jobname(input, args)
@@ -108,7 +121,7 @@ local function handle_jobname(input, args)
     input = input:match("([^%/^%\\]+)$")
     -- input also cannot contain spaces, replace them with underscores
     input = input:gsub("%s", "_")
-    table.insert(latex_params,"-jobname="..input)
+    table.insert(latex_params,"-jobname=".. escape_filename(input))
   else
     -- when user specifies -jobname, we must change name of the input file,
     -- in order to be able to process correct dvi file with tex4ht and t4ht
@@ -179,10 +192,18 @@ local function process_args(args)
 	local outdir = ""
 	local packages = ""
 
-	if  args["output-dir"] ~= "nil" then 
+	if  args["output-dir"] ~= "nil" then
 		outdir =  args["output-dir"]  or ""
 		outdir = outdir:gsub('\\','/')
 		outdir = outdir:gsub('/$','')
+	end
+
+	local builddir = ""
+
+	if  args["build-dir"] ~= "nil" then
+		builddir =  args["build-dir"]  or ""
+		builddir = builddir:gsub('\\','/')
+		builddir = builddir:gsub('/$','')
 	end
 
   -- make4ht now requires UTF-8 output, because of DOM filters
@@ -262,7 +283,7 @@ local function process_args(args)
 	local parameters = {
 		htlatex = compiler
 		,input=input
-    ,tex_file=tex_file
+        ,tex_file=tex_file
 		,packages=packages
 		,latex_par=table.concat(latex_params," ")
 		--,config=ebookutils.remove_extension(args.config)
@@ -279,6 +300,7 @@ local function process_args(args)
 		--,t4ht_dir_format=t4ht_dir_format
 	}
 	if outdir then parameters.outdir = outdir end
+	if builddir then parameters.builddir = builddir end
 	log:info("Output dir: "..outdir)
 	log:info("Compiler: "..compiler)
 	log:info("Latex options: ".. table.concat(latex_params," "))

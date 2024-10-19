@@ -1,5 +1,5 @@
-% mdframed.4ht (2019-11-07-14:08), generated from tex4ht-4ht.tex
-% Copyright 2017 TeX Users Group
+% mdframed.4ht (2022-12-26-13:00), generated from tex4ht-4ht.tex
+% Copyright 2017-2022 TeX Users Group
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -16,7 +16,7 @@
 %
 % If you modify this program, changing the
 % version identification would be appreciated.
-\immediate\write-1{version 2019-11-07-14:08}
+\immediate\write-1{version 2022-12-26-13:00}
 
 
 \NewConfigure{mdframed}{2}
@@ -24,18 +24,24 @@
 \NewConfigure{mdframetitle}{2}
 \newcount\mdf:env:cnt
 \def\mdf:id{mdframed-\the\mdf:env:cnt}
-\def\mdf@trivlist#1{\global\advance\mdf:env:cnt by1\relax\a:mdframed\a:mdframedstyle%
-    \ifdefempty{\mdf@frametitle}{}{\mdfframedtitleenv{\mdf@frametitle}\a:mdframetitle\mdf@@frametitle@use\b:mdframetitle}\let\mdf@frametitle\relax%
+\def\:tempa#1{\global\advance\mdf:env:cnt by1\relax\a:mdframed\a:mdframedstyle%
+    \ifdefempty{\mdf@frametitle}{}{\mdfframedtitleenv{\mdf@frametitle}\a:mdframetitle\mdf@@frametitle@use\b:mdframetitle}\let\mdf@frametitle\@empty%
 }
+\HLet\mdf@trivlist\:tempa
 
-\def\endmdf@trivlist{\b:mdframed}
+\def\:tempa{\b:mdframed}
+\HLet\endmdf@trivlist\:tempa
 
 % disable frame drawing, it can be supported using CSS
-\def\detected@mdf@put@frame{}%
+\HLet\detected@mdf@put@frame\relax%
 
 \append:def\mdf@@ignorelastdescenders{\let\orig:unskip\unskip\def\unskip{\let\unskip\orig:unskip}}%
-\def\mdf@lrbox#1{}
-\def\endmdf@lrbox{}
+\HLet\mdf@lrbox\:gobble
+\HLet\endmdf@lrbox\relax
+% disable compilation error caused by Mdframed's patch for Amsthm:
+\AtBeginDocument{%
+  \let\mdf@patchamsthm\relax%
+}
 \Hinput{mdframed}
 \endinput
 

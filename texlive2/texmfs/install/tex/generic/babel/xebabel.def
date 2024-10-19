@@ -7,10 +7,11 @@
 %% babel.dtx  (with options: `xetex')
 %% 
 %%
-%% Copyright (C) 2012-2020 Javier Bezos and Johannes L. Braams.
+%% Copyright (C) 2012-2024 Javier Bezos and Johannes L. Braams.
 %% Copyright (C) 1989-2012 Johannes L. Braams and
 %%           any individual authors listed elsewhere in this file.
 %% All rights reserved.
+%%
 %%
 %% This file is part of the Babel system.
 %% --------------------------------------
@@ -31,7 +32,6 @@
 %% and covered by LPPL is defined by the unpacking scripts (with
 %% extension |.ins|) which are part of the distribution.
 %%
-
 \def\BabelStringsDefault{unicode}
 \let\xebbl@stop\relax
 \AddBabelHook{xetex}{encodedcommands}{%
@@ -45,6 +45,9 @@
 \AddBabelHook{xetex}{stopcommands}{%
   \xebbl@stop
   \let\xebbl@stop\relax}
+\def\bbl@input@classes{% Used in CJK intraspaces
+  \input{load-unicode-xetex-classes.tex}%
+  \let\bbl@input@classes\relax}
 \def\bbl@intraspace#1 #2 #3\@@{%
   \bbl@csarg\gdef{xeisp@\languagename}%
     {\XeTeXlinebreakskip #1em plus #2em minus #3em\relax}}
@@ -52,71 +55,67 @@
   \bbl@csarg\gdef{xeipn@\languagename}%
     {\XeTeXlinebreakpenalty #1\relax}}
 \def\bbl@provide@intraspace{%
-  \bbl@xin@{\bbl@cl{lnbrk}}{s}%
-  \ifin@\else\bbl@xin@{\bbl@cl{lnbrk}}{c}\fi
+  \bbl@xin@{/s}{/\bbl@cl{lnbrk}}%
+  \ifin@\else\bbl@xin@{/c}{/\bbl@cl{lnbrk}}\fi
   \ifin@
     \bbl@ifunset{bbl@intsp@\languagename}{}%
       {\expandafter\ifx\csname bbl@intsp@\languagename\endcsname\@empty\else
-        \ifx\bbl@KVP@intraspace\@nil
+        \ifx\bbl@KVP@intraspace\@nnil
            \bbl@exp{%
              \\\bbl@intraspace\bbl@cl{intsp}\\\@@}%
         \fi
-        \ifx\bbl@KVP@intrapenalty\@nil
+        \ifx\bbl@KVP@intrapenalty\@nnil
           \bbl@intrapenalty0\@@
         \fi
       \fi
-      \ifx\bbl@KVP@intraspace\@nil\else % We may override the ini
+      \ifx\bbl@KVP@intraspace\@nnil\else % We may override the ini
         \expandafter\bbl@intraspace\bbl@KVP@intraspace\@@
       \fi
-      \ifx\bbl@KVP@intrapenalty\@nil\else
+      \ifx\bbl@KVP@intrapenalty\@nnil\else
         \expandafter\bbl@intrapenalty\bbl@KVP@intrapenalty\@@
       \fi
       \bbl@exp{%
+        % TODO. Execute only once (but redundant):
         \\\bbl@add\<extras\languagename>{%
-          \XeTeXlinebreaklocale "\bbl@cl{lbcp}"%
+          \XeTeXlinebreaklocale "\bbl@cl{tbcp}"%
           \<bbl@xeisp@\languagename>%
           \<bbl@xeipn@\languagename>}%
         \\\bbl@toglobal\<extras\languagename>%
         \\\bbl@add\<noextras\languagename>{%
-          \XeTeXlinebreaklocale "en"}%
+          \XeTeXlinebreaklocale ""}%
         \\\bbl@toglobal\<noextras\languagename>}%
       \ifx\bbl@ispacesize\@undefined
         \gdef\bbl@ispacesize{\bbl@cl{xeisp}}%
         \ifx\AtBeginDocument\@notprerr
           \expandafter\@secondoftwo  % to execute right now
         \fi
-        \AtBeginDocument{%
-          \expandafter\bbl@add
-          \csname selectfont \endcsname{\bbl@ispacesize}%
-          \expandafter\bbl@toglobal\csname selectfont \endcsname}%
+        \AtBeginDocument{\bbl@patchfont{\bbl@ispacesize}}%
       \fi}%
   \fi}
-\ifx\DisableBabelHook\@undefined\endinput\fi
+\ifx\DisableBabelHook\@undefined\endinput\fi %%%% TODO: why
+\bbl@trace{Font handling with fontspec}
 \AddBabelHook{babel-fontspec}{afterextras}{\bbl@switchfont}
 \AddBabelHook{babel-fontspec}{beforestart}{\bbl@ckeckstdfonts}
 \DisableBabelHook{babel-fontspec}
-\bbl@trace{Font handling with fontspec}
 \@onlypreamble\babelfont
 \newcommand\babelfont[2][]{%  1=langs/scripts 2=fam
   \bbl@foreach{#1}{%
     \expandafter\ifx\csname date##1\endcsname\relax
-    \IfFileExists{babel-##1.tex}%
-      {\babelprovide{##1}}%
-      {}%
+      \IfFileExists{babel-##1.tex}%
+        {\babelprovide{##1}}%
+        {}%
     \fi}%
   \edef\bbl@tempa{#1}%
   \def\bbl@tempb{#2}%  Used by \bbl@bblfont
   \ifx\fontspec\@undefined
     \usepackage{fontspec}%
   \fi
-  \EnableBabelHook{babel-fontspec}% Just calls \bbl@switchfont
+  \EnableBabelHook{babel-fontspec}%
   \bbl@bblfont}
 \newcommand\bbl@bblfont[2][]{% 1=features 2=fontname, @font=rm|sf|tt
   \bbl@ifunset{\bbl@tempb family}%
     {\bbl@providefam{\bbl@tempb}}%
-    {\bbl@exp{%
-      \\\bbl@sreplace\<\bbl@tempb family >%
-        {\@nameuse{\bbl@tempb default}}{\<\bbl@tempb default>}}}%
+    {}%
   % For the default font, just in case:
   \bbl@ifunset{bbl@lsys@\languagename}{\bbl@provide@lsys{\languagename}}{}%
   \expandafter\bbl@ifblank\expandafter{\bbl@tempa}%
@@ -133,7 +132,10 @@
     \\\bbl@add@list\\\bbl@font@fams{#1}%
     \\\DeclareRobustCommand\<#1family>{%
       \\\not@math@alphabet\<#1family>\relax
-      \\\fontfamily\<#1default>\\\selectfont}%
+      % \\\prepare@family@series@update{#1}\<#1default>% TODO. Fails
+      \\\fontfamily\<#1default>%
+      \<ifx>\\\UseHooks\\\@undefined\<else>\\\UseHook{#1family}\<fi>%
+      \\\selectfont}%
     \\\DeclareTextFontCommand{\<text#1>}{\<#1family>}}}
 \def\bbl@nostdfont#1{%
   \bbl@ifunset{bbl@WFF@\f@family}%
@@ -144,7 +146,7 @@
        There is nothing intrinsically wrong with this warning, and\\%
        you can ignore it altogether if you do not need these\\%
        families. But if they are used in the document, you should be\\%
-       aware 'babel' will no set Script and Language for them, so\\%
+       aware 'babel' will not set Script and Language for them, so\\%
        you may consider defining a new family with \string\babelfont.\\%
        See the manual for further details about \string\babelfont.\\%
        Reported}}
@@ -165,12 +167,12 @@
             \global\let\<bbl@##1dflt@\languagename>%
                        \<bbl@##1dflt@*\bbl@tempa>}}}%
       {}}%                               1=T - language, already defined
-  \def\bbl@tempa{\bbl@nostdfont{}}%
+  \def\bbl@tempa{\bbl@nostdfont{}}%  TODO. Don't use \bbl@tempa
   \bbl@foreach\bbl@font@fams{%     don't gather with prev for
     \bbl@ifunset{bbl@##1dflt@\languagename}%
       {\bbl@cs{famrst@##1}%
        \global\bbl@csarg\let{famrst@##1}\relax}%
-      {\bbl@exp{% order is relevant
+      {\bbl@exp{% order is relevant. TODO: but sometimes wrong!
          \\\bbl@add\\\originalTeX{%
            \\\bbl@font@rst{\bbl@cl{##1dflt}}%
                           \<##1default>\<##1family>{##1}}%
@@ -212,11 +214,17 @@
   \ifin@
     \bbl@exp{\\\bbl@fontspec@set\\#1\expandafter\@gobbletwo#1\\#3}%
   \fi
-  \bbl@exp{%
+  \bbl@exp{%              'Unprotected' macros return prev values
     \def\\#2{#1}%         eg, \rmdefault{\bbl@rmdflt@lang}
-    \\\bbl@ifsamestring{#2}{\f@family}{\\#3\let\\\bbl@tempa\relax}{}}}
+    \\\bbl@ifsamestring{#2}{\f@family}%
+      {\\#3%
+       \\\bbl@ifsamestring{\f@series}{\bfdefault}{\\\bfseries}{}%
+       \let\\\bbl@tempa\relax}%
+      {}}}
 \def\bbl@fontspec@set#1#2#3#4{% eg \bbl@rmdflt@lang fnt-opt fnt-nme \xxfamily
   \let\bbl@tempe\bbl@mapselect
+  \edef\bbl@tempb{\bbl@stripslash#4/}% Catcodes hack (better pass it).
+  \bbl@exp{\\\bbl@replace\\\bbl@tempb{\bbl@stripslash\family/}{}}%
   \let\bbl@mapselect\relax
   \let\bbl@temp@fam#4%       eg, '\rmfamily', to be restored below
   \let#4\@empty      %       Make sure \renewfontfamily is valid
@@ -227,58 +235,265 @@
     \<keys_if_exist:nnF>{fontspec-opentype}{Language/\bbl@cl{lname}}%
       {\\\newfontlanguage{\bbl@cl{lname}}{\bbl@cl{lotf}}}%
     \\\renewfontfamily\\#4%
-      [\bbl@cs{lsys@\languagename},#2]}{#3}% ie \bbl@exp{..}{#3}
+      [\bbl@cl{lsys},% xetex removes unknown features :-(
+       \ifcase\bbl@engine\or RawFeature={family=\bbl@tempb},\fi
+       #2]}{#3}% ie \bbl@exp{..}{#3}
   \begingroup
      #4%
      \xdef#1{\f@family}%     eg, \bbl@rmdflt@lang{FreeSerif(0)}
-  \endgroup
+  \endgroup % TODO. Find better tests:
+  \bbl@xin@{\string>\string s\string s\string u\string b\string*}%
+    {\expandafter\meaning\csname TU/#1/bx/sc\endcsname}%
+  \ifin@
+    \global\bbl@ccarg\let{TU/#1/bx/sc}{TU/#1/b/sc}%
+  \fi
+  \bbl@xin@{\string>\string s\string s\string u\string b\string*}%
+    {\expandafter\meaning\csname TU/#1/bx/scit\endcsname}%
+  \ifin@
+    \global\bbl@ccarg\let{TU/#1/bx/scit}{TU/#1/b/scit}%
+  \fi
   \let#4\bbl@temp@fam
   \bbl@exp{\let\<\bbl@stripslash#4\space>}\bbl@temp@pfam
   \let\bbl@mapselect\bbl@tempe}%
 \def\bbl@font@rst#1#2#3#4{%
   \bbl@csarg\def{famrst@#4}{\bbl@font@set{#1}#2#3}}
 \def\bbl@font@fams{rm,sf,tt}
-\newcommand\babelFSstore[2][]{%
-  \bbl@ifblank{#1}%
-    {\bbl@csarg\def{sname@#2}{Latin}}%
-    {\bbl@csarg\def{sname@#2}{#1}}%
-  \bbl@provide@dirs{#2}%
-  \bbl@csarg\ifnum{wdir@#2}>\z@
-    \let\bbl@beforeforeign\leavevmode
-    \EnableBabelHook{babel-bidi}%
+\def\bbl@provide@extra#1{}
+\ifnum\xe@alloc@intercharclass<\thr@@
+  \xe@alloc@intercharclass\thr@@
+\fi
+\chardef\bbl@xeclass@default@=\z@
+\chardef\bbl@xeclass@cjkideogram@=\@ne
+\chardef\bbl@xeclass@cjkleftpunctuation@=\tw@
+\chardef\bbl@xeclass@cjkrightpunctuation@=\thr@@
+\chardef\bbl@xeclass@boundary@=4095
+\chardef\bbl@xeclass@ignore@=4096
+\AddBabelHook{babel-interchar}{beforeextras}{%
+  \@nameuse{bbl@xechars@\languagename}}
+\DisableBabelHook{babel-interchar}
+\protected\def\bbl@charclass#1{%
+  \ifnum\count@<\z@
+    \count@-\count@
+    \loop
+      \bbl@exp{%
+        \\\babel@savevariable{\XeTeXcharclass`\Uchar\count@}}%
+      \XeTeXcharclass\count@ \bbl@tempc
+      \ifnum\count@<`#1\relax
+      \advance\count@\@ne
+    \repeat
+  \else
+    \babel@savevariable{\XeTeXcharclass`#1}%
+    \XeTeXcharclass`#1 \bbl@tempc
   \fi
-  \bbl@foreach{#2}{%
-    \bbl@FSstore{##1}{rm}\rmdefault\bbl@save@rmdefault
-    \bbl@FSstore{##1}{sf}\sfdefault\bbl@save@sfdefault
-    \bbl@FSstore{##1}{tt}\ttdefault\bbl@save@ttdefault}}
-\def\bbl@FSstore#1#2#3#4{%
-  \bbl@csarg\edef{#2default#1}{#3}%
-  \expandafter\addto\csname extras#1\endcsname{%
-    \let#4#3%
-    \ifx#3\f@family
-      \edef#3{\csname bbl@#2default#1\endcsname}%
-      \fontfamily{#3}\selectfont
-    \else
-      \edef#3{\csname bbl@#2default#1\endcsname}%
+  \count@`#1\relax}
+\newcommand\bbl@ifinterchar[1]{%
+  \let\bbl@tempa\@gobble        % Assume to ignore
+  \edef\bbl@tempb{\zap@space#1 \@empty}%
+  \ifx\bbl@KVP@interchar\@nnil\else
+      \bbl@replace\bbl@KVP@interchar{ }{,}%
+      \bbl@foreach\bbl@tempb{%
+        \bbl@xin@{,##1,}{,\bbl@KVP@interchar,}%
+        \ifin@
+          \let\bbl@tempa\@firstofone
+        \fi}%
+  \fi
+  \bbl@tempa}
+\newcommand\IfBabelIntercharT[2]{%
+  \bbl@carg\bbl@add{bbl@icsave@\CurrentOption}{\bbl@ifinterchar{#1}{#2}}}%
+\newcommand\babelcharclass[3]{%
+  \EnableBabelHook{babel-interchar}%
+  \bbl@csarg\newXeTeXintercharclass{xeclass@#2@#1}%
+  \def\bbl@tempb##1{%
+    \ifx##1\@empty\else
+      \ifx##1-%
+        \bbl@upto
+      \else
+        \bbl@charclass{%
+          \ifcat\noexpand##1\relax\bbl@stripslash##1\else\string##1\fi}%
+      \fi
+      \expandafter\bbl@tempb
     \fi}%
-  \expandafter\addto\csname noextras#1\endcsname{%
-    \ifx#3\f@family
-      \fontfamily{#4}\selectfont
+  \bbl@ifunset{bbl@xechars@#1}%
+    {\toks@{%
+       \babel@savevariable\XeTeXinterchartokenstate
+       \XeTeXinterchartokenstate\@ne
+      }}%
+    {\toks@\expandafter\expandafter\expandafter{%
+       \csname bbl@xechars@#1\endcsname}}%
+  \bbl@csarg\edef{xechars@#1}{%
+    \the\toks@
+    \bbl@usingxeclass\csname bbl@xeclass@#2@#1\endcsname
+    \bbl@tempb#3\@empty}}
+\protected\def\bbl@usingxeclass#1{\count@\z@ \let\bbl@tempc#1}
+\protected\def\bbl@upto{%
+  \ifnum\count@>\z@
+    \advance\count@\@ne
+    \count@-\count@
+  \else\ifnum\count@=\z@
+    \bbl@charclass{-}%
+  \else
+    \bbl@error{double-hyphens-class}{}{}{}%
+  \fi\fi}
+\def\bbl@ignoreinterchar{%
+  \ifnum\language=\l@nohyphenation
+    \expandafter\@gobble
+  \else
+    \expandafter\@firstofone
+  \fi}
+\newcommand\babelinterchar[5][]{%
+  \let\bbl@kv@label\@empty
+  \bbl@forkv{#1}{\bbl@csarg\edef{kv@##1}{##2}}%
+  \@namedef{\zap@space bbl@xeinter@\bbl@kv@label @#3@#4@#2 \@empty}%
+    {\bbl@ignoreinterchar{#5}}%
+  \bbl@csarg\let{ic@\bbl@kv@label @#2}\@firstofone
+  \bbl@exp{\\\bbl@for\\\bbl@tempa{\zap@space#3 \@empty}}{%
+    \bbl@exp{\\\bbl@for\\\bbl@tempb{\zap@space#4 \@empty}}{%
+      \XeTeXinterchartoks
+        \@nameuse{bbl@xeclass@\bbl@tempa @%
+          \bbl@ifunset{bbl@xeclass@\bbl@tempa @#2}{}{#2}} %
+        \@nameuse{bbl@xeclass@\bbl@tempb @%
+          \bbl@ifunset{bbl@xeclass@\bbl@tempb @#2}{}{#2}} %
+        = \expandafter{%
+           \csname bbl@ic@\bbl@kv@label @#2\expandafter\endcsname
+           \csname\zap@space bbl@xeinter@\bbl@kv@label
+              @#3@#4@#2 \@empty\endcsname}}}}
+\DeclareRobustCommand\enablelocaleinterchar[1]{%
+  \bbl@ifunset{bbl@ic@#1@\languagename}%
+    {\bbl@error{unknown-interchar}{#1}{}{}}%
+    {\bbl@csarg\let{ic@#1@\languagename}\@firstofone}}
+\DeclareRobustCommand\disablelocaleinterchar[1]{%
+  \bbl@ifunset{bbl@ic@#1@\languagename}%
+    {\bbl@error{unknown-interchar-b}{#1}{}{}}%
+    {\bbl@csarg\let{ic@#1@\languagename}\@gobble}}
+\providecommand\bbl@provide@intraspace{}
+\bbl@trace{Redefinitions for bidi layout}
+\def\bbl@sspre@caption{%  TODO: Unused!
+  \bbl@exp{\everyhbox{\\\bbl@textdir\bbl@cs{wdir@\bbl@main@language}}}}
+\ifx\bbl@opt@layout\@nnil\else % if layout=..
+\def\bbl@startskip{\ifcase\bbl@thepardir\leftskip\else\rightskip\fi}
+\def\bbl@endskip{\ifcase\bbl@thepardir\rightskip\else\leftskip\fi}
+\ifnum\bbl@bidimode>\z@  % TODO: always?
+  \def\@hangfrom#1{%
+    \setbox\@tempboxa\hbox{{#1}}%
+    \hangindent\ifcase\bbl@thepardir\wd\@tempboxa\else-\wd\@tempboxa\fi
+    \noindent\box\@tempboxa}
+  \def\raggedright{%
+    \let\\\@centercr
+    \bbl@startskip\z@skip
+    \@rightskip\@flushglue
+    \bbl@endskip\@rightskip
+    \parindent\z@
+    \parfillskip\bbl@startskip}
+  \def\raggedleft{%
+    \let\\\@centercr
+    \bbl@startskip\@flushglue
+    \bbl@endskip\z@skip
+    \parindent\z@
+    \parfillskip\bbl@endskip}
+\fi
+\IfBabelLayout{lists}
+  {\bbl@sreplace\list
+     {\@totalleftmargin\leftmargin}{\@totalleftmargin\bbl@listleftmargin}%
+   \def\bbl@listleftmargin{%
+     \ifcase\bbl@thepardir\leftmargin\else\rightmargin\fi}%
+   \ifcase\bbl@engine
+     \def\labelenumii{)\theenumii(}% pdftex doesn't reverse ()
+     \def\p@enumiii{\p@enumii)\theenumii(}%
+   \fi
+   \bbl@sreplace\@verbatim
+     {\leftskip\@totalleftmargin}%
+     {\bbl@startskip\textwidth
+      \advance\bbl@startskip-\linewidth}%
+   \bbl@sreplace\@verbatim
+     {\rightskip\z@skip}%
+     {\bbl@endskip\z@skip}}%
+  {}
+\IfBabelLayout{contents}
+  {\bbl@sreplace\@dottedtocline{\leftskip}{\bbl@startskip}%
+   \bbl@sreplace\@dottedtocline{\rightskip}{\bbl@endskip}}
+  {}
+\IfBabelLayout{columns}
+  {\bbl@sreplace\@outputdblcol{\hb@xt@\textwidth}{\bbl@outputhbox}%
+   \def\bbl@outputhbox#1{%
+     \hb@xt@\textwidth{%
+       \hskip\columnwidth
+       \hfil
+       {\normalcolor\vrule \@width\columnseprule}%
+       \hfil
+       \hb@xt@\columnwidth{\box\@leftcolumn \hss}%
+       \hskip-\textwidth
+       \hb@xt@\columnwidth{\box\@outputbox \hss}%
+       \hskip\columnsep
+       \hskip\columnwidth}}}%
+  {}
+\bbl@trace{Bidi footnotes}
+\ifnum\bbl@bidimode>\z@ % Any bidi=
+  \def\bbl@footnote#1#2#3{%
+    \@ifnextchar[%
+      {\bbl@footnote@o{#1}{#2}{#3}}%
+      {\bbl@footnote@x{#1}{#2}{#3}}}
+  \long\def\bbl@footnote@x#1#2#3#4{%
+    \bgroup
+      \select@language@x{\bbl@main@language}%
+      \bbl@fn@footnote{#2#1{\ignorespaces#4}#3}%
+    \egroup}
+  \long\def\bbl@footnote@o#1#2#3[#4]#5{%
+    \bgroup
+      \select@language@x{\bbl@main@language}%
+      \bbl@fn@footnote[#4]{#2#1{\ignorespaces#5}#3}%
+    \egroup}
+  \def\bbl@footnotetext#1#2#3{%
+    \@ifnextchar[%
+      {\bbl@footnotetext@o{#1}{#2}{#3}}%
+      {\bbl@footnotetext@x{#1}{#2}{#3}}}
+  \long\def\bbl@footnotetext@x#1#2#3#4{%
+    \bgroup
+      \select@language@x{\bbl@main@language}%
+      \bbl@fn@footnotetext{#2#1{\ignorespaces#4}#3}%
+    \egroup}
+  \long\def\bbl@footnotetext@o#1#2#3[#4]#5{%
+    \bgroup
+      \select@language@x{\bbl@main@language}%
+      \bbl@fn@footnotetext[#4]{#2#1{\ignorespaces#5}#3}%
+    \egroup}
+  \def\BabelFootnote#1#2#3#4{%
+    \ifx\bbl@fn@footnote\@undefined
+      \let\bbl@fn@footnote\footnote
     \fi
-    \let#3#4}}
-\let\bbl@langfeatures\@empty
-\def\babelFSfeatures{% make sure \fontspec is redefined once
-  \let\bbl@ori@fontspec\fontspec
-  \renewcommand\fontspec[1][]{%
-    \bbl@ori@fontspec[\bbl@langfeatures##1]}
-  \let\babelFSfeatures\bbl@FSfeatures
-  \babelFSfeatures}
-\def\bbl@FSfeatures#1#2{%
-  \expandafter\addto\csname extras#1\endcsname{%
-    \babel@save\bbl@langfeatures
-    \edef\bbl@langfeatures{#2,}}}
-\input txtbabel.def
-
+    \ifx\bbl@fn@footnotetext\@undefined
+      \let\bbl@fn@footnotetext\footnotetext
+    \fi
+    \bbl@ifblank{#2}%
+      {\def#1{\bbl@footnote{\@firstofone}{#3}{#4}}
+       \@namedef{\bbl@stripslash#1text}%
+         {\bbl@footnotetext{\@firstofone}{#3}{#4}}}%
+      {\def#1{\bbl@exp{\\\bbl@footnote{\\\foreignlanguage{#2}}}{#3}{#4}}%
+       \@namedef{\bbl@stripslash#1text}%
+         {\bbl@exp{\\\bbl@footnotetext{\\\foreignlanguage{#2}}}{#3}{#4}}}}
+\fi
+\IfBabelLayout{footnotes}%
+  {\BabelFootnote\footnote\languagename{}{}%
+   \BabelFootnote\localfootnote\languagename{}{}%
+   \BabelFootnote\mainfootnote{}{}{}}
+  {}
+\IfBabelLayout{counters*}%
+  {\bbl@add\bbl@opt@layout{.counters.}%
+   \AddToHook{shipout/before}{%
+     \let\bbl@tempa\babelsublr
+     \let\babelsublr\@firstofone
+     \let\bbl@save@thepage\thepage
+     \protected@edef\thepage{\thepage}%
+     \let\babelsublr\bbl@tempa}%
+   \AddToHook{shipout/after}{%
+     \let\thepage\bbl@save@thepage}}{}
+\IfBabelLayout{counters}%
+  {\let\bbl@latinarabic=\@arabic
+   \def\@arabic#1{\babelsublr{\bbl@latinarabic#1}}%
+   \let\bbl@asciiroman=\@roman
+   \def\@roman#1{\babelsublr{\ensureascii{\bbl@asciiroman#1}}}%
+   \let\bbl@asciiRoman=\@Roman
+   \def\@Roman#1{\babelsublr{\ensureascii{\bbl@asciiRoman#1}}}}{}
+\fi % end if layout
 \endinput
 %%
 %% End of file `xebabel.def'.

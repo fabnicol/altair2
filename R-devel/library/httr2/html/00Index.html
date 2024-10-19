@@ -12,7 +12,7 @@
 <div style="text-align: center;">
 <a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
 <a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
-</div><h2>Documentation for package &lsquo;httr2&rsquo; version 1.0.2</h2>
+</div><h2>Documentation for package &lsquo;httr2&rsquo; version 1.0.5</h2>
 
 <ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
 <li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
@@ -37,6 +37,8 @@
 <h2><a id="C">-- C --</a></h2>
 
 <table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="resp_stream_raw.html">close.httr2_response</a></td>
+<td>Read a streaming body a chunk at a time</td></tr>
 <tr><td style="width: 25%;"><a href="curl_translate.html">curl_help</a></td>
 <td>Translate curl syntax to httr2</td></tr>
 <tr><td style="width: 25%;"><a href="curl_translate.html">curl_translate</a></td>
@@ -127,8 +129,10 @@
 <td>Send data in request body</td></tr>
 <tr><td style="width: 25%;"><a href="req_cache.html">req_cache</a></td>
 <td>Automatically cache requests</td></tr>
+<tr><td style="width: 25%;"><a href="req_cookie_preserve.html">req_cookies_set</a></td>
+<td>Set and preserve cookies</td></tr>
 <tr><td style="width: 25%;"><a href="req_cookie_preserve.html">req_cookie_preserve</a></td>
-<td>Preserve cookies across requests</td></tr>
+<td>Set and preserve cookies</td></tr>
 <tr><td style="width: 25%;"><a href="req_dry_run.html">req_dry_run</a></td>
 <td>Perform a dry run</td></tr>
 <tr><td style="width: 25%;"><a href="req_error.html">req_error</a></td>
@@ -153,10 +157,14 @@
 <td>Set arbitrary curl options in request</td></tr>
 <tr><td style="width: 25%;"><a href="req_perform.html">req_perform</a></td>
 <td>Perform a request to get a response</td></tr>
+<tr><td style="width: 25%;"><a href="req_perform_connection.html">req_perform_connection</a></td>
+<td>Perform a request and return a streaming connection</td></tr>
 <tr><td style="width: 25%;"><a href="req_perform_iterative.html">req_perform_iterative</a></td>
 <td>Perform requests iteratively, generating new requests from previous responses</td></tr>
 <tr><td style="width: 25%;"><a href="req_perform_parallel.html">req_perform_parallel</a></td>
 <td>Perform a list of requests in parallel</td></tr>
+<tr><td style="width: 25%;"><a href="req_perform_promise.html">req_perform_promise</a></td>
+<td>Perform request asynchronously using the promises package</td></tr>
 <tr><td style="width: 25%;"><a href="req_perform_sequential.html">req_perform_sequential</a></td>
 <td>Perform multiple requests in sequence</td></tr>
 <tr><td style="width: 25%;"><a href="req_perform_stream.html">req_perform_stream</a></td>
@@ -235,6 +243,12 @@
 <td>Extract HTTP status from response</td></tr>
 <tr><td style="width: 25%;"><a href="resp_status.html">resp_status_desc</a></td>
 <td>Extract HTTP status from response</td></tr>
+<tr><td style="width: 25%;"><a href="resp_stream_raw.html">resp_stream_lines</a></td>
+<td>Read a streaming body a chunk at a time</td></tr>
+<tr><td style="width: 25%;"><a href="resp_stream_raw.html">resp_stream_raw</a></td>
+<td>Read a streaming body a chunk at a time</td></tr>
+<tr><td style="width: 25%;"><a href="resp_stream_raw.html">resp_stream_sse</a></td>
+<td>Read a streaming body a chunk at a time</td></tr>
 <tr><td style="width: 25%;"><a href="resp_url.html">resp_url</a></td>
 <td>Get URL/components from the response</td></tr>
 <tr><td style="width: 25%;"><a href="resp_url.html">resp_url_path</a></td>

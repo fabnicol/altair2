@@ -1,4 +1,4 @@
-% Copyright 2006 by Till Tantau
+% Copyright 2019 by Till Tantau
 %
 % This file may be distributed and/or modified
 %
@@ -11,7 +11,9 @@
 
 
 % Load key mechanism
-\input pgfkeys.code.tex
+\ifdefined\pgfkeysloaded\else
+  \input pgfkeys.code.tex
+\fi
 
 % "pgf" is a family
 \pgfkeys{/pgf/.is family}
@@ -519,7 +521,7 @@
     \pgf@ya#4%
     \advance\pgf@xa by-\pgf@x%
     \advance\pgf@ya by-\pgf@y%
-    \pgfmathdivide@\pgf@xa\pgf@ya%
+    \pgfmathdivide@{\pgf@sys@tonumber\pgf@xa}{\pgf@sys@tonumber\pgf@ya}%
     \let\aspectr\pgfmathresult%
     \pgf@xb#5%
     \pgf@yb#6%
@@ -527,12 +529,12 @@
     \pgf@yc#8%
     \advance\pgf@xc by-\pgf@xb%
     \advance\pgf@yc by-\pgf@yb%
-    \pgfmathdivide@\pgf@xc\pgf@yc%
+    \pgfmathdivide@{\pgf@sys@tonumber\pgf@xc}{\pgf@sys@tonumber\pgf@yc}%
     \let\aspects\pgfmathresult%
     \ifdim\aspectr pt#9\aspects pt%
-      \pgfmathdivide@\pgf@xa\pgf@xc%
+      \pgfmathdivide@{\pgf@sys@tonumber\pgf@xa}{\pgf@sys@tonumber\pgf@xc}%
     \else%
-      \pgfmathdivide@\pgf@ya\pgf@yc%
+      \pgfmathdivide@{\pgf@sys@tonumber\pgf@ya}{\pgf@sys@tonumber\pgf@yc}%
     \fi%
     \advance\pgf@x by.5\pgf@xa%
     \advance\pgf@xb by.5\pgf@xc%
@@ -862,6 +864,11 @@
 % state. Parameters #2 to #7 specify a transformation cm that should
 % be applied to the mask before it is used.
 
+\def\pgfsys@clipfading{}
+% This default implementation is a no-op for all drivers except `dvips'
+% where we have to set the clipping path _before_ installing the fading (used in
+% \pgfsetfadingforcurrentpath, \pgfsetfadingforcurrentpathstroked commands of
+% the basic layer)
 
 
 %
@@ -1710,7 +1717,30 @@
 % inserted into the resulting .pdf/.ps/.xxx file.
 
 
-
+% String comparison
+\ifdefined\pdfstrcmp
+  \let\pgfsys@strcmp\pdfstrcmp
+\else\ifdefined\strcmp
+  \let\pgfsys@strcmp\strcmp
+\else\ifdefined\directlua
+  \directlua{
+  local lft = lua.get_functions_table()
+  lft[\string#lft+1] = function()
+      local lhs = token.scan_string()
+      local rhs = token.scan_string()
+      if lhs < rhs then
+          tex.sprint(-2, "-1")
+      elseif lhs == rhs then
+          tex.sprint(-2, "0")
+      else
+          tex.sprint(-2, "1")
+      end
+  end
+  token.set_lua("pgfsys@strcmp", \string#lft, "global")
+  }
+\else
+  \def\pgfsys@strcmp#1#2{\pgf@sys@fail{string comparison}}%
+\fi\fi\fi
 
 
 % Discern the driver:

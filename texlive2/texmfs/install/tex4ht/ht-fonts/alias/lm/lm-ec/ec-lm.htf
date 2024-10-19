@@ -5,6 +5,7 @@ htfcss: ec-lmbxi  font-style:italic; font-weight: bold;
 htfcss: ec-lmbxo  font-style: oblique; font-weight: bold;
 htfcss: ec-lmcsco  font-style: oblique;
 htfcss: ec-lmcs  font-variant: small-caps;
+htfcss: ec-lmcsc  font-variant: small-caps;
 htfcss: ec-lmri  font-style:italic;
 htfcss: ec-lmro  font-style: oblique;
 htfcss: ec-lmss  font-family: sans-serif;

@@ -3,18 +3,14 @@
 --  DESCRIPTION:  part of luaotfload / szss
 -----------------------------------------------------------------------
 
-local ProvidesLuaModule = { 
+assert(luaotfload_module, "This is a part of luaotfload and should not be loaded independently") { 
     name          = "luaotfload-szss",
-    version       = "3.14",       --TAGVERSION
-    date          = "2020-05-06", --TAGDATE
-    description   = "luaotfload submodule / color",
+    version       = "3.28",       --TAGVERSION
+    date          = "2024-02-14", --TAGDATE
+    description   = "luaotfload submodule / Special feature handling",
     license       = "GPL v2.0",
     author        = "Marcel Krüger"
 }
-
-if luatexbase and luatexbase.provides_module then
-  luatexbase.provides_module (ProvidesLuaModule)
-end  
 
 local direct       = node.direct
 local otfregister  = fonts.constructors.features.otf.register
@@ -94,6 +90,7 @@ otfregister {
       end
       tfmdata.extend = value * 1000
       tfmdata.hb.hscale = tfmdata.units_per_em * value
+      tfmdata.hb.space = tfmdata.hb.space * value
       local parameters = tfmdata.parameters
       parameters.slant = parameters.slant * value
       parameters.space = parameters.space * value

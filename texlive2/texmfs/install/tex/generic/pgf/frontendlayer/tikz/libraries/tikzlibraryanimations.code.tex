@@ -1,4 +1,4 @@
-% Copyright 2016 by Till Tantau
+% Copyright 2018 by Till Tantau
 %
 % This file may be distributed and/or modified
 %
@@ -47,7 +47,7 @@
 \tikzanimateset{
   .code={
     \pgfkeys{/handlers/first char syntax=true}
-    \pgfkeyssetvalue{/handlers/first char syntax/the character "}{\tikz@animation@value}%
+    \pgfkeyssetvalue{/handlers/first char syntax/\expandafter\meaning\string"}{\tikz@animation@value}%
     \def\tikz@anim@t{0}%
     \def\tikz@anim@t@base{0}%
     \def\tikz@anim@t@current{0}%
@@ -192,7 +192,7 @@
 }%
 
 \def\tikz@animation@value@rest@base base{%
-  \tikz@anim@sync@scope{}{/utils/exec=\let\tikz@animation@time\tikz@anim@base@text\expandafter\tikz@anim@add\expandafter{\expandafter\tikz@anim@value\expandafter{\tikz@animation@value@head}}}{\tikz@anim@make@entry}%
+  \tikz@anim@sync@scope{}{\let\tikz@animation@time\tikz@anim@base@text\expandafter\tikz@anim@add\expandafter{\expandafter\tikz@anim@value\expandafter{\tikz@animation@value@head}}}{\tikz@anim@make@entry}%
   \pgfutil@ifnextchar\pgf@stop{\tikz@animation@value@rest=}{\tikz@animation@value@rest}%
 }%
 
@@ -489,8 +489,8 @@
   origin/.code=\tikz@anim@parse@origin{#1},
   transform/.code=\tikz@anim@add{\pgfanimationset{transform={\let\tikz@transform\relax\tikzset{#1}}}},
   along/.code=\tikz@anim@handle@along#1\pgf@stop,
-  entry control/.code=\tikz@anim@add{\pgfanimationset{entry control=#1}},
-  exit control/.code=\tikz@anim@add{\pgfanimationset{exit control=#1}},
+  entry control/.code=\tikz@anim@add{\pgfanimationset{entry control={#1}}},
+  exit control/.code=\tikz@anim@add{\pgfanimationset{exit control={#1}}},
   stay/.code=\tikz@anim@add{\pgfanimationset{stay}},
   jump/.code=\tikz@anim@add{\pgfanimationset{jump}},
   ease/.style={

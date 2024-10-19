@@ -177,7 +177,7 @@ local function get_dvi_pages(arg)
   f:close()
   local dvi_pages = dvireader.get_pages(content)
   -- we must find page numbers and output name sfor the generated images
-  local lg = mkutils.parse_lg(arg.input ..".lg")
+  local lg = mkutils.parse_lg(arg.input ..".lg", arg.builddir)
   for _, name in ipairs(lg.images) do
     local page = tonumber(name.page)
     local hash = dvi_pages[page]
@@ -243,15 +243,15 @@ function M.modify_build(make)
   end)
 
   -- fix src attributes
-  local process = filter {
-    function(str)
-      return str:gsub('src="([^"]+)', function(filename)
+  local process = filter({
+    function(str, filename)
+      return str:gsub('src=["\'](.-)(["\'])', function(filename, endquote)
         local newname = output_map[filename] or filename
         log:debug("newname", newname)
-        return 'src="'.. newname 
+        return 'src=' .. endquote .. newname  .. endquote
       end)
     end
-  }
+  }, "dvisvgmhashes")
 
   make:match("htm.?$", process)
 

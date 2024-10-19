@@ -1,5 +1,5 @@
-% html-mml.4ht (2018-12-05-15:46), generated from tex4ht-mathml.tex
-% Copyright 2009-2018 TeX Users Group
+% html-mml.4ht (2022-10-31-13:02), generated from tex4ht-mathml.tex
+% Copyright 2009-2022 TeX Users Group
 % Copyright 1999-2009 Eitan M. Gurari
 %
 % This work may be distributed and/or modified under the
@@ -17,7 +17,7 @@
 %
 % If you modify this program, changing the
 % version identification would be appreciated.
-\immediate\write-1{version 2018-12-05-15:46}
+\immediate\write-1{version 2022-10-31-13:02}
 
 \exit:ifnot{amsmath,% 
 array,% 
@@ -65,8 +65,8 @@ tex4ht}
 \fi
 \Configure{DviMath}
     {\a:DviMathML \mathmltrue
-       \ifOption{mml-fonts}{\Configure{htf}{0}{+}{<mstyle\Hnewline
-   class="}{\%s}{-\%s}{x-x-\%d}{}{">}{</mstyle>}%
+       \ifOption{mml-fonts}{\Configure{htf}{0}{+}{<\a:mathml mstyle\Hnewline
+   class="}{\%s}{-\%s}{x-x-\%d}{}{">}{</\a:mathml mstyle>}%
 }{\NoFonts}%
        \IgnoreRule \HCode{<!--l.
        \the\inputlineno-->}\Tg<\a:mathml math\Hnewline
@@ -189,20 +189,20 @@ tex4ht}
 \def\:MM{\ifmathml \a:mathml m\fi}
 \Configure{HBorder}
    {<\:MM tr\Hnewline
-       \ifmathml \expandafter\mml:class\else class\fi="hline">}
-   {\ifmathml<\a:mathml mtd><mo> \string&\#x0332; </mo></\a:mathml mtd>
+       \ifmathml \expandafter\mml:class\else class\fi="array-hline">}
+   {\ifmathml<\a:mathml mtd \mml:class="hline-mtd"></\a:mathml mtd>
 \else
-            <td><hr\xml:empty></td>\fi}
+            <td></td>\fi}
    {</\:MM tr>}
    {<\:MM tr\Hnewline
-       \ifmathml \expandafter\mml:class\else class\fi ="cline">}
+       \ifmathml \expandafter\mml:class\else class\fi ="array-cline">}
    {<\:MM td></\:MM td>}
-   {\ifmathml<\a:mathml mtd><mo> \string&\#x0332; </mo></\a:mathml mtd>
+   {\ifmathml<\a:mathml mtd \mml:class="hline-mtd"></\a:mathml mtd>
 \else
-            <td><hr\xml:empty></td>\fi}
+            <td></td>\fi}
    {</\:MM tr>}
    {<\:MM tr\Hnewline
-         \ifmathml \expandafter\mml:class\else  class\fi="vspace"
+         \ifmathml \expandafter\mml:class\else  class\fi="array-vspace"
          style="font-size:\HBorderspace">}
    {<\:MM td\Hnewline>\ifmathml\else\string&\#x00A0;\fi
       </\:MM td>}
@@ -225,14 +225,16 @@ tex4ht}
    {\ifvmode \IgnorePar \fi \EndP
                \HCode{</\:MT td>}\RecallEndP
 }
-\Css{mtr.hline mtd{
-  border-bottom:black solid 1px;
-  padding-top:2px;
-  padding-bottom:0em;
+\Css{.array-hline,.array-cline{
+  border-top: 1px solid black;
+  height:0px;
 }}
-\Css{mtr.hline mtd mo{
+\Css{.array-hline + .array-vspace:last-child{display:none;}}
+\Css{.hline-mtd, .array-hline td{
   display:none
 }}
+\Css{.array-hline + .array-row:last-child{display:none;}}
+\Css{.array-hline:first-child{border-bottom:1px solid black;border-top:none;}}
 \:CheckOption{fonts} \if:Option
 \Configure{texttt}
      {\ifmathml \providemtextclass{\mml:class="texttt"
@@ -286,8 +288,8 @@ tex4ht}
 \Css{math .textsf { font-family: sans-serif; }}
 \Css{math .textbf { font-weight: bold; }}
 \:CheckOption{mathjax}\if:Option
-\Configure{MathjaxSource}{https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=MML_HTMLorMML}
-\Configure{@HEAD}{\HCode{ <script type="text/javascript" src="\a:MathjaxSource"></script> \Hnewline}}
+\Configure{MathjaxSource}{https://cdn.jsdelivr.net/npm/mathjax@3/es5/mml-chtml.js}
+\Configure{@HEAD}{\HCode{ <script type="text/javascript" id="MathJax-script" async="async" src="\a:MathjaxSource"></script> \Hnewline}}
 \fi
 \Configure{multicolumn}
    {\let\sv:VBorder\VBorder
@@ -481,12 +483,15 @@ accent="true">&\#x0332;</\a:mathml mo></\a:mathml munder>}%
 
 
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{amsmath}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \ifx \mathdisplay@@pop\:UnDef
    \ifx \emdf@La\:UnDef
-      \Configure{equation}
+      % pre 2000
+\Configure{equation}
   {\ifvmode \IgnorePar\fi \EndP
    \HCode{<table class="equation"><tr><td>}%
    \Configure{$$}{}{}{}%
@@ -521,7 +526,8 @@ accent="true">&\#x0332;</\a:mathml mo></\a:mathml munder>}%
    \IgnoreIndent\par}
 
    \else
-      \Configure{equation}
+      % jan 2000
+\Configure{equation}
   {\ifvmode \IgnorePar\fi \EndP
    \HCode{<table class="equation"><tr><td>}%
    \Configure{gather}
@@ -581,7 +587,10 @@ accent="true">&\#x0332;</\a:mathml mo></\a:mathml munder>}%
 
    \fi
 \else
-   \Configure{equation}
+   % and here it should be
+\def\eq:mathopen#1{\ifx\relax#1\relax\else\a:mathopen\fi\o:mathopen:{#1}}
+
+\Configure{equation}
   {\ifvmode \IgnorePar\fi\EndP
    \HCode{<table class="equation"><tr><td>}%
    \Configure{gather}
@@ -610,6 +619,8 @@ accent="true">&\#x0332;</\a:mathml mo></\a:mathml munder>}%
    {\EndDviMath\EndP}
    {\DisplayMathtrue}%
 %
+   \let\mathopen\eq:mathopen%
+
   }
   {\ifvmode \IgnorePar\fi\EndP
    \HCode{</td><td class="eq-no">}%
@@ -655,19 +666,11 @@ accent="true">&\#x0332;</\a:mathml mo></\a:mathml munder>}%
   {\let\tagform@=\:gobble }
 \Css{mtd.align-odd{margin-left:2em;   text-align:right;}}
 \Css{mtd.align-even{margin-right:2em; text-align:left;}}
-\Configure{boxed}
-   {\ifmathml \Tg<\a:mathml mrow \mml:class="boxed">%
-    \else     \HCode{<span class="boxed">}\IgnorePar\fi}
-   {\ifmathml \Tg</\a:mathml mrow>%
-    \else \HCode{</span>}\fi}
-\Css{.boxed{border: 1px solid black; padding-left:2px;
-                                     padding-right:2px;}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 
 
@@ -707,6 +710,8 @@ accent="true">&\#x0332;</\a:mathml mo></\a:mathml munder>}%
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
 
 
@@ -822,6 +827,10 @@ accent="true">&\#x0332;</\a:mathml mo></\a:mathml munder>}%
 
 
 
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{color}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -830,14 +839,14 @@ accent="true">&\#x0332;</\a:mathml mo></\a:mathml munder>}%
     \Configure{color}%
       {\Configure{SetHColor}
            {\Css{.textcolor\textcolorN{color:\HColor}}}}%
-    \HCode{<\ifmathml mstyle\else span\fi
+    \HCode{<\ifmathml\a:mathml mstyle\else span\fi
            \space id="textcolor\textcolorN">}}%
-   {\HCode{</\ifmathml mstyle\else span\fi>}}
+   {\HCode{</\ifmathml\a:mathml  mstyle\else span\fi>}}
 \Configure{textcolor}
    {\ifmathml
        \Configure{color}%
          {\Configure{SetHColor}
-              {\HCode{<mstyle mathcolor="\HColor">}}}%
+              {\HCode{<\a:mathml mstyle mathcolor="\HColor">}}}%
     \else
        \gHAdvance\textcolorN by 1
        \Configure{color}%
@@ -846,12 +855,18 @@ accent="true">&\#x0332;</\a:mathml mo></\a:mathml munder>}%
        \HCode{<span id="textcolor\textcolorN">}%
     \fi
    }%
-   {\HCode{</\ifmathml mstyle\else span\fi>}}
+   {\HCode{</\ifmathml\a:mathml  mstyle\else span\fi>}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
 
 
 
@@ -949,12 +964,12 @@ accent="true">&\#x0332;</\a:mathml mo></\a:mathml munder>}%
                 \ConfigureHinput{frenchb}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \Configure{frenchb-nbsp}
-   {\ifmtext \leavevmode\special{t4ht@+\string&{35}x00A0{59}}x%
+   {\ifmtext \:unicodespace%
 \else\ifmathml
        \Tg<\a:mathml mspace class="frenchb-nbsp" />%
     \else
       \ht:special{t4ht@?unhskip}\HCode{<span class="frenchb-thinspace">}%
-      \leavevmode\special{t4ht@+\string&{35}x00A0{59}}x%
+      \:unicodespace%
 \HCode{</span>}%
     \fi\fi
     \setbox\tmp:bx=\hbox\bgroup}
@@ -964,6 +979,48 @@ accent="true">&\#x0332;</\a:mathml mo></\a:mathml munder>}%
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

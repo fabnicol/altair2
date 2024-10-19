@@ -1,4 +1,4 @@
-% Copyright 2015 by Till Tantau
+% Copyright 2019 by Till Tantau
 %
 % This file may be distributed and/or modified
 %
@@ -648,7 +648,7 @@
 
 
 \def\pgf@anim@protocol@path@size{%
-  \pgfutil@ifnextchar\pgf@stop\relax\pgf@anim@protocol@path@size@%
+  \pgfutil@ifnextchar\pgf@stop\pgfutil@gobble\pgf@anim@protocol@path@size@%
 }%
 \def\pgf@anim@protocol@path@size@#1#2#3{%
   \pgf@protocolanimsizes@direct{#2}{#3}%

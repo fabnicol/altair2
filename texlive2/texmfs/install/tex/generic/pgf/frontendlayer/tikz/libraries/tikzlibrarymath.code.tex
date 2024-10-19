@@ -1,4 +1,4 @@
-% Copyright 2013 by Mark Wibrow
+% Copyright 2019 by Mark Wibrow
 %
 % This file may be distributed and/or modified
 %
@@ -244,7 +244,6 @@
 \def\tikz@math@process@keyword@length{\tikz@math@collecttosemicolon{\tikz@math@process@keyword@@length}}%
 \def\tikz@math@process@keyword@@length{%
 \def\tikz@math@assign@register{\csname newdimen\endcsname}%
-\show\tikz@math@collected
 \expandafter\tikz@math@gobblespaces\expandafter\tikz@math@process@registers\tikz@math@collected,@,}%
 
 
@@ -532,7 +531,8 @@
 
 \long\def\tikz@math@for@parselist#1{%
     \edef\tikz@math@for@list{#1}%
-    \tikz@math@collecttosemicolon{\tikz@math@for@parseaction}}%
+    \tikz@math@gobblespaces{%
+      \tikz@math@collecttosemicolon{\tikz@math@for@parseaction}}}%
 
 \def\tikz@math@for@parseaction{%
     \tikz@math@for@namedef{prevvalue}{}%

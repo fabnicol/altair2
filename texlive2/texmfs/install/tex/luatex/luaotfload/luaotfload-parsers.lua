@@ -5,18 +5,13 @@
 --       AUTHOR:  Philipp Gesang (Phg), <phg@phi-gamma.net>, Marcel Krüger
 -------------------------------------------------------------------------------
 
-local ProvidesLuaModule = { 
+assert(luaotfload_module, "This is a part of luaotfload and should not be loaded independently") { 
     name          = "luaotfload-parsers",
-    version       = "3.14",       --TAGVERSION
-    date          = "2020-05-06", --TAGDATE
-    description   = "luaotfload submodule / filelist",
+    version       = "3.28",       --TAGVERSION
+    date          = "2024-02-14", --TAGDATE
+    description   = "luaotfload submodule / parsers",
     license       = "GPL v2.0"
 }
-
-if luatexbase and luatexbase.provides_module then
-  luatexbase.provides_module (ProvidesLuaModule)
-end  
-
 
 local traversal_maxdepth  = 42 --- prevent stack overflows
 
@@ -503,27 +498,6 @@ local function handle_xetex_option (val)
   return tostring(1 + tonumber(val))
 end
 
---[[doc--
-
-    Dirty test if a file: request is actually a path: lookup; don’t
-    ask! Note this fails on Windows-style absolute paths. These will
-    *really* have to use the correct request.
-
---doc]]--
-
-local function check_garbage (_,i, garbage)
-  if stringfind(garbage, "/") then
-    logreport("log", 0, "load",  --- ffs use path!
-              "warning: path in file: lookups is deprecated; ")
-    logreport("log", 0, "load", "use bracket syntax instead!")
-    logreport("log", 0, "load",
-              "position: %d; full match: %q",
-              i, garbage)
-    return true
-  end
-  return false
-end
-
 local featuresep = comma + semicolon
 
 --- modifiers ---------------------------------------------------------
@@ -533,7 +507,7 @@ local featuresep = comma + semicolon
     we only support the shorthands for italic / bold / bold italic
     shapes, as well as setting optical size, the rest is ignored.
 --doc]]--
-local style_modifier    = (S'bB' * S'iI'^-1 + S'iI' * S'bB'^-1)
+local style_modifier    = (S'bB' * S'iI'^-1 + S'iI' * S'bB'^-1 + S'rR')
                         / stringlower
 local size_modifier     = S"Ss" * P"="    --- optical size
                         * Cc"optsize" * C(decimal)
@@ -603,10 +577,12 @@ local combolist         = Ct(combodef1 * (comborowsep * combodef)^1)
 local subfont           = P"(" * Cg(R'09'^1 / function (s)
                             return tonumber(s) + 1
                           end + (1 - S"()")^1, "sub") * P")"
+-- An optional subfont shouldn't use subfont^-1 to ensure that parens
+-- at the subfont location are never interpreted in different ways.
+local maybe_subfont     = subfont + #(1 - P"(" + -1)
 
 --- lookups -----------------------------------------------------------
 local fontname          = C((1-S":(/")^1)  --- like luatex-fonts
-local unsupported       = Cmt((1-S":(")^1, check_garbage)
 local combo             = Cg(P"combo", "lookup") * colon * ws
                           * Cg(combolist, "name")
 --- initially we intended file: to emulate the behavior of
@@ -615,10 +591,10 @@ local combo             = Cg(P"combo", "lookup") * colon * ws
 --- turns out fontspec and other widely used packages rely on file:
 --- with paths already, so we’ll add a less strict rule here.  anyways,
 --- we’ll emit a warning.
-local prefixed          = P"file:" * ws * Cg(Cc"path", "lookup")
-                          * Cg(unsupported, "name")
-                        + Cg(P"name" + "file" + "kpse" + "my", "lookup")
+local prefixed          = Cg(P"name" + "file" + "kpse" + "my", "lookup")
                           * colon * ws * Cg(fontname, "name")
+                        + Cg(P"id", "lookup")
+                          * colon * ws * Cg(R'09'^1 / tonumber, "id")
 local unprefixed        = Cg(Cc"anon", "lookup") * Cg(fontname, "name")
 --- Bracketed “path” lookups: These may contain any character except
 --- for unbalanced brackets. A backslash escapes any following
@@ -633,7 +609,6 @@ local path_balanced     = { (path_content + V(2))^1
                           , lbrk * V(1)^-1 * rbrk }
 local path_lookup       = Cg(Cc"path", "lookup")
                           * lbrk * Cg(Cs(path_balanced), "name") * rbrk
-                          * subfont^-1
 
 --- features ----------------------------------------------------------
 local balanced_braces   = P{((1 - S'{}') + '{' * V(1) * '}')^0}
@@ -660,12 +635,11 @@ local feature_list      = Cf(Ct""
 --- top-level rules ---------------------------------------------------
 --- \font\foo=<specification>:<features>
 local features          = Cg(feature_list, "features")
-local specification     = (prefixed + unprefixed)
-                        * subfont^-1
+local specification     = (path_lookup + prefixed + unprefixed)
+                        * maybe_subfont
                         * modifier_list
-local font_request      = Ct(path_lookup   * (colon^-1 * features)^-1
-                           + combo --> TODO: feature list needed?
-                           + specification * (colon    * features)^-1)
+local font_request      = Ct(combo --> TODO: feature list needed?
+                           + specification * (colon^-1 * features)^-1)
 
 --  lpeg.print(font_request)
 --- v2.5 parser: 1065 rules
@@ -779,19 +753,20 @@ local parse_config      = Ct (ini_sections)
 
 --doc]=]--
 
+luaotfload.parsers = {
+  --- parameters
+  traversal_maxdepth    = traversal_maxdepth,
+  --- main parsers
+  read_fonts_conf       = read_fonts_conf,
+  font_request          = font_request,
+  config                = parse_config,
+  --- common patterns
+  stripslashes          = stripslashes,
+  splitcomma            = splitcomma,
+}
+
 return function ()
   logreport = luaotfload.log.report
-  luaotfload.parsers = {
-    --- parameters
-    traversal_maxdepth    = traversal_maxdepth,
-    --- main parsers
-    read_fonts_conf       = read_fonts_conf,
-    font_request          = font_request,
-    config                = parse_config,
-    --- common patterns
-    stripslashes          = stripslashes,
-    splitcomma            = splitcomma,
-  }
   return true
 end
 

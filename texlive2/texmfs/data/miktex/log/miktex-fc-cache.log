@@ -64,3 +64,9 @@
 2020-08-11 19:08:50,144+0200 INFO  miktex-fc-cache - this process (4812) finishes with exit code 0
 2021-12-12 20:43:13,635+0100 INFO  miktex-fc-cache - this process (11656) started by 'mkfntmap' with command line: miktex-fc-cache --miktex-disable-maintenance --miktex-disable-diagnose
 2021-12-12 20:43:22,192+0100 INFO  miktex-fc-cache - this process (11656) finishes with exit code 0
+2024-10-20 00:25:45,960+0200 INFO  miktex-fc-cache - this process (3964) started by miktex in directory C:\Users\Public\Dev\altair2\texlive2\texmfs\install\miktex\bin\x64 with command line: miktex-fc-cache --miktex-disable-maintenance --miktex-disable-diagnose
+2024-10-20 00:25:45,960+0200 INFO  miktex-fc-cache - running on Windows 10.0.22635
+2024-10-20 00:25:47,617+0200 INFO  miktex-fc-cache - this process (3964) finishes with exit code 0
+2024-10-20 00:25:57,490+0200 INFO  miktex-fc-cache - this process (11972) started by miktex in directory C:\Users\Public\Dev\altair2\texlive2\texmfs\install\miktex\bin\x64 with command line: miktex-fc-cache --verbose --miktex-disable-maintenance --miktex-disable-diagnose
+2024-10-20 00:25:57,490+0200 INFO  miktex-fc-cache - running on Windows 10.0.22635
+2024-10-20 00:25:57,557+0200 INFO  miktex-fc-cache - this process (11972) finishes with exit code 0

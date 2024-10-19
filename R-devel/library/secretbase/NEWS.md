@@ -1,3 +1,11 @@
+# secretbase 1.0.3
+
+* `base64dec()` now emits a suppressable warning when failing to convert back to a character string.
+
+# secretbase 1.0.2
+
+* Improves hash performance in most situations, especially for large files, by optimizing buffer sizes.
+
 # secretbase 1.0.1
 
 * Improved error message if argument 'convert' is not of logical type.

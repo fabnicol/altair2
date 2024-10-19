@@ -1,8 +1,8 @@
-%% The LaTeX package tcolorbox - version 4.31 (2020/07/31)
+%% The LaTeX package tcolorbox - version 6.4.0 (2024/09/27)
 %% tcbmagazine.code.tex: Code for box sets and magazine styles
 %%
 %% -------------------------------------------------------------------------------------------
-%% Copyright (c) 2006-2020 by Prof. Dr. Dr. Thomas F. Sturm <thomas dot sturm at unibw dot de>
+%% Copyright (c) 2006-2024 by Prof. Dr. Dr. Thomas F. Sturm <thomas dot sturm at unibw dot de>
 %% -------------------------------------------------------------------------------------------
 %%
 %% This work may be distributed and/or modified under the
@@ -17,7 +17,7 @@
 %%
 %% This work consists of all files listed in README
 %%
-\tcb@set@library@version{4.31}
+\tcb@set@library@version{6.4.0}
 
 \tcbuselibrary{breakable}
 
@@ -116,7 +116,7 @@
 \newrobustcmd{\usetcboxarray}[3][default]{%
   \boxarraygetbox[#1]{\tcb@box@array@box}{#2}%
   \ifdefined\tcb@box@array@box%
-    \tcbox[#3]{\usebox{\tcb@box@array@box}}%
+    \tcbox[{#3}]{\usebox{\tcb@box@array@box}}%
   \fi%
 }
 
@@ -130,7 +130,7 @@
 \newrobustcmd{\consumetcboxarray}[3][default]{%
   \boxarraygetbox[#1]{\tcb@box@array@box}{#2}%
   \ifdefined\tcb@box@array@box%
-    \tcbox[#3]{\leavevmode\box\tcb@box@array@box\relax}%
+    \tcbox[{#3}]{\leavevmode\box\tcb@box@array@box\relax}%
   \fi%
 }
 

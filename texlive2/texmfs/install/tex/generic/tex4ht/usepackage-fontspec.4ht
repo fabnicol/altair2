@@ -1,5 +1,5 @@
-% usepackage-fontspec.4ht (2020-01-24-14:39), generated from tex4ht-4ht.tex
-% Copyright 2017-2020 TeX Users Group
+% usepackage-fontspec.4ht (2023-10-12-14:41), generated from tex4ht-4ht.tex
+% Copyright 2017-2023 TeX Users Group
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -16,25 +16,25 @@
 %
 % If you modify this program, changing the
 % version identification would be appreciated.
-\immediate\write-1{version 2020-01-24-14:39}
+\immediate\write-1{version 2023-10-12-14:41}
 
-\:dontusepackage{fontenc}
+% \RequirePackage{expl3}% we need to disable them before loading
+\ExplSyntaxOn
+\seq_new:N \fontspec_ht_scripts
+\gdef\texfourhtfontspecloaded{yes}% used to prevent subsequent loading of this file
+\ExplSyntaxOff
 \ifdefined\XeTeXversion%
 \xenunidelblock{Latin-expl3}% expl3 package makes some characters active
-\RequirePackage{expl3}% we need to disable them before loading
 \xeuniuseblock{Latin-expl3}% and define again
-\else%
-\RequirePackage{expl3}%
 \fi%
 \PassOptionsToPackage{no-math}{fontspec}
 \ExplSyntaxOn
-\AtEndOfPackage{%
-  \tl_gset:Nx \l__fontspec_nfss_enc_tl {T1}
-  \tl_gset:Nx \g_fontspec_encoding_tl {T1}
-  \tl_gset:Nx \l__fontspec_ttfamily_encoding_tl {T1}
-  \tl_gset:Nx \l__fontspec_sffamily_encoding_tl {T1}
-  \tl_gset:Nx \l__fontspec_rmfamily_encoding_tl {T1}
-  \seq_new:N \fontspec_ht_scripts
+\:AtEndOfPackage{%
+  \tl_gset:Ne \l__fontspec_nfss_enc_tl {T1}
+  \tl_gset:Ne \g_fontspec_encoding_tl {T1}
+  \tl_gset:Ne \l__fontspec_ttfamily_encoding_tl {T1}
+  \tl_gset:Ne \l__fontspec_sffamily_encoding_tl {T1}
+  \tl_gset:Ne \l__fontspec_rmfamily_encoding_tl {T1}
   \seq_new:N \fontspec_ht_fontfamilies
   \ifdefined\XeTeXversion
   \keys_define:nn {fontspec4ht}{
@@ -89,6 +89,7 @@
 \DeclareDocumentCommand \newfontfamily { m O{} m O{} }
  {
   % \fontspec_set_family:cnn { g__fontspec_ \cs_to_str:N #1 _family } {#2} {#3}
+  \keys_set_known:nn {fontspec4ht}{#2}
   \keys_set_known:nn {fontspec4ht}{#4}
   \seq_put_right:Nn \fontspec_ht_fontfamilies {#3}
   \use:x

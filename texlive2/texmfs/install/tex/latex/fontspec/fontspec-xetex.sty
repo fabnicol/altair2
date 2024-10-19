@@ -26,7 +26,7 @@
 %% fontspec-code-closing.dtx  (with options: `fontspec,XE')
 %% fontspec-code-xfss.dtx  (with options: `fontspec,XE')
 %% ------------------------------------------------
-%% The FONTSPEC package  <wspr.io/fontspec>
+%% The FONTSPEC package  <latex3.github.io/fontspec>
 %% ------------------------------------------------
 %% Copyright  2004-2017  Will Robertson, LPPL "maintainer"
 %% Copyright  2009-2013  Khaled Hosny
@@ -35,15 +35,15 @@
 %% the conditions of the LaTeX Project Public License, version 1.3c or higher
 %% (your choice): <http://www.latex-project.org/lppl/>.
 %% ------------------------------------------------
-%%^^A%%  fontspec.dtx -- part of FONTSPEC <wspr.io/fontspec>
+%%^^A%%  fontspec.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 %%^^A%%  Metadata for the package, including files and versioning
 
 \RequirePackage{xparse}
 \ProvidesExplPackage{fontspec-xetex}%
-  {2020/02/21}{2.7i}{Font selection for XeLaTeX and LuaLaTeX}
+  {2024/05/11}{2.9e}{Font selection for XeLaTeX and LuaLaTeX}
 
-%%^^A%%  fontspec-code-load.dtx -- part of FONTSPEC <wspr.io/fontspec>
-%%^^A%%  fontspec-code-vars.dtx -- part of FONTSPEC <wspr.io/fontspec>
+%%^^A%%  fontspec-code-load.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
+%%^^A%%  fontspec-code-vars.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 \bool_new:N \l__fontspec_firsttime_bool
 \bool_new:N \l__fontspec_nobf_bool
 \bool_new:N \l__fontspec_noit_bool
@@ -60,9 +60,6 @@
 \bool_new:N \g__fontspec_math_euler_bool
 \bool_new:N \g__fontspec_math_lucida_bool
 \bool_new:N \g__fontspec_pkg_euler_loaded_bool
-\bool_new:N \g__fontspec_cfg_bool
-\bool_new:N \g__fontspec_math_bool
-\bool_new:N \g__fontspec_euenc_bool
 \bool_new:N \l__fontspec_tmpa_bool
 \bool_new:N \l__fontspec_disable_defaults_bool
 \bool_new:N \l__fontspec_alias_bool
@@ -70,7 +67,7 @@
 \bool_new:N \l__fontspec_defining_encoding_bool
 \bool_new:N \l__fontspec_scriptlang_exist_bool
 \bool_new:N \g__fontspec_em_normalise_slant_bool
-\bool_new:N \l__fontspec_proceed_bool
+\bool_new:N \l__fontspec_external_kpse_bool
 \bool_new:N \l__fontspec_never_check_bool
 \int_new:N \l__fontspec_script_int
 \int_new:N \l__fontspec_language_int
@@ -110,6 +107,8 @@
 \clist_new:N \l__fontspec_fontfeat_bfit_clist
 \clist_new:N \l__fontspec_fontfeat_sl_clist
 \clist_new:N \l__fontspec_fontfeat_bfsl_clist
+\clist_new:N \l__fontspec_fontfeat_sw_clist
+\clist_new:N \l__fontspec_fontfeat_bfsw_clist
 \clist_new:N \l__fontspec_fontfeat_sc_clist
 \prop_new:N \g__fontspec_fontopts_prop
 \prop_new:N \l__fontspec_nfss_prop
@@ -120,6 +119,7 @@
 \prop_new:N \g__fontspec_strong_prop
 \prop_new:N \g__fontspec_fontid_family_prop
 \prop_new:N \g__fontspec_family_int_prop
+\prop_new:N \g__fontspec_rawvariations_prop
 \tl_new:N \l_fontspec_family_tl
 \tl_new:N \g_fontspec_encoding_tl
 \tl_new:N \l_fontspec_fontname_tl
@@ -177,6 +177,8 @@
 \tl_new:N \l__fontspec_fontname_bfit_tl
 \tl_new:N \l__fontspec_fontname_sl_tl
 \tl_new:N \l__fontspec_fontname_bfsl_tl
+\tl_new:N \l__fontspec_fontname_sw_tl
+\tl_new:N \l__fontspec_fontname_bfsw_tl
 \tl_new:N \l__fontspec_fontname_sc_tl
 \tl_new:N  \l__fontspec_script_tl
 \tl_new:N  \l__fontspec_script_name_tl
@@ -193,8 +195,9 @@
 \tl_new:N \l__fontspec_punctspace_adjust_tl
 \tl_new:N \l__fontspec_wordspace_adjust_tl
 \tl_new:N \l__fontspec_postadjust_tl
+\tl_new:N \g__fontspec_instance_tl
 \tl_const:Nn \c__fontspec_hexcol_tl {000000}
-\tl_const:Nn \c__fontspec_opacity_tl {FF~}
+ \tl_const:Nn \c__fontspec_opacity_tl {FF~}
 \tl_const:Nn \c__fontspec_postadjust_tl { \l__fontspec_wordspace_adjust_tl \l__fontspec_punctspace_adjust_tl }
 \tl_new:N \g__fontspec_rawfeatures_sclist
 \tl_new:N \l__fontspec_pre_feat_sclist
@@ -205,10 +208,11 @@
 \tl_new:N \l__fontspec_sffamily_encoding_tl
 \tl_new:N \l__fontspec_ttfamily_encoding_tl
 
-%%^^A%%  fontspec-code-msg.dtx -- part of FONTSPEC <wspr.io/fontspec>
+%%^^A%%  fontspec-code-msg.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 \cs_new:Npn \__fontspec_error:n     { \msg_error:nn     {fontspec} }
 \cs_new:Npn \__fontspec_error:nn    { \msg_error:nnn    {fontspec} }
 \cs_new:Npn \__fontspec_error:nx    { \msg_error:nnx    {fontspec} }
+\cs_new:Npn \__fontspec_error:nxx   { \msg_error:nnxx   {fontspec} }
 \cs_new:Npn \__fontspec_warning:n   { \msg_warning:nn   {fontspec} }
 \cs_new:Npn \__fontspec_warning:nx  { \msg_warning:nnx  {fontspec} }
 \cs_new:Npn \__fontspec_warning:nxx { \msg_warning:nnxx {fontspec} }
@@ -218,42 +222,45 @@
 \cs_new:Npn \__fontspec_trace:n     { \msg_trace:nn     {fontspec} }
 \cs_generate_variant:Nn \msg_new:nnn  {nnx}
 \cs_generate_variant:Nn \msg_new:nnnn {nnxx}
+\cs_new:Nn \__fontspec_msg_new:nn
+  { \msg_new:nnx {fontspec} {#1} { ^^J \tl_trim_spaces:n {#2} } }
 \cs_new:Nn \__fontspec_msg_new:nnn
-  { \msg_new:nnx {#1} {#2} { \tl_trim_spaces:n {#3} } }
-\cs_new:Nn \__fontspec_msg_new:nnnn
-  { \msg_new:nnxx {#1} {#2} { \tl_trim_spaces:n {#3} } { \tl_trim_spaces:n {#4} } }
+  { \msg_new:nnxx {fontspec} {#1} { ^^J \tl_trim_spaces:n {#2} } { \tl_trim_spaces:n {#3} } }
 \char_set_catcode_space:n {32}
-\__fontspec_msg_new:nnn {fontspec} {only-inside-encdef}
+\__fontspec_msg_new:nn {only-inside-encdef}
  {
-  \exp_not:N#1can only be used in the second argument
+  \exp_not:N #1 can only be used in the second argument
   to \string\DeclareUnicodeEncoding.
  }
-\__fontspec_msg_new:nnn {fontspec} {no-size-info}
+\__fontspec_msg_new:nn {no-size-info}
  {
   Size information must be supplied.\\
   For example, SizeFeatures={Size={8-12},...}.
  }
-\__fontspec_msg_new:nnnn {fontspec} {font-not-found}
+\__fontspec_msg_new:nnn {font-not-found}
  {
-  The font "#1" cannot be found.
+  The font "#1" cannot be found; this may be but usually is not
+  a fontspec bug. Either there is a typo in the font name/file,
+  the font is not installed (correctly), or there is a bug
+  in the underlying font loading engine (XeTeX/luaotfload).
  }
  {
   A font might not be found for many reasons.\\
   Check the spelling, where the font is installed etc. etc.\\\\
   When in doubt, ask someone for help!
  }
-\__fontspec_msg_new:nnnn {fontspec} {rename-feature-not-exist}
+\__fontspec_msg_new:nnn {rename-feature-not-exist}
  {
   The feature #1 doesn't appear to be defined.
  }
  {
   It looks like you're trying to rename a feature that doesn't exist.
  }
-\__fontspec_msg_new:nnn {fontspec} {no-glyph}
+\__fontspec_msg_new:nn {no-glyph}
  {
   '#1' does not contain glyph #2.
  }
-\__fontspec_msg_new:nnnn {fontspec} {euler-too-late}
+\__fontspec_msg_new:nnn {euler-too-late}
  {
   The euler package must be loaded BEFORE fontspec.
  }
@@ -263,7 +270,7 @@
   loaded after euler. Type <return> to proceed
   with incorrect \string\mathit, \string\mathbf, etc.
  }
-\__fontspec_msg_new:nnnn {fontspec} {no-xcolor}
+\__fontspec_msg_new:nnn {no-xcolor}
  {
   Cannot load named colours without the xcolor package.
  }
@@ -271,7 +278,7 @@
   Sorry, I can't do anything to help. Instead of loading
   the color package, use xcolor instead.
  }
-\__fontspec_msg_new:nnnn {fontspec} {unknown-color-model}
+\__fontspec_msg_new:nnn {unknown-color-model}
  {
   Error loading colour `#1'; unknown colour model.
  }
@@ -279,7 +286,7 @@
   Sorry, I can't do anything to help. Please report this error
   to my developer with a minimal example that causes the problem.
  }
-\__fontspec_msg_new:nnnn {fontspec} {not-in-addfontfeatures}
+\__fontspec_msg_new:nnn {not-in-addfontfeatures}
  {
   The "#1" font feature cannot be used in \string\addfontfeatures.
  }
@@ -289,17 +296,17 @@
   confusion. You'll need to define multiple font families to achieve
   what you want.
  }
-\__fontspec_msg_new:nnn {fontspec} {tu-clash}
+\__fontspec_msg_new:nn {tu-clash}
  {
   I have found the tuenc.def encoding definition file but the TU encoding is not
   defined by the LaTeX2e kernel; attempting to correct but you really should update
   to the latest version of LaTeX2e.
  }
-\__fontspec_msg_new:nnn {fontspec} {tu-missing}
+\__fontspec_msg_new:nn {tu-missing}
  {
   The TU encoding seems to be missing; please update to the latest version of LaTeX2e.
  }
-\__fontspec_msg_new:nnn {fontspec} {addfontfeatures-ignored}
+\__fontspec_msg_new:nn {addfontfeatures-ignored}
  {
   \string\addfontfeature (s) ignored \msg_line_context:;
   it cannot be used with a font that wasn't selected by a fontspec command.\\
@@ -309,81 +316,74 @@
     { The requested feature is "#1". }
     { The requested features are "#1". }
  }
-\__fontspec_msg_new:nnn {fontspec} {feature-option-overwrite}
+\__fontspec_msg_new:nn {feature-option-overwrite}
  {
   Option '#2' of font feature '#1' overwritten.
  }
-\__fontspec_msg_new:nnn {fontspec} {ot-tag-too-long}
+\__fontspec_msg_new:nn {ot-tag-too-long}
  {
   OpenType tag '#1' is too long; script, language, and feature tags must be four characters or fewer.
  }
-\__fontspec_msg_new:nnn {fontspec} {aat-feature-not-exist}
+\__fontspec_msg_new:nn {aat-feature-not-exist}
  {
   '\l_keys_key_tl=\l_keys_value_tl' feature not supported
   for AAT font '\l_fontspec_fontname_tl'.
  }
-\__fontspec_msg_new:nnn {fontspec} {aat-feature-not-exist-in-font}
+\__fontspec_msg_new:nn {aat-feature-not-exist-in-font}
  {
   AAT feature '\l_keys_key_tl=\l_keys_value_tl' (#1) not available
   in font '\l_fontspec_fontname_tl'.
  }
-\__fontspec_msg_new:nnn {fontspec} {icu-feature-not-exist}
- {
-  '\l_keys_key_tl=\l_keys_value_tl' feature not supported
-  for OpenType font '\l_fontspec_fontname_tl'
- }
-\__fontspec_msg_new:nnn {fontspec} {icu-feature-not-exist-in-font}
- {
-  OpenType feature '\l_keys_key_tl=\l_keys_value_tl' (#1) not available
-  for font '\l_fontspec_fontname_tl'
-  with script '\l__fontspec_script_name_tl' and language '\l__fontspec_lang_name_tl'.
- }
-\__fontspec_msg_new:nnn {fontspec} {no-opticals}
+\__fontspec_msg_new:nn {no-opticals}
  {
   '#1' doesn't appear to have an Optical Size axis.
  }
-\__fontspec_msg_new:nnn {fontspec} {language-not-exist}
+\__fontspec_msg_new:nn {script-not-exist}
  {
-  Language '#1' not available
-  for font '\l_fontspec_fontname_tl'
-  with script '\l__fontspec_script_name_tl'.
+  Script '#2' not explicitly supported within font '#1'.
+  Check the typeset output, and if it is okay then ignore this warning.
+  Otherwise a different font should be chosen.
  }
-\__fontspec_msg_new:nnn {fontspec} {only-xetex-feature}
+\__fontspec_msg_new:nn {language-not-exist}
+ {
+  Language '#1' not explicitly supported
+  within font '\l_fontspec_fontname_tl'
+  with script '\l__fontspec_script_name_tl'.
+  Check the typeset output, and if it is okay then ignore this warning.
+  Otherwise a different font should be chosen.
+ }
+\__fontspec_msg_new:nn {only-xetex-feature}
  {
   Ignored XeTeX-only feature: '#1'.
  }
-\__fontspec_msg_new:nnn {fontspec} {only-luatex-feature}
+\__fontspec_msg_new:nn {only-luatex-feature}
  {
   Ignored LuaTeX-only feature: '#1'.
  }
-\__fontspec_msg_new:nnn {fontspec} {unknown-renderer}
+\__fontspec_msg_new:nn {unknown-renderer}
  {
   Renderer '#1' unknown. Assuming Harfbuzz with 'shaper=#1'.
   Please raise a fontspec issue to add this shaper to the interface.
  }
-\__fontspec_msg_new:nnn {fontspec} {no-mapping}
+\__fontspec_msg_new:nn {no-mapping}
  {
   Input mapping not supported in LuaTeX.
  }
-\__fontspec_msg_new:nnn {fontspec} {no-mapping-ligtex}
+\__fontspec_msg_new:nn {no-mapping-ligtex}
  {
   Input mapping not supported in LuaTeX.\\
   Use "Ligatures=TeX" instead of "Mapping=tex-text".
  }
-\__fontspec_msg_new:nnn {fontspec} {cm-default-obsolete}
- {
-  The "cm-default" package option is obsolete.
- }
-\__fontspec_msg_new:nnn {fontspec} {font-index-needs-ttc}
+\__fontspec_msg_new:nn {font-index-needs-ttc}
  {
   The "FontIndex" feature is only supported by TTC (TrueType Collection) fonts.\\
   Feature ignored.
  }
-\__fontspec_msg_new:nnn {fontspec} {feat-cannot-remove}
+\__fontspec_msg_new:nn {feat-cannot-remove}
  {
   The "#1" feature cannot be deactivated. Request ignored.
  }
-\__fontspec_msg_new:nnn {fontspec} {defining-font}
+\__fontspec_msg_new:nn {defining-font}
  {
   Font family '\g__fontspec_nfss_family_tl' created for font '#2'
   with options [\l__fontspec_all_features_clist].\\
@@ -391,33 +391,29 @@
   This font family consists of the following NFSS series/shapes:\\
   \g__fontspec_defined_shapes_tl
  }
-\__fontspec_msg_new:nnn {fontspec} {no-font-shape}
+\__fontspec_msg_new:nn {no-font-shape}
  {
   Could not resolve font "#1" (it probably doesn't exist).
  }
-\__fontspec_msg_new:nnn {fontspec} {set-scale}
+\__fontspec_msg_new:nn {set-scale}
  {
   \l_fontspec_fontname_tl\space scale = \l__fontspec_scale_tl.
  }
-\__fontspec_msg_new:nnn {fontspec} {setup-math}
+\__fontspec_msg_new:nn {setup-math}
  {
   Adjusting the maths setup (use [no-math] to avoid this).
  }
-\__fontspec_msg_new:nnn {fontspec} {no-script}
- {
-  Font "#1" does not contain requested Script "#2".
- }
-\__fontspec_msg_new:nnn {fontspec} {opa-twice}
+\__fontspec_msg_new:nn {opa-twice}
  {
   Opacity set twice, in both Colour and Opacity.\\
   Using specification "Opacity=#1".
  }
-\__fontspec_msg_new:nnn {fontspec} {opa-twice-col}
+\__fontspec_msg_new:nn {opa-twice-col}
  {
   Opacity set twice, in both Opacity and Colour.\\
   Using an opacity specification in hex of "#1/FF".
  }
-\__fontspec_msg_new:nnn {fontspec} {bad-colour}
+\__fontspec_msg_new:nn {bad-colour}
  {
   Bad colour declaration "#1".
   Colour must be one of:\\
@@ -427,50 +423,14 @@
  }
 \char_set_catcode_ignore:n {32}
 
-%%^^A%%  fontspec-code-opening.dtx -- part of FONTSPEC <wspr.io/fontspec>
-\DeclareOption{cm-default}
+%%^^A%%  fontspec-code-opening.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
+\cs_if_exist:cF {T@TU}
   {
-    \__fontspec_warning:n {cm-default-obsolete}
+    \__fontspec_warning:n {tu-clash}
+    \DeclareFontEncoding{TU}{}{}
+    \DeclareFontSubstitution{TU}{lmr}{m}{n}
   }
-\DeclareOption {math}     { \bool_gset_true:N  \g__fontspec_math_bool  }
-\DeclareOption {no-math}  { \bool_gset_false:N \g__fontspec_math_bool  }
-\DeclareOption {config}   { \bool_gset_true:N  \g__fontspec_cfg_bool   }
-\DeclareOption {no-config}{ \bool_gset_false:N \g__fontspec_cfg_bool   }
-\DeclareOption {euenc}    { \bool_gset_true:N  \g__fontspec_euenc_bool }
-\DeclareOption {tuenc}    { \bool_gset_false:N \g__fontspec_euenc_bool }
-\DeclareOption {quiet}
-  {
-    \msg_redirect_module:nnn { fontspec } { warning } { info }
-    \msg_redirect_module:nnn { fontspec } { info } { none }
-  }
-\DeclareOption{silent}
-  {
-    \msg_redirect_module:nnn { fontspec } { warning } { none }
-    \msg_redirect_module:nnn { fontspec } { info } { none }
-  }
-\ExecuteOptions{config,math,tuenc}
-\ProcessOptions*
-\bool_if:NF \g__fontspec_euenc_bool
-  {
-    \file_if_exist:nTF {tuenc.def}
-      {
-        \cs_if_exist:cF {T@TU}
-          {
-            \__fontspec_warning:n {tu-clash}
-            \DeclareFontEncoding{TU}{}{}
-            \DeclareFontSubstitution{TU}{lmr}{m}{n}
-          }
-      }
-      {
-        \__fontspec_warning:n {tu-missing}
-        \bool_gset_true:N \g__fontspec_euenc_bool
-      }
-  }
-\bool_if:NTF \g__fontspec_euenc_bool
-  {
-    \tl_gset:Nn \g_fontspec_encoding_tl {EU1}
-  }
-  { \tl_gset:Nn \g_fontspec_encoding_tl { TU } }
+\tl_gset:Nn \g_fontspec_encoding_tl { TU }
 \tl_set:Nn \rmdefault {lmr}
 \tl_set:Nn \sfdefault {lmss}
 \tl_set:Nn \ttdefault {lmtt}
@@ -484,10 +444,6 @@
     \tl_set_eq:NN \cyrillicencoding \g_fontspec_encoding_tl
     \tl_set_eq:NN \latinencoding    \g_fontspec_encoding_tl
   }
-\bool_if:NT \g__fontspec_euenc_bool
-  {
-    \RequirePackage{xunicode}
-  }
 \cs_new:Npn \FontspecSetCheckBoolTrue  { \bool_set_true:N  \l__fontspec_check_bool }
 \cs_new:Npn \FontspecSetCheckBoolFalse { \bool_set_false:N \l__fontspec_check_bool }
 \cs_new:Nn \__fontspec_keys_set_known:nnN
@@ -500,23 +456,12 @@
     \int_set:Nn #1 { \__dim_eval:w #2 #1 \__dim_eval_end: }
   }
 \cs_generate_variant:Nn \int_set:Nn {Nv}
-\cs_generate_variant:Nn \keys_set:nn {nx}
-\cs_generate_variant:Nn \keys_set_known:nnN {nx}
-\cs_generate_variant:Nn \prop_put:Nnn {Nxx}
-\cs_generate_variant:Nn \prop_put:Nnn {NxV}
-\cs_generate_variant:Nn \prop_gput_if_new:Nnn  {NxV}
-\cs_generate_variant:Nn \prop_gput:Nnn  {Nxn}
-\cs_generate_variant:Nn \prop_get:NnNT  {NxN}
-\cs_generate_variant:Nn \prop_get:NnNTF {NxN}
-\cs_generate_variant:Nn \str_if_eq:nnTF {nv}
-\cs_generate_variant:Nn \tl_if_empty_p:n {e}
-\cs_generate_variant:Nn \tl_if_empty:nTF {x}
-\cs_generate_variant:Nn \tl_if_empty:nF {x}
+\cs_generate_variant:Nn \prop_gput_if_not_in:Nnn {NeV}
+\cs_generate_variant:Nn \prop_gput:Nnn  {Nxn} % needed by unicode-math
 \cs_generate_variant:Nn \tl_if_empty:nF {f}
-\cs_generate_variant:Nn \tl_if_eq:nnT {ox}
-\cs_generate_variant:Nn \tl_replace_all:Nnn {Nnx}
+\cs_generate_variant:Nn \tl_if_eq:nnT {oe}
 
-%%^^A%%  fontspec-code-fontload.dtx -- part of FONTSPEC <wspr.io/fontspec>
+%%^^A%%  fontspec-code-fontload.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 
 \cs_set:Npn \__fontspec_primitive_font_set:Nnn #1#2#3
   {
@@ -530,7 +475,7 @@
   {
     \int_set:Nn \suppressfontnotfounderror {1}
   }
-\prg_set_conditional:Nnn \__fontspec_primitive_font_if_null:N {p,TF,T,F}
+\prg_new_conditional:Nnn \__fontspec_primitive_font_if_null:N {p,TF,T,F}
   {
     \ifx #1 \nullfont
       \prg_return_true:
@@ -538,12 +483,12 @@
       \prg_return_false:
     \fi
   }
-\prg_set_conditional:Nnn \__fontspec_primitive_font_set:Nnn {TF,T,F}
+\prg_new_conditional:Nnn \__fontspec_primitive_font_set:Nnn {TF,T,F}
   {
     \__fontspec_primitive_font_set:Nnn #1 {#2} {#3}
     \__fontspec_primitive_font_if_null:NTF #1 {\prg_return_false:} {\prg_return_true:}
   }
-\prg_set_conditional:Nnn \__fontspec_primitive_font_gset:Nnn {TF,T,F}
+\prg_new_conditional:Nnn \__fontspec_primitive_font_gset:Nnn {TF,T,F}
   {
     \__fontspec_primitive_font_gset:Nnn #1 {#2} {#3}
     \__fontspec_primitive_font_if_null:NTF #1 {\prg_return_false:} {\prg_return_true:}
@@ -552,7 +497,7 @@
 \cs_set:Npn \__fontspec_primitive_font_set:OnnF  { \exp_last_unbraced:No \__fontspec_primitive_font_set:NnnF }
 \cs_set:Npn \__fontspec_primitive_font_gset:Onn  { \exp_last_unbraced:No \__fontspec_primitive_font_gset:Nnn }
 \cs_set:Npn \__fontspec_primitive_font_gset:OnnF { \exp_last_unbraced:No \__fontspec_primitive_font_gset:NnnF }
-\prg_set_conditional:Nnn \__fontspec_primitive_font_if_exist:n {TF,T,F}
+\prg_new_conditional:Nnn \__fontspec_primitive_font_if_exist:n {TF,T,F}
   {
     \group_begin:
       \__fontspec_font_suppress_not_found_error:
@@ -579,7 +524,7 @@
     \__fontspec_primitive_font_get_name:N \tex_font:D
   }
 
-%%^^A%%  fontspec-code-interfaces.dtx -- part of FONTSPEC <wspr.io/fontspec>
+%%^^A%%  fontspec-code-interfaces.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 
 \NewDocumentCommand \fontspec { O{} m O{} }
   {
@@ -720,7 +665,7 @@
     \__fontspec_main_liningnums:n {#1}
   }
 
-%%^^A%%  fontspec-code-user.dtx -- part of FONTSPEC <wspr.io/fontspec>
+%%^^A%%  fontspec-code-user.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 
 \cs_new:Nn \__fontspec_main_fontspec:nn
   {
@@ -1007,7 +952,7 @@
     \group_end:
   }
 
-%%^^A%%  fontspec-code-api.dtx -- part of FONTSPEC <wspr.io/fontspec>
+%%^^A%%  fontspec-code-api.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 
 \prg_new_conditional:Nnn \fontspec_if_fontspec_font: {TF,T,F}
   {
@@ -1058,7 +1003,7 @@
             \prop_get:cnN {g__fontspec_fontinfo_ \f@family _prop} {script-tag}  \l__fontspec_script_tl
             \prop_get:cnN {g__fontspec_fontinfo_ \f@family _prop} {lang-tag}    \l__fontspec_lang_tl
 
-            \__fontspec_check_ot_feat:NnTF \font {#1} {\prg_return_true:} {\prg_return_false:}
+            \__fontspec_check_ot_feat:NnnnTF \font {#1} {\l__fontspec_lang_tl} {\l__fontspec_script_tl} {\prg_return_true:} {\prg_return_false:}
           }
           {
             \prg_return_false:
@@ -1217,7 +1162,7 @@
       { \prg_return_false: }
   }
 
-%%^^A%%  fontspec-code-internal.dtx -- part of FONTSPEC <wspr.io/fontspec>
+%%^^A%%  fontspec-code-internal.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 
 \cs_new_protected:Nn \__fontspec_select_font_family:nn
   {
@@ -1225,9 +1170,10 @@
     \__fontspec_font_suppress_not_found_error:
     \__fontspec_init:
 
-    \__fontspec_sanitise_fontname:Nn \l_fontspec_fontname_tl    {#2}
-    \__fontspec_sanitise_fontname:Nn \l__fontspec_fontname_up_tl       {#2}
-    \__fontspec_sanitise_fontname:Nn \l__fontspec_basename_tl          {#2}
+    \__fontspec_sanitise_fontname:Nn \l_fontspec_fontname_tl {#2}
+    \tl_set_eq:NN \l__fontspec_fontname_up_tl \l_fontspec_fontname_tl
+    \tl_set_eq:NN \l__fontspec_basename_tl    \l_fontspec_fontname_tl
+
 
     \__fontspec_if_detect_external:nT {#2}
      { \keys_set:nn {fontspec-preparse-external} {Path} }
@@ -1235,13 +1181,15 @@
     \keys_set_known:nn {fontspec-preparse-cfg} {#1}
 
     \__fontspec_init_ttc:n {#2}
-    \__fontspec_load_external_fontoptions:Nn \l_fontspec_fontname_tl {#2}
+    \__fontspec_load_external_fontoptions:N \l_fontspec_fontname_tl
 
     \__fontspec_extract_all_features:n {#1}
     \tl_set:Nx \l__fontspec_fontid_tl { \tl_to_str:N \l_fontspec_fontname_tl-:-\tl_to_str:N \l__fontspec_all_features_clist }
 
 
     \__fontspec_preparse_features:
+
+
     \__fontspec_load_font:
     \__fontspec_set_scriptlang:
     \__fontspec_get_features:n {}
@@ -1261,12 +1209,19 @@
 \cs_new:Nn \__fontspec_sanitise_fontname:Nn
   {
     \tl_set:Nx #1 {#2}
+    \tl_trim_spaces:N #1
+    \__fontspec_process_ext:N #1
+  }
+
+\cs_new:Nn \__fontspec_process_ext:N
+  {
     \clist_map_inline:Nn \l__fontspec_extensions_clist
       {
         \tl_if_in:NnT #1 {##1}
           {
             \tl_remove_once:Nn #1 {##1}
             \tl_set:Nn \l__fontspec_extension_tl {##1}
+            \__fontspec_font_is_file:
             \clist_map_break:
           }
       }
@@ -1286,22 +1241,28 @@
   {
     \str_if_eq:eeT { \str_lowercase:f {\l__fontspec_extension_tl} } {.ttc}
       {
-        \__fontspec_sanitise_fontname:Nn \l__fontspec_fontname_it_tl   {#1}
-        \__fontspec_sanitise_fontname:Nn \l__fontspec_fontname_bf_tl   {#1}
-        \__fontspec_sanitise_fontname:Nn \l__fontspec_fontname_bfit_tl {#1}
+        \tl_set_eq:NN \l__fontspec_fontname_it_tl   \l_fontspec_fontname_tl
+        \tl_set_eq:NN \l__fontspec_fontname_bf_tl   \l_fontspec_fontname_tl
+        \tl_set_eq:NN \l__fontspec_fontname_bfit_tl \l_fontspec_fontname_tl
       }
   }
-\cs_new:Nn \__fontspec_load_external_fontoptions:Nn
+\cs_new:Nn \__fontspec_load_external_fontoptions:N
   {
     \bool_if:NT \l__fontspec_fontcfg_bool
       {
-        \__fontspec_sanitise_fontname:Nn #1 {#2}
         \tl_set:Nx \l__fontspec_ext_filename_tl {#1.fontspec}
         \tl_remove_all:Nn \l__fontspec_ext_filename_tl {~}
         \prop_if_in:NVF \g__fontspec_fontopts_prop #1
          {
-          \exp_args:No \file_if_exist:nT { \l__fontspec_ext_filename_tl }
-           { \file_input:n { \l__fontspec_ext_filename_tl } }
+          \exp_args:No \file_if_exist:nTF { \l__fontspec_ext_filename_tl }
+            {
+              \file_input:n { \l__fontspec_ext_filename_tl }
+            }
+            {
+              \tl_remove_all:Nn \l__fontspec_ext_filename_tl {~}
+              \exp_args:No \file_if_exist:nT { \l__fontspec_ext_filename_tl }
+                { \file_input:n { \l__fontspec_ext_filename_tl } }
+            }
          }
       }
   }
@@ -1344,6 +1305,7 @@
 \cs_new:Nn \__fontspec_load_font:
   {
 
+    \__fontspec_sanitise_fontname:Nn \l__fontspec_fontname_up_tl { \l__fontspec_fontname_up_tl }
     \__fontspec_primitive_font_set:NnnF \l__fontspec_test_font
       { \__fontspec_construct_font_call:nn { \l__fontspec_fontname_up_tl } { \l__fontspec_pre_feat_sclist } }
       { \f@size pt - 2sp }
@@ -1375,11 +1337,18 @@
   }
 \cs_new:Nn \__fontspec_font_is_name:
   {
-    \cs_set_eq:NN \__fontspec_fontname_wrap:n \use:n
+  \cs_set_eq:NN \__fontspec_fontname_wrap:n \use:n
   }
 \cs_new:Nn \__fontspec_font_is_file:
   {
-    \cs_set:Npn \__fontspec_fontname_wrap:n ##1 { [ \l__fontspec_font_path_tl ##1 ] }
+    \bool_set_true:N \l__fontspec_external_bool
+    \bool_lazy_and:nnTF { \l__fontspec_external_kpse_bool } { \tl_if_empty_p:N \l__fontspec_font_path_tl }
+      {
+        \cs_set:Npn \__fontspec_fontname_wrap:n ##1 { kpse: ##1 }
+      }
+      {
+        \cs_set:Npn \__fontspec_fontname_wrap:n ##1 { [ \l__fontspec_font_path_tl ##1 ] }
+      }
   }
 \cs_new:Nn \__fontspec_set_scriptlang:
   {
@@ -1387,8 +1356,8 @@
       {
         \tl_if_empty:NF \l__fontspec_script_name_tl
           {
-            \keys_set:nx {fontspec-opentype} {Script=\l__fontspec_script_name_tl}
-            \keys_set:nx {fontspec-opentype} {Language=\l__fontspec_lang_name_tl}
+            \keys_set:ne {fontspec-opentype} {Script=\l__fontspec_script_name_tl}
+            \keys_set:ne {fontspec-opentype} {Language=\l__fontspec_lang_name_tl}
           }
       }
   }
@@ -1400,11 +1369,11 @@
     \__fontspec_keys_set_known:nxN {fontspec} {\l__fontspec_keys_leftover_clist} \l__fontspec_keys_leftover_clist
     \bool_if:NTF \l__fontspec_ot_bool
       {
-        \keys_set:nV {fontspec-opentype} \l__fontspec_keys_leftover_clist
+        \keys_set_known:nV {fontspec-opentype} \l__fontspec_keys_leftover_clist
       }
       {
         \bool_if:nT { \l__fontspec_atsui_bool || \l__fontspec_graphite_bool }
-          { \keys_set:nV {fontspec-aat} \l__fontspec_keys_leftover_clist }
+          { \keys_set_known:nV {fontspec-aat} \l__fontspec_keys_leftover_clist }
       }
 
     \tl_if_empty:NF \l__fontspec_mapping_tl
@@ -1412,7 +1381,7 @@
 
     \str_if_eq:eeF { \l__fontspec_hexcol_tl \l__fontspec_opacity_tl }
                      { \c__fontspec_hexcol_tl \c__fontspec_opacity_tl }
-      { \__fontspec_update_featstr:n { color = \l__fontspec_hexcol_tl\l__fontspec_opacity_tl } }
+       { \__fontspec_update_featstr:n { color = \l__fontspec_hexcol_tl\l__fontspec_opacity_tl } }
   }
 \prg_new_conditional:Nnn \__fontspec_save_family_needed:n { TF }
   {
@@ -1467,7 +1436,7 @@
     \prop_gput:cnx {g__fontspec_fontinfo_ \g__fontspec_nfss_family_tl _prop} {fontdef}
       {
         \__fontspec_construct_font_call:nn {\l_fontspec_fontname_tl}
-          { \l__fontspec_pre_feat_sclist \g__fontspec_rawfeatures_sclist }
+          { \l__fontspec_pre_feat_sclist \g__fontspec_rawfeatures_sclist \__fontspec_get_variations: }
       }
     \prop_gput:cnV {g__fontspec_fontinfo_ \g__fontspec_nfss_family_tl _prop} {script-num} \l__fontspec_script_int
     \prop_gput:cnV {g__fontspec_fontinfo_ \g__fontspec_nfss_family_tl _prop} {lang-num}   \l__fontspec_language_int
@@ -1501,8 +1470,10 @@
     \__fontspec_add_nfssfont:nnnn \bfdefault \shapedefault \l__fontspec_fontname_bf_tl    \l__fontspec_fontfeat_bf_clist
     \__fontspec_add_nfssfont:nnnn \mddefault \itdefault    \l__fontspec_fontname_it_tl    \l__fontspec_fontfeat_it_clist
     \__fontspec_add_nfssfont:nnnn \mddefault \sldefault    \l__fontspec_fontname_sl_tl    \l__fontspec_fontfeat_sl_clist
+    \__fontspec_add_nfssfont:nnnn \mddefault \swdefault    \l__fontspec_fontname_sw_tl    \l__fontspec_fontfeat_sw_clist
     \__fontspec_add_nfssfont:nnnn \bfdefault \itdefault    \l__fontspec_fontname_bfit_tl  \l__fontspec_fontfeat_bfit_clist
     \__fontspec_add_nfssfont:nnnn \bfdefault \sldefault    \l__fontspec_fontname_bfsl_tl  \l__fontspec_fontfeat_bfsl_clist
+    \__fontspec_add_nfssfont:nnnn \bfdefault \swdefault    \l__fontspec_fontname_bfsw_tl  \l__fontspec_fontfeat_bfsw_clist
     \prop_map_inline:Nn \l__fontspec_nfssfont_prop { \__fontspec_set_faces_aux:nnnnn ##2 }
   }
 \cs_new:Nn \__fontspec_set_faces_aux:nnnnn
@@ -1513,19 +1484,22 @@
 \cs_new:Nn \fontspec_complete_fontname:Nn
   {
     \tl_set:Nx #1 {#2}
-    \tl_replace_all:Nnx #1 {*} {\l__fontspec_basename_tl}
+    \tl_if_in:NnF \l_fontspec_fontname_tl {*}
+      {
+        \tl_replace_all:Nne #1 {*} {\l__fontspec_basename_tl}
+      }
   }
 \cs_new:Nn \__fontspec_add_nfssfont:nnnn
   {
     \tl_set:Nx \l__fontspec_this_font_tl {#3}
 
-    \tl_if_empty:xTF {#4}
+    \tl_if_empty:eTF {#4}
       { \clist_set:Nn \l__fontspec_sizefeat_clist {Size={-}} }
       { \__fontspec_keys_set_known:nxN {fontspec-preparse-nested} {#4} \l__fontspec_tmp_tl }
 
     \tl_if_empty:NF \l__fontspec_this_font_tl
       {
-        \prop_put:Nxx \l__fontspec_nfssfont_prop {#1/#2}
+        \prop_put:Nee \l__fontspec_nfssfont_prop {#1/#2}
           { {#1}{#2}{\l__fontspec_this_font_tl}{#4}{\l__fontspec_sizefeat_clist} }
       }
   }
@@ -1556,7 +1530,7 @@
   {
     \bool_if:NF \l__fontspec_external_bool
       {
-        \tl_if_empty:xF {#2}
+        \tl_if_empty:eF {#2}
           {
             \tl_if_empty:NT #1
               {
@@ -1572,7 +1546,7 @@
     \group_begin:
     \__fontspec_primitive_font_set:Nnn \l__fontspec_tmpa_font { \__fontspec_construct_font_call:nn {#1}   { \l__fontspec_pre_feat_sclist } } { \f@size pt + 1sp }
     \__fontspec_primitive_font_set:Nnn \l__fontspec_tmpb_font { \__fontspec_construct_font_call:nn {#1#2} { \l__fontspec_pre_feat_sclist } } { \f@size pt + 1sp }
-    \str_if_eq:eeTF { \__fontspec_primitive_font_get_name:N \l__fontspec_tmpa_font } { \__fontspec_primitive_font_get_name:N \l__fontspec_tmpb_font }
+    \cs_if_eq:NNTF \l__fontspec_tmpa_font \l__fontspec_tmpb_font
       { \group_end: \prg_return_false: }
       { \group_end: \prg_return_true: }
   }
@@ -1586,7 +1560,8 @@
   }
 \cs_new:Nn \__fontspec_load_fontname:Nn
   {
-    \__fontspec_load_external_fontoptions:Nn #1 {#2}
+    \__fontspec_sanitise_fontname:Nn #1 {#2}
+    \__fontspec_load_external_fontoptions:N #1
     \prop_get:NVNF \g__fontspec_fontopts_prop #1 \l__fontspec_fontopts_clist
       { \clist_clear:N \l__fontspec_fontopts_clist }
     \keys_set_groups:nnV {fontspec/fontname} {getfontname} \l__fontspec_fontopts_clist
@@ -1613,7 +1588,7 @@
     \__fontspec_declare_shapes_normal:nn {#1} {#2}
     \__fontspec_declare_shapes_smcaps:nn {#1} {#2}
     \__fontspec_declare_shape_slanted:nn {#1} {#2}
-    \__fontspec_declare_shapes_bx:nn      {#1} {#2}
+    \__fontspec_declare_shapes_bx:nn     {#1} {#2}
     \__fontspec_declare_shape_loginfo:nn {#1} {#2}
   }
 \cs_generate_variant:Nn \__fontspec_declare_shape:nnnn {nnxx}
@@ -1622,13 +1597,13 @@
     \tl_clear:N \l__fontspec_size_tl
     \tl_set_eq:NN \l__fontspec_sizedfont_tl \l__fontspec_saved_fontname_tl % in case not spec'ed
 
-    \keys_set_known:nxN {fontspec-sizing} { \exp_after:wN \use:n #2 }
+    \keys_set_known:neN {fontspec-sizing} { \exp_after:wN \use:n #2 }
       \l__fontspec_sizing_leftover_clist
     \tl_if_empty:NT \l__fontspec_size_tl { \__fontspec_error:n {no-size-info} }
 
     % "normal"
     \__fontspec_load_fontname:Nn \l_fontspec_fontname_tl {\l__fontspec_sizedfont_tl}
-    \__fontspec_setup_nfss:Nnnn \l__fontspec_nfss_tl {#1} {\l__fontspec_sizing_leftover_clist} {}
+    \__fontspec_setup_nfss:Nn \l__fontspec_nfss_tl { #1 , \l__fontspec_sizing_leftover_clist }
 
     % small caps
     \clist_set_eq:NN \l__fontspec_fontfeat_curr_clist \l__fontspec_fontfeat_sc_clist
@@ -1650,14 +1625,15 @@
 
     \bool_if:NF \l__fontspec_nosc_bool
       {
-        \__fontspec_setup_nfss:Nnnn \l__fontspec_nfss_sc_tl
-          {#1} {\l__fontspec_sizing_leftover_clist} {\l__fontspec_fontfeat_curr_clist}
+        \__fontspec_setup_nfss:Nn \l__fontspec_nfss_sc_tl
+          {#1 , \l__fontspec_sizing_leftover_clist , \l__fontspec_fontfeat_curr_clist}
       }
   }
-\cs_new:Nn \__fontspec_setup_nfss:Nnnn
+\cs_new:Nn \__fontspec_setup_nfss:Nn
   {
 
-    \__fontspec_get_features:n { #2 , #3 , #4 }
+    \__fontspec_get_features:n { #2 }
+
 
     \tl_if_empty:NF \l__fontspec_scale_tl
       {
@@ -1668,7 +1644,7 @@
       {
         <\l__fontspec_size_tl> \l__fontspec_scale_tl
         \__fontspec_construct_font_call:nn { \l_fontspec_fontname_tl }
-          { \l__fontspec_pre_feat_sclist \g__fontspec_rawfeatures_sclist }
+          { \l__fontspec_pre_feat_sclist \g__fontspec_rawfeatures_sclist \__fontspec_get_variations: }
       }
   }
 \cs_new:Nn \__fontspec_declare_shapes_normal:nn
@@ -1688,7 +1664,7 @@
   {
     \tl_if_exist:cTF { \__fontspec_shape_merge:nn {#1} {\scdefault} }
          { \tl_use:c { \__fontspec_shape_merge:nn {#1} {\scdefault} } }
-         { \scdefault }
+         { \scdefault#1 }
   }
 \cs_new:Nn \__fontspec_DeclareFontShape:nnnnnn
   {
@@ -1760,27 +1736,32 @@
           {\bfdefault/\shapedefault} {'bold'~}
           {\mddefault/\itdefault} {'italic'~}
           {\mddefault/\sldefault} {'slanted'~}
+          {\mddefault/\swdefault} {'swash'~}
           {\bfdefault/\itdefault} {'bold~ italic'~}
           {\bfdefault/\sldefault} {'bold~ slanted'~}
+          {\bfdefault/\swdefault} {'bold~ swash'~}
         } (#1/#2)~
         with~ NFSS~ spec.:~
         \l__fontspec_nfss_tl
-        \exp_not:n { \\ }
-        -~ \exp_not:N \str_case:nn { #1 / \__fontspec_combo_sc_shape:n {#2} }
-        {
-          {\mddefault/\scdefault} {'small~ caps'~}
-          {\bfdefault/\scdefault} {'bold~ small~ caps'~}
-          {\mddefault/\scitdefault} {'italic~ small~ caps'~}
-          {\bfdefault/\scitdefault} {'bold~ italic~ small~ caps'~}
-          {\mddefault/\scsldefault} {'slanted~ small~ caps'~}
-          {\bfdefault/\scsldefault} {'bold~ slanted~ small~ caps'~}
-        }~( #1 / \__fontspec_combo_sc_shape:n {#2} )~
-        with~ NFSS~ spec.:~
-        \l__fontspec_nfss_sc_tl
-        \tl_if_empty:fF {\l__fontspec_postadjust_tl}
+        \tl_if_empty:NF \l__fontspec_nfss_sc_tl
           {
-          \exp_not:N \\ and~ font~ adjustment~ code:
-          \exp_not:N \\ \l__fontspec_postadjust_tl
+            \exp_not:n { \\ }
+            -~ \exp_not:N \str_case:nn { #1 / \__fontspec_combo_sc_shape:n {#2} }
+            {
+              {\mddefault/\scdefault} {'small~ caps'~}
+              {\bfdefault/\scdefault} {'bold~ small~ caps'~}
+              {\mddefault/\scitdefault} {'italic~ small~ caps'~}
+              {\bfdefault/\scitdefault} {'bold~ italic~ small~ caps'~}
+              {\mddefault/\scsldefault} {'slanted~ small~ caps'~}
+              {\bfdefault/\scsldefault} {'bold~ slanted~ small~ caps'~}
+            }~( #1 / \__fontspec_combo_sc_shape:n {#2} )~
+            with~ NFSS~ spec.:~
+            \l__fontspec_nfss_sc_tl
+            \tl_if_empty:fF {\l__fontspec_postadjust_tl}
+              {
+              \exp_not:N \\ and~ font~ adjustment~ code:
+              \exp_not:N \\ \l__fontspec_postadjust_tl
+              }
           }
       }
   }
@@ -1794,7 +1775,19 @@
   }
 \cs_new:Nn \__fontspec_make_ot_smallcaps:TF
   {
-    \exp_args:No \__fontspec_check_ot_feat:NnTF \l__fontspec_fontface_cs_tl {smcp} {#1} {#2}
+    \bool_set_false:N \l__fontspec_tmpa_bool
+    \exp_args:Ne \clist_map_inline:nn { \l__fontspec_lang_tl , \g__fontspec_default_langs_clist }
+      {
+        \exp_args:Ne \clist_map_inline:nn { \l__fontspec_script_tl , \g__fontspec_default_scripts_clist }
+          {
+            \exp_args:No \__fontspec_check_ot_feat:NnnnT \l__fontspec_fontface_cs_tl {smcp} {##1} {####1}
+              {
+                \bool_set_true:N \l__fontspec_tmpa_bool
+                \clist_map_break:
+              }
+          }
+      }
+    \bool_if:NTF \l__fontspec_tmpa_bool {#1} {#2}
   }
 \cs_new:Nn \__fontspec_make_smallcaps:TF
   {
@@ -1824,6 +1817,26 @@
       }
   }
 \cs_generate_variant:Nn \__fontspec_remove_clashing_featstr:n {x}
+\cs_generate_variant:Nn \tl_tail:n { e }
+\cs_new:Nn \__fontspec_format_axis:nn
+  {
+    , #1 = #2
+  }
+\cs_new:Nn \__fontspec_get_variations:
+  {
+    \tl_if_empty:NF \g__fontspec_instance_tl
+      {
+        instance = { \g__fontspec_instance_tl };
+      }
+      \prop_if_empty:NF \g__fontspec_rawvariations_prop
+      {
+        axis = {
+          \tl_tail:e {
+            \prop_map_function:NN \g__fontspec_rawvariations_prop \__fontspec_format_axis:nn
+          }
+        };
+      }
+  }
 \cs_set:Npn \__fontspec_init:
   {
     \bool_set_false:N \l__fontspec_ot_bool
@@ -1840,6 +1853,8 @@
 \cs_new:Nn \__fontspec_init_fontface:
   {
     \tl_gclear:N \g__fontspec_rawfeatures_sclist
+    \prop_gclear:N \g__fontspec_rawvariations_prop
+    \tl_gclear:N \g__fontspec_instance_tl
     \tl_clear:N \l__fontspec_scale_tl
     \tl_set_eq:NN \l__fontspec_opacity_tl \c__fontspec_opacity_tl
     \tl_set_eq:NN \l__fontspec_hexcol_tl \c__fontspec_hexcol_tl
@@ -1872,8 +1887,19 @@
       }
   }
 
-%%^^A%%  fontspec-code-opentype.dtx -- part of FONTSPEC <wspr.io/fontspec>
+%%^^A%%  fontspec-code-opentype.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 
+\cs_new:Nn \__fontspec_define_opentype_variation_axis:nn
+  {
+    \keys_define:nn {fontspec-opentype}
+      {
+        #1 .code:n = {
+          \prop_gput:Nnn \g__fontspec_rawvariations_prop { #2 } { ##1 }
+        },
+        #1 .value_required:n = true,
+        #1 .groups:n = {opentype},
+      }
+  }
 \cs_new:Nn \__fontspec_define_opentype_feature_group:n
   {
     \keys_define:nn {fontspec-opentype} { #1 .multichoice: , .groups:n = {opentype} }
@@ -1926,27 +1952,14 @@
   }
 \cs_new:Nn \__fontspec_make_OT_feature:nnn
   {
-
-    \bool_set_true:N \l__fontspec_proceed_bool
-
-    \tl_if_empty:nF {#1}
-      {
-        \exp_args:No \__fontspec_check_ot_feat:NnF \l__fontspec_fontface_cs_tl {#1}
-          {
-            \__fontspec_warning:nx {icu-feature-not-exist-in-font} {#1}
-            \bool_set_false:N \l__fontspec_proceed_bool
-          }
-      }
-
     \__fontspec_remove_clashing_featstr:x { #2 , \__fontspec_swap_plus_minus:n {#2} , #3 }
-
-    \bool_if:NT \l__fontspec_proceed_bool { \__fontspec_update_featstr:n {#2} }
+    \__fontspec_update_featstr:n {#2}
   }
 \cs_generate_variant:Nn \__fontspec_make_OT_feature:nnn {xxx}
 \cs_new:Nn \__fontspec_swap_plus_minus:n { \__fontspec_swap_plus_minus_aux:Nq #1 \q_nil }
 \cs_new:Npn \__fontspec_swap_plus_minus_aux:Nq #1#2 \q_nil
   { \str_case:nn {#1} { {+} {-#2} {-} {+#2} } }
-\prg_new_conditional:Nnn \__fontspec_check_script:Nn {TF,T}
+\prg_new_conditional:Nnn \__fontspec_check_script:Nn {TF,T,F}
   {
     \bool_if:NTF \l__fontspec_never_check_bool
       { \prg_return_true: }
@@ -1971,7 +1984,7 @@
       }
       }
   }
-\prg_new_conditional:Nnn \__fontspec_check_lang:Nn {TF}
+\prg_new_conditional:Nnn \__fontspec_check_lang:Nn {TF,F}
   {
     \__fontspec_check_lang:NnnTF #1 {#2} {\l__fontspec_script_tl} {\prg_return_true:} {\prg_return_false:}
   }
@@ -2007,12 +2020,7 @@
       }
       }
   }
-\prg_new_conditional:Nnn \__fontspec_check_ot_feat:Nn {TF,F}
-  {
-    \__fontspec_check_ot_feat:NnnnTF #1 {#2} {\l__fontspec_lang_tl} {\l__fontspec_script_tl}
-      {\prg_return_true:} {\prg_return_false:}
-  }
-\prg_new_conditional:Nnn \__fontspec_check_ot_feat:Nnnn {TF,F}
+\prg_new_conditional:Nnn \__fontspec_check_ot_feat:Nnnn {TF,T,F}
   {
     \bool_if:NTF \l__fontspec_never_check_bool
       { \prg_return_true: }
@@ -2169,7 +2177,7 @@
 \prop_gput:Nnn \g__fontspec_all_opentype_feature_names_prop {vrtr}{Vertical~Alternates~for~Rotation}
 \prop_gput:Nnn \g__fontspec_all_opentype_feature_names_prop {zero}{Slashed~Zero}
 
-%%^^A%%  fontspec-code-graphite.dtx -- part of FONTSPEC <wspr.io/fontspec>
+%%^^A%%  fontspec-code-graphite.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 
 
 \cs_new:Nn \__fontspec_define_aat_feature_group:n
@@ -2231,7 +2239,7 @@
      }
   }
 
-%%^^A%%  fontspec-code-keyval.dtx -- part of FONTSPEC <wspr.io/fontspec>
+%%^^A%%  fontspec-code-keyval.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 
 \clist_gset:Nn \g__fontspec_all_keyval_modules_clist
   {
@@ -2260,7 +2268,6 @@
   {
     \bool_set_true:N \l__fontspec_nobf_bool
     \bool_set_true:N \l__fontspec_noit_bool
-    \bool_set_true:N \l__fontspec_external_bool
     \tl_set:Nn \l__fontspec_font_path_tl {#1}
     \__fontspec_font_is_file:
     \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
@@ -2277,6 +2284,12 @@
   }
 \tl_clear:N \l__fontspec_extension_tl
 \__fontspec_keys_define_code:nnn {fontspec} {Extension} {}
+\__fontspec_keys_define_code:nnn {fontspec-preparse-external} {KpseOnly}
+  {
+    \bool_set_true:N \l__fontspec_external_kpse_bool
+    \bool_if:NT \l__fontspec_external_bool \__fontspec_font_is_file:
+  }
+\__fontspec_keys_define_code:nnn {fontspec} {KpseOnly} {}
 \keys_define:nn {fontspec-renderer}
   {
     Renderer .choices:nn =
@@ -2297,12 +2310,12 @@
   }
 \__fontspec_keys_define_code:nnn {fontspec-preparse} {Script}
   {
-    \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
+    \tl_if_empty:NT \l__fontspec_renderer_tl { \keys_set:nn {fontspec-renderer} {Renderer=OpenType} }
     \tl_set:Nn \l__fontspec_script_name_tl {#1}
   }
 \__fontspec_keys_define_code:nnn {fontspec-preparse} {Language}
   {
-    \keys_set:nn {fontspec-renderer} {Renderer=OpenType}
+    \tl_if_empty:NT \l__fontspec_renderer_tl { \keys_set:nn {fontspec-renderer} {Renderer=OpenType} }
     \tl_set:Nn \l__fontspec_lang_name_tl {#1}
   }
 \__fontspec_keys_define_code:nnn {fontspec-preparse} {FontIndex}
@@ -2334,6 +2347,10 @@
   {
     \fontspec_complete_fontname:Nn \l__fontspec_fontname_sl_tl {#1}
   }
+\__fontspec_keys_define_code:nnn {fontspec-preparse-external} {SwashFont}
+  {
+    \fontspec_complete_fontname:Nn \l__fontspec_fontname_sw_tl {#1}
+  }
 \__fontspec_keys_define_code:nnn {fontspec-preparse-external} {BoldFont}
   {
     \tl_if_empty:nTF {#1}
@@ -2350,12 +2367,12 @@
             \seq_put_right:Nx \l__fontspec_bf_series_seq {\bfdefault}
           }
 
-        \tl_if_eq:oxT \g__fontspec_curr_series_tl {\bfdefault}
+        \tl_if_eq:oeT \g__fontspec_curr_series_tl {\bfdefault}
           {
             \tl_set_eq:NN \l__fontspec_fontname_bf_tl \l__fontspec_curr_bfname_tl
           }
 
-        \prop_put:NxV \l__fontspec_nfss_prop {BoldFont-\g__fontspec_curr_series_tl} \l__fontspec_curr_bfname_tl
+        \prop_put:NeV \l__fontspec_nfss_prop {BoldFont-\g__fontspec_curr_series_tl} \l__fontspec_curr_bfname_tl
 
 
       }
@@ -2367,6 +2384,10 @@
 \__fontspec_keys_define_code:nnn {fontspec-preparse-external} {BoldSlantedFont}
   {
     \fontspec_complete_fontname:Nn \l__fontspec_fontname_bfsl_tl {#1}
+  }
+\__fontspec_keys_define_code:nnn {fontspec-preparse-external} {BoldSwashFont}
+  {
+    \fontspec_complete_fontname:Nn \l__fontspec_fontname_bfsw_tl {#1}
   }
 \__fontspec_keys_define_code:nnn {fontspec} {SmallCapsFont}
   {
@@ -2386,7 +2407,6 @@
 \__fontspec_keys_define_code:nnn {fontspec-preparse} {BoldFeatures}
   {
     \clist_put_right:Nn \l__fontspec_fontfeat_bf_clist {#1}
-
   }
 \__fontspec_keys_define_code:nnn {fontspec-preparse} {ItalicFeatures}
   {
@@ -2403,6 +2423,14 @@
 \__fontspec_keys_define_code:nnn {fontspec-preparse} {BoldSlantedFeatures}
   {
     \clist_put_right:Nn \l__fontspec_fontfeat_bfsl_clist {#1}
+  }
+\__fontspec_keys_define_code:nnn {fontspec-preparse} {SwashFeatures}
+  {
+    \clist_put_right:Nn \l__fontspec_fontfeat_sw_clist {#1}
+  }
+\__fontspec_keys_define_code:nnn {fontspec-preparse} {BoldSwashFeatures}
+  {
+    \clist_put_right:Nn \l__fontspec_fontfeat_bfsw_clist {#1}
   }
 \__fontspec_keys_define_code:nnn {fontspec} {SmallCapsFeatures}
   {
@@ -2479,8 +2507,10 @@
       {
         {MatchLowercase} { \__fontspec_calc_scale:n {5} }
         {MatchUppercase} { \__fontspec_calc_scale:n {8} }
+        {MatchAveragecase} { \__fontspec_calc_scale:nn {5} {8} }
       }
       { \tl_set:Nx \l__fontspec_scale_tl {#1} }
+      \__fontspec_info:n {set-scale}
   }
 \__fontspec_keys_define_code:nnn {fontspec} {ScaleAgain}
   {
@@ -2505,7 +2535,20 @@
                        \dim_to_fp:n {\l__fontspec_tmpb_dim}   }
         }
 
-      \__fontspec_info:n {set-scale}
+      \exp_args:NNNx
+    \group_end:
+    \tl_set:Nx \l__fontspec_scale_tl { \l__fontspec_scale_tl }
+  }
+\cs_new:Nn \__fontspec_calc_scale:nn
+{
+    \group_begin:
+      \__fontspec_calc_scale:n {#1}
+      \tl_set_eq:NN \l__fontspec_tmp_tl \l__fontspec_scale_tl
+      \__fontspec_calc_scale:n {#2}
+      \tl_set:Nx \l__fontspec_scale_tl
+        {
+          \fp_eval:n { (\l__fontspec_tmp_tl + \l__fontspec_scale_tl)/2 }
+        }
       \exp_args:NNNx
     \group_end:
     \tl_set:Nx \l__fontspec_scale_tl { \l__fontspec_scale_tl }
@@ -2606,19 +2649,25 @@
 \__fontspec_aff_error:n {HyphenChar}
 \__fontspec_keys_define_code:nnn {fontspec} {Color}
   {
-    \cs_if_exist:cTF { \token_to_str:N \color@ #1 }
+    \color_if_exist:nTF {#1}
       {
-        \convertcolorspec{named}{#1}{HTML}\l__fontspec_hexcol_tl
+        \color_export:nnN {#1} {HTML}\l__fontspec_hexcol_tl
       }
       {
-        \int_compare:nTF { \tl_count:n {#1} == 6 }
-          { \tl_set:Nn \l__fontspec_hexcol_tl {#1} }
+        \cs_if_exist:cTF { \token_to_str:N \color@ #1 }
           {
-            \int_compare:nTF { \tl_count:n {#1} == 8 }
-              { \fontspec_parse_colour:viii #1 }
+            \convertcolorspec{named}{#1}{HTML}\l__fontspec_hexcol_tl
+          }
+          {
+            \int_compare:nTF { \tl_count:n {#1} == 6 }
+              { \tl_set:Nn \l__fontspec_hexcol_tl {#1} }
               {
-                \bool_if:NF \l__fontspec_firsttime_bool
-                  { \__fontspec_warning:nx {bad-colour} {#1} }
+                \int_compare:nTF { \tl_count:n {#1} == 8 }
+                  { \fontspec_parse_colour:viii #1 }
+                  {
+                    \bool_if:NF \l__fontspec_firsttime_bool
+                      { \__fontspec_warning:nx {bad-colour} {#1} }
+                  }
               }
           }
       }
@@ -2665,6 +2714,7 @@
   {
     \__fontspec_update_featstr:n{width=#1}
   }
+\__fontspec_define_opentype_variation_axis:nn {Slant} {slnt}
 \__fontspec_keys_define_code:nnn {fontspec} {OpticalSize}
   {
     \bool_if:NTF \l__fontspec_ot_bool
@@ -2682,6 +2732,14 @@
         \bool_if:NT \l__fontspec_firsttime_bool
         { \__fontspec_warning:nx {no-opticals} {\l_fontspec_fontname_tl} }
       }
+  }
+\__fontspec_keys_define_code:nnn {fontspec-opentype} {RawAxis}
+  {
+    \prop_gput_from_keyval:Nn \g__fontspec_rawvariations_prop {#1}
+  }
+\__fontspec_keys_define_code:nnn {fontspec-opentype} {Instance}
+  {
+    \tl_gset:Nn \g__fontspec_instance_tl {#1}
   }
 \keys_define:nn {fontspec}
   {
@@ -2760,7 +2818,7 @@
     \__fontspec_update_featstr:n {#1}
   }
 
-%%^^A%%  fontspec-code-feat-opentype.dtx -- part of FONTSPEC <wspr.io/fontspec>
+%%^^A%%  fontspec-code-feat-opentype.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 
 \__fontspec_feat_prop_add:nn {salt} { Alternate\,=\,$N$ }
 \__fontspec_feat_prop_add:nn {nalt} { Annotation\,=\,$N$ }
@@ -2788,10 +2846,9 @@
 \__fontspec_define_opentype_feature_group:n {Letters}
 \__fontspec_define_opentype_feature:nnnnn   {Letters} {ResetAll} {} {}
   {
-    +case,+smcp,+pcap,+c2sc,+c2pc,+unic,+rand,
-    -case,-smcp,-pcap,-c2sc,-c2pc,-unic,-rand
+    +smcp,+pcap,+c2sc,+c2pc,+unic,+rand,
+    -smcp,-pcap,-c2sc,-c2pc,-unic,-rand
   }
-\__fontspec_define_opentype_onoffreset:nnnnn {Letters} {Uppercase} {case} {case} {}
 \__fontspec_define_opentype_onoffreset:nnnnn {Letters} {SmallCaps} {smcp} {smcp} {+pcap,+unic}
 \__fontspec_define_opentype_onoffreset:nnnnn {Letters} {PetiteCaps} {pcap} {pcap} {+smcp,+unic}
 \__fontspec_define_opentype_onoffreset:nnnnn {Letters} {UppercaseSmallCaps} {c2sc} {c2sc} {+c2pc,+unic}
@@ -3050,28 +3107,48 @@
                 \clist_map_break:
               }
           }
-
         \bool_if:NF \l__fontspec_scriptlang_exist_bool
           {
-            \bool_if:nF { \str_if_eq_p:ee {#1} {CustomDefault} }
+            \__fontspec_info:nxx {script-not-exist} {\l_fontspec_fontname_tl} {#1}
+            \clist_set:Nn \l_tmpa_clist {#2}
+            \clist_get:NN \l_tmpa_clist \l__fontspec_script_tl
+            \exp_args:Noo \__fontspec_check_script:NnF \l__fontspec_fontface_cs_tl \l__fontspec_script_tl
               {
-                \tl_clear:N \l__fontspec_script_name_tl
-                \__fontspec_warning:nxx {no-script} {\l_fontspec_fontname_tl} {#1}
-              }
-
-            \bool_if:nF
-              {
-                \str_if_eq_p:ee {#1} {Default} ||
-                \str_if_eq_p:ee {#1} {Latin}   ||
-                \str_if_eq_p:ee {#1} {CustomDefault}
-              }
-              {
-                \keys_set:nn {fontspec-opentype} { Script = CustomDefault }
+                \tl_set:Nn \l__fontspec_script_name_tl {#1}
+                \int_set:Nn \l__fontspec_script_int {\l__fontspec_strnum_int}
+                \tl_gset:Nx \g__fontspec_single_feat_tl { script=\l__fontspec_script_tl }
               }
           }
       }
     }
   }
+\clist_new:N \g__fontspec_default_scripts_clist
+\cs_new:Nn \fontspec_default_script:n
+  {
+    \clist_gset:Nn \g__fontspec_default_scripts_clist {#1}
+  }
+\fontspec_default_script:n {latn,DFLT}
+\keys_define:nn {fontspec-opentype} { Script / CustomDefault .code:n =
+  {
+    \bool_set_false:N \l__fontspec_scriptlang_exist_bool
+    \clist_map_inline:Nn \g__fontspec_default_scripts_clist
+      {
+        \exp_args:No \__fontspec_check_script:NnT \l__fontspec_fontface_cs_tl {##1}
+          {
+            \tl_set:Nn \l__fontspec_script_name_tl {Default (##1)}
+            \tl_set:Nn \l__fontspec_script_tl {##1}
+            \int_set:Nn \l__fontspec_script_int {\l__fontspec_strnum_int}
+            \bool_set_true:N \l__fontspec_scriptlang_exist_bool
+            \tl_gset:Nx \g__fontspec_single_feat_tl { script=##1 }
+            \clist_map_break:
+          }
+      }
+    \bool_if:NF \l__fontspec_scriptlang_exist_bool
+      {
+        \tl_clear:N \l__fontspec_script_name_tl
+      }
+  }
+}
 \keys_define:nn {fontspec-opentype}
   {
     Language .choice: ,
@@ -3095,12 +3172,25 @@
           }
         \bool_if:NF \l__fontspec_scriptlang_exist_bool
           {
-            \__fontspec_warning:nx {language-not-exist} {#1}
-            \keys_set:nn {fontspec-opentype} { Language = Default }
+            \__fontspec_info:nx {language-not-exist} {#1}
+            \clist_set:Nn \l_tmpa_clist {#2}
+            \clist_get:NN \l_tmpa_clist \l__fontspec_lang_tl
+            \exp_args:Noo \__fontspec_check_lang:NnF \l__fontspec_fontface_cs_tl \l__fontspec_lang_tl
+              {
+                \tl_set:Nn \l__fontspec_lang_name_tl {#1}
+                \int_set:Nn \l__fontspec_language_int {\l__fontspec_strnum_int}
+                \tl_gset:Nx \g__fontspec_single_feat_tl { language=\l__fontspec_lang_tl }
+              }
           }
       }
     }
   }
+\clist_new:N \g__fontspec_default_langs_clist
+\cs_new:Nn \fontspec_default_lang:n
+  {
+    \clist_gset:Nn \g__fontspec_default_langs_clist {#1}
+  }
+\fontspec_default_lang:n {dflt}
 \__fontspec_keys_define_code:nnn {fontspec-opentype} { Language / Default }
   {
     \tl_set:Nn \l__fontspec_lang_tl {dflt}
@@ -3129,7 +3219,7 @@
 \__fontspec_ot_compat:nn {Diacritics}  {AboveBase}
 \__fontspec_ot_compat:nn {Diacritics}  {BelowBase}
 
-%%^^A%%  fontspec-code-scripts.dtx -- part of FONTSPEC <wspr.io/fontspec>
+%%^^A%%  fontspec-code-scripts.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 
 \newfontscript{Adlam}{adlm}
 \newfontscript{Ahom}{ahom}
@@ -3155,18 +3245,21 @@
 \newfontscript{Chakma}{cakm}
 \newfontscript{Cham}{cham}
 \newfontscript{Cherokee}{cher}
+\newfontscript{Chorasmian}{chrs}
 \newfontscript{CJK~Ideographic}{hani}
 \newfontscript{Coptic}{copt}
 \newfontscript{Cypriot~Syllabary}{cprt}
+\newfontscript{Cypro-Minoan}{cpmn}
 \newfontscript{Cyrillic}{cyrl}
 \newfontscript{Default}{DFLT}
-\newfontscript{CustomDefault}{latn,DFLT}
 \newfontscript{Deseret}{dsrt}
 \newfontscript{Devanagari}{dev2,deva}
+\newfontscript{Dives~Akuru}{diak}
 \newfontscript{Dogra}{dogr}
 \newfontscript{Duployan}{dupl}
 \newfontscript{Egyptian~Hieroglyphs}{egyp}
 \newfontscript{Elbasan}{elba}
+\newfontscript{Elymaic}{elym}
 \newfontscript{Ethiopic}{ethi}
 \newfontscript{Georgian}{geor}
 \newfontscript{Glagolitic}{glag}
@@ -3189,8 +3282,10 @@
 \newfontscript{Javanese}{java}
 \newfontscript{Kaithi}{kthi}
 \newfontscript{Kannada}{knd2,knda}
+\newfontscript{Kawi}{kawi}
 \newfontscript{Kayah~Li}{kali}
 \newfontscript{Kharosthi}{khar}
+\newfontscript{Khitan~Small~Script}{kits}
 \newfontscript{Khmer}{khmr}
 \newfontscript{Khojki}{khoj}
 \newfontscript{Khudawadi}{sind}
@@ -3209,7 +3304,7 @@
 \newfontscript{Mandaic}{mand}
 \newfontscript{Manichaean}{mani}
 \newfontscript{Marchen}{marc}
-\newfontscript{Masaram Gondi}{gonm}
+\newfontscript{Masaram~Gondi}{gonm}
 \newfontscript{Math}{math}
 \newfontscript{Medefaidrin}{medf}
 \newfontscript{Meitei~Mayek}{mtei}
@@ -3225,8 +3320,11 @@
 \newfontscript{Myanmar}{mym2,mymr}
 \newfontscript{N'Ko}{nko~}
 \newfontscript{Nabataean}{nbat}
+\newfontscript{Nag~Mundari}{nagm}
+\newfontscript{Nandinagari}{nand}
 \newfontscript{Newa}{newa}
 \newfontscript{Nushu}{nshu}
+\newfontscript{Nyiakeng~Puachue~Hmong}{hmnp}
 \newfontscript{Odia}{ory2,orya}
 \newfontscript{Ogham}{ogam}
 \newfontscript{Ol~Chiki}{olck}
@@ -3238,6 +3336,7 @@
 \newfontscript{Old~Sogdian}{sogo}
 \newfontscript{Old~South~Arabian}{sarb}
 \newfontscript{Old~Turkic}{orkh}
+\newfontscript{Old~Uyghur}{ougr}
 \newfontscript{Osage}{osge}
 \newfontscript{Osmanya}{osma}
 \newfontscript{Pahawh~Hmong}{hmng}
@@ -3269,6 +3368,7 @@
 \newfontscript{Tai~Viet}{tavt}
 \newfontscript{Takri}{takr}
 \newfontscript{Tamil}{tml2,taml}
+\newfontscript{Tangsa}{tnsa}
 \newfontscript{Tangut}{tang}
 \newfontscript{Telugu}{tel2,telu}
 \newfontscript{Thaana}{thaa}
@@ -3276,9 +3376,13 @@
 \newfontscript{Tibetan}{tibt}
 \newfontscript{Tifinagh}{tfng}
 \newfontscript{Tirhuta}{tirh}
+\newfontscript{Toto}{toto}
 \newfontscript{Ugaritic~Cuneiform}{ugar}
 \newfontscript{Vai}{vai~}
+\newfontscript{Vithkuqi}{vith}
+\newfontscript{Wancho}{wcho}
 \newfontscript{Warang~Citi}{wara}
+\newfontscript{Yezidi}{yezi}
 \newfontscript{Yi}{yi~~}
 \newfontscript{Zanabazar~Square}{zanb}
 \newfontscript{CJK}{hani}
@@ -3287,7 +3391,7 @@
 \newfontscript{N'ko}{nko~}
 \newfontscript{Oriya}{ory2,orya}
 
-%%^^A%%  fontspec-code-lang.dtx -- part of FONTSPEC <wspr.io/fontspec>
+%%^^A%%  fontspec-code-lang.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 
 \newfontlanguage{Abaza}{ABA}
 \newfontlanguage{Abkhazian}{ABK}
@@ -3673,7 +3777,7 @@
 \newfontlanguage{Zande}{ZND}
 \newfontlanguage{Zulu}{ZUL}
 
-%%^^A%%  fontspec-code-feat-aat.dtx -- part of FONTSPEC <wspr.io/fontspec>
+%%^^A%%  fontspec-code-feat-aat.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 
 
 \__fontspec_define_aat_feature_group:n {Ligatures}
@@ -3814,7 +3918,7 @@
 \__fontspec_define_aat_feature:nnnn      {Annotation} {BlackRoundSquare} {24} {10}
 \__fontspec_define_aat_feature:nnnn      {Annotation} {DoubleCircle} {24} {11}
 
-%%^^A%%  fontspec-code-enc.dtx -- part of FONTSPEC <wspr.io/fontspec>
+%%^^A%%  fontspec-code-enc.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 
 \DeclareDocumentCommand \EncodingCommand { m O{} O{} m }
   {
@@ -3896,7 +4000,7 @@
       { \c_backslash_str \UnicodeEncodingName \token_to_str:N #1 - \tl_to_str:n {#2} }
   }
 
-%%^^A%%  fontspec-code-math.dtx -- part of FONTSPEC <wspr.io/fontspec>
+%%^^A%%  fontspec-code-math.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 \@ifpackageloaded{euler}
   { \bool_gset_true:N  \g__fontspec_pkg_euler_loaded_bool }
   { \bool_gset_false:N \g__fontspec_pkg_euler_loaded_bool }
@@ -4035,7 +4139,7 @@
  }
 \AtBeginDocument{\fontspec_maybe_setup_maths:}
 
-%%^^A%%  fontspec-code-closing.dtx -- part of FONTSPEC <wspr.io/fontspec>
+%%^^A%%  fontspec-code-closing.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 \bool_if:NT \g__fontspec_cfg_bool
   {
     \InputIfFileExists{fontspec.cfg}
@@ -4043,17 +4147,21 @@
       { \typeout{No~ fontspec.cfg~ file~ found;~ no~ configuration~ loaded.} }
   }
 
-%%^^A%%  fontspec-code-xfss.dtx -- part of FONTSPEC <wspr.io/fontspec>
+%%^^A%%  fontspec-code-xfss.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 
 \providecommand*\scitdefault{\scdefault\itdefault}
 \providecommand*\scsldefault{\scdefault\sldefault}
+\providecommand*\scswdefault{\scdefault\swdefault}
 \cs_new:Nn \__fontspec_shape_merge:nn { c__fontspec_shape_#1_#2_tl }
 \cs_new:Nn \__fontspec_merge_default_shapes:
   {
+    \tl_const:cn { \__fontspec_shape_merge:nn \shapedefault\scdefault    } {\scdefault}
     \tl_const:cn { \__fontspec_shape_merge:nn \itdefault   \scdefault    } {\scitdefault}
     \tl_const:cn { \__fontspec_shape_merge:nn \sldefault   \scdefault    } {\scsldefault}
+    \tl_const:cn { \__fontspec_shape_merge:nn \swdefault   \scdefault    } {\scswdefault}
     \tl_const:cn { \__fontspec_shape_merge:nn \scdefault   \itdefault    } {\scitdefault}
     \tl_const:cn { \__fontspec_shape_merge:nn \scdefault   \sldefault    } {\scsldefault}
+    \tl_const:cn { \__fontspec_shape_merge:nn \scdefault   \swdefault    } {\scswdefault}
     \tl_const:cn { \__fontspec_shape_merge:nn \scsldefault \itdefault    } {\scitdefault}
     \tl_const:cn { \__fontspec_shape_merge:nn \scitdefault \sldefault    } {\scsldefault}
     \tl_const:cn { \__fontspec_shape_merge:nn \scitdefault \shapedefault } {\scdefault}
@@ -4073,100 +4181,7 @@
       }
     \prg_return_true: \prg_return_false:
   }
-\cs_if_exist:NTF \DeclareFontSeriesChangeRule
-{
-  \cs_set_eq:NN \emfontdeclare \DeclareEmphSequence
-}
-{
-\DeclareRobustCommand{\sishape}
-  {
-    \not@math@alphabet\sishape\relax
-    \fontshape{\scitdefault}\selectfont
-  }
-\DeclareTextFontCommand{\textsi}{\sishape}
-\cs_new:Nn \__fontspec_merge_shape:n
-  {
-    \__fontspec_if_merge_shape:nTF {#1}
-      { \fontshape { \tl_use:c { \__fontspec_shape_merge:nn {\f@shape} {#1} } } \selectfont }
-      { \fontshape {#1} \selectfont }
-  }
-\DeclareRobustCommand \itshape
-  {
-    \not@math@alphabet\itshape\mathit
-    \__fontspec_merge_shape:n\itdefault
-  }
-\DeclareRobustCommand \slshape
-  {
-    \not@math@alphabet\slshape\relax
-    \__fontspec_merge_shape:n\sldefault
-  }
-\DeclareRobustCommand \scshape
-  {
-    \not@math@alphabet\scshape\relax
-    \__fontspec_merge_shape:n\scdefault
-  }
-\DeclareRobustCommand \upshape
-  {
-    \not@math@alphabet\upshape\relax
-    \__fontspec_merge_shape:n\updefault
-  }
-\cs_set_protected:Npn \emfontdeclare #1
-  {
-    \prop_gclear:N    \g__fontspec_em_prop
-    \int_zero:N       \l__fontspec_emdef_int
-    \bool_gset_true:N \g__fontspec_em_normalise_slant_bool
-
-    \tl_if_in:nnT {#1} {\slshape}
-      {
-        \tl_if_in:nnT {#1} {\itshape}
-          {
-            \bool_gset_false:N \g__fontspec_em_normalise_slant_bool
-          }
-      }
-
-    \group_begin:
-      \normalfont
-      \clist_map_inline:nn {\emreset,#1}
-        {
-          ##1
-          \prop_gput_if_new:NxV \g__fontspec_em_prop { \f@shape } { \l__fontspec_emdef_int }
-          \prop_gput:Nxn \g__fontspec_em_prop { switch-\int_use:N \l__fontspec_emdef_int } { ##1 }
-          \int_incr:N \l__fontspec_emdef_int
-        }
-    \group_end:
-  }
-\DeclareRobustCommand \em
-  {
-    \@nomath\em
-    \tl_set:Nx \l__fontspec_emshape_query_tl { \f@shape }
-
-    \bool_if:NT \g__fontspec_em_normalise_slant_bool
-      {
-        \tl_replace_all:Nnn \l__fontspec_emshape_query_tl {/sl} {/it}
-      }
-
-    \prop_get:NxNT \g__fontspec_em_prop { \l__fontspec_emshape_query_tl } \l__fontspec_em_tmp_tl
-      {
-        \int_set:Nn \l__fontspec_em_int { \l__fontspec_em_tmp_tl }
-      }
-
-    \int_incr:N \l__fontspec_em_int
-
-    \prop_get:NxNTF \g__fontspec_em_prop { switch-\int_use:N \l__fontspec_em_int } \l__fontspec_em_switch_tl
-      { \l__fontspec_em_switch_tl }
-      {
-        \int_zero:N \l__fontspec_em_int
-        \emreset
-      }
-
-  }
-\DeclareTextFontCommand{\emph}{\em}
-\cs_set:Npn \emreset { \upshape }
-\cs_set:Npn \emshape { \itshape }
-\cs_set:Npn \eminnershape { \upshape }
-\emfontdeclare{ \emshape, \eminnershape }
-\cs_new:Nn \fontspec_set_em_level:n     { \int_set:Nn \l__fontspec_em_int     {#1} }
-}
+\cs_set_eq:NN \emfontdeclare \DeclareEmphSequence
 \cs_set_protected:Npn \strongfontdeclare #1
   {
     \prop_gclear:N   \g__fontspec_strong_prop
@@ -4177,8 +4192,8 @@
       \clist_map_inline:nn {\strongreset,#1}
         {
           ##1
-          \prop_gput_if_new:NxV \g__fontspec_strong_prop { \f@series } { \l__fontspec_strongdef_int }
-          \prop_gput:Nxn \g__fontspec_strong_prop { switch-\int_use:N \l__fontspec_strongdef_int } { ##1 }
+          \prop_gput_if_not_in:NeV \g__fontspec_strong_prop { \f@series } { \l__fontspec_strongdef_int }
+          \prop_gput:Nen \g__fontspec_strong_prop { switch-\int_use:N \l__fontspec_strongdef_int } { ##1 }
           \int_incr:N \l__fontspec_strongdef_int
         }
     \group_end:
@@ -4187,14 +4202,14 @@
   {
     \@nomath\strongenv
 
-    \prop_get:NxNT \g__fontspec_strong_prop { \f@series } \l__fontspec_strong_tmp_tl
+    \prop_get:NeNT \g__fontspec_strong_prop { \f@series } \l__fontspec_strong_tmp_tl
       {
         \int_set:Nn \l__fontspec_strong_int { \l__fontspec_strong_tmp_tl }
       }
 
     \int_incr:N \l__fontspec_strong_int
 
-    \prop_get:NxNTF \g__fontspec_strong_prop { switch-\int_use:N \l__fontspec_strong_int } \l__fontspec_strong_switch_tl
+    \prop_get:NeNTF \g__fontspec_strong_prop { switch-\int_use:N \l__fontspec_strong_int } \l__fontspec_strong_switch_tl
       { \l__fontspec_strong_switch_tl }
       {
         \int_zero:N \l__fontspec_strong_int
@@ -4204,12 +4219,10 @@
   }
 \DeclareTextFontCommand{\strong}{\strongenv}
 \cs_set:Npn \strongreset {}
-\cs_set:Npn \reset@font
+\cs_set_protected:Npn \reset@font
   {
     \normalfont
-    \int_zero:N \l__fontspec_em_int
     \int_zero:N \l__fontspec_strong_int
   }
-\cs_new:Nn \fontspec_set_strong_level:n { \int_set:Nn \l__fontspec_strong_int {#1} }
-\strongfontdeclare{ \bfseries }
+\strongfontdeclare{\bfseries}
 

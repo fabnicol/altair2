@@ -1,8 +1,8 @@
-%% The LaTeX package tcolorbox - version 4.31 (2020/07/31)
+%% The LaTeX package tcolorbox - version 6.4.0 (2024/09/27)
 %% tcbposter.code.tex: Code for posters
 %%
 %% -------------------------------------------------------------------------------------------
-%% Copyright (c) 2006-2020 by Prof. Dr. Dr. Thomas F. Sturm <thomas dot sturm at unibw dot de>
+%% Copyright (c) 2006-2024 by Prof. Dr. Dr. Thomas F. Sturm <thomas dot sturm at unibw dot de>
 %% -------------------------------------------------------------------------------------------
 %%
 %% This work may be distributed and/or modified under the
@@ -17,7 +17,7 @@
 %%
 %% This work consists of all files listed in README
 %%
-\tcb@set@library@version{4.31}
+\tcb@set@library@version{6.4.0}
 
 \tcbuselibrary{breakable,magazine,skins,fitting}
 
@@ -131,9 +131,9 @@
   \tcbdimto\tcb@poster@boxwidth{\tcb@poster@span\dimexpr\tcbpostercolwidth+\tcbpostercolspacing\relax-\tcbpostercolspacing}%
   \iftcb@posterbox@sequence%
     \begin{pgfinterruptpicture}%
-      \begin{tcolorbox}[tcb@poster@style,width=\tcb@poster@boxwidth,tcb@poster@boxheight,
+      \begin{tcolorbox}[{tcb@poster@style,width=\tcb@poster@boxwidth,tcb@poster@boxheight,
         height fixed for=all,#1,
-        enforce breakable,reset box array=tcb@poster,store to box array=tcb@poster]#3\end{tcolorbox}%
+        enforce breakable,reset box array=tcb@poster,store to box array=tcb@poster}]#3\end{tcolorbox}%
     \end{pgfinterruptpicture}%
     \def\tcb@poster@boxcount{0}%
     \renewcommand*{\do}[1]{\edef\tcb@poster@boxcount{\the\numexpr\tcb@poster@boxcount+1\relax}%
@@ -153,8 +153,8 @@
     \fi%
   \else%
     \begin{pgfinterruptpicture}%
-      \begin{tcolorbox}[tcb@poster@style,width=\tcb@poster@boxwidth,tcb@poster@boxheight,#1,
-        reset box array=tcb@poster,store to box array=tcb@poster]#3\end{tcolorbox}%
+      \begin{tcolorbox}[{tcb@poster@style,width=\tcb@poster@boxwidth,tcb@poster@boxheight,#1,
+        reset box array=tcb@poster,store to box array=tcb@poster}]#3\end{tcolorbox}%
     \end{pgfinterruptpicture}%
     \node[inner sep=0pt,outer sep=0,tcb@poster@node,name=\tcb@poster@prefix\tcb@poster@boxname] at (\tcb@poster@xpos|-\tcb@poster@ypos)
       {\consumeboxarray[tcb@poster]{1}};%
@@ -166,7 +166,7 @@
 }
 
 \newenvironment{tcb@poster@boxenv}[2][]{%
-  \newcommand{\tcb@poster@box@saved}{\posterbox[#1]{#2}{\tcbusetemp}}%
+  \newcommand{\tcb@poster@box@saved}{\posterbox[{#1}]{#2}{\tcbusetemp}}%
   \tcbwritetemp}%
   {\endtcbwritetemp\tcb@poster@box@saved}
 

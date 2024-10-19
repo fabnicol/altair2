@@ -6,7 +6,7 @@
 %%
 %% l3keys2e.dtx  (with options: `package')
 %% 
-%% Copyright (C) 2009-2020 The LaTeX3 Project
+%% Copyright (C) 2009-2024 The LaTeX Project
 %% 
 %% It may be distributed and/or modified under the conditions of
 %% the LaTeX Project Public License (LPPL), either version 1.3c of
@@ -32,8 +32,10 @@
       }%
     \endinput
   }
-\ProvidesExplPackage{l3keys2e}{2020-05-15}{}
+\ProvidesExplPackage{l3keys2e}{2024-08-16}{}
   {LaTeX2e option processing using LaTeX3 keys}
+\cs_if_exist:NT \ProcessKeysOptions
+  { \file_input_stop: }
 \cs_generate_variant:Nn \clist_put_right:Nn { Nv }
 \cs_generate_variant:Nn \keys_if_exist:nnT  { nx }
 \cs_generate_variant:Nn \keys_if_exist:nnTF { nx }
@@ -50,7 +52,7 @@
           {
             unknown .code:n =
               {
-                \msg_error:nnxx { keyvalue } { option-unknown }
+                \msg_error:nnee { keyvalue } { option-unknown }
                   { \l_keys_key_str } { \@currname }
               }
           }
@@ -88,7 +90,7 @@
           {
             \clist_map_inline:cn { opt@ \@currname . \@currext }
               {
-                \keys_if_exist:nxTF {#1} { \__keys_latexe_remove_equals:n {##1} }
+                \keys_if_exist:neTF {#1} { \__keys_latexe_remove_equals:n {##1} }
                   { \clist_put_right:Nn \l__keys_latexe_options_clist {##1} }
                   { \clist_put_right:Nn \@unusedoptionlist {##1} }
               }
@@ -99,7 +101,7 @@
   {
     \clist_map_inline:Nn \@classoptionslist
       {
-        \keys_if_exist:nxT {#1} { \__keys_latexe_remove_equals:n {##1} }
+        \keys_if_exist:neT {#1} { \__keys_latexe_remove_equals:n {##1} }
           {
             \clist_put_right:Nn \l__keys_latexe_options_clist {##1}
             \clist_remove_all:Nn \@unusedoptionlist {##1}

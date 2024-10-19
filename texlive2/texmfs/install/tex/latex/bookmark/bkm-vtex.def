@@ -9,11 +9,11 @@
 %% This is a generated file.
 %% 
 %% Project: bookmark
-%% Version: 2019/12/03 v1.28
+%% Version: 2023-12-10 v1.31
 %% 
 %% Copyright (C)
 %%    2007-2011 Heiko Oberdiek
-%%    2016-2019 Oberdiek Package Support Group
+%%    2016-2023 Oberdiek Package Support Group
 %% 
 %% This work may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either
@@ -31,17 +31,20 @@
 %% Heiko Oberdiek and the Oberdiek Package Support Group
 %% https://github.com/ho-tex/bookmark/issues
 %% 
+%% This file is part of the "bookmark bundle" (The Work in LPPL)
+%%  and all files in that bundle must be distributed together.
 %% 
-%% This work consists of the main source file bookmark.dtx
-%% and the derived files
-%%    bookmark.sty, bookmark.pdf, bookmark.ins, bookmark.drv,
-%%    bkm-dvipdfm.def, bkm-dvips.def, bkm-dvipsone.def,
-%%    bkm-textures.def, bkm-pdftex.def, bkm-vtex.def,
-%%    bookmark-example.tex.
+%%  The released version of this bundle is available from CTAN.
+%% 
+%%  This work consists of the main source files bookmark.dtx
+%%  and bookmark.ins and the derived files
+%%     bookmark.sty, bookmark.pdf,
+%%     bkm-dvipdfm.def, bkm-dvips.def, bkm-pdftex.def, bkm-vtex.def,
+%%     bookmark-example.tex.
 %% 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesFile{bkm-vtex.def}%
-  [2019/12/03 v1.28 bookmark driver for VTeX (HO)]%
+  [2023-12-10 v1.31 bookmark driver for VTeX (HO)]%
 \ifvtexpdf
 \else
   \PackageWarningNoLine{bookmark}{%
@@ -234,7 +237,7 @@
     |ifx||#2||%
     |else
       (%
-      |ltx@ReturnAfterFi{%
+      |BKM@ReturnAfterFi{%
         |BKM@vtex@leftparen#2|@nil
       }%
     |fi
@@ -244,7 +247,7 @@
     |ifx||#2||%
     |else
       )%
-      |ltx@ReturnAfterFi{%
+      |BKM@ReturnAfterFi{%
         |BKM@vtex@rightparen#2|@nil
       }%
     |fi
@@ -254,7 +257,7 @@
     |ifx||#2||%
     |else
       |noexpand|hv@pdf@char0%
-      |ltx@ReturnAfterFi{%
+      |BKM@ReturnAfterFi{%
         |BKM@vtex@zero#2|@nil
       }%
     |fi
@@ -264,7 +267,7 @@
     |ifx||#2||%
     |else
       |noexpand|hv@pdf@char1%
-      |ltx@ReturnAfterFi{%
+      |BKM@ReturnAfterFi{%
         |BKM@vtex@one#2|@nil
       }%
     |fi
@@ -274,7 +277,7 @@
     |ifx||#2||%
     |else
       |noexpand|hv@pdf@char2%
-      |ltx@ReturnAfterFi{%
+      |BKM@ReturnAfterFi{%
         |BKM@vtex@two#2|@nil
       }%
     |fi
@@ -284,15 +287,14 @@
     |ifx||#2||%
     |else
       |noexpand|hv@pdf@char3%
-      |ltx@ReturnAfterFi{%
+      |BKM@ReturnAfterFi{%
         |BKM@vtex@three#2|@nil
       }%
     |fi
   }%
 |endgroup
 \ifBKM@atend
-  \RequirePackage{atenddvi}%
-  \AtEndDvi{\BKM@EndHook}%
+  \AddToHook{shipout/lastpage}{\BKM@EndHook}%
 \fi
 
 \endinput

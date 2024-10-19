@@ -1,5 +1,5 @@
-% authblk.4ht (2017-09-09-16:15), generated from tex4ht-4ht.tex
-% Copyright 2017 TeX Users Group
+% authblk.4ht (2022-11-20-07:09), generated from tex4ht-4ht.tex
+% Copyright 2017-2022 TeX Users Group
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -16,11 +16,29 @@
 %
 % If you modify this program, changing the
 % version identification would be appreciated.
-\immediate\write-1{version 2017-09-09-16:15}
+\immediate\write-1{version 2022-11-20-07:09}
 
-\def\maketitle{\bgroup%
- \AB@maketitle%
-\egroup}
+\let\o:maketitle:\maketitle
+\def\maketitle{\bgroup
+   \gHAdvance\:mpNum by 1
+\HAssign\minipageNum=\:mpNum \relax
+%
+   \ifx \EndPicture\:UnDef
+      \def\sec:typ{title}%
+      \Configure{HtmlPar}{}{}{}{}%
+      \Configure{newpage}{}%
+      \ConfigureEnv{center}{\empty}{}{\empty}{\empty}
+      \renewenvironment{tabular}[2][]{\begin{center}}{\end{center}}
+      \ConfigureEnv{tabular}{\empty}{}{}{}%
+      %
+      \pend:def\@title{\a:ttl}\append:def\@title{\b:ttl}%
+      \pend:def\@date{\a:date}\append:def\@date{\b:date}%
+      \pend:defI\@author{\a:author}\append:def\@author{\b:author}%
+      \def\and{\a:and}
+%
+   \fi
+   \pic:gobble\a:mktl  \AB@maketitle \pic:gobble\b:mktl
+   \egroup \let\maketitle\empty}
 
 \Hinput{authblk}
 \endinput

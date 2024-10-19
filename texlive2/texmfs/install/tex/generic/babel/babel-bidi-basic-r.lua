@@ -7,10 +7,11 @@
 -- babel.dtx  (with options: `basic-r')
 -- 
 --
--- Copyright (C) 2012-2020 Javier Bezos and Johannes L. Braams.
+-- Copyright (C) 2012-2024 Javier Bezos and Johannes L. Braams.
 -- Copyright (C) 1989-2012 Johannes L. Braams and
 --           any individual authors listed elsewhere in this file.
 -- All rights reserved.
+--
 --
 -- This file is part of the Babel system.
 -- --------------------------------------
@@ -31,9 +32,6 @@
 -- and covered by LPPL is defined by the unpacking scripts (with
 -- extension |.ins|) which are part of the distribution.
 --
-
-Babel = Babel or {}
-
 Babel.bidi_enabled = true
 
 require('babel-data-bidi.lua')
@@ -99,8 +97,8 @@ function Babel.bidi(head, ispar)
       if new_dir then
         attr_dir = 0
         for at in node.traverse(item.attr) do
-          if at.number == luatexbase.registernumber'bbl@attr@dir' then
-            attr_dir = at.value % 3
+          if at.number == Babel.attr_dir then
+            attr_dir = at.value & 0x3
           end
         end
         if attr_dir == 1 then
@@ -161,7 +159,7 @@ function Babel.bidi(head, ispar)
       elseif first_d and dir ~= strong_lr then
         dir_mark(head, first_d, last_d, outer)
         first_d, last_d = nil, nil
-     end
+      end
     end
     if dir and not last_lr and dir ~= 'l' and outer == 'r' then
       item.char = characters[item.char] and
@@ -200,4 +198,3 @@ function Babel.bidi(head, ispar)
   end
   return node.prev(head) or head
 end
-

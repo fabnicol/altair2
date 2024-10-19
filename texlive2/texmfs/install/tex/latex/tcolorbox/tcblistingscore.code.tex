@@ -1,8 +1,8 @@
-%% The LaTeX package tcolorbox - version 4.31 (2020/07/31)
+%% The LaTeX package tcolorbox - version 6.4.0 (2024/09/27)
 %% tcblistingscode.code.tex: Auxiliary code for colorboxes with listings
 %%
 %% -------------------------------------------------------------------------------------------
-%% Copyright (c) 2006-2020 by Prof. Dr. Dr. Thomas F. Sturm <thomas dot sturm at unibw dot de>
+%% Copyright (c) 2006-2024 by Prof. Dr. Dr. Thomas F. Sturm <thomas dot sturm at unibw dot de>
 %% -------------------------------------------------------------------------------------------
 %%
 %% This work may be distributed and/or modified under the
@@ -18,7 +18,7 @@
 %% This work consists of all files listed in README
 %%
 %\makeatletter
-\tcb@set@library@version{4.31}
+\tcb@set@library@version{6.4.0}
 
 \tcbuselibrary{pro@cessing}
 
@@ -164,15 +164,29 @@
   \begin{tcolorbox}[capture=\tcb@listing@capture,savedelimiter=tcolorbox]\tcb@listing@process\end{tcolorbox}%
 }
 
-\long\def\tcb@run@system@command#1{%
-  \ifcase\pdf@shellescape\relax
-    \tcb@error{You must invoke LaTeX with the -shell-escape flag}{Pass the -shell-escape flag to LaTeX.}%
-  \or\or
-    \tcb@warning{System call with restricted shell escape may fail}%
-  \fi%
-  \ShellEscape{#1}%
-  \relax%
+\ExplSyntaxOn
+\cs_new_protected:Npn \__tcbox_run_system_command:n #1
+  {
+    \sys_if_shell:TF
+      {
+        \sys_if_shell_restricted:T
+          {
+            \tcb@warning{System~call~with~restricted~shell~escape~may~fail}
+          }
+      }
+      {
+        \tcb@error{You~must~invoke~LaTeX~with~the~-shell-escape~flag}
+          {Pass~the~-shell-escape~flag~to~LaTeX.}
+      }
+    \sys_shell_now:e {#1}
+  }
+
+\tcbset
+{
+  run~system~command/.style={process~code={\__tcbox_run_system_command:n{#1}}},
 }
+
+\ExplSyntaxOff
 
 
 \tcbset{%
@@ -219,7 +233,6 @@
   process code/.code={\appto\tcb@listing@process@hook{#1}},%
   no process/.code={\def\tcb@listing@process@hook{}},%
   compilable listing/.style={listing file={\jobname-listing-\thetcblistingcount.tex}},
-  run system command/.style={process code={\tcb@run@system@command{#1}}},%
   run@system@command/.style 2 args={run system command={#1\space#2\space\filename@area\filename@base}},%
   run pdflatex/.style={run@system@command={pdflatex}{#1}},%
   run xelatex/.style={run@system@command={xelatex}{#1}},%
@@ -276,49 +289,134 @@
   \begingroup\tcbverbatimwrite{\kvtcb@listingfile}%
 }{\endtcbverbatimwrite\endgroup}
 
-\long\def\tcb@newtcblisting#1#2{\tcb@newenvironment{#1}{\tcblisting{#2,options@for=#1}}{\endtcblisting}}
 
-\long\def\tcb@newtcblisting@#1[#2]#3{\tcb@newenvironment{#1}[#2]{\tcblisting{#3,options@for=#1}}{\endtcblisting}}
+\ExplSyntaxOn
 
-\long\def\tcb@newtcblisting@@#1[#2][#3]#4{\tcb@newenvironment{#1}[#2][#3]{\tcblisting{#4,options@for=#1}}{\endtcblisting}}
 
-\long\def\tcb@new@tcblisting@#1[#2]{%
-  \@ifnextchar[{\tcb@newtcblisting@@{#1}[#2]}{\tcb@newtcblisting@{#1}[#2]}}
+\NewDocumentCommand \__tcobox_new_tcblisting:w { m +O{} >{\TrimSpaces} m o +o +m }
+  {
+    \__tcobox_process_newtcolorbox:nn { #2 }{ #3 }
+    \tl_if_novalue:nTF { #4 }
+      {
+        #1 { #3 }{ \tcblisting{#6,options@for=#3} }{ \endtcblisting }
+      }
+      {
+        \tl_if_novalue:nTF { #5 }
+        {
+          #1 { #3 }[ #4 ]{ \tcblisting{#6,options@for=#3} }{ \endtcblisting }
+        }
+        {
+          #1 { #3 }[ #4 ][ #5 ]{ \tcblisting{#6,options@for=#3} }{ \endtcblisting }
+        }
+      }
+  }
+\NewDocumentCommand \newtcblisting { }
+  {
+    \bool_set_true:N \l__tcobox_prevent_init_overwrite_bool
+    \__tcobox_new_tcblisting:w \newenvironment
+  }
+\NewDocumentCommand \renewtcblisting { }
+  {
+    \bool_set_false:N \l__tcobox_prevent_init_overwrite_bool
+    \__tcobox_new_tcblisting:w \renewenvironment
+  }
 
-\def\tcb@new@tcblisting#1{%
-  \@ifnextchar[{\tcb@new@tcblisting@{#1}}{\tcb@newtcblisting{#1}}}
 
-\def\newtcblisting{%
-  \let\tcb@newenvironment\newenvironment%
-  \let\tcb@process@newtcolorbox@continue\tcb@new@tcblisting%
-  \tcb@process@newenvironment}
+\NewDocumentCommand \__tcobox_new_TCBListing:w { m +O{} >{\TrimSpaces} m +m +m }
+  {
+    \__tcobox_process_newtcolorbox:nn { #2 }{ #3 }
+    #1 { #3 }{ #4 }{ \tcblisting{#5,options@for=#3} }{ \endtcblisting }
+  }
+\NewDocumentCommand \DeclareTCBListing { }
+  {
+    \bool_set_false:N \l__tcobox_prevent_init_overwrite_bool
+    \__tcobox_new_TCBListing:w \DeclareDocumentEnvironment
+  }
+\NewDocumentCommand \NewTCBListing { }
+  {
+    \bool_set_true:N \l__tcobox_prevent_init_overwrite_bool
+    \__tcobox_new_TCBListing:w \NewDocumentEnvironment
+  }
+\NewDocumentCommand \RenewTCBListing { }
+  {
+    \bool_set_false:N \l__tcobox_prevent_init_overwrite_bool
+    \__tcobox_new_TCBListing:w \RenewDocumentEnvironment
+  }
+\NewDocumentCommand \ProvideTCBListing { }
+  {
+    \bool_set_true:N \l__tcobox_prevent_init_overwrite_bool
+    \__tcobox_new_TCBListing:w \ProvideDocumentEnvironment
+  }
 
-\def\renewtcblisting{%
-  \let\tcb@newenvironment\renewenvironment%
-  \let\tcb@process@newtcolorbox@continue\tcb@new@tcblisting%
-  \tcb@process@newenvironment}
 
-\long\def\tcb@newtcbinputlisting#1#2{\expandafter\tcb@newcommand\csname#1\endcsname{\tcbinputlisting{#2,options@for=#1}}}
+\NewDocumentCommand \__tcobox_new_tcbinputlisting_ii:w { m +m m o +o +m }
+  {
+    \__tcobox_process_newtcolorbox:nn { #2 }{ #3 }
+    \tl_if_novalue:nTF { #4 }
+      {
+        \exp_args:Nc #1 { #3 }{ \tcbinputlisting{#6,options@for=#3} }
+      }
+      {
+        \tl_if_novalue:nTF { #5 }
+        {
+          \exp_args:Nc #1 { #3 }[ #4 ]{ \tcbinputlisting{#6,options@for=#3} }
+        }
+        {
+          \exp_args:Nc #1 { #3 }[ #4 ][ #5 ]{ \tcbinputlisting{#6,options@for=#3} }
+        }
+      }
+  }
+\NewDocumentCommand \__tcobox_new_tcbinputlisting_i:w { m +O{} m }
+  {
+    \__tcobox_set_backslash_removed:Nn \l__tcobox_tmpa_tl { #3 }
+    \exp_args:NNnV \__tcobox_new_tcbinputlisting_ii:w #1 {#2} \l__tcobox_tmpa_tl
+  }
+\NewDocumentCommand \newtcbinputlisting { }
+  {
+    \bool_set_true:N \l__tcobox_prevent_init_overwrite_bool
+    \__tcobox_new_tcbinputlisting_i:w \newcommand
+  }
+\NewDocumentCommand \renewtcbinputlisting { }
+  {
+    \bool_set_false:N \l__tcobox_prevent_init_overwrite_bool
+    \__tcobox_new_tcbinputlisting_i:w \renewcommand
+  }
 
-\long\def\tcb@newtcbinputlisting@#1[#2]#3{\expandafter\tcb@newcommand\csname#1\endcsname[#2]{\tcbinputlisting{#3,options@for=#1}}}
 
-\long\def\tcb@newtcbinputlisting@@#1[#2][#3]#4{\expandafter\tcb@newcommand\csname#1\endcsname[#2][#3]{\tcbinputlisting{#4,options@for=#1}}}
+\cs_new:Npn \__tcobox_new_TCBInputListing:Nnnnn #1#2#3#4#5
+  {
+    \__tcobox_process_newtcolorbox:nn { #2 }{ #3 }
+    \exp_args:Nc #1 { #3 }{ #4 }{ \tcbinputlisting{#5,options@for=#3} }
+  }
+\NewDocumentCommand \__tcobox_new_TCBInputListing:w { m +O{} m }
+  {
+    \__tcobox_set_backslash_removed:Nn \l__tcobox_tmpa_tl { #3 }
+    \exp_args:NNnV \__tcobox_new_TCBInputListing:Nnnnn #1 {#2} \l__tcobox_tmpa_tl
+  }
+\NewDocumentCommand \DeclareTCBInputListing { }
+  {
+    \bool_set_false:N \l__tcobox_prevent_init_overwrite_bool
+    \__tcobox_new_TCBInputListing:w \DeclareDocumentCommand
+  }
+\NewDocumentCommand \NewTCBInputListing { }
+  {
+    \bool_set_true:N \l__tcobox_prevent_init_overwrite_bool
+    \__tcobox_new_TCBInputListing:w \NewDocumentCommand
+  }
+\NewDocumentCommand \RenewTCBInputListing { }
+  {
+    \bool_set_false:N \l__tcobox_prevent_init_overwrite_bool
+    \__tcobox_new_TCBInputListing:w \RewewDocumentCommand
+  }
+\NewDocumentCommand \ProvideTCBInputListing { }
+  {
+    \bool_set_true:N \l__tcobox_prevent_init_overwrite_bool
+    \__tcobox_new_TCBInputListing:w \ProvideDocumentCommand
+  }
 
-\long\def\tcb@new@tcbinputlisting@#1[#2]{%
-  \@ifnextchar[{\tcb@newtcbinputlisting@@{#1}[#2]}{\tcb@newtcbinputlisting@{#1}[#2]}}
 
-\def\tcb@new@tcbinputlisting#1{%
-  \@ifnextchar[{\tcb@new@tcbinputlisting@{#1}}{\tcb@newtcbinputlisting{#1}}}
+\ExplSyntaxOff
 
-\def\newtcbinputlisting{%
-  \let\tcb@newcommand\newcommand%
-  \let\tcb@process@newtcolorbox@continue\tcb@new@tcbinputlisting%
-  \tcb@process@newcommand}
-
-\def\renewtcbinputlisting{%
-  \let\tcb@newcommand\renewcommand%
-  \let\tcb@process@newtcolorbox@continue\tcb@new@tcbinputlisting%
-  \tcb@process@newcommand}
 
 \tcbset{%
   reset@listingscore/.style={%

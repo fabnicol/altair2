@@ -1,5 +1,5 @@
-% unicode.4ht (2019-12-28-14:40), generated from tex4ht-unicode.tex
-% Copyright 2009-2019 TeX Users Group
+% unicode.4ht (2023-04-02-08:01), generated from tex4ht-unicode.tex
+% Copyright 2009-2023 TeX Users Group
 % Copyright 1998-2009 Eitan M. Gurari
 %
 % This work may be distributed and/or modified under the
@@ -17,7 +17,7 @@
 %
 % If you modify this program, changing the
 % version identification would be appreciated.
-\immediate\write-1{version 2019-12-28-14:40}
+\immediate\write-1{version 2023-04-02-08:01}
 
 \exit:ifnot{8859-6,% 
 SIunits,% 
@@ -56,7 +56,11 @@ tex4ht}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{tex4ht}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \def\x:unicode#1{\leavevmode\ht:special{t4ht@+\string&{35}x#1{59}}x}
+    \ifdefined\protect%
+\def\x:unicode#1{\protect\leavevmode\ht:special{t4ht@+\string&{35}x#1{59}}x}
+\else
+\def\x:unicode#1{\leavevmode\ht:special{t4ht@+\string&{35}x#1{59}}x}
+\fi
 
 \Configure{htf}{12}{+}
    {<!--span\Hnewline class="htf-calligraphy"-->}{}{}{}{}{}{<!--/span-->}
@@ -299,6 +303,11 @@ y{0233}G{1E20}g{1E21}%
     {\a:accents{}{#1}}    {\b:accents{bar}{#1}{#2}}
 
    \ifx \mathml:on\:UnDef
+% this configuration causes wrong rendering of accents in the default TeX4ht
+% math output - accented text, like vectors is converted without accents
+% we will rather use the default configuration, which produces pictures
+% in the text mode, accents seems to work fine with or without this configuration
+   \iffalse % we use \iffalse, because simple commenting off didn't work
       \Configure{accents}
         {\ifmmode \expandafter\mathord\fi
          {\leavevmode
@@ -312,6 +321,7 @@ y{0233}G{1E20}g{1E21}%
          \ht:special{t4ht@[}x\ht:special{t4ht@]}}}
         {\ifmmode \expandafter\mathord\fi
           {\HCode{<span class='accent#1'>}#3\HCode{</span>}}}
+   \fi
    \else
       \:warning{unicode.4ht loaded after mathml.4ht}
    \fi
@@ -322,33 +332,34 @@ R{1E5E}r{1E5F}T{1E6E}t{1E6F}Z{1E94}z{1E95}h{1E96}%
 {}{}}
       {\a:accents{}{#1}}     {\b:accents{b}{#1}{#2}}
    \def\:vec:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{2192}}}
-   \def\:grave:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0300}}}
-   \def\:acute:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0301}}}
-   \def\:hat:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0302}}}
-   \def\:widehat:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0302}}}
-   \def\:tilde:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0303}}}
-   \def\:widetilde:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0303}}}
-   \def\:bar:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0304}}}
-   \def\:breve:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0306}}}
-   \def\:dot:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0307}}}
-   \def\:ddot:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0308}}}
-   \def\:uml:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0308}}}
-   \def\:ring:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{030A}}}
-   \def\:Huml:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{030B}}}
-   \def\:check:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{030C}}}
-   \def\:d:under{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0323}}}
-   \def\:cedil:under{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0327}}}
-   \def\:b:under{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0331}}}
-   \def\:udot:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0361}}}
+   \def\:grave:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0060}}}
+   \def\:acute:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{00B4}}}
+   \def\:hat:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{005E}}}
+   \def\:widehat:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{005E}}}
+   \def\:tilde:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{007E}}}
+   \def\:widetilde:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{007E}}}
+   \def\:bar:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{00AF}}}
+   \def\:breve:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{02D8}}}
+   \def\:dot:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{02D9}}}
+   \def\:ddot:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{00A8}}}
+   \def\:uml:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{00A8}}}
+   \def\:ring:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{02DA}}}
+   \def\:Huml:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{02DD}}}
+   \def\:check:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{02C7}}}
+   \def\:d:under{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{02D9}}}
+   \def\:cedil:under{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{00B8}}}
+   \def\:b:under{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{00AF}}}
+   \def\:udot:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0361}}} % inverted breve exists only as combined character
 \fi
 
 \Configure{L}                     {\x:unicode{0141}}
 \Configure{l}                     {\x:unicode{0142}}
 
 
-\def\textellipsis{\x:unicode{2026}}
+\def\:tempa{\x:unicode{2026}}
+\HLet\textellipsis\:tempa
 
-\def\:nbsp{\x:unicode{00A0}}
+\def\:nbsp{\ifx\EndPicture\:UnDef\protect\leavevmode\ht:special{t4ht@+\string&{35}x00A0{59}}\a:HChar\else\leavevmode\nobreak\ \fi}
 \:CheckOption{new-accents}     \if:Option \else
    \expand:after{\Configure{accent}}\csname T1\string\`\expandafter\endcsname
     \csname T1\string\`\endcsname{A{00C0}E{00C8}I{00CC}N{01F8}O{00D2}U{00D9}W{1E80}%
@@ -489,18 +500,19 @@ R{1E5E}r{1E5F}T{1E6E}t{1E6F}Z{1E94}z{1E95}h{1E96}%
     \Configure{mathellipsis}          {\textellipsis}
 \Configure{cdots}                 {\x:unicode{22EF}}
 \Configure{hbar}                  {\x:unicode{210F}}
-\Configure{Longrightarrow}        {\x:unicode{21D2}}
+\Configure{Longrightarrow}        {\x:unicode{27F9}}
+\Configure{Longleftarrow}         {\x:unicode{27F8}}
 \Configure{bowtie}                {\x:unicode{22C8}}
 \Configure{doteq}                 {\x:unicode{2250}}
 \Configure{cong}                  {\x:unicode{2245}}
 \Configure{ddots}                 {\x:unicode{22F1}}
 \Configure{hookleftarrow}         {\x:unicode{21A9}}
 \Configure{hookrightarrow}        {\x:unicode{21AA}}
-\Configure{longleftarrow}         {\x:unicode{2190}}
-\Configure{longleftrightarrow}    {\x:unicode{2194}}
-\Configure{Longleftrightarrow}    {\x:unicode{21D4}}
-\Configure{longmapsto}            {\x:unicode{21A6}}
-\Configure{longrightarrow}        {\x:unicode{2192}}
+\Configure{longleftarrow}         {\x:unicode{27F5}}
+\Configure{longleftrightarrow}    {\x:unicode{27F7}}
+\Configure{Longleftrightarrow}    {\x:unicode{27FA}}
+\Configure{longmapsto}            {\x:unicode{27FC}}
+\Configure{longrightarrow}        {\x:unicode{27F6}}
 \Configure{mid}                   {\x:unicode{2223}}
 \Configure{models}                {\x:unicode{22A7}}
 \Configure{mapsto}                {\x:unicode{21A6}}
@@ -560,8 +572,6 @@ R{1E5E}r{1E5F}T{1E6E}t{1E6F}Z{1E94}z{1E95}h{1E96}%
 
 
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{amsart}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -603,6 +613,7 @@ R{1E5E}r{1E5F}T{1E6E}t{1E6F}Z{1E94}z{1E95}h{1E96}%
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -672,7 +683,6 @@ R{1E5E}r{1E5F}T{1E6E}t{1E6F}Z{1E94}z{1E95}h{1E96}%
 
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{amstex1}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -688,7 +698,6 @@ R{1E5E}r{1E5F}T{1E6E}t{1E6F}Z{1E94}z{1E95}h{1E96}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{amsppt}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -702,7 +711,6 @@ R{1E5E}r{1E5F}T{1E6E}t{1E6F}Z{1E94}z{1E95}h{1E96}%
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{babel}
@@ -955,6 +963,11 @@ y{0233}G{1E20}g{1E21}%
     {\a:accents{}{#1}}    {\b:accents{bar}{#1}{#2}}
 
    \ifx \mathml:on\:UnDef
+% this configuration causes wrong rendering of accents in the default TeX4ht
+% math output - accented text, like vectors is converted without accents
+% we will rather use the default configuration, which produces pictures
+% in the text mode, accents seems to work fine with or without this configuration
+   \iffalse % we use \iffalse, because simple commenting off didn't work
       \Configure{accents}
         {\ifmmode \expandafter\mathord\fi
          {\leavevmode
@@ -968,6 +981,7 @@ y{0233}G{1E20}g{1E21}%
          \ht:special{t4ht@[}x\ht:special{t4ht@]}}}
         {\ifmmode \expandafter\mathord\fi
           {\HCode{<span class='accent#1'>}#3\HCode{</span>}}}
+   \fi
    \else
       \:warning{unicode.4ht loaded after mathml.4ht}
    \fi
@@ -978,41 +992,42 @@ R{1E5E}r{1E5F}T{1E6E}t{1E6F}Z{1E94}z{1E95}h{1E96}%
 {}{}}
       {\a:accents{}{#1}}     {\b:accents{b}{#1}{#2}}
    \def\:vec:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{2192}}}
-   \def\:grave:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0300}}}
-   \def\:acute:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0301}}}
-   \def\:hat:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0302}}}
-   \def\:widehat:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0302}}}
-   \def\:tilde:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0303}}}
-   \def\:widetilde:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0303}}}
-   \def\:bar:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0304}}}
-   \def\:breve:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0306}}}
-   \def\:dot:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0307}}}
-   \def\:ddot:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0308}}}
-   \def\:uml:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0308}}}
-   \def\:ring:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{030A}}}
-   \def\:Huml:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{030B}}}
-   \def\:check:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{030C}}}
-   \def\:d:under{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0323}}}
-   \def\:cedil:under{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0327}}}
-   \def\:b:under{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0331}}}
-   \def\:udot:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0361}}}
+   \def\:grave:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0060}}}
+   \def\:acute:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{00B4}}}
+   \def\:hat:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{005E}}}
+   \def\:widehat:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{005E}}}
+   \def\:tilde:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{007E}}}
+   \def\:widetilde:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{007E}}}
+   \def\:bar:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{00AF}}}
+   \def\:breve:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{02D8}}}
+   \def\:dot:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{02D9}}}
+   \def\:ddot:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{00A8}}}
+   \def\:uml:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{00A8}}}
+   \def\:ring:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{02DA}}}
+   \def\:Huml:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{02DD}}}
+   \def\:check:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{02C7}}}
+   \def\:d:under{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{02D9}}}
+   \def\:cedil:under{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{00B8}}}
+   \def\:b:under{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{00AF}}}
+   \def\:udot:over{\ifmmode\expandafter\unicode:mathop\fi{\x:unicode{0361}}} % inverted breve exists only as combined character
 \fi
 
 \Configure{L}                     {\x:unicode{0141}}
 \Configure{l}                     {\x:unicode{0142}}
 
-\Configure{Longrightarrow}        {\x:unicode{21D2}}
+\Configure{Longrightarrow}        {\x:unicode{27F9}}
+\Configure{Longleftarrow}         {\x:unicode{27F8}}
 \Configure{bowtie}                {\x:unicode{22C8}}
 \Configure{doteq}                 {\x:unicode{2250}}
 \Configure{cong}                  {\x:unicode{2245}}
 \Configure{ddots}                 {\x:unicode{22F1}}
 \Configure{hookleftarrow}         {\x:unicode{21A9}}
 \Configure{hookrightarrow}        {\x:unicode{21AA}}
-\Configure{longleftarrow}         {\x:unicode{2190}}
-\Configure{longleftrightarrow}    {\x:unicode{2194}}
-\Configure{Longleftrightarrow}    {\x:unicode{21D4}}
-\Configure{longmapsto}            {\x:unicode{21A6}}
-\Configure{longrightarrow}        {\x:unicode{2192}}
+\Configure{longleftarrow}         {\x:unicode{27F5}}
+\Configure{longleftrightarrow}    {\x:unicode{27F7}}
+\Configure{Longleftrightarrow}    {\x:unicode{27FA}}
+\Configure{longmapsto}            {\x:unicode{27FC}}
+\Configure{longrightarrow}        {\x:unicode{27F6}}
 \Configure{mid}                   {\x:unicode{2223}}
 \Configure{models}                {\x:unicode{22A7}}
 \Configure{mapsto}                {\x:unicode{21A6}}
@@ -1031,6 +1046,26 @@ R{1E5E}r{1E5F}T{1E6E}t{1E6F}Z{1E94}z{1E95}h{1E96}%
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1233,6 +1268,10 @@ R{1E5E}r{1E5F}T{1E6E}t{1E6F}Z{1E94}z{1E95}h{1E96}%
 
 
 
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{cp1256}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1339,6 +1378,8 @@ R{1E5E}r{1E5F}T{1E6E}t{1E6F}Z{1E94}z{1E95}h{1E96}%
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{sistyle}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1355,6 +1396,17 @@ R{1E5E}r{1E5F}T{1E6E}t{1E6F}Z{1E94}z{1E95}h{1E96}%
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1448,7 +1500,6 @@ R{1E5E}r{1E5F}T{1E6E}t{1E6F}Z{1E94}z{1E95}h{1E96}%
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{cp862}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1468,6 +1519,7 @@ R{1E5E}r{1E5F}T{1E6E}t{1E6F}Z{1E94}z{1E95}h{1E96}%
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{cp1252}
@@ -1489,7 +1541,6 @@ R{1E5E}r{1E5F}T{1E6E}t{1E6F}Z{1E94}z{1E95}h{1E96}%
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{cp437de}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1509,6 +1560,7 @@ R{1E5E}r{1E5F}T{1E6E}t{1E6F}Z{1E94}z{1E95}h{1E96}%
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 
@@ -1642,7 +1694,6 @@ y{0233}G{1E20}g{1E21}%
 
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{slovak}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1767,6 +1818,7 @@ y{0233}G{1E20}g{1E21}%
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{slovene}
@@ -1952,7 +2004,6 @@ Y{1EF8}y{1EF9}\i{0129}%
 
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{croatian}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2089,6 +2140,7 @@ y{0233}G{1E20}g{1E21}%
 
 
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{greek}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2113,6 +2165,25 @@ s{015B}u{00FA}y{00FD}z{017A}j{FFFD}J{FFDD}\i{00ED}\j{FFFD}%
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

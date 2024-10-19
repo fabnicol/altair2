@@ -1,4 +1,4 @@
-% Copyright 2008 by Mark Wibrow
+% Copyright 2018 by Mark Wibrow
 %
 % This file may be distributed and/or modified
 %
@@ -17,8 +17,10 @@
   /pgf/decoration/.unknown/.code=%
     \pgfifdecoration{\pgfkeyscurrentname}{\edef\tikz@decoration@name{\pgfkeyscurrentname}}
     {\pgfifmetadecoration{\pgfkeyscurrentname}{\edef\tikz@decoration@name{\pgfkeyscurrentname}}
+    % Fully expand `\pgfkeyscurrentname' before being used in first-arg of
+    % `/errors/unknown key'.
     {\pgfkeys{/errors/unknown
-        key={/pgf/decoration/\pgfkeyscurrentname}{#1}}}},%
+        key/.expanded={/pgf/decoration/\pgfkeyscurrentname}{\pgfutil@unexpanded{#1}}}}},%
   /pgf/decoration/raise/.code={\def\tikz@dec@shift{\pgftransformyshift{#1}}\tikz@dec@trans},
   /pgf/decoration/mirror/.code={%
     \csname if#1\endcsname

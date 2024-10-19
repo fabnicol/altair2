@@ -12,7 +12,7 @@
 <div style="text-align: center;">
 <a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
 <a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
-</div><h2>Documentation for package &lsquo;targets&rsquo; version 1.7.1</h2>
+</div><h2>Documentation for package &lsquo;targets&rsquo; version 1.8.0</h2>
 
 <ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
 <li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
@@ -168,8 +168,8 @@
 <td>Integer branch indexes</td></tr>
 <tr><td style="width: 25%;"><a href="tar_branch_names.html">tar_branch_names</a></td>
 <td>Branch names</td></tr>
-<tr><td style="width: 25%;"><a href="tar_branch_names_raw.html">tar_branch_names_raw</a></td>
-<td>Branch names (raw version)</td></tr>
+<tr><td style="width: 25%;"><a href="tar_branch_names.html">tar_branch_names_raw</a></td>
+<td>Branch names</td></tr>
 <tr><td style="width: 25%;"><a href="tar_call.html">tar_call</a></td>
 <td>Identify the called 'targets' function.</td></tr>
 <tr><td style="width: 25%;"><a href="tar_cancel.html">tar_cancel</a></td>
@@ -204,8 +204,8 @@
 <td>Language</td></tr>
 <tr><td style="width: 25%;"><a href="tar_deps.html">tar_deps</a></td>
 <td>Code dependencies</td></tr>
-<tr><td style="width: 25%;"><a href="tar_deps_raw.html">tar_deps_raw</a></td>
-<td>Code dependencies (raw version)</td></tr>
+<tr><td style="width: 25%;"><a href="tar_deps.html">tar_deps_raw</a></td>
+<td>Code dependencies</td></tr>
 <tr><td style="width: 25%;"><a href="tar_described_as.html">tar_described_as</a></td>
 <td>Select targets using their descriptions.</td></tr>
 <tr><td style="width: 25%;"><a href="tar_destroy.html">tar_destroy</a></td>
@@ -236,6 +236,8 @@
 <td>Check if the target script file exists.</td></tr>
 <tr><td style="width: 25%;"><a href="tar_format.html">tar_format</a></td>
 <td>Define a custom target storage format.</td></tr>
+<tr><td style="width: 25%;"><a href="tar_format_get.html">tar_format_get</a></td>
+<td>Current storage format.</td></tr>
 <tr><td style="width: 25%;"><a href="tar_github_actions.html">tar_github_actions</a></td>
 <td>Set up GitHub Actions to run a targets pipeline</td></tr>
 <tr><td style="width: 25%;"><a href="tar_glimpse.html">tar_glimpse</a></td>
@@ -244,8 +246,8 @@
 <td>Group a data frame to iterate over subsets of rows.</td></tr>
 <tr><td style="width: 25%;"><a href="tar_helper.html">tar_helper</a></td>
 <td>Write a helper R script.</td></tr>
-<tr><td style="width: 25%;"><a href="tar_helper_raw.html">tar_helper_raw</a></td>
-<td>Write a helper R script (raw version).</td></tr>
+<tr><td style="width: 25%;"><a href="tar_helper.html">tar_helper_raw</a></td>
+<td>Write a helper R script.</td></tr>
 <tr><td style="width: 25%;"><a href="tar_interactive.html">tar_interactive</a></td>
 <td>Run if Target Markdown interactive mode is on.</td></tr>
 <tr><td style="width: 25%;"><a href="tar_invalidate.html">tar_invalidate</a></td>
@@ -258,8 +260,8 @@
 <td>Load the values of all available targets.</td></tr>
 <tr><td style="width: 25%;"><a href="tar_load_globals.html">tar_load_globals</a></td>
 <td>Load globals for debugging, testing, and prototyping</td></tr>
-<tr><td style="width: 25%;"><a href="tar_load_raw.html">tar_load_raw</a></td>
-<td>Load the values of targets (raw version).</td></tr>
+<tr><td style="width: 25%;"><a href="tar_load.html">tar_load_raw</a></td>
+<td>Load the values of targets.</td></tr>
 <tr><td style="width: 25%;"><a href="tar_make.html">tar_make</a></td>
 <td>Run a pipeline of targets.</td></tr>
 <tr><td style="width: 25%;"><a href="tar_make_clustermq.html">tar_make_clustermq</a></td>
@@ -336,10 +338,16 @@
 <td>List targets that 'tar_prune()' will remove.</td></tr>
 <tr><td style="width: 25%;"><a href="tar_read.html">tar_read</a></td>
 <td>Read a target's value from storage.</td></tr>
-<tr><td style="width: 25%;"><a href="tar_read_raw.html">tar_read_raw</a></td>
-<td>Read a target's value from storage (raw version)</td></tr>
+<tr><td style="width: 25%;"><a href="tar_read.html">tar_read_raw</a></td>
+<td>Read a target's value from storage.</td></tr>
 <tr><td style="width: 25%;"><a href="tar_renv.html">tar_renv</a></td>
 <td>Set up package dependencies for compatibility with 'renv'</td></tr>
+<tr><td style="width: 25%;"><a href="tar_repository_cas.html">tar_repository_cas</a></td>
+<td>Define a custom content-addressable storage (CAS) repository (an experimental feature).</td></tr>
+<tr><td style="width: 25%;"><a href="tar_repository_cas_local.html">tar_repository_cas_local</a></td>
+<td>Local content-addressable storage (CAS) repository (an experimental feature).</td></tr>
+<tr><td style="width: 25%;"><a href="tar_repository_cas_local_gc.html">tar_repository_cas_local_gc</a></td>
+<td>Local CAS garbage collection</td></tr>
 <tr><td style="width: 25%;"><a href="tar_reprex.html">tar_reprex</a></td>
 <td>Reproducible example of 'targets' with 'reprex'</td></tr>
 <tr><td style="width: 25%;"><a href="tar_resources.html">tar_resources</a></td>
@@ -366,6 +374,8 @@
 <td>Target resources: parquet storage formats</td></tr>
 <tr><td style="width: 25%;"><a href="tar_resources_qs.html">tar_resources_qs</a></td>
 <td>Target resources: qs storage formats</td></tr>
+<tr><td style="width: 25%;"><a href="tar_resources_repository_cas.html">tar_resources_repository_cas</a></td>
+<td>Target resources for custom storage formats</td></tr>
 <tr><td style="width: 25%;"><a href="tar_resources_url.html">tar_resources_url</a></td>
 <td>Target resources: URL storage formats</td></tr>
 <tr><td style="width: 25%;"><a href="tar_script.html">tar_script</a></td>
@@ -384,8 +394,8 @@
 <td>Run R scripts.</td></tr>
 <tr><td style="width: 25%;"><a href="tar_target.html">tar_target</a></td>
 <td>Declare a target.</td></tr>
-<tr><td style="width: 25%;"><a href="tar_target_raw.html">tar_target_raw</a></td>
-<td>Define a target using unrefined names and language objects.</td></tr>
+<tr><td style="width: 25%;"><a href="tar_target.html">tar_target_raw</a></td>
+<td>Declare a target.</td></tr>
 <tr><td style="width: 25%;"><a href="tar_test.html">tar_test</a></td>
 <td>Test code in a temporary directory.</td></tr>
 <tr><td style="width: 25%;"><a href="tar_condition.html">tar_throw_file</a></td>
@@ -400,8 +410,8 @@
 <td>Language</td></tr>
 <tr><td style="width: 25%;"><a href="tar_timestamp.html">tar_timestamp</a></td>
 <td>Get the timestamp(s) of a target.</td></tr>
-<tr><td style="width: 25%;"><a href="tar_timestamp_raw.html">tar_timestamp_raw</a></td>
-<td>Get the timestamp(s) of a target (raw version).</td></tr>
+<tr><td style="width: 25%;"><a href="tar_timestamp.html">tar_timestamp_raw</a></td>
+<td>Get the timestamp(s) of a target.</td></tr>
 <tr><td style="width: 25%;"><a href="tar_toggle.html">tar_toggle</a></td>
 <td>Choose code to run based on Target Markdown mode.</td></tr>
 <tr><td style="width: 25%;"><a href="tar_traceback.html">tar_traceback</a></td>

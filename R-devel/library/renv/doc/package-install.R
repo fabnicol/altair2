@@ -19,7 +19,7 @@ library(renv)
 
 ## ----eval = FALSE-------------------------------------------------------------
 #  # installation of RNetCDF may require us to set include paths for netcdf
-#  configure.args = c(RNetCDF = "--with-netcdf-include=/usr/include/udunits2"))
+#  configure.args = c(RNetCDF = "--with-netcdf-include=/usr/include/udunits2")
 #  options(configure.args = configure.args)
 #  renv::install("RNetCDF")
 

@@ -9,8 +9,8 @@ function M.test(format)
 end
 
 function M.modify_build(make)
-  local process = filter {"joincolors"}
-  make:match("html$", process)
+  local process = filter({"joincolors"}, "joincolors")
+  make:match("html?$", process)
   return make
 end
 return M

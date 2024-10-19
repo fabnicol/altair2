@@ -3,18 +3,14 @@
 --  DESCRIPTION:  part of luaotfload / multiscript
 -----------------------------------------------------------------------
 
-local ProvidesLuaModule = {
+assert(luaotfload_module, "This is a part of luaotfload and should not be loaded independently") {
     name          = "luaotfload-multiscript",
-    version       = "3.14",     --TAGVERSION
-    date          = "2020-05-06", --TAGDATE
+    version       = "3.28",     --TAGVERSION
+    date          = "2024-02-14", --TAGDATE
     description   = "luaotfload submodule / multiscript",
     license       = "GPL v2.0",
     author        = "Marcel Krüger"
 }
-
-if luatexbase and luatexbase.provides_module then
-  luatexbase.provides_module (ProvidesLuaModule)
-end
 
 local nodenew            = node.direct.new
 local getfont            = font.getfont

@@ -1,3 +1,17 @@
+6.0.0
+  - Experimental support for dynamic ES modules
+  - Linux: update static libv8 to version 11.9
+
+5.0.1
+  - Remove some test verbosity per CRAN request
+  - Update maintainer email address
+
+5.0.0
+  - Drop support for legacy v8-314 library bindings
+  - Compile with C++20 when available (required as of libv8 version 12.7)
+  - Experimental @ accessor for v8 objects in R >= 4.3.0
+  - Fix 'anchored' links for CRAN
+
 4.4.2
   - Prevent Fedora from accidentally building against the legacy v8-314 library
     instead of the current v8-devel on that system.

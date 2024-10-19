@@ -1,4 +1,4 @@
-% Copyright 2006 by Till Tantau
+% Copyright 2019 by Till Tantau
 %
 % This file may be distributed and/or modified
 %
@@ -9,6 +9,10 @@
 
 \ProvidesFileRCS{pgfsys-vtex.def}
 
+\pgfutil@packagewarning
+  {pgfsys-vtex.def}%
+  {This driver is deprecated and will be removed by the end of 2022.
+   Please switch to another TeX engine}
 
 % Driver commands for vtex
 

@@ -1,6 +1,6 @@
-% biblatex.4ht (2019-12-20-14:01), generated from tex4ht-4ht.tex
+% biblatex.4ht (2023-04-06-13:28), generated from tex4ht-4ht.tex
 % Copyright 2007-2009 Eitan M. Gurari
-% Copyright 2009-2019 TeX Users Group
+% Copyright 2009-2023 TeX Users Group
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -17,7 +17,7 @@
 %
 % If you modify this program, changing the
 % version identification would be appreciated.
-\immediate\write-1{version 2019-12-20-14:01}
+\immediate\write-1{version 2023-04-06-13:28}
 
    \def\make:blx:ver#1.#2#3\relax{%
    %\ifdim#1pt< 3pt \xdef\blx:ver:no{2}\else\xdef\blx:ver:no{3}\fi%
@@ -58,6 +58,13 @@
       {\c@secnumdepth=\sv:sec:cnt\save:section}}%
 }
 \gHAssign\bibN=0
+\ifdefined\TE@hook\else%
+\def\TE@hook{}%
+\fi%
+
+\AtBeginDocument{%
+  \Configure{ifthenelse}{\TE@hook}
+}
   \:CheckOption{ooffice}\if:Option
    \def\bibConfigure{\ConfigureList{thebibliography}%
       {\IgnorePar\EndP \gHAdvance\bib:N by 1
@@ -138,7 +145,7 @@
 \NewConfigure{printshorthands}{4}
 \NewConfigure{@shorthands}[1]{\concat:config\a:@shorthands{#1}}
 \let\a:@shorthands\empty
-\def\nolinkurl{\o:url:}
+\def\nolinkurl#1{#1}
 % \def\blx@checksum{\ifx \blx@checksum@old \blx@checksum@new \else
 %   \blx@warning@noline {Page references have changed.\MessageBreak
 %     Rerun to get references right}\@tempswatrue \blx@reruntrue \fi
@@ -197,22 +204,6 @@
 % Biblatex 3.0
 %
 % Hacks for biblatex
-% MakeUppercase is redefined by tex4ht, biblatex tries to redefine it as well, but it relies on original
-% LaTeX version:
-\DeclareRobustCommand{\MakeUppercase}[1]{{%
-    \def\i{I}\def\j{J}%
-    \def\reserved@a##1##2{\let##1##2\reserved@a}%
-    \expandafter\reserved@a\@uclclist\reserved@b{\reserved@b\@gobble}%
-    \protected@edef\reserved@a{\uppercase{#1}}%
-    \reserved@a
-}}
-% Same applies also for \MakeLowercase
-\DeclareRobustCommand{\MakeLowercase}[1]{{%
-    \def\reserved@a##1##2{\let##2##1\reserved@a}%
-    \expandafter\reserved@a\@uclclist\reserved@b{\reserved@b\@gobble}%
-    \protected@edef\reserved@a{\lowercase{#1}}%
-    \reserved@a
-}}
 
 % I don't really understand this, but language processing is broken by default
 % with biblatex. It loads language file, but it executes code which should be
@@ -400,43 +391,36 @@
        {}}%
     {}%
   \blx@postpunct
-  \blx@resetpuncthook
+  \blx@imc@resetpunctfont
   \iftoggle{blx@tempa}%
     {}%
     {\global\togglefalse{blx@insert}}%
   \csname a:blx@unit\endcsname
   \blx@leavevmode
-  \blx@csq@ifkernmark
-    {}%
-    {\penalty\@M
-    \hskip-\blx@unitmark\relax
-    \hskip\blx@unitmark\relax
-    }%
   \begingroup
     \Configure{blx@unit}{}{}%
 }
 \def\blx@endunit{%
   \endgroup
-  \csname b:blx@unit\endcsname
+  \csname b:blx@unit\endcsname%
   \Configure{blx@unit}{}{}%
-  \ifdim\lastskip=\blx@unitmark
-    \unskip\unskip\unpenalty
-    \global\togglefalse{blx@lastins}%
-  \else
-   \global\toggletrue{blx@insert}%
-   \global\toggletrue{blx@lastins}%
- \fi
+  \global\toggletrue{blx@insert}%
+  \global\toggletrue{blx@lastins}%
 }
 \NewConfigure{blx@unit}{2}
+
 %
    \else
 \fi
 
 \ifdefined\XeTeXversion
   \def\abx@aux@defaultrefcontext#1#2#3{%
-    \global\boolfalse{refcontextdefaults}%
   \csxdef{blx@assignedrefcontextbib@#1@\detokenize{#2}}{\detokenize{#3}}}
 \fi
+\renewrobustcmd*{\addnbspace}{%
+  \unspace\blx@postpunct%
+  % insert real non-breaking space character
+  \nobreakspace\blx@imc@resetpunctfont}
 
    \NewConfigure{thebibliography}{4}
 \append:def\blx@bibinit{\a:bibinit}%
@@ -516,7 +500,7 @@
 \def\writeCiteLink#1{\immediate\write\@mainaux{%
     \string\@namedef{#1.\thepage}{\FileName}}}
 \let\blx@addpagesum\@gobbletwo
-\let\nolinkurl\relax
+% \let\nolinkurl\relax
 
 \ifx\blx:ver:no < 3
 %
@@ -584,6 +568,57 @@
     \l@doldold@footnotetext,% ledmac
     \@fntORI}%                frenchle
 \let\do\:temp
+
+   \pend:defI\blx@backref{%
+  % prevent duplicate backlink on the same page
+  \ifcsdef{bk##1\thepage}{}{%
+    % insert link to the page
+    \html:addr\Link-{}{x\last:haddr}\EndLink%
+    % save link to the .xref file
+    % we need to use \protected@write to get correct page numbers in backrefs
+    \protected@write\:refout{}{\string\:CrossWord{)Q##1\thepage}{x\last:haddr}{\folio}}%
+    % we need to save the link destination in .xref file
+    % too, otherwise \Link command would issue warning
+    \Tag{)Qx\last:haddr}{\FileNumber}%
+  }%
+  % declare this backlink destination as used, so we don't
+  % declare another one with the same name
+  \expandafter\gdef\csname bk##1\thepage\endcsname{}%
+}
+
+% version of \hyperlink that links back to saved link in citation
+% on the given DVI page
+\def\bbx:hyperlink#1#2{
+  % first argument is destination used by Hyperref, second is page number
+  % test if we saved link to the current bibitem and page
+  \ifTag{)Q\abx@field@entrykey#2}{%
+      \Link{\LikeRef{)Q\abx@field@entrykey#2}}{}#2\EndLink%
+  }%
+  {#2}% print just page number if there is no saved link
+  }
+
+% we need to redefine pageref format, which is used for printing of
+% back link page numbers. custom \hyperlink command is used
+\DeclareListFormat{pageref}{%
+  % we redefine \hyperlink command to link page numbers in backreferences
+  % back to the citations on the given pages
+  \let\orig:hyperlink\hyperlink%
+  \let\hyperlink\bbx:hyperlink%
+  \ifnumless{\abx@pagerefstyle}{0}%
+    {\usebibmacro{list:plain}%
+     \ifhyperref%
+       {\hyperlink{page.#1}{#1}}%
+       {#1}}%
+    {\ifnumequal{\value{listcount}}{1}%
+       {\usebibmacro{pageref:init}}%
+       {}%
+     \usebibmacro{pageref:comp}{#1}%
+     \ifnumequal{\value{listcount}}{\value{liststop}}%
+       {\usebibmacro{pageref:dump}}%
+       {}}%
+  \let\hyperlink\orig:hyperlink%
+}
+
 
 \Hinput{biblatex}
 \endinput

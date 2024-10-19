@@ -1,5 +1,6 @@
 if not modules then modules = { } end modules ['l-unicode'] = {
     version   = 1.001,
+    optimize  = true,
     comment   = "companion to luat-lib.mkiv",
     author    = "Hans Hagen, PRAGMA-ADE, Hasselt NL",
     copyright = "PRAGMA ADE / ConTeXt Development Team",
@@ -31,7 +32,6 @@ if not modules then modules = { } end modules ['l-unicode'] = {
 -- dump, find, format, gfind, gmatch, gsub, lower, match, rep, reverse, upper
 
 utf     = utf or { }
--- unicode = nil
 
 if not string.utfcharacters then
 

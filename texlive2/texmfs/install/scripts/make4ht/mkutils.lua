@@ -7,23 +7,27 @@ local mkparams = require("mkparams")
 local indexing = require("make4ht-indexing")
 --template engine
 function interp(s, tab)
-	local tab = tab or {}
-	return (s:gsub('($%b{})', function(w) return tab[w:sub(3, -2)] or w end))
+  local tab = tab or {}
+  return (s:gsub('($%b{})', function(w) return tab[w:sub(3, -2)] or w end))
 end
 --print( interp("${name} is ${value}", {name = "foo", value = "bar"}) )
 
 function addProperty(s,prop)
-	if prop ~=nil then
-		return s .." "..prop
-	else
-		return s
-	end
+  if prop ~=nil then
+    return s .." "..prop
+  else
+    return s
+  end
 end
 getmetatable("").__mod = interp
 getmetatable("").__add = addProperty 
 
 --print( "${name} is ${value}" % {name = "foo", value = "bar"} )
 -- Outputs "foo is bar"
+
+function is_url(path)
+  return path:match("^%a+://")
+end
 
 
 -- merge two tables recursively
@@ -39,32 +43,51 @@ function merge(t1, t2)
 end
 
 function string:split(sep)
-	local sep, fields = sep or ":", {}
-	local pattern = string.format("([^%s]+)", sep)
-	self:gsub(pattern, function(c) fields[#fields+1] = c end)
-	return fields
+  local sep, fields = sep or ":", {}
+  local pattern = string.format("([^%s]+)", sep)
+  self:gsub(pattern, function(c) fields[#fields+1] = c end)
+  return fields
 end
 
 function remove_extension(path)
-	local found, len, remainder = string.find(path, "^(.*)%.[^%.]*$")
-	if found then
-		return remainder
-	else
-		return path
-	end
+  local found, len, remainder = string.find(path, "^(.*)%.[^%.]*$")
+  if found then
+    return remainder
+  else
+    return path
+  end
 end
 
 -- 
-
+-- check if file exists
 function file_exists(file)
-	local f = io.open(file, "rb")
-	if f then f:close() end
-	return f ~= nil
+  local f = io.open(file, "rb")
+  if f then f:close() end
+  return f ~= nil
 end
 
+-- check if Lua module exists
+-- source: https://stackoverflow.com/a/15434737/2467963
+function isModuleAvailable(name)
+  if package.loaded[name] then
+    return true
+  else
+    for _, searcher in ipairs(package.searchers or package.loaders) do
+      local loader = searcher(name)
+      if type(loader) == 'function' then
+        package.preload[name] = loader
+        return true
+      end
+    end
+    return false
+  end
+end
+
+
 -- searching for converted images
-function parse_lg(filename)
+function parse_lg(filename, builddir)
   log:info("Parse LG")
+  local dir = builddir~="" and builddir .. "/" or ""
   local outputimages,outputfiles,status={},{},nil
   local fonts, used_fonts = {},{}
   if not file_exists(filename) then
@@ -72,19 +95,20 @@ function parse_lg(filename)
   else
     local usedfiles={}
     for line in io.lines(filename) do
-			--- needs --- pokus.idv[1] ==> pokus0x.png --- 
+      --- needs --- pokus.idv[1] ==> pokus0x.png --- 
       -- line:gsub("needs --- (.+?)[([0-9]+) ==> ([%a%d%p%.%-%_]*)",function(name,page,k) table.insert(outputimages,k)end)
-      line:gsub("needs %-%-%- (.+)%[([0-9]+)%] ==> ([%a%d%p%.%-%_]*)",
-			  function(file,page,output) 
-					local rec = {
-						source = file,
-						page=page,
-						output = output
-					}
-					table.insert(outputimages,rec)
-				end
-			)
-      line:gsub("File: (.*)",  function(k) 
+      line:gsub("needs %-%-%- (.+)%[([0-9]+)%] ==> (.*) %-%-%-",
+      function(file,page,output) 
+        local rec = {
+          source=file,
+          page=page,
+          output=dir..output
+        }
+        table.insert(outputimages,rec)
+      end
+      )
+      line:gsub("File: (.*)",  function(k)
+        k = dir .. k
         if not usedfiles[k] then
           table.insert(outputfiles,k)
           usedfiles[k] = true
@@ -115,17 +139,28 @@ local cp_func = os.type == "unix" and "cp" or "copy"
 -- in reality it isn't.
 -- local cp_func = os.type == "unix" and "mv" or "move"
 function cp(src,dest)
-	local command = string.format('%s "%s" "%s"', cp_func, src, dest)
-	if cp_func == "copy" then command = command:gsub("/",'\\') end
-	log:info("Copy: "..command)
-	os.execute(command)
+  if is_url(src) then
+    log.info(src .. " is a URL, will leave as is")
+    return
+  end
+  if not file_exists(src) then
+    -- try to find file using kpse library if it cannot be found
+    src = kpse.find_file(src) or src
+  end
+  local command = string.format('%s "%s" "%s"', cp_func, src, dest)
+  if cp_func == "copy" then command = command:gsub("/",'\\') end
+  log:info("Copy: "..command)
+  if not file_exists(src) then
+    log:error("File " .. src .. " doesn't exist")
+  end
+  os.execute(command)
 end
 
 function mv(src, dest)
   local mv_func = os.type == "unix" and "mv " or "move "
-	local command = string.format('%s "%s" "%s"', mv_func, src, dest)
+  local command = string.format('%s "%s" "%s"', mv_func, src, dest)
   -- fix windows paths
-	if mv_func == "move" then command = command:gsub("/",'\\') end
+  if mv_func == "move" then command = command:gsub("/",'\\') end
   log:info("Move: ".. command)
   os.execute(command)
 end
@@ -138,61 +173,80 @@ end
 local used_dir = {}
 
 function prepare_path(path)
-	--local dirs = path:split("/")
-	local dirs = {}
-	if path:match("^/") then dirs = {""}
-	elseif path:match("^~") then
-		local home = os.getenv "HOME"
-		dirs = home:split "/"
-		path = path:gsub("^~/","")
-		table.insert(dirs,1,"")
-	end
-	if path:match("/$")then path = path .. " " end
-	for _,d in pairs(path:split "/") do
-		table.insert(dirs,d)
-	end
-	table.remove(dirs,#dirs)
-	return dirs,table.concat(dirs,"/")
+  --local dirs = path:split("/")
+  local dirs = {}
+  if path:match("^/") then dirs = {""}
+  elseif path:match("^~") then
+    local home = os.getenv "HOME"
+    dirs = home:split "/"
+    path = path:gsub("^~/","")
+    table.insert(dirs,1,"")
+  end
+  if path:match("/$")then path = path .. " " end
+  for _,d in pairs(path:split "/") do
+    table.insert(dirs,d)
+  end
+  table.remove(dirs,#dirs)
+  return dirs,table.concat(dirs,"/")
 end
 
 -- Find which part of path already exists
 -- and which directories have to be created
 function find_directories(dirs, pos)
-	local pos = pos or #dirs
-	-- we tried whole path and no dir exist
-	if pos < 1 then return dirs end
-	local path = ""
-	-- in the case of unix absolute path, empty string is inserted in dirs
-	if pos == 1 and dirs[pos] == "" then
-		path = "/"
-	else
-		path = table.concat(dirs,"/", 1,pos) .. "/"
-	end
-	if not lfs.chdir(path)  then -- recursion until we succesfully changed dir
-	-- or there are no elements in the dir table
-	return find_directories(dirs,pos - 1)
+  local pos = pos or #dirs
+  -- we tried whole path and no dir exist
+  if pos < 1 then return dirs end
+  local path = ""
+  -- in the case of unix absolute path, empty string is inserted in dirs
+  if pos == 1 and dirs[pos] == "" then
+    path = "/"
+  else
+    path = table.concat(dirs,"/", 1,pos) .. "/"
+  end
+  if not lfs.chdir(path)  then -- recursion until we succesfully changed dir
+  -- or there are no elements in the dir table
+  return find_directories(dirs,pos - 1)
 elseif pos ~= #dirs then -- if we succesfully changed dir
-	-- and we have dirs to create
-	local p = {}
-	for i = pos+1, #dirs do
-		table.insert(p, dirs[i])
-	end
-	return p
+  -- and we have dirs to create
+  local p = {}
+  for i = pos+1, #dirs do
+    table.insert(p, dirs[i])
+  end
+  return p
 else  -- whole path exists
-	return {}
+  return {}
 end
 end
 
 function mkdirectories(dirs)
-	if type(dirs) ~="table" then
-		return false, "mkdirectories: dirs is not table"
-	end
-	for _,d in ipairs(dirs) do
-		local stat,msg = lfs.mkdir(d)
-		if not stat then return false, "makedirectories error: "..msg end
-		lfs.chdir(d)
-	end
-	return true
+  if type(dirs) ~="table" then
+    return false, "mkdirectories: dirs is not table"
+  end
+  local path = ""
+  for _,d in ipairs(dirs) do
+    path = path .. d .. "/"
+    local stat,msg = lfs.mkdir(path)
+    if not stat then return false, "makedirectories error: "..msg end
+  end
+  return true
+end
+
+function make_path(path)
+  -- we must create the build dir if it doesn't exist
+  local cwd = lfs.currentdir()
+  -- add dummy /foo dir. it won't be created, but without that, the top-level dir wouldn't be created
+  local parts = mkutils.prepare_path(path .. "/foo")
+  local to_create = mkutils.find_directories(parts)
+  mkutils.mkdirectories(to_create)
+  -- change back to the original dir
+  lfs.chdir(cwd)
+end
+
+function file_in_builddir(filename, par)
+  if par.builddir and par.builddir ~= "" then
+    return par.builddir .. "/" .. filename
+  end
+  return filename
 end
 
 function copy_filter(src,dest, filter)
@@ -208,22 +262,22 @@ end
 
 
 function copy(filename,outfilename)
-	local currdir = lfs.currentdir()
-	if filename == outfilename then return true end
-	local parts, path = prepare_path(outfilename)
-	if not used_dir[path] then 
-		local to_create, msg = find_directories(parts)
-		if not to_create then
-			log:warning(msg)
-			return false
-		end
-		used_dir[path] = true
-		local stat, msg = mkdirectories(to_create)
-		if not stat then log:warning(msg) end
-	end
-	lfs.chdir(currdir)
-	cp(filename, path)
-	return true
+  local currdir = lfs.currentdir()
+  if filename == outfilename then return true end
+  local parts, path = prepare_path(outfilename)
+  if not used_dir[path] then 
+    local to_create, msg = find_directories(parts)
+    if not to_create then
+      log:warning(msg)
+      return false
+    end
+    used_dir[path] = true
+    local stat, msg = mkdirectories(to_create)
+    if not stat then log:warning(msg) end
+  end
+  lfs.chdir(currdir)
+  cp(filename, path)
+  return true
 end
 
 function execute(command)
@@ -264,9 +318,11 @@ end
 
 local main_settings = {}
 main_settings.fonts = {}
-local env = {}
+-- use global environment in the build file
+-- it used to be sandboxed, but it proved not to be useful at all
+local env = _G ---{}
 
--- We make sandbox for make script, all functions must be explicitely declared
+-- explicitly enale some functions and modules in the sandbox
 -- Function declarations:
 env.pairs  = pairs
 env.ipairs = ipairs
@@ -338,7 +394,7 @@ env.Make:add("test","test the variables:  ${tex4ht_sty_par} ${htlatex} ${input} 
 local htlatex = require "make4ht-htlatex"
 env.Make:add("htlatex", htlatex.htlatex
 ,{correct_exit=0})
-env.Make:add("htttex", htlatex.httex, {
+env.Make:add("httex", htlatex.httex, {
   htlatex = "etex",
   correct_exit=0
 })
@@ -346,19 +402,108 @@ env.Make:add("htttex", htlatex.httex, {
 env.Make:add("latexmk", function(par)
   local settings = get_filter_settings "htlatex" or {}
   par.interaction = par.interaction or settings.interaction or "batchmode"
-  local command = Make.latex_command
+  local command = Make.latex_command 
+  -- add " %O " after the engine name. it should be filled by latexmk
+  command = command:gsub("%s", " %%O ", 1)
   par.expanded = command % par
   -- quotes in latex_command must be escaped, they cause Latexmk error
   par.expanded = par.expanded:gsub('"', '\\"')
-  local newcommand = 'latexmk -latex="${expanded}" -dvi ${tex_file}' % par
+  local newcommand = 'latexmk  -pdf- -ps- -auxdir=${builddir} -outdir=${builddir} -latex="${expanded}" -dvi -jobname=${input} ${tex_file}' % par
+  log:info("LaTeX call: " .. newcommand)
   os.execute(newcommand)
   return Make.testlogfile(par)
 end, {correct_exit= 0})
 
 
 
-env.Make:add("tex4ht","tex4ht ${tex4ht_par} \"${input}.${dvi}\"", nil, 1)
-env.Make:add("t4ht","t4ht ${t4ht_par} \"${input}.${ext}\"",{ext="dvi"},1)
+-- env.Make:add("tex4ht","tex4ht ${tex4ht_par} \"${input}.${dvi}\"", nil, 1)
+env.Make:add("tex4ht",function(par)
+  -- detect if svg output is used
+  -- if yes, we need to pass the -g.svg option to tex4ht command
+  -- to support svg images for character pictures
+  local logfile = mkutils.file_in_builddir(par.input .. ".log", par)
+  if file_exists(logfile) then
+    for line in io.lines(logfile) do
+      local options = line:match("TeX4ht package options:(.+)")
+      if options then
+        log:info(options)
+        if options:match("svg") then
+          par.tex4ht_par = (par.tex4ht_par or "") .. " -g.svg"
+        end
+        break
+      end
+    end
+  end
+  local cwd = lfs.currentdir()
+  if par.builddir~="" then
+      lfs.chdir(par.builddir)
+  end
+  local command = "tex4ht ${tex4ht_par} \"${input}.${dvi}\"" % par
+  log:info("executing: " .. command)
+  local status, output = execute(command)
+  lfs.chdir(cwd)
+  return status, output
+end
+, nil, 1)
+env.Make:add("t4ht", function(par)
+    par.ext = "dvi"
+    local cwd = lfs.currentdir()
+    if par.builddir ~= "" then
+        lfs.chdir(par.builddir)
+    end
+    local command = "t4ht ${t4ht_par} \"${input}.${ext}\"" % par
+    log:info("executing: " .. command)
+    execute(command)
+    lfs.chdir(cwd)
+end
+)
+
+env.Make:add("clean", function(par)
+  -- remove all functions that process produced files
+  -- we will provide only one function, that remove all of them
+  Make.matches = {}
+  local main_name = mkutils.file_in_builddir( par.input, par)
+  local remove_file = function(filename)
+    if file_exists(filename) then
+      log:info("removing file: " .. filename)
+      os.remove(filename)
+    end
+  end
+  -- try to find if the last converted file was in the ODT format
+  local lg_name =  main_name .. ".lg"
+  local lg_file = parse_lg(lg_name, par.builddir)
+  local is_odt = false
+  if lg_file and lg_file.files then
+    for _, x in ipairs(lg_file.files) do
+      is_odt = x:match("odt$") or is_odt
+    end
+  end
+  if is_odt then
+    Make:match("4om$",function(filename)
+      -- math temporary file
+      local to_remove = filename:gsub("4om$", "tmp")
+      remove_file(to_remove)
+      return false
+    end)
+    Make:match("4og$", remove_file)
+  end
+  Make:match("tmp$", function()
+    -- remove temporary and auxilary files
+    for _,ext in ipairs {"aux", "xref", "tmp", "4tc", "4ct", "idv", "lg","dvi", "log", "ncx", "idx", "ind"} do
+      remove_file(main_name .. "." .. ext)
+    end
+  end)
+  Make:match(".*", function(filename, par)
+    -- remove only files that start with the input file basename
+    -- this should prevent removing of images. this also means that
+    -- images shouldn't be names as <filename>-hello.png for example
+    if filename:find(main_name, 1,true) then
+      -- log:info("Matched file", filename)
+      remove_file(filename)
+    end
+  end)
+
+end)
 
 -- enable extension in the config file
 -- the following two functions must be here and not in make4ht-lib.lua
@@ -493,8 +638,14 @@ function load_extension(name,format)
   local extension_library = "make4ht.extensions.make4ht-ext-" .. name
   local is_extension_file = find_lua_file(extension_library)
   -- don't try to load the extension if it doesn't exist
-  if not is_extension_file then return nil end
-  local extension = require("make4ht.extensions.make4ht-ext-".. name)
+  if not is_extension_file then return nil, "cannot fint extension " .. name  end
+  local extension = nil
+  local local_extension_path = package.searchpath(extension_library, package.path)
+  if local_extension_path then
+      extension = dofile(local_extension_path)
+  else
+      extension = require("make4ht.extensions.make4ht-ext-".. name)
+  end
   -- extensions can test if the current output format is supported
   local test = extension.test
   if test then
@@ -502,7 +653,7 @@ function load_extension(name,format)
       return extension
     end
     -- if the test fail return nil
-    return nil
+    return nil, "extension " .. name .. " is not supported in the " .. format .. " format"
   end
   -- if the extension doesn't provide the test function, we will assume that
   -- it supports every output format
@@ -533,12 +684,13 @@ function load_extensions(extensions, format)
     -- the extension can be inserted into the extension_sequence, but disabled
     -- later.
     if module_names[name] == true then
-      local extension = load_extension(name,format)
+      local extension, msg= load_extension(name,format)
       if extension then
         log:info("Load extension", name)
         table.insert(extension_table, extension)
       else
         log:warning("Cannot load extension: ".. name)
+        log:warning(msg)
       end
     end
   end

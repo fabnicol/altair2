@@ -37,6 +37,7 @@ fenced_block	fenced_block
 fenced_div	fenced_block
 file_exists	dir_exists
 file_ext	file_ext
+file_rename	file_rename
 file_string	file_string
 format.xfun_record_results	record
 format_bytes	format_bytes
@@ -48,6 +49,10 @@ gsub_dir	gsub_file
 gsub_ext	gsub_file
 gsub_file	gsub_file
 gsub_files	gsub_file
+html_escape	html_tag
+html_tag	html_tag
+html_value	html_tag
+html_view	html_tag
 install_dir	install_dir
 install_github	install_github
 in_dir	in_dir
@@ -66,12 +71,15 @@ is_unix	os
 is_web_path	is_web_path
 is_windows	os
 json_vector	tojson
+lazy_load	lazy_save
+lazy_save	lazy_save
 loadable	pkg_attach
 magic_path	magic_path
 make_fence	fenced_block
 mark_dirs	mark_dirs
 md5	md5
 md_table	md_table
+mime_type	mime_type
 msg_cat	msg_cat
 n2w	numbers_to_words
 native_encode	native_encode
@@ -103,6 +111,7 @@ read_utf8	read_utf8
 record	record
 record_print	record_print
 record_print.default	record_print
+record_print.record_asis	record_print
 relative_path	relative_path
 rename_seq	rename_seq
 rest_api	rest_api

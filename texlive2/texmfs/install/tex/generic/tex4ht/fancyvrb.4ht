@@ -1,7 +1,6 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% fancyvrb.4ht                          2019-11-13-14:16 %
-% Copyright (C) 1997-2009       Eitan M. Gurari         %
-% Copyright 2009-2019 TeX Users Group
+% fancyvrb.4ht (2022-12-02-14:48), generated from tex4ht-4ht.tex
+% Copyright 1997-2009 Eitan M. Gurari
+% Copyright 2009-2022 TeX Users Group
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -18,6 +17,8 @@
 %
 % If you modify this program, changing the
 % version identification would be appreciated.
+\immediate\write-1{version 2022-12-02-14:48}
+
 
    \pend:def\FV@FormattingPrep{\let\fv:color\empty
   \ifx \color\:UnDef\else\Configure{color}{\xdef\fv:color}\fi
@@ -62,6 +63,30 @@
       \FV@LeftListFrame \e:fancyvrb \FancyVerbFormatLine{#1}\f:fancyvrb%
       \FV@RightListFrame \csname FV@RightListNumber\endcsname %
           \d:fancyvrb}}
+\def\FV@ListProcessLine@iii#1{%
+  \box\@tempboxa
+  \setbox\@tempboxa=\FV@ListProcessLine{#1}%
+  \let\FV@ProcessLine\FV@ListProcessLine@iv}
+\def\FV@ListProcessLine@iv#1{%
+  % we use \nobreak to really prevent unwanted line breaks
+  % see https://github.com/michal-h21/make4ht/issues/104
+  \box\@tempboxa\nobreak%
+  \setbox\@tempboxa=\FV@ListProcessLine{#1}}%
+\def\FV@ListProcessLastLine{%
+  \ifx\FV@ProcessLine\FV@ListProcessLine@iv
+    \box\@tempboxa
+  \else
+    \ifx\FV@ProcessLine\FV@ListProcessLine@iii
+      \box\@tempboxa
+    \else
+      \ifx\FV@ProcessLine\FV@ListProcessLine@i
+        \FV@Error{Empty verbatim environment}{}%
+        \FV@ProcessLine{}%
+      \fi
+    \fi
+  \fi}
+
+
 \def\FV@EndList{\FV@ListProcessLastLine  \FV@EndListFrame%
   \IgnorePar\b:fancyvrb\par\@endparenv%
   \endgroup   \@endpetrue}

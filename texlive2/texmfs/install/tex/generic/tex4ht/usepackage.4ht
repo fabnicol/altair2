@@ -1,6 +1,6 @@
-% usepackage.4ht (2019-12-19-14:27), generated from tex4ht-4ht.tex
+% usepackage.4ht (2023-07-25-12:42), generated from tex4ht-4ht.tex
 % Copyright 2003-2009 Eitan M. Gurari
-% Copyright 2009-2019 TeX Users Group
+% Copyright 2009-2023 TeX Users Group
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -17,7 +17,7 @@
 %
 % If you modify this program, changing the
 % version identification would be appreciated.
-\immediate\write-1{version 2019-12-19-14:27}
+\immediate\write-1{version 2023-07-25-12:42}
 
    \def\:temp{tex4ht}\ifx \:temp\@currname
    \:warning{\string\usepackage{tex4ht} again?}
@@ -33,161 +33,62 @@
 \fi
 
 \fi
-\gdef\a:usepackage{\use:package xr,xr-hyper,eso-pic,expl3,savetrees,biblatex,xeCJK,polyglossia,fontspec,tikz,pdfbase,caption,graphics,xcolor,imakeidx,minted,fancyhdr,,!*?: }
+\gdef\a:usepackage{\use:package ,!*?: }
 \gdef\use:package#1,{%
    \if :#1:\def\:temp##1!*?: {}\else
       \def\:temp{#1}\ifx \@currname\:temp
              \def\:temp##1!*?: {\input usepackage.4ht  }%
       \else \let\:temp=\use:package \fi
    \fi \:temp}
-\def\:temp{xr}\ifx \@currname\:temp
-   \AtEndOfPackage{\let\XR:\XR@
-   \def\XR@[#1]#2{%
-    \Configure{AtBeginDocument}{\XR:[#1]{#2}}{}}%
-}
-
-\fi
-\def\:temp{xr-hyper}\ifx \@currname\:temp
-   \AtEndOfPackage{\let\XR:\XR@
-    \def\XR@[#1][#2]#3{%
-      \AtBeginDocument{\XR:[#1][#2]{#3}}
-    }%
-}
-
-\fi
-\def\:temp{eso-pic}\ifx \@currname\:temp
-\:dontusepackage{eso-pic}
-\newcommand\AddToShipoutPicture{\@ifstar{}{}}
-\let\AddToShipoutPictureBG\AddToShipoutPicture
-\let\AddToShipoutPictureFG\AddToShipoutPicture
-\fi
-\def\:temp{expl3}\ifx \@currname\:temp
-\ifdefined\XeTeXversion%
-\xenunidelblock{Latin-expl3}%
-\AtEndOfPackage{\xeuniuseblock{Latin-expl3}}
-\fi
-\fi
-\def\:temp{savetrees}\ifx \@currname\:temp
-\:dontusepackage{savetrees}
-\fi
-\def\:temp{biblatex}\ifx \@currname\:temp
-\AtEndOfPackage{%
-  \def\blx@mknoautolang{%
-    \blx@lbxinput{\blx@languagename}%
-    {}{}%
-  }%
-  \def\blx@lbxinput@iii#1#2{%
-  \global\csundef{blx@lng@#2}%
-  \:IfFileExists{#1.lbx}
-    {\blx@lbxinput@iv{#2}{#1}{language '#2' -> '#1'}}
-    {\ifcsdef{blx@suffmaptried@#2}
-      {}
-      {\blx@warning@noline{%
-          File '#1.lbx' not found!\MessageBreak
-          Ignoring mapping '#2' -> '#1'}%
-       \global\cslet{blx@suffmaptried@#2}\@empty}%
-     \blx@lbxinput@iv{#2}{#2}{language '#2'}}}
-
-}
-\fi
-\def\:temp{xeCJK}\ifx \@currname\:temp
-\:dontusepackage{xeCJK}
-\AtEndOfPackage{%
-  \RequirePackage{fontspec}
-}
-\DeclareDocumentCommand\setCJKmainfont{o m o}{}
-\let\setCJKsansfont\setCJKmainfont
-\let\setCJKmonofont\setCJKmainfont
-
-\DeclareDocumentCommand\setCJKfamilyfont {m o m }{}
-\DeclareDocumentCommand\newCJKfontfamily {o m o m}{\expandafter\gdef\csname #2\endcsname{\relax}}
-
-\DeclareDocumentCommand\xeCJKsetup{m}{}
-% }
-\AtBeginDocument{%
-  \xeuniuseblock{CJK}
-}
-\fi
-\def\:temp{polyglossia}\ifx \@currname\:temp
-\ExplSyntaxOn
-\AtEndOfPackage{
-
-\cs_set_eq:NN\orig_polyglossia@keys_define_lang:n\polyglossia@keys_define_lang:n
-\cs_set_protected:Npn \polyglossia@keys_define_lang:n #1 {
-  \orig_polyglossia@keys_define_lang:n{#1}
-  \keys_define:nn {polyglossia}{
-    #1 / direction
-    .  code:n = {}
-  }
-}
-\def\RequireBidi{}%
-}
-\ExplSyntaxOff
-\fi
-\def\:temp{fontspec}\ifx \@currname\:temp
-  \ifdefined\fontspec
-    \:dontusepackage{fontspec}
-  \else
-    \input usepackage-fontspec.4ht
-  \fi
-\fi
-\def\:temp{tikz}\ifx \@currname\:temp
-\AtEndOfPackage{%
-\let\use:tikzlibrary\usetikzlibrary
-\def\find:externalize#1external#2\@nil{%
-\if\relax#2\relax\else
-  \let\tikz:externalize\tikzexternalize
-  \renewcommand\tikzexternalize[1][]{\tikz:externalize[##1,mode=only graphics]}
-    \tikzset{%
-      tex4ht inc/.style={%
-        /pgf/images/include external/.code={%
-          \includegraphics[]{####1.pdf}%
-        }%
-      }
-    }
-    \tikzset{tex4ht inc}
-  \fi
-}
-\renewcommand\usetikzlibrary[1]{%
-  \use:tikzlibrary{#1}%
-  \find:externalize#1external\@nil%
-}
-}
-\fi
-\def\:temp{pdfbase}\ifx\@currname\:temp
-\AtEndOfPackage{%
-  \let\old:outputpage\@outputpage
-  \def\@outputpage{\old:outputpage{}}
-}
-\fi
-\def\:temp{caption}\ifx\@currname\:temp
-\AtEndOfPackage{%
-  \long\def\caption@If@Package@Loaded#1[#2]#3#4{}
-}
-\fi
-\def\:temp{graphics}\ifx\@currname\:temp
-  \ifdefined\XeTeXversion
-    \PassOptionsToPackage{dvips}{graphics}
-  \fi
-\fi
-\def\:temp{xcolor}\ifx\@currname\:temp
-  \ifdefined\XeTeXversion
-    \PassOptionsToPackage{dvips}{xcolor}
-  \fi
-\fi
-\def\:temp{imakeidx}\ifx\@currname\:temp
-  \PassOptionsToPackage{noautomatic}{imakeidx}
-\fi
-\def\:temp{minted}\ifx\@currname\:temp
-  \AtEndOfPackage{%
-    \define@booleankey{minted@opt@g}{breaklines}{}{}{}%
-  }
-\fi
-\def\:temp{fancyhdr}\ifx\@currname\:temp
-  \AtEndOfPackage{%
-  \def\ps@fancy{}%
-  }
-\fi
+\Configure{PackageHooks}{titlesec.sty}{titlesec-hooks.4ht}
+\Configure{PackageHooks}{biblatex-chicago.sty}{biblatex-chicago-hooks.4ht}
+\Configure{PackageHooks}{cleveref.sty}{cleveref-hooks.4ht}
+\Configure{PackageHooks}{xr.sty}{xr-hooks.4ht}
+\Configure{PackageHooks}{xr-hyper.sty}{xrhyper-hooks.4ht}
+\Configure{PackageHooks}{eso-pic.sty}{esopic-hooks.4ht}
+\Configure{PackageHooks}{showframe.sty}{showframe-hooks.4ht}
+\Configure{PackageHooks}{expl3.sty}{expl3-hooks.4ht}
+\Configure{PackageHooks}{savetrees.sty}{savetrees-hooks.4ht}
+\Configure{PackageHooks}{newcomputermodern.sty}{newcomputermodern-hooks.4ht}
+\Configure{PackageHooks}{newcomputermodern.sty}{newcomputermodern-hooks.4ht}
+\Configure{PackageHooks}{fontawesome5-utex-helper.sty}%
+{fontawesome5-utex-helper-hooks.4ht}
+\Configure{PackageHooks}{fontawesome5.sty}{fontawesome5-hooks.4ht}
+\Configure{PackageHooks}{biblatex.sty}{biblatex-hooks.4ht}
+\Configure{PackageHooks}{xeCJK.sty}{xecjk-hooks.4ht}
+\Configure{PackageHooks}{unicode-math.sty}{unicode-math-hooks.4ht}
+\Configure{PackageHooks}{ctex.sty}{ctex-hooks.4ht}
+\AddToHook{class/ctexart/before}{\input{ctexart-hooks.4ht}}
+\Configure{PackageHooks}{luatexja.sty}{luatexja-hooks.4ht}
+\Configure{PackageHooks}{luatexja-fontspec.sty}{luatexja-hooks.4ht}
+\Configure{PackageHooks}{polyglossia.sty}{polyglossia-hooks.4ht}
+\Configure{PackageHooks}{fontspec.sty}{fontspec-hooks.4ht}
+\Configure{PackageHooks}{tikz.sty}{tikz-hooks.4ht}
+\Configure{PackageHooks}{pdfbase.sty}{pdfbase-hooks.4ht}
+\Configure{PackageHooks}{pdfx.sty}{pdfx-hooks.4ht}
+\Configure{PackageHooks}{lua-widow-control.sty}{lua-widow-control-hooks.4ht}
+\Configure{PackageHooks}{tagpdf.sty}{tagpdf-hooks.4ht}
+\Configure{PackageHooks}{embedfile.sty}{embedfile-hooks.4ht}
+\Configure{PackageHooks}{breakurl.sty}{breakurl-hooks.4ht}
+\Configure{PackageHooks}{hyperref.sty}{hyperref-hooks.4ht}
+\Configure{PackageHooks}{bookmark.sty}{bookmark-hooks.4ht}
+\Configure{PackageHooks}{caption.sty}{caption-hooks.4ht}
+\Configure{PackageHooks}{footnotebackref.sty}{footnotebackref-hooks.4ht}
+\AddToHook{package/doc/before}{\SUPOff}
+\AddToHook{package/doc/after}{\SUPOn}
+\AddToHook{package/hypdoc/before}{\SUPOff}
+\AddToHook{package/hypdoc/after}{\SUPOn}
+\Configure{PackageHooks}{mathtools.sty}{mathtools-hooks.4ht}
+\Configure{PackageHooks}{babel.sty}{babel-sty-hooks.4ht}
+\Configure{PackageHooks}{minted.sty}{minted-sty-hooks.4ht}
+\Configure{PackageHooks}{graphics.sty}{graphics-hooks.4ht}
+\Configure{PackageHooks}{graphbox.sty}{graphbox-hooks.4ht}
+\Configure{PackageHooks}{xcolor.sty}{xcolor-hooks.4ht}
+\Configure{PackageHooks}{imakeidx.sty}{imakeidx-hooks.4ht}
+\Configure{PackageHooks}{fancyhdr.sty}{fancyhdr-hooks.4ht}
+\Configure{PackageHooks}{exerquiz.sty}{exerquiz-hooks.4ht}
+\Configure{PackageHooks}{hyperxmp.sty}{hyperxmp-hooks.4ht}
+\Configure{PackageHooks}{datetime2.sty}{datetime2-hooks.4ht}
 
 
 \endinput

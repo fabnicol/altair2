@@ -7,10 +7,11 @@
 -- babel.dtx  (with options: `cjkdata')
 -- 
 --
--- Copyright (C) 2012-2020 Javier Bezos and Johannes L. Braams.
+-- Copyright (C) 2012-2024 Javier Bezos and Johannes L. Braams.
 -- Copyright (C) 1989-2012 Johannes L. Braams and
 --           any individual authors listed elsewhere in this file.
 -- All rights reserved.
+--
 --
 -- This file is part of the Babel system.
 -- --------------------------------------
@@ -31,13 +32,12 @@
 -- and covered by LPPL is defined by the unpacking scripts (with
 -- extension |.ins|) which are part of the distribution.
 --
-
-Babel = Babel or {}
-
 Babel.cjk_characters = {
   [0x0021]={c='ex'},
+  [0x0022]={c='qu'},
   [0x0024]={c='pr'},
   [0x0025]={c='po'},
+  [0x0027]={c='qu'},
   [0x0028]={c='op'},
   [0x0029]={c='cp'},
   [0x002B]={c='pr'},
@@ -58,10 +58,18 @@ Babel.cjk_characters = {
   [0x00A3]={c='pr'},
   [0x00A4]={c='pr'},
   [0x00A5]={c='pr'},
+  [0x00AB]={c='qu'},
   [0x00B0]={c='po'},
   [0x00B1]={c='pr'},
+  [0x00BB]={c='qu'},
+  [0x2018]={c='qu'},
+  [0x2019]={c='qu'},
   [0x201A]={c='op'},
+  [0x201B]={c='qu'},
+  [0x201C]={c='qu'},
+  [0x201D]={c='qu'},
   [0x201E]={c='op'},
+  [0x201F]={c='qu'},
   [0x2024]={c='in'},
   [0x2025]={c='in'},
   [0x2026]={c='in'},
@@ -73,6 +81,8 @@ Babel.cjk_characters = {
   [0x2035]={c='po'},
   [0x2036]={c='po'},
   [0x2037]={c='po'},
+  [0x2039]={c='qu'},
+  [0x203A]={c='qu'},
   [0x203C]={c='ns'},
   [0x203D]={c='ns'},
   [0x2044]={c='is'},
@@ -131,7 +141,23 @@ Babel.cjk_characters = {
   [0x29FD]={c='cl'},
   [0x2CF9]={c='ex'},
   [0x2CFE]={c='ex'},
+  [0x2E02]={c='qu'},
+  [0x2E03]={c='qu'},
+  [0x2E04]={c='qu'},
+  [0x2E05]={c='qu'},
+  [0x2E06]={c='qu'},
+  [0x2E07]={c='qu'},
+  [0x2E08]={c='qu'},
+  [0x2E09]={c='qu'},
+  [0x2E0A]={c='qu'},
+  [0x2E0B]={c='qu'},
+  [0x2E0C]={c='qu'},
+  [0x2E0D]={c='qu'},
   [0x2E18]={c='op'},
+  [0x2E1C]={c='qu'},
+  [0x2E1D]={c='qu'},
+  [0x2E20]={c='qu'},
+  [0x2E21]={c='qu'},
   [0x2E22]={c='op'},
   [0x2E23]={c='cl'},
   [0x2E24]={c='op'},
@@ -167,14 +193,39 @@ Babel.cjk_characters = {
   [0x301D]={c='op'},
   [0x301E]={c='cl'},
   [0x301F]={c='cl'},
+  [0x3043]={c='cj'},
+  [0x3045]={c='cj'},
+  [0x3047]={c='cj'},
+  [0x3049]={c='cj'},
+  [0x3063]={c='cj'},
+  [0x3083]={c='cj'},
+  [0x3085]={c='cj'},
+  [0x3087]={c='cj'},
+  [0x308E]={c='cj'},
+  [0x3095]={c='cj'},
+  [0x3096]={c='cj'},
   [0x303B]={c='ns'},
   [0x303C]={c='ns'},
+  [0x3041]={c='cj'},
   [0x309B]={c='ns'},
   [0x309C]={c='ns'},
   [0x309D]={c='ns'},
   [0x309E]={c='ns'},
   [0x30A0]={c='ns'},
+  [0x30A1]={c='cj'},
+  [0x30A3]={c='cj'},
+  [0x30A5]={c='cj'},
+  [0x30A7]={c='cj'},
+  [0x30A9]={c='cj'},
+  [0x30C3]={c='cj'},
+  [0x30E3]={c='cj'},
+  [0x30E5]={c='cj'},
+  [0x30E7]={c='cj'},
+  [0x30EE]={c='cj'},
+  [0x30F5]={c='cj'},
+  [0x30F6]={c='cj'},
   [0x30FB]={c='ns'},
+  [0x30FC]={c='cj'},
   [0x30FD]={c='ns'},
   [0x30FE]={c='ns'},
   [0xA015]={c='ns'},
@@ -244,25 +295,33 @@ Babel.cjk_characters = {
   [0xFF61]={c='cl', w='h'},
   [0xFF62]={c='op', w='h'},
   [0xFF63]={c='cl', w='h'},
-  [0xFF64]={c='cl', w='h'}
+  [0xFF64]={c='cl', w='h'},
+  [0xFF70]={c='cj'}
 }
 
 Babel.cjk_class = setmetatable ( Babel.cjk_characters, {
   __index = function(_, k)
     if (k >= 0xAC00  and k <= 0xD7A3)      -- H2/H3
-        or (k >= 0x2E80  and k <= 0x9FFF)
+        or (k >= 0x2E80  and k <= 0x31E9)  -- Skip small
+        or (k >= 0x3200  and k <= 0x9FFF)
         or (k >= 0xA000  and k <= 0xA48F)  -- Yi
         or (k >= 0xA490  and k <= 0xA4CF)  -- Yi
         or (k >= 0xF900  and k <= 0xFAFF)
         or (k >= 0xFE10  and k <= 0xFE1F)
         or (k >= 0xFE30  and k <= 0xFE6F)
-        or (k >= 0xFF00  and k <= 0xFFEF)
+        or (k >= 0xFF00  and k <= 0xFF66)  -- Skip small
+        or (k >= 0xFF70  and k <= 0xFFEF)
         or (k >= 0x1F000 and k <= 0x1FFFD)
         or (k >= 0x20000 and k <= 0x2FFFD)
         or (k >= 0x30000 and k <= 0x3FFFD) then
       return {c='I'}
     elseif (k >= 0x20A0  and k <= 0x20CF) then
       return {c='pr'}
+    elseif (k >= 0x31F0  and k <= 0x31FF)
+        or (k >= 0xFF67  and k <= 0xFF6F)
+        or (k >= 0x1B150 and k <= 0x1B152)
+        or (k >= 0x1B164 and k <= 0x1B167) then
+      return {c='cj'}
     else
       return {c='O'}
     end
@@ -284,8 +343,8 @@ Babel.cjk_breaks = {
   ['po'] = { ['op']=1, ['pr']=1, ['po']=1, ['in']=1, ['I']=1 },
   ['in'] = { ['op']=1, ['pr']=1, ['po']=1,           ['I']=1 },
   ['hy'] = { ['op']=1, ['pr']=1, ['po']=1, ['in']=1, ['I']=1 },
+  ['qu'] = { },
   --
   ['I']  = { ['op']=1, ['pr']=1, ['I']=1, ['O']=1 },
   ['O']  = {                     ['I']=1 }
 }
-

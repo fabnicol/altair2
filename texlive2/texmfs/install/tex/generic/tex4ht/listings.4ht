@@ -1,6 +1,6 @@
-% listings.4ht (2019-12-19-14:27), generated from tex4ht-4ht.tex
+% listings.4ht (2023-07-25-12:42), generated from tex4ht-4ht.tex
 % Copyright 2001-2009 Eitan M. Gurari
-% Copyright 2009-2019 TeX Users Group
+% Copyright 2009-2023 TeX Users Group
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -17,8 +17,11 @@
 %
 % If you modify this program, changing the
 % version identification would be appreciated.
-\immediate\write-1{version 2019-12-19-14:27}
+\immediate\write-1{version 2023-07-25-12:42}
 
+\@ifpackageloaded{xcolor}{}{%
+\RequirePackage{xcolor}
+}
 \def\lst@makecaption#1#2{\cptA: #1\if :#1:\else\cptB:\fi \cptC: #2\cptD:}
 
 \newif\iflstnest
@@ -43,7 +46,7 @@
 \NewConfigure{listings-init}{2}
 \lst@AddToHook{TextStyle}{%
    \Configure{listings}{}{}{}{}%
-   \a:lstinline \bgroup \aftergroup\b:lstinline\egroup
+   \a:lstinline \bgroup \aftergroup\b:lstinline\aftergroup\egroup
   }
 \NewConfigure{lstinline}{2}
 \pend:defI\lst@MakeCaption{%
@@ -54,26 +57,37 @@
 \append:defI\lst@MakeCaption{%
   \let\addcontentsline\lst:addcontentsline
 }
-\def\lst@NewLine{%
+\ConfigureToc{lol} {}{\empty}{}{\newline}
+\lst@UserCommand\lstlistoflistings{\bgroup%
+    \ifdefined\chapter\chapter*{\lstlistlistingname}\else\section*{\lstlistlistingname}\fi%
+    \TableOfContents[lol]%
+  \egroup}
+\def\:tempa{%
    \ifx\lst@OutputBox\@gobble\else \the\everypar \fi
    \global\advance\lst@newlines\m@ne
    \lst@newlinetrue
 }%
-\def\lst@InputListing#1{%
-    \begingroup
-      \lsthk@PreSet \gdef\lst@intname{#1}%
+\HLet\lst@NewLine\:tempa
+\def\:tempa#1{
+    \begingroup%
+      \lsthk@PreSet\gdef\lst@intname{#1}%
       \expandafter\lstset\expandafter{\lst@set}%
-      \lsthk@DisplayStyle
-      \catcode\active=\active
-      \a:lstinputlisting \lst@Init\relax \let\lst@gobble\z@
-      \lst@SkipToFirst
+      \lsthk@DisplayStyle%
+      \catcode\active=\active%
+      \a:lstinputlisting\ht:special{t4ht@[}
+      \pend:def\cptA:{\ht:special{t4ht@]}}
+      \append:def\cptD:{\ht:special{t4ht@[}}
+      \lst@Init\relax \let\lst@gobble\z@%
+      \lst@SkipToFirst%
       \lst@ifprint \def\lst@next{\input{#1}}%
-             \else \let\lst@next\@empty \fi
-      \lst@next \lst@DeInit
-      \b:lstinputlisting
+             \else \let\lst@next\@empty \fi%
+      \ht:special{t4ht@]}\lst@next\ht:special{t4ht@[}\lst@DeInit\ht:special{t4ht@]}%
+      \b:lstinputlisting%
     \endgroup}
+
+\HLet\lst@InputListing\:tempa
 \NewConfigure{lstinputlisting}{2}
-\def\lst@Kern#1{%
+\def\:tempa#1{%
    \setbox\z@\hbox{{\lst@currstyle{\kern#1}}}%
    \global\advance\lst@currlwidth \wd\z@
    \tmp:dim=#1 \let\:tempc=\empty
@@ -84,9 +98,10 @@
    \repeat
    \setbox\z@\hbox{{\lst@currstyle{\:tempc}}}%
    \lst@OutputBox\z@}
+\HLet\lst@Kern\:tempa
 \NewConfigure{lst@Kern}{2}
 \Configure{lst@Kern}{0.499em}{0.1em}
-\def\lst@outputspace{\:nbsp}
+\def\lst@outputspace{\HCode{ }}
 
 \HLet\lst@frameInit=\empty
 \HLet\lst@frameExit=\empty

@@ -1,7 +1,6 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% amsart.4ht                            2019-12-19-14:27 %
-% Copyright (C) 1997-2009       Eitan M. Gurari         %
-% Copyright 2009-2019 TeX Users Group
+% amsart.4ht (2023-03-21-10:02), generated from tex4ht-4ht.tex
+% Copyright 1997-2009 Eitan M. Gurari
+% Copyright 2009-2023 TeX Users Group
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -18,6 +17,8 @@
 %
 % If you modify this program, changing the
 % version identification would be appreciated.
+\immediate\write-1{version 2023-03-21-10:02}
+
 \pend:defII\@starttoc{\par}
 \append:def\quote{\par\@totalleftmargin\z@}
 \NewConfigure{caption}[4]{\c:def\cptA:{#1}\c:def\cptB:{#2}%
@@ -29,8 +30,8 @@
 
 \pend:def\caption{\SkipRefstepAnchor}
 \long\def\c:theindex:#1#2#3#4#5#6#7#8#9{%
-   \def\theindex{%
-      \def\idx:item{\SaveEverypar\ht:everypar{}#1}%
+   \def\theindex{\SaveEverypar\ht:everypar{}#1%
+      \def\idx:item{}%
       \def\endtheindex{\idx:item#2\RecallEverypar}%
       \def\item{\idx:item\def\idx:item{#4}\let\index\@gobble #3}%
       \def\subitem{\idx:item\def\idx:item{#6}\let\index\@gobble #5}%
@@ -164,6 +165,7 @@ A script of the form
         :\string #1\endcsname#2}\fi}
 \NewConfigure{@maketitle}{2}
 \HRestore\thanks
+\let\@adminfootnotes\relax
 \def\:thanks#1{\par \a:thanks#1\@addpunct.\b:thanks}
 \NewConfigure{thanks author date and}[8]{%
    \c:def\a:thanks{#1}\c:def\b:thanks{#2}\c:def\a:author{#3}\c:def\b:author{#4}%
@@ -288,11 +290,11 @@ A script of the form
 \fi
 
 \pend:def\@settitle{\a:ttl}
-\append:def\@settitle{\b:ttl}
+\append:def\@settitle{\b:ttl\par}
 \pend:defI\@setauthors{\a:author \bgroup
    \def\andify{\nxandlist{\unskip, }{\unskip{} \and}{\unskip, \and}}%
    \def\@no@lnbk ########1[########2]{\a:newline}}
-\append:defI\@setauthors{\egroup \b:author}
+\append:defI\@setauthors{\egroup \b:author\par}
 \let\no@part\part
 \Def:Section\part{\ifnum \c:secnumdepth>\c@secnumdepth   \else
    \thepart \fi}{#1}
@@ -341,8 +343,8 @@ UnDFexyz
          \ifx \au:StartSec\:UnDef
             \let\au:StartSec\:StartSec
             \def\:StartSec{\:tableofcontents
-               \global\let\auto:toc\:UnDef \:StartSec}%
-            \pend:def\:tableofcontents{\gdef\:StartSec{\au:StartSec}}%
+               \global\let\auto:toc\:UnDef \global\let\:StartSec\au:StartSec\:StartSec}%
+            \append:def\tableofcontents{\gdef\:StartSec{\au:StartSec}}%
    \fi  \fi
 }
      

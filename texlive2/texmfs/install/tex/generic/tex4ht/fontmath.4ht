@@ -1,6 +1,6 @@
-% fontmath.4ht (2018-11-06-15:55), generated from tex4ht-4ht.tex
+% fontmath.4ht (2022-10-25-13:59), generated from tex4ht-4ht.tex
 % Copyright 1997-2009 Eitan M. Gurari
-% Copyright 2009-2018 TeX Users Group
+% Copyright 2009-2022 TeX Users Group
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -17,7 +17,7 @@
 %
 % If you modify this program, changing the
 % version identification would be appreciated.
-\immediate\write-1{version 2018-11-06-15:55}
+\immediate\write-1{version 2022-10-25-13:59}
 
 \def\:same#1{#1}
 \def\no:fonts{\more:no  \let\protect\@unexpandable@protect }
@@ -111,6 +111,7 @@
 \MathSymbol\mathop{ldots}
 \MathSymbol\mathrel{Longleftrightarrow}
 \MathSymbol\mathrel{Longrightarrow}
+\MathSymbol\mathrel{Longleftarrow}
 \MathSymbol\mathrel{bowtie}
 \MathSymbol\mathrel{cdots}
 \MathSymbol\mathrel{ddots}

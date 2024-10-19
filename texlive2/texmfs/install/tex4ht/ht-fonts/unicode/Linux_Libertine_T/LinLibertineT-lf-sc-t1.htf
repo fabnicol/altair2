@@ -91,7 +91,7 @@ LinLibertineT-lf-sc-t1 0 255
 'Y' '' Y 89
 'Z' '' Z 90
 '[' '' bracketleft 91
-'\' '' backslash 92
+'&#x005C;' '' backslash 92
 ']' '' bracketright 93
 '^' '' asciicircum 94
 '_' '' underscore 95

@@ -75,12 +75,12 @@ local parse_idx = function(content)
     if line:match("^\\beforeentry") then
       -- increment index entry number
       current_entry = current_entry + 1
-      local file, dest = line:match("\\beforeentry{(.-)}{(.-)}")
+      local file, dest = line:match("\\beforeentry%s*{(.-)}{(.-)}")
       map[current_entry] = {file = file, dest = dest}
     elseif line:match("^\\indexentry") then
       -- replace the page number with the current
       -- index entry number
-      local result = line:gsub("{[0-9]+}", "{"..current_entry .."}")
+      local result = line:gsub("%b{}$", "{"..current_entry .."}")
       buffer[#buffer+1] = get_utf8(result)
     else
       buffer[#buffer+1] = line
@@ -96,11 +96,14 @@ local fix_idx_pages = function(content, idxobj)
   local entries = idxobj.map
   for  line in content:gmatch("([^\n]+)")  do
     local line = line:gsub("(%s*\\%a+.-%,)(.+)$", function(start,rest)
+      -- there is a problem when index term itself contains numbers, like Bible verses (1:2),
+      -- because they will be detected as page numbers too. I cannot find a good solution 
+      -- that wouldn't break something else.
       return start .. rest:gsub("(%d+)", function(page)
         local entry = entries[tonumber(page)]
         if entry then
           -- construct link to the index entry
-          return "\\Link[" .. entry.file .."]{".. entry.dest .."}{}" .. page .."\\EndLink{}"
+          return "\\Link[" .. entry.file .."]{".. entry.dest .."}{}" .. page .."\\EndLink{}" 
         else
           return page
         end
@@ -147,7 +150,8 @@ local get_idxname = function(par)
 end
 
 local prepare_tmp_idx = function(par)
-  par.idxfile = get_idxname(par)
+  par.idxfile = mkutils.file_in_builddir(get_idxname(par), par)
+  if not par.idxfile or not mkutils.file_exists(par.idxfile) then return nil, "Cannot load idx file " .. (par.idxfile or "''") end
   -- construct the .ind name, based on the .idx name
   par.indfile = par.indfile or par.idxfile:gsub("idx$", "ind")
   load_enc()
@@ -166,6 +170,7 @@ local splitindex = function(par)
   local idxfiles = {}
   local buffer 
   local idxfile = get_idxname(par)
+  if not idxfile or not mkutils.file_exists(idxfile) then return nil, "Cannot load idx file " .. (idxfile or "''") end
   for line in io.lines(idxfile) do
     local file = line:match("indexentry%[(.-)%]")
     if file then
@@ -198,7 +203,7 @@ local function run_indexing_command (command, par)
   local cmd_name = command:match("^[%a]+") or "indexing"
   local xindylog  = logging.new(cmd_name)
   -- support split index
-  local subindexes = splitindex(par)
+  local subindexes = splitindex(par) or {}
   if #subindexes > 0 then
     -- call the command again on all files produced by splitindex
     for _, subindex in ipairs(subindexes) do

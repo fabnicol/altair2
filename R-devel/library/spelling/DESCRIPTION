@@ -1,8 +1,8 @@
 Package: spelling
 Title: Tools for Spell Checking in R
-Version: 2.3.0
+Version: 2.3.1
 Authors@R: c(
-    person("Jeroen", "Ooms", , "jeroen@berkeley.edu", role = c("cre", "aut"),
+    person("Jeroen", "Ooms", , "jeroenooms@gmail.com", role = c("cre", "aut"),
       comment = c(ORCID = "0000-0002-4035-0289")),
     person("Jim", "Hester", , "james.hester@rstudio.com", role = "aut"))
 Description: Spell checking common document formats including latex, markdown, manual pages,
@@ -20,10 +20,10 @@ Suggests: pdftools
 RoxygenNote: 7.3.1
 Language: en-GB
 NeedsCompilation: no
-Packaged: 2024-03-04 21:14:16 UTC; jeroen
+Packaged: 2024-10-04 14:29:19 UTC; jeroen
 Author: Jeroen Ooms [cre, aut] (<https://orcid.org/0000-0002-4035-0289>),
   Jim Hester [aut]
-Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
+Maintainer: Jeroen Ooms <jeroenooms@gmail.com>
 Repository: CRAN
-Date/Publication: 2024-03-05 05:40:02 UTC
-Built: R 4.4.1; ; 2024-07-29 01:37:05 UTC; windows
+Date/Publication: 2024-10-04 17:10:02 UTC
+Built: R 4.4.1; ; 2024-10-17 02:05:33 UTC; windows

@@ -1,5 +1,5 @@
-% html4-math.4ht (2019-12-16-15:21), generated from tex4ht-html4.tex
-% Copyright 2009-2019 TeX Users Group
+% html4-math.4ht (2022-10-25-13:59), generated from tex4ht-html4.tex
+% Copyright 2009-2022 TeX Users Group
 % Copyright 1999-2009 Eitan M. Gurari
 %
 % This work may be distributed and/or modified under the
@@ -17,7 +17,7 @@
 %
 % If you modify this program, changing the
 % version identification would be appreciated.
-\immediate\write-1{version 2019-12-16-15:21}
+\immediate\write-1{version 2022-10-25-13:59}
 
 \exit:ifnot{accents,% 
 amsfonts,% 
@@ -25,6 +25,7 @@ amsmath,%
 amstex,% 
 amstex1,% 
 array,% 
+cancel,% 
 eplain,% 
 fleqn,% 
 fontmath,% 
@@ -80,8 +81,9 @@ ushort}
 \let\MathPar\empty
 \Configure{PicDisplay}
   {\edef\MathPar{\ifvmode par-\fi}\IgnorePar\endgraf\EndP
-   \HCode{<center class="\MathPar math-display" \a:LRdir >}}
-  {\HCode{</center>}}  {}  {class="\MathPar math-display" }
+   \HCode{<div class="\MathPar math-display" \a:LRdir >}}
+  {\HCode{</div>}\par\ShowPar}  {}  {class="\MathPar math-display" }
+\Css{div.par-math-display, div.math-display{text-align:center;}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
@@ -166,11 +168,12 @@ ushort}
 \Css{td.eqnarray2  { width:5\%;  }}
 \Css{table.eqnarray-star, table.eqnarray {width:100\%;}}
 \ConfigureEnv{eqnarray}
-    {\:xhtml{\IgnorePar\EndP}\HCode{<div class="eqnarray">}}
-    {\:xhtml{\EndP}\HCode{</div>}}{}{}
+    {\ifvmode\IgnorePar\fi\EndP\HCode{<div class="eqnarray">}}
+    {\ifvmode\IgnorePar\fi\EndP\HCode{</div>}\par}{}{}
 \ConfigureEnv{eqnarray*}
-    {\:xhtml{\IgnorePar\EndP}\HCode{<div class="eqnarray">}}
-    {\:xhtml{\EndP}\HCode{</div>}}{}{}
+    {\ifvmode\IgnorePar\fi\EndP\HCode{<div class="eqnarray">}}
+    {\ifvmode\IgnorePar\fi\EndP\HCode{</div>}\par}{}{}
+
 \Css{div.eqnarray{text-align:center;}}
 \fi
 \:CheckOption{no-array}\if:Option \else
@@ -316,29 +319,21 @@ ushort}
 
 \:CheckOption{mathjax}\if:Option
 \input{mathjax-latex-4ht.4ht}
-\Configure{@HEAD}{\HCode{
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-    'fast-preview': {disabled: true},
-    TeX: {
-      extensions: ["color.js","AMSmath.js"],
-      equationNumbers: { autoNumber: "AMS" }
-    },
-    extensions: ["tex2jax.js"],
-    tex2jax: {
-      \unexpanded{
-        inlineMath: [ ["\\\(","\\\)"] ],
-      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],}
-      processEscapes: true,
-      processEnvironments: true
-    }
-});
-</script>\Hnewline
-}}
-\Configure{MathjaxSource}{https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML}
-\Configure{@HEAD}{\HCode{ <script type="text/javascript" src="\a:MathjaxSource"></script> \Hnewline}}
+\ifx\a:MathJaxConfig\relax
+\Configure{MathJaxConfig}{{
+    tex: {
+      tags: "ams",
+  },
+};
+}
+\fi
+\Configure{@HEAD}{\HCode{<script>window.MathJax = \a:MathJaxConfig</script>\Hnewline}}
+\Configure{MathjaxSource}{https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js}
+\Configure{@HEAD}{\HCode{ <script type="text/javascript" async="async" id="MathJax-script" src="\a:MathjaxSource"></script> \Hnewline}}
+\edef\:RestoreMathjaxCatcodes{\catcode`\noexpand \&=\the\catcode`\&}
 \def\:HandleMathjaxCatcodes{\edef\:RestoreMathjaxCatcodes{\catcode`\noexpand \&=\the\catcode`\&}\catcode`\&=11}
 \Configure{$}{\:HandleMathjaxCatcodes}{\:RestoreMathjaxCatcodes}{\expandafter\AltMathOne}
+\Configure{$$}{\:HandleMathjaxCatcodes}{\:RestoreMathjaxCatcodes}{\expandafter\AltlDisplayDollars}
 % for some reason, it is necessary to specify the catcode change directly in the configuration
 \Configure{()}{\:HandleMathjaxCatcodes\catcode`\&=11\AltlMath}{\:RestoreMathjaxCatcodes}
 \Configure{[]}{\:HandleMathjaxCatcodes\catcode`\&=11\AltlDisplay}{\:RestoreMathjaxCatcodes}
@@ -427,6 +422,7 @@ MathJax.Hub.Config({
 \Configure{underbrace} {}{\Picture+{}}{\EndPicture}
 
 \Configure{Longrightarrow}        {\pic:sym{Longrightarrow}}
+\Configure{Longleftarrow}         {\pic:sym{Longleftarrow}}
 \Configure{bowtie}                {\pic:sym{bowtie}}
 \Configure{cong}                  {\pic:sym{cong}}
 \Configure{ddots}                 {\pic:sym{ddots}}
@@ -475,6 +471,7 @@ MathJax.Hub.Config({
 
 
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{amsmath}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -491,7 +488,22 @@ MathJax.Hub.Config({
 \Configure{idotsint}              {\pic:sym{tsint}}
 \Configure{doteq}                 {\pic:sym{tsint}}
 \ifOption{mathjax}{}{%
-\Configure{[]}{\begin{equation*}}{\end{equation*}}
+\DeclareRobustCommand\[{%
+\bgroup%
+  \mathdisplay@push%
+  \st@rredtrue \global\@eqnswfalse%
+  \mathdisplay{equation*}%
+\csname st:Math\endcsname
+}
+
+\DeclareRobustCommand\]{%
+\csname ed:Math\endcsname
+  \endmathdisplay{equation*}%
+  \mathdisplay@pop%
+  \ignorespacesafterend%
+\egroup
+}
+\Configure{[]}{\protect\nested:math}{}
 }%
 \Configure{equation}
   {\ifmmode\else\par \IgnorePar\fi \EndP
@@ -523,7 +535,7 @@ MathJax.Hub.Config({
    \Css{div.center-#1{text-align: center;}}
  }
 \def\endm:env{\:xhtml{\IgnorePar\EndP}%
-   \HCode{</td></tr></table></center>}\IgnorePar
+   \HCode{</td></tr></table></div>}\IgnorePar
    \ifmmode\else\par\fi}
 
 \:CheckOption{pic-align}  \if:Option
@@ -579,7 +591,6 @@ MathJax.Hub.Config({
 \ConfigureEnv{gather*}{\m:env{gather*}}{\endm:env}{}{}
 \ConfigureEnv{gathered}{\m:env{gathered}}{\endm:env}{}{}
 \ConfigureEnv{matrix}{\m:env{matrix}}{\endm:env}{}{}
-\ConfigureEnv{quotation}{\m:env{quotation}}{\endm:env}{}{}
 \Configure{equations}{*}{}
 \ConfigureEnv{multline}
   {\:xhtml{\IgnorePar\EndP}%
@@ -669,7 +680,6 @@ MathJax.Hub.Config({
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{amsfonts}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -684,6 +694,7 @@ MathJax.Hub.Config({
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -723,7 +734,6 @@ MathJax.Hub.Config({
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{amstex}
@@ -771,7 +781,7 @@ MathJax.Hub.Config({
    \Css{div.center-#1{text-align: center;}}
  }
 \def\endm:env{\:xhtml{\IgnorePar\EndP}%
-   \HCode{</td></tr></table></center>}\IgnorePar
+   \HCode{</td></tr></table></div>}\IgnorePar
    \ifmmode\else\par\fi}
 
 
@@ -832,8 +842,6 @@ MathJax.Hub.Config({
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 
 
 
@@ -932,6 +940,7 @@ MathJax.Hub.Config({
 \Css{table.pmatrix {width:100\%;}}
 
 \Configure{Longrightarrow}        {\pic:sym{Longrightarrow}}
+\Configure{Longleftarrow}         {\pic:sym{Longleftarrow}}
 \Configure{bowtie}                {\pic:sym{bowtie}}
 \Configure{cong}                  {\pic:sym{cong}}
 \Configure{ddots}                 {\pic:sym{ddots}}
@@ -995,6 +1004,10 @@ MathJax.Hub.Config({
 
 
 
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{array}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1013,6 +1026,7 @@ MathJax.Hub.Config({
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 
@@ -1106,7 +1120,6 @@ MathJax.Hub.Config({
 
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{fleqn}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1122,6 +1135,8 @@ MathJax.Hub.Config({
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
 
 
@@ -1321,6 +1336,16 @@ MathJax.Hub.Config({
 
 
 
+
+
+
+
+
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{accents}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1341,6 +1366,8 @@ MathJax.Hub.Config({
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
 
 
@@ -1414,6 +1441,25 @@ MathJax.Hub.Config({
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                \ConfigureHinput{cancel}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \Configure{cancel-math}{\HCode{<span class="cancel">}}{\HCode{</span>}}
+\Configure{bcancel-math}{\HCode{<span class="bcancel">}}{\HCode{</span>}}
+\Configure{xcancel-math}{\HCode{<span class="xcancel">}}{\HCode{</span>}}
+% It doesn't produce arrow unfortunatelly, maybe we could use SVG
+\Configure{cancelto}{\HCode{<span class="cancel">}}{\HCode{</span><sup>}}{\HCode{</sup>}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+\endinput\empty\empty\empty\empty\empty\empty
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
 
 
 
@@ -1455,6 +1501,21 @@ MathJax.Hub.Config({
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

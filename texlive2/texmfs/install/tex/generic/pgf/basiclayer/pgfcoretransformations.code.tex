@@ -1,4 +1,4 @@
-% Copyright 2006 by Till Tantau
+% Copyright 2018 by Till Tantau
 %
 % This file may be distributed and/or modified
 %
@@ -47,7 +47,7 @@
 % #6 is a macro which will be filled with the y shift.
 %
 % Example:
-% \pgfgettransform\aa\ab\ba\bb\shiftx\shifty
+% \pgfgettransformentries\aa\ab\ba\bb\shiftx\shifty
 %
 % ->
 %
@@ -343,7 +343,7 @@
 %
 % Example:
 %
-% \pgftansformreset
+% \pgftransformresetnontranslations
 
 \def\pgftransformresetnontranslations{%
   \let\pgf@pt@aa\pgf@one@text%

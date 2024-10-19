@@ -1,8 +1,8 @@
 \ifnum\the\catcode`\%=14\else\expandafter\edef\csname
   \string:RestoreCatcodes\endcsname{\catcode`\%\the
   \catcode`\%}\catcode`\%14\fi
-% tex4ht.sty (2019-03-18-15:24), generated from tex4ht-sty.tex
-% Copyright 2009-2019 TeX Users Group
+% tex4ht.sty (2023-10-04-13:17), generated from tex4ht-sty.tex
+% Copyright 2009-2023 TeX Users Group
 % Copyright 1996-2009 Eitan M. Gurari
 %
 % This work may be distributed and/or modified under the
@@ -20,13 +20,24 @@
 %
 % If you modify this program, changing the
 % version identification would be appreciated.
-\immediate\write-1{version 2019-03-18-15:24}
+\immediate\write-1{version 2023-10-04-13:17}
 
 
 \ifx  \Preamble\UnDef  \else
+   % fix for LaTeX hook system, \AtBeginDocument is not available at this moment
+   \let\origatbegindocument\AtBeginDocument
+   \def\AtBeginDocument#1{\AddToHook{begindocument/end}{#1}}
    \csname expand:after\endcsname{\csname
        BeforeTeXIVht\endcsname\let\BeforeTeXIVht\UnDef}
+   \let\AtBeginDocument\origatbegindocument
+
 \fi
+% disable new LaTeX's tagging support,
+% but save the requested keys for possible latter processing
+\ifdefined\DocumentMetadata
+  \def\DocumentMetadata#1{\def\:DocumentMetadata{#1}}
+\fi
+
 \def\writesixteen#1{\immediate\write99999{#1}}
 \expandafter\edef\csname :RestoreCatcodes\endcsname{%
    \expandafter\ifx \csname :RestoreCatcodes\endcsname\relax\else
@@ -79,6 +90,8 @@
 \catcode`\:11 \catcode`\@11 \catcode`;12 \catcode`\ 10
 \catcode`\<12 \catcode`\>12 \catcode`+12 \catcode`*12
 \catcode`\?12
+\def\SUPOn{}
+\def\SUBOn{}
 \edef\SUPOff{%
    \catcode`\noexpand ^\the\catcode`^\relax
 }
@@ -171,13 +184,21 @@
      \global\let\ht:empty\empty \gdef\empty{}%
 \fi\fi
 %
-   \expandafter\let\csname enddocument\endcsname\empty
-   \end{document}%
-   \let\:begindocumenthook\@begindocumenthook
+   \ifdefined\AddToHook%
+      \def\document{\endgroup\o:document}%
+      % use new LaTeX hook system to execute \Configure{AtBeginDocument}
+      \AddToHook{begindocument/before}[tex4ht]{\csname a:AtBeginDocument\endcsname}
+      \AddToHook{begindocument/end}[tex4ht]{\csname b:AtBeginDocument\endcsname}
+   \else%
+      %\expandafter\let\csname enddocument\endcsname\empty
+      %\end{document}%
+      %\let\document\o:document
+      \let\:begindocumenthook\@begindocumenthook
 \def\@begindocumenthook{\csname a:AtBeginDocument\endcsname
 \:begindocumenthook \csname b:AtBeginDocument\endcsname }%
 %
-   \let\document\o:document
+      \let\document\o:document%
+   \fi%
    \let\:latex@error\@latex@error
    \def\@latex@error##1{\:latex@error{##1 in `\config:file'}}%
    \csname recall:sub\endcsname
@@ -347,6 +368,22 @@
   \expandafter\expandafter\expandafter\expandafter
        \expandafter\expandafter\expandafter\:tempa
    \expandafter\expandafter\expandafter}
+\long\def\append:defI#1#2{%
+   \long\def\:temp{\long\def#1####1}%
+   \expandafter\expandafter\expandafter\:temp\expandafter{#1{##1}#2}}
+\long\def\pend:defII#1#2{%
+   \long\def\:tempa{\long\def#1####1####2}%
+   \ex:pend{#2}{\expandafter\:temp #1{##1}{##2}}}
+\long\def\append:defII#1#2{%
+   \long\def\:temp{\long\def#1####1####2}%
+   \expandafter\expandafter\expandafter\:temp\expandafter{#1{##1}{##2}#2}}
+\long\def\pend:defIII#1#2{%
+   \long\def\:tempa{\long\def#1####1####2####3}%
+   \ex:pend{#2}{\expandafter\:temp #1{##1}{##2}{##3}}}
+\long\def\append:defIII#1#2{%
+   \long\def\:temp{\long\def#1####1####2####3}%
+   \expandafter\expandafter\expandafter
+      \:temp\expandafter{#1{##1}{##2}{##3}#2}}
 
     \NewConfigure{ProTex}[1]{\def\a:ProTex{#1}}
 \ifx \Log:Needs\:UnDef \else
@@ -550,18 +587,25 @@
    \ifx \config:opt\:UnDef \else
   \append:def\:RestoreCatcodes{\early:sub\early:sup}
 \let\:IfFileExists\IfFileExists
-\long\def\IfFileExists#1#2#3{%
-   \csname recall:sub\endcsname
-   \csname recall:sup\endcsname
-   \expandafter\let\csname #1:sub\endcsname=\early:sub
-   \expandafter\let\csname #1:sup\endcsname=\early:sup
-   \let\early:sub=\relax     \let\recall:sub\relax
-   \let\early:sup=\relax     \let\recall:sup\relax
-   \:IfFileExists{#1}{#2}{#3}%
-   \expandafter\let\expandafter\early:sub\csname #1:sub\endcsname
-   \expandafter\let\expandafter\early:sup\csname #1:sup\endcsname
-   \early:sub \early:sup
-}
+
+% I am not sure why we used this declaration. It is from the original
+% TeX4ht sources, so it probably had some reason. The problem is that it
+% inserts extra tokens after \:IfFileExists, and if some package uses
+% something like \IfFileExists{foo.sty}{\@firstoftwo}{\@secondoftwo}{aa}{bb},
+% then it fails. I've found this issue with the Standalone class.
+% See https://tex.stackexchange.com/a/638965/2891 for example where it fails.
+% \long\def\IfFileExists#1#2#3{%
+%    \csname recall:sub\endcsname
+%    \csname recall:sup\endcsname
+%    \expandafter\let\csname #1:sub\endcsname=\early:sub
+%    \expandafter\let\csname #1:sup\endcsname=\early:sup
+%    \let\early:sub=\relax     \let\recall:sub\relax
+%    \let\early:sup=\relax     \let\recall:sup\relax
+%    \:IfFileExists{#1}{#2}{#3}%
+%    \expandafter\let\expandafter\early:sub\csname #1:sub\endcsname
+%    \expandafter\let\expandafter\early:sup\csname #1:sup\endcsname
+%    \early:sub \early:sup
+% }
 \ifx \o:document\:UnDef
    \pend:def\Preamble{%
      \csname recall:sub\endcsname
@@ -646,8 +690,12 @@
 \input tuenc-xetex-input.4ht
 \fi\fi
 
+\def\:AtEndOfPackage{\expandafter\g@addto@macro\csname pkg:end:hook:\@currname.sty\endcsname}
+\def\init:package:hooks#1{\expandafter\def\csname pkg:end:hook:#1\endcsname{}}
+\def\package:hooks#1{\csname pkg:end:hook:#1\endcsname}
 \let\:onefilewithoptions\@onefilewithoptions
-\def\@onefilewithoptions#1[#2]{%
+\def\@onefilewithoptions#1[#2][#3]#4{%
+\init:package:hooks{#1.#4}%
    \let\:temp\@reset@ptions
    \def\@reset@ptions{%
       \let\@reset@ptions\:temp
@@ -655,12 +703,19 @@
    \catcode`:=\the\catcode`:%
    \catcode`@=\the\catcode`@}%
 \catcode`\:=11 \catcode`\@=11
-\a:usepackage
+\a:usepackage%
+      \a:usepackage:lthooks{#1}{#4}
       \TivhTcats
 }%
       \def\:currentoptions{#2}
- \:onefilewithoptions#1[#2]}
+\:onefilewithoptions#1[#2][#3]{#4}\package:hooks{#1.#4}}
 \def\a:usepackage{\input usepackage.4ht }
+\NewConfigure{PackageHooks}[2]{\expandafter\def\csname package:hooks:#1\endcsname{\input #2}}
+\def\a:usepackage:lthooks#1#2{%
+  \expandafter\ifcsname package:hooks:#1.#2\endcsname
+  \csname package:hooks:#1.#2\endcsname
+  \fi
+}
 
 
     \expandafter\ifx \csname tex4ht\endcsname\relax
@@ -808,6 +863,10 @@
 \ifx \:temp\:tempa
    \let\ht:everypar\everypar
 \else
+   % LaTeX kernel will patch \everypar in future releases,
+   % so this test will always fail. We should define \ht:everypar
+   % anyway, paragraph handling would fail otherwise
+   \let\ht:everypar\everypar
    \:warning{nonprimitive \string\everypar}
 \fi
 \edef\NoHtmlEnv{%
@@ -1372,22 +1431,6 @@
              \csname \csname#1New:Conf\endcsname\cf:name\endcsname
       \fi
    \fi }
-\long\def\append:defI#1#2{%
-   \long\def\:temp{\long\def#1####1}%
-   \expandafter\expandafter\expandafter\:temp\expandafter{#1{##1}#2}}
-\long\def\pend:defII#1#2{%
-   \long\def\:tempa{\long\def#1####1####2}%
-   \ex:pend{#2}{\expandafter\:temp #1{##1}{##2}}}
-\long\def\append:defII#1#2{%
-   \long\def\:temp{\long\def#1####1####2}%
-   \expandafter\expandafter\expandafter\:temp\expandafter{#1{##1}{##2}#2}}
-\long\def\pend:defIII#1#2{%
-   \long\def\:tempa{\long\def#1####1####2####3}%
-   \ex:pend{#2}{\expandafter\:temp #1{##1}{##2}{##3}}}
-\long\def\append:defIII#1#2{%
-   \long\def\:temp{\long\def#1####1####2####3}%
-   \expandafter\expandafter\expandafter
-      \:temp\expandafter{#1{##1}{##2}{##3}#2}}
 
 \def\Ref#1{\expandafter\ifx
                  \csname  cw:#1\endcsname \relax \:NoTag{#1}%
@@ -3553,7 +3596,9 @@
           \expand:after{\expandafter\let\csname NoCut:#1\endcsname=}%
              \csname Cut:#1\endcsname
       \fi
-      \expandafter\let\csname Cut:#1\endcsname=\null
+      \expandafter\let\csname OToc:#1\expandafter\endcsname\csname Toc:#1\endcsname
+\expandafter\let\csname Toc:#1\endcsname=\relax
+\expandafter\let\csname Cut:#1\endcsname=\null
 \expandafter\def\csname Cut:#1\endcsname{%
    \gHAdvance \TitleCount  1
    \null \:gobble
@@ -3564,6 +3609,7 @@
    \expandafter\ifx  \csname NoCut:#1\endcsname\relax\else
        \expand:after{\expandafter\let\csname Cut:#1\endcsname=}%
           \csname NoCut:#1\endcsname
+      \expandafter\let\csname Toc:#1\expandafter\endcsname\csname OToc:#1\endcsname
    \fi}
 \def\:CutAt#1#2,#3//{%
    \csname ltx:like\endcsname
@@ -3771,7 +3817,7 @@
    \xp:var{#2}fstf:id,#1!*?: %
    \closeout\:refout
 \openout\:refout\jobname.xref     \:clearpage
-\gHAdvance\fstf:id  10000
+\gHAdvance\fstf:id  100000
 %
 \gHAssign\maxfile:id  \fstf:id
 \gHAssign\bs:fileid  \maxfile:id
@@ -3953,6 +3999,7 @@
    \noexpand\csname doTocEntry\string\endcsname\relax
       \string\expandafter\string\endinput
    \string\fi}%
+   \message{(\jobname.4tc)}% enable tracking of the .4tc file by latexmk
 }%
 }
 \:temp
@@ -4609,8 +4656,8 @@ $$\TeXhalign:cr \to:dim{~1}$$}%
 \ifHtml \else \let\EndPreamble\empty \fi
 
 \ifHtml \:startdoc
-\let\:shipout\shipout
-\def\shipout{\vfil\break\let\shipout\:shipout \shipout}
+%\let\:shipout\shipout
+%\def\shipout{\vfil\break\let\shipout\:shipout \shipout}
  \fi   
 
 \ifx \Hinput\:UnDef \else

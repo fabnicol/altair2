@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2024-02-15" />
+<meta name="date" content="2024-10-12" />
 
 <title>Introduction to V8 for R</title>
 
@@ -1485,7 +1485,7 @@ font-size: 0.95em;
 
 
 <h1 class="title toc-ignore">Introduction to V8 for R</h1>
-<h4 class="date">2024-02-15</h4>
+<h4 class="date">2024-10-12</h4>
 
 </div>
 
@@ -1508,7 +1508,7 @@ dependencies. The entire engine is contained within a 6MB package (2MB
 zipped) and works on all major platforms.</p>
 <pre class="r"><code># Create some JSON
 cat(ct$eval(&quot;JSON.stringify({x:Math.random()})&quot;))</code></pre>
-<pre><code>{&quot;x&quot;:0.8425219346663608}</code></pre>
+<pre><code>{&quot;x&quot;:0.44436999480324846}</code></pre>
 <pre class="r"><code># Simple closure
 ct$eval(&quot;(function(x){return x+1;})(123)&quot;)</code></pre>
 <pre><code>[1] &quot;124&quot;</code></pre>
@@ -1616,7 +1616,7 @@ ctx$call(&quot;test_number&quot;, 42, await = TRUE)</code></pre>
 <pre><code>[1] TRUE</code></pre>
 <pre class="r"><code># A rejected promise will throw an error
 ctx$call(&quot;test_number&quot;, 41, await = TRUE)</code></pre>
-<pre><code>Error in eval(expr, envir, enclos): This is wrong</code></pre>
+<pre><code>Error: This is wrong</code></pre>
 </div>
 <div id="interactive-javascript-console" class="section level2">
 <h2>Interactive JavaScript Console</h2>
@@ -1644,12 +1644,12 @@ print(output)</code></pre>
 <p>Evaluating invalid JavaScript code results in a SyntaxError:</p>
 <pre class="r"><code># A common typo
 ct$eval(&#39;var foo &lt;- 123;&#39;)</code></pre>
-<pre><code>Error in eval(expr, envir, enclos): SyntaxError: Unexpected token &#39;&lt;&#39;</code></pre>
+<pre><code>Error: SyntaxError: Unexpected token &#39;&lt;&#39;</code></pre>
 <p>JavaScript runtime exceptions are automatically propagated into R
 errors:</p>
 <pre class="r"><code># Runtime errors
 ct$eval(&quot;123 + doesnotexit&quot;)</code></pre>
-<pre><code>Error in eval(expr, envir, enclos): ReferenceError: doesnotexit is not defined</code></pre>
+<pre><code>Error: ReferenceError: doesnotexit is not defined</code></pre>
 <p>Within JavaScript we can also call back to the R console manually
 using <code>console.log</code>, <code>console.warn</code> and
 <code>console.error</code>. This allows for explicitly generating
@@ -1659,7 +1659,7 @@ output, warnings or errors from within a JavaScript application.</p>
 <pre class="r"><code>ct$eval(&#39;console.warn(&quot;Heads up!&quot;)&#39;)</code></pre>
 <pre><code>Warning: Heads up!</code></pre>
 <pre class="r"><code>ct$eval(&#39;console.error(&quot;Oh no! An error!&quot;)&#39;)</code></pre>
-<pre><code>Error in eval(expr, envir, enclos): Oh no! An error!</code></pre>
+<pre><code>Error: Oh no! An error!</code></pre>
 <p>A example of using <code>console.error</code> is to verify that
 external resources were loaded:</p>
 <pre class="r"><code>ct &lt;- v8()

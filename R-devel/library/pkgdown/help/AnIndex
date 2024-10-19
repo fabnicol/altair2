@@ -16,7 +16,8 @@ build_site	build_site
 build_site_github_pages	build_site_github_pages
 build_tutorials	build_tutorials
 check_pkgdown	check_pkgdown
-clean_site	clean_site
+clean_cache	clean
+clean_site	clean
 data_template	render_page
 deploy_site_github	deploy_site_github
 deploy_to_branch	deploy_to_branch

@@ -5,6 +5,7 @@ local os      = require "os"
 local kpse    = require "kpse"
 local filter  = require "make4ht-filter"
 local domfilter  = require "make4ht-domfilter"
+local domobject  = require "luaxml-domobject"
 local xtpipeslib = require "make4ht-xtpipes"
 local log = logging.new "odt"
 
@@ -72,13 +73,148 @@ function Odtfile:pack()
   lfs.chdir(self.archivelocation)
   -- make temporary mime type file
   self:make_mimetype()
-  mkutils.execute(zip_command .. " -q0X " .. self.name .. " " .. self.mimetypename)
+  mkutils.execute(zip_command .. ' -q0X "' .. self.name .. '" ' .. self.mimetypename)
   -- remove it, so the next command doesn't overwrite it
   self:remove_mimetype()
-  mkutils.execute(zip_command .." -r " .. self.name .. " *")
+  mkutils.execute(zip_command ..' -r "' .. self.name .. '" *')
   lfs.chdir(currentdir)
   mkutils.cp(self.archivelocation .. "/" .. self.name, self.name)
   mkutils.delete_dir(self.archivelocation)
+end
+
+--- *************************
+--  *** fix picture sizes ***
+--  *************************
+--
+local function add_points(dimen)
+  if type(dimen) ~= "string" then return dimen end
+  -- convert SVG dimensions to points if only number is provided
+  if dimen:match("[0-9]$") then return dimen .. "pt" end
+  return dimen
+end
+
+local function get_svg_dimensions(filename) 
+  local width, height
+  if mkutils.file_exists(filename) then 
+    for line in io.lines(filename) do
+      width = line:match("width%s*=%s*[\"'](.-)[\"']") or width
+      height = line:match("height%s*=%s*[\"'](.-)[\"']") or height
+      -- stop parsing once we get both width and height
+      if width and height then break end
+    end
+  end
+  width = add_points(width)
+  height = add_points(height)
+  return width, height
+end
+
+local function get_xbb_dimensions(filename)
+  local f = io.popen("ebb -x -O " .. filename)
+  if f then
+    local content = f:read("*all")
+    local width, height = content:match("%%BoundingBox: %d+ %d+ (%d+) (%d+)")
+    return add_points(width), add_points(height)
+  end
+  return nil
+end
+--
+local function fix_picture_sizes(tmpdir)
+  local filename = tmpdir .. "/content.xml"
+  local f = io.open(filename, "r")
+  if not f then 
+    log:warning("Cannot open ", filename, "for picture size fixes")
+    return nil
+  end
+  local content = f:read("*all") or ""
+  f:close()
+  local status, dom= pcall(function()
+    return domobject.parse(content)
+  end)
+  if not status then 
+    log:warning("Cannot parse DOM, the resulting ODT file will be most likely corrupted")
+    return nil
+  end
+  for _, pic in ipairs(dom:query_selector("draw|image")) do
+    local imagename = pic:get_attribute("xlink:href")
+    -- update SVG images dimensions
+    log:debug("image", imagename)
+    local parent = pic:get_parent()
+    local width =  parent:get_attribute("svg:width")
+    local height = parent:get_attribute("svg:height")
+    -- if width == "0.0pt" then width = nil end
+    -- if height == "0.0pt" then height = nil end
+    if not width or not height then
+      local imgfilename = tmpdir .. "/" .. imagename
+      if imagename:match("svg$") then
+        width, height = get_svg_dimensions(imgfilename) --  or width, height
+      elseif imagename:match("png$") or imagename:match("jpe?g$") then
+        width, height = get_xbb_dimensions(imgfilename)
+      end
+    end
+    log:debug("new dimensions", width, height)
+    parent:set_attribute("svg:width", width)
+    parent:set_attribute("svg:height", height)
+    -- if 
+  end
+  -- save the modified DOM again
+  log:debug("Fixed picture sizes")
+  local content = dom:serialize()
+  local f = io.open(filename, "w")
+  f:write(content)
+  f:close()
+end
+
+-- fix font records in the lg file that don't correct Font_Size record
+local lg_fonts_processed=false
+local patched_lg_fonts = {}
+local function fix_lgfile_fonts(ignored_name, params)
+  -- this function is called from file match. we must use the name of the .lg file
+  local filename = mkutils.file_in_builddir(params.input .. ".lg", params)
+  if not lg_fonts_processed then
+    local lines = {}
+    -- default font_size
+    local font_size = "10"
+    if mkutils.file_exists(filename) then 
+      -- 
+      for line in io.lines(filename) do
+        -- default font_size can be set in the .lg file
+        if line:match("Font_Size") then
+          font_size = line:match("Font_Size:%s*(%d+)")
+        elseif line:match("Font%(") then
+          -- match Font record
+          local name, size, size2, size3 = line:match('Font%("([^"]+)","([%d]*)","([%d]+)","([%d]+)"')
+          -- find if the first size is not set, and add the default font_size then
+          if size == "" then
+            line = string.format('Font("%s","%s","%s","%s")', name, font_size, size2, size3)
+            -- we must also save the font name and size for later post-processing, because 
+            -- we will need to fix styles in content.xml too
+            patched_lg_fonts[name .. "-" .. font_size] = true
+          end
+        end
+        lines[#lines+1] = line
+      end
+      -- save changed lines to the lg file
+      local f = io.open(filename, "w")
+      for _,line in ipairs(lines) do
+        f:write(line .. "\n")
+      end
+      f:close()
+    end
+    filter_settings "odtfonts" {patched_lg_fonts = patched_lg_fonts}
+  end
+  lg_fonts_processed=true
+  return true
+end
+
+local move_matches = xtpipeslib.move_matches
+
+local function insert_lgfile_fonts(make)
+  local params = make.params
+  local first_file = mkutils.file_in_builddir(params.input .. ".4oo", params)
+  -- find the last file and escape it so it can be used 
+  -- in filename match
+  make:match(first_file, fix_lgfile_fonts)
+  move_matches(make)
 end
 
 -- escape string to be used in the gsub search
@@ -87,7 +223,6 @@ local function escape_file(filename)
   return filename:gsub(quotepattern, "%%%1")
 end
 
-local move_matches = xtpipeslib.move_matches
 
 -- call xtpipes from Lua
 local function call_xtpipes(make)
@@ -102,6 +237,8 @@ local function call_xtpipes(make)
     -- we need to move last two matches, for 4oo and 4om files
     move_matches(make)
     move_matches(make)
+    -- fix font records in the lg file
+    insert_lgfile_fonts(make)
   else
     log:warning "Cannot locate xtpipes. Try to set TEXMFROOT variable to a root directory of your TeX distribution"
   end
@@ -128,23 +265,36 @@ local function exec_group(groups, name, fn)
   end
 end
 
+-- remove <?xtpipes XML instructions, because they cause issues in some ODT processing
+-- applications
+local function remove_xtpipes(text)
+  -- remove <?x
+  return text:gsub("%<%?xtpipes.-%?%>", "")
+end
+
 function M.modify_build(make)
   local executed = false
   -- execute xtpipes from the build file, instead of t4ht. this fixes issues with wrong paths
   -- expanded in tex4ht.env in Miktex or Debian
   call_xtpipes(make)
   -- fix the image dimensions wrongly set by xtpipes
-  local domfilters = domfilter {"t4htlinks", "odtpartable"}
+  local domfilters = domfilter({"t4htlinks", "odtpartable"}, "odtfilters")
   make:match("4oo$", domfilters)
-  -- fixes for mathml
-  local mathmldomfilters = domfilter {"joincharacters","mathmlfixes"}
-  make:match("4om$", mathmldomfilters)
   -- execute it before xtpipes, because we don't want xtpipes to mess with t4htlink elements
   move_matches(make)
+  -- fixes for mathml
+  local mathmldomfilters = domfilter({"joincharacters","mathmlfixes"}, "mathmlfilters")
+  make:match("4om$", mathmldomfilters)
+  -- DOM filters that should be executed after xtpipes
+  local latedom = domfilter({"odtfonts"}, "lateodtfilters")
+  make:match("4oo$", latedom)
   -- convert XML entities for Unicode characters produced by Xtpipes to characters
-  local fixentities = filter {"entities-to-unicode"}
+  local fixentities = filter {"entities-to-unicode", remove_xtpipes}
   make:match("4oo", fixentities)
   make:match("4om", fixentities)
+  -- we must handle outdir. make4ht copies the ODT file before it was packed, so
+  -- we will copy it again after packing later in this format file
+  local outdir = make.params["outdir"]
 
   -- build the ODT file. This match must be executed as a last one
   -- this will be executed as a first match, just to find the last filename 
@@ -159,9 +309,10 @@ function M.modify_build(make)
       local lastfile = escape_file(lgfiles[#lgfiles]) .."$"
       -- make match for the last file
       -- odt packing will be done here
-      make:match(lastfile, function()
+      make:match(lastfile, function(filename, par)
         local groups = prepare_output_files(make.lgfile.files)
-        local basename = groups.odt[1]
+        -- we must remove any path from the basename
+        local basename = groups.odt[1]:match("([^/]+)$")
         local odtname = basename .. ".odt"
         local odt,msg = Odtfile.new(odtname)
         if not odt then
@@ -212,12 +363,21 @@ function M.modify_build(make)
           odt:copy("${basename}" % par, "Pictures")
         end)
 
+        -- fix picture sizes in the content file
+        fix_picture_sizes(odt.archivelocation)
+
         -- remove some spurious file
         exec_group(groups, "4od", function(par)
           os.remove(par.filename)
         end)
 
         odt:pack()
+        if outdir and outdir ~= "" then
+          local filename = odt.name
+          local outfilename = outdir .. "/" .. filename
+          log:info("Copying ODT file to the output dir: " .. outfilename)
+          mkutils.copy(filename,outfilename)
+        end
       end)
     end
     executed = true

@@ -17,6 +17,8 @@ reticulate-package	reticulate
 >=.python.builtin.object	Ops-python-methods
 array_reshape	array_reshape
 as.character.python.builtin.bytes	as.character.python.builtin.bytes
+as.character.python.builtin.str	as.character.python.builtin.str
+as.raw.python.builtin.bytes	as.character.python.builtin.bytes
 as_iterator	iterate
 conda-tools	conda-tools
 condaenv_exists	conda-tools
@@ -29,6 +31,7 @@ conda_install	conda-tools
 conda_list	conda-tools
 conda_python	conda-tools
 conda_remove	conda-tools
+conda_run2	conda_run2
 conda_search	conda-tools
 conda_update	conda-tools
 conda_version	conda-tools

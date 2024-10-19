@@ -1,6 +1,6 @@
-% xcolor.4ht (2019-04-09-10:06), generated from tex4ht-4ht.tex
+% xcolor.4ht (2022-04-17-09:34), generated from tex4ht-4ht.tex
 % Copyright 2007-2009 Eitan M. Gurari
-% Copyright 2009-2019 TeX Users Group
+% Copyright 2009-2022 TeX Users Group
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -17,7 +17,7 @@
 %
 % If you modify this program, changing the
 % version identification would be appreciated.
-\immediate\write-1{version 2019-04-09-10:06}
+\immediate\write-1{version 2022-04-17-09:34}
 
 \input color.4ht
 \def\rowc@l@rs[#1]#2#3#4%
@@ -71,8 +71,10 @@
          \space .!//%
 \fi \fi
 %
-  \else
-     \csname HColor!#1\endcsname #2//%
+  \else%
+     \ifcsname HColor!#1\endcsname%
+       \csname HColor!#1\endcsname #2//%
+     \fi%
   \fi
 }
 \expandafter\def\csname c:HColor!gray:\endcsname{%

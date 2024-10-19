@@ -97,19 +97,19 @@
    
   </ASTREINTES>
   <codesImport profondeur="0">
-   C:\Users\Public\Altair\scripts\R\Donnees\R-Altaïr\codes.csv
+   C:\Users\Public\Dev\altair2\scripts\R\Donnees\R-Altaïr\codes.csv
   </codesImport>
   <codesLibellesAltair profondeur="0">
-   C:\Users\Public\Altair\scripts\R\Donnees\R-Altaïr\Bases\Fiabilite\code.libelle.short.csv
+   C:\Users\Public\Dev\altair2\scripts\R\Donnees\R-Altaïr\Bases\Fiabilite\code.libelle.short.csv
   </codesLibellesAltair>
   <budget profondeur="0">
-   C:\Users\Public\Altair\scripts\R\Donnees\R-Altaïr\paye_budget.csv
+   C:\Users\Public\Dev\altair2\scripts\R\Donnees\R-Altaïr\paye_budget.csv
   </budget>
   <genererBudget profondeur="0">
    non
   </genererBudget>
   <gradeCategorie profondeur="0">
-   C:\Users\Public\Altair\scripts\R\Donnees\R-Altaïr\grades.categories.csv
+   C:\Users\Public\Dev\altair2\scripts\R\Donnees\R-Altaïr\grades.categories.csv
   </gradeCategorie>
   <genererGradeCategorie profondeur="0">
    non
@@ -211,10 +211,10 @@
    80
   </memoryUse>
   <rapportType profondeur="0">
-   'PDF'
+   'WORD, ODT et PDF'
   </rapportType>
   <enchainerRapports profondeur="0">
-   non
+   oui
   </enchainerRapports>
   <ouvrirDocFinExec profondeur="0">
    oui
@@ -232,79 +232,7 @@
    
   </MatriculesC>
   <dossierBulletins profondeur="0">
-   C:\Users\Public\Altair\scripts\R\Donnees\Bulletins
+   C:\Users\Public\Dev\altair2\scripts\R\Donnees\Bulletins
   </dossierBulletins>
-  <projectManagerDisplay profondeur="0">
-   oui
-  </projectManagerDisplay>
-  <fileManagerDisplay profondeur="0">
-   oui
-  </fileManagerDisplay>
-  <fullScreenDisplay profondeur="0">
-   non
-  </fullScreenDisplay>
-  <outputTextEdit profondeur="0">
-   oui
-  </outputTextEdit>
-  <fileToolBar profondeur="0">
-   oui
-  </fileToolBar>
-  <editToolBar profondeur="0">
-   oui
-  </editToolBar>
-  <processToolBar profondeur="0">
-   oui
-  </processToolBar>
-  <optionsToolBar profondeur="0">
-   oui
-  </optionsToolBar>
-  <aboutToolBar profondeur="0">
-   non
-  </aboutToolBar>
-  <loadProjectBehavior profondeur="0">
-   non
-  </loadProjectBehavior>
-  <limitConsoleOutput profondeur="0">
-   non
-  </limitConsoleOutput>
-  <quiet profondeur="0">
-   oui
-  </quiet>
-  <fileManagerDisplay profondeur="0">
-   oui
-  </fileManagerDisplay>
-  <projectManagerDisplay profondeur="0">
-   oui
-  </projectManagerDisplay>
-  <outputTextEdit profondeur="0">
-   oui
-  </outputTextEdit>
-  <fullScreenDisplay profondeur="0">
-   non
-  </fullScreenDisplay>
-  <loadProjectBehavior profondeur="0">
-   non
-  </loadProjectBehavior>
-  <limitConsoleOutput profondeur="0">
-   non
-  </limitConsoleOutput>
-  <quiet profondeur="0">
-   oui
-  </quiet>
-  <fileToolBar profondeur="0">
-   oui
-  </fileToolBar>
-  <editToolBar profondeur="0">
-   oui
-  </editToolBar>
-  <processToolBar profondeur="0">
-   oui
-  </processToolBar>
-  <optionsToolBar profondeur="0">
-   oui
-  </optionsToolBar>
-  <aboutToolBar profondeur="0">
-   non
-  </aboutToolBar>
  </systeme>
 </projet>

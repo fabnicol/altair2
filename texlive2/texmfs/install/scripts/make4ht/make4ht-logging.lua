@@ -4,8 +4,10 @@ local logging = {}
 
 local levels = {}
 -- level of bugs that should be shown
-local show_level = 1
+-- enable querying of current log level
+logging.show_level = 1
 local max_width = 0
+local max_status = 0
 
 logging.use_colors = true
 
@@ -14,8 +16,8 @@ logging.modes = {
   {name = "info", color = 32},
   {name = "status", color = 37},
   {name = "warning", color = 33}, 
-  {name = "error", color = 31},
-  {name = "fatal", color = 35}
+  {name = "error", color = 31, status = 1},
+  {name = "fatal", color = 35, status = 2}
 }
 
 -- prepare table with mapping between mode names and corresponding levels
@@ -33,7 +35,7 @@ end
 -- the logging level is set once
 function logging.set_level(name)
   local level = levels[name] or 1
-  show_level = level
+  logging.show_level = level
 end
 
 function logging.print_msg(header, message, color)
@@ -52,7 +54,7 @@ function logging.new(module)
     module = module,
     output = function(self, output)
       -- used for printing of output of commands
-      if show_level <= (levels[debug] or 1) then
+      if logging.show_level <= (levels["debug"] or 1) then
         print(output)
       end
     end
@@ -62,9 +64,12 @@ function logging.new(module)
   for _, mode in ipairs(logging.modes) do
     local name = mode.name
     local color = mode.color
+    local status = mode.status or 0
     obj[name] = function(self, ...)
+      -- set make4ht exit status
+      max_status = math.max(status, max_status)
       -- max width is saved in logging.prepare_levels
-      if mode.level >= show_level then
+      if mode.level >= logging.show_level then
         -- support variable number of parameters
         local table_with_holes = table.pack(...) 
         local table_without_holes = {}
@@ -82,6 +87,11 @@ function logging.new(module)
 
 end
 
+-- exit make4ht with maximal error status
+function logging.exit_status()
+  os.exit(max_status)
+end
+
 
 -- prepare default levels
 logging.prepare_levels()
@@ -97,6 +107,7 @@ logging.prepare_levels()
 -- logging.set_level("error")
 -- cls:info("level set")
 -- cls:error("just print the error")
+--
 
 
 return logging

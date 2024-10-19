@@ -13,8 +13,8 @@
 -- (but please observe conditions on bug reports sent to that address!)
 -- 
 -- 
--- Copyright 2015
--- The LaTeX3 Project and any individual authors listed elsewhere
+-- Copyright (C) 2015-2024
+-- The LaTeX Project and any individual authors listed elsewhere
 -- in this file.
 -- 
 -- This file was generated from file(s) of the LaTeX base system.
@@ -45,9 +45,9 @@ luatexbase       = luatexbase or { }
 local luatexbase = luatexbase
 local string_gsub      = string.gsub
 local tex_count        = tex.count
-local tex_setattribute = tex.setattribute
 local tex_setcount     = tex.setcount
 local texio_write_nl   = texio.write_nl
+local flush_list       = node.flush_list
 local luatexbase_warning
 local luatexbase_error
 local modules = modules or { }
@@ -230,7 +230,11 @@ local luafunction_count_name =
                          luafunction_count_name or "e@alloc@luafunction@count"
 local function new_luafunction(name)
   tex_setcount("global", luafunction_count_name,
-                         tex_count[luafunction_count_name] + 1)
+                         math.max(
+                           #(lua.get_functions_table()),
+                           tex_count[luafunction_count_name])
+                          + 1)
+  lua.get_functions_table()[tex_count[luafunction_count_name]] = false
   if tex_count[luafunction_count_name] > 65534 then
     luatexbase_error("No room for a new luafunction register")
   end
@@ -239,7 +243,107 @@ local function new_luafunction(name)
   return tex_count[luafunction_count_name]
 end
 luatexbase.new_luafunction = new_luafunction
-local callbacklist = callbacklist or { }
+local realcallbacklist = {}
+local callbackrules = {}
+local callbacklist = setmetatable({}, {
+  __index = function(t, name)
+    local list = realcallbacklist[name]
+    local rules = callbackrules[name]
+    if list and rules then
+      local meta = {}
+      for i, entry in ipairs(list) do
+        local t = {value = entry, count = 0, pos = i}
+        meta[entry.description], list[i] = t, t
+      end
+      local count = #list
+      local pos = count
+      for i, rule in ipairs(rules) do
+        local rule = rules[i]
+        local pre, post = meta[rule[1]], meta[rule[2]]
+        if pre and post then
+          if rule.type then
+            if not rule.hidden then
+              assert(rule.type == 'incompatible-warning' and luatexbase_warning
+                or rule.type == 'incompatible-error' and luatexbase_error)(
+                  "Incompatible functions \"" .. rule[1] .. "\" and \"" .. rule[2]
+                  .. "\" specified for callback \"" .. name .. "\".")
+              rule.hidden = true
+            end
+          else
+            local post_count = post.count
+            post.count = post_count+1
+            if post_count == 0 then
+              local post_pos = post.pos
+              if post_pos ~= pos then
+                local new_post_pos = list[pos]
+                new_post_pos.pos = post_pos
+                list[post_pos] = new_post_pos
+              end
+              list[pos] = nil
+              pos = pos - 1
+            end
+            pre[#pre+1] = post
+          end
+        end
+      end
+      for i=1, count do -- The actual sort begins
+        local current = list[i]
+        if current then
+          meta[current.value.description] = nil
+          for j, cur in ipairs(current) do
+            local count = cur.count
+            if count == 1 then
+              pos = pos + 1
+              list[pos] = cur
+            else
+              cur.count = count - 1
+            end
+          end
+          list[i] = current.value
+        else
+          -- Cycle occured. TODO: Show cycle for debugging
+          -- list[i] = ...
+          local remaining = {}
+          for name, entry in next, meta do
+            local value = entry.value
+            list[#list + 1] = entry.value
+            remaining[#remaining + 1] = name
+          end
+          table.sort(remaining)
+          local first_name = remaining[1]
+          for j, name in ipairs(remaining) do
+            local entry = meta[name]
+            list[i + j - 1] = entry.value
+            for _, post_entry in ipairs(entry) do
+              local post_name = post_entry.value.description
+              if not remaining[post_name] then
+                remaining[post_name] = name
+              end
+            end
+          end
+          local cycle = {first_name}
+          local index = 1
+          local last_name = first_name
+          repeat
+            cycle[last_name] = index
+            last_name = remaining[last_name]
+            index = index + 1
+            cycle[index] = last_name
+          until cycle[last_name]
+          local length = index - cycle[last_name] + 1
+          table.move(cycle, cycle[last_name], index, 1)
+          for i=2, length//2 do
+            cycle[i], cycle[length + 1 - i] = cycle[length + 1 - i], cycle[i]
+          end
+          error('Cycle occured at ' .. table.concat(cycle, ' -> ', 1, length))
+        end
+      end
+    end
+    realcallbacklist[name] = list
+    t[name] = list
+    return list
+  end
+})
 local list, data, exclusive, simple, reverselist = 1, 2, 3, 4, 5
 local types   = {
   list        = list,
@@ -287,18 +391,15 @@ local callbacktypes = callbacktypes or {
   post_linebreak_filter  = reverselist,
   hpack_filter           = list,
   vpack_filter           = list,
-  hpack_quality          = list,
-  vpack_quality          = list,
+  hpack_quality          = exclusive,
+  vpack_quality          = exclusive,
   pre_output_filter      = list,
   process_rule           = exclusive,
   hyphenate              = simple,
   ligaturing             = simple,
   kerning                = simple,
   insert_local_par       = simple,
-  pre_mlist_to_hlist_filter = list,
-  mlist_to_hlist         = exclusive,
-  post_mlist_to_hlist_filter = reverselist,
-  new_graf               = simple,
+  new_graf               = exclusive,
   pre_dump             = simple,
   start_run            = simple,
   stop_run             = simple,
@@ -324,8 +425,19 @@ local callbacktypes = callbacktypes or {
   glyph_stream_provider           = exclusive,
   make_extensible                 = exclusive,
   font_descriptor_objnum_provider = exclusive,
+  input_level_string              = exclusive,
+  provide_charproc_data           = exclusive,
 }
 luatexbase.callbacktypes=callbacktypes
+local shared_callbacks = {
+  mlist_to_hlist = {
+    callback = "mlist_to_hlist",
+    count = 0,
+    handler = nil,
+  },
+}
+shared_callbacks.pre_mlist_to_hlist_filter = shared_callbacks.mlist_to_hlist
+shared_callbacks.post_mlist_to_hlist_filter = shared_callbacks.mlist_to_hlist
 local callback_register = callback_register or callback.register
 function callback.register()
   luatexbase_error("Attempt to use callback.register() directly\n")
@@ -349,7 +461,6 @@ end
 local function list_handler(name)
   return function(head, ...)
     local ret
-    local alltrue = true
     for _,i in ipairs(callbacklist[name]) do
       ret = i.func(head, ...)
       if ret == false then
@@ -357,23 +468,21 @@ local function list_handler(name)
           "Function `" .. i.description .. "' returned false\n"
             .. "in callback `" .. name .."'"
          )
-         break
+        return false
       end
       if ret ~= true then
-        alltrue = false
         head = ret
       end
     end
-    return alltrue and true or head
+    return head
   end
 end
-local function list_handler_default()
-  return true
+local function list_handler_default(head)
+return head
 end
 local function reverselist_handler(name)
   return function(head, ...)
     local ret
-    local alltrue = true
     local callbacks = callbacklist[name]
     for i = #callbacks, 1, -1 do
       local cb = callbacks[i]
@@ -383,14 +492,13 @@ local function reverselist_handler(name)
           "Function `" .. cb.description .. "' returned false\n"
             .. "in callback `" .. name .."'"
          )
-         break
+        return false
       end
       if ret ~= true then
-        alltrue = false
         head = ret
       end
     end
-    return alltrue and true or head
+    return head
   end
 end
 local function simple_handler(name)
@@ -416,11 +524,7 @@ local defaults = {
   [reverselist] = list_handler_default,
   [simple]      = simple_handler_default,
 }
-local user_callbacks_defaults = {
-  pre_mlist_to_hlist_filter = list_handler_default,
-  mlist_to_hlist = node.mlist_to_hlist,
-  post_mlist_to_hlist_filter = list_handler_default,
-}
+local user_callbacks_defaults = {}
 local function create_callback(name, ctype, default)
   local ctype_id = types[ctype]
   if not name  or name  == ""
@@ -480,11 +584,17 @@ local function add_to_callback(name, func, description)
         .. "add_to_callback(<callback>, <function>, <description>)"
     )
   end
-  local l = callbacklist[name]
+  local l = realcallbacklist[name]
   if l == nil then
     l = { }
-    callbacklist[name] = l
-    if user_callbacks_defaults[name] == nil then
+    realcallbacklist[name] = l
+    local shared = shared_callbacks[name]
+    if shared then
+      shared.count = shared.count + 1
+      if shared.count == 1 then
+        callback_register(shared.callback, shared.handler)
+      end
+    elseif user_callbacks_defaults[name] == nil then
       callback_register(name, handlers[callbacktypes[name]](name))
     end
   end
@@ -492,7 +602,6 @@ local function add_to_callback(name, func, description)
     func        = func,
     description = description,
   }
-  local priority = #l + 1
   if callbacktypes[name] == exclusive then
     if #l == 1 then
       luatexbase_error(
@@ -500,13 +609,56 @@ local function add_to_callback(name, func, description)
         name .. "'")
     end
   end
-  table.insert(l, priority, f)
+  table.insert(l, f)
+  callbacklist[name] = nil
   luatexbase_log(
-    "Inserting `" .. description .. "' at position "
-      .. priority .. " in `" .. name .. "'."
+    "Inserting `" .. description .. "' in `" .. name .. "'."
   )
 end
 luatexbase.add_to_callback = add_to_callback
+local function declare_callback_rule(name, desc1, relation, desc2)
+  if not callbacktypes[name] or
+    not desc1 or not desc2 or
+    desc1 == "" or desc2 == "" then
+    luatexbase_error(
+      "Unable to create ordering constraint. "
+        .. "Correct usage:\n"
+        .. "declare_callback_rule(<callback>, <description_a>, <description_b>)"
+    )
+  end
+  if relation == 'before' then
+    relation = nil
+  elseif relation == 'after' then
+    desc2, desc1 = desc1, desc2
+    relation = nil
+  elseif relation == 'incompatible-warning' or relation == 'incompatible-error' then
+  elseif relation == 'unrelated' then
+  else
+    luatexbase_error(
+      "Unknown relation type in declare_callback_rule"
+    )
+  end
+  callbacklist[name] = nil
+  local rules = callbackrules[name]
+  if rules then
+    for i, rule in ipairs(rules) do
+      if rule[1] == desc1 and rule[2] == desc2 or rule[1] == desc2 and rule[2] == desc1 then
+        if relation == 'unrelated' then
+          table.remove(rules, i)
+        else
+          rule[1], rule[2], rule.type = desc1, desc2, relation
+        end
+        return
+      end
+    end
+    if relation ~= 'unrelated' then
+      rules[#rules + 1] = {desc1, desc2, type = relation}
+    end
+  elseif relation ~= 'unrelated' then
+    callbackrules[name] = {{desc1, desc2, type = relation}}
+  end
+end
+luatexbase.declare_callback_rule = declare_callback_rule
 local function remove_from_callback(name, description)
   if not name or name == "" then
     luatexbase_error("Unable to remove function from callback:\n" ..
@@ -521,7 +673,7 @@ local function remove_from_callback(name, description)
         .. "remove_from_callback(<callback>, <description>)"
     )
   end
-  local l = callbacklist[name]
+  local l = realcallbacklist[name]
   if not l then
     luatexbase_error(
       "No callback list for `" .. name .. "'\n")
@@ -544,8 +696,17 @@ local function remove_from_callback(name, description)
     "Removing  `" .. description .. "' from `" .. name .. "'."
   )
   if #l == 0 then
+    realcallbacklist[name] = nil
     callbacklist[name] = nil
-    callback_register(name, nil)
+    local shared = shared_callbacks[name]
+    if shared then
+      shared.count = shared.count - 1
+      if shared.count == 0 then
+        callback_register(shared.callback, nil)
+      end
+    elseif user_callbacks_defaults[name] == nil then
+      callback_register(name, nil)
+    end
   end
   return cb.func,cb.description
 end
@@ -553,12 +714,12 @@ luatexbase.remove_from_callback = remove_from_callback
 local function in_callback(name, description)
   if not name
     or name == ""
-    or not callbacklist[name]
+    or not realcallbacklist[name]
     or not callbacktypes[name]
     or not description then
       return false
   end
-  for _, i in pairs(callbacklist[name]) do
+  for _, i in pairs(realcallbacklist[name]) do
     if i.description == description then
       return true
     end
@@ -567,7 +728,7 @@ local function in_callback(name, description)
 end
 luatexbase.in_callback = in_callback
 local function disable_callback(name)
-  if(callbacklist[name] == nil) then
+  if(realcallbacklist[name] == nil) then
     callback_register(name, false)
   else
     luatexbase_error("Callback list for " .. name .. " not empty")
@@ -578,7 +739,7 @@ local function callback_descriptions (name)
   local d = {}
   if not name
     or name == ""
-    or not callbacklist[name]
+    or not realcallbacklist[name]
     or not callbacktypes[name]
     then
     return d
@@ -599,21 +760,20 @@ local function uninstall()
   luatexbase = nil
 end
 luatexbase.uninstall = uninstall
-callback_register("mlist_to_hlist", function(head, display_type, need_penalties)
+create_callback('pre_mlist_to_hlist_filter', 'list')
+create_callback('mlist_to_hlist', 'exclusive', node.mlist_to_hlist)
+create_callback('post_mlist_to_hlist_filter', 'reverselist')
+function shared_callbacks.mlist_to_hlist.handler(head, display_type, need_penalties)
   local current = call_callback("pre_mlist_to_hlist_filter", head, display_type, need_penalties)
   if current == false then
     flush_list(head)
     return nil
-  elseif current == true then
-    current = head
   end
   current = call_callback("mlist_to_hlist", current, display_type, need_penalties)
   local post = call_callback("post_mlist_to_hlist_filter", current, display_type, need_penalties)
-  if post == true then
-    return current
-  elseif post == false then
+  if post == false then
     flush_list(current)
     return nil
   end
   return post
-end)
+end

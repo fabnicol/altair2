@@ -1,6 +1,6 @@
-% xr.4ht (2016-12-21-15:03), generated from tex4ht-4ht.tex
-% Copyright 1997-2009 Eitan M. Gurari
-% Copyright 2009-2016 TeX Users Group
+% xr.4ht (2023-03-10-14:19), generated from tex4ht-4ht.tex
+% Copyright 1997-2023 TeX Users Group
+% Copyright 2009-2023 TeX Users Group
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -17,7 +17,7 @@
 %
 % If you modify this program, changing the
 % version identification would be appreciated.
-\immediate\write-1{version 2016-12-21-15:03}
+\immediate\write-1{version 2023-03-10-14:19}
 
    \let\XR:loop=\XR@loop
 \def\XR@loop#1{%
@@ -42,17 +42,24 @@
    \catcode`\:=12
    \XR:loop{#1}%
 }
+\ExplSyntaxOn
 \long\def\XR@test#1#2#3#4\XR@{%
   \ifx#1\newlabel
-     \expandafter\xdef\csname r@\XR@prefix#2\endcsname{\XR:rEfLiNK #3}%
+     \regex_match:nnTF{@cref}{#2}% we must handle cleveref meta references
+{\expandafter\xdef\csname r@\XR@prefix#2\endcsname{#3}}%
+{\expandafter\xdef\csname r@\XR@prefix#2\endcsname{\XR:rEfLiNK #3}}%
 %
   \else\ifx#1\@input
      \edef\XR@list{\XR@list#2\relax}%
   \fi\fi
   \ifeof\@inputcheck\expandafter\XR@aux
   \else\expandafter\XR@read\fi}
+\ExplSyntaxOff
 
-   \def\XRrEfLiNK[#1]#2#3{\a:xr[#1]{#2}{}%
+   \def\XRrEfLiNK[#1]#2#3{%
+  \filename@parse{#1}% Get basename of the linked html file,
+  % xr:dir\filename@base contains file's directory
+  \a:xr[\csname xr:dir:\filename@base\endcsname#1]{#2}{}%
    \ifx\hyperrefLabel\:UnDef #3\else \hyperrefLabel\fi \b:xr}
 \NewConfigure{xr}{2}
 \Configure{xr}{\Link}{\EndLink}

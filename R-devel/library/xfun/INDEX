@@ -33,6 +33,7 @@ existing_files          Find file paths that exist
 exit_call               Call 'on.exit()' in a parent function
 fenced_block            Create a fenced block in Markdown
 file_ext                Manipulate filename extensions
+file_rename             Rename files and directories
 file_string             Read a text file and concatenate the lines by
                         "\n"
 format_bytes            Format numbers of bytes using a specified unit
@@ -42,6 +43,7 @@ github_releases         Get the tags of GitHub releases of a repository
 grep_sub                Perform replacement with 'gsub()' on elements
                         matched from 'grep()'
 gsub_file               Search and replace strings in files
+html_tag                Tools for HTML tags
 in_dir                  Evaluate an expression under a specified
                         working directory
 install_dir             Install a source package from a directory
@@ -54,10 +56,12 @@ is_blank                Test if a character vector consists of blank
 is_sub_path             Test if a path is a subpath of a dir
 is_web_path             Test if a path is a web path
 is_windows              Test for types of operating systems
+lazy_save               Save objects to files and lazy-load them
 magic_path              Find a file or directory under a root directory
 mark_dirs               Mark some paths as directories
 md5                     Calculate the MD5 checksums of R objects
 md_table                Generate a simple Markdown pipe table
+mime_type               Get the MIME types of files
 msg_cat                 Generate a message with 'cat()'
 native_encode           Try to use the system native encoding to
                         represent a character vector

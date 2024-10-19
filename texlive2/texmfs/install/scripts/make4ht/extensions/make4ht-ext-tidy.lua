@@ -38,15 +38,19 @@ end
 
 
 function M.modify_build(make)
-  make:match("html$", function(filename, par)
+  make:match("html?$", function(filename, par)
     local settings = get_filter_settings "tidy" or {}
     par.options = par.options or settings.options or "-utf8 -w 512 -ashtml -q"
     local command = "tidy ${options}  ${filename}" % par
     log:info("running tidy: ".. command)
     -- os.execute(command)
-    local run = io.popen(command, "r")
+    local run, msg = io.popen(command, "r")
     local result = run:read("*all")
     run:close()
+    if not result or  result == "" then
+      log:warning("Cannot execute Tidy command")
+      return nil
+    end
     result = close_tags(result)
     local f = io.open(filename, "w")
     f:write(result)

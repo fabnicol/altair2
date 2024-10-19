@@ -1,4 +1,4 @@
-%% Copyright (C) 2011-2017 by Martin Scharrer <martin@scharrer-online.de>
+%% Copyright (C) 2010-2022 by Martin Scharrer <martin.scharrer@web.de>
 %% ---------------------------------------------------------------------------
 %% This work may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either version 1.3
@@ -18,8 +18,8 @@
 %%
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{standalone}[%
-    2018/03/26
-    v1.3a
+    2022/10/10
+    v1.3b
     Class to compile TeX sub-files standalone]
 \newif\ifstandalone
 \standalonetrue
@@ -847,7 +847,7 @@
     \sa@convertfalse
 \fi
 \ifsa@convert
-\let\sa@convert@stop\stop
+\def\sa@convert@stop{\csname fi\endcsname\stop}%
 \begingroup
 \let\on@line\@gobble
 \def\sa@convert#1{%
@@ -906,16 +906,16 @@
         \def\sa@multi@pagemark{}%
         \edef\sa@lastoutfile{\outfile}%
     \else
+        \begingroup
+        \def\sa@multi@pagemark{-\the\@tempcnta}%
+        \xdef\sa@lastoutfile{\outfile}%
+        \endgroup
         \@tempcntb\z@
         \loop\ifnum\@tempcnta>0
             \advance\@tempcntb\@ne
             \divide\@tempcnta by 10\relax
         \repeat
         \edef\sa@multi@pagemark{-\percent0\the\@tempcntb d}%
-        \begingroup
-        \def\sa@multi@pagemark{-\the\@tempcnta}%
-        \xdef\sa@lastoutfile{\outfile}%
-        \endgroup
     \fi
     \if@tempswa
         \edef\infile@filemodafter{\csname pdf\ifluatex @\fi filemoddate\endcsname{\infile}}%
@@ -925,8 +925,10 @@
     \fi
     \edef\sa@convert@precommand{\sa@convert@precommand}%
     \ifx\sa@convert@precommand\@empty\else
+\message{Executing precommand:^^J\sa@convert@precommand^^J^^J}%
         \ShellEscape{\sa@convert@precommand}%
     \fi
+\message{Executing command:^^J\sa@convert@command^^J^^J}%
     \ShellEscape{\sa@convert@command}%
     \@tempswafalse
     \IfFileExists{\sa@lastoutfile}{%

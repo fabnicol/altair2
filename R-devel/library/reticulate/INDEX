@@ -3,9 +3,14 @@
 PyClass                 Create a python class
 array_reshape           Reshape an Array
 as.character.python.builtin.bytes
-                        Convert Python bytes to an R character vector
+                        Convert Python bytes to an R character or raw
+                        vector
+as.character.python.builtin.str
+                        Convert a Python string to an R Character
+                        Vector
 as_iterator             Traverse a Python iterator or generator
 conda-tools             Conda Tools
+conda_run2              Run a command in a conda environment
 configure_environment   Configure a Python Environment
 dict                    Create Python dictionary
 eng_python              A reticulate Engine for Knitr
@@ -47,8 +52,6 @@ py_iterator             Create a Python iterator from an R function
 py_len                  Length of Python object
 py_list_attributes      List all attributes of a Python object
 py_list_packages        List installed Python packages
-py_main_thread_func     Create a Python function that will always be
-                        called on the main thread
 py_module_available     Check if a Python module is available on this
                         system.
 py_none                 The Python None object

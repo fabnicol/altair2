@@ -7,7 +7,13 @@ local function make_yaml(tbl, level)
   local indent = string.rep("  ", level)
   -- indentation for multilen strings
   local str_indent = string.rep("  ", level + 1)
-  for k,v in pairs(tbl) do
+  local sorted = {}
+  for k, _ in pairs(tbl) do
+    sorted[#sorted+1] = k
+  end
+  table.sort(sorted)
+  for _,k in ipairs(sorted) do
+    local v = tbl[k]
     if type(v)=="string" then
       -- detect multiline strings
       if v:match("\n") then
@@ -52,13 +58,17 @@ local function update_properties(properties, dom)
   -- enable properties update from the config or build file
   local settings = get_filter_settings "staticsite" or {}
   local header = settings.header or {}
+  -- set non-function properties first
+  for field, rule in pairs(header) do
+    if type(rule) ~="function" then
+      properties[field] = rule
+    end
+  end
+  -- then execute functions. it ensures that all propeties set in header are available
   for field, rule in pairs(header) do
     -- it is possible to pass function as a rule, it will be executed with properties as a parameter
     if type(rule) == "function" then
       properties[field] = rule(properties, dom)
-    else
-      -- otherwise set properties
-      properties[field] = rule
     end
   end
   return properties

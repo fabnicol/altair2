@@ -1,11 +1,11 @@
 Package: hunspell
 Type: Package
 Title: High-Performance Stemmer, Tokenizer, and Spell Checker
-Version: 3.0.3
+Version: 3.0.5
 Depends: R (>= 3.0.2)
 Encoding: UTF-8
 Authors@R: c(
-    person("Jeroen", "Ooms", ,"jeroen@berkeley.edu", role = c("aut", "cre")),
+    person("Jeroen", "Ooms", ,"jeroenooms@gmail.com", role = c("aut", "cre")),
     person("Authors of libhunspell", role = "cph", comment = "see AUTHORS file"))
 Description: Low level spell checker and morphological analyzer based on the 
     famous 'hunspell' library <https://hunspell.github.io>. The package can analyze
@@ -19,17 +19,16 @@ URL: https://docs.ropensci.org/hunspell/
 BugReports: https://github.com/ropensci/hunspell/issues
 Imports: Rcpp, digest
 LinkingTo: Rcpp (>= 0.12.12)
-Suggests: spelling, testthat, pdftools, janeaustenr, wordcloud2, knitr,
-        stopwords, rmarkdown
+Suggests: spelling, testthat, knitr, rmarkdown
 VignetteBuilder: knitr
 RoxygenNote: 7.2.3
 Language: en-US
 NeedsCompilation: yes
-Packaged: 2023-10-06 05:41:03 UTC; jeroen
+Packaged: 2024-10-03 14:12:49 UTC; jeroen
 Author: Jeroen Ooms [aut, cre],
   Authors of libhunspell [cph] (see AUTHORS file)
-Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
+Maintainer: Jeroen Ooms <jeroenooms@gmail.com>
 Repository: CRAN
-Date/Publication: 2023-10-06 07:10:02 UTC
-Built: R 4.4.1; x86_64-w64-mingw32; 2024-07-29 00:44:39 UTC; windows
+Date/Publication: 2024-10-04 12:30:02 UTC
+Built: R 4.4.1; x86_64-w64-mingw32; 2024-10-17 01:19:43 UTC; windows
 Archs: x64

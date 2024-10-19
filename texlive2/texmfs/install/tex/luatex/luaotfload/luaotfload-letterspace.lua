@@ -3,19 +3,15 @@
 --  DESCRIPTION:  part of luaotfload / letterspacing
 -----------------------------------------------------------------------
 
-local ProvidesLuaModule = { 
+assert(luaotfload_module, "This is a part of luaotfload and should not be loaded independently") { 
     name          = "luaotfload-letterspace",
-    version       = "3.14",       --TAGVERSION
-    date          = "2020-05-06", --TAGDATE
-    description   = "luaotfload submodule / color",
+    version       = "3.28",       --TAGVERSION
+    date          = "2024-02-14", --TAGDATE
+    description   = "luaotfload submodule / letterspacing",
     license       = "GPL v2.0",
     copyright     = "PRAGMA ADE / ConTeXt Development Team",
     author        = "Hans Hagen, PRAGMA-ADE, Hasselt NL; adapted by Philipp Gesang, Ulrike Fischer, Marcel Krüger"
 }
-
-if luatexbase and luatexbase.provides_module then
-  luatexbase.provides_module (ProvidesLuaModule)
-end  
 
 --- This code diverged quite a bit from its origin in Context. Please
 --- do *not* report bugs on the Context list.
@@ -63,12 +59,18 @@ local setkern            = nodedirect.setkern
 local getglue            = nodedirect.getglue
 local setglue            = nodedirect.setglue
 
+local hasattribute       = nodedirect.has_attribute
+local setattribute       = nodedirect.set_attribute
+
+local getattributelist   = nodedirect.getattributelist
+local setattributelist   = nodedirect.setattributelist
+
 local find_node_tail     = nodedirect.tail
 local todirect           = nodedirect.todirect
 local tonode             = nodedirect.tonode
 
 local insert_node_before = nodedirect.insert_before
-local free_node          = nodedirect.free
+local real_free_node     = nodedirect.free
 local copy_node          = nodedirect.copy
 local new_node           = nodedirect.new
 
@@ -83,6 +85,25 @@ local identifiers        = fonthashes.identifiers
 local chardata           = fonthashes.characters
 local otffeatures        = fonts.constructors.newfeatures "otf"
 local markdata
+
+-- For every attribute list cached in attribute_table, we have to make
+-- sure that it doesn't get deleted. Therefore attribute_cleanup maps
+-- from a node which has the attribute_list referenced in
+-- attribute_table to the key from attribute_table.
+-- Whenever a node which has an entry in attribute_cleanup is deleted,
+-- we delete the corresponding entry from attribute_table since we can
+-- no longer guarantee that it's references somewhere.
+local attribute_table    = {}
+local attribute_cleanup  = {}
+local attr = luatexbase.new_attribute("luaotfload.letterspace_done")
+
+local function free_node(n)
+  local k = attribute_cleanup[n]
+  if k then
+    attribute_cleanup[n], attribute_table[k] = nil
+  end
+  return real_free_node(n)
+end
 
 local function getprevreal(n)
   repeat
@@ -247,6 +268,10 @@ kerncharacters = function (head)
     local id = getid(start)
     if id == glyph_code then
       --- 1) look up kern factor (slow, but cached rudimentarily)
+      if hasattribute(start, attr, 1) then -- We already kerned this node
+        firstkern = false -- TODO: I'm not sure about this one yet
+        goto nextnode
+      end
       local fontid = getfont(start)
       local krn, fillup = unpack(kernamounts[fontid])
       if not krn or krn == 0 then
@@ -430,6 +455,15 @@ kerncharacters = function (head)
             setfield(disc, "replace", kern_injector(false, krn))
           end --[[if replace and prv and nxt]]
         end --[[if not pid]]
+        local attr_list = getattributelist(start)
+        local new_attr_list = attribute_table[attr_list]
+        if new_attr_list then
+          setattributelist(start, new_attr_list)
+        else
+          setattribute(start, attr, 1)
+          attribute_cleanup[start] = attr_list
+          attribute_table[attr_list] = getattributelist(start)
+        end
       end --[[if prev]]
     end --[[if id == glyph_code]]
 
@@ -482,6 +516,10 @@ local function enablefontkerning ( )
       logreport ("both", 0, "letterspace",
                  "kerncharacters() failed to return a valid new head")
     end
+
+    for k, v in next, attribute_cleanup do attribute_cleanup[k], attribute_table[v] = nil end
+    assert(not next(attribute_table))
+
     return tonode (direct_hd)
   end
 

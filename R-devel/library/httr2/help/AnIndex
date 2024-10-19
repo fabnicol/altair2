@@ -1,5 +1,6 @@
 httr2-package	httr2-package
 %>%	pipe
+close.httr2_response	resp_stream_raw
 curl_help	curl_translate
 curl_translate	curl_translate
 example_github_client	example_url
@@ -48,6 +49,7 @@ req_body_json_modify	req_body
 req_body_multipart	req_body
 req_body_raw	req_body
 req_cache	req_cache
+req_cookies_set	req_cookie_preserve
 req_cookie_preserve	req_cookie_preserve
 req_dry_run	req_dry_run
 req_error	req_error
@@ -62,8 +64,10 @@ req_oauth_password	req_oauth_password
 req_oauth_refresh	req_oauth_refresh
 req_options	req_options
 req_perform	req_perform
+req_perform_connection	req_perform_connection
 req_perform_iterative	req_perform_iterative
 req_perform_parallel	req_perform_parallel
+req_perform_promise	req_perform_promise
 req_perform_sequential	req_perform_sequential
 req_perform_stream	req_perform_stream
 req_progress	req_progress
@@ -105,6 +109,9 @@ resp_raw	resp_raw
 resp_retry_after	resp_retry_after
 resp_status	resp_status
 resp_status_desc	resp_status
+resp_stream_lines	resp_stream_raw
+resp_stream_raw	resp_stream_raw
+resp_stream_sse	resp_stream_raw
 resp_url	resp_url
 resp_url_path	resp_url
 resp_url_queries	resp_url

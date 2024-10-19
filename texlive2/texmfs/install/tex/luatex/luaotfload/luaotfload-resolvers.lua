@@ -9,18 +9,13 @@
 --- The bare fontloader uses a set of simplistic file name resolvers
 --- that must be overloaded by the user (i. e. us).
 
-local ProvidesLuaModule = { 
+assert(luaotfload_module, "This is a part of luaotfload and should not be loaded independently") { 
     name          = "luaotfload-resolvers",
-    version       = "3.14",       --TAGVERSION
-    date          = "2020-05-06", --TAGDATE
+    version       = "3.28",       --TAGVERSION
+    date          = "2024-02-14", --TAGDATE
     description   = "luaotfload submodule / resolvers",
     license       = "GPL v2.0"
 }
-
-if luatexbase and luatexbase.provides_module then
-  luatexbase.provides_module (ProvidesLuaModule)
-end  
-
 
 if not lualibs    then error "this module requires Luaotfload" end
 if not luaotfload then error "this module requires Luaotfload" end
@@ -153,6 +148,10 @@ local function resolve_tex_format (specification)
     local name = specification.name
     for i=1, #tex_formats do
         local format = tex_formats [i]
+        local name = name
+        if name:sub(-#format-1) ~= '.' .. format then -- Add an explicit extension to avoid finding local fonts in other formats
+            name = name .. '.' .. format
+        end
         local resolved = resolvers_findfile(name, format)
         if resolved then
             return resolved, format
@@ -233,11 +232,11 @@ local function resolve_kpse (specification)
     local name       = specification.name
     local suffix     = stringlower (filesuffix (name))
     if suffix and fonts.formats[suffix] then
-        local resolved = resolvers.findfile(name, suffix)
+        local resolved = resolvers_findfile(name, suffix)
         if resolved then return resolved end
     end
-    for t, format in next, fonts.formats do --- brute force
-        local resolved = kpsefind_file (name, format)
+    for _, t in ipairs{'otf', 'ttf', 'pfb', 'lua', 'afm'} do --- brute force
+        local resolved = resolvers_findfile (name, t)
         if resolved then return resolved, t end
     end
 end
@@ -292,7 +291,7 @@ return function()
     end
     logreport ("log", 5, "resolvers", "installing font resolvers", name)
     local request_resolvers = fonts.definers.resolvers
-    for k, _ in pairs(resolvers) do
+    for k, _ in pairs(request_resolvers) do
         request_resolvers[k] = nil
     end
     setmetatable(request_resolvers, {__index = function(t, n)

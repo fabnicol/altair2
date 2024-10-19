@@ -1,30 +1,23 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% beamer.4ht                            2009-05-21-09:32 %
-% Copyright (C) 2003--2009       Eitan M. Gurari         %
-%                                                        %
-% This work may be distributed and/or modified under the %
-% conditions of the LaTeX Project Public License, either %
-% version 1.3c of this license or (at your option) any   %
-% later version. The latest version of this license is   %
-% in                                                     %
-%   http://www.latex-project.org/lppl.txt                %
-% and version 1.3c or later is part of all distributions %
-% of LaTeX version 2005/12/01 or later.                  %
-%                                                        %
-% This work has the LPPL maintenance status "maintained".%
-%                                                        %
-% This Current Maintainer of this work                   %
-% is Eitan M. Gurari.                                    %
-%                                                        %
-% If you modify this program your changing its signature %
-% with a directive of the following form will be         %
-% appreciated.                                           %
-%            \message{signature}                         %
-%                                                        %
-%                             gurari@cse.ohio-state.edu  %
-%                 http://www.cse.ohio-state.edu/~gurari  %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\immediate\write-1{version 2009-05-21-09:32}
+% beamer.4ht (2022-10-04-13:07), generated from tex4ht-4ht.tex
+% Copyright 2003-2009 Eitan M. Gurari
+% Copyright 2009-2022 TeX Users Group
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any
+% later version. The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3c or later is part of all distributions
+% of LaTeX version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status "maintained".
+%
+% The Current Maintainer of this work
+% is the TeX4ht Project <http://tug.org/tex4ht>.
+%
+% If you modify this program, changing the
+% version identification would be appreciated.
+\immediate\write-1{version 2022-10-04-13:07}
 
 \NewConfigure{titlepage}{2}
 \NewConfigure{title}{2}
@@ -47,7 +40,6 @@
 %
 }
 
-
 \let\o:untitledsubsection:\untitledsubsection
 \def\untitledsubsection#1{%
    \expandafter\global\expandafter\sl:toks\expandafter
@@ -62,21 +54,6 @@
 \newtoks\sl:toks
 \NewConfigure{sec@slide}{2}
 
-\def\addtocontents#1#2{%
-   \add:toc{#1}{}{#2}%
-}
-\def\add:toc#1#2#3{{%
-   \csname if:toc\endcsname{
-      \def\protect{\noexpand\noexpand\noexpand}%
-      \edef\:tempa{\the\:tokwrite{\string\doTocEntry
-   \string\toc#1{#2}{%
-      \string\csname\space a:TocLink\string\endcsname
-            {\FileNumber}{\cur:th\@currentlabel}{}{#3}%
-   }{}\relax
-}%
-}\:tempa
-   }%
-}}
 \def\tableofcontents{\futurelet\:temp\:TOC}
 \def\:TOC{\ifx [\:temp \expandafter\:TableOfContents
           \else \:TableOfContents[toc]\fi}
@@ -87,6 +64,10 @@
 \pend:defI\structure{\a:structure}
 \append:defI\structure{\b:structure}
 \NewConfigure{structure}{2}
+\NewConfigure{sectionshadedintoc}{2}
+\NewConfigure{sectionintoc}{2}
+\NewConfigure{subsectionshadedintoc}{2}
+\NewConfigure{subsectionintoc}{2}
 
 
 \ifx \beamer@version\:UnDef
@@ -160,6 +141,51 @@
 \else
    
 \fi
+\let\Hy@EveryPageAnchor\relax
+\def\pgf@trimright@final{0pt}
+\def\pgf@trimleft@final{0pt}
+\let\origEndP\EndP
+\AtBeginDocument{\def\EndP{\let\EndP\origEndP}\SaveEndP}
+
+
+\NewConfigure{frame}{2}
+\NewConfigure{frametitle}{2}
+\AddToHook{env/beamer@frameslide/before}{\RecallEndP\a:frame\beamer@autobreakfalse}
+\AddToHook{env/beamer@frameslide/after}{\b:frame}
+
+\long\def\:temp[#1]#2{%
+\a:frametitle%
+\o:beamer@@frametitle:[#1]{#2}%
+\b:frametitle%
+}
+
+\HLet\beamer@@frametitle\:temp
+% Beamer redefines \emph, it is necessary to insert hooks again
+\NewConfigure{emph}{2}
+\pend:defI\emph{\a:emph}%
+\append:defI\emph{\b:emph}%
+
+\HLet\framebreak\relax
+\HLet\beamer@@spacingcover\relax
+\NewConfigure{beamerbiblatex}{3}
+\@ifpackageloaded{biblatex}{
+  \pend:defI\beamer@biblabeltemplate{%
+    \ifdefined\end:itm\end:itm\fi%
+    \gdef\end:itm{\c:beamerbiblatex}%
+    \a:beamerbiblatex%
+  }
+  \append:defI\beamer@biblabeltemplate{\b:beamerbiblatex}
+  \AfterPreamble{%
+    \def\bibConfigure{%
+      \ConfigureList{thebibliography}%
+      {\PushMacro\end:itm\let\end:itm=\empty}%
+      {\end:itm\PopMacro\end:itm\global\let\end:itm\end:itm}{}{}%
+    }
+  }
+}
+{}
+
+
 \Hinput{beamer}
 \endinput
 

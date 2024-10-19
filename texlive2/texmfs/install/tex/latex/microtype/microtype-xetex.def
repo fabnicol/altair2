@@ -4,25 +4,26 @@
 %%
 %% The original source files were:
 %%
-%% microtype.dtx  (with options: `xetex-def')
+%% microtype.dtx  (with options: `xe-')
 %% 
 %% ------------------------------------------------------------------------
 %% 
 %%                       The `microtype' package
 %%         Subliminal refinements towards typographical perfection
-%%           Copyright (c) 2004--2019 R Schlicht <w.m.l@gmx.net>
+%%           Copyright (c) 2004--2024 R Schlicht <w.m.l@gmx.net>
 %% 
 %% This work may be distributed and/or modified under the conditions of the
 %% LaTeX Project Public License, either version 1.3c of this license or (at
 %% your option) any later version. The latest version of this license is in:
-%% http://www.latex-project.org/lppl.txt, and version 1.3c or later is part
+%% https://www.latex-project.org/lppl.txt, and version 1.3c or later is part
 %% of all distributions of LaTeX version 2005/12/01 or later.
 %% 
-%% This work has the LPPL maintenance status `author-maintained'.
+%% This work has the LPPL maintenance status `maintained'.
 %% 
-%% This work consists of the files microtype.dtx and microtype.ins and the
-%% derived files microtype.sty, microtype-pdftex.def, microtype-luatex.def,
-%% microtype-xetex.def, microtype.lua and letterspace.sty.
+%% This work consists of the files microtype.dtx, microtype-utf.dtx and
+%% microtype.ins and the derived files microtype.sty, microtype-pdftex.def,
+%% microtype-luatex.def, microtype-xetex.def, microtype.lua, letterspace.sty
+%% and microtype-show.sty.
 %% 
 %% ------------------------------------------------------------------------
 %%   This file contains enginge-specific definitions.
@@ -30,26 +31,10 @@
 %%
 \ProvidesFile
   {microtype-xetex.def}
-  [2019/11/18 v2.7d
+  [2024/03/29 v3.1b
    Definitions specific to
    xetex
    (RS)]
-\ifdim 0\XeTeXrevision pt < 0.9997pt
-  \def\MT@xetex@no{1}
-\else
-  \def\MT@xetex@no{2}
-\fi
-\ifnum
-  \csname MT@\MT@engine tex@no\endcsname < 2
-  \MT@warning@nl{You
-      are using a \MT@engine tex version older than
-      0.9997%
-      .\MessageBreak
-      `\MT@MT' does not work with this version.\MessageBreak
-      Please install a newer version of \MT@engine tex%
-      .\MessageBreak I will quit now}
-  \MT@clear@options
-\endinput\fi
 \def\MT@ifint#1{%
   \if!\ifnum9<1#1!\else?\fi
     \expandafter\@firstoftwo
@@ -68,9 +53,9 @@
   }%
 }
 \def\MT@ifstreq#1#2{%
-  \edef\MT@res@a{#1}%
-  \edef\MT@res@b{#2}%
-  \ifx\MT@res@a\MT@res@b
+  \ifnum
+      \strcmp
+      {#1}{#2}=\z@
     \expandafter\@firstoftwo
   \else
     \expandafter\@secondoftwo
@@ -78,9 +63,10 @@
 }
 \def\MT@do@font#1{%
   \@tempcnta=\z@
-  \MT@loop #1%
-    \advance\@tempcnta \@ne
-    \ifnum\@tempcnta < \XeTeXcountglyphs\MT@font \MT@repeat
+  \MT@loop
+    \iffontchar\MT@font\@tempcnta #1\fi
+    \advance\@tempcnta\@ne
+    \ifnum\@tempcnta < \XeTeXlastfontchar\MT@font \MT@repeat
 }
   \def\MT@ledmac@setup{%
     \ifMT@protrusion
@@ -123,9 +109,18 @@
     \MT@register@font
   \fi
 }
-\def\MT@protrusion{\MT@maybe@do{pr}}
-\def\MT@set@pr@codes{%
-  \MT@nofamilyfalse
+\def\MT@fix@fontdimen@six{%
+  \ifnum\fontdimen6\MT@font=\z@
+    \fontdimen6\MT@font=%
+               \MT@size pt%
+    \MT@info{Fixing zero \@backslashchar fontdimen 6 for font `\MT@@font'\MessageBreak
+             (new value: \the\fontdimen6\MT@font)}%
+  \fi
+  \edef\MT@dimen@six{\number\fontdimen6\MT@font}%
+}
+\def\MT@set@pr@codes
+  {%
+ \MT@nofamilyfalse
   \MT@if@list@exists{%
     \ifMT@nofamily
       \MT@ifdefined@n@TF{\MT@encoding-\MT@family-settings}\relax{%
@@ -136,28 +131,17 @@
         \MT@glet@nc{\MT@encoding-\MT@family-settings}\@empty
       }%
     \fi
-    \MT@get@font@dimen@six{%
-      \MT@get@opt
-      \MT@reset@pr@codes
-      \MT@get@inh@list
-      \MT@set@inputenc{c}%
-      \MT@load@list\MT@pr@c@name
-      \MT@set@listname
-      \MT@let@cn\@tempc{MT@pr@c@\MT@pr@c@name}%
-      \expandafter\MT@set@codes\@tempc,\relax,}%
-  }\MT@reset@pr@codes
-}
-\def\MT@get@font@dimen@six{%
-  \ifnum\fontdimen6\MT@font=\z@
-    \MT@warning@nl{%
-      Font `\MT@@font' does not specify its\MessageBreak
-      \@backslashchar fontdimen 6 (width of an `em')! Therefore,\MessageBreak
-      \@nameuse{MT@abbr@\MT@feat} will not work with this font}%
-    \expandafter\@gobble
-  \else
-    \edef\MT@dimen@six{\number\fontdimen6\MT@font}%
-    \expandafter\@firstofone
-  \fi
+    \MT@get@opt
+    \MT@reset@pr@codes
+    \MT@get@inh@list
+    \MT@set@inputenc{c}%
+    \MT@load@list\MT@pr@c@name
+    \MT@set@listname
+    \MT@let@cn\@tempc{MT@pr@c@\MT@pr@c@name}%
+    \expandafter\MT@set@codes\@tempc,\relax,%
+    \MT@set@pr@prefixheirs
+  }%
+  \MT@reset@pr@codes
 }
 \def\MT@set@all@pr#1#2{%
   \let\MT@temp\@empty
@@ -184,15 +168,17 @@
     \fi
   \fi
 }
-\def\MT@pr@split@val#1,#2\relax{%
-  \def\@tempb{#1}%
-  \MT@ifempty\@tempb\relax{%
-    \MT@scale@to@em
+\def\MT@pr@split@val#1,#2\relax
+  {\def\@tempb{#1}%
+  \MT@ifempty\@tempb
+    \relax
+  {\MT@scale@to@em
     \lpcode\MT@font\MT@char=\MT@the@pr@code
   }%
   \def\@tempb{#2}%
-  \MT@ifempty\@tempb\relax{%
-    \MT@scale@to@em
+  \MT@ifempty\@tempb
+    \relax
+  {\MT@scale@to@em
     \rpcode\MT@font\MT@char=\MT@the@pr@code
   }%
   \MT@ifdefined@c@T\MT@pr@inh@name{%
@@ -219,41 +205,35 @@
   \fi
   \ifnum\MT@count=\z@ \MT@info@missing@char \fi
 }
-\def\MT@set@pr@heirs#1{%
-  \lpcode\MT@font #1 =\lpcode\MT@font\MT@char\relax
-  \rpcode\MT@font #1 =\rpcode\MT@font\MT@char\relax
-}
-\def\MT@preset@pr{%
-  \expandafter\expandafter\expandafter\MT@preset@pr@
-    \csname MT@pr@c@\MT@pr@c@name @preset\endcsname\@nil
-}
-\def\MT@preset@pr@#1,#2\@nil{%
-  \ifx\MT@pr@unit@\@empty
-    \MT@warn@preset@towidth{pr}%
-    \let\MT@preset@aux\MT@preset@aux@factor
-  \else
-    \def\MT@preset@aux{\MT@preset@aux@space2}%
+\def\MT@set@pr@prefixes#1{\MT@set@pr@prefixes@#1}
+\def\MT@set@pr@prefixes@#1#2#3#4%
+  {%
+  \edef\@tempa{\expandafter\ifx\@car#1\@nil U\@gobble#1\else\number\XeTeXglyphindex"#1" \fi}%
+  \edef\@tempb{\expandafter\ifx\@car#2\@nil U\@gobble#2\else\number\XeTeXglyphindex"#2" \fi}%
+  \@tempcnta=\z@
+  \ifnum#3>\z@
+    \@tempcnta=\numexpr
+      (\fontcharwd\MT@font\@tempb-\fontcharwd\MT@font\@tempa)%
+      *#3/\MT@dimen@six\relax
   \fi
-  \MT@ifempty{#1}{\let\@tempa\@empty}{\MT@preset@aux{#1}\@tempa}%
-  \MT@ifempty{#2}{\let\@tempb\@empty}{\MT@preset@aux{#2}\@tempb}%
-  \MT@set@all@pr\@tempa\@tempb
+  \lpcode\MT@font #2=\numexpr\lpcode\MT@font#1+\@tempcnta\relax
+  \@tempcnta=\z@
+  \ifnum#4>\z@
+    \@tempcnta=\numexpr
+      (\fontcharwd\MT@font\@tempb-\fontcharwd\MT@font\@tempa)%
+      *#4/\MT@dimen@six\relax
+  \fi
+  \rpcode\MT@font #2=\numexpr\rpcode\MT@font#1+\@tempcnta\relax
 }
-\def\MT@preset@aux@factor#1#2{%
-  \@tempcntb=#1\relax
-  \MT@scale@factor
-  \edef#2{\number\@tempcntb}%
-}
-\def\MT@preset@aux@space#1#2#3{%
-  \def\@tempb{#2}%
-  \MT@get@space@unit#1%
-  \MT@scale@to@em
-  \edef#3{\number\@tempcntb}%
-}
-\def\MT@warn@preset@towidth#1{%
-  \MT@warning@nl{%
-    Cannot preset characters relative to their widths\MessageBreak
-    for \@nameuse{MT@abbr@#1} list `\@nameuse{MT@#1@c@name}'. Presetting them%
-    \MessageBreak relative to 1em instead}%
+\def\MT@prot@addtoken@next#1{%
+  \MT@toks\expandafter{\the\MT@toks#1}%
+  \setbox\MT@tempbox\hbox{%
+    \let\maybe@ic\relax
+    \MT@exp@one@n\MT@maybe@textcmd{\the\MT@toks}%
+    \relax
+    \ifnum\lastnodetype=7 \aftergroup\@firstoftwo\else\aftergroup\@secondoftwo\fi}%
+      \MT@prot@get@nexttoken
+      {\MT@exp@one@n\MT@prot@l{\the\MT@toks}}%
 }
 \DeclareRobustCommand\lsstyle{%
   \MT@error{Letterspacing currently doesn't work with xetex}
@@ -309,25 +289,13 @@
   {1114111 }
 \def\MT@max@slot
   {1114111 }
+  \let\MT@active@features\@empty
 \renewcommand*\DisableLigatures[2][]{%
   \MT@error{Disabling ligatures of a font is only possible\MessageBreak
     with pdftex version 1.30 or newer.\MessageBreak
-    Ignoring \string\DisableLigatures}{%
+    Ignoring \@backslashchar DisableLigatures}{%
     Use
     pdftex.}%
-}
-\def\SetProtrusion{%
-  \MT@begin@catcodes
-  \MT@SetProtrusion
-}
-\newcommand*\MT@SetProtrusion[3][]{%
-  \let\MT@extra@context\@empty
-  \MT@set@named@keys{MT@pr@c}{#1}%
-  \def\MT@permutelist{pr@c}%
-  \setkeys{MT@cfg}{#2}%
-  \MT@permute
-  \MT@gdef@n{MT@pr@c@\MT@pr@c@name}{#3}%
-  \MT@end@catcodes
 }
   \define@key{MT@pr@c}{context}[]{%
     \MT@error{Protrusion contexts only work with pdftex
@@ -335,18 +303,10 @@
         Ignoring `context' key\on@line}%
       {Use pdftex or luatex.}%
   }
-\define@key{MT@pr@c}{unit}[character]{%
-  \MT@glet@nc{MT@pr@c@\MT@curr@set@name @unit}\@empty
-  \def\@tempa{#1}%
-  \MT@ifstreq\@tempa{character}\relax{%
-    \MT@ifdimen\@tempa
-      {\MT@glet@nc{MT@pr@c@\MT@curr@set@name @unit}\@tempa}%
-      {\MT@warn@nodim{character widths}}%
-  }%
-}
 \def\MT@inh@split#1=#2=#3\relax{%
   \def\@tempa{#1}%
   \ifx\@tempa\@empty \else
+    \expandafter\MT@has@inh@prefix\@tempa()\relax\@nil
     \MT@get@slot
     \ifx\MT@char\@empty\else
       \let\MT@val\MT@char
@@ -355,7 +315,12 @@
         \ifx\@tempa\@empty \else
           \MT@get@slot
           \ifx\MT@char\@empty\else
-            \MT@exp@cs\MT@xadd{MT@inh@\MT@listname @\MT@val @}{{\MT@char}}%
+            \ifx\MT@inh@prefix\@empty
+              \MT@exp@cs\MT@xadd{MT@inh@\MT@listname @\MT@val @}{{\MT@char}}%
+            \else
+              \MT@exp@cs\MT@xadd{MT@inh@\MT@listname @prefixes}%
+                  {{{\MT@val}{\MT@char}\MT@inh@prefix@}}%
+            \fi
           \fi
         \fi
       }%

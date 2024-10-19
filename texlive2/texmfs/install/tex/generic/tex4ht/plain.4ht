@@ -1,6 +1,6 @@
-% plain.4ht (2018-11-06-15:55), generated from tex4ht-4ht.tex
+% plain.4ht (2022-10-25-13:59), generated from tex4ht-4ht.tex
 % Copyright 1997-2009 Eitan M. Gurari
-% Copyright 2009-2018 TeX Users Group
+% Copyright 2009-2022 TeX Users Group
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -17,7 +17,7 @@
 %
 % If you modify this program, changing the
 % version identification would be appreciated.
-\immediate\write-1{version 2018-11-06-15:55}
+\immediate\write-1{version 2022-10-25-13:59}
 
 \ifx\SaveMkHalignConf:g\:UnDef \else \expandafter\endinput\fi
 
@@ -73,6 +73,7 @@
 \MathSymbol\mathop{ldots}
 \MathSymbol\mathrel{Longleftrightarrow}
 \MathSymbol\mathrel{Longrightarrow}
+\MathSymbol\mathrel{Longleftarrow}
 \MathSymbol\mathrel{bowtie}
 \MathSymbol\mathrel{cdots}
 \MathSymbol\mathrel{ddots}
@@ -262,9 +263,10 @@
              \else \sp:c\fi}
 \NewConfigure{ }[1]{\def\:temp{#1}%
    \ifx \:temp\empty \let\a:sp\sp:c\else\def\a:sp{#1}\fi}
-\def\:nbsp{\leavevmode\special{t4ht@+\string&{35}x00A0{59}}x}
 \Configure{ }{\:nbsp}
 %
+\def\:nbsp{\ifx\EndPicture\:UnDef\leavevmode\ht:special{t4ht@+\string&{35}x00A0{59}}\a:HChar\else\leavevmode\nobreak\ \fi}
+\def\:ensp{\leavevmode\ht:special{t4ht@+\string&{35}x2002{59}}\a:HChar}
 \expandafter\let\csname  beginsection\endcsname\relax
 \NewSection\beginsection{}{}
 \let\begin:section\beginsection
@@ -306,6 +308,10 @@
  \def\:tempc{\relax\csname a:,\endcsname}
 \HLet\,=\:tempc
 \NewConfigure{,}{1}
+\NewConfigure{;}{1}
+\NewConfigure{!}{1}
+\NewConfigure{:}{1}
+\NewConfigure{>}{1}
 \Configure{,}{\relax \ifmmode \mskip \thinmuskip \else \thinspace \fi}
 \def\:temp{\csname a:'\endcsname
    \bgroup \aftergroup\:pr@m@s

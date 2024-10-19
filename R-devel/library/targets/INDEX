@@ -3,7 +3,6 @@ tar_assert              Assertions
 tar_backoff             Superseded: exponential backoff
 tar_branch_index        Integer branch indexes
 tar_branch_names        Branch names
-tar_branch_names_raw    Branch names (raw version)
 tar_branches            Reconstruct the branch names and the names of
                         their dependencies.
 tar_call                Identify the called 'targets' function.
@@ -23,7 +22,6 @@ tar_definition          For developers only: get the definition of the
                         current target.
 tar_delete              Delete target output values.
 tar_deps                Code dependencies
-tar_deps_raw            Code dependencies (raw version)
 tar_described_as        Select targets using their descriptions.
 tar_destroy             Destroy the data store.
 tar_dispatched          List dispatched targets.
@@ -40,12 +38,12 @@ tar_exist_process       Check if process metadata exists.
 tar_exist_progress      Check if progress metadata exists.
 tar_exist_script        Check if the target script file exists.
 tar_format              Define a custom target storage format.
+tar_format_get          Current storage format.
 tar_github_actions      Set up GitHub Actions to run a targets pipeline
 tar_glimpse             Visualize an abridged fast dependency graph.
 tar_group               Group a data frame to iterate over subsets of
                         rows.
 tar_helper              Write a helper R script.
-tar_helper_raw          Write a helper R script (raw version).
 tar_interactive         Run if Target Markdown interactive mode is on.
 tar_invalidate          Delete one or more metadata records (e.g. to
                         rerun a target).
@@ -54,7 +52,6 @@ tar_load                Load the values of targets.
 tar_load_everything     Load the values of all available targets.
 tar_load_globals        Load globals for debugging, testing, and
                         prototyping
-tar_load_raw            Load the values of targets (raw version).
 tar_make                Run a pipeline of targets.
 tar_make_clustermq      Superseded. Run a pipeline with persistent
                         'clustermq' workers.
@@ -98,10 +95,15 @@ tar_prune               Remove targets that are no longer part of the
                         pipeline.
 tar_prune_list          List targets that 'tar_prune()' will remove.
 tar_read                Read a target's value from storage.
-tar_read_raw            Read a target's value from storage (raw
-                        version)
 tar_renv                Set up package dependencies for compatibility
                         with 'renv'
+tar_repository_cas      Define a custom content-addressable storage
+                        (CAS) repository (an experimental feature).
+tar_repository_cas_local
+                        Local content-addressable storage (CAS)
+                        repository (an experimental feature).
+tar_repository_cas_local_gc
+                        Local CAS garbage collection
 tar_reprex              Reproducible example of 'targets' with 'reprex'
 tar_resources           Target resources
 tar_resources_aws       Target resources: Amazon Web Services (AWS) S3
@@ -122,6 +124,8 @@ tar_resources_gcp       Target resources: Google Cloud Platform (GCP)
 tar_resources_network   Target resources for network file systems.
 tar_resources_parquet   Target resources: parquet storage formats
 tar_resources_qs        Target resources: qs storage formats
+tar_resources_repository_cas
+                        Target resources for custom storage formats
 tar_resources_url       Target resources: URL storage formats
 tar_script              Write a target script file.
 tar_seed_create         Create a seed for a target.
@@ -132,11 +136,8 @@ tar_sitrep              Show the cue-by-cue status of each target.
 tar_skipped             List skipped targets.
 tar_source              Run R scripts.
 tar_target              Declare a target.
-tar_target_raw          Define a target using unrefined names and
-                        language objects.
 tar_test                Test code in a temporary directory.
 tar_timestamp           Get the timestamp(s) of a target.
-tar_timestamp_raw       Get the timestamp(s) of a target (raw version).
 tar_toggle              Choose code to run based on Target Markdown
                         mode.
 tar_traceback           Get a target's traceback

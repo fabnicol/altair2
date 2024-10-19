@@ -1,4 +1,4 @@
-% html0.4ht (2019-03-18-15:25), generated from tex4ht-html0.tex
+% html0.4ht (2020-10-16-13:48), generated from tex4ht-html0.tex
 % Copyright (C) 2009-2016 TeX Users Group
 % Copyright (C) 1996-2009 Eitan M. Gurari
 %
@@ -17,7 +17,7 @@
 %
 % If you modify this program, changing the
 % version identification would be appreciated.
-\immediate\write-1{version 2019-03-18-15:25}
+\immediate\write-1{version 2020-10-16-13:48}
 
 \exit:ifnot{Preamble,% 
 aa,% 
@@ -273,6 +273,18 @@ vanilla}
    \fi
 }
 
+\ifx\InputIfFileExists\UnDef%
+\def\input:if:fileexists#1#2#3{%
+   \openin15 #1.4ht%
+   \ifeof15%
+   #3%
+   \else%
+   \input #1%
+   \fi\closein15%
+}%
+\else
+\let\input:if:fileexists\InputIfFileExists%
+\fi%
 \Hinclude{\input #1.4ht}{fontmath}
 \Hinclude{\@ifpackageloaded{colortbl}{%
       \no:dupl{array}{\input  array.4ht}%
@@ -280,22 +292,21 @@ vanilla}
       \no:dupl{colortbl}{\input  colortbl.4ht}%
     }{}}{colortbl}
 
+\def\:strip:quotes"#1"#2"#3\relax{\if .#1.#2\else #1\fi}
 \def\h:input#1.#2.#3!*?: {%
-   \:CheckOption{no_#1}\if:Option
+   \edef\:current:package{\:strip:quotes"#1""\relax}
+   \:CheckOption{no_\:current:package}\if:Option
       \let\:temp\empty
    \else
       \let\:temp\empty
-      \no:dupl{#1}{%
-         \openin15 #1.4ht
-         \ifeof15
-            \:CheckOption{debug}\if:Option
-               \:warning{No configuration file for
-                   #1.\if .#2.tex\else #2\fi}%
-            \fi
-            \let\:temp\empty
-         \else
-            \def\:temp{\input #1.4ht }%
-         \fi   \closein15
+      \no:dupl{\:current:package}{%
+        \def\:warn:msg{}
+        \:CheckOption{debug}\if:Option
+          \def\:warn:msg{%
+            \:warning{No configuration file for \:current:package.\if .#2.tex\else #2\fi}%
+          }
+        \fi%
+        \def\:temp{\input:if:fileexists{\:current:package.4ht}{}{\:warn:msg}}%
        }%
    \fi  \:temp}
 \edef\:temp{\noexpand\Hinclude
@@ -1049,6 +1060,7 @@ vanilla}
 
 
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{graphics}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1078,6 +1090,7 @@ vanilla}
 
 
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{amsart}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1089,6 +1102,7 @@ vanilla}
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{amsbook}
@@ -1124,7 +1138,6 @@ vanilla}
 
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{amsppt}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1136,6 +1149,7 @@ vanilla}
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{babel}
@@ -1161,6 +1175,7 @@ vanilla}
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1398,7 +1413,6 @@ vanilla}
 
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{url}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1437,6 +1451,9 @@ vanilla}
 
 
 
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{moreverb}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1449,6 +1466,7 @@ vanilla}
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 
@@ -1483,6 +1501,7 @@ vanilla}
 
 
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{index}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1499,6 +1518,11 @@ vanilla}
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
 
 
 
@@ -1595,7 +1619,6 @@ vanilla}
 
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 \ConfigureHinput{emulateapj}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1613,8 +1636,6 @@ vanilla}
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 
 
 
@@ -1686,6 +1707,7 @@ vanilla}
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 
@@ -1886,6 +1908,10 @@ vanilla}
   
 \endinput\empty\empty\empty\empty\empty\empty
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
 
 
 

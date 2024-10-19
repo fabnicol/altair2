@@ -16,12 +16,13 @@ local function get_slug(settings)
     local f = io.open(published_name, "r")
     local readtime  = f:read("*line")
     time = tonumber(readtime)
-    log:info("Already pubslished", slug)
+    log:info("Already pubslished", os.date("%Y-%m-%d %H:%M", time))
     f:close()
   else
     -- escape 
     -- slug must contain the unescaped input name
     local f = io.open(published_name, "w")
+    log:info("Publishing article", os.date("%Y-%m-%d %H:%M", time))
     f:write(time)
     f:close()
   end
@@ -66,7 +67,7 @@ local function insert_filter(make, pattern, fn)
   local insert_executed = false
   table.insert(make.matches, 1, {
     pattern=pattern,
-    params = {},
+    params = make.params or {},
     command = function()
       if not insert_executed  then
         fn()
@@ -76,15 +77,36 @@ local function insert_filter(make, pattern, fn)
   })
 end
 
+local function remove_maketitle(make)
+  -- use DOM filter to remove \maketitle block
+  local domfilter = require "make4ht-domfilter"
+  local process = domfilter({
+    function(dom)
+      local maketitles = dom:query_selector(".maketitle")
+      for _, el in ipairs(maketitles) do
+        log:debug("removing maketitle")
+        el:remove_node()
+      end
+      return dom
+    end
+  }, "staticsite")
+  make:match("html$", process)
+end
+
 
 local function copy_files(filename, par)
   local function prepare_path(dir, subdir)
-    local path = dir .. "/" .. subdir .. "/" .. filename
+    local f = filename
+    if par.builddir then
+        f = f:gsub("^" .. par.builddir .. "/", "")
+    end
+    local path = dir .. "/" .. subdir .. "/" .. f
     return path:gsub("//", "/")
   end
   -- get extension settings
   local site_settings = get_filter_settings "staticsite"
-  local site_root = site_settings.site_root
+  local site_root = site_settings.site_root or par.outdir 
+  if site_root == "" then site_root = "./" end
   local map = site_settings.map or {}
   -- default path without subdir, will be used if the file is not matched
   -- by any pattern in the map
@@ -104,9 +126,17 @@ function M.modify_build(make)
   -- we use an bogus match which will be executed only once as the very first one to insert
   -- the filters
   -- I should make filter from this
-  local process = filter {
+  local process = filter({
     "staticsite"
-  }
+  }, "staticsite")
+
+  -- detect if we should remove maketitle
+  local site_settings = get_filter_settings "staticsite"
+  -- \maketitle is removed by default, set `remove_maketitle=false` setting to disable that
+  if site_settings.remove_maketitle ~= false then
+    remove_maketitle(make)
+  end
+
   local settings = make.params
   -- get the published file name
   local slug = get_slug(settings)
@@ -125,9 +155,10 @@ function M.modify_build(make)
     --   match.params.outdir = outdir
     --   print(match.pattern, match.params.outdir)
     -- end
-    -- make the YAML header only for the main HTML file
-    make:match(mainfile .. ".html", process)
-    make:match(".*", copy_files, {slug=slug})
+    local params = make.params
+    params.slug = slug
+    make:match("html?$", process, params)
+    make:match(".*", copy_files, params)
   end)
 
   return make

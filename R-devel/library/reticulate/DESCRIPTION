@@ -1,7 +1,7 @@
 Package: reticulate
 Type: Package
 Title: Interface to 'Python'
-Version: 1.38.0
+Version: 1.39.0
 Authors@R: c(
   person("Tomasz", "Kalinowski", role = c("ctb", "cre"),
          email = "tomasz@posit.co"),
@@ -38,10 +38,11 @@ Imports: Matrix, Rcpp (>= 1.0.7), RcppTOML, graphics, here, jsonlite,
         methods, png, rappdirs, utils, rlang, withr
 Suggests: callr, knitr, glue, cli, rmarkdown, pillar, testthat
 LinkingTo: Rcpp
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 VignetteBuilder: knitr
+Config/build/compilation-database: true
 NeedsCompilation: yes
-Packaged: 2024-06-19 13:27:46 UTC; tomasz
+Packaged: 2024-09-05 02:25:04 UTC; tomasz
 Author: Tomasz Kalinowski [ctb, cre],
   Kevin Ushey [aut],
   JJ Allaire [aut],
@@ -55,6 +56,6 @@ Author: Tomasz Kalinowski [ctb, cre],
     http://tinythreadpp.bitsnbites.eu/)
 Maintainer: Tomasz Kalinowski <tomasz@posit.co>
 Repository: CRAN
-Date/Publication: 2024-06-19 14:40:02 UTC
-Built: R 4.4.1; x86_64-w64-mingw32; 2024-07-29 01:36:13 UTC; windows
+Date/Publication: 2024-09-05 07:10:02 UTC
+Built: R 4.4.1; x86_64-w64-mingw32; 2024-10-17 02:21:44 UTC; windows
 Archs: x64

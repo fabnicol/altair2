@@ -91,7 +91,7 @@ LinBiolinumTI-lf-sc-ly1 0 255
 'Y' '' Y 89
 'Z' '' Z 90
 '[' '' bracketleft 91
-'\' '' backslash 92
+'&#x005C;' '' backslash 92
 ']' '' bracketright 93
 '&#x02C6;' '' circumflex 94
 '_' '' underscore 95
@@ -128,7 +128,7 @@ LinBiolinumTI-lf-sc-ly1 0 255
 '&#x02DC;' '' tilde 126
 '&#x00A8;' '' dieresis 127
 '&#x0141;' '' Lslash 128
-''' '' quotesingle 129
+'&#x0027;' '' quotesingle 129
 '&#x201A;' '' quotesinglbase 130
 '&#x0192;' '' florin 131
 '&#x201E;' '' quotedblbase 132

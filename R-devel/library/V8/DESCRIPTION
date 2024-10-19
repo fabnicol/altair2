@@ -1,9 +1,9 @@
 Package: V8
 Type: Package
 Title: Embedded JavaScript and WebAssembly Engine for R
-Version: 4.4.2
+Version: 6.0.0
 Authors@R: c(
-    person("Jeroen", "Ooms", role = c("aut", "cre"), email = "jeroen@berkeley.edu",
+    person("Jeroen", "Ooms", role = c("aut", "cre"), email = "jeroenooms@gmail.com",
       comment = c(ORCID = "0000-0002-4035-0289")),
     person("Jan Marvin", "Garbuszus", role = "ctb"))
 Description: An R interface to V8 <https://v8.dev>: Google's open source JavaScript
@@ -21,15 +21,15 @@ VignetteBuilder: knitr
 Imports: Rcpp (>= 0.12.12), jsonlite (>= 1.0), curl (>= 1.0), utils
 LinkingTo: Rcpp
 Suggests: testthat, knitr, rmarkdown
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Language: en-US
 Encoding: UTF-8
 Biarch: true
-Packaged: 2024-02-15 11:17:46 UTC; jeroen
+Packaged: 2024-10-12 10:25:06 UTC; jeroen
 Author: Jeroen Ooms [aut, cre] (<https://orcid.org/0000-0002-4035-0289>),
   Jan Marvin Garbuszus [ctb]
-Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
+Maintainer: Jeroen Ooms <jeroenooms@gmail.com>
 Repository: CRAN
-Date/Publication: 2024-02-15 15:00:02 UTC
-Built: R 4.4.1; x86_64-w64-mingw32; 2024-07-29 01:22:26 UTC; windows
+Date/Publication: 2024-10-12 11:20:10 UTC
+Built: R 4.4.1; x86_64-w64-mingw32; 2024-10-17 01:20:04 UTC; windows
 Archs: x64

@@ -23,13 +23,16 @@
 %%
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{footnotehyper}%
- [2019/11/07 v1.1a hyperref aware footnote.sty (JFB)]
+ [2021/08/13 v1.1e hyperref aware footnote.sty (JFB)]
 %%
 %% Package: footnotehyper
-%% Version: 1.1a (2019/11/07)
+%% Version: 1.1e (2021/08/13)
 %% License: LPPL 1.3c
-%% Copyright (C) 2016-2019 Jean-Francois Burnol <jfbu at free dot fr>.
+%% Copyright (C) 2016-2021 Jean-Francois Burnol <jfbu at free dot fr>.
 %%
+\newif\iffootnotehyperparse\footnotehyperparsetrue
+\newif\iffootnotehyperwarn \footnotehyperwarntrue
+\def\FNH@msgbk{^^J(footnotehyper)\@spaces}% make room for message lines
 \DeclareOption*%
     {\PackageWarning{footnotehyper}{Option `\CurrentOption' is unknown}}%
 \ProcessOptions\relax
@@ -40,6 +43,7 @@
     {}%
 \newbox\FNH@notes
 \newdimen\FNH@width
+\newtoks\FNH@toks % 1.1c
 \let\FNH@colwidth\columnwidth
 \newif\ifFNH@savingnotes
 \AtBeginDocument {%
@@ -129,7 +133,22 @@
   \fi
 }%
 \def\FNH@spewnotes {%
-  \endgroup
+  \if@endpe\ifx\par\@@par\FNH@toks{}\else
+     \FNH@toks\expandafter{\expandafter
+              \def\expandafter\par\expandafter{\par}\@endpetrue}%
+     \expandafter\expandafter\expandafter
+     \FNH@toks
+     \expandafter\expandafter\expandafter
+     {\expandafter\the\expandafter\FNH@toks
+      \expandafter\def\expandafter\@par\expandafter{\@par}}%
+     \expandafter\expandafter\expandafter
+     \FNH@toks
+     \expandafter\expandafter\expandafter
+     {\expandafter\the\expandafter\FNH@toks
+      \expandafter\everypar\expandafter{\the\everypar}}\fi
+  \else\FNH@toks{}\fi
+  \expandafter
+  \endgroup\the\FNH@toks
   \ifFNH@savingnotes\else
    \ifvoid\FNH@notes\else
     \begingroup
@@ -214,18 +233,86 @@
     \FNH@endfntext@fntext {\unvbox\z@}%
   \endgroup
 }%
-\AtBeginDocument{\let\FNH@@makefntext\@makefntext
-   \ifx\@makefntextFB\undefined
-   \expandafter\@gobble\else\expandafter\@firstofone\fi
-   {\ifFBFrenchFootnotes \let\FNH@@makefntext\@makefntextFB \else
-                         \let\FNH@@makefntext\@makefntextORI\fi}%
-   \expandafter\FNH@check@a\FNH@@makefntext{1.2!3?4,}%
-               \FNH@@@1.2!3?4,\FNH@@@\relax
+\let\FNH@prefntext\@empty
+\let\FNH@postfntext\@empty
+\AtBeginDocument{\iffootnotehyperparse\expandafter\FNH@check\fi}%
+\def\FNH@safeif#1{%
+   \iftrue\csname if#1\endcsname\csname fi\endcsname\expandafter\@firstoftwo
+   \else\csname fi\endcsname\expandafter\@secondoftwo
+   \fi
+}%
+\def\FNH@check{%
+   \ifx\@makefntextFB\@undefined\expandafter\FNH@check@
+                           \else\expandafter\FNH@frenchb@
+   \fi
+}%
+\def\FNH@frenchb@{%
+   \def\FNH@prefntext{%
+     \localleftbox{}%
+     \let\FBeverypar@save\FBeverypar@quote
+     \let\FBeverypar@quote\relax
+     \FNH@safeif{FB@koma}%
+       {\FNH@safeif{FBFrenchFootnotes}%
+          {\ifx\footnote\thanks
+             \let\@@makefnmark\@@makefnmarkTH
+             \@makefntextTH{} % space as in french.ldf
+           \else
+             \let\@@makefnmark\@@makefnmarkFB
+             \@makefntextFB{} % space as in french.ldf
+             \fi
+          }{\let\@@makefnmark\@@makefnmarkORI
+             \@makefntextORI{}% no space as in french.ldf
+          }%
+       }%
+       {\FNH@safeif{FBFrenchFootnotes}%
+          {\@makefntextFB{}}%
+          {\@makefntextORI{}}%
+       }%
+   }%
+   \def\FNH@postfntext{%
+     \let\FBeverypar@quote\FBeverypar@save
+     \localleftbox{\FBeveryline@quote}%
+   }%
+   \iffootnotehyperwarn
+    \PackageInfo{footnotehyper}%
+      {babel-french compatibility patch activated.\FNH@msgbk
+       It may not work with all combinations of classes/packages.\FNH@msgbk
+       In case of problems with the `footnote' or `footnotetext'\FNH@msgbk
+       environments, you may try sending to the author a small\FNH@msgbk
+       file demonstrating the problem.\FNH@msgbk
+       To turn off this message, add \string\footnotehyperwarnfalse\FNH@msgbk
+       to the preamble\@gobble}%
+   \fi
+}%
+\def\FNH@check@{%
+    \expandafter\FNH@check@a\@makefntext{1.2!3?4,}%
+                \FNH@@@1.2!3?4,\FNH@@@\relax
 }%
 \long\def\FNH@check@a #11.2!3?4,#2\FNH@@@#3{%
-    \ifx\relax#3\expandafter\@firstoftwo\else\expandafter\@secondoftwo\fi
-    \FNH@bad@makefntext@alert
-    {\def\FNH@prefntext{#1}\def\FNH@postfntext{#2}\FNH@check@b}%
+    \ifx\relax#3\expandafter\FNH@checkagain@
+    \else
+      \def\FNH@prefntext{#1}\def\FNH@postfntext{#2}%
+      \expandafter\FNH@check@b
+    \fi
+}%
+\def\FNH@checkagain@{%
+    \expandafter\FNH@checkagain@a
+    \detokenize\expandafter{\@makefntext{1.2!3?4,}}\relax\FNH@@@
+}%
+\edef\FNH@temp{\noexpand\FNH@checkagain@a ##1\string{1.2!3?4,\string}}%
+\expandafter\def\FNH@temp#2#3\FNH@@@{%
+    \ifx\relax#2%
+      \def\FNH@prefntext{\@makefntext{}}%
+      \iffootnotehyperwarn
+        \PackageInfo{footnotehyper}%
+        {Using the \string\@makefntext{} approach (see doc).\FNH@msgbk
+         In case of dysfunctional footnote environments, you can\FNH@msgbk
+         try sending the author a small illustrative document.\FNH@msgbk
+         To turn off this message, add \string\footnotehyperwarnfalse\FNH@msgbk
+         to the preamble\@gobble}% "noline"
+      \fi
+    \else\FNH@bad@makefntext@alert
+    \fi
 }%
 \def\FNH@check@b #1\relax{%
     \expandafter\expandafter\expandafter\FNH@check@c
@@ -233,16 +320,27 @@
     \meaning\FNH@postfntext1.2!3?4,\FNH@check@c\relax
 }%
 \def\FNH@check@c #11.2!3?4,#2#3\relax{%
-    \ifx\FNH@check@c#2\expandafter\@gobble\fi\FNH@bad@makefntext@alert
+    \ifx\FNH@check@c#2\else\FNH@bad@makefntext@alert\fi
 }%
 \def\FNH@bad@makefntext@alert{%
+    \iffootnotehyperwarn
     \PackageWarningNoLine{footnotehyper}%
-      {^^J The footnote environment will not be fully functional, sorry.^^J
-       You may try to email the author this meaning of \string\@makefntext:^^J
-       \meaning\@makefntext^^J
-       together with the used preamble}%
-    \let\FNH@prefntext\@empty\let\FNH@postfntext\@empty
+      {\FNH@msgbk
+       Failed to analyse \string\@makefntext\space into something usable.\FNH@msgbk
+       Using as fall-back the article class code.\FNH@msgbk
+       You may try to email the author this problematic meaning:\FNH@msgbk
+       \meaning\@makefntext\FNH@msgbk
+       together with the document preamble (in particular if\FNH@msgbk
+       footnote numbers do not show at bottom of page)}%
+    \fi
+    \let\FNH@prefntext \FNH@prefntext@fallback
+    \let\FNH@postfntext\FNH@postfntext@fallback
 }%
+\def\FNH@prefntext@fallback{% from article class code with \@nameuse added
+    \parindent 1em\noindent
+    \hb@xt@1.8em{\hss\@textsuperscript{\normalfont\@nameuse{@thefnmark}}}%
+}%
+\let\FNH@postfntext@fallback\@empty
 \def\makesavenoteenv{\@ifnextchar[\FNH@msne@ii\FNH@msne@i}%]
 \def\FNH@msne@i #1{%
   \expandafter\let\csname FNH$#1\expandafter\endcsname %$
@@ -263,6 +361,17 @@
     \noexpand\if@endpe\noexpand\@endpetrue\noexpand\fi
   }%
 }%
+\@ifl@t@r\fmtversion{2020/10/01}{%
+    \def\FNH@msne@i#1{%
+        \AddToHook{env/#1/before}{\savenotes}%
+        \AddToHook{env/#1/after}{\spewnotes}%
+    }%
+    \def\FNH@msne@ii[#1]#2{%
+        \newenvironment{#1}{\begin{savenotes}\begin{#2}}%
+                           {\end{#2}\end{savenotes}}%
+    }%
+  }%
+  {}%
 \endinput
 %%
 %% End of file `footnotehyper.sty'.

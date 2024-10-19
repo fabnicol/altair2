@@ -1,6 +1,6 @@
 cmex 0 127
 '&#x0028;'        ''    0 %
-'&#x0029;'        ''    1 % cmex.htf (unicode)            2019-08-20-14:31 %
+'&#x0029;'        ''    1 % cmex.htf (unicode)            2023-03-24-14:34 %
 '&#x005B;'        ''    2 % Copyright 2000-2009 Michel Goossens %
 '&#x005D;'        ''    3 % Eitan M. Gurari
 '&#x230A;' ''    4 % 
@@ -17,7 +17,7 @@ cmex 0 127
 '&#x005C;' ''   15 % version identification would be appreciated. 
 '&#x0028;'        ''   16 % 
 '&#x0029;'        ''   17 % tex4ht@tug.org 
-'&#x0028;'        ''   18 % http://www.tug.org/tex4ht 
+'&#x0028;'        ''   18 % https://tug.org/tex4ht 
 '&#x0029;'        ''   19 % 
 '&#x005B;'        ''   20
 '&#x005D;'        ''   21
@@ -100,9 +100,9 @@ cmex 0 127
 '&#x005E;' ''   98
 '&#x005E;' ''   99
 '&#x005E;' ''  100
-'&#x005E;' ''  101
-'&#x005E;' ''  102
-'&#x005E;' ''  103
+'&#xFF5E;' ''  101
+'&#xFF5E;' ''  102
+'&#xFF5E;' ''  103
 '&#x005B;'        ''  104
 '&#x005D;'        ''  105
 '&#x230A;' ''  106

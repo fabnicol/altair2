@@ -194,9 +194,12 @@ Make.run = function(self)
 			end
 		end
 	end
-	local lgfile = params.input and params.input .. ".lg" or nil 
+  local lgfile = params.input and params.input .. ".lg" or nil
+  if params.builddir~="" then 
+    lgfile = params.builddir .. "/" .. lgfile
+  end
 	if lgfile then
-   	self.lgfile = self.lgfile or mkutils.parse_lg(lgfile)
+   	self.lgfile = self.lgfile or mkutils.parse_lg(lgfile, params.builddir)
     local lg = self.lgfile
 		-- First convert images from lg files
 		self:image_convert(lg["images"])

@@ -7,9 +7,9 @@
 --  lualibs.dtx  (with options: `basic')
 --  This is a generated file.
 --  
---  Copyright (C) 2009--2019 by
+--  Copyright (C) 2009--2021 by
 --          PRAGMA ADE / ConTeXt Development Team
---          The LuaLaTeX Dev Team
+--          The LaTeX Project Team
 --  
 --  See ConTeXt's mreadme.pdf for the license.
 --  
@@ -29,8 +29,8 @@ local loadmodule        = lualibs.loadmodule
 
 local lualibs_basic_module = {
   name          = "lualibs-basic",
-  version       = "2.71",       --TAGVERSION
-  date          = "2020-05-01", --TAGDATE
+  version       = "2.76",       --TAGVERSION
+  date          = "2023-07-13", --TAGDATE
   description   = "ConTeXt Lua libraries -- basic collection.",
   author        = "Hans Hagen, PRAGMA-ADE, Hasselt NL & Elie Roux & Philipp Gesang",
   copyright     = "PRAGMA ADE / ConTeXt Development Team",
@@ -61,7 +61,6 @@ if loaded == false then
   loadmodule("lualibs-io.lua")
   loadmodule("lualibs-os.lua")
   loadmodule("lualibs-file.lua")
-  loadmodule("lualibs-gzip.lua")
   loadmodule("lualibs-md5.lua")
   loadmodule("lualibs-dir.lua")
   loadmodule("lualibs-unicode.lua")

@@ -2,7 +2,7 @@ local M = {}
 
 
 local filter = require "make4ht-filter"
-local process = filter {"cleanspan-nat", "fixligatures", "hruletohr", "entities", "fix-links"}
+local process = filter({"cleanspan-nat", "fixligatures", "hruletohr", "entities", "fix-links"}, "commonfilters")
 
 -- filters support only html formats
 function M.test(format)
@@ -11,7 +11,7 @@ function M.test(format)
 end
 
 function M.modify_build(make)
-  make:match("html$", process)
+  make:match("html?$", process)
   local matches = make.matches
   -- the filters should be first match to be executed, especially if tidy
   -- should be executed as well

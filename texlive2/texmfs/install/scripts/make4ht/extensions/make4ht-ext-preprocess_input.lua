@@ -5,16 +5,32 @@ local mkutils = require "mkutils"
 
 local commands = {
   knitr = { command = 'Rscript -e "library(knitr); knit(\'${tex_file}\', output=\'${tmp_file}\')"'},
-  pandoc = { command = 'pandoc -f ${input_format} -s -o \'${tmp_file}\' -t latex \'${tex_file}\''}
+  pandoc = { command = 'pandoc -f ${input_format} -s -o \'${tmp_file}\' -t latex \'${tex_file}\''},
+  render = { command = 'Rscript -e "library(rmarkdown); render(\'${tex_file}\', output_file=\'${tmp_file}\',output_format = \'latex_document\')"'}
 }
 local filetypes = {
   rnw = {sequence = {"knitr"} },
   rtex = {sequence = {"knitr"}},
-  rmd = {sequence = {"knitr", "pandoc"}, options = {input_format = "markdown"}},
+  rmd = {sequence = {"render"}},
   rrst = {sequence = {"knitr", "pandoc"}, options = {input_format = "rst"}},
   md = {sequence = {"pandoc"}, options = {input_format = "markdown"}},
   rst = {sequence = {"pandoc"}, options = {input_format = "rst"}},
 }
+
+local function get_temp_name(arg,curr, length)
+  -- we don't want to use the temp dir, because graphics would be then generated outside of 
+  -- the directory of the source document. so we will make
+  local tmp_name = os.tmpname()
+  if pos == sequence then
+    -- base tmp_name on the input name in the last step of sequence
+    -- so the generated images won't have random names
+    tmp_name = arg.input .. "-preprocess_input"
+  else
+    tmp_name = tmp_name:match("([^/\\]+)$")
+  end
+  return tmp_name
+end
+
 
 
 local function execute_sequence(sequence, arg, make)
@@ -24,8 +40,8 @@ local function execute_sequence(sequence, arg, make)
   -- should become the tex_file for the next one. It doesn't
   -- matter that it isn't TeX file in some cases
   local previous_temp 
-  for _, cmd_name in ipairs(sequence) do
-    local tmp_name = os.tmpname()
+  for pos, cmd_name in ipairs(sequence) do
+    local tmp_name = get_temp_name(arg,pos, #sequence)
     temp_files[#temp_files+1] = tmp_name
     -- make the temp file name accessible to the executed commands
     arg.tmp_file = tmp_name

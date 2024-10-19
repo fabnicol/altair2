@@ -1,8 +1,8 @@
-%% The LaTeX package tcolorbox - version 4.31 (2020/07/31)
+%% The LaTeX package tcolorbox - version 6.4.0 (2024/09/27)
 %% tcbexternal.code.tex: Code for externalization
 %%
 %% -------------------------------------------------------------------------------------------
-%% Copyright (c) 2006-2020 by Prof. Dr. Dr. Thomas F. Sturm <thomas dot sturm at unibw dot de>
+%% Copyright (c) 2006-2024 by Prof. Dr. Dr. Thomas F. Sturm <thomas dot sturm at unibw dot de>
 %% -------------------------------------------------------------------------------------------
 %%
 %% This work may be distributed and/or modified under the
@@ -17,16 +17,9 @@
 %%
 %% This work consists of all files listed in README
 %%
-\tcb@set@library@version{4.31}
+\tcb@set@library@version{6.4.0}
 
 \tcbuselibrary{pro@cessing}
-
-{
-\catcode`\"=12
-\xdef\tcbexternal@normal@dq{"}
-\catcode`\"=13
-\gdef\tcbexternal@activate@normal@dq{\let"=\tcbexternal@normal@dq}
-}
 
 \long\def\tcbifexternal#1#2{%
   \ifdefined\TCBEXTERNALINPUT%
@@ -65,30 +58,44 @@
   \edef\tcbexternal@job@pdf{\expandonce{\tcbexternal@job@name.pdf}}%
 }
 
-\def\tcbexternal@corecompile{%
-  \begingroup%
-  \ifnum\the\catcode`\"=13 \tcbexternal@activate@normal@dq\fi%
-  \message{=== Compile external '\tcbexternal@job@name': }%
-  \immediate\openout\tcb@out="\tcbexternal@run@tex"
-  \immediate\write\tcb@out{\string\gdef\string\TCBEXTERNALINPUT{"\tcbexternal@job@source"}}%
-  \immediate\write\tcb@out{\string\gdef\string\TCBEXTERNALSAFETY{\tcbexternal@safety}}%
-  \immediate\write\tcb@out{\string\gdef\string\TCBEXTERNALPREAMBLE{\expandonce{\tcbexternal@preamble}}}%
-  \ifdefempty{\tcbexternal@preclass}{}{\immediate\write\tcb@out{\expandonce{\tcbexternal@preclass}}}%
-  \immediate\write\tcb@out{\string\input{"\jobname.tex"}}%
-  \immediate\closeout\tcb@out%
-  \foreach \n in {1,...,\tcbexternal@runs}
-  {%
-    \ShellEscape{%
-      \tcbexternal@compiler\space
-      -shell-escape
-      -halt-on-error
-      -interaction=batchmode
-      -jobname="\tcbexternal@job@name"
-      "\tcbexternal@run@tex"
-    }%
-  }%
-  \endgroup%
-}
+\ExplSyntaxOn
+\cs_new_protected:Npn \tcbexternal@corecompile
+  {
+    \group_begin:
+    \char_set_catcode_other:n { `\" }
+    \iow_term:e { ===~Compile~external~'\tcbexternal@job@name':~ }
+    \iow_open:Nn \g__tcobox_out_iow { \tcbexternal@run@tex }
+    \iow_now:Ne \g__tcobox_out_iow
+      {
+        \token_to_str:N \gdef \token_to_str:N \TCBEXTERNALINPUT
+          { "\tcbexternal@job@source" } \iow_newline:
+        \token_to_str:N \gdef \token_to_str:N \TCBEXTERNALSAFETY
+          { \tcbexternal@safety } \iow_newline:
+        \token_to_str:N \gdef \token_to_str:N \TCBEXTERNALPREAMBLE
+          { \exp_not:o \tcbexternal@preamble }
+      }
+    \tl_if_empty:NF \tcbexternal@preclass
+      {
+        \iow_now:NV \g__tcobox_out_iow \tcbexternal@preclass
+      }
+    \iow_now:Ne \g__tcobox_out_iow
+        { \token_to_str:N \input {"\jobname.tex"} }
+    \iow_close:N \g__tcobox_out_iow
+    \int_step_inline:nn { \tcbexternal@runs }
+      {
+        \sys_shell_now:e
+          {
+            \tcbexternal@compiler \c_space_tl
+            -shell-escape~
+            -halt-on-error~
+            -interaction=batchmode~
+            -jobname="\tcbexternal@job@name"~
+            "\tcbexternal@run@tex"
+          }
+      }
+    \group_end:
+  }
+\ExplSyntaxOff
 
 \def\tcbexternal@compile#1{%
   \tcbiffileprocess{#1}%
@@ -104,14 +111,14 @@
 
 \def\tcbexternal@pdfmissing@warning{%
   \tcb@warning{File '\tcbexternal@job@pdf' missing.
-    Compilation error or shell-escape wasn't enabled or a subdirectory could'nt be generated}%
+    Compilation error or shell-escape wasn't enabled or a subdirectory couldn't be generated}%
   \message{Load '\tcbexternal@job@source' instead}%
   \tcbexternal@inputsource%
 }
 
 \def\tcbexternal@pdfmissing@error{%
   \tcb@error{File '\tcbexternal@job@pdf' missing.
-    Compilation error or shell-escape wasn't enabled or a subdirectory could'nt be generated}{}%
+    Compilation error or shell-escape wasn't enabled or a subdirectory couldn't be generated}{}%
 }
 
 \def\tcbexternal@inputpdf{%
@@ -159,7 +166,7 @@
   \tcb@newenvironment{#1}[2][]{%
     #4%
     \begingroup%
-    \tcbexternal[#3,##1,environment=#2]{##2}%
+    \tcbexternal[{#3,##1,environment=#2}]{##2}%
   }{%
     \endtcbexternal%
     \endgroup%
@@ -238,22 +245,22 @@
     \let\tcbexternal@out@end=\@empty%
   },
   minipage/.code={%
-    \appto\tcbexternal@out@begin{\immediate\write\tcb@out{\string\begin{minipage}{\the\dimexpr#1\relax}\string\ignorespaces\@percentchar}}%
-    \preto\tcbexternal@out@end{\immediate\write\tcb@out{\string\end{minipage}\@percentchar}}%
+    \appto\tcbexternal@out@begin{\tcb@iow@write{\string\begin{minipage}{\the\dimexpr#1\relax}\string\ignorespaces\@percentchar}}%
+    \preto\tcbexternal@out@end{\tcb@iow@write{\string\end{minipage}\@percentchar}}%
   },
   minipage/.default=\linewidth,
   %
   environment with percent/.is choice,
   environment with percent/true/.style={%
     /tcb/external/environment/.code={%
-      \appto\tcbexternal@out@begin{\immediate\write\tcb@out{\string\begin{##1}\@percentchar}}%
-      \preto\tcbexternal@out@end{\immediate\write\tcb@out{\string\end{##1}\@percentchar}}%
+      \appto\tcbexternal@out@begin{\tcb@iow@write{\string\begin{##1}\@percentchar}}%
+      \preto\tcbexternal@out@end{\tcb@iow@write{\string\end{##1}\@percentchar}}%
     }
   },
   environment with percent/false/.style={%
     /tcb/external/environment/.code={%
-      \appto\tcbexternal@out@begin{\immediate\write\tcb@out{\string\begin{##1}}}%
-      \preto\tcbexternal@out@end{\immediate\write\tcb@out{\string\end{##1}}}%
+      \appto\tcbexternal@out@begin{\tcb@iow@write{\string\begin{##1}}}%
+      \preto\tcbexternal@out@end{\tcb@iow@write{\string\end{##1}}}%
     }
   },
   environment with percent/.default=true,

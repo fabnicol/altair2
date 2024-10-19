@@ -7,7 +7,7 @@
 --  fontspec.dtx  (with options: `lua')
 --  fontspec-lua.dtx  (with options: `lua')
 --  ------------------------------------------------
---  The FONTSPEC package  <wspr.io/fontspec>
+--  The FONTSPEC package  <latex3.github.io/fontspec>
 --  ------------------------------------------------
 --  Copyright  2004-2017  Will Robertson, LPPL "maintainer"
 --  Copyright  2009-2013  Khaled Hosny
@@ -16,22 +16,22 @@
 --  the conditions of the LaTeX Project Public License, version 1.3c or higher
 --  (your choice): <http://www.latex-project.org/lppl/>.
 --  ------------------------------------------------
--- ^^A%%  fontspec.dtx -- part of FONTSPEC <wspr.io/fontspec>
+-- ^^A%%  fontspec.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 -- ^^A%%  Metadata for the package, including files and versioning
 
 fontspec          = fontspec or {}
 local fontspec    = fontspec
 fontspec.module   = {
     name          = "fontspec",
-    version       = "2.7i",
-    date          = "2020/02/21",
+    version       = "2.9e",
+    date          = "2024/05/11",
     description   = "Font selection for XeLaTeX and LuaLaTeX",
     author        = "Khaled Hosny, Philipp Gesang, Will Robertson",
     copyright     = "Khaled Hosny, Philipp Gesang, Will Robertson",
     license       = "LPPL v1.3c"
 }
 
--- ^^A%%  fontspec-lua.dtx -- part of FONTSPEC <wspr.io/fontspec>
+-- ^^A%%  fontspec-lua.dtx -- part of FONTSPEC <latex3.github.io/fontspec>
 local err, warn, info, log = luatexbase.provides_module(fontspec.module)
 fontspec.log     = log  or (function (s) luatexbase.module_info("fontspec", s)    end)
 fontspec.warning = warn or (function (s) luatexbase.module_warning("fontspec", s) end)

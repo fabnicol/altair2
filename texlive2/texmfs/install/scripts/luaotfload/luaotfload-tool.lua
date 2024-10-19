@@ -9,21 +9,18 @@
 
 local ProvidesLuaModule = { 
     name          = "luaotfload-tool",
-    version       = "3.14",       --TAGVERSION
-    date          = "2020-05-06", --TAGDATE
+    version       = "3.28",       --TAGVERSION
+    date          = "2024-02-14", --TAGDATE
     description   = "luaotfload-tool / database functionality",
     license       = "GPL v2.0"
 }
 
-if luatexbase and luatexbase.provides_module then
-  luatexbase.provides_module (ProvidesLuaModule)
-end  
+function luaotfload_module(module) end -- We don't log module loading here
 
 
 luaotfload                     = luaotfload or { }
 local version                  = ProvidesLuaModule.version
 luaotfload.version             = ProvidesLuaModule.version
-luaotfload.min_luatex_version  = { 0, 95, 0 }
 luaotfload.self                = "luaotfload-tool"
 luaotfload.fontloader          = _G -- We don't isolate the fontloader here
 
@@ -65,32 +62,21 @@ local tonumber        = tonumber
 local type            = type
 
 do
-    local runtime         = _G.jit and { "jit"  , jit.version }
-                                    or { "stock", _VERSION }
-    local stats           = status and status.list ()
-    local minimum         = luaotfload.min_luatex_version
-    local actual          = { 0, 0, 0 }
-    if stats then
-        local major    = stats.luatex_version // 100
-        local minor    = stats.luatex_version % 100
-        local revision = stats.luatex_revision --[[ : string ]]
-        local revno    = tonumber (revision)
-        actual         = { major, minor, revno or 0 }
-    end
+    local runtime  = _G.jit and { "jit"  , jit.version }
+                             or { "stock", _VERSION }
+    local minimum  = {110, 0}
+    local revn     = tonumber (status.luatex_revision) or 0 --[[ : string ]]
 
-    if actual [1] < minimum [1]
-    or actual == minimum and actual [2] < minimum [2]
-    or actual == minimum and actual [2] == minimum [2] and actual [3] < minimum [3]
-    then
+    if status.luatex_version < minimum[1]
+       or status.luatex_version == minimum[1] and tonumber(status.luatex_revision) < minimum[2] then
         texio.write_nl ("term and log",
                         string.format ("\tFATAL ERROR\n\z
                                         \tLuaotfload requires a Luatex version >= %d.%d.%d.\n\z
                                         \tPlease update your TeX distribution!\n\n",
-                                       (unpack or table.unpack) (minimum)))
+                                       math.floor(minimum[1] / 100), minimum[1] % 100, minimum[2]))
         error "version check failed"
     end
     luaotfload.runtime        = runtime
-    luaotfload.luatex_version = actual
 end
 
 local C, Ct, P, S  = lpeg.C, lpeg.Ct, lpeg.P, lpeg.S
@@ -349,8 +335,7 @@ local function version_msg ( )
     local meta  = fonts.names.getmetadata ()
 
     local runtime = luaotfload.runtime
-    local actual  = luaotfload.luatex_version
-    local status  = config.luaotfload.status
+    local notes   = config.luaotfload.status
     local notes   = status and status.notes or { }
 
     out (about, luaotfload.self)
@@ -361,7 +346,7 @@ local function version_msg ( )
     out ("Revision: %q", notes.revision)
     out ("Lua interpreter: %s; version %q", runtime[1], runtime[2])
 --[[out ("Luatex SVN revision: %d", info.luatex_svn)]] --> SVN r5624
-    out ("Luatex version: %d.%d", actual [1], actual [2])
+    out ("Luatex version: %d.%d", math.floor(status.luatex_version / 100), status.luatex_version % 100)
     out ("Platform: type=%s name=%s", os.type, os.name)
 
     local uname_vars = tablesortedkeys (uname)
@@ -599,7 +584,7 @@ local function display_general (fullinfo)
                 --- the MS compiler doesn’t support C99, so
                 --- strftime is missing some functionality;
                 --- see loslib.c for details.
-                val = osdate("%Y-%m-d %H:%M:%S", fullinfo[key])
+                val = osdate("%Y-%m-%d %H:%M:%S", fullinfo[key])
             end
         end
         if not val then
@@ -751,7 +736,7 @@ local action_sequence = {
     "config"   , "loglevel" , "help"      , "version" ,
     "dumpconf" , "diagnose" , "blacklist" , "cache"   ,
     "flush"    , "bisect"   , "generate"  , "list"    ,
-    "query"    ,
+    "query"    , "aliases"  ,
 }
 
 local action_pending  = tabletohash(action_sequence, false)
@@ -849,7 +834,7 @@ local bisect_status_fmt  = [[
 local function write_bisect_status (data)
     local payload = tableserialize (data, true)
     local status  = stringformat (bisect_status_fmt,
-                                  osdate ("%Y-%m-d %H:%M:%S", os.time ()),
+                                  osdate ("%Y-%m-%d %H:%M:%S", os.time ()),
                                   payload)
     if status and iosavedata (bisect_status_file, status) then
         logreport ("info", 4, "bisect",
@@ -1170,19 +1155,7 @@ function actions.query (job)
 
     local query = job.query
 
-    local tmpspec = {
-        name          = query,
-        lookup        = "name",
-        specification = query,
-        optsize       = 0,
-        features      = { },
-    }
-
-    tmpspec = fonts.names.handle_request (tmpspec)
-
-    if not tmpspec.size then
-        tmpspec.size = 655360 --- assume 10pt
-    end
+    local tmpspec = fonts.definers.analyze (query, 655360)
 
     local foundname, subfont, success, needle
 
@@ -1411,6 +1384,51 @@ function actions.diagnose (job)
     return diagnose (job)
 end
 
+function actions.aliases (job)
+    --- Help XeTeX find fonts
+    local name_index = fonts.names.data() or fonts.names.load()
+    local mappings   = name_index.mappings
+    local fontnames  = name_index.fontnames.texmf
+    local families   = name_index.families.texmf
+    local formats    = { 'ttf', 'otf', }
+    for _, format in ipairs(formats) do
+        for name, mapping in pairs(fontnames[format]) do
+            mapping = mappings[mapping]
+            print(string.format('%s %s', mapping.basename, name))
+        end
+    end
+    local function best_match(options, target)
+        if not options then return end
+        if options.default then return mappings[options.default] end
+        local best, best_diff = nil, math.huge
+        for _, option in ipairs(options) do
+            local diff = math.abs(option[1]-target)
+            if diff < best_diff then
+                best, best_diff = option[4], diff
+            end
+        end
+        return mappings[best]
+    end
+    for _, format in ipairs(formats) do
+        for name, family in pairs(families[format]) do
+            local r = best_match(family.r, 655360, mappings)
+            local b = best_match(family.b, 655360, mappings)
+            local i = best_match(family.i, 655360, mappings)
+            local bi = best_match(family.bi, 655360, mappings)
+            r = r or b or i or bi -- Not sure if this is still needed
+            if r then
+                b, i, bi = b or r, i or r, bi or r
+                print(string.format('%s %s\n%s %s-b\n%s %s-i\n%s %s-bi',
+                    r.basename, name,
+                    b.basename, name,
+                    i.basename, name,
+                    bi.basename, name))
+            end
+        end
+    end
+    return true
+end
+
 --- stuff to be carried out prior to exit
 
 local finalizers = { }
@@ -1449,6 +1467,7 @@ local function process_cmdline ( ) -- unit -> jobspec
     }
 
     local long_options = {
+        aliases            = 0,
         ["bisect"]         = 1,
         cache              = 1,
         conf               = 1,
@@ -1602,6 +1621,8 @@ local function process_cmdline ( ) -- unit -> jobspec
             action_pending["dumpconf"] = true
         elseif v == "print-conf" then
             result.print_config = true
+        elseif v == "aliases" then
+            action_pending["aliases"] = true
         end
     end
 
